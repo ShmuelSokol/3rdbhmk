@@ -6,6 +6,7 @@ import { analyzePageImage } from '@/lib/azure-ocr'
 import { writeFile, mkdir, readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
+import sharp from 'sharp'
 
 export async function POST(
   request: Request,
@@ -63,8 +64,16 @@ export async function POST(
       await writeFile(cachedImagePath, imageBuffer)
     }
 
+    // Compress image for Azure (max 4MB)
+    let ocrBuffer = imageBuffer
+    if (imageBuffer.length > 3 * 1024 * 1024) {
+      ocrBuffer = await sharp(imageBuffer)
+        .jpeg({ quality: 85 })
+        .toBuffer()
+    }
+
     // Run Azure OCR
-    const ocrWords = await analyzePageImage(imageBuffer)
+    const ocrWords = await analyzePageImage(ocrBuffer)
 
     // Delete existing OCR result if any (cascade deletes boxes)
     const existingResult = await prisma.oCRResult.findUnique({

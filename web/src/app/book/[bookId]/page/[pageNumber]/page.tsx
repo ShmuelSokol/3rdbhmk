@@ -69,6 +69,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }
 };
 
 const FLAG_TYPES = [
+  'leave_hebrew',
+  'reword',
+  'bad_translation',
   'unclear_text',
   'image_region',
   'damaged',
@@ -76,10 +79,13 @@ const FLAG_TYPES = [
   'table',
   'diagram',
   'footnote',
-  'other',
+  'custom',
 ];
 
 const FLAG_TYPE_LABELS: Record<string, string> = {
+  leave_hebrew: 'Leave as Hebrew',
+  reword: 'Reword',
+  bad_translation: 'Bad Translation',
   unclear_text: 'Unclear Text',
   image_region: 'Image Region',
   damaged: 'Damaged',
@@ -87,8 +93,23 @@ const FLAG_TYPE_LABELS: Record<string, string> = {
   table: 'Table',
   diagram: 'Diagram',
   footnote: 'Footnote',
+  custom: 'Custom',
   other: 'Other',
 };
+
+// ─── Drag types ──────────────────────────────────────────────────────────────
+
+type DragMode =
+  | null
+  | 'move'
+  | 'resize-nw'
+  | 'resize-ne'
+  | 'resize-sw'
+  | 'resize-se'
+  | 'resize-n'
+  | 'resize-s'
+  | 'resize-e'
+  | 'resize-w';
 
 // ─── StatusBadge ────────────────────────────────────────────────────────────
 
@@ -121,14 +142,23 @@ export default function EditorPage() {
   const [hoveredBoxId, setHoveredBoxId] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  // Drawing state
+  // Drawing state (for flags)
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(null);
   const [drawCurrent, setDrawCurrent] = useState<{ x: number; y: number } | null>(null);
   const [showFlagMenu, setShowFlagMenu] = useState<{ x: number; y: number; rect: { x: number; y: number; w: number; h: number } } | null>(null);
 
+  // Drag/resize state (for bounding boxes)
+  const [dragMode, setDragMode] = useState<DragMode>(null);
+  const [dragBoxId, setDragBoxId] = useState<string | null>(null);
+  const [dragStartCoords, setDragStartCoords] = useState<{ x: number; y: number } | null>(null);
+  const [dragOrigBox, setDragOrigBox] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const [localBoxOverrides, setLocalBoxOverrides] = useState<Record<string, { x: number; y: number; width: number; height: number }>>({});
+
   // Edited text tracking
   const [editedTexts, setEditedTexts] = useState<Record<string, string>>({});
+  // Track which boxes have been saved (show green checkmark briefly)
+  const [savedBoxIds, setSavedBoxIds] = useState<Set<string>>(new Set());
 
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -286,10 +316,10 @@ export default function EditorPage() {
   const saveBoxText = async (boxId: string, text: string) => {
     if (!pageId) return;
     try {
-      const res = await fetch(`/api/pages/${pageId}/boxes/${boxId}`, {
+      const res = await fetch(`/api/pages/${pageId}/boxes`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ editedText: text }),
+        body: JSON.stringify([{ id: boxId, editedText: text }]),
       });
       if (!res.ok) throw new Error('Failed to save');
       // Update local state
@@ -298,9 +328,39 @@ export default function EditorPage() {
         delete next[boxId];
         return next;
       });
+      // Show saved indicator
+      setSavedBoxIds((prev) => new Set(prev).add(boxId));
+      setTimeout(() => {
+        setSavedBoxIds((prev) => {
+          const next = new Set(prev);
+          next.delete(boxId);
+          return next;
+        });
+      }, 2000);
       await fetchPageData(pageId);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save text');
+    }
+  };
+
+  const saveBoxGeometry = async (boxId: string, geom: { x: number; y: number; width: number; height: number }) => {
+    if (!pageId) return;
+    try {
+      const res = await fetch(`/api/pages/${pageId}/boxes`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([{ id: boxId, ...geom }]),
+      });
+      if (!res.ok) throw new Error('Failed to save box position');
+      // Clear the local override
+      setLocalBoxOverrides((prev) => {
+        const next = { ...prev };
+        delete next[boxId];
+        return next;
+      });
+      await fetchPageData(pageId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save box position');
     }
   };
 
@@ -372,7 +432,7 @@ export default function EditorPage() {
     }
   };
 
-  // ─── Drawing Handlers ──────────────────────────────────────────────────
+  // ─── Coordinate Helpers ────────────────────────────────────────────────
 
   const getRelativeCoords = (e: React.MouseEvent) => {
     const container = imageContainerRef.current;
@@ -384,21 +444,116 @@ export default function EditorPage() {
     };
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button !== 0) return; // Left click only
+  // ─── Box Drag/Resize Handlers ────────────────────────────────────────
+
+  const startBoxDrag = (e: React.MouseEvent, boxId: string, mode: DragMode) => {
+    e.stopPropagation();
+    e.preventDefault();
     const coords = getRelativeCoords(e);
-    setIsDrawing(true);
-    setDrawStart(coords);
-    setDrawCurrent(coords);
-    setShowFlagMenu(null);
+    const box = boxes.find((b) => b.id === boxId);
+    if (!box) return;
+    const override = localBoxOverrides[boxId];
+    setDragMode(mode);
+    setDragBoxId(boxId);
+    setDragStartCoords(coords);
+    setDragOrigBox({
+      x: override?.x ?? box.x,
+      y: override?.y ?? box.y,
+      width: override?.width ?? box.width,
+      height: override?.height ?? box.height,
+    });
+    setSelectedBoxId(boxId);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDrawing) return;
-    setDrawCurrent(getRelativeCoords(e));
+  const handleContainerMouseMove = (e: React.MouseEvent) => {
+    // Flag drawing
+    if (isDrawing) {
+      setDrawCurrent(getRelativeCoords(e));
+      return;
+    }
+    // Box drag/resize
+    if (dragMode && dragBoxId && dragStartCoords && dragOrigBox) {
+      const coords = getRelativeCoords(e);
+      const dx = coords.x - dragStartCoords.x;
+      const dy = coords.y - dragStartCoords.y;
+      let { x, y, width, height } = dragOrigBox;
+
+      switch (dragMode) {
+        case 'move':
+          x = dragOrigBox.x + dx;
+          y = dragOrigBox.y + dy;
+          break;
+        case 'resize-nw':
+          x = dragOrigBox.x + dx;
+          y = dragOrigBox.y + dy;
+          width = dragOrigBox.width - dx;
+          height = dragOrigBox.height - dy;
+          break;
+        case 'resize-ne':
+          y = dragOrigBox.y + dy;
+          width = dragOrigBox.width + dx;
+          height = dragOrigBox.height - dy;
+          break;
+        case 'resize-sw':
+          x = dragOrigBox.x + dx;
+          width = dragOrigBox.width - dx;
+          height = dragOrigBox.height + dy;
+          break;
+        case 'resize-se':
+          width = dragOrigBox.width + dx;
+          height = dragOrigBox.height + dy;
+          break;
+        case 'resize-n':
+          y = dragOrigBox.y + dy;
+          height = dragOrigBox.height - dy;
+          break;
+        case 'resize-s':
+          height = dragOrigBox.height + dy;
+          break;
+        case 'resize-e':
+          width = dragOrigBox.width + dx;
+          break;
+        case 'resize-w':
+          x = dragOrigBox.x + dx;
+          width = dragOrigBox.width - dx;
+          break;
+      }
+
+      // Enforce minimum size
+      if (width < 0.5) { width = 0.5; }
+      if (height < 0.5) { height = 0.5; }
+      // Clamp to image bounds
+      if (x < 0) { x = 0; }
+      if (y < 0) { y = 0; }
+      if (x + width > 100) { width = 100 - x; }
+      if (y + height > 100) { height = 100 - y; }
+
+      setLocalBoxOverrides((prev) => ({
+        ...prev,
+        [dragBoxId]: { x, y, width, height },
+      }));
+    }
   };
 
-  const handleMouseUp = (e: React.MouseEvent) => {
+  const handleContainerMouseUp = (e: React.MouseEvent) => {
+    // Handle box drag/resize end
+    if (dragMode && dragBoxId && localBoxOverrides[dragBoxId]) {
+      saveBoxGeometry(dragBoxId, localBoxOverrides[dragBoxId]);
+      setDragMode(null);
+      setDragBoxId(null);
+      setDragStartCoords(null);
+      setDragOrigBox(null);
+      return;
+    }
+    if (dragMode) {
+      setDragMode(null);
+      setDragBoxId(null);
+      setDragStartCoords(null);
+      setDragOrigBox(null);
+      return;
+    }
+
+    // Handle flag drawing end
     if (!isDrawing || !drawStart || !drawCurrent) {
       setIsDrawing(false);
       return;
@@ -422,6 +577,23 @@ export default function EditorPage() {
       y: e.clientY,
       rect: { x, y, w, h },
     });
+  };
+
+  // ─── Drawing Handlers (flag mode only) ────────────────────────────────
+
+  const handleContainerMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return; // Left click only
+    // Only start flag drawing when in flags tab
+    if (activeTab === 'flags') {
+      const coords = getRelativeCoords(e);
+      setIsDrawing(true);
+      setDrawStart(coords);
+      setDrawCurrent(coords);
+      setShowFlagMenu(null);
+    } else {
+      // Clicking on the background deselects the selected box
+      setSelectedBoxId(null);
+    }
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -569,10 +741,10 @@ export default function EditorPage() {
           <div
             ref={imageContainerRef}
             className="relative mx-auto select-none"
-            style={{ maxWidth: '100%' }}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
+            style={{ maxWidth: '100%', cursor: activeTab === 'flags' ? 'crosshair' : 'default' }}
+            onMouseDown={handleContainerMouseDown}
+            onMouseMove={handleContainerMouseMove}
+            onMouseUp={handleContainerMouseUp}
             onContextMenu={handleContextMenu}
           >
             {/* Page Image */}
@@ -591,6 +763,11 @@ export default function EditorPage() {
               const isHovered = hoveredBoxId === box.id;
               const isEdited = !!box.editedText;
               const isSkipped = box.skipTranslation;
+              const override = localBoxOverrides[box.id];
+              const bx = override?.x ?? box.x;
+              const by = override?.y ?? box.y;
+              const bw = override?.width ?? box.width;
+              const bh = override?.height ?? box.height;
 
               let borderColor = 'rgba(59, 130, 246, 0.6)'; // blue
               let bgColor = 'rgba(59, 130, 246, 0.08)';
@@ -606,33 +783,96 @@ export default function EditorPage() {
                 bgColor = 'rgba(59, 130, 246, 0.15)';
               }
 
+              const handleSize = 7;
+
               return (
                 <div
                   key={box.id}
-                  className="absolute cursor-pointer transition-colors"
+                  className="absolute transition-colors"
                   style={{
-                    left: `${box.x}%`,
-                    top: `${box.y}%`,
-                    width: `${box.width}%`,
-                    height: `${box.height}%`,
+                    left: `${bx}%`,
+                    top: `${by}%`,
+                    width: `${bw}%`,
+                    height: `${bh}%`,
                     border: `1.5px solid ${borderColor}`,
                     backgroundColor: bgColor,
                     zIndex: isSelected ? 20 : isHovered ? 15 : 10,
+                    cursor: isSelected && activeTab !== 'flags' ? 'move' : 'pointer',
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedBoxId(box.id);
                     setActiveTab('ocr');
                   }}
+                  onMouseDown={(e) => {
+                    if (isSelected && activeTab !== 'flags') {
+                      startBoxDrag(e, box.id, 'move');
+                    }
+                  }}
                   onMouseEnter={() => setHoveredBoxId(box.id)}
                   onMouseLeave={() => setHoveredBoxId(null)}
                 >
                   {/* Hover tooltip */}
-                  {isHovered && !isDrawing && (
+                  {isHovered && !isDrawing && !dragMode && (
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1b23] border border-[#2e2f3a] rounded text-xs text-[#e4e4e7] whitespace-nowrap z-30 pointer-events-none shadow-lg"
                          dir="rtl">
                       {box.editedText || box.hebrewText}
                     </div>
+                  )}
+                  {/* Resize handles (visible when selected, not in flags mode) */}
+                  {isSelected && activeTab !== 'flags' && (
+                    <>
+                      {/* Corner handles */}
+                      {/* NW */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize/2), left: -(handleSize/2), cursor: 'nw-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-nw')}
+                      />
+                      {/* NE */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize/2), right: -(handleSize/2), cursor: 'ne-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-ne')}
+                      />
+                      {/* SW */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize/2), left: -(handleSize/2), cursor: 'sw-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-sw')}
+                      />
+                      {/* SE */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize/2), right: -(handleSize/2), cursor: 'se-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-se')}
+                      />
+                      {/* Edge handles */}
+                      {/* N */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize/2), left: '50%', marginLeft: -(handleSize/2), cursor: 'n-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-n')}
+                      />
+                      {/* S */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize/2), left: '50%', marginLeft: -(handleSize/2), cursor: 's-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-s')}
+                      />
+                      {/* W */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize/2), left: -(handleSize/2), cursor: 'w-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-w')}
+                      />
+                      {/* E */}
+                      <div
+                        className="absolute bg-white border border-[#3b82f6]"
+                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize/2), right: -(handleSize/2), cursor: 'e-resize', zIndex: 30 }}
+                        onMouseDown={(e) => startBoxDrag(e, box.id, 'resize-e')}
+                      />
+                    </>
                   )}
                 </div>
               );
@@ -796,6 +1036,7 @@ export default function EditorPage() {
                             const hasUnsavedChanges =
                               editedTexts[box.id] !== undefined &&
                               editedTexts[box.id] !== (box.editedText || box.hebrewText);
+                            const isSaved = savedBoxIds.has(box.id);
 
                             return (
                               <div
@@ -809,19 +1050,53 @@ export default function EditorPage() {
                               >
                                 <div className="flex items-start gap-2">
                                   <div className="flex-1">
-                                    <input
-                                      type="text"
-                                      value={currentText}
-                                      onChange={(e) =>
-                                        setEditedTexts((prev) => ({
-                                          ...prev,
-                                          [box.id]: e.target.value,
-                                        }))
-                                      }
-                                      dir="rtl"
-                                      className="w-full bg-[#0f1117] border border-[#2e2f3a] rounded px-2.5 py-1.5 text-sm text-[#e4e4e7] focus:outline-none focus:border-[#3b82f6] font-serif"
-                                      onClick={(e) => e.stopPropagation()}
-                                    />
+                                    <div className="relative">
+                                      <input
+                                        type="text"
+                                        value={currentText}
+                                        onChange={(e) =>
+                                          setEditedTexts((prev) => ({
+                                            ...prev,
+                                            [box.id]: e.target.value,
+                                          }))
+                                        }
+                                        onBlur={() => {
+                                          if (
+                                            editedTexts[box.id] !== undefined &&
+                                            editedTexts[box.id] !== (box.editedText || box.hebrewText)
+                                          ) {
+                                            saveBoxText(box.id, editedTexts[box.id]);
+                                          }
+                                        }}
+                                        onKeyDown={(e) => {
+                                          if (e.key === 'Enter') {
+                                            e.currentTarget.blur();
+                                          }
+                                        }}
+                                        dir="rtl"
+                                        className={`w-full bg-[#0f1117] border rounded px-2.5 py-1.5 text-sm text-[#e4e4e7] focus:outline-none focus:border-[#3b82f6] font-serif ${
+                                          hasUnsavedChanges
+                                            ? 'border-[#eab308]/50'
+                                            : isSaved
+                                            ? 'border-[#22c55e]/50'
+                                            : 'border-[#2e2f3a]'
+                                        }`}
+                                        onClick={(e) => e.stopPropagation()}
+                                      />
+                                      {/* Save status indicators */}
+                                      {hasUnsavedChanges && (
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[10px] text-[#eab308] font-medium">
+                                          unsaved
+                                        </span>
+                                      )}
+                                      {isSaved && !hasUnsavedChanges && (
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[#22c55e]">
+                                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                          </svg>
+                                        </span>
+                                      )}
+                                    </div>
                                     {box.confidence !== null && (
                                       <div className="mt-1 flex items-center gap-2">
                                         <div className="flex-1 h-1 rounded-full bg-[#2e2f3a] overflow-hidden">

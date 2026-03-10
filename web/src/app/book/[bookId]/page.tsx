@@ -48,6 +48,7 @@ export default function BookOverviewPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [batchLoading, setBatchLoading] = useState<string | null>(null);
+  const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; pageNumber: number } | null>(null);
 
   const fetchBook = useCallback(async () => {
     try {
@@ -71,8 +72,12 @@ export default function BookOverviewPage() {
     setBatchLoading('ocr');
     setError(null);
     try {
-      const pendingPages = book.pages.filter((p) => p.status === 'pending');
-      for (const page of pendingPages) {
+      const pendingPages = book.pages
+        .filter((p) => p.status === 'pending')
+        .sort((a, b) => a.pageNumber - b.pageNumber);
+      for (let i = 0; i < pendingPages.length; i++) {
+        const page = pendingPages[i];
+        setBatchProgress({ current: i + 1, total: pendingPages.length, pageNumber: page.pageNumber });
         const res = await fetch(`/api/pages/${page.id}/ocr`, { method: 'POST' });
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
@@ -84,6 +89,7 @@ export default function BookOverviewPage() {
       setError(err instanceof Error ? err.message : 'Batch OCR failed');
     } finally {
       setBatchLoading(null);
+      setBatchProgress(null);
     }
   };
 
@@ -92,8 +98,12 @@ export default function BookOverviewPage() {
     setBatchLoading('translate');
     setError(null);
     try {
-      const ocrPages = book.pages.filter((p) => p.status === 'ocr_done');
-      for (const page of ocrPages) {
+      const ocrPages = book.pages
+        .filter((p) => p.status === 'ocr_done')
+        .sort((a, b) => a.pageNumber - b.pageNumber);
+      for (let i = 0; i < ocrPages.length; i++) {
+        const page = ocrPages[i];
+        setBatchProgress({ current: i + 1, total: ocrPages.length, pageNumber: page.pageNumber });
         const res = await fetch(`/api/pages/${page.id}/translate`, { method: 'POST' });
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
@@ -105,6 +115,7 @@ export default function BookOverviewPage() {
       setError(err instanceof Error ? err.message : 'Batch translation failed');
     } finally {
       setBatchLoading(null);
+      setBatchProgress(null);
     }
   };
 
@@ -181,41 +192,64 @@ export default function BookOverviewPage() {
         )}
 
         {/* Batch actions */}
-        <div className="flex gap-3 mb-8">
-          <button
-            onClick={handleBatchOCR}
-            disabled={pendingCount === 0 || batchLoading !== null}
-            className="px-4 py-2 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {batchLoading === 'ocr' ? (
-              <>
-                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Running OCR...
-              </>
-            ) : (
-              <>OCR All Pending ({pendingCount})</>
-            )}
-          </button>
-          <button
-            onClick={handleBatchTranslate}
-            disabled={ocrCount === 0 || batchLoading !== null}
-            className="px-4 py-2 rounded-lg bg-[#eab308] hover:bg-[#ca8a04] text-black text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {batchLoading === 'translate' ? (
-              <>
-                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Translating...
-              </>
-            ) : (
-              <>Translate All OCR&apos;d ({ocrCount})</>
-            )}
-          </button>
+        <div className="flex flex-col gap-3 mb-8">
+          <div className="flex gap-3">
+            <button
+              onClick={handleBatchOCR}
+              disabled={pendingCount === 0 || batchLoading !== null}
+              className="px-4 py-2 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {batchLoading === 'ocr' ? (
+                <>
+                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Running OCR...
+                </>
+              ) : (
+                <>OCR All Pending ({pendingCount})</>
+              )}
+            </button>
+            <button
+              onClick={handleBatchTranslate}
+              disabled={ocrCount === 0 || batchLoading !== null}
+              className="px-4 py-2 rounded-lg bg-[#eab308] hover:bg-[#ca8a04] text-black text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {batchLoading === 'translate' ? (
+                <>
+                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Translating...
+                </>
+              ) : (
+                <>Translate All OCR&apos;d ({ocrCount})</>
+              )}
+            </button>
+          </div>
+
+          {/* Progress bar */}
+          {batchProgress && (
+            <div className="w-full max-w-md">
+              <div className="flex items-center justify-between text-xs text-[#a1a1aa] mb-1.5">
+                <span>
+                  Processing page {batchProgress.pageNumber} ({batchProgress.current} of {batchProgress.total})
+                </span>
+                <span>{Math.round((batchProgress.current / batchProgress.total) * 100)}%</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-[#2e2f3a] overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{
+                    width: `${(batchProgress.current / batchProgress.total) * 100}%`,
+                    backgroundColor: batchLoading === 'ocr' ? '#3b82f6' : '#eab308',
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Page Grid */}

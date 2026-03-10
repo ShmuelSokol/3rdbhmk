@@ -32,7 +32,7 @@ export async function extractPageAsImage(
 
   await exec('pdftoppm', [
     '-png',
-    '-r', '300',
+    '-r', '200',
     '-f', String(pageNumber),
     '-l', String(pageNumber),
     '-singlefile',

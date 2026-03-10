@@ -70,10 +70,11 @@ function parseTranslation(raw: string): Paragraph[] {
   return paragraphs;
 }
 
-// --- ZONE CREATION (translation-driven) ---
+// --- ZONE CREATION (natural page sections) ---
 
 interface TextZone {
   ocrLines: OcrLine[];
+  hebrewChars: number;
   x: number;
   y: number;
   width: number;
@@ -85,91 +86,71 @@ interface TextZone {
 
 interface ZoneContent {
   zone: TextZone;
-  paragraph: Paragraph | null;
+  paragraphs: Paragraph[];
   fontSize: number;
   lineHeight: number;
   textColor: string;
 }
 
-function createZones(
-  lines: OcrLine[],
-  numParagraphs: number
-): TextZone[] {
+// Group OCR lines into natural page sections using conservative criteria.
+// Only splits at major visual breaks — NOT one zone per paragraph.
+function createNaturalZones(lines: OcrLine[]): TextZone[] {
   const sorted = [...lines]
     .filter((l) => l.width > 0.5 && l.height > 0.2)
     .sort((a, b) => a.y - b.y);
 
-  if (sorted.length === 0 || numParagraphs === 0) return [];
-
-  // If only 1 paragraph, one big zone
-  if (numParagraphs === 1) {
-    const z = buildZone(sorted);
-    z.availableHeight = 96 - z.y;
-    return [z];
-  }
+  if (sorted.length === 0) return [];
 
   const heights = sorted.map((l) => l.height).sort((a, b) => a - b);
   const medianH = heights[Math.floor(heights.length / 2)];
 
-  // Score every potential split point between consecutive sorted lines
-  const splitScores: { idx: number; score: number }[] = [];
-  for (let i = 0; i < sorted.length - 1; i++) {
-    const prev = sorted[i];
-    const curr = sorted[i + 1];
-    let score = 0;
+  const groups: OcrLine[][] = [[sorted[0]]];
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1];
+    const curr = sorted[i];
 
-    // Gap between lines (bigger gap = stronger split)
+    // Never split within header area (y < 5%)
+    if (prev.y < 5 && curr.y < 5) {
+      groups[groups.length - 1].push(curr);
+      continue;
+    }
+
+    // Header/body boundary
+    const crossesHeader = prev.y + prev.height < 5 && curr.y >= 4;
+
+    // Large size change (title ↔ body, >1.5x median height difference)
+    const bigSizeChange =
+      Math.abs(curr.height - prev.height) > medianH * 1.5;
+
+    // Large gap (>4% of page)
     const gap = curr.y - (prev.y + prev.height);
-    score += Math.max(0, gap) / Math.max(0.5, medianH);
+    const bigGap = gap > 4;
 
-    // Size change (height difference)
-    score += (Math.abs(curr.height - prev.height) / Math.max(0.5, medianH)) * 2;
+    // Alignment shift: centered narrow → wide left-aligned (or vice versa)
+    const prevCentered =
+      Math.abs(prev.x + prev.width / 2 - 50) < 15 && prev.width < 50;
+    const currCentered =
+      Math.abs(curr.x + curr.width / 2 - 50) < 15 && curr.width < 50;
+    const currWide = curr.width > 60;
+    const prevWide = prev.width > 60;
+    const alignmentShift =
+      (prevCentered && currWide) || (currCentered && prevWide);
 
-    // Width change
-    const wMax = Math.max(prev.width, curr.width);
-    const wMin = Math.min(prev.width, curr.width);
-    if (wMin > 0.5 && wMax / wMin > 2) score += wMax / wMin;
-
-    // Header/body boundary at y=5%
-    if (prev.y + prev.height <= 5 && curr.y >= 4) score += 10;
-
-    // Alignment shift (center of line moves significantly)
-    const prevCx = prev.x + prev.width / 2;
-    const currCx = curr.x + curr.width / 2;
-    score += Math.abs(prevCx - currCx) / 30;
-
-    splitScores.push({ idx: i, score });
+    if (crossesHeader || bigSizeChange || bigGap || alignmentShift) {
+      groups.push([curr]);
+    } else {
+      groups[groups.length - 1].push(curr);
+    }
   }
 
-  // Pick top (numParagraphs - 1) split points
-  const numSplits = Math.min(numParagraphs - 1, splitScores.length);
-  const chosen = [...splitScores]
-    .sort((a, b) => b.score - a.score)
-    .slice(0, numSplits)
-    .map((s) => s.idx)
-    .sort((a, b) => a - b);
-
-  // Build groups from split points
-  const groups: OcrLine[][] = [];
-  let start = 0;
-  for (const splitIdx of chosen) {
-    groups.push(sorted.slice(start, splitIdx + 1));
-    start = splitIdx + 1;
-  }
-  groups.push(sorted.slice(start));
-
-  // Build zones and set availableHeight to extend to next zone's top
+  // Build zones and extend each zone's height to the next zone's start
   const zones = groups.map((g) => buildZone(g));
   for (let i = 0; i < zones.length - 1; i++) {
     zones[i].availableHeight = zones[i + 1].y - zones[i].y;
   }
-  // Last zone extends to near page bottom
   if (zones.length > 0) {
     const last = zones[zones.length - 1];
-    last.availableHeight = Math.max(
-      last.availableHeight,
-      96 - last.y
-    );
+    last.availableHeight = Math.max(last.availableHeight, 96 - last.y);
   }
 
   return zones;
@@ -183,15 +164,16 @@ function buildZone(g: OcrLine[]): TextZone {
   const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
   const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
   const avgCx = g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
+  const hebrewChars = g.reduce((s, l) => s + l.text.length, 0);
 
   const isCentered =
     Math.abs(avgCx - 50) < 15 &&
-    (avgW < 60 ||
-      Math.abs(minX - (100 - maxX)) < 10);
+    (avgW < 60 || Math.abs(minX - (100 - maxX)) < 10);
   const isHeader = minY < 5;
 
   return {
     ocrLines: g,
+    hebrewChars,
     x: minX,
     y: minY,
     width: maxX - minX,
@@ -202,8 +184,11 @@ function buildZone(g: OcrLine[]): TextZone {
   };
 }
 
-// --- ASSIGN TEXT TO ZONES ---
+// --- ASSIGN PARAGRAPHS TO ZONES (proportional by Hebrew content) ---
 
+// Walk paragraphs in order, assign to zones proportionally based on
+// how much Hebrew text each zone contains. This ensures English text
+// lands in the same region as the Hebrew it was translated from.
 function assignTextToZones(
   zones: TextZone[],
   paragraphs: Paragraph[],
@@ -212,12 +197,48 @@ function assignTextToZones(
   zoneTextColors: Map<number, string>
 ): ZoneContent[] {
   const CW = 0.48;
+
+  // Calculate proportional targets
+  const totalHebrew = zones.reduce((s, z) => s + z.hebrewChars, 0);
+  const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
+
+  // Build cumulative Hebrew char targets for each zone
+  // When we've assigned this many English chars, move to next zone
+  const zoneTargets: number[] = [];
+  let cumHebrew = 0;
+  for (const zone of zones) {
+    cumHebrew += zone.hebrewChars;
+    const share = totalHebrew > 0 ? cumHebrew / totalHebrew : 1;
+    zoneTargets.push(share * totalEnglish);
+  }
+
+  // Walk paragraphs and assign to zones proportionally
+  const zoneParas: Paragraph[][] = zones.map(() => []);
+  let currentZone = 0;
+  let runningEnglish = 0;
+
+  for (const para of paragraphs) {
+    // Move to next zone if we've exceeded current zone's proportional target
+    // (but never skip more than one zone at a time, and always keep at least
+    // one paragraph in last zone)
+    while (
+      currentZone < zones.length - 1 &&
+      runningEnglish > 0 &&
+      runningEnglish >= zoneTargets[currentZone]
+    ) {
+      currentZone++;
+    }
+    zoneParas[currentZone].push(para);
+    runningEnglish += para.charCount;
+  }
+
+  // Build ZoneContent with font sizing
   const result: ZoneContent[] = [];
 
   for (let zi = 0; zi < zones.length; zi++) {
     const zone = zones[zi];
-    const para = zi < paragraphs.length ? paragraphs[zi] : null;
-    const charCount = para ? para.charCount : 0;
+    const paras = zoneParas[zi];
+    const charCount = paras.reduce((s, p) => s + p.charCount, 0);
 
     const widthPx = (zone.width / 100) * imgWidth;
     const heightPx = (zone.availableHeight / 100) * imgHeight;
@@ -230,22 +251,25 @@ function assignTextToZones(
     let lineHeight = 1.25;
 
     if (charCount > 0 && widthPx > 0 && heightPx > 0) {
+      // Add inter-paragraph spacing to char count estimate
+      const extraChars = Math.max(0, paras.length - 1) * 10;
+      const totalChars = charCount + extraChars;
+
       fontSize = minFs;
-      // Try to find largest font that fits
       for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
         const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-        const linesNeeded = Math.ceil(charCount / cpl);
+        const linesNeeded = Math.ceil(totalChars / cpl);
         if (linesNeeded * fs * lineHeight <= heightPx) {
           fontSize = fs;
           break;
         }
       }
-      // If still at min, try tighter line height
+      // Tighter line height as fallback
       if (fontSize <= minFs) {
         lineHeight = 1.1;
         for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
           const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-          const linesNeeded = Math.ceil(charCount / cpl);
+          const linesNeeded = Math.ceil(totalChars / cpl);
           if (linesNeeded * fs * lineHeight <= heightPx) {
             fontSize = fs;
             break;
@@ -255,13 +279,7 @@ function assignTextToZones(
     }
 
     const textColor = zoneTextColors.get(zi) || '#1a1510';
-    result.push({
-      zone,
-      paragraph: para,
-      fontSize,
-      lineHeight,
-      textColor,
-    });
+    result.push({ zone, paragraphs: paras, fontSize, lineHeight, textColor });
   }
 
   return result;
@@ -478,12 +496,12 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     }
   }, [page.translation]);
 
-  // Create zones once we have paragraphs and OCR lines
+  // Create natural zones from OCR lines (independent of paragraph count)
   useEffect(() => {
-    if (page.lines.length > 0 && paragraphs.length > 0) {
-      setZones(createZones(page.lines, paragraphs.length));
+    if (page.lines.length > 0) {
+      setZones(createNaturalZones(page.lines));
     }
-  }, [page.lines, paragraphs]);
+  }, [page.lines]);
 
   // Track displayed image size
   useEffect(() => {
@@ -561,8 +579,8 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       {imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
           {zoneContents.map(
-            ({ zone, paragraph, fontSize, lineHeight, textColor }, zi) => {
-              if (!paragraph || paragraph.charCount === 0) return null;
+            ({ zone, paragraphs: paras, fontSize, lineHeight, textColor }, zi) => {
+              if (paras.length === 0) return null;
 
               return (
                 <div
@@ -579,22 +597,31 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     textAlign: zone.isCentered ? 'center' : 'left',
                   }}
                 >
-                  {paragraph.spans.map((span, si) => (
-                    <span
-                      key={si}
+                  {paras.map((para, pi) => (
+                    <div
+                      key={pi}
                       style={{
-                        fontFamily:
-                          'Georgia, "Times New Roman", "Palatino Linotype", serif',
-                        fontSize: `${fontSize}px`,
-                        fontWeight: span.bold ? 700 : 400,
-                        color: textColor,
-                        lineHeight: lineHeight,
-                        wordWrap: 'break-word',
-                        overflowWrap: 'break-word',
+                        marginTop: pi > 0 ? `${fontSize * 0.4}px` : 0,
                       }}
                     >
-                      {span.text}{' '}
-                    </span>
+                      {para.spans.map((span, si) => (
+                        <span
+                          key={si}
+                          style={{
+                            fontFamily:
+                              'Georgia, "Times New Roman", "Palatino Linotype", serif',
+                            fontSize: `${fontSize}px`,
+                            fontWeight: span.bold ? 700 : 400,
+                            color: textColor,
+                            lineHeight: lineHeight,
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                          }}
+                        >
+                          {span.text}{' '}
+                        </span>
+                      ))}
+                    </div>
                   ))}
                 </div>
               );

@@ -340,7 +340,7 @@ function assignTextToZones(
   return result;
 }
 
-// --- CANVAS: ERASE HEBREW TEXT VIA BLUR (preserves original page colors) ---
+// --- CANVAS: ERASE HEBREW TEXT (pixel-level, preserves page colors) ---
 
 function eraseHebrewAndSampleColors(
   img: HTMLImageElement,
@@ -358,48 +358,68 @@ function eraseHebrewAndSampleColors(
     if (!ctx) return null;
 
     ctx.drawImage(img, 0, 0);
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const px = imgData.data;
 
-    // Helper: blur a rectangular region to dissolve text into background
-    // Uses iterative clipped blur — never introduces foreign colors
-    const blurRect = (
-      ex: number, ey: number, ew: number, eh: number, iterations: number
-    ) => {
+    const pixLuma = (i: number) => 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+
+    // Erase text in a rectangular region by replacing dark pixels with local background
+    const eraseRect = (ex: number, ey: number, ew: number, eh: number) => {
       const x0 = Math.max(0, Math.floor(ex));
       const y0 = Math.max(0, Math.floor(ey));
       const x1 = Math.min(w, Math.ceil(ex + ew));
       const y1 = Math.min(h, Math.ceil(ey + eh));
       if (x1 <= x0 || y1 <= y0) return;
 
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(x0, y0, x1 - x0, y1 - y0);
-      ctx.clip();
-      ctx.filter = 'blur(12px)';
-      for (let i = 0; i < iterations; i++) {
-        ctx.drawImage(canvas, x0, y0, x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0);
+      // Collect all pixel luminances in this region to find the background level
+      const lumas: number[] = [];
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) {
+          lumas.push(pixLuma((y * w + x) * 4));
+        }
       }
-      ctx.restore();
+      lumas.sort((a, b) => b - a);
+
+      // Background = brightest 30% of pixels (the gaps between letters)
+      const bgCount = Math.max(5, Math.floor(lumas.length * 0.3));
+      const bgLuma = lumas[Math.floor(bgCount / 2)]; // median of bright pixels
+      // Threshold: anything darker than 85% of background brightness is text
+      const threshold = bgLuma * 0.82;
+
+      // Compute the actual background color from the brightest pixels
+      const bgR: number[] = [], bgG: number[] = [], bgB: number[] = [];
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) {
+          const idx = (y * w + x) * 4;
+          if (pixLuma(idx) >= bgLuma * 0.95) {
+            bgR.push(px[idx]);
+            bgG.push(px[idx + 1]);
+            bgB.push(px[idx + 2]);
+          }
+        }
+      }
+      if (bgR.length === 0) return;
+      bgR.sort((a, b) => a - b);
+      bgG.sort((a, b) => a - b);
+      bgB.sort((a, b) => a - b);
+      const midR = bgR[Math.floor(bgR.length / 2)];
+      const midG = bgG[Math.floor(bgG.length / 2)];
+      const midB = bgB[Math.floor(bgB.length / 2)];
+
+      // Replace dark pixels (text) with the background color
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) {
+          const idx = (y * w + x) * 4;
+          if (pixLuma(idx) < threshold) {
+            px[idx] = midR;
+            px[idx + 1] = midG;
+            px[idx + 2] = midB;
+          }
+        }
+      }
     };
 
-    // Helper: blur a circular region
-    const blurCircle = (
-      cx: number, cy: number, radius: number, iterations: number
-    ) => {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.filter = 'blur(12px)';
-      const x0 = Math.max(0, Math.floor(cx - radius));
-      const y0 = Math.max(0, Math.floor(cy - radius));
-      const sz = Math.ceil(radius * 2);
-      for (let i = 0; i < iterations; i++) {
-        ctx.drawImage(canvas, x0, y0, sz, sz, x0, y0, sz, sz);
-      }
-      ctx.restore();
-    };
-
-    // Erase each OCR line by blurring it away
+    // Erase each OCR line
     for (const line of ocrLines) {
       if (line.width < 1 || line.height < 0.3) continue;
 
@@ -408,7 +428,6 @@ function eraseHebrewAndSampleColors(
       const lw = (line.width / 100) * w;
       const lh = (line.height / 100) * h;
 
-      // Page number detection (narrow, centered, near top)
       const isPageNum =
         line.y < 4 &&
         line.width < 5 &&
@@ -416,16 +435,17 @@ function eraseHebrewAndSampleColors(
         Math.abs(line.x + line.width / 2 - 50) < 5;
 
       if (isPageNum) {
-        const circleR = Math.max(lw, lh) * 1.8;
-        blurCircle(lx + lw / 2, ly + lh / 2, circleR, 15);
+        // Wider erasure for page number with decorative circle
+        const r = Math.max(lw, lh) * 1.8;
+        eraseRect(lx + lw / 2 - r, ly + lh / 2 - r, r * 2, r * 2);
       } else {
         const padV = lh * 0.35;
         const padH = lw * 0.06;
-        blurRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2, 15);
+        eraseRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2);
       }
     }
 
-    // Second pass: blur gaps between segments on same row (dotted leaders)
+    // Second pass: erase gaps between segments on same row (dotted leaders)
     const sortedLines = [...ocrLines]
       .filter((l) => l.width > 1 && l.height > 0.3)
       .sort((a, b) => a.y - b.y);
@@ -459,11 +479,14 @@ function eraseHebrewAndSampleColors(
           if (gapRightPct - gapLeftPct > 3) {
             const gapLeft = (gapLeftPct / 100) * w;
             const gapRight = (gapRightPct / 100) * w;
-            blurRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3, 12);
+            eraseRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3);
           }
         }
       }
     }
+
+    // Write modified pixels back to canvas
+    ctx.putImageData(imgData, 0, 0);
 
     // Determine text color per zone from the background luminance
     const median = (arr: number[]) => {

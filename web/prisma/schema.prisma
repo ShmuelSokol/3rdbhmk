@@ -1,0 +1,105 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Book {
+  id         String   @id @default(cuid())
+  name       String
+  filename   String
+  totalPages Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  pages      Page[]
+
+  @@map("bhmk_book")
+}
+
+model Page {
+  id          String       @id @default(cuid())
+  bookId      String
+  book        Book         @relation(fields: [bookId], references: [id])
+  pageNumber  Int
+  imageUrl    String?
+  imagePath   String?
+  status      String       @default("pending")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  ocrResult   OCRResult?
+  translation Translation?
+  flags       Flag[]
+
+  @@unique([bookId, pageNumber])
+  @@map("bhmk_page")
+}
+
+model OCRResult {
+  id        String        @id @default(cuid())
+  pageId    String        @unique
+  page      Page          @relation(fields: [pageId], references: [id])
+  rawJson   Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  boxes     BoundingBox[]
+
+  @@map("bhmk_ocr_result")
+}
+
+model BoundingBox {
+  id              String    @id @default(cuid())
+  ocrResultId     String
+  ocrResult       OCRResult @relation(fields: [ocrResultId], references: [id], onDelete: Cascade)
+  x               Float
+  y               Float
+  width           Float
+  height          Float
+  hebrewText      String
+  editedText      String?
+  englishText     String?
+  confidence      Float?
+  lineIndex       Int?
+  wordIndex       Int?
+  isImage         Boolean   @default(false)
+  skipTranslation Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("bhmk_bounding_box")
+}
+
+model Translation {
+  id            String   @id @default(cuid())
+  pageId        String   @unique
+  page          Page     @relation(fields: [pageId], references: [id])
+  hebrewInput   String   @db.Text
+  englishOutput String   @db.Text
+  status        String   @default("draft")
+  reviewNotes   String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("bhmk_translation")
+}
+
+model Flag {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      Page     @relation(fields: [pageId], references: [id])
+  x         Float
+  y         Float
+  width     Float
+  height    Float
+  type      String
+  note      String?
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bhmk_flag")
+}

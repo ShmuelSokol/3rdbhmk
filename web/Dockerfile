@@ -1,0 +1,49 @@
+FROM node:20-alpine AS base
+
+# Install dependencies for Prisma and PDF processing
+RUN apk add --no-cache openssl poppler-utils
+
+FROM base AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build args for NEXT_PUBLIC_ vars
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN npx prisma@5 generate
+RUN npm run build
+
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/@supabase ./node_modules/@supabase
+COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
+
+# Create tmp directory for PDF processing
+RUN mkdir -p /tmp/bhmk && chown -R nextjs:nodejs /tmp/bhmk
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]

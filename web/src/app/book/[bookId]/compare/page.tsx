@@ -44,6 +44,7 @@ function stripMarkdown(text: string): string {
 
 /**
  * Flow English text word-by-word across OCR line positions.
+ * Uses the ORIGINAL line bounding boxes (no normalization) and per-line font sizes.
  */
 function flowTextToLines(
   englishText: string,
@@ -56,25 +57,6 @@ function flowTextToLines(
 
   // Clean the text
   const cleanText = stripMarkdown(englishText);
-
-  // Calculate the full text column boundaries
-  const colLeft = Math.min(...textLines.map((l) => l.x));
-  const colRight = Math.max(...textLines.map((l) => l.x + l.width));
-  const colWidth = colRight - colLeft;
-
-  // Extend each line to span the full text column width for proper LTR flow
-  const normalizedLines = textLines.map((l) => ({
-    ...l,
-    x: colLeft,
-    width: colWidth,
-  }));
-
-  // Calculate a consistent body font size from the median line height
-  const lineHeights = normalizedLines
-    .map((l) => (l.height / 100) * imgHeight)
-    .sort((a, b) => a - b);
-  const medianHeight = lineHeights[Math.floor(lineHeights.length / 2)];
-  const bodyFontSize = Math.max(9, Math.min(14, medianHeight * 0.65));
 
   // Split into paragraphs then words
   const paragraphs = cleanText.split('\n');
@@ -93,16 +75,18 @@ function flowTextToLines(
   const result: Array<{ line: OcrLine; text: string; fontSize: number }> = [];
   let tokenIdx = 0;
 
-  for (const line of normalizedLines) {
+  for (const line of textLines) {
+    // Per-line font size proportional to line height, capped 8-16px
+    const lineHeightPx = (line.height / 100) * imgHeight;
+    const fontSize = Math.max(8, Math.min(16, lineHeightPx * 0.65));
+
     if (tokenIdx >= tokens.length) {
-      result.push({ line, text: '', fontSize: bodyFontSize });
+      result.push({ line, text: '', fontSize });
       continue;
     }
 
     const lineWidthPx = (line.width / 100) * imgWidth;
-
-    // Use consistent body font for all lines
-    const charWidth = bodyFontSize * 0.48;
+    const charWidth = fontSize * 0.48;
     const maxChars = Math.floor(lineWidthPx / charWidth);
 
     let lineText = '';
@@ -128,7 +112,7 @@ function flowTextToLines(
       tokenIdx++;
     }
 
-    result.push({ line, text: lineText, fontSize: bodyFontSize });
+    result.push({ line, text: lineText, fontSize });
   }
 
   return result;
@@ -139,7 +123,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
-  const [bgColor, setBgColor] = useState('#f0e6d0');
+  const [bgColor, setBgColor] = useState('#f5ead6');
 
   useEffect(() => {
     if (imgRef.current && imgLoaded) {
@@ -158,45 +142,64 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     }
   }, [imgLoaded]);
 
-  // Sample background color from page image using a canvas
+  // Sample background color from gaps between OCR text lines
   useEffect(() => {
-    if (imgRef.current && imgLoaded) {
+    if (imgRef.current && imgLoaded && page.lines.length > 1) {
       try {
+        const img = imgRef.current;
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        if (ctx && imgRef.current.naturalWidth > 0) {
-          canvas.width = imgRef.current.naturalWidth;
-          canvas.height = imgRef.current.naturalHeight;
-          ctx.drawImage(imgRef.current, 0, 0);
-          // Sample a few points in the margin area to get background color
-          const samples: number[][] = [];
+        if (ctx && img.naturalWidth > 0) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          ctx.drawImage(img, 0, 0);
           const w = canvas.width;
           const h = canvas.height;
-          // Sample from corners and edges (margin areas)
-          const points = [
-            [w * 0.05, h * 0.05],
-            [w * 0.95, h * 0.05],
-            [w * 0.05, h * 0.95],
-            [w * 0.95, h * 0.95],
-            [w * 0.5, h * 0.02],
-            [w * 0.02, h * 0.5],
-          ];
-          for (const [px, py] of points) {
-            const data = ctx.getImageData(Math.floor(px), Math.floor(py), 1, 1).data;
-            samples.push([data[0], data[1], data[2]]);
+
+          // Find gaps between consecutive text lines and sample from there
+          const textLines = page.lines
+            .filter((l) => l.width > 3 && l.height > 0.5)
+            .sort((a, b) => a.y - b.y);
+
+          const samples: number[][] = [];
+          for (let i = 0; i < textLines.length - 1; i++) {
+            const lineBottom = (textLines[i].y + textLines[i].height) / 100;
+            const nextLineTop = textLines[i + 1].y / 100;
+            const gap = nextLineTop - lineBottom;
+            if (gap > 0.002) {
+              // Sample the midpoint of the gap, at the horizontal center of the line
+              const sampleY = (lineBottom + nextLineTop) / 2;
+              const sampleX = (textLines[i].x + textLines[i].width / 2) / 100;
+              const px = Math.floor(sampleX * w);
+              const py = Math.floor(sampleY * h);
+              if (px > 0 && px < w && py > 0 && py < h) {
+                const data = ctx.getImageData(px, py, 1, 1).data;
+                // Only include light-colored samples (skip dark text remnants)
+                if (data[0] > 180 && data[1] > 160 && data[2] > 130) {
+                  samples.push([data[0], data[1], data[2]]);
+                }
+              }
+            }
           }
-          // Average the samples
-          const avg = samples.reduce(
-            (acc, s) => [acc[0] + s[0], acc[1] + s[1], acc[2] + s[2]],
-            [0, 0, 0]
-          ).map((v) => Math.round(v / samples.length));
-          setBgColor(`rgb(${avg[0]}, ${avg[1]}, ${avg[2]})`);
+
+          if (samples.length >= 3) {
+            // Use median of each channel
+            const getMedian = (arr: number[]) => {
+              const sorted = [...arr].sort((a, b) => a - b);
+              const mid = Math.floor(sorted.length / 2);
+              return sorted.length % 2 ? sorted[mid] : Math.round((sorted[mid - 1] + sorted[mid]) / 2);
+            };
+            const r = getMedian(samples.map((s) => s[0]));
+            const g = getMedian(samples.map((s) => s[1]));
+            const b = getMedian(samples.map((s) => s[2]));
+            setBgColor(`rgb(${r}, ${g}, ${b})`);
+          }
         }
       } catch {
-        // CORS or other error, keep default
+        // CORS or other error, keep fallback color
       }
     }
-  }, [imgLoaded]);
+  }, [imgLoaded, page.lines]);
 
   if (!page.translation || !page.lines.length) return null;
 
@@ -219,41 +222,28 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         src={`/api/pages/${page.id}/image`}
         alt={`Page ${page.pageNumber}`}
         className="w-full h-auto block"
-        crossOrigin="anonymous"
         onLoad={() => setImgLoaded(true)}
       />
 
-      {/* Overlay: cover original Hebrew lines, then render English */}
+      {/* Overlay: English text at exact OCR line positions */}
       {imgLoaded && imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          {/* First layer: cover all original Hebrew text lines with bg color */}
-          {page.lines
-            .filter((l) => l.width > 3 && l.height > 0.5)
-            .map((line, idx) => (
-              <div
-                key={`cover-${idx}`}
-                style={{
-                  position: 'absolute',
-                  left: `${line.x - 0.3}%`,
-                  top: `${line.y - 0.15}%`,
-                  width: `${line.width + 0.6}%`,
-                  height: `${line.height + 0.3}%`,
-                  backgroundColor: bgColor,
-                }}
-              />
-            ))}
-          {/* Second layer: English text at normalized (full-width) positions */}
+          {/* Single layer: each line gets a background cover + English text */}
           {flowedLines.map(({ line, text, fontSize }, idx) => (
             <div
-              key={`text-${idx}`}
+              key={`line-${idx}`}
               style={{
                 position: 'absolute',
-                left: `${line.x}%`,
-                top: `${line.y}%`,
-                width: `${line.width}%`,
-                height: `${line.height}%`,
+                left: `${line.x - 0.5}%`,
+                top: `${line.y - 0.15}%`,
+                width: `${line.width + 1.0}%`,
+                height: `${line.height + 0.3}%`,
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
+                backgroundColor: bgColor,
+                boxShadow: `0 0 6px 8px ${bgColor}`,
+                borderRadius: '2px',
                 overflow: 'hidden',
               }}
             >
@@ -266,6 +256,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     color: '#1a1510',
                     whiteSpace: 'nowrap',
                     direction: 'ltr',
+                    textAlign: 'right',
                   }}
                 >
                   {text}

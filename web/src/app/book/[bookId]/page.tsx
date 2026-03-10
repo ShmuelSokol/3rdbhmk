@@ -151,6 +151,7 @@ export default function BookOverviewPage() {
 
   const pendingCount = book.pages.filter((p) => p.status === 'pending').length;
   const ocrCount = book.pages.filter((p) => p.status === 'ocr_done').length;
+  const translatedCount = book.pages.filter((p) => p.status === 'translated' || p.status === 'reviewed' || p.status === 'approved').length;
 
   return (
     <div className="min-h-screen">
@@ -228,6 +229,33 @@ export default function BookOverviewPage() {
                 <>Translate All OCR&apos;d ({ocrCount})</>
               )}
             </button>
+          </div>
+
+          {/* Compare & Export actions */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => router.push(`/book/${bookId}/compare`)}
+              disabled={translatedCount === 0}
+              className="px-4 py-2 rounded-lg bg-[#a855f7] hover:bg-[#9333ea] text-white text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7" />
+              </svg>
+              Compare Side-by-Side
+            </button>
+            <a
+              href={translatedCount > 0 ? `/api/books/${bookId}/export` : undefined}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                translatedCount > 0
+                  ? 'bg-[#22c55e] hover:bg-[#16a34a] text-white cursor-pointer'
+                  : 'bg-[#22c55e]/40 text-white/50 cursor-not-allowed pointer-events-none'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download English PDF
+            </a>
           </div>
 
           {/* Progress bar */}

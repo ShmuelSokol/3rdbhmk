@@ -191,7 +191,10 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       y: minY,
       width: zoneW,
       height: zoneH,
-      isCentered: Math.abs(avgCx - 50) < 10 && avgW < 50,
+      // Centered if average line center is near page center AND
+      // the left/right margins are roughly symmetric
+      isCentered: Math.abs(avgCx - 50) < 10 &&
+        (avgW < 50 || Math.abs(minX - (100 - maxX)) < 10),
       isHeader: isAtTop || avgH > medianH * 1.3,
       avgLineHeight: avgH,
     };
@@ -371,7 +374,7 @@ function eraseHebrewAndSampleColors(
       ctx.beginPath();
       ctx.rect(x0, y0, x1 - x0, y1 - y0);
       ctx.clip();
-      ctx.filter = 'blur(10px)';
+      ctx.filter = 'blur(12px)';
       for (let i = 0; i < iterations; i++) {
         ctx.drawImage(canvas, x0, y0, x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0);
       }
@@ -386,7 +389,7 @@ function eraseHebrewAndSampleColors(
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.clip();
-      ctx.filter = 'blur(10px)';
+      ctx.filter = 'blur(12px)';
       const x0 = Math.max(0, Math.floor(cx - radius));
       const y0 = Math.max(0, Math.floor(cy - radius));
       const sz = Math.ceil(radius * 2);
@@ -413,12 +416,12 @@ function eraseHebrewAndSampleColors(
         Math.abs(line.x + line.width / 2 - 50) < 5;
 
       if (isPageNum) {
-        const circleR = Math.max(lw, lh) * 1.5;
-        blurCircle(lx + lw / 2, ly + lh / 2, circleR, 6);
+        const circleR = Math.max(lw, lh) * 1.8;
+        blurCircle(lx + lw / 2, ly + lh / 2, circleR, 15);
       } else {
-        const padV = lh * 0.3;
-        const padH = lw * 0.05;
-        blurRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2, 5);
+        const padV = lh * 0.35;
+        const padH = lw * 0.06;
+        blurRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2, 15);
       }
     }
 
@@ -456,7 +459,7 @@ function eraseHebrewAndSampleColors(
           if (gapRightPct - gapLeftPct > 3) {
             const gapLeft = (gapLeftPct / 100) * w;
             const gapRight = (gapRightPct / 100) * w;
-            blurRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3, 5);
+            blurRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3, 12);
           }
         }
       }

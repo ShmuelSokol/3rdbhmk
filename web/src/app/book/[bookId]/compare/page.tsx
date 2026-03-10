@@ -139,6 +139,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
+  const [bgColor, setBgColor] = useState('#f0e6d0');
 
   useEffect(() => {
     if (imgRef.current && imgLoaded) {
@@ -157,20 +158,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     }
   }, [imgLoaded]);
 
-  if (!page.translation || !page.lines.length) return null;
-
-  const flowedLines =
-    imgSize.width > 0
-      ? flowTextToLines(
-          page.translation.englishOutput,
-          page.lines,
-          imgSize.width,
-          imgSize.height
-        )
-      : [];
-
   // Sample background color from page image using a canvas
-  const [bgColor, setBgColor] = useState('#f0e6d0');
   useEffect(() => {
     if (imgRef.current && imgLoaded) {
       try {
@@ -209,6 +197,18 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       }
     }
   }, [imgLoaded]);
+
+  if (!page.translation || !page.lines.length) return null;
+
+  const flowedLines =
+    imgSize.width > 0
+      ? flowTextToLines(
+          page.translation.englishOutput,
+          page.lines,
+          imgSize.width,
+          imgSize.height
+        )
+      : [];
 
   return (
     <div ref={containerRef} className="relative inline-block w-full">

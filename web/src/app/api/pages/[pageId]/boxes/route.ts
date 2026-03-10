@@ -1,6 +1,40 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export async function GET(
+  request: Request,
+  { params }: { params: { pageId: string } }
+) {
+  try {
+    const { pageId } = params
+
+    const page = await prisma.page.findUnique({
+      where: { id: pageId },
+      include: {
+        ocrResult: {
+          include: {
+            boxes: {
+              orderBy: [{ lineIndex: 'asc' }, { wordIndex: 'asc' }],
+            },
+          },
+        },
+      },
+    })
+
+    if (!page) {
+      return NextResponse.json({ error: 'Page not found' }, { status: 404 })
+    }
+
+    return NextResponse.json(page.ocrResult?.boxes || [])
+  } catch (error) {
+    console.error('Error getting boxes:', error)
+    return NextResponse.json(
+      { error: 'Failed to get bounding boxes' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function PATCH(
   request: Request,
   { params }: { params: { pageId: string } }

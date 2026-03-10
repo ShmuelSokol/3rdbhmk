@@ -2,6 +2,28 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { translateHebrew } from '@/lib/translate'
 
+export async function GET(
+  request: Request,
+  { params }: { params: { pageId: string } }
+) {
+  try {
+    const { pageId } = params
+    const translation = await prisma.translation.findUnique({
+      where: { pageId },
+    })
+    if (!translation) {
+      return NextResponse.json(null, { status: 404 })
+    }
+    return NextResponse.json(translation)
+  } catch (error) {
+    console.error('Error getting translation:', error)
+    return NextResponse.json(
+      { error: 'Failed to get translation' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function POST(
   request: Request,
   { params }: { params: { pageId: string } }

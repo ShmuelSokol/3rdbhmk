@@ -259,81 +259,96 @@ function assignTextToZones(
   const CW = 0.48;
   const result: ZoneContent[] = [];
 
-  const totalEnglish = tokens.reduce(
-    (s, t) => s + (t.type === 'word' ? t.word.length + 1 : 0),
-    0
-  );
-  const zoneHebrew = zones.map((z) =>
-    z.lines.reduce((s, l) => s + l.text.length, 0)
-  );
-  const totalHebrew = zoneHebrew.reduce((s, c) => s + c, 0);
-
-  const targetChars = zones.map((_, i) => {
-    const proportion =
-      totalHebrew > 0 ? zoneHebrew[i] / totalHebrew : 1 / zones.length;
-    return Math.ceil(proportion * totalEnglish);
-  });
-
-  let ti = 0;
-
-  for (let zi = 0; zi < zones.length; zi++) {
-    const zone = zones[zi];
-    const widthPx = (zone.width / 100) * imgWidth;
-    const heightPx = (zone.height / 100) * imgHeight;
-    const target = targetChars[zi];
-    const isLast = zi === zones.length - 1;
-
-    const paragraphs: ZoneParagraph[] = [];
-    let currentSpans: ZoneSpan[] = [];
+  // Split tokens into paragraphs (at 'break' tokens)
+  const allParagraphs: { spans: ZoneSpan[]; isAllBold: boolean }[] = [];
+  {
+    let spans: ZoneSpan[] = [];
     let curText = '';
     let curBold = false;
-    let charCount = 0;
 
     const flushSpan = () => {
       if (curText) {
-        currentSpans.push({ text: curText, bold: curBold });
+        spans.push({ text: curText, bold: curBold });
         curText = '';
       }
     };
-
-    const flushParagraph = () => {
+    const flushPara = () => {
       flushSpan();
-      if (currentSpans.length > 0) {
-        paragraphs.push({ spans: currentSpans });
-        currentSpans = [];
+      if (spans.length > 0) {
+        const isAllBold = spans.every((s) => s.bold);
+        allParagraphs.push({ spans: [...spans], isAllBold });
+        spans = [];
       }
     };
 
-    while (ti < tokens.length) {
-      const tok = tokens[ti];
-
+    for (const tok of tokens) {
       if (tok.type === 'break') {
-        flushParagraph();
-        ti++;
-        if (!isLast && charCount >= target) break;
+        flushPara();
         continue;
       }
-
-      charCount += tok.word.length + 1;
-
       if (curText && curBold !== tok.bold) {
         flushSpan();
         curBold = tok.bold;
       }
       if (!curText) curBold = tok.bold;
       curText += (curText ? ' ' : '') + tok.word;
-      ti++;
+    }
+    flushPara();
+  }
 
-      if (!isLast && charCount >= target * 1.4) break;
+  // Assign paragraphs to zones SEQUENTIALLY (in order)
+  // Each zone gets the next paragraph(s) that correspond to it
+  let pi = 0;
+  for (let zi = 0; zi < zones.length; zi++) {
+    const zone = zones[zi];
+    const isLast = zi === zones.length - 1;
+    const paragraphs: ZoneParagraph[] = [];
+
+    if (pi < allParagraphs.length) {
+      if (isLast) {
+        // Last zone gets ALL remaining paragraphs
+        while (pi < allParagraphs.length) {
+          paragraphs.push({ spans: allParagraphs[pi].spans });
+          pi++;
+        }
+      } else {
+        // Assign at least one paragraph to this zone
+        paragraphs.push({ spans: allParagraphs[pi].spans });
+        pi++;
+
+        // If this is a large body zone (many Hebrew lines), keep assigning
+        // paragraphs until we've used roughly the right share
+        const hebrewChars = zone.lines.reduce((s, l) => s + l.text.length, 0);
+        const totalHebrew = zones.reduce(
+          (s, z) => s + z.lines.reduce((s2, l) => s2 + l.text.length, 0), 0
+        );
+        const zonesLeft = zones.length - zi - 1;
+        const parasLeft = allParagraphs.length - pi;
+
+        // Keep assigning if this zone has proportionally more Hebrew text
+        // than the average remaining zone
+        if (parasLeft > zonesLeft && hebrewChars > 0) {
+          const avgHebrewPerZone = totalHebrew / zones.length;
+          const extraParas = Math.floor(hebrewChars / avgHebrewPerZone) - 1;
+          for (let ep = 0; ep < extraParas && pi < allParagraphs.length && (allParagraphs.length - pi) > zonesLeft; ep++) {
+            paragraphs.push({ spans: allParagraphs[pi].spans });
+            pi++;
+          }
+        }
+      }
     }
 
-    flushParagraph();
+    // Compute total char count for this zone's assigned paragraphs
+    const charCount = paragraphs.reduce(
+      (s, p) => s + p.spans.reduce((s2, sp) => s2 + sp.text.length + 1, 0), 0
+    );
+    const widthPx = (zone.width / 100) * imgWidth;
+    const heightPx = (zone.height / 100) * imgHeight;
 
     // Cap font size at the Hebrew font size
     let lineHeight = 1.25;
     const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
     const maxFs = Math.max(8, Math.floor(hebrewFontPx));
-    // Header running titles can go smaller to fit
     const minFs = zone.isHeader ? 7 : 8;
     let fontSize = 12;
 

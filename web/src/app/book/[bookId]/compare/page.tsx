@@ -43,22 +43,38 @@ function stripMarkdown(text: string): string {
 }
 
 /**
- * Flow English text word-by-word across OCR line positions.
- * Uses the ORIGINAL line bounding boxes (no normalization) and per-line font sizes.
+ * Analyze each OCR line to determine its visual properties (centered, bold, font size)
+ * and flow English text into lines preserving those properties.
  */
 function flowTextToLines(
   englishText: string,
   lines: OcrLine[],
   imgWidth: number,
   imgHeight: number
-): Array<{ line: OcrLine; text: string; fontSize: number }> {
+): Array<{ line: OcrLine; text: string; fontSize: number; isCentered: boolean; isBold: boolean }> {
   const textLines = lines.filter((l) => l.width > 3 && l.height > 0.5);
   if (textLines.length === 0) return [];
 
-  // Clean the text
   const cleanText = stripMarkdown(englishText);
 
-  // Split into paragraphs then words
+  // Calculate median body line height to detect headers
+  const heights = textLines.map((l) => l.height).sort((a, b) => a - b);
+  const medianHeight = heights[Math.floor(heights.length / 2)];
+
+  // Detect line properties from OCR geometry
+  const lineProps = textLines.map((line) => {
+    const lineHeightPx = (line.height / 100) * imgHeight;
+    // Font size proportional to line height - NO cap, match the original
+    const fontSize = Math.max(8, lineHeightPx * 0.72);
+    // Centered: line center is near page center AND doesn't span most of the width
+    const lineCenterX = line.x + line.width / 2;
+    const isCentered = Math.abs(lineCenterX - 50) < 8 && line.width < 70;
+    // Bold: line height significantly larger than median body text
+    const isBold = line.height > medianHeight * 1.4;
+    return { line, fontSize, isCentered, isBold };
+  });
+
+  // Split English into tokens
   const paragraphs = cleanText.split('\n');
   const tokens: Array<{ word: string; paragraphBreak: boolean }> = [];
   for (const para of paragraphs) {
@@ -72,16 +88,12 @@ function flowTextToLines(
     }
   }
 
-  const result: Array<{ line: OcrLine; text: string; fontSize: number }> = [];
+  const result: Array<{ line: OcrLine; text: string; fontSize: number; isCentered: boolean; isBold: boolean }> = [];
   let tokenIdx = 0;
 
-  for (const line of textLines) {
-    // Per-line font size proportional to line height, capped 8-16px
-    const lineHeightPx = (line.height / 100) * imgHeight;
-    const fontSize = Math.max(8, Math.min(16, lineHeightPx * 0.65));
-
+  for (const { line, fontSize, isCentered, isBold } of lineProps) {
     if (tokenIdx >= tokens.length) {
-      result.push({ line, text: '', fontSize });
+      result.push({ line, text: '', fontSize, isCentered, isBold });
       continue;
     }
 
@@ -94,25 +106,16 @@ function flowTextToLines(
 
     while (tokenIdx < tokens.length) {
       const token = tokens[tokenIdx];
-
-      if (token.paragraphBreak) {
-        tokenIdx++;
-        break;
-      }
-
+      if (token.paragraphBreak) { tokenIdx++; break; }
       const addSpace = lineText.length > 0 ? 1 : 0;
       const needed = token.word.length + addSpace;
-
-      if (charCount + needed > maxChars && lineText.length > 0) {
-        break;
-      }
-
+      if (charCount + needed > maxChars && lineText.length > 0) break;
       lineText += (addSpace ? ' ' : '') + token.word;
       charCount += needed;
       tokenIdx++;
     }
 
-    result.push({ line, text: lineText, fontSize });
+    result.push({ line, text: lineText, fontSize, isCentered, isBold });
   }
 
   return result;
@@ -228,22 +231,19 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       {/* Overlay: English text at exact OCR line positions */}
       {imgLoaded && imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          {/* Single layer: each line gets a background cover + English text */}
-          {flowedLines.map(({ line, text, fontSize }, idx) => (
+          {flowedLines.map(({ line, text, fontSize, isCentered, isBold }, idx) => (
             <div
               key={`line-${idx}`}
               style={{
                 position: 'absolute',
-                left: `${line.x - 0.5}%`,
-                top: `${line.y - 0.15}%`,
-                width: `${line.width + 1.0}%`,
-                height: `${line.height + 0.3}%`,
+                left: `${line.x}%`,
+                top: `${line.y}%`,
+                width: `${line.width}%`,
+                height: `${line.height}%`,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'flex-end',
+                justifyContent: isCentered ? 'center' : 'flex-start',
                 backgroundColor: bgColor,
-                boxShadow: `0 0 6px 8px ${bgColor}`,
-                borderRadius: '2px',
                 overflow: 'hidden',
               }}
             >
@@ -252,11 +252,11 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                   style={{
                     fontFamily: 'Georgia, "Times New Roman", "Palatino Linotype", serif',
                     fontSize: `${fontSize}px`,
-                    lineHeight: 1.1,
+                    fontWeight: isBold ? 700 : 400,
+                    lineHeight: 1,
                     color: '#1a1510',
                     whiteSpace: 'nowrap',
                     direction: 'ltr',
-                    textAlign: 'right',
                   }}
                 >
                   {text}

@@ -121,7 +121,7 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
 
   // If too many zones (table pages), merge small adjacent zones
   let mergedGroups = groups;
-  if (groups.length > 15) {
+  if (groups.length > 12) {
     mergedGroups = [groups[0]];
     for (let i = 1; i < groups.length; i++) {
       const prevGroup = mergedGroups[mergedGroups.length - 1];
@@ -131,7 +131,7 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       const crossesImage = imageRegions.some(
         (r) => r.top < currMinY && r.bottom > prevMaxY
       );
-      if (gap < 5 && !crossesImage) {
+      if (gap < 8 && !crossesImage) {
         mergedGroups[mergedGroups.length - 1] = [
           ...prevGroup,
           ...groups[i],
@@ -176,7 +176,7 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
     const zoneW = isAtTop ? 95 : maxX - minX;
 
     let zoneH = maxY - minY;
-    if (isAtTop && zoneH < 5) zoneH = 5; // Header zones need more height for English word-wrap
+    if (isAtTop && zoneH < 7) zoneH = 7; // Header zones need more height for English word-wrap
 
     // Clamp zone bottom to not extend into image regions
     for (const img of imageRegions) {
@@ -300,14 +300,16 @@ function assignTextToZones(
     // Cap font size at the Hebrew font size
     let lineHeight = 1.25;
     const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
-    const maxFs = Math.max(9.5, Math.floor(hebrewFontPx));
+    const maxFs = Math.max(8, Math.floor(hebrewFontPx));
+    // Header running titles can go smaller to fit
+    const minFs = zone.isHeader ? 7 : 8;
     let fontSize = 12;
 
     if (charCount === 0) {
       fontSize = Math.min(12, maxFs);
     } else {
-      fontSize = 9.5;
-      for (let fs = maxFs; fs >= 9.5; fs -= 0.5) {
+      fontSize = minFs;
+      for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
         const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
         const linesNeeded = Math.ceil(charCount / cpl);
         if (linesNeeded * fs * lineHeight <= heightPx) {
@@ -315,9 +317,9 @@ function assignTextToZones(
           break;
         }
       }
-      if (fontSize <= 9.5) {
+      if (fontSize <= minFs) {
         lineHeight = 1.15;
-        for (let fs = maxFs; fs >= 9.5; fs -= 0.5) {
+        for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
           const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
           const linesNeeded = Math.ceil(charCount / cpl);
           if (linesNeeded * fs * lineHeight <= heightPx) {
@@ -378,36 +380,183 @@ function eraseHebrewAndSampleColors(
       const lw = (line.width / 100) * w;
       const lh = (line.height / 100) * h;
 
-      // Sample background from ABOVE and BELOW the text line (margins)
-      // and from the left/right edges just outside the text
-      const samples: [number, number, number][] = [];
+      // Detect if this is a page number (narrow, centered, near top)
+      const isPageNum =
+        line.width < 5 &&
+        line.text.trim().length <= 3 &&
+        Math.abs(line.x + line.width / 2 - 50) < 5;
 
-      // Sample above the line (2px above)
+      // Sample background from ABOVE and BELOW the text line
+      const samples: [number, number, number][] = [];
       for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 2)));
+        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 3)));
       }
-      // Sample below the line (2px below)
       for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        samples.push(getPixel(lx + fx * lw, ly + lh + 2));
+        samples.push(getPixel(lx + fx * lw, ly + lh + 3));
       }
-      // Sample left margin
-      samples.push(getPixel(Math.max(0, lx - 3), ly + lh * 0.5));
-      // Sample right margin
-      samples.push(getPixel(lx + lw + 3, ly + lh * 0.5));
+      samples.push(getPixel(Math.max(0, lx - 5), ly + lh * 0.5));
+      samples.push(getPixel(lx + lw + 5, ly + lh * 0.5));
 
       const r = median(samples.map((s) => s[0]));
       const g = median(samples.map((s) => s[1]));
       const b = median(samples.map((s) => s[2]));
 
-      // Paint over the Hebrew text with a slight vertical padding
       ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-      const pad = lh * 0.1;
-      ctx.fillRect(
-        Math.max(0, lx - 1),
-        Math.max(0, ly - pad),
-        lw + 2,
-        lh + pad * 2
-      );
+
+      if (isPageNum) {
+        // Erase a wider area to cover decorative circle around page number
+        const circleR = Math.max(lw, lh) * 1.5;
+        const cx = lx + lw / 2;
+        const cy = ly + lh / 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, circleR, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Standard text erasure with generous padding
+        const padV = lh * 0.25;
+        const padH = lw * 0.05;
+        ctx.fillRect(
+          Math.max(0, lx - padH - 4),
+          Math.max(0, ly - padV),
+          lw + padH * 2 + 8,
+          lh + padV * 2
+        );
+      }
+    }
+
+    // Second pass: erase dotted leaders on table/TOC pages
+    // Group OCR lines into rows (lines at similar Y) and erase full horizontal span
+    const sortedLines = [...ocrLines]
+      .filter((l) => l.width > 1 && l.height > 0.3)
+      .sort((a, b) => a.y - b.y);
+
+    if (sortedLines.length > 15) {
+      // Group lines into rows by Y-proximity (within 1.5x median line height)
+      const rowGroups: OcrLine[][] = [[sortedLines[0]]];
+      const medH = sortedLines.map((l) => l.height).sort((a, b) => a - b)[
+        Math.floor(sortedLines.length / 2)
+      ];
+      for (let i = 1; i < sortedLines.length; i++) {
+        const prev = sortedLines[i - 1];
+        const curr = sortedLines[i];
+        const vertOverlap =
+          curr.y < prev.y + prev.height ||
+          Math.abs(curr.y - prev.y) < medH * 1.5;
+        if (vertOverlap) {
+          rowGroups[rowGroups.length - 1].push(curr);
+        } else {
+          rowGroups.push([curr]);
+        }
+      }
+
+      // For rows with multiple segments, erase only the GAPS between them (dotted leaders)
+      // This avoids creating staircase artifacts on hierarchical/indented layouts
+      for (const row of rowGroups) {
+        if (row.length < 2) continue;
+        // Sort segments left-to-right within the row
+        const sorted = [...row].sort((a, b) => a.x - b.x);
+        const minY = Math.min(...row.map((l) => l.y));
+        const maxYH = Math.max(...row.map((l) => l.y + l.height));
+        const bandTop = (minY / 100) * h;
+        const bandBottom = (maxYH / 100) * h;
+        const bandH = bandBottom - bandTop;
+        const padV = bandH * 0.15;
+
+        // Erase each horizontal gap between consecutive segments
+        for (let si = 0; si < sorted.length - 1; si++) {
+          const leftSeg = sorted[si];
+          const rightSeg = sorted[si + 1];
+          const gapLeftPct = leftSeg.x + leftSeg.width;
+          const gapRightPct = rightSeg.x;
+          const gapWidthPct = gapRightPct - gapLeftPct;
+
+          // Only erase if there's a meaningful gap (>3% of page width = likely has dots)
+          if (gapWidthPct > 3) {
+            const gapLeft = (gapLeftPct / 100) * w;
+            const gapRight = (gapRightPct / 100) * w;
+
+            // Sample bg from above and below the gap
+            const midX = (gapLeft + gapRight) / 2;
+            const bgSamples: [number, number, number][] = [];
+            bgSamples.push(getPixel(midX, Math.max(0, bandTop - 5)));
+            bgSamples.push(getPixel(midX, Math.min(h - 1, bandBottom + 5)));
+            bgSamples.push(getPixel(gapLeft, bandTop + bandH * 0.5));
+            bgSamples.push(getPixel(gapRight, bandTop + bandH * 0.5));
+            const br = median(bgSamples.map((s) => s[0]));
+            const bg = median(bgSamples.map((s) => s[1]));
+            const bb = median(bgSamples.map((s) => s[2]));
+
+            ctx.fillStyle = `rgb(${br}, ${bg}, ${bb})`;
+            ctx.fillRect(
+              gapLeft - 2,
+              bandTop - padV,
+              gapRight - gapLeft + 4,
+              bandH + padV * 2
+            );
+          }
+        }
+      }
+
+      // Third pass: full-width sweep for all rows to catch stray dots, decorative lines, vertical bars
+      // Use a CONSISTENT content-area width to avoid staircase artifacts
+      const allMinX = Math.min(...sortedLines.map((l) => l.x));
+      const allMaxXW = Math.max(...sortedLines.map((l) => l.x + l.width));
+      const contentLeft = (allMinX / 100) * w;
+      const contentRight = (allMaxXW / 100) * w;
+
+      // Sample base page background from far margins (avoiding highlighted zones)
+      const marginBgSamples: [number, number, number][] = [];
+      for (const fy of [0.2, 0.4, 0.6, 0.8]) {
+        marginBgSamples.push(getPixel(w * 0.02, h * fy));
+        marginBgSamples.push(getPixel(w * 0.98, h * fy));
+      }
+      const baseBgR = median(marginBgSamples.map((s) => s[0]));
+      const baseBgG = median(marginBgSamples.map((s) => s[1]));
+      const baseBgB = median(marginBgSamples.map((s) => s[2]));
+
+      // Erase full content width at each row position AND gaps between rows
+      for (let ri = 0; ri < rowGroups.length; ri++) {
+        const row = rowGroups[ri];
+        const rowMinY = Math.min(...row.map((l) => l.y));
+        const rowMaxYH = Math.max(...row.map((l) => l.y + l.height));
+        const rowTop = (rowMinY / 100) * h;
+        const rowBottom = (rowMaxYH / 100) * h;
+        const rowH = rowBottom - rowTop;
+        const padV = rowH * 0.2;
+
+        // Use local bg sample at this Y level (blend of margin bg and local sample)
+        const localSamples: [number, number, number][] = [];
+        localSamples.push(getPixel(contentLeft - 5, rowTop + rowH / 2));
+        localSamples.push(getPixel(contentRight + 5, rowTop + rowH / 2));
+        const lr = median([baseBgR, ...localSamples.map((s) => s[0])]);
+        const lg = median([baseBgG, ...localSamples.map((s) => s[1])]);
+        const lb = median([baseBgB, ...localSamples.map((s) => s[2])]);
+
+        ctx.fillStyle = `rgb(${lr}, ${lg}, ${lb})`;
+        ctx.fillRect(
+          contentLeft - 2,
+          rowTop - padV,
+          contentRight - contentLeft + 4,
+          rowH + padV * 2
+        );
+
+        // Also erase the gap between this row and the next
+        if (ri < rowGroups.length - 1) {
+          const nextRow = rowGroups[ri + 1];
+          const nextTop = Math.min(...nextRow.map((l) => l.y));
+          const gapPct = nextTop - rowMaxYH;
+          if (gapPct > 0 && gapPct < medH * 4) {
+            const gapTopPx = (rowMaxYH / 100) * h;
+            const gapBottomPx = (nextTop / 100) * h;
+            ctx.fillRect(
+              contentLeft - 2,
+              gapTopPx - 1,
+              contentRight - contentLeft + 4,
+              gapBottomPx - gapTopPx + 2
+            );
+          }
+        }
+      }
     }
 
     // Determine text color per zone from the background luminance
@@ -425,7 +574,6 @@ function eraseHebrewAndSampleColors(
         for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
           const sx = Math.max(0, Math.min(w - 1, Math.floor(zx + fx * zw)));
           const sy = Math.max(0, Math.min(h - 1, Math.floor(zy + fy * zh)));
-          const idx = (sy * w + sx) * 4;
           // Read from the current canvas state (after erasure)
           const cd = ctx.getImageData(sx, sy, 1, 1).data;
           zSamples.push([cd[0], cd[1], cd[2]]);
@@ -436,7 +584,7 @@ function eraseHebrewAndSampleColors(
         const mg = median(zSamples.map((s) => s[1]));
         const mb = median(zSamples.map((s) => s[2]));
         const luminance = 0.299 * mr + 0.587 * mg + 0.114 * mb;
-        textColors.set(zi, luminance < 185 ? '#ffffff' : '#1a1510');
+        textColors.set(zi, luminance < 160 ? '#ffffff' : '#1a1510');
       }
     }
 

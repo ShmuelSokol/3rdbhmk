@@ -296,47 +296,108 @@ function assignTextToZones(
     flushPara();
   }
 
-  // Assign paragraphs to zones SEQUENTIALLY (in order)
-  // Each zone gets the next paragraph(s) that correspond to it
-  let pi = 0;
+  // Content-aware paragraph-to-zone assignment
+  // 1. Identify special paragraphs: page number, headers
+  // 2. Match them to the right zones
+  // 3. Assign remaining body paragraphs in order
+
+  // Find the page number paragraph (short, bold, just digits)
+  const pageNumIdx = allParagraphs.findIndex((p) => {
+    const text = p.spans.map((s) => s.text).join(' ').trim();
+    return p.isAllBold && text.length <= 5 && /^\d+$/.test(text);
+  });
+
+  // Separate header/title paragraphs (bold) from body paragraphs
+  const headerParas: number[] = []; // indices into allParagraphs
+  const bodyParas: number[] = [];
+  for (let i = 0; i < allParagraphs.length; i++) {
+    if (i === pageNumIdx) continue; // handled separately
+    if (allParagraphs[i].isAllBold) {
+      headerParas.push(i);
+    } else {
+      bodyParas.push(i);
+    }
+  }
+
+  // Classify zones
+  const headerZones: number[] = []; // zone indices
+  const pageNumZones: number[] = [];
+  const titleZones: number[] = []; // large text, centered
+  const bodyZones: number[] = [];
+
   for (let zi = 0; zi < zones.length; zi++) {
-    const zone = zones[zi];
-    const isLast = zi === zones.length - 1;
-    const paragraphs: ZoneParagraph[] = [];
+    const z = zones[zi];
+    const isPageNum = z.y < 5 && z.lines.every((l) => l.text.trim().length <= 3 && l.width < 6);
+    const isHeader = z.y < 5 && !isPageNum;
+    const isTitle = z.avgLineHeight > 3 && z.isCentered;
+    if (isPageNum) pageNumZones.push(zi);
+    else if (isHeader) headerZones.push(zi);
+    else if (isTitle) titleZones.push(zi);
+    else bodyZones.push(zi);
+  }
 
-    if (pi < allParagraphs.length) {
-      if (isLast) {
-        // Last zone gets ALL remaining paragraphs
-        while (pi < allParagraphs.length) {
-          paragraphs.push({ spans: allParagraphs[pi].spans });
-          pi++;
-        }
-      } else {
-        // Assign at least one paragraph to this zone
-        paragraphs.push({ spans: allParagraphs[pi].spans });
-        pi++;
+  // Build assignment map: zone index → paragraph indices
+  const zoneParas: Map<number, number[]> = new Map();
+  zones.forEach((_, i) => zoneParas.set(i, []));
 
-        // If this is a large body zone (many Hebrew lines), keep assigning
-        // paragraphs until we've used roughly the right share
-        const hebrewChars = zone.lines.reduce((s, l) => s + l.text.length, 0);
-        const totalHebrew = zones.reduce(
-          (s, z) => s + z.lines.reduce((s2, l) => s2 + l.text.length, 0), 0
-        );
-        const zonesLeft = zones.length - zi - 1;
-        const parasLeft = allParagraphs.length - pi;
+  // Assign page number paragraph to page number zone
+  if (pageNumIdx >= 0 && pageNumZones.length > 0) {
+    zoneParas.get(pageNumZones[0])!.push(pageNumIdx);
+  }
 
-        // Keep assigning if this zone has proportionally more Hebrew text
-        // than the average remaining zone
-        if (parasLeft > zonesLeft && hebrewChars > 0) {
-          const avgHebrewPerZone = totalHebrew / zones.length;
-          const extraParas = Math.floor(hebrewChars / avgHebrewPerZone) - 1;
-          for (let ep = 0; ep < extraParas && pi < allParagraphs.length && (allParagraphs.length - pi) > zonesLeft; ep++) {
-            paragraphs.push({ spans: allParagraphs[pi].spans });
-            pi++;
-          }
-        }
+  // Assign bold/header paragraphs to header and title zones
+  let hi = 0;
+  for (const zi of headerZones) {
+    if (hi < headerParas.length) {
+      zoneParas.get(zi)!.push(headerParas[hi]);
+      hi++;
+    }
+  }
+  for (const zi of titleZones) {
+    // Assign remaining bold paragraphs to title zones
+    while (hi < headerParas.length) {
+      zoneParas.get(zi)!.push(headerParas[hi]);
+      hi++;
+    }
+  }
+
+  // Assign body paragraphs to body zones in order
+  let bi = 0;
+  // Any leftover bold paragraphs go to first body zone
+  while (hi < headerParas.length && bodyZones.length > 0) {
+    zoneParas.get(bodyZones[0])!.push(headerParas[hi]);
+    hi++;
+  }
+  for (let bzi = 0; bzi < bodyZones.length; bzi++) {
+    const zi = bodyZones[bzi];
+    const isLastBody = bzi === bodyZones.length - 1;
+    if (isLastBody) {
+      // Last body zone gets all remaining
+      while (bi < bodyParas.length) {
+        zoneParas.get(zi)!.push(bodyParas[bi]);
+        bi++;
+      }
+    } else if (bi < bodyParas.length) {
+      // Assign based on Hebrew content proportion
+      const hebrewChars = zones[zi].lines.reduce((s, l) => s + l.text.length, 0);
+      const totalBodyHebrew = bodyZones.reduce(
+        (s, bz) => s + zones[bz].lines.reduce((s2, l) => s2 + l.text.length, 0), 0
+      );
+      const share = totalBodyHebrew > 0 ? hebrewChars / totalBodyHebrew : 1 / bodyZones.length;
+      const targetParas = Math.max(1, Math.round(share * bodyParas.length));
+      for (let p = 0; p < targetParas && bi < bodyParas.length && (bodyParas.length - bi) > (bodyZones.length - bzi - 1); p++) {
+        zoneParas.get(zi)!.push(bodyParas[bi]);
+        bi++;
       }
     }
+  }
+
+  for (let zi = 0; zi < zones.length; zi++) {
+    const zone = zones[zi];
+    const assignedIndices = zoneParas.get(zi) || [];
+    const paragraphs: ZoneParagraph[] = assignedIndices.map((idx) => ({
+      spans: allParagraphs[idx].spans,
+    }));
 
     // Compute total char count for this zone's assigned paragraphs
     const charCount = paragraphs.reduce(
@@ -424,11 +485,11 @@ function eraseHebrewAndSampleColors(
       }
       lumas.sort((a, b) => b - a);
 
-      // Background = brightest 30% of pixels (the gaps between letters)
-      const bgCount = Math.max(5, Math.floor(lumas.length * 0.3));
+      // Background = brightest 25% of pixels (the gaps between letters)
+      const bgCount = Math.max(5, Math.floor(lumas.length * 0.25));
       const bgLuma = lumas[Math.floor(bgCount / 2)]; // median of bright pixels
-      // Threshold: anything darker than 85% of background brightness is text
-      const threshold = bgLuma * 0.82;
+      // Threshold: anything darker than 92% of background brightness is text
+      const threshold = bgLuma * 0.92;
 
       // Compute the actual background color from the brightest pixels
       const bgR: number[] = [], bgG: number[] = [], bgB: number[] = [];
@@ -463,30 +524,19 @@ function eraseHebrewAndSampleColors(
       }
     };
 
-    // Erase each OCR line
+    // Erase each OCR line (skip header area y<5% — it has light-on-dark text)
     for (const line of ocrLines) {
       if (line.width < 1 || line.height < 0.3) continue;
+      if (line.y < 5) continue; // Don't erase header bar — inverted colors
 
       const lx = (line.x / 100) * w;
       const ly = (line.y / 100) * h;
       const lw = (line.width / 100) * w;
       const lh = (line.height / 100) * h;
 
-      const isPageNum =
-        line.y < 4 &&
-        line.width < 5 &&
-        line.text.trim().length <= 3 &&
-        Math.abs(line.x + line.width / 2 - 50) < 5;
-
-      if (isPageNum) {
-        // Wider erasure for page number with decorative circle
-        const r = Math.max(lw, lh) * 1.8;
-        eraseRect(lx + lw / 2 - r, ly + lh / 2 - r, r * 2, r * 2);
-      } else {
-        const padV = lh * 0.35;
-        const padH = lw * 0.06;
-        eraseRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2);
-      }
+      const padV = lh * 0.4;
+      const padH = lw * 0.08;
+      eraseRect(lx - padH - 6, ly - padV, lw + padH * 2 + 12, lh + padV * 2);
     }
 
     // Second pass: erase gaps between segments on same row (dotted leaders)

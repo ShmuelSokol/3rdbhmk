@@ -96,8 +96,9 @@ export async function GET(
       color: rgb(0.3, 0.3, 0.3),
     })
 
-    const bookNameWidth = timesRoman.widthOfTextAtSize(book.name, SUBTITLE_FONT_SIZE)
-    titlePage.drawText(book.name, {
+    const safePdfName = sanitizeForPdf(book.name)
+    const bookNameWidth = timesRoman.widthOfTextAtSize(safePdfName, SUBTITLE_FONT_SIZE)
+    titlePage.drawText(safePdfName, {
       x: (PAGE_WIDTH - bookNameWidth) / 2,
       y: PAGE_HEIGHT - 270,
       size: SUBTITLE_FONT_SIZE,
@@ -115,10 +116,24 @@ export async function GET(
       color: rgb(0.5, 0.5, 0.5),
     })
 
+    // Hebrew letter to Latin footnote marker map
+    const hebrewToLatin: Record<string, string> = {
+      'א': 'A', 'ב': 'B', 'ג': 'C', 'ד': 'D', 'ה': 'E', 'ו': 'F',
+      'ז': 'G', 'ח': 'H', 'ט': 'I', 'י': 'J', 'כ': 'K', 'ל': 'L',
+      'מ': 'M', 'נ': 'N', 'ס': 'O', 'ע': 'P', 'פ': 'Q', 'צ': 'R',
+      'ק': 'S', 'ר': 'T', 'ש': 'U', 'ת': 'V',
+    }
+
+    function sanitizeForPdf(text: string): string {
+      // Replace Hebrew chars with Latin equivalents or remove them
+      return text.replace(/[\u0590-\u05FF]/g, (ch) => hebrewToLatin[ch] || '')
+                 .replace(/[^\x00-\x7F]/g, '') // Remove any remaining non-ASCII
+    }
+
     // --- Content Pages ---
     for (const page of translatedPages) {
       const translation = page.translation!
-      const englishText = translation.englishOutput
+      const englishText = sanitizeForPdf(translation.englishOutput)
 
       // Split text into paragraphs on newlines, then wrap each paragraph
       const paragraphs = englishText.split(/\n/)

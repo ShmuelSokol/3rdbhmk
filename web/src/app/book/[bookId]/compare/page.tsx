@@ -370,8 +370,12 @@ function eraseHebrewAndSampleColors(
       return s[Math.floor(s.length / 2)];
     };
 
-    // For each OCR line, sample the background color from edges/margins
-    // then paint over the Hebrew text with that color
+    // For each OCR line, sample the TRUE LOCAL background color
+    // by reading pixels WITHIN the bounding box (gaps between Hebrew letters)
+    // and using the brightest ones (= background, not text)
+    const luma = (p: [number, number, number]) =>
+      0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2];
+
     for (const line of ocrLines) {
       if (line.width < 1 || line.height < 0.3) continue;
 
@@ -380,26 +384,38 @@ function eraseHebrewAndSampleColors(
       const lw = (line.width / 100) * w;
       const lh = (line.height / 100) * h;
 
-      // Detect if this is a page number (narrow, centered, near top)
+      // Detect if this is a page number (narrow, centered, y < 4%)
       const isPageNum =
+        line.y < 4 &&
         line.width < 5 &&
         line.text.trim().length <= 3 &&
         Math.abs(line.x + line.width / 2 - 50) < 5;
 
-      // Sample background from ABOVE and BELOW the text line
+      // Sample a dense grid WITHIN the bounding box
+      // The spaces between Hebrew letters are the true local background
       const samples: [number, number, number][] = [];
-      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 3)));
+      for (const fx of [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]) {
+        for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
+          samples.push(getPixel(lx + fx * lw, ly + fy * lh));
+        }
       }
-      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        samples.push(getPixel(lx + fx * lw, ly + lh + 3));
+      // Also sample just above and below (1-2px outside)
+      for (const fx of [0.2, 0.5, 0.8]) {
+        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 2)));
+        samples.push(getPixel(lx + fx * lw, Math.min(h - 1, ly + lh + 2)));
       }
-      samples.push(getPixel(Math.max(0, lx - 5), ly + lh * 0.5));
-      samples.push(getPixel(lx + lw + 5, ly + lh * 0.5));
 
-      const r = median(samples.map((s) => s[0]));
-      const g = median(samples.map((s) => s[1]));
-      const b = median(samples.map((s) => s[2]));
+      // Use the brightest 25% of samples (= background between letters)
+      const sortedByBrightness = [...samples].sort(
+        (a, b) => luma(b) - luma(a)
+      );
+      const topQuartile = sortedByBrightness.slice(
+        0,
+        Math.max(5, Math.ceil(samples.length * 0.25))
+      );
+      const r = median(topQuartile.map((s) => s[0]));
+      const g = median(topQuartile.map((s) => s[1]));
+      const b = median(topQuartile.map((s) => s[2]));
 
       ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
 
@@ -424,14 +440,14 @@ function eraseHebrewAndSampleColors(
       }
     }
 
-    // Second pass: erase dotted leaders on table/TOC pages
-    // Group OCR lines into rows (lines at similar Y) and erase full horizontal span
+    // Second pass: erase dotted leaders on TABLE pages only
+    // Detect actual tables by checking for multi-segment rows (not just line count)
     const sortedLines = [...ocrLines]
       .filter((l) => l.width > 1 && l.height > 0.3)
       .sort((a, b) => a.y - b.y);
 
-    if (sortedLines.length > 15) {
-      // Group lines into rows by Y-proximity (within 1.5x median line height)
+    if (sortedLines.length > 5) {
+      // Group lines into rows by Y-proximity
       const rowGroups: OcrLine[][] = [[sortedLines[0]]];
       const medH = sortedLines.map((l) => l.height).sort((a, b) => a - b)[
         Math.floor(sortedLines.length / 2)
@@ -449,11 +465,13 @@ function eraseHebrewAndSampleColors(
         }
       }
 
-      // For rows with multiple segments, erase only the GAPS between them (dotted leaders)
-      // This avoids creating staircase artifacts on hierarchical/indented layouts
+      // Count how many rows have multiple segments (table indicator)
+      const multiSegRows = rowGroups.filter((r) => r.length >= 2).length;
+      const isTablePage = multiSegRows >= 5;
+
+      // For rows with multiple segments, erase gaps between them (dotted leaders)
       for (const row of rowGroups) {
         if (row.length < 2) continue;
-        // Sort segments left-to-right within the row
         const sorted = [...row].sort((a, b) => a.x - b.x);
         const minY = Math.min(...row.map((l) => l.y));
         const maxYH = Math.max(...row.map((l) => l.y + l.height));
@@ -462,7 +480,6 @@ function eraseHebrewAndSampleColors(
         const bandH = bandBottom - bandTop;
         const padV = bandH * 0.15;
 
-        // Erase each horizontal gap between consecutive segments
         for (let si = 0; si < sorted.length - 1; si++) {
           const leftSeg = sorted[si];
           const rightSeg = sorted[si + 1];
@@ -470,12 +487,9 @@ function eraseHebrewAndSampleColors(
           const gapRightPct = rightSeg.x;
           const gapWidthPct = gapRightPct - gapLeftPct;
 
-          // Only erase if there's a meaningful gap (>3% of page width = likely has dots)
           if (gapWidthPct > 3) {
             const gapLeft = (gapLeftPct / 100) * w;
             const gapRight = (gapRightPct / 100) * w;
-
-            // Sample bg from above and below the gap
             const midX = (gapLeft + gapRight) / 2;
             const bgSamples: [number, number, number][] = [];
             bgSamples.push(getPixel(midX, Math.max(0, bandTop - 5)));
@@ -497,63 +511,60 @@ function eraseHebrewAndSampleColors(
         }
       }
 
-      // Third pass: full-width sweep for all rows to catch stray dots, decorative lines, vertical bars
-      // Use a CONSISTENT content-area width to avoid staircase artifacts
-      const allMinX = Math.min(...sortedLines.map((l) => l.x));
-      const allMaxXW = Math.max(...sortedLines.map((l) => l.x + l.width));
-      const contentLeft = (allMinX / 100) * w;
-      const contentRight = (allMaxXW / 100) * w;
+      // Full-width sweep ONLY on actual table pages (many multi-segment rows)
+      if (isTablePage) {
+        const allMinX = Math.min(...sortedLines.map((l) => l.x));
+        const allMaxXW = Math.max(...sortedLines.map((l) => l.x + l.width));
+        const contentLeft = (allMinX / 100) * w;
+        const contentRight = (allMaxXW / 100) * w;
 
-      // Sample base page background from far margins (avoiding highlighted zones)
-      const marginBgSamples: [number, number, number][] = [];
-      for (const fy of [0.2, 0.4, 0.6, 0.8]) {
-        marginBgSamples.push(getPixel(w * 0.02, h * fy));
-        marginBgSamples.push(getPixel(w * 0.98, h * fy));
-      }
-      const baseBgR = median(marginBgSamples.map((s) => s[0]));
-      const baseBgG = median(marginBgSamples.map((s) => s[1]));
-      const baseBgB = median(marginBgSamples.map((s) => s[2]));
+        for (let ri = 0; ri < rowGroups.length; ri++) {
+          const row = rowGroups[ri];
+          // Only sweep rows that are in the table portion (multi-segment rows nearby)
+          if (row.length < 2 && !rowGroups.some((r, i) =>
+            r.length >= 2 && Math.abs(i - ri) <= 2
+          )) continue;
 
-      // Erase full content width at each row position AND gaps between rows
-      for (let ri = 0; ri < rowGroups.length; ri++) {
-        const row = rowGroups[ri];
-        const rowMinY = Math.min(...row.map((l) => l.y));
-        const rowMaxYH = Math.max(...row.map((l) => l.y + l.height));
-        const rowTop = (rowMinY / 100) * h;
-        const rowBottom = (rowMaxYH / 100) * h;
-        const rowH = rowBottom - rowTop;
-        const padV = rowH * 0.2;
+          const rowMinY = Math.min(...row.map((l) => l.y));
+          const rowMaxYH = Math.max(...row.map((l) => l.y + l.height));
+          const rowTop = (rowMinY / 100) * h;
+          const rowBottom = (rowMaxYH / 100) * h;
+          const rowH = rowBottom - rowTop;
+          const padV = rowH * 0.2;
 
-        // Use local bg sample at this Y level (blend of margin bg and local sample)
-        const localSamples: [number, number, number][] = [];
-        localSamples.push(getPixel(contentLeft - 5, rowTop + rowH / 2));
-        localSamples.push(getPixel(contentRight + 5, rowTop + rowH / 2));
-        const lr = median([baseBgR, ...localSamples.map((s) => s[0])]);
-        const lg = median([baseBgG, ...localSamples.map((s) => s[1])]);
-        const lb = median([baseBgB, ...localSamples.map((s) => s[2])]);
+          // Sample bg locally (not from margins)
+          const localSamples: [number, number, number][] = [];
+          localSamples.push(getPixel(Math.max(0, contentLeft - 10), rowTop + rowH / 2));
+          localSamples.push(getPixel(Math.min(w - 1, contentRight + 10), rowTop + rowH / 2));
+          localSamples.push(getPixel((contentLeft + contentRight) / 2, Math.max(0, rowTop - 5)));
+          localSamples.push(getPixel((contentLeft + contentRight) / 2, Math.min(h - 1, rowBottom + 5)));
+          const lr = median(localSamples.map((s) => s[0]));
+          const lg = median(localSamples.map((s) => s[1]));
+          const lb = median(localSamples.map((s) => s[2]));
 
-        ctx.fillStyle = `rgb(${lr}, ${lg}, ${lb})`;
-        ctx.fillRect(
-          contentLeft - 2,
-          rowTop - padV,
-          contentRight - contentLeft + 4,
-          rowH + padV * 2
-        );
+          ctx.fillStyle = `rgb(${lr}, ${lg}, ${lb})`;
+          ctx.fillRect(
+            contentLeft - 2,
+            rowTop - padV,
+            contentRight - contentLeft + 4,
+            rowH + padV * 2
+          );
 
-        // Also erase the gap between this row and the next
-        if (ri < rowGroups.length - 1) {
-          const nextRow = rowGroups[ri + 1];
-          const nextTop = Math.min(...nextRow.map((l) => l.y));
-          const gapPct = nextTop - rowMaxYH;
-          if (gapPct > 0 && gapPct < medH * 4) {
-            const gapTopPx = (rowMaxYH / 100) * h;
-            const gapBottomPx = (nextTop / 100) * h;
-            ctx.fillRect(
-              contentLeft - 2,
-              gapTopPx - 1,
-              contentRight - contentLeft + 4,
-              gapBottomPx - gapTopPx + 2
-            );
+          // Erase gap to next row
+          if (ri < rowGroups.length - 1) {
+            const nextRow = rowGroups[ri + 1];
+            const nextTop = Math.min(...nextRow.map((l) => l.y));
+            const gapPct = nextTop - rowMaxYH;
+            if (gapPct > 0 && gapPct < medH * 4) {
+              const gapTopPx = (rowMaxYH / 100) * h;
+              const gapBottomPx = (nextTop / 100) * h;
+              ctx.fillRect(
+                contentLeft - 2,
+                gapTopPx - 1,
+                contentRight - contentLeft + 4,
+                gapBottomPx - gapTopPx + 2
+              );
+            }
           }
         }
       }

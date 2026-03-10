@@ -337,7 +337,7 @@ function assignTextToZones(
   return result;
 }
 
-// --- CANVAS: ERASE HEBREW TEXT & SAMPLE COLORS ---
+// --- CANVAS: ERASE HEBREW TEXT VIA BLUR (preserves original page colors) ---
 
 function eraseHebrewAndSampleColors(
   img: HTMLImageElement,
@@ -355,27 +355,48 @@ function eraseHebrewAndSampleColors(
     if (!ctx) return null;
 
     ctx.drawImage(img, 0, 0);
-    const fullData = ctx.getImageData(0, 0, w, h);
-    const pixels = fullData.data;
 
-    const getPixel = (px: number, py: number): [number, number, number] => {
-      const x = Math.max(0, Math.min(w - 1, Math.floor(px)));
-      const y = Math.max(0, Math.min(h - 1, Math.floor(py)));
-      const idx = (y * w + x) * 4;
-      return [pixels[idx], pixels[idx + 1], pixels[idx + 2]];
+    // Helper: blur a rectangular region to dissolve text into background
+    // Uses iterative clipped blur — never introduces foreign colors
+    const blurRect = (
+      ex: number, ey: number, ew: number, eh: number, iterations: number
+    ) => {
+      const x0 = Math.max(0, Math.floor(ex));
+      const y0 = Math.max(0, Math.floor(ey));
+      const x1 = Math.min(w, Math.ceil(ex + ew));
+      const y1 = Math.min(h, Math.ceil(ey + eh));
+      if (x1 <= x0 || y1 <= y0) return;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x0, y0, x1 - x0, y1 - y0);
+      ctx.clip();
+      ctx.filter = 'blur(10px)';
+      for (let i = 0; i < iterations; i++) {
+        ctx.drawImage(canvas, x0, y0, x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0);
+      }
+      ctx.restore();
     };
 
-    const median = (arr: number[]) => {
-      const s = [...arr].sort((a, b) => a - b);
-      return s[Math.floor(s.length / 2)];
+    // Helper: blur a circular region
+    const blurCircle = (
+      cx: number, cy: number, radius: number, iterations: number
+    ) => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.filter = 'blur(10px)';
+      const x0 = Math.max(0, Math.floor(cx - radius));
+      const y0 = Math.max(0, Math.floor(cy - radius));
+      const sz = Math.ceil(radius * 2);
+      for (let i = 0; i < iterations; i++) {
+        ctx.drawImage(canvas, x0, y0, sz, sz, x0, y0, sz, sz);
+      }
+      ctx.restore();
     };
 
-    // For each OCR line, sample the TRUE LOCAL background color
-    // by reading pixels WITHIN the bounding box (gaps between Hebrew letters)
-    // and using the brightest ones (= background, not text)
-    const luma = (p: [number, number, number]) =>
-      0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2];
-
+    // Erase each OCR line by blurring it away
     for (const line of ocrLines) {
       if (line.width < 1 || line.height < 0.3) continue;
 
@@ -384,193 +405,68 @@ function eraseHebrewAndSampleColors(
       const lw = (line.width / 100) * w;
       const lh = (line.height / 100) * h;
 
-      // Detect if this is a page number (narrow, centered, y < 4%)
+      // Page number detection (narrow, centered, near top)
       const isPageNum =
         line.y < 4 &&
         line.width < 5 &&
         line.text.trim().length <= 3 &&
         Math.abs(line.x + line.width / 2 - 50) < 5;
 
-      // Sample a dense grid WITHIN the bounding box
-      // The spaces between Hebrew letters are the true local background
-      const samples: [number, number, number][] = [];
-      for (const fx of [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]) {
-        for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-          samples.push(getPixel(lx + fx * lw, ly + fy * lh));
-        }
-      }
-      // Also sample just above and below (1-2px outside)
-      for (const fx of [0.2, 0.5, 0.8]) {
-        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 2)));
-        samples.push(getPixel(lx + fx * lw, Math.min(h - 1, ly + lh + 2)));
-      }
-
-      // Use the brightest 25% of samples (= background between letters)
-      const sortedByBrightness = [...samples].sort(
-        (a, b) => luma(b) - luma(a)
-      );
-      const topQuartile = sortedByBrightness.slice(
-        0,
-        Math.max(5, Math.ceil(samples.length * 0.25))
-      );
-      const r = median(topQuartile.map((s) => s[0]));
-      const g = median(topQuartile.map((s) => s[1]));
-      const b = median(topQuartile.map((s) => s[2]));
-
-      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-
       if (isPageNum) {
-        // Erase a wider area to cover decorative circle around page number
         const circleR = Math.max(lw, lh) * 1.5;
-        const cx = lx + lw / 2;
-        const cy = ly + lh / 2;
-        ctx.beginPath();
-        ctx.arc(cx, cy, circleR, 0, Math.PI * 2);
-        ctx.fill();
+        blurCircle(lx + lw / 2, ly + lh / 2, circleR, 6);
       } else {
-        // Standard text erasure with generous padding
-        const padV = lh * 0.25;
+        const padV = lh * 0.3;
         const padH = lw * 0.05;
-        ctx.fillRect(
-          Math.max(0, lx - padH - 4),
-          Math.max(0, ly - padV),
-          lw + padH * 2 + 8,
-          lh + padV * 2
-        );
+        blurRect(lx - padH - 4, ly - padV, lw + padH * 2 + 8, lh + padV * 2, 5);
       }
     }
 
-    // Second pass: erase dotted leaders on TABLE pages only
-    // Detect actual tables by checking for multi-segment rows (not just line count)
+    // Second pass: blur gaps between segments on same row (dotted leaders)
     const sortedLines = [...ocrLines]
       .filter((l) => l.width > 1 && l.height > 0.3)
       .sort((a, b) => a.y - b.y);
 
     if (sortedLines.length > 5) {
-      // Group lines into rows by Y-proximity
-      const rowGroups: OcrLine[][] = [[sortedLines[0]]];
       const medH = sortedLines.map((l) => l.height).sort((a, b) => a - b)[
         Math.floor(sortedLines.length / 2)
       ];
+      const rowGroups: OcrLine[][] = [[sortedLines[0]]];
       for (let i = 1; i < sortedLines.length; i++) {
         const prev = sortedLines[i - 1];
         const curr = sortedLines[i];
-        const vertOverlap =
-          curr.y < prev.y + prev.height ||
-          Math.abs(curr.y - prev.y) < medH * 1.5;
-        if (vertOverlap) {
+        if (curr.y < prev.y + prev.height || Math.abs(curr.y - prev.y) < medH * 1.5) {
           rowGroups[rowGroups.length - 1].push(curr);
         } else {
           rowGroups.push([curr]);
         }
       }
 
-      // Count how many rows have multiple segments (table indicator)
-      const multiSegRows = rowGroups.filter((r) => r.length >= 2).length;
-      const isTablePage = multiSegRows >= 5;
-
-      // For rows with multiple segments, erase gaps between them (dotted leaders)
       for (const row of rowGroups) {
         if (row.length < 2) continue;
         const sorted = [...row].sort((a, b) => a.x - b.x);
         const minY = Math.min(...row.map((l) => l.y));
         const maxYH = Math.max(...row.map((l) => l.y + l.height));
         const bandTop = (minY / 100) * h;
-        const bandBottom = (maxYH / 100) * h;
-        const bandH = bandBottom - bandTop;
-        const padV = bandH * 0.15;
+        const bandH = ((maxYH - minY) / 100) * h;
 
         for (let si = 0; si < sorted.length - 1; si++) {
-          const leftSeg = sorted[si];
-          const rightSeg = sorted[si + 1];
-          const gapLeftPct = leftSeg.x + leftSeg.width;
-          const gapRightPct = rightSeg.x;
-          const gapWidthPct = gapRightPct - gapLeftPct;
-
-          if (gapWidthPct > 3) {
+          const gapLeftPct = sorted[si].x + sorted[si].width;
+          const gapRightPct = sorted[si + 1].x;
+          if (gapRightPct - gapLeftPct > 3) {
             const gapLeft = (gapLeftPct / 100) * w;
             const gapRight = (gapRightPct / 100) * w;
-            const midX = (gapLeft + gapRight) / 2;
-            const bgSamples: [number, number, number][] = [];
-            bgSamples.push(getPixel(midX, Math.max(0, bandTop - 5)));
-            bgSamples.push(getPixel(midX, Math.min(h - 1, bandBottom + 5)));
-            bgSamples.push(getPixel(gapLeft, bandTop + bandH * 0.5));
-            bgSamples.push(getPixel(gapRight, bandTop + bandH * 0.5));
-            const br = median(bgSamples.map((s) => s[0]));
-            const bg = median(bgSamples.map((s) => s[1]));
-            const bb = median(bgSamples.map((s) => s[2]));
-
-            ctx.fillStyle = `rgb(${br}, ${bg}, ${bb})`;
-            ctx.fillRect(
-              gapLeft - 2,
-              bandTop - padV,
-              gapRight - gapLeft + 4,
-              bandH + padV * 2
-            );
-          }
-        }
-      }
-
-      // Full-width sweep ONLY on actual table pages (many multi-segment rows)
-      if (isTablePage) {
-        const allMinX = Math.min(...sortedLines.map((l) => l.x));
-        const allMaxXW = Math.max(...sortedLines.map((l) => l.x + l.width));
-        const contentLeft = (allMinX / 100) * w;
-        const contentRight = (allMaxXW / 100) * w;
-
-        for (let ri = 0; ri < rowGroups.length; ri++) {
-          const row = rowGroups[ri];
-          // Only sweep rows that are in the table portion (multi-segment rows nearby)
-          if (row.length < 2 && !rowGroups.some((r, i) =>
-            r.length >= 2 && Math.abs(i - ri) <= 2
-          )) continue;
-
-          const rowMinY = Math.min(...row.map((l) => l.y));
-          const rowMaxYH = Math.max(...row.map((l) => l.y + l.height));
-          const rowTop = (rowMinY / 100) * h;
-          const rowBottom = (rowMaxYH / 100) * h;
-          const rowH = rowBottom - rowTop;
-          const padV = rowH * 0.2;
-
-          // Sample bg locally (not from margins)
-          const localSamples: [number, number, number][] = [];
-          localSamples.push(getPixel(Math.max(0, contentLeft - 10), rowTop + rowH / 2));
-          localSamples.push(getPixel(Math.min(w - 1, contentRight + 10), rowTop + rowH / 2));
-          localSamples.push(getPixel((contentLeft + contentRight) / 2, Math.max(0, rowTop - 5)));
-          localSamples.push(getPixel((contentLeft + contentRight) / 2, Math.min(h - 1, rowBottom + 5)));
-          const lr = median(localSamples.map((s) => s[0]));
-          const lg = median(localSamples.map((s) => s[1]));
-          const lb = median(localSamples.map((s) => s[2]));
-
-          ctx.fillStyle = `rgb(${lr}, ${lg}, ${lb})`;
-          ctx.fillRect(
-            contentLeft - 2,
-            rowTop - padV,
-            contentRight - contentLeft + 4,
-            rowH + padV * 2
-          );
-
-          // Erase gap to next row
-          if (ri < rowGroups.length - 1) {
-            const nextRow = rowGroups[ri + 1];
-            const nextTop = Math.min(...nextRow.map((l) => l.y));
-            const gapPct = nextTop - rowMaxYH;
-            if (gapPct > 0 && gapPct < medH * 4) {
-              const gapTopPx = (rowMaxYH / 100) * h;
-              const gapBottomPx = (nextTop / 100) * h;
-              ctx.fillRect(
-                contentLeft - 2,
-                gapTopPx - 1,
-                contentRight - contentLeft + 4,
-                gapBottomPx - gapTopPx + 2
-              );
-            }
+            blurRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3, 5);
           }
         }
       }
     }
 
     // Determine text color per zone from the background luminance
+    const median = (arr: number[]) => {
+      const s = [...arr].sort((a, b) => a - b);
+      return s[Math.floor(s.length / 2)];
+    };
     const textColors = new Map<number, string>();
     for (let zi = 0; zi < zones.length; zi++) {
       const zone = zones[zi];

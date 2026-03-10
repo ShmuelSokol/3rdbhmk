@@ -76,14 +76,12 @@ interface TextZone {
   height: number;
   isCentered: boolean;
   isHeader: boolean;
-  avgLineHeight: number; // average Hebrew line height as % of page
+  avgLineHeight: number;
 }
 
 function groupIntoZones(lines: OcrLine[]): TextZone[] {
   const textLines = lines
     .filter((l) => l.width > 1 && l.height > 0.3)
-    // Filter decorative header elements (single char, very narrow, not page numbers)
-    .filter((l) => !(l.y < 5 && l.width < 1.5 && l.text.trim().length <= 1))
     .sort((a, b) => a.y - b.y);
 
   if (textLines.length === 0) return [];
@@ -130,11 +128,9 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
       const currMinY = Math.min(...groups[i].map((l) => l.y));
       const gap = currMinY - prevMaxY;
-      // Check if an image region separates them
       const crossesImage = imageRegions.some(
         (r) => r.top < currMinY && r.bottom > prevMaxY
       );
-      // Merge if gap is small and no image between them
       if (gap < 5 && !crossesImage) {
         mergedGroups[mergedGroups.length - 1] = [
           ...prevGroup,
@@ -146,7 +142,7 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
     }
   }
 
-  // Merge tiny zones (very few chars) into nearest neighbor
+  // Merge tiny zones (<10 chars) into nearest neighbor
   const finalGroups: OcrLine[][] = [];
   for (const group of mergedGroups) {
     const totalChars = group.reduce((s, l) => s + l.text.length, 0);
@@ -174,22 +170,17 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
     const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
     const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
-    // Only extend wide header text at top to full width, not narrow page numbers
     const isAtTop = minY < 4 && avgW > 20;
 
     const zoneX = isAtTop ? 2.5 : minX;
     const zoneW = isAtTop ? 95 : maxX - minX;
 
-    // Header zones: extend height to cover the full orange bar (~3.5%)
     let zoneH = maxY - minY;
-    if (isAtTop && zoneH < 3.5) {
-      zoneH = 3.5;
-    }
+    if (isAtTop && zoneH < 5) zoneH = 5; // Header zones need more height for English word-wrap
 
     // Clamp zone bottom to not extend into image regions
-    const zoneBottom = minY + zoneH;
     for (const img of imageRegions) {
-      if (zoneBottom > img.top && minY < img.top) {
+      if (minY + zoneH > img.top && minY < img.top) {
         zoneH = img.top - minY;
       }
     }
@@ -223,18 +214,19 @@ interface ZoneContent {
   paragraphs: ZoneParagraph[];
   fontSize: number;
   lineHeight: number;
+  textColor: string;
 }
 
 function assignTextToZones(
   zones: TextZone[],
   tokens: FlowToken[],
   imgWidth: number,
-  imgHeight: number
+  imgHeight: number,
+  zoneTextColors: Map<number, string>
 ): ZoneContent[] {
-  const CW = 0.55;
+  const CW = 0.48;
   const result: ZoneContent[] = [];
 
-  // Compute total English and Hebrew char counts for proportional distribution
   const totalEnglish = tokens.reduce(
     (s, t) => s + (t.type === 'word' ? t.word.length + 1 : 0),
     0
@@ -244,7 +236,6 @@ function assignTextToZones(
   );
   const totalHebrew = zoneHebrew.reduce((s, c) => s + c, 0);
 
-  // Target chars per zone (proportional to Hebrew text in that zone)
   const targetChars = zones.map((_, i) => {
     const proportion =
       totalHebrew > 0 ? zoneHebrew[i] / totalHebrew : 1 / zones.length;
@@ -260,7 +251,6 @@ function assignTextToZones(
     const target = targetChars[zi];
     const isLast = zi === zones.length - 1;
 
-    // Collect tokens for this zone
     const paragraphs: ZoneParagraph[] = [];
     let currentSpans: ZoneSpan[] = [];
     let curText = '';
@@ -288,7 +278,6 @@ function assignTextToZones(
       if (tok.type === 'break') {
         flushParagraph();
         ti++;
-        // Break to next zone at paragraph boundary if past target
         if (!isLast && charCount >= target) break;
         continue;
       }
@@ -303,23 +292,22 @@ function assignTextToZones(
       curText += (curText ? ' ' : '') + tok.word;
       ti++;
 
-      // Break if significantly past target (but prefer paragraph boundaries)
       if (!isLast && charCount >= target * 1.4) break;
     }
 
     flushParagraph();
 
-    // Cap font size at the Hebrew font size — never go larger than original
+    // Cap font size at the Hebrew font size
     let lineHeight = 1.25;
     const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
-    const maxFs = Math.max(8, Math.floor(hebrewFontPx));
+    const maxFs = Math.max(9.5, Math.floor(hebrewFontPx));
     let fontSize = 12;
 
     if (charCount === 0) {
       fontSize = Math.min(12, maxFs);
     } else {
-      fontSize = 8; // fallback
-      for (let fs = maxFs; fs >= 8; fs -= 0.5) {
+      fontSize = 9.5;
+      for (let fs = maxFs; fs >= 9.5; fs -= 0.5) {
         const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
         const linesNeeded = Math.ceil(charCount / cpl);
         if (linesNeeded * fs * lineHeight <= heightPx) {
@@ -327,10 +315,9 @@ function assignTextToZones(
           break;
         }
       }
-      // If still too small at 1.25 line-height, try tighter spacing
-      if (fontSize <= 8) {
+      if (fontSize <= 9.5) {
         lineHeight = 1.15;
-        for (let fs = maxFs; fs >= 8; fs -= 0.5) {
+        for (let fs = maxFs; fs >= 9.5; fs -= 0.5) {
           const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
           const linesNeeded = Math.ceil(charCount / cpl);
           if (linesNeeded * fs * lineHeight <= heightPx) {
@@ -341,37 +328,33 @@ function assignTextToZones(
       }
     }
 
-    result.push({ zone, paragraphs, fontSize, lineHeight });
+    const textColor = zoneTextColors.get(zi) || '#1a1510';
+    result.push({ zone, paragraphs, fontSize, lineHeight, textColor });
   }
 
   return result;
 }
 
-// --- ZONE COLOR SAMPLING ---
+// --- CANVAS: ERASE HEBREW TEXT & SAMPLE COLORS ---
 
-interface ZoneColor {
-  bg: string;
-  textColor: string;
-}
-
-function sampleZoneColors(
+function eraseHebrewAndSampleColors(
   img: HTMLImageElement,
+  ocrLines: OcrLine[],
   zones: TextZone[]
-): Map<number, ZoneColor> {
-  const colors = new Map<number, ZoneColor>();
-
+): { dataUrl: string; textColors: Map<number, string> } | null {
   try {
     const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+    if (w === 0 || h === 0) return null;
+    canvas.width = w;
+    canvas.height = h;
     const ctx = canvas.getContext('2d');
-    if (!ctx || img.naturalWidth === 0) return colors;
+    if (!ctx) return null;
 
     ctx.drawImage(img, 0, 0);
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imgData.data;
-    const w = canvas.width;
-    const h = canvas.height;
+    const fullData = ctx.getImageData(0, 0, w, h);
+    const pixels = fullData.data;
 
     const getPixel = (px: number, py: number): [number, number, number] => {
       const x = Math.max(0, Math.min(w - 1, Math.floor(px)));
@@ -385,65 +368,117 @@ function sampleZoneColors(
       return s[Math.floor(s.length / 2)];
     };
 
-    for (let zi = 0; zi < zones.length; zi++) {
-      const zone = zones[zi];
-      const lx = (zone.x / 100) * w;
-      const ly = (zone.y / 100) * h;
-      const lw = (zone.width / 100) * w;
-      const lh = (zone.height / 100) * h;
+    // For each OCR line, sample the background color from edges/margins
+    // then paint over the Hebrew text with that color
+    for (const line of ocrLines) {
+      if (line.width < 1 || line.height < 0.3) continue;
 
-      // Sample a grid across the zone
+      const lx = (line.x / 100) * w;
+      const ly = (line.y / 100) * h;
+      const lw = (line.width / 100) * w;
+      const lh = (line.height / 100) * h;
+
+      // Sample background from ABOVE and BELOW the text line (margins)
+      // and from the left/right edges just outside the text
       const samples: [number, number, number][] = [];
+
+      // Sample above the line (2px above)
       for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-          samples.push(getPixel(lx + fx * lw, ly + fy * lh));
-        }
+        samples.push(getPixel(lx + fx * lw, Math.max(0, ly - 2)));
       }
+      // Sample below the line (2px below)
+      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
+        samples.push(getPixel(lx + fx * lw, ly + lh + 2));
+      }
+      // Sample left margin
+      samples.push(getPixel(Math.max(0, lx - 3), ly + lh * 0.5));
+      // Sample right margin
+      samples.push(getPixel(lx + lw + 3, ly + lh * 0.5));
 
       const r = median(samples.map((s) => s[0]));
       const g = median(samples.map((s) => s[1]));
       const b = median(samples.map((s) => s[2]));
 
-      const bg = `rgb(${r}, ${g}, ${b})`;
-      const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-      const textColor = luminance < 185 ? '#ffffff' : '#1a1510';
-
-      colors.set(zi, { bg, textColor });
+      // Paint over the Hebrew text with a slight vertical padding
+      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      const pad = lh * 0.1;
+      ctx.fillRect(
+        Math.max(0, lx - 1),
+        Math.max(0, ly - pad),
+        lw + 2,
+        lh + pad * 2
+      );
     }
-  } catch {
-    // Canvas access failed
-  }
 
-  return colors;
+    // Determine text color per zone from the background luminance
+    const textColors = new Map<number, string>();
+    for (let zi = 0; zi < zones.length; zi++) {
+      const zone = zones[zi];
+      const zx = (zone.x / 100) * w;
+      const zy = (zone.y / 100) * h;
+      const zw = (zone.width / 100) * w;
+      const zh = (zone.height / 100) * h;
+
+      // Sample a 5x5 grid from the cleaned canvas to determine text color
+      const zSamples: [number, number, number][] = [];
+      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
+        for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
+          const sx = Math.max(0, Math.min(w - 1, Math.floor(zx + fx * zw)));
+          const sy = Math.max(0, Math.min(h - 1, Math.floor(zy + fy * zh)));
+          const idx = (sy * w + sx) * 4;
+          // Read from the current canvas state (after erasure)
+          const cd = ctx.getImageData(sx, sy, 1, 1).data;
+          zSamples.push([cd[0], cd[1], cd[2]]);
+        }
+      }
+      if (zSamples.length > 0) {
+        const mr = median(zSamples.map((s) => s[0]));
+        const mg = median(zSamples.map((s) => s[1]));
+        const mb = median(zSamples.map((s) => s[2]));
+        const luminance = 0.299 * mr + 0.587 * mg + 0.114 * mb;
+        textColors.set(zi, luminance < 185 ? '#ffffff' : '#1a1510');
+      }
+    }
+
+    const dataUrl = canvas.toDataURL('image/png');
+    return { dataUrl, textColors };
+  } catch {
+    return null;
+  }
 }
 
 // --- OVERLAY COMPONENT ---
 
 function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const imgRef = useRef<HTMLImageElement>(null);
+  const displayRef = useRef<HTMLImageElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
-  const [zoneColors, setZoneColors] = useState<Map<number, ZoneColor>>(
+  const [cleanedSrc, setCleanedSrc] = useState<string | null>(null);
+  const [textColors, setTextColors] = useState<Map<number, string>>(
     new Map()
   );
   const [zones, setZones] = useState<TextZone[]>([]);
 
+  // Track displayed image size for overlay positioning
   useEffect(() => {
-    if (imgRef.current && imgLoaded) {
+    const target = displayRef.current || imgRef.current;
+    if (target && imgLoaded) {
       const update = () => {
-        if (imgRef.current) {
+        const el = displayRef.current || imgRef.current;
+        if (el) {
           setImgSize({
-            width: imgRef.current.clientWidth,
-            height: imgRef.current.clientHeight,
+            width: el.clientWidth,
+            height: el.clientHeight,
           });
         }
       };
       update();
       const observer = new ResizeObserver(update);
-      observer.observe(imgRef.current);
+      observer.observe(target);
       return () => observer.disconnect();
     }
-  }, [imgLoaded]);
+  }, [imgLoaded, cleanedSrc]);
 
   // Compute zones once
   useEffect(() => {
@@ -452,13 +487,20 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     }
   }, [page.lines]);
 
-  // Sample bg color per zone from canvas
+  // Erase Hebrew text from canvas and get cleaned image + text colors
   useEffect(() => {
     if (imgRef.current && imgLoaded && zones.length > 0) {
-      const colors = sampleZoneColors(imgRef.current, zones);
-      if (colors.size > 0) setZoneColors(colors);
+      const result = eraseHebrewAndSampleColors(
+        imgRef.current,
+        page.lines,
+        zones
+      );
+      if (result) {
+        setCleanedSrc(result.dataUrl);
+        setTextColors(result.textColors);
+      }
     }
-  }, [imgLoaded, zones]);
+  }, [imgLoaded, zones, page.lines]);
 
   if (!page.translation || !page.lines.length) return null;
 
@@ -470,35 +512,49 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       zones,
       tokens,
       imgSize.width,
-      imgSize.height
+      imgSize.height,
+      textColors
     );
   }
 
-  const defaultBg = '#f5ead6';
-  const defaultTextColor = '#1a1510';
-
   return (
     <div className="relative inline-block w-full">
+      {/* Original image — hidden offscreen for canvas processing, not display:none so it loads properly */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgRef}
         src={`/api/pages/${page.id}/image`}
         alt={`Page ${page.pageNumber}`}
-        className="w-full h-auto block"
+        style={{
+          position: cleanedSrc ? 'absolute' : 'relative',
+          width: cleanedSrc ? '1px' : '100%',
+          height: cleanedSrc ? '1px' : 'auto',
+          opacity: cleanedSrc ? 0 : 1,
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }}
         onLoad={() => setImgLoaded(true)}
       />
 
-      {imgLoaded && imgSize.width > 0 && (
+      {/* Cleaned image (Hebrew erased, original colors preserved) */}
+      {cleanedSrc && (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          ref={displayRef}
+          src={cleanedSrc}
+          alt={`Page ${page.pageNumber} English`}
+          className="w-full h-auto block"
+        />
+      )}
+
+      {/* English text overlay — transparent backgrounds, text only */}
+      {imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
           {zoneContents.map(
-            ({ zone, paragraphs, fontSize, lineHeight }, zi) => {
-              const colors = zoneColors.get(zi);
-              const bg = colors?.bg || defaultBg;
-              const textColor = colors?.textColor || defaultTextColor;
+            ({ zone, paragraphs, fontSize, lineHeight, textColor }, zi) => {
               const hasContent = paragraphs.some((p) =>
                 p.spans.some((s) => s.text.trim())
               );
-
               if (!hasContent) return null;
 
               return (
@@ -510,9 +566,8 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     top: `${zone.y}%`,
                     width: `${zone.width}%`,
                     height: `${zone.height}%`,
-                    backgroundColor: bg,
                     overflow: 'hidden',
-                    padding: '2px 4px',
+                    padding: '1px 3px',
                     direction: 'ltr',
                     textAlign: zone.isCentered ? 'center' : 'left',
                   }}
@@ -521,7 +576,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     <div
                       key={pi}
                       style={{
-                        marginTop: pi > 0 ? `${fontSize * 0.4}px` : 0,
+                        marginTop: pi > 0 ? `${fontSize * 0.3}px` : 0,
                       }}
                     >
                       {para.spans.map((span, si) => (

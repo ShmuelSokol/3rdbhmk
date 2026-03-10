@@ -31,231 +31,193 @@ interface BookData {
   pages: TranslatedPage[];
 }
 
-/**
- * Parse translation text into paragraphs with bold information from markdown.
- */
-interface ParsedParagraph {
-  text: string;
-  isBold: boolean;
-}
+// --- TEXT TOKENIZATION & FLOW ---
 
-function parseTranslation(raw: string): ParsedParagraph[] {
+type FlowToken =
+  | { type: 'word'; word: string; bold: boolean }
+  | { type: 'break' };
+
+function tokenizeTranslation(raw: string): FlowToken[] {
+  const tokens: FlowToken[] = [];
   const paragraphs = raw.split(/\n\s*\n/);
-  const result: ParsedParagraph[] = [];
 
-  for (const para of paragraphs) {
-    const trimmed = para.trim();
-    if (!trimmed) continue;
+  for (let i = 0; i < paragraphs.length; i++) {
+    if (i > 0) tokens.push({ type: 'break' });
+    const para = paragraphs[i].trim();
+    if (!para) continue;
 
-    // Check if entire paragraph is bold (**...**)
-    const boldMatch = trimmed.match(/^\*\*([\s\S]+?)\*\*$/);
-    if (boldMatch) {
-      result.push({ text: boldMatch[1].trim(), isBold: true });
-    } else {
-      const clean = trimmed
-        .replace(/\*\*([^*]+)\*\*/g, '$1')
-        .replace(/\*([^*]+)\*/g, '$1')
+    // Split on bold markers **...**
+    const parts = para.split(/(\*\*[\s\S]*?\*\*)/);
+    for (const part of parts) {
+      if (!part.trim()) continue;
+      const boldMatch = part.match(/^\*\*([\s\S]*?)\*\*$/);
+      const text = (boldMatch ? boldMatch[1] : part)
+        .replace(/\n/g, ' ')
         .replace(/^#+\s+/gm, '')
-        .replace(/`([^`]+)`/g, '$1');
-      result.push({ text: clean, isBold: false });
+        .replace(/`([^`]+)`/g, '$1')
+        .trim();
+      const bold = !!boldMatch;
+      const words = text.split(/\s+/).filter((w) => w.length > 0);
+      for (const word of words) {
+        tokens.push({ type: 'word', word, bold });
+      }
     }
   }
 
-  return result;
+  return tokens;
 }
 
-/**
- * A text block groups consecutive OCR lines of the same type (header or body).
- */
-interface TextBlock {
-  lines: OcrLine[];
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  isHeader: boolean;
-  isCentered: boolean;
-}
-
-/**
- * Group OCR lines into text blocks.
- * Header lines (large or narrow-centered) form their own blocks.
- * Consecutive body lines merge into body blocks.
- */
-function groupLinesIntoBlocks(lines: OcrLine[]): TextBlock[] {
-  const textLines = lines.filter(l => l.width > 1 && l.height > 0.3);
-  if (textLines.length === 0) return [];
-
-  // Sort by lineIndex to preserve OCR reading order (not y-position)
-  const sorted = [...textLines].sort((a, b) => a.lineIndex - b.lineIndex);
-  const heights = sorted.map(l => l.height).sort((a, b) => a - b);
-  const medianHeight = heights[Math.floor(heights.length / 2)];
-
-  const blocks: TextBlock[] = [];
-  let bodyGroup: OcrLine[] = [];
-
-  const flushBody = () => {
-    if (bodyGroup.length === 0) return;
-    const g = bodyGroup;
-    const minX = Math.min(...g.map(l => l.x));
-    const minY = Math.min(...g.map(l => l.y));
-    const maxX = Math.max(...g.map(l => l.x + l.width));
-    const maxY = Math.max(...g.map(l => l.y + l.height));
-    const avgCx = g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
-    const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
-    blocks.push({
-      lines: [...g],
-      x: minX, y: minY,
-      width: maxX - minX, height: maxY - minY,
-      isHeader: false,
-      isCentered: Math.abs(avgCx - 50) < 10 && avgW < 60,
-    });
-    bodyGroup = [];
-  };
-
-  for (const line of sorted) {
-    const lineCx = line.x + line.width / 2;
-    const isCenteredNarrow = Math.abs(lineCx - 50) < 10 && line.width < 35;
-    const isLargeText = line.height > medianHeight * 1.2;
-    const isHeader = isLargeText || isCenteredNarrow;
-
-    if (isHeader) {
-      // Check if this header should merge with previous header block
-      const prevBlock = blocks.length > 0 ? blocks[blocks.length - 1] : null;
-      const prevIsHeader = prevBlock && prevBlock.isHeader;
-      const isContiguous = prevBlock && (line.y - (prevBlock.y + prevBlock.height)) < medianHeight * 2;
-
-      if (bodyGroup.length > 0) flushBody();
-
-      // Only merge headers of similar height (e.g., multi-line title)
-      const lastLineInPrev = prevBlock ? prevBlock.lines[prevBlock.lines.length - 1] : null;
-      const similarHeight = lastLineInPrev
-        ? Math.abs(line.height - lastLineInPrev.height) < medianHeight * 0.8
-        : false;
-
-      if (prevIsHeader && isContiguous && similarHeight) {
-        // Merge with previous header block
-        prevBlock.lines.push(line);
-        const minX = Math.min(prevBlock.x, line.x);
-        const maxX = Math.max(prevBlock.x + prevBlock.width, line.x + line.width);
-        const maxY = line.y + line.height;
-        prevBlock.x = minX;
-        prevBlock.width = maxX - minX;
-        prevBlock.height = maxY - prevBlock.y;
-        // Recompute centered
-        const allCx = prevBlock.lines.reduce((s, l) => s + l.x + l.width / 2, 0) / prevBlock.lines.length;
-        const allW = prevBlock.lines.reduce((s, l) => s + l.width, 0) / prevBlock.lines.length;
-        prevBlock.isCentered = Math.abs(allCx - 50) < 10 && allW < 75;
-      } else {
-        blocks.push({
-          lines: [line],
-          x: line.x, y: line.y,
-          width: line.width, height: line.height,
-          isHeader: true,
-          isCentered: Math.abs(lineCx - 50) < 10,
-        });
-      }
-    } else {
-      // Body line — check for large gap from previous body line
-      if (bodyGroup.length > 0) {
-        const lastLine = bodyGroup[bodyGroup.length - 1];
-        const gap = line.y - (lastLine.y + lastLine.height);
-        if (gap > medianHeight * 3) flushBody();
-      }
-      bodyGroup.push(line);
-    }
-  }
-  flushBody();
-
-  return blocks;
-}
-
-/**
- * Assign translation paragraphs to text blocks sequentially.
- * Bold paragraphs go to header blocks; non-bold to body blocks.
- */
-interface BlockAssignment {
-  block: TextBlock;
+interface LineSpan {
   text: string;
-  isBold: boolean;
-  fontSize: number;
+  bold: boolean;
 }
 
-function assignTextToBlocks(
-  blocks: TextBlock[],
-  paragraphs: ParsedParagraph[],
+interface FlowLine {
+  line: OcrLine;
+  spans: LineSpan[];
+}
+
+function flowTextToLines(
+  ocrLines: OcrLine[],
+  tokens: FlowToken[],
   imgWidth: number,
-  imgHeight: number
-): BlockAssignment[] {
-  const result: BlockAssignment[] = [];
-  let paraIdx = 0;
+  fontSize: number
+): { flowLines: FlowLine[]; overflow: boolean } {
+  const CW = 0.55;
+  const flowLines: FlowLine[] = [];
+  let ti = 0;
 
-  for (const block of blocks) {
-    if (paraIdx >= paragraphs.length) {
-      result.push({ block, text: '', isBold: false, fontSize: 12 });
-      continue;
-    }
+  for (const ocrLine of ocrLines) {
+    const widthPx = (ocrLine.width / 100) * imgWidth;
+    const maxChars = Math.max(1, Math.floor(widthPx / (fontSize * CW)));
 
-    const widthPx = (block.width / 100) * imgWidth;
-    const heightPx = (block.height / 100) * imgHeight;
-    const avgLineH = block.lines.reduce((s, l) => s + l.height, 0) / block.lines.length;
-    const avgLineHPx = (avgLineH / 100) * imgHeight;
-    const baseFontSize = Math.max(8, avgLineHPx * 0.72);
+    const spans: LineSpan[] = [];
+    let chars = 0;
+    let curText = '';
+    let curBold = false;
 
-    let text: string;
-    let isBold: boolean;
-
-    if (block.isHeader) {
-      // Header: take one paragraph
-      text = paragraphs[paraIdx].text;
-      isBold = true; // Headers always bold
-      paraIdx++;
-    } else {
-      // Body: take all remaining non-bold paragraphs (stop before next bold)
-      const parts: string[] = [];
-      while (paraIdx < paragraphs.length) {
-        if (paragraphs[paraIdx].isBold && parts.length > 0) break;
-        parts.push(paragraphs[paraIdx].text);
-        paraIdx++;
+    const flush = () => {
+      if (curText) {
+        spans.push({ text: curText, bold: curBold });
+        curText = '';
       }
-      text = parts.join('\n\n');
-      isBold = false;
-    }
+    };
 
-    // Auto-size font to fit text in the block area
-    let fontSize = baseFontSize;
-    if (text.length > 0 && widthPx > 0 && heightPx > 0) {
-      const CW = 0.55; // char width ratio
-      const LH = block.isHeader ? 1.25 : 1.45; // line height ratio
-
-      // How many chars fit at baseFontSize?
-      const charsPerLine = widthPx / (baseFontSize * CW);
-      const maxLines = Math.max(1, Math.floor(heightPx / (baseFontSize * LH)));
-      const capacity = charsPerLine * maxLines;
-
-      if (text.length > capacity) {
-        // Shrink: f = sqrt(W * H / (chars * CW * LH)) with safety margin
-        const fitted = Math.sqrt((widthPx * heightPx) / (text.length * CW * LH));
-        fontSize = Math.max(6, fitted * 0.88);
+    while (ti < tokens.length) {
+      const tok = tokens[ti];
+      if (tok.type === 'break') {
+        ti++;
+        break;
       }
+
+      const space = chars > 0 ? 1 : 0;
+      const needed = tok.word.length + space;
+      if (chars + needed > maxChars && chars > 0) break;
+
+      if (curText && curBold !== tok.bold) {
+        flush();
+        curBold = tok.bold;
+      }
+      if (!curText) {
+        curBold = tok.bold;
+        // Preserve space between spans when mid-line
+        curText = (chars > 0 ? ' ' : '') + tok.word;
+      } else {
+        curText += ' ' + tok.word;
+      }
+      chars += needed;
+      ti++;
     }
 
-    result.push({ block, text, isBold, fontSize });
+    flush();
+    flowLines.push({ line: ocrLine, spans });
   }
 
-  return result;
+  return { flowLines, overflow: ti < tokens.length };
 }
+
+// --- PER-LINE COLOR SAMPLING ---
+
+interface LineColor {
+  bg: string;
+  textColor: string;
+}
+
+function sampleLineColors(
+  img: HTMLImageElement,
+  lines: OcrLine[]
+): Map<number, LineColor> {
+  const colors = new Map<number, LineColor>();
+
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx || img.naturalWidth === 0) return colors;
+
+    ctx.drawImage(img, 0, 0);
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imgData.data;
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const getPixel = (px: number, py: number): [number, number, number] => {
+      const x = Math.max(0, Math.min(w - 1, Math.floor(px)));
+      const y = Math.max(0, Math.min(h - 1, Math.floor(py)));
+      const idx = (y * w + x) * 4;
+      return [pixels[idx], pixels[idx + 1], pixels[idx + 2]];
+    };
+
+    const median = (arr: number[]) => {
+      const s = [...arr].sort((a, b) => a - b);
+      return s[Math.floor(s.length / 2)];
+    };
+
+    for (const line of lines) {
+      const lx = (line.x / 100) * w;
+      const ly = (line.y / 100) * h;
+      const lw = (line.width / 100) * w;
+      const lh = (line.height / 100) * h;
+
+      // Sample a 5x3 grid across the line region
+      const samples: [number, number, number][] = [];
+      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
+        for (const fy of [0.15, 0.5, 0.85]) {
+          samples.push(getPixel(lx + fx * lw, ly + fy * lh));
+        }
+      }
+
+      const r = median(samples.map((s) => s[0]));
+      const g = median(samples.map((s) => s[1]));
+      const b = median(samples.map((s) => s[2]));
+
+      const bg = `rgb(${r}, ${g}, ${b})`;
+      const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+      const textColor = luminance < 185 ? '#ffffff' : '#1a1510';
+
+      colors.set(line.lineIndex, { bg, textColor });
+    }
+  } catch {
+    // Canvas access failed — keep empty map, component will use fallback
+  }
+
+  return colors;
+}
+
+// --- OVERLAY COMPONENT ---
 
 function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
-  const [bgColor, setBgColor] = useState('#f5ead6');
+  const [lineColors, setLineColors] = useState<Map<number, LineColor>>(
+    new Map()
+  );
 
   useEffect(() => {
     if (imgRef.current && imgLoaded) {
-      const updateSize = () => {
+      const update = () => {
         if (imgRef.current) {
           setImgSize({
             width: imgRef.current.clientWidth,
@@ -263,84 +225,69 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           });
         }
       };
-      updateSize();
-      const observer = new ResizeObserver(updateSize);
+      update();
+      const observer = new ResizeObserver(update);
       observer.observe(imgRef.current);
       return () => observer.disconnect();
     }
   }, [imgLoaded]);
 
-  // Sample background color from gaps between OCR text lines
+  // Sample bg color per line from canvas once image loads
   useEffect(() => {
-    if (imgRef.current && imgLoaded && page.lines.length > 1) {
-      try {
-        const img = imgRef.current;
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (ctx && img.naturalWidth > 0) {
-          canvas.width = img.naturalWidth;
-          canvas.height = img.naturalHeight;
-          ctx.drawImage(img, 0, 0);
-          const w = canvas.width;
-          const h = canvas.height;
-
-          // Find gaps between consecutive text lines and sample from there
-          const textLines = page.lines
-            .filter((l) => l.width > 3 && l.height > 0.5)
-            .sort((a, b) => a.y - b.y);
-
-          const samples: number[][] = [];
-          for (let i = 0; i < textLines.length - 1; i++) {
-            const lineBottom = (textLines[i].y + textLines[i].height) / 100;
-            const nextLineTop = textLines[i + 1].y / 100;
-            const gap = nextLineTop - lineBottom;
-            if (gap > 0.002) {
-              // Sample the midpoint of the gap, at the horizontal center of the line
-              const sampleY = (lineBottom + nextLineTop) / 2;
-              const sampleX = (textLines[i].x + textLines[i].width / 2) / 100;
-              const px = Math.floor(sampleX * w);
-              const py = Math.floor(sampleY * h);
-              if (px > 0 && px < w && py > 0 && py < h) {
-                const data = ctx.getImageData(px, py, 1, 1).data;
-                // Only include light-colored samples (skip dark text remnants)
-                if (data[0] > 180 && data[1] > 160 && data[2] > 130) {
-                  samples.push([data[0], data[1], data[2]]);
-                }
-              }
-            }
-          }
-
-          if (samples.length >= 3) {
-            // Use median of each channel
-            const getMedian = (arr: number[]) => {
-              const sorted = [...arr].sort((a, b) => a - b);
-              const mid = Math.floor(sorted.length / 2);
-              return sorted.length % 2 ? sorted[mid] : Math.round((sorted[mid - 1] + sorted[mid]) / 2);
-            };
-            const r = getMedian(samples.map((s) => s[0]));
-            const g = getMedian(samples.map((s) => s[1]));
-            const b = getMedian(samples.map((s) => s[2]));
-            setBgColor(`rgb(${r}, ${g}, ${b})`);
-          }
-        }
-      } catch {
-        // CORS or other error, keep fallback color
-      }
+    if (imgRef.current && imgLoaded && page.lines.length > 0) {
+      const colors = sampleLineColors(imgRef.current, page.lines);
+      if (colors.size > 0) setLineColors(colors);
     }
   }, [imgLoaded, page.lines]);
 
   if (!page.translation || !page.lines.length) return null;
 
-  // Build text blocks and assign translated text
-  const blocks = imgSize.width > 0 ? groupLinesIntoBlocks(page.lines) : [];
-  const paragraphs = page.translation ? parseTranslation(page.translation.englishOutput) : [];
-  const assignments = imgSize.width > 0
-    ? assignTextToBlocks(blocks, paragraphs, imgSize.width, imgSize.height)
-    : [];
+  // Filter and sort OCR lines
+  const textLines = page.lines
+    .filter((l) => l.width > 1 && l.height > 0.3)
+    .sort((a, b) => a.lineIndex - b.lineIndex);
+
+  // Parse translation into flow tokens
+  const tokens = tokenizeTranslation(page.translation.englishOutput);
+
+  let flowLines: FlowLine[] = [];
+  let computedFontSize = 12;
+
+  if (imgSize.width > 0 && textLines.length > 0) {
+    // Base font size from median line height
+    const heights = textLines
+      .map((l) => (l.height / 100) * imgSize.height)
+      .sort((a, b) => a - b);
+    const medianH = heights[Math.floor(heights.length / 2)];
+    computedFontSize = Math.max(8, medianH * 0.65);
+
+    // Flow text, progressively shrink font if overflow
+    let result = flowTextToLines(
+      textLines,
+      tokens,
+      imgSize.width,
+      computedFontSize
+    );
+    let attempts = 0;
+    while (result.overflow && attempts < 20) {
+      computedFontSize *= 0.88;
+      if (computedFontSize < 3) break;
+      result = flowTextToLines(
+        textLines,
+        tokens,
+        imgSize.width,
+        computedFontSize
+      );
+      attempts++;
+    }
+    flowLines = result.flowLines;
+  }
+
+  const defaultBg = '#f5ead6';
+  const defaultTextColor = '#1a1510';
 
   return (
-    <div ref={containerRef} className="relative inline-block w-full">
-      {/* Original page image as base */}
+    <div className="relative inline-block w-full">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgRef}
@@ -350,51 +297,55 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         onLoad={() => setImgLoaded(true)}
       />
 
-      {/* Overlay: English text blocks at OCR positions */}
       {imgLoaded && imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          {assignments.map(({ block, text, isBold, fontSize }, idx) => (
-            <div
-              key={`block-${idx}`}
-              style={{
-                position: 'absolute',
-                left: `${block.x}%`,
-                top: `${block.y}%`,
-                width: `${block.width}%`,
-                height: `${block.height}%`,
-                backgroundColor: bgColor,
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: block.isHeader ? 'center' : 'flex-start',
-                alignItems: block.isCentered ? 'center' : 'stretch',
-                padding: block.isHeader ? '0 2px' : '0',
-              }}
-            >
-              {text && (
-                <span
-                  style={{
-                    fontFamily: 'Georgia, "Times New Roman", "Palatino Linotype", serif',
-                    fontSize: `${fontSize}px`,
-                    fontWeight: isBold ? 700 : 400,
-                    lineHeight: block.isHeader ? 1.25 : 1.45,
-                    color: '#1a1510',
-                    direction: 'ltr',
-                    textAlign: block.isCentered ? 'center' : 'left',
-                    wordWrap: 'break-word',
-                    overflowWrap: 'break-word',
-                  }}
-                >
-                  {text}
-                </span>
-              )}
-            </div>
-          ))}
+          {flowLines.map(({ line, spans }, idx) => {
+            const colors = lineColors.get(line.lineIndex);
+            const bg = colors?.bg || defaultBg;
+            const textColor = colors?.textColor || defaultTextColor;
+
+            return (
+              <div
+                key={`line-${idx}`}
+                style={{
+                  position: 'absolute',
+                  left: `${line.x}%`,
+                  top: `${line.y}%`,
+                  width: `${line.width}%`,
+                  height: `${line.height}%`,
+                  backgroundColor: bg,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0 2px',
+                }}
+              >
+                {spans.map((span, si) => (
+                  <span
+                    key={si}
+                    style={{
+                      fontFamily:
+                        'Georgia, "Times New Roman", "Palatino Linotype", serif',
+                      fontSize: `${computedFontSize}px`,
+                      fontWeight: span.bold ? 700 : 400,
+                      color: textColor,
+                      lineHeight: 1.1,
+                      whiteSpace: 'pre',
+                    }}
+                  >
+                    {span.text}
+                  </span>
+                ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
+
+// --- MAIN PAGE COMPONENT ---
 
 export default function ComparePage() {
   const router = useRouter();
@@ -431,7 +382,8 @@ export default function ComparePage() {
   }, [fetchBook]);
 
   const translatedPages =
-    book?.pages.filter((p) => p.translation && p.translation.englishOutput) || [];
+    book?.pages.filter((p) => p.translation && p.translation.englishOutput) ||
+    [];
 
   const jumpToPage = (pageNumber: number) => {
     const el = rowRefs.current[pageNumber];
@@ -448,7 +400,9 @@ export default function ComparePage() {
   };
 
   const toggleAll = () => {
-    const allEnglish = translatedPages.every((p) => showEnglish[p.pageNumber]);
+    const allEnglish = translatedPages.every(
+      (p) => showEnglish[p.pageNumber]
+    );
     const newState: Record<number, boolean> = {};
     translatedPages.forEach((p) => {
       newState[p.pageNumber] = !allEnglish;
@@ -460,9 +414,24 @@ export default function ComparePage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0f1117]">
         <div className="flex items-center gap-3 text-[#71717a]">
-          <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          <svg
+            className="animate-spin w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           Loading...
         </div>
@@ -496,8 +465,18 @@ export default function ComparePage() {
               onClick={() => router.push(`/book/${bookId}`)}
               className="text-[#71717a] hover:text-[#e4e4e7] transition-colors"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <div>
@@ -541,8 +520,18 @@ export default function ComparePage() {
               href={`/api/books/${bookId}/export`}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-medium transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
               </svg>
               PDF
             </a>

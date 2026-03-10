@@ -31,21 +31,25 @@ interface BookData {
   pages: TranslatedPage[];
 }
 
-// --- TEXT TOKENIZATION ---
+// --- PARAGRAPH PARSING ---
 
-type FlowToken =
-  | { type: 'word'; word: string; bold: boolean }
-  | { type: 'break' };
+interface TextSpan {
+  text: string;
+  bold: boolean;
+}
 
-function tokenizeTranslation(raw: string): FlowToken[] {
-  const tokens: FlowToken[] = [];
-  const paragraphs = raw.split(/\n\s*\n/);
+interface Paragraph {
+  spans: TextSpan[];
+  isAllBold: boolean;
+  charCount: number;
+}
 
-  for (let i = 0; i < paragraphs.length; i++) {
-    if (i > 0) tokens.push({ type: 'break' });
-    const para = paragraphs[i].trim();
-    if (!para) continue;
+function parseTranslation(raw: string): Paragraph[] {
+  const paragraphs: Paragraph[] = [];
+  const rawParas = raw.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
+  for (const para of rawParas) {
+    const spans: TextSpan[] = [];
     const parts = para.split(/(\*\*[\s\S]*?\*\*)/);
     for (const part of parts) {
       if (!part.trim()) continue;
@@ -55,203 +59,154 @@ function tokenizeTranslation(raw: string): FlowToken[] {
         .replace(/^#+\s+/gm, '')
         .replace(/`([^`]+)`/g, '$1')
         .trim();
-      const bold = !!boldMatch;
-      const words = text.split(/\s+/).filter((w) => w.length > 0);
-      for (const word of words) {
-        tokens.push({ type: 'word', word, bold });
-      }
+      if (text) spans.push({ text, bold: !!boldMatch });
+    }
+    if (spans.length > 0) {
+      const isAllBold = spans.every((s) => s.bold);
+      const charCount = spans.reduce((s, sp) => s + sp.text.length, 0);
+      paragraphs.push({ spans, isAllBold, charCount });
     }
   }
-
-  return tokens;
+  return paragraphs;
 }
 
-// --- ZONE GROUPING ---
+// --- ZONE CREATION (translation-driven) ---
 
 interface TextZone {
-  lines: OcrLine[];
+  ocrLines: OcrLine[];
   x: number;
   y: number;
   width: number;
-  height: number;
+  availableHeight: number; // extends to next zone's top
   isCentered: boolean;
   isHeader: boolean;
   avgLineHeight: number;
 }
 
-function groupIntoZones(lines: OcrLine[]): TextZone[] {
-  const textLines = lines
-    .filter((l) => l.width > 1 && l.height > 0.3)
-    .sort((a, b) => a.y - b.y);
-
-  if (textLines.length === 0) return [];
-
-  const heights = textLines.map((l) => l.height).sort((a, b) => a - b);
-  const medianH = heights[Math.floor(heights.length / 2)];
-
-  // Detect image regions: large gaps (>8%) between consecutive text lines
-  const imageRegions: { top: number; bottom: number }[] = [];
-  for (let i = 1; i < textLines.length; i++) {
-    const prev = textLines[i - 1];
-    const curr = textLines[i];
-    const gapStart = prev.y + prev.height;
-    const gapEnd = curr.y;
-    if (gapEnd - gapStart > 8) {
-      imageRegions.push({ top: gapStart, bottom: gapEnd });
-    }
-  }
-
-  // Classify lines by role
-  const headerLines: OcrLine[] = []; // y < 4%, running title
-  const pageNumLines: OcrLine[] = []; // y < 4%, narrow, centered
-  const bodyLines: OcrLine[] = [];
-
-  for (const line of textLines) {
-    if (line.y < 4) {
-      if (line.width < 6 && line.text.trim().length <= 3 &&
-          Math.abs(line.x + line.width / 2 - 50) < 6) {
-        pageNumLines.push(line);
-      } else {
-        headerLines.push(line);
-      }
-    } else {
-      bodyLines.push(line);
-    }
-  }
-
-  // Group body lines: split on large gaps, large size changes, or image crossings
-  // Use relaxed width threshold — only split when BOTH lines are wide (not footnotes)
-  const bodyGroups: OcrLine[][] = bodyLines.length > 0 ? [[bodyLines[0]]] : [];
-  for (let i = 1; i < bodyLines.length; i++) {
-    const prev = bodyLines[i - 1];
-    const curr = bodyLines[i];
-    const gap = curr.y - (prev.y + prev.height);
-    const sizeChange = Math.abs(curr.height - prev.height) > medianH * 1.2;
-    // Only split on width change for LARGE text (titles), not narrow footnotes
-    const bothWide = curr.width > 30 && prev.width > 30;
-    const widthChange = bothWide && Math.max(curr.width, prev.width) > Math.min(curr.width, prev.width) * 3;
-    const crossesImage = imageRegions.some(
-      (r) => r.top < curr.y && r.bottom > prev.y + prev.height
-    );
-
-    if (crossesImage || gap > medianH * 3 || sizeChange || widthChange) {
-      bodyGroups.push([curr]);
-    } else {
-      bodyGroups[bodyGroups.length - 1].push(curr);
-    }
-  }
-
-  // Merge small body zones (<15 chars) into nearest neighbor
-  const mergedBody: OcrLine[][] = [];
-  for (const group of bodyGroups) {
-    const totalChars = group.reduce((s, l) => s + l.text.length, 0);
-    if (totalChars < 15 && mergedBody.length > 0) {
-      const prevGroup = mergedBody[mergedBody.length - 1];
-      const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
-      const currMinY = Math.min(...group.map((l) => l.y));
-      const crossesImage = imageRegions.some(
-        (r) => r.top < currMinY && r.bottom > prevMaxY
-      );
-      if (!crossesImage && currMinY - prevMaxY < 6) {
-        mergedBody[mergedBody.length - 1] = [...prevGroup, ...group];
-        continue;
-      }
-    }
-    mergedBody.push(group);
-  }
-
-  // If still too many zones, merge adjacent small ones
-  let finalBody = mergedBody;
-  if (mergedBody.length > 8) {
-    finalBody = [mergedBody[0]];
-    for (let i = 1; i < mergedBody.length; i++) {
-      const prevGroup = finalBody[finalBody.length - 1];
-      const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
-      const currMinY = Math.min(...mergedBody[i].map((l) => l.y));
-      const gap = currMinY - prevMaxY;
-      const crossesImage = imageRegions.some(
-        (r) => r.top < currMinY && r.bottom > prevMaxY
-      );
-      if (gap < 8 && !crossesImage) {
-        finalBody[finalBody.length - 1] = [...prevGroup, ...mergedBody[i]];
-      } else {
-        finalBody.push(mergedBody[i]);
-      }
-    }
-  }
-
-  // Build final zone list: header, page number, then body zones
-  const finalGroups: OcrLine[][] = [];
-  if (headerLines.length > 0) finalGroups.push(headerLines);
-  if (pageNumLines.length > 0) finalGroups.push(pageNumLines);
-  for (const g of finalBody) finalGroups.push(g);
-
-  return finalGroups.map((g) => {
-    const minX = Math.min(...g.map((l) => l.x));
-    const minY = Math.min(...g.map((l) => l.y));
-    const maxX = Math.max(...g.map((l) => l.x + l.width));
-    const maxY = Math.max(...g.map((l) => l.y + l.height));
-    const avgCx =
-      g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
-    const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
-    const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
-    const isInHeader = minY < 4 && avgW > 10;
-    const isPageNum = minY < 4 && avgW < 6 &&
-      g.every((l) => l.text.trim().length <= 3);
-
-    // Header: use full width of the header bar area
-    // Page number: keep at original position, centered
-    // Body: use the bounding box of the lines
-    const zoneX = isInHeader ? 2.5 : minX;
-    const zoneW = isInHeader ? 95 : maxX - minX;
-    let zoneH = maxY - minY;
-
-    // Clamp zone bottom to not extend into image regions
-    for (const img of imageRegions) {
-      if (minY + zoneH > img.top && minY < img.top) {
-        zoneH = img.top - minY;
-      }
-    }
-
-    // Detect centering: line centers near page center
-    const centered = Math.abs(avgCx - 50) < 12 &&
-      (avgW < 60 || Math.abs(minX - (100 - maxX)) < 10);
-
-    return {
-      lines: g,
-      x: zoneX,
-      y: minY,
-      width: zoneW,
-      height: zoneH,
-      isCentered: centered || isPageNum,
-      isHeader: isInHeader || avgH > medianH * 1.5,
-      avgLineHeight: avgH,
-    };
-  });
-}
-
-// --- ZONE TEXT ASSIGNMENT ---
-
-interface ZoneSpan {
-  text: string;
-  bold: boolean;
-}
-
-interface ZoneParagraph {
-  spans: ZoneSpan[];
-}
-
 interface ZoneContent {
   zone: TextZone;
-  paragraphs: ZoneParagraph[];
+  paragraph: Paragraph | null;
   fontSize: number;
   lineHeight: number;
   textColor: string;
 }
 
+function createZones(
+  lines: OcrLine[],
+  numParagraphs: number
+): TextZone[] {
+  const sorted = [...lines]
+    .filter((l) => l.width > 0.5 && l.height > 0.2)
+    .sort((a, b) => a.y - b.y);
+
+  if (sorted.length === 0 || numParagraphs === 0) return [];
+
+  // If only 1 paragraph, one big zone
+  if (numParagraphs === 1) {
+    const z = buildZone(sorted);
+    z.availableHeight = 96 - z.y;
+    return [z];
+  }
+
+  const heights = sorted.map((l) => l.height).sort((a, b) => a - b);
+  const medianH = heights[Math.floor(heights.length / 2)];
+
+  // Score every potential split point between consecutive sorted lines
+  const splitScores: { idx: number; score: number }[] = [];
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const prev = sorted[i];
+    const curr = sorted[i + 1];
+    let score = 0;
+
+    // Gap between lines (bigger gap = stronger split)
+    const gap = curr.y - (prev.y + prev.height);
+    score += Math.max(0, gap) / Math.max(0.5, medianH);
+
+    // Size change (height difference)
+    score += (Math.abs(curr.height - prev.height) / Math.max(0.5, medianH)) * 2;
+
+    // Width change
+    const wMax = Math.max(prev.width, curr.width);
+    const wMin = Math.min(prev.width, curr.width);
+    if (wMin > 0.5 && wMax / wMin > 2) score += wMax / wMin;
+
+    // Header/body boundary at y=5%
+    if (prev.y + prev.height <= 5 && curr.y >= 4) score += 10;
+
+    // Alignment shift (center of line moves significantly)
+    const prevCx = prev.x + prev.width / 2;
+    const currCx = curr.x + curr.width / 2;
+    score += Math.abs(prevCx - currCx) / 30;
+
+    splitScores.push({ idx: i, score });
+  }
+
+  // Pick top (numParagraphs - 1) split points
+  const numSplits = Math.min(numParagraphs - 1, splitScores.length);
+  const chosen = [...splitScores]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, numSplits)
+    .map((s) => s.idx)
+    .sort((a, b) => a - b);
+
+  // Build groups from split points
+  const groups: OcrLine[][] = [];
+  let start = 0;
+  for (const splitIdx of chosen) {
+    groups.push(sorted.slice(start, splitIdx + 1));
+    start = splitIdx + 1;
+  }
+  groups.push(sorted.slice(start));
+
+  // Build zones and set availableHeight to extend to next zone's top
+  const zones = groups.map((g) => buildZone(g));
+  for (let i = 0; i < zones.length - 1; i++) {
+    zones[i].availableHeight = zones[i + 1].y - zones[i].y;
+  }
+  // Last zone extends to near page bottom
+  if (zones.length > 0) {
+    const last = zones[zones.length - 1];
+    last.availableHeight = Math.max(
+      last.availableHeight,
+      96 - last.y
+    );
+  }
+
+  return zones;
+}
+
+function buildZone(g: OcrLine[]): TextZone {
+  const minX = Math.min(...g.map((l) => l.x));
+  const minY = Math.min(...g.map((l) => l.y));
+  const maxX = Math.max(...g.map((l) => l.x + l.width));
+  const maxY = Math.max(...g.map((l) => l.y + l.height));
+  const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
+  const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
+  const avgCx = g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
+
+  const isCentered =
+    Math.abs(avgCx - 50) < 15 &&
+    (avgW < 60 ||
+      Math.abs(minX - (100 - maxX)) < 10);
+  const isHeader = minY < 5;
+
+  return {
+    ocrLines: g,
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    availableHeight: maxY - minY,
+    isCentered,
+    isHeader,
+    avgLineHeight: avgH,
+  };
+}
+
+// --- ASSIGN TEXT TO ZONES ---
+
 function assignTextToZones(
   zones: TextZone[],
-  tokens: FlowToken[],
+  paragraphs: Paragraph[],
   imgWidth: number,
   imgHeight: number,
   zoneTextColors: Map<number, string>
@@ -259,164 +214,24 @@ function assignTextToZones(
   const CW = 0.48;
   const result: ZoneContent[] = [];
 
-  // Split tokens into paragraphs (at 'break' tokens)
-  const allParagraphs: { spans: ZoneSpan[]; isAllBold: boolean }[] = [];
-  {
-    let spans: ZoneSpan[] = [];
-    let curText = '';
-    let curBold = false;
-
-    const flushSpan = () => {
-      if (curText) {
-        spans.push({ text: curText, bold: curBold });
-        curText = '';
-      }
-    };
-    const flushPara = () => {
-      flushSpan();
-      if (spans.length > 0) {
-        const isAllBold = spans.every((s) => s.bold);
-        allParagraphs.push({ spans: [...spans], isAllBold });
-        spans = [];
-      }
-    };
-
-    for (const tok of tokens) {
-      if (tok.type === 'break') {
-        flushPara();
-        continue;
-      }
-      if (curText && curBold !== tok.bold) {
-        flushSpan();
-        curBold = tok.bold;
-      }
-      if (!curText) curBold = tok.bold;
-      curText += (curText ? ' ' : '') + tok.word;
-    }
-    flushPara();
-  }
-
-  // Content-aware paragraph-to-zone assignment
-  // 1. Identify special paragraphs: page number, headers
-  // 2. Match them to the right zones
-  // 3. Assign remaining body paragraphs in order
-
-  // Find the page number paragraph (short, bold, just digits)
-  const pageNumIdx = allParagraphs.findIndex((p) => {
-    const text = p.spans.map((s) => s.text).join(' ').trim();
-    return p.isAllBold && text.length <= 5 && /^\d+$/.test(text);
-  });
-
-  // Separate header/title paragraphs (bold) from body paragraphs
-  const headerParas: number[] = []; // indices into allParagraphs
-  const bodyParas: number[] = [];
-  for (let i = 0; i < allParagraphs.length; i++) {
-    if (i === pageNumIdx) continue; // handled separately
-    if (allParagraphs[i].isAllBold) {
-      headerParas.push(i);
-    } else {
-      bodyParas.push(i);
-    }
-  }
-
-  // Classify zones
-  const headerZones: number[] = []; // zone indices
-  const pageNumZones: number[] = [];
-  const titleZones: number[] = []; // large text, centered
-  const bodyZones: number[] = [];
-
-  for (let zi = 0; zi < zones.length; zi++) {
-    const z = zones[zi];
-    const isPageNum = z.y < 5 && z.lines.every((l) => l.text.trim().length <= 3 && l.width < 6);
-    const isHeader = z.y < 5 && !isPageNum;
-    const isTitle = z.avgLineHeight > 3 && z.isCentered;
-    if (isPageNum) pageNumZones.push(zi);
-    else if (isHeader) headerZones.push(zi);
-    else if (isTitle) titleZones.push(zi);
-    else bodyZones.push(zi);
-  }
-
-  // Build assignment map: zone index → paragraph indices
-  const zoneParas: Map<number, number[]> = new Map();
-  zones.forEach((_, i) => zoneParas.set(i, []));
-
-  // Assign page number paragraph to page number zone
-  if (pageNumIdx >= 0 && pageNumZones.length > 0) {
-    zoneParas.get(pageNumZones[0])!.push(pageNumIdx);
-  }
-
-  // Assign bold/header paragraphs to header and title zones
-  let hi = 0;
-  for (const zi of headerZones) {
-    if (hi < headerParas.length) {
-      zoneParas.get(zi)!.push(headerParas[hi]);
-      hi++;
-    }
-  }
-  for (const zi of titleZones) {
-    // Assign remaining bold paragraphs to title zones
-    while (hi < headerParas.length) {
-      zoneParas.get(zi)!.push(headerParas[hi]);
-      hi++;
-    }
-  }
-
-  // Assign body paragraphs to body zones in order
-  let bi = 0;
-  // Any leftover bold paragraphs go to first body zone
-  while (hi < headerParas.length && bodyZones.length > 0) {
-    zoneParas.get(bodyZones[0])!.push(headerParas[hi]);
-    hi++;
-  }
-  for (let bzi = 0; bzi < bodyZones.length; bzi++) {
-    const zi = bodyZones[bzi];
-    const isLastBody = bzi === bodyZones.length - 1;
-    if (isLastBody) {
-      // Last body zone gets all remaining
-      while (bi < bodyParas.length) {
-        zoneParas.get(zi)!.push(bodyParas[bi]);
-        bi++;
-      }
-    } else if (bi < bodyParas.length) {
-      // Assign based on Hebrew content proportion
-      const hebrewChars = zones[zi].lines.reduce((s, l) => s + l.text.length, 0);
-      const totalBodyHebrew = bodyZones.reduce(
-        (s, bz) => s + zones[bz].lines.reduce((s2, l) => s2 + l.text.length, 0), 0
-      );
-      const share = totalBodyHebrew > 0 ? hebrewChars / totalBodyHebrew : 1 / bodyZones.length;
-      const targetParas = Math.max(1, Math.round(share * bodyParas.length));
-      for (let p = 0; p < targetParas && bi < bodyParas.length && (bodyParas.length - bi) > (bodyZones.length - bzi - 1); p++) {
-        zoneParas.get(zi)!.push(bodyParas[bi]);
-        bi++;
-      }
-    }
-  }
-
   for (let zi = 0; zi < zones.length; zi++) {
     const zone = zones[zi];
-    const assignedIndices = zoneParas.get(zi) || [];
-    const paragraphs: ZoneParagraph[] = assignedIndices.map((idx) => ({
-      spans: allParagraphs[idx].spans,
-    }));
+    const para = zi < paragraphs.length ? paragraphs[zi] : null;
+    const charCount = para ? para.charCount : 0;
 
-    // Compute total char count for this zone's assigned paragraphs
-    const charCount = paragraphs.reduce(
-      (s, p) => s + p.spans.reduce((s2, sp) => s2 + sp.text.length + 1, 0), 0
-    );
     const widthPx = (zone.width / 100) * imgWidth;
-    const heightPx = (zone.height / 100) * imgHeight;
+    const heightPx = (zone.availableHeight / 100) * imgHeight;
 
-    // Cap font size at the Hebrew font size
-    let lineHeight = 1.25;
+    // Cap font size at Hebrew font size
     const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
     const maxFs = Math.max(8, Math.floor(hebrewFontPx));
-    const minFs = zone.isHeader ? 7 : 8;
-    let fontSize = 12;
+    const minFs = zone.isHeader ? 6 : 7;
+    let fontSize = Math.min(12, maxFs);
+    let lineHeight = 1.25;
 
-    if (charCount === 0) {
-      fontSize = Math.min(12, maxFs);
-    } else {
+    if (charCount > 0 && widthPx > 0 && heightPx > 0) {
       fontSize = minFs;
+      // Try to find largest font that fits
       for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
         const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
         const linesNeeded = Math.ceil(charCount / cpl);
@@ -425,8 +240,9 @@ function assignTextToZones(
           break;
         }
       }
+      // If still at min, try tighter line height
       if (fontSize <= minFs) {
-        lineHeight = 1.15;
+        lineHeight = 1.1;
         for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
           const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
           const linesNeeded = Math.ceil(charCount / cpl);
@@ -439,187 +255,208 @@ function assignTextToZones(
     }
 
     const textColor = zoneTextColors.get(zi) || '#1a1510';
-    result.push({ zone, paragraphs, fontSize, lineHeight, textColor });
+    result.push({
+      zone,
+      paragraph: para,
+      fontSize,
+      lineHeight,
+      textColor,
+    });
   }
 
   return result;
 }
 
-// --- CANVAS: ERASE HEBREW TEXT (pixel-level, preserves page colors) ---
+// --- CANVAS: ERASE HEBREW TEXT ---
 
-function eraseHebrewAndSampleColors(
+function eraseHebrewText(
   img: HTMLImageElement,
   ocrLines: OcrLine[],
   zones: TextZone[]
 ): { dataUrl: string; textColors: Map<number, string> } | null {
-  try {
-    const canvas = document.createElement('canvas');
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
-    if (w === 0 || h === 0) return null;
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return null;
-
-    ctx.drawImage(img, 0, 0);
-    const imgData = ctx.getImageData(0, 0, w, h);
-    const px = imgData.data;
-
-    const pixLuma = (i: number) => 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-
-    // Erase text in a rectangular region by replacing dark pixels with local background
-    const eraseRect = (ex: number, ey: number, ew: number, eh: number) => {
-      const x0 = Math.max(0, Math.floor(ex));
-      const y0 = Math.max(0, Math.floor(ey));
-      const x1 = Math.min(w, Math.ceil(ex + ew));
-      const y1 = Math.min(h, Math.ceil(ey + eh));
-      if (x1 <= x0 || y1 <= y0) return;
-
-      // Collect all pixel luminances in this region to find the background level
-      const lumas: number[] = [];
-      for (let y = y0; y < y1; y++) {
-        for (let x = x0; x < x1; x++) {
-          lumas.push(pixLuma((y * w + x) * 4));
-        }
-      }
-      lumas.sort((a, b) => b - a);
-
-      // Background = brightest 25% of pixels (the gaps between letters)
-      const bgCount = Math.max(5, Math.floor(lumas.length * 0.25));
-      const bgLuma = lumas[Math.floor(bgCount / 2)]; // median of bright pixels
-      // Threshold: anything darker than 92% of background brightness is text
-      const threshold = bgLuma * 0.92;
-
-      // Compute the actual background color from the brightest pixels
-      const bgR: number[] = [], bgG: number[] = [], bgB: number[] = [];
-      for (let y = y0; y < y1; y++) {
-        for (let x = x0; x < x1; x++) {
-          const idx = (y * w + x) * 4;
-          if (pixLuma(idx) >= bgLuma * 0.95) {
-            bgR.push(px[idx]);
-            bgG.push(px[idx + 1]);
-            bgB.push(px[idx + 2]);
-          }
-        }
-      }
-      if (bgR.length === 0) return;
-      bgR.sort((a, b) => a - b);
-      bgG.sort((a, b) => a - b);
-      bgB.sort((a, b) => a - b);
-      const midR = bgR[Math.floor(bgR.length / 2)];
-      const midG = bgG[Math.floor(bgG.length / 2)];
-      const midB = bgB[Math.floor(bgB.length / 2)];
-
-      // Replace dark pixels (text) with the background color
-      for (let y = y0; y < y1; y++) {
-        for (let x = x0; x < x1; x++) {
-          const idx = (y * w + x) * 4;
-          if (pixLuma(idx) < threshold) {
-            px[idx] = midR;
-            px[idx + 1] = midG;
-            px[idx + 2] = midB;
-          }
-        }
-      }
-    };
-
-    // Erase each OCR line (skip header area y<5% — it has light-on-dark text)
-    for (const line of ocrLines) {
-      if (line.width < 1 || line.height < 0.3) continue;
-      if (line.y < 5) continue; // Don't erase header bar — inverted colors
-
-      const lx = (line.x / 100) * w;
-      const ly = (line.y / 100) * h;
-      const lw = (line.width / 100) * w;
-      const lh = (line.height / 100) * h;
-
-      const padV = lh * 0.4;
-      const padH = lw * 0.08;
-      eraseRect(lx - padH - 6, ly - padV, lw + padH * 2 + 12, lh + padV * 2);
-    }
-
-    // Second pass: erase gaps between segments on same row (dotted leaders)
-    const sortedLines = [...ocrLines]
-      .filter((l) => l.width > 1 && l.height > 0.3)
-      .sort((a, b) => a.y - b.y);
-
-    if (sortedLines.length > 5) {
-      const medH = sortedLines.map((l) => l.height).sort((a, b) => a - b)[
-        Math.floor(sortedLines.length / 2)
-      ];
-      const rowGroups: OcrLine[][] = [[sortedLines[0]]];
-      for (let i = 1; i < sortedLines.length; i++) {
-        const prev = sortedLines[i - 1];
-        const curr = sortedLines[i];
-        if (curr.y < prev.y + prev.height || Math.abs(curr.y - prev.y) < medH * 1.5) {
-          rowGroups[rowGroups.length - 1].push(curr);
-        } else {
-          rowGroups.push([curr]);
-        }
-      }
-
-      for (const row of rowGroups) {
-        if (row.length < 2) continue;
-        const sorted = [...row].sort((a, b) => a.x - b.x);
-        const minY = Math.min(...row.map((l) => l.y));
-        const maxYH = Math.max(...row.map((l) => l.y + l.height));
-        const bandTop = (minY / 100) * h;
-        const bandH = ((maxYH - minY) / 100) * h;
-
-        for (let si = 0; si < sorted.length - 1; si++) {
-          const gapLeftPct = sorted[si].x + sorted[si].width;
-          const gapRightPct = sorted[si + 1].x;
-          if (gapRightPct - gapLeftPct > 3) {
-            const gapLeft = (gapLeftPct / 100) * w;
-            const gapRight = (gapRightPct / 100) * w;
-            eraseRect(gapLeft - 2, bandTop - bandH * 0.15, gapRight - gapLeft + 4, bandH * 1.3);
-          }
-        }
-      }
-    }
-
-    // Write modified pixels back to canvas
-    ctx.putImageData(imgData, 0, 0);
-
-    // Determine text color per zone from the background luminance
-    const median = (arr: number[]) => {
-      const s = [...arr].sort((a, b) => a - b);
-      return s[Math.floor(s.length / 2)];
-    };
-    const textColors = new Map<number, string>();
-    for (let zi = 0; zi < zones.length; zi++) {
-      const zone = zones[zi];
-      const zx = (zone.x / 100) * w;
-      const zy = (zone.y / 100) * h;
-      const zw = (zone.width / 100) * w;
-      const zh = (zone.height / 100) * h;
-
-      // Sample a 5x5 grid from the cleaned canvas to determine text color
-      const zSamples: [number, number, number][] = [];
-      for (const fx of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-        for (const fy of [0.1, 0.3, 0.5, 0.7, 0.9]) {
-          const sx = Math.max(0, Math.min(w - 1, Math.floor(zx + fx * zw)));
-          const sy = Math.max(0, Math.min(h - 1, Math.floor(zy + fy * zh)));
-          // Read from the current canvas state (after erasure)
-          const cd = ctx.getImageData(sx, sy, 1, 1).data;
-          zSamples.push([cd[0], cd[1], cd[2]]);
-        }
-      }
-      if (zSamples.length > 0) {
-        const mr = median(zSamples.map((s) => s[0]));
-        const mg = median(zSamples.map((s) => s[1]));
-        const mb = median(zSamples.map((s) => s[2]));
-        const luminance = 0.299 * mr + 0.587 * mg + 0.114 * mb;
-        textColors.set(zi, luminance < 160 ? '#ffffff' : '#1a1510');
-      }
-    }
-
-    const dataUrl = canvas.toDataURL('image/png');
-    return { dataUrl, textColors };
-  } catch {
+  const canvas = document.createElement('canvas');
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+  if (w === 0 || h === 0) {
+    console.warn('eraseHebrewText: image has zero dimensions');
     return null;
   }
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) {
+    console.warn('eraseHebrewText: failed to get canvas context');
+    return null;
+  }
+
+  ctx.drawImage(img, 0, 0);
+
+  let imgData: ImageData;
+  try {
+    imgData = ctx.getImageData(0, 0, w, h);
+  } catch (e) {
+    console.error('eraseHebrewText: canvas tainted or getImageData failed:', e);
+    return null;
+  }
+
+  const px = imgData.data;
+  const pixLuma = (i: number) =>
+    0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+
+  // Erase a rectangle by replacing dark pixels with local background color
+  const eraseRect = (ex: number, ey: number, ew: number, eh: number) => {
+    const x0 = Math.max(0, Math.floor(ex));
+    const y0 = Math.max(0, Math.floor(ey));
+    const x1 = Math.min(w, Math.ceil(ex + ew));
+    const y1 = Math.min(h, Math.ceil(ey + eh));
+    if (x1 <= x0 || y1 <= y0) return;
+
+    // Collect luminances to find background level
+    const lumas: number[] = [];
+    for (let y = y0; y < y1; y++) {
+      for (let x = x0; x < x1; x++) {
+        lumas.push(pixLuma((y * w + x) * 4));
+      }
+    }
+    lumas.sort((a, b) => b - a);
+
+    const bgCount = Math.max(5, Math.floor(lumas.length * 0.2));
+    const bgLuma = lumas[Math.floor(bgCount / 2)];
+    const threshold = bgLuma * 0.93;
+
+    // Compute background color from brightest pixels
+    const bgR: number[] = [];
+    const bgG: number[] = [];
+    const bgB: number[] = [];
+    for (let y = y0; y < y1; y++) {
+      for (let x = x0; x < x1; x++) {
+        const idx = (y * w + x) * 4;
+        if (pixLuma(idx) >= bgLuma * 0.95) {
+          bgR.push(px[idx]);
+          bgG.push(px[idx + 1]);
+          bgB.push(px[idx + 2]);
+        }
+      }
+    }
+    if (bgR.length === 0) return;
+    bgR.sort((a, b) => a - b);
+    bgG.sort((a, b) => a - b);
+    bgB.sort((a, b) => a - b);
+    const midR = bgR[Math.floor(bgR.length / 2)];
+    const midG = bgG[Math.floor(bgG.length / 2)];
+    const midB = bgB[Math.floor(bgB.length / 2)];
+
+    // Replace dark pixels with background
+    for (let y = y0; y < y1; y++) {
+      for (let x = x0; x < x1; x++) {
+        const idx = (y * w + x) * 4;
+        if (pixLuma(idx) < threshold) {
+          px[idx] = midR;
+          px[idx + 1] = midG;
+          px[idx + 2] = midB;
+        }
+      }
+    }
+  };
+
+  // Sort lines by y for band-based erasure
+  const bodyLines = ocrLines
+    .filter((l) => l.width > 0.5 && l.height > 0.2 && l.y >= 5)
+    .sort((a, b) => a.y - b.y);
+
+  // Erase each body line with generous padding
+  for (const line of bodyLines) {
+    const lx = (line.x / 100) * w;
+    const ly = (line.y / 100) * h;
+    const lw = (line.width / 100) * w;
+    const lh = (line.height / 100) * h;
+
+    const padV = lh * 0.5;
+    const padH = lw * 0.1;
+    eraseRect(lx - padH - 8, ly - padV, lw + padH * 2 + 16, lh + padV * 2);
+  }
+
+  // Sweep gaps between consecutive lines on the same band
+  // (catches descenders, ascenders, dotted leaders)
+  for (let i = 0; i < bodyLines.length - 1; i++) {
+    const curr = bodyLines[i];
+    const next = bodyLines[i + 1];
+    const currBottom = curr.y + curr.height;
+    const gapPct = next.y - currBottom;
+
+    // If gap is small (lines are close), erase the gap between them
+    if (gapPct > 0 && gapPct < 3) {
+      const gapLeft = Math.min(curr.x, next.x);
+      const gapRight = Math.max(curr.x + curr.width, next.x + next.width);
+      const gx = (gapLeft / 100) * w - 4;
+      const gy = (currBottom / 100) * h;
+      const gw = ((gapRight - gapLeft) / 100) * w + 8;
+      const gh = (gapPct / 100) * h;
+      eraseRect(gx, gy, gw, gh);
+    }
+  }
+
+  // Also erase gaps between segments on same row (multi-column, dotted leaders)
+  if (bodyLines.length > 2) {
+    const medH = bodyLines.map((l) => l.height).sort((a, b) => a - b)[
+      Math.floor(bodyLines.length / 2)
+    ];
+    const rows: OcrLine[][] = [[bodyLines[0]]];
+    for (let i = 1; i < bodyLines.length; i++) {
+      const prev = bodyLines[i - 1];
+      const curr = bodyLines[i];
+      if (Math.abs(curr.y - prev.y) < medH * 1.5) {
+        rows[rows.length - 1].push(curr);
+      } else {
+        rows.push([curr]);
+      }
+    }
+    for (const row of rows) {
+      if (row.length < 2) continue;
+      const segs = [...row].sort((a, b) => a.x - b.x);
+      const bandTop = Math.min(...row.map((l) => l.y));
+      const bandBot = Math.max(...row.map((l) => l.y + l.height));
+      for (let si = 0; si < segs.length - 1; si++) {
+        const gapL = segs[si].x + segs[si].width;
+        const gapR = segs[si + 1].x;
+        if (gapR - gapL > 2) {
+          const gy = (bandTop / 100) * h - 2;
+          const gx = (gapL / 100) * w - 2;
+          const gw = ((gapR - gapL) / 100) * w + 4;
+          const gh = ((bandBot - bandTop) / 100) * h + 4;
+          eraseRect(gx, gy, gw, gh);
+        }
+      }
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+
+  // Determine text color per zone from background luminance
+  const textColors = new Map<number, string>();
+  for (let zi = 0; zi < zones.length; zi++) {
+    const zone = zones[zi];
+    const zx = (zone.x / 100) * w;
+    const zy = (zone.y / 100) * h;
+    const zw = (zone.width / 100) * w;
+    const zh = (zone.availableHeight / 100) * h;
+
+    const samples: number[] = [];
+    for (const fx of [0.2, 0.5, 0.8]) {
+      for (const fy of [0.2, 0.5, 0.8]) {
+        const sx = Math.max(0, Math.min(w - 1, Math.floor(zx + fx * zw)));
+        const sy = Math.max(0, Math.min(h - 1, Math.floor(zy + fy * zh)));
+        const cd = ctx.getImageData(sx, sy, 1, 1).data;
+        samples.push(0.299 * cd[0] + 0.587 * cd[1] + 0.114 * cd[2]);
+      }
+    }
+    const medLuma = [...samples].sort((a, b) => a - b)[
+      Math.floor(samples.length / 2)
+    ];
+    textColors.set(zi, medLuma < 160 ? '#ffffff' : '#1a1510');
+  }
+
+  return { dataUrl: canvas.toDataURL('image/png'), textColors };
 }
 
 // --- OVERLAY COMPONENT ---
@@ -630,23 +467,31 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
   const [cleanedSrc, setCleanedSrc] = useState<string | null>(null);
-  const [textColors, setTextColors] = useState<Map<number, string>>(
-    new Map()
-  );
+  const [textColors, setTextColors] = useState<Map<number, string>>(new Map());
   const [zones, setZones] = useState<TextZone[]>([]);
+  const [paragraphs, setParagraphs] = useState<Paragraph[]>([]);
 
-  // Track displayed image size for overlay positioning
+  // Parse translation into paragraphs
+  useEffect(() => {
+    if (page.translation?.englishOutput) {
+      setParagraphs(parseTranslation(page.translation.englishOutput));
+    }
+  }, [page.translation]);
+
+  // Create zones once we have paragraphs and OCR lines
+  useEffect(() => {
+    if (page.lines.length > 0 && paragraphs.length > 0) {
+      setZones(createZones(page.lines, paragraphs.length));
+    }
+  }, [page.lines, paragraphs]);
+
+  // Track displayed image size
   useEffect(() => {
     const target = displayRef.current || imgRef.current;
     if (target && imgLoaded) {
       const update = () => {
         const el = displayRef.current || imgRef.current;
-        if (el) {
-          setImgSize({
-            width: el.clientWidth,
-            height: el.clientHeight,
-          });
-        }
+        if (el) setImgSize({ width: el.clientWidth, height: el.clientHeight });
       };
       update();
       const observer = new ResizeObserver(update);
@@ -655,37 +500,26 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     }
   }, [imgLoaded, cleanedSrc]);
 
-  // Compute zones once
-  useEffect(() => {
-    if (page.lines.length > 0) {
-      setZones(groupIntoZones(page.lines));
-    }
-  }, [page.lines]);
-
-  // Erase Hebrew text from canvas and get cleaned image + text colors
+  // Erase Hebrew text from canvas
   useEffect(() => {
     if (imgRef.current && imgLoaded && zones.length > 0) {
-      const result = eraseHebrewAndSampleColors(
-        imgRef.current,
-        page.lines,
-        zones
-      );
+      const result = eraseHebrewText(imgRef.current, page.lines, zones);
       if (result) {
         setCleanedSrc(result.dataUrl);
         setTextColors(result.textColors);
+      } else {
+        console.warn('Hebrew erasure failed for page', page.pageNumber);
       }
     }
-  }, [imgLoaded, zones, page.lines]);
+  }, [imgLoaded, zones, page.lines, page.pageNumber]);
 
   if (!page.translation || !page.lines.length) return null;
-
-  const tokens = tokenizeTranslation(page.translation.englishOutput);
 
   let zoneContents: ZoneContent[] = [];
   if (imgSize.width > 0 && zones.length > 0) {
     zoneContents = assignTextToZones(
       zones,
-      tokens,
+      paragraphs,
       imgSize.width,
       imgSize.height,
       textColors
@@ -694,10 +528,11 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   return (
     <div className="relative inline-block w-full">
-      {/* Original image — hidden offscreen for canvas processing, not display:none so it loads properly */}
+      {/* Hidden original image for canvas processing */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgRef}
+        crossOrigin="anonymous"
         src={`/api/pages/${page.id}/image`}
         alt={`Page ${page.pageNumber}`}
         style={{
@@ -711,7 +546,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         onLoad={() => setImgLoaded(true)}
       />
 
-      {/* Cleaned image (Hebrew erased, original colors preserved) */}
+      {/* Cleaned image (Hebrew erased) */}
       {cleanedSrc && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -722,15 +557,12 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         />
       )}
 
-      {/* English text overlay — transparent backgrounds, text only */}
+      {/* English text overlay */}
       {imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
           {zoneContents.map(
-            ({ zone, paragraphs, fontSize, lineHeight, textColor }, zi) => {
-              const hasContent = paragraphs.some((p) =>
-                p.spans.some((s) => s.text.trim())
-              );
-              if (!hasContent) return null;
+            ({ zone, paragraph, fontSize, lineHeight, textColor }, zi) => {
+              if (!paragraph || paragraph.charCount === 0) return null;
 
               return (
                 <div
@@ -740,38 +572,29 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     left: `${zone.x}%`,
                     top: `${zone.y}%`,
                     width: `${zone.width}%`,
-                    height: `${zone.height}%`,
+                    height: `${zone.availableHeight}%`,
                     overflow: 'hidden',
                     padding: '1px 3px',
                     direction: 'ltr',
                     textAlign: zone.isCentered ? 'center' : 'left',
                   }}
                 >
-                  {paragraphs.map((para, pi) => (
-                    <div
-                      key={pi}
+                  {paragraph.spans.map((span, si) => (
+                    <span
+                      key={si}
                       style={{
-                        marginTop: pi > 0 ? `${fontSize * 0.3}px` : 0,
+                        fontFamily:
+                          'Georgia, "Times New Roman", "Palatino Linotype", serif',
+                        fontSize: `${fontSize}px`,
+                        fontWeight: span.bold ? 700 : 400,
+                        color: textColor,
+                        lineHeight: lineHeight,
+                        wordWrap: 'break-word',
+                        overflowWrap: 'break-word',
                       }}
                     >
-                      {para.spans.map((span, si) => (
-                        <span
-                          key={si}
-                          style={{
-                            fontFamily:
-                              'Georgia, "Times New Roman", "Palatino Linotype", serif',
-                            fontSize: `${fontSize}px`,
-                            fontWeight: span.bold ? 700 : 400,
-                            color: textColor,
-                            lineHeight: lineHeight,
-                            wordWrap: 'break-word',
-                            overflowWrap: 'break-word',
-                          }}
-                        >
-                          {span.text}
-                        </span>
-                      ))}
-                    </div>
+                      {span.text}{' '}
+                    </span>
                   ))}
                 </div>
               );
@@ -824,16 +647,11 @@ export default function ComparePage() {
 
   const jumpToPage = (pageNumber: number) => {
     const el = rowRefs.current[pageNumber];
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const togglePage = (pageNumber: number) => {
-    setShowEnglish((prev) => ({
-      ...prev,
-      [pageNumber]: !prev[pageNumber],
-    }));
+    setShowEnglish((prev) => ({ ...prev, [pageNumber]: !prev[pageNumber] }));
   };
 
   const toggleAll = () => {

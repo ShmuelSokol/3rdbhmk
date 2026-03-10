@@ -32,90 +32,215 @@ interface BookData {
 }
 
 /**
- * Strip markdown formatting from text
+ * Parse translation text into paragraphs with bold information from markdown.
  */
-function stripMarkdown(text: string): string {
-  return text
-    .replace(/\*\*([^*]+)\*\*/g, '$1')  // **bold**
-    .replace(/\*([^*]+)\*/g, '$1')       // *italic*
-    .replace(/^#+\s+/gm, '')             // # headers
-    .replace(/`([^`]+)`/g, '$1')         // `code`
+interface ParsedParagraph {
+  text: string;
+  isBold: boolean;
 }
 
-/**
- * Analyze each OCR line to determine its visual properties (centered, bold, font size)
- * and flow English text into lines preserving those properties.
- */
-function flowTextToLines(
-  englishText: string,
-  lines: OcrLine[],
-  imgWidth: number,
-  imgHeight: number
-): Array<{ line: OcrLine; text: string; fontSize: number; isCentered: boolean; isBold: boolean }> {
-  const textLines = lines.filter((l) => l.width > 3 && l.height > 0.5);
-  if (textLines.length === 0) return [];
+function parseTranslation(raw: string): ParsedParagraph[] {
+  const paragraphs = raw.split(/\n\s*\n/);
+  const result: ParsedParagraph[] = [];
 
-  const cleanText = stripMarkdown(englishText);
-
-  // Calculate median body line height to detect headers
-  const heights = textLines.map((l) => l.height).sort((a, b) => a - b);
-  const medianHeight = heights[Math.floor(heights.length / 2)];
-
-  // Detect line properties from OCR geometry
-  const lineProps = textLines.map((line) => {
-    const lineHeightPx = (line.height / 100) * imgHeight;
-    // Font size proportional to line height - NO cap, match the original
-    const fontSize = Math.max(8, lineHeightPx * 0.72);
-    // Centered: line center is near page center AND doesn't span most of the width
-    const lineCenterX = line.x + line.width / 2;
-    const isCentered = Math.abs(lineCenterX - 50) < 8 && line.width < 70;
-    // Bold: line height significantly larger than median body text
-    const isBold = line.height > medianHeight * 1.4;
-    return { line, fontSize, isCentered, isBold };
-  });
-
-  // Split English into tokens
-  const paragraphs = cleanText.split('\n');
-  const tokens: Array<{ word: string; paragraphBreak: boolean }> = [];
   for (const para of paragraphs) {
     const trimmed = para.trim();
-    if (trimmed === '') {
-      if (tokens.length > 0) tokens.push({ word: '', paragraphBreak: true });
-      continue;
-    }
-    for (const w of trimmed.split(/\s+/)) {
-      tokens.push({ word: w, paragraphBreak: false });
+    if (!trimmed) continue;
+
+    // Check if entire paragraph is bold (**...**)
+    const boldMatch = trimmed.match(/^\*\*([\s\S]+?)\*\*$/);
+    if (boldMatch) {
+      result.push({ text: boldMatch[1].trim(), isBold: true });
+    } else {
+      const clean = trimmed
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/^#+\s+/gm, '')
+        .replace(/`([^`]+)`/g, '$1');
+      result.push({ text: clean, isBold: false });
     }
   }
 
-  const result: Array<{ line: OcrLine; text: string; fontSize: number; isCentered: boolean; isBold: boolean }> = [];
-  let tokenIdx = 0;
+  return result;
+}
 
-  for (const { line, fontSize, isCentered, isBold } of lineProps) {
-    if (tokenIdx >= tokens.length) {
-      result.push({ line, text: '', fontSize, isCentered, isBold });
+/**
+ * A text block groups consecutive OCR lines of the same type (header or body).
+ */
+interface TextBlock {
+  lines: OcrLine[];
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  isHeader: boolean;
+  isCentered: boolean;
+}
+
+/**
+ * Group OCR lines into text blocks.
+ * Header lines (large or narrow-centered) form their own blocks.
+ * Consecutive body lines merge into body blocks.
+ */
+function groupLinesIntoBlocks(lines: OcrLine[]): TextBlock[] {
+  const textLines = lines.filter(l => l.width > 1 && l.height > 0.3);
+  if (textLines.length === 0) return [];
+
+  // Sort by lineIndex to preserve OCR reading order (not y-position)
+  const sorted = [...textLines].sort((a, b) => a.lineIndex - b.lineIndex);
+  const heights = sorted.map(l => l.height).sort((a, b) => a - b);
+  const medianHeight = heights[Math.floor(heights.length / 2)];
+
+  const blocks: TextBlock[] = [];
+  let bodyGroup: OcrLine[] = [];
+
+  const flushBody = () => {
+    if (bodyGroup.length === 0) return;
+    const g = bodyGroup;
+    const minX = Math.min(...g.map(l => l.x));
+    const minY = Math.min(...g.map(l => l.y));
+    const maxX = Math.max(...g.map(l => l.x + l.width));
+    const maxY = Math.max(...g.map(l => l.y + l.height));
+    const avgCx = g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
+    const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
+    blocks.push({
+      lines: [...g],
+      x: minX, y: minY,
+      width: maxX - minX, height: maxY - minY,
+      isHeader: false,
+      isCentered: Math.abs(avgCx - 50) < 10 && avgW < 60,
+    });
+    bodyGroup = [];
+  };
+
+  for (const line of sorted) {
+    const lineCx = line.x + line.width / 2;
+    const isCenteredNarrow = Math.abs(lineCx - 50) < 10 && line.width < 35;
+    const isLargeText = line.height > medianHeight * 1.2;
+    const isHeader = isLargeText || isCenteredNarrow;
+
+    if (isHeader) {
+      // Check if this header should merge with previous header block
+      const prevBlock = blocks.length > 0 ? blocks[blocks.length - 1] : null;
+      const prevIsHeader = prevBlock && prevBlock.isHeader;
+      const isContiguous = prevBlock && (line.y - (prevBlock.y + prevBlock.height)) < medianHeight * 2;
+
+      if (bodyGroup.length > 0) flushBody();
+
+      // Only merge headers of similar height (e.g., multi-line title)
+      const lastLineInPrev = prevBlock ? prevBlock.lines[prevBlock.lines.length - 1] : null;
+      const similarHeight = lastLineInPrev
+        ? Math.abs(line.height - lastLineInPrev.height) < medianHeight * 0.8
+        : false;
+
+      if (prevIsHeader && isContiguous && similarHeight) {
+        // Merge with previous header block
+        prevBlock.lines.push(line);
+        const minX = Math.min(prevBlock.x, line.x);
+        const maxX = Math.max(prevBlock.x + prevBlock.width, line.x + line.width);
+        const maxY = line.y + line.height;
+        prevBlock.x = minX;
+        prevBlock.width = maxX - minX;
+        prevBlock.height = maxY - prevBlock.y;
+        // Recompute centered
+        const allCx = prevBlock.lines.reduce((s, l) => s + l.x + l.width / 2, 0) / prevBlock.lines.length;
+        const allW = prevBlock.lines.reduce((s, l) => s + l.width, 0) / prevBlock.lines.length;
+        prevBlock.isCentered = Math.abs(allCx - 50) < 10 && allW < 75;
+      } else {
+        blocks.push({
+          lines: [line],
+          x: line.x, y: line.y,
+          width: line.width, height: line.height,
+          isHeader: true,
+          isCentered: Math.abs(lineCx - 50) < 10,
+        });
+      }
+    } else {
+      // Body line — check for large gap from previous body line
+      if (bodyGroup.length > 0) {
+        const lastLine = bodyGroup[bodyGroup.length - 1];
+        const gap = line.y - (lastLine.y + lastLine.height);
+        if (gap > medianHeight * 3) flushBody();
+      }
+      bodyGroup.push(line);
+    }
+  }
+  flushBody();
+
+  return blocks;
+}
+
+/**
+ * Assign translation paragraphs to text blocks sequentially.
+ * Bold paragraphs go to header blocks; non-bold to body blocks.
+ */
+interface BlockAssignment {
+  block: TextBlock;
+  text: string;
+  isBold: boolean;
+  fontSize: number;
+}
+
+function assignTextToBlocks(
+  blocks: TextBlock[],
+  paragraphs: ParsedParagraph[],
+  imgWidth: number,
+  imgHeight: number
+): BlockAssignment[] {
+  const result: BlockAssignment[] = [];
+  let paraIdx = 0;
+
+  for (const block of blocks) {
+    if (paraIdx >= paragraphs.length) {
+      result.push({ block, text: '', isBold: false, fontSize: 12 });
       continue;
     }
 
-    const lineWidthPx = (line.width / 100) * imgWidth;
-    const charWidth = fontSize * 0.48;
-    const maxChars = Math.floor(lineWidthPx / charWidth);
+    const widthPx = (block.width / 100) * imgWidth;
+    const heightPx = (block.height / 100) * imgHeight;
+    const avgLineH = block.lines.reduce((s, l) => s + l.height, 0) / block.lines.length;
+    const avgLineHPx = (avgLineH / 100) * imgHeight;
+    const baseFontSize = Math.max(8, avgLineHPx * 0.72);
 
-    let lineText = '';
-    let charCount = 0;
+    let text: string;
+    let isBold: boolean;
 
-    while (tokenIdx < tokens.length) {
-      const token = tokens[tokenIdx];
-      if (token.paragraphBreak) { tokenIdx++; break; }
-      const addSpace = lineText.length > 0 ? 1 : 0;
-      const needed = token.word.length + addSpace;
-      if (charCount + needed > maxChars && lineText.length > 0) break;
-      lineText += (addSpace ? ' ' : '') + token.word;
-      charCount += needed;
-      tokenIdx++;
+    if (block.isHeader) {
+      // Header: take one paragraph
+      text = paragraphs[paraIdx].text;
+      isBold = true; // Headers always bold
+      paraIdx++;
+    } else {
+      // Body: take all remaining non-bold paragraphs (stop before next bold)
+      const parts: string[] = [];
+      while (paraIdx < paragraphs.length) {
+        if (paragraphs[paraIdx].isBold && parts.length > 0) break;
+        parts.push(paragraphs[paraIdx].text);
+        paraIdx++;
+      }
+      text = parts.join('\n\n');
+      isBold = false;
     }
 
-    result.push({ line, text: lineText, fontSize, isCentered, isBold });
+    // Auto-size font to fit text in the block area
+    let fontSize = baseFontSize;
+    if (text.length > 0 && widthPx > 0 && heightPx > 0) {
+      const CW = 0.55; // char width ratio
+      const LH = block.isHeader ? 1.25 : 1.45; // line height ratio
+
+      // How many chars fit at baseFontSize?
+      const charsPerLine = widthPx / (baseFontSize * CW);
+      const maxLines = Math.max(1, Math.floor(heightPx / (baseFontSize * LH)));
+      const capacity = charsPerLine * maxLines;
+
+      if (text.length > capacity) {
+        // Shrink: f = sqrt(W * H / (chars * CW * LH)) with safety margin
+        const fitted = Math.sqrt((widthPx * heightPx) / (text.length * CW * LH));
+        fontSize = Math.max(6, fitted * 0.88);
+      }
+    }
+
+    result.push({ block, text, isBold, fontSize });
   }
 
   return result;
@@ -206,15 +331,12 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   if (!page.translation || !page.lines.length) return null;
 
-  const flowedLines =
-    imgSize.width > 0
-      ? flowTextToLines(
-          page.translation.englishOutput,
-          page.lines,
-          imgSize.width,
-          imgSize.height
-        )
-      : [];
+  // Build text blocks and assign translated text
+  const blocks = imgSize.width > 0 ? groupLinesIntoBlocks(page.lines) : [];
+  const paragraphs = page.translation ? parseTranslation(page.translation.englishOutput) : [];
+  const assignments = imgSize.width > 0
+    ? assignTextToBlocks(blocks, paragraphs, imgSize.width, imgSize.height)
+    : [];
 
   return (
     <div ref={containerRef} className="relative inline-block w-full">
@@ -228,23 +350,25 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         onLoad={() => setImgLoaded(true)}
       />
 
-      {/* Overlay: English text at exact OCR line positions */}
+      {/* Overlay: English text blocks at OCR positions */}
       {imgLoaded && imgSize.width > 0 && (
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          {flowedLines.map(({ line, text, fontSize, isCentered, isBold }, idx) => (
+          {assignments.map(({ block, text, isBold, fontSize }, idx) => (
             <div
-              key={`line-${idx}`}
+              key={`block-${idx}`}
               style={{
                 position: 'absolute',
-                left: `${line.x}%`,
-                top: `${line.y}%`,
-                width: `${line.width}%`,
-                height: `${line.height}%`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: isCentered ? 'center' : 'flex-start',
+                left: `${block.x}%`,
+                top: `${block.y}%`,
+                width: `${block.width}%`,
+                height: `${block.height}%`,
                 backgroundColor: bgColor,
                 overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: block.isHeader ? 'center' : 'flex-start',
+                alignItems: block.isCentered ? 'center' : 'stretch',
+                padding: block.isHeader ? '0 2px' : '0',
               }}
             >
               {text && (
@@ -253,10 +377,12 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     fontFamily: 'Georgia, "Times New Roman", "Palatino Linotype", serif',
                     fontSize: `${fontSize}px`,
                     fontWeight: isBold ? 700 : 400,
-                    lineHeight: 1,
+                    lineHeight: block.isHeader ? 1.25 : 1.45,
                     color: '#1a1510',
-                    whiteSpace: 'nowrap',
                     direction: 'ltr',
+                    textAlign: block.isCentered ? 'center' : 'left',
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word',
                   }}
                 >
                   {text}

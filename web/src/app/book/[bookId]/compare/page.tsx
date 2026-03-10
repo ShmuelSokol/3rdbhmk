@@ -171,12 +171,20 @@ function buildZone(g: OcrLine[]): TextZone {
     (avgW < 60 || Math.abs(minX - (100 - maxX)) < 10);
   const isHeader = minY < 5;
 
+  // For centered zones, expand width so English text has room
+  let zoneX = minX;
+  let zoneW = maxX - minX;
+  if (isCentered && !isHeader && zoneW < 50) {
+    zoneW = Math.max(zoneW, 60);
+    zoneX = 50 - zoneW / 2;
+  }
+
   return {
     ocrLines: g,
     hebrewChars,
-    x: minX,
+    x: zoneX,
     y: minY,
-    width: maxX - minX,
+    width: zoneW,
     availableHeight: maxY - minY,
     isCentered,
     isHeader,
@@ -184,26 +192,26 @@ function buildZone(g: OcrLine[]): TextZone {
   };
 }
 
-// --- ASSIGN PARAGRAPHS TO ZONES (proportional by Hebrew content) ---
+// --- ASSIGN PARAGRAPHS TO ZONES ---
 
-// Walk paragraphs in order, assign to zones proportionally based on
-// how much Hebrew text each zone contains. This ensures English text
-// lands in the same region as the Hebrew it was translated from.
+// 1. Assign ALL paragraphs to ALL zones proportionally (header absorbs its share)
+// 2. Filter to non-header zones only
+// 3. Redistribute heights so content zones fill the available space well
+// 4. Calculate font sizes for the redistributed zones
 function assignTextToZones(
   zones: TextZone[],
   paragraphs: Paragraph[],
   imgWidth: number,
-  imgHeight: number,
-  zoneTextColors: Map<number, string>
+  imgHeight: number
 ): ZoneContent[] {
   const CW = 0.48;
 
-  // Calculate proportional targets
+  if (zones.length === 0 || paragraphs.length === 0) return [];
+
+  // Step 1: Proportional assignment to ALL zones (including header)
   const totalHebrew = zones.reduce((s, z) => s + z.hebrewChars, 0);
   const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
 
-  // Build cumulative Hebrew char targets for each zone
-  // When we've assigned this many English chars, move to next zone
   const zoneTargets: number[] = [];
   let cumHebrew = 0;
   for (const zone of zones) {
@@ -212,16 +220,13 @@ function assignTextToZones(
     zoneTargets.push(share * totalEnglish);
   }
 
-  // Walk paragraphs and assign to zones proportionally
   const zoneParas: Paragraph[][] = zones.map(() => []);
   let currentZone = 0;
   let runningEnglish = 0;
 
   for (const para of paragraphs) {
-    // Move to next zone if we've exceeded current zone's proportional target
-    // (but never skip more than one zone at a time, and always keep at least
-    // one paragraph in last zone)
-    while (
+    // Use `if` (not `while`) — move at most one zone at a time
+    if (
       currentZone < zones.length - 1 &&
       runningEnglish > 0 &&
       runningEnglish >= zoneTargets[currentZone]
@@ -232,44 +237,78 @@ function assignTextToZones(
     runningEnglish += para.charCount;
   }
 
-  // Build ZoneContent with font sizing
+  // Step 2: Filter to non-header zones
+  const renderEntries: { zone: TextZone; paras: Paragraph[] }[] = [];
+  for (let zi = 0; zi < zones.length; zi++) {
+    if (!zones[zi].isHeader) {
+      renderEntries.push({
+        zone: { ...zones[zi] }, // clone so we can modify positions
+        paras: zoneParas[zi],
+      });
+    }
+  }
+
+  if (renderEntries.length === 0) return [];
+
+  // Step 3: Redistribute heights proportionally to content
+  // Each zone gets height proportional to its char count, with a minimum
+  const startY = renderEntries[0].zone.y;
+  const endY = 96;
+  const totalAvailable = endY - startY;
+  const MIN_ZONE_HEIGHT = 3; // minimum 3% per zone
+
+  const charCounts = renderEntries.map((re) =>
+    re.paras.reduce((s, p) => s + p.charCount, 0)
+  );
+  const totalChars = charCounts.reduce((s, c) => s + c, 0);
+
+  // First pass: assign proportional heights with minimum
+  const rawHeights = charCounts.map((c) =>
+    Math.max(MIN_ZONE_HEIGHT, totalAvailable * (c / Math.max(1, totalChars)))
+  );
+  const rawTotal = rawHeights.reduce((s, h) => s + h, 0);
+
+  // Scale to fit available space
+  const scale = totalAvailable / rawTotal;
+  let currentY = startY;
+  for (let i = 0; i < renderEntries.length; i++) {
+    renderEntries[i].zone.y = currentY;
+    renderEntries[i].zone.availableHeight = rawHeights[i] * scale;
+    currentY += renderEntries[i].zone.availableHeight;
+  }
+
+  // Step 4: Calculate font sizes
   const result: ZoneContent[] = [];
 
-  for (let zi = 0; zi < zones.length; zi++) {
-    const zone = zones[zi];
-    const paras = zoneParas[zi];
+  for (const { zone, paras } of renderEntries) {
     const charCount = paras.reduce((s, p) => s + p.charCount, 0);
-
     const widthPx = (zone.width / 100) * imgWidth;
     const heightPx = (zone.availableHeight / 100) * imgHeight;
 
-    // Cap font size at Hebrew font size
     const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
     const maxFs = Math.max(8, Math.floor(hebrewFontPx));
-    const minFs = zone.isHeader ? 6 : 7;
-    let fontSize = Math.min(12, maxFs);
+    const minFs = 7;
+    let fontSize = Math.min(14, maxFs);
     let lineHeight = 1.25;
 
     if (charCount > 0 && widthPx > 0 && heightPx > 0) {
-      // Add inter-paragraph spacing to char count estimate
       const extraChars = Math.max(0, paras.length - 1) * 10;
-      const totalChars = charCount + extraChars;
+      const totalCharsEst = charCount + extraChars;
 
       fontSize = minFs;
       for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
         const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-        const linesNeeded = Math.ceil(totalChars / cpl);
+        const linesNeeded = Math.ceil(totalCharsEst / cpl);
         if (linesNeeded * fs * lineHeight <= heightPx) {
           fontSize = fs;
           break;
         }
       }
-      // Tighter line height as fallback
       if (fontSize <= minFs) {
         lineHeight = 1.1;
         for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
           const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-          const linesNeeded = Math.ceil(totalChars / cpl);
+          const linesNeeded = Math.ceil(totalCharsEst / cpl);
           if (linesNeeded * fs * lineHeight <= heightPx) {
             fontSize = fs;
             break;
@@ -278,8 +317,13 @@ function assignTextToZones(
       }
     }
 
-    const textColor = zoneTextColors.get(zi) || '#1a1510';
-    result.push({ zone, paragraphs: paras, fontSize, lineHeight, textColor });
+    result.push({
+      zone,
+      paragraphs: paras,
+      fontSize,
+      lineHeight,
+      textColor: '#1a1510', // dark text on white/cream erased background
+    });
   }
 
   return result;
@@ -289,9 +333,8 @@ function assignTextToZones(
 
 function eraseHebrewText(
   img: HTMLImageElement,
-  ocrLines: OcrLine[],
-  zones: TextZone[]
-): { dataUrl: string; textColors: Map<number, string> } | null {
+  ocrLines: OcrLine[]
+): string | null {
   const canvas = document.createElement('canvas');
   const w = img.naturalWidth;
   const h = img.naturalHeight;
@@ -449,32 +492,7 @@ function eraseHebrewText(
   }
 
   ctx.putImageData(imgData, 0, 0);
-
-  // Determine text color per zone from background luminance
-  const textColors = new Map<number, string>();
-  for (let zi = 0; zi < zones.length; zi++) {
-    const zone = zones[zi];
-    const zx = (zone.x / 100) * w;
-    const zy = (zone.y / 100) * h;
-    const zw = (zone.width / 100) * w;
-    const zh = (zone.availableHeight / 100) * h;
-
-    const samples: number[] = [];
-    for (const fx of [0.2, 0.5, 0.8]) {
-      for (const fy of [0.2, 0.5, 0.8]) {
-        const sx = Math.max(0, Math.min(w - 1, Math.floor(zx + fx * zw)));
-        const sy = Math.max(0, Math.min(h - 1, Math.floor(zy + fy * zh)));
-        const cd = ctx.getImageData(sx, sy, 1, 1).data;
-        samples.push(0.299 * cd[0] + 0.587 * cd[1] + 0.114 * cd[2]);
-      }
-    }
-    const medLuma = [...samples].sort((a, b) => a - b)[
-      Math.floor(samples.length / 2)
-    ];
-    textColors.set(zi, medLuma < 160 ? '#ffffff' : '#1a1510');
-  }
-
-  return { dataUrl: canvas.toDataURL('image/png'), textColors };
+  return canvas.toDataURL('image/png');
 }
 
 // --- OVERLAY COMPONENT ---
@@ -485,7 +503,6 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
   const [cleanedSrc, setCleanedSrc] = useState<string | null>(null);
-  const [textColors, setTextColors] = useState<Map<number, string>>(new Map());
   const [zones, setZones] = useState<TextZone[]>([]);
   const [paragraphs, setParagraphs] = useState<Paragraph[]>([]);
 
@@ -521,10 +538,9 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   // Erase Hebrew text from canvas
   useEffect(() => {
     if (imgRef.current && imgLoaded && zones.length > 0) {
-      const result = eraseHebrewText(imgRef.current, page.lines, zones);
+      const result = eraseHebrewText(imgRef.current, page.lines);
       if (result) {
-        setCleanedSrc(result.dataUrl);
-        setTextColors(result.textColors);
+        setCleanedSrc(result);
       } else {
         console.warn('Hebrew erasure failed for page', page.pageNumber);
       }
@@ -539,8 +555,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       zones,
       paragraphs,
       imgSize.width,
-      imgSize.height,
-      textColors
+      imgSize.height
     );
   }
 

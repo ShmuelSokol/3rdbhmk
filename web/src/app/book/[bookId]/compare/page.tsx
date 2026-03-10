@@ -101,65 +101,90 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
     }
   }
 
-  const groups: OcrLine[][] = [[textLines[0]]];
+  // Classify lines by role
+  const headerLines: OcrLine[] = []; // y < 4%, running title
+  const pageNumLines: OcrLine[] = []; // y < 4%, narrow, centered
+  const bodyLines: OcrLine[] = [];
 
-  for (let i = 1; i < textLines.length; i++) {
-    const prev = textLines[i - 1];
-    const curr = textLines[i];
-    const gap = curr.y - (prev.y + prev.height);
-    const sizeChange = Math.abs(curr.height - prev.height) > medianH * 0.8;
-    const minW = Math.min(curr.width, prev.width);
-    const maxW = Math.max(curr.width, prev.width);
-    const widthChange = maxW > minW * 3;
-
-    if (gap > medianH * 2.5 || sizeChange || widthChange) {
-      groups.push([curr]);
-    } else {
-      groups[groups.length - 1].push(curr);
-    }
-  }
-
-  // If too many zones (table pages), merge small adjacent zones
-  let mergedGroups = groups;
-  if (groups.length > 12) {
-    mergedGroups = [groups[0]];
-    for (let i = 1; i < groups.length; i++) {
-      const prevGroup = mergedGroups[mergedGroups.length - 1];
-      const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
-      const currMinY = Math.min(...groups[i].map((l) => l.y));
-      const gap = currMinY - prevMaxY;
-      const crossesImage = imageRegions.some(
-        (r) => r.top < currMinY && r.bottom > prevMaxY
-      );
-      if (gap < 8 && !crossesImage) {
-        mergedGroups[mergedGroups.length - 1] = [
-          ...prevGroup,
-          ...groups[i],
-        ];
+  for (const line of textLines) {
+    if (line.y < 4) {
+      if (line.width < 6 && line.text.trim().length <= 3 &&
+          Math.abs(line.x + line.width / 2 - 50) < 6) {
+        pageNumLines.push(line);
       } else {
-        mergedGroups.push(groups[i]);
+        headerLines.push(line);
       }
+    } else {
+      bodyLines.push(line);
     }
   }
 
-  // Merge tiny zones (<10 chars) into nearest neighbor
-  const finalGroups: OcrLine[][] = [];
-  for (const group of mergedGroups) {
+  // Group body lines: split on large gaps, large size changes, or image crossings
+  // Use relaxed width threshold — only split when BOTH lines are wide (not footnotes)
+  const bodyGroups: OcrLine[][] = bodyLines.length > 0 ? [[bodyLines[0]]] : [];
+  for (let i = 1; i < bodyLines.length; i++) {
+    const prev = bodyLines[i - 1];
+    const curr = bodyLines[i];
+    const gap = curr.y - (prev.y + prev.height);
+    const sizeChange = Math.abs(curr.height - prev.height) > medianH * 1.2;
+    // Only split on width change for LARGE text (titles), not narrow footnotes
+    const bothWide = curr.width > 30 && prev.width > 30;
+    const widthChange = bothWide && Math.max(curr.width, prev.width) > Math.min(curr.width, prev.width) * 3;
+    const crossesImage = imageRegions.some(
+      (r) => r.top < curr.y && r.bottom > prev.y + prev.height
+    );
+
+    if (crossesImage || gap > medianH * 3 || sizeChange || widthChange) {
+      bodyGroups.push([curr]);
+    } else {
+      bodyGroups[bodyGroups.length - 1].push(curr);
+    }
+  }
+
+  // Merge small body zones (<15 chars) into nearest neighbor
+  const mergedBody: OcrLine[][] = [];
+  for (const group of bodyGroups) {
     const totalChars = group.reduce((s, l) => s + l.text.length, 0);
-    if (totalChars < 10 && finalGroups.length > 0) {
-      const prevGroup = finalGroups[finalGroups.length - 1];
+    if (totalChars < 15 && mergedBody.length > 0) {
+      const prevGroup = mergedBody[mergedBody.length - 1];
       const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
       const currMinY = Math.min(...group.map((l) => l.y));
       const crossesImage = imageRegions.some(
         (r) => r.top < currMinY && r.bottom > prevMaxY
       );
-      if (!crossesImage && currMinY - prevMaxY < 5) {
-        finalGroups[finalGroups.length - 1] = [...prevGroup, ...group];
+      if (!crossesImage && currMinY - prevMaxY < 6) {
+        mergedBody[mergedBody.length - 1] = [...prevGroup, ...group];
         continue;
       }
     }
-    finalGroups.push(group);
+    mergedBody.push(group);
   }
+
+  // If still too many zones, merge adjacent small ones
+  let finalBody = mergedBody;
+  if (mergedBody.length > 8) {
+    finalBody = [mergedBody[0]];
+    for (let i = 1; i < mergedBody.length; i++) {
+      const prevGroup = finalBody[finalBody.length - 1];
+      const prevMaxY = Math.max(...prevGroup.map((l) => l.y + l.height));
+      const currMinY = Math.min(...mergedBody[i].map((l) => l.y));
+      const gap = currMinY - prevMaxY;
+      const crossesImage = imageRegions.some(
+        (r) => r.top < currMinY && r.bottom > prevMaxY
+      );
+      if (gap < 8 && !crossesImage) {
+        finalBody[finalBody.length - 1] = [...prevGroup, ...mergedBody[i]];
+      } else {
+        finalBody.push(mergedBody[i]);
+      }
+    }
+  }
+
+  // Build final zone list: header, page number, then body zones
+  const finalGroups: OcrLine[][] = [];
+  if (headerLines.length > 0) finalGroups.push(headerLines);
+  if (pageNumLines.length > 0) finalGroups.push(pageNumLines);
+  for (const g of finalBody) finalGroups.push(g);
 
   return finalGroups.map((g) => {
     const minX = Math.min(...g.map((l) => l.x));
@@ -170,13 +195,16 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
     const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
     const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
-    const isAtTop = minY < 4 && avgW > 20;
+    const isInHeader = minY < 4 && avgW > 10;
+    const isPageNum = minY < 4 && avgW < 6 &&
+      g.every((l) => l.text.trim().length <= 3);
 
-    const zoneX = isAtTop ? 2.5 : minX;
-    const zoneW = isAtTop ? 95 : maxX - minX;
-
+    // Header: use full width of the header bar area
+    // Page number: keep at original position, centered
+    // Body: use the bounding box of the lines
+    const zoneX = isInHeader ? 2.5 : minX;
+    const zoneW = isInHeader ? 95 : maxX - minX;
     let zoneH = maxY - minY;
-    if (isAtTop && zoneH < 7) zoneH = 7; // Header zones need more height for English word-wrap
 
     // Clamp zone bottom to not extend into image regions
     for (const img of imageRegions) {
@@ -185,17 +213,18 @@ function groupIntoZones(lines: OcrLine[]): TextZone[] {
       }
     }
 
+    // Detect centering: line centers near page center
+    const centered = Math.abs(avgCx - 50) < 12 &&
+      (avgW < 60 || Math.abs(minX - (100 - maxX)) < 10);
+
     return {
       lines: g,
       x: zoneX,
       y: minY,
       width: zoneW,
       height: zoneH,
-      // Centered if average line center is near page center AND
-      // the left/right margins are roughly symmetric
-      isCentered: Math.abs(avgCx - 50) < 10 &&
-        (avgW < 50 || Math.abs(minX - (100 - maxX)) < 10),
-      isHeader: isAtTop || avgH > medianH * 1.3,
+      isCentered: centered || isPageNum,
+      isHeader: isInHeader || avgH > medianH * 1.5,
       avgLineHeight: avgH,
     };
   });

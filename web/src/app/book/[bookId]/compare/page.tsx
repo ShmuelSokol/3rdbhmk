@@ -110,6 +110,7 @@ interface TextBlock {
   avgLineHeightPct?: number;
   centered?: boolean;
   isTableRegion?: boolean;
+  columnDividers?: number[];
 }
 
 function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4): TextBlock[] {
@@ -272,6 +273,15 @@ function TableRegionOverlay({
   const blockWPx = (block.width / 100) * containerW;
   const blockHPx = (block.height / 100) * containerH;
 
+  // Compute column widths from dividers (as percentages of block width)
+  const dividers = block.columnDividers || [];
+  const blockLeft = block.x;
+  const blockRight = block.x + block.width;
+  // Column edges: [blockLeft, divider1, divider2, ..., blockRight]
+  const edges = [blockLeft, ...dividers, blockRight];
+  const colWidths = edges.slice(1).map((e, i) => e - edges[i]);
+  const totalColW = colWidths.reduce((s, w) => s + w, 0);
+
   // Binary search for font size that fits, accounting for line wrapping
   let lo = 4, hi = containerW * 0.016, bestFit = lo;
   for (let iter = 0; iter < 15; iter++) {
@@ -305,7 +315,45 @@ function TableRegionOverlay({
         const cleanLine = line.replace(/\*\*/g, '').replace(/^#+\s+/, '');
         const hasPipe = cleanLine.includes('|');
 
+        if (hasPipe && dividers.length > 0) {
+          const cols = cleanLine.split('|').map((c) => c.trim());
+          return (
+            <div
+              key={li}
+              style={{
+                display: 'flex',
+                fontSize: `${fontSize}px`,
+                fontFamily: '"Courier New", Courier, monospace',
+                color: '#1a1510',
+                lineHeight: 1.3,
+                marginBottom: '0.1em',
+              }}
+            >
+              {cols.map((col, ci) => {
+                // Size each column proportional to the detected grid widths
+                const colW = ci < colWidths.length ? colWidths[ci] : colWidths[colWidths.length - 1] || 1;
+                const pct = totalColW > 0 ? (colW / totalColW) * 100 : 100 / cols.length;
+                return (
+                  <span
+                    key={ci}
+                    style={{
+                      width: `${pct}%`,
+                      flexShrink: 0,
+                      paddingRight: '0.3em',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {col}
+                  </span>
+                );
+              })}
+            </div>
+          );
+        }
+
         if (hasPipe) {
+          // Fallback: no dividers detected, use equal columns
           const cols = cleanLine.split('|').map((c) => c.trim());
           return (
             <div
@@ -323,9 +371,8 @@ function TableRegionOverlay({
                 <span
                   key={ci}
                   style={{
-                    flex: ci === 0 ? 2 : 1,
-                    paddingRight: '0.5em',
-                    whiteSpace: 'nowrap',
+                    flex: 1,
+                    paddingRight: '0.3em',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                   }}

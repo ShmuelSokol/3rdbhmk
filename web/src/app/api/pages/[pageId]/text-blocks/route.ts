@@ -16,6 +16,7 @@ interface TextBlock {
   avgLineHeightPct: number
   centered: boolean
   isTableRegion?: boolean
+  columnDividers?: number[] // x-percentages of internal vertical grid lines
 }
 
 export async function GET(
@@ -243,6 +244,60 @@ export async function GET(
         // Use OCR line extents as the table bounds (not hardcoded)
         const tMinX = Math.min(...zone.lines.map((l) => l.x))
         const tMaxX = Math.max(...zone.lines.map((l) => l.x + l.width))
+
+        // Detect column dividers: dark vertical lines + OCR text gaps
+        const dividers: number[] = []
+
+        // Method 1: scan for dark vertical lines (3px wide to avoid missing thin lines)
+        const pxYStart = Math.round((zone.startY / 100) * imgH)
+        const pxYEnd = Math.round((zone.endY / 100) * imgH)
+        for (let xPct = tMinX + 2; xPct < tMaxX - 2; xPct += 0.2) {
+          const pxX = Math.round((xPct / 100) * imgW)
+          let darkCount = 0
+          let totalCount = 0
+          for (let py = pxYStart; py < pxYEnd; py += 4) {
+            // Check 3 pixels wide to catch thin lines
+            for (let dx = -1; dx <= 1; dx++) {
+              const px = Math.max(0, Math.min(imgW - 1, pxX + dx))
+              const idx = (py * imgW + px) * channels
+              const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
+              if (lum < 100) darkCount++
+              totalCount++
+            }
+          }
+          if (totalCount > 0 && darkCount / totalCount > 0.25) {
+            if (!dividers.some((d) => Math.abs(d - xPct) < 3)) {
+              dividers.push(xPct)
+            }
+          }
+        }
+
+        // Method 2: find large gaps in OCR line x-coverage (whitespace column separators)
+        // Collect all x-ranges covered by text
+        const xRanges = zone.lines.map((l) => ({ left: l.x, right: l.x + l.width }))
+        xRanges.sort((a, b) => a.left - b.left)
+        // Merge overlapping ranges
+        const merged: { left: number; right: number }[] = []
+        for (const r of xRanges) {
+          if (merged.length > 0 && r.left <= merged[merged.length - 1].right + 2) {
+            merged[merged.length - 1].right = Math.max(merged[merged.length - 1].right, r.right)
+          } else {
+            merged.push({ ...r })
+          }
+        }
+        // Gaps > 2% between merged ranges are column separators
+        for (let i = 1; i < merged.length; i++) {
+          const gap = merged[i].left - merged[i - 1].right
+          if (gap > 2) {
+            const mid = (merged[i - 1].right + merged[i].left) / 2
+            if (!dividers.some((d) => Math.abs(d - mid) < 3)) {
+              dividers.push(mid)
+            }
+          }
+        }
+
+        dividers.sort((a, b) => a - b)
+
         allBlocks.push({
           x: tMinX,
           y: zone.startY,
@@ -252,6 +307,7 @@ export async function GET(
           avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
           centered: false,
           isTableRegion: true,
+          columnDividers: dividers.length > 0 ? dividers : undefined,
         })
         continue
       }

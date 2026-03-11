@@ -136,7 +136,7 @@ function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4):
   }
   groups.push(currentGroup);
 
-  return groups.map((group) => {
+  const rawBlocks = groups.map((group) => {
     const minX = Math.min(...group.map((l) => l.x));
     const minY = Math.min(...group.map((l) => l.y));
     const maxX = Math.max(...group.map((l) => l.x + l.width));
@@ -151,6 +151,21 @@ function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4):
       hebrewCharCount,
     };
   });
+
+  // Expand each block downward to fill available gap before the next block
+  // (the Hebrew is erased so this space is blank and usable)
+  for (let i = 0; i < rawBlocks.length; i++) {
+    const block = rawBlocks[i];
+    const blockBottom = block.y + block.height;
+    // Next block's top, or 98% of page for the last block
+    const nextTop = i < rawBlocks.length - 1 ? rawBlocks[i + 1].y : 98;
+    const availableGap = nextTop - blockBottom;
+    if (availableGap > 0) {
+      block.height += availableGap;
+    }
+  }
+
+  return rawBlocks;
 }
 
 function assignParagraphsToBlocks(
@@ -224,8 +239,8 @@ function computeBlockLayouts(
     const targetPx = containerW * 0.019;
 
     // Binary search for the largest font that fits
-    let lo = 8;
-    let hi = Math.min(targetPx * 1.5, 24);
+    let lo = 6;
+    let hi = Math.min(targetPx * 1.5, 22);
     let bestFit = lo;
 
     for (let iter = 0; iter < 10; iter++) {
@@ -335,7 +350,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
               return (
                 <div
                   key={blockIndex}
-                  className="absolute overflow-hidden"
+                  className="absolute"
                   style={{
                     left: `${block.x}%`,
                     top: `${block.y}%`,

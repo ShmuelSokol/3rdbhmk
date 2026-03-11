@@ -457,7 +457,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks?v=6`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=7`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
@@ -578,16 +578,47 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
         {ready && (
           <div className="absolute inset-0">
-            {/* Table region overlays */}
-            {tableBlocks.map((block, ti) => (
-              <TableRegionOverlay
-                key={`table-${ti}`}
-                block={block}
-                rawText={tableText}
-                containerW={containerW}
-                containerH={containerH}
-              />
-            ))}
+            {/* Table region overlays — split text between multiple table blocks */}
+            {(() => {
+              if (tableBlocks.length === 0 || !tableText) return null;
+              if (tableBlocks.length === 1) {
+                return (
+                  <TableRegionOverlay
+                    key="table-0"
+                    block={tableBlocks[0]}
+                    rawText={tableText}
+                    containerW={containerW}
+                    containerH={containerH}
+                  />
+                );
+              }
+              // Split tableText proportionally by Hebrew char count
+              const totalH = tableBlocks.reduce((s, b) => s + b.hebrewCharCount, 0);
+              const lines = tableText.split('\n');
+              const totalLen = lines.reduce((s, l) => s + l.length + 1, 0);
+              const splits: string[] = [];
+              let lineIdx = 0;
+              for (let ti = 0; ti < tableBlocks.length; ti++) {
+                const ratio = totalH > 0 ? tableBlocks[ti].hebrewCharCount / totalH : 1 / tableBlocks.length;
+                const budget = Math.round(totalLen * ratio);
+                let acc = 0;
+                const startIdx = lineIdx;
+                while (lineIdx < lines.length && (ti === tableBlocks.length - 1 || acc < budget)) {
+                  acc += lines[lineIdx].length + 1;
+                  lineIdx++;
+                }
+                splits.push(lines.slice(startIdx, lineIdx).join('\n'));
+              }
+              return tableBlocks.map((block, ti) => (
+                <TableRegionOverlay
+                  key={`table-${ti}`}
+                  block={block}
+                  rawText={splits[ti] || ''}
+                  containerW={containerW}
+                  containerH={containerH}
+                />
+              ));
+            })()}
 
             {/* Body text overlays */}
             {blockLayouts.map((layout) => {

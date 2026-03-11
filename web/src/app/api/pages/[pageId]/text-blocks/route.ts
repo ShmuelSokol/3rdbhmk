@@ -332,7 +332,8 @@ export async function GET(
       const bodyWidth = Math.max(...zoneLines.map((l) => l.width))
 
       const isCenteredLine = (line: typeof ocrLines[0]): boolean => {
-        if (line.width > bodyWidth * 0.7) return false
+        // Use both relative (for multi-line zones) and absolute checks
+        if (line.width > 30 && line.width > bodyWidth * 0.7) return false
         const mid = line.x + line.width / 2
         const leftGap = line.x
         const rightGap = 100 - (line.x + line.width)

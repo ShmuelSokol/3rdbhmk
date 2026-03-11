@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v2')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -101,40 +101,55 @@ export async function GET(
       lineMap.get(li)!.push(box)
     }
 
-    // Sample background color from page margins (left 2% strip, middle vertical area)
-    // This gives us the paper color to use for erasing
-    const sampleX = 0
-    const sampleY = Math.round(imgH * 0.3)
-    const sampleW = Math.max(1, Math.round(imgW * 0.02))
-    const sampleH = Math.max(1, Math.round(imgH * 0.1))
-    const sampleBuf = await sharp(imageBuffer)
-      .extract({ left: sampleX, top: sampleY, width: sampleW, height: sampleH })
-      .raw()
-      .toBuffer()
-    // Average the sampled pixels
-    let rSum = 0, gSum = 0, bSum = 0
-    const pixelCount = sampleBuf.length / 3
-    for (let i = 0; i < sampleBuf.length; i += 3) {
-      rSum += sampleBuf[i]
-      gSum += sampleBuf[i + 1]
-      bSum += sampleBuf[i + 2]
-    }
-    const bgR = Math.round(rSum / pixelCount)
-    const bgG = Math.round(gSum / pixelCount)
-    const bgB = Math.round(bSum / pixelCount)
+    // Load raw pixel data once for local color sampling
+    const rawPixels = await sharp(imageBuffer).raw().toBuffer()
+    const channels = metadata.channels || 3
 
-    // Create erasure rectangles for each line
+    // Sample the local background color around a pixel region
+    // We sample thin strips at the left and right edges of each line (just outside the text)
+    const sampleLocalBg = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): [number, number, number] => {
+      let rSum = 0, gSum = 0, bSum = 0, count = 0
+      const stripW = Math.max(3, Math.round((pxRight - pxLeft) * 0.02))
+
+      // Sample strips: left edge, right edge, and a thin strip above
+      const regions = [
+        // Left strip
+        { x0: Math.max(0, pxLeft - stripW), y0: pxTop, x1: pxLeft, y1: pxBottom },
+        // Right strip
+        { x0: pxRight, y0: pxTop, x1: Math.min(imgW, pxRight + stripW), y1: pxBottom },
+        // Strip above
+        { x0: pxLeft, y0: Math.max(0, pxTop - 3), x1: pxRight, y1: pxTop },
+        // Strip below
+        { x0: pxLeft, y0: pxBottom, x1: pxRight, y1: Math.min(imgH, pxBottom + 3) },
+      ]
+
+      for (const { x0, y0, x1, y1 } of regions) {
+        // Sample every few pixels to keep it fast
+        for (let y = y0; y < y1; y += 2) {
+          for (let x = x0; x < x1; x += 2) {
+            const idx = (y * imgW + x) * channels
+            rSum += rawPixels[idx]
+            gSum += rawPixels[idx + 1]
+            bSum += rawPixels[idx + 2]
+            count++
+          }
+        }
+      }
+
+      if (count === 0) return [255, 255, 255]
+      return [Math.round(rSum / count), Math.round(gSum / count), Math.round(bSum / count)]
+    }
+
+    // Create erasure rectangles for each line with locally-sampled colors
     const composites: sharp.OverlayOptions[] = []
 
     lineMap.forEach((lineBoxes) => {
-      // Bounding rect of the line (coordinates are percentages 0-100)
       const minX = Math.min(...lineBoxes.map((b) => b.x))
       const minY = Math.min(...lineBoxes.map((b) => b.y))
       const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
       const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-      // Convert to pixels with small padding
-      const pad = 0.3 // percentage padding
+      const pad = 0.3
       const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
       const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
       const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))
@@ -143,10 +158,11 @@ export async function GET(
       const pxH = pxBottom - pxTop
 
       if (pxW > 0 && pxH > 0) {
+        const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
         composites.push({
           input: Buffer.from(
             `<svg width="${pxW}" height="${pxH}">
-              <rect width="${pxW}" height="${pxH}" fill="rgb(${bgR},${bgG},${bgB})" />
+              <rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})" />
             </svg>`
           ),
           left: pxLeft,

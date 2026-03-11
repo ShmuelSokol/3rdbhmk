@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v6')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v7')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -108,10 +108,10 @@ export async function GET(
     // Check if a pixel row is "clean" (no dark text/line pixels)
     const isCleanRow = (rowY: number, x0: number, x1: number): boolean => {
       if (rowY < 0 || rowY >= imgH) return false
-      for (let x = x0; x < x1; x += 3) {
+      for (let x = x0; x < x1; x += 2) {
         const idx = (rowY * imgW + Math.min(x, imgW - 1)) * channels
         const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-        if (lum < 130) return false
+        if (lum < 170) return false
       }
       return true
     }
@@ -132,7 +132,7 @@ export async function GET(
           for (let x = x0; x < x1; x += 2) {
             const idx = (y * imgW + x) * channels
             const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-            if (lum < 140) continue
+            if (lum < 180) continue
             rSum += rawPixels[idx]; gSum += rawPixels[idx + 1]; bSum += rawPixels[idx + 2]; count++
           }
         }
@@ -152,7 +152,7 @@ export async function GET(
       const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
       const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-      const pad = 0.2
+      const pad = 0.4
       const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
       const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
       const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))
@@ -179,7 +179,7 @@ export async function GET(
         const actualY = pxTop + y
         // Find nearest clean row by searching outward from this y
         let refY = -1
-        for (let d = 1; d <= 30; d++) {
+        for (let d = 1; d <= 60; d++) {
           if (actualY - d >= 0 && checkClean(actualY - d)) { refY = actualY - d; break }
           if (actualY + d < imgH && checkClean(actualY + d)) { refY = actualY + d; break }
         }
@@ -193,6 +193,26 @@ export async function GET(
             replBuf[dIdx + 2] = rawPixels[srcIdx + 2]
           } else {
             replBuf[dIdx] = 255; replBuf[dIdx + 1] = 255; replBuf[dIdx + 2] = 255
+          }
+        }
+      }
+
+      // Per-pixel residual cleanup: brighten any remaining dark pixels toward background
+      if (hasAnyRef) {
+        let bgR = 0, bgG = 0, bgB = 0, bgCount = 0
+        for (let i = 0; i < replBuf.length; i += 3 * 7) {
+          const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
+          if (lum > 200) { bgR += replBuf[i]; bgG += replBuf[i + 1]; bgB += replBuf[i + 2]; bgCount++ }
+        }
+        if (bgCount > 0) { bgR = Math.round(bgR / bgCount); bgG = Math.round(bgG / bgCount); bgB = Math.round(bgB / bgCount) }
+        else { bgR = 255; bgG = 255; bgB = 255 }
+        for (let i = 0; i < replBuf.length; i += 3) {
+          const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
+          if (lum < 190) {
+            const alpha = Math.min(1.0, (190 - lum) / 100)
+            replBuf[i]     = Math.round(replBuf[i]     + (bgR - replBuf[i])     * alpha)
+            replBuf[i + 1] = Math.round(replBuf[i + 1] + (bgG - replBuf[i + 1]) * alpha)
+            replBuf[i + 2] = Math.round(replBuf[i + 2] + (bgB - replBuf[i + 2]) * alpha)
           }
         }
       }

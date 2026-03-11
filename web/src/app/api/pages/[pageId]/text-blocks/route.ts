@@ -159,17 +159,33 @@ export async function GET(
     zones.push(curZone)
 
     // Merge body zones sandwiched between table zones, and small body zones adjacent to table
+    // But NEVER absorb zones whose lines are all centered — those are section headers
+    const isZoneCentered = (z: Zone): boolean => {
+      if (z.lines.length === 0) return false
+      const pageW = Math.max(...z.lines.map((l) => l.width))
+      return z.lines.every((line) => {
+        if (line.width > pageW * 0.7) return false
+        const leftGap = line.x
+        const rightGap = 100 - (line.x + line.width)
+        const mid = line.x + line.width / 2
+        return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
+      })
+    }
     // First pass: mark body zones that are between two table zones for absorption
     for (let i = 1; i < zones.length - 1; i++) {
       if (!zones[i].isTable && zones[i - 1].isTable && zones[i + 1].isTable) {
-        zones[i].isTable = true // absorb into table
+        if (!isZoneCentered(zones[i])) {
+          zones[i].isTable = true // absorb into table
+        }
       }
     }
     // Also absorb small body zones (< 3 lines) adjacent to table
     for (let i = 0; i < zones.length; i++) {
       if (!zones[i].isTable && zones[i].lines.length < 3) {
-        if ((i > 0 && zones[i - 1].isTable) || (i < zones.length - 1 && zones[i + 1].isTable)) {
-          zones[i].isTable = true
+        if (!isZoneCentered(zones[i])) {
+          if ((i > 0 && zones[i - 1].isTable) || (i < zones.length - 1 && zones[i + 1].isTable)) {
+            zones[i].isTable = true
+          }
         }
       }
     }

@@ -168,32 +168,61 @@ function assignParagraphsToBlocks(
 
   for (let i = 0; i < blocks.length; i++) result.set(i, []);
 
-  const totalHebrew = blocks.reduce((s, b) => s + b.hebrewCharCount, 0);
+  // First pass: assign bold/short paragraphs to centered header blocks
+  // Centered blocks with small Hebrew char count are section headers
+  const usedParas = new Set<number>();
+  let nextParaSearch = 0;
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    if (block.centered && block.hebrewCharCount < 50) {
+      // Find the next short bold paragraph
+      for (let pi = nextParaSearch; pi < paragraphs.length; pi++) {
+        if (usedParas.has(pi)) continue;
+        const para = paragraphs[pi];
+        if (para.isAllBold && para.charCount < 80) {
+          result.get(i)!.push(para);
+          usedParas.add(pi);
+          nextParaSearch = pi + 1;
+          break;
+        }
+      }
+    }
+  }
+
+  // Second pass: distribute remaining paragraphs among non-header blocks
+  const remainingParas = paragraphs.filter((_, i) => !usedParas.has(i));
+  const nonHeaderBlocks = blocks.map((b, i) => ({ block: b, idx: i })).filter(({ block, idx }) =>
+    !(block.centered && block.hebrewCharCount < 50) || result.get(idx)!.length === 0
+  ).filter(({ idx }) => result.get(idx)!.length === 0);
+
+  if (nonHeaderBlocks.length === 0 || remainingParas.length === 0) return result;
+
+  const totalHebrew = nonHeaderBlocks.reduce((s, { block }) => s + block.hebrewCharCount, 0);
   if (totalHebrew === 0) {
-    const perBlock = Math.ceil(paragraphs.length / blocks.length);
+    const perBlock = Math.ceil(remainingParas.length / nonHeaderBlocks.length);
     let pi = 0;
-    for (let i = 0; i < blocks.length; i++) {
-      result.set(i, paragraphs.slice(pi, pi + perBlock));
+    for (const { idx } of nonHeaderBlocks) {
+      result.set(idx, [...result.get(idx)!, ...remainingParas.slice(pi, pi + perBlock)]);
       pi += perBlock;
     }
     return result;
   }
 
-  const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
+  const totalEnglish = remainingParas.reduce((s, p) => s + p.charCount, 0);
   const targets: number[] = [];
   let cumHebrew = 0;
-  for (const block of blocks) {
+  for (const { block } of nonHeaderBlocks) {
     cumHebrew += block.hebrewCharCount;
     targets.push((cumHebrew / totalHebrew) * totalEnglish);
   }
 
   let bi = 0;
   let runEng = 0;
-  for (const para of paragraphs) {
-    while (bi < blocks.length - 1 && runEng > 0 && runEng >= targets[bi]) {
+  for (const para of remainingParas) {
+    while (bi < nonHeaderBlocks.length - 1 && runEng > 0 && runEng >= targets[bi]) {
       bi++;
     }
-    result.get(bi)!.push(para);
+    result.get(nonHeaderBlocks[bi].idx)!.push(para);
     runEng += para.charCount;
   }
 
@@ -423,7 +452,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks?v=4`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=5`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
@@ -532,7 +561,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/api/pages/${page.id}/image-erased?v=6`}
+          src={`/api/pages/${page.id}/image-erased?v=7`}
           alt={`Page ${page.pageNumber}`}
           className="w-full h-auto block"
           loading="lazy"

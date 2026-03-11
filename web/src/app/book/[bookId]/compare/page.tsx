@@ -114,9 +114,9 @@ function assignParagraphsToRegions(
   const result = new Map<number, Paragraph[]>();
   const textRegionIndices: number[] = [];
 
-  // Find text regions (skip header, illustration, chart)
+  // Find overlayable regions (text, table, subtitle — skip header, illustration, chart)
   regions.forEach((r, i) => {
-    if (r.type === 'text' || r.type === 'table') {
+    if (r.type === 'text' || r.type === 'table' || r.type === 'subtitle') {
       textRegionIndices.push(i);
     }
   });
@@ -357,14 +357,15 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         {ready && (
           <div className="absolute inset-0">
             {activeRegions.map((region, ri) => {
-              // Only overlay text and table regions
-              if (region.type !== 'text' && region.type !== 'table') return null;
+              // Only overlay text, table, and subtitle regions
+              if (region.type !== 'text' && region.type !== 'table' && region.type !== 'subtitle') return null;
 
               const paras = paraMap.get(ri);
-              if (!paras || paras.length === 0) return null;
+              // Subtitle with no assigned text: still cover it with white
+              if ((!paras || paras.length === 0) && region.type !== 'subtitle') return null;
 
               // Font sizing in pixels based on actual container width
-              const totalChars = paras.reduce((s, p) => s + p.charCount, 0);
+              const totalChars = (paras || []).reduce((s, p) => s + p.charCount, 0);
               const regionWPx = (region.width / 100) * containerW;
               const regionHPx = (region.height / 100) * containerH;
               // Target: 15px at 900px container, scale proportionally
@@ -394,7 +395,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     direction: 'ltr',
                   }}
                 >
-                  {paras.map((para, pi) => (
+                  {(paras || []).map((para, pi) => (
                     <p
                       key={pi}
                       style={{
@@ -405,7 +406,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                         color: '#1a1510',
                         fontWeight: para.isAllBold ? 700 : 400,
                         textAlign: para.isAllBold ? 'center' : 'left',
-                        marginBottom: pi < paras.length - 1 ? (isTable ? '0.2em' : '0.4em') : 0,
+                        marginBottom: pi < (paras || []).length - 1 ? (isTable ? '0.2em' : '0.4em') : 0,
                         lineHeight: isTable ? 1.2 : 1.3,
                         whiteSpace: isTable ? 'pre-wrap' : 'normal',
                       }}

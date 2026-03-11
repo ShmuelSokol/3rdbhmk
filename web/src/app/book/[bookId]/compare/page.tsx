@@ -448,15 +448,17 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     const raw = page.translation!.englishOutput;
     const allLines = raw.split('\n');
 
-    // Strip initial title/subtitle lines (page number, book title, section title)
-    // These correspond to the Hebrew header/subtitle area that's preserved as-is
+    // Strip initial header lines that correspond to the top banner (y < 4% area)
+    // Only remove known patterns: page numbers and banner text identifiers
+    // Keep subtitle text like "B'Or Chai" that belongs to visible text blocks
     let startIdx = 0;
     for (let i = 0; i < Math.min(allLines.length, 10); i++) {
       const clean = allLines[i].replace(/\*\*/g, '').trim();
-      if (clean.includes('|')) break; // table data starts
-      if (!clean || /^\d{1,3}\.?$/.test(clean)) { startIdx = i + 1; continue; }
-      if (clean.length < 80) { startIdx = i + 1; continue; }
-      break; // long content line — stop stripping
+      if (clean.includes('|')) break;
+      if (!clean) { startIdx = i + 1; continue; }
+      if (/^\d{1,3}\.?$/.test(clean)) { startIdx = i + 1; continue; }
+      if (/^(Yechezkel Perek|Main Topics|Introduction|Summary)/i.test(clean)) { startIdx = i + 1; continue; }
+      break;
     }
     const content = allLines.slice(startIdx);
 

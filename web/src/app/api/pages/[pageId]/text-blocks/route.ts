@@ -337,13 +337,40 @@ export async function GET(
     const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
       if (block.isTableRegion) return block
 
-      // Reference background color: use the brighter of above/below strips
-      // Page background is always the brightest area (white or near-white)
-      const aboveRGB = computeStripRGB(Math.max(0, block.y - 2), 1, 35, 30)
-      const belowRGB = computeStripRGB(block.y + block.height, 1, 35, 30)
-      const aboveLum = aboveRGB[0] * 0.299 + aboveRGB[1] * 0.587 + aboveRGB[2] * 0.114
-      const belowLum = belowRGB[0] * 0.299 + belowRGB[1] * 0.587 + belowRGB[2] * 0.114
-      const refRGB = belowLum >= aboveLum ? belowRGB : aboveRGB
+      const blockBottom = block.y + block.height
+
+      // Find the ACTUAL background color by sampling inter-line gaps within the block.
+      // Inter-line gaps have low variance (pure background at the text's level).
+      // Sample a strip centered on the Hebrew text's x-center.
+      const GAP_SCAN_H = 0.3
+      const sampleX = Math.max(0, block.x + block.width / 2 - 5)
+      const sampleW = Math.min(10, 100 - sampleX)
+      const gapColors: [number, number, number][] = []
+
+      for (let sy = block.y; sy < blockBottom; sy += 0.3) {
+        const v = computeStripVariance(sy, GAP_SCAN_H, sampleX, sampleW)
+        if (v < 50) { // very low variance = inter-line gap (background only)
+          gapColors.push(computeStripRGB(sy, GAP_SCAN_H, sampleX, sampleW))
+          if (gapColors.length >= 5) break
+        }
+      }
+
+      let refRGB: [number, number, number]
+      if (gapColors.length > 0) {
+        // Average the sampled gap colors
+        refRGB = [
+          gapColors.reduce((s, c) => s + c[0], 0) / gapColors.length,
+          gapColors.reduce((s, c) => s + c[1], 0) / gapColors.length,
+          gapColors.reduce((s, c) => s + c[2], 0) / gapColors.length,
+        ]
+      } else {
+        // Fallback for single-line blocks: use brighter of above/below
+        const aboveRGB = computeStripRGB(Math.max(0, block.y - 1), 0.5, sampleX, sampleW)
+        const belowRGB = computeStripRGB(blockBottom + 0.2, 0.5, sampleX, sampleW)
+        const aboveLum = aboveRGB[0] * 0.299 + aboveRGB[1] * 0.587 + aboveRGB[2] * 0.114
+        const belowLum = belowRGB[0] * 0.299 + belowRGB[1] * 0.587 + belowRGB[2] * 0.114
+        refRGB = belowLum >= aboveLum ? belowRGB : aboveRGB
+      }
 
       const isSafe = (yPct: number, hPct: number, xPct: number, wPct: number): boolean => {
         const variance = computeStripVariance(yPct, hPct, xPct, wPct)
@@ -353,7 +380,6 @@ export async function GET(
         return true
       }
 
-      const blockBottom = block.y + block.height
       const nextBlockTop = bi < allBlocks.length - 1 ? allBlocks[bi + 1].y : 100
       const prevBlockBottom = bi > 0 ? allBlocks[bi - 1].y + allBlocks[bi - 1].height : 4
 
@@ -406,14 +432,18 @@ export async function GET(
         }
       }
 
-      // Also scan gaps above/below the block
+      // Also scan at text edges and gaps — these are at the exact y-level
+      // of the text, so they detect what's actually next to the text
+      const edgePositions = [
+        Math.max(0, block.y - 0.15),       // just above first line
+        blockBottom + 0.05,                 // just below last line
+      ]
       const gapAbove = block.y - prevBlockBottom
       const gapBelow = nextBlockTop - blockBottom
-      for (const gapY of [
-        gapAbove >= 0.3 ? prevBlockBottom + gapAbove * 0.5 : -1,
-        gapBelow >= 0.3 ? blockBottom + gapBelow * 0.3 : -1,
-      ]) {
-        if (gapY < 0) continue
+      if (gapAbove >= 0.3) edgePositions.push(prevBlockBottom + gapAbove * 0.5)
+      if (gapBelow >= 0.3) edgePositions.push(blockBottom + gapBelow * 0.3)
+
+      for (const gapY of edgePositions) {
         const isGapSafe = (xPct: number, wPct: number): boolean => {
           const variance = computeStripVariance(gapY, SCAN_H, xPct, wPct)
           if (variance > VARIANCE_THRESHOLD) return false

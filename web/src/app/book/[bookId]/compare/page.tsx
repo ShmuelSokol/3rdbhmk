@@ -258,6 +258,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerW, setContainerW] = useState(900);
   const [imgAspect, setImgAspect] = useState(2340 / 1655);
+  const [safeBlocks, setSafeBlocks] = useState<TextBlock[] | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -268,6 +269,22 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     return () => ro.disconnect();
   }, []);
 
+  // Fetch server-computed safe text blocks (with pixel-variance expansion)
+  useEffect(() => {
+    if (!page.translation?.englishOutput || page.lines.length === 0) return;
+    let cancelled = false;
+    fetch(`/api/pages/${page.id}/text-blocks`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data.blocks) setSafeBlocks(data.blocks);
+      })
+      .catch(() => {
+        // Fallback to client-side OCR grouping
+        if (!cancelled) setSafeBlocks(groupOcrLinesIntoBlocks(page.lines));
+      });
+    return () => { cancelled = true; };
+  }, [page.id, page.translation, page.lines]);
+
   const hasContent = !!(page.translation?.englishOutput && page.lines.length > 0);
 
   const paragraphs = useMemo(
@@ -276,13 +293,10 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     [page.translation, hasContent]
   );
 
-  const textBlocks = useMemo(
-    () => hasContent ? groupOcrLinesIntoBlocks(page.lines) : [],
-    [page.lines, hasContent]
-  );
+  const textBlocks = safeBlocks || [];
 
   const paraMap = useMemo(
-    () => hasContent ? assignParagraphsToBlocks(textBlocks, paragraphs) : new Map<number, Paragraph[]>(),
+    () => hasContent && textBlocks.length > 0 ? assignParagraphsToBlocks(textBlocks, paragraphs) : new Map<number, Paragraph[]>(),
     [textBlocks, paragraphs, hasContent]
   );
 
@@ -290,7 +304,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   // Second pass: optimize font sizes for each block
   const blockLayouts = useMemo(
-    () => hasContent ? computeBlockLayouts(textBlocks, paraMap, containerW, containerH) : [],
+    () => hasContent && textBlocks.length > 0 ? computeBlockLayouts(textBlocks, paraMap, containerW, containerH) : [],
     [textBlocks, paraMap, containerW, containerH, hasContent]
   );
 
@@ -308,7 +322,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     );
   }
 
-  const ready = containerW > 0;
+  const ready = containerW > 0 && safeBlocks !== null;
 
   return (
     <div className="w-full relative" ref={containerRef}>
@@ -328,7 +342,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           }}
         />
 
-        {/* English text overlays — transparent background, positioned at OCR locations */}
+        {/* English text overlays — transparent background, safe expansion areas */}
         {ready && (
           <div className="absolute inset-0">
             {blockLayouts.map((layout) => {

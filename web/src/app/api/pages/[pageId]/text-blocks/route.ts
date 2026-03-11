@@ -272,9 +272,12 @@ export async function GET(
     const STEP = 1
 
     const expandedBlocks: TextBlock[] = rawBlocks.map((block, bi) => {
-      // Sample reference background luminance from the text block's own area
-      const refStats = computeStripStats(block.y, block.height, block.x, block.width)
-      const refLum = refStats.meanLum
+      // Sample reference background luminance from strips OUTSIDE the text block
+      // (the block itself contains dark text which skews the mean)
+      const aboveStrip = computeStripStats(Math.max(0, block.y - 2), 1, block.x, block.width)
+      const belowStrip = computeStripStats(block.y + block.height, 1, block.x, block.width)
+      // Use the brighter of above/below as the reference (more likely pure background)
+      const refLum = Math.max(aboveStrip.meanLum, belowStrip.meanLum)
 
       const isSafe = (stats: { variance: number; meanLum: number }): boolean => {
         if (stats.variance > VARIANCE_THRESHOLD) return false

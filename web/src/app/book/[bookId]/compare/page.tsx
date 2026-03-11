@@ -225,12 +225,10 @@ function computeBlockLayouts(
     const blockHPx = (block.height / 100) * containerH;
 
     // Upper bound: original Hebrew line height (converted to pixels)
-    // This is the max we'd want — matching the Hebrew text size
     const hebrewLinePx = block.avgLineHeightPct
       ? (block.avgLineHeightPct / 100) * containerH * 0.75 // line height to font size (~75%)
       : 30;
-    // Cap at Hebrew size or a reasonable max
-    const maxFontPx = Math.min(hebrewLinePx, 28);
+    const maxFontPx = hebrewLinePx;
 
     // Binary search for the largest font that fits within the available space
     let lo = 4;

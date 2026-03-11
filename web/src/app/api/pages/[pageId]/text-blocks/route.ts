@@ -375,40 +375,20 @@ export async function GET(
         safeTop = y
       }
 
+      const expandedY = safeTop
       const expandedH = safeBottom - safeTop
 
-      // Expand horizontally: scan from PAGE CENTER outward, not from text edges
-      // This finds the true available width regardless of how wide the Hebrew was
-      // IMPORTANT: scan thin strips ABOVE and BELOW the text, not through the text
-      // itself — Hebrew text pixels have high variance that would block expansion
-      const scanAboveY = Math.max(0, block.y - 1.5)
-      const scanBelowY = block.y + block.height + 0.2
-      const scanStripH = 1 // 1% height strip
-
-      const isHorizSafe = (xPct: number, wPct: number): boolean => {
-        // Check strip above text
-        const v1 = computeStripVariance(scanAboveY, scanStripH, xPct, wPct)
-        if (v1 > VARIANCE_THRESHOLD) return false
-        const rgb1 = computeStripRGB(scanAboveY, scanStripH, xPct, wPct)
-        if (colorDist(rgb1, refRGB) > COLOR_DIST_THRESHOLD) return false
-        // Check strip below text
-        const v2 = computeStripVariance(scanBelowY, scanStripH, xPct, wPct)
-        if (v2 > VARIANCE_THRESHOLD) return false
-        const rgb2 = computeStripRGB(scanBelowY, scanStripH, xPct, wPct)
-        if (colorDist(rgb2, refRGB) > COLOR_DIST_THRESHOLD) return false
-        return true
-      }
-
-      const blockMidX = 50 // page center
-      let safeLeft = blockMidX
-      for (let x = blockMidX - STEP; x >= 0; x -= STEP) {
-        if (!isHorizSafe(x, STEP)) break
+      // Expand horizontally from text edges outward
+      // This works because columns outside the text don't have Hebrew pixels
+      let safeLeft = block.x
+      for (let x = block.x - STEP; x >= 0; x -= STEP) {
+        if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeLeft = x
       }
 
-      let safeRight = blockMidX
-      for (let x = blockMidX; x < 100; x += STEP) {
-        if (!isHorizSafe(x, STEP)) break
+      let safeRight = block.x + block.width
+      for (let x = block.x + block.width; x < 100; x += STEP) {
+        if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeRight = x + STEP
       }
 

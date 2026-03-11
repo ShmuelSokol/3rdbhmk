@@ -58,7 +58,6 @@ function parseTranslation(raw: string): Paragraph[] {
   const paragraphs: Paragraph[] = [];
   const rawParas = raw.split(/\r?\n\s*\r?\n/).map((p) => p.trim()).filter(Boolean);
 
-  // Strip leading header lines from first paragraph: page number + running headers
   const isHeaderLine = (s: string) =>
     /^\d{1,3}\.?$/.test(s) ||
     /^(Introduction|Summary|Yechezkel Perek|Main Topics)/i.test(s);
@@ -137,7 +136,6 @@ function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4):
   }
   groups.push(currentGroup);
 
-  // Convert each group into a text block bounding rectangle
   return groups.map((group) => {
     const minX = Math.min(...group.map((l) => l.x));
     const minY = Math.min(...group.map((l) => l.y));
@@ -162,12 +160,10 @@ function assignParagraphsToBlocks(
   const result = new Map<number, Paragraph[]>();
   if (blocks.length === 0 || paragraphs.length === 0) return result;
 
-  // Initialize empty arrays for each block
   for (let i = 0; i < blocks.length; i++) result.set(i, []);
 
   const totalHebrew = blocks.reduce((s, b) => s + b.hebrewCharCount, 0);
   if (totalHebrew === 0) {
-    // Fallback: distribute evenly
     const perBlock = Math.ceil(paragraphs.length / blocks.length);
     let pi = 0;
     for (let i = 0; i < blocks.length; i++) {
@@ -177,7 +173,6 @@ function assignParagraphsToBlocks(
     return result;
   }
 
-  // Proportional distribution based on Hebrew char counts
   const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
   const targets: number[] = [];
   let cumHebrew = 0;
@@ -199,6 +194,62 @@ function assignParagraphsToBlocks(
   return result;
 }
 
+// --- SECOND PASS: Optimize font sizes per block ---
+
+interface BlockLayout {
+  blockIndex: number;
+  fontPx: number;
+  paras: Paragraph[];
+  block: TextBlock;
+}
+
+function computeBlockLayouts(
+  blocks: TextBlock[],
+  paraMap: Map<number, Paragraph[]>,
+  containerW: number,
+  containerH: number
+): BlockLayout[] {
+  const layouts: BlockLayout[] = [];
+
+  for (let bi = 0; bi < blocks.length; bi++) {
+    const block = blocks[bi];
+    const paras = paraMap.get(bi) || [];
+    if (paras.length === 0) continue;
+
+    const totalChars = paras.reduce((s, p) => s + p.charCount, 0);
+    const blockWPx = (block.width / 100) * containerW;
+    const blockHPx = (block.height / 100) * containerH;
+
+    // Start with a generous target font size
+    const targetPx = containerW * 0.019;
+
+    // Binary search for the largest font that fits
+    let lo = 8;
+    let hi = Math.min(targetPx * 1.5, 24);
+    let bestFit = lo;
+
+    for (let iter = 0; iter < 10; iter++) {
+      const mid = (lo + hi) / 2;
+      const charsPerLine = blockWPx / (mid * 0.52);
+      // Each paragraph adds ~0.4em gap except last
+      const paraGapPx = mid * 0.4 * Math.max(0, paras.length - 1);
+      const linesNeeded = totalChars / Math.max(charsPerLine, 1);
+      const totalTextH = linesNeeded * (mid * 1.3) + paraGapPx;
+
+      if (totalTextH <= blockHPx) {
+        bestFit = mid;
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+
+    layouts.push({ blockIndex: bi, fontPx: bestFit, paras, block });
+  }
+
+  return layouts;
+}
+
 // --- ENGLISH OVERLAY PAGE COMPONENT ---
 
 function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
@@ -206,7 +257,6 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const [containerW, setContainerW] = useState(900);
   const [imgAspect, setImgAspect] = useState(2340 / 1655);
 
-  // Measure actual container width for font sizing
   useEffect(() => {
     if (!containerRef.current) return;
     const ro = new ResizeObserver((entries) => {
@@ -236,6 +286,12 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   const containerH = containerW * imgAspect;
 
+  // Second pass: optimize font sizes for each block
+  const blockLayouts = useMemo(
+    () => hasContent ? computeBlockLayouts(textBlocks, paraMap, containerW, containerH) : [],
+    [textBlocks, paraMap, containerW, containerH, hasContent]
+  );
+
   if (!hasContent) {
     return (
       <div className="w-full relative">
@@ -254,11 +310,11 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   return (
     <div className="w-full relative" ref={containerRef}>
-      {/* Original page image — fully visible as base */}
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
+        {/* Erased image — Hebrew text removed server-side, illustrations intact */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/api/pages/${page.id}/image`}
+          src={`/api/pages/${page.id}/image-erased`}
           alt={`Page ${page.pageNumber}`}
           className="w-full h-auto block"
           loading="lazy"
@@ -270,36 +326,21 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           }}
         />
 
-        {/* White overlays positioned exactly at OCR text block locations */}
+        {/* English text overlays — transparent background, positioned at OCR locations */}
         {ready && (
           <div className="absolute inset-0">
-            {textBlocks.map((block, bi) => {
-              const paras = paraMap.get(bi);
-              if (!paras || paras.length === 0) return null;
-
-              // Font sizing based on container width and available space
-              const totalChars = paras.reduce((s, p) => s + p.charCount, 0);
-              const blockWPx = (block.width / 100) * containerW;
-              const blockHPx = (block.height / 100) * containerH;
-              const targetPx = containerW * 0.017;
-              const charsPerLine = blockWPx / (targetPx * 0.52);
-              const linesNeeded = totalChars / Math.max(charsPerLine, 1);
-              const linesAvailable = blockHPx / (targetPx * 1.3);
-              const fontPx = linesNeeded > linesAvailable
-                ? Math.max(10, targetPx * (linesAvailable / linesNeeded))
-                : targetPx;
+            {blockLayouts.map((layout) => {
+              const { block, paras, fontPx, blockIndex } = layout;
 
               return (
                 <div
-                  key={bi}
+                  key={blockIndex}
                   className="absolute overflow-hidden"
                   style={{
-                    left: `${Math.max(0, block.x - 1)}%`,
+                    left: `${block.x}%`,
                     top: `${block.y}%`,
-                    width: `${Math.min(100, block.width + 2)}%`,
+                    width: `${block.width}%`,
                     height: `${block.height}%`,
-                    backgroundColor: 'white',
-                    padding: '0.3em',
                     direction: 'ltr',
                   }}
                 >

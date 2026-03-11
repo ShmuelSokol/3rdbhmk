@@ -240,10 +240,13 @@ export async function GET(
 
     for (const zone of mergedZones) {
       if (zone.isTable) {
+        // Use OCR line extents as the table bounds (not hardcoded)
+        const tMinX = Math.min(...zone.lines.map((l) => l.x))
+        const tMaxX = Math.max(...zone.lines.map((l) => l.x + l.width))
         allBlocks.push({
-          x: 2,
+          x: tMinX,
           y: zone.startY,
-          width: 96,
+          width: tMaxX - tMinX,
           height: zone.endY - zone.startY,
           hebrewCharCount: zone.lines.reduce((s, l) => s + l.charCount, 0),
           avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
@@ -309,12 +312,7 @@ export async function GET(
         const maxX = Math.max(...group.map((l) => l.x + l.width))
         const maxY = Math.max(...group.map((l) => l.y + l.height))
         const centeredCount = group.filter((l) => isCenteredLine(l)).length
-        let centered = centeredCount > group.length / 2
-        // A single-line "centered" block is only a real header if it appears
-        // BEFORE body text (not a trailing paragraph line after body text)
-        if (centered && group.length <= 2 && gi === refined.length - 1) {
-          centered = false // last block in zone = trailing line, not header
-        }
+        const centered = centeredCount > group.length / 2
         const lineHeightPct = centered
           ? Math.max(...group.map((l) => l.height))
           : group.reduce((s, l) => s + l.height, 0) / group.length
@@ -335,8 +333,6 @@ export async function GET(
     const STEP = 1
 
     const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
-      if (block.isTableRegion) return block
-
       const blockBottom = block.y + block.height
 
       // Find the ACTUAL background color by sampling inter-line gaps within the block.
@@ -398,45 +394,50 @@ export async function GET(
 
       const expandedH = safeBottom - safeTop
 
-      // Expand horizontally by scanning from page center outward
-      // Scan at multiple y-positions within the block range (every 0.5%)
-      // Rows between OCR lines hit background and give full width;
-      // rows on text give 0. We take the widest result.
       const SCAN_H = 0.3
-      let bestLeft = 50
-      let bestRight = 50
 
-      for (let sy = block.y; sy < blockBottom; sy += 0.5) {
-        const isRowSafe = (xPct: number, wPct: number): boolean => {
-          const variance = computeStripVariance(sy, SCAN_H, xPct, wPct)
+      // Horizontal expansion helper: scan from a starting x outward
+      const scanHoriz = (scanY: number) => {
+        const isHSafe = (xPct: number, wPct: number): boolean => {
+          const variance = computeStripVariance(scanY, SCAN_H, xPct, wPct)
           if (variance > VARIANCE_THRESHOLD) return false
-          const rgb = computeStripRGB(sy, SCAN_H, xPct, wPct)
+          const rgb = computeStripRGB(scanY, SCAN_H, xPct, wPct)
           if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
           return true
         }
-
-        let left = 50
-        for (let x = 50 - STEP; x >= 0; x -= STEP) {
-          if (!isRowSafe(x, STEP)) break
+        // For tables: expand from text edges outward (avoids internal grid lines)
+        // For body: expand from page center outward (finds full available width)
+        const startLeft = block.isTableRegion ? block.x : 50
+        const startRight = block.isTableRegion ? block.x + block.width : 50
+        let left = startLeft
+        for (let x = startLeft - STEP; x >= 0; x -= STEP) {
+          if (!isHSafe(x, STEP)) break
           left = x
         }
-        let right = 50
-        for (let x = 50; x < 100; x += STEP) {
-          if (!isRowSafe(x, STEP)) break
+        let right = startRight
+        for (let x = startRight; x < 100; x += STEP) {
+          if (!isHSafe(x, STEP)) break
           right = x + STEP
         }
+        return { left, right }
+      }
 
+      let bestLeft = block.isTableRegion ? block.x : 50
+      let bestRight = block.isTableRegion ? block.x + block.width : 50
+
+      // Scan at multiple y-positions within the block (inter-line gaps give widest)
+      for (let sy = block.y; sy < blockBottom; sy += 0.5) {
+        const { left, right } = scanHoriz(sy)
         if ((right - left) > (bestRight - bestLeft)) {
           bestLeft = left
           bestRight = right
         }
       }
 
-      // Also scan at text edges and gaps — these are at the exact y-level
-      // of the text, so they detect what's actually next to the text
+      // Also scan at text edges and gaps
       const edgePositions = [
-        Math.max(0, block.y - 0.15),       // just above first line
-        blockBottom + 0.05,                 // just below last line
+        Math.max(0, block.y - 0.15),
+        blockBottom + 0.05,
       ]
       const gapAbove = block.y - prevBlockBottom
       const gapBelow = nextBlockTop - blockBottom
@@ -444,23 +445,7 @@ export async function GET(
       if (gapBelow >= 0.3) edgePositions.push(blockBottom + gapBelow * 0.3)
 
       for (const gapY of edgePositions) {
-        const isGapSafe = (xPct: number, wPct: number): boolean => {
-          const variance = computeStripVariance(gapY, SCAN_H, xPct, wPct)
-          if (variance > VARIANCE_THRESHOLD) return false
-          const rgb = computeStripRGB(gapY, SCAN_H, xPct, wPct)
-          if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
-          return true
-        }
-        let left = 50
-        for (let x = 50 - STEP; x >= 0; x -= STEP) {
-          if (!isGapSafe(x, STEP)) break
-          left = x
-        }
-        let right = 50
-        for (let x = 50; x < 100; x += STEP) {
-          if (!isGapSafe(x, STEP)) break
-          right = x + STEP
-        }
+        const { left, right } = scanHoriz(gapY)
         if ((right - left) > (bestRight - bestLeft)) {
           bestLeft = left
           bestRight = right
@@ -479,7 +464,7 @@ export async function GET(
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,
         centered: block.centered,
-        isTableRegion: false,
+        isTableRegion: block.isTableRegion || false,
       }
     })
 

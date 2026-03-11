@@ -566,7 +566,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/api/pages/${page.id}/image-erased?v=8`}
+          src={`/api/pages/${page.id}/image-erased?v=9`}
           alt={`Page ${page.pageNumber}`}
           className="w-full h-auto block"
           loading="lazy"

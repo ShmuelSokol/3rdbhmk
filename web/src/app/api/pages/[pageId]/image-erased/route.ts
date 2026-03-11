@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v8')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v9')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -105,28 +105,54 @@ export async function GET(
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
     const channels = metadata.channels || 3
 
-    // Compute local background luminance for an area (75th percentile of edge pixels)
+    // Compute local background luminance for an area.
+    // Prioritizes LEFT and RIGHT strips (same y-level as text) to avoid
+    // contamination from different-colored zones above/below (e.g., white
+    // page body above a yellowish tile footer). Falls back to above/below
+    // strips only when side strips yield too few samples. Uses median
+    // instead of 75th percentile for robustness against outliers.
     const getLocalBgLum = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): number => {
-      const lums: number[] = []
+      const sideLums: number[] = []
+      const tbLums: number[] = []
       const stripH = Math.max(10, Math.round((pxBottom - pxTop) * 0.25))
-      const stripW = Math.max(5, Math.round((pxRight - pxLeft) * 0.05))
-      const sampleRegions = [
-        [Math.max(0, pxTop - stripH), pxTop, pxLeft, pxRight],
-        [pxBottom, Math.min(imgH, pxBottom + stripH), pxLeft, pxRight],
+      const stripW = Math.max(8, Math.round((pxRight - pxLeft) * 0.08))
+      // Left and right strips (same y-level — most reliable)
+      const sideRegions = [
         [pxTop, pxBottom, Math.max(0, pxLeft - stripW), pxLeft],
         [pxTop, pxBottom, pxRight, Math.min(imgW, pxRight + stripW)],
       ]
-      for (const [y0, y1, x0, x1] of sampleRegions) {
+      // Above and below strips (may cross color boundaries)
+      const tbRegions = [
+        [Math.max(0, pxTop - stripH), pxTop, pxLeft, pxRight],
+        [pxBottom, Math.min(imgH, pxBottom + stripH), pxLeft, pxRight],
+      ]
+      for (const [y0, y1, x0, x1] of sideRegions) {
         for (let y = y0; y < y1; y += 2) {
           for (let x = x0; x < x1; x += 3) {
             const idx = (y * imgW + x) * channels
-            lums.push(rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114)
+            sideLums.push(rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114)
           }
         }
       }
+      for (const [y0, y1, x0, x1] of tbRegions) {
+        for (let y = y0; y < y1; y += 2) {
+          for (let x = x0; x < x1; x += 3) {
+            const idx = (y * imgW + x) * channels
+            tbLums.push(rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114)
+          }
+        }
+      }
+      // Use side strips if we have enough samples (>20); otherwise combine all
+      let lums: number[]
+      if (sideLums.length >= 20) {
+        lums = sideLums
+      } else {
+        lums = sideLums.concat(tbLums)
+      }
       if (lums.length === 0) return 240
       lums.sort((a, b) => a - b)
-      return lums[Math.floor(lums.length * 0.75)]
+      // Median — robust against contamination from adjacent color zones
+      return lums[Math.floor(lums.length * 0.5)]
     }
 
     // Check if a pixel row is "clean" — threshold adapts to local background
@@ -225,18 +251,14 @@ export async function GET(
         }
       }
 
-      // Per-pixel residual cleanup: brighten dark pixels toward local background
-      // Adaptive: thresholds relative to local bg luminance
+      // Per-pixel residual cleanup: brighten dark pixels toward local background.
+      // Uses sampleLocalBg (original image edges) for the blend target instead of
+      // sampling the replacement buffer, which may contain copied wrong-color rows.
+      // floorLum margin widened to -35 to avoid blending pixels that are only
+      // slightly darker than estimated bg (prevents yellow-to-white washing).
       if (hasAnyRef) {
-        const bgSampleThresh = localBgLum - 10
-        let bgR = 0, bgG = 0, bgB = 0, bgCount = 0
-        for (let i = 0; i < replBuf.length; i += 3 * 7) {
-          const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
-          if (lum > bgSampleThresh) { bgR += replBuf[i]; bgG += replBuf[i + 1]; bgB += replBuf[i + 2]; bgCount++ }
-        }
-        if (bgCount > 0) { bgR = Math.round(bgR / bgCount); bgG = Math.round(bgG / bgCount); bgB = Math.round(bgB / bgCount) }
-        else { bgR = 255; bgG = 255; bgB = 255 }
-        const floorLum = localBgLum - 20 // only blend pixels clearly darker than bg
+        const [bgR, bgG, bgB] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom, localBgLum)
+        const floorLum = localBgLum - 35 // wider margin: avoid blending near-bg pixels
         for (let i = 0; i < replBuf.length; i += 3) {
           const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
           if (lum < floorLum) {

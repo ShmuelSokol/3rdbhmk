@@ -243,11 +243,24 @@ function computeBlockLayouts(
       const linesNeeded = totalChars / Math.max(charsPerLine, 1);
       const totalTextH = linesNeeded * (mid * 1.3) + paraGapPx;
 
-      if (totalTextH <= blockHPx * 0.92) { // 8% safety margin for CSS vs estimate mismatch
+      if (totalTextH <= blockHPx * 0.92) {
         bestFit = mid;
         lo = mid;
       } else {
         hi = mid;
+      }
+    }
+
+    // For short text (1 paragraph, fits in ~1-2 lines), prefer fitting on one line
+    // rather than wrapping at a larger font — cap font so text doesn't wrap
+    if (paras.length === 1 && totalChars < 120) {
+      const oneLineFontMax = blockWPx / (totalChars * 0.55);
+      if (bestFit > oneLineFontMax) {
+        // Use one-line font if it's at least 60% of the multi-line bestFit (not too tiny)
+        const oneLineFont = Math.max(lo, Math.min(oneLineFontMax, bestFit));
+        if (oneLineFont >= bestFit * 0.6) {
+          bestFit = oneLineFont;
+        }
       }
     }
 

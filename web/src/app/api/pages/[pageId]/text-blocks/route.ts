@@ -14,6 +14,7 @@ interface TextBlock {
   height: number
   hebrewCharCount: number
   avgLineHeightPct: number // average Hebrew line height as % of page
+  centered: boolean // true if Hebrew text lines were centered in this block
 }
 
 export async function GET(
@@ -148,6 +149,7 @@ export async function GET(
         height: Math.max(...bodyLines.map((l) => l.y + l.height)) - Math.min(...bodyLines.map((l) => l.y)),
         hebrewCharCount: bodyLines.reduce((s, l) => s + l.charCount, 0),
         avgLineHeightPct: bodyLines.reduce((s, l) => s + l.height, 0) / bodyLines.length,
+        centered: false,
       }
       return NextResponse.json({
         blocks: [tableBlock],
@@ -182,7 +184,26 @@ export async function GET(
       const maxY = Math.max(...group.map((l) => l.y + l.height))
       const hebrewCharCount = group.reduce((s, l) => s + l.charCount, 0)
       const avgLineHeightPct = group.reduce((s, l) => s + l.height, 0) / group.length
-      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct }
+
+      // Detect centered text: lines whose midpoints cluster tightly but widths vary
+      let centered = false
+      if (group.length >= 2) {
+        const midpoints = group.map((l) => l.x + l.width / 2)
+        const widths = group.map((l) => l.width)
+        const avgMid = midpoints.reduce((s, m) => s + m, 0) / midpoints.length
+        const midStdDev = Math.sqrt(midpoints.reduce((s, m) => s + (m - avgMid) ** 2, 0) / midpoints.length)
+        const widthRange = Math.max(...widths) - Math.min(...widths)
+        // Centered = midpoints are tight (stddev < 3%) but widths vary (range > 5%)
+        centered = midStdDev < 3 && widthRange > 5
+      } else if (group.length === 1) {
+        // Single line: centered if it's roughly in the middle of the page (not hugging left or right)
+        const mid = group[0].x + group[0].width / 2
+        const leftGap = group[0].x
+        const rightGap = 100 - (group[0].x + group[0].width)
+        centered = Math.abs(leftGap - rightGap) < 10 && mid > 35 && mid < 65
+      }
+
+      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct, centered }
     })
 
     // Compute pixel stats for a strip (percentage coords)
@@ -283,6 +304,7 @@ export async function GET(
         height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,
+        centered: block.centered,
       }
     })
 

@@ -108,6 +108,7 @@ interface TextBlock {
   height: number;
   hebrewCharCount: number;
   avgLineHeightPct?: number; // average Hebrew line height as % of page
+  centered?: boolean; // true if Hebrew text was centered in this block
 }
 
 function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4): TextBlock[] {
@@ -486,7 +487,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                         fontFamily: 'Georgia, "Times New Roman", serif',
                         color: '#1a1510',
                         fontWeight: para.isAllBold ? 700 : 400,
-                        textAlign: para.isAllBold ? 'center' : 'left',
+                        textAlign: block.centered || para.isAllBold ? 'center' : 'left',
                         marginBottom: pi < paras.length - 1 ? '0.4em' : 0,
                         lineHeight: 1.3,
                       }}

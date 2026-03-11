@@ -159,7 +159,18 @@ export async function GET(
       })
     }
 
-    // Group lines into blocks (gap > 3% = new block)
+    // Classify each line as "centered" or "body" based on width and position
+    const pageBodyWidth = Math.max(...ocrLines.map((l) => l.width)) // widest line ≈ full body width
+    const isCenteredLine = (line: typeof ocrLines[0]): boolean => {
+      // A line is centered if it's significantly narrower than body text AND roughly centered
+      if (line.width > pageBodyWidth * 0.7) return false // too wide to be a header
+      const mid = line.x + line.width / 2
+      const leftGap = line.x
+      const rightGap = 100 - (line.x + line.width)
+      return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
+    }
+
+    // Group lines into blocks: split on gap > 3% OR when switching between centered/body lines
     const GAP_THRESHOLD = 3
     const groups: (typeof ocrLines)[] = []
     let currentGroup = [ocrLines[0]]
@@ -167,7 +178,16 @@ export async function GET(
       const prev = currentGroup[currentGroup.length - 1]
       const prevBottom = prev.y + prev.height
       const gap = ocrLines[i].y - prevBottom
-      if (gap > GAP_THRESHOLD) {
+
+      const prevCentered = isCenteredLine(prev)
+      const currCentered = isCenteredLine(ocrLines[i])
+      // Split on large gap OR when transitioning from centered→body
+      // (don't split body→centered mid-block for short single lines like "(מפרשים)")
+      const typeSwitch = prevCentered !== currCentered && !prevCentered
+        ? false // body→centered: only split if the centered line starts a real header section
+        : prevCentered !== currCentered // centered→body: always split
+
+      if (gap > GAP_THRESHOLD || typeSwitch) {
         groups.push(currentGroup)
         currentGroup = [ocrLines[i]]
       } else {
@@ -176,8 +196,30 @@ export async function GET(
     }
     groups.push(currentGroup)
 
-    // Build raw blocks
-    const rawBlocks: TextBlock[] = groups.map((group) => {
+    // Second pass: split groups where centered lines transition to body lines within a group
+    const refinedGroups: (typeof ocrLines)[] = []
+    for (const group of groups) {
+      if (group.length <= 1) { refinedGroups.push(group); continue }
+
+      // Find the split point: last centered line before body text starts
+      let splitIdx = -1
+      for (let i = 0; i < group.length - 1; i++) {
+        if (isCenteredLine(group[i]) && !isCenteredLine(group[i + 1])) {
+          splitIdx = i + 1
+          break
+        }
+      }
+
+      if (splitIdx > 0) {
+        refinedGroups.push(group.slice(0, splitIdx))
+        refinedGroups.push(group.slice(splitIdx))
+      } else {
+        refinedGroups.push(group)
+      }
+    }
+
+    // Build raw blocks from refined groups
+    const rawBlocks: TextBlock[] = refinedGroups.map((group) => {
       const minX = Math.min(...group.map((l) => l.x))
       const minY = Math.min(...group.map((l) => l.y))
       const maxX = Math.max(...group.map((l) => l.x + l.width))
@@ -185,23 +227,9 @@ export async function GET(
       const hebrewCharCount = group.reduce((s, l) => s + l.charCount, 0)
       const avgLineHeightPct = group.reduce((s, l) => s + l.height, 0) / group.length
 
-      // Detect centered text: lines whose midpoints cluster tightly but widths vary
-      let centered = false
-      if (group.length >= 2) {
-        const midpoints = group.map((l) => l.x + l.width / 2)
-        const widths = group.map((l) => l.width)
-        const avgMid = midpoints.reduce((s, m) => s + m, 0) / midpoints.length
-        const midStdDev = Math.sqrt(midpoints.reduce((s, m) => s + (m - avgMid) ** 2, 0) / midpoints.length)
-        const widthRange = Math.max(...widths) - Math.min(...widths)
-        // Centered = midpoints are tight (stddev < 3%) but widths vary (range > 5%)
-        centered = midStdDev < 3 && widthRange > 5
-      } else if (group.length === 1) {
-        // Single line: centered if it's roughly in the middle of the page (not hugging left or right)
-        const mid = group[0].x + group[0].width / 2
-        const leftGap = group[0].x
-        const rightGap = 100 - (group[0].x + group[0].width)
-        centered = Math.abs(leftGap - rightGap) < 10 && mid > 35 && mid < 65
-      }
+      // Detect if this block is centered
+      const centeredCount = group.filter((l) => isCenteredLine(l)).length
+      const centered = centeredCount > group.length / 2
 
       return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct, centered }
     })

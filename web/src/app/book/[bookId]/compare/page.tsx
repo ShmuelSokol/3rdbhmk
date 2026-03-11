@@ -320,7 +320,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     [textBlocks, paraMap, containerW, containerH, hasContent]
   );
 
-  if (!hasContent || isTable) {
+  if (!hasContent) {
     return (
       <div className="w-full relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -330,6 +330,112 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           className="w-full h-auto block"
           loading="lazy"
         />
+      </div>
+    );
+  }
+
+  // Table pages: render translation as formatted table over erased image
+  if (isTable && textBlocks.length > 0) {
+    const tableBlock = textBlocks[0];
+    const rawText = page.translation!.englishOutput;
+    // Parse translation into lines, detect | separators for table structure
+    const lines = rawText.split('\n').map((l) => l.trim()).filter(Boolean);
+    // Remove header lines (page number, title)
+    const isHeaderLine = (s: string) =>
+      /^\d{1,3}\.?$/.test(s) ||
+      /^(Introduction|Summary|Yechezkel Perek|Main Topics)/i.test(s);
+
+    const containerHTable = containerW * imgAspect;
+    const blockHPx = (tableBlock.height / 100) * containerHTable;
+    // Estimate font size to fit all lines
+    const targetFont = Math.min(
+      containerW * 0.014,
+      blockHPx / (lines.length * 1.4)
+    );
+    const fontSize = Math.max(5, targetFont);
+
+    return (
+      <div className="w-full relative" ref={containerRef}>
+        <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/pages/${page.id}/image-erased`}
+            alt={`Page ${page.pageNumber}`}
+            className="w-full h-auto block"
+            loading="lazy"
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (img.naturalWidth > 0) setImgAspect(img.naturalHeight / img.naturalWidth);
+            }}
+          />
+          <div
+            className="absolute overflow-hidden"
+            style={{
+              left: `${tableBlock.x}%`,
+              top: `${tableBlock.y}%`,
+              width: `${tableBlock.width}%`,
+              height: `${tableBlock.height}%`,
+              direction: 'ltr',
+              padding: '0.2em',
+            }}
+          >
+            {lines.map((line, li) => {
+              const isBold = isHeaderLine(line.replace(/\*\*/g, '')) ||
+                (line.startsWith('**') && line.endsWith('**'));
+              const cleanLine = line.replace(/\*\*/g, '').replace(/^#+\s+/, '');
+              const hasPipe = cleanLine.includes('|');
+
+              if (hasPipe) {
+                const cols = cleanLine.split('|').map((c) => c.trim());
+                return (
+                  <div
+                    key={li}
+                    style={{
+                      display: 'flex',
+                      fontSize: `${fontSize}px`,
+                      fontFamily: '"Courier New", Courier, monospace',
+                      color: '#1a1510',
+                      lineHeight: 1.3,
+                      marginBottom: '0.1em',
+                    }}
+                  >
+                    {cols.map((col, ci) => (
+                      <span
+                        key={ci}
+                        style={{
+                          flex: ci === 0 ? 2 : 1,
+                          paddingRight: '0.5em',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {col}
+                      </span>
+                    ))}
+                  </div>
+                );
+              }
+
+              return (
+                <p
+                  key={li}
+                  style={{
+                    fontSize: `${isBold ? fontSize * 1.1 : fontSize}px`,
+                    fontFamily: 'Georgia, "Times New Roman", serif',
+                    color: '#1a1510',
+                    fontWeight: isBold ? 700 : 400,
+                    textAlign: isBold ? 'center' : 'left',
+                    marginBottom: '0.3em',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {cleanLine}
+                </p>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }

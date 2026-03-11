@@ -139,8 +139,18 @@ export async function GET(
     const isTable = totalPairs > 5 && (multiColPairs / totalPairs) > 0.3
 
     if (isTable) {
+      // For table pages: return the full body area as one block
+      const bodyLines = ocrLines.filter((l) => l.y >= 4)
+      const tableBlock: TextBlock = {
+        x: 2,
+        y: Math.min(...bodyLines.map((l) => l.y)),
+        width: 96,
+        height: Math.max(...bodyLines.map((l) => l.y + l.height)) - Math.min(...bodyLines.map((l) => l.y)),
+        hebrewCharCount: bodyLines.reduce((s, l) => s + l.charCount, 0),
+        avgLineHeightPct: bodyLines.reduce((s, l) => s + l.height, 0) / bodyLines.length,
+      }
       return NextResponse.json({
-        blocks: [],
+        blocks: [tableBlock],
         isTable: true,
       }, {
         headers: { 'Cache-Control': 'no-cache' },
@@ -253,10 +263,15 @@ export async function GET(
         safeRight = x + STEP
       }
 
+      // Clamp to page margins — don't go over border design (keep 2% margin)
+      const PAGE_MARGIN = 2
+      const clampedLeft = Math.max(PAGE_MARGIN, safeLeft)
+      const clampedRight = Math.min(100 - PAGE_MARGIN, safeRight)
+
       return {
-        x: safeLeft,
+        x: clampedLeft,
         y: safeTop,
-        width: safeRight - safeLeft,
+        width: clampedRight - clampedLeft,
         height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,

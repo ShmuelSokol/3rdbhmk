@@ -161,10 +161,9 @@ export async function GET(
     // Merge body zones sandwiched between table zones, and small body zones adjacent to table
     // But NEVER absorb zones whose lines are all centered — those are section headers
     const isZoneCentered = (z: Zone): boolean => {
-      if (z.lines.length === 0) return false
-      const pageW = Math.max(...z.lines.map((l) => l.width))
+      if (z.lines.length === 0 || z.lines.length > 3) return false
       return z.lines.every((line) => {
-        if (line.width > pageW * 0.7) return false
+        if (line.width > 30) return false // absolute: section headers < 30% of page
         const leftGap = line.x
         const rightGap = 100 - (line.x + line.width)
         const mid = line.x + line.width / 2

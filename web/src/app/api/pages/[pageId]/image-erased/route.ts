@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v7')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v8')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -105,20 +105,45 @@ export async function GET(
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
     const channels = metadata.channels || 3
 
-    // Check if a pixel row is "clean" (no dark text/line pixels)
-    const isCleanRow = (rowY: number, x0: number, x1: number): boolean => {
+    // Compute local background luminance for an area (75th percentile of edge pixels)
+    const getLocalBgLum = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): number => {
+      const lums: number[] = []
+      const stripH = Math.max(10, Math.round((pxBottom - pxTop) * 0.25))
+      const stripW = Math.max(5, Math.round((pxRight - pxLeft) * 0.05))
+      const sampleRegions = [
+        [Math.max(0, pxTop - stripH), pxTop, pxLeft, pxRight],
+        [pxBottom, Math.min(imgH, pxBottom + stripH), pxLeft, pxRight],
+        [pxTop, pxBottom, Math.max(0, pxLeft - stripW), pxLeft],
+        [pxTop, pxBottom, pxRight, Math.min(imgW, pxRight + stripW)],
+      ]
+      for (const [y0, y1, x0, x1] of sampleRegions) {
+        for (let y = y0; y < y1; y += 2) {
+          for (let x = x0; x < x1; x += 3) {
+            const idx = (y * imgW + x) * channels
+            lums.push(rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114)
+          }
+        }
+      }
+      if (lums.length === 0) return 240
+      lums.sort((a, b) => a - b)
+      return lums[Math.floor(lums.length * 0.75)]
+    }
+
+    // Check if a pixel row is "clean" — threshold adapts to local background
+    const isCleanRow = (rowY: number, x0: number, x1: number, threshold: number): boolean => {
       if (rowY < 0 || rowY >= imgH) return false
       for (let x = x0; x < x1; x += 2) {
         const idx = (rowY * imgW + Math.min(x, imgW - 1)) * channels
         const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-        if (lum < 170) return false
+        if (lum < threshold) return false
       }
       return true
     }
 
-    // Fallback: sample solid background color from edges, filtering dark pixels
-    const sampleLocalBg = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): [number, number, number] => {
+    // Fallback: sample solid background color from edges, adaptive threshold
+    const sampleLocalBg = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number, bgLum: number): [number, number, number] => {
       let rSum = 0, gSum = 0, bSum = 0, count = 0
+      const minLum = bgLum - 30
       const stripW = Math.max(5, Math.round((pxRight - pxLeft) * 0.03))
       const stripH = Math.max(5, Math.round((pxBottom - pxTop) * 0.15))
       const regions = [
@@ -132,7 +157,7 @@ export async function GET(
           for (let x = x0; x < x1; x += 2) {
             const idx = (y * imgW + x) * channels
             const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-            if (lum < 180) continue
+            if (lum < minLum) continue
             rSum += rawPixels[idx]; gSum += rawPixels[idx + 1]; bSum += rawPixels[idx + 2]; count++
           }
         }
@@ -162,14 +187,17 @@ export async function GET(
 
       if (pxW <= 0 || pxH <= 0) continue
 
+      // Compute local background luminance for adaptive thresholds
+      const localBgLum = getLocalBgLum(pxLeft, pxTop, pxRight, pxBottom)
+      const cleanThreshold = localBgLum - 40 // e.g. white(240)→200, orange(170)→130
+
       // Per-row erasure: for each pixel row, find the nearest clean row
-      // and copy its pixels. This correctly handles color boundaries
-      // (e.g. reddish header meeting white body area).
+      // and copy its pixels. Threshold adapts to local background color.
       const replBuf = Buffer.alloc(pxW * pxH * 3)
       const cleanCache = new Map<number, boolean>()
       const checkClean = (rowY: number): boolean => {
         if (cleanCache.has(rowY)) return cleanCache.get(rowY)!
-        const result = isCleanRow(rowY, pxLeft, pxRight)
+        const result = isCleanRow(rowY, pxLeft, pxRight, cleanThreshold)
         cleanCache.set(rowY, result)
         return result
       }
@@ -197,19 +225,22 @@ export async function GET(
         }
       }
 
-      // Per-pixel residual cleanup: brighten any remaining dark pixels toward background
+      // Per-pixel residual cleanup: brighten dark pixels toward local background
+      // Adaptive: thresholds relative to local bg luminance
       if (hasAnyRef) {
+        const bgSampleThresh = localBgLum - 10
         let bgR = 0, bgG = 0, bgB = 0, bgCount = 0
         for (let i = 0; i < replBuf.length; i += 3 * 7) {
           const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
-          if (lum > 200) { bgR += replBuf[i]; bgG += replBuf[i + 1]; bgB += replBuf[i + 2]; bgCount++ }
+          if (lum > bgSampleThresh) { bgR += replBuf[i]; bgG += replBuf[i + 1]; bgB += replBuf[i + 2]; bgCount++ }
         }
         if (bgCount > 0) { bgR = Math.round(bgR / bgCount); bgG = Math.round(bgG / bgCount); bgB = Math.round(bgB / bgCount) }
         else { bgR = 255; bgG = 255; bgB = 255 }
+        const floorLum = localBgLum - 20 // only blend pixels clearly darker than bg
         for (let i = 0; i < replBuf.length; i += 3) {
           const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
-          if (lum < 190) {
-            const alpha = Math.min(1.0, (190 - lum) / 100)
+          if (lum < floorLum) {
+            const alpha = Math.min(1.0, (floorLum - lum) / 100)
             replBuf[i]     = Math.round(replBuf[i]     + (bgR - replBuf[i])     * alpha)
             replBuf[i + 1] = Math.round(replBuf[i + 1] + (bgG - replBuf[i + 1]) * alpha)
             replBuf[i + 2] = Math.round(replBuf[i + 2] + (bgB - replBuf[i + 2]) * alpha)
@@ -225,14 +256,14 @@ export async function GET(
             .toBuffer()
           composites.push({ input: patchPng, left: pxLeft, top: pxTop })
         } catch {
-          const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
+          const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom, localBgLum)
           composites.push({
             input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),
             left: pxLeft, top: pxTop,
           })
         }
       } else {
-        const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
+        const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom, localBgLum)
         composites.push({
           input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),
           left: pxLeft, top: pxTop,

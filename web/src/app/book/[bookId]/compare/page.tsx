@@ -345,7 +345,12 @@ function TableRegionOverlay({
         const hasPipe = cleanLine.includes('|');
 
         if (hasPipe && dividers.length > 0) {
-          const cols = cleanLine.split('|').map((c) => c.trim());
+          const rawCols = cleanLine.split('|').map((c) => c.trim());
+          // Merge excess columns into the last slot if more pipe columns than divider slots
+          const numSlots = colWidths.length;
+          const cols = rawCols.length > numSlots
+            ? [...rawCols.slice(0, numSlots - 1), rawCols.slice(numSlots - 1).join(' - ')]
+            : rawCols;
           return (
             <div
               key={li}
@@ -452,7 +457,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks?v=5`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=6`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
@@ -486,7 +491,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       if (clean.includes('|')) break;
       if (!clean) { startIdx = i + 1; continue; }
       if (/^\d{1,3}\.?$/.test(clean)) { startIdx = i + 1; continue; }
-      if (/^(Yechezkel Perek|Main Topics|Introduction|Summary)/i.test(clean)) { startIdx = i + 1; continue; }
+      if (clean.length < 40 && /^(Yechezkel Perek|Main Topics)/i.test(clean)) { startIdx = i + 1; continue; }
       break;
     }
     const content = allLines.slice(startIdx);
@@ -561,7 +566,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/api/pages/${page.id}/image-erased?v=7`}
+          src={`/api/pages/${page.id}/image-erased?v=8`}
           alt={`Page ${page.pageNumber}`}
           className="w-full h-auto block"
           loading="lazy"

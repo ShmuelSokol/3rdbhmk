@@ -152,18 +152,6 @@ function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4):
     };
   });
 
-  // Expand each block downward into the gap before the next block
-  // Only between consecutive text blocks — NOT the last block (there may be an illustration below)
-  for (let i = 0; i < rawBlocks.length - 1; i++) {
-    const block = rawBlocks[i];
-    const blockBottom = block.y + block.height;
-    const nextTop = rawBlocks[i + 1].y;
-    const availableGap = nextTop - blockBottom;
-    if (availableGap > 0) {
-      block.height += availableGap;
-    }
-  }
-
   return rawBlocks;
 }
 
@@ -238,7 +226,7 @@ function computeBlockLayouts(
     const targetPx = containerW * 0.019;
 
     // Binary search for the largest font that fits
-    let lo = 6;
+    let lo = 4;
     let hi = Math.min(targetPx * 1.5, 22);
     let bestFit = lo;
 
@@ -349,7 +337,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
               return (
                 <div
                   key={blockIndex}
-                  className="absolute"
+                  className="absolute overflow-hidden"
                   style={{
                     left: `${block.x}%`,
                     top: `${block.y}%`,

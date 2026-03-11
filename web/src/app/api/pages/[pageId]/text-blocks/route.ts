@@ -185,9 +185,9 @@ export async function GET(
       return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct }
     })
 
-    // Compute pixel variance for a horizontal strip (percentage coords)
-    // Returns average variance across the strip — low = empty background, high = illustration
-    const computeStripVariance = (yPct: number, heightPct: number, xPct: number, widthPct: number): number => {
+    // Compute pixel stats for a strip (percentage coords)
+    // Returns { variance, meanLum } — variance detects illustrations, meanLum detects borders
+    const computeStripStats = (yPct: number, heightPct: number, xPct: number, widthPct: number): { variance: number; meanLum: number } => {
       const pxY = Math.max(0, Math.round((yPct / 100) * imgH))
       const pxH = Math.max(1, Math.round((heightPct / 100) * imgH))
       const pxX = Math.max(0, Math.round((xPct / 100) * imgW))
@@ -203,7 +203,6 @@ export async function GET(
       for (let y = pxY; y < endY; y += 3) {
         for (let x = pxX; x < endX; x += 3) {
           const idx = (y * imgW + x) * channels
-          // Use luminance
           const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
           sum += lum
           sumSq += lum * lum
@@ -211,59 +210,68 @@ export async function GET(
         }
       }
 
-      if (count < 2) return 0
-      const mean = sum / count
-      return (sumSq / count) - (mean * mean) // variance
+      if (count < 2) return { variance: 0, meanLum: 255 }
+      const meanLum = sum / count
+      const variance = (sumSq / count) - (meanLum * meanLum)
+      return { variance, meanLum }
     }
 
-    // For each block, try to expand downward into empty background
-    // Scan in 1% increments, stop when we hit high-variance content (illustration)
-    const VARIANCE_THRESHOLD = 200 // background is typically < 50, illustrations > 500
-    const STEP = 1 // percentage step
+    // For each block, try to expand into empty background
+    // Stop when we hit high-variance content (illustration) OR a color shift (border design)
+    const VARIANCE_THRESHOLD = 200
+    const LUMINANCE_SHIFT_THRESHOLD = 30 // stop if mean luminance differs by >30 from reference
+    const STEP = 1
 
     const expandedBlocks: TextBlock[] = rawBlocks.map((block, bi) => {
+      // Sample reference background luminance from the text block's own area
+      const refStats = computeStripStats(block.y, block.height, block.x, block.width)
+      const refLum = refStats.meanLum
+
+      const isSafe = (stats: { variance: number; meanLum: number }): boolean => {
+        if (stats.variance > VARIANCE_THRESHOLD) return false
+        if (Math.abs(stats.meanLum - refLum) > LUMINANCE_SHIFT_THRESHOLD) return false
+        return true
+      }
+
       const blockBottom = block.y + block.height
-      // Don't expand past the next block's top
       const nextBlockTop = bi < rawBlocks.length - 1 ? rawBlocks[bi + 1].y : 100
       const maxBottom = nextBlockTop
 
       let safeBottom = blockBottom
       for (let y = blockBottom; y < maxBottom; y += STEP) {
-        const variance = computeStripVariance(y, STEP, block.x, block.width)
-        if (variance > VARIANCE_THRESHOLD) break
+        const stats = computeStripStats(y, STEP, block.x, block.width)
+        if (!isSafe(stats)) break
         safeBottom = y + STEP
       }
 
-      // Also try expanding upward (between header and first text, or between blocks)
       const prevBlockBottom = bi > 0 ? rawBlocks[bi - 1].y + rawBlocks[bi - 1].height : 4
       const minTop = prevBlockBottom
 
       let safeTop = block.y
       for (let y = block.y - STEP; y >= minTop; y -= STEP) {
-        const variance = computeStripVariance(y, STEP, block.x, block.width)
-        if (variance > VARIANCE_THRESHOLD) break
+        const stats = computeStripStats(y, STEP, block.x, block.width)
+        if (!isSafe(stats)) break
         safeTop = y
       }
 
-      // Expand horizontally — scan left and right as far as safe
       const expandedY = safeTop
       const expandedH = safeBottom - safeTop
 
       let safeLeft = block.x
       for (let x = block.x - STEP; x >= 0; x -= STEP) {
-        const variance = computeStripVariance(expandedY, expandedH, x, STEP)
-        if (variance > VARIANCE_THRESHOLD) break
+        const stats = computeStripStats(expandedY, expandedH, x, STEP)
+        if (!isSafe(stats)) break
         safeLeft = x
       }
 
       let safeRight = block.x + block.width
       for (let x = safeRight; x < 100; x += STEP) {
-        const variance = computeStripVariance(expandedY, expandedH, x, STEP)
-        if (variance > VARIANCE_THRESHOLD) break
+        const stats = computeStripStats(expandedY, expandedH, x, STEP)
+        if (!isSafe(stats)) break
         safeRight = x + STEP
       }
 
-      // Clamp to page margins — don't go over border design (keep 2% margin)
+      // Clamp to page margins as safety net
       const PAGE_MARGIN = 2
       const clampedLeft = Math.max(PAGE_MARGIN, safeLeft)
       const clampedRight = Math.min(100 - PAGE_MARGIN, safeRight)

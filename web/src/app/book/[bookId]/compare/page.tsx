@@ -285,7 +285,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
         if (cancelled) return;
         if (data.isTable) {
           setIsTable(true);
-          setSafeBlocks([]);
+          setSafeBlocks(data.blocks || []);
         } else if (data.blocks) {
           setSafeBlocks(data.blocks);
         }

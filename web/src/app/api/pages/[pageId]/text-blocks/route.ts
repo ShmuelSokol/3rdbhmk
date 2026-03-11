@@ -157,14 +157,25 @@ export async function GET(
     }
     zones.push(curZone)
 
-    // Merge small non-table zones into adjacent table zones
+    // Merge body zones sandwiched between table zones, and small body zones adjacent to table
+    // First pass: mark body zones that are between two table zones for absorption
+    for (let i = 1; i < zones.length - 1; i++) {
+      if (!zones[i].isTable && zones[i - 1].isTable && zones[i + 1].isTable) {
+        zones[i].isTable = true // absorb into table
+      }
+    }
+    // Also absorb small body zones (< 3 lines) adjacent to table
+    for (let i = 0; i < zones.length; i++) {
+      if (!zones[i].isTable && zones[i].lines.length < 3) {
+        if ((i > 0 && zones[i - 1].isTable) || (i < zones.length - 1 && zones[i + 1].isTable)) {
+          zones[i].isTable = true
+        }
+      }
+    }
+    // Now merge adjacent same-type zones
     const mergedZones: Zone[] = []
     for (const z of zones) {
       if (mergedZones.length > 0 && z.isTable === mergedZones[mergedZones.length - 1].isTable) {
-        const prev = mergedZones[mergedZones.length - 1]
-        prev.endY = z.endY
-        prev.lines.push(...z.lines)
-      } else if (!z.isTable && z.lines.length < 3 && mergedZones.length > 0 && mergedZones[mergedZones.length - 1].isTable) {
         const prev = mergedZones[mergedZones.length - 1]
         prev.endY = z.endY
         prev.lines.push(...z.lines)
@@ -380,6 +391,21 @@ export async function GET(
         isTableRegion: false,
       }
     })
+
+    // Resolve vertical overlaps between adjacent blocks
+    expandedBlocks.sort((a, b) => a.y - b.y)
+    for (let i = 1; i < expandedBlocks.length; i++) {
+      const prev = expandedBlocks[i - 1]
+      const prevBottom = prev.y + prev.height
+      if (prevBottom > expandedBlocks[i].y) {
+        // Split the overlap evenly
+        const mid = (prevBottom + expandedBlocks[i].y) / 2
+        prev.height = mid - prev.y
+        const newY = mid
+        expandedBlocks[i].height = (expandedBlocks[i].y + expandedBlocks[i].height) - newY
+        expandedBlocks[i].y = newY
+      }
+    }
 
     return NextResponse.json({
       blocks: expandedBlocks,

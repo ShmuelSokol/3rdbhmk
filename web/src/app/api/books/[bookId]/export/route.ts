@@ -400,7 +400,6 @@ export async function GET(
         const blockHPdf = (block.height / 100) * pdfPageHeight
 
         // Compute font size — binary search for largest that fits
-        const allText = paras.map((p) => p.text).join(' ')
         const hebrewLinePx = block.avgLineHeightPct
           ? (block.avgLineHeightPct / 100) * pdfPageHeight * 0.75
           : 14

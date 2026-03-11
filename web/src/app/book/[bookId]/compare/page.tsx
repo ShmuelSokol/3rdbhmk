@@ -264,6 +264,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const [containerW, setContainerW] = useState(900);
   const [imgAspect, setImgAspect] = useState(2340 / 1655);
   const [safeBlocks, setSafeBlocks] = useState<TextBlock[] | null>(null);
+  const [isTable, setIsTable] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -281,7 +282,13 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     fetch(`/api/pages/${page.id}/text-blocks`)
       .then((res) => res.json())
       .then((data) => {
-        if (!cancelled && data.blocks) setSafeBlocks(data.blocks);
+        if (cancelled) return;
+        if (data.isTable) {
+          setIsTable(true);
+          setSafeBlocks([]);
+        } else if (data.blocks) {
+          setSafeBlocks(data.blocks);
+        }
       })
       .catch(() => {
         // Fallback to client-side OCR grouping
@@ -313,7 +320,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     [textBlocks, paraMap, containerW, containerH, hasContent]
   );
 
-  if (!hasContent) {
+  if (!hasContent || isTable) {
     return (
       <div className="w-full relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}

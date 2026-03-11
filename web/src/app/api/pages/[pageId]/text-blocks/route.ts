@@ -115,7 +115,36 @@ export async function GET(
     ocrLines.sort((a, b) => a.y - b.y)
 
     if (ocrLines.length === 0) {
-      return NextResponse.json({ blocks: [] })
+      return NextResponse.json({ blocks: [], isTable: false })
+    }
+
+    // Detect split-column / table layouts:
+    // Check if many lines overlap vertically but are at different x positions
+    // (i.e., multiple columns side by side)
+    let multiColPairs = 0
+    let totalPairs = 0
+    for (let i = 0; i < ocrLines.length; i++) {
+      for (let j = i + 1; j < Math.min(i + 10, ocrLines.length); j++) {
+        const a = ocrLines[i]
+        const b = ocrLines[j]
+        const yOverlap = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)
+        if (yOverlap > 0) {
+          totalPairs++
+          // Lines at same y but different x = multi-column
+          const xSeparated = Math.abs((a.x + a.width / 2) - (b.x + b.width / 2)) > 20
+          if (xSeparated) multiColPairs++
+        }
+      }
+    }
+    const isTable = totalPairs > 5 && (multiColPairs / totalPairs) > 0.3
+
+    if (isTable) {
+      return NextResponse.json({
+        blocks: [],
+        isTable: true,
+      }, {
+        headers: { 'Cache-Control': 'public, max-age=3600' },
+      })
     }
 
     // Group lines into blocks (gap > 3% = new block)

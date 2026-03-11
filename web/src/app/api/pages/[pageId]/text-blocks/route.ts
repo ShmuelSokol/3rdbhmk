@@ -527,6 +527,34 @@ export async function GET(
         }
       }
 
+      // For centered text, also scan from text edges outward
+      // (center-out scan may hit the text itself and fail to expand)
+      if (block.centered) {
+        for (const sy of scanPositions) {
+          const isHSafe = (xPct: number, wPct: number): boolean => {
+            const variance = computeStripVariance(sy, SCAN_H, xPct, wPct)
+            if (variance > VARIANCE_THRESHOLD) return false
+            const rgb = computeStripRGB(sy, SCAN_H, xPct, wPct)
+            if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
+            return true
+          }
+          let edgeLeft = block.x
+          for (let x = block.x - STEP; x >= 0; x -= STEP) {
+            if (!isHSafe(x, STEP)) break
+            edgeLeft = x
+          }
+          let edgeRight = block.x + block.width
+          for (let x = block.x + block.width; x < 100; x += STEP) {
+            if (!isHSafe(x, STEP)) break
+            edgeRight = x + STEP
+          }
+          if ((edgeRight - edgeLeft) > (bestRight - bestLeft)) {
+            bestLeft = edgeLeft
+            bestRight = edgeRight
+          }
+        }
+      }
+
       const safeLeft = bestLeft
       const safeRight = bestRight
 

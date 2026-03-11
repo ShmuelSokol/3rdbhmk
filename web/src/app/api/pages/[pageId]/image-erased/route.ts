@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v5')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v6')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -111,7 +111,7 @@ export async function GET(
       for (let x = x0; x < x1; x += 3) {
         const idx = (rowY * imgW + Math.min(x, imgW - 1)) * channels
         const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-        if (lum < 100) return false
+        if (lum < 130) return false
       }
       return true
     }
@@ -152,7 +152,7 @@ export async function GET(
       const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
       const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-      const pad = 0.3
+      const pad = 0.2
       const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
       const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
       const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))
@@ -200,7 +200,7 @@ export async function GET(
       if (hasAnyRef) {
         try {
           const patchPng = await sharp(replBuf, { raw: { width: pxW, height: pxH, channels: 3 } })
-            .blur(1.5)
+            .blur(2.0)
             .png()
             .toBuffer()
           composites.push({ input: patchPng, left: pxLeft, top: pxTop })

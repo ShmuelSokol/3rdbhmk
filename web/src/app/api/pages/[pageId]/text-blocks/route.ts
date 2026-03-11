@@ -205,11 +205,31 @@ export async function GET(
         safeTop = y
       }
 
+      // Expand horizontally — scan left and right for empty background
+      // Use a vertical strip the height of the block
+      const MAX_EXPAND_H = 20
+      const expandedY = safeTop
+      const expandedH = safeBottom - safeTop
+
+      let safeLeft = block.x
+      for (let x = block.x - STEP; x >= Math.max(0, block.x - MAX_EXPAND_H); x -= STEP) {
+        const variance = computeStripVariance(expandedY, expandedH, x, STEP)
+        if (variance > VARIANCE_THRESHOLD) break
+        safeLeft = x
+      }
+
+      let safeRight = block.x + block.width
+      for (let x = safeRight; x < Math.min(100, safeRight + MAX_EXPAND_H); x += STEP) {
+        const variance = computeStripVariance(expandedY, expandedH, x, STEP)
+        if (variance > VARIANCE_THRESHOLD) break
+        safeRight = x + STEP
+      }
+
       return {
-        x: block.x,
+        x: safeLeft,
         y: safeTop,
-        width: block.width,
-        height: safeBottom - safeTop,
+        width: safeRight - safeLeft,
+        height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
       }
     })

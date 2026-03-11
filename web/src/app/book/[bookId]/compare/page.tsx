@@ -59,12 +59,10 @@ function parseTranslation(raw: string): Paragraph[] {
   const rawParas = raw.split(/\r?\n\s*\r?\n/).map((p) => p.trim()).filter(Boolean);
 
   // Strip leading header lines from first paragraph: page number + running headers
-  // These are already visible in the original Hebrew banner
   const isHeaderLine = (s: string) =>
     /^\d{1,3}\.?$/.test(s) ||
     /^(Introduction|Summary|Yechezkel Perek|Main Topics)/i.test(s);
 
-  // First paragraph may contain header lines joined by \n — strip them
   if (rawParas.length > 0) {
     const lines = rawParas[0].split('\n').map((l) => l.replace(/\*\*/g, '').trim());
     let skipCount = 0;
@@ -81,7 +79,6 @@ function parseTranslation(raw: string): Paragraph[] {
       }
     }
   }
-  // Also skip any subsequent standalone header paragraphs
   while (rawParas.length > 0) {
     const line = rawParas[0].replace(/\*\*/g, '').trim();
     if (isHeaderLine(line)) { rawParas.shift(); continue; }
@@ -89,7 +86,6 @@ function parseTranslation(raw: string): Paragraph[] {
   }
   for (let i = 0; i < rawParas.length; i++) {
     const para = rawParas[i];
-    // Strip markdown formatting for display
     const text = para
       .replace(/\*\*([\s\S]*?)\*\*/g, '$1')
       .replace(/\n/g, ' ')
@@ -104,143 +100,100 @@ function parseTranslation(raw: string): Paragraph[] {
   return paragraphs;
 }
 
-// --- ASSIGN PARAGRAPHS TO TEXT REGIONS ---
+// --- OCR-BASED TEXT BLOCK GROUPING ---
 
-function assignParagraphsToRegions(
-  regions: LayoutRegion[],
-  paragraphs: Paragraph[],
-  ocrLines: OcrLine[]
+interface TextBlock {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  hebrewCharCount: number;
+}
+
+function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4): TextBlock[] {
+  // Filter out header lines (top ~4% of page)
+  const bodyLines = lines
+    .filter((l) => l.y >= headerThreshold)
+    .sort((a, b) => a.y - b.y);
+
+  if (bodyLines.length === 0) return [];
+
+  // Group lines into contiguous blocks — a gap > 3% starts a new block
+  const GAP_THRESHOLD = 3;
+  const groups: OcrLine[][] = [];
+  let currentGroup: OcrLine[] = [bodyLines[0]];
+
+  for (let i = 1; i < bodyLines.length; i++) {
+    const prev = currentGroup[currentGroup.length - 1];
+    const prevBottom = prev.y + prev.height;
+    const gap = bodyLines[i].y - prevBottom;
+
+    if (gap > GAP_THRESHOLD) {
+      groups.push(currentGroup);
+      currentGroup = [bodyLines[i]];
+    } else {
+      currentGroup.push(bodyLines[i]);
+    }
+  }
+  groups.push(currentGroup);
+
+  // Convert each group into a text block bounding rectangle
+  return groups.map((group) => {
+    const minX = Math.min(...group.map((l) => l.x));
+    const minY = Math.min(...group.map((l) => l.y));
+    const maxX = Math.max(...group.map((l) => l.x + l.width));
+    const maxY = Math.max(...group.map((l) => l.y + l.height));
+    const hebrewCharCount = group.reduce((s, l) => s + l.text.length, 0);
+
+    return {
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY,
+      hebrewCharCount,
+    };
+  });
+}
+
+function assignParagraphsToBlocks(
+  blocks: TextBlock[],
+  paragraphs: Paragraph[]
 ): Map<number, Paragraph[]> {
   const result = new Map<number, Paragraph[]>();
-  const textRegionIndices: number[] = [];
+  if (blocks.length === 0 || paragraphs.length === 0) return result;
 
-  // Find overlayable regions (text, table, subtitle — skip header, illustration, chart)
-  regions.forEach((r, i) => {
-    if (r.type === 'text' || r.type === 'table' || r.type === 'subtitle') {
-      textRegionIndices.push(i);
-    }
-  });
+  // Initialize empty arrays for each block
+  for (let i = 0; i < blocks.length; i++) result.set(i, []);
 
-  if (textRegionIndices.length === 0 || paragraphs.length === 0) return result;
-
-  // Count Hebrew chars per text region (from OCR lines that fall within it)
-  const hebrewCharsPerRegion: number[] = textRegionIndices.map((ri) => {
-    const r = regions[ri];
-    return ocrLines.filter((l) => {
-      const midY = l.y + l.height / 2;
-      const midX = l.x + l.width / 2;
-      return (
-        midY >= r.y && midY <= r.y + r.height &&
-        midX >= r.x && midX <= r.x + r.width
-      );
-    }).reduce((s, l) => s + l.text.length, 0);
-  });
-
-  const totalHebrew = hebrewCharsPerRegion.reduce((s, c) => s + c, 0);
+  const totalHebrew = blocks.reduce((s, b) => s + b.hebrewCharCount, 0);
   if (totalHebrew === 0) {
     // Fallback: distribute evenly
-    const perRegion = Math.ceil(paragraphs.length / textRegionIndices.length);
+    const perBlock = Math.ceil(paragraphs.length / blocks.length);
     let pi = 0;
-    for (const ri of textRegionIndices) {
-      result.set(ri, paragraphs.slice(pi, pi + perRegion));
-      pi += perRegion;
+    for (let i = 0; i < blocks.length; i++) {
+      result.set(i, paragraphs.slice(pi, pi + perBlock));
+      pi += perBlock;
     }
     return result;
   }
 
-  // Proportional distribution with cumulative targets
+  // Proportional distribution based on Hebrew char counts
   const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
   const targets: number[] = [];
   let cumHebrew = 0;
-  for (const chars of hebrewCharsPerRegion) {
-    cumHebrew += chars;
+  for (const block of blocks) {
+    cumHebrew += block.hebrewCharCount;
     targets.push((cumHebrew / totalHebrew) * totalEnglish);
   }
 
-  // Initialize empty arrays
-  for (const ri of textRegionIndices) result.set(ri, []);
-
-  let tzi = 0;
+  let bi = 0;
   let runEng = 0;
   for (const para of paragraphs) {
-    while (tzi < textRegionIndices.length - 1 && runEng > 0 && runEng >= targets[tzi]) {
-      tzi++;
+    while (bi < blocks.length - 1 && runEng > 0 && runEng >= targets[bi]) {
+      bi++;
     }
-    result.get(textRegionIndices[tzi])!.push(para);
+    result.get(bi)!.push(para);
     runEng += para.charCount;
-  }
-
-  return result;
-}
-
-// --- FALLBACK: Create text regions from OCR lines (no layout data) ---
-
-function createFallbackRegions(lines: OcrLine[]): LayoutRegion[] {
-  const regions: LayoutRegion[] = [];
-
-  // Header: lines in top 5%
-  const headerLines = lines.filter((l) => l.y < 5);
-  if (headerLines.length > 0) {
-    regions.push({ type: 'header', x: 0, y: 0, width: 100, height: 5 });
-  }
-
-  // Body: everything else as one text region
-  const bodyLines = lines.filter((l) => l.y >= 5);
-  if (bodyLines.length > 0) {
-    const minX = Math.min(...bodyLines.map((l) => l.x));
-    const minY = Math.min(...bodyLines.map((l) => l.y));
-    const maxX = Math.max(...bodyLines.map((l) => l.x + l.width));
-    const maxY = Math.max(...bodyLines.map((l) => l.y + l.height));
-    regions.push({
-      type: 'text',
-      x: Math.max(2, minX - 2),
-      y: minY,
-      width: Math.min(96, maxX - minX + 4),
-      height: maxY - minY + 2,
-    });
-  }
-
-  return regions;
-}
-
-// --- GAP FILLING: Close gaps between subtitle/header bottom and text top ---
-
-function fillRegionGaps(regions: LayoutRegion[]): LayoutRegion[] {
-  if (regions.length === 0) return regions;
-
-  // Sort by y position
-  const sorted = [...regions].sort((a, b) => a.y - b.y);
-  const result = regions.map((r) => ({ ...r }));
-
-  for (let i = 0; i < sorted.length; i++) {
-    const curr = sorted[i];
-    if (curr.type !== 'text' && curr.type !== 'table') continue;
-
-    // Find the region immediately above this text region
-    let closestAbove: LayoutRegion | null = null;
-    let closestAboveBottom = 0;
-    for (let j = 0; j < sorted.length; j++) {
-      if (j === i) continue;
-      const other = sorted[j];
-      const otherBottom = other.y + other.height;
-      if (otherBottom <= curr.y + 1 && otherBottom > closestAboveBottom) {
-        closestAbove = other;
-        closestAboveBottom = otherBottom;
-      }
-    }
-
-    // If there's a gap of 1-5% between the region above and this text region, extend text upward
-    if (closestAbove) {
-      const gap = curr.y - closestAboveBottom;
-      if (gap > 0.2 && gap < 5) {
-        // Find the matching region in result array and extend it
-        const ri = result.findIndex((r) => r.y === curr.y && r.x === curr.x && r.type === curr.type);
-        if (ri >= 0) {
-          result[ri].height += result[ri].y - closestAboveBottom;
-          result[ri].y = closestAboveBottom;
-        }
-      }
-    }
   }
 
   return result;
@@ -249,11 +202,9 @@ function fillRegionGaps(regions: LayoutRegion[]): LayoutRegion[] {
 // --- ENGLISH OVERLAY PAGE COMPONENT ---
 
 function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
-  const [analyzing, setAnalyzing] = useState(false);
-  const [regions, setRegions] = useState<LayoutRegion[] | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerW, setContainerW] = useState(900);
-  const [imgAspect, setImgAspect] = useState(2340 / 1655); // default, updated on load
+  const [imgAspect, setImgAspect] = useState(2340 / 1655);
 
   // Measure actual container width for font sizing
   useEffect(() => {
@@ -265,27 +216,6 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     return () => ro.disconnect();
   }, []);
 
-  // Trigger layout analysis if needed (only when translation exists)
-  useEffect(() => {
-    if (!page.translation?.englishOutput || page.lines.length === 0) return;
-    if (page.layout?.regions) {
-      setRegions(page.layout.regions as LayoutRegion[]);
-      return;
-    }
-    let cancelled = false;
-    setAnalyzing(true);
-    fetch(`/api/pages/${page.id}/layout`, { method: 'POST' })
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (data.regions) setRegions(data.regions as LayoutRegion[]);
-        else setRegions(createFallbackRegions(page.lines));
-      })
-      .catch(() => { if (!cancelled) setRegions(createFallbackRegions(page.lines)); })
-      .finally(() => { if (!cancelled) setAnalyzing(false); });
-    return () => { cancelled = true; };
-  }, [page]);
-
   const hasContent = !!(page.translation?.englishOutput && page.lines.length > 0);
 
   const paragraphs = useMemo(
@@ -293,20 +223,20 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page.translation, hasContent]
   );
-  const activeRegions = useMemo(
-    () => hasContent ? fillRegionGaps(regions || createFallbackRegions(page.lines)) : [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [regions, page.lines, hasContent]
+
+  const textBlocks = useMemo(
+    () => hasContent ? groupOcrLinesIntoBlocks(page.lines) : [],
+    [page.lines, hasContent]
   );
+
   const paraMap = useMemo(
-    () => hasContent ? assignParagraphsToRegions(activeRegions, paragraphs, page.lines) : new Map<number, Paragraph[]>(),
-    [activeRegions, paragraphs, page.lines, hasContent]
+    () => hasContent ? assignParagraphsToBlocks(textBlocks, paragraphs) : new Map<number, Paragraph[]>(),
+    [textBlocks, paragraphs, hasContent]
   );
 
   const containerH = containerW * imgAspect;
 
   if (!hasContent) {
-    // Show Hebrew image as fallback instead of blank
     return (
       <div className="w-full relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -320,23 +250,10 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     );
   }
 
-  // Don't render overlays until container is measured (prevents NaN font sizes)
-  const ready = containerW > 0 && !analyzing;
+  const ready = containerW > 0;
 
   return (
     <div className="w-full relative" ref={containerRef}>
-      {analyzing && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-          <div className="bg-black/70 text-white text-sm px-4 py-2 rounded-lg flex items-center gap-2">
-            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-            Analyzing layout...
-          </div>
-        </div>
-      )}
-
       {/* Original page image — fully visible as base */}
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -353,62 +270,50 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           }}
         />
 
-        {/* White overlays ONLY on text/table regions — everything else untouched */}
+        {/* White overlays positioned exactly at OCR text block locations */}
         {ready && (
           <div className="absolute inset-0">
-            {activeRegions.map((region, ri) => {
-              // Only overlay text, table, and subtitle regions
-              if (region.type !== 'text' && region.type !== 'table' && region.type !== 'subtitle') return null;
+            {textBlocks.map((block, bi) => {
+              const paras = paraMap.get(bi);
+              if (!paras || paras.length === 0) return null;
 
-              const paras = paraMap.get(ri);
-              // Subtitle with no assigned text: still cover it with white
-              if ((!paras || paras.length === 0) && region.type !== 'subtitle') return null;
-
-              // Font sizing in pixels based on actual container width
-              const totalChars = (paras || []).reduce((s, p) => s + p.charCount, 0);
-              const regionWPx = (region.width / 100) * containerW;
-              const regionHPx = (region.height / 100) * containerH;
-              // Target: 15px at 900px container, scale proportionally
+              // Font sizing based on container width and available space
+              const totalChars = paras.reduce((s, p) => s + p.charCount, 0);
+              const blockWPx = (block.width / 100) * containerW;
+              const blockHPx = (block.height / 100) * containerH;
               const targetPx = containerW * 0.017;
-              // Check if text fits at target size
-              const charsPerLine = regionWPx / (targetPx * 0.52);
+              const charsPerLine = blockWPx / (targetPx * 0.52);
               const linesNeeded = totalChars / Math.max(charsPerLine, 1);
-              const linesAvailable = regionHPx / (targetPx * 1.3);
-              // Scale down if needed, but never below 12px
+              const linesAvailable = blockHPx / (targetPx * 1.3);
               const fontPx = linesNeeded > linesAvailable
-                ? Math.max(12, targetPx * (linesAvailable / linesNeeded))
+                ? Math.max(10, targetPx * (linesAvailable / linesNeeded))
                 : targetPx;
-
-              const isTable = region.type === 'table';
 
               return (
                 <div
-                  key={ri}
+                  key={bi}
                   className="absolute overflow-hidden"
                   style={{
-                    left: `${Math.max(0, region.x - 1.0)}%`,
-                    top: `${region.y}%`,
-                    width: `${Math.min(100, region.width + 2.0)}%`,
-                    height: `${region.height}%`,
+                    left: `${Math.max(0, block.x - 1)}%`,
+                    top: `${block.y}%`,
+                    width: `${Math.min(100, block.width + 2)}%`,
+                    height: `${block.height}%`,
                     backgroundColor: 'white',
-                    padding: '0.4em',
+                    padding: '0.3em',
                     direction: 'ltr',
                   }}
                 >
-                  {(paras || []).map((para, pi) => (
+                  {paras.map((para, pi) => (
                     <p
                       key={pi}
                       style={{
-                        fontSize: `${isTable ? Math.max(10, fontPx * 0.85) : fontPx}px`,
-                        fontFamily: isTable
-                          ? '"Courier New", Courier, monospace'
-                          : 'Georgia, "Times New Roman", serif',
+                        fontSize: `${fontPx}px`,
+                        fontFamily: 'Georgia, "Times New Roman", serif',
                         color: '#1a1510',
                         fontWeight: para.isAllBold ? 700 : 400,
                         textAlign: para.isAllBold ? 'center' : 'left',
-                        marginBottom: pi < (paras || []).length - 1 ? (isTable ? '0.2em' : '0.4em') : 0,
-                        lineHeight: isTable ? 1.2 : 1.3,
-                        whiteSpace: isTable ? 'pre-wrap' : 'normal',
+                        marginBottom: pi < paras.length - 1 ? '0.4em' : 0,
+                        lineHeight: 1.3,
                       }}
                     >
                       {para.text}

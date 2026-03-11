@@ -437,21 +437,69 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   const hasContent = !!(page.translation?.englishOutput && page.lines.length > 0);
 
-  const paragraphs = useMemo(
-    () => hasContent ? parseTranslation(page.translation!.englishOutput) : [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page.translation, hasContent]
-  );
-
   const textBlocks = safeBlocks || [];
-
-  // Split blocks into table regions and text regions
   const tableBlocks = textBlocks.filter((b) => b.isTableRegion);
   const bodyBlocks = textBlocks.filter((b) => !b.isTableRegion);
 
+  // Split translation between table and body regions
+  const { tableText, bodyParagraphs } = useMemo(() => {
+    if (!hasContent) return { tableText: '', bodyParagraphs: [] as Paragraph[] };
+
+    const raw = page.translation!.englishOutput;
+    const allLines = raw.split('\n');
+
+    // Strip initial title/subtitle lines (page number, book title, section title)
+    // These correspond to the Hebrew header/subtitle area that's preserved as-is
+    let startIdx = 0;
+    for (let i = 0; i < Math.min(allLines.length, 10); i++) {
+      const clean = allLines[i].replace(/\*\*/g, '').trim();
+      if (clean.includes('|')) break; // table data starts
+      if (!clean || /^\d{1,3}\.?$/.test(clean)) { startIdx = i + 1; continue; }
+      if (clean.length < 80) { startIdx = i + 1; continue; }
+      break; // long content line — stop stripping
+    }
+    const content = allLines.slice(startIdx);
+
+    // Split: table lines (with |) go to table regions, rest to body
+    if (tableBlocks.length > 0 && bodyBlocks.length > 0) {
+      // Find last pipe-separated line — natural boundary between table and body
+      let lastPipe = -1;
+      for (let i = 0; i < content.length; i++) {
+        if (content[i].includes('|')) lastPipe = i;
+      }
+      if (lastPipe >= 0) {
+        let si = lastPipe + 1;
+        while (si < content.length && !content[si].trim()) si++; // skip blank lines
+        return {
+          tableText: content.slice(0, si).join('\n'),
+          bodyParagraphs: parseTranslation(content.slice(si).join('\n')),
+        };
+      }
+      // No pipe lines — proportional fallback
+      const tH = tableBlocks.reduce((s, b) => s + b.hebrewCharCount, 0);
+      const total = tH + bodyBlocks.reduce((s, b) => s + b.hebrewCharCount, 0);
+      const ratio = total > 0 ? tH / total : 0.5;
+      const budget = Math.round(content.join('\n').length * ratio);
+      let acc = 0, si = content.length;
+      for (let i = 0; i < content.length; i++) {
+        acc += content[i].length + 1;
+        if (acc >= budget) { si = i + 1; break; }
+      }
+      return {
+        tableText: content.slice(0, si).join('\n'),
+        bodyParagraphs: parseTranslation(content.slice(si).join('\n')),
+      };
+    }
+    if (tableBlocks.length > 0) {
+      return { tableText: content.join('\n'), bodyParagraphs: [] as Paragraph[] };
+    }
+    return { tableText: '', bodyParagraphs: parseTranslation(content.join('\n')) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasContent, page.translation, tableBlocks.length, bodyBlocks.length]);
+
   const paraMap = useMemo(
-    () => hasContent && bodyBlocks.length > 0 ? assignParagraphsToBlocks(bodyBlocks, paragraphs) : new Map<number, Paragraph[]>(),
-    [bodyBlocks, paragraphs, hasContent]
+    () => hasContent && bodyBlocks.length > 0 ? assignParagraphsToBlocks(bodyBlocks, bodyParagraphs) : new Map<number, Paragraph[]>(),
+    [bodyBlocks, bodyParagraphs, hasContent]
   );
 
   const containerH = containerW * imgAspect;
@@ -474,10 +522,6 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       </div>
     );
   }
-
-  // Give full translation text to table regions (includes headers + data rows)
-  const rawText = page.translation!.englishOutput;
-  const tableText = rawText;
 
   const ready = containerW > 0 && safeBlocks !== null;
 

@@ -107,6 +107,7 @@ interface TextBlock {
   width: number;
   height: number;
   hebrewCharCount: number;
+  avgLineHeightPct?: number; // average Hebrew line height as % of page
 }
 
 function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4): TextBlock[] {
@@ -222,18 +223,22 @@ function computeBlockLayouts(
     const blockWPx = (block.width / 100) * containerW;
     const blockHPx = (block.height / 100) * containerH;
 
-    // Start with a generous target font size
-    const targetPx = containerW * 0.019;
+    // Upper bound: original Hebrew line height (converted to pixels)
+    // This is the max we'd want — matching the Hebrew text size
+    const hebrewLinePx = block.avgLineHeightPct
+      ? (block.avgLineHeightPct / 100) * containerH * 0.75 // line height to font size (~75%)
+      : 30;
+    // Cap at Hebrew size or a reasonable max
+    const maxFontPx = Math.min(hebrewLinePx, 28);
 
-    // Binary search for the largest font that fits
+    // Binary search for the largest font that fits within the available space
     let lo = 4;
-    let hi = Math.min(targetPx * 1.5, 22);
+    let hi = maxFontPx;
     let bestFit = lo;
 
-    for (let iter = 0; iter < 10; iter++) {
+    for (let iter = 0; iter < 15; iter++) {
       const mid = (lo + hi) / 2;
       const charsPerLine = blockWPx / (mid * 0.52);
-      // Each paragraph adds ~0.4em gap except last
       const paraGapPx = mid * 0.4 * Math.max(0, paras.length - 1);
       const linesNeeded = totalChars / Math.max(charsPerLine, 1);
       const totalTextH = linesNeeded * (mid * 1.3) + paraGapPx;

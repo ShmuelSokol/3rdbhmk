@@ -13,6 +13,7 @@ interface TextBlock {
   width: number
   height: number
   hebrewCharCount: number
+  avgLineHeightPct: number // average Hebrew line height as % of page
 }
 
 export async function GET(
@@ -141,7 +142,8 @@ export async function GET(
       const maxX = Math.max(...group.map((l) => l.x + l.width))
       const maxY = Math.max(...group.map((l) => l.y + l.height))
       const hebrewCharCount = group.reduce((s, l) => s + l.charCount, 0)
-      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount }
+      const avgLineHeightPct = group.reduce((s, l) => s + l.height, 0) / group.length
+      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct }
     })
 
     // Compute pixel variance for a horizontal strip (percentage coords)
@@ -228,6 +230,7 @@ export async function GET(
         width: safeRight - safeLeft,
         height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
+        avgLineHeightPct: block.avgLineHeightPct,
       }
     })
 

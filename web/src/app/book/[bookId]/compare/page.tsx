@@ -402,6 +402,8 @@ export default function ComparePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showEnglish, setShowEnglish] = useState<Record<number, boolean>>({});
+  const [pdfFrom, setPdfFrom] = useState('');
+  const [pdfTo, setPdfTo] = useState('');
   const rowRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   const fetchBook = useCallback(async () => {
@@ -528,15 +530,32 @@ export default function ComparePage() {
               </select>
             )}
 
-            <a
-              href={`/api/books/${bookId}/export`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-xs sm:text-sm font-medium transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              PDF
-            </a>
+            <div className="flex items-center gap-1">
+              <input
+                type="number"
+                placeholder="From"
+                value={pdfFrom}
+                onChange={(e) => setPdfFrom(e.target.value)}
+                className="w-14 px-1.5 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-xs focus:outline-none text-center"
+              />
+              <span className="text-[#71717a] text-xs">-</span>
+              <input
+                type="number"
+                placeholder="To"
+                value={pdfTo}
+                onChange={(e) => setPdfTo(e.target.value)}
+                className="w-14 px-1.5 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-xs focus:outline-none text-center"
+              />
+              <a
+                href={`/api/books/${bookId}/export${pdfFrom || pdfTo ? `?${pdfFrom ? `from=${pdfFrom}` : ''}${pdfFrom && pdfTo ? '&' : ''}${pdfTo ? `to=${pdfTo}` : ''}` : ''}`}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-xs sm:text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                PDF
+              </a>
+            </div>
           </div>
         </div>
       </header>

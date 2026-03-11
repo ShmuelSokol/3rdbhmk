@@ -297,6 +297,7 @@ function TableRegionOverlay({
         height: `${block.height}%`,
         direction: 'ltr',
         padding: '0.2em',
+        overflow: 'hidden',
       }}
     >
       {lines.map((line, li) => {

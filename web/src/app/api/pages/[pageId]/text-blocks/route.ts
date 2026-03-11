@@ -425,30 +425,35 @@ export async function GET(
       let bestLeft = block.isTableRegion ? block.x : 50
       let bestRight = block.isTableRegion ? block.x + block.width : 50
 
-      // Scan at multiple y-positions within the block (inter-line gaps give widest)
+      // Collect all scan y-positions
+      const scanPositions: number[] = []
       for (let sy = block.y; sy < blockBottom; sy += 0.5) {
-        const { left, right } = scanHoriz(sy)
-        if ((right - left) > (bestRight - bestLeft)) {
-          bestLeft = left
-          bestRight = right
-        }
+        scanPositions.push(sy)
       }
-
-      // Also scan at text edges and gaps
-      const edgePositions = [
-        Math.max(0, block.y - 0.15),
-        blockBottom + 0.05,
-      ]
+      scanPositions.push(Math.max(0, block.y - 0.15))
+      scanPositions.push(blockBottom + 0.05)
       const gapAbove = block.y - prevBlockBottom
       const gapBelow = nextBlockTop - blockBottom
-      if (gapAbove >= 0.3) edgePositions.push(prevBlockBottom + gapAbove * 0.5)
-      if (gapBelow >= 0.3) edgePositions.push(blockBottom + gapBelow * 0.3)
+      if (gapAbove >= 0.3) scanPositions.push(prevBlockBottom + gapAbove * 0.5)
+      if (gapBelow >= 0.3) scanPositions.push(blockBottom + gapBelow * 0.3)
 
-      for (const gapY of edgePositions) {
-        const { left, right } = scanHoriz(gapY)
-        if ((right - left) > (bestRight - bestLeft)) {
-          bestLeft = left
-          bestRight = right
+      if (block.isTableRegion) {
+        // Tables: track left and right independently across all scans
+        // The outer grid border is consistent vertically, so min-left/max-right
+        // gives the full table extent without internal grid lines blocking
+        for (const sy of scanPositions) {
+          const { left, right } = scanHoriz(sy)
+          if (left < bestLeft) bestLeft = left
+          if (right > bestRight) bestRight = right
+        }
+      } else {
+        // Body text: use widest paired span (left+right from same scan row)
+        for (const sy of scanPositions) {
+          const { left, right } = scanHoriz(sy)
+          if ((right - left) > (bestRight - bestLeft)) {
+            bestLeft = left
+            bestRight = right
+          }
         }
       }
 
@@ -456,10 +461,13 @@ export async function GET(
       const safeRight = bestRight
 
       const PAGE_MARGIN = 2
+      const BUFFER = 1 // 1% inset so text doesn't sit on region edges
+      const finalLeft = Math.max(PAGE_MARGIN, safeLeft) + BUFFER
+      const finalRight = Math.min(100 - PAGE_MARGIN, safeRight) - BUFFER
       return {
-        x: Math.max(PAGE_MARGIN, safeLeft),
+        x: finalLeft,
         y: safeTop,
-        width: Math.min(100 - PAGE_MARGIN, safeRight) - Math.max(PAGE_MARGIN, safeLeft),
+        width: Math.max(0, finalRight - finalLeft),
         height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,

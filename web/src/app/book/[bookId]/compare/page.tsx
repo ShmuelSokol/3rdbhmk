@@ -243,7 +243,7 @@ function computeBlockLayouts(
       const linesNeeded = totalChars / Math.max(charsPerLine, 1);
       const totalTextH = linesNeeded * (mid * 1.3) + paraGapPx;
 
-      if (totalTextH <= blockHPx) {
+      if (totalTextH <= blockHPx * 0.92) { // 8% safety margin for CSS vs estimate mismatch
         bestFit = mid;
         lo = mid;
       } else {
@@ -472,7 +472,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
               return (
                 <div
                   key={`body-${blockIndex}`}
-                  className="absolute"
+                  className="absolute overflow-hidden"
                   style={{
                     left: `${block.x}%`,
                     top: `${block.y}%`,

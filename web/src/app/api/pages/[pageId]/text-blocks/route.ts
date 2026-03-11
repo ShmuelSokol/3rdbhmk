@@ -302,15 +302,19 @@ export async function GET(
         }
       }
 
-      for (const group of refined) {
+      for (let gi = 0; gi < refined.length; gi++) {
+        const group = refined[gi]
         const minX = Math.min(...group.map((l) => l.x))
         const minY = Math.min(...group.map((l) => l.y))
         const maxX = Math.max(...group.map((l) => l.x + l.width))
         const maxY = Math.max(...group.map((l) => l.y + l.height))
         const centeredCount = group.filter((l) => isCenteredLine(l)).length
-        const centered = centeredCount > group.length / 2
-        // For centered (header) blocks, use the MAX line height so the title line
-        // defines the font size, not tiny number lines like "א."
+        let centered = centeredCount > group.length / 2
+        // A single-line "centered" block is only a real header if it appears
+        // BEFORE body text (not a trailing paragraph line after body text)
+        if (centered && group.length <= 2 && gi === refined.length - 1) {
+          centered = false // last block in zone = trailing line, not header
+        }
         const lineHeightPct = centered
           ? Math.max(...group.map((l) => l.height))
           : group.reduce((s, l) => s + l.height, 0) / group.length

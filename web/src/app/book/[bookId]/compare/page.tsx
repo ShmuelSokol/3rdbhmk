@@ -423,7 +423,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks?v=3`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=4`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
@@ -532,7 +532,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/api/pages/${page.id}/image-erased`}
+          src={`/api/pages/${page.id}/image-erased?v=6`}
           alt={`Page ${page.pageNumber}`}
           className="w-full h-auto block"
           loading="lazy"

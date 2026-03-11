@@ -43,7 +43,7 @@ export async function GET(
       return new NextResponse(new Uint8Array(buf), {
         headers: {
           'Content-Type': 'image/png',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'public, max-age=60',
         },
       })
     }
@@ -88,7 +88,7 @@ export async function GET(
       return new NextResponse(new Uint8Array(imageBuffer), {
         headers: {
           'Content-Type': 'image/png',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'public, max-age=60',
         },
       })
     }
@@ -234,7 +234,7 @@ export async function GET(
     return new NextResponse(new Uint8Array(erasedBuffer), {
       headers: {
         'Content-Type': 'image/png',
-        'Cache-Control': 'public, max-age=3600',
+        'Cache-Control': 'public, max-age=60',
       },
     })
   } catch (error) {

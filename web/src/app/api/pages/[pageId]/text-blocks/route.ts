@@ -416,12 +416,22 @@ export async function GET(
           gapColors.reduce((s, c) => s + c[2], 0) / gapColors.length,
         ]
       } else {
-        // Fallback for single-line blocks: use brighter of above/below
-        const aboveRGB = computeStripRGB(Math.max(0, block.y - 1), 0.5, sampleX, sampleW)
-        const belowRGB = computeStripRGB(blockBottom + 0.2, 0.5, sampleX, sampleW)
-        const aboveLum = aboveRGB[0] * 0.299 + aboveRGB[1] * 0.587 + aboveRGB[2] * 0.114
-        const belowLum = belowRGB[0] * 0.299 + belowRGB[1] * 0.587 + belowRGB[2] * 0.114
-        refRGB = belowLum >= aboveLum ? belowRGB : aboveRGB
+        // Fallback for single-line blocks: sample from LEFT and RIGHT sides of text
+        // at the same y-level — this gets the correct background color even at
+        // color boundaries (e.g. reddish header vs white body)
+        const sideY = block.y
+        const sideH = block.height
+        const leftX = Math.max(0, block.x - 5)
+        const leftW = Math.min(3, block.x - leftX)
+        const rightX = block.x + block.width + 1
+        const rightW = Math.min(3, 100 - rightX)
+        const leftRGB = leftW > 0 ? computeStripRGB(sideY, sideH, leftX, leftW) : [255, 255, 255] as [number, number, number]
+        const rightRGB = rightW > 0 ? computeStripRGB(sideY, sideH, rightX, rightW) : [255, 255, 255] as [number, number, number]
+        refRGB = [
+          (leftRGB[0] + rightRGB[0]) / 2,
+          (leftRGB[1] + rightRGB[1]) / 2,
+          (leftRGB[2] + rightRGB[2]) / 2,
+        ]
       }
 
       const isSafe = (yPct: number, hPct: number, xPct: number, wPct: number): boolean => {

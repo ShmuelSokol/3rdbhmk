@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v4')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v5')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -162,53 +162,42 @@ export async function GET(
 
       if (pxW <= 0 || pxH <= 0) continue
 
-      // Try to find clean reference strips above AND below for gradient blending
-      let aboveY = -1
-      for (let y = pxTop - 1; y >= Math.max(0, pxTop - 25); y--) {
-        if (isCleanRow(y, pxLeft, pxRight)) { aboveY = y; break }
-      }
-      let belowY = -1
-      for (let y = pxBottom; y < Math.min(imgH, pxBottom + 25); y++) {
-        if (isCleanRow(y, pxLeft, pxRight)) { belowY = y; break }
+      // Per-row erasure: for each pixel row, find the nearest clean row
+      // and copy its pixels. This correctly handles color boundaries
+      // (e.g. reddish header meeting white body area).
+      const replBuf = Buffer.alloc(pxW * pxH * 3)
+      const cleanCache = new Map<number, boolean>()
+      const checkClean = (rowY: number): boolean => {
+        if (cleanCache.has(rowY)) return cleanCache.get(rowY)!
+        const result = isCleanRow(rowY, pxLeft, pxRight)
+        cleanCache.set(rowY, result)
+        return result
       }
 
-      if (aboveY >= 0 || belowY >= 0) {
-        // Build replacement pixels by interpolating between above/below reference rows
-        const replBuf = Buffer.alloc(pxW * pxH * 3)
-
-        // Read reference row pixel colors
-        const readRow = (rowY: number): Uint8Array => {
-          const row = new Uint8Array(pxW * 3)
-          for (let x = 0; x < pxW; x++) {
-            const srcIdx = (rowY * imgW + Math.min(pxLeft + x, imgW - 1)) * channels
-            row[x * 3] = rawPixels[srcIdx]
-            row[x * 3 + 1] = rawPixels[srcIdx + 1]
-            row[x * 3 + 2] = rawPixels[srcIdx + 2]
-          }
-          return row
+      let hasAnyRef = false
+      for (let y = 0; y < pxH; y++) {
+        const actualY = pxTop + y
+        // Find nearest clean row by searching outward from this y
+        let refY = -1
+        for (let d = 1; d <= 30; d++) {
+          if (actualY - d >= 0 && checkClean(actualY - d)) { refY = actualY - d; break }
+          if (actualY + d < imgH && checkClean(actualY + d)) { refY = actualY + d; break }
         }
-
-        const aboveRow = aboveY >= 0 ? readRow(aboveY) : null
-        const belowRow = belowY >= 0 ? readRow(belowY) : null
-
-        for (let y = 0; y < pxH; y++) {
-          for (let x = 0; x < pxW; x++) {
-            const dIdx = (y * pxW + x) * 3
-            if (aboveRow && belowRow) {
-              // Interpolate between above and below based on vertical position
-              const t = pxH > 1 ? y / (pxH - 1) : 0.5
-              replBuf[dIdx] = Math.round(aboveRow[x * 3] * (1 - t) + belowRow[x * 3] * t)
-              replBuf[dIdx + 1] = Math.round(aboveRow[x * 3 + 1] * (1 - t) + belowRow[x * 3 + 1] * t)
-              replBuf[dIdx + 2] = Math.round(aboveRow[x * 3 + 2] * (1 - t) + belowRow[x * 3 + 2] * t)
-            } else {
-              const row = aboveRow || belowRow!
-              replBuf[dIdx] = row[x * 3]
-              replBuf[dIdx + 1] = row[x * 3 + 1]
-              replBuf[dIdx + 2] = row[x * 3 + 2]
-            }
+        for (let x = 0; x < pxW; x++) {
+          const dIdx = (y * pxW + x) * 3
+          if (refY >= 0) {
+            hasAnyRef = true
+            const srcIdx = (refY * imgW + Math.min(pxLeft + x, imgW - 1)) * channels
+            replBuf[dIdx] = rawPixels[srcIdx]
+            replBuf[dIdx + 1] = rawPixels[srcIdx + 1]
+            replBuf[dIdx + 2] = rawPixels[srcIdx + 2]
+          } else {
+            replBuf[dIdx] = 255; replBuf[dIdx + 1] = 255; replBuf[dIdx + 2] = 255
           }
         }
+      }
 
+      if (hasAnyRef) {
         try {
           const patchPng = await sharp(replBuf, { raw: { width: pxW, height: pxH, channels: 3 } })
             .blur(1.5)
@@ -216,7 +205,6 @@ export async function GET(
             .toBuffer()
           composites.push({ input: patchPng, left: pxLeft, top: pxTop })
         } catch {
-          // Fallback to solid color
           const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
           composites.push({
             input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),
@@ -224,7 +212,6 @@ export async function GET(
           })
         }
       } else {
-        // No clean strip found — use solid color fallback
         const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
         composites.push({
           input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),

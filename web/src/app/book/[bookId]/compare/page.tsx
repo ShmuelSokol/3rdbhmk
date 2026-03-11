@@ -387,9 +387,9 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                   className="absolute overflow-hidden"
                   style={{
                     left: `${Math.max(0, region.x - 1.0)}%`,
-                    top: `${Math.max(0, region.y - 0.5)}%`,
+                    top: `${region.y}%`,
                     width: `${Math.min(100, region.width + 2.0)}%`,
-                    height: `${region.height + 0.5}%`,
+                    height: `${region.height}%`,
                     backgroundColor: 'white',
                     padding: '0.4em',
                     direction: 'ltr',

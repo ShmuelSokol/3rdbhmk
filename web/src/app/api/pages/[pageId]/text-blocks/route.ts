@@ -13,8 +13,9 @@ interface TextBlock {
   width: number
   height: number
   hebrewCharCount: number
-  avgLineHeightPct: number // average Hebrew line height as % of page
-  centered: boolean // true if Hebrew text lines were centered in this block
+  avgLineHeightPct: number
+  centered: boolean
+  isTableRegion?: boolean
 }
 
 export async function GET(
@@ -74,7 +75,6 @@ export async function GET(
     const imgH = metadata.height || 2340
     const channels = metadata.channels || 3
 
-    // Load raw pixels for variance analysis
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
 
     // Get OCR boxes — skip header and skipTranslation
@@ -94,7 +94,6 @@ export async function GET(
       lineMap.get(li)!.push(box)
     }
 
-    // Build lines with bounding rects
     const ocrLines: { y: number; height: number; x: number; width: number; charCount: number }[] = []
     lineMap.forEach((lineBoxes) => {
       const textBoxes = lineBoxes.filter((b) => !b.skipTranslation)
@@ -105,150 +104,108 @@ export async function GET(
       const maxY = Math.max(...textBoxes.map((b) => b.y + b.height))
       const text = textBoxes.map((b) => b.editedText ?? b.hebrewText).join('')
       if (!text.trim()) return
-      ocrLines.push({
-        y: minY,
-        height: maxY - minY,
-        x: minX,
-        width: maxX - minX,
-        charCount: text.length,
-      })
+      ocrLines.push({ y: minY, height: maxY - minY, x: minX, width: maxX - minX, charCount: text.length })
     })
     ocrLines.sort((a, b) => a.y - b.y)
 
     if (ocrLines.length === 0) {
-      return NextResponse.json({ blocks: [], isTable: false })
+      return NextResponse.json({ blocks: [], hasTableRegions: false })
     }
 
-    // Detect split-column / table layouts:
-    // Check if many lines overlap vertically but are at different x positions
-    // (i.e., multiple columns side by side)
-    let multiColPairs = 0
-    let totalPairs = 0
-    for (let i = 0; i < ocrLines.length; i++) {
-      for (let j = i + 1; j < Math.min(i + 10, ocrLines.length); j++) {
-        const a = ocrLines[i]
-        const b = ocrLines[j]
-        const yOverlap = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)
+    // --- Detect table regions vs body text per-line ---
+    // A line is "multi-column" if it has y-overlapping neighbors at different x positions
+    const isMultiColLine = (idx: number): boolean => {
+      const line = ocrLines[idx]
+      for (let j = Math.max(0, idx - 5); j < Math.min(ocrLines.length, idx + 6); j++) {
+        if (j === idx) continue
+        const other = ocrLines[j]
+        const yOverlap = Math.min(line.y + line.height, other.y + other.height) - Math.max(line.y, other.y)
         if (yOverlap > 0) {
-          totalPairs++
-          // Lines at same y but different x = multi-column
-          const xSeparated = Math.abs((a.x + a.width / 2) - (b.x + b.width / 2)) > 20
-          if (xSeparated) multiColPairs++
+          const xSep = Math.abs((line.x + line.width / 2) - (other.x + other.width / 2)) > 20
+          if (xSep) return true
         }
       }
-    }
-    const isTable = totalPairs > 5 && (multiColPairs / totalPairs) > 0.3
-
-    if (isTable) {
-      // For table pages: return the full body area as one block
-      const bodyLines = ocrLines.filter((l) => l.y >= 4)
-      const tableBlock: TextBlock = {
-        x: 2,
-        y: Math.min(...bodyLines.map((l) => l.y)),
-        width: 96,
-        height: Math.max(...bodyLines.map((l) => l.y + l.height)) - Math.min(...bodyLines.map((l) => l.y)),
-        hebrewCharCount: bodyLines.reduce((s, l) => s + l.charCount, 0),
-        avgLineHeightPct: bodyLines.reduce((s, l) => s + l.height, 0) / bodyLines.length,
-        centered: false,
-      }
-      return NextResponse.json({
-        blocks: [tableBlock],
-        isTable: true,
-      }, {
-        headers: { 'Cache-Control': 'no-cache' },
-      })
+      return false
     }
 
-    // Classify each line as "centered" or "body" based on width and position
-    const pageBodyWidth = Math.max(...ocrLines.map((l) => l.width)) // widest line ≈ full body width
-    const isCenteredLine = (line: typeof ocrLines[0]): boolean => {
-      // A line is centered if it's significantly narrower than body text AND roughly centered
-      if (line.width > pageBodyWidth * 0.7) return false // too wide to be a header
-      const mid = line.x + line.width / 2
-      const leftGap = line.x
-      const rightGap = 100 - (line.x + line.width)
-      return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
-    }
+    const lineIsTable = ocrLines.map((_, i) => isMultiColLine(i))
 
-    // Group lines into blocks: split on gap > 3% OR when switching between centered/body lines
-    const GAP_THRESHOLD = 3
-    const groups: (typeof ocrLines)[] = []
-    let currentGroup = [ocrLines[0]]
+    // Group consecutive lines into zones of same type
+    type Zone = { startY: number; endY: number; isTable: boolean; lines: typeof ocrLines }
+    const zones: Zone[] = []
+    let curZone: Zone = {
+      startY: ocrLines[0].y,
+      endY: ocrLines[0].y + ocrLines[0].height,
+      isTable: lineIsTable[0],
+      lines: [ocrLines[0]],
+    }
     for (let i = 1; i < ocrLines.length; i++) {
-      const prev = currentGroup[currentGroup.length - 1]
-      const prevBottom = prev.y + prev.height
-      const gap = ocrLines[i].y - prevBottom
-
-      const prevCentered = isCenteredLine(prev)
-      const currCentered = isCenteredLine(ocrLines[i])
-      // Split on large gap OR when transitioning from centered→body
-      // (don't split body→centered mid-block for short single lines like "(מפרשים)")
-      const typeSwitch = prevCentered !== currCentered && !prevCentered
-        ? false // body→centered: only split if the centered line starts a real header section
-        : prevCentered !== currCentered // centered→body: always split
-
-      if (gap > GAP_THRESHOLD || typeSwitch) {
-        groups.push(currentGroup)
-        currentGroup = [ocrLines[i]]
-      } else {
-        currentGroup.push(ocrLines[i])
-      }
-    }
-    groups.push(currentGroup)
-
-    // Second pass: split groups where centered lines transition to body lines within a group
-    const refinedGroups: (typeof ocrLines)[] = []
-    for (const group of groups) {
-      if (group.length <= 1) { refinedGroups.push(group); continue }
-
-      // Find the split point: last centered line before body text starts
-      let splitIdx = -1
-      for (let i = 0; i < group.length - 1; i++) {
-        if (isCenteredLine(group[i]) && !isCenteredLine(group[i + 1])) {
-          splitIdx = i + 1
-          break
+      const gap = ocrLines[i].y - curZone.endY
+      const sameType = lineIsTable[i] === curZone.isTable
+      if (!sameType || gap > 8) {
+        zones.push(curZone)
+        curZone = {
+          startY: ocrLines[i].y,
+          endY: ocrLines[i].y + ocrLines[i].height,
+          isTable: lineIsTable[i],
+          lines: [ocrLines[i]],
         }
-      }
-
-      if (splitIdx > 0) {
-        refinedGroups.push(group.slice(0, splitIdx))
-        refinedGroups.push(group.slice(splitIdx))
       } else {
-        refinedGroups.push(group)
+        curZone.endY = Math.max(curZone.endY, ocrLines[i].y + ocrLines[i].height)
+        curZone.lines.push(ocrLines[i])
+      }
+    }
+    zones.push(curZone)
+
+    // Merge small non-table zones into adjacent table zones
+    const mergedZones: Zone[] = []
+    for (const z of zones) {
+      if (mergedZones.length > 0 && z.isTable === mergedZones[mergedZones.length - 1].isTable) {
+        const prev = mergedZones[mergedZones.length - 1]
+        prev.endY = z.endY
+        prev.lines.push(...z.lines)
+      } else if (!z.isTable && z.lines.length < 3 && mergedZones.length > 0 && mergedZones[mergedZones.length - 1].isTable) {
+        const prev = mergedZones[mergedZones.length - 1]
+        prev.endY = z.endY
+        prev.lines.push(...z.lines)
+      } else {
+        mergedZones.push({ ...z })
       }
     }
 
-    // Build raw blocks from refined groups
-    const rawBlocks: TextBlock[] = refinedGroups.map((group) => {
-      const minX = Math.min(...group.map((l) => l.x))
-      const minY = Math.min(...group.map((l) => l.y))
-      const maxX = Math.max(...group.map((l) => l.x + l.width))
-      const maxY = Math.max(...group.map((l) => l.y + l.height))
-      const hebrewCharCount = group.reduce((s, l) => s + l.charCount, 0)
-      const avgLineHeightPct = group.reduce((s, l) => s + l.height, 0) / group.length
+    const hasTableRegions = mergedZones.some((z) => z.isTable)
 
-      // Detect if this block is centered
-      const centeredCount = group.filter((l) => isCenteredLine(l)).length
-      const centered = centeredCount > group.length / 2
+    // --- Pixel analysis functions ---
 
-      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct, centered }
-    })
-
-    // Compute pixel stats for a strip (percentage coords)
-    // Returns { variance, meanLum } — variance detects illustrations, meanLum detects borders
-    const computeStripStats = (yPct: number, heightPct: number, xPct: number, widthPct: number): { variance: number; meanLum: number } => {
+    const computeStripRGB = (yPct: number, heightPct: number, xPct: number, widthPct: number): [number, number, number] => {
       const pxY = Math.max(0, Math.round((yPct / 100) * imgH))
       const pxH = Math.max(1, Math.round((heightPct / 100) * imgH))
       const pxX = Math.max(0, Math.round((xPct / 100) * imgW))
-      const pxW = Math.max(1, Math.round((widthPct / 100) * imgW))
       const endY = Math.min(imgH, pxY + pxH)
-      const endX = Math.min(imgW, pxX + pxW)
+      const endX = Math.min(imgW, pxX + Math.max(1, Math.round((widthPct / 100) * imgW)))
 
-      let sum = 0
-      let sumSq = 0
-      let count = 0
+      let rSum = 0, gSum = 0, bSum = 0, count = 0
+      for (let y = pxY; y < endY; y += 3) {
+        for (let x = pxX; x < endX; x += 3) {
+          const idx = (y * imgW + x) * channels
+          rSum += rawPixels[idx]
+          gSum += rawPixels[idx + 1]
+          bSum += rawPixels[idx + 2]
+          count++
+        }
+      }
+      if (count === 0) return [255, 255, 255]
+      return [rSum / count, gSum / count, bSum / count]
+    }
 
-      // Sample every 3rd pixel for speed
+    const computeStripVariance = (yPct: number, heightPct: number, xPct: number, widthPct: number): number => {
+      const pxY = Math.max(0, Math.round((yPct / 100) * imgH))
+      const pxH = Math.max(1, Math.round((heightPct / 100) * imgH))
+      const pxX = Math.max(0, Math.round((xPct / 100) * imgW))
+      const endY = Math.min(imgH, pxY + pxH)
+      const endX = Math.min(imgW, pxX + Math.max(1, Math.round((widthPct / 100) * imgW)))
+
+      let sum = 0, sumSq = 0, count = 0
       for (let y = pxY; y < endY; y += 3) {
         for (let x = pxX; x < endX; x += 3) {
           const idx = (y * imgW + x) * channels
@@ -258,51 +215,135 @@ export async function GET(
           count++
         }
       }
-
-      if (count < 2) return { variance: 0, meanLum: 255 }
-      const meanLum = sum / count
-      const variance = (sumSq / count) - (meanLum * meanLum)
-      return { variance, meanLum }
+      if (count < 2) return 0
+      const mean = sum / count
+      return (sumSq / count) - (mean * mean)
     }
 
-    // For each block, try to expand into empty background
-    // Stop when we hit high-variance content (illustration) OR a color shift (border design)
+    const colorDist = (a: [number, number, number], b: [number, number, number]): number =>
+      Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+
+    // --- Build blocks from zones ---
+
+    const allBlocks: TextBlock[] = []
+
+    for (const zone of mergedZones) {
+      if (zone.isTable) {
+        allBlocks.push({
+          x: 2,
+          y: zone.startY,
+          width: 96,
+          height: zone.endY - zone.startY,
+          hebrewCharCount: zone.lines.reduce((s, l) => s + l.charCount, 0),
+          avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
+          centered: false,
+          isTableRegion: true,
+        })
+        continue
+      }
+
+      // Body zone — group with header splitting
+      const zoneLines = zone.lines
+      const bodyWidth = Math.max(...zoneLines.map((l) => l.width))
+
+      const isCenteredLine = (line: typeof ocrLines[0]): boolean => {
+        if (line.width > bodyWidth * 0.7) return false
+        const mid = line.x + line.width / 2
+        const leftGap = line.x
+        const rightGap = 100 - (line.x + line.width)
+        return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
+      }
+
+      const GAP_THRESHOLD = 3
+      const groups: (typeof ocrLines)[] = []
+      let currentGroup = [zoneLines[0]]
+      for (let i = 1; i < zoneLines.length; i++) {
+        const prev = currentGroup[currentGroup.length - 1]
+        const prevBottom = prev.y + prev.height
+        const gap = zoneLines[i].y - prevBottom
+        const typeSwitch = isCenteredLine(prev) && !isCenteredLine(zoneLines[i])
+
+        if (gap > GAP_THRESHOLD || typeSwitch) {
+          groups.push(currentGroup)
+          currentGroup = [zoneLines[i]]
+        } else {
+          currentGroup.push(zoneLines[i])
+        }
+      }
+      groups.push(currentGroup)
+
+      // Second pass: split centered→body within groups
+      const refined: (typeof ocrLines)[] = []
+      for (const group of groups) {
+        if (group.length <= 1) { refined.push(group); continue }
+        let splitIdx = -1
+        for (let i = 0; i < group.length - 1; i++) {
+          if (isCenteredLine(group[i]) && !isCenteredLine(group[i + 1])) {
+            splitIdx = i + 1
+            break
+          }
+        }
+        if (splitIdx > 0) {
+          refined.push(group.slice(0, splitIdx))
+          refined.push(group.slice(splitIdx))
+        } else {
+          refined.push(group)
+        }
+      }
+
+      for (const group of refined) {
+        const minX = Math.min(...group.map((l) => l.x))
+        const minY = Math.min(...group.map((l) => l.y))
+        const maxX = Math.max(...group.map((l) => l.x + l.width))
+        const maxY = Math.max(...group.map((l) => l.y + l.height))
+        const centeredCount = group.filter((l) => isCenteredLine(l)).length
+        allBlocks.push({
+          x: minX, y: minY, width: maxX - minX, height: maxY - minY,
+          hebrewCharCount: group.reduce((s, l) => s + l.charCount, 0),
+          avgLineHeightPct: group.reduce((s, l) => s + l.height, 0) / group.length,
+          centered: centeredCount > group.length / 2,
+        })
+      }
+    }
+
+    allBlocks.sort((a, b) => a.y - b.y)
+
+    // --- Expand non-table blocks using pixel analysis ---
     const VARIANCE_THRESHOLD = 200
-    const LUMINANCE_SHIFT_THRESHOLD = 30 // stop if mean luminance differs by >30 from reference
+    const COLOR_DIST_THRESHOLD = 25
     const STEP = 1
 
-    const expandedBlocks: TextBlock[] = rawBlocks.map((block, bi) => {
-      // Sample reference background luminance from strips OUTSIDE the text block
-      // (the block itself contains dark text which skews the mean)
-      const aboveStrip = computeStripStats(Math.max(0, block.y - 2), 1, block.x, block.width)
-      const belowStrip = computeStripStats(block.y + block.height, 1, block.x, block.width)
-      // Use the brighter of above/below as the reference (more likely pure background)
-      const refLum = Math.max(aboveStrip.meanLum, belowStrip.meanLum)
+    const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
+      if (block.isTableRegion) return block
 
-      const isSafe = (stats: { variance: number; meanLum: number }): boolean => {
-        if (stats.variance > VARIANCE_THRESHOLD) return false
-        if (Math.abs(stats.meanLum - refLum) > LUMINANCE_SHIFT_THRESHOLD) return false
+      // Reference background color from strips just outside the text block
+      const aboveRGB = computeStripRGB(Math.max(0, block.y - 2), 1, block.x, block.width)
+      const belowRGB = computeStripRGB(block.y + block.height, 1, block.x, block.width)
+      const aboveBright = aboveRGB[0] + aboveRGB[1] + aboveRGB[2]
+      const belowBright = belowRGB[0] + belowRGB[1] + belowRGB[2]
+      const refRGB = aboveBright >= belowBright ? aboveRGB : belowRGB
+
+      const isSafe = (yPct: number, hPct: number, xPct: number, wPct: number): boolean => {
+        const variance = computeStripVariance(yPct, hPct, xPct, wPct)
+        if (variance > VARIANCE_THRESHOLD) return false
+        const rgb = computeStripRGB(yPct, hPct, xPct, wPct)
+        if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
         return true
       }
 
       const blockBottom = block.y + block.height
-      const nextBlockTop = bi < rawBlocks.length - 1 ? rawBlocks[bi + 1].y : 100
-      const maxBottom = nextBlockTop
+      const nextBlockTop = bi < allBlocks.length - 1 ? allBlocks[bi + 1].y : 100
+      const prevBlockBottom = bi > 0 ? allBlocks[bi - 1].y + allBlocks[bi - 1].height : 4
 
       let safeBottom = blockBottom
-      for (let y = blockBottom; y < maxBottom; y += STEP) {
-        const stats = computeStripStats(y, STEP, block.x, block.width)
-        if (!isSafe(stats)) break
+      for (let y = blockBottom; y < nextBlockTop; y += STEP) {
+        if (!isSafe(y, STEP, block.x, block.width)) break
         safeBottom = y + STEP
       }
 
-      const prevBlockBottom = bi > 0 ? rawBlocks[bi - 1].y + rawBlocks[bi - 1].height : 4
-      const minTop = prevBlockBottom
-
       let safeTop = block.y
-      for (let y = block.y - STEP; y >= minTop; y -= STEP) {
-        const stats = computeStripStats(y, STEP, block.x, block.width)
-        if (!isSafe(stats)) break
+      for (let y = block.y - STEP; y >= prevBlockBottom; y -= STEP) {
+        if (!isSafe(y, STEP, block.x, block.width)) break
         safeTop = y
       }
 
@@ -311,37 +352,32 @@ export async function GET(
 
       let safeLeft = block.x
       for (let x = block.x - STEP; x >= 0; x -= STEP) {
-        const stats = computeStripStats(expandedY, expandedH, x, STEP)
-        if (!isSafe(stats)) break
+        if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeLeft = x
       }
 
       let safeRight = block.x + block.width
       for (let x = safeRight; x < 100; x += STEP) {
-        const stats = computeStripStats(expandedY, expandedH, x, STEP)
-        if (!isSafe(stats)) break
+        if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeRight = x + STEP
       }
 
-      // Clamp to page margins as safety net
       const PAGE_MARGIN = 2
-      const clampedLeft = Math.max(PAGE_MARGIN, safeLeft)
-      const clampedRight = Math.min(100 - PAGE_MARGIN, safeRight)
-
       return {
-        x: clampedLeft,
+        x: Math.max(PAGE_MARGIN, safeLeft),
         y: safeTop,
-        width: clampedRight - clampedLeft,
+        width: Math.min(100 - PAGE_MARGIN, safeRight) - Math.max(PAGE_MARGIN, safeLeft),
         height: expandedH,
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,
         centered: block.centered,
+        isTableRegion: false,
       }
     })
 
     return NextResponse.json({
       blocks: expandedBlocks,
-      raw: rawBlocks,
+      hasTableRegions,
     }, {
       headers: { 'Cache-Control': 'no-cache' },
     })

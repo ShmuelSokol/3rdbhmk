@@ -107,8 +107,9 @@ interface TextBlock {
   width: number;
   height: number;
   hebrewCharCount: number;
-  avgLineHeightPct?: number; // average Hebrew line height as % of page
-  centered?: boolean; // true if Hebrew text was centered in this block
+  avgLineHeightPct?: number;
+  centered?: boolean;
+  isTableRegion?: boolean;
 }
 
 function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4): TextBlock[] {
@@ -258,12 +259,95 @@ function computeBlockLayouts(
 
 // --- ENGLISH OVERLAY PAGE COMPONENT ---
 
+// Render a table region block
+function TableRegionOverlay({
+  block, rawText, containerW, containerH,
+}: {
+  block: TextBlock;
+  rawText: string;
+  containerW: number;
+  containerH: number;
+}) {
+  const lines = rawText.split('\n').map((l) => l.trim()).filter(Boolean);
+  const blockHPx = (block.height / 100) * containerH;
+  const targetFont = Math.min(containerW * 0.014, blockHPx / (lines.length * 1.4));
+  const fontSize = Math.max(5, targetFont);
+
+  return (
+    <div
+      className="absolute overflow-hidden"
+      style={{
+        left: `${block.x}%`,
+        top: `${block.y}%`,
+        width: `${block.width}%`,
+        height: `${block.height}%`,
+        direction: 'ltr',
+        padding: '0.2em',
+      }}
+    >
+      {lines.map((line, li) => {
+        const isBold = line.startsWith('**') && line.endsWith('**');
+        const cleanLine = line.replace(/\*\*/g, '').replace(/^#+\s+/, '');
+        const hasPipe = cleanLine.includes('|');
+
+        if (hasPipe) {
+          const cols = cleanLine.split('|').map((c) => c.trim());
+          return (
+            <div
+              key={li}
+              style={{
+                display: 'flex',
+                fontSize: `${fontSize}px`,
+                fontFamily: '"Courier New", Courier, monospace',
+                color: '#1a1510',
+                lineHeight: 1.3,
+                marginBottom: '0.1em',
+              }}
+            >
+              {cols.map((col, ci) => (
+                <span
+                  key={ci}
+                  style={{
+                    flex: ci === 0 ? 2 : 1,
+                    paddingRight: '0.5em',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {col}
+                </span>
+              ))}
+            </div>
+          );
+        }
+
+        return (
+          <p
+            key={li}
+            style={{
+              fontSize: `${isBold ? fontSize * 1.1 : fontSize}px`,
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              color: '#1a1510',
+              fontWeight: isBold ? 700 : 400,
+              textAlign: isBold ? 'center' : 'left',
+              marginBottom: '0.3em',
+              lineHeight: 1.3,
+            }}
+          >
+            {cleanLine}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerW, setContainerW] = useState(900);
   const [imgAspect, setImgAspect] = useState(2340 / 1655);
   const [safeBlocks, setSafeBlocks] = useState<TextBlock[] | null>(null);
-  const [isTable, setIsTable] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -274,23 +358,16 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     return () => ro.disconnect();
   }, []);
 
-  // Fetch server-computed safe text blocks (with pixel-variance expansion)
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks?v=2`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=3`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
-        if (data.isTable) {
-          setIsTable(true);
-          setSafeBlocks(data.blocks || []);
-        } else if (data.blocks) {
-          setSafeBlocks(data.blocks);
-        }
+        if (data.blocks) setSafeBlocks(data.blocks);
       })
       .catch(() => {
-        // Fallback to client-side OCR grouping
         if (!cancelled) setSafeBlocks(groupOcrLinesIntoBlocks(page.lines));
       });
     return () => { cancelled = true; };
@@ -306,17 +383,20 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
 
   const textBlocks = safeBlocks || [];
 
+  // Split blocks into table regions and text regions
+  const tableBlocks = textBlocks.filter((b) => b.isTableRegion);
+  const bodyBlocks = textBlocks.filter((b) => !b.isTableRegion);
+
   const paraMap = useMemo(
-    () => hasContent && textBlocks.length > 0 ? assignParagraphsToBlocks(textBlocks, paragraphs) : new Map<number, Paragraph[]>(),
-    [textBlocks, paragraphs, hasContent]
+    () => hasContent && bodyBlocks.length > 0 ? assignParagraphsToBlocks(bodyBlocks, paragraphs) : new Map<number, Paragraph[]>(),
+    [bodyBlocks, paragraphs, hasContent]
   );
 
   const containerH = containerW * imgAspect;
 
-  // Second pass: optimize font sizes for each block
   const blockLayouts = useMemo(
-    () => hasContent && textBlocks.length > 0 ? computeBlockLayouts(textBlocks, paraMap, containerW, containerH) : [],
-    [textBlocks, paraMap, containerW, containerH, hasContent]
+    () => hasContent && bodyBlocks.length > 0 ? computeBlockLayouts(bodyBlocks, paraMap, containerW, containerH) : [],
+    [bodyBlocks, paraMap, containerW, containerH, hasContent]
   );
 
   if (!hasContent) {
@@ -333,118 +413,20 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     );
   }
 
-  // Table pages: render translation as formatted table over erased image
-  if (isTable && textBlocks.length > 0) {
-    const tableBlock = textBlocks[0];
-    const rawText = page.translation!.englishOutput;
-    // Parse translation into lines, detect | separators for table structure
-    const lines = rawText.split('\n').map((l) => l.trim()).filter(Boolean);
-    // Remove header lines (page number, title)
-    const isHeaderLine = (s: string) =>
-      /^\d{1,3}\.?$/.test(s) ||
-      /^(Introduction|Summary|Yechezkel Perek|Main Topics)/i.test(s);
-
-    const containerHTable = containerW * imgAspect;
-    const blockHPx = (tableBlock.height / 100) * containerHTable;
-    // Estimate font size to fit all lines
-    const targetFont = Math.min(
-      containerW * 0.014,
-      blockHPx / (lines.length * 1.4)
-    );
-    const fontSize = Math.max(5, targetFont);
-
-    return (
-      <div className="w-full relative" ref={containerRef}>
-        <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`/api/pages/${page.id}/image-erased`}
-            alt={`Page ${page.pageNumber}`}
-            className="w-full h-auto block"
-            loading="lazy"
-            onLoad={(e) => {
-              const img = e.currentTarget;
-              if (img.naturalWidth > 0) setImgAspect(img.naturalHeight / img.naturalWidth);
-            }}
-          />
-          <div
-            className="absolute overflow-hidden"
-            style={{
-              left: `${tableBlock.x}%`,
-              top: `${tableBlock.y}%`,
-              width: `${tableBlock.width}%`,
-              height: `${tableBlock.height}%`,
-              direction: 'ltr',
-              padding: '0.2em',
-            }}
-          >
-            {lines.map((line, li) => {
-              const isBold = isHeaderLine(line.replace(/\*\*/g, '')) ||
-                (line.startsWith('**') && line.endsWith('**'));
-              const cleanLine = line.replace(/\*\*/g, '').replace(/^#+\s+/, '');
-              const hasPipe = cleanLine.includes('|');
-
-              if (hasPipe) {
-                const cols = cleanLine.split('|').map((c) => c.trim());
-                return (
-                  <div
-                    key={li}
-                    style={{
-                      display: 'flex',
-                      fontSize: `${fontSize}px`,
-                      fontFamily: '"Courier New", Courier, monospace',
-                      color: '#1a1510',
-                      lineHeight: 1.3,
-                      marginBottom: '0.1em',
-                    }}
-                  >
-                    {cols.map((col, ci) => (
-                      <span
-                        key={ci}
-                        style={{
-                          flex: ci === 0 ? 2 : 1,
-                          paddingRight: '0.5em',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {col}
-                      </span>
-                    ))}
-                  </div>
-                );
-              }
-
-              return (
-                <p
-                  key={li}
-                  style={{
-                    fontSize: `${isBold ? fontSize * 1.1 : fontSize}px`,
-                    fontFamily: 'Georgia, "Times New Roman", serif',
-                    color: '#1a1510',
-                    fontWeight: isBold ? 700 : 400,
-                    textAlign: isBold ? 'center' : 'left',
-                    marginBottom: '0.3em',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {cleanLine}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Split translation text: table lines go to table regions, paragraphs go to body blocks
+  // For table regions, extract lines that contain | separators or are table-like
+  const rawText = page.translation!.englishOutput;
+  const rawLines = rawText.split('\n');
+  // Table content = lines with pipe separators or that look like table headers
+  const tableLines = rawLines.filter((l) => l.includes('|')).join('\n');
+  // If no explicit pipe lines, use the full translation for tables
+  const tableText = tableLines || rawText;
 
   const ready = containerW > 0 && safeBlocks !== null;
 
   return (
     <div className="w-full relative" ref={containerRef}>
       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
-        {/* Erased image — Hebrew text removed server-side, illustrations intact */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`/api/pages/${page.id}/image-erased`}
@@ -453,21 +435,29 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
           loading="lazy"
           onLoad={(e) => {
             const img = e.currentTarget;
-            if (img.naturalWidth > 0) {
-              setImgAspect(img.naturalHeight / img.naturalWidth);
-            }
+            if (img.naturalWidth > 0) setImgAspect(img.naturalHeight / img.naturalWidth);
           }}
         />
 
-        {/* English text overlays — transparent background, safe expansion areas */}
         {ready && (
           <div className="absolute inset-0">
+            {/* Table region overlays */}
+            {tableBlocks.map((block, ti) => (
+              <TableRegionOverlay
+                key={`table-${ti}`}
+                block={block}
+                rawText={tableText}
+                containerW={containerW}
+                containerH={containerH}
+              />
+            ))}
+
+            {/* Body text overlays */}
             {blockLayouts.map((layout) => {
               const { block, paras, fontPx, blockIndex } = layout;
-
               return (
                 <div
-                  key={blockIndex}
+                  key={`body-${blockIndex}`}
                   className="absolute"
                   style={{
                     left: `${block.x}%`,

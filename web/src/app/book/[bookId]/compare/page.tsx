@@ -152,13 +152,12 @@ function groupOcrLinesIntoBlocks(lines: OcrLine[], headerThreshold: number = 4):
     };
   });
 
-  // Expand each block downward to fill available gap before the next block
-  // (the Hebrew is erased so this space is blank and usable)
-  for (let i = 0; i < rawBlocks.length; i++) {
+  // Expand each block downward into the gap before the next block
+  // Only between consecutive text blocks — NOT the last block (there may be an illustration below)
+  for (let i = 0; i < rawBlocks.length - 1; i++) {
     const block = rawBlocks[i];
     const blockBottom = block.y + block.height;
-    // Next block's top, or 98% of page for the last block
-    const nextTop = i < rawBlocks.length - 1 ? rawBlocks[i + 1].y : 98;
+    const nextTop = rawBlocks[i + 1].y;
     const availableGap = nextTop - blockBottom;
     if (availableGap > 0) {
       block.height += availableGap;

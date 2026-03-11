@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v3')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v4')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -105,50 +105,48 @@ export async function GET(
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
     const channels = metadata.channels || 3
 
-    // Sample the local background color around a pixel region
-    // Filter out dark pixels (text/grid lines) to get the true background color
+    // Check if a pixel row is "clean" (no dark text/line pixels)
+    const isCleanRow = (rowY: number, x0: number, x1: number): boolean => {
+      if (rowY < 0 || rowY >= imgH) return false
+      for (let x = x0; x < x1; x += 3) {
+        const idx = (rowY * imgW + Math.min(x, imgW - 1)) * channels
+        const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
+        if (lum < 100) return false
+      }
+      return true
+    }
+
+    // Fallback: sample solid background color from edges, filtering dark pixels
     const sampleLocalBg = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): [number, number, number] => {
       let rSum = 0, gSum = 0, bSum = 0, count = 0
       const stripW = Math.max(5, Math.round((pxRight - pxLeft) * 0.03))
       const stripH = Math.max(5, Math.round((pxBottom - pxTop) * 0.15))
-
       const regions = [
-        // Left strip
         { x0: Math.max(0, pxLeft - stripW), y0: pxTop, x1: pxLeft, y1: pxBottom },
-        // Right strip
         { x0: pxRight, y0: pxTop, x1: Math.min(imgW, pxRight + stripW), y1: pxBottom },
-        // Strip above
         { x0: pxLeft, y0: Math.max(0, pxTop - stripH), x1: pxRight, y1: pxTop },
-        // Strip below
         { x0: pxLeft, y0: pxBottom, x1: pxRight, y1: Math.min(imgH, pxBottom + stripH) },
       ]
-
       for (const { x0, y0, x1, y1 } of regions) {
         for (let y = y0; y < y1; y += 2) {
           for (let x = x0; x < x1; x += 2) {
             const idx = (y * imgW + x) * channels
-            const r = rawPixels[idx]
-            const g = rawPixels[idx + 1]
-            const b = rawPixels[idx + 2]
-            // Skip dark pixels (text, grid lines) — only sample background
-            const lum = r * 0.299 + g * 0.587 + b * 0.114
+            const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
             if (lum < 140) continue
-            rSum += r
-            gSum += g
-            bSum += b
-            count++
+            rSum += rawPixels[idx]; gSum += rawPixels[idx + 1]; bSum += rawPixels[idx + 2]; count++
           }
         }
       }
-
       if (count === 0) return [255, 255, 255]
       return [Math.round(rSum / count), Math.round(gSum / count), Math.round(bSum / count)]
     }
 
-    // Create erasure rectangles for each line with locally-sampled colors
+    // Create erasure patches — prefer copying real background strips over solid fills
     const composites: sharp.OverlayOptions[] = []
+    const lineEntries: (typeof boxes)[] = []
+    lineMap.forEach((lineBoxes) => lineEntries.push(lineBoxes))
 
-    lineMap.forEach((lineBoxes) => {
+    for (const lineBoxes of lineEntries) {
       const minX = Math.min(...lineBoxes.map((b) => b.x))
       const minY = Math.min(...lineBoxes.map((b) => b.y))
       const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
@@ -162,19 +160,78 @@ export async function GET(
       const pxW = pxRight - pxLeft
       const pxH = pxBottom - pxTop
 
-      if (pxW > 0 && pxH > 0) {
+      if (pxW <= 0 || pxH <= 0) continue
+
+      // Try to find clean reference strips above AND below for gradient blending
+      let aboveY = -1
+      for (let y = pxTop - 1; y >= Math.max(0, pxTop - 25); y--) {
+        if (isCleanRow(y, pxLeft, pxRight)) { aboveY = y; break }
+      }
+      let belowY = -1
+      for (let y = pxBottom; y < Math.min(imgH, pxBottom + 25); y++) {
+        if (isCleanRow(y, pxLeft, pxRight)) { belowY = y; break }
+      }
+
+      if (aboveY >= 0 || belowY >= 0) {
+        // Build replacement pixels by interpolating between above/below reference rows
+        const replBuf = Buffer.alloc(pxW * pxH * 3)
+
+        // Read reference row pixel colors
+        const readRow = (rowY: number): Uint8Array => {
+          const row = new Uint8Array(pxW * 3)
+          for (let x = 0; x < pxW; x++) {
+            const srcIdx = (rowY * imgW + Math.min(pxLeft + x, imgW - 1)) * channels
+            row[x * 3] = rawPixels[srcIdx]
+            row[x * 3 + 1] = rawPixels[srcIdx + 1]
+            row[x * 3 + 2] = rawPixels[srcIdx + 2]
+          }
+          return row
+        }
+
+        const aboveRow = aboveY >= 0 ? readRow(aboveY) : null
+        const belowRow = belowY >= 0 ? readRow(belowY) : null
+
+        for (let y = 0; y < pxH; y++) {
+          for (let x = 0; x < pxW; x++) {
+            const dIdx = (y * pxW + x) * 3
+            if (aboveRow && belowRow) {
+              // Interpolate between above and below based on vertical position
+              const t = pxH > 1 ? y / (pxH - 1) : 0.5
+              replBuf[dIdx] = Math.round(aboveRow[x * 3] * (1 - t) + belowRow[x * 3] * t)
+              replBuf[dIdx + 1] = Math.round(aboveRow[x * 3 + 1] * (1 - t) + belowRow[x * 3 + 1] * t)
+              replBuf[dIdx + 2] = Math.round(aboveRow[x * 3 + 2] * (1 - t) + belowRow[x * 3 + 2] * t)
+            } else {
+              const row = aboveRow || belowRow!
+              replBuf[dIdx] = row[x * 3]
+              replBuf[dIdx + 1] = row[x * 3 + 1]
+              replBuf[dIdx + 2] = row[x * 3 + 2]
+            }
+          }
+        }
+
+        try {
+          const patchPng = await sharp(replBuf, { raw: { width: pxW, height: pxH, channels: 3 } })
+            .blur(1.5)
+            .png()
+            .toBuffer()
+          composites.push({ input: patchPng, left: pxLeft, top: pxTop })
+        } catch {
+          // Fallback to solid color
+          const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
+          composites.push({
+            input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),
+            left: pxLeft, top: pxTop,
+          })
+        }
+      } else {
+        // No clean strip found — use solid color fallback
         const [r, g, b] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom)
         composites.push({
-          input: Buffer.from(
-            `<svg width="${pxW}" height="${pxH}">
-              <rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})" />
-            </svg>`
-          ),
-          left: pxLeft,
-          top: pxTop,
+          input: Buffer.from(`<svg width="${pxW}" height="${pxH}"><rect width="${pxW}" height="${pxH}" fill="rgb(${r},${g},${b})"/></svg>`),
+          left: pxLeft, top: pxTop,
         })
       }
-    })
+    }
 
     // Apply all erasure rectangles
     let result = sharp(imageBuffer)

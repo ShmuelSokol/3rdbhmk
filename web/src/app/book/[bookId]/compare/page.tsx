@@ -475,14 +475,9 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
     );
   }
 
-  // Split translation text: table lines go to table regions, paragraphs go to body blocks
-  // For table regions, extract lines that contain | separators or are table-like
+  // Give full translation text to table regions (includes headers + data rows)
   const rawText = page.translation!.englishOutput;
-  const rawLines = rawText.split('\n');
-  // Table content = lines with pipe separators or that look like table headers
-  const tableLines = rawLines.filter((l) => l.includes('|')).join('\n');
-  // If no explicit pipe lines, use the full translation for tables
-  const tableText = tableLines || rawText;
+  const tableText = rawText;
 
   const ready = containerW > 0 && safeBlocks !== null;
 

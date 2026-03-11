@@ -334,21 +334,16 @@ export async function GET(
     const COLOR_DIST_THRESHOLD = 25
     const STEP = 1
 
-    // Sample page background color from the center of the page above the first text
-    const pageCenterRGB = computeStripRGB(
-      Math.max(0, allBlocks[0].y - 3), 2, 35, 30
-    )
-
     const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
       if (block.isTableRegion) return block
 
-      // Reference background color: sample from page center at the block's y-level
-      // (above/below the text, not inside it)
+      // Reference background color: use the brighter of above/below strips
+      // Page background is always the brightest area (white or near-white)
       const aboveRGB = computeStripRGB(Math.max(0, block.y - 2), 1, 35, 30)
       const belowRGB = computeStripRGB(block.y + block.height, 1, 35, 30)
-      // Use whichever is closer to the page background color
-      const refRGB = colorDist(aboveRGB, pageCenterRGB) <= colorDist(belowRGB, pageCenterRGB)
-        ? aboveRGB : belowRGB
+      const aboveLum = aboveRGB[0] * 0.299 + aboveRGB[1] * 0.587 + aboveRGB[2] * 0.114
+      const belowLum = belowRGB[0] * 0.299 + belowRGB[1] * 0.587 + belowRGB[2] * 0.114
+      const refRGB = belowLum >= aboveLum ? belowRGB : aboveRGB
 
       const isSafe = (yPct: number, hPct: number, xPct: number, wPct: number): boolean => {
         const variance = computeStripVariance(yPct, hPct, xPct, wPct)
@@ -375,22 +370,75 @@ export async function GET(
         safeTop = y
       }
 
-      const expandedY = safeTop
       const expandedH = safeBottom - safeTop
 
-      // Expand horizontally from text edges outward
-      // This works because columns outside the text don't have Hebrew pixels
-      let safeLeft = block.x
-      for (let x = block.x - STEP; x >= 0; x -= STEP) {
-        if (!isSafe(expandedY, expandedH, x, STEP)) break
-        safeLeft = x
+      // Expand horizontally by scanning from page center outward
+      // Scan at multiple y-positions within the block range (every 0.5%)
+      // Rows between OCR lines hit background and give full width;
+      // rows on text give 0. We take the widest result.
+      const SCAN_H = 0.3
+      let bestLeft = 50
+      let bestRight = 50
+
+      for (let sy = block.y; sy < blockBottom; sy += 0.5) {
+        const isRowSafe = (xPct: number, wPct: number): boolean => {
+          const variance = computeStripVariance(sy, SCAN_H, xPct, wPct)
+          if (variance > VARIANCE_THRESHOLD) return false
+          const rgb = computeStripRGB(sy, SCAN_H, xPct, wPct)
+          if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
+          return true
+        }
+
+        let left = 50
+        for (let x = 50 - STEP; x >= 0; x -= STEP) {
+          if (!isRowSafe(x, STEP)) break
+          left = x
+        }
+        let right = 50
+        for (let x = 50; x < 100; x += STEP) {
+          if (!isRowSafe(x, STEP)) break
+          right = x + STEP
+        }
+
+        if ((right - left) > (bestRight - bestLeft)) {
+          bestLeft = left
+          bestRight = right
+        }
       }
 
-      let safeRight = block.x + block.width
-      for (let x = block.x + block.width; x < 100; x += STEP) {
-        if (!isSafe(expandedY, expandedH, x, STEP)) break
-        safeRight = x + STEP
+      // Also scan gaps above/below the block
+      const gapAbove = block.y - prevBlockBottom
+      const gapBelow = nextBlockTop - blockBottom
+      for (const gapY of [
+        gapAbove >= 0.3 ? prevBlockBottom + gapAbove * 0.5 : -1,
+        gapBelow >= 0.3 ? blockBottom + gapBelow * 0.3 : -1,
+      ]) {
+        if (gapY < 0) continue
+        const isGapSafe = (xPct: number, wPct: number): boolean => {
+          const variance = computeStripVariance(gapY, SCAN_H, xPct, wPct)
+          if (variance > VARIANCE_THRESHOLD) return false
+          const rgb = computeStripRGB(gapY, SCAN_H, xPct, wPct)
+          if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
+          return true
+        }
+        let left = 50
+        for (let x = 50 - STEP; x >= 0; x -= STEP) {
+          if (!isGapSafe(x, STEP)) break
+          left = x
+        }
+        let right = 50
+        for (let x = 50; x < 100; x += STEP) {
+          if (!isGapSafe(x, STEP)) break
+          right = x + STEP
+        }
+        if ((right - left) > (bestRight - bestLeft)) {
+          bestLeft = left
+          bestRight = right
+        }
       }
+
+      const safeLeft = bestLeft
+      const safeRight = bestRight
 
       const PAGE_MARGIN = 2
       return {

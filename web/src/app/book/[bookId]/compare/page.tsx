@@ -351,7 +351,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
               return (
                 <div
                   key={blockIndex}
-                  className="absolute overflow-hidden"
+                  className="absolute"
                   style={{
                     left: `${block.x}%`,
                     top: `${block.y}%`,

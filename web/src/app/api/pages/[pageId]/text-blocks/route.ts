@@ -179,13 +179,12 @@ export async function GET(
     // Scan in 1% increments, stop when we hit high-variance content (illustration)
     const VARIANCE_THRESHOLD = 200 // background is typically < 50, illustrations > 500
     const STEP = 1 // percentage step
-    const MAX_EXPAND = 15 // max expansion in percentage points
 
     const expandedBlocks: TextBlock[] = rawBlocks.map((block, bi) => {
       const blockBottom = block.y + block.height
       // Don't expand past the next block's top
       const nextBlockTop = bi < rawBlocks.length - 1 ? rawBlocks[bi + 1].y : 100
-      const maxBottom = Math.min(nextBlockTop, blockBottom + MAX_EXPAND)
+      const maxBottom = nextBlockTop
 
       let safeBottom = blockBottom
       for (let y = blockBottom; y < maxBottom; y += STEP) {
@@ -196,7 +195,7 @@ export async function GET(
 
       // Also try expanding upward (between header and first text, or between blocks)
       const prevBlockBottom = bi > 0 ? rawBlocks[bi - 1].y + rawBlocks[bi - 1].height : 4
-      const minTop = Math.max(prevBlockBottom, block.y - MAX_EXPAND)
+      const minTop = prevBlockBottom
 
       let safeTop = block.y
       for (let y = block.y - STEP; y >= minTop; y -= STEP) {
@@ -205,21 +204,19 @@ export async function GET(
         safeTop = y
       }
 
-      // Expand horizontally — scan left and right for empty background
-      // Use a vertical strip the height of the block
-      const MAX_EXPAND_H = 20
+      // Expand horizontally — scan left and right as far as safe
       const expandedY = safeTop
       const expandedH = safeBottom - safeTop
 
       let safeLeft = block.x
-      for (let x = block.x - STEP; x >= Math.max(0, block.x - MAX_EXPAND_H); x -= STEP) {
+      for (let x = block.x - STEP; x >= 0; x -= STEP) {
         const variance = computeStripVariance(expandedY, expandedH, x, STEP)
         if (variance > VARIANCE_THRESHOLD) break
         safeLeft = x
       }
 
       let safeRight = block.x + block.width
-      for (let x = safeRight; x < Math.min(100, safeRight + MAX_EXPAND_H); x += STEP) {
+      for (let x = safeRight; x < 100; x += STEP) {
         const variance = computeStripVariance(expandedY, expandedH, x, STEP)
         if (variance > VARIANCE_THRESHOLD) break
         safeRight = x + STEP

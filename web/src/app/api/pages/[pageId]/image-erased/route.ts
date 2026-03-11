@@ -35,7 +35,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v2')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v3')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -106,31 +106,36 @@ export async function GET(
     const channels = metadata.channels || 3
 
     // Sample the local background color around a pixel region
-    // We sample thin strips at the left and right edges of each line (just outside the text)
+    // Filter out dark pixels (text/grid lines) to get the true background color
     const sampleLocalBg = (pxLeft: number, pxTop: number, pxRight: number, pxBottom: number): [number, number, number] => {
       let rSum = 0, gSum = 0, bSum = 0, count = 0
-      const stripW = Math.max(3, Math.round((pxRight - pxLeft) * 0.02))
+      const stripW = Math.max(5, Math.round((pxRight - pxLeft) * 0.03))
+      const stripH = Math.max(5, Math.round((pxBottom - pxTop) * 0.15))
 
-      // Sample strips: left edge, right edge, and a thin strip above
       const regions = [
         // Left strip
         { x0: Math.max(0, pxLeft - stripW), y0: pxTop, x1: pxLeft, y1: pxBottom },
         // Right strip
         { x0: pxRight, y0: pxTop, x1: Math.min(imgW, pxRight + stripW), y1: pxBottom },
         // Strip above
-        { x0: pxLeft, y0: Math.max(0, pxTop - 3), x1: pxRight, y1: pxTop },
+        { x0: pxLeft, y0: Math.max(0, pxTop - stripH), x1: pxRight, y1: pxTop },
         // Strip below
-        { x0: pxLeft, y0: pxBottom, x1: pxRight, y1: Math.min(imgH, pxBottom + 3) },
+        { x0: pxLeft, y0: pxBottom, x1: pxRight, y1: Math.min(imgH, pxBottom + stripH) },
       ]
 
       for (const { x0, y0, x1, y1 } of regions) {
-        // Sample every few pixels to keep it fast
         for (let y = y0; y < y1; y += 2) {
           for (let x = x0; x < x1; x += 2) {
             const idx = (y * imgW + x) * channels
-            rSum += rawPixels[idx]
-            gSum += rawPixels[idx + 1]
-            bSum += rawPixels[idx + 2]
+            const r = rawPixels[idx]
+            const g = rawPixels[idx + 1]
+            const b = rawPixels[idx + 2]
+            // Skip dark pixels (text, grid lines) — only sample background
+            const lum = r * 0.299 + g * 0.587 + b * 0.114
+            if (lum < 140) continue
+            rSum += r
+            gSum += g
+            bSum += b
             count++
           }
         }

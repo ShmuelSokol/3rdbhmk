@@ -450,9 +450,28 @@ export async function GET(
 
       const expandedH = safeBottom - safeTop
 
+      // Tables: don't expand horizontally — the grid border is the boundary
+      if (block.isTableRegion) {
+        const PAGE_MARGIN = 2
+        const BUFFER = 1
+        const finalLeft = Math.max(PAGE_MARGIN, block.x) + BUFFER
+        const finalRight = Math.min(100 - PAGE_MARGIN, block.x + block.width) - BUFFER
+        return {
+          x: finalLeft,
+          y: safeTop,
+          width: Math.max(0, finalRight - finalLeft),
+          height: expandedH,
+          hebrewCharCount: block.hebrewCharCount,
+          avgLineHeightPct: block.avgLineHeightPct,
+          centered: block.centered,
+          isTableRegion: true,
+          columnDividers: block.columnDividers,
+        }
+      }
+
       const SCAN_H = 0.3
 
-      // Horizontal expansion helper: scan from a starting x outward
+      // Horizontal expansion: scan from page center outward
       const scanHoriz = (scanY: number) => {
         const isHSafe = (xPct: number, wPct: number): boolean => {
           const variance = computeStripVariance(scanY, SCAN_H, xPct, wPct)
@@ -461,25 +480,21 @@ export async function GET(
           if (colorDist(rgb, refRGB) > COLOR_DIST_THRESHOLD) return false
           return true
         }
-        // For tables: expand from text edges outward (avoids internal grid lines)
-        // For body: expand from page center outward (finds full available width)
-        const startLeft = block.isTableRegion ? block.x : 50
-        const startRight = block.isTableRegion ? block.x + block.width : 50
-        let left = startLeft
-        for (let x = startLeft - STEP; x >= 0; x -= STEP) {
+        let left = 50
+        for (let x = 50 - STEP; x >= 0; x -= STEP) {
           if (!isHSafe(x, STEP)) break
           left = x
         }
-        let right = startRight
-        for (let x = startRight; x < 100; x += STEP) {
+        let right = 50
+        for (let x = 50; x < 100; x += STEP) {
           if (!isHSafe(x, STEP)) break
           right = x + STEP
         }
         return { left, right }
       }
 
-      let bestLeft = block.isTableRegion ? block.x : 50
-      let bestRight = block.isTableRegion ? block.x + block.width : 50
+      let bestLeft = 50
+      let bestRight = 50
 
       // Collect all scan y-positions
       const scanPositions: number[] = []
@@ -493,23 +508,12 @@ export async function GET(
       if (gapAbove >= 0.3) scanPositions.push(prevBlockBottom + gapAbove * 0.5)
       if (gapBelow >= 0.3) scanPositions.push(blockBottom + gapBelow * 0.3)
 
-      if (block.isTableRegion) {
-        // Tables: track left and right independently across all scans
-        // The outer grid border is consistent vertically, so min-left/max-right
-        // gives the full table extent without internal grid lines blocking
-        for (const sy of scanPositions) {
-          const { left, right } = scanHoriz(sy)
-          if (left < bestLeft) bestLeft = left
-          if (right > bestRight) bestRight = right
-        }
-      } else {
-        // Body text: use widest paired span (left+right from same scan row)
-        for (const sy of scanPositions) {
-          const { left, right } = scanHoriz(sy)
-          if ((right - left) > (bestRight - bestLeft)) {
-            bestLeft = left
-            bestRight = right
-          }
+      // Body text: use widest paired span (left+right from same scan row)
+      for (const sy of scanPositions) {
+        const { left, right } = scanHoriz(sy)
+        if ((right - left) > (bestRight - bestLeft)) {
+          bestLeft = left
+          bestRight = right
         }
       }
 
@@ -528,7 +532,7 @@ export async function GET(
         hebrewCharCount: block.hebrewCharCount,
         avgLineHeightPct: block.avgLineHeightPct,
         centered: block.centered,
-        isTableRegion: block.isTableRegion || false,
+        isTableRegion: false,
       }
     })
 

@@ -297,11 +297,17 @@ export async function GET(
         const maxX = Math.max(...group.map((l) => l.x + l.width))
         const maxY = Math.max(...group.map((l) => l.y + l.height))
         const centeredCount = group.filter((l) => isCenteredLine(l)).length
+        const centered = centeredCount > group.length / 2
+        // For centered (header) blocks, use the MAX line height so the title line
+        // defines the font size, not tiny number lines like "א."
+        const lineHeightPct = centered
+          ? Math.max(...group.map((l) => l.height))
+          : group.reduce((s, l) => s + l.height, 0) / group.length
         allBlocks.push({
           x: minX, y: minY, width: maxX - minX, height: maxY - minY,
           hebrewCharCount: group.reduce((s, l) => s + l.charCount, 0),
-          avgLineHeightPct: group.reduce((s, l) => s + l.height, 0) / group.length,
-          centered: centeredCount > group.length / 2,
+          avgLineHeightPct: lineHeightPct,
+          centered,
         })
       }
     }

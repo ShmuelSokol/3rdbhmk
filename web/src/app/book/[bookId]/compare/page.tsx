@@ -269,13 +269,27 @@ function TableRegionOverlay({
   containerH: number;
 }) {
   const lines = rawText.split('\n').map((l) => l.trim()).filter(Boolean);
+  const blockWPx = (block.width / 100) * containerW;
   const blockHPx = (block.height / 100) * containerH;
-  const targetFont = Math.min(containerW * 0.014, blockHPx / (lines.length * 1.4));
-  const fontSize = Math.max(5, targetFont);
+
+  // Binary search for font size that fits, accounting for line wrapping
+  let lo = 4, hi = containerW * 0.016, bestFit = lo;
+  for (let iter = 0; iter < 15; iter++) {
+    const mid = (lo + hi) / 2;
+    const charsPerLine = blockWPx / (mid * 0.55);
+    let totalVisualLines = 0;
+    for (const line of lines) {
+      const cleanLine = line.replace(/\*\*/g, '').replace(/^#+\s+/, '');
+      totalVisualLines += Math.max(1, Math.ceil(cleanLine.length / Math.max(charsPerLine, 1)));
+    }
+    const totalH = totalVisualLines * (mid * 1.35);
+    if (totalH <= blockHPx) { bestFit = mid; lo = mid; } else { hi = mid; }
+  }
+  const fontSize = Math.max(5, bestFit);
 
   return (
     <div
-      className="absolute overflow-hidden"
+      className="absolute"
       style={{
         left: `${block.x}%`,
         top: `${block.y}%`,

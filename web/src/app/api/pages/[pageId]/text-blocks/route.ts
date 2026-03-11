@@ -334,15 +334,21 @@ export async function GET(
     const COLOR_DIST_THRESHOLD = 25
     const STEP = 1
 
+    // Sample page background color from the center of the page above the first text
+    const pageCenterRGB = computeStripRGB(
+      Math.max(0, allBlocks[0].y - 3), 2, 35, 30
+    )
+
     const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
       if (block.isTableRegion) return block
 
-      // Reference background color from strips just outside the text block
-      const aboveRGB = computeStripRGB(Math.max(0, block.y - 2), 1, block.x, block.width)
-      const belowRGB = computeStripRGB(block.y + block.height, 1, block.x, block.width)
-      const aboveBright = aboveRGB[0] + aboveRGB[1] + aboveRGB[2]
-      const belowBright = belowRGB[0] + belowRGB[1] + belowRGB[2]
-      const refRGB = aboveBright >= belowBright ? aboveRGB : belowRGB
+      // Reference background color: sample from page center at the block's y-level
+      // (above/below the text, not inside it)
+      const aboveRGB = computeStripRGB(Math.max(0, block.y - 2), 1, 35, 30)
+      const belowRGB = computeStripRGB(block.y + block.height, 1, 35, 30)
+      // Use whichever is closer to the page background color
+      const refRGB = colorDist(aboveRGB, pageCenterRGB) <= colorDist(belowRGB, pageCenterRGB)
+        ? aboveRGB : belowRGB
 
       const isSafe = (yPct: number, hPct: number, xPct: number, wPct: number): boolean => {
         const variance = computeStripVariance(yPct, hPct, xPct, wPct)
@@ -356,6 +362,7 @@ export async function GET(
       const nextBlockTop = bi < allBlocks.length - 1 ? allBlocks[bi + 1].y : 100
       const prevBlockBottom = bi > 0 ? allBlocks[bi - 1].y + allBlocks[bi - 1].height : 4
 
+      // Expand vertically using the block's own width for scanning
       let safeBottom = blockBottom
       for (let y = blockBottom; y < nextBlockTop; y += STEP) {
         if (!isSafe(y, STEP, block.x, block.width)) break
@@ -371,14 +378,17 @@ export async function GET(
       const expandedY = safeTop
       const expandedH = safeBottom - safeTop
 
-      let safeLeft = block.x
-      for (let x = block.x - STEP; x >= 0; x -= STEP) {
+      // Expand horizontally: scan from PAGE CENTER outward, not from text edges
+      // This finds the true available width regardless of how wide the Hebrew was
+      const blockMidX = 50 // page center
+      let safeLeft = blockMidX
+      for (let x = blockMidX - STEP; x >= 0; x -= STEP) {
         if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeLeft = x
       }
 
-      let safeRight = block.x + block.width
-      for (let x = safeRight; x < 100; x += STEP) {
+      let safeRight = blockMidX
+      for (let x = blockMidX; x < 100; x += STEP) {
         if (!isSafe(expandedY, expandedH, x, STEP)) break
         safeRight = x + STEP
       }

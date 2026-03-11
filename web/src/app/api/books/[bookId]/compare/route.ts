@@ -12,12 +12,21 @@ export async function GET(
       where: { id: bookId },
       include: {
         pages: {
+          where: {
+            translation: { isNot: null },
+          },
           include: {
             translation: {
               select: {
                 id: true,
                 englishOutput: true,
                 status: true,
+              },
+            },
+            layout: {
+              select: {
+                id: true,
+                regions: true,
               },
             },
             ocrResult: {
@@ -47,19 +56,23 @@ export async function GET(
         if (p.ocrResult?.boxes) {
           const lineMap = new Map<number, typeof p.ocrResult.boxes>()
           for (const box of p.ocrResult.boxes) {
-            const li = box.lineIndex ?? 0
+            // Use -1 sentinel for null lineIndex to avoid merging with real line 0
+            const li = box.lineIndex ?? -1
             if (!lineMap.has(li)) lineMap.set(li, [])
             lineMap.get(li)!.push(box)
           }
           lineMap.forEach((boxes, lineIndex) => {
-            const minX = Math.min(...boxes.map((b) => b.x))
-            const minY = Math.min(...boxes.map((b) => b.y))
-            const maxX = Math.max(...boxes.map((b) => b.x + b.width))
-            const maxY = Math.max(...boxes.map((b) => b.y + b.height))
-            const text = boxes
-              .filter((b) => !b.skipTranslation)
+            // Use only non-skipped boxes for both bounding rect and text
+            const textBoxes = boxes.filter((b) => !b.skipTranslation)
+            if (textBoxes.length === 0) return // skip lines with only skipTranslation boxes
+            const minX = Math.min(...textBoxes.map((b) => b.x))
+            const minY = Math.min(...textBoxes.map((b) => b.y))
+            const maxX = Math.max(...textBoxes.map((b) => b.x + b.width))
+            const maxY = Math.max(...textBoxes.map((b) => b.y + b.height))
+            const text = textBoxes
               .map((b) => b.editedText ?? b.hebrewText)
               .join(' ')
+            if (!text.trim()) return // skip empty lines
             lines.push({
               lineIndex,
               x: minX,
@@ -77,6 +90,7 @@ export async function GET(
           pageNumber: p.pageNumber,
           status: p.status,
           translation: p.translation,
+          layout: p.layout,
           lines,
         }
       }),

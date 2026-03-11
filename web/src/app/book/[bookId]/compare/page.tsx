@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+
+// --- TYPES ---
 
 interface OcrLine {
   lineIndex: number;
@@ -12,6 +14,15 @@ interface OcrLine {
   text: string;
 }
 
+interface LayoutRegion {
+  type: 'text' | 'illustration' | 'header' | 'subtitle' | 'table' | 'chart';
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  label?: string;
+}
+
 interface TranslatedPage {
   id: string;
   pageNumber: number;
@@ -20,6 +31,10 @@ interface TranslatedPage {
     id: string;
     englishOutput: string;
     status: string;
+  } | null;
+  layout: {
+    id: string;
+    regions: LayoutRegion[];
   } | null;
   lines: OcrLine[];
 }
@@ -33,617 +48,377 @@ interface BookData {
 
 // --- PARAGRAPH PARSING ---
 
-interface TextSpan {
-  text: string;
-  bold: boolean;
-}
-
 interface Paragraph {
-  spans: TextSpan[];
+  text: string;
   isAllBold: boolean;
   charCount: number;
 }
 
 function parseTranslation(raw: string): Paragraph[] {
   const paragraphs: Paragraph[] = [];
-  const rawParas = raw.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const rawParas = raw.split(/\r?\n\s*\r?\n/).map((p) => p.trim()).filter(Boolean);
 
-  for (const para of rawParas) {
-    const spans: TextSpan[] = [];
-    const parts = para.split(/(\*\*[\s\S]*?\*\*)/);
-    for (const part of parts) {
-      if (!part.trim()) continue;
-      const boldMatch = part.match(/^\*\*([\s\S]*?)\*\*$/);
-      const text = (boldMatch ? boldMatch[1] : part)
-        .replace(/\n/g, ' ')
-        .replace(/^#+\s+/gm, '')
-        .replace(/`([^`]+)`/g, '$1')
-        .trim();
-      if (text) spans.push({ text, bold: !!boldMatch });
+  // Strip leading header lines from first paragraph: page number + running headers
+  // These are already visible in the original Hebrew banner
+  const isHeaderLine = (s: string) =>
+    /^\d{1,3}\.?$/.test(s) ||
+    /^(Introduction|Summary|Yechezkel Perek|Main Topics)/i.test(s);
+
+  // First paragraph may contain header lines joined by \n — strip them
+  if (rawParas.length > 0) {
+    const lines = rawParas[0].split('\n').map((l) => l.replace(/\*\*/g, '').trim());
+    let skipCount = 0;
+    for (const line of lines) {
+      if (!line || isHeaderLine(line)) { skipCount++; continue; }
+      break;
     }
-    if (spans.length > 0) {
-      const isAllBold = spans.every((s) => s.bold);
-      const charCount = spans.reduce((s, sp) => s + sp.text.length, 0);
-      paragraphs.push({ spans, isAllBold, charCount });
+    if (skipCount > 0) {
+      const remaining = rawParas[0].split('\n').slice(skipCount).join('\n').trim();
+      if (remaining) {
+        rawParas[0] = remaining;
+      } else {
+        rawParas.shift();
+      }
     }
+  }
+  // Also skip any subsequent standalone header paragraphs
+  while (rawParas.length > 0) {
+    const line = rawParas[0].replace(/\*\*/g, '').trim();
+    if (isHeaderLine(line)) { rawParas.shift(); continue; }
+    break;
+  }
+  for (let i = 0; i < rawParas.length; i++) {
+    const para = rawParas[i];
+    // Strip markdown formatting for display
+    const text = para
+      .replace(/\*\*([\s\S]*?)\*\*/g, '$1')
+      .replace(/\n/g, ' ')
+      .replace(/^#+\s+/gm, '')
+      .replace(/`([^`]+)`/g, '$1')
+      .trim();
+    if (!text) continue;
+
+    const isAllBold = para.startsWith('**') && para.endsWith('**');
+    paragraphs.push({ text, isAllBold, charCount: text.length });
   }
   return paragraphs;
 }
 
-// --- ZONE CREATION (natural page sections) ---
+// --- ASSIGN PARAGRAPHS TO TEXT REGIONS ---
 
-interface TextZone {
-  ocrLines: OcrLine[];
-  hebrewChars: number;
-  x: number;
-  y: number;
-  width: number;
-  availableHeight: number; // extends to next zone's top
-  isCentered: boolean;
-  isHeader: boolean;
-  avgLineHeight: number;
-}
-
-interface ZoneContent {
-  zone: TextZone;
-  paragraphs: Paragraph[];
-  fontSize: number;
-  lineHeight: number;
-  textColor: string;
-}
-
-// Group OCR lines into natural page sections using conservative criteria.
-// Only splits at major visual breaks — NOT one zone per paragraph.
-function createNaturalZones(lines: OcrLine[]): TextZone[] {
-  const sorted = [...lines]
-    .filter((l) => l.width > 0.5 && l.height > 0.2)
-    .sort((a, b) => a.y - b.y);
-
-  if (sorted.length === 0) return [];
-
-  const heights = sorted.map((l) => l.height).sort((a, b) => a - b);
-  const medianH = heights[Math.floor(heights.length / 2)];
-
-  const groups: OcrLine[][] = [[sorted[0]]];
-  for (let i = 1; i < sorted.length; i++) {
-    const prev = sorted[i - 1];
-    const curr = sorted[i];
-
-    // Never split within header area (y < 5%)
-    if (prev.y < 5 && curr.y < 5) {
-      groups[groups.length - 1].push(curr);
-      continue;
-    }
-
-    // Header/body boundary
-    const crossesHeader = prev.y + prev.height < 5 && curr.y >= 4;
-
-    // Large size change (title ↔ body, >1.5x median height difference)
-    const bigSizeChange =
-      Math.abs(curr.height - prev.height) > medianH * 1.5;
-
-    // Large gap (>4% of page)
-    const gap = curr.y - (prev.y + prev.height);
-    const bigGap = gap > 4;
-
-    // Alignment shift: centered narrow → wide left-aligned (or vice versa)
-    const prevCentered =
-      Math.abs(prev.x + prev.width / 2 - 50) < 15 && prev.width < 50;
-    const currCentered =
-      Math.abs(curr.x + curr.width / 2 - 50) < 15 && curr.width < 50;
-    const currWide = curr.width > 60;
-    const prevWide = prev.width > 60;
-    const alignmentShift =
-      (prevCentered && currWide) || (currCentered && prevWide);
-
-    if (crossesHeader || bigSizeChange || bigGap || alignmentShift) {
-      groups.push([curr]);
-    } else {
-      groups[groups.length - 1].push(curr);
-    }
-  }
-
-  // Build zones and extend each zone's height to the next zone's start
-  const zones = groups.map((g) => buildZone(g));
-  for (let i = 0; i < zones.length - 1; i++) {
-    zones[i].availableHeight = zones[i + 1].y - zones[i].y;
-  }
-  if (zones.length > 0) {
-    const last = zones[zones.length - 1];
-    last.availableHeight = Math.max(last.availableHeight, 96 - last.y);
-  }
-
-  return zones;
-}
-
-function buildZone(g: OcrLine[]): TextZone {
-  const minX = Math.min(...g.map((l) => l.x));
-  const minY = Math.min(...g.map((l) => l.y));
-  const maxX = Math.max(...g.map((l) => l.x + l.width));
-  const maxY = Math.max(...g.map((l) => l.y + l.height));
-  const avgH = g.reduce((s, l) => s + l.height, 0) / g.length;
-  const avgW = g.reduce((s, l) => s + l.width, 0) / g.length;
-  const avgCx = g.reduce((s, l) => s + l.x + l.width / 2, 0) / g.length;
-  const hebrewChars = g.reduce((s, l) => s + l.text.length, 0);
-
-  const isCentered =
-    Math.abs(avgCx - 50) < 15 &&
-    (avgW < 60 || Math.abs(minX - (100 - maxX)) < 10);
-  const isHeader = minY < 5;
-
-  // For centered zones, expand width so English text has room
-  let zoneX = minX;
-  let zoneW = maxX - minX;
-  if (isCentered && !isHeader && zoneW < 50) {
-    zoneW = Math.max(zoneW, 60);
-    zoneX = 50 - zoneW / 2;
-  }
-
-  return {
-    ocrLines: g,
-    hebrewChars,
-    x: zoneX,
-    y: minY,
-    width: zoneW,
-    availableHeight: maxY - minY,
-    isCentered,
-    isHeader,
-    avgLineHeight: avgH,
-  };
-}
-
-// --- ASSIGN PARAGRAPHS TO ZONES ---
-
-// 1. Assign ALL paragraphs to ALL zones proportionally (header absorbs its share)
-// 2. Filter to non-header zones only
-// 3. Redistribute heights so content zones fill the available space well
-// 4. Calculate font sizes for the redistributed zones
-function assignTextToZones(
-  zones: TextZone[],
+function assignParagraphsToRegions(
+  regions: LayoutRegion[],
   paragraphs: Paragraph[],
-  imgWidth: number,
-  imgHeight: number
-): ZoneContent[] {
-  const CW = 0.48;
+  ocrLines: OcrLine[]
+): Map<number, Paragraph[]> {
+  const result = new Map<number, Paragraph[]>();
+  const textRegionIndices: number[] = [];
 
-  if (zones.length === 0 || paragraphs.length === 0) return [];
+  // Find text regions (skip header, illustration, chart)
+  regions.forEach((r, i) => {
+    if (r.type === 'text' || r.type === 'table') {
+      textRegionIndices.push(i);
+    }
+  });
 
-  // Step 1: Proportional assignment to ALL zones (including header)
-  const totalHebrew = zones.reduce((s, z) => s + z.hebrewChars, 0);
+  if (textRegionIndices.length === 0 || paragraphs.length === 0) return result;
+
+  // Count Hebrew chars per text region (from OCR lines that fall within it)
+  const hebrewCharsPerRegion: number[] = textRegionIndices.map((ri) => {
+    const r = regions[ri];
+    return ocrLines.filter((l) => {
+      const midY = l.y + l.height / 2;
+      const midX = l.x + l.width / 2;
+      return (
+        midY >= r.y && midY <= r.y + r.height &&
+        midX >= r.x && midX <= r.x + r.width
+      );
+    }).reduce((s, l) => s + l.text.length, 0);
+  });
+
+  const totalHebrew = hebrewCharsPerRegion.reduce((s, c) => s + c, 0);
+  if (totalHebrew === 0) {
+    // Fallback: distribute evenly
+    const perRegion = Math.ceil(paragraphs.length / textRegionIndices.length);
+    let pi = 0;
+    for (const ri of textRegionIndices) {
+      result.set(ri, paragraphs.slice(pi, pi + perRegion));
+      pi += perRegion;
+    }
+    return result;
+  }
+
+  // Proportional distribution with cumulative targets
   const totalEnglish = paragraphs.reduce((s, p) => s + p.charCount, 0);
-
-  const zoneTargets: number[] = [];
+  const targets: number[] = [];
   let cumHebrew = 0;
-  for (const zone of zones) {
-    cumHebrew += zone.hebrewChars;
-    const share = totalHebrew > 0 ? cumHebrew / totalHebrew : 1;
-    zoneTargets.push(share * totalEnglish);
+  for (const chars of hebrewCharsPerRegion) {
+    cumHebrew += chars;
+    targets.push((cumHebrew / totalHebrew) * totalEnglish);
   }
 
-  const zoneParas: Paragraph[][] = zones.map(() => []);
-  let currentZone = 0;
-  let runningEnglish = 0;
+  // Initialize empty arrays
+  for (const ri of textRegionIndices) result.set(ri, []);
 
+  let tzi = 0;
+  let runEng = 0;
   for (const para of paragraphs) {
-    // Use `if` (not `while`) — move at most one zone at a time
-    if (
-      currentZone < zones.length - 1 &&
-      runningEnglish > 0 &&
-      runningEnglish >= zoneTargets[currentZone]
-    ) {
-      currentZone++;
+    while (tzi < textRegionIndices.length - 1 && runEng > 0 && runEng >= targets[tzi]) {
+      tzi++;
     }
-    zoneParas[currentZone].push(para);
-    runningEnglish += para.charCount;
-  }
-
-  // Step 2: Filter to non-header zones
-  const renderEntries: { zone: TextZone; paras: Paragraph[] }[] = [];
-  for (let zi = 0; zi < zones.length; zi++) {
-    if (!zones[zi].isHeader) {
-      renderEntries.push({
-        zone: { ...zones[zi] }, // clone so we can modify positions
-        paras: zoneParas[zi],
-      });
-    }
-  }
-
-  if (renderEntries.length === 0) return [];
-
-  // Step 3: Redistribute heights proportionally to content
-  // Each zone gets height proportional to its char count, with a minimum
-  const startY = renderEntries[0].zone.y;
-  const endY = 96;
-  const totalAvailable = endY - startY;
-  const MIN_ZONE_HEIGHT = 3; // minimum 3% per zone
-
-  const charCounts = renderEntries.map((re) =>
-    re.paras.reduce((s, p) => s + p.charCount, 0)
-  );
-  const totalChars = charCounts.reduce((s, c) => s + c, 0);
-
-  // First pass: assign proportional heights with minimum
-  const rawHeights = charCounts.map((c) =>
-    Math.max(MIN_ZONE_HEIGHT, totalAvailable * (c / Math.max(1, totalChars)))
-  );
-  const rawTotal = rawHeights.reduce((s, h) => s + h, 0);
-
-  // Scale to fit available space
-  const scale = totalAvailable / rawTotal;
-  let currentY = startY;
-  for (let i = 0; i < renderEntries.length; i++) {
-    renderEntries[i].zone.y = currentY;
-    renderEntries[i].zone.availableHeight = rawHeights[i] * scale;
-    currentY += renderEntries[i].zone.availableHeight;
-  }
-
-  // Step 4: Calculate font sizes
-  const result: ZoneContent[] = [];
-
-  for (const { zone, paras } of renderEntries) {
-    const charCount = paras.reduce((s, p) => s + p.charCount, 0);
-    const widthPx = (zone.width / 100) * imgWidth;
-    const heightPx = (zone.availableHeight / 100) * imgHeight;
-
-    const hebrewFontPx = (zone.avgLineHeight / 100) * imgHeight;
-    const maxFs = Math.max(8, Math.floor(hebrewFontPx));
-    const minFs = 7;
-    let fontSize = Math.min(14, maxFs);
-    let lineHeight = 1.25;
-
-    if (charCount > 0 && widthPx > 0 && heightPx > 0) {
-      const extraChars = Math.max(0, paras.length - 1) * 10;
-      const totalCharsEst = charCount + extraChars;
-
-      fontSize = minFs;
-      for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
-        const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-        const linesNeeded = Math.ceil(totalCharsEst / cpl);
-        if (linesNeeded * fs * lineHeight <= heightPx) {
-          fontSize = fs;
-          break;
-        }
-      }
-      if (fontSize <= minFs) {
-        lineHeight = 1.1;
-        for (let fs = maxFs; fs >= minFs; fs -= 0.5) {
-          const cpl = Math.max(1, Math.floor(widthPx / (fs * CW)));
-          const linesNeeded = Math.ceil(totalCharsEst / cpl);
-          if (linesNeeded * fs * lineHeight <= heightPx) {
-            fontSize = fs;
-            break;
-          }
-        }
-      }
-    }
-
-    result.push({
-      zone,
-      paragraphs: paras,
-      fontSize,
-      lineHeight,
-      textColor: '#1a1510', // dark text on white/cream erased background
-    });
+    result.get(textRegionIndices[tzi])!.push(para);
+    runEng += para.charCount;
   }
 
   return result;
 }
 
-// --- CANVAS: ERASE HEBREW TEXT ---
+// --- FALLBACK: Create text regions from OCR lines (no layout data) ---
 
-function eraseHebrewText(
-  img: HTMLImageElement,
-  ocrLines: OcrLine[]
-): string | null {
-  const canvas = document.createElement('canvas');
-  const w = img.naturalWidth;
-  const h = img.naturalHeight;
-  if (w === 0 || h === 0) {
-    console.warn('eraseHebrewText: image has zero dimensions');
-    return null;
-  }
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) {
-    console.warn('eraseHebrewText: failed to get canvas context');
-    return null;
+function createFallbackRegions(lines: OcrLine[]): LayoutRegion[] {
+  const regions: LayoutRegion[] = [];
+
+  // Header: lines in top 5%
+  const headerLines = lines.filter((l) => l.y < 5);
+  if (headerLines.length > 0) {
+    regions.push({ type: 'header', x: 0, y: 0, width: 100, height: 5 });
   }
 
-  ctx.drawImage(img, 0, 0);
-
-  let imgData: ImageData;
-  try {
-    imgData = ctx.getImageData(0, 0, w, h);
-  } catch (e) {
-    console.error('eraseHebrewText: canvas tainted or getImageData failed:', e);
-    return null;
+  // Body: everything else as one text region
+  const bodyLines = lines.filter((l) => l.y >= 5);
+  if (bodyLines.length > 0) {
+    const minX = Math.min(...bodyLines.map((l) => l.x));
+    const minY = Math.min(...bodyLines.map((l) => l.y));
+    const maxX = Math.max(...bodyLines.map((l) => l.x + l.width));
+    const maxY = Math.max(...bodyLines.map((l) => l.y + l.height));
+    regions.push({
+      type: 'text',
+      x: Math.max(2, minX - 2),
+      y: minY,
+      width: Math.min(96, maxX - minX + 4),
+      height: maxY - minY + 2,
+    });
   }
 
-  const px = imgData.data;
-  const pixLuma = (i: number) =>
-    0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-
-  // Erase a rectangle by replacing dark pixels with local background color
-  const eraseRect = (ex: number, ey: number, ew: number, eh: number) => {
-    const x0 = Math.max(0, Math.floor(ex));
-    const y0 = Math.max(0, Math.floor(ey));
-    const x1 = Math.min(w, Math.ceil(ex + ew));
-    const y1 = Math.min(h, Math.ceil(ey + eh));
-    if (x1 <= x0 || y1 <= y0) return;
-
-    // Collect luminances to find background level
-    const lumas: number[] = [];
-    for (let y = y0; y < y1; y++) {
-      for (let x = x0; x < x1; x++) {
-        lumas.push(pixLuma((y * w + x) * 4));
-      }
-    }
-    lumas.sort((a, b) => b - a);
-
-    const bgCount = Math.max(5, Math.floor(lumas.length * 0.2));
-    const bgLuma = lumas[Math.floor(bgCount / 2)];
-    const threshold = bgLuma * 0.93;
-
-    // Compute background color from brightest pixels
-    const bgR: number[] = [];
-    const bgG: number[] = [];
-    const bgB: number[] = [];
-    for (let y = y0; y < y1; y++) {
-      for (let x = x0; x < x1; x++) {
-        const idx = (y * w + x) * 4;
-        if (pixLuma(idx) >= bgLuma * 0.95) {
-          bgR.push(px[idx]);
-          bgG.push(px[idx + 1]);
-          bgB.push(px[idx + 2]);
-        }
-      }
-    }
-    if (bgR.length === 0) return;
-    bgR.sort((a, b) => a - b);
-    bgG.sort((a, b) => a - b);
-    bgB.sort((a, b) => a - b);
-    const midR = bgR[Math.floor(bgR.length / 2)];
-    const midG = bgG[Math.floor(bgG.length / 2)];
-    const midB = bgB[Math.floor(bgB.length / 2)];
-
-    // Replace dark pixels with background
-    for (let y = y0; y < y1; y++) {
-      for (let x = x0; x < x1; x++) {
-        const idx = (y * w + x) * 4;
-        if (pixLuma(idx) < threshold) {
-          px[idx] = midR;
-          px[idx + 1] = midG;
-          px[idx + 2] = midB;
-        }
-      }
-    }
-  };
-
-  // Sort lines by y for band-based erasure
-  const bodyLines = ocrLines
-    .filter((l) => l.width > 0.5 && l.height > 0.2 && l.y >= 5)
-    .sort((a, b) => a.y - b.y);
-
-  // Erase each body line with generous padding
-  for (const line of bodyLines) {
-    const lx = (line.x / 100) * w;
-    const ly = (line.y / 100) * h;
-    const lw = (line.width / 100) * w;
-    const lh = (line.height / 100) * h;
-
-    const padV = lh * 0.5;
-    const padH = lw * 0.1;
-    eraseRect(lx - padH - 8, ly - padV, lw + padH * 2 + 16, lh + padV * 2);
-  }
-
-  // Sweep gaps between consecutive lines on the same band
-  // (catches descenders, ascenders, dotted leaders)
-  for (let i = 0; i < bodyLines.length - 1; i++) {
-    const curr = bodyLines[i];
-    const next = bodyLines[i + 1];
-    const currBottom = curr.y + curr.height;
-    const gapPct = next.y - currBottom;
-
-    // If gap is small (lines are close), erase the gap between them
-    if (gapPct > 0 && gapPct < 3) {
-      const gapLeft = Math.min(curr.x, next.x);
-      const gapRight = Math.max(curr.x + curr.width, next.x + next.width);
-      const gx = (gapLeft / 100) * w - 4;
-      const gy = (currBottom / 100) * h;
-      const gw = ((gapRight - gapLeft) / 100) * w + 8;
-      const gh = (gapPct / 100) * h;
-      eraseRect(gx, gy, gw, gh);
-    }
-  }
-
-  // Also erase gaps between segments on same row (multi-column, dotted leaders)
-  if (bodyLines.length > 2) {
-    const medH = bodyLines.map((l) => l.height).sort((a, b) => a - b)[
-      Math.floor(bodyLines.length / 2)
-    ];
-    const rows: OcrLine[][] = [[bodyLines[0]]];
-    for (let i = 1; i < bodyLines.length; i++) {
-      const prev = bodyLines[i - 1];
-      const curr = bodyLines[i];
-      if (Math.abs(curr.y - prev.y) < medH * 1.5) {
-        rows[rows.length - 1].push(curr);
-      } else {
-        rows.push([curr]);
-      }
-    }
-    for (const row of rows) {
-      if (row.length < 2) continue;
-      const segs = [...row].sort((a, b) => a.x - b.x);
-      const bandTop = Math.min(...row.map((l) => l.y));
-      const bandBot = Math.max(...row.map((l) => l.y + l.height));
-      for (let si = 0; si < segs.length - 1; si++) {
-        const gapL = segs[si].x + segs[si].width;
-        const gapR = segs[si + 1].x;
-        if (gapR - gapL > 2) {
-          const gy = (bandTop / 100) * h - 2;
-          const gx = (gapL / 100) * w - 2;
-          const gw = ((gapR - gapL) / 100) * w + 4;
-          const gh = ((bandBot - bandTop) / 100) * h + 4;
-          eraseRect(gx, gy, gw, gh);
-        }
-      }
-    }
-  }
-
-  ctx.putImageData(imgData, 0, 0);
-  return canvas.toDataURL('image/png');
+  return regions;
 }
 
-// --- OVERLAY COMPONENT ---
+// --- GAP FILLING: Close gaps between subtitle/header bottom and text top ---
 
-function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const displayRef = useRef<HTMLImageElement>(null);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
-  const [cleanedSrc, setCleanedSrc] = useState<string | null>(null);
-  const [zones, setZones] = useState<TextZone[]>([]);
-  const [paragraphs, setParagraphs] = useState<Paragraph[]>([]);
+function fillRegionGaps(regions: LayoutRegion[]): LayoutRegion[] {
+  if (regions.length === 0) return regions;
 
-  // Parse translation into paragraphs
-  useEffect(() => {
-    if (page.translation?.englishOutput) {
-      setParagraphs(parseTranslation(page.translation.englishOutput));
-    }
-  }, [page.translation]);
+  // Sort by y position
+  const sorted = [...regions].sort((a, b) => a.y - b.y);
+  const result = regions.map((r) => ({ ...r }));
 
-  // Create natural zones from OCR lines (independent of paragraph count)
-  useEffect(() => {
-    if (page.lines.length > 0) {
-      setZones(createNaturalZones(page.lines));
-    }
-  }, [page.lines]);
+  for (let i = 0; i < sorted.length; i++) {
+    const curr = sorted[i];
+    if (curr.type !== 'text' && curr.type !== 'table') continue;
 
-  // Track displayed image size
-  useEffect(() => {
-    const target = displayRef.current || imgRef.current;
-    if (target && imgLoaded) {
-      const update = () => {
-        const el = displayRef.current || imgRef.current;
-        if (el) setImgSize({ width: el.clientWidth, height: el.clientHeight });
-      };
-      update();
-      const observer = new ResizeObserver(update);
-      observer.observe(target);
-      return () => observer.disconnect();
-    }
-  }, [imgLoaded, cleanedSrc]);
-
-  // Erase Hebrew text from canvas
-  useEffect(() => {
-    if (imgRef.current && imgLoaded && zones.length > 0) {
-      const result = eraseHebrewText(imgRef.current, page.lines);
-      if (result) {
-        setCleanedSrc(result);
-      } else {
-        console.warn('Hebrew erasure failed for page', page.pageNumber);
+    // Find the region immediately above this text region
+    let closestAbove: LayoutRegion | null = null;
+    let closestAboveBottom = 0;
+    for (let j = 0; j < sorted.length; j++) {
+      if (j === i) continue;
+      const other = sorted[j];
+      const otherBottom = other.y + other.height;
+      if (otherBottom <= curr.y + 1 && otherBottom > closestAboveBottom) {
+        closestAbove = other;
+        closestAboveBottom = otherBottom;
       }
     }
-  }, [imgLoaded, zones, page.lines, page.pageNumber]);
 
-  if (!page.translation || !page.lines.length) return null;
+    // If there's a gap of 1-5% between the region above and this text region, extend text upward
+    if (closestAbove) {
+      const gap = curr.y - closestAboveBottom;
+      if (gap > 0.5 && gap < 5) {
+        // Find the matching region in result array and extend it
+        const ri = result.findIndex((r) => r.y === curr.y && r.x === curr.x && r.type === curr.type);
+        if (ri >= 0) {
+          result[ri].height += result[ri].y - closestAboveBottom;
+          result[ri].y = closestAboveBottom;
+        }
+      }
+    }
+  }
 
-  let zoneContents: ZoneContent[] = [];
-  if (imgSize.width > 0 && zones.length > 0) {
-    zoneContents = assignTextToZones(
-      zones,
-      paragraphs,
-      imgSize.width,
-      imgSize.height
+  return result;
+}
+
+// --- ENGLISH OVERLAY PAGE COMPONENT ---
+
+function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
+  const [analyzing, setAnalyzing] = useState(false);
+  const [regions, setRegions] = useState<LayoutRegion[] | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerW, setContainerW] = useState(900);
+  const [imgAspect, setImgAspect] = useState(2340 / 1655); // default, updated on load
+
+  // Measure actual container width for font sizing
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver((entries) => {
+      for (const e of entries) setContainerW(e.contentRect.width);
+    });
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  // Trigger layout analysis if needed (only when translation exists)
+  useEffect(() => {
+    if (!page.translation?.englishOutput || page.lines.length === 0) return;
+    if (page.layout?.regions) {
+      setRegions(page.layout.regions as LayoutRegion[]);
+      return;
+    }
+    let cancelled = false;
+    setAnalyzing(true);
+    fetch(`/api/pages/${page.id}/layout`, { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data.regions) setRegions(data.regions as LayoutRegion[]);
+        else setRegions(createFallbackRegions(page.lines));
+      })
+      .catch(() => { if (!cancelled) setRegions(createFallbackRegions(page.lines)); })
+      .finally(() => { if (!cancelled) setAnalyzing(false); });
+    return () => { cancelled = true; };
+  }, [page]);
+
+  const hasContent = !!(page.translation?.englishOutput && page.lines.length > 0);
+
+  const paragraphs = useMemo(
+    () => hasContent ? parseTranslation(page.translation!.englishOutput) : [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page.translation, hasContent]
+  );
+  const activeRegions = useMemo(
+    () => hasContent ? fillRegionGaps(regions || createFallbackRegions(page.lines)) : [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [regions, page.lines, hasContent]
+  );
+  const paraMap = useMemo(
+    () => hasContent ? assignParagraphsToRegions(activeRegions, paragraphs, page.lines) : new Map<number, Paragraph[]>(),
+    [activeRegions, paragraphs, page.lines, hasContent]
+  );
+
+  const containerH = containerW * imgAspect;
+
+  if (!hasContent) {
+    // Show Hebrew image as fallback instead of blank
+    return (
+      <div className="w-full relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/pages/${page.id}/image`}
+          alt={`Page ${page.pageNumber}`}
+          className="w-full h-auto block"
+          loading="lazy"
+        />
+      </div>
     );
   }
 
-  return (
-    <div className="relative inline-block w-full">
-      {/* Hidden original image for canvas processing */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={imgRef}
-        crossOrigin="anonymous"
-        src={`/api/pages/${page.id}/image`}
-        alt={`Page ${page.pageNumber}`}
-        style={{
-          position: cleanedSrc ? 'absolute' : 'relative',
-          width: cleanedSrc ? '1px' : '100%',
-          height: cleanedSrc ? '1px' : 'auto',
-          opacity: cleanedSrc ? 0 : 1,
-          overflow: 'hidden',
-          pointerEvents: 'none',
-        }}
-        onLoad={() => setImgLoaded(true)}
-      />
+  // Don't render overlays until container is measured (prevents NaN font sizes)
+  const ready = containerW > 0 && !analyzing;
 
-      {/* Cleaned image (Hebrew erased) */}
-      {cleanedSrc && (
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
-          ref={displayRef}
-          src={cleanedSrc}
-          alt={`Page ${page.pageNumber} English`}
-          className="w-full h-auto block"
-        />
+  return (
+    <div className="w-full relative" ref={containerRef}>
+      {analyzing && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <div className="bg-black/70 text-white text-sm px-4 py-2 rounded-lg flex items-center gap-2">
+            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            Analyzing layout...
+          </div>
+        </div>
       )}
 
-      {/* English text overlay */}
-      {imgSize.width > 0 && (
-        <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          {zoneContents.map(
-            ({ zone, paragraphs: paras, fontSize, lineHeight, textColor }, zi) => {
-              if (paras.length === 0) return null;
+      {/* Original page image — fully visible as base */}
+      <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/pages/${page.id}/image`}
+          alt={`Page ${page.pageNumber}`}
+          className="w-full h-auto block"
+          loading="lazy"
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            if (img.naturalWidth > 0) {
+              setImgAspect(img.naturalHeight / img.naturalWidth);
+            }
+          }}
+        />
+
+        {/* White overlays ONLY on text/table regions — everything else untouched */}
+        {ready && (
+          <div className="absolute inset-0">
+            {activeRegions.map((region, ri) => {
+              // Only overlay text and table regions
+              if (region.type !== 'text' && region.type !== 'table') return null;
+
+              const paras = paraMap.get(ri);
+              if (!paras || paras.length === 0) return null;
+
+              // Font sizing in pixels based on actual container width
+              const totalChars = paras.reduce((s, p) => s + p.charCount, 0);
+              const regionWPx = (region.width / 100) * containerW;
+              const regionHPx = (region.height / 100) * containerH;
+              // Target: 15px at 900px container, scale proportionally
+              const targetPx = containerW * 0.017;
+              // Check if text fits at target size
+              const charsPerLine = regionWPx / (targetPx * 0.52);
+              const linesNeeded = totalChars / Math.max(charsPerLine, 1);
+              const linesAvailable = regionHPx / (targetPx * 1.3);
+              // Scale down if needed, but never below 12px
+              const fontPx = linesNeeded > linesAvailable
+                ? Math.max(12, targetPx * (linesAvailable / linesNeeded))
+                : targetPx;
+
+              const isTable = region.type === 'table';
 
               return (
                 <div
-                  key={`zone-${zi}`}
+                  key={ri}
+                  className="absolute overflow-hidden"
                   style={{
-                    position: 'absolute',
-                    left: `${zone.x}%`,
-                    top: `${zone.y}%`,
-                    width: `${zone.width}%`,
-                    height: `${zone.availableHeight}%`,
-                    overflow: 'hidden',
-                    padding: '1px 3px',
+                    left: `${Math.max(0, region.x - 1.0)}%`,
+                    top: `${Math.max(0, region.y - 0.5)}%`,
+                    width: `${Math.min(100, region.width + 2.0)}%`,
+                    height: `${Math.min(100, region.height + 1.0)}%`,
+                    backgroundColor: 'white',
+                    padding: '0.4em',
                     direction: 'ltr',
-                    textAlign: zone.isCentered ? 'center' : 'left',
                   }}
                 >
                   {paras.map((para, pi) => (
-                    <div
+                    <p
                       key={pi}
                       style={{
-                        marginTop: pi > 0 ? `${fontSize * 0.4}px` : 0,
+                        fontSize: `${isTable ? Math.max(10, fontPx * 0.85) : fontPx}px`,
+                        fontFamily: isTable
+                          ? '"Courier New", Courier, monospace'
+                          : 'Georgia, "Times New Roman", serif',
+                        color: '#1a1510',
+                        fontWeight: para.isAllBold ? 700 : 400,
+                        textAlign: para.isAllBold ? 'center' : 'left',
+                        marginBottom: pi < paras.length - 1 ? (isTable ? '0.2em' : '0.4em') : 0,
+                        lineHeight: isTable ? 1.2 : 1.3,
+                        whiteSpace: isTable ? 'pre-wrap' : 'normal',
                       }}
                     >
-                      {para.spans.map((span, si) => (
-                        <span
-                          key={si}
-                          style={{
-                            fontFamily:
-                              'Georgia, "Times New Roman", "Palatino Linotype", serif',
-                            fontSize: `${fontSize}px`,
-                            fontWeight: span.bold ? 700 : 400,
-                            color: textColor,
-                            lineHeight: lineHeight,
-                            wordWrap: 'break-word',
-                            overflowWrap: 'break-word',
-                          }}
-                        >
-                          {span.text}{' '}
-                        </span>
-                      ))}
-                    </div>
+                      {para.text}
+                    </p>
                   ))}
                 </div>
               );
-            }
-          )}
-        </div>
-      )}
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -711,24 +486,9 @@ export default function ComparePage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0f1117]">
         <div className="flex items-center gap-3 text-[#71717a]">
-          <svg
-            className="animate-spin w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-            />
+          <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
           Loading...
         </div>
@@ -761,18 +521,8 @@ export default function ComparePage() {
               onClick={() => router.push(`/book/${bookId}`)}
               className="text-[#71717a] hover:text-[#e4e4e7] transition-colors"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <div>
@@ -785,10 +535,10 @@ export default function ComparePage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             <button
               onClick={toggleAll}
-              className="px-3 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-sm hover:bg-[#3e3f4a] transition-colors"
+              className="px-3 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-xs sm:text-sm hover:bg-[#3e3f4a] transition-colors whitespace-nowrap"
             >
               {translatedPages.every((p) => showEnglish[p.pageNumber])
                 ? 'Show All Hebrew'
@@ -799,11 +549,9 @@ export default function ComparePage() {
               <select
                 onChange={(e) => jumpToPage(Number(e.target.value))}
                 defaultValue=""
-                className="px-3 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-sm focus:outline-none"
+                className="px-2 py-1.5 rounded-lg bg-[#2e2f3a] border border-[#3e3f4a] text-[#e4e4e7] text-xs sm:text-sm focus:outline-none max-w-[130px] sm:max-w-none"
               >
-                <option value="" disabled>
-                  Jump to page...
-                </option>
+                <option value="" disabled>Jump to page...</option>
                 {translatedPages.map((p) => (
                   <option key={p.id} value={p.pageNumber}>
                     Page {p.pageNumber}
@@ -814,20 +562,10 @@ export default function ComparePage() {
 
             <a
               href={`/api/books/${bookId}/export`}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-xs sm:text-sm font-medium transition-colors"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               PDF
             </a>
@@ -844,9 +582,7 @@ export default function ComparePage() {
           translatedPages.map((page) => (
             <div
               key={page.id}
-              ref={(el) => {
-                rowRefs.current[page.pageNumber] = el;
-              }}
+              ref={(el) => { rowRefs.current[page.pageNumber] = el; }}
               className="scroll-mt-20"
             >
               <div className="flex items-center justify-between mb-3">

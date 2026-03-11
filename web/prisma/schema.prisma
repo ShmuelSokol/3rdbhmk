@@ -33,10 +33,22 @@ model Page {
   updatedAt   DateTime     @updatedAt
   ocrResult   OCRResult?
   translation Translation?
+  layout      PageLayout?
   flags       Flag[]
 
   @@unique([bookId, pageNumber])
   @@map("bhmk_page")
+}
+
+model PageLayout {
+  id        String   @id @default(cuid())
+  pageId    String   @unique
+  page      Page     @relation(fields: [pageId], references: [id])
+  regions   Json     // Array of {type, x, y, width, height, label?}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bhmk_page_layout")
 }
 
 model OCRResult {

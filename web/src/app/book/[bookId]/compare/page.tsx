@@ -232,7 +232,7 @@ function fillRegionGaps(regions: LayoutRegion[]): LayoutRegion[] {
     // If there's a gap of 1-5% between the region above and this text region, extend text upward
     if (closestAbove) {
       const gap = curr.y - closestAboveBottom;
-      if (gap > 0.5 && gap < 5) {
+      if (gap > 0.2 && gap < 5) {
         // Find the matching region in result array and extend it
         const ri = result.findIndex((r) => r.y === curr.y && r.x === curr.x && r.type === curr.type);
         if (ri >= 0) {
@@ -388,7 +388,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
                     left: `${Math.max(0, region.x - 1.0)}%`,
                     top: `${Math.max(0, region.y - 0.5)}%`,
                     width: `${Math.min(100, region.width + 2.0)}%`,
-                    height: `${Math.min(100, region.height + 1.0)}%`,
+                    height: `${region.height + 0.5}%`,
                     backgroundColor: 'white',
                     padding: '0.4em',
                     direction: 'ltr',

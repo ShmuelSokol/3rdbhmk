@@ -143,7 +143,7 @@ export async function GET(
         blocks: [],
         isTable: true,
       }, {
-        headers: { 'Cache-Control': 'public, max-age=3600' },
+        headers: { 'Cache-Control': 'no-cache' },
       })
     }
 
@@ -267,7 +267,7 @@ export async function GET(
       blocks: expandedBlocks,
       raw: rawBlocks,
     }, {
-      headers: { 'Cache-Control': 'public, max-age=3600' },
+      headers: { 'Cache-Control': 'no-cache' },
     })
   } catch (error) {
     console.error('Error computing text blocks:', error)

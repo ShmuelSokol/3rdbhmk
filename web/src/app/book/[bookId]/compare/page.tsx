@@ -279,7 +279,7 @@ function EnglishOverlayPage({ page }: { page: TranslatedPage }) {
   useEffect(() => {
     if (!page.translation?.englishOutput || page.lines.length === 0) return;
     let cancelled = false;
-    fetch(`/api/pages/${page.id}/text-blocks`)
+    fetch(`/api/pages/${page.id}/text-blocks?v=2`)
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;

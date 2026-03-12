@@ -153,12 +153,18 @@ export async function runStep4(pageId: string) {
       const BUFFER = 1
       const finalLeft = Math.max(PAGE_MARGIN, block.x) + BUFFER
       const finalRight = Math.min(100 - PAGE_MARGIN, block.x + block.width) - BUFFER
+      let tW = Math.max(0, finalRight - finalLeft)
+      let tX = finalLeft
+      if (tW < block.width) { tX = block.x; tW = block.width }
+      let tH = safeBottom - safeTop
+      let tY = safeTop
+      if (tH < block.height) { tY = block.y; tH = block.height }
       return {
         id: region.id,
-        expandedX: finalLeft,
-        expandedY: safeTop,
-        expandedWidth: Math.max(0, finalRight - finalLeft),
-        expandedHeight: safeBottom - safeTop,
+        expandedX: tX,
+        expandedY: tY,
+        expandedWidth: tW,
+        expandedHeight: tH,
       }
     }
 
@@ -238,12 +244,26 @@ export async function runStep4(pageId: string) {
     const finalLeft = Math.max(PAGE_MARGIN, bestLeft) + BUFFER
     const finalRight = Math.min(100 - PAGE_MARGIN, bestRight) - BUFFER
 
+    // Ensure expansion never shrinks below original dimensions
+    let expX = finalLeft
+    let expW = Math.max(0, finalRight - finalLeft)
+    let expY = safeTop
+    let expH = safeBottom - safeTop
+    if (expW < block.width) {
+      expX = block.x
+      expW = block.width
+    }
+    if (expH < block.height) {
+      expY = block.y
+      expH = block.height
+    }
+
     return {
       id: region.id,
-      expandedX: finalLeft,
-      expandedY: safeTop,
-      expandedWidth: Math.max(0, finalRight - finalLeft),
-      expandedHeight: safeBottom - safeTop,
+      expandedX: expX,
+      expandedY: expY,
+      expandedWidth: expW,
+      expandedHeight: expH,
     }
   })
 

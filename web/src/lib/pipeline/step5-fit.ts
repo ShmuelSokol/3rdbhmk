@@ -85,15 +85,24 @@ export async function runStep5(pageId: string) {
     include: { boxes: true },
   })
 
-  // Assign paragraphs to regions sequentially — one paragraph per region when counts match,
-  // otherwise distribute proportionally by Hebrew char count
+  // Assign paragraphs to regions by content length similarity.
+  // Longer Hebrew text produces longer English translations, so match by length rank.
   const assignments: { region: typeof regions[0]; text: string }[] = []
 
   if (paragraphs.length === regions.length) {
-    // Perfect match: one paragraph per region, top-to-bottom
-    for (let i = 0; i < regions.length; i++) {
-      assignments.push({ region: regions[i], text: paragraphs[i] })
+    // Match by Hebrew/English length rank — sort both by length, pair them, then
+    // restore to region order so each region gets the right paragraph
+    const regionsByLen = regions.map((r, i) => ({ region: r, idx: i, len: (r.hebrewText || '').length }))
+      .sort((a, b) => a.len - b.len)
+    const parasByLen = paragraphs.map((p, i) => ({ text: p, idx: i, len: p.length }))
+      .sort((a, b) => a.len - b.len)
+    const matched: { region: typeof regions[0]; text: string }[] = []
+    for (let i = 0; i < regionsByLen.length; i++) {
+      matched.push({ region: regionsByLen[i].region, text: parasByLen[i].text })
     }
+    // Restore to region order (by regionIndex)
+    matched.sort((a, b) => a.region.regionIndex - b.region.regionIndex)
+    assignments.push(...matched)
   } else if (paragraphs.length > regions.length) {
     // More paragraphs than regions — distribute proportionally
     const totalChars = regions.reduce((sum, r) => sum + (r.hebrewText?.length || 1), 0)
@@ -102,7 +111,6 @@ export async function runStep5(pageId: string) {
       const region = regions[ri]
       const isLast = ri === regions.length - 1
       if (isLast) {
-        // Last region gets all remaining paragraphs
         assignments.push({ region, text: paragraphs.slice(paraIdx).join('\n\n') })
       } else {
         const charRatio = (region.hebrewText?.length || 1) / totalChars
@@ -113,28 +121,18 @@ export async function runStep5(pageId: string) {
       }
     }
   } else {
-    // Fewer paragraphs than regions — assign one paragraph to each region that has
-    // the closest Hebrew content match, remaining regions get empty text
-    const usedParas = new Set<number>()
+    // Fewer paragraphs than regions — match by length rank, extras get empty text
+    const regionsByLen = regions.map((r, i) => ({ region: r, idx: i, len: (r.hebrewText || '').length }))
+      .sort((a, b) => a.len - b.len)
+    const parasByLen = paragraphs.map((p, i) => ({ text: p, idx: i, len: p.length }))
+      .sort((a, b) => a.len - b.len)
+    const matchMap = new Map<string, string>()
+    // Match shortest paragraphs to shortest regions
+    for (let i = 0; i < parasByLen.length; i++) {
+      matchMap.set(regionsByLen[i].region.id, parasByLen[i].text)
+    }
     for (const region of regions) {
-      let bestIdx = -1
-      let bestScore = -1
-      for (let pi = 0; pi < paragraphs.length; pi++) {
-        if (usedParas.has(pi)) continue
-        // Simple sequential matching — prefer paragraphs in order
-        const score = pi === 0 && regions.indexOf(region) === 0 ? 1000 : 0
-        const seqScore = 100 - Math.abs(pi - regions.indexOf(region))
-        if (score + seqScore > bestScore) {
-          bestScore = score + seqScore
-          bestIdx = pi
-        }
-      }
-      if (bestIdx >= 0) {
-        usedParas.add(bestIdx)
-        assignments.push({ region, text: paragraphs[bestIdx] })
-      } else {
-        assignments.push({ region, text: '' })
-      }
+      assignments.push({ region, text: matchMap.get(region.id) || '' })
     }
   }
 
@@ -203,11 +201,13 @@ export async function runStep5(pageId: string) {
 
     if (!fitted) fontSize = 8
 
-    // Detect bold from bounding boxes (measured ink density) or markdown markers
+    // Detect bold: ink density, markdown markers, or header regions default to bold
     const boldBoxCount = regionBoxes.filter((b) => b.isBold).length
-    const regionIsBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
+    const inkBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
+    const regionIsBold = inkBold || region.regionType === 'header'
     const hasBoldMarkers = text.includes('**')
     const isCentered = region.regionType === 'header'
+    const isJustified = region.regionType === 'body'
 
     // Sample text color from original image at this region
     const textColor = sampleTextColor(pxLeft, pxTop, pxWidth, pxHeight)
@@ -263,13 +263,23 @@ export async function runStep5(pageId: string) {
     const verticalPadding = Math.max(0, (pxHeight - totalContentHeight) / 2)
     let yPos = verticalPadding + fontSize // fontSize offset for baseline
 
+    // Determine which lines are "last in paragraph" (no justification on last line)
+    const isLastInParagraph: boolean[] = []
+    for (let li = 0; li < allWrappedLines.length; li++) {
+      const next = li + 1 < allWrappedLines.length ? allWrappedLines[li + 1] : null
+      isLastInParagraph.push(next === null || next === 'gap')
+    }
+
     const svgLines: string[] = []
+    let lineIdx = 0
     for (const wl of allWrappedLines) {
       if (wl === 'gap') {
         yPos += lineHeight * 0.5
+        lineIdx++
         continue
       }
 
+      const fontWeight = (regionIsBold && !hasBoldMarkers) ? ' font-weight="bold"' : ''
       const lineText = wl.segments.map((w) => {
         const escaped = escapeXml(w.text)
         if (w.bold) {
@@ -278,11 +288,20 @@ export async function runStep5(pageId: string) {
         return escaped
       }).join(' ')
 
-      const xPos = isCentered ? pxWidth / 2 : 5
-      const anchor = isCentered ? 'middle' : 'start'
-      const fontWeight = (regionIsBold && !hasBoldMarkers) ? ' font-weight="bold"' : ''
-      svgLines.push(`<text x="${xPos}" y="${yPos}" text-anchor="${anchor}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeight}>${lineText}</text>`)
+      if (isCentered) {
+        // Centered text (headers)
+        svgLines.push(`<text x="${pxWidth / 2}" y="${yPos}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeight}>${lineText}</text>`)
+      } else if (isJustified && !isLastInParagraph[lineIdx] && wl.segments.length > 1) {
+        // Justified text: use textLength to stretch words across full width
+        const padding = 5
+        const textWidth = pxWidth - padding * 2
+        svgLines.push(`<text x="${padding}" y="${yPos}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeight} textLength="${textWidth}" lengthAdjust="spacing">${lineText}</text>`)
+      } else {
+        // Left-aligned (last line of paragraph or single-word lines)
+        svgLines.push(`<text x="5" y="${yPos}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeight}>${lineText}</text>`)
+      }
       yPos += lineHeight
+      lineIdx++
     }
 
     const svg = `<svg width="${pxWidth}" height="${pxHeight}" xmlns="http://www.w3.org/2000/svg">${svgLines.join('')}</svg>`

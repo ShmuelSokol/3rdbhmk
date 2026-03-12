@@ -21,7 +21,7 @@ export async function runStep2(pageId: string) {
   if (!page.ocrResult) throw new Error('OCR not yet run (step 1 required)')
 
   const boxes = page.ocrResult.boxes.filter(
-    (b) => !b.skipTranslation && b.y >= 4
+    (b) => !b.skipTranslation
   )
 
   if (boxes.length === 0) {
@@ -78,32 +78,61 @@ export async function runStep2(pageId: string) {
 
   const lineIsTable = ocrLines.map((_, i) => isMultiColLine(i))
 
-  // Group consecutive lines into zones of same type
-  type Zone = { startY: number; endY: number; isTable: boolean; lines: OcrLine[] }
-  const zones: Zone[] = []
-  let curZone: Zone = {
-    startY: ocrLines[0].y,
-    endY: ocrLines[0].y + ocrLines[0].height,
-    isTable: lineIsTable[0],
-    lines: [ocrLines[0]],
-  }
-  for (let i = 1; i < ocrLines.length; i++) {
-    const gap = ocrLines[i].y - curZone.endY
-    const sameType = lineIsTable[i] === curZone.isTable
-    if (!sameType || gap > 8) {
-      zones.push(curZone)
-      curZone = {
-        startY: ocrLines[i].y,
-        endY: ocrLines[i].y + ocrLines[i].height,
-        isTable: lineIsTable[i],
-        lines: [ocrLines[i]],
-      }
+  // Separate running-header lines (top ~4% of page) — each gets its own zone
+  const HEADER_CUTOFF_Y = 4
+  const headerLines: OcrLine[] = []
+  const bodyLines: { line: OcrLine; isTable: boolean }[] = []
+  for (let i = 0; i < ocrLines.length; i++) {
+    if (ocrLines[i].y < HEADER_CUTOFF_Y) {
+      headerLines.push(ocrLines[i])
     } else {
-      curZone.endY = Math.max(curZone.endY, ocrLines[i].y + ocrLines[i].height)
-      curZone.lines.push(ocrLines[i])
+      bodyLines.push({ line: ocrLines[i], isTable: lineIsTable[i] })
     }
   }
-  zones.push(curZone)
+
+  // Group consecutive body lines into zones of same type
+  type Zone = { startY: number; endY: number; isTable: boolean; isRunningHeader: boolean; lines: OcrLine[] }
+  const zones: Zone[] = []
+
+  // Each header line becomes its own zone (never table, flagged as running header)
+  for (const hl of headerLines) {
+    zones.push({
+      startY: hl.y,
+      endY: hl.y + hl.height,
+      isTable: false,
+      isRunningHeader: true,
+      lines: [hl],
+    })
+  }
+
+  // Group body lines
+  if (bodyLines.length > 0) {
+    let curZone: Zone = {
+      startY: bodyLines[0].line.y,
+      endY: bodyLines[0].line.y + bodyLines[0].line.height,
+      isTable: bodyLines[0].isTable,
+      isRunningHeader: false,
+      lines: [bodyLines[0].line],
+    }
+    for (let i = 1; i < bodyLines.length; i++) {
+      const gap = bodyLines[i].line.y - curZone.endY
+      const sameType = bodyLines[i].isTable === curZone.isTable
+      if (!sameType || gap > 8) {
+        zones.push(curZone)
+        curZone = {
+          startY: bodyLines[i].line.y,
+          endY: bodyLines[i].line.y + bodyLines[i].line.height,
+          isTable: bodyLines[i].isTable,
+          isRunningHeader: false,
+          lines: [bodyLines[i].line],
+        }
+      } else {
+        curZone.endY = Math.max(curZone.endY, bodyLines[i].line.y + bodyLines[i].line.height)
+        curZone.lines.push(bodyLines[i].line)
+      }
+    }
+    zones.push(curZone)
+  }
 
   // Merge body zones sandwiched between table zones
   const isZoneCentered = (z: Zone): boolean => {
@@ -117,12 +146,12 @@ export async function runStep2(pageId: string) {
     })
   }
   for (let i = 1; i < zones.length - 1; i++) {
-    if (!zones[i].isTable && zones[i - 1].isTable && zones[i + 1].isTable) {
+    if (!zones[i].isTable && !zones[i].isRunningHeader && zones[i - 1].isTable && zones[i + 1].isTable) {
       if (!isZoneCentered(zones[i])) zones[i].isTable = true
     }
   }
   for (let i = 0; i < zones.length; i++) {
-    if (!zones[i].isTable && zones[i].lines.length < 3) {
+    if (!zones[i].isTable && !zones[i].isRunningHeader && zones[i].lines.length < 3) {
       if (!isZoneCentered(zones[i])) {
         if ((i > 0 && zones[i - 1].isTable) || (i < zones.length - 1 && zones[i + 1].isTable)) {
           zones[i].isTable = true
@@ -130,11 +159,11 @@ export async function runStep2(pageId: string) {
       }
     }
   }
-  // Merge adjacent same-type zones
+  // Merge adjacent same-type zones (but never merge running-header zones)
   const mergedZones: Zone[] = []
   for (const z of zones) {
-    if (mergedZones.length > 0 && z.isTable === mergedZones[mergedZones.length - 1].isTable) {
-      const prev = mergedZones[mergedZones.length - 1]
+    const prev = mergedZones.length > 0 ? mergedZones[mergedZones.length - 1] : null
+    if (prev && z.isTable === prev.isTable && !z.isRunningHeader && !prev.isRunningHeader) {
       prev.endY = z.endY
       prev.lines.push(...z.lines)
     } else {
@@ -155,6 +184,27 @@ export async function runStep2(pageId: string) {
   const regions: RegionData[] = []
 
   for (const zone of mergedZones) {
+    // Running-header zones: each line is its own "header" region
+    if (zone.isRunningHeader) {
+      for (const line of zone.lines) {
+        const allBoxIds = line.boxIds
+        const hebrewText = boxes
+          .filter((b) => allBoxIds.includes(b.id))
+          .map((b) => b.editedText ?? b.hebrewText)
+          .join(' ')
+        regions.push({
+          regionType: 'header',
+          origX: line.x,
+          origY: line.y,
+          origWidth: line.width,
+          origHeight: line.height,
+          boxIds: allBoxIds,
+          hebrewText,
+        })
+      }
+      continue
+    }
+
     if (zone.isTable) {
       const tMinX = Math.min(...zone.lines.map((l) => l.x))
       const tMaxX = Math.max(...zone.lines.map((l) => l.x + l.width))
@@ -195,7 +245,10 @@ export async function runStep2(pageId: string) {
       const prev = currentGroup[currentGroup.length - 1]
       const prevBottom = prev.y + prev.height
       const gap = zoneLines[i].y - prevBottom
-      const typeSwitch = isCenteredLine(prev) && !isCenteredLine(zoneLines[i])
+      const prevCentered = isCenteredLine(prev)
+      const curCentered = isCenteredLine(zoneLines[i])
+      // Split on: large gap, centered→body transition, OR body→centered transition
+      const typeSwitch = prevCentered !== curCentered
       if (gap > GAP_THRESHOLD || typeSwitch) {
         groups.push(currentGroup)
         currentGroup = [zoneLines[i]]
@@ -205,22 +258,23 @@ export async function runStep2(pageId: string) {
     }
     groups.push(currentGroup)
 
-    // Split centered→body within groups
+    // Further split: any centered/body boundary within a group gets split out
     const refined: OcrLine[][] = []
     for (const group of groups) {
       if (group.length <= 1) { refined.push(group); continue }
-      let splitIdx = -1
-      for (let i = 0; i < group.length - 1; i++) {
-        if (isCenteredLine(group[i]) && !isCenteredLine(group[i + 1])) {
-          splitIdx = i + 1; break
+      // Split at every transition between centered and non-centered
+      let chunk: OcrLine[] = [group[0]]
+      for (let i = 1; i < group.length; i++) {
+        const prevCentered = isCenteredLine(group[i - 1])
+        const curCentered = isCenteredLine(group[i])
+        if (prevCentered !== curCentered) {
+          refined.push(chunk)
+          chunk = [group[i]]
+        } else {
+          chunk.push(group[i])
         }
       }
-      if (splitIdx > 0) {
-        refined.push(group.slice(0, splitIdx))
-        refined.push(group.slice(splitIdx))
-      } else {
-        refined.push(group)
-      }
+      refined.push(chunk)
     }
 
     for (const group of refined) {

@@ -8,7 +8,40 @@ import sharp from 'sharp'
  * match Hebrew pixel sizes, render onto erased image, upload to Supabase.
  */
 export async function runStep5(pageId: string) {
-  const { imgW, imgH, page } = await getPageImageBuffer(pageId)
+  const { buffer: origBuffer, imgW, imgH, page } = await getPageImageBuffer(pageId)
+
+  // Load original image pixels for color sampling
+  const origMeta = await sharp(origBuffer).metadata()
+  const origPixels = await sharp(origBuffer).raw().toBuffer()
+  const origChannels = origMeta.channels || 3
+
+  // Sample the dominant text color from a region of the original image
+  function sampleTextColor(pxLeft: number, pxTop: number, pxWidth: number, pxHeight: number): string {
+    const darkPixels: [number, number, number][] = []
+    const pxRight = Math.min(imgW, pxLeft + pxWidth)
+    const pxBottom = Math.min(imgH, pxTop + pxHeight)
+    for (let y = pxTop; y < pxBottom; y += 3) {
+      for (let x = pxLeft; x < pxRight; x += 3) {
+        const idx = (y * imgW + x) * origChannels
+        const r = origPixels[idx], g = origPixels[idx + 1], b = origPixels[idx + 2]
+        const lum = r * 0.299 + g * 0.587 + b * 0.114
+        // Collect dark pixels (text pixels, not background)
+        if (lum < 100) {
+          darkPixels.push([r, g, b])
+        }
+      }
+    }
+    if (darkPixels.length === 0) return 'black'
+    // Average the dark pixel colors
+    const avg = darkPixels.reduce(
+      (acc, [r, g, b]) => [acc[0] + r, acc[1] + g, acc[2] + b],
+      [0, 0, 0]
+    )
+    const r = Math.round(avg[0] / darkPixels.length)
+    const g = Math.round(avg[1] / darkPixels.length)
+    const b = Math.round(avg[2] / darkPixels.length)
+    return `rgb(${r},${g},${b})`
+  }
 
   // Get erased image from Supabase
   const erasedRecord = await prisma.erasedImage.findUnique({ where: { pageId } })
@@ -46,31 +79,63 @@ export async function runStep5(pageId: string) {
   const englishText = translation.englishOutput
   const paragraphs = englishText.split(/\n\n+/).filter((p) => p.trim())
 
-  // Get OCR boxes for bold detection
+  // Get OCR boxes for bold/font detection
   const ocrResult = await prisma.oCRResult.findUnique({
     where: { pageId },
     include: { boxes: true },
   })
 
-  // Assign paragraphs to regions proportionally by Hebrew char count
-  const totalChars = regions.reduce((sum, r) => sum + (r.hebrewText?.length || 1), 0)
+  // Assign paragraphs to regions sequentially — one paragraph per region when counts match,
+  // otherwise distribute proportionally by Hebrew char count
   const assignments: { region: typeof regions[0]; text: string }[] = []
 
-  let paraIdx = 0
-  for (const region of regions) {
-    const charRatio = (region.hebrewText?.length || 1) / totalChars
-    const paraCount = Math.max(1, Math.round(charRatio * paragraphs.length))
-    const regionParas = paragraphs.slice(paraIdx, paraIdx + paraCount)
-    paraIdx += paraCount
-
-    assignments.push({
-      region,
-      text: regionParas.join('\n\n') || '',
-    })
-  }
-  // Assign remaining paragraphs to last region
-  if (paraIdx < paragraphs.length && assignments.length > 0) {
-    assignments[assignments.length - 1].text += '\n\n' + paragraphs.slice(paraIdx).join('\n\n')
+  if (paragraphs.length === regions.length) {
+    // Perfect match: one paragraph per region, top-to-bottom
+    for (let i = 0; i < regions.length; i++) {
+      assignments.push({ region: regions[i], text: paragraphs[i] })
+    }
+  } else if (paragraphs.length > regions.length) {
+    // More paragraphs than regions — distribute proportionally
+    const totalChars = regions.reduce((sum, r) => sum + (r.hebrewText?.length || 1), 0)
+    let paraIdx = 0
+    for (let ri = 0; ri < regions.length; ri++) {
+      const region = regions[ri]
+      const isLast = ri === regions.length - 1
+      if (isLast) {
+        // Last region gets all remaining paragraphs
+        assignments.push({ region, text: paragraphs.slice(paraIdx).join('\n\n') })
+      } else {
+        const charRatio = (region.hebrewText?.length || 1) / totalChars
+        const paraCount = Math.max(1, Math.round(charRatio * paragraphs.length))
+        const regionParas = paragraphs.slice(paraIdx, paraIdx + paraCount)
+        paraIdx += paraCount
+        assignments.push({ region, text: regionParas.join('\n\n') || '' })
+      }
+    }
+  } else {
+    // Fewer paragraphs than regions — assign one paragraph to each region that has
+    // the closest Hebrew content match, remaining regions get empty text
+    const usedParas = new Set<number>()
+    for (const region of regions) {
+      let bestIdx = -1
+      let bestScore = -1
+      for (let pi = 0; pi < paragraphs.length; pi++) {
+        if (usedParas.has(pi)) continue
+        // Simple sequential matching — prefer paragraphs in order
+        const score = pi === 0 && regions.indexOf(region) === 0 ? 1000 : 0
+        const seqScore = 100 - Math.abs(pi - regions.indexOf(region))
+        if (score + seqScore > bestScore) {
+          bestScore = score + seqScore
+          bestIdx = pi
+        }
+      }
+      if (bestIdx >= 0) {
+        usedParas.add(bestIdx)
+        assignments.push({ region, text: paragraphs[bestIdx] })
+      } else {
+        assignments.push({ region, text: '' })
+      }
+    }
   }
 
   // Render text into SVG overlays for each region
@@ -138,20 +203,26 @@ export async function runStep5(pageId: string) {
 
     if (!fitted) fontSize = 8
 
-    // Detect bold words from text (markdown **bold**)
+    // Detect bold from bounding boxes (measured ink density) or markdown markers
+    const boldBoxCount = regionBoxes.filter((b) => b.isBold).length
+    const regionIsBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
     const hasBoldMarkers = text.includes('**')
     const isCentered = region.regionType === 'header'
+
+    // Sample text color from original image at this region
+    const textColor = sampleTextColor(pxLeft, pxTop, pxWidth, pxHeight)
 
     // Build SVG text with word wrapping
     const lineHeight = Math.round(fontSize * 1.3)
     const charsPerLine = Math.max(5, Math.floor(pxWidth / (fontSize * 0.55)))
 
-    const svgLines: string[] = []
-    let yPos = fontSize + 5 // Start with some top padding
+    // First pass: compute all wrapped lines to know total height for vertical centering
+    type WrappedLine = { segments: { text: string; bold: boolean }[] }
+    const allWrappedLines: (WrappedLine | 'gap')[] = []
 
     for (const line of lines) {
       if (line.trim() === '') {
-        yPos += lineHeight * 0.5
+        allWrappedLines.push('gap')
         continue
       }
 
@@ -161,7 +232,7 @@ export async function runStep5(pageId: string) {
         : [line]
 
       // Word wrap
-      const wrappedLines: { text: string; bold: boolean }[][] = [[]]
+      const wrappedLines: WrappedLine[] = [{ segments: [] }]
       let currentLineLen = 0
 
       for (const segment of segments) {
@@ -171,28 +242,47 @@ export async function runStep5(pageId: string) {
 
         for (const word of words) {
           if (currentLineLen + word.length + 1 > charsPerLine && currentLineLen > 0) {
-            wrappedLines.push([])
+            wrappedLines.push({ segments: [] })
             currentLineLen = 0
           }
-          wrappedLines[wrappedLines.length - 1].push({ text: word, bold: isBoldSeg })
+          wrappedLines[wrappedLines.length - 1].segments.push({ text: word, bold: isBoldSeg })
           currentLineLen += word.length + 1
         }
       }
 
-      for (const wLine of wrappedLines) {
-        const lineText = wLine.map((w) => {
-          const escaped = escapeXml(w.text)
-          if (w.bold) {
-            return `<tspan font-weight="bold">${escaped}</tspan>`
-          }
-          return escaped
-        }).join(' ')
+      allWrappedLines.push(...wrappedLines)
+    }
 
-        const xPos = isCentered ? pxWidth / 2 : 5
-        const anchor = isCentered ? 'middle' : 'start'
-        svgLines.push(`<text x="${xPos}" y="${yPos}" text-anchor="${anchor}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="black">${lineText}</text>`)
-        yPos += lineHeight
+    // Calculate total content height
+    let totalContentHeight = 0
+    for (const wl of allWrappedLines) {
+      totalContentHeight += wl === 'gap' ? lineHeight * 0.5 : lineHeight
+    }
+
+    // Vertically center: compute starting yPos
+    const verticalPadding = Math.max(0, (pxHeight - totalContentHeight) / 2)
+    let yPos = verticalPadding + fontSize // fontSize offset for baseline
+
+    const svgLines: string[] = []
+    for (const wl of allWrappedLines) {
+      if (wl === 'gap') {
+        yPos += lineHeight * 0.5
+        continue
       }
+
+      const lineText = wl.segments.map((w) => {
+        const escaped = escapeXml(w.text)
+        if (w.bold) {
+          return `<tspan font-weight="bold">${escaped}</tspan>`
+        }
+        return escaped
+      }).join(' ')
+
+      const xPos = isCentered ? pxWidth / 2 : 5
+      const anchor = isCentered ? 'middle' : 'start'
+      const fontWeight = (regionIsBold && !hasBoldMarkers) ? ' font-weight="bold"' : ''
+      svgLines.push(`<text x="${xPos}" y="${yPos}" text-anchor="${anchor}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeight}>${lineText}</text>`)
+      yPos += lineHeight
     }
 
     const svg = `<svg width="${pxWidth}" height="${pxHeight}" xmlns="http://www.w3.org/2000/svg">${svgLines.join('')}</svg>`

@@ -133,7 +133,7 @@ export async function runStep4(pageId: string) {
     }
 
     const nextTop = ri < sortedRegions.length - 1 ? sortedRegions[ri + 1].origY : 100
-    const prevBottom = ri > 0 ? sortedRegions[ri - 1].origY + sortedRegions[ri - 1].origHeight : 4
+    const prevBottom = ri > 0 ? sortedRegions[ri - 1].origY + sortedRegions[ri - 1].origHeight : 0
 
     // Vertical expansion
     let safeBottom = blockBottom

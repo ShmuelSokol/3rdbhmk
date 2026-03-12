@@ -19,6 +19,9 @@ async function enrichExistingBoxes(pageId: string) {
   })
   if (!ocrResult) throw new Error('No OCR result to enrich')
 
+  // First pass: compute pixel dimensions and ink density for each box
+  const boxMetrics: { id: string; textPixelSize: number; textPixelWidth: number; inkDensity: number }[] = []
+
   for (const box of ocrResult.boxes) {
     const pxLeft = Math.round((box.x / 100) * imgW)
     const pxTop = Math.round((box.y / 100) * imgH)
@@ -28,24 +31,39 @@ async function enrichExistingBoxes(pageId: string) {
     const textPixelWidth = pxRight - pxLeft
     const textPixelSize = pxBottom - pxTop
 
+    // Sample all pixels within the bounding box to measure ink density
     let darkPixelCount = 0
     let totalPixels = 0
-    for (let y = pxTop; y < pxBottom; y += 2) {
-      for (let x = pxLeft; x < pxRight; x += 2) {
+    for (let y = pxTop; y < pxBottom; y++) {
+      for (let x = pxLeft; x < pxRight; x++) {
         if (x >= 0 && x < imgW && y >= 0 && y < imgH) {
           const idx = (y * imgW + x) * channels
           const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-          if (lum < 128) darkPixelCount++
+          if (lum < 100) darkPixelCount++
           totalPixels++
         }
       }
     }
-    const darkRatio = totalPixels > 0 ? darkPixelCount / totalPixels : 0
-    const isBold = darkRatio > 0.30
+    const inkDensity = totalPixels > 0 ? darkPixelCount / totalPixels : 0
+
+    boxMetrics.push({ id: box.id, textPixelSize, textPixelWidth, inkDensity })
+  }
+
+  // Calculate median ink density across all boxes
+  const densities = boxMetrics.map((m) => m.inkDensity).filter((d) => d > 0).sort((a, b) => a - b)
+  const medianInkDensity = densities.length > 0
+    ? densities.length % 2 === 1
+      ? densities[Math.floor(densities.length / 2)]
+      : (densities[densities.length / 2 - 1] + densities[densities.length / 2]) / 2
+    : 0
+
+  // Second pass: determine isBold relative to median and persist
+  for (const m of boxMetrics) {
+    const isBold = medianInkDensity > 0 && m.inkDensity > medianInkDensity * 1.3
 
     await prisma.boundingBox.update({
-      where: { id: box.id },
-      data: { textPixelSize, textPixelWidth, isBold },
+      where: { id: m.id },
+      data: { textPixelSize: m.textPixelSize, textPixelWidth: m.textPixelWidth, isBold },
     })
   }
 
@@ -99,8 +117,8 @@ export async function runStep1(pageId: string, forceReOcr = false) {
   const channels = metadata.channels || 3
   const rawPixels = await sharp(buffer).raw().toBuffer()
 
-  // Compute text pixel size and width for each word, and detect bold
-  const enrichedWords = ocrWords.map((word) => {
+  // First pass: compute text pixel size, width, and ink density for each word
+  const wordsWithMetrics = ocrWords.map((word) => {
     const pxLeft = Math.round((word.x / 100) * imgW)
     const pxTop = Math.round((word.y / 100) * imgH)
     const pxRight = Math.round(((word.x + word.width) / 100) * imgW)
@@ -109,28 +127,42 @@ export async function runStep1(pageId: string, forceReOcr = false) {
     const textPixelWidth = pxRight - pxLeft
     const textPixelSize = pxBottom - pxTop
 
+    // Sample all pixels within the bounding box to measure ink density
     let darkPixelCount = 0
     let totalPixels = 0
-    for (let y = pxTop; y < pxBottom; y += 2) {
-      for (let x = pxLeft; x < pxRight; x += 2) {
+    for (let y = pxTop; y < pxBottom; y++) {
+      for (let x = pxLeft; x < pxRight; x++) {
         if (x >= 0 && x < imgW && y >= 0 && y < imgH) {
           const idx = (y * imgW + x) * channels
           const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-          if (lum < 128) darkPixelCount++
+          if (lum < 100) darkPixelCount++
           totalPixels++
         }
       }
     }
-    const darkRatio = totalPixels > 0 ? darkPixelCount / totalPixels : 0
-    const isBold = darkRatio > 0.30
+    const inkDensity = totalPixels > 0 ? darkPixelCount / totalPixels : 0
 
     return {
       ...word,
       textPixelSize,
       textPixelWidth,
-      isBold,
+      inkDensity,
     }
   })
+
+  // Calculate median ink density across all boxes on this page
+  const densities = wordsWithMetrics.map((w) => w.inkDensity).filter((d) => d > 0).sort((a, b) => a - b)
+  const medianInkDensity = densities.length > 0
+    ? densities.length % 2 === 1
+      ? densities[Math.floor(densities.length / 2)]
+      : (densities[densities.length / 2 - 1] + densities[densities.length / 2]) / 2
+    : 0
+
+  // Second pass: determine isBold relative to median ink density
+  const enrichedWords = wordsWithMetrics.map((word) => ({
+    ...word,
+    isBold: medianInkDensity > 0 && word.inkDensity > medianInkDensity * 1.3,
+  }))
 
   // Delete existing OCR result if any (cascade deletes boxes)
   const existing = await prisma.oCRResult.findUnique({ where: { pageId } })

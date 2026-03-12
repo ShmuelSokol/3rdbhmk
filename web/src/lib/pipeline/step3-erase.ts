@@ -19,7 +19,7 @@ export async function runStep3(pageId: string) {
 
   if (!ocrResult) throw new Error('OCR not yet run (step 1 required)')
 
-  const boxes = ocrResult.boxes.filter((b) => !b.skipTranslation && b.y >= 4)
+  const boxes = ocrResult.boxes.filter((b) => !b.skipTranslation)
 
   if (boxes.length === 0) {
     // No text to erase — save original as erased image

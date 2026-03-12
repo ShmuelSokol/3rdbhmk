@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { getSupabase } from '@/lib/supabase'
 import { getPageImageBuffer, updatePipelineStatus } from './shared'
+import { translateHebrew } from '@/lib/translate'
 import sharp from 'sharp'
 import { createCanvas } from 'canvas'
 
@@ -92,10 +93,7 @@ export async function runStep5(pageId: string) {
     orderBy: { regionIndex: 'asc' },
   })
 
-  // Get translation for this page
-  const translation = await prisma.translation.findUnique({ where: { pageId } })
-
-  if (regions.length === 0 || !translation) {
+  if (regions.length === 0) {
     // Nothing to fit — save erased as fitted
     const storagePath = `pipeline/${page.bookId}/${page.pageNumber}/fitted.png`
     await supabase.storage.from('bhmk').upload(storagePath, erasedBuffer, {
@@ -107,68 +105,32 @@ export async function runStep5(pageId: string) {
     return { storagePath, width: imgW, height: imgH }
   }
 
-  // Parse the English translation into paragraphs
-  const englishText = translation.englishOutput
-  const paragraphs = englishText.split(/\n\n+/).filter((p) => p.trim())
+  // Translate each region individually if not already translated
+  // Build full page context for better translation quality
+  const fullPageHebrew = regions.map((r) => r.hebrewText || '').join('\n\n')
+  for (const region of regions) {
+    if (!region.translatedText && region.hebrewText?.trim()) {
+      const english = await translateHebrew({
+        hebrewText: region.hebrewText,
+        context: fullPageHebrew,
+      })
+      await prisma.contentRegion.update({
+        where: { id: region.id },
+        data: { translatedText: english },
+      })
+      region.translatedText = english
+    }
+  }
+
+  // Build assignments directly from each region's own translation
+  const assignments: { region: typeof regions[0]; text: string }[] = regions
+    .map((region) => ({ region, text: region.translatedText || '' }))
 
   // Get OCR boxes for bold/font detection
   const ocrResult = await prisma.oCRResult.findUnique({
     where: { pageId },
     include: { boxes: true },
   })
-
-  // Assign paragraphs to regions by content length similarity.
-  // Longer Hebrew text produces longer English translations, so match by length rank.
-  const assignments: { region: typeof regions[0]; text: string }[] = []
-
-  if (paragraphs.length === regions.length) {
-    // Match by Hebrew/English length rank — sort both by length, pair them, then
-    // restore to region order so each region gets the right paragraph
-    const regionsByLen = regions.map((r, i) => ({ region: r, idx: i, len: (r.hebrewText || '').length }))
-      .sort((a, b) => a.len - b.len)
-    const parasByLen = paragraphs.map((p, i) => ({ text: p, idx: i, len: p.length }))
-      .sort((a, b) => a.len - b.len)
-    const matched: { region: typeof regions[0]; text: string }[] = []
-    for (let i = 0; i < regionsByLen.length; i++) {
-      matched.push({ region: regionsByLen[i].region, text: parasByLen[i].text })
-    }
-    // Restore to region order (by regionIndex)
-    matched.sort((a, b) => a.region.regionIndex - b.region.regionIndex)
-    assignments.push(...matched)
-  } else if (paragraphs.length > regions.length) {
-    // More paragraphs than regions — distribute proportionally
-    const totalChars = regions.reduce((sum, r) => sum + (r.hebrewText?.length || 1), 0)
-    let paraIdx = 0
-    for (let ri = 0; ri < regions.length; ri++) {
-      const region = regions[ri]
-      const isLast = ri === regions.length - 1
-      if (isLast) {
-        assignments.push({ region, text: paragraphs.slice(paraIdx).join('\n\n') })
-      } else {
-        const charRatio = (region.hebrewText?.length || 1) / totalChars
-        const remainingRegions = regions.length - ri - 1
-        const maxParaCount = paragraphs.length - paraIdx - remainingRegions
-        const paraCount = Math.max(1, Math.min(Math.round(charRatio * paragraphs.length), maxParaCount))
-        const regionParas = paragraphs.slice(paraIdx, paraIdx + paraCount)
-        paraIdx += paraCount
-        assignments.push({ region, text: regionParas.join('\n\n') || '' })
-      }
-    }
-  } else {
-    // Fewer paragraphs than regions — match by length rank, extras get empty text
-    const regionsByLen = regions.map((r, i) => ({ region: r, idx: i, len: (r.hebrewText || '').length }))
-      .sort((a, b) => a.len - b.len)
-    const parasByLen = paragraphs.map((p, i) => ({ text: p, idx: i, len: p.length }))
-      .sort((a, b) => a.len - b.len)
-    const matchMap = new Map<string, string>()
-    // Match shortest paragraphs to shortest regions
-    for (let i = 0; i < parasByLen.length; i++) {
-      matchMap.set(regionsByLen[i].region.id, parasByLen[i].text)
-    }
-    for (const region of regions) {
-      assignments.push({ region, text: matchMap.get(region.id) || '' })
-    }
-  }
 
   // Render text onto canvas for each region, then composite onto erased image
   const composites: sharp.OverlayOptions[] = []

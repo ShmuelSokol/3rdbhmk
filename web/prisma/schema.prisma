@@ -147,10 +147,12 @@ model ContentRegion {
   manualY        Float?
   manualWidth    Float?
   manualHeight   Float?
+  // Translation
+  hebrewText     String?  @db.Text // Original Hebrew text from this region
+  translatedText String?  @db.Text // English translation of this region's Hebrew
   // Text fitting results from step 5
   fittedFontSize Float?   // Final font size in px used for English
   fittedText     String?  @db.Text // The English text rendered in this region
-  hebrewText     String?  @db.Text // Original Hebrew text from this region
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

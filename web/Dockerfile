@@ -41,6 +41,7 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/@supabase ./node_modules/@supabase
 COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
+COPY --from=builder /app/node_modules/canvas ./node_modules/canvas
 
 # Create tmp directory for PDF processing
 RUN mkdir -p /tmp/bhmk && chown -R nextjs:nodejs /tmp/bhmk

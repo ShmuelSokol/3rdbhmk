@@ -1,7 +1,7 @@
 FROM node:20-alpine AS base
 
 # Install dependencies for Prisma and PDF processing
-RUN apk add --no-cache openssl poppler-utils
+RUN apk add --no-cache openssl poppler-utils tesseract-ocr tesseract-ocr-data-eng
 
 FROM base AS deps
 WORKDIR /app

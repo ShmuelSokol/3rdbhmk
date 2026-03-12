@@ -48,13 +48,42 @@ export default function PipelineDashboard() {
   const bookId = params.bookId as string
   const [data, setData] = useState<PipelineOverview | null>(null)
   const [loading, setLoading] = useState(true)
+  const [runningAll, setRunningAll] = useState(false)
+  const [batchLog, setBatchLog] = useState<string | null>(null)
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch(`/api/books/${bookId}/pipeline`)
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false))
-  }, [bookId])
+  }
+
+  useEffect(() => { fetchData() }, [bookId])
+
+  const runAllPages = async () => {
+    setRunningAll(true)
+    setBatchLog('Starting pipeline on all pages...')
+    try {
+      const res = await fetch(`/api/books/${bookId}/pipeline/run-all`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.error)
+      const summary = result.results.map((r: { pageNumber: number; steps: { step: number; success: boolean; error?: string }[] }) => {
+        const stepSummary = r.steps.map((s: { step: number; success: boolean; error?: string }) =>
+          `step${s.step}:${s.success ? 'ok' : s.error || 'fail'}`
+        ).join(', ')
+        return `Page ${r.pageNumber}: ${stepSummary}`
+      }).join('\n')
+      setBatchLog(summary)
+      fetchData()
+    } catch (err) {
+      setBatchLog(`Error: ${err instanceof Error ? err.message : 'Unknown'}`)
+    } finally {
+      setRunningAll(false)
+    }
+  }
 
   if (loading) return <div className="p-8 text-center">Loading pipeline...</div>
   if (!data) return <div className="p-8 text-center text-red-500">Failed to load</div>
@@ -84,6 +113,27 @@ export default function PipelineDashboard() {
             </div>
           ))}
         </div>
+
+        {/* Run All Pages button */}
+        <div className="mb-6 flex items-center gap-4">
+          <button
+            onClick={runAllPages}
+            disabled={runningAll}
+            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-500 disabled:opacity-50 font-bold"
+          >
+            {runningAll ? 'Running Pipeline on All Pages...' : 'Run All Pages'}
+          </button>
+          {runningAll && (
+            <span className="text-gray-500 text-sm animate-pulse">This may take several minutes...</span>
+          )}
+        </div>
+
+        {/* Batch log */}
+        {batchLog && (
+          <pre className="mb-6 bg-gray-800 text-green-300 rounded-lg p-4 text-xs max-h-60 overflow-auto whitespace-pre-wrap">
+            {batchLog}
+          </pre>
+        )}
 
         {/* Page grid */}
         <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2">

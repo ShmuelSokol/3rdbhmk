@@ -164,7 +164,7 @@ export async function runStep5(pageId: string) {
 
     // Font size: try to fit in region, but enforce a minimum of 14px.
     // If text doesn't fit at minimum, let it overflow (SVG height will grow).
-    const MIN_FONT_SIZE = 14
+    const MIN_FONT_SIZE = 20
     let fontSize = Math.round(avgHebrewSize * 0.9)
     for (let attempt = 0; attempt < 30; attempt++) {
       const lh = Math.round(fontSize * 1.3)
@@ -259,11 +259,9 @@ export async function runStep5(pageId: string) {
 
       const lineText = wl.words.map((w) => escapeXml(w)).join(' ')
 
-      if (isCentered || wl.spilled) {
-        // Centered: originally-centered text, OR full lines that spilled
+      if (isCentered) {
         svgLines.push(`<text x="${pxWidth / 2}" y="${yPos}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
       } else {
-        // Left-aligned: last line of paragraph (no spill)
         svgLines.push(`<text x="0" y="${yPos}" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
       }
       yPos += lineHeight

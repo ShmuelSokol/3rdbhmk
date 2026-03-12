@@ -193,11 +193,9 @@ export async function runStep5(pageId: string) {
     const measureCtx = measureCanvas.getContext('2d')
 
     const fontStyle = regionIsBold ? 'bold' : 'normal'
-    // Min font size is 70% of Hebrew size (never below 20px) — don't let text get absurdly small
-    const minFontSize = Math.max(20, Math.round(avgHebrewSize * 0.7))
-    let fontSize = Math.round(avgHebrewSize * 0.9)
+    // Use Hebrew font size — only shrink if a single word is wider than the region
+    let fontSize = Math.max(20, Math.round(avgHebrewSize * 0.9))
 
-    // Word-wrap using real measurement, shrink font until it fits
     const wrapText = (fs: number): string[] => {
       measureCtx.font = `${fontStyle} ${fs}px Arial`
       const allLines: string[] = []
@@ -219,13 +217,12 @@ export async function runStep5(pageId: string) {
       return allLines
     }
 
-    for (let attempt = 0; attempt < 30; attempt++) {
-      const lines = wrapText(fontSize)
-      const lineHeight = Math.round(fontSize * 1.3)
-      const totalHeight = lines.length * lineHeight
-      if (totalHeight <= pxHeight) break
-      if (fontSize <= minFontSize) { fontSize = minFontSize; break }
-      fontSize = Math.max(minFontSize, fontSize - 1)
+    // Only shrink if the longest single word doesn't fit the width
+    measureCtx.font = `${fontStyle} ${fontSize}px Arial`
+    const longestWord = cleanText.split(/\s+/).reduce((a, b) => a.length > b.length ? a : b, '')
+    while (fontSize > 20 && measureCtx.measureText(longestWord).width > pxWidth) {
+      fontSize--
+      measureCtx.font = `${fontStyle} ${fontSize}px Arial`
     }
 
     // Render onto canvas

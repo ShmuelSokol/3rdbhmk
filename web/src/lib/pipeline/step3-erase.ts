@@ -133,7 +133,7 @@ export async function runStep3(pageId: string) {
     const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
     const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-    const pad = 0.4
+    const pad = lineBoxes.length === 1 ? 1.0 : 0.5
     const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
     const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
     const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))
@@ -177,17 +177,16 @@ export async function runStep3(pageId: string) {
       }
     }
 
-    // Per-pixel residual cleanup
+    // Per-pixel residual cleanup — hard replace any dark remnants with background
     if (hasAnyRef) {
       const [bgR, bgG, bgB] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom, localBgLum)
-      const floorLum = localBgLum - 35
+      const floorLum = localBgLum - 25
       for (let i = 0; i < replBuf.length; i += 3) {
         const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
         if (lum < floorLum) {
-          const alpha = Math.min(1.0, (floorLum - lum) / 100)
-          replBuf[i]     = Math.round(replBuf[i]     + (bgR - replBuf[i])     * alpha)
-          replBuf[i + 1] = Math.round(replBuf[i + 1] + (bgG - replBuf[i + 1]) * alpha)
-          replBuf[i + 2] = Math.round(replBuf[i + 2] + (bgB - replBuf[i + 2]) * alpha)
+          replBuf[i]     = bgR
+          replBuf[i + 1] = bgG
+          replBuf[i + 2] = bgB
         }
       }
     }

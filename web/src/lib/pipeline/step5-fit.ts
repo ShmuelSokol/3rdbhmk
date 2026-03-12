@@ -55,6 +55,37 @@ export async function runStep5(pageId: string) {
   if (dlErr || !erasedData) throw new Error('Failed to download erased image')
   const erasedBuffer = Buffer.from(await erasedData.arrayBuffer())
 
+  // Load erased image pixels for background color sampling
+  const erasedPixels = await sharp(erasedBuffer).raw().toBuffer()
+  const erasedMeta = await sharp(erasedBuffer).metadata()
+  const erasedChannels = erasedMeta.channels || 3
+
+  // Sample background color from erased image in a region
+  function sampleBgColor(pxLeft: number, pxTop: number, pxWidth: number, pxHeight: number): string {
+    const lightPixels: [number, number, number][] = []
+    const pxRight = Math.min(imgW, pxLeft + pxWidth)
+    const pxBottom = Math.min(imgH, pxTop + pxHeight)
+    for (let y = pxTop; y < pxBottom; y += 3) {
+      for (let x = pxLeft; x < pxRight; x += 3) {
+        const idx = (y * imgW + x) * erasedChannels
+        const r = erasedPixels[idx], g = erasedPixels[idx + 1], b = erasedPixels[idx + 2]
+        const lum = r * 0.299 + g * 0.587 + b * 0.114
+        if (lum > 180) {
+          lightPixels.push([r, g, b])
+        }
+      }
+    }
+    if (lightPixels.length === 0) return 'rgb(255,255,255)'
+    const avg = lightPixels.reduce(
+      (acc, [r, g, b]) => [acc[0] + r, acc[1] + g, acc[2] + b],
+      [0, 0, 0]
+    )
+    const r = Math.round(avg[0] / lightPixels.length)
+    const g = Math.round(avg[1] / lightPixels.length)
+    const b = Math.round(avg[2] / lightPixels.length)
+    return `rgb(${r},${g},${b})`
+  }
+
   // Get regions with translations
   const regions = await prisma.contentRegion.findMany({
     where: { pageId },
@@ -217,22 +248,29 @@ export async function runStep5(pageId: string) {
       return allLines
     }
 
-    // Only shrink if the longest single word doesn't fit the width
-    measureCtx.font = `${fontStyle} ${fontSize}px Arial`
-    const longestWord = cleanText.split(/\s+/).reduce((a, b) => a.length > b.length ? a : b, '')
-    while (fontSize > 20 && measureCtx.measureText(longestWord).width > pxWidth) {
+    // Shrink until text fits within region height (but never below 50% of Hebrew size)
+    const minFontSize = Math.max(20, Math.round(avgHebrewSize * 0.5))
+    for (let attempt = 0; attempt < 30; attempt++) {
+      const lines = wrapText(fontSize)
+      const lh = Math.round(fontSize * 1.3)
+      if (lines.length * lh <= pxHeight) break
+      if (fontSize <= minFontSize) { fontSize = minFontSize; break }
       fontSize--
-      measureCtx.font = `${fontStyle} ${fontSize}px Arial`
     }
 
-    // Render onto canvas
+    // Render onto canvas — clipped to region size
     const wrappedLines = wrapText(fontSize)
     const lineHeight = Math.round(fontSize * 1.3)
     const totalHeight = wrappedLines.length * lineHeight
-    const canvasHeight = Math.max(pxHeight, totalHeight + fontSize)
+    const canvasHeight = pxHeight
 
     const canvas = createCanvas(pxWidth, canvasHeight)
     const ctx = canvas.getContext('2d')
+
+    // Fill with opaque background to cover any erasure artifacts
+    const bgColor = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
+    ctx.fillStyle = bgColor
+    ctx.fillRect(0, 0, pxWidth, canvasHeight)
 
     ctx.font = `${fontStyle} ${fontSize}px Arial`
     ctx.fillStyle = textColor

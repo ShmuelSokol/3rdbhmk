@@ -22,19 +22,25 @@ model Book {
 }
 
 model Page {
-  id          String       @id @default(cuid())
-  bookId      String
-  book        Book         @relation(fields: [bookId], references: [id])
-  pageNumber  Int
-  imageUrl    String?
-  imagePath   String?
-  status      String       @default("pending")
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  ocrResult   OCRResult?
-  translation Translation?
-  layout      PageLayout?
-  flags       Flag[]
+  id              String            @id @default(cuid())
+  bookId          String
+  book            Book              @relation(fields: [bookId], references: [id])
+  pageNumber      Int
+  imageUrl        String?
+  imagePath       String?
+  status          String            @default("pending")
+  pipelineStatus  String            @default("pending") // pending | step1_ocr | step2_regions | step3_erased | step4_expanded | step5_fitted | step6_verified | locked
+  lockedAt        DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  ocrResult       OCRResult?
+  translation     Translation?
+  layout          PageLayout?
+  flags           Flag[]
+  regions         ContentRegion[]
+  erasedImage     ErasedImage?
+  fittedPage      FittedPage?
+  verificationOcr VerificationOcr?
 
   @@unique([bookId, pageNumber])
   @@map("bhmk_page")
@@ -79,6 +85,10 @@ model BoundingBox {
   wordIndex       Int?
   isImage         Boolean   @default(false)
   skipTranslation Boolean   @default(false)
+  textPixelSize   Float?    // Estimated font size in pixels
+  textPixelWidth  Float?    // Measured text width in pixels
+  isBold          Boolean   @default(false)
+  regionId        String?   // Link to ContentRegion after step 2
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
@@ -114,4 +124,79 @@ model Flag {
   updatedAt DateTime @updatedAt
 
   @@map("bhmk_flag")
+}
+
+model ContentRegion {
+  id             String   @id @default(cuid())
+  pageId         String
+  page           Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  regionIndex    Int      // Order on page (top-to-bottom)
+  regionType     String   @default("body") // body | header | footer | table | image
+  // Original detected coordinates (% of image)
+  origX          Float
+  origY          Float
+  origWidth      Float
+  origHeight     Float
+  // Expanded coordinates (% of image) — after step 4
+  expandedX      Float?
+  expandedY      Float?
+  expandedWidth  Float?
+  expandedHeight Float?
+  // Manual override coordinates (% of image) — user adjustments
+  manualX        Float?
+  manualY        Float?
+  manualWidth    Float?
+  manualHeight   Float?
+  // Text fitting results from step 5
+  fittedFontSize Float?   // Final font size in px used for English
+  fittedText     String?  @db.Text // The English text rendered in this region
+  hebrewText     String?  @db.Text // Original Hebrew text from this region
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([pageId, regionIndex])
+  @@map("bhmk_content_region")
+}
+
+model ErasedImage {
+  id          String   @id @default(cuid())
+  pageId      String   @unique
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  storagePath String   // Supabase storage path for erased PNG
+  width       Int      // Image width in px
+  height      Int      // Image height in px
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("bhmk_erased_image")
+}
+
+model FittedPage {
+  id          String   @id @default(cuid())
+  pageId      String   @unique
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  storagePath String   // Supabase storage path for fitted English PNG
+  width       Int
+  height      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("bhmk_fitted_page")
+}
+
+model VerificationOcr {
+  id             String   @id @default(cuid())
+  pageId         String   @unique
+  page           Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  expectedWords  Json     // Array of expected English words
+  foundWords     Json     // Array of words found by verification OCR
+  missingWords   Json     // Array of words not found
+  extraWords     Json     // Array of unexpected words found
+  passRate       Float    // 0-1, percentage of expected words found
+  passed         Boolean  @default(false) // true if passRate >= threshold
+  ocrRawJson     Json?    // Full OCR response for debugging
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("bhmk_verification_ocr")
 }

@@ -146,7 +146,9 @@ export async function runStep5(pageId: string) {
         assignments.push({ region, text: paragraphs.slice(paraIdx).join('\n\n') })
       } else {
         const charRatio = (region.hebrewText?.length || 1) / totalChars
-        const paraCount = Math.max(1, Math.round(charRatio * paragraphs.length))
+        const remainingRegions = regions.length - ri - 1
+        const maxParaCount = paragraphs.length - paraIdx - remainingRegions
+        const paraCount = Math.max(1, Math.min(Math.round(charRatio * paragraphs.length), maxParaCount))
         const regionParas = paragraphs.slice(paraIdx, paraIdx + paraCount)
         paraIdx += paraCount
         assignments.push({ region, text: regionParas.join('\n\n') || '' })

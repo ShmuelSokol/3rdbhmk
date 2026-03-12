@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { getSupabase } from '@/lib/supabase'
 import { getPageImageBuffer, updatePipelineStatus } from './shared'
 import sharp from 'sharp'
+import { createCanvas } from 'canvas'
 
 /**
  * Step 5: English text fitting — center English text in expanded regions,
@@ -136,9 +137,9 @@ export async function runStep5(pageId: string) {
     }
   }
 
-  // Render text into SVG overlays for each region
+  // Render text onto canvas for each region, then composite onto erased image
   const composites: sharp.OverlayOptions[] = []
-  const CHAR_WIDTH = 0.55 // average char width as fraction of fontSize
+  const MIN_FONT_SIZE = 20
 
   for (const { region, text } of assignments) {
     if (!text.trim()) continue
@@ -162,33 +163,7 @@ export async function runStep5(pageId: string) {
       ? regionBoxes.reduce((s, b) => s + (b.textPixelSize || 20), 0) / regionBoxes.length
       : 20
 
-    // Font size: try to fit in region, but enforce a minimum of 14px.
-    // If text doesn't fit at minimum, let it overflow (SVG height will grow).
-    const MIN_FONT_SIZE = 20
-    let fontSize = Math.round(avgHebrewSize * 0.9)
-    for (let attempt = 0; attempt < 30; attempt++) {
-      const lh = Math.round(fontSize * 1.3)
-      const cpl = Math.floor(pxWidth / (fontSize * CHAR_WIDTH))
-      if (cpl < 3) { fontSize = Math.max(MIN_FONT_SIZE, fontSize - 2); continue }
-      let totalLines = 0
-      for (const line of text.split('\n')) {
-        if (line.trim() === '') { totalLines += 1; continue }
-        const words = line.split(/\s+/)
-        let cur = 0; totalLines += 1
-        for (const w of words) {
-          if (cur + w.length + 1 > cpl && cur > 0) { totalLines += 1; cur = w.length }
-          else { cur += (cur > 0 ? 1 : 0) + w.length }
-        }
-      }
-      if (totalLines * lh + 10 <= pxHeight) break
-      if (fontSize <= MIN_FONT_SIZE) { fontSize = MIN_FONT_SIZE; break }
-      fontSize = Math.max(MIN_FONT_SIZE, fontSize - 1)
-    }
-
-    const lineHeight = Math.round(fontSize * 1.3)
-    const charsPerLine = Math.max(3, Math.floor(pxWidth / (fontSize * CHAR_WIDTH)))
-
-    // Detect centering from actual box positions (not regionType)
+    // Detect centering from actual box positions
     let isCentered = false
     if (regionBoxes.length > 0) {
       const boxMinX = Math.min(...regionBoxes.map((b) => b.x))
@@ -199,78 +174,89 @@ export async function runStep5(pageId: string) {
       isCentered = Math.abs(leftGap - rightGap) < 15 && boxWidth < 50
     }
 
-    // Detect bold: ink density, markdown markers, or centered text defaults to bold
+    // Detect bold
     const boldBoxCount = regionBoxes.filter((b) => b.isBold).length
     const inkBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
     const regionIsBold = inkBold || isCentered
-    const hasBoldMarkers = text.includes('**')
 
-    // Sample text color from ORIGINAL region coordinates (not expanded)
+    // Sample text color from ORIGINAL region coordinates
     const origPxLeft = Math.round((region.origX / 100) * imgW)
     const origPxTop = Math.round((region.origY / 100) * imgH)
     const origPxWidth = Math.round((region.origWidth / 100) * imgW)
     const origPxHeight = Math.round((region.origHeight / 100) * imgH)
     const textColor = sampleTextColor(origPxLeft, origPxTop, origPxWidth, origPxHeight)
 
-    // Word-wrap text into lines
-    const inputLines = text.split('\n')
-    type WrappedLine = { words: string[]; spilled: boolean }
-    const wrappedLines: (WrappedLine | 'gap')[] = []
+    // Strip bold markers from text
+    const cleanText = text.replace(/\*\*/g, '')
 
-    for (const line of inputLines) {
-      if (line.trim() === '') { wrappedLines.push('gap'); continue }
-      const clean = hasBoldMarkers ? line.replace(/\*\*/g, '') : line
-      const words = clean.split(/\s+/).filter(Boolean)
-      let curWords: string[] = []
-      let curLen = 0
-      for (const word of words) {
-        if (curLen + word.length + 1 > charsPerLine && curLen > 0) {
-          // This line is full — next word spilled over
-          wrappedLines.push({ words: curWords, spilled: true })
-          curWords = [word]
-          curLen = word.length
-        } else {
-          curWords.push(word)
-          curLen += (curLen > 0 ? 1 : 0) + word.length
+    // Use canvas measureText for word wrapping — find font size that fits
+    const measureCanvas = createCanvas(1, 1)
+    const measureCtx = measureCanvas.getContext('2d')
+
+    const fontStyle = regionIsBold ? 'bold' : 'normal'
+    let fontSize = Math.round(avgHebrewSize * 0.9)
+
+    // Word-wrap using real measurement, shrink font until it fits
+    const wrapText = (fs: number): string[] => {
+      measureCtx.font = `${fontStyle} ${fs}px Arial`
+      const allLines: string[] = []
+      for (const paragraph of cleanText.split('\n')) {
+        if (paragraph.trim() === '') { allLines.push(''); continue }
+        const words = paragraph.split(/\s+/).filter(Boolean)
+        let currentLine = ''
+        for (const word of words) {
+          const testLine = currentLine ? currentLine + ' ' + word : word
+          if (measureCtx.measureText(testLine).width > pxWidth && currentLine) {
+            allLines.push(currentLine)
+            currentLine = word
+          } else {
+            currentLine = testLine
+          }
         }
+        if (currentLine) allLines.push(currentLine)
       }
-      if (curWords.length > 0) {
-        wrappedLines.push({ words: curWords, spilled: false })
-      }
+      return allLines
     }
 
-    // Calculate total height
-    let totalHeight = 0
-    for (const wl of wrappedLines) {
-      totalHeight += wl === 'gap' ? lineHeight * 0.5 : lineHeight
+    for (let attempt = 0; attempt < 30; attempt++) {
+      const lines = wrapText(fontSize)
+      const lineHeight = Math.round(fontSize * 1.3)
+      const totalHeight = lines.length * lineHeight
+      if (totalHeight <= pxHeight) break
+      if (fontSize <= MIN_FONT_SIZE) { fontSize = MIN_FONT_SIZE; break }
+      fontSize = Math.max(MIN_FONT_SIZE, fontSize - 1)
     }
+
+    // Render onto canvas
+    const wrappedLines = wrapText(fontSize)
+    const lineHeight = Math.round(fontSize * 1.3)
+    const totalHeight = wrappedLines.length * lineHeight
+    const canvasHeight = Math.max(pxHeight, totalHeight + fontSize)
+
+    const canvas = createCanvas(pxWidth, canvasHeight)
+    const ctx = canvas.getContext('2d')
+
+    ctx.font = `${fontStyle} ${fontSize}px Arial`
+    ctx.fillStyle = textColor
+    ctx.textBaseline = 'top'
 
     // Body text starts at top; centered text gets vertical centering
     const topPad = isCentered ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
-    // Use the larger of region height and content height for SVG
-    const svgHeight = Math.max(pxHeight, Math.ceil(totalHeight + fontSize))
-    let yPos = topPad + fontSize
+    let yPos = topPad
 
-    const fontWeightAttr = (regionIsBold && !hasBoldMarkers) ? ' font-weight="bold"' : ''
-    const svgLines: string[] = []
-
-    for (const wl of wrappedLines) {
-      if (wl === 'gap') { yPos += lineHeight * 0.5; continue }
-
-      const lineText = wl.words.map((w) => escapeXml(w)).join(' ')
-
+    for (const line of wrappedLines) {
+      if (line === '') { yPos += lineHeight * 0.5; continue }
       if (isCentered) {
-        svgLines.push(`<text x="${pxWidth / 2}" y="${yPos}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
+        const w = measureCtx.measureText(line).width
+        ctx.fillText(line, (pxWidth - w) / 2, yPos)
       } else {
-        svgLines.push(`<text x="0" y="${yPos}" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
+        ctx.fillText(line, 0, yPos)
       }
       yPos += lineHeight
     }
 
-    const svg = `<svg width="${pxWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">${svgLines.join('')}</svg>`
-
     composites.push({
-      input: Buffer.from(svg),
+      input: canvas.toBuffer('image/png'),
       left: pxLeft,
       top: pxTop,
     })
@@ -303,15 +289,6 @@ export async function runStep5(pageId: string) {
   await updatePipelineStatus(pageId, 'step5_fitted')
 
   return { storagePath, width: imgW, height: imgH }
-}
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
 }
 
 async function upsertFittedPage(pageId: string, storagePath: string, width: number, height: number) {

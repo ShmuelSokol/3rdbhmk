@@ -1,9 +1,11 @@
 FROM node:20-alpine AS base
 
-# Install dependencies for Prisma and PDF processing
-RUN apk add --no-cache openssl poppler-utils tesseract-ocr tesseract-ocr-data-eng
+# Install dependencies for Prisma, PDF processing, and node-canvas
+RUN apk add --no-cache openssl poppler-utils tesseract-ocr tesseract-ocr-data-eng \
+    cairo pango giflib libjpeg-turbo freetype fontconfig ttf-freefont
 
 FROM base AS deps
+RUN apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev libjpeg-turbo-dev freetype-dev python3
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci

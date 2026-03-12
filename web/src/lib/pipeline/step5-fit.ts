@@ -139,7 +139,6 @@ export async function runStep5(pageId: string) {
 
   // Render text onto canvas for each region, then composite onto erased image
   const composites: sharp.OverlayOptions[] = []
-  const MIN_FONT_SIZE = 20
 
   for (const { region, text } of assignments) {
     if (!text.trim()) continue
@@ -194,6 +193,8 @@ export async function runStep5(pageId: string) {
     const measureCtx = measureCanvas.getContext('2d')
 
     const fontStyle = regionIsBold ? 'bold' : 'normal'
+    // Min font size is 70% of Hebrew size (never below 20px) — don't let text get absurdly small
+    const minFontSize = Math.max(20, Math.round(avgHebrewSize * 0.7))
     let fontSize = Math.round(avgHebrewSize * 0.9)
 
     // Word-wrap using real measurement, shrink font until it fits
@@ -223,8 +224,8 @@ export async function runStep5(pageId: string) {
       const lineHeight = Math.round(fontSize * 1.3)
       const totalHeight = lines.length * lineHeight
       if (totalHeight <= pxHeight) break
-      if (fontSize <= MIN_FONT_SIZE) { fontSize = MIN_FONT_SIZE; break }
-      fontSize = Math.max(MIN_FONT_SIZE, fontSize - 1)
+      if (fontSize <= minFontSize) { fontSize = minFontSize; break }
+      fontSize = Math.max(minFontSize, fontSize - 1)
     }
 
     // Render onto canvas

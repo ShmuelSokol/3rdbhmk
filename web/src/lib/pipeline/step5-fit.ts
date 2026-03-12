@@ -162,31 +162,31 @@ export async function runStep5(pageId: string) {
       ? regionBoxes.reduce((s, b) => s + (b.textPixelSize || 20), 0) / regionBoxes.length
       : 20
 
-    // Binary search for font size that fits the region height
+    // Font size: try to fit in region, but enforce a minimum of 14px.
+    // If text doesn't fit at minimum, let it overflow (SVG height will grow).
+    const MIN_FONT_SIZE = 14
     let fontSize = Math.round(avgHebrewSize * 0.9)
-    let fitted = false
-    for (let attempt = 0; attempt < 20; attempt++) {
-      const lineHeight = Math.round(fontSize * 1.3)
-      const charsPerLine = Math.floor(pxWidth / (fontSize * CHAR_WIDTH))
-      if (charsPerLine < 5) { fontSize = Math.max(8, fontSize - 2); continue }
+    for (let attempt = 0; attempt < 30; attempt++) {
+      const lh = Math.round(fontSize * 1.3)
+      const cpl = Math.floor(pxWidth / (fontSize * CHAR_WIDTH))
+      if (cpl < 3) { fontSize = Math.max(MIN_FONT_SIZE, fontSize - 2); continue }
       let totalLines = 0
       for (const line of text.split('\n')) {
         if (line.trim() === '') { totalLines += 1; continue }
         const words = line.split(/\s+/)
         let cur = 0; totalLines += 1
         for (const w of words) {
-          if (cur + w.length + 1 > charsPerLine && cur > 0) { totalLines += 1; cur = w.length }
+          if (cur + w.length + 1 > cpl && cur > 0) { totalLines += 1; cur = w.length }
           else { cur += (cur > 0 ? 1 : 0) + w.length }
         }
       }
-      if (totalLines * lineHeight + 10 <= pxHeight) { fitted = true; break }
-      fontSize = Math.max(8, fontSize - 1)
+      if (totalLines * lh + 10 <= pxHeight) break
+      if (fontSize <= MIN_FONT_SIZE) { fontSize = MIN_FONT_SIZE; break }
+      fontSize = Math.max(MIN_FONT_SIZE, fontSize - 1)
     }
-    if (!fitted) fontSize = 8
 
-    const charPx = fontSize * CHAR_WIDTH
     const lineHeight = Math.round(fontSize * 1.3)
-    const charsPerLine = Math.max(5, Math.floor(pxWidth / charPx))
+    const charsPerLine = Math.max(3, Math.floor(pxWidth / (fontSize * CHAR_WIDTH)))
 
     // Detect centering from actual box positions (not regionType)
     let isCentered = false
@@ -199,7 +199,7 @@ export async function runStep5(pageId: string) {
       isCentered = Math.abs(leftGap - rightGap) < 15 && boxWidth < 50
     }
 
-    // Detect bold: ink density, markdown markers, or centered headers default to bold
+    // Detect bold: ink density, markdown markers, or centered text defaults to bold
     const boldBoxCount = regionBoxes.filter((b) => b.isBold).length
     const inkBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
     const regionIsBold = inkBold || isCentered
@@ -214,20 +214,19 @@ export async function runStep5(pageId: string) {
 
     // Word-wrap text into lines
     const inputLines = text.split('\n')
-    type WrappedLine = { words: string[]; isLast: boolean }
+    type WrappedLine = { words: string[]; spilled: boolean }
     const wrappedLines: (WrappedLine | 'gap')[] = []
 
-    for (let li = 0; li < inputLines.length; li++) {
-      const line = inputLines[li]
+    for (const line of inputLines) {
       if (line.trim() === '') { wrappedLines.push('gap'); continue }
-      // Strip bold markers for layout, we'll apply bold to entire region
       const clean = hasBoldMarkers ? line.replace(/\*\*/g, '') : line
       const words = clean.split(/\s+/).filter(Boolean)
       let curWords: string[] = []
       let curLen = 0
       for (const word of words) {
         if (curLen + word.length + 1 > charsPerLine && curLen > 0) {
-          wrappedLines.push({ words: curWords, isLast: false })
+          // This line is full — next word spilled over
+          wrappedLines.push({ words: curWords, spilled: true })
           curWords = [word]
           curLen = word.length
         } else {
@@ -236,11 +235,11 @@ export async function runStep5(pageId: string) {
         }
       }
       if (curWords.length > 0) {
-        wrappedLines.push({ words: curWords, isLast: true })
+        wrappedLines.push({ words: curWords, spilled: false })
       }
     }
 
-    // Calculate total height for vertical positioning
+    // Calculate total height
     let totalHeight = 0
     for (const wl of wrappedLines) {
       totalHeight += wl === 'gap' ? lineHeight * 0.5 : lineHeight
@@ -248,7 +247,9 @@ export async function runStep5(pageId: string) {
 
     // Body text starts at top; centered text gets vertical centering
     const topPad = isCentered ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
-    let yPos = topPad + fontSize // baseline offset
+    // Use the larger of region height and content height for SVG
+    const svgHeight = Math.max(pxHeight, Math.ceil(totalHeight + fontSize))
+    let yPos = topPad + fontSize
 
     const fontWeightAttr = (regionIsBold && !hasBoldMarkers) ? ' font-weight="bold"' : ''
     const svgLines: string[] = []
@@ -256,31 +257,19 @@ export async function runStep5(pageId: string) {
     for (const wl of wrappedLines) {
       if (wl === 'gap') { yPos += lineHeight * 0.5; continue }
 
-      if (isCentered) {
-        // Centered: single text element at midpoint
-        const lineText = wl.words.map((w) => escapeXml(w)).join(' ')
+      const lineText = wl.words.map((w) => escapeXml(w)).join(' ')
+
+      if (isCentered || wl.spilled) {
+        // Centered: originally-centered text, OR full lines that spilled
         svgLines.push(`<text x="${pxWidth / 2}" y="${yPos}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
-      } else if (!wl.isLast && wl.words.length > 1) {
-        // Justified: position each word with tspan x to fill full width
-        const totalWordPx = wl.words.reduce((s, w) => s + w.length * charPx, 0)
-        const totalGap = pxWidth - totalWordPx
-        const gapPerWord = totalGap / (wl.words.length - 1)
-        let xPos = 0
-        const tspans = wl.words.map((w) => {
-          const x = Math.round(xPos)
-          xPos += w.length * charPx + gapPerWord
-          return `<tspan x="${x}">${escapeXml(w)}</tspan>`
-        }).join('')
-        svgLines.push(`<text y="${yPos}" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${tspans}</text>`)
       } else {
-        // Left-aligned: last line of paragraph or single-word
-        const lineText = wl.words.map((w) => escapeXml(w)).join(' ')
+        // Left-aligned: last line of paragraph (no spill)
         svgLines.push(`<text x="0" y="${yPos}" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" fill="${textColor}"${fontWeightAttr}>${lineText}</text>`)
       }
       yPos += lineHeight
     }
 
-    const svg = `<svg width="${pxWidth}" height="${pxHeight}" xmlns="http://www.w3.org/2000/svg">${svgLines.join('')}</svg>`
+    const svg = `<svg width="${pxWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">${svgLines.join('')}</svg>`
 
     composites.push({
       input: Buffer.from(svg),

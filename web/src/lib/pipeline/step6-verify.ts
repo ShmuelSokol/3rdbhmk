@@ -1,10 +1,23 @@
 import { prisma } from '@/lib/prisma'
 import { getSupabase } from '@/lib/supabase'
 import { updatePipelineStatus } from './shared'
-import sharp from 'sharp'
+import { execFile } from 'child_process'
+import { writeFile, mkdir, unlink } from 'fs/promises'
+import path from 'path'
+import { randomUUID } from 'crypto'
+import { tmpdir } from 'os'
+
+function exec(cmd: string, args: string[]): Promise<{ stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    execFile(cmd, args, { maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+      if (error) reject(new Error(`${cmd} failed: ${stderr || error.message}`))
+      else resolve({ stdout, stderr })
+    })
+  })
+}
 
 /**
- * Step 6: Verification OCR — re-OCR the English fitted page,
+ * Step 6: Verification OCR — re-OCR the English fitted page using Tesseract (local, free),
  * compare all words, mark complete when verified.
  */
 export async function runStep6(pageId: string) {
@@ -20,47 +33,19 @@ export async function runStep6(pageId: string) {
 
   const fittedBuffer = Buffer.from(await data.arrayBuffer())
 
-  // Compress for Azure if needed
-  let ocrBuffer: Buffer = fittedBuffer
-  if (fittedBuffer.length > 3 * 1024 * 1024) {
-    ocrBuffer = await sharp(fittedBuffer).jpeg({ quality: 85 }).toBuffer() as Buffer
+  // Write to temp file for Tesseract
+  const tmpPath = path.join(tmpdir(), `verify-${randomUUID()}.png`)
+  await writeFile(tmpPath, fittedBuffer)
+
+  let ocrText = ''
+  try {
+    // Run Tesseract locally — fast, free, no API limits
+    const { stdout } = await exec('tesseract', [tmpPath, 'stdout', '-l', 'eng', '--psm', '6'])
+    ocrText = stdout
+  } finally {
+    await unlink(tmpPath).catch(() => {})
   }
 
-  // Run Azure OCR on the fitted English page (no locale for English)
-  const endpoint = process.env["AZURE_DOC_INTELLIGENCE_ENDPOINT"]!
-  const apiKey = process.env["AZURE_DOC_INTELLIGENCE_KEY"]!
-  const analyzeUrl = `${endpoint}/documentintelligence/documentModels/prebuilt-read:analyze?api-version=2024-11-30`
-
-  const postResponse = await fetch(analyzeUrl, {
-    method: 'POST',
-    headers: {
-      'Ocp-Apim-Subscription-Key': apiKey,
-      'Content-Type': 'application/octet-stream',
-    },
-    body: new Uint8Array(ocrBuffer),
-  })
-
-  if (!postResponse.ok) throw new Error(`Azure OCR failed: ${postResponse.status}`)
-
-  const operationLocation = postResponse.headers.get('Operation-Location')
-  if (!operationLocation) throw new Error('Missing Operation-Location')
-
-  // Poll for results
-  let result: { status: string; analyzeResult?: { content?: string } } | null = null
-  for (let attempt = 0; attempt < 60; attempt++) {
-    await new Promise((r) => setTimeout(r, 1000))
-    const poll = await fetch(operationLocation, {
-      headers: { 'Ocp-Apim-Subscription-Key': apiKey },
-    })
-    if (!poll.ok) throw new Error(`Poll failed: ${poll.status}`)
-    result = await poll.json()
-    if (result!.status === 'succeeded') break
-    if (result!.status === 'failed') throw new Error('OCR failed')
-  }
-
-  if (!result || result.status !== 'succeeded') throw new Error('OCR timed out')
-
-  const ocrText = result.analyzeResult?.content || ''
   const foundWords = ocrText
     .replace(/[^a-zA-Z\s]/g, '')
     .toLowerCase()
@@ -128,7 +113,7 @@ export async function runStep6(pageId: string) {
     extraWords: extra,
     passRate,
     passed,
-    ocrRawJson: result,
+    ocrRawJson: { engine: 'tesseract', text: ocrText },
   }
 
   if (existing) {

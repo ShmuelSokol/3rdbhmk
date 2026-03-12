@@ -133,7 +133,7 @@ export async function runStep3(pageId: string) {
     const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
     const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-    const pad = lineBoxes.length === 1 ? 1.0 : 0.5
+    const pad = 0.4
     const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
     const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
     const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))

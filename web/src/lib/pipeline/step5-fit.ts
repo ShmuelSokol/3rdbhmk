@@ -267,10 +267,13 @@ export async function runStep5(pageId: string) {
     const canvas = createCanvas(pxWidth, canvasHeight)
     const ctx = canvas.getContext('2d')
 
-    // Fill with opaque background to cover any erasure artifacts
-    const bgColor = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
-    ctx.fillStyle = bgColor
-    ctx.fillRect(0, 0, pxWidth, canvasHeight)
+    // Fill body regions with opaque background to cover erasure artifacts
+    // Skip headers/page numbers to preserve decorative elements (circles, borders)
+    if (region.regionType === 'body' || region.regionType === 'table') {
+      const bgColor = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
+      ctx.fillStyle = bgColor
+      ctx.fillRect(0, 0, pxWidth, canvasHeight)
+    }
 
     ctx.font = `${fontStyle} ${fontSize}px Arial`
     ctx.fillStyle = textColor

@@ -65,16 +65,29 @@ export async function POST(
           .from('bhmk')
           .download(storagePath)
 
-        if (error || !data) {
-          return NextResponse.json(
-            { error: 'Failed to retrieve PDF' },
-            { status: 500 }
-          )
-        }
-
         await mkdir(pdfDir, { recursive: true })
-        const pdfBuffer = Buffer.from(await data.arrayBuffer())
-        await writeFile(pdfPath, pdfBuffer)
+        if (!error && data) {
+          const pdfBuffer = Buffer.from(await data.arrayBuffer())
+          await writeFile(pdfPath, pdfBuffer)
+        } else {
+          // Fall back to chunk-based download (for large PDFs uploaded in parts)
+          const chunks: Buffer[] = []
+          for (let i = 0; ; i++) {
+            const chunkPath = `books/${book.id}/chunks/${book.filename}.part${i}`
+            const { data: chunkData, error: chunkError } = await supabase.storage
+              .from('bhmk')
+              .download(chunkPath)
+            if (chunkError || !chunkData) break
+            chunks.push(Buffer.from(await chunkData.arrayBuffer()))
+          }
+          if (chunks.length === 0) {
+            return NextResponse.json(
+              { error: 'Failed to retrieve PDF' },
+              { status: 500 }
+            )
+          }
+          await writeFile(pdfPath, Buffer.concat(chunks))
+        }
       }
 
       imageBuffer = await extractPageAsImage(pdfPath, page.pageNumber)

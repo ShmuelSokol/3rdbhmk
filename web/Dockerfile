@@ -13,6 +13,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Cache bust to force rebuild when source changes
+ARG CACHEBUST=1
+
 # Build args for NEXT_PUBLIC_ vars
 ENV NEXT_TELEMETRY_DISABLED=1
 

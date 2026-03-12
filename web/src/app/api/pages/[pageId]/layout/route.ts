@@ -85,9 +85,23 @@ async function getPageImage(pageId: string): Promise<Buffer> {
     const { data, error } = await supabase.storage
       .from('bhmk')
       .download(storagePath)
-    if (error || !data) throw new Error('Failed to download PDF')
     await mkdir(pdfDir, { recursive: true })
-    await writeFile(pdfPath, Buffer.from(await data.arrayBuffer()))
+    if (!error && data) {
+      await writeFile(pdfPath, Buffer.from(await data.arrayBuffer()))
+    } else {
+      // Fall back to chunk-based download (for large PDFs uploaded in parts)
+      const chunks: Buffer[] = []
+      for (let i = 0; ; i++) {
+        const chunkPath = `books/${book.id}/chunks/${book.filename}.part${i}`
+        const { data: chunkData, error: chunkError } = await supabase.storage
+          .from('bhmk')
+          .download(chunkPath)
+        if (chunkError || !chunkData) break
+        chunks.push(Buffer.from(await chunkData.arrayBuffer()))
+      }
+      if (chunks.length === 0) throw new Error('Failed to download PDF')
+      await writeFile(pdfPath, Buffer.concat(chunks))
+    }
   }
 
   const imageBuffer = await extractPageAsImage(pdfPath, page.pageNumber)

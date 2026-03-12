@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { getSupabase } from '@/lib/supabase'
-import { extractPageAsImage } from '@/lib/pdf-utils'
-import { writeFile, mkdir, readFile } from 'fs/promises'
+import { getPageImageBuffer } from '@/lib/pipeline/shared'
+import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
 import sharp from 'sharp'
@@ -48,35 +47,13 @@ export async function GET(
       })
     }
 
-    // Get the original page image
-    const origCacheDir = path.join('/tmp', 'bhmk', book.id, 'pages')
-    const origCachedPath = path.join(origCacheDir, `page-${page.pageNumber}.png`)
-
-    let imageBuffer: Buffer
-    if (existsSync(origCachedPath)) {
-      imageBuffer = await readFile(origCachedPath)
-    } else {
-      const pdfDir = path.join('/tmp', 'bhmk', book.id)
-      const pdfPath = path.join(pdfDir, book.filename)
-      if (!existsSync(pdfPath)) {
-        const supabase = getSupabase()
-        const storagePath = `books/${book.id}/${book.filename}`
-        const { data, error } = await supabase.storage
-          .from('bhmk')
-          .download(storagePath)
-        if (error || !data) throw new Error('Failed to download PDF')
-        await mkdir(pdfDir, { recursive: true })
-        await writeFile(pdfPath, Buffer.from(await data.arrayBuffer()))
-      }
-      imageBuffer = await extractPageAsImage(pdfPath, page.pageNumber)
-      await mkdir(origCacheDir, { recursive: true })
-      await writeFile(origCachedPath, imageBuffer)
-    }
+    // Get the original page image (handles chunk-based PDF download)
+    const { buffer: imageBuffer, imgW: fetchedW, imgH: fetchedH } = await getPageImageBuffer(pageId)
 
     // Get image dimensions
     const metadata = await sharp(imageBuffer).metadata()
-    const imgW = metadata.width || 1655
-    const imgH = metadata.height || 2340
+    const imgW = fetchedW
+    const imgH = fetchedH
 
     // Get OCR boxes — skip header lines (top 4%) and skipTranslation boxes
     const boxes = (page.ocrResult?.boxes || []).filter(

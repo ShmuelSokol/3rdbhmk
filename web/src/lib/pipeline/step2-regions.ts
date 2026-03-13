@@ -255,25 +255,30 @@ export async function runStep2(pageId: string) {
       if (body.length > 0) {
         const bodyColumns = splitBodyByXColumns(body)
         for (const colLines of bodyColumns) {
-          const tMinX = Math.min(...colLines.map((l) => l.x))
-          const tMaxX = Math.max(...colLines.map((l) => l.x + l.width))
-          const tMinY = Math.min(...colLines.map((l) => l.y))
-          const tMaxY = Math.max(...colLines.map((l) => l.y + l.height))
-          const allBoxIds = colLines.flatMap((l) => l.boxIds)
-          const hebrewText = boxes
-            .filter((b) => allBoxIds.includes(b.id))
-            .map((b) => b.editedText ?? b.hebrewText)
-            .join(' ')
+          // Further split within a column when lines transition from wide to narrow
+          // (left edge shifts significantly), so narrow text doesn't force a wide region
+          const subGroups = splitColumnByWidthTransition(colLines)
+          for (const subGroup of subGroups) {
+            const tMinX = Math.min(...subGroup.map((l) => l.x))
+            const tMaxX = Math.max(...subGroup.map((l) => l.x + l.width))
+            const tMinY = Math.min(...subGroup.map((l) => l.y))
+            const tMaxY = Math.max(...subGroup.map((l) => l.y + l.height))
+            const allBoxIds = subGroup.flatMap((l) => l.boxIds)
+            const hebrewText = boxes
+              .filter((b) => allBoxIds.includes(b.id))
+              .map((b) => b.editedText ?? b.hebrewText)
+              .join(' ')
 
-          regions.push({
-            regionType: 'table',
-            origX: tMinX,
-            origY: tMinY,
-            origWidth: tMaxX - tMinX,
-            origHeight: tMaxY - tMinY,
-            boxIds: allBoxIds,
-            hebrewText,
-          })
+            regions.push({
+              regionType: 'table',
+              origX: tMinX,
+              origY: tMinY,
+              origWidth: tMaxX - tMinX,
+              origHeight: tMaxY - tMinY,
+              boxIds: allBoxIds,
+              hebrewText,
+            })
+          }
         }
       }
       continue
@@ -475,6 +480,57 @@ function isScatteredLayout(lines: OcrLineType[]): boolean {
 
   // Many unique X positions relative to line count = scattered
   return xBuckets.size >= 3
+}
+
+/**
+ * Split a column's lines when consecutive lines transition from wide to narrow
+ * (or vice versa) — indicated by a left-edge shift > 10% of page width.
+ * Prevents wide lines at the top from forcing the region to cover illustrations
+ * that sit beside narrower lines below.
+ */
+function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
+  if (lines.length <= 2) return [lines]
+
+  const sorted = [...lines].sort((a, b) => a.y - b.y)
+  const groups: OcrLineType[][] = [[sorted[0]]]
+
+  for (let i = 1; i < sorted.length; i++) {
+    const prevGroup = groups[groups.length - 1]
+    const prevAvgLeft =
+      prevGroup.reduce((s, l) => s + l.x, 0) / prevGroup.length
+    const curLeft = sorted[i].x
+
+    // Left edge jumps by more than 10% of page width → start new group
+    if (Math.abs(curLeft - prevAvgLeft) > 10) {
+      groups.push([sorted[i]])
+    } else {
+      prevGroup.push(sorted[i])
+    }
+  }
+
+  // Only split if each group has at least 2 lines
+  const valid = groups.filter((g) => g.length >= 2)
+  if (valid.length < 2) return [lines]
+
+  // Absorb singletons into nearest group by Y proximity
+  const singletons = groups.filter((g) => g.length < 2)
+  for (const sg of singletons) {
+    const line = sg[0]
+    let bestGroup = valid[0]
+    let bestDist = Infinity
+    for (const g of valid) {
+      const gMinY = Math.min(...g.map((l) => l.y))
+      const gMaxY = Math.max(...g.map((l) => l.y + l.height))
+      const dist = line.y < gMinY ? gMinY - line.y : line.y > gMaxY ? line.y - gMaxY : 0
+      if (dist < bestDist) {
+        bestDist = dist
+        bestGroup = g
+      }
+    }
+    bestGroup.push(line)
+  }
+
+  return valid
 }
 
 /**

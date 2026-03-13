@@ -42,11 +42,6 @@ export async function runStep3(pageId: string) {
     lineMap.get(li)!.push(box)
   }
 
-  // Load regions so we can sample one background color per region
-  const regions = await prisma.contentRegion.findMany({
-    where: { pageId },
-  })
-
   // Map lineIndex → regionId using boxes' regionId field
   const lineToRegion = new Map<number, string>()
   for (const box of boxes) {
@@ -55,14 +50,30 @@ export async function runStep3(pageId: string) {
     }
   }
 
+  // Load region coordinates so we can clamp samples within region borders
+  const regions = await prisma.contentRegion.findMany({
+    where: { pageId },
+    select: { id: true, origX: true, origY: true, origWidth: true, origHeight: true },
+  })
+  const regionPxBounds = new Map<string, { pxLeft: number; pxTop: number; pxRight: number; pxBottom: number }>()
+  for (const r of regions) {
+    regionPxBounds.set(r.id, {
+      pxLeft: Math.max(0, Math.round((r.origX / 100) * imgW)),
+      pxTop: Math.max(0, Math.round((r.origY / 100) * imgH)),
+      pxRight: Math.min(imgW, Math.round(((r.origX + r.origWidth) / 100) * imgW)),
+      pxBottom: Math.min(imgH, Math.round(((r.origY + r.origHeight) / 100) * imgH)),
+    })
+  }
+
   const metadata = await sharp(buffer).metadata()
   const channels = metadata.channels || 3
   const rawPixels = await sharp(buffer).raw().toBuffer()
 
-  // Collect ~30 raw RGB samples from a tight ring (3px) around a box.
-  // Does NOT filter or pick a color — returns raw samples for pooling.
+  // Collect ~30 raw RGB samples from a tight ring (3px) around a text line box.
+  // Samples are clamped to stay within the region boundary (never outside the region).
   const collectPerimeterSamples = (
-    pxLeft: number, pxTop: number, pxRight: number, pxBottom: number
+    pxLeft: number, pxTop: number, pxRight: number, pxBottom: number,
+    regionLeft: number, regionTop: number, regionRight: number, regionBottom: number
   ): [number, number, number][] => {
     const margin = 3
     const samples: [number, number, number][] = []
@@ -71,37 +82,37 @@ export async function runStep3(pageId: string) {
     const perimeter = 2 * (pxW + pxH)
     const step = Math.max(1, Math.floor(perimeter / 30))
 
-    // Top edge
+    // Clamp helpers: stay within region bounds AND image bounds
+    const clampX = (x: number) => Math.max(regionLeft, Math.min(regionRight - 1, Math.min(imgW - 1, x)))
+    const clampY = (y: number) => Math.max(regionTop, Math.min(regionBottom - 1, Math.min(imgH - 1, y)))
+
+    // Top edge (sample just above the text line, within region)
     for (let x = pxLeft; x < pxRight; x += step) {
-      const sy = Math.max(0, pxTop - margin)
-      if (sy < imgH && x < imgW) {
-        const idx = (sy * imgW + x) * channels
-        samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
-      }
+      const sx = clampX(x)
+      const sy = clampY(pxTop - margin)
+      const idx = (sy * imgW + sx) * channels
+      samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
     }
     // Bottom edge
     for (let x = pxLeft; x < pxRight; x += step) {
-      const sy = Math.min(imgH - 1, pxBottom + margin)
-      if (sy >= 0 && x < imgW) {
-        const idx = (sy * imgW + x) * channels
-        samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
-      }
+      const sx = clampX(x)
+      const sy = clampY(pxBottom + margin)
+      const idx = (sy * imgW + sx) * channels
+      samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
     }
     // Left edge
     for (let y = pxTop; y < pxBottom; y += step) {
-      const sx = Math.max(0, pxLeft - margin)
-      if (y < imgH && sx < imgW) {
-        const idx = (y * imgW + sx) * channels
-        samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
-      }
+      const sx = clampX(pxLeft - margin)
+      const sy = clampY(y)
+      const idx = (sy * imgW + sx) * channels
+      samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
     }
     // Right edge
     for (let y = pxTop; y < pxBottom; y += step) {
-      const sx = Math.min(imgW - 1, pxRight + margin)
-      if (y < imgH && sx >= 0) {
-        const idx = (y * imgW + sx) * channels
-        samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
-      }
+      const sx = clampX(pxRight + margin)
+      const sy = clampY(y)
+      const idx = (sy * imgW + sx) * channels
+      samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
     }
     return samples
   }
@@ -199,7 +210,11 @@ export async function runStep3(pageId: string) {
   for (const lb of lineBounds) {
     const regionId = lineToRegion.get(lb.lineIdx)
     if (!regionId) continue
-    const samples = collectPerimeterSamples(lb.pxLeft, lb.pxTop, lb.pxRight, lb.pxBottom)
+    const rBounds = regionPxBounds.get(regionId) || { pxLeft: 0, pxTop: 0, pxRight: imgW, pxBottom: imgH }
+    const samples = collectPerimeterSamples(
+      lb.pxLeft, lb.pxTop, lb.pxRight, lb.pxBottom,
+      rBounds.pxLeft, rBounds.pxTop, rBounds.pxRight, rBounds.pxBottom
+    )
     const existing = regionSamples.get(regionId)
     if (existing) {
       existing.push(...samples)
@@ -233,7 +248,7 @@ export async function runStep3(pageId: string) {
     const cached = regionId ? regionBgCache.get(regionId) : undefined
     const [bgR, bgG, bgB] = cached
       || pickBgColor(
-        collectPerimeterSamples(pxLeft, pxTop, pxRight, pxBottom),
+        collectPerimeterSamples(pxLeft, pxTop, pxRight, pxBottom, 0, 0, imgW, imgH),
         pxLeft, pxTop, pxRight, pxBottom
       )
 

@@ -250,27 +250,31 @@ export async function runStep2(pageId: string) {
         }
       }
 
-      // Create table region for body text
+      // Create table region(s) for body text — split into X columns if lines
+      // cluster into non-overlapping X ranges (e.g., two-column layout with illustrations)
       if (body.length > 0) {
-        const tMinX = Math.min(...body.map((l) => l.x))
-        const tMaxX = Math.max(...body.map((l) => l.x + l.width))
-        const tMinY = Math.min(...body.map((l) => l.y))
-        const tMaxY = Math.max(...body.map((l) => l.y + l.height))
-        const allBoxIds = body.flatMap((l) => l.boxIds)
-        const hebrewText = boxes
-          .filter((b) => allBoxIds.includes(b.id))
-          .map((b) => b.editedText ?? b.hebrewText)
-          .join(' ')
+        const bodyColumns = splitBodyByXColumns(body)
+        for (const colLines of bodyColumns) {
+          const tMinX = Math.min(...colLines.map((l) => l.x))
+          const tMaxX = Math.max(...colLines.map((l) => l.x + l.width))
+          const tMinY = Math.min(...colLines.map((l) => l.y))
+          const tMaxY = Math.max(...colLines.map((l) => l.y + l.height))
+          const allBoxIds = colLines.flatMap((l) => l.boxIds)
+          const hebrewText = boxes
+            .filter((b) => allBoxIds.includes(b.id))
+            .map((b) => b.editedText ?? b.hebrewText)
+            .join(' ')
 
-        regions.push({
-          regionType: 'table',
-          origX: tMinX,
-          origY: tMinY,
-          origWidth: tMaxX - tMinX,
-          origHeight: tMaxY - tMinY,
-          boxIds: allBoxIds,
-          hebrewText,
-        })
+          regions.push({
+            regionType: 'table',
+            origX: tMinX,
+            origY: tMinY,
+            origWidth: tMaxX - tMinX,
+            origHeight: tMaxY - tMinY,
+            boxIds: allBoxIds,
+            hebrewText,
+          })
+        }
       }
       continue
     }
@@ -471,6 +475,76 @@ function isScatteredLayout(lines: OcrLineType[]): boolean {
 
   // Many unique X positions relative to line count = scattered
   return xBuckets.size >= 3
+}
+
+/**
+ * Split body lines into distinct X columns when lines form non-overlapping
+ * X ranges (e.g., two-column layout with illustrations between columns).
+ * Clusters lines by X range overlap, then verifies columns are separated.
+ */
+function splitBodyByXColumns(lines: OcrLineType[]): OcrLineType[][] {
+  if (lines.length <= 2) return [lines]
+
+  // Cluster lines by X range overlap
+  const clusters: OcrLineType[][] = []
+
+  for (const line of lines) {
+    let merged = false
+    for (const cluster of clusters) {
+      const clusterMinX = Math.min(...cluster.map((l) => l.x))
+      const clusterMaxX = Math.max(...cluster.map((l) => l.x + l.width))
+
+      const overlap =
+        Math.min(line.x + line.width, clusterMaxX) - Math.max(line.x, clusterMinX)
+      const minWidth = Math.min(line.width, clusterMaxX - clusterMinX)
+
+      if (overlap > minWidth * 0.3) {
+        cluster.push(line)
+        merged = true
+        break
+      }
+    }
+    if (!merged) {
+      clusters.push([line])
+    }
+  }
+
+  // Must have 2+ columns, each with 2+ lines
+  const validColumns = clusters.filter((c) => c.length >= 2)
+  if (validColumns.length < 2) return [lines]
+
+  // Absorb singleton clusters into nearest valid column
+  const singletons = clusters.filter((c) => c.length < 2)
+  for (const singleton of singletons) {
+    const line = singleton[0]
+    const lineCenterX = line.x + line.width / 2
+    let bestCol = validColumns[0]
+    let bestDist = Infinity
+    for (const col of validColumns) {
+      const colCenterX =
+        (Math.min(...col.map((l) => l.x)) + Math.max(...col.map((l) => l.x + l.width))) / 2
+      const dist = Math.abs(lineCenterX - colCenterX)
+      if (dist < bestDist) {
+        bestDist = dist
+        bestCol = col
+      }
+    }
+    bestCol.push(line)
+  }
+
+  // Verify columns are separated (gap > 1% between adjacent columns)
+  validColumns.sort(
+    (a, b) => Math.min(...a.map((l) => l.x)) - Math.min(...b.map((l) => l.x))
+  )
+  for (let i = 0; i < validColumns.length - 1; i++) {
+    const leftMaxX = Math.max(...validColumns[i].map((l) => l.x + l.width))
+    const rightMinX = Math.min(...validColumns[i + 1].map((l) => l.x))
+    if (rightMinX - leftMaxX < 1) {
+      return [lines] // Not enough gap — keep as one region
+    }
+  }
+
+  return validColumns
 }
 
 /**

@@ -230,37 +230,65 @@ export async function runStep2(pageId: string) {
       // Split table zone into annotation lines (short, scattered) and body text (long, dense)
       const { annotations, body } = splitTableByDensity(zone.lines)
 
-      // Create individual regions for each annotation cluster
+      // Build body columns first so we can check annotation overlap
+      const bodyColumns = body.length > 0 ? splitBodyByXColumns(body) : []
+
+      // Compute X ranges for each body column
+      const colRanges = bodyColumns.map((col) => ({
+        minX: Math.min(...col.map((l) => l.x)),
+        maxX: Math.max(...col.map((l) => l.x + l.width)),
+        lines: col,
+      }))
+
+      // Process annotation clusters — merge into body column if they overlap,
+      // otherwise create a separate annotation region
       if (annotations.length > 0) {
         const clusters = clusterAnnotationLines(annotations)
         for (const cluster of clusters) {
-          const minX = Math.min(...cluster.map((l) => l.x))
-          const minY = Math.min(...cluster.map((l) => l.y))
-          const maxX = Math.max(...cluster.map((l) => l.x + l.width))
-          const maxY = Math.max(...cluster.map((l) => l.y + l.height))
-          const clusterBoxIds = cluster.flatMap((l) => l.boxIds)
-          const hebrewText = boxes
-            .filter((b) => clusterBoxIds.includes(b.id))
-            .map((b) => b.editedText ?? b.hebrewText)
-            .join(' ')
+          const cMinX = Math.min(...cluster.map((l) => l.x))
+          const cMaxX = Math.max(...cluster.map((l) => l.x + l.width))
 
-          regions.push({
-            regionType: 'header',
-            origX: minX,
-            origY: minY,
-            origWidth: maxX - minX,
-            origHeight: maxY - minY,
-            boxIds: clusterBoxIds,
-            hebrewText,
-          })
+          // Check if this cluster's X range falls within a body column
+          let absorbed = false
+          for (const col of colRanges) {
+            const xOverlap = Math.min(cMaxX, col.maxX) - Math.max(cMinX, col.minX)
+            const clusterWidth = cMaxX - cMinX
+            if (xOverlap > clusterWidth * 0.5) {
+              // Annotation sits within this body column — merge lines in
+              col.lines.push(...cluster)
+              absorbed = true
+              break
+            }
+          }
+
+          if (!absorbed) {
+            const minX = cMinX
+            const minY = Math.min(...cluster.map((l) => l.y))
+            const maxX = cMaxX
+            const maxY = Math.max(...cluster.map((l) => l.y + l.height))
+            const clusterBoxIds = cluster.flatMap((l) => l.boxIds)
+            const hebrewText = boxes
+              .filter((b) => clusterBoxIds.includes(b.id))
+              .map((b) => b.editedText ?? b.hebrewText)
+              .join(' ')
+
+            regions.push({
+              regionType: 'header',
+              origX: minX,
+              origY: minY,
+              origWidth: maxX - minX,
+              origHeight: maxY - minY,
+              boxIds: clusterBoxIds,
+              hebrewText,
+            })
+          }
         }
       }
 
       // Create table region(s) for body text — split into X columns if lines
       // cluster into non-overlapping X ranges (e.g., two-column layout with illustrations)
-      if (body.length > 0) {
-        const bodyColumns = splitBodyByXColumns(body)
-        for (const colLines of bodyColumns) {
+      if (colRanges.length > 0) {
+        for (const { lines: colLines } of colRanges) {
           // Further split within a column when lines transition from wide to narrow
           // (left edge shifts significantly), so narrow text doesn't force a wide region
           const subGroups = splitColumnByWidthTransition(colLines)

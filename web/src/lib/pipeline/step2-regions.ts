@@ -569,17 +569,41 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
     return splitByConsecutiveLeftEdge(dominant)
   }
 
-  // Build result: dominant lines split by consecutive left-edge shifts,
-  // plus each outlier cluster as its own region
+  // Compute dominant group's X range
+  const domMinX = dominant.length > 0 ? Math.min(...dominant.map((l) => l.x)) : 0
+  const domMaxX = dominant.length > 0 ? Math.max(...dominant.map((l) => l.x + l.width)) : 100
+
+  // Cluster outliers by Y proximity, then decide: absorb back into dominant
+  // if the outlier's X range sits within the dominant range (e.g., margin notes
+  // within a body column), or keep separate if it extends beyond (e.g., captions
+  // under illustrations that extend past the column).
+  const outlierClusters = clusterByYProximity(outliers)
+  for (const cluster of outlierClusters) {
+    const cMinX = Math.min(...cluster.map((l) => l.x))
+    const cMaxX = Math.max(...cluster.map((l) => l.x + l.width))
+    if (cMinX >= domMinX - 2 && cMaxX <= domMaxX + 2) {
+      // Outlier sits within dominant's X range — absorb back
+      dominant.push(...cluster)
+    }
+    // else: kept for separate region below
+  }
+
+  // Build result: dominant lines (including absorbed outliers) split by
+  // consecutive left-edge shifts, plus genuinely separate outlier clusters
   const result: OcrLineType[][] = []
 
   if (dominant.length > 0) {
     result.push(...splitByConsecutiveLeftEdge(dominant))
   }
 
-  // Cluster outliers by Y proximity (nearby outliers = one caption region)
-  const outlierClusters = clusterByYProximity(outliers)
-  result.push(...outlierClusters)
+  // Add outlier clusters that extend beyond the dominant X range
+  for (const cluster of outlierClusters) {
+    const cMinX = Math.min(...cluster.map((l) => l.x))
+    const cMaxX = Math.max(...cluster.map((l) => l.x + l.width))
+    if (cMinX < domMinX - 2 || cMaxX > domMaxX + 2) {
+      result.push(cluster)
+    }
+  }
 
   return result
 }

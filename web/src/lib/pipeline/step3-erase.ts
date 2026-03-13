@@ -117,40 +117,25 @@ export async function runStep3(pageId: string) {
     return samples
   }
 
-  // Pick the most common non-text color from a pool of RGB samples.
+  // Pick the most common non-text background color from a pool of RGB samples.
+  // Hebrew text is dark on light background, so we keep only the lighter half
+  // of samples (above median luminance) to exclude text-colored pixels.
   const pickBgColor = (
-    samples: [number, number, number][],
-    pxLeft: number, pxTop: number, pxRight: number, pxBottom: number
+    samples: [number, number, number][]
   ): [number, number, number] => {
     if (samples.length === 0) return [255, 255, 255]
 
-    // Determine text color from interior points (30th percentile luminance)
-    const pxW = pxRight - pxLeft
-    const pxH = pxBottom - pxTop
-    const interiorLums: number[] = []
-    const cx = Math.floor((pxLeft + pxRight) / 2)
-    const cy = Math.floor((pxTop + pxBottom) / 2)
-    const stepX = Math.max(1, Math.floor(pxW / 6))
-    const stepY = Math.max(1, Math.floor(pxH / 4))
-    for (let dy = -2; dy <= 2; dy++) {
-      for (let dx = -3; dx <= 3; dx++) {
-        const ix = Math.min(Math.max(cx + dx * stepX, 0), imgW - 1)
-        const iy = Math.min(Math.max(cy + dy * stepY, 0), imgH - 1)
-        const idx = (iy * imgW + ix) * channels
-        interiorLums.push(
-          rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-        )
-      }
-    }
-    interiorLums.sort((a, b) => a - b)
-    const textLum = interiorLums[Math.floor(interiorLums.length * 0.3)]
+    // Compute luminance for each sample
+    const withLum = samples.map(([r, g, b]) => ({
+      r, g, b,
+      lum: r * 0.299 + g * 0.587 + b * 0.114,
+    }))
+    withLum.sort((a, b) => a.lum - b.lum)
 
-    // Filter out samples close to text color
-    const bgSamples = samples.filter(([r, g, b]) => {
-      const lum = r * 0.299 + g * 0.587 + b * 0.114
-      return Math.abs(lum - textLum) > 40
-    })
-    const pool = bgSamples.length >= 3 ? bgSamples : samples
+    // Keep only the brighter half — these are background, not text
+    const midpoint = Math.floor(withLum.length / 2)
+    const brightHalf = withLum.slice(midpoint)
+    const pool: [number, number, number][] = brightHalf.map((s) => [s.r, s.g, s.b])
 
     // Bucket by RGB (bin size 16) → most common = background
     const buckets = new Map<string, { rSum: number; gSum: number; bSum: number; count: number }>()
@@ -206,7 +191,6 @@ export async function runStep3(pageId: string) {
   // background color per region. This ensures consistent color within a region
   // while sampling close to each actual text line (not just the region boundary).
   const regionSamples = new Map<string, [number, number, number][]>()
-  const regionBounds = new Map<string, { pxLeft: number; pxTop: number; pxRight: number; pxBottom: number }>()
   for (const lb of lineBounds) {
     const regionId = lineToRegion.get(lb.lineIdx)
     if (!regionId) continue
@@ -221,23 +205,12 @@ export async function runStep3(pageId: string) {
     } else {
       regionSamples.set(regionId, [...samples])
     }
-    // Track combined bounds for interior text color detection
-    const rb = regionBounds.get(regionId)
-    if (rb) {
-      rb.pxLeft = Math.min(rb.pxLeft, lb.pxLeft)
-      rb.pxTop = Math.min(rb.pxTop, lb.pxTop)
-      rb.pxRight = Math.max(rb.pxRight, lb.pxRight)
-      rb.pxBottom = Math.max(rb.pxBottom, lb.pxBottom)
-    } else {
-      regionBounds.set(regionId, { pxLeft: lb.pxLeft, pxTop: lb.pxTop, pxRight: lb.pxRight, pxBottom: lb.pxBottom })
-    }
   }
 
   // Pick one color per region from pooled samples
   const regionBgCache = new Map<string, [number, number, number]>()
   regionSamples.forEach((samples, regionId) => {
-    const rb = regionBounds.get(regionId)!
-    regionBgCache.set(regionId, pickBgColor(samples, rb.pxLeft, rb.pxTop, rb.pxRight, rb.pxBottom))
+    regionBgCache.set(regionId, pickBgColor(samples))
   })
 
   for (const lb of lineBounds) {
@@ -248,8 +221,7 @@ export async function runStep3(pageId: string) {
     const cached = regionId ? regionBgCache.get(regionId) : undefined
     const [bgR, bgG, bgB] = cached
       || pickBgColor(
-        collectPerimeterSamples(pxLeft, pxTop, pxRight, pxBottom, 0, 0, imgW, imgH),
-        pxLeft, pxTop, pxRight, pxBottom
+        collectPerimeterSamples(pxLeft, pxTop, pxRight, pxBottom, 0, 0, imgW, imgH)
       )
 
     // Create RGBA patch: solid background color with alpha feathering at edges

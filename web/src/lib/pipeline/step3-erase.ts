@@ -59,20 +59,18 @@ export async function runStep3(pageId: string) {
   const channels = metadata.channels || 3
   const rawPixels = await sharp(buffer).raw().toBuffer()
 
-  // Sample ~30 points in a tight ring around the text box, filter out
-  // text-colored points, return the most common background color.
-  const samplePerimeterBg = (
+  // Collect ~30 raw RGB samples from a tight ring (3px) around a box.
+  // Does NOT filter or pick a color — returns raw samples for pooling.
+  const collectPerimeterSamples = (
     pxLeft: number, pxTop: number, pxRight: number, pxBottom: number
-  ): [number, number, number] => {
-    const margin = 3 // pixels outside the box edge
+  ): [number, number, number][] => {
+    const margin = 3
     const samples: [number, number, number][] = []
     const pxW = pxRight - pxLeft
     const pxH = pxBottom - pxTop
     const perimeter = 2 * (pxW + pxH)
-    const numTarget = 30
-    const step = Math.max(1, Math.floor(perimeter / numTarget))
+    const step = Math.max(1, Math.floor(perimeter / 30))
 
-    // Walk around the 4 edges, sampling just outside
     // Top edge
     for (let x = pxLeft; x < pxRight; x += step) {
       const sy = Math.max(0, pxTop - margin)
@@ -105,10 +103,19 @@ export async function runStep3(pageId: string) {
         samples.push([rawPixels[idx], rawPixels[idx + 1], rawPixels[idx + 2]])
       }
     }
+    return samples
+  }
 
+  // Pick the most common non-text color from a pool of RGB samples.
+  const pickBgColor = (
+    samples: [number, number, number][],
+    pxLeft: number, pxTop: number, pxRight: number, pxBottom: number
+  ): [number, number, number] => {
     if (samples.length === 0) return [255, 255, 255]
 
-    // Determine text color: sample interior points, take 30th percentile luminance
+    // Determine text color from interior points (30th percentile luminance)
+    const pxW = pxRight - pxLeft
+    const pxH = pxBottom - pxTop
     const interiorLums: number[] = []
     const cx = Math.floor((pxLeft + pxRight) / 2)
     const cy = Math.floor((pxTop + pxBottom) / 2)
@@ -127,15 +134,14 @@ export async function runStep3(pageId: string) {
     interiorLums.sort((a, b) => a - b)
     const textLum = interiorLums[Math.floor(interiorLums.length * 0.3)]
 
-    // Filter out perimeter samples that are close to the text color
+    // Filter out samples close to text color
     const bgSamples = samples.filter(([r, g, b]) => {
       const lum = r * 0.299 + g * 0.587 + b * 0.114
       return Math.abs(lum - textLum) > 40
     })
-
     const pool = bgSamples.length >= 3 ? bgSamples : samples
 
-    // Bucket by color (bin size 16) to find most common background color
+    // Bucket by RGB (bin size 16) → most common = background
     const buckets = new Map<string, { rSum: number; gSum: number; bSum: number; count: number }>()
     for (const [r, g, b] of pool) {
       const key = `${r >> 4},${g >> 4},${b >> 4}`
@@ -146,10 +152,8 @@ export async function runStep3(pageId: string) {
         buckets.set(key, { rSum: r, gSum: g, bSum: b, count: 1 })
       }
     }
-
     let best = { rSum: 255, gSum: 255, bSum: 255, count: 1 }
     buckets.forEach((b) => { if (b.count > best.count) best = b })
-
     return [
       Math.round(best.rSum / best.count),
       Math.round(best.gSum / best.count),
@@ -159,30 +163,20 @@ export async function runStep3(pageId: string) {
 
   // Create erasure patches
   const composites: sharp.OverlayOptions[] = []
-  const lineEntries: { lineIdx: number; lineBoxes: typeof boxes }[] = []
-  lineMap.forEach((lineBoxes, lineIdx) => lineEntries.push({ lineIdx, lineBoxes }))
 
-  const FEATHER = 3 // pixels of alpha feathering at patch edges
-
-  // Cache one background color per region — sample from region's full bounding box
-  const regionBgCache = new Map<string, [number, number, number]>()
-  for (const region of regions) {
-    const pad = 0.4
-    const pxLeft = Math.max(0, Math.round(((region.origX - pad) / 100) * imgW))
-    const pxTop = Math.max(0, Math.round(((region.origY - pad) / 100) * imgH))
-    const pxRight = Math.min(imgW, Math.round(((region.origX + region.origWidth + pad) / 100) * imgW))
-    const pxBottom = Math.min(imgH, Math.round(((region.origY + region.origHeight + pad) / 100) * imgH))
-    if (pxRight > pxLeft && pxBottom > pxTop) {
-      regionBgCache.set(region.id, samplePerimeterBg(pxLeft, pxTop, pxRight, pxBottom))
-    }
+  // Pre-compute pixel bounds for each line
+  type LineBounds = {
+    lineIdx: number
+    lineBoxes: typeof boxes
+    pxLeft: number; pxTop: number; pxRight: number; pxBottom: number
+    pxW: number; pxH: number
   }
-
-  for (const { lineIdx, lineBoxes } of lineEntries) {
+  const lineBounds: LineBounds[] = []
+  lineMap.forEach((lineBoxes, lineIdx) => {
     const minX = Math.min(...lineBoxes.map((b) => b.x))
     const minY = Math.min(...lineBoxes.map((b) => b.y))
     const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
     const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
-
     const pad = 0.4
     const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
     const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
@@ -190,13 +184,58 @@ export async function runStep3(pageId: string) {
     const pxBottom = Math.min(imgH, Math.round(((maxY + pad) / 100) * imgH))
     const pxW = pxRight - pxLeft
     const pxH = pxBottom - pxTop
+    if (pxW > 0 && pxH > 0) {
+      lineBounds.push({ lineIdx, lineBoxes, pxLeft, pxTop, pxRight, pxBottom, pxW, pxH })
+    }
+  })
 
-    if (pxW <= 0 || pxH <= 0) continue
+  const FEATHER = 3 // pixels of alpha feathering at patch edges
 
-    // Use region's cached color, or fall back to per-line sampling
+  // Pool perimeter samples from ALL lines in the same region, then pick one
+  // background color per region. This ensures consistent color within a region
+  // while sampling close to each actual text line (not just the region boundary).
+  const regionSamples = new Map<string, [number, number, number][]>()
+  const regionBounds = new Map<string, { pxLeft: number; pxTop: number; pxRight: number; pxBottom: number }>()
+  for (const lb of lineBounds) {
+    const regionId = lineToRegion.get(lb.lineIdx)
+    if (!regionId) continue
+    const samples = collectPerimeterSamples(lb.pxLeft, lb.pxTop, lb.pxRight, lb.pxBottom)
+    const existing = regionSamples.get(regionId)
+    if (existing) {
+      existing.push(...samples)
+    } else {
+      regionSamples.set(regionId, [...samples])
+    }
+    // Track combined bounds for interior text color detection
+    const rb = regionBounds.get(regionId)
+    if (rb) {
+      rb.pxLeft = Math.min(rb.pxLeft, lb.pxLeft)
+      rb.pxTop = Math.min(rb.pxTop, lb.pxTop)
+      rb.pxRight = Math.max(rb.pxRight, lb.pxRight)
+      rb.pxBottom = Math.max(rb.pxBottom, lb.pxBottom)
+    } else {
+      regionBounds.set(regionId, { pxLeft: lb.pxLeft, pxTop: lb.pxTop, pxRight: lb.pxRight, pxBottom: lb.pxBottom })
+    }
+  }
+
+  // Pick one color per region from pooled samples
+  const regionBgCache = new Map<string, [number, number, number]>()
+  regionSamples.forEach((samples, regionId) => {
+    const rb = regionBounds.get(regionId)!
+    regionBgCache.set(regionId, pickBgColor(samples, rb.pxLeft, rb.pxTop, rb.pxRight, rb.pxBottom))
+  })
+
+  for (const lb of lineBounds) {
+    const { lineIdx, pxLeft, pxTop, pxRight, pxBottom, pxW, pxH } = lb
+
+    // Use region's pooled color, or fall back to per-line sampling
     const regionId = lineToRegion.get(lineIdx)
-    const [bgR, bgG, bgB] = (regionId && regionBgCache.get(regionId))
-      || samplePerimeterBg(pxLeft, pxTop, pxRight, pxBottom)
+    const cached = regionId ? regionBgCache.get(regionId) : undefined
+    const [bgR, bgG, bgB] = cached
+      || pickBgColor(
+        collectPerimeterSamples(pxLeft, pxTop, pxRight, pxBottom),
+        pxLeft, pxTop, pxRight, pxBottom
+      )
 
     // Create RGBA patch: solid background color with alpha feathering at edges
     const patchW = pxW + 2 * FEATHER

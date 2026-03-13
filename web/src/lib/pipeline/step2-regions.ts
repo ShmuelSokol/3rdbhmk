@@ -483,13 +483,70 @@ function isScatteredLayout(lines: OcrLineType[]): boolean {
 }
 
 /**
- * Split a column's lines when consecutive lines transition from wide to narrow
- * (or vice versa) — indicated by a left-edge shift > 10% of page width.
- * Prevents wide lines at the top from forcing the region to cover illustrations
- * that sit beside narrower lines below.
+ * Split a column's lines by left-edge position. Finds the dominant left edge
+ * (where most lines start) and separates outlier lines whose left edge differs
+ * by >10% of page width. Outliers become their own regions (e.g., captions
+ * under illustrations that sit beside a narrow text column).
+ * Also splits consecutive dominant lines when the left edge shifts (wide→narrow).
  */
 function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
   if (lines.length <= 2) return [lines]
+
+  // Find the dominant left edge — the left-edge value shared by the most lines
+  // Use 5%-wide buckets
+  const leftBuckets = new Map<number, OcrLineType[]>()
+  for (const line of lines) {
+    const bucket = Math.round(line.x / 5)
+    if (!leftBuckets.has(bucket)) leftBuckets.set(bucket, [])
+    leftBuckets.get(bucket)!.push(line)
+  }
+
+  let dominantBucket = 0
+  let dominantCount = 0
+  leftBuckets.forEach((members, bucket) => {
+    if (members.length > dominantCount) {
+      dominantCount = members.length
+      dominantBucket = bucket
+    }
+  })
+  const dominantLeft = dominantBucket * 5
+
+  // Separate lines into dominant (matching the column's typical left edge)
+  // and outliers (left edge far from dominant)
+  const dominant: OcrLineType[] = []
+  const outliers: OcrLineType[] = []
+
+  for (const line of lines) {
+    if (Math.abs(line.x - dominantLeft) > 10) {
+      outliers.push(line)
+    } else {
+      dominant.push(line)
+    }
+  }
+
+  // No outliers → check for consecutive width transitions within dominant lines
+  if (outliers.length === 0) {
+    return splitByConsecutiveLeftEdge(dominant)
+  }
+
+  // Build result: dominant lines split by consecutive left-edge shifts,
+  // plus each outlier cluster as its own region
+  const result: OcrLineType[][] = []
+
+  if (dominant.length > 0) {
+    result.push(...splitByConsecutiveLeftEdge(dominant))
+  }
+
+  // Cluster outliers by Y proximity (nearby outliers = one caption region)
+  const outlierClusters = clusterByYProximity(outliers)
+  result.push(...outlierClusters)
+
+  return result
+}
+
+/** Split consecutive lines when left edge shifts by >10% (wide→narrow transition). */
+function splitByConsecutiveLeftEdge(lines: OcrLineType[]): OcrLineType[][] {
+  if (lines.length <= 1) return [lines]
 
   const sorted = [...lines].sort((a, b) => a.y - b.y)
   const groups: OcrLineType[][] = [[sorted[0]]]
@@ -500,7 +557,6 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
       prevGroup.reduce((s, l) => s + l.x, 0) / prevGroup.length
     const curLeft = sorted[i].x
 
-    // Left edge jumps by more than 10% of page width → start new group
     if (Math.abs(curLeft - prevAvgLeft) > 10) {
       groups.push([sorted[i]])
     } else {
@@ -508,11 +564,10 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
     }
   }
 
-  // Only split if each group has at least 2 lines
+  // Absorb singletons into nearest group by Y
   const valid = groups.filter((g) => g.length >= 2)
   if (valid.length < 2) return [lines]
 
-  // Absorb singletons into nearest group by Y proximity
   const singletons = groups.filter((g) => g.length < 2)
   for (const sg of singletons) {
     const line = sg[0]
@@ -531,6 +586,29 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
   }
 
   return valid
+}
+
+/** Cluster lines by Y proximity — lines within 3% Y of each other form one cluster. */
+function clusterByYProximity(lines: OcrLineType[]): OcrLineType[][] {
+  if (lines.length === 0) return []
+  if (lines.length === 1) return [lines]
+
+  const sorted = [...lines].sort((a, b) => a.y - b.y)
+  const clusters: OcrLineType[][] = [[sorted[0]]]
+
+  for (let i = 1; i < sorted.length; i++) {
+    const prevCluster = clusters[clusters.length - 1]
+    const prevBottom = Math.max(...prevCluster.map((l) => l.y + l.height))
+    const gap = sorted[i].y - prevBottom
+
+    if (gap > 3) {
+      clusters.push([sorted[i]])
+    } else {
+      prevCluster.push(sorted[i])
+    }
+  }
+
+  return clusters
 }
 
 /**

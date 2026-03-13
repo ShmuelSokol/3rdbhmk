@@ -48,6 +48,12 @@ export async function runStep2(pageId: string) {
     const maxY = Math.max(...textBoxes.map((b) => b.y + b.height))
     const text = textBoxes.map((b) => b.editedText ?? b.hebrewText).join('')
     if (!text.trim()) return
+    // Skip lines that are OCR noise: no Hebrew characters and low avg confidence
+    const hasHebrew = /[\u0590-\u05FF]/.test(text)
+    if (!hasHebrew) {
+      const avgConf = textBoxes.reduce((s, b) => s + (b.confidence ?? 0), 0) / textBoxes.length
+      if (avgConf < 0.8) return
+    }
     ocrLines.push({
       y: minY, height: maxY - minY, x: minX, width: maxX - minX,
       charCount: text.length,

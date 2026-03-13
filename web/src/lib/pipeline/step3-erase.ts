@@ -42,6 +42,19 @@ export async function runStep3(pageId: string) {
     lineMap.get(li)!.push(box)
   }
 
+  // Load regions so we can sample one background color per region
+  const regions = await prisma.contentRegion.findMany({
+    where: { pageId },
+  })
+
+  // Map lineIndex → regionId using boxes' regionId field
+  const lineToRegion = new Map<number, string>()
+  for (const box of boxes) {
+    if (box.lineIndex != null && box.regionId) {
+      lineToRegion.set(box.lineIndex, box.regionId)
+    }
+  }
+
   const metadata = await sharp(buffer).metadata()
   const channels = metadata.channels || 3
   const rawPixels = await sharp(buffer).raw().toBuffer()
@@ -146,12 +159,25 @@ export async function runStep3(pageId: string) {
 
   // Create erasure patches
   const composites: sharp.OverlayOptions[] = []
-  const lineEntries: (typeof boxes)[] = []
-  lineMap.forEach((lineBoxes) => lineEntries.push(lineBoxes))
+  const lineEntries: { lineIdx: number; lineBoxes: typeof boxes }[] = []
+  lineMap.forEach((lineBoxes, lineIdx) => lineEntries.push({ lineIdx, lineBoxes }))
 
   const FEATHER = 3 // pixels of alpha feathering at patch edges
 
-  for (const lineBoxes of lineEntries) {
+  // Cache one background color per region — sample from region's full bounding box
+  const regionBgCache = new Map<string, [number, number, number]>()
+  for (const region of regions) {
+    const pad = 0.4
+    const pxLeft = Math.max(0, Math.round(((region.origX - pad) / 100) * imgW))
+    const pxTop = Math.max(0, Math.round(((region.origY - pad) / 100) * imgH))
+    const pxRight = Math.min(imgW, Math.round(((region.origX + region.origWidth + pad) / 100) * imgW))
+    const pxBottom = Math.min(imgH, Math.round(((region.origY + region.origHeight + pad) / 100) * imgH))
+    if (pxRight > pxLeft && pxBottom > pxTop) {
+      regionBgCache.set(region.id, samplePerimeterBg(pxLeft, pxTop, pxRight, pxBottom))
+    }
+  }
+
+  for (const { lineIdx, lineBoxes } of lineEntries) {
     const minX = Math.min(...lineBoxes.map((b) => b.x))
     const minY = Math.min(...lineBoxes.map((b) => b.y))
     const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
@@ -167,7 +193,10 @@ export async function runStep3(pageId: string) {
 
     if (pxW <= 0 || pxH <= 0) continue
 
-    const [bgR, bgG, bgB] = samplePerimeterBg(pxLeft, pxTop, pxRight, pxBottom)
+    // Use region's cached color, or fall back to per-line sampling
+    const regionId = lineToRegion.get(lineIdx)
+    const [bgR, bgG, bgB] = (regionId && regionBgCache.get(regionId))
+      || samplePerimeterBg(pxLeft, pxTop, pxRight, pxBottom)
 
     // Create RGBA patch: solid background color with alpha feathering at edges
     const patchW = pxW + 2 * FEATHER

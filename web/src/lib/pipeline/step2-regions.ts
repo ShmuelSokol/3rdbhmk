@@ -233,28 +233,34 @@ export async function runStep2(pageId: string) {
       // Build body columns first so we can check annotation overlap
       const bodyColumns = body.length > 0 ? splitBodyByXColumns(body) : []
 
-      // Compute X ranges for each body column
+      // Compute X and Y ranges for each body column
       const colRanges = bodyColumns.map((col) => ({
         minX: Math.min(...col.map((l) => l.x)),
         maxX: Math.max(...col.map((l) => l.x + l.width)),
+        minY: Math.min(...col.map((l) => l.y)),
+        maxY: Math.max(...col.map((l) => l.y + l.height)),
         lines: col,
       }))
 
-      // Process annotation clusters — merge into body column if they overlap,
-      // otherwise create a separate annotation region
+      // Process annotation clusters — merge into body column only if they
+      // overlap in BOTH X and Y (i.e., the annotation is spatially inside the
+      // body column, not just at the same X but above/below it)
       if (annotations.length > 0) {
         const clusters = clusterAnnotationLines(annotations)
         for (const cluster of clusters) {
           const cMinX = Math.min(...cluster.map((l) => l.x))
           const cMaxX = Math.max(...cluster.map((l) => l.x + l.width))
+          const cMinY = Math.min(...cluster.map((l) => l.y))
+          const cMaxY = Math.max(...cluster.map((l) => l.y + l.height))
 
-          // Check if this cluster's X range falls within a body column
+          // Check if this cluster falls within a body column's X AND Y range
           let absorbed = false
           for (const col of colRanges) {
             const xOverlap = Math.min(cMaxX, col.maxX) - Math.max(cMinX, col.minX)
             const clusterWidth = cMaxX - cMinX
-            if (xOverlap > clusterWidth * 0.5) {
-              // Annotation sits within this body column — merge lines in
+            const yInside = cMinY >= col.minY && cMaxY <= col.maxY
+            if (xOverlap > clusterWidth * 0.5 && yInside) {
+              // Annotation is inside this body column — merge lines in
               col.lines.push(...cluster)
               absorbed = true
               break
@@ -263,9 +269,9 @@ export async function runStep2(pageId: string) {
 
           if (!absorbed) {
             const minX = cMinX
-            const minY = Math.min(...cluster.map((l) => l.y))
+            const minY = cMinY
             const maxX = cMaxX
-            const maxY = Math.max(...cluster.map((l) => l.y + l.height))
+            const maxY = cMaxY
             const clusterBoxIds = cluster.flatMap((l) => l.boxIds)
             const hebrewText = boxes
               .filter((b) => clusterBoxIds.includes(b.id))

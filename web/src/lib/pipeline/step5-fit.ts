@@ -315,10 +315,8 @@ export async function runStep5(pageId: string) {
       // Render
       const canvas = createCanvas(pxWidth, pxHeight)
       const ctx = canvas.getContext('2d')
-      if (region.regionType === 'body' || region.regionType === 'table') {
-        ctx.fillStyle = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
-        ctx.fillRect(0, 0, pxWidth, pxHeight)
-      }
+      const fillBg = region.regionType === 'body' || region.regionType === 'table'
+      const bgColor = fillBg ? sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight) : ''
       ctx.textBaseline = 'top'
       const topPad = totalHeight < pxHeight ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
       let yPos = topPad
@@ -326,7 +324,6 @@ export async function runStep5(pageId: string) {
       for (const rl of renderedLines) {
         const style = rl.isBold ? 'bold' : 'normal'
         ctx.font = `${style} ${rl.fontSize}px Arial`
-        ctx.fillStyle = rl.color
         const lh = Math.round(rl.fontSize * 1.3)
         const lineW = ctx.measureText(rl.text).width
         // Position at Hebrew line's center X
@@ -335,6 +332,12 @@ export async function runStep5(pageId: string) {
         xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
         // Wide lines (>80% of region) → left-align for readability
         if (lineW > pxWidth * 0.8) xPos = 0
+        // Fill background strip behind this text line only (preserves illustrations)
+        if (fillBg) {
+          ctx.fillStyle = bgColor
+          ctx.fillRect(0, yPos, pxWidth, lh)
+        }
+        ctx.fillStyle = rl.color
         ctx.fillText(rl.text, xPos, yPos)
         yPos += lh
       }
@@ -402,12 +405,8 @@ export async function runStep5(pageId: string) {
 
       const canvas = createCanvas(pxWidth, pxHeight)
       const ctx = canvas.getContext('2d')
-
-      // Fill body/table regions with opaque background to cover erasure artifacts
-      if (region.regionType === 'body' || region.regionType === 'table') {
-        ctx.fillStyle = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
-        ctx.fillRect(0, 0, pxWidth, pxHeight)
-      }
+      const fillBg = region.regionType === 'body' || region.regionType === 'table'
+      const bgColor = fillBg ? sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight) : ''
 
       ctx.font = `${fontStyle} ${fontSize}px Arial`
       ctx.fillStyle = defaultColor
@@ -428,6 +427,12 @@ export async function runStep5(pageId: string) {
         xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
         // Wide lines (>80% of region) → left-align for readability
         if (lineW > pxWidth * 0.8) xPos = 0
+        // Fill background strip behind this text line only (preserves illustrations)
+        if (fillBg) {
+          ctx.fillStyle = bgColor
+          ctx.fillRect(0, yPos, pxWidth, lineHeight)
+        }
+        ctx.fillStyle = defaultColor
         ctx.fillText(line, xPos, yPos)
         yPos += lineHeight
       }

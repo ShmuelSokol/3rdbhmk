@@ -110,9 +110,24 @@ export async function runStep5(pageId: string) {
   const fullPageHebrew = regions.map((r) => r.hebrewText || '').join('\n\n')
   for (const region of regions) {
     if (!region.translatedText && region.hebrewText?.trim()) {
+      const hebrewText = region.hebrewText.trim()
+
+      // Hebrew numerals (gematria) — just keep as-is
+      const isHebrewNumeral = /^[\u05D0-\u05EA]{1,3}$/u.test(hebrewText) && hebrewText.length <= 3
+      if (isHebrewNumeral) {
+        region.translatedText = hebrewText
+        await prisma.contentRegion.update({
+          where: { id: region.id },
+          data: { translatedText: hebrewText },
+        })
+        continue
+      }
+
+      // Only send context for longer regions (short text + long context confuses the model)
+      const useContext = hebrewText.length > 20 ? fullPageHebrew : undefined
       const english = await translateHebrew({
-        hebrewText: region.hebrewText,
-        context: fullPageHebrew,
+        hebrewText,
+        context: useContext,
       })
       await prisma.contentRegion.update({
         where: { id: region.id },

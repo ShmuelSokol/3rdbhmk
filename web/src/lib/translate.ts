@@ -44,9 +44,9 @@ export async function translateHebrew({
 }): Promise<string> {
   const client = getClient()
 
-  let userMessage = `Translate the following Hebrew text:\n\n${hebrewText}`
+  let userMessage = `Translate ONLY the following Hebrew text (do NOT translate or include any of the context — output ONLY the translation of the text between the === markers):\n\n===\n${hebrewText}\n===`
   if (context) {
-    userMessage = `Context from surrounding text:\n${context}\n\n${userMessage}`
+    userMessage = `Context from surrounding text (for reference only, do NOT translate this):\n${context}\n\n${userMessage}`
   }
 
   const response = await client.messages.create({

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { getSupabase } from '@/lib/supabase'
 import { getPageImageBuffer, updatePipelineStatus } from './shared'
-import { translateHebrew } from '@/lib/translate'
 import sharp from 'sharp'
 import { createCanvas } from 'canvas'
 
@@ -105,35 +104,21 @@ export async function runStep5(pageId: string) {
     return { storagePath, width: imgW, height: imgH }
   }
 
-  // Translate each region individually if not already translated
-  // Build full page context for better translation quality
-  const fullPageHebrew = regions.map((r) => r.hebrewText || '').join('\n\n')
-  for (const region of regions) {
-    if (!region.translatedText && region.hebrewText?.trim()) {
-      const hebrewText = region.hebrewText.trim()
-
-      // Hebrew numerals (gematria) — just keep as-is
-      const isHebrewNumeral = /^[\u05D0-\u05EA]{1,3}$/u.test(hebrewText) && hebrewText.length <= 3
-      if (isHebrewNumeral) {
-        region.translatedText = hebrewText
-        await prisma.contentRegion.update({
-          where: { id: region.id },
-          data: { translatedText: hebrewText },
-        })
-        continue
+  // Align translations from existing full-page Translation record
+  const anyMissing = regions.some((r) => !r.translatedText && r.hebrewText?.trim())
+  if (anyMissing) {
+    const translation = await prisma.translation.findUnique({ where: { pageId } })
+    if (translation) {
+      const aligned = alignTranslation(regions, translation.hebrewInput, translation.englishOutput)
+      for (let i = 0; i < regions.length; i++) {
+        if (!regions[i].translatedText && aligned[i]) {
+          regions[i].translatedText = aligned[i]
+          await prisma.contentRegion.update({
+            where: { id: regions[i].id },
+            data: { translatedText: aligned[i] },
+          })
+        }
       }
-
-      // Only send context for longer regions (short text + long context confuses the model)
-      const useContext = hebrewText.length > 20 ? fullPageHebrew : undefined
-      const english = await translateHebrew({
-        hebrewText,
-        context: useContext,
-      })
-      await prisma.contentRegion.update({
-        where: { id: region.id },
-        data: { translatedText: english },
-      })
-      region.translatedText = english
     }
   }
 
@@ -307,6 +292,59 @@ export async function runStep5(pageId: string) {
   await updatePipelineStatus(pageId, 'step5_fitted')
 
   return { storagePath, width: imgW, height: imgH }
+}
+
+/**
+ * Align existing full-page translation to individual regions using Hebrew position matching.
+ * Finds where each region's Hebrew text appears in the full Hebrew input, then assigns
+ * corresponding English paragraphs in order — no API calls needed.
+ */
+function alignTranslation(
+  regions: { hebrewText: string | null; translatedText: string | null }[],
+  fullHebrew: string,
+  fullEnglish: string
+): string[] {
+  const engParas = fullEnglish.split(/\n\n+/).filter((p) => p.trim())
+  const normFull = normalize(fullHebrew)
+
+  // Find position of each region in the Hebrew input
+  const positioned = regions.map((r, i) => {
+    if (!r.hebrewText) return { idx: i, start: -1, len: 0 }
+    const normH = normalize(r.hebrewText)
+    let start = normFull.indexOf(normH)
+    if (start < 0 && normH.length > 10) start = normFull.indexOf(normH.slice(0, 10))
+    if (start < 0 && normH.length > 5) start = normFull.indexOf(normH.slice(0, 5))
+    return { idx: i, start, len: normH.length }
+  })
+
+  // Sort by position in Hebrew input
+  const sorted = positioned.filter((x) => x.start >= 0).sort((a, b) => a.start - b.start)
+  const result = new Array(regions.length).fill('')
+  const totalLen = normFull.length || 1
+
+  let paraIdx = 0
+  for (let si = 0; si < sorted.length; si++) {
+    const { idx, len } = sorted[si]
+    const isLast = si === sorted.length - 1
+
+    if (isLast) {
+      result[idx] = engParas.slice(paraIdx).join('\n\n')
+    } else {
+      const hebrewFrac = len / totalLen
+      const remaining = sorted.length - si - 1
+      const parasNeeded = Math.max(1, Math.round(hebrewFrac * engParas.length))
+      const maxParas = engParas.length - paraIdx - remaining
+      const take = Math.min(parasNeeded, Math.max(1, maxParas))
+      result[idx] = engParas.slice(paraIdx, paraIdx + take).join('\n\n')
+      paraIdx += take
+    }
+  }
+
+  return result
+}
+
+function normalize(s: string): string {
+  return s.replace(/[\s\-\u05BE\u200F\u200E]/g, '').replace(/["'״׳]/g, '')
 }
 
 async function upsertFittedPage(pageId: string, storagePath: string, width: number, height: number) {

@@ -3,10 +3,12 @@ import { getSupabase } from '@/lib/supabase'
 import { getPageImageBuffer, updatePipelineStatus } from './shared'
 import sharp from 'sharp'
 import { createCanvas } from 'canvas'
+import Anthropic from '@anthropic-ai/sdk'
 
 /**
- * Step 5: English text fitting — center English text in expanded regions,
- * match Hebrew pixel sizes, render onto erased image, upload to Supabase.
+ * Step 5: English text fitting — render English text in expanded regions,
+ * with per-line font sizing, per-line color sampling, exact X positioning,
+ * and AI-powered text shortening when text overflows.
  */
 export async function runStep5(pageId: string) {
   const { buffer: origBuffer, imgW, imgH, page } = await getPageImageBuffer(pageId)
@@ -16,32 +18,45 @@ export async function runStep5(pageId: string) {
   const origPixels = await sharp(origBuffer).raw().toBuffer()
   const origChannels = origMeta.channels || 3
 
-  // Sample the dominant text color from a region of the original image
+  // Sample text color from a bounding box in the original image.
+  // Handles both dark-on-light and light-on-dark text.
   function sampleTextColor(pxLeft: number, pxTop: number, pxWidth: number, pxHeight: number): string {
-    const darkPixels: [number, number, number][] = []
     const pxRight = Math.min(imgW, pxLeft + pxWidth)
     const pxBottom = Math.min(imgH, pxTop + pxHeight)
+    let lumSum = 0, lumCount = 0
+    const darkPixels: [number, number, number][] = []
+    const lightPixels: [number, number, number][] = []
+
     for (let y = pxTop; y < pxBottom; y += 3) {
       for (let x = pxLeft; x < pxRight; x += 3) {
         const idx = (y * imgW + x) * origChannels
         const r = origPixels[idx], g = origPixels[idx + 1], b = origPixels[idx + 2]
         const lum = r * 0.299 + g * 0.587 + b * 0.114
-        // Collect dark pixels (text pixels, not background)
-        if (lum < 100) {
-          darkPixels.push([r, g, b])
-        }
+        lumSum += lum
+        lumCount++
+        if (lum < 100) darkPixels.push([r, g, b])
+        if (lum > 180) lightPixels.push([r, g, b])
       }
     }
+
+    const avgLum = lumCount > 0 ? lumSum / lumCount : 200
+
+    // Dark background → text is the light pixels
+    if (avgLum < 120 && lightPixels.length > 0) {
+      const avg = lightPixels.reduce(
+        (acc, [r, g, b]) => [acc[0] + r, acc[1] + g, acc[2] + b],
+        [0, 0, 0]
+      )
+      return `rgb(${Math.round(avg[0] / lightPixels.length)},${Math.round(avg[1] / lightPixels.length)},${Math.round(avg[2] / lightPixels.length)})`
+    }
+
+    // Light background → text is the dark pixels
     if (darkPixels.length === 0) return 'black'
-    // Average the dark pixel colors
     const avg = darkPixels.reduce(
       (acc, [r, g, b]) => [acc[0] + r, acc[1] + g, acc[2] + b],
       [0, 0, 0]
     )
-    const r = Math.round(avg[0] / darkPixels.length)
-    const g = Math.round(avg[1] / darkPixels.length)
-    const b = Math.round(avg[2] / darkPixels.length)
-    return `rgb(${r},${g},${b})`
+    return `rgb(${Math.round(avg[0] / darkPixels.length)},${Math.round(avg[1] / darkPixels.length)},${Math.round(avg[2] / darkPixels.length)})`
   }
 
   // Get erased image from Supabase
@@ -109,14 +124,38 @@ export async function runStep5(pageId: string) {
   if (anyMissing) {
     const translation = await prisma.translation.findUnique({ where: { pageId } })
     if (translation) {
-      const aligned = alignTranslation(regions, translation.hebrewInput, translation.englishOutput)
+      // Deduplicate regions by normalized Hebrew text before alignment
+      // so identical labels (like 5x "בית רוחני") get the same translation
+      const textToIndices = new Map<string, number[]>()
       for (let i = 0; i < regions.length; i++) {
-        if (!regions[i].translatedText && aligned[i]) {
-          regions[i].translatedText = aligned[i]
-          await prisma.contentRegion.update({
-            where: { id: regions[i].id },
-            data: { translatedText: aligned[i] },
-          })
+        const norm = normalize(regions[i].hebrewText || '')
+        if (!norm) continue
+        if (!textToIndices.has(norm)) textToIndices.set(norm, [])
+        textToIndices.get(norm)!.push(i)
+      }
+
+      // Build unique regions for alignment (first occurrence of each text)
+      const uniqueEntries: { firstIdx: number; norm: string }[] = []
+      textToIndices.forEach((indices, norm) => {
+        uniqueEntries.push({ firstIdx: indices[0], norm })
+      })
+      const uniqueRegions = uniqueEntries.map((e) => regions[e.firstIdx])
+
+      const aligned = alignTranslation(uniqueRegions, translation.hebrewInput, translation.englishOutput)
+
+      // Map translations back to all regions (including duplicates)
+      for (let u = 0; u < uniqueEntries.length; u++) {
+        const text = aligned[u]
+        if (!text) continue
+        const allIndices = textToIndices.get(uniqueEntries[u].norm) || []
+        for (const idx of allIndices) {
+          if (!regions[idx].translatedText) {
+            regions[idx].translatedText = text
+            await prisma.contentRegion.update({
+              where: { id: regions[idx].id },
+              data: { translatedText: text },
+            })
+          }
         }
       }
     }
@@ -134,6 +173,8 @@ export async function runStep5(pageId: string) {
 
   // Render text onto canvas for each region, then composite onto erased image
   const composites: sharp.OverlayOptions[] = []
+  const measureCanvas = createCanvas(1, 1)
+  const measureCtx = measureCanvas.getContext('2d')
 
   for (const { region, text } of assignments) {
     if (!text.trim()) continue
@@ -151,127 +192,260 @@ export async function runStep5(pageId: string) {
 
     if (pxWidth <= 0 || pxHeight <= 0) continue
 
-    // Determine target font size from Hebrew text pixel size
+    // Get OCR boxes for this region, grouped by lineIndex
     const regionBoxes = ocrResult?.boxes.filter((b) => b.regionId === region.id) || []
-    const avgHebrewSize = regionBoxes.length > 0
-      ? regionBoxes.reduce((s, b) => s + (b.textPixelSize || 20), 0) / regionBoxes.length
-      : 20
-
-    // Detect centering from actual box positions
-    let isCentered = false
-    if (regionBoxes.length > 0) {
-      const boxMinX = Math.min(...regionBoxes.map((b) => b.x))
-      const boxMaxX = Math.max(...regionBoxes.map((b) => b.x + b.width))
-      const leftGap = boxMinX
-      const rightGap = 100 - boxMaxX
-      const boxWidth = boxMaxX - boxMinX
-      isCentered = Math.abs(leftGap - rightGap) < 15 && boxWidth < 50
+    const lineMap = new Map<number, typeof regionBoxes>()
+    for (const box of regionBoxes) {
+      const li = box.lineIndex ?? -1
+      if (!lineMap.has(li)) lineMap.set(li, [])
+      lineMap.get(li)!.push(box)
     }
 
-    // Detect bold
+    // Build per-line properties (font size, color, bold, position)
+    type LineInfo = {
+      fontSize: number
+      color: string
+      isBold: boolean
+      centerX: number // page percentage (0-100)
+      charCount: number
+    }
+    const lineInfos: LineInfo[] = []
+    lineMap.forEach((lineBoxes) => {
+      const minX = Math.min(...lineBoxes.map((b) => b.x))
+      const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
+      const minY = Math.min(...lineBoxes.map((b) => b.y))
+      const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
+      const avgPS = lineBoxes.reduce((s, b) => s + (b.textPixelSize || 20), 0) / lineBoxes.length
+      const boldCount = lineBoxes.filter((b) => b.isBold).length
+      // Per-line color from original image
+      const lpxL = Math.round((minX / 100) * imgW)
+      const lpxT = Math.round((minY / 100) * imgH)
+      const lpxW = Math.max(1, Math.round(((maxX - minX) / 100) * imgW))
+      const lpxH = Math.max(1, Math.round(((maxY - minY) / 100) * imgH))
+      lineInfos.push({
+        fontSize: Math.max(20, Math.round(avgPS * 0.9)),
+        color: sampleTextColor(lpxL, lpxT, lpxW, lpxH),
+        isBold: lineBoxes.length > 0 && boldCount > lineBoxes.length / 2,
+        centerX: (minX + maxX) / 2,
+        charCount: lineBoxes.reduce((s, b) => s + (b.hebrewText?.length || 0), 0),
+      })
+    })
+
+    // Fallback values when no OCR boxes
+    const defaultFontSize = lineInfos.length > 0
+      ? lineInfos[Math.floor(lineInfos.length / 2)].fontSize
+      : 20
+    const defaultColor = lineInfos.length > 0
+      ? lineInfos[0].color
+      : sampleTextColor(
+          Math.round((region.origX / 100) * imgW),
+          Math.round((region.origY / 100) * imgH),
+          Math.round((region.origWidth / 100) * imgW),
+          Math.round((region.origHeight / 100) * imgH)
+        )
+
+    // Hebrew text center X relative to region (0 to 1)
+    const hebrewCenterX = regionBoxes.length > 0
+      ? ((Math.min(...regionBoxes.map((b) => b.x)) + Math.max(...regionBoxes.map((b) => b.x + b.width))) / 2 - rx) / rw
+      : 0.5
+
+    // Region-level bold (majority of boxes)
     const boldBoxCount = regionBoxes.filter((b) => b.isBold).length
-    const inkBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
-    const regionIsBold = inkBold || isCentered
+    const regionIsBold = regionBoxes.length > 0 && boldBoxCount > regionBoxes.length / 2
 
-    // Sample text color from ORIGINAL region coordinates
-    const origPxLeft = Math.round((region.origX / 100) * imgW)
-    const origPxTop = Math.round((region.origY / 100) * imgH)
-    const origPxWidth = Math.round((region.origWidth / 100) * imgW)
-    const origPxHeight = Math.round((region.origHeight / 100) * imgH)
-    const textColor = sampleTextColor(origPxLeft, origPxTop, origPxWidth, origPxHeight)
-
-    // Strip bold markers from text
     const cleanText = text.replace(/\*\*/g, '')
 
-    // Use canvas measureText for word wrapping — find font size that fits
-    const measureCanvas = createCanvas(1, 1)
-    const measureCtx = measureCanvas.getContext('2d')
+    // Check if per-line rendering is needed (distinct font sizes across OCR lines)
+    const uniqueSizes = new Set(lineInfos.map((l) => l.fontSize))
+    const usePerLine = uniqueSizes.size > 1 && lineInfos.length > 1
 
-    const fontStyle = regionIsBold ? 'bold' : 'normal'
-    // Use Hebrew font size — only shrink if a single word is wider than the region
-    let fontSize = Math.max(20, Math.round(avgHebrewSize * 0.9))
+    if (usePerLine) {
+      // === PER-LINE RENDERING ===
+      // Map English text to Hebrew line segments proportionally by character count
+      const totalChars = lineInfos.reduce((s, l) => s + l.charCount, 0) || 1
+      const words = cleanText.split(/\s+/).filter(Boolean)
+      const segments: { text: string; info: LineInfo }[] = []
+      let wordIdx = 0
 
-    const wrapText = (fs: number): string[] => {
-      measureCtx.font = `${fontStyle} ${fs}px Arial`
-      const allLines: string[] = []
-      for (const paragraph of cleanText.split('\n')) {
-        if (paragraph.trim() === '') { allLines.push(''); continue }
-        const words = paragraph.split(/\s+/).filter(Boolean)
+      for (let li = 0; li < lineInfos.length; li++) {
+        const frac = lineInfos[li].charCount / totalChars
+        const targetWordCount = Math.max(1, Math.round(frac * words.length))
+        if (li === lineInfos.length - 1) {
+          segments.push({ text: words.slice(wordIdx).join(' '), info: lineInfos[li] })
+        } else {
+          segments.push({ text: words.slice(wordIdx, wordIdx + targetWordCount).join(' '), info: lineInfos[li] })
+          wordIdx += targetWordCount
+        }
+      }
+
+      // Word wrap each segment at its own font size
+      type RenderedLine = { text: string; fontSize: number; color: string; isBold: boolean; centerX: number }
+      const renderedLines: RenderedLine[] = []
+      for (const seg of segments) {
+        if (!seg.text.trim()) continue
+        const fs = seg.info.fontSize
+        const style = seg.info.isBold ? 'bold' : 'normal'
+        measureCtx.font = `${style} ${fs}px Arial`
+        const segWords = seg.text.split(/\s+/).filter(Boolean)
         let currentLine = ''
-        for (const word of words) {
+        for (const word of segWords) {
           const testLine = currentLine ? currentLine + ' ' + word : word
           if (measureCtx.measureText(testLine).width > pxWidth && currentLine) {
-            allLines.push(currentLine)
+            renderedLines.push({ text: currentLine, fontSize: fs, color: seg.info.color, isBold: seg.info.isBold, centerX: seg.info.centerX })
             currentLine = word
           } else {
             currentLine = testLine
           }
         }
-        if (currentLine) allLines.push(currentLine)
+        if (currentLine) {
+          renderedLines.push({ text: currentLine, fontSize: fs, color: seg.info.color, isBold: seg.info.isBold, centerX: seg.info.centerX })
+        }
       }
-      return allLines
-    }
 
-    // Shrink until text fits within region height (but never below 50% of Hebrew size)
-    const minFontSize = Math.max(20, Math.round(avgHebrewSize * 0.5))
-    for (let attempt = 0; attempt < 30; attempt++) {
-      const lines = wrapText(fontSize)
-      const lh = Math.round(fontSize * 1.3)
-      if (lines.length * lh <= pxHeight) break
-      if (fontSize <= minFontSize) { fontSize = minFontSize; break }
-      fontSize--
-    }
-
-    // Render onto canvas — clipped to region size
-    const wrappedLines = wrapText(fontSize)
-    const lineHeight = Math.round(fontSize * 1.3)
-    const totalHeight = wrappedLines.length * lineHeight
-    const canvasHeight = pxHeight
-
-    const canvas = createCanvas(pxWidth, canvasHeight)
-    const ctx = canvas.getContext('2d')
-
-    // Fill body regions with opaque background to cover erasure artifacts
-    // Skip headers/page numbers to preserve decorative elements (circles, borders)
-    if (region.regionType === 'body' || region.regionType === 'table') {
-      const bgColor = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
-      ctx.fillStyle = bgColor
-      ctx.fillRect(0, 0, pxWidth, canvasHeight)
-    }
-
-    ctx.font = `${fontStyle} ${fontSize}px Arial`
-    ctx.fillStyle = textColor
-    ctx.textBaseline = 'top'
-
-    // Body text starts at top; centered text gets vertical centering
-    const topPad = isCentered ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
-    let yPos = topPad
-
-    for (const line of wrappedLines) {
-      if (line === '') { yPos += lineHeight * 0.5; continue }
-      if (isCentered) {
-        const w = measureCtx.measureText(line).width
-        ctx.fillText(line, (pxWidth - w) / 2, yPos)
-      } else {
-        ctx.fillText(line, 0, yPos)
+      // Check total height, shrink proportionally if needed
+      let totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * 1.3), 0)
+      if (totalHeight > pxHeight) {
+        const scale = pxHeight / totalHeight
+        for (const rl of renderedLines) {
+          rl.fontSize = Math.max(14, Math.round(rl.fontSize * scale))
+        }
+        totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * 1.3), 0)
       }
-      yPos += lineHeight
+
+      // Render
+      const canvas = createCanvas(pxWidth, pxHeight)
+      const ctx = canvas.getContext('2d')
+      if (region.regionType === 'body' || region.regionType === 'table') {
+        ctx.fillStyle = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
+        ctx.fillRect(0, 0, pxWidth, pxHeight)
+      }
+      ctx.textBaseline = 'top'
+      const topPad = totalHeight < pxHeight ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
+      let yPos = topPad
+
+      for (const rl of renderedLines) {
+        const style = rl.isBold ? 'bold' : 'normal'
+        ctx.font = `${style} ${rl.fontSize}px Arial`
+        ctx.fillStyle = rl.color
+        const lh = Math.round(rl.fontSize * 1.3)
+        const lineW = ctx.measureText(rl.text).width
+        // Position at Hebrew line's center X
+        const targetCenterPx = ((rl.centerX - rx) / rw) * pxWidth
+        let xPos = targetCenterPx - lineW / 2
+        xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
+        // Wide lines (>80% of region) → left-align for readability
+        if (lineW > pxWidth * 0.8) xPos = 0
+        ctx.fillText(rl.text, xPos, yPos)
+        yPos += lh
+      }
+
+      composites.push({ input: canvas.toBuffer('image/png'), left: pxLeft, top: pxTop })
+      const medFS = renderedLines.length > 0 ? renderedLines[Math.floor(renderedLines.length / 2)].fontSize : defaultFontSize
+      await prisma.contentRegion.update({
+        where: { id: region.id },
+        data: { fittedFontSize: medFS, fittedText: cleanText },
+      })
+    } else {
+      // === UNIFORM RENDERING (single font size, improved positioning) ===
+      let fontSize = defaultFontSize
+      const fontStyle = regionIsBold ? 'bold' : 'normal'
+
+      const wrapText = (fs: number, txt: string): string[] => {
+        measureCtx.font = `${fontStyle} ${fs}px Arial`
+        const allLines: string[] = []
+        for (const paragraph of txt.split('\n')) {
+          if (paragraph.trim() === '') { allLines.push(''); continue }
+          const words = paragraph.split(/\s+/).filter(Boolean)
+          let currentLine = ''
+          for (const word of words) {
+            const testLine = currentLine ? currentLine + ' ' + word : word
+            if (measureCtx.measureText(testLine).width > pxWidth && currentLine) {
+              allLines.push(currentLine)
+              currentLine = word
+            } else {
+              currentLine = testLine
+            }
+          }
+          if (currentLine) allLines.push(currentLine)
+        }
+        return allLines
+      }
+
+      // Shrink until text fits (min 50% of Hebrew size)
+      const minFontSize = Math.max(20, Math.round(defaultFontSize * 0.5))
+      for (let attempt = 0; attempt < 30; attempt++) {
+        const lines = wrapText(fontSize, cleanText)
+        const lh = Math.round(fontSize * 1.3)
+        if (lines.length * lh <= pxHeight) break
+        if (fontSize <= minFontSize) { fontSize = minFontSize; break }
+        fontSize--
+      }
+
+      // Check if text still overflows → AI shorten
+      let finalText = cleanText
+      const wrappedCheck = wrapText(fontSize, cleanText)
+      const checkLH = Math.round(fontSize * 1.3)
+      if (wrappedCheck.length * checkLH > pxHeight) {
+        const charsPerLine = Math.max(1, Math.floor(pxWidth / (fontSize * 0.55)))
+        const maxLines = Math.max(1, Math.floor(pxHeight / checkLH))
+        const maxChars = charsPerLine * maxLines
+        try {
+          finalText = await shortenText(cleanText, maxChars)
+        } catch {
+          // AI shortening failed, render what fits
+        }
+      }
+
+      const wrappedLines = wrapText(fontSize, finalText)
+      const lineHeight = Math.round(fontSize * 1.3)
+      const totalHeight = wrappedLines.length * lineHeight
+
+      const canvas = createCanvas(pxWidth, pxHeight)
+      const ctx = canvas.getContext('2d')
+
+      // Fill body/table regions with opaque background to cover erasure artifacts
+      if (region.regionType === 'body' || region.regionType === 'table') {
+        ctx.fillStyle = sampleBgColor(pxLeft, pxTop, pxWidth, pxHeight)
+        ctx.fillRect(0, 0, pxWidth, pxHeight)
+      }
+
+      ctx.font = `${fontStyle} ${fontSize}px Arial`
+      ctx.fillStyle = defaultColor
+      ctx.textBaseline = 'top'
+
+      // Vertical centering for short text blocks
+      const topPad = totalHeight < pxHeight ? Math.max(0, (pxHeight - totalHeight) / 2) : 0
+      let yPos = topPad
+
+      // Horizontal positioning: center each line at Hebrew text's center X
+      const targetCenterPx = hebrewCenterX * pxWidth
+
+      for (const line of wrappedLines) {
+        if (line === '') { yPos += lineHeight * 0.5; continue }
+        measureCtx.font = `${fontStyle} ${fontSize}px Arial`
+        const lineW = measureCtx.measureText(line).width
+        let xPos = targetCenterPx - lineW / 2
+        xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
+        // Wide lines (>80% of region) → left-align for readability
+        if (lineW > pxWidth * 0.8) xPos = 0
+        ctx.fillText(line, xPos, yPos)
+        yPos += lineHeight
+      }
+
+      composites.push({
+        input: canvas.toBuffer('image/png'),
+        left: pxLeft,
+        top: pxTop,
+      })
+
+      await prisma.contentRegion.update({
+        where: { id: region.id },
+        data: {
+          fittedFontSize: fontSize,
+          fittedText: finalText,
+        },
+      })
     }
-
-    composites.push({
-      input: canvas.toBuffer('image/png'),
-      left: pxLeft,
-      top: pxTop,
-    })
-
-    // Save fitted text and font size to region
-    await prisma.contentRegion.update({
-      where: { id: region.id },
-      data: {
-        fittedFontSize: fontSize,
-        fittedText: text,
-      },
-    })
   }
 
   // Composite text onto erased image
@@ -295,6 +469,25 @@ export async function runStep5(pageId: string) {
 }
 
 /**
+ * AI-powered text shortening — asks Claude to condense text when it doesn't
+ * fit in the available space after maximum font shrinking.
+ */
+async function shortenText(text: string, maxChars: number): Promise<string> {
+  const client = new Anthropic({ apiKey: process.env["ANTHROPIC_API_KEY"]! })
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    system: 'You are a concise editor. Shorten the given English text to approximately the specified character count while preserving the essential meaning. Use shorter words and simpler phrasing. Return ONLY the shortened text, nothing else.',
+    messages: [{
+      role: 'user',
+      content: `Shorten to approximately ${maxChars} characters:\n\n${text}`,
+    }],
+  })
+  const block = response.content.find((b) => b.type === 'text')
+  return block?.type === 'text' ? block.text : text
+}
+
+/**
  * Align existing full-page translation to individual regions using Hebrew position matching.
  * Finds where each region's Hebrew text appears in the full Hebrew input, then assigns
  * corresponding English paragraphs in order — no API calls needed.
@@ -304,39 +497,81 @@ function alignTranslation(
   fullHebrew: string,
   fullEnglish: string
 ): string[] {
-  const engParas = fullEnglish.split(/\n\n+/).filter((p) => p.trim())
-  const normFull = normalize(fullHebrew)
-
-  // Find position of each region in the Hebrew input
-  const positioned = regions.map((r, i) => {
-    if (!r.hebrewText) return { idx: i, start: -1, len: 0 }
-    const normH = normalize(r.hebrewText)
-    let start = normFull.indexOf(normH)
-    if (start < 0 && normH.length > 10) start = normFull.indexOf(normH.slice(0, 10))
-    if (start < 0 && normH.length > 5) start = normFull.indexOf(normH.slice(0, 5))
-    return { idx: i, start, len: normH.length }
-  })
-
-  // Sort by position in Hebrew input
-  const sorted = positioned.filter((x) => x.start >= 0).sort((a, b) => a.start - b.start)
   const result = new Array(regions.length).fill('')
-  const totalLen = normFull.length || 1
 
-  let paraIdx = 0
-  for (let si = 0; si < sorted.length; si++) {
-    const { idx, len } = sorted[si]
-    const isLast = si === sorted.length - 1
+  // Split both into non-blank lines
+  const hebLines = fullHebrew.split('\n').filter((l) => l.trim())
+  const engLines = fullEnglish.split('\n').filter((l) => l.trim())
 
-    if (isLast) {
-      result[idx] = engParas.slice(paraIdx).join('\n\n')
-    } else {
-      const hebrewFrac = len / totalLen
-      const remaining = sorted.length - si - 1
-      const parasNeeded = Math.max(1, Math.round(hebrewFrac * engParas.length))
-      const maxParas = engParas.length - paraIdx - remaining
-      const take = Math.min(parasNeeded, Math.max(1, maxParas))
-      result[idx] = engParas.slice(paraIdx, paraIdx + take).join('\n\n')
-      paraIdx += take
+  // Phase 1: Single-line exact matching
+  // Match regions whose normalized text equals exactly one Hebrew line
+  const usedHebLines = new Set<number>()
+  const usedEngLines = new Set<number>()
+
+  for (let ri = 0; ri < regions.length; ri++) {
+    if (!regions[ri].hebrewText?.trim()) continue
+    const regionNorm = normalize(regions[ri].hebrewText!)
+
+    for (let li = 0; li < hebLines.length; li++) {
+      if (usedHebLines.has(li)) continue
+      if (normalize(hebLines[li]) === regionNorm && li < engLines.length && !usedEngLines.has(li)) {
+        result[ri] = engLines[li]
+        usedHebLines.add(li)
+        usedEngLines.add(li)
+        break
+      }
+    }
+  }
+
+  // Phase 2: Position-based proportional assignment for remaining regions
+  // Uses \n\n-split paragraphs from the original English, skipping fully consumed ones
+  const unmatchedRegions = regions
+    .map((r, i) => ({ r, i }))
+    .filter(({ i }) => !result[i] && regions[i].hebrewText?.trim())
+
+  if (unmatchedRegions.length > 0) {
+    // Build English paragraphs, excluding those fully consumed by line matching
+    const allParas = fullEnglish.split(/\n\n+/).filter((p) => p.trim())
+    const engParas: string[] = []
+    for (const para of allParas) {
+      const paraLines = para.split('\n').filter((l) => l.trim())
+      const unusedLines = paraLines.filter((pl) => {
+        const idx = engLines.indexOf(pl)
+        return idx < 0 || !usedEngLines.has(idx)
+      })
+      if (unusedLines.length > 0) {
+        engParas.push(unusedLines.join('\n'))
+      }
+    }
+
+    const normFull = normalize(fullHebrew)
+    const positioned = unmatchedRegions.map(({ r, i }) => {
+      const normH = normalize(r.hebrewText!)
+      let start = normFull.indexOf(normH)
+      if (start < 0 && normH.length > 10) start = normFull.indexOf(normH.slice(0, 10))
+      if (start < 0 && normH.length > 5) start = normFull.indexOf(normH.slice(0, 5))
+      return { idx: i, start, len: normH.length }
+    })
+
+    const sorted = positioned.filter((x) => x.start >= 0).sort((a, b) => a.start - b.start)
+    const totalLen = normFull.length || 1
+    let paraIdx = 0
+
+    for (let si = 0; si < sorted.length; si++) {
+      const { idx, len } = sorted[si]
+      const isLast = si === sorted.length - 1
+
+      if (isLast) {
+        result[idx] = engParas.slice(paraIdx).join('\n\n')
+      } else {
+        const hebrewFrac = len / totalLen
+        const remaining = sorted.length - si - 1
+        const parasNeeded = Math.max(1, Math.round(hebrewFrac * engParas.length))
+        const maxParas = engParas.length - paraIdx - remaining
+        const take = Math.min(parasNeeded, Math.max(1, maxParas))
+        result[idx] = engParas.slice(paraIdx, paraIdx + take).join('\n\n')
+        paraIdx += take
+      }
     }
   }
 

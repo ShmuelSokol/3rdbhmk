@@ -202,7 +202,7 @@ export default function PipelinePageViewer() {
           {STEPS.map((step) => {
             const completed = stepIdx(step.key) <= currentStepIdx
             const isCurrent = step.key === status.pipelineStatus
-            const canRun = !isLocked && (stepIdx(step.key) === currentStepIdx + 1 || step.key === 'step1_ocr')
+            const canRun = !isLocked && (completed || stepIdx(step.key) === currentStepIdx + 1)
 
             return (
               <div
@@ -218,7 +218,7 @@ export default function PipelinePageViewer() {
                     </span>
                     {completed && <span className="ml-2 text-green-300 text-xs">Done</span>}
                   </div>
-                  {(canRun || (step.num === 1 && !isLocked)) && (
+                  {canRun && (
                     <button
                       onClick={() => runStep(step.num)}
                       disabled={runningStep !== null}
@@ -324,7 +324,7 @@ export default function PipelinePageViewer() {
               return (
                 <div
                   key={region.id}
-                  className={`absolute border-2 ${colorClass} ${isEditing ? 'border-dashed' : ''} cursor-pointer`}
+                  className={`absolute border-2 ${colorClass} ${isEditing ? 'border-dashed' : ''} cursor-pointer group`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`,
@@ -337,7 +337,7 @@ export default function PipelinePageViewer() {
                     }
                   }}
                 >
-                  <span className="absolute -top-5 left-0 text-xs bg-black/70 px-1 rounded">
+                  <span className="absolute -top-5 left-0 text-xs bg-black/70 px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ zIndex: 50 }}>
                     {region.regionIndex}: {region.regionType}
                   </span>
                 </div>

@@ -61,6 +61,15 @@ export async function runStep2(pageId: string) {
     return []
   }
 
+  // Compute average line height for text-size-based gap thresholds
+  const avgLineHeight = ocrLines.reduce((s, l) => s + l.height, 0) / ocrLines.length
+  // Zone split: gap > 3x average line height (replaces hardcoded 8%)
+  const ZONE_GAP_THRESHOLD = Math.max(3, avgLineHeight * 3)
+  // Body group split: gap > 2x average line height (replaces hardcoded 3%)
+  const BODY_GAP_THRESHOLD = Math.max(1.5, avgLineHeight * 2)
+  // Running header cutoff: lines above 2x average line height from top
+  const HEADER_CUTOFF_Y = Math.max(2, avgLineHeight * 2)
+
   // Detect table regions vs body text
   const isMultiColLine = (idx: number): boolean => {
     const line = ocrLines[idx]
@@ -78,8 +87,7 @@ export async function runStep2(pageId: string) {
 
   const lineIsTable = ocrLines.map((_, i) => isMultiColLine(i))
 
-  // Separate running-header lines (top ~4% of page) — each gets its own zone
-  const HEADER_CUTOFF_Y = 4
+  // Separate running-header lines — each gets its own zone
   const headerLines: OcrLine[] = []
   const bodyLines: { line: OcrLine; isTable: boolean }[] = []
   for (let i = 0; i < ocrLines.length; i++) {
@@ -117,7 +125,7 @@ export async function runStep2(pageId: string) {
     for (let i = 1; i < bodyLines.length; i++) {
       const gap = bodyLines[i].line.y - curZone.endY
       const sameType = bodyLines[i].isTable === curZone.isTable
-      if (!sameType || gap > 8) {
+      if (!sameType || gap > ZONE_GAP_THRESHOLD) {
         zones.push(curZone)
         curZone = {
           startY: bodyLines[i].line.y,
@@ -160,12 +168,19 @@ export async function runStep2(pageId: string) {
     }
   }
   // Merge adjacent same-type zones (but never merge running-header zones)
+  // For table zones, don't merge if there's a large gap (separate content sections)
   const mergedZones: Zone[] = []
   for (const z of zones) {
     const prev = mergedZones.length > 0 ? mergedZones[mergedZones.length - 1] : null
     if (prev && z.isTable === prev.isTable && !z.isRunningHeader && !prev.isRunningHeader) {
-      prev.endY = z.endY
-      prev.lines.push(...z.lines)
+      const gap = z.startY - prev.endY
+      if (z.isTable && gap > 5) {
+        // Large gap between table zones — keep separate (annotation vs body text sections)
+        mergedZones.push({ ...z })
+      } else {
+        prev.endY = z.endY
+        prev.lines.push(...z.lines)
+      }
     } else {
       mergedZones.push({ ...z })
     }
@@ -206,23 +221,57 @@ export async function runStep2(pageId: string) {
     }
 
     if (zone.isTable) {
-      const tMinX = Math.min(...zone.lines.map((l) => l.x))
-      const tMaxX = Math.max(...zone.lines.map((l) => l.x + l.width))
-      const allBoxIds = zone.lines.flatMap((l) => l.boxIds)
-      const hebrewText = boxes
-        .filter((b) => allBoxIds.includes(b.id))
-        .map((b) => b.editedText ?? b.hebrewText)
-        .join(' ')
+      // Split table zone into annotation lines (short, scattered) and body text (long, dense)
+      const { annotations, body } = splitTableByDensity(zone.lines)
 
-      regions.push({
-        regionType: 'table',
-        origX: tMinX,
-        origY: zone.startY,
-        origWidth: tMaxX - tMinX,
-        origHeight: zone.endY - zone.startY,
-        boxIds: allBoxIds,
-        hebrewText,
-      })
+      // Create individual regions for each annotation cluster
+      if (annotations.length > 0) {
+        const clusters = clusterAnnotationLines(annotations)
+        for (const cluster of clusters) {
+          const minX = Math.min(...cluster.map((l) => l.x))
+          const minY = Math.min(...cluster.map((l) => l.y))
+          const maxX = Math.max(...cluster.map((l) => l.x + l.width))
+          const maxY = Math.max(...cluster.map((l) => l.y + l.height))
+          const clusterBoxIds = cluster.flatMap((l) => l.boxIds)
+          const hebrewText = boxes
+            .filter((b) => clusterBoxIds.includes(b.id))
+            .map((b) => b.editedText ?? b.hebrewText)
+            .join(' ')
+
+          regions.push({
+            regionType: 'header',
+            origX: minX,
+            origY: minY,
+            origWidth: maxX - minX,
+            origHeight: maxY - minY,
+            boxIds: clusterBoxIds,
+            hebrewText,
+          })
+        }
+      }
+
+      // Create table region for body text
+      if (body.length > 0) {
+        const tMinX = Math.min(...body.map((l) => l.x))
+        const tMaxX = Math.max(...body.map((l) => l.x + l.width))
+        const tMinY = Math.min(...body.map((l) => l.y))
+        const tMaxY = Math.max(...body.map((l) => l.y + l.height))
+        const allBoxIds = body.flatMap((l) => l.boxIds)
+        const hebrewText = boxes
+          .filter((b) => allBoxIds.includes(b.id))
+          .map((b) => b.editedText ?? b.hebrewText)
+          .join(' ')
+
+        regions.push({
+          regionType: 'table',
+          origX: tMinX,
+          origY: tMinY,
+          origWidth: tMaxX - tMinX,
+          origHeight: tMaxY - tMinY,
+          boxIds: allBoxIds,
+          hebrewText,
+        })
+      }
       continue
     }
 
@@ -238,7 +287,6 @@ export async function runStep2(pageId: string) {
       return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
     }
 
-    const GAP_THRESHOLD = 3
     const groups: OcrLine[][] = []
     let currentGroup = [zoneLines[0]]
     for (let i = 1; i < zoneLines.length; i++) {
@@ -249,7 +297,7 @@ export async function runStep2(pageId: string) {
       const curCentered = isCenteredLine(zoneLines[i])
       // Split on: large gap, centered→body transition, OR body→centered transition
       const typeSwitch = prevCentered !== curCentered
-      if (gap > GAP_THRESHOLD || typeSwitch) {
+      if (gap > BODY_GAP_THRESHOLD || typeSwitch) {
         groups.push(currentGroup)
         currentGroup = [zoneLines[i]]
       } else {
@@ -337,4 +385,134 @@ export async function runStep2(pageId: string) {
 
   await updatePipelineStatus(pageId, 'step2_regions')
   return created
+}
+
+/**
+ * Split a table zone's lines into annotation lines (short, scattered labels)
+ * and body text lines (long, dense column text).
+ * Uses a density transition: finds where consecutive lines shift from short to long.
+ */
+type OcrLineType = { y: number; height: number; x: number; width: number; charCount: number; boxIds: string[] }
+
+function splitTableByDensity(lines: OcrLineType[]): { annotations: OcrLineType[]; body: OcrLineType[] } {
+  if (lines.length === 0) return { annotations: [], body: [] }
+
+  const sorted = [...lines].sort((a, b) => a.y - b.y)
+
+  // Find the first Y position where a sliding window of lines has high avg charCount
+  // This marks the transition from annotations to body text
+  const BODY_CHAR_THRESHOLD = 30
+  const WINDOW = 3
+  let splitIdx = -1
+
+  for (let i = 0; i <= sorted.length - WINDOW; i++) {
+    const window = sorted.slice(i, i + WINDOW)
+    // All lines in the window must be long — avoids catching a single short annotation
+    // line adjacent to body text
+    if (window.every((l) => l.charCount >= BODY_CHAR_THRESHOLD)) {
+      splitIdx = i
+      break
+    }
+  }
+
+  // No body text found — all annotations (if scattered), else all table
+  if (splitIdx < 0) {
+    const avgChars = sorted.reduce((s, l) => s + l.charCount, 0) / sorted.length
+    if (avgChars < 25 && isScatteredLayout(sorted)) {
+      return { annotations: sorted, body: [] }
+    }
+    return { annotations: [], body: sorted }
+  }
+
+  // No annotations before body text
+  if (splitIdx === 0) {
+    return { annotations: [], body: sorted }
+  }
+
+  const candidateAnnotations = sorted.slice(0, splitIdx)
+  // Verify the candidate annotations are actually scattered, not a structured table
+  if (isScatteredLayout(candidateAnnotations)) {
+    return {
+      annotations: candidateAnnotations,
+      body: sorted.slice(splitIdx),
+    }
+  }
+
+  // Not scattered — treat entire zone as table
+  return { annotations: [], body: sorted }
+}
+
+/**
+ * Check if lines are scattered across the page (like diagram annotations)
+ * vs organized in consistent columns (like a table or multi-column text).
+ * Scattered = many distinct X positions; columnar = lines cluster into 2-3 X columns.
+ */
+function isScatteredLayout(lines: OcrLineType[]): boolean {
+  if (lines.length < 3) return false
+
+  const centers = lines.map((l) => l.x + l.width / 2)
+  // Count unique X buckets (15% wide — wide enough to capture table columns)
+  const xBuckets = new Map<number, number>()
+  for (const c of centers) {
+    const bucket = Math.round(c / 15)
+    xBuckets.set(bucket, (xBuckets.get(bucket) || 0) + 1)
+  }
+
+  const bucketCounts: number[] = []
+  xBuckets.forEach((v) => bucketCounts.push(v))
+  bucketCounts.sort((a, b) => b - a)
+  // If top 2 buckets hold most lines, it's columnar (table), not scattered
+  if (bucketCounts.length >= 2) {
+    const top2 = bucketCounts[0] + bucketCounts[1]
+    if (top2 >= lines.length * 0.55) return false
+  }
+  // If 1 dominant bucket holds most lines, it's single-column, not scattered
+  if (bucketCounts[0] >= lines.length * 0.5) return false
+
+  // Many unique X positions relative to line count = scattered
+  return xBuckets.size >= 3
+}
+
+/**
+ * Cluster nearby annotation lines so that lines directly below each other
+ * (within ~2% Y and overlapping X range) form one region.
+ * Lines at same Y but different X stay separate (different annotation positions).
+ */
+function clusterAnnotationLines(
+  lines: { y: number; height: number; x: number; width: number; charCount: number; boxIds: string[] }[]
+): typeof lines[] {
+  if (lines.length === 0) return []
+
+  const sorted = [...lines].sort((a, b) => a.y - b.y || a.x - b.x)
+  const used = new Set<number>()
+  const clusters: typeof lines[] = []
+
+  for (let i = 0; i < sorted.length; i++) {
+    if (used.has(i)) continue
+    const cluster = [sorted[i]]
+    used.add(i)
+
+    // Find lines directly below this one (similar X, close Y)
+    for (let j = i + 1; j < sorted.length; j++) {
+      if (used.has(j)) continue
+      const line = sorted[j]
+      const clusterBottom = Math.max(...cluster.map((l) => l.y + l.height))
+      const clusterLeft = Math.min(...cluster.map((l) => l.x))
+      const clusterRight = Math.max(...cluster.map((l) => l.x + l.width))
+
+      const yGap = line.y - clusterBottom
+      // X overlap: line must overlap with the cluster's X range
+      const xOverlap = Math.min(line.x + line.width, clusterRight) - Math.max(line.x, clusterLeft)
+      const minWidth = Math.min(line.width, clusterRight - clusterLeft)
+
+      if (yGap < 2 && yGap >= -0.5 && xOverlap > minWidth * 0.3) {
+        cluster.push(line)
+        used.add(j)
+      }
+    }
+
+    clusters.push(cluster)
+  }
+
+  return clusters
 }

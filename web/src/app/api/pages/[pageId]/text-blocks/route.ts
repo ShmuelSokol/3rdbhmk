@@ -17,6 +17,8 @@ interface TextBlock {
   centered: boolean
   isTableRegion?: boolean
   columnDividers?: number[] // x-percentages of internal vertical grid lines
+  _columnMaxX?: number
+  _columnMinX?: number
 }
 
 export async function GET(
@@ -92,27 +94,7 @@ export async function GET(
 
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
 
-    // --- Pixel analysis functions (defined early for use in zone splitting) ---
-    const computeStripVarianceEarly = (yPct: number, heightPct: number, xPct: number, widthPct: number): number => {
-      const pxY = Math.max(0, Math.round((yPct / 100) * imgH))
-      const pxH = Math.max(1, Math.round((heightPct / 100) * imgH))
-      const pxX = Math.max(0, Math.round((xPct / 100) * imgW))
-      const endY = Math.min(imgH, pxY + pxH)
-      const endX = Math.min(imgW, pxX + Math.max(1, Math.round((widthPct / 100) * imgW)))
-      let sum = 0, sumSq = 0, count = 0
-      for (let y = pxY; y < endY; y += 3) {
-        for (let x = pxX; x < endX; x += 3) {
-          const idx = (y * imgW + x) * channels
-          const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
-          sum += lum
-          sumSq += lum * lum
-          count++
-        }
-      }
-      if (count < 2) return 0
-      const mean = sum / count
-      return (sumSq / count) - (mean * mean)
-    }
+
 
     // Get OCR boxes — skip header and skipTranslation
     const boxes = (page.ocrResult?.boxes || []).filter(
@@ -256,9 +238,6 @@ export async function GET(
           mergedY.push({ ...yRanges[i] })
         }
       }
-      const uniqueTextH = mergedY.reduce((s, r) => s + (r.bot - r.top), 0)
-      const zoneH = z.endY - z.startY
-      const textDensity = zoneH > 0 ? uniqueTextH / zoneH : 1
       // Check gaps between merged y-ranges
       const gaps: number[] = []
       for (let i = 1; i < mergedY.length; i++) {
@@ -278,8 +257,6 @@ export async function GET(
     // dense continuous text, and span nearly the full page width. Real tables
     // typically have off-center dividers, less text, or narrower spans.
     // This check runs during block creation below (after column dividers are computed).
-
-    const hasTableRegions = mergedZones.some((z) => z.isTable)
 
     // --- Pixel analysis functions ---
 
@@ -486,8 +463,6 @@ export async function GET(
             const bodyLines = zone.lines.filter(l => l.charCount >= 15)
             const leftLines = bodyLines.filter(l => l.x + l.width / 2 < divider)
             const rightLines = bodyLines.filter(l => l.x + l.width / 2 >= divider)
-            const leftMaxY = leftLines.length > 0 ? Math.max(...leftLines.map(l => l.y + l.height)) : zone.startY
-            const rightMaxY = rightLines.length > 0 ? Math.max(...rightLines.map(l => l.y + l.height)) : zone.startY
             if (leftLines.length >= 3 && rightLines.length >= 3) {
               // Split into separate column blocks. Each block is limited to its
               // column's x-range so horizontal expansion won't cause overlap.
@@ -626,7 +601,7 @@ export async function GET(
                       centered: false,
                       _columnMaxX: isLeft ? columnBoundary : undefined,
                       _columnMinX: isLeft ? undefined : columnBoundary,
-                    } as any)
+                    })
                   }
                 } else {
                   // Create a sub-block for each region
@@ -672,7 +647,7 @@ export async function GET(
                       centered: false,
                       _columnMaxX: isLeft ? columnBoundary : undefined,
                       _columnMinX: isLeft ? narrowMinBound : columnBoundary,
-                    } as any)
+                    })
                   }
                 }
               }
@@ -1004,7 +979,7 @@ export async function GET(
 
       // For centered text or column-split blocks, also scan from text edges outward
       // (center-out scan may hit the text itself, or the column gutter, and fail to expand)
-      const hasColumnBounds = (block as any)._columnMaxX !== undefined || (block as any)._columnMinX !== undefined
+      const hasColumnBounds = block._columnMaxX !== undefined || block._columnMinX !== undefined
       if (block.centered || hasColumnBounds) {
         for (const sy of scanPositions) {
           const isHSafe = (xPct: number, wPct: number): boolean => {
@@ -1037,8 +1012,8 @@ export async function GET(
       const PAGE_MARGIN = 2
       const BUFFER = 1 // 1% inset so text doesn't sit on region edges
       // Respect column bounds for column-split blocks
-      const colMaxX = (block as any)._columnMaxX
-      const colMinX = (block as any)._columnMinX
+      const colMaxX = block._columnMaxX
+      const colMinX = block._columnMinX
       let finalLeft = Math.max(PAGE_MARGIN, safeLeft) + BUFFER
       let finalRight = Math.min(100 - PAGE_MARGIN, safeRight) - BUFFER
       if (colMaxX !== undefined) finalRight = Math.min(finalRight, colMaxX - BUFFER)

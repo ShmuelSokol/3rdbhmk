@@ -7,8 +7,6 @@ import sharp from 'sharp'
  * save expanded coordinates.
  */
 export async function runStep4(pageId: string) {
-  const { buffer, imgW, imgH } = await getPageImageBuffer(pageId)
-
   const regions = await prisma.contentRegion.findMany({
     where: { pageId },
     orderBy: { regionIndex: 'asc' },
@@ -18,6 +16,16 @@ export async function runStep4(pageId: string) {
     await updatePipelineStatus(pageId, 'step4_expanded')
     return []
   }
+
+  // If step2 already wrote expanded coordinates (via shared text-blocks algorithm),
+  // skip re-expansion — just advance the pipeline status.
+  const allExpanded = regions.every(r => r.expandedX != null && r.expandedY != null)
+  if (allExpanded) {
+    await updatePipelineStatus(pageId, 'step4_expanded')
+    return regions
+  }
+
+  const { buffer, imgW, imgH } = await getPageImageBuffer(pageId)
 
   const metadata = await sharp(buffer).metadata()
   const channels = metadata.channels || 3

@@ -92,6 +92,28 @@ export async function GET(
 
     const rawPixels = await sharp(imageBuffer).raw().toBuffer()
 
+    // --- Pixel analysis functions (defined early for use in zone splitting) ---
+    const computeStripVarianceEarly = (yPct: number, heightPct: number, xPct: number, widthPct: number): number => {
+      const pxY = Math.max(0, Math.round((yPct / 100) * imgH))
+      const pxH = Math.max(1, Math.round((heightPct / 100) * imgH))
+      const pxX = Math.max(0, Math.round((xPct / 100) * imgW))
+      const endY = Math.min(imgH, pxY + pxH)
+      const endX = Math.min(imgW, pxX + Math.max(1, Math.round((widthPct / 100) * imgW)))
+      let sum = 0, sumSq = 0, count = 0
+      for (let y = pxY; y < endY; y += 3) {
+        for (let x = pxX; x < endX; x += 3) {
+          const idx = (y * imgW + x) * channels
+          const lum = rawPixels[idx] * 0.299 + rawPixels[idx + 1] * 0.587 + rawPixels[idx + 2] * 0.114
+          sum += lum
+          sumSq += lum * lum
+          count++
+        }
+      }
+      if (count < 2) return 0
+      const mean = sum / count
+      return (sumSq / count) - (mean * mean)
+    }
+
     // Get OCR boxes — skip header and skipTranslation
     const boxes = (page.ocrResult?.boxes || []).filter(
       (b) => !b.skipTranslation && b.y >= 4
@@ -119,7 +141,9 @@ export async function GET(
       const maxY = Math.max(...textBoxes.map((b) => b.y + b.height))
       const text = textBoxes.map((b) => b.editedText ?? b.hebrewText).join('')
       if (!text.trim()) return
-      ocrLines.push({ y: minY, height: maxY - minY, x: minX, width: maxX - minX, charCount: text.length })
+      // Ensure minimum width for lines with single-point OCR boxes
+      const lineWidth = Math.max(maxX - minX, 2)
+      ocrLines.push({ y: minY, height: maxY - minY, x: minX, width: lineWidth, charCount: text.length })
     })
     ocrLines.sort((a, b) => a.y - b.y)
 
@@ -214,6 +238,47 @@ export async function GET(
       }
     }
 
+    // Reclassify sparse table zones as body text (AFTER merging).
+    // Illustration/diagram pages have scattered captions that look "multi-column" but
+    // have large vertical gaps between lines (illustrations sit between text).
+    // A real table has dense, evenly-spaced rows.
+    for (const z of mergedZones) {
+      if (!z.isTable || z.lines.length < 2) continue
+      // Merge overlapping y-ranges to get UNIQUE text coverage
+      const yRanges = z.lines.map(l => ({ top: l.y, bot: l.y + l.height }))
+      yRanges.sort((a, b) => a.top - b.top)
+      const mergedY: { top: number; bot: number }[] = [{ ...yRanges[0] }]
+      for (let i = 1; i < yRanges.length; i++) {
+        const last = mergedY[mergedY.length - 1]
+        if (yRanges[i].top <= last.bot + 0.5) {
+          last.bot = Math.max(last.bot, yRanges[i].bot)
+        } else {
+          mergedY.push({ ...yRanges[i] })
+        }
+      }
+      const uniqueTextH = mergedY.reduce((s, r) => s + (r.bot - r.top), 0)
+      const zoneH = z.endY - z.startY
+      const textDensity = zoneH > 0 ? uniqueTextH / zoneH : 1
+      // Check gaps between merged y-ranges
+      const gaps: number[] = []
+      for (let i = 1; i < mergedY.length; i++) {
+        gaps.push(mergedY[i].top - mergedY[i - 1].bot)
+      }
+      gaps.sort((a, b) => a - b)
+      const medianGap = gaps.length > 0 ? gaps[Math.floor(gaps.length / 2)] : 0
+      const maxGap = gaps.length > 0 ? gaps[gaps.length - 1] : 0
+      // Sparse zone: median gap > 3% (illustrations between rows) OR any gap > 8% (major break)
+      if (medianGap > 3 || maxGap > 8) {
+        z.isTable = false
+      }
+    }
+
+    // Reclassify two-column book pages as body text.
+    // Two-column Hebrew book pages have exactly 1 column divider at the center,
+    // dense continuous text, and span nearly the full page width. Real tables
+    // typically have off-center dividers, less text, or narrower spans.
+    // This check runs during block creation below (after column dividers are computed).
+
     const hasTableRegions = mergedZones.some((z) => z.isTable)
 
     // --- Pixel analysis functions ---
@@ -263,6 +328,32 @@ export async function GET(
 
     const colorDist = (a: [number, number, number], b: [number, number, number]): number =>
       Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+
+    // Reclassify diagram/illustration table zones as body text.
+    // Real tables have uniform background between text rows.
+    // Diagrams have colored blocks, arrows, illustrations → high pixel variance.
+    for (const z of mergedZones) {
+      if (!z.isTable || z.lines.length < 3) continue
+      const zMinX = Math.min(...z.lines.map(l => l.x))
+      const zMaxX = Math.max(...z.lines.map(l => l.x + l.width))
+      const zWidth = zMaxX - zMinX
+      const stripVars: number[] = []
+      const sortedLines = [...z.lines].sort((a, b) => a.y - b.y)
+      for (let i = 0; i < sortedLines.length - 1; i++) {
+        const botOfCurr = sortedLines[i].y + sortedLines[i].height
+        const topOfNext = sortedLines[i + 1].y
+        const gapH = topOfNext - botOfCurr
+        if (gapH < 0.5) continue
+        const v = computeStripVariance(botOfCurr, Math.min(gapH, 2), zMinX, zWidth)
+        stripVars.push(v)
+      }
+      if (stripVars.length < 2) continue
+      stripVars.sort((a, b) => a - b)
+      const medianVar = stripVars[Math.floor(stripVars.length / 2)]
+      if (medianVar > 400) {
+        z.isTable = false
+      }
+    }
 
     // --- Build blocks from zones ---
 
@@ -325,19 +416,295 @@ export async function GET(
           }
         }
 
+        // Method 3: per-line pair gap detection. For y-overlapping line pairs
+        // at different x positions, find the gap between them. This catches
+        // two-column gutters that Method 2 misses when columns nearly touch.
+        const ocrGapCandidates = new Map<number, number>()
+        const zoneSorted = [...zone.lines].sort((a, b) => a.y - b.y)
+        for (let i = 0; i < zoneSorted.length; i++) {
+          const line = zoneSorted[i]
+          for (let j = i + 1; j < Math.min(i + 6, zoneSorted.length); j++) {
+            const other = zoneSorted[j]
+            if (other.y > line.y + line.height + 1) break
+            const yOvlp = Math.min(line.y + line.height, other.y + other.height) - Math.max(line.y, other.y)
+            if (yOvlp <= 0) continue
+            const [left, right] = line.x < other.x ? [line, other] : [other, line]
+            const gapStart = left.x + left.width
+            const gapEnd = right.x
+            if (gapEnd - gapStart < 1) continue
+            const mid = (gapStart + gapEnd) / 2
+            const bucket = Math.round(mid / 2) * 2
+            ocrGapCandidates.set(bucket, (ocrGapCandidates.get(bucket) || 0) + 1)
+          }
+        }
+        ocrGapCandidates.forEach((count, pos) => {
+          if (count >= 2 && !dividers.some(d => Math.abs(d - pos) < 3)) {
+            dividers.push(pos)
+          }
+        })
+
         dividers.sort((a, b) => a - b)
 
-        allBlocks.push({
-          x: tMinX,
-          y: zone.startY,
-          width: tMaxX - tMinX,
-          height: zone.endY - zone.startY,
-          hebrewCharCount: zone.lines.reduce((s, l) => s + l.charCount, 0),
-          avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
-          centered: false,
-          isTableRegion: true,
-          columnDividers: dividers.length > 0 ? dividers : undefined,
-        })
+        // Two-column book page detection: if exactly 1 divider near the center
+        // of a wide, text-dense block, it's two-column prose, not a table.
+        const blockWidth = tMaxX - tMinX
+        const blockCenter = tMinX + blockWidth / 2
+        const totalChars = zone.lines.reduce((s, l) => s + l.charCount, 0)
+        // Two-column book page detection: find the divider closest to the center.
+        // Zones with illustrations may have extra dividers from labels, but the
+        // dominant column split is still near center.
+        const centerDivider = dividers.length > 0
+          ? dividers.reduce((closest, d) => Math.abs(d - blockCenter) < Math.abs(closest - blockCenter) ? d : closest)
+          : blockCenter
+        const isTwoColumnBook =
+          dividers.length >= 1 &&
+          dividers.length <= 20 &&          // not a real multi-column table
+          blockWidth > 75 &&               // spans most of page width
+          totalChars > 400 &&              // dense continuous text
+          Math.abs(centerDivider - blockCenter) < 8  // dominant divider near center
+
+        // Marginal annotations detection: all dividers clustered in a narrow band
+        // on one SIDE of the block (e.g., verse references on the left margin).
+        // Real tables have dividers spread across the full width.
+        const dividerSpan = dividers.length >= 2 ? dividers[dividers.length - 1] - dividers[0] : 0
+        const isMarginalAnnotations =
+          dividers.length >= 2 &&
+          blockWidth > 50 &&
+          totalChars > 200 &&
+          dividerSpan < blockWidth * 0.5 &&
+          // Dividers must be offset from center (on one side, not spanning middle)
+          (Math.max(...dividers) < blockCenter - 5 || Math.min(...dividers) > blockCenter + 5);
+
+        if (isTwoColumnBook || isMarginalAnnotations) {
+          // For two-column book pages, check if columns have different heights
+          // (indicating an illustration in one column's lower area). If so,
+          // split into separate column blocks to avoid overlapping illustrations.
+          let didColumnSplit = false
+          if (isTwoColumnBook) {
+            const divider = centerDivider
+            // Filter out short scattered lines (likely illustration labels, not body text)
+            const bodyLines = zone.lines.filter(l => l.charCount >= 15)
+            const leftLines = bodyLines.filter(l => l.x + l.width / 2 < divider)
+            const rightLines = bodyLines.filter(l => l.x + l.width / 2 >= divider)
+            const leftMaxY = leftLines.length > 0 ? Math.max(...leftLines.map(l => l.y + l.height)) : zone.startY
+            const rightMaxY = rightLines.length > 0 ? Math.max(...rightLines.map(l => l.y + l.height)) : zone.startY
+            if (leftLines.length >= 3 && rightLines.length >= 3) {
+              // Split into separate column blocks. Each block is limited to its
+              // column's x-range so horizontal expansion won't cause overlap.
+              const leftMaxX = Math.max(...leftLines.map(l => l.x + l.width))
+              const rightMinX = Math.min(...rightLines.map(l => l.x))
+              const columnBoundary = (leftMaxX + rightMinX) / 2
+
+              // Sub-block splitting: detect illustration boundaries within columns.
+              // Use ALL zone lines (not just bodyLines) for narrowing detection,
+              // since narrow column text may have < 15 chars per line.
+              const allLeftZoneLines = zone.lines.filter(l => l.x + l.width / 2 < divider)
+              const allRightZoneLines = zone.lines.filter(l => l.x + l.width / 2 >= divider)
+
+              for (const [colBodyLines, allColLines] of [
+                [leftLines, allLeftZoneLines],
+                [rightLines, allRightZoneLines],
+              ] as const) {
+                if (colBodyLines.length === 0) continue
+                const isLeft = colBodyLines === leftLines
+
+                // Sort ALL column lines by y for narrowing detection
+                const sortedAll = [...allColLines].sort((a, b) => a.y - b.y)
+                const sortedMinX = sortedAll.map(l => l.x).sort((a, b) => a - b)
+                const medianMinX = sortedMinX[Math.floor(sortedMinX.length / 2)]
+                const X_SHIFT = 20 // 20% of page width = significant narrowing
+
+                // Mark each line as "narrowed" if its left edge shifted significantly
+                const isNarrowed = sortedAll.map(l => l.x > medianMinX + X_SHIFT)
+
+                // Find contiguous runs of same-type lines
+                type Run = { start: number; end: number; narrowed: boolean }
+                const runs: Run[] = []
+                let runStart = 0
+                for (let i = 1; i <= sortedAll.length; i++) {
+                  if (i === sortedAll.length || isNarrowed[i] !== isNarrowed[runStart]) {
+                    runs.push({ start: runStart, end: i - 1, narrowed: isNarrowed[runStart] })
+                    runStart = i
+                  }
+                }
+
+                // Build sub-block regions directly from runs.
+                // Real narrowing = narrowed run with >= 2 lines OR at column edge.
+                // Isolated narrow lines in the middle (paragraph endings) stay in the wide block.
+                type SubRegion = { lines: typeof sortedAll; narrow: boolean }
+                const subRegions: SubRegion[] = []
+                let curRegionLines: typeof sortedAll = []
+                let curNarrow = false
+
+                for (let ri = 0; ri < runs.length; ri++) {
+                  const run = runs[ri]
+                  const runLines = sortedAll.slice(run.start, run.end + 1)
+                  // Only allow single-line narrowing at the BOTTOM edge (last run),
+                  // AND only if pixel analysis confirms an illustration beside the narrow text.
+                  // Top-edge single lines are usually captions/page numbers, not illustrations.
+                  const atBottomEdge = ri === runs.length - 1
+                  let isRealNarrowing = run.narrowed && (runLines.length >= 2 || atBottomEdge)
+
+                  // Pixel validation for single-line bottom-edge narrowing:
+                  // check if the gap between the column's normal left edge and the
+                  // narrowed line actually contains illustration pixels (high variance).
+                  if (isRealNarrowing && runLines.length === 1 && atBottomEdge) {
+                    const nLine = runLines[0]
+                    const gapX = medianMinX
+                    const gapW = nLine.x - medianMinX - 1
+                    if (gapW > 5) {
+                      const gapVar = computeStripVariance(nLine.y, nLine.height, gapX, gapW)
+                      if (gapVar < 200) { // same as VARIANCE_THRESHOLD defined below
+                        // Low variance = background, not illustration → paragraph ending
+                        isRealNarrowing = false
+                      }
+                    } else {
+                      // Gap too small to contain an illustration
+                      isRealNarrowing = false
+                    }
+                  }
+
+                  if (run.narrowed && !isRealNarrowing) {
+                    // Isolated narrow line in middle → absorb into current region
+                    curRegionLines.push(...runLines)
+                    continue
+                  }
+
+                  if (isRealNarrowing !== curNarrow && curRegionLines.length > 0) {
+                    subRegions.push({ lines: curRegionLines, narrow: curNarrow })
+                    curRegionLines = []
+                  }
+                  curNarrow = isRealNarrowing
+                  curRegionLines.push(...runLines)
+                }
+                if (curRegionLines.length > 0) {
+                  subRegions.push({ lines: curRegionLines, narrow: curNarrow })
+                }
+
+                // Helper: split column lines at illustration gaps (y-gaps with high pixel variance)
+                const splitAtIllustGaps = (lines: typeof colBodyLines): (typeof colBodyLines)[] => {
+                  if (lines.length <= 1) return [lines]
+                  const sorted = [...lines].sort((a, b) => a.y - b.y)
+                  const result: (typeof colBodyLines)[] = []
+                  let curGroup = [sorted[0]]
+                  for (let li = 1; li < sorted.length; li++) {
+                    const prevBot = curGroup[curGroup.length - 1].y + curGroup[curGroup.length - 1].height
+                    const gap = sorted[li].y - prevBot
+                    if (gap > 1.0) {
+                      const gMinXG = Math.min(curGroup[curGroup.length - 1].x, sorted[li].x)
+                      const gMaxXG = Math.max(
+                        curGroup[curGroup.length - 1].x + curGroup[curGroup.length - 1].width,
+                        sorted[li].x + sorted[li].width
+                      )
+                      const gWidthG = Math.max(5, gMaxXG - gMinXG)
+                      const gVar = computeStripVariance(prevBot, Math.min(gap, 3), gMinXG, gWidthG)
+                      if (gVar > 200) { // illustration content in gap
+                        result.push(curGroup)
+                        curGroup = [sorted[li]]
+                        continue
+                      }
+                    }
+                    curGroup.push(sorted[li])
+                  }
+                  result.push(curGroup)
+                  return result
+                }
+
+                // If no narrowing detected, single block (or split at illustration gaps)
+                if (subRegions.length <= 1 && !subRegions[0]?.narrow) {
+                  const colLineGroups = splitAtIllustGaps(colBodyLines)
+                  for (const grpLines of colLineGroups) {
+                    const colMinX = Math.min(...grpLines.map(l => l.x))
+                    const colMaxX = Math.max(...grpLines.map(l => l.x + l.width))
+                    const colMinY = Math.min(...grpLines.map(l => l.y))
+                    const colMaxY = Math.max(...grpLines.map(l => l.y + l.height))
+                    allBlocks.push({
+                      x: colMinX, y: colMinY,
+                      width: colMaxX - colMinX, height: colMaxY - colMinY,
+                      hebrewCharCount: grpLines.reduce((s, l) => s + l.charCount, 0),
+                      avgLineHeightPct: grpLines.reduce((s, l) => s + l.height, 0) / grpLines.length,
+                      centered: false,
+                      _columnMaxX: isLeft ? columnBoundary : undefined,
+                      _columnMinX: isLeft ? undefined : columnBoundary,
+                    } as any)
+                  }
+                } else {
+                  // Create a sub-block for each region
+                  for (let sri = 0; sri < subRegions.length; sri++) {
+                    const region = subRegions[sri]
+                    const nextRegion = sri < subRegions.length - 1 ? subRegions[sri + 1] : null
+                    const rYTop = Math.min(...region.lines.map(l => l.y))
+                    // Bound the y-range by the next region's start to prevent overlap
+                    const rYBot = nextRegion
+                      ? Math.min(...nextRegion.lines.map(l => l.y))
+                      : Math.max(...region.lines.map(l => l.y + l.height)) + 1
+                    // Narrow regions: use the narrowed lines directly (not all y-range lines,
+                    // which might include wide lines that pull the block into illustration area).
+                    // Wide regions: use only bodyLines (filters scattered labels).
+                    // For wide regions after narrow regions, skip leading transitional
+                    // lines whose x is still shifted (illustration zone) to prevent the
+                    // wide block from starting too high and overlapping the illustration.
+                    const prevRegion = sri > 0 ? subRegions[sri - 1] : null
+                    let wideBlockLines = region.narrow
+                      ? region.lines
+                      : colBodyLines.filter(l => l.y >= rYTop - 0.5 && l.y < rYBot)
+                    if (!region.narrow && prevRegion?.narrow && wideBlockLines.length > 1) {
+                      const fullWidthThresh = medianMinX + X_SHIFT / 2
+                      const firstFullIdx = wideBlockLines.findIndex(l => l.x <= fullWidthThresh)
+                      if (firstFullIdx > 0) {
+                        wideBlockLines = wideBlockLines.slice(firstFullIdx)
+                      }
+                    }
+                    const blockLines = wideBlockLines
+                    if (blockLines.length === 0) continue
+                    const gMinX = Math.min(...blockLines.map(l => l.x))
+                    const gMaxX = Math.max(...blockLines.map(l => l.x + l.width))
+                    const gMinY = Math.min(...blockLines.map(l => l.y))
+                    const gMaxY = Math.max(...blockLines.map(l => l.y + l.height))
+                    // For narrow sub-blocks, constrain expansion to text area.
+                    // The illustration is in the space the text wraps around.
+                    const narrowMinBound = region.narrow ? gMinX - 2 : undefined
+                    allBlocks.push({
+                      x: gMinX, y: gMinY,
+                      width: gMaxX - gMinX, height: gMaxY - gMinY,
+                      hebrewCharCount: blockLines.reduce((s, l) => s + l.charCount, 0),
+                      avgLineHeightPct: blockLines.reduce((s, l) => s + l.height, 0) / blockLines.length,
+                      centered: false,
+                      _columnMaxX: isLeft ? columnBoundary : undefined,
+                      _columnMinX: isLeft ? narrowMinBound : columnBoundary,
+                    } as any)
+                  }
+                }
+              }
+              didColumnSplit = true
+            }
+          }
+
+          if (!didColumnSplit) {
+            // Treat as single body block instead of table
+            allBlocks.push({
+              x: tMinX,
+              y: zone.startY,
+              width: blockWidth,
+              height: zone.endY - zone.startY,
+              hebrewCharCount: totalChars,
+              avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
+              centered: false,
+            })
+          }
+        } else {
+          allBlocks.push({
+            x: tMinX,
+            y: zone.startY,
+            width: blockWidth,
+            height: zone.endY - zone.startY,
+            hebrewCharCount: totalChars,
+            avgLineHeightPct: zone.lines.reduce((s, l) => s + l.height, 0) / zone.lines.length,
+            centered: false,
+            isTableRegion: true,
+            columnDividers: dividers.length > 0 ? dividers : undefined,
+          })
+        }
         continue
       }
 
@@ -354,7 +721,12 @@ export async function GET(
         return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
       }
 
-      const GAP_THRESHOLD = 3
+      const GAP_THRESHOLD = 2.5
+      // Illustration-gap splitting: when a gap between body lines contains
+      // illustration pixels (high variance), force a split there. This prevents
+      // blocks from spanning across illustrations even with small gaps.
+      const ILLUST_GAP_MIN = 1.0 // minimum gap (%) to check for illustration
+      const ILLUST_VAR_THRESH = 200 // same as expansion VARIANCE_THRESHOLD
       const groups: (typeof ocrLines)[] = []
       let currentGroup = [zoneLines[0]]
       for (let i = 1; i < zoneLines.length; i++) {
@@ -363,7 +735,21 @@ export async function GET(
         const gap = zoneLines[i].y - prevBottom
         const typeSwitch = isCenteredLine(prev) && !isCenteredLine(zoneLines[i])
 
-        if (gap > GAP_THRESHOLD || typeSwitch) {
+        // Check for illustration content in the gap
+        let illustGap = false
+        if (gap > ILLUST_GAP_MIN && gap <= GAP_THRESHOLD) {
+          // Gap is small enough that normal splitting wouldn't trigger,
+          // but might contain illustration pixels
+          const gapMinX = Math.min(prev.x, zoneLines[i].x)
+          const gapMaxX = Math.max(prev.x + prev.width, zoneLines[i].x + zoneLines[i].width)
+          const gapWidth = Math.max(5, gapMaxX - gapMinX) // at least 5% width
+          const gapVar = computeStripVariance(prevBottom, gap, gapMinX, gapWidth)
+          if (gapVar > ILLUST_VAR_THRESH) {
+            illustGap = true
+          }
+        }
+
+        if (gap > GAP_THRESHOLD || typeSwitch || illustGap) {
           groups.push(currentGroup)
           currentGroup = [zoneLines[i]]
         } else {
@@ -397,6 +783,38 @@ export async function GET(
         const minY = Math.min(...group.map((l) => l.y))
         const maxX = Math.max(...group.map((l) => l.x + l.width))
         const maxY = Math.max(...group.map((l) => l.y + l.height))
+        const groupArea = (maxX - minX) * (maxY - minY)
+        const groupChars = group.reduce((s, l) => s + l.charCount, 0)
+        const groupDensity = groupArea > 0 ? groupChars / groupArea : 0
+
+        // Skip near-empty groups (< 3 chars) — these are artifacts or page numbers
+        // on illustration-heavy pages, not meaningful text blocks.
+        if (groupChars < 3) continue
+
+        // Low-density groups with multiple lines: create per-line blocks
+        // instead of one wide block spanning all scattered labels.
+        // Also cap width for ultra-wide low-char lines on illustration pages.
+        if (groupDensity < 0.06 && group.length > 1 && groupChars < 50) {
+          for (const line of group) {
+            let lineW = line.width
+            let lineX = line.x
+            // Cap ultra-wide lines with few chars to prevent covering illustrations
+            if (line.charCount < 20 && line.width > 50) {
+              lineW = Math.min(line.width, Math.max(25, line.charCount * 2.5))
+              const centerX = line.x + line.width / 2
+              lineX = Math.max(3, centerX - lineW / 2)
+            }
+            allBlocks.push({
+              x: lineX, y: line.y,
+              width: lineW, height: line.height,
+              hebrewCharCount: line.charCount,
+              avgLineHeightPct: line.height,
+              centered: false,
+            })
+          }
+          continue
+        }
+
         const centeredCount = group.filter((l) => isCenteredLine(l)).length
         const centered = centeredCount > group.length / 2
         const lineHeightPct = centered
@@ -404,7 +822,7 @@ export async function GET(
           : group.reduce((s, l) => s + l.height, 0) / group.length
         allBlocks.push({
           x: minX, y: minY, width: maxX - minX, height: maxY - minY,
-          hebrewCharCount: group.reduce((s, l) => s + l.charCount, 0),
+          hebrewCharCount: groupChars,
           avgLineHeightPct: lineHeightPct,
           centered,
         })
@@ -418,8 +836,15 @@ export async function GET(
     const COLOR_DIST_THRESHOLD = 25
     const STEP = 1
 
+    // Low text density threshold: blocks below this are likely small labels
+    // within illustrations — limit their expansion to prevent covering illustrations.
+    const LOW_DENSITY_THRESHOLD = 0.08 // chars per pct² area
+
     const expandedBlocks: TextBlock[] = allBlocks.map((block, bi) => {
       const blockBottom = block.y + block.height
+      const blockArea = block.width * block.height
+      const textDensity = blockArea > 0 ? block.hebrewCharCount / blockArea : 0
+      const isLowDensity = textDensity < LOW_DENSITY_THRESHOLD && !block.centered && block.hebrewCharCount < 30
 
       // Find the ACTUAL background color by sampling inter-line gaps within the block.
       // Inter-line gaps have low variance (pure background at the text's level).
@@ -509,6 +934,26 @@ export async function GET(
         }
       }
 
+      // Low-density blocks (likely labels within illustrations): skip horizontal
+      // expansion, limit vertical to ±1%. This keeps them tight around the text
+      // instead of expanding into surrounding illustration areas.
+      if (isLowDensity) {
+        const limitedTop = Math.max(block.y - 1, prevBlockBottom)
+        const limitedBottom = Math.min(blockBottom + 1, nextBlockTop)
+        const PAGE_MARGIN = 2
+        const BUFFER = 1
+        return {
+          x: Math.max(PAGE_MARGIN, block.x) + BUFFER,
+          y: limitedTop,
+          width: Math.max(0, Math.min(100 - PAGE_MARGIN, block.x + block.width) - BUFFER - (Math.max(PAGE_MARGIN, block.x) + BUFFER)),
+          height: limitedBottom - limitedTop,
+          hebrewCharCount: block.hebrewCharCount,
+          avgLineHeightPct: block.avgLineHeightPct,
+          centered: block.centered,
+          isTableRegion: false,
+        }
+      }
+
       const SCAN_H = 0.3
 
       // Horizontal expansion: scan from page center outward
@@ -533,9 +978,6 @@ export async function GET(
         return { left, right }
       }
 
-      let bestLeft = 50
-      let bestRight = 50
-
       // Collect all scan y-positions
       const scanPositions: number[] = []
       for (let sy = block.y; sy < blockBottom; sy += 0.5) {
@@ -548,6 +990,9 @@ export async function GET(
       if (gapAbove >= 0.3) scanPositions.push(prevBlockBottom + gapAbove * 0.5)
       if (gapBelow >= 0.3) scanPositions.push(blockBottom + gapBelow * 0.3)
 
+      let bestLeft = 50
+      let bestRight = 50
+
       // Body text: use widest paired span (left+right from same scan row)
       for (const sy of scanPositions) {
         const { left, right } = scanHoriz(sy)
@@ -557,9 +1002,10 @@ export async function GET(
         }
       }
 
-      // For centered text, also scan from text edges outward
-      // (center-out scan may hit the text itself and fail to expand)
-      if (block.centered) {
+      // For centered text or column-split blocks, also scan from text edges outward
+      // (center-out scan may hit the text itself, or the column gutter, and fail to expand)
+      const hasColumnBounds = (block as any)._columnMaxX !== undefined || (block as any)._columnMinX !== undefined
+      if (block.centered || hasColumnBounds) {
         for (const sy of scanPositions) {
           const isHSafe = (xPct: number, wPct: number): boolean => {
             const variance = computeStripVariance(sy, SCAN_H, xPct, wPct)
@@ -590,8 +1036,13 @@ export async function GET(
 
       const PAGE_MARGIN = 2
       const BUFFER = 1 // 1% inset so text doesn't sit on region edges
-      const finalLeft = Math.max(PAGE_MARGIN, safeLeft) + BUFFER
-      const finalRight = Math.min(100 - PAGE_MARGIN, safeRight) - BUFFER
+      // Respect column bounds for column-split blocks
+      const colMaxX = (block as any)._columnMaxX
+      const colMinX = (block as any)._columnMinX
+      let finalLeft = Math.max(PAGE_MARGIN, safeLeft) + BUFFER
+      let finalRight = Math.min(100 - PAGE_MARGIN, safeRight) - BUFFER
+      if (colMaxX !== undefined) finalRight = Math.min(finalRight, colMaxX - BUFFER)
+      if (colMinX !== undefined) finalLeft = Math.max(finalLeft, colMinX + BUFFER)
       return {
         x: finalLeft,
         y: safeTop,
@@ -610,6 +1061,10 @@ export async function GET(
       const prev = expandedBlocks[i - 1]
       const prevBottom = prev.y + prev.height
       if (prevBottom > expandedBlocks[i].y) {
+        // Skip overlap resolution for side-by-side column blocks (non-overlapping x)
+        const xOverlap = Math.min(prev.x + prev.width, expandedBlocks[i].x + expandedBlocks[i].width) -
+                          Math.max(prev.x, expandedBlocks[i].x)
+        if (xOverlap < 2) continue
         // Split the overlap evenly
         const mid = (prevBottom + expandedBlocks[i].y) / 2
         prev.height = mid - prev.y
@@ -619,9 +1074,16 @@ export async function GET(
       }
     }
 
+    // Filter out blocks too small to display meaningful text
+    const filteredBlocks = expandedBlocks.filter(b =>
+      b.width >= 3 && b.height >= 0.5 && b.hebrewCharCount >= 2
+    )
+
+    // Compute from final blocks, not zones (two-column reclassification may remove table status)
+    const finalHasTable = filteredBlocks.some(b => b.isTableRegion)
     return NextResponse.json({
-      blocks: expandedBlocks,
-      hasTableRegions,
+      blocks: filteredBlocks,
+      hasTableRegions: finalHasTable,
     }, {
       headers: { 'Cache-Control': 'no-cache' },
     })

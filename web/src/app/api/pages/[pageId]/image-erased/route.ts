@@ -34,7 +34,7 @@ export async function GET(
     const book = page.book
 
     // Check for cached erased image
-    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v9')
+    const cacheDir = path.join('/tmp', 'bhmk', book.id, 'pages-erased-v17')
     const cachedPath = path.join(cacheDir, `page-${page.pageNumber}.png`)
 
     if (existsSync(cachedPath)) {
@@ -180,11 +180,13 @@ export async function GET(
       const maxX = Math.max(...lineBoxes.map((b) => b.x + b.width))
       const maxY = Math.max(...lineBoxes.map((b) => b.y + b.height))
 
-      const pad = 0.4
-      const pxLeft = Math.max(0, Math.round(((minX - pad) / 100) * imgW))
-      const pxTop = Math.max(0, Math.round(((minY - pad) / 100) * imgH))
-      const pxRight = Math.min(imgW, Math.round(((maxX + pad) / 100) * imgW))
-      const pxBottom = Math.min(imgH, Math.round(((maxY + pad) / 100) * imgH))
+      const padX = 0.4
+      const padTop = 1.2  // extra top padding to cover OCR alignment offset
+      const padBot = 0.4
+      const pxLeft = Math.max(0, Math.round(((minX - padX) / 100) * imgW))
+      const pxTop = Math.max(0, Math.round(((minY - padTop) / 100) * imgH))
+      const pxRight = Math.min(imgW, Math.round(((maxX + padX) / 100) * imgW))
+      const pxBottom = Math.min(imgH, Math.round(((maxY + padBot) / 100) * imgH))
       const pxW = pxRight - pxLeft
       const pxH = pxBottom - pxTop
 
@@ -229,13 +231,9 @@ export async function GET(
       }
 
       // Per-pixel residual cleanup: brighten dark pixels toward local background.
-      // Uses sampleLocalBg (original image edges) for the blend target instead of
-      // sampling the replacement buffer, which may contain copied wrong-color rows.
-      // floorLum margin widened to -35 to avoid blending pixels that are only
-      // slightly darker than estimated bg (prevents yellow-to-white washing).
       if (hasAnyRef) {
         const [bgR, bgG, bgB] = sampleLocalBg(pxLeft, pxTop, pxRight, pxBottom, localBgLum)
-        const floorLum = localBgLum - 35 // wider margin: avoid blending near-bg pixels
+        const floorLum = localBgLum - 35
         for (let i = 0; i < replBuf.length; i += 3) {
           const lum = replBuf[i] * 0.299 + replBuf[i + 1] * 0.587 + replBuf[i + 2] * 0.114
           if (lum < floorLum) {
@@ -250,7 +248,7 @@ export async function GET(
       if (hasAnyRef) {
         try {
           const patchPng = await sharp(replBuf, { raw: { width: pxW, height: pxH, channels: 3 } })
-            .blur(2.0)
+            .blur(4.0)
             .png()
             .toBuffer()
           composites.push({ input: patchPng, left: pxLeft, top: pxTop })

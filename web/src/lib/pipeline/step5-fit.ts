@@ -4,13 +4,15 @@ import { getPageImageBuffer, updatePipelineStatus } from './shared'
 import sharp from 'sharp'
 import { createCanvas } from 'canvas'
 import Anthropic from '@anthropic-ai/sdk'
+import { type Step5Config, DEFAULT_CONFIG } from './config'
 
 /**
  * Step 5: English text fitting — render English text in expanded regions,
  * with per-line font sizing, per-line color sampling, exact X positioning,
  * and AI-powered text shortening when text overflows.
  */
-export async function runStep5(pageId: string) {
+export async function runStep5(pageId: string, configOverrides?: Partial<Step5Config>) {
+  const cfg: Step5Config = { ...DEFAULT_CONFIG.step5, ...configOverrides }
   const { buffer: origBuffer, imgW, imgH, page } = await getPageImageBuffer(pageId)
 
   // Load original image pixels for color sampling
@@ -223,7 +225,7 @@ export async function runStep5(pageId: string) {
       const lpxW = Math.max(1, Math.round(((maxX - minX) / 100) * imgW))
       const lpxH = Math.max(1, Math.round(((maxY - minY) / 100) * imgH))
       lineInfos.push({
-        fontSize: Math.max(20, Math.round(avgPS * 0.9)),
+        fontSize: Math.max(cfg.minAbsoluteFont, Math.round(avgPS * cfg.fontSizeScale)),
         color: sampleTextColor(lpxL, lpxT, lpxW, lpxH),
         isBold: lineBoxes.length > 0 && boldCount > lineBoxes.length / 2,
         centerX: (minX + maxX) / 2,
@@ -234,7 +236,7 @@ export async function runStep5(pageId: string) {
     // Fallback values when no OCR boxes
     const defaultFontSize = lineInfos.length > 0
       ? lineInfos[Math.floor(lineInfos.length / 2)].fontSize
-      : 20
+      : cfg.minAbsoluteFont
     const defaultColor = lineInfos.length > 0
       ? lineInfos[0].color
       : sampleTextColor(
@@ -303,13 +305,13 @@ export async function runStep5(pageId: string) {
       }
 
       // Check total height, shrink proportionally if needed
-      let totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * 1.3), 0)
+      let totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * cfg.lineHeightMultiplier), 0)
       if (totalHeight > pxHeight) {
         const scale = pxHeight / totalHeight
         for (const rl of renderedLines) {
-          rl.fontSize = Math.max(14, Math.round(rl.fontSize * scale))
+          rl.fontSize = Math.max(cfg.minAbsoluteFont, Math.round(rl.fontSize * scale))
         }
-        totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * 1.3), 0)
+        totalHeight = renderedLines.reduce((s, l) => s + Math.round(l.fontSize * cfg.lineHeightMultiplier), 0)
       }
 
       // Render
@@ -324,14 +326,14 @@ export async function runStep5(pageId: string) {
       for (const rl of renderedLines) {
         const style = rl.isBold ? 'bold' : 'normal'
         ctx.font = `${style} ${rl.fontSize}px Arial`
-        const lh = Math.round(rl.fontSize * 1.3)
+        const lh = Math.round(rl.fontSize * cfg.lineHeightMultiplier)
         const lineW = ctx.measureText(rl.text).width
         // Position at Hebrew line's center X
         const targetCenterPx = ((rl.centerX - rx) / rw) * pxWidth
         let xPos = targetCenterPx - lineW / 2
         xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
-        // Wide lines (>80% of region) → left-align for readability
-        if (lineW > pxWidth * 0.8) xPos = 0
+        // Wide lines → left-align for readability
+        if (lineW > pxWidth * cfg.wideLineThreshold) xPos = 0
         // Fill background strip behind this text line only (preserves illustrations)
         if (fillBg) {
           ctx.fillStyle = bgColor
@@ -374,11 +376,11 @@ export async function runStep5(pageId: string) {
         return allLines
       }
 
-      // Shrink until text fits (min 50% of Hebrew size)
-      const minFontSize = Math.max(20, Math.round(defaultFontSize * 0.5))
+      // Shrink until text fits
+      const minFontSize = Math.max(cfg.minAbsoluteFont, Math.round(defaultFontSize * cfg.minFontRatio))
       for (let attempt = 0; attempt < 30; attempt++) {
         const lines = wrapText(fontSize, cleanText)
-        const lh = Math.round(fontSize * 1.3)
+        const lh = Math.round(fontSize * cfg.lineHeightMultiplier)
         if (lines.length * lh <= pxHeight) break
         if (fontSize <= minFontSize) { fontSize = minFontSize; break }
         fontSize--
@@ -387,7 +389,7 @@ export async function runStep5(pageId: string) {
       // Check if text still overflows → AI shorten
       let finalText = cleanText
       const wrappedCheck = wrapText(fontSize, cleanText)
-      const checkLH = Math.round(fontSize * 1.3)
+      const checkLH = Math.round(fontSize * cfg.lineHeightMultiplier)
       if (wrappedCheck.length * checkLH > pxHeight) {
         const charsPerLine = Math.max(1, Math.floor(pxWidth / (fontSize * 0.55)))
         const maxLines = Math.max(1, Math.floor(pxHeight / checkLH))
@@ -400,7 +402,7 @@ export async function runStep5(pageId: string) {
       }
 
       const wrappedLines = wrapText(fontSize, finalText)
-      const lineHeight = Math.round(fontSize * 1.3)
+      const lineHeight = Math.round(fontSize * cfg.lineHeightMultiplier)
       const totalHeight = wrappedLines.length * lineHeight
 
       const canvas = createCanvas(pxWidth, pxHeight)
@@ -420,13 +422,13 @@ export async function runStep5(pageId: string) {
       const targetCenterPx = hebrewCenterX * pxWidth
 
       for (const line of wrappedLines) {
-        if (line === '') { yPos += lineHeight * 0.5; continue }
+        if (line === '') { yPos += lineHeight * cfg.emptyLineHeightRatio; continue }
         measureCtx.font = `${fontStyle} ${fontSize}px Arial`
         const lineW = measureCtx.measureText(line).width
         let xPos = targetCenterPx - lineW / 2
         xPos = Math.max(0, Math.min(pxWidth - lineW, xPos))
-        // Wide lines (>80% of region) → left-align for readability
-        if (lineW > pxWidth * 0.8) xPos = 0
+        // Wide lines → left-align for readability
+        if (lineW > pxWidth * cfg.wideLineThreshold) xPos = 0
         // Fill background strip behind this text line only (preserves illustrations)
         if (fillBg) {
           ctx.fillStyle = bgColor

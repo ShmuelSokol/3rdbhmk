@@ -1,12 +1,14 @@
 import { prisma } from '@/lib/prisma'
 import { getPageImageBuffer, updatePipelineStatus } from './shared'
 import sharp from 'sharp'
+import { type Step4Config, DEFAULT_CONFIG } from './config'
 
 /**
  * Step 4: Region expansion — carefully expand regions using pixel analysis,
  * save expanded coordinates.
  */
-export async function runStep4(pageId: string) {
+export async function runStep4(pageId: string, configOverrides?: Partial<Step4Config>) {
+  const cfg: Step4Config = { ...DEFAULT_CONFIG.step4, ...configOverrides }
   const { buffer, imgW, imgH } = await getPageImageBuffer(pageId)
 
   const regions = await prisma.contentRegion.findMany({
@@ -70,9 +72,9 @@ export async function runStep4(pageId: string) {
   const colorDist = (a: [number, number, number], b: [number, number, number]): number =>
     Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
 
-  const VARIANCE_THRESHOLD = 200
-  const COLOR_DIST_THRESHOLD = 25
-  const STEP = 1
+  const VARIANCE_THRESHOLD = cfg.varianceThreshold
+  const COLOR_DIST_THRESHOLD = cfg.colorDistThreshold
+  const STEP = cfg.expansionStep
 
   // Sort regions by y for overlap resolution
   const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
@@ -88,14 +90,14 @@ export async function runStep4(pageId: string) {
     const blockBottom = block.y + block.height
 
     // Sample background color from inter-line gaps
-    const GAP_SCAN_H = 0.3
+    const GAP_SCAN_H = cfg.gapScanHeight
     const sampleX = Math.max(0, block.x + block.width / 2 - 5)
     const sampleW = Math.min(10, 100 - sampleX)
     const gapColors: [number, number, number][] = []
 
     for (let sy = block.y; sy < blockBottom; sy += 0.3) {
       const v = computeStripVariance(sy, GAP_SCAN_H, sampleX, sampleW)
-      if (v < 50) {
+      if (v < cfg.gapScanVariance) {
         gapColors.push(computeStripRGB(sy, GAP_SCAN_H, sampleX, sampleW))
         if (gapColors.length >= 5) break
       }
@@ -147,10 +149,10 @@ export async function runStep4(pageId: string) {
       safeTop = y
     }
 
-    // Tables: don't expand horizontally
-    if (region.regionType === 'table') {
-      const PAGE_MARGIN = 2
-      const BUFFER = 1
+    // Tables: don't expand horizontally (unless config says to)
+    if (region.regionType === 'table' && !cfg.expandTableHorizontal) {
+      const PAGE_MARGIN = cfg.pageMargin
+      const BUFFER = cfg.buffer
       const finalLeft = Math.max(PAGE_MARGIN, block.x) + BUFFER
       const finalRight = Math.min(100 - PAGE_MARGIN, block.x + block.width) - BUFFER
       let tW = Math.max(0, finalRight - finalLeft)
@@ -239,8 +241,8 @@ export async function runStep4(pageId: string) {
       }
     }
 
-    const PAGE_MARGIN = 2
-    const BUFFER = 1
+    const PAGE_MARGIN = cfg.pageMargin
+    const BUFFER = cfg.buffer
     const finalLeft = Math.max(PAGE_MARGIN, bestLeft) + BUFFER
     const finalRight = Math.min(100 - PAGE_MARGIN, bestRight) - BUFFER
 

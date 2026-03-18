@@ -1,11 +1,13 @@
 import { prisma } from '@/lib/prisma'
 import { updatePipelineStatus } from './shared'
+import { type Step2Config, DEFAULT_CONFIG } from './config'
 
 /**
  * Step 2: Region detection — figure out content blocks from word positions.
  * Groups OCR boxes into lines, detects table vs body regions, saves coordinates.
  */
-export async function runStep2(pageId: string) {
+export async function runStep2(pageId: string, configOverrides?: Partial<Step2Config>) {
+  const cfg: Step2Config = { ...DEFAULT_CONFIG.step2, ...configOverrides }
   const page = await prisma.page.findUnique({
     where: { id: pageId },
     include: {
@@ -69,22 +71,22 @@ export async function runStep2(pageId: string) {
 
   // Compute average line height for text-size-based gap thresholds
   const avgLineHeight = ocrLines.reduce((s, l) => s + l.height, 0) / ocrLines.length
-  // Zone split: gap > 3x average line height (replaces hardcoded 8%)
-  const ZONE_GAP_THRESHOLD = Math.max(3, avgLineHeight * 3)
-  // Body group split: gap > 2x average line height (replaces hardcoded 3%)
-  const BODY_GAP_THRESHOLD = Math.max(1.5, avgLineHeight * 2)
-  // Running header cutoff: lines above 2x average line height from top
-  const HEADER_CUTOFF_Y = Math.max(2, avgLineHeight * 2)
+  // Zone split: gap > multiplier × average line height
+  const ZONE_GAP_THRESHOLD = Math.max(cfg.zoneGapMin, avgLineHeight * cfg.zoneGapMultiplier)
+  // Body group split: gap > multiplier × average line height
+  const BODY_GAP_THRESHOLD = Math.max(cfg.bodyGapMin, avgLineHeight * cfg.bodyGapMultiplier)
+  // Running header cutoff: lines above multiplier × average line height from top
+  const HEADER_CUTOFF_Y = Math.max(cfg.headerCutoffMin, avgLineHeight * cfg.headerCutoffMultiplier)
 
   // Detect table regions vs body text
   const isMultiColLine = (idx: number): boolean => {
     const line = ocrLines[idx]
-    for (let j = Math.max(0, idx - 5); j < Math.min(ocrLines.length, idx + 6); j++) {
+    for (let j = Math.max(0, idx - cfg.multiColWindow); j < Math.min(ocrLines.length, idx + cfg.multiColWindow + 1); j++) {
       if (j === idx) continue
       const other = ocrLines[j]
       const yOverlap = Math.min(line.y + line.height, other.y + other.height) - Math.max(line.y, other.y)
       if (yOverlap > 0) {
-        const xSep = Math.abs((line.x + line.width / 2) - (other.x + other.width / 2)) > 20
+        const xSep = Math.abs((line.x + line.width / 2) - (other.x + other.width / 2)) > cfg.multiColXSep
         if (xSep) return true
       }
     }
@@ -152,11 +154,11 @@ export async function runStep2(pageId: string) {
   const isZoneCentered = (z: Zone): boolean => {
     if (z.lines.length === 0 || z.lines.length > 3) return false
     return z.lines.every((line) => {
-      if (line.width > 30) return false
+      if (line.width > cfg.centeredMaxWidth) return false
       const leftGap = line.x
       const rightGap = 100 - (line.x + line.width)
       const mid = line.x + line.width / 2
-      return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
+      return Math.abs(leftGap - rightGap) < cfg.centeredSymmetryThreshold && mid > 30 && mid < 70
     })
   }
   for (let i = 1; i < zones.length - 1; i++) {
@@ -180,7 +182,7 @@ export async function runStep2(pageId: string) {
     const prev = mergedZones.length > 0 ? mergedZones[mergedZones.length - 1] : null
     if (prev && z.isTable === prev.isTable && !z.isRunningHeader && !prev.isRunningHeader) {
       const gap = z.startY - prev.endY
-      if (z.isTable && gap > 5) {
+      if (z.isTable && gap > cfg.tableMergeGap) {
         // Large gap between table zones — keep separate (annotation vs body text sections)
         mergedZones.push({ ...z })
       } else {
@@ -228,10 +230,10 @@ export async function runStep2(pageId: string) {
 
     if (zone.isTable) {
       // Split table zone into annotation lines (short, scattered) and body text (long, dense)
-      const { annotations, body } = splitTableByDensity(zone.lines)
+      const { annotations, body } = splitTableByDensity(zone.lines, cfg)
 
       // Build body columns first so we can check annotation overlap
-      const bodyColumns = body.length > 0 ? splitBodyByXColumns(body) : []
+      const bodyColumns = body.length > 0 ? splitBodyByXColumns(body, cfg) : []
 
       // Compute X and Y ranges for each body column
       const colRanges = bodyColumns.map((col) => ({
@@ -246,7 +248,7 @@ export async function runStep2(pageId: string) {
       // overlap in BOTH X and Y (i.e., the annotation is spatially inside the
       // body column, not just at the same X but above/below it)
       if (annotations.length > 0) {
-        const clusters = clusterAnnotationLines(annotations)
+        const clusters = clusterAnnotationLines(annotations, cfg)
         for (const cluster of clusters) {
           const cMinX = Math.min(...cluster.map((l) => l.x))
           const cMaxX = Math.max(...cluster.map((l) => l.x + l.width))
@@ -297,7 +299,7 @@ export async function runStep2(pageId: string) {
         for (const { lines: colLines } of colRanges) {
           // Further split within a column when lines transition from wide to narrow
           // (left edge shifts significantly), so narrow text doesn't force a wide region
-          const subGroups = splitColumnByWidthTransition(colLines)
+          const subGroups = splitColumnByWidthTransition(colLines, cfg)
           for (const subGroup of subGroups) {
             const tMinX = Math.min(...subGroup.map((l) => l.x))
             const tMaxX = Math.max(...subGroup.map((l) => l.x + l.width))
@@ -329,11 +331,11 @@ export async function runStep2(pageId: string) {
     const bodyWidth = Math.max(...zoneLines.map((l) => l.width))
 
     const isCenteredLine = (line: OcrLine): boolean => {
-      if (line.width > 30 && line.width > bodyWidth * 0.7) return false
+      if (line.width > cfg.centeredMaxWidth && line.width > bodyWidth * cfg.centeredBodyWidthRatio) return false
       const mid = line.x + line.width / 2
       const leftGap = line.x
       const rightGap = 100 - (line.x + line.width)
-      return Math.abs(leftGap - rightGap) < 15 && mid > 30 && mid < 70
+      return Math.abs(leftGap - rightGap) < cfg.centeredSymmetryThreshold && mid > 30 && mid < 70
     }
 
     const groups: OcrLine[][] = []
@@ -443,14 +445,14 @@ export async function runStep2(pageId: string) {
  */
 type OcrLineType = { y: number; height: number; x: number; width: number; charCount: number; boxIds: string[] }
 
-function splitTableByDensity(lines: OcrLineType[]): { annotations: OcrLineType[]; body: OcrLineType[] } {
+function splitTableByDensity(lines: OcrLineType[], cfg: Step2Config): { annotations: OcrLineType[]; body: OcrLineType[] } {
   if (lines.length === 0) return { annotations: [], body: [] }
 
   const sorted = [...lines].sort((a, b) => a.y - b.y)
 
   // Find the first Y position where a sliding window of lines has high avg charCount
   // This marks the transition from annotations to body text
-  const BODY_CHAR_THRESHOLD = 30
+  const BODY_CHAR_THRESHOLD = cfg.bodyCharThreshold
   const WINDOW = 3
   let splitIdx = -1
 
@@ -467,7 +469,7 @@ function splitTableByDensity(lines: OcrLineType[]): { annotations: OcrLineType[]
   // No body text found — all annotations (if scattered), else all table
   if (splitIdx < 0) {
     const avgChars = sorted.reduce((s, l) => s + l.charCount, 0) / sorted.length
-    if (avgChars < 25 && isScatteredLayout(sorted)) {
+    if (avgChars < 25 && isScatteredLayout(sorted, cfg)) {
       return { annotations: sorted, body: [] }
     }
     return { annotations: [], body: sorted }
@@ -480,7 +482,7 @@ function splitTableByDensity(lines: OcrLineType[]): { annotations: OcrLineType[]
 
   const candidateAnnotations = sorted.slice(0, splitIdx)
   // Verify the candidate annotations are actually scattered, not a structured table
-  if (isScatteredLayout(candidateAnnotations)) {
+  if (isScatteredLayout(candidateAnnotations, cfg)) {
     return {
       annotations: candidateAnnotations,
       body: sorted.slice(splitIdx),
@@ -496,14 +498,14 @@ function splitTableByDensity(lines: OcrLineType[]): { annotations: OcrLineType[]
  * vs organized in consistent columns (like a table or multi-column text).
  * Scattered = many distinct X positions; columnar = lines cluster into 2-3 X columns.
  */
-function isScatteredLayout(lines: OcrLineType[]): boolean {
+function isScatteredLayout(lines: OcrLineType[], cfg: Step2Config): boolean {
   if (lines.length < 3) return false
 
   const centers = lines.map((l) => l.x + l.width / 2)
-  // Count unique X buckets (15% wide — wide enough to capture table columns)
+  // Count unique X buckets — wide enough to capture table columns
   const xBuckets = new Map<number, number>()
   for (const c of centers) {
-    const bucket = Math.round(c / 15)
+    const bucket = Math.round(c / cfg.scatteredBucketWidth)
     xBuckets.set(bucket, (xBuckets.get(bucket) || 0) + 1)
   }
 
@@ -513,13 +515,13 @@ function isScatteredLayout(lines: OcrLineType[]): boolean {
   // If top 2 buckets hold most lines, it's columnar (table), not scattered
   if (bucketCounts.length >= 2) {
     const top2 = bucketCounts[0] + bucketCounts[1]
-    if (top2 >= lines.length * 0.55) return false
+    if (top2 >= lines.length * cfg.scatteredTop2Threshold) return false
   }
   // If 1 dominant bucket holds most lines, it's single-column, not scattered
   if (bucketCounts[0] >= lines.length * 0.5) return false
 
   // Many unique X positions relative to line count = scattered
-  return xBuckets.size >= 3
+  return xBuckets.size >= cfg.scatteredMinBuckets
 }
 
 /**
@@ -529,7 +531,7 @@ function isScatteredLayout(lines: OcrLineType[]): boolean {
  * under illustrations that sit beside a narrow text column).
  * Also splits consecutive dominant lines when the left edge shifts (wide→narrow).
  */
-function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
+function splitColumnByWidthTransition(lines: OcrLineType[], cfg: Step2Config): OcrLineType[][] {
   if (lines.length <= 2) return [lines]
 
   // Find the dominant left edge — the left-edge value shared by the most lines
@@ -557,7 +559,7 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
   const outliers: OcrLineType[] = []
 
   for (const line of lines) {
-    if (Math.abs(line.x - dominantLeft) > 10) {
+    if (Math.abs(line.x - dominantLeft) > cfg.widthTransitionThreshold) {
       outliers.push(line)
     } else {
       dominant.push(line)
@@ -566,7 +568,7 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
 
   // No outliers → check for consecutive width transitions within dominant lines
   if (outliers.length === 0) {
-    return splitByConsecutiveLeftEdge(dominant)
+    return splitByConsecutiveLeftEdge(dominant, cfg)
   }
 
   // Compute dominant group's X range
@@ -593,7 +595,7 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
   const result: OcrLineType[][] = []
 
   if (dominant.length > 0) {
-    result.push(...splitByConsecutiveLeftEdge(dominant))
+    result.push(...splitByConsecutiveLeftEdge(dominant, cfg))
   }
 
   // Add outlier clusters that extend beyond the dominant X range
@@ -608,8 +610,8 @@ function splitColumnByWidthTransition(lines: OcrLineType[]): OcrLineType[][] {
   return result
 }
 
-/** Split consecutive lines when left edge shifts by >10% (wide→narrow transition). */
-function splitByConsecutiveLeftEdge(lines: OcrLineType[]): OcrLineType[][] {
+/** Split consecutive lines when left edge shifts by >threshold (wide→narrow transition). */
+function splitByConsecutiveLeftEdge(lines: OcrLineType[], cfg: Step2Config): OcrLineType[][] {
   if (lines.length <= 1) return [lines]
 
   const sorted = [...lines].sort((a, b) => a.y - b.y)
@@ -621,7 +623,7 @@ function splitByConsecutiveLeftEdge(lines: OcrLineType[]): OcrLineType[][] {
       prevGroup.reduce((s, l) => s + l.x, 0) / prevGroup.length
     const curLeft = sorted[i].x
 
-    if (Math.abs(curLeft - prevAvgLeft) > 10) {
+    if (Math.abs(curLeft - prevAvgLeft) > cfg.widthTransitionThreshold) {
       groups.push([sorted[i]])
     } else {
       prevGroup.push(sorted[i])
@@ -652,7 +654,7 @@ function splitByConsecutiveLeftEdge(lines: OcrLineType[]): OcrLineType[][] {
   return valid
 }
 
-/** Cluster lines by Y proximity — lines within 3% Y of each other form one cluster. */
+/** Cluster lines by Y proximity — lines within annotationYGap Y of each other form one cluster. */
 function clusterByYProximity(lines: OcrLineType[]): OcrLineType[][] {
   if (lines.length === 0) return []
   if (lines.length === 1) return [lines]
@@ -680,7 +682,7 @@ function clusterByYProximity(lines: OcrLineType[]): OcrLineType[][] {
  * X ranges (e.g., two-column layout with illustrations between columns).
  * Clusters lines by X range overlap, then verifies columns are separated.
  */
-function splitBodyByXColumns(lines: OcrLineType[]): OcrLineType[][] {
+function splitBodyByXColumns(lines: OcrLineType[], cfg: Step2Config): OcrLineType[][] {
   if (lines.length <= 2) return [lines]
 
   // Cluster lines by X range overlap
@@ -696,7 +698,7 @@ function splitBodyByXColumns(lines: OcrLineType[]): OcrLineType[][] {
         Math.min(line.x + line.width, clusterMaxX) - Math.max(line.x, clusterMinX)
       const minWidth = Math.min(line.width, clusterMaxX - clusterMinX)
 
-      if (overlap > minWidth * 0.3) {
+      if (overlap > minWidth * cfg.columnXOverlap) {
         cluster.push(line)
         merged = true
         break
@@ -751,7 +753,8 @@ function splitBodyByXColumns(lines: OcrLineType[]): OcrLineType[][] {
  * Lines at same Y but different X stay separate (different annotation positions).
  */
 function clusterAnnotationLines(
-  lines: { y: number; height: number; x: number; width: number; charCount: number; boxIds: string[] }[]
+  lines: { y: number; height: number; x: number; width: number; charCount: number; boxIds: string[] }[],
+  cfg: Step2Config
 ): typeof lines[] {
   if (lines.length === 0) return []
 
@@ -777,7 +780,7 @@ function clusterAnnotationLines(
       const xOverlap = Math.min(line.x + line.width, clusterRight) - Math.max(line.x, clusterLeft)
       const minWidth = Math.min(line.width, clusterRight - clusterLeft)
 
-      if (yGap < 2 && yGap >= -0.5 && xOverlap > minWidth * 0.3) {
+      if (yGap < cfg.annotationYGap && yGap >= -0.5 && xOverlap > minWidth * cfg.columnXOverlap) {
         cluster.push(line)
         used.add(j)
       }

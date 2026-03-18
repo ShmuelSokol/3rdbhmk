@@ -53,7 +53,8 @@ export async function POST(
   { params }: { params: { pageId: string } }
 ) {
   try {
-    const { step } = await request.json()
+    const body = await request.json()
+    const { step, config } = body
     const pageId = params.pageId
 
     const page = await prisma.page.findUnique({ where: { id: pageId } })
@@ -72,7 +73,7 @@ export async function POST(
       }
       case 2: {
         const { runStep2 } = await import('@/lib/pipeline/step2-regions')
-        result = await runStep2(pageId)
+        result = await runStep2(pageId, config?.step2)
         break
       }
       case 3: {
@@ -82,12 +83,12 @@ export async function POST(
       }
       case 4: {
         const { runStep4 } = await import('@/lib/pipeline/step4-expand')
-        result = await runStep4(pageId)
+        result = await runStep4(pageId, config?.step4)
         break
       }
       case 5: {
         const { runStep5 } = await import('@/lib/pipeline/step5-fit')
-        result = await runStep5(pageId)
+        result = await runStep5(pageId, config?.step5)
         break
       }
       case 6: {

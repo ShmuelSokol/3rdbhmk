@@ -123,8 +123,8 @@ export const DEFAULT_CONFIG: PipelineConfig = {
   },
   step5: {
     minFontRatio: 0.5,
-    lineHeightMultiplier: 1.3,
-    fontSizeScale: 0.9,
+    lineHeightMultiplier: 1.15,
+    fontSizeScale: 0.85,
     wideLineThreshold: 0.8,
     minAbsoluteFont: 14,
     emptyLineHeightRatio: 0.5,

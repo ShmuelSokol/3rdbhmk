@@ -47,6 +47,10 @@ export interface Step2Config {
   columnXOverlap: number
   /** Width transition split: min left-edge shift (%) */
   widthTransitionThreshold: number
+  /** Split body regions taller than this (% of page) at largest internal gap */
+  tallRegionSplitThreshold: number
+  /** Minimum gap (as fraction of avg line height) to allow splitting a tall region */
+  tallRegionMinGapRatio: number
 }
 
 export interface Step4Config {
@@ -110,6 +114,8 @@ export const DEFAULT_CONFIG: PipelineConfig = {
     annotationYGap: 2,
     columnXOverlap: 0.3,
     widthTransitionThreshold: 10,
+    tallRegionSplitThreshold: 40,
+    tallRegionMinGapRatio: 0.5,
   },
   step4: {
     varianceThreshold: 150,

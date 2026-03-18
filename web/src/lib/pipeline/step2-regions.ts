@@ -376,7 +376,14 @@ export async function runStep2(pageId: string, configOverrides?: Partial<Step2Co
       refined.push(chunk)
     }
 
+    // Post-processing: split oversized body groups at natural paragraph gaps
+    // This improves P8 (size balance) by preventing one huge region from dominating
+    const balanced: OcrLine[][] = []
     for (const group of refined) {
+      splitTallGroup(group, avgLineHeight, cfg, balanced)
+    }
+
+    for (const group of balanced) {
       const minX = Math.min(...group.map((l) => l.x))
       const minY = Math.min(...group.map((l) => l.y))
       const maxX = Math.max(...group.map((l) => l.x + l.width))
@@ -745,6 +752,62 @@ function splitBodyByXColumns(lines: OcrLineType[], cfg: Step2Config): OcrLineTyp
   }
 
   return validColumns
+}
+
+/**
+ * Recursively split a body group if it's taller than tallRegionSplitThreshold (% of page).
+ * Finds the largest inter-line gap and splits there, then recurses on both halves.
+ */
+function splitTallGroup(
+  group: OcrLineType[],
+  avgLineHeight: number,
+  cfg: Step2Config,
+  out: OcrLineType[][]
+): void {
+  if (group.length < 4) {
+    out.push(group)
+    return
+  }
+
+  const sorted = [...group].sort((a, b) => a.y - b.y)
+  const minY = sorted[0].y
+  const maxY = sorted[sorted.length - 1].y + sorted[sorted.length - 1].height
+  const groupHeight = maxY - minY
+
+  if (groupHeight <= cfg.tallRegionSplitThreshold) {
+    out.push(group)
+    return
+  }
+
+  // Find the largest gap between consecutive lines
+  let bestGapIdx = -1
+  let bestGapSize = 0
+  for (let i = 1; i < sorted.length; i++) {
+    const gap = sorted[i].y - (sorted[i - 1].y + sorted[i - 1].height)
+    if (gap > bestGapSize) {
+      bestGapSize = gap
+      bestGapIdx = i
+    }
+  }
+
+  const minGap = avgLineHeight * cfg.tallRegionMinGapRatio
+  if (bestGapIdx <= 0 || bestGapSize < minGap) {
+    // No suitable gap — keep as one region
+    out.push(group)
+    return
+  }
+
+  // Split and recurse on both halves
+  const top = sorted.slice(0, bestGapIdx)
+  const bottom = sorted.slice(bestGapIdx)
+
+  // Only recurse if both halves have enough lines
+  if (top.length >= 2 && bottom.length >= 2) {
+    splitTallGroup(top, avgLineHeight, cfg, out)
+    splitTallGroup(bottom, avgLineHeight, cfg, out)
+  } else {
+    out.push(group)
+  }
 }
 
 /**

@@ -376,15 +376,22 @@ export async function runStep5(pageId: string, configOverrides?: Partial<Step5Co
         return allLines
       }
 
-      // Shrink until text fits
+      // Binary search for max font size that fits — start at full Hebrew size
       const minFontSize = Math.max(cfg.minAbsoluteFont, Math.round(defaultFontSize * cfg.minFontRatio))
-      for (let attempt = 0; attempt < 30; attempt++) {
-        const lines = wrapText(fontSize, cleanText)
-        const lh = Math.round(fontSize * cfg.lineHeightMultiplier)
-        if (lines.length * lh <= pxHeight) break
-        if (fontSize <= minFontSize) { fontSize = minFontSize; break }
-        fontSize--
+      const maxFontSize = Math.round(defaultFontSize / cfg.fontSizeScale) // undo the 0.85 scale to get original Hebrew size
+      let lo = minFontSize
+      let hi = maxFontSize
+      while (hi - lo > 1) {
+        const mid = Math.floor((lo + hi) / 2)
+        const lines = wrapText(mid, cleanText)
+        const lh = Math.round(mid * cfg.lineHeightMultiplier)
+        if (lines.length * lh <= pxHeight) {
+          lo = mid // fits — try bigger
+        } else {
+          hi = mid // overflow — try smaller
+        }
       }
+      fontSize = lo
 
       // Check if text still overflows → AI shorten
       let finalText = cleanText

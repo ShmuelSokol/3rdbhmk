@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma'
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import { getSupabase } from '@/lib/supabase'
 import { extractPageAsImage } from '@/lib/pdf-utils'
-import { computeTextBlocks as computeTextBlocksShared } from '@/lib/compute-text-blocks'
 import { writeFile, mkdir, readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
@@ -259,12 +258,68 @@ async function getErasedImage(pageId: string, bookId: string, bookFilename: stri
 }
 
 // --- Compute safe text blocks for a page ---
-// Uses the shared text-blocks algorithm (zone classification, illustration-gap
-// splitting, per-line splitting, pixel-based safe expansion).
 
-async function computeTextBlocks(pageId: string): Promise<TextBlock[]> {
-  const result = await computeTextBlocksShared(pageId)
-  return result.blocks
+async function computeTextBlocks(pageId: string, bookId: string, bookFilename: string, pageNumber: number): Promise<TextBlock[]> {
+  const page = await prisma.page.findFirst({
+    where: { bookId, pageNumber },
+    include: { ocrResult: { include: { boxes: { orderBy: [{ lineIndex: 'asc' }, { wordIndex: 'asc' }] } } } },
+  })
+
+  const boxes = (page?.ocrResult?.boxes || []).filter((b) => !b.skipTranslation && b.y >= 4)
+  if (boxes.length === 0) return []
+
+  // Group into lines
+  const lineMap = new Map<number, typeof boxes>()
+  for (const box of boxes) {
+    const li = box.lineIndex ?? -1
+    if (!lineMap.has(li)) lineMap.set(li, [])
+    lineMap.get(li)!.push(box)
+  }
+
+  const ocrLines: { y: number; height: number; x: number; width: number; charCount: number }[] = []
+  lineMap.forEach((lineBoxes) => {
+    const textBoxes = lineBoxes.filter((b) => !b.skipTranslation)
+    if (textBoxes.length === 0) return
+    const minX = Math.min(...textBoxes.map((b) => b.x))
+    const minY = Math.min(...textBoxes.map((b) => b.y))
+    const maxX = Math.max(...textBoxes.map((b) => b.x + b.width))
+    const maxY = Math.max(...textBoxes.map((b) => b.y + b.height))
+    const text = textBoxes.map((b) => b.editedText ?? b.hebrewText).join('')
+    if (!text.trim()) return
+    ocrLines.push({ y: minY, height: maxY - minY, x: minX, width: maxX - minX, charCount: text.length })
+  })
+  ocrLines.sort((a, b) => a.y - b.y)
+  if (ocrLines.length === 0) return []
+
+  // Group into blocks
+  const GAP_THRESHOLD = 3
+  const groups: (typeof ocrLines)[] = []
+  let currentGroup = [ocrLines[0]]
+  for (let i = 1; i < ocrLines.length; i++) {
+    const prev = currentGroup[currentGroup.length - 1]
+    if (ocrLines[i].y - (prev.y + prev.height) > GAP_THRESHOLD) {
+      groups.push(currentGroup)
+      currentGroup = [ocrLines[i]]
+    } else {
+      currentGroup.push(ocrLines[i])
+    }
+  }
+  groups.push(currentGroup)
+
+  const rawBlocks: TextBlock[] = groups.map((group) => {
+    const minX = Math.min(...group.map((l) => l.x))
+    const minY = Math.min(...group.map((l) => l.y))
+    const maxX = Math.max(...group.map((l) => l.x + l.width))
+    const maxY = Math.max(...group.map((l) => l.y + l.height))
+    const hebrewCharCount = group.reduce((s, l) => s + l.charCount, 0)
+    const avgLineHeightPct = group.reduce((s, l) => s + l.height, 0) / group.length
+    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY, hebrewCharCount, avgLineHeightPct }
+  })
+
+  // Pixel variance expansion (simplified — just expand vertically a bit)
+  // Full pixel analysis is done in the text-blocks endpoint; here we use raw blocks
+  // which are good enough for PDF rendering
+  return rawBlocks
 }
 
 // --- MAIN EXPORT ---
@@ -342,7 +397,7 @@ export async function GET(
       })
 
       // Get text blocks and draw English text
-      const blocks = await computeTextBlocks(page.id)
+      const blocks = await computeTextBlocks(page.id, book.id, book.filename, page.pageNumber)
       const paragraphs = parseTranslation(page.translation!.englishOutput)
       const paraMap = assignParagraphsToBlocks(blocks, paragraphs)
 

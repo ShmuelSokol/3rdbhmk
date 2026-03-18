@@ -112,13 +112,13 @@ export const DEFAULT_CONFIG: PipelineConfig = {
     widthTransitionThreshold: 10,
   },
   step4: {
-    varianceThreshold: 200,
-    colorDistThreshold: 25,
+    varianceThreshold: 150,
+    colorDistThreshold: 20,
     expansionStep: 1,
     pageMargin: 2,
     buffer: 1,
     gapScanHeight: 0.3,
-    gapScanVariance: 50,
+    gapScanVariance: 30,
     expandTableHorizontal: false,
   },
   step5: {

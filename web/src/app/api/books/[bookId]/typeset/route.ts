@@ -152,10 +152,9 @@ function splitBidi(text: string): TextSegment[] {
  *  correctly by the font, but word ORDER is not reversed. So we reverse word order here:
  *  "שלום עולם" (shalom olam) → "עולם שלום" so the reader scanning RTL sees "שלום עולם". */
 function reverseHebrew(text: string): string {
-  if (!text.trim()) return text
-  // Split on whitespace, reverse word order, rejoin
-  const parts = text.split(/(\s+)/)  // preserve whitespace tokens
-  return parts.reverse().join('')
+  // Keep logical order — pdf-lib + NotoSerifHebrew handles RTL glyph shaping
+  // Do NOT reverse word order — it scrambles Hebrew/English transitions
+  return text
 }
 
 /** Draw a line of mixed bidi text, handling font switching and RTL reversal.

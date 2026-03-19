@@ -173,87 +173,59 @@ function splitBidi(text: string): TextSegment[] {
   return fixed
 }
 
-/** Reorder a line of text using the Unicode Bidirectional Algorithm (bidi-js).
- *  Converts logical-order text to visual-order for pdf-lib's LTR glyph rendering.
- *  Hebrew characters are reversed, brackets are mirrored in RTL contexts,
- *  and mixed Hebrew/English text is properly interleaved. */
-function reorderBidiLine(text: string): string {
-  if (!text || text.length < 2) return text
+/** Build visual-order segments for drawing using bidi-js.
+ *  Returns segments in LEFT-TO-RIGHT visual order, with Hebrew text in
+ *  logical character order (the font handles RTL glyph shaping).
+ *
+ *  Uses bidi-js getReorderedIndices() to determine visual character positions,
+ *  then groups into Hebrew/Latin runs. Hebrew runs have their chars un-reversed
+ *  (bidi gives char-reversed order, but NotoSerifHebrew needs logical order). */
+function getVisualSegments(text: string): TextSegment[] {
+  if (!text || text.length < 2) {
+    const heb = text ? isHebrew(text[0]) : false
+    return text ? [{ text, hebrew: heb }] : []
+  }
 
-  // Use bidi-js to get embedding levels — this tells us which chars are RTL vs LTR
   const b = getBidi()
-  const result = b.getEmbeddingLevels(text, 'ltr')
-  const levels = result.levels
+  const levels = b.getEmbeddingLevels(text, 'ltr')
+  const indices = b.getReorderedIndices(text, levels)
 
-  // DON'T use getReorderedString — it reverses characters within RTL runs,
-  // but NotoSerifHebrew + pdf-lib already renders individual Hebrew glyphs correctly.
-  // We only need to reverse WORD ORDER within Hebrew segments.
-
-  // Strategy: split text into directional runs, reverse word order within RTL runs
-  const output: string[] = []
+  // Build visual runs grouped by Hebrew/non-Hebrew
+  const runs: TextSegment[] = []
   let runStart = 0
-  let runIsRTL = (levels[0] || 0) % 2 === 1
 
-  for (let i = 1; i <= text.length; i++) {
-    const isRTL = i < text.length ? (levels[i] || 0) % 2 === 1 : !runIsRTL
-    if (isRTL !== runIsRTL || i === text.length) {
-      const segment = text.slice(runStart, i)
-      if (runIsRTL) {
-        // Reverse word order within RTL segment (keeps individual chars intact)
-        const words = segment.split(/(\s+)/)
-        output.push(words.reverse().join(''))
-      } else {
-        output.push(segment)
+  for (let i = 1; i <= indices.length; i++) {
+    const prevCh = text.charCodeAt(indices[i - 1])
+    const prevIsHeb = (prevCh >= 0x0590 && prevCh <= 0x05FF) || (prevCh >= 0xFB1D && prevCh <= 0xFB4F)
+
+    let currIsHeb = false
+    if (i < indices.length) {
+      const currCh = text.charCodeAt(indices[i])
+      currIsHeb = (currCh >= 0x0590 && currCh <= 0x05FF) || (currCh >= 0xFB1D && currCh <= 0xFB4F)
+    }
+
+    if (i === indices.length || prevIsHeb !== currIsHeb) {
+      const chars: string[] = []
+      for (let j = runStart; j < i; j++) chars.push(text[indices[j]])
+
+      if (prevIsHeb) {
+        // Hebrew run: bidi reversed the characters — reverse back to logical order
+        // so the font can shape them correctly
+        chars.reverse()
       }
+
+      runs.push({ text: chars.join(''), hebrew: prevIsHeb })
       runStart = i
-      runIsRTL = isRTL
     }
   }
 
-  return output.join('')
+  return runs
 }
 
-/** Split visual-order text into segments by font (Hebrew vs Latin).
- *  Unlike splitBidi (which handles logical-order neutral attachment),
- *  this is a simple character-class grouping for font selection after bidi reordering. */
-function splitVisualForFonts(text: string): TextSegment[] {
-  if (!text) return []
-  const segments: TextSegment[] = []
-  let cur = ''
-  let curHeb = false
-  let started = false
-
-  for (const ch of text) {
-    const heb = isHebrew(ch)
-    const isStrong = heb || /[a-zA-Z0-9]/.test(ch)
-
-    if (!started) {
-      cur = ch
-      curHeb = isStrong ? heb : false
-      started = true
-      continue
-    }
-
-    if (!isStrong) {
-      // Neutral character — stays with current run
-      cur += ch
-    } else if (heb === curHeb) {
-      cur += ch
-    } else {
-      // Direction change — push current segment and start new
-      if (cur) segments.push({ text: cur, hebrew: curHeb })
-      cur = ch
-      curHeb = heb
-    }
-  }
-  if (cur) segments.push({ text: cur, hebrew: curHeb })
-  return segments
-}
-
-/** Draw a line of mixed bidi text, handling font switching and proper RTL rendering via bidi-js.
- *  Steps: (1) reorder the full line to visual order using Unicode BiDi Algorithm,
- *  (2) split the visual-order result into Hebrew/Latin segments for font selection,
- *  (3) draw each segment left-to-right with the appropriate font. */
+/** Draw a line of mixed bidi text using per-segment visual positioning.
+ *  Uses bidi-js to determine visual order of segments, then draws each
+ *  segment left-to-right with the appropriate font. Hebrew characters
+ *  are in logical order for correct font shaping. */
 function drawBidiLine(
   page: PDFPage,
   line: string,
@@ -263,30 +235,24 @@ function drawBidiLine(
   latinFont: PDFFont,
   hebrewFont: PDFFont,
   color: ReturnType<typeof rgb>,
-  maxX?: number, // optional right boundary — stop drawing beyond this x
+  maxX?: number,
 ) {
-  // Step 1: Reorder full line to visual order using Unicode BiDi Algorithm
-  const visualLine = reorderBidiLine(line)
-
-  // Step 2: Split visual-order text into font segments
-  const segments = splitVisualForFonts(visualLine)
+  const segments = getVisualSegments(line)
   let curX = x
-  const rightBound = maxX || (x + 500) // default: don't overflow too far
+  const rightBound = maxX || (x + 500)
 
   for (const seg of segments) {
-    // Stop drawing if we've exceeded the right boundary
     if (curX >= rightBound) break
 
     const font = seg.hebrew ? hebrewFont : latinFont
     try {
       const segWidth = font.widthOfTextAtSize(seg.text, fontSize)
-      // Only draw if it fits within bounds (or at least partially)
       if (curX + segWidth <= rightBound + 5) {
         page.drawText(seg.text, { x: curX, y, size: fontSize, font, color })
       }
       curX += segWidth
     } catch {
-      // If font can't encode a char, try the other font as fallback
+      // Fallback to other font
       try {
         const altFont = seg.hebrew ? latinFont : hebrewFont
         const segWidth = altFont.widthOfTextAtSize(seg.text, fontSize)
@@ -294,9 +260,7 @@ function drawBidiLine(
           page.drawText(seg.text, { x: curX, y, size: fontSize, font: altFont, color })
         }
         curX += segWidth
-      } catch {
-        // Skip entirely if neither font works
-      }
+      } catch { /* skip */ }
     }
   }
 }
@@ -305,10 +269,7 @@ function drawBidiLine(
  *  Uses visual-order splitting (after bidi reorder) for accurate width measurement
  *  that matches what drawBidiLine will actually render. */
 function bidiLineWidth(line: string, fontSize: number, latinFont: PDFFont, hebrewFont: PDFFont): number {
-  // Reorder to visual order first — character reversal can affect width slightly
-  // due to different font metrics, and it ensures consistency with drawBidiLine
-  const visualLine = reorderBidiLine(line)
-  const segments = splitVisualForFonts(visualLine)
+  const segments = getVisualSegments(line)
   let w = 0
   for (const seg of segments) {
     const font = seg.hebrew ? hebrewFont : latinFont

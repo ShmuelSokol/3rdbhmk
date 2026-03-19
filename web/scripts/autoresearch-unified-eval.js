@@ -21,6 +21,60 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const DESC_ARG = process.argv.find(a => a.startsWith('--desc='));
 const DESCRIPTION = DESC_ARG ? DESC_ARG.split('=').slice(1).join('=') : '';
 
+// ── Importance Weights ───────────────────────────────────────────────
+// 3 = Critical (makes or breaks the book)
+// 2 = Important (noticeable quality issue)
+// 1 = Nice-to-have (polish)
+//
+// When evals conflict, higher-weight evals always win.
+// Weighted score = sum(pass × weight) / sum(weight) per input.
+
+const EVAL_WEIGHTS = {
+  // Layout evals
+  E1:  3,  // Hebrew chars present — core ArtScroll feature
+  E2:  2,  // Words per page — density matters
+  E3:  3,  // Text completeness — can't lose content
+  E4:  1,  // No meta-text artifacts — minor cleanup
+  E5:  1,  // No concatenation errors — minor cleanup
+  E6:  2,  // No excessive whitespace — visible quality
+  E7:  2,  // No orphan starts — visible quality
+  E8:  3,  // Decoration present — page design identity
+  E9:  1,  // Reasonable page count — sanity check
+  E10: 3,  // No tiny/blank pages — critical (user complaint)
+  E11: 2,  // Illustrations present — important for diagrams
+  E12: 1,  // No tiny fragments — minor visual
+  E13: 1,  // No blank crops — minor visual
+  E14: 1,  // Illustration ratio — sanity check
+  E15: 1,  // No duplicate illustrations — minor
+  E16: 1,  // Tables present — structural
+  E17: 1,  // No truncated cells — minor
+  E18: 1,  // Consistent columns — minor
+  E19: 2,  // No standalone numbers — visible quality (user complaint)
+  E20: 1,  // Sequential TOC numbers — minor
+  E21: 2,  // Diagram pages have images — important
+  E22: 2,  // No repeated lines — visible quality
+  E23: 1,  // Diagram captions concise — minor
+  E24: 1,  // No label-only pages — minor
+  E25: 1,  // Diagram explanatory text — minor
+  E26: 2,  // Topic breaks = new pages — user requested
+  E27: 1,  // Headers visually distinct — polish
+  E28: 1,  // Section content cohesive — minor
+  E29: 2,  // Sequential footer numbers — visible
+  E30: 3,  // No empty content pages — critical (user complaint)
+
+  // ArtScroll evals
+  AS1:  3,  // Inline Hebrew — THE core ArtScroll feature
+  AS2:  3,  // Ashkenazi terms — core style identity
+  AS3:  2,  // Source citations — important scholarly feature
+  AS4:  3,  // Hebrew quote format — core ArtScroll feature
+  AS5:  1,  // No spelled-out letters — minor cleanup
+  AS6:  2,  // Proper terminology — important style
+  AS7:  2,  // Paragraph structure — readability
+  AS8:  1,  // Bold headers — polish
+  AS9:  2,  // No standalone numbers — visible quality
+  AS10: 2,  // Decoration & frame — page design
+};
+
 async function runUnifiedEval(configOverride, description) {
   const experimentId = catalog.generateExperimentId();
   const startTime = Date.now();
@@ -64,11 +118,6 @@ async function runUnifiedEval(configOverride, description) {
     }
   }
 
-  // Combine scores
-  const combinedTotal = layoutResults.totalScore + artscrollResults.totalScore;
-  const combinedMax = layoutResults.maxScore + artscrollResults.maxScore;
-  const combinedPct = combinedMax > 0 ? (combinedTotal / combinedMax * 100) : 0;
-
   // Build per-eval summary
   const layoutPerEval = {};
   for (const [key, val] of Object.entries(layoutResults.evalBreakdown || {})) {
@@ -78,6 +127,45 @@ async function runUnifiedEval(configOverride, description) {
   for (const [key, val] of Object.entries(artscrollResults.evalScores || {})) {
     artscrollPerEval[key] = typeof val === 'object' ? val.pass : val;
   }
+
+  // Calculate WEIGHTED scores (importance-based)
+  // Each eval's contribution = passes × weight (out of total_inputs × weight)
+  let weightedTotal = 0;
+  let weightedMax = 0;
+  const weightedPerEval = {};
+
+  // Layout evals
+  for (const [key, passes] of Object.entries(layoutPerEval)) {
+    const total = layoutResults.evalTotal?.[key] || 5;
+    const weight = EVAL_WEIGHTS[key] || 1;
+    weightedPerEval[key] = { passes, total, weight, weighted: passes * weight };
+    weightedTotal += passes * weight;
+    weightedMax += total * weight;
+  }
+
+  // ArtScroll evals
+  for (const [key, val] of Object.entries(artscrollPerEval)) {
+    const passes = typeof val === 'number' ? val : (val?.pass || 0);
+    const evalData = artscrollResults.evalScores?.[key];
+    const total = evalData?.total || 5;
+    const weight = EVAL_WEIGHTS[key] || 1;
+    weightedPerEval[key] = { passes, total, weight, weighted: passes * weight };
+    weightedTotal += passes * weight;
+    weightedMax += total * weight;
+  }
+
+  const weightedPct = weightedMax > 0 ? (weightedTotal / weightedMax * 100) : 0;
+
+  // Also keep unweighted for reference
+  const combinedTotal = layoutResults.totalScore + artscrollResults.totalScore;
+  const combinedMax = layoutResults.maxScore + artscrollResults.maxScore;
+  const combinedPct = combinedMax > 0 ? (combinedTotal / combinedMax * 100) : 0;
+
+  // Check critical eval failures (weight=3 evals that fail)
+  const criticalFailures = Object.entries(weightedPerEval)
+    .filter(([, v]) => v.weight >= 3 && v.passes < v.total)
+    .map(([key, v]) => `${key}: ${v.passes}/${v.total}`);
+
 
   const results = {
     id: experimentId,
@@ -104,8 +192,16 @@ async function runUnifiedEval(configOverride, description) {
         max: combinedMax,
         pct: parseFloat(combinedPct.toFixed(1)),
       },
+      weighted: {
+        total: weightedTotal,
+        max: weightedMax,
+        pct: parseFloat(weightedPct.toFixed(1)),
+        perEval: weightedPerEval,
+        criticalFailures,
+      },
     },
-    decision: 'pending', // caller decides keep/discard
+    weights: EVAL_WEIGHTS,
+    decision: 'pending', // caller decides keep/discard based on WEIGHTED score
     pdfs: pdfPaths,
     durationMs: Date.now() - startTime,
   };
@@ -114,7 +210,11 @@ async function runUnifiedEval(configOverride, description) {
   console.log(`\n${'═'.repeat(60)}`);
   console.log(`  LAYOUT:    ${layoutResults.totalScore}/${layoutResults.maxScore} (${results.scores.layout.pct}%)`);
   console.log(`  ARTSCROLL: ${artscrollResults.totalScore}/${artscrollResults.maxScore} (${results.scores.artscroll.pct}%)`);
-  console.log(`  COMBINED:  ${combinedTotal}/${combinedMax} (${combinedPct.toFixed(1)}%)`);
+  console.log(`  UNWEIGHTED: ${combinedTotal}/${combinedMax} (${combinedPct.toFixed(1)}%)`);
+  console.log(`  WEIGHTED:  ${weightedTotal}/${weightedMax} (${weightedPct.toFixed(1)}%) ← decision score`);
+  if (criticalFailures.length > 0) {
+    console.log(`  ⚠ CRITICAL FAILURES: ${criticalFailures.join(', ')}`);
+  }
   console.log(`  Duration:  ${(results.durationMs / 1000).toFixed(0)}s`);
   console.log(`${'═'.repeat(60)}\n`);
 

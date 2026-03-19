@@ -1191,6 +1191,10 @@ async function renderElements(
       lastWasDivider = false
 
       for (const line of lines) {
+        // Per-line page break check (headers can be long on title pages)
+        if (curY - lh < safeMarginBottom) {
+          newPage()
+        }
         const lineW = bidiLineWidth(line, fontSize, font, hebFont)
         const x = cfg.marginLeft + (textWidth - lineW) / 2 // centered
         drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.headerColor), cfg.pageWidth - cfg.marginRight)

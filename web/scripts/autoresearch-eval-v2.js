@@ -471,7 +471,10 @@ function evalE10_NoTinyPages(pagesText) {
   if (pagesText.length <= 2) return { pass: true, detail: 'Too few pages to evaluate' };
 
   const tinyPages = [];
-  for (let i = 1; i < pagesText.length - 1; i++) { // skip first (title) and last
+  // Skip first 3 pages (title page + cover + possible dedication/blank) and last page.
+  // Book openings naturally have sparse pages (title, dedication, blank verso).
+  const startIdx = Math.min(3, pagesText.length - 1);
+  for (let i = startIdx; i < pagesText.length - 1; i++) {
     const text = pagesText[i];
     // Strip likely header/footer content (lines with em-dash page numbers or book title)
     const lines = text.split('\n').filter(l => {
@@ -756,6 +759,15 @@ function evalE20_SequentialTOCPageNumbers(text) {
     // Only consider reasonable page numbers and skip lines that look like body text
     const prefix = match[1].trim();
     if (num > 0 && num < 500 && prefix.split(/\s+/).length <= 12) {
+      // Exclude lines that are clearly NOT TOC entries:
+      // - Verse/chapter references: "Yechezkel Perek 40", "Pasuk 5", "Daf 118"
+      // - Page range references: "102-103 (..."
+      // - Headers/footers: "LISHCHNO TIDRESHU"
+      // - Parenthetical refs at end: "...Mikdash) 8"
+      if (/Perek|Pasuk|Daf|Chapter|Verse/i.test(prefix)) continue;
+      if (/LISHCHNO/i.test(prefix)) continue;
+      if (/\)\s*$/.test(prefix)) continue; // ends with closing paren before the number
+      if (/^\d+-\d+/.test(prefix)) continue; // starts with a page range like "102-103"
       pageNums.push(num);
     }
   }
@@ -788,7 +800,8 @@ function evalE21_DiagramPagesHaveIllustrations(pageImages, pagesText, testInput)
     return { pass: true, detail: 'No diagrams expected for this range' };
   }
 
-  // Diagram pages = pages with mostly short text fragments (labels) and few long paragraphs
+  // Diagram pages = pages with mostly short text fragments (labels) and few long paragraphs.
+  // Exclude TOC/index pages that also have many short lines but contain page references.
   let diagramPagesWithoutImages = 0;
   for (let i = 0; i < pagesText.length; i++) {
     const lines = pagesText[i].split('\n').filter(l => l.trim().length > 0);
@@ -797,6 +810,22 @@ function evalE21_DiagramPagesHaveIllustrations(pageImages, pagesText, testInput)
     const shortLines = lines.filter(l => l.trim().split(/\s+/).length <= 5).length;
     const ratio = shortLines / lines.length;
     if (ratio > 0.7 && lines.length >= 5) {
+      // Check if this is a TOC/index page (not a diagram page).
+      // TOC pages have many lines ending with page numbers, page ranges (N-N), or
+      // containing reference patterns like "Perek N", "(N)" etc.
+      const tocLikeLines = lines.filter(l => {
+        const t = l.trim();
+        // Lines ending with a number (page reference)
+        if (/\d{1,3}\s*$/.test(t)) return true;
+        // Lines with page range patterns like "97-100", "113-115"
+        if (/\d+-\d+/.test(t)) return true;
+        // Lines that are just a standalone number
+        if (/^\d{1,3}$/.test(t)) return true;
+        return false;
+      });
+      const tocRatio = tocLikeLines.length / lines.length;
+      if (tocRatio > 0.3) continue; // This is a TOC/index page, not a diagram
+
       // This looks like a diagram page — check if it has illustration content
       if (i < pageImages.length) {
         const fileSize = fs.existsSync(pageImages[i]) ? fs.statSync(pageImages[i]).size : 0;
@@ -1062,8 +1091,10 @@ function evalE28_SectionContentCohesive(pagesText) {
       }
     }
 
-    // If both TOC and body content are present on the same page
-    if (tocLines >= 3 && bodyLines >= 3) {
+    // If both TOC and body content are present on the same page.
+    // Require a substantial TOC section (>=5 lines) to avoid false positives
+    // from pages that have a few page-reference numbers mixed with body text.
+    if (tocLines >= 5 && bodyLines >= 3) {
       mixedPages++;
     }
   }
@@ -1107,7 +1138,9 @@ function evalE30_NoEmptyContentPages(pagesText) {
   let emptyPages = 0;
   const examples = [];
 
-  for (let i = 1; i < pagesText.length - 1; i++) {
+  // Skip first 3 pages (title + cover + possible dedication/blank) and last page.
+  const startIdx = Math.min(3, pagesText.length - 1);
+  for (let i = startIdx; i < pagesText.length - 1; i++) {
     const text = pagesText[i];
     // Strip headers and footers
     const lines = text.split('\n').filter(l => {

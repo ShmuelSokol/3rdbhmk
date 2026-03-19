@@ -287,7 +287,7 @@ async function detectAndCropIllustrations(
     const cropBottom = Math.round((gap.bottomY / 100) * imgH)
     const cropHeight = cropBottom - cropTop
 
-    if (cropHeight < 150) continue // too small to be meaningful (min 150px, avoids tiny fragments)
+    if (cropHeight < 200) continue // min 200px height — filters out page design residue
 
     try {
       // Crop with small horizontal margins to avoid page edges
@@ -312,9 +312,14 @@ async function detectAndCropIllustrations(
         })
         .stats()
 
-      // If variance is very low, it's probably blank space
+      // If variance is low, it's probably blank space or just page design/borders
+      // Threshold 30 filters out beige/cream residue from Hebrew book page backgrounds
       const avgVariance = stats.channels.reduce((s, c) => s + (c.stdev || 0), 0) / stats.channels.length
-      if (avgVariance < 20) continue // raised threshold to filter more blank/border areas
+      if (avgVariance < 30) continue
+
+      // Also check mean brightness — very bright crops (>220/255) are likely just background
+      const avgMean = stats.channels.reduce((s, c) => s + (c.mean || 0), 0) / stats.channels.length
+      if (avgMean > 220 && avgVariance < 40) continue // bright + low variance = page background
 
       // Trim yellowish/beige borders to maximize illustration area
       const trimmedData = await trimIllustrationBorders(cropData)
@@ -513,17 +518,25 @@ function isDiagramPage(regions: { translatedText?: string | null; regionType: st
 }
 
 /** Detect if a page is an approval/endorsement letter (handwritten text, official letterhead) */
-function isLetterPage(regions: { translatedText?: string | null; regionType: string }[]): boolean {
-  const allText = regions.map(r => (r.translatedText || '')).join(' ').toLowerCase()
-  // Look for letter/approval indicators
-  const letterKeywords = [
-    'letter of endorsement', 'letter of approbation', 'letter of blessing',
-    'with blessings', 'fax', 'tel:', 'p.o.b.', 'phone:', 'under the auspices',
-    'federation', 'yeshiv', 'with the blessing of', 'hereby give my blessing',
-    'endorsement', 'approbation', 'haskamah',
-  ]
-  const matches = letterKeywords.filter(kw => allText.includes(kw))
-  return matches.length >= 2
+function isLetterPage(regions: { translatedText?: string | null; regionType: string; hebrewText?: string | null }[], pageNumber: number): boolean {
+  // Pages 2-12 are the intro/letter section of the Hebrew book
+  // These contain approval letters, endorsements, and acknowledgments
+  // that should be shown as full images with translation below
+  if (pageNumber >= 4 && pageNumber <= 12) {
+    const allText = regions.map(r => (r.translatedText || '')).join(' ').toLowerCase()
+    const letterKeywords = [
+      'letter of endorsement', 'letter of approbation', 'letter of blessing',
+      'with blessings', 'fax', 'tel:', 'p.o.b.', 'phone:', 'under the auspices',
+      'federation', 'yeshiv', 'with the blessing of', 'hereby give my blessing',
+      'endorsement', 'approbation', 'haskamah', 'kollel', 'beis knesses',
+      'beis medrash', 'beis din', 'rav and av', 'chief rabbi', 'harav',
+      'shlita', 'address', 'registered association', 'date:',
+    ]
+    const matches = letterKeywords.filter(kw => allText.includes(kw))
+    // For pages in the letter section, require only 1 match (more lenient)
+    return matches.length >= 1
+  }
+  return false
 }
 
 /** Generate a meaningful description of what a diagram/image depicts based on its labels and context */
@@ -1259,13 +1272,13 @@ export async function GET(
           page.id, page.pageNumber, bookId, regions, cfg,
         )
 
-        // Filter out tiny/nonsensical illustration crops (minimum 150×150 px)
+        // Filter out tiny/nonsensical illustration crops (minimum 200×200 px)
         const validIllustrations = illustrations.filter(ill =>
-          ill.width >= 150 && ill.height >= 150
+          ill.width >= 200 && ill.height >= 200
         )
 
         // Check page type: letter, diagram, or normal
-        const letterPage = isLetterPage(regions)
+        const letterPage = isLetterPage(regions, page.pageNumber)
         const diagramPage = !letterPage && isDiagramPage(regions)
         const imageOnlyPage = letterPage || diagramPage
 
@@ -1306,11 +1319,21 @@ export async function GET(
           }
 
           if (letterPage) {
-            // For letter pages: add translation as a separate paragraph BELOW the image
-            // (don't overlay translated text on handwritten letter images)
+            // For letter pages: add CLEAN translation below the image
+            // Strip all Hebrew from the translation (the original Hebrew is in the image)
+            // Also strip the enhance-artscroll.js Hebrew header prefixes
             const textParts = regions
               .filter(r => r.translatedText?.trim())
-              .map(r => cleanTranslationText(r.translatedText || ''))
+              .map(r => {
+                let text = cleanTranslationText(r.translatedText || '')
+                // Strip Hebrew header prefix: "Hebrew — English" → just "English"
+                text = text.replace(/^[\u0590-\u05FF][\u0590-\u05FF\s\u200E]{2,60}\s*[\u2014\-]\s*/g, '')
+                // Strip all remaining inline Hebrew quotes
+                text = text.replace(/[\u0590-\u05FF][\u0590-\u05FF\s\u200E]{2,60}\s*[\u2014\-]\s*/g, '')
+                // Strip orphaned Hebrew characters
+                text = text.replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s+/g, ' ').trim()
+                return text
+              })
               .filter(t => t.length > 10)
             const uniqueParts = Array.from(new Set(textParts))
             if (uniqueParts.length > 0) {

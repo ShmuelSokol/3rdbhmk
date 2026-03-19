@@ -440,6 +440,60 @@ function isDiagramPage(regions: { translatedText?: string | null; regionType: st
   return false
 }
 
+/** Detect if a page is an approval/endorsement letter (handwritten text, official letterhead) */
+function isLetterPage(regions: { translatedText?: string | null; regionType: string }[]): boolean {
+  const allText = regions.map(r => (r.translatedText || '')).join(' ').toLowerCase()
+  // Look for letter/approval indicators
+  const letterKeywords = [
+    'letter of endorsement', 'letter of approbation', 'letter of blessing',
+    'with blessings', 'fax', 'tel:', 'p.o.b.', 'phone:', 'under the auspices',
+    'federation', 'yeshiv', 'with the blessing of', 'hereby give my blessing',
+    'endorsement', 'approbation', 'haskamah',
+  ]
+  const matches = letterKeywords.filter(kw => allText.includes(kw))
+  return matches.length >= 2
+}
+
+/** Generate a meaningful description of what a diagram/image depicts based on its labels and context */
+function generateImageDescription(
+  labels: string[],
+  bodyTexts: string[],
+): string {
+  // Deduplicate labels
+  const uniqueLabels = Array.from(new Set(labels.map(l => l.trim()))).filter(Boolean)
+
+  // If there are body texts (longer passages), use those as the main description
+  if (bodyTexts.length > 0) {
+    return bodyTexts.join('\n\n')
+  }
+
+  // Otherwise, create a descriptive summary from the labels
+  if (uniqueLabels.length === 0) return ''
+
+  // Group labels by theme to create a meaningful description
+  const hasSpiritual = uniqueLabels.some(l => /spiritual|ruchani/i.test(l))
+  const hasPhysical = uniqueLabels.some(l => /physical|gashmiy/i.test(l))
+  const hasBeis = uniqueLabels.some(l => /beis|mikdash|temple/i.test(l))
+  const hasMishkan = uniqueLabels.some(l => /mishkan|tabernacle/i.test(l))
+  const hasMeasurements = uniqueLabels.some(l => /amos|cubit|ama/i.test(l))
+
+  let description = 'This diagram illustrates '
+  if (hasSpiritual && hasPhysical) {
+    description += 'the relationship between the spiritual and physical dimensions of the Batei Mikdash'
+  } else if (hasBeis && hasMishkan) {
+    description += 'the connection between the Mishkan and the Beis HaMikdash'
+  } else if (hasMeasurements) {
+    description += 'the architectural measurements and layout of the structure'
+  } else if (hasBeis) {
+    description += 'aspects of the Beis HaMikdash structure'
+  } else {
+    description += 'the following concepts: ' + uniqueLabels.slice(0, 6).join(', ')
+  }
+  description += '.'
+
+  return description
+}
+
 async function getPageImage(pageId: string, pageNumber: number, bookId: string): Promise<Buffer | null> {
   // Check cache first
   const cachePath = path.join('/tmp/bhmk', bookId, 'pages', `page-${pageNumber}.png`)
@@ -659,8 +713,12 @@ async function renderElements(
 
     } else if (el.type === 'table' && el.rows) {
       // Render table with aligned columns and text wrapping
-      const rows = el.rows
+      // Reverse column order (Hebrew tables are RTL, English should be LTR)
+      const rows = el.rows.map(row => [...row].reverse())
       if (rows.length === 0) continue
+
+      // Store first row as header for carryover across pages
+      const headerRow = rows[0]
 
       const tableFontSize = cfg.bodyFontSize * 0.88
       const tableLh = tableFontSize * cfg.lineHeight
@@ -719,6 +777,34 @@ async function renderElements(
             thickness: 0.5, color: rgb(0.62, 0.58, 0.52),
           })
           curY -= 3
+
+          // Carry over header row on new page (if not the header row itself)
+          if (rIdx > 0 && headerRow) {
+            const hdrWrapped: string[][] = []
+            let hdrMaxLines = 1
+            for (let c = 0; c < maxCols; c++) {
+              const ct = cleanTranslationText(sanitizeForPdf(headerRow[c] || '', true))
+              const cw = finalColWidths[c] - 8
+              const wr = ct ? wrapTextBidi(ct, fonts.bold, fonts.hebrewBold, tableFontSize, cw) : ['']
+              hdrWrapped.push(wr)
+              hdrMaxLines = Math.max(hdrMaxLines, wr.length)
+            }
+            const hdrH = hdrMaxLines * tableLh + 4
+            let hCellX = cfg.marginLeft
+            for (let c = 0; c < maxCols; c++) {
+              const hLines = hdrWrapped[c] || ['']
+              for (let li = 0; li < hLines.length; li++) {
+                drawBidiLine(pdfPage, hLines[li], hCellX + 4, curY - tableFontSize - li * tableLh, tableFontSize, fonts.bold, fonts.hebrewBold, rgb(...cfg.headerColor))
+              }
+              if (c < maxCols - 1) {
+                pdfPage.drawLine({ start: { x: hCellX + finalColWidths[c], y: curY }, end: { x: hCellX + finalColWidths[c], y: curY - hdrH + 2 }, thickness: 0.3, color: rgb(0.82, 0.78, 0.73) })
+              }
+              hCellX += finalColWidths[c]
+            }
+            curY -= hdrH
+            // Header separator line
+            pdfPage.drawLine({ start: { x: cfg.marginLeft, y: curY + 1 }, end: { x: cfg.marginLeft + textWidth, y: curY + 1 }, thickness: 0.4, color: rgb(0.72, 0.68, 0.62) })
+          }
         }
 
         // Draw each cell with column dividers
@@ -1057,15 +1143,18 @@ export async function GET(
           ill.width >= 150 && ill.height >= 150
         )
 
-        // Check if this is a diagram page — if so, use full page image + summary
-        const diagramPage = isDiagramPage(regions)
+        // Check page type: letter, diagram, or normal
+        const letterPage = isLetterPage(regions)
+        const diagramPage = !letterPage && isDiagramPage(regions)
+        const imageOnlyPage = letterPage || diagramPage
 
-        if (diagramPage) {
-          // For diagram pages: embed the FULL source page image and add explanatory text
+        if (imageOnlyPage) {
+          // For letter/diagram pages: embed the FULL source page image
+          // Letter pages: show original (don't translate handwritten text on image)
+          // Diagram pages: show original + add description of what it depicts
           const fullPageImg = await getPageImage(page.id, page.pageNumber, bookId)
           if (fullPageImg) {
             try {
-              // Get just the content area (trim margins)
               const imgMeta = await sharp(fullPageImg).metadata()
               const imgW = imgMeta.width || 1655
               const imgH = imgMeta.height || 2340
@@ -1080,7 +1169,6 @@ export async function GET(
                 .jpeg({ quality: 85 })
                 .toBuffer()
               const cropMeta = await sharp(cropData).metadata()
-              // Trim borders from the full page image too
               const trimmedPage = await trimIllustrationBorders(cropData)
               const trimmedMeta = await sharp(trimmedPage).metadata()
               pageElements.push({
@@ -1090,41 +1178,36 @@ export async function GET(
                 imageHeight: trimmedMeta.height || cropMeta.height || imgH,
               })
             } catch {
-              // Fallback: use illustrations if full page crop fails
               for (const ill of validIllustrations) {
-                pageElements.push({
-                  type: 'illustration',
-                  imageData: ill.imageData,
-                  imageWidth: ill.width,
-                  imageHeight: ill.height,
-                })
+                pageElements.push({ type: 'illustration', imageData: ill.imageData, imageWidth: ill.width, imageHeight: ill.height })
               }
             }
           }
 
-          // Add translated body text (combine all regions into one explanatory paragraph)
-          // Deduplicate to avoid repeated diagram labels appearing multiple times
-          const textParts = regions
-            .filter(r => r.translatedText?.trim())
-            .map(r => cleanTranslationText(r.translatedText || ''))
-            .filter(t => t.length > 15) // Only substantial text, not short labels
-          const uniqueTextParts = Array.from(new Set(textParts))
-          const allText = uniqueTextParts.join('\n\n')
-          if (allText.trim()) {
-            pageElements.push({ type: 'body', text: allText })
+          if (letterPage) {
+            // For letter pages: add translation as a separate paragraph BELOW the image
+            // (don't overlay translated text on handwritten letter images)
+            const textParts = regions
+              .filter(r => r.translatedText?.trim())
+              .map(r => cleanTranslationText(r.translatedText || ''))
+              .filter(t => t.length > 10)
+            const uniqueParts = Array.from(new Set(textParts))
+            if (uniqueParts.length > 0) {
+              pageElements.push({ type: 'caption', text: 'Translation of the above letter:' })
+              pageElements.push({ type: 'body', text: uniqueParts.join('\n\n') })
+            }
           } else {
-            // If no substantial text, add a brief description of the diagram
+            // Diagram page: generate a meaningful description of what the diagram depicts
             const labels = regions
               .filter(r => r.translatedText?.trim())
               .map(r => cleanTranslationText(r.translatedText || '').trim())
               .filter(Boolean)
-            if (labels.length > 0) {
-              // Deduplicate labels
-              const uniqueLabels = Array.from(new Set(labels))
-              pageElements.push({
-                type: 'caption',
-                text: `Diagram: ${uniqueLabels.slice(0, 8).join(' • ')}`,
-              })
+            const shortLabels = labels.filter(l => l.split(/\s+/).length < 10)
+            const bodyTexts = labels.filter(l => l.split(/\s+/).length >= 10)
+
+            const description = generateImageDescription(shortLabels, bodyTexts)
+            if (description) {
+              pageElements.push({ type: 'body', text: description })
             }
           }
         } else {

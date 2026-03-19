@@ -30,8 +30,9 @@ function ensureDirs() {
   if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR, { recursive: true });
 }
 
-function downloadPdf(input) {
-  const url = `${BASE_URL}/api/books/${BOOK_ID}/typeset?from=${input.from}&to=${input.to}`;
+function downloadPdf(input, configOverride) {
+  const cfgParam = configOverride ? `&config=${encodeURIComponent(JSON.stringify(configOverride))}` : '';
+  const url = `${BASE_URL}/api/books/${BOOK_ID}/typeset?from=${input.from}&to=${input.to}${cfgParam}`;
   const outPath = path.join(TMP_DIR, `${input.label}.pdf`);
   try {
     execSync(`curl -s -f -o "${outPath}" "${url}"`, { timeout: 180000 });
@@ -192,14 +193,14 @@ const ARTSCROLL_EVALS = [
   { name: 'AS10_DecorationFrame', fn: AS10_decorationAndFrame },
 ];
 
-async function runEvals() {
+async function runEvals(configOverride) {
   ensureDirs();
   const results = { totalScore: 0, maxScore: TEST_INPUTS.length * ARTSCROLL_EVALS.length, evalScores: {}, details: [] };
   for (const e of ARTSCROLL_EVALS) results.evalScores[e.name] = { pass: 0, total: 0 };
 
   for (const input of TEST_INPUTS) {
     console.log(`\nTesting ${input.label} (${input.desc})...`);
-    const pdfPath = downloadPdf(input);
+    const pdfPath = downloadPdf(input, configOverride);
     if (!pdfPath) { console.log('  SKIP: Download failed'); continue; }
 
     const text = extractText(pdfPath);

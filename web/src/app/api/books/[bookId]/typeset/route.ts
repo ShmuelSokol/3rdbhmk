@@ -1928,7 +1928,9 @@ export async function GET(
 
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
-        const diagramPage = !letterPage && isDiagramPage(regions)
+        // Check both the algorithmic detection AND the known diagram pages list
+        const knownDiagrams = new Set([22, 132, 196, 270, 271, 284, 295])
+        const diagramPage = !letterPage && (isDiagramPage(regions) || knownDiagrams.has(page.pageNumber))
         const imageOnlyPage = letterPage || diagramPage
 
         if (imageOnlyPage) {

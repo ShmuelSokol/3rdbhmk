@@ -379,7 +379,7 @@ function decoratePage(
 }
 
 /** Draw a centered ornamental divider between sections */
-function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig, font: PDFFont) {
+function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig) {
   const centerX = cfg.pageWidth / 2
   const dividerColor = rgb(0.72, 0.68, 0.62)
 
@@ -435,7 +435,7 @@ async function renderElements(
         newPage()
       }
       curY -= 8
-      drawSectionDivider(pdfPage, curY, cfg, fonts.body)
+      drawSectionDivider(pdfPage, curY, cfg)
       curY -= divH - 8
       continue
     }
@@ -664,7 +664,7 @@ export async function GET(
     drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
 
     // Ornamental divider under title
-    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg, bodyFont)
+    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg)
 
     // Subtitle
     const subtitleText = 'English Translation'

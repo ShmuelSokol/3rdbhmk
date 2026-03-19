@@ -711,6 +711,147 @@ function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig) {
 interface TocEntry {
   title: string
   pageNum: number // relative to content start (will be adjusted for TOC pages)
+  isPerek?: boolean // true if this is a Perek-level entry (used for TOC grouping)
+  afterDivider?: boolean // true if this header immediately follows a section divider
+}
+
+/** Clean a header title for TOC display: remove leading punctuation, quotes, stray chars */
+function cleanTocTitle(title: string): string {
+  let cleaned = title
+    .replace(/^[\s'"`,.\-:;*#()\[\]]+/, '') // remove leading punctuation
+    .replace(/[\s'"`,.\-:;*#()\[\]]+$/, '') // remove trailing punctuation
+    .replace(/^\d+\s+[A-Z]\d+\s+/, '')      // remove leading numbering like "5 A5 "
+    .replace(/^\.\s*[A-Z][\.\)]\s*/, '')     // remove leading ". A." style numbering
+    .replace(/^\d+(?:[.\)]?\s*)?(?=[A-Z])/, '') // remove leading "19" or "28" before title text
+    .replace(/\*\*/g, '')                     // remove markdown bold markers
+    .replace(/^Page\s+\d+\s*/i, '')          // remove "Page 85" prefixes
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  // Strip recurring book subtitle patterns from the END of titles
+  // Run in a loop because stripping one suffix may expose another
+  // (e.g., "The Chambers You Shall Seek" → strip "You Shall Seek" → strip "The Chambers")
+  let prev = ''
+  while (cleaned !== prev) {
+    prev = cleaned
+    cleaned = cleaned
+      .replace(/\s*,?\s*(?:Lishchno|L'Shichno|Leshachno|Lishkano|Lishluno|Le Sichno)\s+(?:Tidreshu|Sidrosh|Sidreshu|Tidr.shu|Tidrsheu|tidr.shu|Tidrsu)\s*$/i, '')
+      .replace(/\s*(?:"?To His dwelling (?:shall |place )?you shall seek"?)$/i, '')
+      .replace(/\s*(?:"?His dwelling (?:shall )?you shall seek"?)$/i, '')
+      .replace(/\s*(?:"?(?:Its|Their|Your|its|their|your) chambers? you shall (?:seek|inquire)"?)$/i, '')
+      .replace(/\s*(?:"?(?:Its|Their|Your|its|their|your) dwelling place you shall seek"?)$/i, '')
+      .replace(/\s*(?:"?(?:Seek out His dwelling place)"?)$/i, '')
+      .replace(/\s*(?:"?For (?:their|its) chambers? you shall seek"?)$/i, '')
+      .replace(/\s*(?:"?(?:you shall seek|shall you seek)\s*"?)$/i, '')
+      .replace(/\s*(?:Or Chai|Ohr Chai|B'Or Chai|Ba'or Chai|Or Chayim)[\d\s]*.*$/i, '')
+      .replace(/\s*(?:The )?Completion of Service$/i, '')
+      .replace(/\s*(?:"?to (?:inquire|seek) (?:of )?(?:its|their|his) chambers?"?)$/i, '')
+      .replace(/\s*You Shall Seek His Dwelling\s*$/i, '')
+      .replace(/\s*"?To His dwelling\s*$/i, '')
+      .replace(/\s*"?To His dwelling place\s*$/i, '')
+      .replace(/\s*His Dwelling Place\s*$/i, '')
+      .replace(/\s*The Chambers That\s*$/i, '')
+      .replace(/\s*The Chambers\s*$/i, '')
+      .replace(/\s*To seek them out\s*$/i, '')
+      .replace(/\s*"?To His chambers\s.*$/i, '')
+      .replace(/\s*"?To its chambers\s*$/i, '')
+      .replace(/\s*"?to its chambers\s.*$/i, '')
+      .replace(/\s*You shall seek their chambers\s*$/i, '')
+      .replace(/\s*"?And you shall seek out its chambers\s*$/i, '')
+      .replace(/\s*"?their chambers you shall seek\s*$/i, '')
+      .replace(/\s*You shall seek\s*$/i, '')
+      .replace(/[\s'"`,.\-:;]+$/, '')
+      .replace(/\s+["']?(?:And|To|to|For|for|In|in|A|a|The|the|Of|of|On|on)["']?$/i, '')
+      .replace(/[\s'"`,.\-:;:]+$/, '')
+      .trim()
+  }
+
+  return cleaned
+}
+
+/** Check if a TOC entry title should be excluded (noise/garbage) */
+function isTocExcluded(title: string): boolean {
+  if (!title) return true
+  // Pasuk/Pesukim entries can be shorter (e.g., "Pasuk 1" = 7 chars after cleaning)
+  const isPasuk = /^pasuk|^pesukim/i.test(title)
+  const minLen = isPasuk ? 7 : 15
+  if (title.length < minLen || title.length > 90) return true
+  const words = title.split(/\s+/)
+  if (!isPasuk && words.length < 2) return true
+  if (/^\d+$/.test(title.trim())) return true
+
+  const lower = title.toLowerCase()
+  const excludePatterns = [
+    /^or chai/i,
+    /^ketz\b/i,
+    /^completion\b/i,
+    /^the completion of service/i,
+    /^north\b$/i, /^south\b$/i, /^east\b$/i, /^west\b$/i,
+    /^\d+\s*amos?\b/i,
+    /^translation of/i,
+    /^this diagram/i,
+    /^this table/i,
+    /^table of contents/i,
+    /^main topics/i,
+    /^lishchno tidreshu$/i,
+    /^l'shichno\b/i,
+    /^leshachno\b/i,
+    /^lishkano\b/i,
+    /^published by/i,
+    /^here in the/i,
+    /^shows measurement/i,
+    /^sefer\b/i,
+    /^diagram\b/i,
+    /^rabbi\b/i,               // Rabbi names from letter pages
+    /^rav\s/i,                 // Rav names from letter pages
+    /^harav\b/i,               // HaRav names
+    /spiritual beis supreme/i, // diagram labels
+    /physical beis\b/i,        // diagram labels
+    /^to his dwelling/i,       // recurring book subtitle
+    /^his dwelling/i,
+    /^a psalm of/i,
+    /^le sichno/i,
+    /^le'sichno/i,
+    /about the book/i,
+    /^you shall seek/i,
+    /^seek out his/i,
+    /^seek his dwelling/i,
+    /^its dwelling/i,
+    /^west\d/i,              // garbled table text
+    /minority.*majority/i,  // garbled table text
+    /^the prophecy of/i,
+    /^part [IV]+$/i,         // just "Part I" etc.
+    /^a psalm\b/i,
+    /^lishluno\b/i,
+    /^And he (made|measured)/i, // quote beginnings
+    /^"And\b/i,              // quote-only entries
+    /^And there was/i,
+    /^"In visions/i,
+    /^you shall seek/i,       // recurring book subtitle variant
+    /^shall you seek/i,       // recurring book subtitle variant
+    /^his dwelling\b/i,
+    /^their chambers\b/i,
+  ]
+  for (const pat of excludePatterns) {
+    if (pat.test(lower)) return true
+  }
+  return false
+}
+
+/** Determine if a header is TOC-worthy — meaningful topic headers a reader would look up.
+ *  This is used as a secondary check; post-divider headers are always included. */
+function isTocWorthyHeader(title: string): boolean {
+  if (isTocExcluded(title)) return false
+  const lower = title.toLowerCase()
+
+  // High-value keywords that indicate a real section
+  const sectionKeywords = [
+    'introduction', 'foreword', 'preface', 'overview', 'conclusion',
+    'chapter', 'perek', 'summary',
+  ]
+  if (sectionKeywords.some(kw => lower.includes(kw))) return true
+
+  return false
 }
 
 async function renderElements(
@@ -738,6 +879,7 @@ async function renderElements(
     decoratePage(pdfPage, startPageNum + pageCount - 1, fonts.body, cfg, runningTitle)
   }
 
+  let lastWasDivider = true // first header is always a topic start
   for (let elIdx = 0; elIdx < elements.length; elIdx++) {
     const el = elements[elIdx]
 
@@ -752,6 +894,7 @@ async function renderElements(
       curY -= 8
       drawSectionDivider(pdfPage, curY, cfg)
       curY -= 14
+      lastWasDivider = true
       continue
     }
 
@@ -795,7 +938,6 @@ async function renderElements(
 
       if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.15) {
         // Place image at bottom of page — push curY down to position image near margin
-        const bottomY = cfg.marginBottom + cfg.illustrationPadding + drawH
         const imgX = cfg.marginLeft + (textWidth - drawW) / 2
         pdfPage.drawImage(img, {
           x: imgX,
@@ -994,11 +1136,25 @@ async function renderElements(
         newPage()
       }
 
-      // Track ALL headers with page numbers for TOC cross-referencing
-      const tocTitle = text.replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s*[—\-]\s*/g, '').trim()
-      if (tocTitle.length > 10) {
-        tocEntries.push({ title: tocTitle, pageNum: startPageNum + pageCount - 1 })
+      // Track ALL headers with metadata — filtering is done post-rendering
+      // Use minimal cleaning here (just strip Hebrew + punctuation), save full cleaning for display
+      const rawTocTitle = text.replace(/[\u0590-\u05FF\u200E\u200F]+/g, '').replace(/\s*[—\-]\s*/g, ' ').replace(/\s+/g, ' ').trim()
+      const basicTitle = rawTocTitle
+        .replace(/^[\s'"`,.\-:;*#()\[\]]+/, '').replace(/[\s'"`,.\-:;*#()\[\]]+$/, '')
+        .replace(/^\d+(?:[.\)]?\s*)?(?=[A-Z])/, '')
+        .replace(/^Page\s+\d+\s*/i, '')
+        .replace(/\*\*/g, '')
+        .replace(/\s+/g, ' ').trim()
+      const isPerekHeader = /perek|chapter/i.test(basicTitle)
+      if (basicTitle.length >= 10) {
+        tocEntries.push({
+          title: basicTitle,
+          pageNum: startPageNum + pageCount - 1,
+          isPerek: isPerekHeader,
+          afterDivider: lastWasDivider,
+        })
       }
+      lastWasDivider = false
 
       for (const line of lines) {
         const lineW = bidiLineWidth(line, fontSize, font, hebFont)
@@ -1139,7 +1295,7 @@ async function renderElements(
               let squeezed = false
               for (const factor of [0.92, 0.88, 0.85]) {
                 const sqH = remainingLines * (lh * factor)
-                if (sqH <= spaceLeft + lh * 0.5) {
+                if (sqH <= spaceLeft) {
                   // Re-render remaining lines with squeezed spacing
                   const sqFontSize = fontSize * factor
                   const sqLhActual = sqFontSize * cfg.lineHeight
@@ -1558,72 +1714,207 @@ export async function GET(
     // We now know exactly which page each topic landed on.
     // Insert TOC pages at index 1 (after title page, before content).
     // This shifts all content page numbers by tocPageCount, so we adjust.
-    if (renderedTocEntries.length > 0 || hebrewTocTitles.length > 0) {
-      // Build TOC from Hebrew TOC titles matched to rendered header page numbers
-      // This ensures we list ONLY what the Hebrew book listed
-      let tocItems: TocEntry[] = []
+    if (renderedTocEntries.length > 0) {
+      // ── Smart TOC entry selection ──────────────────────────────────
+      // Strategy: select section-level entries that a reader would look up.
+      // For this Hebrew book, the structure is: Introduction sections, then
+      // Perek-by-perek commentary with individual Pasuk discussions.
+      // We want: Introductions, first pasuk of each Perek, and major non-pasuk sections.
 
-      if (hebrewTocTitles.length > 0) {
-        // Match Hebrew TOC titles to rendered headers by fuzzy text matching
-        const uniqueHebTitles = Array.from(new Set(hebrewTocTitles))
-        for (const hebTitle of uniqueHebTitles) {
-          const hebLower = hebTitle.toLowerCase()
-          // Find the best matching rendered header
-          let bestMatch: TocEntry | null = null
-          let bestScore = 0
-          for (const entry of renderedTocEntries) {
-            const entryLower = entry.title.toLowerCase()
-            // Check if the Hebrew TOC title is a substring or close match
-            const words = hebLower.split(/\s+/)
-            const matchingWords = words.filter(w => w.length > 3 && entryLower.includes(w))
-            const score = matchingWords.length / words.length
-            if (score > bestScore && score > 0.3) {
-              bestScore = score
-              bestMatch = entry
-            }
+      // Step 1: Exclude noise entries (check both raw title and cleaned display version)
+      const cleanEntries = renderedTocEntries.filter(e => {
+        if (isTocExcluded(e.title)) return false
+        // Also check if the cleaned display form is excluded
+        const displayForm = cleanTocTitle(e.title)
+        if (isTocExcluded(displayForm)) return false
+        return true
+      })
+
+      // Step 2: Deduplicate by normalized title (also catch near-duplicates with same core content)
+      const seenTitles = new Set<string>()
+      const seenPrefixes = new Set<string>()
+      const dedupedToc: TocEntry[] = []
+      for (const entry of cleanEntries) {
+        const key = entry.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim()
+        if (seenTitles.has(key)) continue
+        // Normalize: remove articles (a/an/the) for prefix comparison
+        const normKey = key.replace(/\b(a|an|the)\b/g, '').replace(/\s+/g, ' ').trim()
+        const prefix = normKey.substring(0, 35)
+        if (seenPrefixes.has(prefix)) continue
+        seenTitles.add(key)
+        seenPrefixes.add(prefix)
+        dedupedToc.push(entry)
+      }
+
+      // Step 3: Classify entries and select TOC-worthy ones
+      const pasukRegex = /pasuk(?:im)?\s+(\d+)/i
+      const perekRegex = /(?:yechezkel\s+)?(?:chapter|perek)\s+(\d+)/i
+      const tocItems: TocEntry[] = []
+      const seenPereks = new Set<string>()
+      const seenPasukPerPerek: Record<string, number> = {} // track how many pasukim per perek
+
+      // First pass: identify perek boundaries
+      let currentPerek = ''
+      for (const entry of dedupedToc) {
+        const perekMatch = entry.title.match(perekRegex)
+        if (perekMatch) {
+          currentPerek = perekMatch[1]
+        }
+        // Annotate entry with its perek context
+        ;(entry as TocEntry & { _perek?: string })._perek = currentPerek
+      }
+
+      // Second pass: select entries
+      currentPerek = ''
+      for (const entry of dedupedToc) {
+        const perekMatch = entry.title.match(perekRegex)
+        const pasukMatch = entry.title.match(pasukRegex)
+        const lower = entry.title.toLowerCase()
+        const entryPerek = (entry as TocEntry & { _perek?: string })._perek || ''
+
+        // Always include: Introduction/Foreword/Overview sections
+        if (/introduction|foreword|preface|overview|summary|history|about the book/i.test(lower)) {
+          tocItems.push(entry)
+          continue
+        }
+
+        // Always include: Perek-level headers (e.g., "Yechezkel Chapter 40, Pesukim 36-49")
+        if (perekMatch && !pasukMatch) {
+          tocItems.push(entry)
+          if (!seenPereks.has(perekMatch[1])) {
+            seenPereks.add(perekMatch[1])
           }
-          if (bestMatch) {
-            tocItems.push({ title: hebTitle, pageNum: bestMatch.pageNum })
+          currentPerek = perekMatch[1]
+          continue
+        }
+
+        // For Pasuk entries: include each unique pasuk number only once per perek
+        if (pasukMatch) {
+          const pk = entryPerek || currentPerek || 'unknown'
+          const pasukNum = pasukMatch[1]
+          const pasukKey = `${pk}:${pasukNum}`
+          if (!seenPasukPerPerek[pasukKey]) {
+            seenPasukPerPerek[pasukKey] = 1
+            tocItems.push(entry)
           }
+          continue
+        }
+
+        // Include non-pasuk, non-perek, post-divider headers (major section headers)
+        // But skip entries that look like garbled diagram text (digits mixed with words)
+        // Also skip entries where the cleaned display title is too generic
+        const displayCheck = cleanTocTitle(entry.title)
+        // Check for garbled text: more than expected digits, digit-letter concatenation
+        const garbledDigits = (displayCheck.match(/\d/g) || []).length
+        // Allow digits in Pasuk references (e.g., "Pasuk 3") but not garbled text
+        const expectedDigits = (displayCheck.match(/\b\d+\b/g) || []).length * 2 // pasuk numbers are OK
+        const isGarbled = garbledDigits > expectedDigits + 2 || /\d{2}[A-Za-z]/.test(displayCheck)
+        const isGeneric = /^you shall|^shall you|^seek|^his dwelling|^their chamber/i.test(displayCheck)
+        if (entry.afterDivider && entry.title.length >= 20 && !isGarbled && !isGeneric) {
+          tocItems.push(entry)
+          continue
+        }
+
+        // Include headers with high-value keywords
+        if (isTocWorthyHeader(entry.title)) {
+          tocItems.push(entry)
         }
       }
 
-      // Fallback: if no Hebrew TOC titles found, use rendered headers
-      if (tocItems.length === 0) {
-        const seenToc = new Set<string>()
-        tocItems = renderedTocEntries.filter(e => {
-          if (e.title.length < 15 || e.title.length > 100) return false
-          if (e.title.split(/\s+/).length < 3) return false
-          const key = `${e.title}:${e.pageNum}`
-          if (seenToc.has(key)) return false
-          seenToc.add(key)
-          return true
-        })
+      // Step 4: If we still have too many (>60), trim to most important
+      let finalTocItems = tocItems
+      if (finalTocItems.length > 60) {
+        // Keep introductions and first-of-perek entries, drop others
+        const essential = finalTocItems.filter(e =>
+          /introduction|foreword|perek|chapter/i.test(e.title) || e.afterDivider
+        )
+        finalTocItems = essential.length >= 20 ? essential : finalTocItems.slice(0, 60)
       }
 
-      const uniqueToc = tocItems
+      // Step 5: Build structured TOC with Perek group headers
+
+      // Build structured TOC: entries with optional Perek group headers
+      interface TocLine {
+        type: 'section' | 'entry'
+        text: string
+        pageNum?: number
+      }
+      const tocLines: TocLine[] = []
+      let lastPerek = ''
+
+      for (const entry of finalTocItems) {
+        // Check if this entry mentions a Perek/Chapter
+        const perekMatch = entry.title.match(perekRegex)
+        if (perekMatch) {
+          const perekNum = perekMatch[1]
+          const perekLabel = `YECHEZKEL PEREK ${perekNum}`
+          if (perekLabel !== lastPerek) {
+            lastPerek = perekLabel
+            tocLines.push({ type: 'section', text: perekLabel })
+          }
+        }
+        // Clean up title for display: remove "Yechezkel Chapter NN" prefix if redundant
+        let displayTitle = entry.title
+        if (perekMatch && lastPerek) {
+          // If the entry IS just "Yechezkel Perek NN", skip it (the section header covers it)
+          const stripped = displayTitle.replace(perekRegex, '').replace(/^\s*[,:\-—.]+\s*/, '').trim()
+          if (stripped.length < 10) {
+            // This entry is basically just "Perek NN" — use it as the section header only
+            continue
+          }
+          displayTitle = stripped
+        }
+        // Final cleanup: re-apply cleanTocTitle to strip recurring suffixes from display title
+        let cleanDisplay = cleanTocTitle(displayTitle)
+        // If after cleaning the display title is too short, try using the original title cleaned
+        // but still strip the Perek prefix to avoid redundancy under section headers
+        if (cleanDisplay.length < 10) {
+          let fallback = cleanTocTitle(entry.title)
+          if (perekMatch) {
+            fallback = fallback.replace(perekRegex, '').replace(/^\s*[,:\-—.]+\s*/, '').trim()
+          }
+          cleanDisplay = fallback.length >= 8 ? fallback : cleanDisplay
+        }
+        // Skip entries that are still too short after all cleaning (but lenient for Pasuk entries)
+        const isPasukEntry = /^pasuk|^pesukim/i.test(cleanDisplay)
+        const minDisplayLen = isPasukEntry ? 7 : 12
+        if (cleanDisplay.length >= minDisplayLen) {
+          tocLines.push({ type: 'entry', text: cleanDisplay, pageNum: entry.pageNum })
+        }
+      }
 
       // Calculate how many TOC pages we need
+      // Section headers take 1.5x line height, entries take 1x
       const tocFontSize = cfg.bodyFontSize * 0.9
-      const tocLineHeight = tocFontSize * 1.8 // generous spacing for TOC entries
-      const tocTextHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom - 40 // room for title
-      const entriesPerPage = Math.floor(tocTextHeight / tocLineHeight)
-      const tocPageCount = Math.max(1, Math.ceil(uniqueToc.length / entriesPerPage))
+      const tocEntryLineHeight = tocFontSize * 1.7
+      const tocSectionLineHeight = tocFontSize * 2.2
+      const tocTitleSpace = cfg.headerFontSize + cfg.headerSpacingBelow + 22 // "TABLE OF CONTENTS" + line + gap
+      const tocTextHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom
+
+      // Calculate total height needed
+      let totalTocHeight = tocTitleSpace
+      for (const line of tocLines) {
+        totalTocHeight += line.type === 'section' ? tocSectionLineHeight : tocEntryLineHeight
+      }
+      const tocPageCount = Math.max(1, Math.ceil(totalTocHeight / tocTextHeight))
 
       // Adjust all page numbers: content shifts right by tocPageCount
-      const adjustedToc = uniqueToc.map(e => ({
-        ...e,
-        pageNum: e.pageNum + tocPageCount,
+      const adjustedTocLines = tocLines.map(line => ({
+        ...line,
+        pageNum: line.pageNum !== undefined ? line.pageNum + tocPageCount : undefined,
       }))
 
-      // Create TOC pages
-      const tocPages: PDFPage[] = []
+      // Create and insert TOC pages directly at position 1 (after title page)
+      // Using insertPage avoids the remove+re-insert pattern which can cause duplicate content
+      let tocLineIdx = 0
+
       for (let tp = 0; tp < tocPageCount; tp++) {
-        const tocPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
-        tocPages.push(tocPage)
+        const tocPage = doc.insertPage(1 + tp, [cfg.pageWidth, cfg.pageHeight])
         decoratePage(tocPage, tp + 2, fonts.body, cfg) // page 2, 3, ... (after title)
 
         let y = cfg.pageHeight - cfg.marginTop
+        const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
+        const safeBottom = cfg.marginBottom + 20
 
         // Title on first TOC page only
         if (tp === 0) {
@@ -1647,76 +1938,93 @@ export async function GET(
           y -= 12
         }
 
-        // Render TOC entries for this page
-        const startIdx = tp * entriesPerPage
-        const endIdx = Math.min(startIdx + entriesPerPage, adjustedToc.length)
-        const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
+        // Render TOC lines for this page
+        while (tocLineIdx < adjustedTocLines.length) {
+          const line = adjustedTocLines[tocLineIdx]
+          const lineH = line.type === 'section' ? tocSectionLineHeight : tocEntryLineHeight
 
-        for (let i = startIdx; i < endIdx; i++) {
-          const entry = adjustedToc[i]
-          // Truncate long titles
-          let title = entry.title
-          if (title.length > 70) title = title.substring(0, 67) + '...'
+          if (y - lineH < safeBottom) break // move to next page
 
-          const pageStr = String(entry.pageNum)
-          const pageW = fonts.body.widthOfTextAtSize(pageStr, tocFontSize)
+          if (line.type === 'section') {
+            // Section header (e.g., "YECHEZKEL PEREK 40") — bold, slightly larger, with extra space above
+            y -= tocFontSize * 0.4 // extra space above section
+            try {
+              tocPage.drawText(line.text, {
+                x: cfg.marginLeft,
+                y: y - tocFontSize,
+                size: tocFontSize,
+                font: fonts.bold,
+                color: rgb(...cfg.headerColor),
+              })
+            } catch {
+              // Skip if can't encode
+            }
+            y -= tocSectionLineHeight - tocFontSize * 0.4
+          } else {
+            // Entry with dot leaders and page number
+            let title = line.text
+            if (title.length > 70) title = title.substring(0, 67) + '...'
 
-          // Draw title on left
-          const titleMaxW = textWidth - pageW - 20
-          try {
-            const titleW = fonts.body.widthOfTextAtSize(title, tocFontSize)
-            const displayTitle = titleW > titleMaxW
-              ? title.substring(0, Math.floor(title.length * titleMaxW / titleW)) + '...'
-              : title
-            tocPage.drawText(displayTitle, {
-              x: cfg.marginLeft,
-              y: y - tocFontSize,
-              size: tocFontSize,
-              font: fonts.body,
-              color: rgb(...cfg.textColor),
-            })
-          } catch {
-            // Skip if can't encode
+            const pageStr = line.pageNum !== undefined ? String(line.pageNum) : ''
+            const pageW = pageStr ? fonts.body.widthOfTextAtSize(pageStr, tocFontSize) : 0
+            const titleMaxW = textWidth - pageW - 20
+
+            // Sanitize title for Latin font (remove any remaining Hebrew)
+            const latinTitle = title.replace(/[\u0590-\u05FF\u200E\u200F]+/g, '').replace(/\s+/g, ' ').trim()
+
+            let actualTitleW = 0
+            try {
+              actualTitleW = fonts.body.widthOfTextAtSize(latinTitle, tocFontSize)
+              const displayTitle = actualTitleW > titleMaxW
+                ? latinTitle.substring(0, Math.floor(latinTitle.length * titleMaxW / actualTitleW)) + '...'
+                : latinTitle
+              actualTitleW = Math.min(actualTitleW, titleMaxW)
+              const displayW = fonts.body.widthOfTextAtSize(displayTitle, tocFontSize)
+              tocPage.drawText(displayTitle, {
+                x: cfg.marginLeft + 10, // indent entries under section headers
+                y: y - tocFontSize,
+                size: tocFontSize,
+                font: fonts.body,
+                color: rgb(...cfg.textColor),
+              })
+              actualTitleW = displayW
+            } catch {
+              // Skip if can't encode
+            }
+
+            // Draw dot leaders from end of actual title to page number
+            if (pageStr) {
+              const dotsY = y - tocFontSize + 2
+              const dotSpacing = 4
+              const dotsStart = cfg.marginLeft + 10 + actualTitleW + 6
+              const dotsEnd = cfg.pageWidth - cfg.marginRight - pageW - 6
+              if (dotsEnd > dotsStart + 8) {
+                for (let dx = dotsStart; dx < dotsEnd; dx += dotSpacing) {
+                  tocPage.drawText('.', {
+                    x: dx,
+                    y: dotsY,
+                    size: tocFontSize * 0.7,
+                    font: fonts.body,
+                    color: rgb(0.6, 0.58, 0.55),
+                  })
+                }
+              }
+
+              // Draw page number on right
+              tocPage.drawText(pageStr, {
+                x: cfg.pageWidth - cfg.marginRight - pageW,
+                y: y - tocFontSize,
+                size: tocFontSize,
+                font: fonts.body,
+                color: rgb(...cfg.textColor),
+              })
+            }
+
+            y -= tocEntryLineHeight
           }
 
-          // Draw dot leaders
-          const dotsY = y - tocFontSize + 2
-          const dotSpacing = 4
-          const dotsStart = cfg.marginLeft + titleMaxW - 5
-          const dotsEnd = cfg.pageWidth - cfg.marginRight - pageW - 5
-          for (let dx = dotsStart; dx < dotsEnd; dx += dotSpacing) {
-            tocPage.drawText('.', {
-              x: dx,
-              y: dotsY,
-              size: tocFontSize * 0.7,
-              font: fonts.body,
-              color: rgb(0.6, 0.58, 0.55),
-            })
-          }
-
-          // Draw page number on right
-          tocPage.drawText(pageStr, {
-            x: cfg.pageWidth - cfg.marginRight - pageW,
-            y: y - tocFontSize,
-            size: tocFontSize,
-            font: fonts.body,
-            color: rgb(...cfg.textColor),
-          })
-
-          y -= tocLineHeight
+          tocLineIdx++
         }
-      }
-
-      // Move TOC pages to position 1 (after title page, before content)
-      // pdf-lib addPage adds at the end; we need to reorder
-      const allPages = doc.getPages()
-      const totalPages = allPages.length
-      // TOC pages are the last `tocPageCount` pages — move them to index 1
-      for (let i = 0; i < tocPageCount; i++) {
-        const tocPageIdx = totalPages - tocPageCount + i
-        // Remove from end and insert at position 1+i
-        doc.removePage(tocPageIdx - i) // index shifts as we remove
-        doc.insertPage(1 + i, tocPages[i])
       }
 
       totalPdfPages += tocPageCount

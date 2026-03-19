@@ -412,11 +412,19 @@ function cleanTranslationText(text: string): string {
     .replace(/\[END (TABLE|DIAGRAM|CHART|FIGURE)\]/gi, '')
     .replace(/\[Note:.*?\]/gi, '')
     // Fix concatenation errors: insert space between camelCase-like merges
-    // e.g., "BeisSupreme" → "Beis Supreme", "MikdashAccording" → "Mikdash According"
-    // Also handle cases where a newline sits between lowercase and uppercase (Beis\nSupreme → Beis Supreme)
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .trim()
+}
+
+/** Check if text is just a standalone Hebrew source page number (should be filtered out) */
+function isStandalonePageNumber(text: string): boolean {
+  const trimmed = text.trim()
+  // Just a number (1-3 digits) — likely a Hebrew source page number
+  if (/^\d{1,3}$/.test(trimmed)) return true
+  // Number with surrounding whitespace/newlines only
+  if (/^\s*\d{1,3}\s*$/.test(trimmed)) return true
+  return false
 }
 
 /** Detect if a page is primarily a diagram/flowchart (mostly short labels, not body text) */
@@ -544,11 +552,11 @@ function decoratePage(
   pdfPage.drawLine({ start: { x: ix1, y: iy1 }, end: { x: ix1, y: iy2 }, thickness: 0.3, color: lightColor })
   pdfPage.drawLine({ start: { x: ix2, y: iy1 }, end: { x: ix2, y: iy2 }, thickness: 0.3, color: lightColor })
 
-  // Running header
+  // Running header — positioned ABOVE the border frame, not on it
   if (runningTitle) {
     const titleStr = runningTitle.toUpperCase()
     const titleW = font.widthOfTextAtSize(titleStr, 7)
-    const headerY = cfg.pageHeight - cfg.marginTop + 20
+    const headerY = fy2 + 10 // 10pt above the outer border top line
     pdfPage.drawText(titleStr, {
       x: (cfg.pageWidth - titleW) / 2,
       y: headerY,
@@ -1231,6 +1239,8 @@ export async function GET(
             // Clean the translation text (remove meta-text artifacts, fix concatenation)
             const trimmed = cleanTranslationText(region.translatedText.trim())
             if (!trimmed) continue
+            // Filter out standalone Hebrew source page numbers
+            if (isStandalonePageNumber(trimmed)) continue
             const wordCount = trimmed.split(/\s+/).length
 
             // Detect diagram labels / captions: short text (< 8 words) near illustrations
@@ -1255,7 +1265,10 @@ export async function GET(
             }
 
             if (region.regionType === 'header') {
-              pageElements.push({ type: 'header', text: trimmed })
+              // Skip headers that are just page numbers
+              if (!isStandalonePageNumber(trimmed)) {
+                pageElements.push({ type: 'header', text: trimmed })
+              }
             } else {
               pageElements.push({ type: 'body', text: trimmed })
             }

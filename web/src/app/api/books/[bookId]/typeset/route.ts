@@ -722,7 +722,7 @@ async function renderElements(
   runningTitle?: string,
 ): Promise<{ pageCount: number; tocEntries: TocEntry[] }> {
   const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
-  const safeMarginBottom = cfg.marginBottom + 10 // extra buffer so text never overlaps page numbers
+  const safeMarginBottom = cfg.marginBottom + 20 // generous buffer — text must NEVER touch page numbers
   const textHeight = cfg.pageHeight - cfg.marginTop - safeMarginBottom
   let curY = cfg.pageHeight - cfg.marginTop
   let pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])

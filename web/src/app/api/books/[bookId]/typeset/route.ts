@@ -114,7 +114,10 @@ function reverseHebrew(text: string): string {
   return text
 }
 
-/** Draw a line of mixed bidi text, handling font switching and RTL reversal */
+/** Draw a line of mixed bidi text, handling font switching and RTL reversal.
+ *  Special handling: when a Hebrew segment is followed by " - " (ArtScroll quote separator),
+ *  we draw the " - " with the Hebrew font so pdftotext keeps it inside the bidi context,
+ *  producing extractable "Hebrew - English" output. */
 function drawBidiLine(
   page: PDFPage,
   line: string,
@@ -128,7 +131,39 @@ function drawBidiLine(
   const segments = splitBidi(line)
   let curX = x
 
-  for (const seg of segments) {
+  for (let si = 0; si < segments.length; si++) {
+    const seg = segments[si]
+
+    // Check if this Hebrew segment is followed by " - " at the start of next non-Hebrew segment
+    // If so, draw the Hebrew + " - " together using the Hebrew font so pdftotext
+    // keeps them in the same bidi context, producing "Hebrew - English" pattern
+    if (seg.hebrew && si + 1 < segments.length && !segments[si + 1].hebrew) {
+      const nextText = segments[si + 1].text
+      const dashMatch = nextText.match(/^(\s*-\s*)/)
+      if (dashMatch) {
+        // Draw Hebrew text + dash together with Hebrew font
+        const drawHeb = reverseHebrew(seg.text)
+        const combined = drawHeb + dashMatch[1]
+        try {
+          page.drawText(combined, { x: curX, y, size: fontSize, font: hebrewFont, color })
+          curX += hebrewFont.widthOfTextAtSize(combined, fontSize)
+        } catch {
+          // If Hebrew font can't encode dash, fall back to separate rendering
+          try {
+            page.drawText(drawHeb, { x: curX, y, size: fontSize, font: hebrewFont, color })
+            curX += hebrewFont.widthOfTextAtSize(drawHeb, fontSize)
+            const sep = dashMatch[1]
+            page.drawText(sep, { x: curX, y, size: fontSize, font: latinFont, color })
+            curX += latinFont.widthOfTextAtSize(sep, fontSize)
+          } catch { /* skip */ }
+        }
+
+        // Update next segment to remove the consumed " - "
+        segments[si + 1] = { text: nextText.slice(dashMatch[1].length), hebrew: false }
+        continue
+      }
+    }
+
     const font = seg.hebrew ? hebrewFont : latinFont
     const drawText = seg.hebrew ? reverseHebrew(seg.text) : seg.text
     try {

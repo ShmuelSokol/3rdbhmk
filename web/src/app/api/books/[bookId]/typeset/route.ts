@@ -82,14 +82,10 @@ function sanitizeForPdf(text: string, keepHebrew = false): string {
 }
 
 /** Split text into segments of [text, isHebrew] for bidi rendering.
- *  Punctuation adjacent to Hebrew text stays with the Hebrew segment
- *  so parentheses, periods, commas etc. don't get visually reversed. */
+ *  Hebrew characters form Hebrew segments; everything else (Latin, digits,
+ *  punctuation) forms non-Hebrew segments. Spaces and punctuation between
+ *  two Hebrew runs stay with Hebrew so inline Hebrew phrases stay atomic. */
 interface TextSegment { text: string; hebrew: boolean }
-
-/** Check if a character is "neutral" punctuation that should attach to its neighboring script */
-function isNeutral(ch: string): boolean {
-  return /^[\s\(\)\[\]\{\}.,;:!?\-–—"'""''`\/#@&*+<>=…·•°]$/.test(ch)
-}
 
 function splitBidi(text: string): TextSegment[] {
   if (!text) return []
@@ -97,63 +93,69 @@ function splitBidi(text: string): TextSegment[] {
   const cleaned = text.replace(/[\u200E\u200F\u202A-\u202E]/g, '')
   if (!cleaned) return []
 
-  // Phase 1: split into raw runs of Hebrew, Latin, and neutral characters
-  interface RawRun { text: string; type: 'hebrew' | 'latin' | 'neutral' }
-  const runs: RawRun[] = []
+  // Phase 1: split into runs of Hebrew vs non-Hebrew characters.
+  // Spaces/punctuation stick with the current run type.
+  const segments: TextSegment[] = []
   let cur = ''
-  let curType: 'hebrew' | 'latin' | 'neutral' = isHebrew(cleaned[0]) ? 'hebrew' : isNeutral(cleaned[0]) ? 'neutral' : 'latin'
+  // Find first strong character (Hebrew or Latin) to seed direction
+  let curHeb = false
+  for (const ch of cleaned) {
+    if (isHebrew(ch)) { curHeb = true; break }
+    if (/[a-zA-Z0-9]/.test(ch)) { curHeb = false; break }
+  }
 
   for (const ch of cleaned) {
-    let chType: 'hebrew' | 'latin' | 'neutral'
-    if (isHebrew(ch)) chType = 'hebrew'
-    else if (isNeutral(ch)) chType = 'neutral'
-    else chType = 'latin'
+    const heb = isHebrew(ch)
+    const isStrong = heb || /[a-zA-Z0-9]/.test(ch)  // has definite direction
 
-    if (chType === curType) {
+    if (!isStrong) {
+      // Neutral character (space, punctuation) — stays with current run
+      cur += ch
+    } else if (heb === curHeb) {
       cur += ch
     } else {
-      if (cur) runs.push({ text: cur, type: curType })
+      // Direction change at a strong character
+      if (cur) segments.push({ text: cur, hebrew: curHeb })
       cur = ch
-      curType = chType
+      curHeb = heb
     }
   }
-  if (cur) runs.push({ text: cur, type: curType })
+  if (cur) segments.push({ text: cur, hebrew: curHeb })
 
-  // Phase 2: resolve neutral runs — attach them to adjacent Hebrew if either neighbor is Hebrew,
-  // otherwise attach to Latin. This keeps parentheses/punctuation with Hebrew text.
-  const segments: TextSegment[] = []
-  for (let i = 0; i < runs.length; i++) {
-    const run = runs[i]
-    if (run.type !== 'neutral') {
-      segments.push({ text: run.text, hebrew: run.type === 'hebrew' })
+  // Phase 2: Fix neutral-only trailing segments and re-attach trailing neutrals.
+  // When a segment ends with neutrals (spaces, punctuation) and the NEXT segment
+  // has a different direction, move the trailing neutrals to the next segment.
+  // This prevents e.g. ") " at the end of a Hebrew segment from being word-reversed.
+  const fixed: TextSegment[] = []
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i]
+    if (i < segments.length - 1 && seg.hebrew !== segments[i + 1].hebrew) {
+      // Check for trailing neutrals in this segment
+      const match = seg.text.match(/^(.*[^\s\(\)\[\]\{\}.,;:!?\-–—"'""''`\/#@&*+<>=…·•°])([\s\(\)\[\]\{\}.,;:!?\-–—"'""''`\/#@&*+<>=…·•°]+)$/)
+      if (match) {
+        fixed.push({ text: match[1], hebrew: seg.hebrew })
+        // Prepend trailing neutrals to the next segment
+        segments[i + 1] = { text: match[2] + segments[i + 1].text, hebrew: segments[i + 1].hebrew }
+      } else {
+        fixed.push(seg)
+      }
     } else {
-      // Look at neighbors to decide direction
-      const prevHeb = i > 0 && runs[i - 1].type === 'hebrew'
-      const nextHeb = i < runs.length - 1 && runs[i + 1].type === 'hebrew'
-      // If either neighbor is Hebrew, attach to Hebrew
-      const attachHebrew = prevHeb || nextHeb
-      segments.push({ text: run.text, hebrew: attachHebrew })
+      fixed.push(seg)
     }
   }
 
-  // Phase 3: merge adjacent segments of the same direction
-  const merged: TextSegment[] = []
-  for (const seg of segments) {
-    if (merged.length > 0 && merged[merged.length - 1].hebrew === seg.hebrew) {
-      merged[merged.length - 1].text += seg.text
-    } else {
-      merged.push({ ...seg })
-    }
-  }
-
-  return merged
+  return fixed
 }
 
-/** For inline Hebrew quotes in ArtScroll style, we keep logical order.
- *  Each Hebrew word is visually recognizable in LTR rendering. */
+/** Reverse word order for Hebrew text so pdf-lib's LTR rendering produces correct RTL visual.
+ *  pdf-lib draws glyphs left-to-right. Individual Hebrew characters within a word are shaped
+ *  correctly by the font, but word ORDER is not reversed. So we reverse word order here:
+ *  "שלום עולם" (shalom olam) → "עולם שלום" so the reader scanning RTL sees "שלום עולם". */
 function reverseHebrew(text: string): string {
-  // No reversal — keep logical order for readability in mixed bidi context
-  return text
+  if (!text.trim()) return text
+  // Split on whitespace, reverse word order, rejoin
+  const parts = text.split(/(\s+)/)  // preserve whitespace tokens
+  return parts.reverse().join('')
 }
 
 /** Draw a line of mixed bidi text, handling font switching and RTL reversal.

@@ -249,7 +249,7 @@ async function detectAndCropIllustrations(
     const cropBottom = Math.round((gap.bottomY / 100) * imgH)
     const cropHeight = cropBottom - cropTop
 
-    if (cropHeight < 80) continue // too small to be meaningful (min 80px)
+    if (cropHeight < 150) continue // too small to be meaningful (min 150px, avoids tiny fragments)
 
     try {
       // Crop with small horizontal margins to avoid page edges
@@ -413,6 +413,8 @@ function cleanTranslationText(text: string): string {
     .replace(/\[Note:.*?\]/gi, '')
     // Fix concatenation errors: insert space between camelCase-like merges
     // e.g., "BeisSupreme" → "Beis Supreme", "MikdashAccording" → "Mikdash According"
+    // Also handle cases where a newline sits between lowercase and uppercase (Beis\nSupreme → Beis Supreme)
+    .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .trim()
 }
@@ -427,8 +429,8 @@ function isDiagramPage(regions: { translatedText?: string | null; regionType: st
     return words < 10
   })
 
-  // If >60% of regions are short labels and there are at least 4 of them, it's a diagram page
-  if (shortLabels.length >= 4 && shortLabels.length / translated.length > 0.6) return true
+  // If >50% of regions are short labels and there are at least 4 of them, it's a diagram page
+  if (shortLabels.length >= 4 && shortLabels.length / translated.length > 0.5) return true
 
   // Also check for repeated similar text (diagram labels often repeat)
   const texts = translated.map(r => (r.translatedText || '').trim().toLowerCase())
@@ -719,7 +721,7 @@ async function renderElements(
           curY -= 3
         }
 
-        // Draw each cell
+        // Draw each cell with column dividers
         let cellX = cfg.marginLeft
         for (let c = 0; c < maxCols; c++) {
           const lines = cellWrapped[c] || ['']
@@ -729,6 +731,15 @@ async function renderElements(
               cellX + 4, curY - tableFontSize - li * tableLh,
               tableFontSize, fonts.body, fonts.hebrew, rgb(...cfg.textColor)
             )
+          }
+          // Draw vertical column divider line between columns
+          if (c < maxCols - 1) {
+            const divX = cellX + finalColWidths[c]
+            pdfPage.drawLine({
+              start: { x: divX, y: curY },
+              end: { x: divX, y: curY - rowH + 2 },
+              thickness: 0.3, color: rgb(0.82, 0.78, 0.73),
+            })
           }
           cellX += finalColWidths[c]
         }
@@ -989,6 +1000,11 @@ export async function GET(
       titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
     }
 
+    // Hebrew title (original book name)
+    const hebrewTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5' // לשכנו תדרשו
+    const hebTitleWidth = bidiLineWidth(hebrewTitle, 20, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, hebrewTitle, (cfg.pageWidth - hebTitleWidth) / 2, cfg.pageHeight * 0.63, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
     // Title text
     const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
     const titleWidth = bidiLineWidth(titleText, 22, headerFont, hebrewBoldFont)
@@ -1036,9 +1052,9 @@ export async function GET(
           page.id, page.pageNumber, bookId, regions, cfg,
         )
 
-        // Filter out tiny/nonsensical illustration crops (minimum 80×80 px)
+        // Filter out tiny/nonsensical illustration crops (minimum 150×150 px)
         const validIllustrations = illustrations.filter(ill =>
-          ill.width >= 80 && ill.height >= 80
+          ill.width >= 150 && ill.height >= 150
         )
 
         // Check if this is a diagram page — if so, use full page image + summary
@@ -1087,11 +1103,13 @@ export async function GET(
           }
 
           // Add translated body text (combine all regions into one explanatory paragraph)
-          const allText = regions
+          // Deduplicate to avoid repeated diagram labels appearing multiple times
+          const textParts = regions
             .filter(r => r.translatedText?.trim())
             .map(r => cleanTranslationText(r.translatedText || ''))
             .filter(t => t.length > 15) // Only substantial text, not short labels
-            .join('\n\n')
+          const uniqueTextParts = Array.from(new Set(textParts))
+          const allText = uniqueTextParts.join('\n\n')
           if (allText.trim()) {
             pageElements.push({ type: 'body', text: allText })
           } else {
@@ -1178,14 +1196,26 @@ export async function GET(
       }
 
       if (pageElements.length > 0) {
+        // Deduplicate consecutive identical text elements (e.g., repeated diagram labels)
+        const dedupedElements: ContentElement[] = []
+        const seenTexts = new Set<string>()
+        for (const el of pageElements) {
+          if (el.type === 'header' || el.type === 'body' || el.type === 'caption') {
+            const key = `${el.type}:${el.text || ''}`
+            if (seenTexts.has(key)) continue
+            seenTexts.add(key)
+          }
+          dedupedElements.push(el)
+        }
+
         // Only add a topic divider if this page starts with a header (new section/topic)
         // Pages that start with body text are continuations of the previous topic
-        const startsWithHeader = pageElements[0].type === 'header'
+        const startsWithHeader = dedupedElements[0]?.type === 'header'
         if (!isFirstSection && startsWithHeader) {
           allElements.push({ type: 'divider' })
         }
         isFirstSection = false
-        allElements.push(...pageElements)
+        allElements.push(...dedupedElements)
       }
     }
 

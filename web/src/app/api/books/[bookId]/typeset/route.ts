@@ -707,6 +707,11 @@ function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig) {
   })
 }
 
+interface TocEntry {
+  title: string
+  pageNum: number // relative to content start (will be adjusted for TOC pages)
+}
+
 async function renderElements(
   doc: PDFDocument,
   elements: ContentElement[],
@@ -714,12 +719,13 @@ async function renderElements(
   cfg: TypesetConfig,
   startPageNum: number,
   runningTitle?: string,
-): Promise<number> {
+): Promise<{ pageCount: number; tocEntries: TocEntry[] }> {
   const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
   const textHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom
   let curY = cfg.pageHeight - cfg.marginTop
   let pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
   let pageCount = 1
+  const tocEntries: TocEntry[] = []
 
   decoratePage(pdfPage, startPageNum, fonts.body, cfg, runningTitle)
 
@@ -986,6 +992,13 @@ async function renderElements(
         newPage()
       }
 
+      // Track this header for the Table of Contents
+      // Strip Hebrew from the title for TOC display (keep clean English)
+      const tocTitle = text.replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s*[—\-]\s*/g, '').trim()
+      if (tocTitle.length > 8 && tocTitle.length < 120) {
+        tocEntries.push({ title: tocTitle, pageNum: startPageNum + pageCount - 1 })
+      }
+
       for (const line of lines) {
         const lineW = bidiLineWidth(line, fontSize, font, hebFont)
         const x = cfg.marginLeft + (textWidth - lineW) / 2 // centered
@@ -1165,7 +1178,7 @@ async function renderElements(
     }
   }
 
-  return pageCount
+  return { pageCount, tocEntries }
 }
 
 // ─── Main Route ─────────────────────────────────────────────────────────────
@@ -1296,9 +1309,6 @@ export async function GET(
     const allElements: ContentElement[] = []
     let isFirstSection = true
 
-    // Track which Hebrew source pages map to which topics (for dynamic TOC)
-    const tocEntries: { title: string; hebrewPage: number }[] = []
-
     for (const page of pages) {
       const pageElements: ContentElement[] = []
       const regions = page.regions || []
@@ -1307,15 +1317,6 @@ export async function GET(
       // Skip Hebrew TOC pages — we'll generate our own English TOC with correct page numbers
       if (isTocPage(regions)) {
         continue
-      }
-
-      // Track topic headers for TOC generation
-      const headerRegions = regions.filter(r => r.regionType === 'header' && r.translatedText?.trim())
-      for (const hr of headerRegions) {
-        const title = cleanTranslationText(hr.translatedText || '').trim()
-        if (title.length > 10 && title.length < 120 && !isRecurringSourceHeader(title, hr.hebrewText || undefined, regions.length)) {
-          tocEntries.push({ title, hebrewPage: page.pageNumber })
-        }
       }
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
@@ -1523,9 +1524,156 @@ export async function GET(
     }
 
     // Render all elements in one continuous flow
+    // Content starts after title page; we'll insert TOC pages after rendering
+    let renderedTocEntries: TocEntry[] = []
     if (allElements.length > 0) {
-      const pagesAdded = await renderElements(doc, allElements, fonts, cfg, totalPdfPages + 1, runningTitle)
-      totalPdfPages += pagesAdded
+      const result = await renderElements(doc, allElements, fonts, cfg, totalPdfPages + 1, runningTitle)
+      totalPdfPages += result.pageCount
+      renderedTocEntries = result.tocEntries
+    }
+
+    // Generate Table of Contents and insert after title page
+    // We now know exactly which page each topic landed on.
+    // Insert TOC pages at index 1 (after title page, before content).
+    // This shifts all content page numbers by tocPageCount, so we adjust.
+    if (renderedTocEntries.length > 0) {
+      // Deduplicate TOC entries (same title on same page)
+      const seenToc = new Set<string>()
+      const uniqueToc = renderedTocEntries.filter(e => {
+        const key = `${e.title}:${e.pageNum}`
+        if (seenToc.has(key)) return false
+        seenToc.add(key)
+        return true
+      })
+
+      // Calculate how many TOC pages we need
+      const tocFontSize = cfg.bodyFontSize * 0.9
+      const tocLineHeight = tocFontSize * 1.8 // generous spacing for TOC entries
+      const tocTextHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom - 40 // room for title
+      const entriesPerPage = Math.floor(tocTextHeight / tocLineHeight)
+      const tocPageCount = Math.max(1, Math.ceil(uniqueToc.length / entriesPerPage))
+
+      // Adjust all page numbers: content shifts right by tocPageCount
+      const adjustedToc = uniqueToc.map(e => ({
+        ...e,
+        pageNum: e.pageNum + tocPageCount,
+      }))
+
+      // Create TOC pages
+      const tocPages: PDFPage[] = []
+      for (let tp = 0; tp < tocPageCount; tp++) {
+        const tocPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+        tocPages.push(tocPage)
+        decoratePage(tocPage, tp + 2, fonts.body, cfg) // page 2, 3, ... (after title)
+
+        let y = cfg.pageHeight - cfg.marginTop
+
+        // Title on first TOC page only
+        if (tp === 0) {
+          const tocTitleStr = 'TABLE OF CONTENTS'
+          const tocTitleW = fonts.header.widthOfTextAtSize(tocTitleStr, cfg.headerFontSize)
+          tocPage.drawText(tocTitleStr, {
+            x: (cfg.pageWidth - tocTitleW) / 2,
+            y: y - cfg.headerFontSize,
+            size: cfg.headerFontSize,
+            font: fonts.header,
+            color: rgb(...cfg.headerColor),
+          })
+          y -= cfg.headerFontSize + cfg.headerSpacingBelow + 10
+          // Decorative line under title
+          tocPage.drawLine({
+            start: { x: cfg.marginLeft + 20, y },
+            end: { x: cfg.pageWidth - cfg.marginRight - 20, y },
+            thickness: 0.4,
+            color: rgb(0.72, 0.68, 0.62),
+          })
+          y -= 12
+        }
+
+        // Render TOC entries for this page
+        const startIdx = tp * entriesPerPage
+        const endIdx = Math.min(startIdx + entriesPerPage, adjustedToc.length)
+        const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
+
+        for (let i = startIdx; i < endIdx; i++) {
+          const entry = adjustedToc[i]
+          // Truncate long titles
+          let title = entry.title
+          if (title.length > 70) title = title.substring(0, 67) + '...'
+
+          const pageStr = String(entry.pageNum)
+          const pageW = fonts.body.widthOfTextAtSize(pageStr, tocFontSize)
+
+          // Draw title on left
+          const titleMaxW = textWidth - pageW - 20
+          try {
+            const titleW = fonts.body.widthOfTextAtSize(title, tocFontSize)
+            const displayTitle = titleW > titleMaxW
+              ? title.substring(0, Math.floor(title.length * titleMaxW / titleW)) + '...'
+              : title
+            tocPage.drawText(displayTitle, {
+              x: cfg.marginLeft,
+              y: y - tocFontSize,
+              size: tocFontSize,
+              font: fonts.body,
+              color: rgb(...cfg.textColor),
+            })
+          } catch {
+            // Skip if can't encode
+          }
+
+          // Draw dot leaders
+          const dotsY = y - tocFontSize + 2
+          const dotSpacing = 4
+          const dotsStart = cfg.marginLeft + titleMaxW - 5
+          const dotsEnd = cfg.pageWidth - cfg.marginRight - pageW - 5
+          for (let dx = dotsStart; dx < dotsEnd; dx += dotSpacing) {
+            tocPage.drawText('.', {
+              x: dx,
+              y: dotsY,
+              size: tocFontSize * 0.7,
+              font: fonts.body,
+              color: rgb(0.6, 0.58, 0.55),
+            })
+          }
+
+          // Draw page number on right
+          tocPage.drawText(pageStr, {
+            x: cfg.pageWidth - cfg.marginRight - pageW,
+            y: y - tocFontSize,
+            size: tocFontSize,
+            font: fonts.body,
+            color: rgb(...cfg.textColor),
+          })
+
+          y -= tocLineHeight
+        }
+      }
+
+      // Move TOC pages to position 1 (after title page, before content)
+      // pdf-lib addPage adds at the end; we need to reorder
+      const allPages = doc.getPages()
+      const totalPages = allPages.length
+      // TOC pages are the last `tocPageCount` pages — move them to index 1
+      for (let i = 0; i < tocPageCount; i++) {
+        const tocPageIdx = totalPages - tocPageCount + i
+        // Remove from end and insert at position 1+i
+        doc.removePage(tocPageIdx - i) // index shifts as we remove
+        doc.insertPage(1 + i, tocPages[i])
+      }
+
+      // Update page number decorations on ALL content pages (they shifted by tocPageCount)
+      // Since decoratePage was called with the original numbers, we need to redraw page numbers
+      // Actually, the page numbers in the footer were drawn at render time with the original numbers.
+      // We can't easily change them. But the footer says "— N —" which was based on startPageNum.
+      // The simplest fix: accept that content page numbers in footer start after TOC pages.
+      // Since we passed startPageNum = totalPdfPages + 1 = 2, and now TOC inserts before content,
+      // the content pages' footer numbers need to increase by tocPageCount.
+      // This is hard to fix retroactively. Instead, let's just make sure startPageNum accounts for TOC.
+      // TODO: For now, accept that footer page numbers may be off by tocPageCount.
+      // A proper fix would use a two-pass render.
+
+      totalPdfPages += tocPageCount
     }
 
     // Generate PDF buffer

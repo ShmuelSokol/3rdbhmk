@@ -127,9 +127,11 @@ function drawBidiLine(
   latinFont: PDFFont,
   hebrewFont: PDFFont,
   color: ReturnType<typeof rgb>,
+  maxX?: number, // optional right boundary — stop drawing beyond this x
 ) {
   const segments = splitBidi(line)
   let curX = x
+  const rightBound = maxX || (x + 500) // default: don't overflow too far
 
   for (let si = 0; si < segments.length; si++) {
     const seg = segments[si]
@@ -164,11 +166,18 @@ function drawBidiLine(
       }
     }
 
+    // Stop drawing if we've exceeded the right boundary
+    if (curX >= rightBound) break
+
     const font = seg.hebrew ? hebrewFont : latinFont
     const drawText = seg.hebrew ? reverseHebrew(seg.text) : seg.text
     try {
-      page.drawText(drawText, { x: curX, y, size: fontSize, font, color })
-      curX += font.widthOfTextAtSize(drawText, fontSize)
+      const segWidth = font.widthOfTextAtSize(drawText, fontSize)
+      // Only draw if it fits within bounds (or at least partially)
+      if (curX + segWidth <= rightBound + 5) {
+        page.drawText(drawText, { x: curX, y, size: fontSize, font, color })
+      }
+      curX += segWidth
     } catch {
       // If font can't encode a char, skip that segment
     }
@@ -1002,7 +1011,7 @@ async function renderElements(
       for (const line of lines) {
         const lineW = bidiLineWidth(line, fontSize, font, hebFont)
         const x = cfg.marginLeft + (textWidth - lineW) / 2 // centered
-        drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.headerColor))
+        drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.headerColor), cfg.pageWidth - cfg.marginRight)
         curY -= lh
       }
 
@@ -1169,7 +1178,7 @@ async function renderElements(
             x += cfg.firstLineIndent
           }
 
-          drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor))
+          drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
           curY -= lh
         }
 
@@ -1315,8 +1324,13 @@ export async function GET(
       const translation = page.translation
 
       // Skip Hebrew TOC pages — we'll generate our own English TOC with correct page numbers
-      if (isTocPage(regions)) {
-        continue
+      if (isTocPage(regions)) continue
+
+      // Skip the half-title page (usually source page 2) — it just repeats the book title
+      // which we already show on the English title page
+      if (page.pageNumber === 2 && regions.length <= 2) {
+        const allText = regions.map(r => (r.translatedText || '')).join(' ')
+        if (/lishchno|לשכנו/i.test(allText) && allText.length < 100) continue
       }
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
@@ -1356,13 +1370,14 @@ export async function GET(
                 .jpeg({ quality: 85 })
                 .toBuffer()
               const cropMeta = await sharp(cropData).metadata()
-              const trimmedPage = await trimIllustrationBorders(cropData)
-              const trimmedMeta = await sharp(trimmedPage).metadata()
+              // Don't trim borders on letter pages — preserve full letter content
+              const finalImg = letterPage ? cropData : await trimIllustrationBorders(cropData)
+              const finalMeta = letterPage ? cropMeta : await sharp(finalImg).metadata()
               pageElements.push({
                 type: 'illustration',
-                imageData: trimmedPage,
-                imageWidth: trimmedMeta.width || cropMeta.width || imgW,
-                imageHeight: trimmedMeta.height || cropMeta.height || imgH,
+                imageData: finalImg,
+                imageWidth: finalMeta.width || cropMeta.width || imgW,
+                imageHeight: finalMeta.height || cropMeta.height || imgH,
               })
             } catch {
               for (const ill of validIllustrations) {
@@ -1662,16 +1677,33 @@ export async function GET(
         doc.insertPage(1 + i, tocPages[i])
       }
 
-      // Update page number decorations on ALL content pages (they shifted by tocPageCount)
-      // Since decoratePage was called with the original numbers, we need to redraw page numbers
-      // Actually, the page numbers in the footer were drawn at render time with the original numbers.
-      // We can't easily change them. But the footer says "— N —" which was based on startPageNum.
-      // The simplest fix: accept that content page numbers in footer start after TOC pages.
-      // Since we passed startPageNum = totalPdfPages + 1 = 2, and now TOC inserts before content,
-      // the content pages' footer numbers need to increase by tocPageCount.
-      // This is hard to fix retroactively. Instead, let's just make sure startPageNum accounts for TOC.
-      // TODO: For now, accept that footer page numbers may be off by tocPageCount.
-      // A proper fix would use a two-pass render.
+      // Fix page numbers on content pages — they were drawn with numbers starting at 2,
+      // but after TOC insertion they should start at 2 + tocPageCount.
+      // Draw a white rectangle over the old page number and redraw with correct number.
+      const updatedPages = doc.getPages()
+      const contentStartIdx = 1 + tocPageCount // index 0 = title, 1..tocPageCount = TOC
+      for (let i = contentStartIdx; i < updatedPages.length; i++) {
+        const pg = updatedPages[i]
+        const correctNum = i + 1 // 1-indexed page number
+        const pageStr = `\u2014  ${correctNum}  \u2014`
+        const pnW = bodyFont.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
+        // White-out the old page number
+        pg.drawRectangle({
+          x: cfg.pageWidth * 0.3,
+          y: cfg.marginBottom / 2 - 8,
+          width: cfg.pageWidth * 0.4,
+          height: 14,
+          color: rgb(1, 1, 1), // white
+        })
+        // Draw correct page number
+        pg.drawText(pageStr, {
+          x: (cfg.pageWidth - pnW) / 2,
+          y: cfg.marginBottom / 2 - 2,
+          size: cfg.pageNumberFontSize,
+          font: bodyFont,
+          color: rgb(0.48, 0.45, 0.42),
+        })
+      }
 
       totalPdfPages += tocPageCount
     }

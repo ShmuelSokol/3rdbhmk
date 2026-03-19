@@ -7,6 +7,8 @@ import { existsSync } from 'fs'
 import { readFile } from 'fs/promises'
 import path from 'path'
 import sharp from 'sharp'
+import { generateHtmlBook, htmlToPdf } from '@/lib/html-book-generator'
+import type { TocEntry as HtmlTocEntry } from '@/lib/html-book-generator'
 
 // bidi-js: Unicode Bidirectional Algorithm for proper RTL text rendering
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -1634,6 +1636,207 @@ async function renderElements(
   return { pageCount, tocEntries }
 }
 
+// ─── Shared TOC Line Builder ─────────────────────────────────────────────────
+
+/** Meaningful topic descriptions for Perek/Pasuk entries */
+const topicDescriptions: Record<string, string> = {
+  '40:1': 'The Vision of the Third Beis HaMikdash',
+  '40:2': 'Visions of Eretz Yisrael',
+  '40:3': 'Arrival at Har HaBayis \u2014 The Measuring Angel',
+  '40:5': 'The Wall of Har HaBayis',
+  '40:6': 'The Eastern Gate and the Soreg',
+  '40:7': 'The Chambers of the Gate',
+  '40:8': 'The Ulam of the Gate',
+  '40:12': 'The Borders of the Chambers',
+  '40:13': 'The Width of the Gate',
+  '40:14': 'The Pillars and Doorposts',
+  '40:16': 'The Narrow Windows and Palm Decorations',
+  '40:17': 'The Outer Courtyard and its Chambers',
+  '40:19': 'The Width of the Courtyard',
+  '40:20': 'The Northern Gate',
+  '40:28': 'The Inner Courtyard \u2014 Southern Gate',
+  '40:29': 'The Inner Gate Chambers',
+  '40:31': 'The Vestibule of the Inner Azarah',
+  '40:36': 'Overview of the Beis HaMikdash Structure',
+  '40:39': 'The Tables for Korbanos',
+  '40:42': 'The Slaughter Tables and Hooks',
+  '40:44': 'The Chambers of the Singers',
+  '40:45': 'The Chamber of the Kohanim',
+  '40:47': "The Inner Courtyard \u2014 The Mizbei'ach",
+  '40:48': 'The Ulam of the Heichal',
+  '40:49': 'The Steps to the Ulam',
+  '41:1': 'The Heichal \u2014 The Pillars',
+  '41:3': 'The Kodesh HaKodashim',
+  '41:4': 'The Aron and the Kapores',
+  '41:5': "The Side Chambers (Ta'im)",
+  '41:6': 'The Three Stories of Chambers',
+  '41:7': 'The Winding Staircases',
+  '41:8': 'The Foundation Platform',
+  '41:9': 'The Outer Wall of the Chambers',
+  '41:12': 'The Building Behind the Heichal (Beis HaChalifos)',
+  '41:13': 'Total Measurements of the House',
+  '41:15': 'The Interior Galleries and Decorations',
+  '41:16': 'The Doorframes, Windows, and Galleries',
+  '41:17': 'The Keruvim and Palm Tree Carvings',
+  '41:22': "The Golden Mizbei'ach (Mizbei'ach HaZahav)",
+  '41:23': 'The Doors of the Heichal and Kodesh HaKodashim',
+  '41:25': 'The Wooden Canopy of the Ulam',
+  '41:26': 'The Windows and Palm Trees of the Side Chambers',
+  '42:1': 'The Upper Chambers in the North',
+  '42:3': 'The Galleries Opposite the Courtyard',
+  '42:4': 'The Walkway Before the Chambers',
+  '42:5': 'The Upper Chambers Are Shorter',
+  '42:6': 'The Pillars of the Chambers',
+  '42:7': 'The Outer Wall',
+  '42:9': 'The Lower Chambers',
+  '42:10': 'The Southern Chambers',
+  '42:11': 'The Doorways of the Chambers',
+  '42:12': 'The Entrances and Holy Garments',
+  '42:13': 'Eating Kodshei Kodashim',
+  '42:15': 'Measuring the Outer Perimeter',
+}
+
+interface TocLineItem {
+  type: 'section' | 'entry'
+  text: string
+  pageNum?: number
+}
+
+/** Build structured TOC lines from raw TocEntry[] using the smart selection logic.
+ *  Shared between HTML and pdf-lib renderers. */
+function buildTocLines(entries: TocEntry[]): TocLineItem[] {
+  // Step 1: Exclude noise
+  const cleanEntries = entries.filter(e => {
+    if (isTocExcluded(e.title)) return false
+    const displayForm = cleanTocTitle(e.title)
+    if (isTocExcluded(displayForm)) return false
+    return true
+  })
+
+  // Step 2: Deduplicate
+  const seenTitles = new Set<string>()
+  const seenPrefixes = new Set<string>()
+  const dedupedToc: TocEntry[] = []
+  for (const entry of cleanEntries) {
+    const key = entry.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim()
+    if (seenTitles.has(key)) continue
+    const normKey = key.replace(/\b(a|an|the)\b/g, '').replace(/\s+/g, ' ').trim()
+    const prefix = normKey.substring(0, 35)
+    if (seenPrefixes.has(prefix)) continue
+    seenTitles.add(key)
+    seenPrefixes.add(prefix)
+    dedupedToc.push(entry)
+  }
+
+  // Step 3: Classify and select
+  const pasukRegex = /pasuk(?:im)?\s+(\d+)/i
+  const perekRegex = /(?:yechezkel\s+)?(?:chapter|perek)\s+(\d+)/i
+  const tocItems: TocEntry[] = []
+  const seenPereks = new Set<string>()
+  const seenPasukPerPerek: Record<string, number> = {}
+
+  let currentPerek = ''
+  for (const entry of dedupedToc) {
+    const perekMatch = entry.title.match(perekRegex)
+    if (perekMatch) currentPerek = perekMatch[1]
+    ;(entry as TocEntry & { _perek?: string })._perek = currentPerek
+  }
+
+  currentPerek = ''
+  for (const entry of dedupedToc) {
+    const perekMatch = entry.title.match(perekRegex)
+    const pasukMatch = entry.title.match(pasukRegex)
+    const lower = entry.title.toLowerCase()
+    const entryPerek = (entry as TocEntry & { _perek?: string })._perek || ''
+
+    if (/introduction|foreword|preface|overview|summary|history|about the book/i.test(lower)) {
+      tocItems.push(entry); continue
+    }
+    if (perekMatch && !pasukMatch) {
+      tocItems.push(entry)
+      if (!seenPereks.has(perekMatch[1])) seenPereks.add(perekMatch[1])
+      currentPerek = perekMatch[1]; continue
+    }
+    if (pasukMatch) {
+      const pk = entryPerek || currentPerek || 'unknown'
+      const pasukKey = `${pk}:${pasukMatch[1]}`
+      if (!seenPasukPerPerek[pasukKey]) {
+        seenPasukPerPerek[pasukKey] = 1
+        tocItems.push(entry)
+      }
+      continue
+    }
+    const displayCheck = cleanTocTitle(entry.title)
+    const garbledDigits = (displayCheck.match(/\d/g) || []).length
+    const expectedDigits = (displayCheck.match(/\b\d+\b/g) || []).length * 2
+    const isGarbled = garbledDigits > expectedDigits + 2 || /\d{2}[A-Za-z]/.test(displayCheck)
+    const isGeneric = /^you shall|^shall you|^seek|^his dwelling|^their chamber/i.test(displayCheck)
+    if (entry.afterDivider && entry.title.length >= 20 && !isGarbled && !isGeneric) {
+      tocItems.push(entry); continue
+    }
+    if (isTocWorthyHeader(entry.title)) {
+      tocItems.push(entry)
+    }
+  }
+
+  // Step 4: Trim if too many
+  let finalTocItems = tocItems
+  if (finalTocItems.length > 60) {
+    const essential = finalTocItems.filter(e =>
+      /introduction|foreword|perek|chapter/i.test(e.title) || e.afterDivider
+    )
+    finalTocItems = essential.length >= 20 ? essential : finalTocItems.slice(0, 60)
+  }
+
+  // Step 5: Build structured TOC lines
+  const tocLines: TocLineItem[] = []
+  let lastPerek = ''
+
+  tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
+
+  for (const entry of finalTocItems) {
+    const perekMatch = entry.title.match(perekRegex)
+    if (perekMatch) {
+      const perekLabel = `YECHEZKEL PEREK ${perekMatch[1]}`
+      if (perekLabel !== lastPerek) {
+        lastPerek = perekLabel
+        tocLines.push({ type: 'section', text: perekLabel })
+      }
+    }
+    let displayTitle = entry.title
+    if (perekMatch && lastPerek) {
+      const stripped = displayTitle.replace(perekRegex, '').replace(/^\s*[,:\-\u2014.]+\s*/, '').trim()
+      if (stripped.length < 10) continue
+      displayTitle = stripped
+    }
+    let cleanDisplay = cleanTocTitle(displayTitle)
+    if (cleanDisplay.length < 10) {
+      let fallback = cleanTocTitle(entry.title)
+      if (perekMatch) {
+        fallback = fallback.replace(perekRegex, '').replace(/^\s*[,:\-\u2014.]+\s*/, '').trim()
+      }
+      cleanDisplay = fallback.length >= 8 ? fallback : cleanDisplay
+    }
+    const pasukForDesc = cleanDisplay.match(/^P[ae]suk(?:im)?\s+(\d+)(?:[\s\-]+(\d+))?/i)
+    if (pasukForDesc && lastPerek) {
+      const pasukNum = pasukForDesc[1]
+      const perekNum = lastPerek.replace('YECHEZKEL PEREK ', '')
+      const descKey = `${perekNum}:${pasukNum}`
+      const description = topicDescriptions[descKey]
+      if (description) {
+        cleanDisplay = `Pasuk${pasukForDesc[2] ? 'im ' + pasukNum + '-' + pasukForDesc[2] : ' ' + pasukNum}: ${description}`
+      }
+    }
+    const isPasukEntry = /^pasuk|^pesukim/i.test(cleanDisplay)
+    const minDisplayLen = isPasukEntry ? 7 : 12
+    if (cleanDisplay.length >= minDisplayLen) {
+      tocLines.push({ type: 'entry', text: cleanDisplay, pageNum: entry.pageNum })
+    }
+  }
+
+  return tocLines
+}
+
 // ─── Main Route ─────────────────────────────────────────────────────────────
 
 export async function GET(
@@ -1653,6 +1856,9 @@ export async function GET(
       try { overrides = JSON.parse(configParam) } catch { /* ignore bad JSON */ }
     }
     const cfg: TypesetConfig = { ...DEFAULT_CONFIG, ...overrides }
+
+    // Renderer selection: ?renderer=pdflib for legacy, default is html (Playwright)
+    const renderer = url.searchParams.get('renderer') || 'html'
 
     // Fetch book and pages
     const book = await prisma.book.findUnique({ where: { id: bookId } })
@@ -1674,90 +1880,8 @@ export async function GET(
       return NextResponse.json({ error: 'No pages found in range' }, { status: 404 })
     }
 
-    // Create PDF with fontkit for custom font embedding
-    const doc = await PDFDocument.create()
-    doc.registerFontkit(fontkit)
-
-    const bodyFont = await doc.embedFont(StandardFonts.TimesRoman)
-    const boldFont = await doc.embedFont(StandardFonts.TimesRomanBold)
-    const headerFont = await doc.embedFont(StandardFonts.TimesRomanBold)
-
-    // Load Hebrew fonts
-    let hebrewFont: PDFFont = bodyFont // fallback
-    let hebrewBoldFont: PDFFont = boldFont
-    try {
-      const fontsDir = path.join(process.cwd(), 'public', 'fonts')
-      const hebRegularPath = path.join(fontsDir, 'NotoSerifHebrew-Regular.ttf')
-      const hebBoldPath = path.join(fontsDir, 'NotoSerifHebrew-Bold.ttf')
-      if (existsSync(hebRegularPath)) {
-        const hebBytes = await readFile(hebRegularPath)
-        hebrewFont = await doc.embedFont(hebBytes, { subset: true })
-      }
-      if (existsSync(hebBoldPath)) {
-        const hebBoldBytes = await readFile(hebBoldPath)
-        hebrewBoldFont = await doc.embedFont(hebBoldBytes, { subset: true })
-      }
-    } catch (e) {
-      console.error('Failed to load Hebrew fonts:', e)
-    }
-
-    const fonts = { body: bodyFont, bold: boldFont, header: headerFont, hebrew: hebrewFont, hebrewBold: hebrewBoldFont }
-
-    const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
-
-    // Title page with elegant design
-    const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
-    const frameColor = rgb(0.72, 0.68, 0.62)
-
-    // Title page decorative border
-    const tfx1 = cfg.marginLeft - 8, tfy1 = cfg.marginBottom - 8
-    const tfx2 = cfg.pageWidth - cfg.marginRight + 8, tfy2 = cfg.pageHeight - cfg.marginTop + 22
-    for (const off of [0, 3]) {
-      const w = off === 0 ? 0.7 : 0.3
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy2 - off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy1 + off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx1 + off, y: tfy2 - off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
-    }
-
-    // Hebrew title (original book name)
-    const hebrewTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5' // לשכנו תדרשו
-    const hebTitleWidth = bidiLineWidth(hebrewTitle, 20, headerFont, hebrewBoldFont)
-    drawBidiLine(titlePage, hebrewTitle, (cfg.pageWidth - hebTitleWidth) / 2, cfg.pageHeight * 0.63, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
-
-    // Title text
-    const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
-    const titleWidth = bidiLineWidth(titleText, 22, headerFont, hebrewBoldFont)
-    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
-
-    // Ornamental divider under title
-    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg)
-
-    // Subtitle
-    const subtitleText = 'English Translation'
-    const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 13)
-    titlePage.drawText(subtitleText, {
-      x: (cfg.pageWidth - subWidth) / 2,
-      y: cfg.pageHeight * 0.50,
-      size: 13,
-      font: bodyFont,
-      color: rgb(0.4, 0.38, 0.35),
-    })
-
-    // Description
-    const descText = 'The Third Beis HaMikdash According to Yechezkel HaNavi'
-    const descW = bodyFont.widthOfTextAtSize(descText, 10)
-    titlePage.drawText(descText, {
-      x: (cfg.pageWidth - descW) / 2,
-      y: cfg.pageHeight * 0.46,
-      size: 10,
-      font: bodyFont,
-      color: rgb(0.5, 0.48, 0.44),
-    })
-
-    let totalPdfPages = 1 // title page
-
-    // Collect ALL elements from ALL pages into one continuous flow
+    // ── Collect ALL elements from ALL pages into one continuous flow ──
+    // This is shared between both renderers (pdf-lib and Playwright HTML)
     // This prevents half-empty pages between sections
     const allElements: ContentElement[] = []
     let isFirstSection = true
@@ -2030,6 +2154,159 @@ export async function GET(
       }
     }
 
+    // ── Collect TOC entries from header elements ──────────────────────────
+    // This runs before rendering for both paths. For the HTML path we need
+    // TOC entries without a pdf-lib rendering pass.
+    const collectedTocEntries: TocEntry[] = []
+    {
+      let lastWasDivider = true
+      for (const el of allElements) {
+        if (el.type === 'divider') { lastWasDivider = true; continue }
+        if (el.type === 'header') {
+          const text = sanitizeForPdf(el.text || '', true)
+          if (!text) { lastWasDivider = false; continue }
+          const rawTocTitle = text.replace(/[\u0590-\u05FF\u200E\u200F]+/g, '').replace(/\s*[—\-]\s*/g, ' ').replace(/\s+/g, ' ').trim()
+          const basicTitle = rawTocTitle
+            .replace(/^[\s'"`,.\-:;*#()\[\]]+/, '').replace(/[\s'"`,.\-:;*#()\[\]]+$/, '')
+            .replace(/^\d+(?:[.\)]?\s*)?(?=[A-Z])/, '')
+            .replace(/^Page\s+\d+\s*/i, '')
+            .replace(/\*\*/g, '')
+            .replace(/\s+/g, ' ').trim()
+          const isPerekHeader = /perek|chapter/i.test(basicTitle)
+          if (basicTitle.length >= 10) {
+            collectedTocEntries.push({
+              title: basicTitle,
+              pageNum: 2, // placeholder — HTML renderer handles pagination via CSS
+              isPerek: isPerekHeader,
+              afterDivider: lastWasDivider,
+            })
+          }
+        }
+        lastWasDivider = false
+      }
+    }
+
+    // ── Build TOC lines (shared logic for both renderers) ────────────────
+    const tocLinesForBook = buildTocLines(collectedTocEntries)
+
+    // ════════════════════════════════════════════════════════════════════════
+    // RENDERER BRANCHING
+    // ════════════════════════════════════════════════════════════════════════
+
+    if (renderer === 'html') {
+      // ── Playwright HTML-to-PDF renderer ──────────────────────────────
+      // Perfect bidi/Hebrew via Chromium's native HarfBuzz support.
+      console.log(`[typeset/html] Generating HTML book for pages ${from}-${to} (${allElements.length} elements, ${tocLinesForBook.length} TOC lines)`)
+
+      const htmlContent = await generateHtmlBook(
+        allElements as import('@/lib/html-book-generator').ContentElement[],
+        tocLinesForBook,
+        cfg,
+        book.name || 'Lishchno Tidreshu',
+      )
+
+      console.log(`[typeset/html] HTML generated (${Math.round(htmlContent.length / 1024)}KB), launching Playwright...`)
+
+      const pdfBuffer = await htmlToPdf(htmlContent, cfg)
+
+      console.log(`[typeset/html] PDF generated (${Math.round(pdfBuffer.length / 1024)}KB)`)
+
+      const filename = `${sanitizeForPdf(book.name || 'book')}_English_p${from}-${to}.pdf`
+
+      return new Response(new Uint8Array(pdfBuffer), {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `inline; filename="${filename}"`,
+          'Content-Length': String(pdfBuffer.length),
+        },
+      })
+    }
+
+    // ── pdf-lib renderer (legacy fallback: ?renderer=pdflib) ───────────
+
+    // Create PDF with fontkit for custom font embedding
+    const doc = await PDFDocument.create()
+    doc.registerFontkit(fontkit)
+
+    const bodyFont = await doc.embedFont(StandardFonts.TimesRoman)
+    const boldFont = await doc.embedFont(StandardFonts.TimesRomanBold)
+    const headerFont = await doc.embedFont(StandardFonts.TimesRomanBold)
+
+    // Load Hebrew fonts
+    let hebrewFont: PDFFont = bodyFont // fallback
+    let hebrewBoldFont: PDFFont = boldFont
+    try {
+      const fontsDir = path.join(process.cwd(), 'public', 'fonts')
+      const hebRegularPath = path.join(fontsDir, 'NotoSerifHebrew-Regular.ttf')
+      const hebBoldPath = path.join(fontsDir, 'NotoSerifHebrew-Bold.ttf')
+      if (existsSync(hebRegularPath)) {
+        const hebBytes = await readFile(hebRegularPath)
+        hebrewFont = await doc.embedFont(hebBytes, { subset: true })
+      }
+      if (existsSync(hebBoldPath)) {
+        const hebBoldBytes = await readFile(hebBoldPath)
+        hebrewBoldFont = await doc.embedFont(hebBoldBytes, { subset: true })
+      }
+    } catch (e) {
+      console.error('Failed to load Hebrew fonts:', e)
+    }
+
+    const fonts = { body: bodyFont, bold: boldFont, header: headerFont, hebrew: hebrewFont, hebrewBold: hebrewBoldFont }
+
+    const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
+
+    // Title page with elegant design
+    const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+    const frameColor = rgb(0.72, 0.68, 0.62)
+
+    // Title page decorative border
+    const tfx1 = cfg.marginLeft - 8, tfy1 = cfg.marginBottom - 8
+    const tfx2 = cfg.pageWidth - cfg.marginRight + 8, tfy2 = cfg.pageHeight - cfg.marginTop + 22
+    for (const off of [0, 3]) {
+      const w = off === 0 ? 0.7 : 0.3
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy2 - off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy1 + off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx1 + off, y: tfy2 - off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
+    }
+
+    // Hebrew title (original book name)
+    const hebrewTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5' // לשכנו תדרשו
+    const hebTitleWidth = bidiLineWidth(hebrewTitle, 20, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, hebrewTitle, (cfg.pageWidth - hebTitleWidth) / 2, cfg.pageHeight * 0.63, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
+    // Title text
+    const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
+    const titleWidth = bidiLineWidth(titleText, 22, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
+    // Ornamental divider under title
+    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg)
+
+    // Subtitle
+    const subtitleText = 'English Translation'
+    const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 13)
+    titlePage.drawText(subtitleText, {
+      x: (cfg.pageWidth - subWidth) / 2,
+      y: cfg.pageHeight * 0.50,
+      size: 13,
+      font: bodyFont,
+      color: rgb(0.4, 0.38, 0.35),
+    })
+
+    // Description
+    const descText = 'The Third Beis HaMikdash According to Yechezkel HaNavi'
+    const descW = bodyFont.widthOfTextAtSize(descText, 10)
+    titlePage.drawText(descText, {
+      x: (cfg.pageWidth - descW) / 2,
+      y: cfg.pageHeight * 0.46,
+      size: 10,
+      font: bodyFont,
+      color: rgb(0.5, 0.48, 0.44),
+    })
+
+    let totalPdfPages = 1 // title page
+
     // Render all elements in one continuous flow
     // Content starts after title page; we'll insert TOC pages after rendering
     let renderedTocEntries: TocEntry[] = []
@@ -2044,285 +2321,39 @@ export async function GET(
     // Insert TOC pages at index 1 (after title page, before content).
     // This shifts all content page numbers by tocPageCount, so we adjust.
     if (renderedTocEntries.length > 0) {
-      // ── Smart TOC entry selection ──────────────────────────────────
-      // Strategy: select section-level entries that a reader would look up.
-      // For this Hebrew book, the structure is: Introduction sections, then
-      // Perek-by-perek commentary with individual Pasuk discussions.
-      // We want: Introductions, first pasuk of each Perek, and major non-pasuk sections.
-
-      // Step 1: Exclude noise entries (check both raw title and cleaned display version)
-      const cleanEntries = renderedTocEntries.filter(e => {
-        if (isTocExcluded(e.title)) return false
-        // Also check if the cleaned display form is excluded
-        const displayForm = cleanTocTitle(e.title)
-        if (isTocExcluded(displayForm)) return false
-        return true
-      })
-
-      // Step 2: Deduplicate by normalized title (also catch near-duplicates with same core content)
-      const seenTitles = new Set<string>()
-      const seenPrefixes = new Set<string>()
-      const dedupedToc: TocEntry[] = []
-      for (const entry of cleanEntries) {
-        const key = entry.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim()
-        if (seenTitles.has(key)) continue
-        // Normalize: remove articles (a/an/the) for prefix comparison
-        const normKey = key.replace(/\b(a|an|the)\b/g, '').replace(/\s+/g, ' ').trim()
-        const prefix = normKey.substring(0, 35)
-        if (seenPrefixes.has(prefix)) continue
-        seenTitles.add(key)
-        seenPrefixes.add(prefix)
-        dedupedToc.push(entry)
-      }
-
-      // Step 3: Classify entries and select TOC-worthy ones
-      const pasukRegex = /pasuk(?:im)?\s+(\d+)/i
-      const perekRegex = /(?:yechezkel\s+)?(?:chapter|perek)\s+(\d+)/i
-      const tocItems: TocEntry[] = []
-      const seenPereks = new Set<string>()
-      const seenPasukPerPerek: Record<string, number> = {} // track how many pasukim per perek
-
-      // First pass: identify perek boundaries
-      let currentPerek = ''
-      for (const entry of dedupedToc) {
-        const perekMatch = entry.title.match(perekRegex)
-        if (perekMatch) {
-          currentPerek = perekMatch[1]
-        }
-        // Annotate entry with its perek context
-        ;(entry as TocEntry & { _perek?: string })._perek = currentPerek
-      }
-
-      // Second pass: select entries
-      currentPerek = ''
-      for (const entry of dedupedToc) {
-        const perekMatch = entry.title.match(perekRegex)
-        const pasukMatch = entry.title.match(pasukRegex)
-        const lower = entry.title.toLowerCase()
-        const entryPerek = (entry as TocEntry & { _perek?: string })._perek || ''
-
-        // Always include: Introduction/Foreword/Overview sections
-        if (/introduction|foreword|preface|overview|summary|history|about the book/i.test(lower)) {
-          tocItems.push(entry)
-          continue
-        }
-
-        // Always include: Perek-level headers (e.g., "Yechezkel Chapter 40, Pesukim 36-49")
-        if (perekMatch && !pasukMatch) {
-          tocItems.push(entry)
-          if (!seenPereks.has(perekMatch[1])) {
-            seenPereks.add(perekMatch[1])
-          }
-          currentPerek = perekMatch[1]
-          continue
-        }
-
-        // For Pasuk entries: include each unique pasuk number only once per perek
-        if (pasukMatch) {
-          const pk = entryPerek || currentPerek || 'unknown'
-          const pasukNum = pasukMatch[1]
-          const pasukKey = `${pk}:${pasukNum}`
-          if (!seenPasukPerPerek[pasukKey]) {
-            seenPasukPerPerek[pasukKey] = 1
-            tocItems.push(entry)
-          }
-          continue
-        }
-
-        // Include non-pasuk, non-perek, post-divider headers (major section headers)
-        // But skip entries that look like garbled diagram text (digits mixed with words)
-        // Also skip entries where the cleaned display title is too generic
-        const displayCheck = cleanTocTitle(entry.title)
-        // Check for garbled text: more than expected digits, digit-letter concatenation
-        const garbledDigits = (displayCheck.match(/\d/g) || []).length
-        // Allow digits in Pasuk references (e.g., "Pasuk 3") but not garbled text
-        const expectedDigits = (displayCheck.match(/\b\d+\b/g) || []).length * 2 // pasuk numbers are OK
-        const isGarbled = garbledDigits > expectedDigits + 2 || /\d{2}[A-Za-z]/.test(displayCheck)
-        const isGeneric = /^you shall|^shall you|^seek|^his dwelling|^their chamber/i.test(displayCheck)
-        if (entry.afterDivider && entry.title.length >= 20 && !isGarbled && !isGeneric) {
-          tocItems.push(entry)
-          continue
-        }
-
-        // Include headers with high-value keywords
-        if (isTocWorthyHeader(entry.title)) {
-          tocItems.push(entry)
-        }
-      }
-
-      // Step 4: If we still have too many (>60), trim to most important
-      let finalTocItems = tocItems
-      if (finalTocItems.length > 60) {
-        // Keep introductions and first-of-perek entries, drop others
-        const essential = finalTocItems.filter(e =>
-          /introduction|foreword|perek|chapter/i.test(e.title) || e.afterDivider
-        )
-        finalTocItems = essential.length >= 20 ? essential : finalTocItems.slice(0, 60)
-      }
-
-      // Step 5: Build structured TOC with Perek group headers
-
-      // Build structured TOC: entries with optional Perek group headers
-      interface TocLine {
-        type: 'section' | 'entry'
-        text: string
-        pageNum?: number
-      }
-      const tocLines: TocLine[] = []
-      let lastPerek = ''
-
-      // Meaningful topic descriptions for Perek/Pasuk entries
-      // Maps "perek:pasuk" to a human-readable topic description
-      const topicDescriptions: Record<string, string> = {
-        // Perek 40
-        '40:1': 'The Vision of the Third Beis HaMikdash',
-        '40:2': 'Visions of Eretz Yisrael',
-        '40:3': 'Arrival at Har HaBayis — The Measuring Angel',
-        '40:5': 'The Wall of Har HaBayis',
-        '40:6': 'The Eastern Gate and the Soreg',
-        '40:7': 'The Chambers of the Gate',
-        '40:8': 'The Ulam of the Gate',
-        '40:12': 'The Borders of the Chambers',
-        '40:13': 'The Width of the Gate',
-        '40:14': 'The Pillars and Doorposts',
-        '40:16': 'The Narrow Windows and Palm Decorations',
-        '40:17': 'The Outer Courtyard and its Chambers',
-        '40:19': 'The Width of the Courtyard',
-        '40:20': 'The Northern Gate',
-        '40:28': 'The Inner Courtyard — Southern Gate',
-        '40:29': 'The Inner Gate Chambers',
-        '40:31': 'The Vestibule of the Inner Azarah',
-        '40:36': 'Overview of the Beis HaMikdash Structure',
-        '40:39': 'The Tables for Korbanos',
-        '40:42': 'The Slaughter Tables and Hooks',
-        '40:44': 'The Chambers of the Singers',
-        '40:45': 'The Chamber of the Kohanim',
-        '40:47': 'The Inner Courtyard — The Mizbei\'ach',
-        '40:48': 'The Ulam of the Heichal',
-        '40:49': 'The Steps to the Ulam',
-        // Perek 41
-        '41:1': 'The Heichal — The Pillars',
-        '41:3': 'The Kodesh HaKodashim',
-        '41:4': 'The Aron and the Kapores',
-        '41:5': 'The Side Chambers (Ta\'im)',
-        '41:6': 'The Three Stories of Chambers',
-        '41:7': 'The Winding Staircases',
-        '41:8': 'The Foundation Platform',
-        '41:9': 'The Outer Wall of the Chambers',
-        '41:12': 'The Building Behind the Heichal (Beis HaChalifos)',
-        '41:13': 'Total Measurements of the House',
-        '41:15': 'The Interior Galleries and Decorations',
-        '41:16': 'The Doorframes, Windows, and Galleries',
-        '41:17': 'The Keruvim and Palm Tree Carvings',
-        '41:22': 'The Golden Mizbei\'ach (Mizbei\'ach HaZahav)',
-        '41:23': 'The Doors of the Heichal and Kodesh HaKodashim',
-        '41:25': 'The Wooden Canopy of the Ulam',
-        '41:26': 'The Windows and Palm Trees of the Side Chambers',
-        // Perek 42
-        '42:1': 'The Upper Chambers in the North',
-        '42:3': 'The Galleries Opposite the Courtyard',
-        '42:4': 'The Walkway Before the Chambers',
-        '42:5': 'The Upper Chambers Are Shorter',
-        '42:6': 'The Pillars of the Chambers',
-        '42:7': 'The Outer Wall',
-        '42:9': 'The Lower Chambers',
-        '42:10': 'The Southern Chambers',
-        '42:11': 'The Doorways of the Chambers',
-        '42:12': 'The Entrances and Holy Garments',
-        '42:13': 'Eating Kodshei Kodashim',
-        '42:15': 'Measuring the Outer Perimeter',
-      }
-
-      // Hardcode first entries
-      tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
-
-      for (const entry of finalTocItems) {
-        // Check if this entry mentions a Perek/Chapter
-        const perekMatch = entry.title.match(perekRegex)
-        if (perekMatch) {
-          const perekNum = perekMatch[1]
-          const perekLabel = `YECHEZKEL PEREK ${perekNum}`
-          if (perekLabel !== lastPerek) {
-            lastPerek = perekLabel
-            tocLines.push({ type: 'section', text: perekLabel })
-          }
-        }
-        // Clean up title for display: remove "Yechezkel Chapter NN" prefix if redundant
-        let displayTitle = entry.title
-        if (perekMatch && lastPerek) {
-          // If the entry IS just "Yechezkel Perek NN", skip it (the section header covers it)
-          const stripped = displayTitle.replace(perekRegex, '').replace(/^\s*[,:\-—.]+\s*/, '').trim()
-          if (stripped.length < 10) {
-            // This entry is basically just "Perek NN" — use it as the section header only
-            continue
-          }
-          displayTitle = stripped
-        }
-        // Final cleanup: re-apply cleanTocTitle to strip recurring suffixes from display title
-        let cleanDisplay = cleanTocTitle(displayTitle)
-        // If after cleaning the display title is too short, try using the original title cleaned
-        // but still strip the Perek prefix to avoid redundancy under section headers
-        if (cleanDisplay.length < 10) {
-          let fallback = cleanTocTitle(entry.title)
-          if (perekMatch) {
-            fallback = fallback.replace(perekRegex, '').replace(/^\s*[,:\-—.]+\s*/, '').trim()
-          }
-          cleanDisplay = fallback.length >= 8 ? fallback : cleanDisplay
-        }
-        // Replace bare "Pasuk N" entries with meaningful topic descriptions
-        const pasukForDesc = cleanDisplay.match(/^P[ae]suk(?:im)?\s+(\d+)(?:[\s\-]+(\d+))?/i)
-        if (pasukForDesc && lastPerek) {
-          const pasukNum = pasukForDesc[1]
-          const perekNum = lastPerek.replace('YECHEZKEL PEREK ', '')
-          const descKey = `${perekNum}:${pasukNum}`
-          const description = topicDescriptions[descKey]
-          if (description) {
-            cleanDisplay = `Pasuk${pasukForDesc[2] ? 'im ' + pasukNum + '-' + pasukForDesc[2] : ' ' + pasukNum}: ${description}`
-          }
-        }
-
-        // Skip entries that are still too short after all cleaning
-        const isPasukEntry = /^pasuk|^pesukim/i.test(cleanDisplay)
-        const minDisplayLen = isPasukEntry ? 7 : 12
-        if (cleanDisplay.length >= minDisplayLen) {
-          tocLines.push({ type: 'entry', text: cleanDisplay, pageNum: entry.pageNum })
-        }
-      }
+      // For pdf-lib path, rebuild TOC lines from renderedTocEntries (which have correct page numbers)
+      const pdfLibTocLines = buildTocLines(renderedTocEntries)
 
       // Calculate how many TOC pages we need
-      // Section headers take 1.5x line height, entries take 1x
       const tocFontSize = cfg.bodyFontSize * 0.9
       const tocEntryLineHeight = tocFontSize * 1.7
       const tocSectionLineHeight = tocFontSize * 2.2
-      const tocTitleSpace = cfg.headerFontSize + cfg.headerSpacingBelow + 22 // "TABLE OF CONTENTS" + line + gap
+      const tocTitleSpace = cfg.headerFontSize + cfg.headerSpacingBelow + 22
       const tocTextHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom
 
-      // Calculate total height needed
       let totalTocHeight = tocTitleSpace
-      for (const line of tocLines) {
+      for (const line of pdfLibTocLines) {
         totalTocHeight += line.type === 'section' ? tocSectionLineHeight : tocEntryLineHeight
       }
       const tocPageCount = Math.max(1, Math.ceil(totalTocHeight / tocTextHeight))
 
       // Adjust all page numbers: content shifts right by tocPageCount
-      const adjustedTocLines = tocLines.map(line => ({
+      const adjustedTocLines = pdfLibTocLines.map(line => ({
         ...line,
         pageNum: line.pageNum !== undefined ? line.pageNum + tocPageCount : undefined,
       }))
 
       // Create and insert TOC pages directly at position 1 (after title page)
-      // Using insertPage avoids the remove+re-insert pattern which can cause duplicate content
       let tocLineIdx = 0
+      const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
 
       for (let tp = 0; tp < tocPageCount; tp++) {
         const tocPage = doc.insertPage(1 + tp, [cfg.pageWidth, cfg.pageHeight])
-        decoratePage(tocPage, tp + 2, fonts.body, cfg) // page 2, 3, ... (after title)
+        decoratePage(tocPage, tp + 2, fonts.body, cfg)
 
         let y = cfg.pageHeight - cfg.marginTop
-        const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
         const safeBottom = cfg.marginBottom + 20
 
-        // Title on first TOC page only
         if (tp === 0) {
           const tocTitleStr = 'TABLE OF CONTENTS'
           const tocTitleW = fonts.header.widthOfTextAtSize(tocTitleStr, cfg.headerFontSize)
@@ -2334,7 +2365,6 @@ export async function GET(
             color: rgb(...cfg.headerColor),
           })
           y -= cfg.headerFontSize + cfg.headerSpacingBelow + 10
-          // Decorative line under title
           tocPage.drawLine({
             start: { x: cfg.marginLeft + 20, y },
             end: { x: cfg.pageWidth - cfg.marginRight - 20, y },
@@ -2344,16 +2374,14 @@ export async function GET(
           y -= 12
         }
 
-        // Render TOC lines for this page
         while (tocLineIdx < adjustedTocLines.length) {
           const line = adjustedTocLines[tocLineIdx]
           const lineH = line.type === 'section' ? tocSectionLineHeight : tocEntryLineHeight
 
-          if (y - lineH < safeBottom) break // move to next page
+          if (y - lineH < safeBottom) break
 
           if (line.type === 'section') {
-            // Section header (e.g., "YECHEZKEL PEREK 40") — bold, slightly larger, with extra space above
-            y -= tocFontSize * 0.4 // extra space above section
+            y -= tocFontSize * 0.4
             try {
               tocPage.drawText(line.text, {
                 x: cfg.marginLeft,
@@ -2362,20 +2390,15 @@ export async function GET(
                 font: fonts.bold,
                 color: rgb(...cfg.headerColor),
               })
-            } catch {
-              // Skip if can't encode
-            }
+            } catch { /* skip */ }
             y -= tocSectionLineHeight - tocFontSize * 0.4
           } else {
-            // Entry with dot leaders and page number
             let title = line.text
             if (title.length > 70) title = title.substring(0, 67) + '...'
 
             const pageStr = line.pageNum !== undefined ? String(line.pageNum) : ''
             const pageW = pageStr ? fonts.body.widthOfTextAtSize(pageStr, tocFontSize) : 0
             const titleMaxW = textWidth - pageW - 20
-
-            // Sanitize title for Latin font (remove any remaining Hebrew)
             const latinTitle = title.replace(/[\u0590-\u05FF\u200E\u200F]+/g, '').replace(/\s+/g, ' ').trim()
 
             let actualTitleW = 0
@@ -2384,21 +2407,17 @@ export async function GET(
               const displayTitle = actualTitleW > titleMaxW
                 ? latinTitle.substring(0, Math.floor(latinTitle.length * titleMaxW / actualTitleW)) + '...'
                 : latinTitle
-              actualTitleW = Math.min(actualTitleW, titleMaxW)
               const displayW = fonts.body.widthOfTextAtSize(displayTitle, tocFontSize)
               tocPage.drawText(displayTitle, {
-                x: cfg.marginLeft + 10, // indent entries under section headers
+                x: cfg.marginLeft + 10,
                 y: y - tocFontSize,
                 size: tocFontSize,
                 font: fonts.body,
                 color: rgb(...cfg.textColor),
               })
               actualTitleW = displayW
-            } catch {
-              // Skip if can't encode
-            }
+            } catch { /* skip */ }
 
-            // Draw dot leaders from end of actual title to page number
             if (pageStr) {
               const dotsY = y - tocFontSize + 2
               const dotSpacing = 4
@@ -2406,17 +2425,9 @@ export async function GET(
               const dotsEnd = cfg.pageWidth - cfg.marginRight - pageW - 6
               if (dotsEnd > dotsStart + 8) {
                 for (let dx = dotsStart; dx < dotsEnd; dx += dotSpacing) {
-                  tocPage.drawText('.', {
-                    x: dx,
-                    y: dotsY,
-                    size: tocFontSize * 0.7,
-                    font: fonts.body,
-                    color: rgb(0.6, 0.58, 0.55),
-                  })
+                  tocPage.drawText('.', { x: dx, y: dotsY, size: tocFontSize * 0.7, font: fonts.body, color: rgb(0.6, 0.58, 0.55) })
                 }
               }
-
-              // Draw page number on right
               tocPage.drawText(pageStr, {
                 x: cfg.pageWidth - cfg.marginRight - pageW,
                 y: y - tocFontSize,
@@ -2437,12 +2448,11 @@ export async function GET(
     }
 
     // Add page numbers to ALL pages as the final step
-    // This runs AFTER TOC insertion so numbers are always correct
     const finalPages = doc.getPages()
     for (let i = 0; i < finalPages.length; i++) {
       const pg = finalPages[i]
       const num = i + 1
-      if (i === 0) continue // skip title page (already has custom design)
+      if (i === 0) continue
       const pageStr = `\u2014  ${num}  \u2014`
       const pnW = bodyFont.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
       pg.drawText(pageStr, {

@@ -249,7 +249,7 @@ async function detectAndCropIllustrations(
     const cropBottom = Math.round((gap.bottomY / 100) * imgH)
     const cropHeight = cropBottom - cropTop
 
-    if (cropHeight < 50) continue // too small to be meaningful
+    if (cropHeight < 80) continue // too small to be meaningful (min 80px)
 
     try {
       // Crop with small horizontal margins to avoid page edges
@@ -276,7 +276,7 @@ async function detectAndCropIllustrations(
 
       // If variance is very low, it's probably blank space
       const avgVariance = stats.channels.reduce((s, c) => s + (c.stdev || 0), 0) / stats.channels.length
-      if (avgVariance < 15) continue
+      if (avgVariance < 20) continue // raised threshold to filter more blank/border areas
 
       // Trim yellowish/beige borders to maximize illustration area
       const trimmedData = await trimIllustrationBorders(cropData)
@@ -400,6 +400,41 @@ function isTableContent(text: string, regionType: string): boolean {
   // Check for numbered list pattern (at least 3 items like "1. ...", "2. ...", "3. ...")
   const numberedLines = text.split('\n').filter(l => /^\s*\d+[\.\)]\s/.test(l))
   if (numberedLines.length >= 3) return true
+  return false
+}
+
+/** Clean translation text: remove meta-text artifacts from Claude translations */
+function cleanTranslationText(text: string): string {
+  return text
+    // Remove meta-text markers like "[THIS IS TABLE:", "[THIS IS DIAGRAM:", "[TABLE:", etc.
+    .replace(/\[THIS IS (TABLE|DIAGRAM|CHART|IMAGE|FIGURE)[:\]]/gi, '')
+    .replace(/\[(TABLE|DIAGRAM|CHART|IMAGE|FIGURE):\s*/gi, '')
+    .replace(/\[END (TABLE|DIAGRAM|CHART|FIGURE)\]/gi, '')
+    .replace(/\[Note:.*?\]/gi, '')
+    // Fix concatenation errors: insert space between camelCase-like merges
+    // e.g., "BeisSupreme" → "Beis Supreme", "MikdashAccording" → "Mikdash According"
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .trim()
+}
+
+/** Detect if a page is primarily a diagram/flowchart (mostly short labels, not body text) */
+function isDiagramPage(regions: { translatedText?: string | null; regionType: string; origHeight: number }[]): boolean {
+  const translated = regions.filter(r => r.translatedText?.trim())
+  if (translated.length < 3) return false
+
+  const shortLabels = translated.filter(r => {
+    const words = (r.translatedText || '').trim().split(/\s+/).length
+    return words < 10
+  })
+
+  // If >60% of regions are short labels and there are at least 4 of them, it's a diagram page
+  if (shortLabels.length >= 4 && shortLabels.length / translated.length > 0.6) return true
+
+  // Also check for repeated similar text (diagram labels often repeat)
+  const texts = translated.map(r => (r.translatedText || '').trim().toLowerCase())
+  const uniqueTexts = new Set(texts)
+  if (texts.length > 4 && uniqueTexts.size < texts.length * 0.5) return true
+
   return false
 }
 
@@ -621,53 +656,89 @@ async function renderElements(
       curY -= cfg.paragraphSpacing * 0.5
 
     } else if (el.type === 'table' && el.rows) {
-      // Render table with aligned columns
+      // Render table with aligned columns and text wrapping
       const rows = el.rows
       if (rows.length === 0) continue
 
-      const tableFontSize = cfg.bodyFontSize * 0.9
-      const rowHeight = tableFontSize * cfg.lineHeight * 1.2
+      const tableFontSize = cfg.bodyFontSize * 0.88
+      const tableLh = tableFontSize * cfg.lineHeight
       const maxCols = Math.max(...rows.map(r => r.length))
-      const colWidth = textWidth / Math.max(maxCols, 1)
-      const tableHeight = rows.length * rowHeight + 8
 
-      if (curY - tableHeight < cfg.marginBottom) {
-        newPage()
+      // Calculate column widths proportionally based on content
+      const colMaxWidths = new Array(maxCols).fill(0)
+      for (const row of rows) {
+        for (let c = 0; c < row.length; c++) {
+          const w = bidiLineWidth(row[c] || '', tableFontSize, fonts.body, fonts.hebrew)
+          colMaxWidths[c] = Math.max(colMaxWidths[c] || 0, w)
+        }
       }
+      const totalContentW = colMaxWidths.reduce((s, w) => s + w, 0) || 1
+      const colWidths = colMaxWidths.map(w => Math.max(
+        textWidth * 0.1, // minimum 10% per column
+        (w / totalContentW) * textWidth * 0.92 // proportional, with padding
+      ))
+      // Normalize to fit textWidth
+      const colTotal = colWidths.reduce((s, w) => s + w, 0)
+      const colScale = textWidth / colTotal
+      const finalColWidths = colWidths.map(w => w * colScale)
 
-      curY -= 4 // small gap above table
+      curY -= 6 // gap above table
 
-      // Light top line
+      // Top line
       pdfPage.drawLine({
         start: { x: cfg.marginLeft, y: curY },
         end: { x: cfg.marginLeft + textWidth, y: curY },
-        thickness: 0.4, color: rgb(0.72, 0.68, 0.62),
+        thickness: 0.5, color: rgb(0.62, 0.58, 0.52),
       })
-      curY -= 2
+      curY -= 3
 
       for (let rIdx = 0; rIdx < rows.length; rIdx++) {
         const row = rows[rIdx]
-        if (curY - rowHeight < cfg.marginBottom) {
+
+        // Calculate row height (max wrapped lines across columns)
+        let maxLinesInRow = 1
+        const cellWrapped: string[][] = []
+        for (let c = 0; c < maxCols; c++) {
+          const cellText = cleanTranslationText(sanitizeForPdf(row[c] || '', true))
+          const cellW = finalColWidths[c] - 8 // padding
+          const wrapped = cellText ? wrapTextBidi(cellText, fonts.body, fonts.hebrew, tableFontSize, cellW) : ['']
+          cellWrapped.push(wrapped)
+          maxLinesInRow = Math.max(maxLinesInRow, wrapped.length)
+        }
+
+        const rowH = maxLinesInRow * tableLh + 4
+
+        if (curY - rowH < cfg.marginBottom) {
           newPage()
+          // Redraw top line on new page
+          pdfPage.drawLine({
+            start: { x: cfg.marginLeft, y: curY },
+            end: { x: cfg.marginLeft + textWidth, y: curY },
+            thickness: 0.5, color: rgb(0.62, 0.58, 0.52),
+          })
+          curY -= 3
         }
 
-        for (let cIdx = 0; cIdx < row.length; cIdx++) {
-          const cellText = sanitizeForPdf(row[cIdx], true)
-          if (!cellText) continue
-          const cellX = cfg.marginLeft + cIdx * colWidth + 4
-          const maxCellW = colWidth - 8
-          // Truncate if too wide (single line per cell)
-          const cellLines = wrapTextBidi(cellText, fonts.body, fonts.hebrew, tableFontSize, maxCellW)
-          const line = cellLines[0] || cellText
-          drawBidiLine(pdfPage, line, cellX, curY - tableFontSize, tableFontSize, fonts.body, fonts.hebrew, rgb(...cfg.textColor))
+        // Draw each cell
+        let cellX = cfg.marginLeft
+        for (let c = 0; c < maxCols; c++) {
+          const lines = cellWrapped[c] || ['']
+          for (let li = 0; li < lines.length; li++) {
+            drawBidiLine(
+              pdfPage, lines[li],
+              cellX + 4, curY - tableFontSize - li * tableLh,
+              tableFontSize, fonts.body, fonts.hebrew, rgb(...cfg.textColor)
+            )
+          }
+          cellX += finalColWidths[c]
         }
-        curY -= rowHeight
+        curY -= rowH
 
-        // Light row separator
+        // Row separator
         if (rIdx < rows.length - 1) {
           pdfPage.drawLine({
-            start: { x: cfg.marginLeft, y: curY + 2 },
-            end: { x: cfg.marginLeft + textWidth, y: curY + 2 },
+            start: { x: cfg.marginLeft, y: curY + 1 },
+            end: { x: cfg.marginLeft + textWidth, y: curY + 1 },
             thickness: 0.2, color: rgb(0.85, 0.82, 0.78),
           })
         }
@@ -677,7 +748,7 @@ async function renderElements(
       pdfPage.drawLine({
         start: { x: cfg.marginLeft, y: curY },
         end: { x: cfg.marginLeft + textWidth, y: curY },
-        thickness: 0.4, color: rgb(0.72, 0.68, 0.62),
+        thickness: 0.5, color: rgb(0.62, 0.58, 0.52),
       })
       curY -= cfg.paragraphSpacing
 
@@ -965,68 +1036,143 @@ export async function GET(
           page.id, page.pageNumber, bookId, regions, cfg,
         )
 
-        const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
-        let illustIdx = 0
+        // Filter out tiny/nonsensical illustration crops (minimum 80×80 px)
+        const validIllustrations = illustrations.filter(ill =>
+          ill.width >= 80 && ill.height >= 80
+        )
 
-        for (const region of sortedRegions) {
-          while (illustIdx < illustrations.length && illustrations[illustIdx].y < region.origY) {
+        // Check if this is a diagram page — if so, use full page image + summary
+        const diagramPage = isDiagramPage(regions)
+
+        if (diagramPage) {
+          // For diagram pages: embed the FULL source page image and add explanatory text
+          const fullPageImg = await getPageImage(page.id, page.pageNumber, bookId)
+          if (fullPageImg) {
+            try {
+              // Get just the content area (trim margins)
+              const imgMeta = await sharp(fullPageImg).metadata()
+              const imgW = imgMeta.width || 1655
+              const imgH = imgMeta.height || 2340
+              const marginPct = 0.05
+              const cropData = await sharp(fullPageImg)
+                .extract({
+                  left: Math.round(imgW * marginPct),
+                  top: Math.round(imgH * marginPct),
+                  width: Math.round(imgW * (1 - 2 * marginPct)),
+                  height: Math.round(imgH * (1 - 2 * marginPct)),
+                })
+                .jpeg({ quality: 85 })
+                .toBuffer()
+              const cropMeta = await sharp(cropData).metadata()
+              // Trim borders from the full page image too
+              const trimmedPage = await trimIllustrationBorders(cropData)
+              const trimmedMeta = await sharp(trimmedPage).metadata()
+              pageElements.push({
+                type: 'illustration',
+                imageData: trimmedPage,
+                imageWidth: trimmedMeta.width || cropMeta.width || imgW,
+                imageHeight: trimmedMeta.height || cropMeta.height || imgH,
+              })
+            } catch {
+              // Fallback: use illustrations if full page crop fails
+              for (const ill of validIllustrations) {
+                pageElements.push({
+                  type: 'illustration',
+                  imageData: ill.imageData,
+                  imageWidth: ill.width,
+                  imageHeight: ill.height,
+                })
+              }
+            }
+          }
+
+          // Add translated body text (combine all regions into one explanatory paragraph)
+          const allText = regions
+            .filter(r => r.translatedText?.trim())
+            .map(r => cleanTranslationText(r.translatedText || ''))
+            .filter(t => t.length > 15) // Only substantial text, not short labels
+            .join('\n\n')
+          if (allText.trim()) {
+            pageElements.push({ type: 'body', text: allText })
+          } else {
+            // If no substantial text, add a brief description of the diagram
+            const labels = regions
+              .filter(r => r.translatedText?.trim())
+              .map(r => cleanTranslationText(r.translatedText || '').trim())
+              .filter(Boolean)
+            if (labels.length > 0) {
+              // Deduplicate labels
+              const uniqueLabels = Array.from(new Set(labels))
+              pageElements.push({
+                type: 'caption',
+                text: `Diagram: ${uniqueLabels.slice(0, 8).join(' • ')}`,
+              })
+            }
+          }
+        } else {
+          // Normal page: render text with interleaved illustrations
+          const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
+          let illustIdx = 0
+
+          for (const region of sortedRegions) {
+            while (illustIdx < validIllustrations.length && validIllustrations[illustIdx].y < region.origY) {
+              pageElements.push({
+                type: 'illustration',
+                imageData: validIllustrations[illustIdx].imageData,
+                imageWidth: validIllustrations[illustIdx].width,
+                imageHeight: validIllustrations[illustIdx].height,
+              })
+              illustIdx++
+            }
+
+            if (!region.translatedText?.trim()) continue
+
+            // Clean the translation text (remove meta-text artifacts, fix concatenation)
+            const trimmed = cleanTranslationText(region.translatedText.trim())
+            if (!trimmed) continue
+            const wordCount = trimmed.split(/\s+/).length
+
+            // Detect diagram labels / captions: short text (< 8 words) near illustrations
+            if (wordCount < 8 && region.regionType !== 'header') {
+              const nearIllustration = validIllustrations.some(ill =>
+                Math.abs(ill.y - region.origY) < 15 || Math.abs(ill.y - (region.origY + region.origHeight)) < 15
+              )
+              if (nearIllustration) {
+                pageElements.push({ type: 'caption', text: trimmed })
+                continue
+              }
+              if (wordCount < 3) continue
+            }
+
+            // Detect table content
+            if (isTableContent(trimmed, region.regionType)) {
+              const rows = parseTableText(trimmed)
+              if (rows.length > 0 && rows.some(r => r.length > 1)) {
+                pageElements.push({ type: 'table', rows })
+                continue
+              }
+            }
+
+            if (region.regionType === 'header') {
+              pageElements.push({ type: 'header', text: trimmed })
+            } else {
+              pageElements.push({ type: 'body', text: trimmed })
+            }
+          }
+
+          while (illustIdx < validIllustrations.length) {
             pageElements.push({
               type: 'illustration',
-              imageData: illustrations[illustIdx].imageData,
-              imageWidth: illustrations[illustIdx].width,
-              imageHeight: illustrations[illustIdx].height,
+              imageData: validIllustrations[illustIdx].imageData,
+              imageWidth: validIllustrations[illustIdx].width,
+              imageHeight: validIllustrations[illustIdx].height,
             })
             illustIdx++
           }
-
-          if (!region.translatedText?.trim()) continue
-
-          const trimmed = region.translatedText.trim()
-          const wordCount = trimmed.split(/\s+/).length
-
-          // Detect diagram labels / captions: short text (< 8 words) near illustrations
-          // These become captions instead of standalone text
-          if (wordCount < 8 && region.regionType !== 'header') {
-            // Check if adjacent to an illustration gap
-            const nearIllustration = illustrations.some(ill =>
-              Math.abs(ill.y - region.origY) < 15 || Math.abs(ill.y - (region.origY + region.origHeight)) < 15
-            )
-            if (nearIllustration) {
-              pageElements.push({ type: 'caption', text: trimmed })
-              continue
-            }
-            // Skip very short non-caption body regions
-            if (wordCount < 3) continue
-          }
-
-          // Detect table content
-          if (isTableContent(trimmed, region.regionType)) {
-            const rows = parseTableText(trimmed)
-            if (rows.length > 0 && rows.some(r => r.length > 1)) {
-              pageElements.push({ type: 'table', rows })
-              continue
-            }
-          }
-
-          if (region.regionType === 'header') {
-            pageElements.push({ type: 'header', text: region.translatedText })
-          } else {
-            pageElements.push({ type: 'body', text: region.translatedText })
-          }
-        }
-
-        while (illustIdx < illustrations.length) {
-          pageElements.push({
-            type: 'illustration',
-            imageData: illustrations[illustIdx].imageData,
-            imageWidth: illustrations[illustIdx].width,
-            imageHeight: illustrations[illustIdx].height,
-          })
-          illustIdx++
         }
 
       } else if (translation?.englishOutput?.trim()) {
-        pageElements.push({ type: 'body', text: translation.englishOutput })
+        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput) })
       } else {
         continue
       }

@@ -526,13 +526,19 @@ function isStandalonePageNumber(text: string): boolean {
 function isDiagramPage(regions: { translatedText?: string | null; regionType: string; origHeight: number }[]): boolean {
   const translated = regions.filter(r => r.translatedText?.trim())
 
-  // Check for explicit diagram markers first — if ANY region contains these,
-  // treat as diagram page regardless of region count or short-label ratio
-  // (some diagram pages have more body text than short labels)
-  const diagramMarkerPattern = /\[THIS IS DIAGRAM|Drawing \d|Diagram \d|Sketch of/i
+  // Check for explicit diagram markers — but only in SHORT regions (<50 words)
+  // where the marker IS the primary content, not just mentioned in passing
+  // in a long body paragraph like "See Drawing 5 on the next page"
+  const diagramMarkerPattern = /\[THIS IS DIAGRAM|^\s*Drawing \d|^\s*Diagram \d|^\s*Sketch of|^\s*Layout of|^\s*Figure \d/i
+  let diagramMarkerCount = 0
   for (const r of translated) {
-    if (diagramMarkerPattern.test(r.translatedText || '')) return true
+    const text = (r.translatedText || '').trim()
+    if (text.split(/\s+/).length < 50 && diagramMarkerPattern.test(text)) {
+      diagramMarkerCount++
+    }
   }
+  // Need at least 2 diagram marker regions, or 1 marker + many short labels
+  if (diagramMarkerCount >= 2) return true
 
   if (translated.length < 3) return false
 
@@ -543,6 +549,9 @@ function isDiagramPage(regions: { translatedText?: string | null; regionType: st
 
   // If >50% of regions are short labels and there are at least 4 of them, it's a diagram page
   if (shortLabels.length >= 4 && shortLabels.length / translated.length > 0.5) return true
+
+  // 1 diagram marker + significant short labels (>30%) = diagram page
+  if (diagramMarkerCount >= 1 && shortLabels.length >= 3 && shortLabels.length / translated.length > 0.3) return true
 
   // Also check for repeated similar text (diagram labels often repeat)
   const texts = translated.map(r => (r.translatedText || '').trim().toLowerCase())

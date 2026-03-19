@@ -1,19 +1,15 @@
 /**
  * HTML Book Generator for Playwright PDF rendering.
  *
- * Converts ContentElement[] (the same data the pdf-lib typeset route produces)
- * into a single HTML document.  Playwright's page.pdf() then converts it
- * to a pixel-perfect PDF with native HarfBuzz bidi/Hebrew support.
+ * Converts ContentElement[] into a single HTML document.
+ * Playwright's page.pdf() converts it to a pixel-perfect PDF with native
+ * HarfBuzz bidi/Hebrew support.
  *
- * Architecture:
- * - The entire book is a single flowing HTML document
- * - Playwright's @page CSS sets the page size and margins
- * - Playwright's displayHeaderFooter adds running header, page number,
- *   and decorative border frame to EVERY page automatically
- * - Title page, TOC, and content all flow in order with explicit page breaks
+ * Border strategy:
+ * - Left/right borders: CSS position:fixed pseudo-elements (repeat every printed page)
+ * - Top/bottom borders + running header + page number: Playwright displayHeaderFooter
  *
- * All Hebrew text "just works" -- no manual bidi reordering, no splitBidi,
- * no font-segment switching.  Chromium handles it natively via HarfBuzz.
+ * All Hebrew text "just works" via Chromium's native HarfBuzz — no manual bidi.
  */
 
 import { readFile } from 'fs/promises'
@@ -91,7 +87,7 @@ function containsHebrew(text: string): boolean {
   return false
 }
 
-/** Wrap inline Hebrew phrases in <span dir="rtl"> for correct bidi rendering. */
+/** Wrap inline Hebrew phrases in <bdi dir="rtl"> for correct bidi rendering. */
 function markupBidi(text: string): string {
   if (!containsHebrew(text)) return escapeHtml(text)
 
@@ -160,6 +156,103 @@ function rgbToCss(c: [number, number, number]): string {
   return `rgb(${Math.round(c[0] * 255)}, ${Math.round(c[1] * 255)}, ${Math.round(c[2] * 255)})`
 }
 
+/** Check if text is junk that should be filtered from body content. */
+function isJunkText(text: string): boolean {
+  // Empty quotes like " " or "" or " ", possibly with trailing punctuation
+  if (/^[""\u201C\u201D\u2018\u2019'`\s,.:;\-]{1,8}$/.test(text)) return true
+  // Very short non-word content (under 4 chars with no alphanumeric)
+  if (text.length < 4 && !/[a-zA-Z0-9\u0590-\u05FF]/.test(text)) return true
+  // Stray punctuation runs like ", , : : - , , : :" or ". — "
+  if (/^[,.:;\-\u2014\u2013\s]{4,}/.test(text)) return true
+  // Leading period/comma at start of otherwise short text
+  if (/^[.,]\s/.test(text) && text.length < 20) return true
+  // Text that's only quotes + punctuation + whitespace (no real words)
+  if (text.length < 12 && !/[a-zA-Z]{2,}/.test(text) && !/[\u0590-\u05FF]{2,}/.test(text)) return true
+  return false
+}
+
+/**
+ * Clean a header for display: strip stray Hebrew that appears alongside
+ * an already-translated English version.
+ */
+function cleanHeaderForDisplay(text: string): string {
+  let cleaned = text
+  // Remove standalone Hebrew text before em-dash + English
+  cleaned = cleaned.replace(/^[\u0590-\u05FF][\u0590-\u05FF\s\u200E\-.]*\s*[\u2014\u2015\u2013—\-]\s*/g, '')
+  // Remove trailing Hebrew after em-dash
+  cleaned = cleaned.replace(/\s*[\u2014\u2015\u2013—\-]\s*[\u0590-\u05FF][\u0590-\u05FF\s\u200E\-.]*$/g, '')
+  // Remove standalone Hebrew-only prefix before Latin text
+  cleaned = cleaned.replace(/^[\u0590-\u05FF\s\u200E]+(?=[A-Z])/g, '')
+  // Remove trailing Hebrew chunk after Latin text ending
+  cleaned = cleaned.replace(/(?<=[a-z.!?"])\s*[\u0590-\u05FF\s\u200E]+$/g, '')
+  // Remove numbering artifacts
+  cleaned = cleaned.replace(/^\d+\.\s*/, '')
+  cleaned = cleaned.replace(/^[A-Z]\d+\s*[\-:.]?\s*/, '')
+  cleaned = cleaned.replace(/\s+/g, ' ').trim()
+  return cleaned
+}
+
+/**
+ * Estimate page numbers for TOC entries by simulating pagination.
+ * Returns an array of estimated page numbers, one per header element
+ * in the elements array (in order of appearance).
+ */
+function estimateHeaderPages(
+  elements: ContentElement[],
+  tocPageCount: number,
+): number[] {
+  const headerPages: number[] = []
+
+  // Content area: page height minus Playwright margins (~30pt top + ~30pt bottom)
+  const contentHeightPt = 648 - 60 // page height minus margins
+  const lineHeightPt = 11 * 1.5 // bodyFontSize * lineHeight
+  const linesPerPage = Math.floor(contentHeightPt / lineHeightPt)
+
+  // Content starts after: title page (1) + TOC pages
+  let currentPage = 1 + tocPageCount + 1
+  let currentLine = 0
+
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i]
+
+    if (el.type === 'divider') {
+      currentPage++
+      currentLine = 0
+      continue
+    }
+
+    if (el.type === 'header') {
+      headerPages.push(currentPage)
+      currentLine += 3
+      if (currentLine >= linesPerPage) { currentPage++; currentLine = 0 }
+      continue
+    }
+
+    if (el.type === 'body') {
+      const charCount = (el.text || '').length
+      // ~65 chars per line with current font/margins
+      const lines = Math.max(1, Math.ceil(charCount / 65))
+      currentLine += lines + 1
+      while (currentLine >= linesPerPage) {
+        currentLine -= linesPerPage
+        currentPage++
+      }
+    } else if (el.type === 'illustration') {
+      const isFullPage = (el.imageWidth || 0) > 800 && (el.imageHeight || 0) > 1000
+      currentLine += isFullPage ? linesPerPage : Math.ceil(linesPerPage * 0.45)
+      if (currentLine >= linesPerPage) { currentPage++; currentLine = 0 }
+    } else if (el.type === 'table') {
+      currentLine += (el.rows?.length || 3) + 2
+      if (currentLine >= linesPerPage) { currentPage++; currentLine = 0 }
+    } else if (el.type === 'caption') {
+      currentLine += 2
+      if (currentLine >= linesPerPage) { currentPage++; currentLine = 0 }
+    }
+  }
+
+  return headerPages
+}
+
 // ─── Main HTML generation ────────────────────────────────────────────────────
 
 export async function generateHtmlBook(
@@ -168,7 +261,7 @@ export async function generateHtmlBook(
   cfg: TypesetConfig,
   bookName: string,
 ): Promise<string> {
-  // Load fonts as base64 for embedding in CSS
+  // Load fonts as base64
   const fontsDir = path.join(process.cwd(), 'public', 'fonts')
   let hebrewRegularB64 = ''
   let hebrewBoldB64 = ''
@@ -178,13 +271,54 @@ export async function generateHtmlBook(
     const boldBuf = await readFile(path.join(fontsDir, 'NotoSerifHebrew-Bold.ttf'))
     hebrewBoldB64 = boldBuf.toString('base64')
   } catch {
-    // Fonts not found -- Hebrew will fall back to system fonts
+    // Fonts not found — Hebrew will fall back to system fonts
   }
 
   const textColor = rgbToCss(cfg.textColor)
   const headerColor = rgbToCss(cfg.headerColor)
-  // Content area height: page height minus the top and bottom margins
-  const contentAreaHeight = cfg.pageHeight - cfg.marginTop - (cfg.marginBottom + 14)
+  const pageW = cfg.pageWidth  // 468pt = 6.5"
+  const pageH = cfg.pageHeight // 648pt = 9"
+
+  // ── Layout geometry (all in pt) ──
+  // Outer border: 8pt inset from page edge on all 4 sides
+  const OUTER_INSET = 8
+  // Inner border: 3pt inside the outer border
+  const INNER_GAP = 3
+  // Content padding: 10pt inside the inner border
+  const CONTENT_PAD = 10
+  // Total margin from page edge to content start:
+  //   OUTER_INSET (8) + outer border (0.7) + INNER_GAP (3) + inner border (0.3) + CONTENT_PAD (10) = ~22pt
+  // Plus space for running header above and page number below
+  const HEADER_SPACE = 20 // space for running header text above the outer border
+  const FOOTER_SPACE = 20 // space for page number text below the outer border
+
+  // Playwright margins define where body content can flow
+  const PW_MARGIN_TOP = OUTER_INSET + INNER_GAP + CONTENT_PAD + HEADER_SPACE  // ~35pt
+  const PW_MARGIN_BOTTOM = OUTER_INSET + INNER_GAP + CONTENT_PAD + FOOTER_SPACE // ~35pt
+  const PW_MARGIN_LEFT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt — enough clearance from inner border
+  const PW_MARGIN_RIGHT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt
+
+  // Estimate TOC pages (roughly 30 entries per page)
+  const totalTocPages = tocLines.length > 0 ? Math.max(1, Math.ceil(tocLines.length / 30)) : 0
+
+  // Estimate page numbers for headers
+  const headerPages = estimateHeaderPages(elements, totalTocPages)
+
+  // Map TOC entry indices to estimated page numbers.
+  // TOC entries are built from headers in order, so the Nth TOC 'entry' line
+  // corresponds to the Nth estimated page number.
+  // We need to count only 'entry' type TOC lines (skip 'section' headers).
+  let headerIdx = 0
+  const tocEntryPages: number[] = []
+  for (const line of tocLines) {
+    if (line.type === 'entry') {
+      tocEntryPages.push(headerIdx < headerPages.length ? headerPages[headerIdx] : 3)
+      headerIdx++
+    }
+  }
+
+  // Content height available for illustrations
+  const contentH = pageH - PW_MARGIN_TOP - PW_MARGIN_BOTTOM
 
   const html: string[] = []
 
@@ -205,8 +339,8 @@ export async function generateHtmlBook(
   }
 
   @page {
-    size: ${cfg.pageWidth}pt ${cfg.pageHeight}pt;
-    margin: 0; /* Playwright margin params handle this */
+    size: ${pageW}pt ${pageH}pt;
+    margin: 0;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -218,43 +352,42 @@ export async function generateHtmlBook(
     color: ${textColor};
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    padding: 4pt 8pt;
+    /* Padding pushes content inside the border frame.
+       Left/right: outer_inset(8) + inner_gap(3) + content_pad(12) = 23pt
+       Top/bottom: handled by Playwright header/footer margin areas */
+    padding-left: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
+    padding-right: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
+  }
+
+  /* ── Left/right vertical border lines ──
+     position:fixed elements repeat on EVERY printed page in Chromium. */
+
+  /* Left side: outer + inner border */
+  body::before {
+    content: '';
+    position: fixed;
+    left: ${OUTER_INSET}pt;
+    top: ${OUTER_INSET}pt;
+    bottom: ${OUTER_INSET}pt;
+    width: ${INNER_GAP}pt;
     border-left: 0.7pt solid rgb(184, 174, 158);
+    border-right: 0.3pt solid rgb(209, 199, 186);
+    z-index: 1000;
+    pointer-events: none;
+  }
+  /* Right side: outer + inner border */
+  body::after {
+    content: '';
+    position: fixed;
+    right: ${OUTER_INSET}pt;
+    top: ${OUTER_INSET}pt;
+    bottom: ${OUTER_INSET}pt;
+    width: ${INNER_GAP}pt;
     border-right: 0.7pt solid rgb(184, 174, 158);
-    outline: 0.3pt solid rgb(209, 199, 186);
-    outline-offset: -4pt;
+    border-left: 0.3pt solid rgb(209, 199, 186);
+    z-index: 1000;
+    pointer-events: none;
   }
-
-  /* Running header on every page */
-  .page-header {
-    text-align: center;
-    font-size: 7pt;
-    color: rgb(133, 122, 112);
-    text-transform: uppercase;
-    letter-spacing: 0.3pt;
-    padding: 4pt 0 6pt 0;
-  }
-  .page-header::before, .page-header::after {
-    content: '——';
-    color: rgb(209, 199, 186);
-    margin: 0 8pt;
-  }
-
-  /* Double-line border frame */
-  .content-frame {
-    border: 0.7pt solid rgb(184, 174, 158);
-    padding: 3pt;
-    min-height: ${contentAreaHeight - 40}pt;
-  }
-  .content-frame .inner {
-    border: 0.3pt solid rgb(209, 199, 186);
-    padding: 10pt 12pt;
-    min-height: ${contentAreaHeight - 50}pt;
-  }
-
-  /* Decorative border on every page via @page box decoration */
-  /* Page chrome — Chromium doesn't support @page margin boxes well,
-     so we use a wrapper div for the border and fixed-position header/footer */
 
   .hebrew, bdi.hebrew {
     font-family: 'NotoSerifHebrew', 'Times New Roman', serif;
@@ -262,44 +395,68 @@ export async function generateHtmlBook(
     direction: rtl;
   }
 
-  /* ── Title section ── */
-  .title-section {
+  /* ── Title page ── */
+  .title-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: ${contentAreaHeight}pt;
-    /* The height fills exactly one page of content area so the title
-       occupies a full page before the page-break-after kicks in. */
+    height: ${pageH}pt;
     page-break-after: always;
   }
   .title-hebrew {
     font-family: 'NotoSerifHebrew', serif;
-    font-size: 20pt;
-    font-weight: bold;
-    color: ${headerColor};
-    direction: rtl;
-    margin-bottom: 12pt;
-  }
-  .title-english {
     font-size: 22pt;
     font-weight: bold;
     color: ${headerColor};
-    margin-bottom: 16pt;
+    direction: rtl;
+    margin-bottom: 14pt;
+  }
+  .title-english {
+    font-size: 24pt;
+    font-weight: bold;
+    color: ${headerColor};
+    margin-bottom: 18pt;
   }
   .title-subtitle {
-    font-size: 13pt;
+    font-size: 14pt;
     color: rgb(102, 97, 89);
     margin-bottom: 10pt;
   }
   .title-desc {
-    font-size: 10pt;
+    font-size: 11pt;
     color: rgb(128, 122, 112);
+    margin-top: 6pt;
   }
 
-  /* ── TOC section ── */
-  .toc-section-wrapper {
+  /* ── Divider ornament ── */
+  .divider-ornament {
+    text-align: center;
+    margin: 8pt 0 14pt 0;
+    color: rgb(184, 173, 158);
+    font-size: 10pt;
+  }
+  .divider-line {
+    display: inline-block;
+    width: 40pt;
+    height: 0;
+    border-top: 0.4pt solid rgb(184, 173, 158);
+    vertical-align: middle;
+    margin: 0 6pt;
+  }
+  .divider-diamond {
+    display: inline-block;
+    width: 6pt;
+    height: 6pt;
+    transform: rotate(45deg);
+    border: 0.6pt solid rgb(184, 173, 158);
+    vertical-align: middle;
+    margin: 0 2pt;
+  }
+
+  /* ── TOC ── */
+  .toc-wrapper {
     page-break-after: always;
   }
   .toc-title {
@@ -307,44 +464,44 @@ export async function generateHtmlBook(
     font-size: ${cfg.headerFontSize}pt;
     font-weight: bold;
     color: ${headerColor};
-    margin-bottom: ${cfg.headerSpacingBelow + 10}pt;
+    margin-bottom: ${cfg.headerSpacingBelow + 8}pt;
     border-bottom: 0.4pt solid rgb(184, 173, 158);
-    padding-bottom: 12pt;
+    padding-bottom: 10pt;
   }
   .toc-section-header {
     font-weight: bold;
     color: ${headerColor};
-    font-size: ${cfg.bodyFontSize * 0.9}pt;
-    margin-top: ${cfg.bodyFontSize * 0.4}pt;
-    margin-bottom: 2pt;
+    font-size: ${cfg.bodyFontSize * 0.95}pt;
+    margin-top: ${cfg.bodyFontSize * 0.5}pt;
+    margin-bottom: 3pt;
   }
   .toc-row {
     display: flex;
     align-items: baseline;
     font-size: ${cfg.bodyFontSize * 0.9}pt;
-    line-height: 1.7;
+    line-height: 1.8;
     padding-left: 10pt;
   }
-  .toc-row .title {
+  .toc-row .toc-title-text {
     flex-shrink: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .toc-row .dots {
+  .toc-row .toc-dots {
     flex: 1;
-    border-bottom: 0.7pt dotted rgb(153, 148, 140);
+    border-bottom: 0.7pt dotted rgb(170, 165, 155);
     margin: 0 4pt 3pt 4pt;
     min-width: 12pt;
   }
-  .toc-row .pg {
+  .toc-row .toc-pg {
     flex-shrink: 0;
     white-space: nowrap;
     text-align: right;
-    min-width: 20pt;
+    min-width: 22pt;
   }
 
-  /* ── Content element styles ── */
+  /* ── Content styles ── */
   .section-header {
     text-align: center;
     font-size: ${cfg.headerFontSize}pt;
@@ -373,6 +530,7 @@ export async function generateHtmlBook(
   .caption-text {
     text-align: center;
     font-size: ${cfg.bodyFontSize * 0.85}pt;
+    font-style: italic;
     color: rgb(89, 84, 77);
     margin-bottom: ${cfg.paragraphSpacing * 0.5}pt;
     max-width: 85%;
@@ -382,48 +540,28 @@ export async function generateHtmlBook(
 
   .illustration {
     text-align: center;
-    margin: ${cfg.illustrationPadding}pt 0;
+    margin: ${cfg.illustrationPadding}pt auto;
     page-break-inside: avoid;
   }
   .illustration img {
     max-width: 100%;
-    max-height: ${contentAreaHeight * 0.65}pt;
     height: auto;
   }
+  .illustration.normal img {
+    max-height: ${Math.round(contentH * 0.55)}pt;
+  }
   .illustration.full-page img {
-    max-height: ${contentAreaHeight * 0.80}pt;
+    max-height: ${Math.round(contentH * 0.72)}pt;
   }
 
-  /* Section divider (forces new page) */
-  .divider {
-    text-align: center;
-    margin: 8pt 0 14pt 0;
-    color: rgb(184, 173, 158);
-    font-size: 10pt;
+  /* Section divider — forces a new page */
+  .section-break {
     page-break-before: always;
   }
-  .divider-inline {
+  .inline-break {
     text-align: center;
     margin: 8pt 0 14pt 0;
     color: rgb(184, 173, 158);
-    font-size: 10pt;
-  }
-  .divider-line {
-    display: inline-block;
-    width: 40pt;
-    height: 0;
-    border-top: 0.4pt solid rgb(184, 173, 158);
-    vertical-align: middle;
-    margin: 0 6pt;
-  }
-  .divider-diamond {
-    display: inline-block;
-    width: 6pt;
-    height: 6pt;
-    transform: rotate(45deg);
-    border: 0.6pt solid rgb(184, 173, 158);
-    vertical-align: middle;
-    margin: 0 2pt;
   }
 
   /* ── Table styles ── */
@@ -455,12 +593,14 @@ export async function generateHtmlBook(
 <body>
 `)
 
-  // ── Title section ────────────────────────────────────────────────────────
+  // ── Title page ──────────────────────────────────────────────────────────
 
-  html.push(`<div class="title-section">
+  const cleanBookName = (bookName || 'Lishchno Tidreshu').replace(/\s*\(Full\)\s*$/i, '')
+
+  html.push(`<div class="title-page">
   <div class="title-hebrew">\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5</div>
-  <div class="title-english">${escapeHtml(bookName || 'Lishchno Tidreshu')}</div>
-  <div class="divider-inline" style="margin:6pt 0 16pt 0">
+  <div class="title-english">${escapeHtml(cleanBookName)}</div>
+  <div class="divider-ornament" style="margin:6pt 0 18pt 0">
     <span class="divider-line"></span>
     <span class="divider-diamond"></span>
     <span class="divider-line"></span>
@@ -473,40 +613,34 @@ export async function generateHtmlBook(
   // ── Table of Contents ──────────────────────────────────────────────────
 
   if (tocLines.length > 0) {
-    // Estimate how many TOC pages (roughly 30 entries per page)
-    const totalTocPages = Math.max(1, Math.ceil(tocLines.length / 30))
-
-    // Adjust page numbers: content is shifted by totalTocPages
-    const adjusted = tocLines.map(line => ({
-      ...line,
-      pageNum: line.pageNum !== undefined ? line.pageNum + totalTocPages : undefined,
-    }))
-
-    html.push(`<div class="toc-section-wrapper">`)
+    html.push(`<div class="toc-wrapper">`)
     html.push(`<div class="toc-title">TABLE OF CONTENTS</div>`)
 
-    for (const line of adjusted) {
+    let entryIdx = 0
+    for (const line of tocLines) {
       if (line.type === 'section') {
         html.push(`<div class="toc-section-header">${escapeHtml(line.text)}</div>`)
       } else {
-        const title = line.text.length > 70 ? line.text.substring(0, 67) + '...' : line.text
+        // Get estimated page number from our pre-computed array
+        const pageNum = entryIdx < tocEntryPages.length ? tocEntryPages[entryIdx] : undefined
+        entryIdx++
+
+        const title = line.text.length > 72 ? line.text.substring(0, 69) + '...' : line.text
         const latinTitle = title.replace(/[\u0590-\u05FF\u200E\u200F]+/g, '').replace(/\s+/g, ' ').trim()
-        const pageStr = line.pageNum !== undefined ? String(line.pageNum) : ''
+        if (!latinTitle) continue
+        const pageStr = pageNum !== undefined ? String(pageNum) : ''
         html.push(`<div class="toc-row">
-  <span class="title">${escapeHtml(latinTitle)}</span>
-  <span class="dots"></span>
-  <span class="pg">${escapeHtml(pageStr)}</span>
+  <span class="toc-title-text">${escapeHtml(latinTitle)}</span>
+  <span class="toc-dots"></span>
+  <span class="toc-pg">${escapeHtml(pageStr)}</span>
 </div>`)
       }
     }
 
-    html.push(`</div>`) // close toc-section-wrapper
+    html.push(`</div>`)
   }
 
   // ── Content ────────────────────────────────────────────────────────────
-  // All content flows naturally after the TOC page break.
-  // Chromium auto-paginates, and Playwright's header/footer templates
-  // add the running header, page number, and decorative border on every page.
 
   let isFirstElement = true
 
@@ -522,12 +656,14 @@ export async function generateHtmlBook(
       }
 
       if (illustrationComingSoon) {
-        html.push(`<div class="divider-inline">
+        html.push(`<div class="inline-break">
   <span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span>
 </div>`)
       } else if (!isFirstElement) {
-        html.push(`<div class="divider">
-  <span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span>
+        html.push(`<div class="section-break">
+  <div class="divider-ornament">
+    <span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span>
+  </div>
 </div>`)
       }
       continue
@@ -536,8 +672,10 @@ export async function generateHtmlBook(
     isFirstElement = false
 
     if (el.type === 'header') {
-      const text = sanitize(el.text || '')
+      let text = sanitize(el.text || '')
       if (!text) continue
+      text = cleanHeaderForDisplay(text)
+      if (!text || text.length < 3) continue
       html.push(`<div class="section-header">${markupBidi(text)}</div>`)
 
     } else if (el.type === 'body') {
@@ -548,13 +686,14 @@ export async function generateHtmlBook(
 
       for (const para of paragraphs) {
         const isAllBold = para.startsWith('**') && para.endsWith('**')
-        const cleanText = sanitize(
+        let cleanText = sanitize(
           para
             .replace(/\*\*([\s\S]*?)\*\*/g, '$1')
             .replace(/^#+\s+/gm, '')
             .replace(/`([^`]+)`/g, '$1')
         )
         if (!cleanText) continue
+        if (isJunkText(cleanText)) continue
 
         const boldClass = isAllBold ? ' bold-para' : ''
         html.push(`<p class="body-text${boldClass}">${markupBidi(cleanText)}</p>`)
@@ -568,7 +707,7 @@ export async function generateHtmlBook(
     } else if (el.type === 'illustration' && el.imageData) {
       const b64 = el.imageData.toString('base64')
       const isFullPage = (el.imageWidth || 0) > 800 && (el.imageHeight || 0) > 1000
-      const cls = isFullPage ? 'illustration full-page' : 'illustration'
+      const cls = isFullPage ? 'illustration full-page' : 'illustration normal'
       html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
 
     } else if (el.type === 'table' && el.rows) {
@@ -597,11 +736,6 @@ export async function generateHtmlBook(
 
 /**
  * Convert HTML to PDF using Playwright.
- *
- * Uses displayHeaderFooter for:
- * - Running header with decorative lines
- * - Page number in footer
- * - Double decorative border frame around the content area
  */
 export async function htmlToPdf(
   htmlContent: string,
@@ -618,48 +752,62 @@ export async function htmlToPdf(
     const page = await browser.newPage()
 
     await page.setContent(htmlContent, { waitUntil: 'networkidle' })
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(800)
 
     const widthIn = (cfg.pageWidth / 72).toFixed(4)
     const heightIn = (cfg.pageHeight / 72).toFixed(4)
 
-    // Playwright margins in inches
-    const mTop = `${(cfg.marginTop / 72).toFixed(4)}in`
-    const mBottom = `${((cfg.marginBottom + 14) / 72).toFixed(4)}in`
-    const mLeft = `${(cfg.marginLeft / 72).toFixed(4)}in`
-    const mRight = `${(cfg.marginRight / 72).toFixed(4)}in`
+    // Border geometry — MUST match the CSS values in generateHtmlBook
+    const OUTER_INSET = 8
+    const INNER_GAP = 3
+    const CONTENT_PAD = 10
+    const HEADER_SPACE = 14
 
-    // Use Playwright margins + displayHeaderFooter for per-page chrome
-    // The header/footer templates render on EVERY page in the margin area
-    const borderColor = 'rgb(184, 174, 158)'
-    const innerBorderColor = 'rgb(209, 199, 186)'
-    const headerTextColor = 'rgb(133, 122, 112)'
-    const pageNumColor = 'rgb(122, 115, 107)'
+    // Colors
+    const outerColor = 'rgb(184,174,158)'
+    const innerColor = 'rgb(209,199,186)'
+    const headerTextColor = 'rgb(133,122,112)'
+    const pageNumColor = 'rgb(122,115,107)'
 
-    // Header template: running title + top border lines
+    // Playwright margins in pt (converted to inches for API)
+    const mTopPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 20  // 41pt — room for header text + borders + padding
+    const mBottomPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 20 // 41pt — room for page number + borders + padding
+    const mLeftPt = 1   // body padding handles actual content indentation
+    const mRightPt = 1  // body padding handles actual content indentation
+
+    const mTop = `${(mTopPt / 72).toFixed(4)}in`
+    const mBottom = `${(mBottomPt / 72).toFixed(4)}in`
+    const mLeft = `${(mLeftPt / 72).toFixed(4)}in`
+    const mRight = `${(mRightPt / 72).toFixed(4)}in`
+
+    // Header template: running title text ABOVE the outer border, then border lines
     const headerTemplate = `
-      <div style="width: 100%; font-size: 7pt; color: ${headerTextColor}; text-align: center; padding: 0 ${cfg.marginLeft - 8}pt;">
-        <div style="border-top: 0.7pt solid ${borderColor}; margin: 0 0 3pt 0;"></div>
-        <div style="border-top: 0.3pt solid ${innerBorderColor}; margin: 0 3pt 4pt 3pt;"></div>
-        <span style="font-family: serif; letter-spacing: 0.3pt;">LISHCHNO TIDRESHU — ENGLISH TRANSLATION</span>
+      <div style="width:100%; font-size:7pt; text-align:center; padding:0 ${OUTER_INSET}pt; color:${headerTextColor};">
+        <div style="font-family:'Times New Roman',serif; letter-spacing:0.4pt; padding:2pt 0 3pt 0;">
+          <span style="color:${innerColor};">\u2014\u2014</span>
+          <span style="margin:0 6pt;">LISHCHNO TIDRESHU \u2014 ENGLISH TRANSLATION</span>
+          <span style="color:${innerColor};">\u2014\u2014</span>
+        </div>
+        <div style="border-top:0.7pt solid ${outerColor}; margin:0;"></div>
+        <div style="border-top:0.3pt solid ${innerColor}; margin:${INNER_GAP}pt ${INNER_GAP}pt 0 ${INNER_GAP}pt;"></div>
       </div>`
 
-    // Footer template: page number + bottom border lines
+    // Footer template: border lines then page number BELOW the outer border
     const footerTemplate = `
-      <div style="width: 100%; font-size: ${cfg.pageNumberFontSize}pt; color: ${pageNumColor}; text-align: center; padding: 0 ${cfg.marginLeft - 8}pt;">
-        <div style="border-bottom: 0.3pt solid ${innerBorderColor}; margin: 0 3pt 3pt 3pt;"></div>
-        <div style="border-bottom: 0.7pt solid ${borderColor}; margin: 0 0 4pt 0;"></div>
-        <span style="font-family: serif;">— <span class="pageNumber"></span> —</span>
+      <div style="width:100%; font-size:${cfg.pageNumberFontSize}pt; text-align:center; padding:0 ${OUTER_INSET}pt; color:${pageNumColor};">
+        <div style="border-bottom:0.3pt solid ${innerColor}; margin:0 ${INNER_GAP}pt ${INNER_GAP}pt ${INNER_GAP}pt;"></div>
+        <div style="border-bottom:0.7pt solid ${outerColor}; margin:0 0 3pt 0;"></div>
+        <div style="font-family:'Times New Roman',serif; padding:2pt 0;">\u2014 <span class="pageNumber"></span> \u2014</div>
       </div>`
 
     const pdfBuffer = await page.pdf({
       width: `${widthIn}in`,
       height: `${heightIn}in`,
       margin: {
-        top: `${mTop}`,
-        bottom: `${mBottom}`,
-        left: `${mLeft}`,
-        right: `${(cfg.marginRight / 72).toFixed(4)}in`,
+        top: mTop,
+        bottom: mBottom,
+        left: mLeft,
+        right: mRight,
       },
       printBackground: true,
       displayHeaderFooter: true,

@@ -427,8 +427,13 @@ export async function GET(
     const from = parseInt(url.searchParams.get('from') || '1')
     const to = parseInt(url.searchParams.get('to') || '367')
 
-    // Load config overrides if provided
-    const cfg: TypesetConfig = { ...DEFAULT_CONFIG }
+    // Load config overrides from ?config=JSON query param (for autoresearch)
+    const configParam = url.searchParams.get('config')
+    let overrides: Partial<TypesetConfig> = {}
+    if (configParam) {
+      try { overrides = JSON.parse(configParam) } catch { /* ignore bad JSON */ }
+    }
+    const cfg: TypesetConfig = { ...DEFAULT_CONFIG, ...overrides }
 
     // Fetch book and pages
     const book = await prisma.book.findUnique({ where: { id: bookId } })

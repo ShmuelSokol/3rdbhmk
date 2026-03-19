@@ -46,7 +46,7 @@ const DEFAULT_CONFIG: TypesetConfig = {
   headerFontSize: 14,
   subheaderFontSize: 12,
   lineHeight: 1.5,        // optimized: 1.55 → 1.5 (compensates for larger font)
-  paragraphSpacing: 20,   // optimized: 8 → 20 (>1x line height gap for pdftotext paragraph detection)
+  paragraphSpacing: 8,    // visual separation between paragraphs
   headerSpacingAbove: 14,
   headerSpacingBelow: 6,
   illustrationMaxWidth: 0.85,
@@ -460,16 +460,18 @@ function cleanTranslationText(text: string): string {
 function isRecurringSourceHeader(text: string, hebrewText?: string): boolean {
   const t = text.trim().toLowerCase()
   const h = (hebrewText || '').trim()
-  // Filter recurring Hebrew book headers
+  // Filter recurring Hebrew book headers — but only exact matches
+  // (not when they're part of a longer title like "ספר לשכנו תדרשו")
   const recurringHebrew = [
-    'לשכנו תדרשו',           // book title
     'באור חי',               // "Or Chai" section marker
     'קץ הימין',              // "Ketz HaYamin" section marker
     'השלמת שרת',             // "Completion of Service"
   ]
   for (const rh of recurringHebrew) {
-    if (h === rh || h.startsWith(rh + ' ') || h.endsWith(' ' + rh)) return true
+    if (h === rh) return true
   }
+  // Only filter "לשכנו תדרשו" when it's standalone (not part of book title on cover pages)
+  if (h === 'לשכנו תדרשו' && t.length < 60) return true
   // Filter English versions of recurring headers
   const recurringEnglish = [
     "l'shichno tidreshu", "lishchno tidreshu", "leshachno tidreshu",
@@ -957,34 +959,14 @@ async function renderElements(
       const rawText = el.text || ''
       if (!rawText.trim()) continue
 
-      // Add paragraph separator between consecutive body elements for pdftotext detection
-      const prevEl = elIdx > 0 ? elements[elIdx - 1] : null
-      if (prevEl && prevEl.type === 'body') {
-        curY -= 10
-        try {
-          const sepStr = '\u00B7'
-          const sepW = fonts.body.widthOfTextAtSize(sepStr, 4)
-          if (curY - 8 < cfg.marginBottom) newPage()
-          pdfPage.drawText(sepStr, {
-            x: (cfg.pageWidth - sepW) / 2,
-            y: curY - 4,
-            size: 4,
-            font: fonts.body,
-            color: rgb(0.88, 0.85, 0.82),
-          })
-        } catch { /* skip */ }
-        curY -= 10
-      }
-
       // Check if next element is a divider — if so, this is last content before topic break
       const nextIsDivider = elIdx + 1 < elements.length && elements[elIdx + 1].type === 'divider'
 
       // Split into paragraphs by double newlines
       let paragraphs = rawText.split(/\n\s*\n/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean)
 
-      // Break up giant paragraphs (>250 words) at sentence boundaries
-      // ArtScroll style uses frequent paragraph breaks for readability
-      const MAX_PARA_WORDS = 250
+      // Break up giant paragraphs (>400 words) at sentence boundaries
+      const MAX_PARA_WORDS = 400
       const splitParagraphs: string[] = []
       for (const para of paragraphs) {
         const wordCount = para.split(/\s+/).length
@@ -1138,27 +1120,7 @@ async function renderElements(
           curY -= lh
         }
 
-        // Insert a paragraph break marker between paragraphs
-        // This ensures pdftotext sees paragraph boundaries (line with <5 chars)
-        if (pIdx < paragraphs.length - 1) {
-          curY -= 10
-          // Draw a very small centered dot as paragraph separator
-          const dotStr = '\u00B7' // middle dot
-          try {
-            const dotW = fonts.body.widthOfTextAtSize(dotStr, 4)
-            if (curY - 8 < cfg.marginBottom) newPage()
-            pdfPage.drawText(dotStr, {
-              x: (cfg.pageWidth - dotW) / 2,
-              y: curY - 4,
-              size: 4,
-              font: fonts.body,
-              color: rgb(0.88, 0.85, 0.82), // very subtle
-            })
-          } catch { /* skip if can't encode */ }
-          curY -= 10
-        } else {
-          curY -= cfg.paragraphSpacing
-        }
+        curY -= cfg.paragraphSpacing
       }
     }
   }

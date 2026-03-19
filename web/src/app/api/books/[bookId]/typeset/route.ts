@@ -730,7 +730,8 @@ async function renderElements(
   runningTitle?: string,
 ): Promise<{ pageCount: number; tocEntries: TocEntry[] }> {
   const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
-  const textHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom
+  const safeMarginBottom = cfg.marginBottom + 10 // extra buffer so text never overlaps page numbers
+  const textHeight = cfg.pageHeight - cfg.marginTop - safeMarginBottom
   let curY = cfg.pageHeight - cfg.marginTop
   let pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
   let pageCount = 1
@@ -780,7 +781,7 @@ async function renderElements(
       let drawH = img.height * baseScale
       let totalH = drawH + cfg.illustrationPadding * 2
 
-      const remaining = curY - cfg.marginBottom
+      const remaining = curY - safeMarginBottom
       if (totalH > remaining) {
         const spaceForImg = remaining - cfg.illustrationPadding * 2
         if (spaceForImg > textHeight * 0.2) {
@@ -798,7 +799,7 @@ async function renderElements(
       // so blank space is above the image, not below)
       const nextEl = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
       const nextIsDividerOrEnd = !nextEl || nextEl.type === 'divider'
-      const spaceAfterImage = (curY - cfg.illustrationPadding - drawH) - cfg.marginBottom
+      const spaceAfterImage = (curY - cfg.illustrationPadding - drawH) - safeMarginBottom
 
       if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.15) {
         // Place image at bottom of page — push curY down to position image near margin
@@ -810,7 +811,7 @@ async function renderElements(
           width: drawW,
           height: drawH,
         })
-        curY = cfg.marginBottom // page is full after bottom-placed image
+        curY = safeMarginBottom // page is full after bottom-placed image
       } else {
         // Normal placement: image flows top-down
         curY -= cfg.illustrationPadding
@@ -833,7 +834,7 @@ async function renderElements(
       const captionLh = captionSize * cfg.lineHeight
       const lines = wrapTextBidi(text, fonts.body, fonts.hebrew, captionSize, textWidth * 0.85)
 
-      if (curY - lines.length * captionLh < cfg.marginBottom) {
+      if (curY - lines.length * captionLh < safeMarginBottom) {
         newPage()
       }
 
@@ -902,7 +903,7 @@ async function renderElements(
 
         const rowH = maxLinesInRow * tableLh + 4
 
-        if (curY - rowH < cfg.marginBottom) {
+        if (curY - rowH < safeMarginBottom) {
           newPage()
           // Redraw top line on new page
           pdfPage.drawLine({
@@ -997,14 +998,21 @@ async function renderElements(
       const lines = wrapTextBidi(text, font, hebFont, fontSize, textWidth)
       const blockH = lines.length * lh
 
-      if (curY - blockH < cfg.marginBottom) {
+      if (curY - blockH < safeMarginBottom) {
         newPage()
       }
 
       // Track this header for the Table of Contents
-      // Strip Hebrew from the title for TOC display (keep clean English)
+      // Only include meaningful topic headers (not short labels, measurements, or diagram text)
       const tocTitle = text.replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s*[—\-]\s*/g, '').trim()
-      if (tocTitle.length > 8 && tocTitle.length < 120) {
+      const tocWords = tocTitle.split(/\s+/).length
+      const isMeaningfulTitle = tocTitle.length > 15 && tocTitle.length < 100
+        && tocWords >= 3 && tocWords <= 15
+        && !/^\d/.test(tocTitle) // doesn't start with a number
+        && !/^[A-Z]\d/.test(tocTitle) // not a reference like "A5"
+        && !/amos|cubit|amah/i.test(tocTitle) // not measurements
+        && !/^(or chai|ketz|completion|spiritual|physical)/i.test(tocTitle) // not section markers
+      if (isMeaningfulTitle) {
         tocEntries.push({ title: tocTitle, pageNum: startPageNum + pageCount - 1 })
       }
 
@@ -1096,7 +1104,7 @@ async function renderElements(
         if (isLastPara && nextIsDivider) {
           const lhTest = fontSize * cfg.lineHeight
           const testLines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
-          const remaining = curY - cfg.marginBottom
+          const remaining = curY - safeMarginBottom
           const linesOnCurrentPage = Math.floor(remaining / lhTest)
           const spillOver = testLines.length - linesOnCurrentPage
 
@@ -1133,14 +1141,16 @@ async function renderElements(
 
         // Render lines one by one, splitting across pages as needed
         // Also handle orphan prevention at page-break boundaries
+        // Use marginBottom + 8 to ensure text doesn't encroach on page number area
+
         for (let i = 0; i < allLines.length; i++) {
-          if (curY - lh < cfg.marginBottom) {
+          if (curY - lh < safeMarginBottom) {
             // About to start a new page — check for orphan situation
             // If this is the last body element before a divider, and only 1-5 lines remain,
             // try squeezing the remaining lines to fit on the current page
             const remainingLines = allLines.length - i
             if (isLastPara && nextIsDivider && remainingLines > 0 && remainingLines <= 5) {
-              const spaceLeft = curY - cfg.marginBottom
+              const spaceLeft = curY - safeMarginBottom
               // Try progressively larger squeezes for the remaining lines
               let squeezed = false
               for (const factor of [0.92, 0.88, 0.85]) {

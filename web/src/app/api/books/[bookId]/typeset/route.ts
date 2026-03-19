@@ -247,6 +247,7 @@ async function detectAndCropIllustrations(
   bookId: string,
   regions: RegionBounds[],
   cfg: TypesetConfig,
+  hasDiagramRef = false, // true if page has "[THIS IS DIAGRAM" or "Drawing N" in text
 ): Promise<{ y: number; imageData: Buffer; width: number; height: number }[]> {
   if (regions.length === 0) return []
 
@@ -323,9 +324,11 @@ async function detectAndCropIllustrations(
         .stats()
 
       // If variance is low, it's probably blank space or just page design/borders
-      // Threshold 30 filters out beige/cream residue from Hebrew book page backgrounds
+      // Use lower threshold (15) for pages with known diagram references to preserve real diagrams
+      // Use higher threshold (30) for other pages to filter beige/cream page design residue
       const avgVariance = stats.channels.reduce((s, c) => s + (c.stdev || 0), 0) / stats.channels.length
-      if (avgVariance < 30) continue
+      const varianceThreshold = hasDiagramRef ? 15 : 30
+      if (avgVariance < varianceThreshold) continue
 
       // Check mean brightness — bright crops with low variance are just page background/borders
       const avgMean = stats.channels.reduce((s, c) => s + (c.mean || 0), 0) / stats.channels.length
@@ -916,15 +919,25 @@ async function renderElements(
       let drawH = img.height * baseScale
       let totalH = drawH + cfg.illustrationPadding * 2
 
+      // Minimum 70% of base size — never shrink images below this
+      // If it doesn't fit at 70%, start a new page instead
+      const minDrawW = drawW * 0.7
+      const minDrawH = drawH * 0.7
+      const minTotalH = minDrawH + cfg.illustrationPadding * 2
+
       const remaining = curY - safeMarginBottom
       if (totalH > remaining) {
         const spaceForImg = remaining - cfg.illustrationPadding * 2
-        if (spaceForImg > textHeight * 0.2) {
-          const fitScale = Math.min(maxW / img.width, spaceForImg / img.height)
-          drawW = img.width * fitScale
-          drawH = img.height * fitScale
+        const fitScale = Math.min(maxW / img.width, spaceForImg / img.height)
+        const fitW = img.width * fitScale
+        const fitH = img.height * fitScale
+        // Only shrink to fit if the result is >= 70% of the original size
+        if (fitW >= minDrawW && fitH >= minDrawH && spaceForImg > 0) {
+          drawW = fitW
+          drawH = fitH
           totalH = drawH + cfg.illustrationPadding * 2
         } else {
+          // Too small — start a new page to show image at full size
           newPage()
         }
       }
@@ -1497,8 +1510,12 @@ export async function GET(
       }
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
+        // Check if this page has explicit diagram references — use lower filter threshold
+        const allRegionText = regions.map(r => (r.translatedText || '')).join(' ')
+        const pageHasDiagramRef = /\[THIS IS DIAGRAM|Drawing \d|Diagram \d|Sketch of|Layout of|שרטוט|ציור \d/i.test(allRegionText)
+
         const illustrations = await detectAndCropIllustrations(
-          page.id, page.pageNumber, bookId, regions, cfg,
+          page.id, page.pageNumber, bookId, regions, cfg, pageHasDiagramRef,
         )
 
         // Filter out tiny/nonsensical illustration crops (minimum 200×200 px)
@@ -1841,6 +1858,10 @@ export async function GET(
       }
       const tocLines: TocLine[] = []
       let lastPerek = ''
+
+      // Hardcode first entry: Haskamos (Approval Letters)
+      // These are always the first content after the title page
+      tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
 
       for (const entry of finalTocItems) {
         // Check if this entry mentions a Perek/Chapter

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { PDFDocument, StandardFonts, rgb, PDFFont, PDFPage } from 'pdf-lib'
-import { extractPageAsImage } from '@/lib/pdf-utils'
+import { getPageImageBuffer } from '@/lib/pipeline/shared'
 import { existsSync } from 'fs'
-import { readFile, writeFile, mkdir } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import path from 'path'
 import sharp from 'sharp'
 
@@ -208,22 +208,16 @@ async function detectAndCropIllustrations(
 }
 
 async function getPageImage(pageId: string, pageNumber: number, bookId: string): Promise<Buffer | null> {
+  // Check cache first
   const cachePath = path.join('/tmp/bhmk', bookId, 'pages', `page-${pageNumber}.png`)
   if (existsSync(cachePath)) {
     return readFile(cachePath)
   }
 
-  // Extract from PDF
+  // Use shared helper (downloads PDF from Supabase, extracts page, caches)
   try {
-    const page = await prisma.page.findUnique({ where: { id: pageId }, include: { book: true } })
-    if (!page?.book?.pdfPath) return null
-
-    const dir = path.dirname(cachePath)
-    await mkdir(dir, { recursive: true })
-
-    const buf = await extractPageAsImage(page.book.pdfPath, pageNumber)
-    await writeFile(cachePath, buf)
-    return buf
+    const result = await getPageImageBuffer(pageId)
+    return result.buffer
   } catch {
     return null
   }

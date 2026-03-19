@@ -910,10 +910,12 @@ async function renderElements(
         continue
       }
 
-      // For letter/full-page images, allow up to 80% of text area
+      // Scale images to use available space generously
+      // Full-page images (letters/diagrams): up to 95% width, 80% height
+      // Regular illustrations: up to 95% width, 65% height (was 85%/50% — too small)
       const isFullPageImage = img.width > 800 && img.height > 1000
-      const maxW = textWidth * (isFullPageImage ? 0.95 : cfg.illustrationMaxWidth)
-      const maxH = textHeight * (isFullPageImage ? 0.75 : 0.5)
+      const maxW = textWidth * 0.95
+      const maxH = textHeight * (isFullPageImage ? 0.80 : 0.65)
       const baseScale = Math.min(maxW / img.width, maxH / img.height)
       let drawW = img.width * baseScale
       let drawH = img.height * baseScale

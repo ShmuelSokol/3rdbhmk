@@ -1421,8 +1421,11 @@ export async function GET(
 
         // Only add a topic divider if this page starts with a header (new section/topic)
         // Pages that start with body text are continuations of the previous topic
+        // Don't add dividers for the first ~12 source pages (intro/letters/title section)
+        // — those flow continuously without topic breaks
         const startsWithHeader = dedupedElements[0]?.type === 'header'
-        if (!isFirstSection && startsWithHeader) {
+        const isIntroSection = page.pageNumber <= 12
+        if (!isFirstSection && startsWithHeader && !isIntroSection) {
           allElements.push({ type: 'divider' })
         }
         isFirstSection = false

@@ -21,6 +21,7 @@ const DOWNLOAD_TIMEOUT = 180000; // 3 minutes
 const TOOL_TIMEOUT = 15000;
 
 const TEST_INPUTS = [
+  { from: 2, to: 7, label: 'pages-2-7', minWords: 50, expectIllustrations: true, expectTables: false, expectDiagrams: false },
   { from: 8, to: 10, label: 'pages-8-10', minWords: 100, expectIllustrations: true, expectTables: true, expectDiagrams: false },
   { from: 14, to: 15, label: 'pages-14-15', minWords: 200, expectIllustrations: false, expectTables: false, expectDiagrams: false },
   { from: 14, to: 20, label: 'pages-14-20', minWords: 400, expectIllustrations: true, expectTables: false, expectDiagrams: true },

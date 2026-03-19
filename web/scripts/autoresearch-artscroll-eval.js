@@ -119,15 +119,19 @@ function AS6_properTerminology(text) {
 
 function AS7_paragraphStructure(text) {
   // Does the text have proper paragraph structure? (not just a wall of text)
-  const lines = text.split('\n').filter(l => l.trim().length > 0);
+  // Iterate ALL lines (including blanks) — blank lines and short lines (< 5 chars)
+  // both act as paragraph separators (pdftotext emits blank lines at page breaks
+  // and between visually separated paragraphs).
+  const lines = text.split('\n');
   const longParagraphs = [];
   let currentLen = 0;
   for (const line of lines) {
-    if (line.trim().length < 5) {
+    const trimmed = line.trim();
+    if (trimmed.length === 0 || trimmed.length < 5) {
       if (currentLen > 0) longParagraphs.push(currentLen);
       currentLen = 0;
     } else {
-      currentLen += line.split(/\s+/).length;
+      currentLen += trimmed.split(/\s+/).length;
     }
   }
   if (currentLen > 0) longParagraphs.push(currentLen);

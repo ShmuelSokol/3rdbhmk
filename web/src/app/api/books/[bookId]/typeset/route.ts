@@ -456,35 +456,28 @@ function cleanTranslationText(text: string): string {
 }
 
 /** Check if text is a recurring Hebrew source header that should be filtered out.
- *  These repeat on every page of the Hebrew book and shouldn't appear inline. */
-function isRecurringSourceHeader(text: string, hebrewText?: string): boolean {
+ *  These repeat on every page of the Hebrew book and shouldn't appear inline.
+ *  pageRegionCount: how many regions this page has — if it's the only region, keep it (title page). */
+function isRecurringSourceHeader(text: string, hebrewText?: string, pageRegionCount?: number): boolean {
+  // If this is the only content on the page, DON'T filter it (it's a title/cover page)
+  if (pageRegionCount !== undefined && pageRegionCount <= 2) return false
+
   const t = text.trim().toLowerCase()
   const h = (hebrewText || '').trim()
-  // Filter recurring Hebrew book headers — but only exact matches
-  // (not when they're part of a longer title like "ספר לשכנו תדרשו")
-  const recurringHebrew = [
-    'באור חי',               // "Or Chai" section marker
-    'קץ הימין',              // "Ketz HaYamin" section marker
-    'השלמת שרת',             // "Completion of Service"
-  ]
+  // Filter recurring Hebrew section markers (exact match only)
+  const recurringHebrew = ['באור חי', 'קץ הימין', 'השלמת שרת']
   for (const rh of recurringHebrew) {
     if (h === rh) return true
   }
-  // Only filter "לשכנו תדרשו" when it's standalone (not part of book title on cover pages)
+  // Filter "לשכנו תדרשו" when standalone and on a page with other content
   if (h === 'לשכנו תדרשו' && t.length < 60) return true
   // Filter English versions of recurring headers
   const recurringEnglish = [
-    "l'shichno tidreshu", "lishchno tidreshu", "leshachno tidreshu",
-    "l'shichno sidrosh", "lishchno sidrosh",
     "or chai", "ketz hayamin", "the completion of service",
-    "to his dwelling place you shall seek", "to his dwelling you shall seek",
-    "their chambers you shall seek", "seek out his dwelling",
   ]
   for (const re of recurringEnglish) {
-    if (t === re || t.startsWith(re + '\n') || t.endsWith('\n' + re)) return true
+    if (t === re) return true
   }
-  // Also filter if the translated text is just the section title repeated
-  if (/^(introduction|summary|or chai|ketz)/i.test(t) && t.split(/\s+/).length <= 6) return true
   return false
 }
 
@@ -1362,7 +1355,7 @@ export async function GET(
             // Filter out standalone Hebrew source page numbers
             if (isStandalonePageNumber(trimmed)) continue
             // Filter out recurring Hebrew source headers (book title, section markers)
-            if (isRecurringSourceHeader(trimmed, region.hebrewText || undefined)) continue
+            if (isRecurringSourceHeader(trimmed, region.hebrewText || undefined, regions.length)) continue
             const wordCount = trimmed.split(/\s+/).length
 
             // Detect diagram labels / captions: short text (< 8 words) near illustrations
@@ -1388,7 +1381,7 @@ export async function GET(
 
             if (region.regionType === 'header') {
               // Skip headers that are page numbers or recurring source headers
-              if (!isStandalonePageNumber(trimmed) && !isRecurringSourceHeader(trimmed, region.hebrewText || undefined)) {
+              if (!isStandalonePageNumber(trimmed) && !isRecurringSourceHeader(trimmed, region.hebrewText || undefined, regions.length)) {
                 pageElements.push({ type: 'header', text: trimmed })
               }
             } else {

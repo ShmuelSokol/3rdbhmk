@@ -890,11 +890,19 @@ async function renderElements(
       // New topic = new page (matches Hebrew book layout)
       // EXCEPTION: if the next element is an illustration and there's space on this page,
       // skip the new page — let the image fill the remaining space instead of leaving blank
-      const nextAfterDivider = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      // Check next few elements after divider — if an illustration is coming soon,
+      // keep it on the current page to fill blank space
       const remainingSpace = curY - safeMarginBottom
       const usedSpace = (cfg.pageHeight - cfg.marginTop) - curY
+      let illustrationComingSoon = false
+      for (let look = 1; look <= 3 && elIdx + look < elements.length; look++) {
+        const upcoming = elements[elIdx + look]
+        if (upcoming.type === 'illustration') { illustrationComingSoon = true; break }
+        if (upcoming.type === 'divider') break // another divider = stop looking
+        if (upcoming.type === 'body') break // body text = it's a real section, not just an image
+      }
 
-      if (nextAfterDivider?.type === 'illustration' && remainingSpace > textHeight * 0.25) {
+      if (illustrationComingSoon && remainingSpace > textHeight * 0.25) {
         // Enough space for an image — just draw a small divider, don't force new page
         curY -= 8
         drawSectionDivider(pdfPage, curY, cfg)

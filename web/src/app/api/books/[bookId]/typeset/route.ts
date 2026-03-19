@@ -566,7 +566,7 @@ export async function GET(
 
     const filename = `${sanitizeForPdf(book.name || 'book')}_English_p${from}-${to}.pdf`
 
-    return new Response(pdfBytes, {
+    return new Response(Buffer.from(pdfBytes), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${filename}"`,

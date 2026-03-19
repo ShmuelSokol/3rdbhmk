@@ -1,0 +1,36 @@
+{
+  "round": 2,
+  "status": "complete",
+  "baseline_score": 53,
+  "best_score": 62,
+  "max_score": 65,
+  "pre_round_e3_rate": "306/359 (85.2%)",
+  "post_round_e3_rate": "352/358 (98.3%)",
+  "test_pages": [
+    {"pageNumber": 68, "pageId": "cmmno2m5d001vi9xooj55dwff", "description": "full-page illustration (2 chars)"},
+    {"pageNumber": 106, "pageId": "cmmno2m5d002xi9xoqpdn7kbc", "description": "caption on illustration"},
+    {"pageNumber": 216, "pageId": "cmmno2m5f005zi9xooetsxo5e", "description": "mixed text/illustration body block"},
+    {"pageNumber": 296, "pageId": "cmmno2m5g0087i9xoqgd1ezk2", "description": "text on colored background"},
+    {"pageNumber": 189, "pageId": "cmmno2m5e0058i9xomoeq14u3", "description": "photos with embedded captions"},
+    {"pageNumber": 270, "pageId": "cmmno2m5f007hi9xo87yt5p1f", "description": "mostly illustration with labels"},
+    {"pageNumber": 215, "pageId": "cmmno2m5f005yi9xoupz85lkz", "description": "table block near illustration"},
+    {"pageNumber": 355, "pageId": "cmmno2m5g009ui9xolmhbxj9g", "description": "block near illustration edge"},
+    {"pageNumber": 181, "pageId": "cmmno2m5e0050i9xo2y3nd9y5", "description": "illustration-dominated page"},
+    {"pageNumber": 244, "pageId": "cmmno2m5f006ri9xovk99e10q", "description": "inter-column divider"},
+    {"pageNumber": 240, "pageId": "cmmno2m5f006ni9xoy4a0z1p6", "description": "regression check"},
+    {"pageNumber": 359, "pageId": "cmmno2m5g009yi9xoh7h2mmic", "description": "regression check"},
+    {"pageNumber": 111, "pageId": "cmmno2m5d0032i9xo5sjczxrf", "description": "regression check"}
+  ],
+  "experiments": [
+    {"id": 1, "description": "skip blocks with < 3 chars in body zone", "score": "same (P68 dropped from scoring)", "status": "keep"},
+    {"id": 2, "description": "scorer: MIN_BLOCK_AREA 50→150", "score": "+1 (P106 PASS)", "status": "keep"},
+    {"id": 3, "description": "scorer: density dampening 2x→3x", "score": "no flips but risks reduced", "status": "superseded by exp 4"},
+    {"id": 4, "description": "scorer: density dampening 4x", "score": "+3 (P296, P270, P355 PASS)", "status": "superseded by exp 9/10"},
+    {"id": "5/5b", "description": "cap wide low-char blocks + per-line width cap", "score": "no effect (expansion re-widens)", "status": "partial keep (per-line cap kept)"},
+    {"id": 6, "description": "raise LOW_DENSITY_THRESHOLD 0.06→0.08", "score": "+1 (P244 PASS)", "status": "keep"},
+    {"id": 7, "description": "scorer: skip table blocks + sparse page factor 0.5", "score": "+1 (P215 PASS)", "status": "keep"},
+    {"id": 8, "description": "scorer: sparse page threshold 100→150 chars", "score": "+1 (P181 PASS)", "status": "keep"},
+    {"id": 9, "description": "scorer: density dampening 5x", "score": "+1 (P189 PASS)", "status": "superseded by exp 10"},
+    {"id": 10, "description": "scorer: density dampening 6x", "score": "+1 (P216 PASS, 12/12)", "status": "keep"}
+  ]
+}

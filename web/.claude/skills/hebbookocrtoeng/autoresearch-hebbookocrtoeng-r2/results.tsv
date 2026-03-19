@@ -1,0 +1,8 @@
+experiment	score	max_score	pass_rate	status	description
+0	29	35	82.9%	baseline	original skill (post round 1) — no changes
+1	30	35	85.7%	keep	marginal annotations detection
+2	30	35	85.7%	discard	color validation + bg fallback
+3	N/A	35	N/A	discard	x-shift body splitting (regressions)
+4	31	35	88.6%	keep	increased top erasure padding
+5	31	35	88.6%	discard	bidirectional centered split
+6	32	35	91.4%	keep	column-split for asymmetric two-column zones

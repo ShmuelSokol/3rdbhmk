@@ -36,7 +36,7 @@ const RESULTS_DIR = path.join(process.cwd(), 'autoresearch-results')
 const opts = {
   dryRun: process.argv.includes('--dry-run'),
   testPages: null,
-  steps: [2, 4], // which pipeline steps to re-run (skip 3/5 for speed; 3=erase, 5=fit are expensive)
+  steps: [2, 4, 5], // step 5 needed to test binary search font sizing + region splitting
   testSetSize: 30,
   fullRerun: process.argv.includes('--full-rerun'),
   maxIterations: 100,
@@ -48,7 +48,7 @@ for (let i = 2; i < process.argv.length; i++) {
   if (process.argv[i] === '--max-iter') opts.maxIterations = parseInt(process.argv[++i])
 }
 
-// === Default config (matches hardcoded values in pipeline steps) ===
+// === Default config (matches current optimized values in config.ts) ===
 const DEFAULT_CONFIG = {
   step2: {
     zoneGapMultiplier: 3,
@@ -70,21 +70,23 @@ const DEFAULT_CONFIG = {
     annotationYGap: 2,
     columnXOverlap: 0.3,
     widthTransitionThreshold: 10,
+    tallRegionSplitThreshold: 40,
+    tallRegionMinGapRatio: 0.5,
   },
   step4: {
-    varianceThreshold: 200,
-    colorDistThreshold: 25,
+    varianceThreshold: 150,
+    colorDistThreshold: 20,
     expansionStep: 1,
     pageMargin: 2,
     buffer: 1,
     gapScanHeight: 0.3,
-    gapScanVariance: 50,
+    gapScanVariance: 30,
     expandTableHorizontal: false,
   },
   step5: {
     minFontRatio: 0.5,
-    lineHeightMultiplier: 1.3,
-    fontSizeScale: 0.9,
+    lineHeightMultiplier: 1.15,
+    fontSizeScale: 0.85,
     wideLineThreshold: 0.8,
     minAbsoluteFont: 14,
     emptyLineHeightRatio: 0.5,
@@ -93,35 +95,28 @@ const DEFAULT_CONFIG = {
 
 // === Parameter search space ===
 // Each entry: [stepKey, paramName, [values to try]]
-// Values are listed from smallest to largest
+// 3 values per param for speed (current default is excluded automatically)
 const SEARCH_SPACE = [
-  // Step 2: Region detection
-  ['step2', 'zoneGapMultiplier', [2, 2.5, 3, 3.5, 4]],
-  ['step2', 'bodyGapMultiplier', [1.5, 2, 2.5, 3]],
-  ['step2', 'headerCutoffMultiplier', [1.5, 2, 2.5, 3]],
-  ['step2', 'multiColXSep', [15, 20, 25, 30]],
-  ['step2', 'bodyCharThreshold', [20, 25, 30, 35, 40]],
-  ['step2', 'scatteredBucketWidth', [10, 12, 15, 18, 20]],
-  ['step2', 'scatteredTop2Threshold', [0.45, 0.5, 0.55, 0.6, 0.65]],
-  ['step2', 'tableMergeGap', [3, 4, 5, 6, 8]],
-  ['step2', 'centeredMaxWidth', [25, 28, 30, 35, 40]],
-  ['step2', 'centeredBodyWidthRatio', [0.6, 0.65, 0.7, 0.75, 0.8]],
-  ['step2', 'centeredSymmetryThreshold', [10, 12, 15, 18, 20]],
-  ['step2', 'widthTransitionThreshold', [7, 8, 10, 12, 15]],
+  // Step 2: Region detection — new splitting params (most impactful for P8)
+  ['step2', 'tallRegionSplitThreshold', [25, 30, 40, 50, 60]],
+  ['step2', 'tallRegionMinGapRatio', [0.3, 0.5, 0.75, 1.0]],
+  ['step2', 'bodyGapMultiplier', [1.5, 2, 3]],
+  ['step2', 'zoneGapMultiplier', [2, 3, 4]],
+  ['step2', 'centeredMaxWidth', [25, 30, 40]],
+  ['step2', 'centeredBodyWidthRatio', [0.6, 0.7, 0.8]],
 
-  // Step 4: Expansion
-  ['step4', 'varianceThreshold', [150, 175, 200, 225, 250, 300]],
-  ['step4', 'colorDistThreshold', [18, 20, 25, 30, 35]],
-  ['step4', 'pageMargin', [1, 1.5, 2, 2.5, 3]],
-  ['step4', 'buffer', [0.5, 0.75, 1, 1.25, 1.5]],
-  ['step4', 'gapScanVariance', [30, 40, 50, 60, 80]],
+  // Step 4: Expansion (most impactful for P7)
+  ['step4', 'varianceThreshold', [100, 150, 200]],
+  ['step4', 'colorDistThreshold', [15, 20, 30]],
+  ['step4', 'pageMargin', [1.5, 2, 3]],
+  ['step4', 'gapScanVariance', [20, 30, 50]],
 
-  // Step 5: Fitting (only tested when steps include 5)
-  ['step5', 'minFontRatio', [0.4, 0.45, 0.5, 0.55, 0.6]],
-  ['step5', 'lineHeightMultiplier', [1.15, 1.2, 1.25, 1.3, 1.35, 1.4]],
-  ['step5', 'fontSizeScale', [0.8, 0.85, 0.9, 0.95, 1.0]],
-  ['step5', 'wideLineThreshold', [0.7, 0.75, 0.8, 0.85, 0.9]],
-  ['step5', 'minAbsoluteFont', [10, 12, 14, 16, 18]],
+  // Step 5: Fitting (most impactful for P1/P2)
+  ['step5', 'lineHeightMultiplier', [1.1, 1.15, 1.2]],
+  ['step5', 'fontSizeScale', [0.8, 0.85, 0.95]],
+  ['step5', 'minFontRatio', [0.35, 0.5, 0.65]],
+  ['step5', 'minAbsoluteFont', [10, 14, 18]],
+  ['step5', 'wideLineThreshold', [0.7, 0.8, 0.9]],
 ]
 
 // === Helper functions ===
@@ -136,7 +131,7 @@ async function postJSON(url, body) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-    signal: AbortSignal.timeout(120000),
+    signal: AbortSignal.timeout(300000),
   })
   return res.json()
 }
@@ -153,6 +148,108 @@ function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
+/** Score a single page on all 8 metrics (mirrors score-pipeline.js) */
+function scoreSinglePage(regions) {
+  if (regions.length === 0) return { P1:1,P2:1,P3:1,P4:1,P5:1,P6:1,P7:1,P8:1,composite:1 }
+
+  let P1=1, P2=1, P3=1, P4=1, P5=1, P6=1, P7=1, P8=1
+
+  // P1: Font size adequacy
+  const fontRatios = []
+  for (const r of regions) {
+    if (!r.fittedFontSize || !r.origHeight) continue
+    const hebrewText = r.hebrewText || ''
+    const lines = Math.max(1, Math.ceil(hebrewText.length / 40))
+    const estimatedLineHeight = (r.origHeight / 100 * 3000) / lines
+    if (estimatedLineHeight > 0) fontRatios.push(Math.min(1, r.fittedFontSize / estimatedLineHeight))
+  }
+  if (fontRatios.length > 0) P1 = Math.min(1, fontRatios.reduce((s,v)=>s+v,0) / fontRatios.length)
+
+  // P2: Space utilization
+  const utilizations = []
+  for (const r of regions) {
+    if (!r.fittedText || !r.fittedFontSize) continue
+    const expW = r.expandedWidth ?? r.origWidth
+    const expH = r.expandedHeight ?? r.origHeight
+    if (!expW || !expH) continue
+    const charsPerLine = Math.max(1, Math.floor((expW / 100 * 2000) / (r.fittedFontSize * 0.55)))
+    const textLines = Math.ceil(r.fittedText.length / charsPerLine)
+    const textHeight = textLines * r.fittedFontSize * 1.3
+    const regionHeightPx = expH / 100 * 3000
+    utilizations.push(Math.min(1, textHeight / regionHeightPx))
+  }
+  if (utilizations.length > 0) {
+    const avg = utilizations.reduce((s,v)=>s+v,0) / utilizations.length
+    P2 = avg >= 0.3 ? Math.min(1, avg / 0.8) : avg / 0.3
+  }
+
+  // P3: Text integrity
+  const integrityRatios = []
+  for (const r of regions) {
+    if (!r.translatedText?.trim() || !r.fittedText?.trim()) continue
+    integrityRatios.push(Math.min(1, r.fittedText.length / r.translatedText.replace(/\*\*/g, '').length))
+  }
+  if (integrityRatios.length > 0) {
+    const worst = Math.min(...integrityRatios)
+    P3 = worst >= 0.8 ? 1 : worst / 0.8
+  }
+
+  // P4: Region overlap
+  const expanded = regions
+    .filter(r => (r.expandedX ?? r.origX) != null)
+    .map(r => ({ x: r.expandedX??r.origX, y: r.expandedY??r.origY, w: r.expandedWidth??r.origWidth, h: r.expandedHeight??r.origHeight }))
+  let maxOverlap = 0
+  for (let i = 0; i < expanded.length; i++) {
+    for (let j = i+1; j < expanded.length; j++) {
+      const a = expanded[i], b = expanded[j]
+      const ox = Math.max(0, Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))
+      const oy = Math.max(0, Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y))
+      const area = ox*oy, min = Math.min(a.w*a.h, b.w*b.h)
+      if (min > 0) maxOverlap = Math.max(maxOverlap, area/min)
+    }
+  }
+  P4 = maxOverlap < 0.01 ? 1 : Math.max(0, 1 - maxOverlap * 2)
+
+  // P5: Translation coverage
+  const withHeb = regions.filter(r => r.hebrewText?.trim())
+  const withTrans = withHeb.filter(r => r.translatedText?.trim())
+  P5 = withHeb.length > 0 ? withTrans.length / withHeb.length : 1
+
+  // P6: Font consistency
+  const bodyFonts = regions.filter(r => r.regionType === 'body' && r.fittedFontSize).map(r => r.fittedFontSize)
+  if (bodyFonts.length >= 2) {
+    const mean = bodyFonts.reduce((s,v)=>s+v,0) / bodyFonts.length
+    const std = Math.sqrt(bodyFonts.reduce((s,v)=>s+(v-mean)**2,0) / bodyFonts.length)
+    P6 = Math.max(0, 1 - (std/mean) * 2)
+  }
+
+  // P7: Expansion efficiency
+  const expRatios = []
+  for (const r of regions) {
+    if (!r.expandedWidth || !r.origWidth) continue
+    const orig = r.origWidth * r.origHeight, exp = r.expandedWidth * r.expandedHeight
+    if (orig > 0) expRatios.push(exp / orig)
+  }
+  if (expRatios.length > 0) {
+    const avg = expRatios.reduce((s,v)=>s+v,0) / expRatios.length
+    if (avg < 1.2) P7 = avg / 1.2
+    else if (avg <= 3.5) P7 = 1
+    else P7 = Math.max(0, 1 - (avg - 3.5) / 5)
+  }
+
+  // P8: Size balance
+  if (expanded.length >= 2) {
+    const areas = expanded.map(r => r.w * r.h)
+    const totalArea = areas.reduce((s,v)=>s+v,0)
+    const maxFrac = Math.max(...areas) / totalArea
+    P8 = maxFrac > 0.7 ? Math.max(0, 1 - (maxFrac - 0.7) * 3) : 1
+  }
+
+  const scores = [P1,P2,P3,P4,P5,P6,P7,P8].filter(s => s >= 0)
+  const composite = scores.reduce((s,v)=>s+v,0) / scores.length
+  return { P1,P2,P3,P4,P5,P6,P7,P8,composite }
+}
+
 /** Score test pages and return { avgComposite, scores } */
 async function scorePages(pageIds) {
   const results = []
@@ -160,56 +257,8 @@ async function scorePages(pageIds) {
     try {
       const data = await fetchJSON(`${BASE}/api/pages/${id}/pipeline`)
       if (data.error) { results.push({ pageNumber, composite: 0 }); continue }
-
-      const regions = data.regions || []
-      if (regions.length === 0) { results.push({ pageNumber, composite: 1 }); continue }
-
-      // Simplified scoring (same metrics as score-pipeline.js but condensed)
-      let P4 = 1, P5 = 1, P7 = 1
-
-      // P4: Region overlap
-      const expanded = regions
-        .filter(r => (r.expandedX ?? r.origX) != null)
-        .map(r => ({
-          x: r.expandedX ?? r.origX, y: r.expandedY ?? r.origY,
-          w: r.expandedWidth ?? r.origWidth, h: r.expandedHeight ?? r.origHeight,
-        }))
-      let maxOverlap = 0
-      for (let i = 0; i < expanded.length; i++) {
-        for (let j = i + 1; j < expanded.length; j++) {
-          const a = expanded[i], b = expanded[j]
-          const ox = Math.max(0, Math.min(a.x+a.w, b.x+b.w) - Math.max(a.x, b.x))
-          const oy = Math.max(0, Math.min(a.y+a.h, b.y+b.h) - Math.max(a.y, b.y))
-          const area = ox * oy
-          const min = Math.min(a.w*a.h, b.w*b.h)
-          if (min > 0) maxOverlap = Math.max(maxOverlap, area/min)
-        }
-      }
-      P4 = maxOverlap < 0.01 ? 1 : Math.max(0, 1 - maxOverlap * 2)
-
-      // P5: Translation coverage
-      const withHeb = regions.filter(r => r.hebrewText?.trim())
-      const withTrans = withHeb.filter(r => r.translatedText?.trim())
-      P5 = withHeb.length > 0 ? withTrans.length / withHeb.length : 1
-
-      // P7: Expansion efficiency
-      const expRatios = []
-      for (const r of regions) {
-        if (!r.expandedWidth || !r.origWidth) continue
-        const orig = r.origWidth * r.origHeight
-        const exp = r.expandedWidth * r.expandedHeight
-        if (orig > 0) expRatios.push(exp / orig)
-      }
-      if (expRatios.length > 0) {
-        const avg = expRatios.reduce((s,v) => s+v, 0) / expRatios.length
-        if (avg < 1.2) P7 = avg / 1.2
-        else if (avg <= 3.5) P7 = 1
-        else P7 = Math.max(0, 1 - (avg - 3.5) / 5)
-      }
-
-      // Composite from key metrics (P4, P5, P7 are most affected by step 2/4 changes)
-      const composite = (P4 + P5 + P7) / 3
-      results.push({ pageNumber, composite, P4, P5, P7, regionCount: regions.length })
+      const s = scoreSinglePage(data.regions || [])
+      results.push({ pageNumber, ...s, regionCount: (data.regions||[]).length })
     } catch (err) {
       results.push({ pageNumber, composite: 0, error: err.message })
     }

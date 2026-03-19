@@ -1,0 +1,58 @@
+{
+  "skill_name": "hebbookocrtoeng",
+  "round": 4,
+  "status": "in_progress",
+  "current_experiment": 2,
+  "baseline_score": 67,
+  "best_score": 69,
+  "test_pages": [
+    {"pageNumber": 50, "pageId": "cmmno2m5d001di9xo7hzzctx7", "description": "two illustrations + scattered text annotations (FAIL E3)"},
+    {"pageNumber": 62, "pageId": "cmmno2m5d001pi9xos36d5f4c", "description": "photos top-left + two-column text wrapping (was FAIL E3)"},
+    {"pageNumber": 200, "pageId": "cmmno2m5f005ji9xoh6kvdxkk", "description": "illustration top + two-column text below (PASS — no bottom illustration)"},
+    {"pageNumber": 306, "pageId": "cmmno2m5g008hi9xoouxzdpvf", "description": "ornamental illustration bottom-left + two-column (was FAIL E3)"},
+    {"pageNumber": 10, "pageId": "cmmno2m5c0009i9xo1na35m2k", "description": "real table — regression check"},
+    {"pageNumber": 27, "pageId": "cmmno2m5c000qi9xogxaw5750", "description": "photos with small captions — regression check"},
+    {"pageNumber": 36, "pageId": "cmmno2m5c000zi9xo1q2p7toh", "description": "dense multi-section + photo — regression check"},
+    {"pageNumber": 100, "pageId": "cmmno2m5d002ri9xozs8es17s", "description": "text + large illustration — regression check"},
+    {"pageNumber": 160, "pageId": "cmmno2m5e004fi9xo4tgatimt", "description": "text + architectural diagram — regression check"},
+    {"pageNumber": 250, "pageId": "cmmno2m5f006xi9xod79oksvh", "description": "multiple photos + text — regression check"}
+  ],
+  "experiments": [
+    {
+      "id": 0,
+      "description": "baseline — R3 final (P200 E3 was actually PASS, not FAIL as R3 listed)",
+      "score": 67,
+      "max_score": 70,
+      "status": "baseline",
+      "failures": ["P50 E3: scattered annotation block overlaps illustrations", "P62 E3: left column covers photos at top-left", "P306 E3: left column covers bottom-left illustration"]
+    },
+    {
+      "id": 1,
+      "description": "sub-block splitting: detect OCR x-narrowing within columns to split at illustration boundaries",
+      "score": 68,
+      "max_score": 70,
+      "status": "keep",
+      "note": "Page 306 E3 FAIL→PASS. Left column split into wide top (y=8-78.5) + narrow bottom (x=38.2, y=78.7-95) avoiding illustration. Page 62 partial: narrow B1 correct but wide B3 starts at y=34.8 (transitional line pulls it up).",
+      "failures": ["P50 E3", "P62 E3: B3 wide block starts at y=34.8 due to transitional line L67"]
+    },
+    {
+      "id": 2,
+      "description": "skip leading transitional lines (x > medianMinX+10) from wide blocks after narrow regions",
+      "score": 69,
+      "max_score": 70,
+      "status": "keep",
+      "note": "Page 62 E3 FAIL→PASS. Wide block B3 now starts at y=36.7 (skips L67 at x=24.8 which was in the illustration transition zone). 15 chars lost from L67 — acceptable tradeoff.",
+      "failures": ["P50 E3: body zone (not column-split), scattered annotations create single block overlapping two illustrations"]
+    }
+  ],
+  "eval_breakdown": [
+    {"experiment": 0, "page": 50, "E3": 0},
+    {"experiment": 0, "page": 62, "E3": 0},
+    {"experiment": 0, "page": 200, "E3": 1, "note": "R3 listed as FAIL but pixel analysis confirms no illustration at bottom-left"},
+    {"experiment": 0, "page": 306, "E3": 0},
+    {"experiment": 2, "page": 50, "E3": 0},
+    {"experiment": 2, "page": 62, "E3": 1},
+    {"experiment": 2, "page": 200, "E3": 1},
+    {"experiment": 2, "page": 306, "E3": 1}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "round": 1,
+  "status": "complete",
+  "baseline_score": 44,
+  "best_score": 47,
+  "max_score": 50,
+  "test_pages": [
+    {"pageNumber": 300, "pageId": "cmmno2m5g008bi9xocg9d2zdi", "description": "labels on 3D illustrations"},
+    {"pageNumber": 106, "pageId": "cmmno2m5d002xi9xoqpdn7kbc", "description": "dense text + tiny label on illustration"},
+    {"pageNumber": 216, "pageId": "cmmno2m5f005zi9xooetsxo5e", "description": "mixed text/illustration body block"},
+    {"pageNumber": 296, "pageId": "cmmno2m5g0087i9xoqgd1ezk2", "description": "text on colored background"},
+    {"pageNumber": 250, "pageId": "cmmno2m5f006xi9xod79oksvh", "description": "scattered labels in illustration"},
+    {"pageNumber": 269, "pageId": "cmmno2m5f007gi9xozj84waa3", "description": "scattered text in right column"},
+    {"pageNumber": 189, "pageId": "cmmno2m5e0058i9xomoeq14u3", "description": "photos with embedded captions"},
+    {"pageNumber": 62, "pageId": "cmmno2m5d001pi9xos36d5f4c", "description": "regression check (R4)"},
+    {"pageNumber": 306, "pageId": "cmmno2m5g008hi9xoouxzdpvf", "description": "regression check (R4)"},
+    {"pageNumber": 100, "pageId": "cmmno2m5d002ri9xozs8es17s", "description": "regression check"}
+  ],
+  "experiments": [
+    {"id": 0, "description": "baseline", "score": 44, "status": "baseline"},
+    {"id": 1, "description": "body zone illustration-gap splitting + low-density expansion limit", "score": 44, "status": "keep", "note": "P300 risk 0.637→0.393"},
+    {"id": 2, "description": "column-split illustration-gap splitting + GAP_THRESHOLD 3→2.5", "score": 45, "status": "keep", "note": "P269 E3 FAIL→PASS (0.327→0.005)"},
+    {"id": 3, "description": "zone-level gap reduction 8→6 + illustration gap 3-8%", "score": 44, "status": "discard", "note": "Caused P189 merge regression"},
+    {"id": 4, "description": "per-line splitting for low-density body groups", "score": 47, "status": "keep", "note": "P250 PASS (0.389→0.007), P300 PASS (0.393→0.005)"},
+    {"id": 5, "description": "tall body block splitting at illustration strips", "score": 44, "status": "discard", "note": "No improvement — photo variance too low at full width"},
+    {"id": "5b", "description": "zone-level illustration gap (3-8% only)", "score": 44, "status": "discard", "note": "Same P189 merge issue"}
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "skill_name": "hebbookocrtoeng",
+  "status": "complete",
+  "current_experiment": 10,
+  "baseline_score": 57.1,
+  "best_score": 71.4,
+  "experiments": [
+    {
+      "id": 0,
+      "score": 20,
+      "max_score": 35,
+      "pass_rate": 57.1,
+      "status": "baseline",
+      "description": "original skill — no changes"
+    },
+    {
+      "id": 1,
+      "score": 21,
+      "max_score": 35,
+      "pass_rate": 60.0,
+      "status": "keep",
+      "description": "sparse table detection — reclassify illustration pages as body text"
+    },
+    {
+      "id": 2,
+      "score": 21,
+      "max_score": 35,
+      "pass_rate": 60.0,
+      "status": "discard",
+      "description": "tighter per-pixel cleanup (floor -30, divisor 60) — no visible improvement"
+    },
+    {
+      "id": 3,
+      "score": 21,
+      "max_score": 35,
+      "pass_rate": 60.0,
+      "status": "discard",
+      "description": "two-pass erasure (soft blend + hard replace at bg-20) — marginally cleaner but no eval flip"
+    },
+    {
+      "id": 4,
+      "score": 21,
+      "max_score": 35,
+      "pass_rate": 60.0,
+      "status": "keep",
+      "description": "fix zero-width blocks: minimum line width, filter tiny blocks (bug fix)"
+    },
+    {
+      "id": 5,
+      "score": 23,
+      "max_score": 35,
+      "pass_rate": 65.7,
+      "status": "keep",
+      "description": "two-column book page detection — reclassify 1-divider centered dense text as body, not table"
+    },
+    {
+      "id": 6,
+      "score": 24,
+      "max_score": 35,
+      "pass_rate": 68.6,
+      "status": "keep",
+      "description": "stronger blur (4.0 vs 2.0) on erasure patches — page 12 erasure flipped PASS"
+    },
+    {
+      "id": 7,
+      "score": 25,
+      "max_score": 35,
+      "pass_rate": 71.4,
+      "status": "keep",
+      "description": "diagram detection via inter-row pixel variance — page 33 table reclassified as body text"
+    }
+  ],
+  "eval_breakdown": [
+    {"name": "Hebrew text fully erased", "pass_count": 2, "total": 5},
+    {"name": "Erasure matches background color", "pass_count": 2, "total": 5},
+    {"name": "English text placed correctly", "pass_count": 3, "total": 5},
+    {"name": "Centered headers rendered centered", "pass_count": 5, "total": 5},
+    {"name": "Table text within columns", "pass_count": 5, "total": 5},
+    {"name": "Text color matches Hebrew", "pass_count": 5, "total": 5},
+    {"name": "Text size matches Hebrew", "pass_count": 3, "total": 5}
+  ]
+}

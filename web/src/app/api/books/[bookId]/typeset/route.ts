@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { PDFDocument, StandardFonts, rgb, PDFFont, PDFPage } from 'pdf-lib'
+import fontkit from '@pdf-lib/fontkit'
 import { getPageImageBuffer } from '@/lib/pipeline/shared'
 import { existsSync } from 'fs'
 import { readFile } from 'fs/promises'
@@ -57,7 +58,20 @@ const DEFAULT_CONFIG: TypesetConfig = {
 
 // ─── Text helpers ───────────────────────────────────────────────────────────
 
-function sanitizeForPdf(text: string): string {
+/** Check if a character is Hebrew (U+0590–U+05FF or U+FB1D–U+FB4F) */
+function isHebrew(ch: string): boolean {
+  const c = ch.charCodeAt(0)
+  return (c >= 0x0590 && c <= 0x05FF) || (c >= 0xFB1D && c <= 0xFB4F)
+}
+
+/** Sanitize text for PDF — preserve Hebrew & common Unicode, remove only truly unsupported chars */
+function sanitizeForPdf(text: string, keepHebrew = false): string {
+  if (keepHebrew) {
+    return text
+      .replace(/[\u0000-\u001F]/g, '')  // remove control chars only
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
   return text
     .replace(/[\u0590-\u05FF]/g, '')   // remove Hebrew
     .replace(/[^\x00-\x7F]/g, '')       // remove non-ASCII
@@ -65,7 +79,73 @@ function sanitizeForPdf(text: string): string {
     .trim()
 }
 
-function wrapText(text: string, font: PDFFont, fontSize: number, maxWidth: number): string[] {
+/** Split text into segments of [text, isHebrew] for bidi rendering */
+interface TextSegment { text: string; hebrew: boolean }
+
+function splitBidi(text: string): TextSegment[] {
+  if (!text) return []
+  const segments: TextSegment[] = []
+  let cur = ''
+  let curHeb = isHebrew(text[0])
+
+  for (const ch of text) {
+    const heb = isHebrew(ch)
+    if (heb === curHeb || ch === ' ') {
+      cur += ch
+    } else {
+      if (cur) segments.push({ text: cur, hebrew: curHeb })
+      cur = ch
+      curHeb = heb
+    }
+  }
+  if (cur) segments.push({ text: cur, hebrew: curHeb })
+  return segments
+}
+
+/** Reverse Hebrew text so pdf-lib's LTR drawing shows it correctly */
+function reverseHebrew(text: string): string {
+  return text.split('').reverse().join('')
+}
+
+/** Draw a line of mixed bidi text, handling font switching and RTL reversal */
+function drawBidiLine(
+  page: PDFPage,
+  line: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  latinFont: PDFFont,
+  hebrewFont: PDFFont,
+  color: ReturnType<typeof rgb>,
+) {
+  const segments = splitBidi(line)
+  let curX = x
+
+  for (const seg of segments) {
+    const font = seg.hebrew ? hebrewFont : latinFont
+    const drawText = seg.hebrew ? reverseHebrew(seg.text) : seg.text
+    try {
+      page.drawText(drawText, { x: curX, y, size: fontSize, font, color })
+      curX += font.widthOfTextAtSize(drawText, fontSize)
+    } catch {
+      // If font can't encode a char, skip that segment
+    }
+  }
+}
+
+/** Measure width of a bidi line across both fonts */
+function bidiLineWidth(line: string, fontSize: number, latinFont: PDFFont, hebrewFont: PDFFont): number {
+  const segments = splitBidi(line)
+  let w = 0
+  for (const seg of segments) {
+    const font = seg.hebrew ? hebrewFont : latinFont
+    try { w += font.widthOfTextAtSize(seg.text, fontSize) } catch { /* skip */ }
+  }
+  return w
+}
+
+/** Wrap text using latin font for measurement (Hebrew chars measured with hebrewFont) */
+function wrapTextBidi(text: string, latinFont: PDFFont, hebrewFont: PDFFont, fontSize: number, maxWidth: number): string[] {
   const words = text.split(/\s+/)
   if (words.length === 0) return []
 
@@ -75,11 +155,10 @@ function wrapText(text: string, font: PDFFont, fontSize: number, maxWidth: numbe
   for (const word of words) {
     if (!word) continue
     const testLine = currentLine ? `${currentLine} ${word}` : word
-    const width = font.widthOfTextAtSize(testLine, fontSize)
+    const width = bidiLineWidth(testLine, fontSize, latinFont, hebrewFont)
     if (width <= maxWidth && currentLine) {
       currentLine = testLine
     } else if (!currentLine) {
-      // First word on line — must accept it even if too wide
       currentLine = word
     } else {
       lines.push(currentLine)
@@ -89,6 +168,8 @@ function wrapText(text: string, font: PDFFont, fontSize: number, maxWidth: numbe
   if (currentLine) lines.push(currentLine)
   return lines
 }
+
+// wrapText removed — use wrapTextBidi instead
 
 interface ContentElement {
   type: 'header' | 'body' | 'illustration'
@@ -245,7 +326,7 @@ function drawPageNumber(
 async function renderElements(
   doc: PDFDocument,
   elements: ContentElement[],
-  fonts: { body: PDFFont; bold: PDFFont; header: PDFFont },
+  fonts: { body: PDFFont; bold: PDFFont; header: PDFFont; hebrew: PDFFont; hebrewBold: PDFFont },
   cfg: TypesetConfig,
   startPageNum: number,
 ): Promise<number> {
@@ -309,16 +390,17 @@ async function renderElements(
       curY -= drawH + cfg.illustrationPadding
 
     } else if (el.type === 'header') {
-      const text = sanitizeForPdf(el.text || '')
+      const text = sanitizeForPdf(el.text || '', true)
       if (!text) continue
 
       const fontSize = cfg.headerFontSize
       const font = fonts.header
+      const hebFont = fonts.hebrewBold
       const lh = fontSize * cfg.lineHeight
 
       curY -= cfg.headerSpacingAbove
 
-      const lines = wrapText(text, font, fontSize, textWidth)
+      const lines = wrapTextBidi(text, font, hebFont, fontSize, textWidth)
       const blockH = lines.length * lh
 
       if (curY - blockH < cfg.marginBottom) {
@@ -326,15 +408,9 @@ async function renderElements(
       }
 
       for (const line of lines) {
-        const lineW = font.widthOfTextAtSize(line, fontSize)
+        const lineW = bidiLineWidth(line, fontSize, font, hebFont)
         const x = cfg.marginLeft + (textWidth - lineW) / 2 // centered
-        pdfPage.drawText(line, {
-          x,
-          y: curY - fontSize,
-          size: fontSize,
-          font,
-          color: rgb(...cfg.headerColor),
-        })
+        drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.headerColor))
         curY -= lh
       }
 
@@ -350,27 +426,28 @@ async function renderElements(
       for (const para of paragraphs) {
         const isAllBold = para.startsWith('**') && para.endsWith('**')
         const cleanText = sanitizeForPdf(
-          para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1')
+          para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
+          true // keep Hebrew
         )
         if (!cleanText) continue
 
         const font = isAllBold ? fonts.bold : fonts.body
+        const hebFont = isAllBold ? fonts.hebrewBold : fonts.hebrew
         const fontSize = isAllBold ? cfg.subheaderFontSize : cfg.bodyFontSize
         const lh = fontSize * cfg.lineHeight
 
-        const lines = wrapText(cleanText, font, fontSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
+        const lines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
 
         // Re-wrap subsequent lines at full width
         let allLines: string[]
         if (!isAllBold && lines.length > 0 && cfg.firstLineIndent > 0) {
-          // First line is narrower (indented), rest at full width
           allLines = [lines[0]]
           if (lines.length > 1) {
             const restText = lines.slice(1).join(' ')
-            allLines.push(...wrapText(restText, font, fontSize, textWidth))
+            allLines.push(...wrapTextBidi(restText, font, hebFont, fontSize, textWidth))
           }
         } else {
-          allLines = wrapText(cleanText, font, fontSize, textWidth)
+          allLines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth)
         }
 
         const blockH = allLines.length * lh + cfg.paragraphSpacing
@@ -384,20 +461,13 @@ async function renderElements(
           let x = cfg.marginLeft
 
           if (isAllBold) {
-            // Center bold subheaders
-            const lineW = font.widthOfTextAtSize(line, fontSize)
+            const lineW = bidiLineWidth(line, fontSize, font, hebFont)
             x = cfg.marginLeft + (textWidth - lineW) / 2
           } else if (i === 0 && cfg.firstLineIndent > 0) {
             x += cfg.firstLineIndent
           }
 
-          pdfPage.drawText(line, {
-            x,
-            y: curY - fontSize,
-            size: fontSize,
-            font,
-            color: rgb(...cfg.textColor),
-          })
+          drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor))
           curY -= lh
         }
 
@@ -449,24 +519,40 @@ export async function GET(
       return NextResponse.json({ error: 'No pages found in range' }, { status: 404 })
     }
 
-    // Create PDF
+    // Create PDF with fontkit for custom font embedding
     const doc = await PDFDocument.create()
+    doc.registerFontkit(fontkit)
+
     const bodyFont = await doc.embedFont(StandardFonts.TimesRoman)
     const boldFont = await doc.embedFont(StandardFonts.TimesRomanBold)
     const headerFont = await doc.embedFont(StandardFonts.TimesRomanBold)
-    const fonts = { body: bodyFont, bold: boldFont, header: headerFont }
+
+    // Load Hebrew fonts
+    let hebrewFont: PDFFont = bodyFont // fallback
+    let hebrewBoldFont: PDFFont = boldFont
+    try {
+      const fontsDir = path.join(process.cwd(), 'public', 'fonts')
+      const hebRegularPath = path.join(fontsDir, 'NotoSerifHebrew-Regular.ttf')
+      const hebBoldPath = path.join(fontsDir, 'NotoSerifHebrew-Bold.ttf')
+      if (existsSync(hebRegularPath)) {
+        const hebBytes = await readFile(hebRegularPath)
+        hebrewFont = await doc.embedFont(hebBytes, { subset: true })
+      }
+      if (existsSync(hebBoldPath)) {
+        const hebBoldBytes = await readFile(hebBoldPath)
+        hebrewBoldFont = await doc.embedFont(hebBoldBytes, { subset: true })
+      }
+    } catch (e) {
+      console.error('Failed to load Hebrew fonts:', e)
+    }
+
+    const fonts = { body: bodyFont, bold: boldFont, header: headerFont, hebrew: hebrewFont, hebrewBold: hebrewBoldFont }
 
     // Title page
     const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
-    const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu')
-    const titleWidth = headerFont.widthOfTextAtSize(titleText, 20)
-    titlePage.drawText(titleText, {
-      x: (cfg.pageWidth - titleWidth) / 2,
-      y: cfg.pageHeight * 0.6,
-      size: 20,
-      font: headerFont,
-      color: rgb(...cfg.headerColor),
-    })
+    const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
+    const titleWidth = bidiLineWidth(titleText, 20, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.6, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
     const subtitleText = 'English Translation'
     const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 14)
     titlePage.drawText(subtitleText, {

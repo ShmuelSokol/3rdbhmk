@@ -1,0 +1,82 @@
+{
+  "skill_name": "hebbookocrtoeng",
+  "round": 2,
+  "status": "complete",
+  "current_experiment": 6,
+  "baseline_score": 82.9,
+  "best_score": 91.4,
+  "test_pages": [
+    {"pageNumber": 20, "pageId": "cmmno2m5c000ji9xolnqrwt5i", "description": "body text + large illustration at bottom"},
+    {"pageNumber": 28, "pageId": "cmmno2m5c000ri9xozf66l0wz", "description": "photo grid, multi-column text between photos"},
+    {"pageNumber": 85, "pageId": "cmmno2m5d002ci9xo0n7niiqu", "description": "handwritten Hebrew on beige/yellow background with ruled lines"},
+    {"pageNumber": 150, "pageId": "cmmno2m5e0045i9xommkk6m2l", "description": "complex multi-section layout with orange borders + illustration"},
+    {"pageNumber": 352, "pageId": "cmmno2m5g009ri9xor7tk80lx", "description": "dense text-heavy page with colored border frame"}
+  ],
+  "experiments": [
+    {
+      "id": 0,
+      "score": 29,
+      "max_score": 35,
+      "pass_rate": 82.9,
+      "status": "baseline",
+      "description": "original skill (post round 1) — no changes"
+    },
+    {
+      "id": 1,
+      "score": 30,
+      "max_score": 35,
+      "pass_rate": 85.7,
+      "status": "keep",
+      "description": "marginal annotations detection — reclassify clustered-divider table zones as body text"
+    },
+    {
+      "id": 2,
+      "score": 30,
+      "max_score": 35,
+      "pass_rate": 85.7,
+      "status": "discard",
+      "description": "color validation + bg fallback — white backgrounds confirmed"
+    },
+    {
+      "id": 3,
+      "score": null,
+      "max_score": 35,
+      "pass_rate": null,
+      "status": "discard",
+      "description": "x-shift body splitting — over-splits two-column Hebrew text"
+    },
+    {
+      "id": 4,
+      "score": 31,
+      "max_score": 35,
+      "pass_rate": 88.6,
+      "status": "keep",
+      "description": "increased top erasure padding (padTop=1.2%) — catches OCR alignment offset in colored bars"
+    },
+    {
+      "id": 5,
+      "score": 31,
+      "max_score": 35,
+      "pass_rate": 88.6,
+      "status": "discard",
+      "description": "bidirectional centered split — page 85 centered block has no English text"
+    },
+    {
+      "id": 6,
+      "score": 32,
+      "max_score": 35,
+      "pass_rate": 91.4,
+      "status": "keep",
+      "description": "column-split for asymmetric two-column zones — Method 3 dividers + column bounds prevent illustration overlap"
+    }
+  ],
+  "eval_breakdown": [
+    {"name": "Hebrew text fully erased", "pass_count": 4, "total": 5},
+    {"name": "Erasure matches background color", "pass_count": 5, "total": 5},
+    {"name": "English text placed correctly", "pass_count": 5, "total": 5},
+    {"name": "Centered headers rendered centered", "pass_count": 4, "total": 5},
+    {"name": "Table text within columns", "pass_count": 5, "total": 5},
+    {"name": "Text color matches Hebrew", "pass_count": 5, "total": 5},
+    {"name": "Text size matches Hebrew", "pass_count": 5, "total": 5}
+  ]
+}

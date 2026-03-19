@@ -1,0 +1,63 @@
+{
+  "skill_name": "hebbookocrtoeng",
+  "round": 3,
+  "status": "complete",
+  "current_experiment": 3,
+  "baseline_score": 94.3,
+  "best_score": 95.7,
+  "test_pages": [
+    {"pageNumber": 27, "pageId": "cmmno2m5c000qi9xogxaw5750", "description": "photos with small captions"},
+    {"pageNumber": 36, "pageId": "cmmno2m5c000zi9xo1q2p7toh", "description": "dense multi-section, colored bars, photo mid-page"},
+    {"pageNumber": 40, "pageId": "cmmno2m5c0013i9xoeag5en8o", "description": "large illustration + technical diagrams"},
+    {"pageNumber": 50, "pageId": "cmmno2m5d001di9xo7hzzctx7", "description": "two illustrations + text column"},
+    {"pageNumber": 62, "pageId": "cmmno2m5d001pi9xos36d5f4c", "description": "dense two-column + photos + headers"},
+    {"pageNumber": 100, "pageId": "cmmno2m5d002ri9xozs8es17s", "description": "text top + large fire illustration"},
+    {"pageNumber": 160, "pageId": "cmmno2m5e004fi9xo4tgatimt", "description": "text top + architectural diagram"},
+    {"pageNumber": 200, "pageId": "cmmno2m5f005ji9xoh6kvdxkk", "description": "illustration top + two-column text"},
+    {"pageNumber": 250, "pageId": "cmmno2m5f006xi9xod79oksvh", "description": "multiple photos + text"},
+    {"pageNumber": 306, "pageId": "cmmno2m5g008hi9xoouxzdpvf", "description": "dense two-column + small illustration"}
+  ],
+  "experiments": [
+    {
+      "id": 0,
+      "score": 66,
+      "max_score": 70,
+      "pass_rate": 94.3,
+      "status": "baseline",
+      "description": "post round 2 skill — no changes"
+    },
+    {
+      "id": 1,
+      "score": 67,
+      "max_score": 70,
+      "pass_rate": 95.7,
+      "status": "keep",
+      "description": "isTwoColumnBook divider limit 10→20 — photo edges create false dividers"
+    },
+    {
+      "id": 2,
+      "score": 67,
+      "max_score": 70,
+      "pass_rate": 95.7,
+      "status": "keep",
+      "description": "always-split two-column zones + edge-out expansion for column blocks"
+    },
+    {
+      "id": 3,
+      "score": null,
+      "max_score": 70,
+      "pass_rate": null,
+      "status": "discard",
+      "description": "bottom illustration trimming via variance — too aggressive, trims body text"
+    }
+  ],
+  "eval_breakdown": [
+    {"name": "Hebrew text fully erased", "pass_count": 10, "total": 10},
+    {"name": "Erasure matches background color", "pass_count": 10, "total": 10},
+    {"name": "English text placed correctly", "pass_count": 6, "total": 10},
+    {"name": "Centered headers rendered centered", "pass_count": 10, "total": 10},
+    {"name": "Table text within columns", "pass_count": 10, "total": 10},
+    {"name": "Text color matches Hebrew", "pass_count": 10, "total": 10},
+    {"name": "Text size matches Hebrew", "pass_count": 10, "total": 10}
+  ]
+}

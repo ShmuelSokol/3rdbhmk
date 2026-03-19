@@ -1,0 +1,12 @@
+experiment	score	max_score	pass_rate	status	description
+0	20	35	57.1%	baseline	original skill — no changes
+1	21	35	60.0%	keep	sparse table detection — reclassify illustration pages as body text
+2	21	35	60.0%	discard	tighter per-pixel cleanup (floor -30, divisor 60) — no visible improvement
+3	21	35	60.0%	discard	two-pass erasure (soft blend + hard replace at bg-20) — marginally cleaner but no eval flip
+4	21	35	60.0%	keep	fix zero-width blocks: minimum line width, filter tiny blocks (bug fix)
+5	23	35	65.7%	keep	two-column book page detection — reclassify as body text
+6	24	35	68.6%	keep	stronger blur (4.0 vs 2.0) on erasure patches — page 12 erasure flipped PASS
+7	25	35	71.4%	keep	diagram detection via inter-row pixel variance — page 33 table reclassified as body text
+8a	25	35	71.4%	discard	x-position clustering — over-splits page 22 captions
+8b	25	35	71.4%	discard	blur 6.0 — page 4 regression (over-smoothing)
+9	25	35	71.4%	discard	median horizontal expansion — doesn't constrain diagram blocks (text spans full width)

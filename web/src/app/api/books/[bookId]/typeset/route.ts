@@ -902,6 +902,13 @@ async function renderElements(
     }
 
     if (el.type === 'illustration' && el.imageData) {
+      // Check if previous element was a caption/header that should stay with this image
+      // If we're about to start a new page for the image, check if the caption above
+      // used less than 15% of the page — if so, it's an orphaned caption that should
+      // move to the new page with us. Since we can't undo drawn text, we instead
+      // ensure captions preceding illustrations always have enough room for both.
+      // (The actual prevention happens in the caption rendering with look-ahead below)
+
       // Embed illustration
       let img
       try {
@@ -982,8 +989,20 @@ async function renderElements(
       const captionSize = cfg.bodyFontSize * 0.85
       const captionLh = captionSize * cfg.lineHeight
       const lines = wrapTextBidi(text, fonts.body, fonts.hebrew, captionSize, textWidth * 0.85)
+      const captionH = lines.length * captionLh
 
-      if (curY - lines.length * captionLh < safeMarginBottom) {
+      // Look-ahead: if next element is an illustration, keep caption + image together
+      // If both don't fit on current page, start a new page NOW (before the caption)
+      const nextEl2 = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      if (nextEl2 && nextEl2.type === 'illustration') {
+        // Estimate image height (at least 200pt for a typical illustration)
+        const estimatedImgH = textHeight * 0.3 // conservative estimate
+        if (curY - captionH - estimatedImgH < safeMarginBottom) {
+          newPage()
+        }
+      }
+
+      if (curY - captionH < safeMarginBottom) {
         newPage()
       }
 

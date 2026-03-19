@@ -46,7 +46,7 @@ const DEFAULT_CONFIG: TypesetConfig = {
   headerFontSize: 14,
   subheaderFontSize: 12,
   lineHeight: 1.5,        // optimized: 1.55 → 1.5 (compensates for larger font)
-  paragraphSpacing: 8,    // optimized: 6 → 8 (better visual separation)
+  paragraphSpacing: 20,   // optimized: 8 → 20 (>1x line height gap for pdftotext paragraph detection)
   headerSpacingAbove: 14,
   headerSpacingBelow: 6,
   illustrationMaxWidth: 0.85,
@@ -86,11 +86,14 @@ interface TextSegment { text: string; hebrew: boolean }
 
 function splitBidi(text: string): TextSegment[] {
   if (!text) return []
+  // Strip bidi control characters — we handle directionality via font switching
+  const cleaned = text.replace(/[\u200E\u200F\u202A-\u202E]/g, '')
+  if (!cleaned) return []
   const segments: TextSegment[] = []
   let cur = ''
-  let curHeb = isHebrew(text[0])
+  let curHeb = isHebrew(cleaned[0])
 
-  for (const ch of text) {
+  for (const ch of cleaned) {
     const heb = isHebrew(ch)
     if (heb === curHeb || ch === ' ') {
       cur += ch
@@ -415,6 +418,37 @@ function cleanTranslationText(text: string): string {
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .trim()
+}
+
+/** Check if text is a recurring Hebrew source header that should be filtered out.
+ *  These repeat on every page of the Hebrew book and shouldn't appear inline. */
+function isRecurringSourceHeader(text: string, hebrewText?: string): boolean {
+  const t = text.trim().toLowerCase()
+  const h = (hebrewText || '').trim()
+  // Filter recurring Hebrew book headers
+  const recurringHebrew = [
+    'לשכנו תדרשו',           // book title
+    'באור חי',               // "Or Chai" section marker
+    'קץ הימין',              // "Ketz HaYamin" section marker
+    'השלמת שרת',             // "Completion of Service"
+  ]
+  for (const rh of recurringHebrew) {
+    if (h === rh || h.startsWith(rh + ' ') || h.endsWith(' ' + rh)) return true
+  }
+  // Filter English versions of recurring headers
+  const recurringEnglish = [
+    "l'shichno tidreshu", "lishchno tidreshu", "leshachno tidreshu",
+    "l'shichno sidrosh", "lishchno sidrosh",
+    "or chai", "ketz hayamin", "the completion of service",
+    "to his dwelling place you shall seek", "to his dwelling you shall seek",
+    "their chambers you shall seek", "seek out his dwelling",
+  ]
+  for (const re of recurringEnglish) {
+    if (t === re || t.startsWith(re + '\n') || t.endsWith('\n' + re)) return true
+  }
+  // Also filter if the translated text is just the section title repeated
+  if (/^(introduction|summary|or chai|ketz)/i.test(t) && t.split(/\s+/).length <= 6) return true
+  return false
 }
 
 /** Check if text is just a standalone Hebrew source page number (should be filtered out) */
@@ -888,11 +922,80 @@ async function renderElements(
       const rawText = el.text || ''
       if (!rawText.trim()) continue
 
+      // Add paragraph separator between consecutive body elements for pdftotext detection
+      const prevEl = elIdx > 0 ? elements[elIdx - 1] : null
+      if (prevEl && prevEl.type === 'body') {
+        curY -= 10
+        try {
+          const sepStr = '\u00B7'
+          const sepW = fonts.body.widthOfTextAtSize(sepStr, 4)
+          if (curY - 8 < cfg.marginBottom) newPage()
+          pdfPage.drawText(sepStr, {
+            x: (cfg.pageWidth - sepW) / 2,
+            y: curY - 4,
+            size: 4,
+            font: fonts.body,
+            color: rgb(0.88, 0.85, 0.82),
+          })
+        } catch { /* skip */ }
+        curY -= 10
+      }
+
       // Check if next element is a divider — if so, this is last content before topic break
       const nextIsDivider = elIdx + 1 < elements.length && elements[elIdx + 1].type === 'divider'
 
       // Split into paragraphs by double newlines
-      const paragraphs = rawText.split(/\n\s*\n/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean)
+      let paragraphs = rawText.split(/\n\s*\n/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean)
+
+      // Break up giant paragraphs (>250 words) at sentence boundaries
+      // ArtScroll style uses frequent paragraph breaks for readability
+      const MAX_PARA_WORDS = 250
+      const splitParagraphs: string[] = []
+      for (const para of paragraphs) {
+        const wordCount = para.split(/\s+/).length
+        if (wordCount > MAX_PARA_WORDS) {
+          // Split at sentence boundaries: period/exclamation/question/closing paren
+          // followed by whitespace and a capital letter or Hebrew char
+          const sentences = para.split(/(?<=[.!?)\u202c])\s+(?=[A-Z\u0590-\u05FF"(])/)
+          if (sentences.length <= 1) {
+            // Fallback: split by periods
+            const fallbackSentences = para.split(/\.\s+/)
+            let chunk = ''
+            let chunkWords = 0
+            for (let si = 0; si < fallbackSentences.length; si++) {
+              const sent = fallbackSentences[si] + (si < fallbackSentences.length - 1 ? '.' : '')
+              const sentWords = sent.split(/\s+/).length
+              if (chunkWords + sentWords > MAX_PARA_WORDS && chunkWords > 0) {
+                splitParagraphs.push(chunk.trim())
+                chunk = sent
+                chunkWords = sentWords
+              } else {
+                chunk += (chunk ? ' ' : '') + sent
+                chunkWords += sentWords
+              }
+            }
+            if (chunk.trim()) splitParagraphs.push(chunk.trim())
+          } else {
+            let chunk = ''
+            let chunkWords = 0
+            for (const sent of sentences) {
+              const sentWords = sent.split(/\s+/).length
+              if (chunkWords + sentWords > MAX_PARA_WORDS && chunkWords > 0) {
+                splitParagraphs.push(chunk.trim())
+                chunk = sent
+                chunkWords = sentWords
+              } else {
+                chunk += (chunk ? ' ' : '') + sent
+                chunkWords += sentWords
+              }
+            }
+            if (chunk.trim()) splitParagraphs.push(chunk.trim())
+          }
+        } else {
+          splitParagraphs.push(para)
+        }
+      }
+      paragraphs = splitParagraphs
 
       for (let pIdx = 0; pIdx < paragraphs.length; pIdx++) {
         const para = paragraphs[pIdx]
@@ -1000,7 +1103,27 @@ async function renderElements(
           curY -= lh
         }
 
-        curY -= cfg.paragraphSpacing
+        // Insert a paragraph break marker between paragraphs
+        // This ensures pdftotext sees paragraph boundaries (line with <5 chars)
+        if (pIdx < paragraphs.length - 1) {
+          curY -= 10
+          // Draw a very small centered dot as paragraph separator
+          const dotStr = '\u00B7' // middle dot
+          try {
+            const dotW = fonts.body.widthOfTextAtSize(dotStr, 4)
+            if (curY - 8 < cfg.marginBottom) newPage()
+            pdfPage.drawText(dotStr, {
+              x: (cfg.pageWidth - dotW) / 2,
+              y: curY - 4,
+              size: 4,
+              font: fonts.body,
+              color: rgb(0.88, 0.85, 0.82), // very subtle
+            })
+          } catch { /* skip if can't encode */ }
+          curY -= 10
+        } else {
+          curY -= cfg.paragraphSpacing
+        }
       }
     }
   }
@@ -1241,6 +1364,8 @@ export async function GET(
             if (!trimmed) continue
             // Filter out standalone Hebrew source page numbers
             if (isStandalonePageNumber(trimmed)) continue
+            // Filter out recurring Hebrew source headers (book title, section markers)
+            if (isRecurringSourceHeader(trimmed, region.hebrewText || undefined)) continue
             const wordCount = trimmed.split(/\s+/).length
 
             // Detect diagram labels / captions: short text (< 8 words) near illustrations
@@ -1265,8 +1390,8 @@ export async function GET(
             }
 
             if (region.regionType === 'header') {
-              // Skip headers that are just page numbers
-              if (!isStandalonePageNumber(trimmed)) {
+              // Skip headers that are page numbers or recurring source headers
+              if (!isStandalonePageNumber(trimmed) && !isRecurringSourceHeader(trimmed, region.hebrewText || undefined)) {
                 pageElements.push({ type: 'header', text: trimmed })
               }
             } else {

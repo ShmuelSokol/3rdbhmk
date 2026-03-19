@@ -18,6 +18,35 @@ export async function GET(
   }
 }
 
+/** PUT — update translated text for a region */
+export async function PUT(
+  request: Request,
+  { params }: { params: { pageId: string } }
+) {
+  try {
+    const { regionId, translatedText } = await request.json()
+
+    if (!regionId || translatedText === undefined) {
+      return NextResponse.json({ error: 'regionId and translatedText required' }, { status: 400 })
+    }
+
+    const region = await prisma.contentRegion.findUnique({ where: { id: regionId } })
+    if (!region || region.pageId !== params.pageId) {
+      return NextResponse.json({ error: 'Region not found' }, { status: 404 })
+    }
+
+    const updated = await prisma.contentRegion.update({
+      where: { id: regionId },
+      data: { translatedText },
+    })
+
+    return NextResponse.json(updated)
+  } catch (error) {
+    console.error('Update translation error:', error)
+    return NextResponse.json({ error: 'Failed to update translation' }, { status: 500 })
+  }
+}
+
 /** PATCH — update manual coordinates for a region */
 export async function PATCH(
   request: Request,

@@ -525,6 +525,15 @@ function isStandalonePageNumber(text: string): boolean {
 /** Detect if a page is primarily a diagram/flowchart (mostly short labels, not body text) */
 function isDiagramPage(regions: { translatedText?: string | null; regionType: string; origHeight: number }[]): boolean {
   const translated = regions.filter(r => r.translatedText?.trim())
+
+  // Check for explicit diagram markers first — if ANY region contains these,
+  // treat as diagram page regardless of region count or short-label ratio
+  // (some diagram pages have more body text than short labels)
+  const diagramMarkerPattern = /\[THIS IS DIAGRAM|Drawing \d|Diagram \d|Sketch of/i
+  for (const r of translated) {
+    if (diagramMarkerPattern.test(r.translatedText || '')) return true
+  }
+
   if (translated.length < 3) return false
 
   const shortLabels = translated.filter(r => {
@@ -875,10 +884,13 @@ async function renderElements(
 
   decoratePage(pdfPage, startPageNum, fonts.body, cfg, runningTitle)
 
+  let contentRenderedOnPage = false // tracks if real content was rendered on current page
+
   const newPage = () => {
     pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
     pageCount++
     curY = cfg.pageHeight - cfg.marginTop
+    contentRenderedOnPage = false
     decoratePage(pdfPage, startPageNum + pageCount - 1, fonts.body, cfg, runningTitle)
   }
 
@@ -907,13 +919,15 @@ async function renderElements(
         curY -= 8
         drawSectionDivider(pdfPage, curY, cfg)
         curY -= 14
-      } else if (usedSpace > 20) {
+      } else if (usedSpace > 20 && contentRenderedOnPage) {
+        // Only create a new page if we actually rendered content on this one.
+        // If no content was rendered (blank page), suppress the new page to avoid blank pages.
         newPage()
         curY -= 8
         drawSectionDivider(pdfPage, curY, cfg)
         curY -= 14
       } else {
-        // Already at top of page
+        // Already at top of page or no content rendered — just draw divider in place
         curY -= 8
         drawSectionDivider(pdfPage, curY, cfg)
         curY -= 14
@@ -953,7 +967,6 @@ async function renderElements(
       // If it doesn't fit at 70%, start a new page instead
       const minDrawW = drawW * 0.7
       const minDrawH = drawH * 0.7
-      const minTotalH = minDrawH + cfg.illustrationPadding * 2
 
       const remaining = curY - safeMarginBottom
       if (totalH > remaining) {
@@ -1001,6 +1014,7 @@ async function renderElements(
         })
         curY -= drawH + cfg.illustrationPadding
       }
+      contentRenderedOnPage = true
 
     } else if (el.type === 'caption') {
       // Render as smaller italic-style caption text (centered)
@@ -1023,7 +1037,7 @@ async function renderElements(
         }
       }
 
-      if (curY - captionH < safeMarginBottom) {
+      if (curY - captionH < safeMarginBottom && contentRenderedOnPage) {
         newPage()
       }
 
@@ -1034,6 +1048,7 @@ async function renderElements(
         curY -= captionLh
       }
       curY -= cfg.paragraphSpacing * 0.5
+      contentRenderedOnPage = true
 
     } else if (el.type === 'table' && el.rows) {
       // Render table with aligned columns and text wrapping
@@ -1172,6 +1187,7 @@ async function renderElements(
         thickness: 0.5, color: rgb(0.62, 0.58, 0.52),
       })
       curY -= cfg.paragraphSpacing
+      contentRenderedOnPage = true
 
     } else if (el.type === 'header') {
       const text = sanitizeForPdf(el.text || '', true)
@@ -1187,7 +1203,9 @@ async function renderElements(
       const lines = wrapTextBidi(text, font, hebFont, fontSize, textWidth)
       const blockH = lines.length * lh
 
-      if (curY - blockH < safeMarginBottom) {
+      if (curY - blockH < safeMarginBottom && contentRenderedOnPage) {
+        // Only start a new page for the header if we already have content on this page.
+        // If the page is empty, start rendering here — per-line breaks will handle overflow.
         newPage()
       }
 
@@ -1223,6 +1241,7 @@ async function renderElements(
       }
 
       curY -= cfg.headerSpacingBelow
+      contentRenderedOnPage = true
 
     } else if (el.type === 'body') {
       const rawText = el.text || ''
@@ -1392,6 +1411,7 @@ async function renderElements(
         }
 
         curY -= cfg.paragraphSpacing
+        contentRenderedOnPage = true
       }
     }
   }

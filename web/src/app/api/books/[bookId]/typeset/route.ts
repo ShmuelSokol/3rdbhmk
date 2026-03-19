@@ -786,7 +786,6 @@ async function renderElements(
               // Try progressively larger squeezes for the remaining lines
               let squeezed = false
               for (const factor of [0.92, 0.88, 0.85]) {
-                const sqLh = fontSize * factor * cfg.lineHeight / fontSize * lh * (factor)
                 const sqH = remainingLines * (lh * factor)
                 if (sqH <= spaceLeft + lh * 0.5) {
                   // Re-render remaining lines with squeezed spacing

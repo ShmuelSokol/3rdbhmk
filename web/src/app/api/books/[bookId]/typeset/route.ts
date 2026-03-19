@@ -678,16 +678,8 @@ function decoratePage(
     })
   }
 
-  // Page number with decorative dashes
-  const pageStr = `\u2014  ${pageNum}  \u2014`
-  const pnW = font.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
-  pdfPage.drawText(pageStr, {
-    x: (cfg.pageWidth - pnW) / 2,
-    y: cfg.marginBottom / 2 - 2,
-    size: cfg.pageNumberFontSize,
-    font,
-    color: rgb(0.48, 0.45, 0.42),
-  })
+  // Page numbers are drawn AFTER all pages are finalized (see addPageNumbers)
+  // This ensures correct numbering even after TOC page insertion
 }
 
 /** Draw a centered ornamental divider between sections */
@@ -1002,17 +994,9 @@ async function renderElements(
         newPage()
       }
 
-      // Track this header for the Table of Contents
-      // Only include meaningful topic headers (not short labels, measurements, or diagram text)
+      // Track ALL headers with page numbers for TOC cross-referencing
       const tocTitle = text.replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s*[—\-]\s*/g, '').trim()
-      const tocWords = tocTitle.split(/\s+/).length
-      const isMeaningfulTitle = tocTitle.length > 15 && tocTitle.length < 100
-        && tocWords >= 3 && tocWords <= 15
-        && !/^\d/.test(tocTitle) // doesn't start with a number
-        && !/^[A-Z]\d/.test(tocTitle) // not a reference like "A5"
-        && !/amos|cubit|amah/i.test(tocTitle) // not measurements
-        && !/^(or chai|ketz|completion|spiritual|physical)/i.test(tocTitle) // not section markers
-      if (isMeaningfulTitle) {
+      if (tocTitle.length > 10) {
         tocEntries.push({ title: tocTitle, pageNum: startPageNum + pageCount - 1 })
       }
 
@@ -1328,13 +1312,26 @@ export async function GET(
     const allElements: ContentElement[] = []
     let isFirstSection = true
 
+    const hebrewTocTitles: string[] = [] // topics from Hebrew TOC pages
+
     for (const page of pages) {
       const pageElements: ContentElement[] = []
       const regions = page.regions || []
       const translation = page.translation
 
-      // Skip Hebrew TOC pages — we'll generate our own English TOC with correct page numbers
-      if (isTocPage(regions)) continue
+      // Extract TOC entries from Hebrew TOC pages before skipping them
+      if (isTocPage(regions)) {
+        // Save the translated topic names from the Hebrew TOC
+        for (const r of regions) {
+          if (!r.translatedText?.trim()) continue
+          const text = cleanTranslationText(r.translatedText).replace(/[\u0590-\u05FF\u200E]+/g, '').replace(/\s*[—\-]\s*/g, ' ').trim()
+          // Extract topic titles (not page numbers, not section labels)
+          if (text.length > 15 && text.length < 120 && !/^\d/.test(text) && text.split(/\s+/).length >= 3) {
+            hebrewTocTitles.push(text)
+          }
+        }
+        continue
+      }
 
       // Skip the half-title page (usually source page 2) — it just repeats the book title
       // which we already show on the English title page
@@ -1561,15 +1558,50 @@ export async function GET(
     // We now know exactly which page each topic landed on.
     // Insert TOC pages at index 1 (after title page, before content).
     // This shifts all content page numbers by tocPageCount, so we adjust.
-    if (renderedTocEntries.length > 0) {
-      // Deduplicate TOC entries (same title on same page)
-      const seenToc = new Set<string>()
-      const uniqueToc = renderedTocEntries.filter(e => {
-        const key = `${e.title}:${e.pageNum}`
-        if (seenToc.has(key)) return false
-        seenToc.add(key)
-        return true
-      })
+    if (renderedTocEntries.length > 0 || hebrewTocTitles.length > 0) {
+      // Build TOC from Hebrew TOC titles matched to rendered header page numbers
+      // This ensures we list ONLY what the Hebrew book listed
+      let tocItems: TocEntry[] = []
+
+      if (hebrewTocTitles.length > 0) {
+        // Match Hebrew TOC titles to rendered headers by fuzzy text matching
+        const uniqueHebTitles = Array.from(new Set(hebrewTocTitles))
+        for (const hebTitle of uniqueHebTitles) {
+          const hebLower = hebTitle.toLowerCase()
+          // Find the best matching rendered header
+          let bestMatch: TocEntry | null = null
+          let bestScore = 0
+          for (const entry of renderedTocEntries) {
+            const entryLower = entry.title.toLowerCase()
+            // Check if the Hebrew TOC title is a substring or close match
+            const words = hebLower.split(/\s+/)
+            const matchingWords = words.filter(w => w.length > 3 && entryLower.includes(w))
+            const score = matchingWords.length / words.length
+            if (score > bestScore && score > 0.3) {
+              bestScore = score
+              bestMatch = entry
+            }
+          }
+          if (bestMatch) {
+            tocItems.push({ title: hebTitle, pageNum: bestMatch.pageNum })
+          }
+        }
+      }
+
+      // Fallback: if no Hebrew TOC titles found, use rendered headers
+      if (tocItems.length === 0) {
+        const seenToc = new Set<string>()
+        tocItems = renderedTocEntries.filter(e => {
+          if (e.title.length < 15 || e.title.length > 100) return false
+          if (e.title.split(/\s+/).length < 3) return false
+          const key = `${e.title}:${e.pageNum}`
+          if (seenToc.has(key)) return false
+          seenToc.add(key)
+          return true
+        })
+      }
+
+      const uniqueToc = tocItems
 
       // Calculate how many TOC pages we need
       const tocFontSize = cfg.bodyFontSize * 0.9
@@ -1687,35 +1719,25 @@ export async function GET(
         doc.insertPage(1 + i, tocPages[i])
       }
 
-      // Fix page numbers on content pages — they were drawn with numbers starting at 2,
-      // but after TOC insertion they should start at 2 + tocPageCount.
-      // Draw a white rectangle over the old page number and redraw with correct number.
-      const updatedPages = doc.getPages()
-      const contentStartIdx = 1 + tocPageCount // index 0 = title, 1..tocPageCount = TOC
-      for (let i = contentStartIdx; i < updatedPages.length; i++) {
-        const pg = updatedPages[i]
-        const correctNum = i + 1 // 1-indexed page number
-        const pageStr = `\u2014  ${correctNum}  \u2014`
-        const pnW = bodyFont.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
-        // White-out the old page number
-        pg.drawRectangle({
-          x: cfg.pageWidth * 0.3,
-          y: cfg.marginBottom / 2 - 8,
-          width: cfg.pageWidth * 0.4,
-          height: 14,
-          color: rgb(1, 1, 1), // white
-        })
-        // Draw correct page number
-        pg.drawText(pageStr, {
-          x: (cfg.pageWidth - pnW) / 2,
-          y: cfg.marginBottom / 2 - 2,
-          size: cfg.pageNumberFontSize,
-          font: bodyFont,
-          color: rgb(0.48, 0.45, 0.42),
-        })
-      }
-
       totalPdfPages += tocPageCount
+    }
+
+    // Add page numbers to ALL pages as the final step
+    // This runs AFTER TOC insertion so numbers are always correct
+    const finalPages = doc.getPages()
+    for (let i = 0; i < finalPages.length; i++) {
+      const pg = finalPages[i]
+      const num = i + 1
+      if (i === 0) continue // skip title page (already has custom design)
+      const pageStr = `\u2014  ${num}  \u2014`
+      const pnW = bodyFont.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
+      pg.drawText(pageStr, {
+        x: (cfg.pageWidth - pnW) / 2,
+        y: cfg.marginBottom / 2 - 2,
+        size: cfg.pageNumberFontSize,
+        font: bodyFont,
+        color: rgb(0.48, 0.45, 0.42),
+      })
     }
 
     // Generate PDF buffer

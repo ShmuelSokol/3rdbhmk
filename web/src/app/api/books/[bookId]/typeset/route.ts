@@ -888,15 +888,28 @@ async function renderElements(
 
     if (el.type === 'divider') {
       // New topic = new page (matches Hebrew book layout)
-      // Only start new page if we're not already at the top
+      // EXCEPTION: if the next element is an illustration and there's space on this page,
+      // skip the new page — let the image fill the remaining space instead of leaving blank
+      const nextAfterDivider = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      const remainingSpace = curY - safeMarginBottom
       const usedSpace = (cfg.pageHeight - cfg.marginTop) - curY
-      if (usedSpace > 20) {
+
+      if (nextAfterDivider?.type === 'illustration' && remainingSpace > textHeight * 0.25) {
+        // Enough space for an image — just draw a small divider, don't force new page
+        curY -= 8
+        drawSectionDivider(pdfPage, curY, cfg)
+        curY -= 14
+      } else if (usedSpace > 20) {
         newPage()
+        curY -= 8
+        drawSectionDivider(pdfPage, curY, cfg)
+        curY -= 14
+      } else {
+        // Already at top of page
+        curY -= 8
+        drawSectionDivider(pdfPage, curY, cfg)
+        curY -= 14
       }
-      // Draw ornamental divider at top of new page
-      curY -= 8
-      drawSectionDivider(pdfPage, curY, cfg)
-      curY -= 14
       lastWasDivider = true
       continue
     }

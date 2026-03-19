@@ -206,7 +206,7 @@ export async function generateHtmlBook(
 
   @page {
     size: ${cfg.pageWidth}pt ${cfg.pageHeight}pt;
-    margin: 0;
+    margin: ${cfg.marginTop}pt ${cfg.marginRight}pt ${cfg.marginBottom + 14}pt ${cfg.marginLeft}pt;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -218,9 +218,29 @@ export async function generateHtmlBook(
     color: ${textColor};
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    /* No padding needed -- Playwright's page margins handle the content area.
-       The margin values passed to page.pdf() push content inward,
-       and the headerTemplate/footerTemplate render in the margin space. */
+  }
+
+  /* Decorative border on every page via @page box decoration */
+  @page {
+    @top-center {
+      content: "LISHCHNO TIDRESHU — ENGLISH TRANSLATION";
+      font-size: 7pt;
+      color: rgb(133, 122, 112);
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+    }
+    @bottom-center {
+      content: counter(page);
+      font-size: ${cfg.pageNumberFontSize}pt;
+      color: rgb(122, 115, 107);
+    }
+  }
+
+  /* Visible border on content area */
+  body {
+    border: 0.7pt solid rgb(184, 174, 158);
+    outline: 0.3pt solid rgb(209, 199, 186);
+    outline-offset: 3pt;
   }
 
   .hebrew {
@@ -598,14 +618,8 @@ export async function htmlToPdf(
     const pdfBuffer = await page.pdf({
       width: `${widthIn}in`,
       height: `${heightIn}in`,
-      margin: {
-        top: mTop,
-        bottom: mBottom,
-        left: mLeft,
-        right: mRight,
-      },
       printBackground: true,
-      displayHeaderFooter: false,
+      preferCSSPageSize: true, // use @page CSS margins instead of Playwright's
     })
 
     return Buffer.from(pdfBuffer)

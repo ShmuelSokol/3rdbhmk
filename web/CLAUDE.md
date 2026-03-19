@@ -1,7 +1,7 @@
 # 3rd Beis HaMikdash Translation (3rdbhmk)
 
 ## Project Overview
-Hebrew-to-English overlay translation of "לשכנו תדרשו" (Lishchno Tidreshu) — a 367-page book about the 3rd Beis HaMikdash per Yechezkel's nevuah. Scanned pages with text in images, architectural illustrations, and diagrams.
+Hebrew-to-English typeset book of "לשכנו תדרשו" (Lishchno Tidreshu) — 367-page book about the 3rd Beis HaMikdash per Yechezkel's nevuah. Produces a print-ready English PDF with ArtScroll-style inline Hebrew, illustrations, and diagrams.
 
 ## Stack
 - **Framework**: Next.js 14 (TypeScript, App Router)
@@ -9,64 +9,83 @@ Hebrew-to-English overlay translation of "לשכנו תדרשו" (Lishchno Tidre
 - **Storage**: Supabase bucket `bhmk`
 - **Deployment**: Railway (GitHub auto-deploy on push to `main`, root dir: `web/`)
 - **Domain**: https://3rdbhmk.ksavyad.com
+- **Book ID**: `jcqje5aut5wve5w5b8hv6fcq8`
 
-## Pipeline
-1. **Azure OCR** (`prebuilt-read`, `locale=he`): word-level bounding boxes + Hebrew text
-2. **Hebrew text editing**: Manual corrections in web editor
-3. **Text-block detection**: Automated grouping, zone classification, safe expansion (`/api/pages/[pageId]/text-blocks`)
-4. **Hebrew erasure**: Server-side compositing with locally-sampled background color (`/api/pages/[pageId]/image-erased`)
-5. **Claude translation**: Hebrew → Ashkenazi English (Shabbos, Beis HaMikdash, davening, Hashem)
-6. **PDF export**: Erased images + English text overlay (`/api/books/[bookId]/export?from=X&to=Y`)
+## Typeset PDF System (`/api/books/[bookId]/typeset`)
+Two renderers available via `?renderer=html|pdflib`:
 
-## Key API Endpoints
-- `GET /api/pages/[pageId]/text-blocks` — Computes text blocks with safe expansion, centered detection, table/column classification
-- `GET /api/pages/[pageId]/image-erased` — Returns page image with Hebrew text erased
-- `GET /api/books/[bookId]/export?from=X&to=Y` — PDF export with English overlay
-- `GET /api/books/[bookId]/compare` — All pages for comparison/scoring
+### HTML Renderer (default, Playwright/Chromium)
+- `src/lib/html-book-generator.ts` — generates full HTML book
+- Playwright converts HTML → PDF with native HarfBuzz bidi
+- Perfect Hebrew RTL rendering, no rectangle artifacts
+- NotoSerifHebrew fonts embedded as base64 in CSS
+- **Status**: Hebrew renders perfectly but needs CSS polish (borders, spacing, TOC page numbers)
 
-## Text-Block Algorithm (route.ts)
-OCR coordinates are percentages (0-100) of image dimensions.
+### pdf-lib Renderer (fallback)
+- `src/app/api/books/[bookId]/typeset/route.ts` — 2000+ lines
+- Uses pdf-lib + fontkit + bidi-js for text rendering
+- Has all layout features (borders, headers, page numbers, TOC)
+- Hebrew bidi partially working (word order issues remain)
 
-### Zone Classification
-- Per-line classification: each line checked for y-overlapping neighbors at different x positions
-- Table zones: lines with overlapping neighbors → column divider detection
-- Body zones: grouped with gap-based splitting (GAP_THRESHOLD=2.5%), header splitting at centered→body transitions
-- Sparse/diagram table zones reclassified to body text
-- Two-column book pages reclassified from table to body
+### Key Features (both renderers)
+- **ArtScroll-style translations**: inline Hebrew chars, Ashkenazi English, source citations
+- **681 regions enhanced** with Hebrew quotes via `scripts/enhance-artscroll.js`
+- **Dynamic TOC**: 40+ entries with topic descriptions, auto-calculated page numbers
+- **Letter pages**: full original image + clean English translation below (pages 4-12)
+- **Diagram pages**: full page image + description for pages with many short labels
+- **Illustration detection**: gap-based cropping, border trimming, variance filtering
+- **Topic breaks**: new pages for new sections, orphan prevention
+- **Page design**: double-line border frame, running header, page numbers
 
-### Block Creation
-- **Illustration-gap splitting**: Check pixel variance in gaps between body lines (>1%, variance>200 → split)
-- **Column-split illustration-gap splitting**: Same logic applied within two-column split blocks
-- **Per-line splitting**: Low-density groups (density<0.06, >1 line, <50 chars) → individual blocks per line
-- **Width cap**: Ultra-wide low-char per-line blocks (>50% wide, <20 chars) capped to max(25, chars×2.5)
-- **Skip near-empty groups**: Groups with <3 chars skipped entirely
+### TypesetConfig (tunable parameters)
+```
+pageWidth: 468 (6.5"), pageHeight: 648 (9"), margins: 54pt
+bodyFontSize: 11, headerFontSize: 14, lineHeight: 1.5
+paragraphSpacing: 8, firstLineIndent: 18
+illustrationMaxWidth: 0.95, illustrationPadding: 10
+safeMarginBottom: marginBottom + 20 (NEVER reduce)
+```
 
-### Safe Expansion
-- Vertical: scan strips above/below using pixel variance + RGB color distance
-- Horizontal: scan from page center outward, detect illustrations and borders
-- LOW_DENSITY_THRESHOLD=0.08: blocks below this get limited expansion (±1% vertical, no horizontal)
-- Table blocks: no horizontal expansion
-- Reference background color: sampled from inter-line gaps within the block
+### Topic Description Map
+65 hardcoded Perek:Pasuk → topic descriptions for TOC (e.g., '40:5': 'The Wall of Har HaBayis')
 
-## Scoring (scripts/score-all-pages.py)
-7 binary evals (E1-E7):
-- **E3 (placement)**: Text-density weighted illustration overlap. `risk = illust_pct × density_weight × page_sparse_factor`. Density dampening: `max(0.05, 1.0 - textDensity × 6.0)`. Skip centered, table, <30 char, <150 area blocks.
-- **E4 (centered)**: Auto-pass for illustration pages (<150 chars), simple pages (≤2 blocks), table pages, diagram pages (<300 max body chars), multi-column layouts.
-- **E5 (table)**: Accept large tables (200+ chars) without column dividers.
-- Current score: **1790/1790 (100%)** across 358 pages (as of 2026-03-18)
+## Eval Framework
+- `scripts/autoresearch-eval-v2.js` — 30 layout evals
+- `scripts/autoresearch-artscroll-eval.js` — 10 ArtScroll style evals
+- `scripts/autoresearch-unified-eval.js` — combined 40 evals with importance weights (3=critical, 2=important, 1=polish)
+- `scripts/autoresearch-catalog.js` — persistent experiment tracking (JSONL catalog)
+- Results in `autoresearch-results/`
 
-## Infrastructure IDs
+### Eval Weights (critical = 3)
+E1 Hebrew chars, E3 completeness, E8 decoration, E10 no blank pages, E30 no empty pages, AS1 inline Hebrew, AS2 Ashkenazi terms, AS4 Hebrew quote format
+
+## Translation Enhancement
+- `scripts/enhance-artscroll.js` — batch enhances translations with inline Hebrew
+- Inserts Hebrew source text with em-dash format: "Hebrew — English"
+- Replaces spelled-out Hebrew letter names with actual characters
+- Citation normalization: Chapter→Perek, verse→Pasuk, folio→Daf
+- Run with `--force` to re-enhance, only processes eval page ranges by default
+
+## Key Decisions (2026-03-19)
+- **bidi-js** chosen over Puppeteer for pdf-lib renderer (low migration, fast)
+- **Playwright HTML-to-PDF** added as primary renderer for perfect bidi
+- **Never increase paragraphSpacing above 10** — caused blank pages at 20
+- **Never add middle-dot separators** — visual noise
+- **safeMarginBottom = cfg.marginBottom + 20** — text must NEVER touch page numbers
+- **Minimum 70% image size** — if doesn't fit at 70%, start new page
+- **Letter pages = source pages 4-12** with any letter keyword match
+- **Hebrew TOC pages skipped** — dynamic English TOC generated instead
+- **isDiagramPage()** requires 2+ markers in short regions, or 1 marker + 30% short labels
+
+## Infrastructure
 - Railway project: `5d90489e-8dfb-4a60-8b19-28c9e603c61b`
 - Railway service: `a1b9d33c-7764-487b-92f3-11ba1d2a30f2`
-- Railway environment: `f02ad24d-2304-4532-a4de-a32e31e7a9d1` (production)
-- Book ID: `jcqje5aut5wve5w5b8hv6fcq8`
+- Supabase exports: `bhmk/exports/Lishchno_Tidreshu_*.pdf`
 
 ## Critical Rules
-- Illustrations can be ANYWHERE on the page — NEVER assume photos are only at bottom
-- Text blocks MUST NOT overlap illustrations or border designs
-- Use pixel variance AND RGB color distance for border detection (threshold 25)
-- No white/colored overlay backgrounds — erase Hebrew server-side
+- Illustrations can be ANYWHERE — NEVER assume photos are only at bottom
 - OCR coordinates are percentages (0-100) of image dimensions
 - Prisma v5 required (npx pulls v7 which breaks schema)
 - Don't hardcode PORT in Dockerfile (Railway sets it)
-- Image erased cache version: `pages-erased-v17` — bump when changing erasure algorithm
+- `NEXT_PUBLIC_` env vars must be at build time; use bracket notation for runtime
+- Always check for regressions with unified eval after changes

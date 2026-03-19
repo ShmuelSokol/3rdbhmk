@@ -118,7 +118,7 @@ function markupBidi(text: string): string {
     } else {
       if (buf) {
         if (bufIsHebrew) {
-          result.push(`<span dir="rtl" class="hebrew">${escapeHtml(buf)}</span>`)
+          result.push(`<bdi dir="rtl" class="hebrew">${escapeHtml(buf)}</bdi>`)
         } else {
           result.push(escapeHtml(buf))
         }
@@ -129,7 +129,7 @@ function markupBidi(text: string): string {
   }
   if (buf) {
     if (bufIsHebrew) {
-      result.push(`<span dir="rtl" class="hebrew">${escapeHtml(buf)}</span>`)
+      result.push(`<bdi dir="rtl" class="hebrew">${escapeHtml(buf)}</bdi>`)
     } else {
       result.push(escapeHtml(buf))
     }
@@ -206,7 +206,7 @@ export async function generateHtmlBook(
 
   @page {
     size: ${cfg.pageWidth}pt ${cfg.pageHeight}pt;
-    margin: ${cfg.marginTop}pt ${cfg.marginRight}pt ${cfg.marginBottom + 14}pt ${cfg.marginLeft}pt;
+    margin: ${cfg.marginTop - 16}pt ${cfg.marginRight - 8}pt ${cfg.marginBottom}pt ${cfg.marginLeft - 8}pt;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -218,34 +218,44 @@ export async function generateHtmlBook(
     color: ${textColor};
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    padding: 0 8pt;
+  }
+
+  /* Running header on every page */
+  .page-header {
+    text-align: center;
+    font-size: 7pt;
+    color: rgb(133, 122, 112);
+    text-transform: uppercase;
+    letter-spacing: 0.3pt;
+    padding: 4pt 0 6pt 0;
+  }
+  .page-header::before, .page-header::after {
+    content: '——';
+    color: rgb(209, 199, 186);
+    margin: 0 8pt;
+  }
+
+  /* Double-line border frame */
+  .content-frame {
+    border: 0.7pt solid rgb(184, 174, 158);
+    padding: 3pt;
+    min-height: ${contentAreaHeight - 40}pt;
+  }
+  .content-frame .inner {
+    border: 0.3pt solid rgb(209, 199, 186);
+    padding: 10pt 12pt;
+    min-height: ${contentAreaHeight - 50}pt;
   }
 
   /* Decorative border on every page via @page box decoration */
-  @page {
-    @top-center {
-      content: "LISHCHNO TIDRESHU — ENGLISH TRANSLATION";
-      font-size: 7pt;
-      color: rgb(133, 122, 112);
-      text-transform: uppercase;
-      letter-spacing: 1pt;
-    }
-    @bottom-center {
-      content: counter(page);
-      font-size: ${cfg.pageNumberFontSize}pt;
-      color: rgb(122, 115, 107);
-    }
-  }
+  /* Page chrome — Chromium doesn't support @page margin boxes well,
+     so we use a wrapper div for the border and fixed-position header/footer */
 
-  /* Visible border on content area */
-  body {
-    border: 0.7pt solid rgb(184, 174, 158);
-    outline: 0.3pt solid rgb(209, 199, 186);
-    outline-offset: 3pt;
-  }
-
-  .hebrew {
+  .hebrew, bdi.hebrew {
     font-family: 'NotoSerifHebrew', 'Times New Roman', serif;
-    unicode-bidi: embed;
+    unicode-bidi: isolate;
+    direction: rtl;
   }
 
   /* ── Title section ── */

@@ -176,13 +176,14 @@ function wrapTextBidi(text: string, latinFont: PDFFont, hebrewFont: PDFFont, fon
 // wrapText removed — use wrapTextBidi instead
 
 interface ContentElement {
-  type: 'header' | 'body' | 'illustration' | 'divider'
-  text?: string         // for header/body
+  type: 'header' | 'body' | 'illustration' | 'divider' | 'table' | 'caption'
+  text?: string         // for header/body/caption
   isAllBold?: boolean   // for body paragraphs
   imageData?: Buffer    // for illustrations (JPEG)
   imageWidth?: number   // original px
   imageHeight?: number  // original px
   pageNumber?: number   // source Hebrew page number
+  rows?: string[][]     // for tables: array of rows, each row is array of cell strings
 }
 
 // ─── Illustration detection & cropping ──────────────────────────────────────
@@ -277,12 +278,14 @@ async function detectAndCropIllustrations(
       const avgVariance = stats.channels.reduce((s, c) => s + (c.stdev || 0), 0) / stats.channels.length
       if (avgVariance < 15) continue
 
-      const croppedMeta = await sharp(cropData).metadata()
+      // Trim yellowish/beige borders to maximize illustration area
+      const trimmedData = await trimIllustrationBorders(cropData)
+      const trimmedMeta = await sharp(trimmedData).metadata()
       results.push({
         y: gap.topY,
-        imageData: cropData,
-        width: croppedMeta.width || imgW,
-        height: croppedMeta.height || cropHeight,
+        imageData: trimmedData,
+        width: trimmedMeta.width || imgW,
+        height: trimmedMeta.height || cropHeight,
       })
     } catch {
       // Skip failed crops
@@ -290,6 +293,114 @@ async function detectAndCropIllustrations(
   }
 
   return results
+}
+
+/** Trim yellowish/beige borders from cropped illustrations to maximize image area */
+async function trimIllustrationBorders(imgBuffer: Buffer): Promise<Buffer> {
+  const meta = await sharp(imgBuffer).metadata()
+  const w = meta.width || 100
+  const h = meta.height || 100
+  if (w < 20 || h < 20) return imgBuffer
+
+  // Get raw pixel data to analyze edges
+  const { data, info } = await sharp(imgBuffer)
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+
+  const channels = info.channels
+  const stride = info.width * channels
+
+  // Helper: check if a pixel is "border-like" (yellowish/beige/white background)
+  const isBorderPixel = (offset: number): boolean => {
+    const r = data[offset]
+    const g = data[offset + 1]
+    const b = data[offset + 2]
+    // Yellowish/beige: high R, high G, lower B, generally bright
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b
+    if (lum > 200) return true // near-white
+    if (r > 180 && g > 160 && b < r - 30 && lum > 150) return true // yellowish
+    if (r > 170 && g > 150 && b > 130 && Math.abs(r - g) < 40 && lum > 170) return true // beige
+    return false
+  }
+
+  // Check if an entire row is mostly border pixels
+  const isRowBorder = (row: number): boolean => {
+    let borderCount = 0
+    const sampleStep = Math.max(1, Math.floor(info.width / 30))
+    let samples = 0
+    for (let x = 0; x < info.width; x += sampleStep) {
+      const off = row * stride + x * channels
+      if (isBorderPixel(off)) borderCount++
+      samples++
+    }
+    return borderCount / samples > 0.85
+  }
+
+  // Check if an entire column is mostly border pixels
+  const isColBorder = (col: number): boolean => {
+    let borderCount = 0
+    const sampleStep = Math.max(1, Math.floor(info.height / 30))
+    let samples = 0
+    for (let y = 0; y < info.height; y += sampleStep) {
+      const off = y * stride + col * channels
+      if (isBorderPixel(off)) borderCount++
+      samples++
+    }
+    return borderCount / samples > 0.85
+  }
+
+  // Find content bounds by scanning inward from edges
+  let top = 0
+  while (top < info.height * 0.3 && isRowBorder(top)) top++
+
+  let bottom = info.height - 1
+  while (bottom > info.height * 0.7 && isRowBorder(bottom)) bottom--
+
+  let left = 0
+  while (left < info.width * 0.3 && isColBorder(left)) left++
+
+  let right = info.width - 1
+  while (right > info.width * 0.7 && isColBorder(right)) right--
+
+  // Only trim if we found significant borders (at least 3px on any side)
+  const trimmedW = right - left + 1
+  const trimmedH = bottom - top + 1
+  if (trimmedW < info.width * 0.5 || trimmedH < info.height * 0.5) {
+    return imgBuffer // trimming would remove too much — likely not a border issue
+  }
+  if (top < 3 && left < 3 && right > info.width - 4 && bottom > info.height - 4) {
+    return imgBuffer // nothing meaningful to trim
+  }
+
+  return sharp(imgBuffer)
+    .extract({ left, top, width: trimmedW, height: trimmedH })
+    .jpeg({ quality: 92 })
+    .toBuffer()
+}
+
+/** Parse table text: split by pipes and newlines into rows/columns */
+function parseTableText(text: string): string[][] {
+  const lines = text.split(/\n/).map(l => l.trim()).filter(Boolean)
+  const rows: string[][] = []
+  for (const line of lines) {
+    if (line.includes('|')) {
+      rows.push(line.split('|').map(c => c.trim()).filter(Boolean))
+    } else {
+      // Single-column row
+      rows.push([line])
+    }
+  }
+  return rows
+}
+
+/** Detect if text content looks like a table (numbered list, pipe-separated, aligned data) */
+function isTableContent(text: string, regionType: string): boolean {
+  if (regionType === 'table') return true
+  if (text.includes('|')) return true
+  // Check for numbered list pattern (at least 3 items like "1. ...", "2. ...", "3. ...")
+  const numberedLines = text.split('\n').filter(l => /^\s*\d+[\.\)]\s/.test(l))
+  if (numberedLines.length >= 3) return true
+  return false
 }
 
 async function getPageImage(pageId: string, pageNumber: number, bookId: string): Promise<Buffer | null> {
@@ -429,16 +540,20 @@ async function renderElements(
     decoratePage(pdfPage, startPageNum + pageCount - 1, fonts.body, cfg, runningTitle)
   }
 
-  for (const el of elements) {
+  for (let elIdx = 0; elIdx < elements.length; elIdx++) {
+    const el = elements[elIdx]
+
     if (el.type === 'divider') {
-      // Ornamental section divider between Hebrew pages
-      const divH = 20
-      if (curY - divH < cfg.marginBottom) {
+      // New topic = new page (matches Hebrew book layout)
+      // Only start new page if we're not already at the top
+      const usedSpace = (cfg.pageHeight - cfg.marginTop) - curY
+      if (usedSpace > 20) {
         newPage()
       }
+      // Draw ornamental divider at top of new page
       curY -= 8
       drawSectionDivider(pdfPage, curY, cfg)
-      curY -= divH - 8
+      curY -= 14
       continue
     }
 
@@ -484,6 +599,88 @@ async function renderElements(
       })
       curY -= drawH + cfg.illustrationPadding
 
+    } else if (el.type === 'caption') {
+      // Render as smaller italic-style caption text (centered)
+      const text = sanitizeForPdf(el.text || '', true)
+      if (!text) continue
+
+      const captionSize = cfg.bodyFontSize * 0.85
+      const captionLh = captionSize * cfg.lineHeight
+      const lines = wrapTextBidi(text, fonts.body, fonts.hebrew, captionSize, textWidth * 0.85)
+
+      if (curY - lines.length * captionLh < cfg.marginBottom) {
+        newPage()
+      }
+
+      for (const line of lines) {
+        const lineW = bidiLineWidth(line, captionSize, fonts.body, fonts.hebrew)
+        const x = cfg.marginLeft + (textWidth - lineW) / 2
+        drawBidiLine(pdfPage, line, x, curY - captionSize, captionSize, fonts.body, fonts.hebrew, rgb(0.35, 0.33, 0.30))
+        curY -= captionLh
+      }
+      curY -= cfg.paragraphSpacing * 0.5
+
+    } else if (el.type === 'table' && el.rows) {
+      // Render table with aligned columns
+      const rows = el.rows
+      if (rows.length === 0) continue
+
+      const tableFontSize = cfg.bodyFontSize * 0.9
+      const rowHeight = tableFontSize * cfg.lineHeight * 1.2
+      const maxCols = Math.max(...rows.map(r => r.length))
+      const colWidth = textWidth / Math.max(maxCols, 1)
+      const tableHeight = rows.length * rowHeight + 8
+
+      if (curY - tableHeight < cfg.marginBottom) {
+        newPage()
+      }
+
+      curY -= 4 // small gap above table
+
+      // Light top line
+      pdfPage.drawLine({
+        start: { x: cfg.marginLeft, y: curY },
+        end: { x: cfg.marginLeft + textWidth, y: curY },
+        thickness: 0.4, color: rgb(0.72, 0.68, 0.62),
+      })
+      curY -= 2
+
+      for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+        const row = rows[rIdx]
+        if (curY - rowHeight < cfg.marginBottom) {
+          newPage()
+        }
+
+        for (let cIdx = 0; cIdx < row.length; cIdx++) {
+          const cellText = sanitizeForPdf(row[cIdx], true)
+          if (!cellText) continue
+          const cellX = cfg.marginLeft + cIdx * colWidth + 4
+          const maxCellW = colWidth - 8
+          // Truncate if too wide (single line per cell)
+          const cellLines = wrapTextBidi(cellText, fonts.body, fonts.hebrew, tableFontSize, maxCellW)
+          const line = cellLines[0] || cellText
+          drawBidiLine(pdfPage, line, cellX, curY - tableFontSize, tableFontSize, fonts.body, fonts.hebrew, rgb(...cfg.textColor))
+        }
+        curY -= rowHeight
+
+        // Light row separator
+        if (rIdx < rows.length - 1) {
+          pdfPage.drawLine({
+            start: { x: cfg.marginLeft, y: curY + 2 },
+            end: { x: cfg.marginLeft + textWidth, y: curY + 2 },
+            thickness: 0.2, color: rgb(0.85, 0.82, 0.78),
+          })
+        }
+      }
+
+      // Bottom line
+      pdfPage.drawLine({
+        start: { x: cfg.marginLeft, y: curY },
+        end: { x: cfg.marginLeft + textWidth, y: curY },
+        thickness: 0.4, color: rgb(0.72, 0.68, 0.62),
+      })
+      curY -= cfg.paragraphSpacing
+
     } else if (el.type === 'header') {
       const text = sanitizeForPdf(el.text || '', true)
       if (!text) continue
@@ -515,10 +712,15 @@ async function renderElements(
       const rawText = el.text || ''
       if (!rawText.trim()) continue
 
+      // Check if next element is a divider — if so, this is last content before topic break
+      const nextIsDivider = elIdx + 1 < elements.length && elements[elIdx + 1].type === 'divider'
+
       // Split into paragraphs by double newlines
       const paragraphs = rawText.split(/\n\s*\n/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean)
 
-      for (const para of paragraphs) {
+      for (let pIdx = 0; pIdx < paragraphs.length; pIdx++) {
+        const para = paragraphs[pIdx]
+        const isLastPara = pIdx === paragraphs.length - 1
         const isAllBold = para.startsWith('**') && para.endsWith('**')
         const cleanText = sanitizeForPdf(
           para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
@@ -528,7 +730,33 @@ async function renderElements(
 
         const font = isAllBold ? fonts.bold : fonts.body
         const hebFont = isAllBold ? fonts.hebrewBold : fonts.hebrew
-        const fontSize = isAllBold ? cfg.subheaderFontSize : cfg.bodyFontSize
+        let fontSize = isAllBold ? cfg.subheaderFontSize : cfg.bodyFontSize
+
+        // Orphan prevention: if this is the last paragraph before a topic break
+        // and it would create orphan lines (1-5 lines spilling to next page),
+        // try progressively squeezing font (5%, 8%, 10%, 12%) to keep them on current page
+        if (isLastPara && nextIsDivider) {
+          const lhTest = fontSize * cfg.lineHeight
+          const testLines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
+          const remaining = curY - cfg.marginBottom
+          const linesOnCurrentPage = Math.floor(remaining / lhTest)
+          const spillOver = testLines.length - linesOnCurrentPage
+
+          if (spillOver > 0 && spillOver <= 5) {
+            // Try progressively larger squeezes
+            for (const squeezeFactor of [0.95, 0.92, 0.90, 0.88]) {
+              const squeezedSize = fontSize * squeezeFactor
+              const squeezedLh = squeezedSize * cfg.lineHeight
+              const squeezedLines = wrapTextBidi(cleanText, font, hebFont, squeezedSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
+              const squeezedFit = Math.floor(remaining / squeezedLh)
+              if (squeezedFit >= squeezedLines.length) {
+                fontSize = squeezedSize
+                break
+              }
+            }
+          }
+        }
+
         const lh = fontSize * cfg.lineHeight
 
         const lines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth - (isAllBold ? 0 : cfg.firstLineIndent))
@@ -546,10 +774,40 @@ async function renderElements(
         }
 
         // Render lines one by one, splitting across pages as needed
-        // (prevents huge blank gaps when a long paragraph doesn't fit)
+        // Also handle orphan prevention at page-break boundaries
         for (let i = 0; i < allLines.length; i++) {
-          // Check if current line fits on this page
           if (curY - lh < cfg.marginBottom) {
+            // About to start a new page — check for orphan situation
+            // If this is the last body element before a divider, and only 1-5 lines remain,
+            // try squeezing the remaining lines to fit on the current page
+            const remainingLines = allLines.length - i
+            if (isLastPara && nextIsDivider && remainingLines > 0 && remainingLines <= 5) {
+              const spaceLeft = curY - cfg.marginBottom
+              // Try progressively larger squeezes for the remaining lines
+              let squeezed = false
+              for (const factor of [0.92, 0.88, 0.85]) {
+                const sqLh = fontSize * factor * cfg.lineHeight / fontSize * lh * (factor)
+                const sqH = remainingLines * (lh * factor)
+                if (sqH <= spaceLeft + lh * 0.5) {
+                  // Re-render remaining lines with squeezed spacing
+                  const sqFontSize = fontSize * factor
+                  const sqLhActual = sqFontSize * cfg.lineHeight
+                  for (let j = i; j < allLines.length; j++) {
+                    const ln = allLines[j]
+                    let x = cfg.marginLeft
+                    if (isAllBold) {
+                      const lineW = bidiLineWidth(ln, sqFontSize, font, hebFont)
+                      x = cfg.marginLeft + (textWidth - lineW) / 2
+                    }
+                    drawBidiLine(pdfPage, ln, x, curY - sqFontSize, sqFontSize, font, hebFont, rgb(...cfg.textColor))
+                    curY -= sqLhActual
+                  }
+                  squeezed = true
+                  break
+                }
+              }
+              if (squeezed) break // all remaining lines were squeezed onto current page
+            }
             newPage()
           }
 
@@ -724,10 +982,32 @@ export async function GET(
 
           if (!region.translatedText?.trim()) continue
 
-          // Skip very short body regions (labels, numbers) — they waste page space
           const trimmed = region.translatedText.trim()
           const wordCount = trimmed.split(/\s+/).length
-          if (region.regionType !== 'header' && wordCount < 3) continue
+
+          // Detect diagram labels / captions: short text (< 8 words) near illustrations
+          // These become captions instead of standalone text
+          if (wordCount < 8 && region.regionType !== 'header') {
+            // Check if adjacent to an illustration gap
+            const nearIllustration = illustrations.some(ill =>
+              Math.abs(ill.y - region.origY) < 15 || Math.abs(ill.y - (region.origY + region.origHeight)) < 15
+            )
+            if (nearIllustration) {
+              pageElements.push({ type: 'caption', text: trimmed })
+              continue
+            }
+            // Skip very short non-caption body regions
+            if (wordCount < 3) continue
+          }
+
+          // Detect table content
+          if (isTableContent(trimmed, region.regionType)) {
+            const rows = parseTableText(trimmed)
+            if (rows.length > 0 && rows.some(r => r.length > 1)) {
+              pageElements.push({ type: 'table', rows })
+              continue
+            }
+          }
 
           if (region.regionType === 'header') {
             pageElements.push({ type: 'header', text: region.translatedText })
@@ -753,7 +1033,10 @@ export async function GET(
       }
 
       if (pageElements.length > 0) {
-        if (!isFirstSection) {
+        // Only add a topic divider if this page starts with a header (new section/topic)
+        // Pages that start with body text are continuations of the previous topic
+        const startsWithHeader = pageElements[0].type === 'header'
+        if (!isFirstSection && startsWithHeader) {
           allElements.push({ type: 'divider' })
         }
         isFirstSection = false

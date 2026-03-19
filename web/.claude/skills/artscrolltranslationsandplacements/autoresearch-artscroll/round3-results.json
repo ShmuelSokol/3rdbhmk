@@ -1,0 +1,461 @@
+{
+  "round": 3,
+  "baseline": {
+    "id": "baseline",
+    "config": {},
+    "desc": "current defaults (round 3 baseline)",
+    "score": 24,
+    "maxScore": 24,
+    "passRate": 100,
+    "status": "keep",
+    "worstStrip": 7.7
+  },
+  "experiments": [
+    {
+      "id": "baseline",
+      "config": {},
+      "desc": "current defaults (round 3 baseline)",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 21,
+      "config": {
+        "illustrationMaxWidth": 0.9
+      },
+      "desc": "illustrationMaxWidth 0.90 — wider illustrations with border trimming",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 22,
+      "config": {
+        "illustrationMaxWidth": 0.95
+      },
+      "desc": "illustrationMaxWidth 0.95 — near-full-width illustrations",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 23,
+      "config": {
+        "illustrationPadding": 6
+      },
+      "desc": "illustrationPadding 6 — tighter illustration spacing",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.9
+    },
+    {
+      "id": 24,
+      "config": {
+        "illustrationPadding": 14
+      },
+      "desc": "illustrationPadding 14 — more illustration breathing room",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 25,
+      "config": {
+        "illustrationGapThreshold": 6
+      },
+      "desc": "illustrationGapThreshold 6 — detect smaller illustration gaps",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 26,
+      "config": {
+        "illustrationGapThreshold": 10
+      },
+      "desc": "illustrationGapThreshold 10 — only detect larger illustration gaps",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 6.8
+    },
+    {
+      "id": 27,
+      "config": {
+        "bodyFontSize": 10.5,
+        "lineHeight": 1.5
+      },
+      "desc": "bodyFontSize 10.5 + lineHeight 1.5 — slightly smaller text",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 28,
+      "config": {
+        "bodyFontSize": 11.5,
+        "lineHeight": 1.45
+      },
+      "desc": "bodyFontSize 11.5 + lineHeight 1.45 — larger text, tighter lines",
+      "score": 22,
+      "maxScore": 24,
+      "passRate": 91.7,
+      "status": "discard",
+      "worstStrip": 6.6
+    },
+    {
+      "id": 29,
+      "config": {
+        "bodyFontSize": 11,
+        "lineHeight": 1.45
+      },
+      "desc": "bodyFontSize 11 + lineHeight 1.45 — current font, tighter lines",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.6
+    },
+    {
+      "id": 30,
+      "config": {
+        "bodyFontSize": 11,
+        "lineHeight": 1.55
+      },
+      "desc": "bodyFontSize 11 + lineHeight 1.55 — current font, looser lines",
+      "score": 22,
+      "maxScore": 24,
+      "passRate": 91.7,
+      "status": "discard",
+      "worstStrip": 8
+    },
+    {
+      "id": 31,
+      "config": {
+        "marginLeft": 48,
+        "marginRight": 48
+      },
+      "desc": "marginLeft/Right 48 — wider text area",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 8.2
+    },
+    {
+      "id": 32,
+      "config": {
+        "marginLeft": 60,
+        "marginRight": 60
+      },
+      "desc": "marginLeft/Right 60 — narrower text column",
+      "score": 22,
+      "maxScore": 24,
+      "passRate": 91.7,
+      "status": "discard",
+      "worstStrip": 7.9
+    },
+    {
+      "id": 33,
+      "config": {
+        "marginTop": 48,
+        "marginBottom": 48
+      },
+      "desc": "marginTop/Bottom 48 — taller text area",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.9
+    },
+    {
+      "id": 34,
+      "config": {
+        "headerSpacingAbove": 18,
+        "headerSpacingBelow": 8
+      },
+      "desc": "more header spacing — better topic separation",
+      "score": 22,
+      "maxScore": 24,
+      "passRate": 91.7,
+      "status": "discard",
+      "worstStrip": 8.3
+    },
+    {
+      "id": 35,
+      "config": {
+        "headerSpacingAbove": 10,
+        "headerSpacingBelow": 4
+      },
+      "desc": "less header spacing — more compact topics",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.3
+    },
+    {
+      "id": 36,
+      "config": {
+        "paragraphSpacing": 6
+      },
+      "desc": "paragraphSpacing 6 — tighter paragraphs",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.4
+    },
+    {
+      "id": 37,
+      "config": {
+        "paragraphSpacing": 10
+      },
+      "desc": "paragraphSpacing 10 — more paragraph separation",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 8.2
+    },
+    {
+      "id": 38,
+      "config": {
+        "firstLineIndent": 12
+      },
+      "desc": "firstLineIndent 12 — smaller indent",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 39,
+      "config": {
+        "firstLineIndent": 24
+      },
+      "desc": "firstLineIndent 24 — deeper indent",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.7
+    },
+    {
+      "id": 40,
+      "config": {
+        "illustrationMaxWidth": 0.92,
+        "illustrationPadding": 8,
+        "bodyFontSize": 11,
+        "lineHeight": 1.48,
+        "paragraphSpacing": 8
+      },
+      "desc": "balanced combo — optimized for new features",
+      "score": 24,
+      "maxScore": 24,
+      "passRate": 100,
+      "status": "keep",
+      "worstStrip": 7.9
+    }
+  ],
+  "kept": [
+    {
+      "id": 26,
+      "config": {
+        "illustrationGapThreshold": 10
+      },
+      "worstStrip": 6.8,
+      "desc": "illustrationGapThreshold 10 — only detect larger illustration gaps"
+    },
+    {
+      "id": 35,
+      "config": {
+        "headerSpacingAbove": 10,
+        "headerSpacingBelow": 4
+      },
+      "worstStrip": 7.3,
+      "desc": "less header spacing — more compact topics"
+    },
+    {
+      "id": 36,
+      "config": {
+        "paragraphSpacing": 6
+      },
+      "worstStrip": 7.4,
+      "desc": "paragraphSpacing 6 — tighter paragraphs"
+    },
+    {
+      "id": 29,
+      "config": {
+        "bodyFontSize": 11,
+        "lineHeight": 1.45
+      },
+      "worstStrip": 7.6,
+      "desc": "bodyFontSize 11 + lineHeight 1.45 — current font, tighter lines"
+    },
+    {
+      "id": "baseline",
+      "config": {},
+      "worstStrip": 7.7,
+      "desc": "current defaults (round 3 baseline)"
+    },
+    {
+      "id": 21,
+      "config": {
+        "illustrationMaxWidth": 0.9
+      },
+      "worstStrip": 7.7,
+      "desc": "illustrationMaxWidth 0.90 — wider illustrations with border trimming"
+    },
+    {
+      "id": 22,
+      "config": {
+        "illustrationMaxWidth": 0.95
+      },
+      "worstStrip": 7.7,
+      "desc": "illustrationMaxWidth 0.95 — near-full-width illustrations"
+    },
+    {
+      "id": 24,
+      "config": {
+        "illustrationPadding": 14
+      },
+      "worstStrip": 7.7,
+      "desc": "illustrationPadding 14 — more illustration breathing room"
+    },
+    {
+      "id": 25,
+      "config": {
+        "illustrationGapThreshold": 6
+      },
+      "worstStrip": 7.7,
+      "desc": "illustrationGapThreshold 6 — detect smaller illustration gaps"
+    },
+    {
+      "id": 27,
+      "config": {
+        "bodyFontSize": 10.5,
+        "lineHeight": 1.5
+      },
+      "worstStrip": 7.7,
+      "desc": "bodyFontSize 10.5 + lineHeight 1.5 — slightly smaller text"
+    },
+    {
+      "id": 38,
+      "config": {
+        "firstLineIndent": 12
+      },
+      "worstStrip": 7.7,
+      "desc": "firstLineIndent 12 — smaller indent"
+    },
+    {
+      "id": 39,
+      "config": {
+        "firstLineIndent": 24
+      },
+      "worstStrip": 7.7,
+      "desc": "firstLineIndent 24 — deeper indent"
+    },
+    {
+      "id": 23,
+      "config": {
+        "illustrationPadding": 6
+      },
+      "worstStrip": 7.9,
+      "desc": "illustrationPadding 6 — tighter illustration spacing"
+    },
+    {
+      "id": 33,
+      "config": {
+        "marginTop": 48,
+        "marginBottom": 48
+      },
+      "worstStrip": 7.9,
+      "desc": "marginTop/Bottom 48 — taller text area"
+    },
+    {
+      "id": 40,
+      "config": {
+        "illustrationMaxWidth": 0.92,
+        "illustrationPadding": 8,
+        "bodyFontSize": 11,
+        "lineHeight": 1.48,
+        "paragraphSpacing": 8
+      },
+      "worstStrip": 7.9,
+      "desc": "balanced combo — optimized for new features"
+    },
+    {
+      "id": 31,
+      "config": {
+        "marginLeft": 48,
+        "marginRight": 48
+      },
+      "worstStrip": 8.2,
+      "desc": "marginLeft/Right 48 — wider text area"
+    },
+    {
+      "id": 37,
+      "config": {
+        "paragraphSpacing": 10
+      },
+      "worstStrip": 8.2,
+      "desc": "paragraphSpacing 10 — more paragraph separation"
+    }
+  ],
+  "discarded": [
+    {
+      "id": 28,
+      "config": {
+        "bodyFontSize": 11.5,
+        "lineHeight": 1.45
+      },
+      "passRate": 91.7,
+      "desc": "bodyFontSize 11.5 + lineHeight 1.45 — larger text, tighter lines"
+    },
+    {
+      "id": 30,
+      "config": {
+        "bodyFontSize": 11,
+        "lineHeight": 1.55
+      },
+      "passRate": 91.7,
+      "desc": "bodyFontSize 11 + lineHeight 1.55 — current font, looser lines"
+    },
+    {
+      "id": 32,
+      "config": {
+        "marginLeft": 60,
+        "marginRight": 60
+      },
+      "passRate": 91.7,
+      "desc": "marginLeft/Right 60 — narrower text column"
+    },
+    {
+      "id": 34,
+      "config": {
+        "headerSpacingAbove": 18,
+        "headerSpacingBelow": 8
+      },
+      "passRate": 91.7,
+      "desc": "more header spacing — better topic separation"
+    }
+  ]
+}

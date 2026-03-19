@@ -1,0 +1,22 @@
+experiment	score	max_score	pass_rate	status	worst_strip	description
+baseline	24	24	100%	keep	7.7%	current defaults (round 3 baseline)
+21	24	24	100%	keep	7.7%	illustrationMaxWidth 0.90 — wider illustrations with border trimming
+22	24	24	100%	keep	7.7%	illustrationMaxWidth 0.95 — near-full-width illustrations
+23	24	24	100%	keep	7.9%	illustrationPadding 6 — tighter illustration spacing
+24	24	24	100%	keep	7.7%	illustrationPadding 14 — more illustration breathing room
+25	24	24	100%	keep	7.7%	illustrationGapThreshold 6 — detect smaller illustration gaps
+26	24	24	100%	keep	6.8%	illustrationGapThreshold 10 — only detect larger illustration gaps
+27	24	24	100%	keep	7.7%	bodyFontSize 10.5 + lineHeight 1.5 — slightly smaller text
+28	22	24	91.7%	discard	6.6%	bodyFontSize 11.5 + lineHeight 1.45 — larger text, tighter lines
+29	24	24	100%	keep	7.6%	bodyFontSize 11 + lineHeight 1.45 — current font, tighter lines
+30	22	24	91.7%	discard	8.0%	bodyFontSize 11 + lineHeight 1.55 — current font, looser lines
+31	24	24	100%	keep	8.2%	marginLeft/Right 48 — wider text area
+32	22	24	91.7%	discard	7.9%	marginLeft/Right 60 — narrower text column
+33	24	24	100%	keep	7.9%	marginTop/Bottom 48 — taller text area
+34	22	24	91.7%	discard	8.3%	more header spacing — better topic separation
+35	24	24	100%	keep	7.3%	less header spacing — more compact topics
+36	24	24	100%	keep	7.4%	paragraphSpacing 6 — tighter paragraphs
+37	24	24	100%	keep	8.2%	paragraphSpacing 10 — more paragraph separation
+38	24	24	100%	keep	7.7%	firstLineIndent 12 — smaller indent
+39	24	24	100%	keep	7.7%	firstLineIndent 24 — deeper indent
+40	24	24	100%	keep	7.9%	balanced combo — optimized for new features

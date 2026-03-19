@@ -102,9 +102,11 @@ function splitBidi(text: string): TextSegment[] {
   return segments
 }
 
-/** Reverse Hebrew text so pdf-lib's LTR drawing shows it correctly */
+/** For inline Hebrew quotes in ArtScroll style, we keep logical order.
+ *  Each Hebrew word is visually recognizable in LTR rendering. */
 function reverseHebrew(text: string): string {
-  return text.split('').reverse().join('')
+  // No reversal — keep logical order for readability in mixed bidi context
+  return text
 }
 
 /** Draw a line of mixed bidi text, handling font switching and RTL reversal */
@@ -172,7 +174,7 @@ function wrapTextBidi(text: string, latinFont: PDFFont, hebrewFont: PDFFont, fon
 // wrapText removed — use wrapTextBidi instead
 
 interface ContentElement {
-  type: 'header' | 'body' | 'illustration'
+  type: 'header' | 'body' | 'illustration' | 'divider'
   text?: string         // for header/body
   isAllBold?: boolean   // for body paragraphs
   imageData?: Buffer    // for illustrations (JPEG)
@@ -304,22 +306,102 @@ async function getPageImage(pageId: string, pageNumber: number, bookId: string):
   }
 }
 
-// ─── PDF Page Rendering ─────────────────────────────────────────────────────
+// ─── PDF Page Decoration ─────────────────────────────────────────────────────
 
-function drawPageNumber(
+function decoratePage(
   pdfPage: PDFPage,
   pageNum: number,
   font: PDFFont,
   cfg: TypesetConfig,
+  runningTitle?: string,
 ) {
-  const text = `${pageNum}`
-  const width = font.widthOfTextAtSize(text, cfg.pageNumberFontSize)
-  pdfPage.drawText(text, {
-    x: (cfg.pageWidth - width) / 2,
-    y: cfg.marginBottom / 2,
+  const frameColor = rgb(0.72, 0.68, 0.62)
+  const lightColor = rgb(0.82, 0.78, 0.73)
+  const borderOff = 8
+
+  // Outer border frame
+  const fx1 = cfg.marginLeft - borderOff
+  const fy1 = cfg.marginBottom - borderOff
+  const fx2 = cfg.pageWidth - cfg.marginRight + borderOff
+  const fy2 = cfg.pageHeight - cfg.marginTop + borderOff + 14
+  // Top line
+  pdfPage.drawLine({ start: { x: fx1, y: fy2 }, end: { x: fx2, y: fy2 }, thickness: 0.7, color: frameColor })
+  // Bottom line
+  pdfPage.drawLine({ start: { x: fx1, y: fy1 }, end: { x: fx2, y: fy1 }, thickness: 0.7, color: frameColor })
+  // Left line
+  pdfPage.drawLine({ start: { x: fx1, y: fy1 }, end: { x: fx1, y: fy2 }, thickness: 0.7, color: frameColor })
+  // Right line
+  pdfPage.drawLine({ start: { x: fx2, y: fy1 }, end: { x: fx2, y: fy2 }, thickness: 0.7, color: frameColor })
+
+  // Inner frame (double-line effect)
+  const ix1 = fx1 + 3, iy1 = fy1 + 3, ix2 = fx2 - 3, iy2 = fy2 - 3
+  pdfPage.drawLine({ start: { x: ix1, y: iy2 }, end: { x: ix2, y: iy2 }, thickness: 0.3, color: lightColor })
+  pdfPage.drawLine({ start: { x: ix1, y: iy1 }, end: { x: ix2, y: iy1 }, thickness: 0.3, color: lightColor })
+  pdfPage.drawLine({ start: { x: ix1, y: iy1 }, end: { x: ix1, y: iy2 }, thickness: 0.3, color: lightColor })
+  pdfPage.drawLine({ start: { x: ix2, y: iy1 }, end: { x: ix2, y: iy2 }, thickness: 0.3, color: lightColor })
+
+  // Running header
+  if (runningTitle) {
+    const titleStr = runningTitle.toUpperCase()
+    const titleW = font.widthOfTextAtSize(titleStr, 7)
+    const headerY = cfg.pageHeight - cfg.marginTop + 20
+    pdfPage.drawText(titleStr, {
+      x: (cfg.pageWidth - titleW) / 2,
+      y: headerY,
+      size: 7,
+      font,
+      color: rgb(0.52, 0.48, 0.44),
+    })
+    // Small decorative lines flanking the title
+    const halfGap = 6
+    pdfPage.drawLine({
+      start: { x: cfg.marginLeft + 10, y: headerY + 3 },
+      end: { x: (cfg.pageWidth - titleW) / 2 - halfGap, y: headerY + 3 },
+      thickness: 0.3, color: lightColor,
+    })
+    pdfPage.drawLine({
+      start: { x: (cfg.pageWidth + titleW) / 2 + halfGap, y: headerY + 3 },
+      end: { x: cfg.pageWidth - cfg.marginRight - 10, y: headerY + 3 },
+      thickness: 0.3, color: lightColor,
+    })
+  }
+
+  // Page number with decorative dashes
+  const pageStr = `\u2014  ${pageNum}  \u2014`
+  const pnW = font.widthOfTextAtSize(pageStr, cfg.pageNumberFontSize)
+  pdfPage.drawText(pageStr, {
+    x: (cfg.pageWidth - pnW) / 2,
+    y: cfg.marginBottom / 2 - 2,
     size: cfg.pageNumberFontSize,
     font,
-    color: rgb(0.5, 0.5, 0.5),
+    color: rgb(0.48, 0.45, 0.42),
+  })
+}
+
+/** Draw a centered ornamental divider between sections */
+function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig, font: PDFFont) {
+  const centerX = cfg.pageWidth / 2
+  const dividerColor = rgb(0.72, 0.68, 0.62)
+  const ornament = '\u25C6' // ◆
+  const ornW = font.widthOfTextAtSize(ornament, 7)
+
+  // Center ornament
+  pdfPage.drawText(ornament, {
+    x: centerX - ornW / 2,
+    y: y - 4,
+    size: 7, font, color: dividerColor,
+  })
+  // Lines flanking the ornament
+  const lineLen = 40
+  pdfPage.drawLine({
+    start: { x: centerX - ornW / 2 - 6 - lineLen, y },
+    end: { x: centerX - ornW / 2 - 6, y },
+    thickness: 0.4, color: dividerColor,
+  })
+  pdfPage.drawLine({
+    start: { x: centerX + ornW / 2 + 6, y },
+    end: { x: centerX + ornW / 2 + 6 + lineLen, y },
+    thickness: 0.4, color: dividerColor,
   })
 }
 
@@ -329,6 +411,7 @@ async function renderElements(
   fonts: { body: PDFFont; bold: PDFFont; header: PDFFont; hebrew: PDFFont; hebrewBold: PDFFont },
   cfg: TypesetConfig,
   startPageNum: number,
+  runningTitle?: string,
 ): Promise<number> {
   const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
   const textHeight = cfg.pageHeight - cfg.marginTop - cfg.marginBottom
@@ -336,30 +419,28 @@ async function renderElements(
   let pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
   let pageCount = 1
 
-  drawPageNumber(pdfPage, startPageNum, fonts.body, cfg)
-
-  // Draw a thin decorative line under header area
-  pdfPage.drawLine({
-    start: { x: cfg.marginLeft, y: cfg.pageHeight - cfg.marginTop + 8 },
-    end: { x: cfg.pageWidth - cfg.marginRight, y: cfg.pageHeight - cfg.marginTop + 8 },
-    thickness: 0.5,
-    color: rgb(0.8, 0.78, 0.75),
-  })
+  decoratePage(pdfPage, startPageNum, fonts.body, cfg, runningTitle)
 
   const newPage = () => {
     pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
     pageCount++
     curY = cfg.pageHeight - cfg.marginTop
-    drawPageNumber(pdfPage, startPageNum + pageCount - 1, fonts.body, cfg)
-    pdfPage.drawLine({
-      start: { x: cfg.marginLeft, y: cfg.pageHeight - cfg.marginTop + 8 },
-      end: { x: cfg.pageWidth - cfg.marginRight, y: cfg.pageHeight - cfg.marginTop + 8 },
-      thickness: 0.5,
-      color: rgb(0.8, 0.78, 0.75),
-    })
+    decoratePage(pdfPage, startPageNum + pageCount - 1, fonts.body, cfg, runningTitle)
   }
 
   for (const el of elements) {
+    if (el.type === 'divider') {
+      // Ornamental section divider between Hebrew pages
+      const divH = 20
+      if (curY - divH < cfg.marginBottom) {
+        newPage()
+      }
+      curY -= 8
+      drawSectionDivider(pdfPage, curY, cfg, fonts.body)
+      curY -= divH - 8
+      continue
+    }
+
     if (el.type === 'illustration' && el.imageData) {
       // Embed illustration
       let img
@@ -370,13 +451,26 @@ async function renderElements(
       }
 
       const maxW = textWidth * cfg.illustrationMaxWidth
-      const scale = Math.min(maxW / img.width, (textHeight * 0.6) / img.height)
-      const drawW = img.width * scale
-      const drawH = img.height * scale
-      const totalH = drawH + cfg.illustrationPadding * 2
+      const maxH = textHeight * 0.5 // cap at 50% of text area
+      const baseScale = Math.min(maxW / img.width, maxH / img.height)
+      let drawW = img.width * baseScale
+      let drawH = img.height * baseScale
+      let totalH = drawH + cfg.illustrationPadding * 2
 
-      if (curY - totalH < cfg.marginBottom) {
-        newPage()
+      const remaining = curY - cfg.marginBottom
+      if (totalH > remaining) {
+        // Try scaling to fit remaining space instead of creating a page break gap
+        const spaceForImg = remaining - cfg.illustrationPadding * 2
+        if (spaceForImg > textHeight * 0.2) {
+          // Remaining space is >= 20% of page — scale illustration to fit
+          const fitScale = Math.min(maxW / img.width, spaceForImg / img.height)
+          drawW = img.width * fitScale
+          drawH = img.height * fitScale
+          totalH = drawH + cfg.illustrationPadding * 2
+        } else {
+          // Too little space left — new page
+          newPage()
+        }
       }
 
       curY -= cfg.illustrationPadding
@@ -548,22 +642,55 @@ export async function GET(
 
     const fonts = { body: bodyFont, bold: boldFont, header: headerFont, hebrew: hebrewFont, hebrewBold: hebrewBoldFont }
 
-    // Title page
+    const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
+
+    // Title page with elegant design
     const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+    const frameColor = rgb(0.72, 0.68, 0.62)
+
+    // Title page decorative border
+    const tfx1 = cfg.marginLeft - 8, tfy1 = cfg.marginBottom - 8
+    const tfx2 = cfg.pageWidth - cfg.marginRight + 8, tfy2 = cfg.pageHeight - cfg.marginTop + 22
+    for (const off of [0, 3]) {
+      const w = off === 0 ? 0.7 : 0.3
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy2 - off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy1 + off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx1 + off, y: tfy2 - off }, thickness: w, color: frameColor })
+      titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
+    }
+
+    // Title text
     const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
-    const titleWidth = bidiLineWidth(titleText, 20, headerFont, hebrewBoldFont)
-    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.6, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+    const titleWidth = bidiLineWidth(titleText, 22, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
+    // Ornamental divider under title
+    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg, bodyFont)
+
+    // Subtitle
     const subtitleText = 'English Translation'
-    const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 14)
+    const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 13)
     titlePage.drawText(subtitleText, {
       x: (cfg.pageWidth - subWidth) / 2,
-      y: cfg.pageHeight * 0.6 - 30,
-      size: 14,
+      y: cfg.pageHeight * 0.50,
+      size: 13,
       font: bodyFont,
       color: rgb(0.4, 0.38, 0.35),
     })
 
+    // Description
+    const descText = 'The Third Beis HaMikdash According to Yechezkel HaNavi'
+    const descW = bodyFont.widthOfTextAtSize(descText, 10)
+    titlePage.drawText(descText, {
+      x: (cfg.pageWidth - descW) / 2,
+      y: cfg.pageHeight * 0.46,
+      size: 10,
+      font: bodyFont,
+      color: rgb(0.5, 0.48, 0.44),
+    })
+
     let totalPdfPages = 1 // title page
+    let isFirstSection = true
 
     for (const page of pages) {
       // Build content elements for this Hebrew page
@@ -627,22 +754,18 @@ export async function GET(
           text: translation.englishOutput,
         })
       } else {
-        // No translation — render original page image as-is
-        const imgBuf = await getPageImage(page.id, page.pageNumber, bookId)
-        if (imgBuf) {
-          const jpgBuf = await sharp(imgBuf).jpeg({ quality: 85 }).toBuffer()
-          elements.push({
-            type: 'illustration',
-            imageData: jpgBuf,
-            imageWidth: 1655,
-            imageHeight: 2340,
-          })
-        }
+        // No translation for this page — skip in typeset output
         continue
       }
 
       if (elements.length > 0) {
-        const pagesAdded = await renderElements(doc, elements, fonts, cfg, totalPdfPages + 1)
+        // Add section divider between Hebrew pages (except the first)
+        if (!isFirstSection) {
+          elements.unshift({ type: 'divider' })
+        }
+        isFirstSection = false
+
+        const pagesAdded = await renderElements(doc, elements, fonts, cfg, totalPdfPages + 1, runningTitle)
         totalPdfPages += pagesAdded
       }
     }

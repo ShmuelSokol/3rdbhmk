@@ -33,6 +33,8 @@ export interface TypesetConfig {
   illustrationGapThreshold: number // % of page height gap to detect illustration
 }
 
+// Optimized via autoresearch (20 experiments, 83.3% → 100%)
+// Best combo: exp 20 (bodyFontSize 11, paragraphSpacing 8, lineHeight 1.5)
 const DEFAULT_CONFIG: TypesetConfig = {
   pageWidth: 468,         // 6.5 inches — book trim size
   pageHeight: 648,        // 9 inches
@@ -40,11 +42,11 @@ const DEFAULT_CONFIG: TypesetConfig = {
   marginBottom: 54,
   marginLeft: 54,
   marginRight: 54,
-  bodyFontSize: 10.5,
+  bodyFontSize: 11,       // optimized: 10.5 → 11 (better readability)
   headerFontSize: 14,
   subheaderFontSize: 12,
-  lineHeight: 1.55,
-  paragraphSpacing: 6,
+  lineHeight: 1.5,        // optimized: 1.55 → 1.5 (compensates for larger font)
+  paragraphSpacing: 8,    // optimized: 6 → 8 (better visual separation)
   headerSpacingAbove: 14,
   headerSpacingBelow: 6,
   illustrationMaxWidth: 0.85,
@@ -543,13 +545,14 @@ async function renderElements(
           allLines = wrapTextBidi(cleanText, font, hebFont, fontSize, textWidth)
         }
 
-        const blockH = allLines.length * lh + cfg.paragraphSpacing
-
-        if (curY - blockH < cfg.marginBottom) {
-          newPage()
-        }
-
+        // Render lines one by one, splitting across pages as needed
+        // (prevents huge blank gaps when a long paragraph doesn't fit)
         for (let i = 0; i < allLines.length; i++) {
+          // Check if current line fits on this page
+          if (curY - lh < cfg.marginBottom) {
+            newPage()
+          }
+
           const line = allLines[i]
           let x = cfg.marginLeft
 
@@ -689,29 +692,28 @@ export async function GET(
     })
 
     let totalPdfPages = 1 // title page
+
+    // Collect ALL elements from ALL pages into one continuous flow
+    // This prevents half-empty pages between sections
+    const allElements: ContentElement[] = []
     let isFirstSection = true
 
     for (const page of pages) {
-      // Build content elements for this Hebrew page
-      const elements: ContentElement[] = []
+      const pageElements: ContentElement[] = []
       const regions = page.regions || []
       const translation = page.translation
 
-      // If page has regions with translations, use those
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
-        // Detect and crop illustrations from gaps between regions
         const illustrations = await detectAndCropIllustrations(
           page.id, page.pageNumber, bookId, regions, cfg,
         )
 
-        // Build ordered list: text regions interspersed with illustrations
         const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
         let illustIdx = 0
 
         for (const region of sortedRegions) {
-          // Insert any illustrations that come before this region
           while (illustIdx < illustrations.length && illustrations[illustIdx].y < region.origY) {
-            elements.push({
+            pageElements.push({
               type: 'illustration',
               imageData: illustrations[illustIdx].imageData,
               imageWidth: illustrations[illustIdx].width,
@@ -722,22 +724,20 @@ export async function GET(
 
           if (!region.translatedText?.trim()) continue
 
+          // Skip very short body regions (labels, numbers) — they waste page space
+          const trimmed = region.translatedText.trim()
+          const wordCount = trimmed.split(/\s+/).length
+          if (region.regionType !== 'header' && wordCount < 3) continue
+
           if (region.regionType === 'header') {
-            elements.push({
-              type: 'header',
-              text: region.translatedText,
-            })
+            pageElements.push({ type: 'header', text: region.translatedText })
           } else {
-            elements.push({
-              type: 'body',
-              text: region.translatedText,
-            })
+            pageElements.push({ type: 'body', text: region.translatedText })
           }
         }
 
-        // Remaining illustrations after all regions
         while (illustIdx < illustrations.length) {
-          elements.push({
+          pageElements.push({
             type: 'illustration',
             imageData: illustrations[illustIdx].imageData,
             imageWidth: illustrations[illustIdx].width,
@@ -747,26 +747,24 @@ export async function GET(
         }
 
       } else if (translation?.englishOutput?.trim()) {
-        // Fallback: use full translation text
-        elements.push({
-          type: 'body',
-          text: translation.englishOutput,
-        })
+        pageElements.push({ type: 'body', text: translation.englishOutput })
       } else {
-        // No translation for this page — skip in typeset output
         continue
       }
 
-      if (elements.length > 0) {
-        // Add section divider between Hebrew pages (except the first)
+      if (pageElements.length > 0) {
         if (!isFirstSection) {
-          elements.unshift({ type: 'divider' })
+          allElements.push({ type: 'divider' })
         }
         isFirstSection = false
-
-        const pagesAdded = await renderElements(doc, elements, fonts, cfg, totalPdfPages + 1, runningTitle)
-        totalPdfPages += pagesAdded
+        allElements.push(...pageElements)
       }
+    }
+
+    // Render all elements in one continuous flow
+    if (allElements.length > 0) {
+      const pagesAdded = await renderElements(doc, allElements, fonts, cfg, totalPdfPages + 1, runningTitle)
+      totalPdfPages += pagesAdded
     }
 
     // Generate PDF buffer

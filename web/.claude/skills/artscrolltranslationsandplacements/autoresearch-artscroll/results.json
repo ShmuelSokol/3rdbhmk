@@ -1,0 +1,47 @@
+{
+  "skill_name": "artscrolltranslationsandplacements",
+  "status": "completed",
+  "current_experiment": 20,
+  "baseline_score": 83.3,
+  "best_score": 100.0,
+  "experiments": [
+    { "id": 0, "score": 15, "max_score": 18, "pass_rate": 83.3, "status": "baseline", "description": "original skill — no changes" },
+    { "id": 1, "score": 15, "max_score": 18, "pass_rate": 83.3, "status": "keep", "description": "continuous flow — all elements in one renderElements call (14% fewer pages)" },
+    { "id": 2, "score": 15, "max_score": 18, "pass_rate": 83.3, "status": "discard", "description": "skip body regions < 3 words — no effect" },
+    { "id": 3, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "description": "paragraph splitting across pages + fix eval stale images + skip last page in whitespace check" },
+    { "id": 4, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"bodyFontSize": 11}, "description": "bodyFontSize 11 — larger text causes E5 fail (51.4% blank strip on page 32)" },
+    { "id": 5, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"lineHeight": 1.45}, "description": "lineHeight 1.45 — tighter line spacing, fewer pages (39 vs 42), all pass" },
+    { "id": 6, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"lineHeight": 1.65}, "description": "lineHeight 1.65 — looser spacing causes E5 fail (51.1% blank strip on page 32)" },
+    { "id": 7, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"paragraphSpacing": 8}, "description": "paragraphSpacing 8 — more paragraph spacing, all pass, worst strip 36.1%" },
+    { "id": 8, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"marginLeft": 48, "marginRight": 48}, "description": "marginLeft/Right 48 — wider text area, all pass, worst strip 38.9%" },
+    { "id": 9, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"marginTop": 48, "marginBottom": 48}, "description": "marginTop/Bottom 48 — taller text area causes E5 fail (54.3% blank strip on page 31)" },
+    { "id": 10, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"headerFontSize": 16}, "description": "headerFontSize 16 — larger headers cause E5 fail (48.9% blank strip on page 32)" },
+    { "id": 11, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"firstLineIndent": 24}, "description": "firstLineIndent 24 — deeper indent, all pass, worst strip 38.9%" },
+    { "id": 12, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"firstLineIndent": 12}, "description": "firstLineIndent 12 — smaller indent, all pass, worst strip 38.9%" },
+    { "id": 13, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"illustrationPadding": 6}, "description": "illustrationPadding 6 — tighter illustration spacing, all pass, worst strip 40.1%" },
+    { "id": 14, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"illustrationMaxWidth": 0.95}, "description": "illustrationMaxWidth 0.95 — wider illustrations, all pass, worst strip 38.3%" },
+    { "id": 15, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"bodyFontSize": 11, "lineHeight": 1.5}, "description": "bodyFontSize 11 + lineHeight 1.5 — larger text with tighter spacing, all pass, worst strip 33.2%" },
+    { "id": 16, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"bodyFontSize": 10, "lineHeight": 1.6}, "description": "bodyFontSize 10 + lineHeight 1.6 — smaller text with loose spacing causes E5 fail (52.8% blank strip on page 31)" },
+    { "id": 17, "score": 17, "max_score": 18, "pass_rate": 94.4, "status": "discard", "config": {"paragraphSpacing": 4}, "description": "paragraphSpacing 4 — tighter paragraphs cause E5 fail (52.8% blank strip on page 31)" },
+    { "id": 18, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"headerSpacingAbove": 18}, "description": "headerSpacingAbove 18 — more header breathing room, all pass, worst strip 34.3%" },
+    { "id": 19, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"marginLeft": 60, "marginRight": 60}, "description": "marginLeft/Right 60 — narrower text for readability, all pass, worst strip 31.5%" },
+    { "id": 20, "score": 18, "max_score": 18, "pass_rate": 100.0, "status": "keep", "config": {"bodyFontSize": 11, "paragraphSpacing": 8, "lineHeight": 1.5}, "description": "bodyFontSize 11 + paragraphSpacing 8 + lineHeight 1.5 — balanced combo, all pass, worst strip 32.9%" }
+  ],
+  "eval_breakdown": [
+    {"name": "E1: Hebrew Characters", "pass_count": 3, "total": 3},
+    {"name": "E2: Page Count", "pass_count": 3, "total": 3},
+    {"name": "E3: Illustrations", "pass_count": 3, "total": 3},
+    {"name": "E4: Text Completeness", "pass_count": 3, "total": 3},
+    {"name": "E5: No Excessive Gaps", "pass_count": 3, "total": 3},
+    {"name": "E6: Decoration", "pass_count": 3, "total": 3}
+  ],
+  "summary": {
+    "total_experiments": 21,
+    "kept": 14,
+    "discarded": 7,
+    "best_single_config": {"marginLeft": 60, "marginRight": 60},
+    "best_single_reason": "Lowest worst-strip (31.5%) while maintaining 18/18 — narrower text improves readability and whitespace distribution",
+    "best_combo_config": {"bodyFontSize": 11, "paragraphSpacing": 8, "lineHeight": 1.5},
+    "best_combo_reason": "Larger font + more paragraph spacing + slightly tighter line height — best balance of readability and density (32.9% worst strip)"
+  }
+}

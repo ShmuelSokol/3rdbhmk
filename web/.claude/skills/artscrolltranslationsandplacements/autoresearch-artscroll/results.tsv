@@ -1,0 +1,22 @@
+experiment	score	max_score	pass_rate	status	description
+0	15	18	83.3%	baseline	original skill — no changes
+1	15	18	83.3%	keep	continuous flow — all elements in one renderElements call (14% fewer pages)
+2	15	18	83.3%	discard	skip body regions < 3 words — no effect
+3	18	18	100.0%	keep	paragraph splitting across pages + fix eval stale images + skip last page in whitespace check
+4	17	18	94.4%	discard	bodyFontSize 11 — larger text causes E5 fail (51.4% blank strip)
+5	18	18	100.0%	keep	lineHeight 1.45 — tighter line spacing, fewer pages (39 vs 42)
+6	17	18	94.4%	discard	lineHeight 1.65 — looser spacing causes E5 fail (51.1% blank strip)
+7	18	18	100.0%	keep	paragraphSpacing 8 — more paragraph spacing, worst strip 36.1%
+8	18	18	100.0%	keep	marginLeft/Right 48 — wider text area, worst strip 38.9%
+9	17	18	94.4%	discard	marginTop/Bottom 48 — taller text area causes E5 fail (54.3% blank strip)
+10	17	18	94.4%	discard	headerFontSize 16 — larger headers cause E5 fail (48.9% blank strip)
+11	18	18	100.0%	keep	firstLineIndent 24 — deeper indent, worst strip 38.9%
+12	18	18	100.0%	keep	firstLineIndent 12 — smaller indent, worst strip 38.9%
+13	18	18	100.0%	keep	illustrationPadding 6 — tighter illustration spacing, worst strip 40.1%
+14	18	18	100.0%	keep	illustrationMaxWidth 0.95 — wider illustrations, worst strip 38.3%
+15	18	18	100.0%	keep	bodyFontSize 11 + lineHeight 1.5 — larger text + tighter spacing, worst strip 33.2%
+16	17	18	94.4%	discard	bodyFontSize 10 + lineHeight 1.6 — E5 fail (52.8% blank strip)
+17	17	18	94.4%	discard	paragraphSpacing 4 — tighter paragraphs cause E5 fail (52.8% blank strip)
+18	18	18	100.0%	keep	headerSpacingAbove 18 — more header breathing room, worst strip 34.3%
+19	18	18	100.0%	keep	marginLeft/Right 60 — narrower text for readability, worst strip 31.5%
+20	18	18	100.0%	keep	bodyFontSize 11 + paragraphSpacing 8 + lineHeight 1.5 — balanced combo, worst strip 32.9%

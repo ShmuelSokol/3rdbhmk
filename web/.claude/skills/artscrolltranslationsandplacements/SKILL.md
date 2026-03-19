@@ -1,0 +1,95 @@
+---
+name: artscrolltranslationsandplacements
+description: "Generate print-ready ArtScroll-style English typeset PDFs from Hebrew religious texts. Handles inline Hebrew characters, illustrations, page decoration, and optimal layout for the Lishchno Tidreshu book about the 3rd Beis HaMikdash."
+---
+
+# ArtScroll Translations and Placements
+
+## Core Job
+
+Take Hebrew pages from Lishchno Tidreshu (a 367-page book about the 3rd Beis HaMikdash per Yechezkel's nevuah) and produce a clean, print-ready English typeset PDF with:
+
+1. ArtScroll-style translations with **inline Hebrew characters** for short Torah/Gemara quotes
+2. Illustrations and diagrams from source pages displayed alongside their related text
+3. Elegant page design with borders, running headers, and decorative elements
+4. No wasted space — text and illustrations flow naturally without huge gaps
+
+## Translation Style
+
+Follow ArtScroll conventions:
+- Short Hebrew quotes (1-5 words) in **original Hebrew characters** with transliteration context
+- Source references: tractate name + daf (e.g., "Zevachim 118b"), Rashi/Rambam location
+- Ashkenazi English transliteration: Shabbos, Beis HaMikdash, davening, Hashem, pesukim, halachah
+- Longer quotes translated to English only (no Hebrew inline for paragraphs)
+- Hebrew terms used throughout: kodshei kodashim, bamos, korbanos, yeri'os, kerashim
+
+## TypesetConfig Parameters
+
+These control the PDF layout. All values in PDF points (72pt = 1 inch) unless noted.
+
+```
+pageWidth: 468         # 6.5 inches — standard book trim
+pageHeight: 648        # 9 inches
+marginTop: 54          # 0.75 inch
+marginBottom: 54       # 0.75 inch
+marginLeft: 54         # 0.75 inch
+marginRight: 54        # 0.75 inch
+bodyFontSize: 11       # optimized: larger for readability (autoresearch exp 20)
+headerFontSize: 14     # section headers
+subheaderFontSize: 12  # bold subheaders
+lineHeight: 1.5        # optimized: tighter to compensate for larger font
+paragraphSpacing: 8    # optimized: more visual separation between paragraphs
+headerSpacingAbove: 14 # points above headers
+headerSpacingBelow: 6  # points below headers
+illustrationMaxWidth: 0.85    # fraction of text width
+illustrationPadding: 10       # points above/below illustrations
+textColor: [0.12, 0.10, 0.08]   # near-black warm tone
+headerColor: [0.08, 0.06, 0.04] # slightly darker
+pageNumberFontSize: 9
+firstLineIndent: 18    # paragraph indent
+illustrationGapThreshold: 8   # % of page height gap to detect illustration
+```
+
+## Page Design
+
+Every content page includes:
+- **Double-line border frame**: Outer (0.7pt) and inner (0.3pt) lines around the text area
+- **Running header**: "LISHCHNO TIDRESHU — ENGLISH TRANSLATION" centered with flanking lines
+- **Page numbers**: Centered in footer with em dashes (— N —)
+- **Section dividers**: Diamond shape with flanking lines between Hebrew page sections
+
+## Illustration Handling
+
+- Detect illustration gaps between text regions (gaps > illustrationGapThreshold % of page height)
+- Crop illustrations from source page images
+- Verify content with pixel variance check (skip blank crops)
+- Scale illustrations to fit remaining page space instead of forcing page breaks
+- Cap illustration height at 50% of text area
+- If remaining space >= 20% of page, scale illustration to fit rather than creating a new page
+- Center illustrations horizontally
+
+## Font Stack
+
+- Body: Times Roman (pdf-lib standard)
+- Bold: Times Roman Bold
+- Headers: Times Roman Bold
+- Hebrew: Noto Serif Hebrew Regular (embedded via fontkit)
+- Hebrew Bold: Noto Serif Hebrew Bold (embedded via fontkit)
+
+## Bidi Text Rendering
+
+- Split mixed text into Hebrew/Latin segments
+- Draw each segment with appropriate font
+- Hebrew characters in logical Unicode order (no reversal)
+- Word wrapping accounts for mixed-font width measurement
+
+## Quality Checks
+
+A good typeset page:
+1. Has actual Hebrew Unicode characters inline (not transliterated)
+2. Has no blank area larger than 35% of page height
+3. Includes illustrations from source pages near their related text
+4. Has complete translated text with no truncation
+5. Has readable font sizes (body 9-12pt, headers 12-16pt)
+6. Has decorative borders, page numbers, and running headers
+7. Has proper margins for print (minimum 0.5" on all sides)

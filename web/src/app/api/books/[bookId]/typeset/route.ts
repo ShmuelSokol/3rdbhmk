@@ -190,31 +190,40 @@ function getVisualSegments(text: string): TextSegment[] {
   const levels = b.getEmbeddingLevels(text, 'ltr')
   const indices = b.getReorderedIndices(text, levels)
 
-  // Build visual runs grouped by Hebrew/non-Hebrew
+  // Build visual runs grouped by EMBEDDING LEVEL (RTL vs LTR)
+  // This ensures parentheses and punctuation adjacent to Hebrew stay with the Hebrew run
+  // because bidi-js assigns them RTL embedding levels when they're in Hebrew context
   const runs: TextSegment[] = []
   let runStart = 0
 
   for (let i = 1; i <= indices.length; i++) {
-    const prevCh = text.charCodeAt(indices[i - 1])
-    const prevIsHeb = (prevCh >= 0x0590 && prevCh <= 0x05FF) || (prevCh >= 0xFB1D && prevCh <= 0xFB4F)
+    // Use bidi embedding level to determine direction, not character range
+    const prevLevel = levels.levels[indices[i - 1]] || 0
+    const prevIsRTL = prevLevel % 2 === 1
 
-    let currIsHeb = false
+    let currIsRTL = false
     if (i < indices.length) {
-      const currCh = text.charCodeAt(indices[i])
-      currIsHeb = (currCh >= 0x0590 && currCh <= 0x05FF) || (currCh >= 0xFB1D && currCh <= 0xFB4F)
+      const currLevel = levels.levels[indices[i]] || 0
+      currIsRTL = currLevel % 2 === 1
     }
 
-    if (i === indices.length || prevIsHeb !== currIsHeb) {
+    if (i === indices.length || prevIsRTL !== currIsRTL) {
       const chars: string[] = []
       for (let j = runStart; j < i; j++) chars.push(text[indices[j]])
 
-      if (prevIsHeb) {
-        // Hebrew run: bidi reversed the characters — reverse back to logical order
-        // so the font can shape them correctly
+      // Check if this run contains ANY Hebrew characters (for font selection)
+      const hasHebrewChars = chars.some(ch => {
+        const c = ch.charCodeAt(0)
+        return (c >= 0x0590 && c <= 0x05FF) || (c >= 0xFB1D && c <= 0xFB4F)
+      })
+
+      if (prevIsRTL) {
+        // RTL run: bidi reversed the characters — reverse back to logical order
+        // so the Hebrew font can shape them correctly
         chars.reverse()
       }
 
-      runs.push({ text: chars.join(''), hebrew: prevIsHeb })
+      runs.push({ text: chars.join(''), hebrew: hasHebrewChars })
       runStart = i
     }
   }
@@ -1903,7 +1912,7 @@ export async function GET(
         const gapWithShortRegions = hasLargeGap && shortRegionCount >= 3
 
         // Safety net: known Hebrew pages with diagrams that fail variance checks
-        const knownDiagramPages = new Set([132, 196, 270, 271, 284, 295])
+        const knownDiagramPages = new Set([22, 132, 196, 270, 271, 284, 295])
         const isKnownDiagramPage = knownDiagramPages.has(page.pageNumber)
 
         const pageHasDiagramRef = explicitDiagramRef || hasMeasurementLabels || gapWithShortRegions || isKnownDiagramPage

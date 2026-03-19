@@ -1934,8 +1934,69 @@ export async function GET(
       const tocLines: TocLine[] = []
       let lastPerek = ''
 
-      // Hardcode first entry: Haskamos (Approval Letters)
-      // These are always the first content after the title page
+      // Meaningful topic descriptions for Perek/Pasuk entries
+      // Maps "perek:pasuk" to a human-readable topic description
+      const topicDescriptions: Record<string, string> = {
+        // Perek 40
+        '40:1': 'The Vision of the Third Beis HaMikdash',
+        '40:2': 'Visions of Eretz Yisrael',
+        '40:3': 'Arrival at Har HaBayis — The Measuring Angel',
+        '40:5': 'The Wall of Har HaBayis',
+        '40:6': 'The Eastern Gate and the Soreg',
+        '40:7': 'The Chambers of the Gate',
+        '40:8': 'The Ulam of the Gate',
+        '40:12': 'The Borders of the Chambers',
+        '40:13': 'The Width of the Gate',
+        '40:14': 'The Pillars and Doorposts',
+        '40:16': 'The Narrow Windows and Palm Decorations',
+        '40:17': 'The Outer Courtyard and its Chambers',
+        '40:19': 'The Width of the Courtyard',
+        '40:20': 'The Northern Gate',
+        '40:28': 'The Inner Courtyard — Southern Gate',
+        '40:29': 'The Inner Gate Chambers',
+        '40:31': 'The Vestibule of the Inner Azarah',
+        '40:36': 'The Northern Inner Gate',
+        '40:39': 'The Tables for Korbanos',
+        '40:42': 'The Slaughter Tables and Hooks',
+        '40:44': 'The Chambers of the Singers',
+        '40:45': 'The Chamber of the Kohanim',
+        '40:47': 'The Inner Courtyard — The Mizbei\'ach',
+        '40:48': 'The Ulam of the Heichal',
+        '40:49': 'The Steps to the Ulam',
+        // Perek 41
+        '41:1': 'The Heichal — The Pillars',
+        '41:3': 'The Kodesh HaKodashim',
+        '41:4': 'The Aron and the Kapores',
+        '41:5': 'The Side Chambers (Ta\'im)',
+        '41:6': 'The Three Stories of Chambers',
+        '41:7': 'The Winding Staircases',
+        '41:8': 'The Foundation Platform',
+        '41:9': 'The Outer Wall of the Chambers',
+        '41:12': 'The Building Behind the Heichal (Beis HaChalifos)',
+        '41:13': 'Total Measurements of the House',
+        '41:15': 'The Interior Galleries and Decorations',
+        '41:16': 'The Doorframes, Windows, and Galleries',
+        '41:17': 'The Keruvim and Palm Tree Carvings',
+        '41:22': 'The Golden Mizbei\'ach (Mizbei\'ach HaZahav)',
+        '41:23': 'The Doors of the Heichal and Kodesh HaKodashim',
+        '41:25': 'The Wooden Canopy of the Ulam',
+        '41:26': 'The Windows and Palm Trees of the Side Chambers',
+        // Perek 42
+        '42:1': 'The Upper Chambers in the North',
+        '42:3': 'The Galleries Opposite the Courtyard',
+        '42:4': 'The Walkway Before the Chambers',
+        '42:5': 'The Upper Chambers Are Shorter',
+        '42:6': 'The Pillars of the Chambers',
+        '42:7': 'The Outer Wall',
+        '42:9': 'The Lower Chambers',
+        '42:10': 'The Southern Chambers',
+        '42:11': 'The Doorways of the Chambers',
+        '42:12': 'The Entrances and Holy Garments',
+        '42:13': 'Eating Kodshei Kodashim',
+        '42:15': 'Measuring the Outer Perimeter',
+      }
+
+      // Hardcode first entries
       tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
 
       for (const entry of finalTocItems) {
@@ -1971,7 +2032,19 @@ export async function GET(
           }
           cleanDisplay = fallback.length >= 8 ? fallback : cleanDisplay
         }
-        // Skip entries that are still too short after all cleaning (but lenient for Pasuk entries)
+        // Replace bare "Pasuk N" entries with meaningful topic descriptions
+        const pasukForDesc = cleanDisplay.match(/^Pasuk(?:im)?\s+(\d+)(?:\s+(\d+))?/i)
+        if (pasukForDesc && lastPerek) {
+          const pasukNum = pasukForDesc[1]
+          const perekNum = lastPerek.replace('YECHEZKEL PEREK ', '')
+          const descKey = `${perekNum}:${pasukNum}`
+          const description = topicDescriptions[descKey]
+          if (description) {
+            cleanDisplay = `Pasuk${pasukForDesc[2] ? 'im ' + pasukNum + '-' + pasukForDesc[2] : ' ' + pasukNum}: ${description}`
+          }
+        }
+
+        // Skip entries that are still too short after all cleaning
         const isPasukEntry = /^pasuk|^pesukim/i.test(cleanDisplay)
         const minDisplayLen = isPasukEntry ? 7 : 12
         if (cleanDisplay.length >= minDisplayLen) {

@@ -81,30 +81,72 @@ function sanitizeForPdf(text: string, keepHebrew = false): string {
     .trim()
 }
 
-/** Split text into segments of [text, isHebrew] for bidi rendering */
+/** Split text into segments of [text, isHebrew] for bidi rendering.
+ *  Punctuation adjacent to Hebrew text stays with the Hebrew segment
+ *  so parentheses, periods, commas etc. don't get visually reversed. */
 interface TextSegment { text: string; hebrew: boolean }
+
+/** Check if a character is "neutral" punctuation that should attach to its neighboring script */
+function isNeutral(ch: string): boolean {
+  return /^[\s\(\)\[\]\{\}.,;:!?\-–—"'""''`\/#@&*+<>=…·•°]$/.test(ch)
+}
 
 function splitBidi(text: string): TextSegment[] {
   if (!text) return []
   // Strip bidi control characters — we handle directionality via font switching
   const cleaned = text.replace(/[\u200E\u200F\u202A-\u202E]/g, '')
   if (!cleaned) return []
-  const segments: TextSegment[] = []
+
+  // Phase 1: split into raw runs of Hebrew, Latin, and neutral characters
+  interface RawRun { text: string; type: 'hebrew' | 'latin' | 'neutral' }
+  const runs: RawRun[] = []
   let cur = ''
-  let curHeb = isHebrew(cleaned[0])
+  let curType: 'hebrew' | 'latin' | 'neutral' = isHebrew(cleaned[0]) ? 'hebrew' : isNeutral(cleaned[0]) ? 'neutral' : 'latin'
 
   for (const ch of cleaned) {
-    const heb = isHebrew(ch)
-    if (heb === curHeb || ch === ' ') {
+    let chType: 'hebrew' | 'latin' | 'neutral'
+    if (isHebrew(ch)) chType = 'hebrew'
+    else if (isNeutral(ch)) chType = 'neutral'
+    else chType = 'latin'
+
+    if (chType === curType) {
       cur += ch
     } else {
-      if (cur) segments.push({ text: cur, hebrew: curHeb })
+      if (cur) runs.push({ text: cur, type: curType })
       cur = ch
-      curHeb = heb
+      curType = chType
     }
   }
-  if (cur) segments.push({ text: cur, hebrew: curHeb })
-  return segments
+  if (cur) runs.push({ text: cur, type: curType })
+
+  // Phase 2: resolve neutral runs — attach them to adjacent Hebrew if either neighbor is Hebrew,
+  // otherwise attach to Latin. This keeps parentheses/punctuation with Hebrew text.
+  const segments: TextSegment[] = []
+  for (let i = 0; i < runs.length; i++) {
+    const run = runs[i]
+    if (run.type !== 'neutral') {
+      segments.push({ text: run.text, hebrew: run.type === 'hebrew' })
+    } else {
+      // Look at neighbors to decide direction
+      const prevHeb = i > 0 && runs[i - 1].type === 'hebrew'
+      const nextHeb = i < runs.length - 1 && runs[i + 1].type === 'hebrew'
+      // If either neighbor is Hebrew, attach to Hebrew
+      const attachHebrew = prevHeb || nextHeb
+      segments.push({ text: run.text, hebrew: attachHebrew })
+    }
+  }
+
+  // Phase 3: merge adjacent segments of the same direction
+  const merged: TextSegment[] = []
+  for (const seg of segments) {
+    if (merged.length > 0 && merged[merged.length - 1].hebrew === seg.hebrew) {
+      merged[merged.length - 1].text += seg.text
+    } else {
+      merged.push({ ...seg })
+    }
+  }
+
+  return merged
 }
 
 /** For inline Hebrew quotes in ArtScroll style, we keep logical order.
@@ -195,28 +237,114 @@ function bidiLineWidth(line: string, fontSize: number, latinFont: PDFFont, hebre
   return w
 }
 
-/** Wrap text using latin font for measurement (Hebrew chars measured with hebrewFont) */
+/** Wrap text using bidi-aware chunking.
+ *  Hebrew phrases are treated as atomic units — never split across lines.
+ *  If a Hebrew phrase is too long for the remaining line, the ENTIRE phrase
+ *  moves to the next line. Only if a Hebrew phrase is too long for a full
+ *  empty line do we break it at word boundaries within the Hebrew run. */
 function wrapTextBidi(text: string, latinFont: PDFFont, hebrewFont: PDFFont, fontSize: number, maxWidth: number): string[] {
-  const words = text.split(/\s+/)
-  if (words.length === 0) return []
+  if (!text.trim()) return []
 
+  // Step 1: Split text into bidi segments (preserves original order)
+  const segments = splitBidi(text)
+  if (segments.length === 0) return []
+
+  // Step 2: Build "chunks" — atomic units for line-wrapping.
+  // English segments split on whitespace (each word is a chunk).
+  // Hebrew segments stay whole as one chunk (atomic), preserving internal spaces.
+  interface Chunk { text: string; hebrew: boolean }
+  const chunks: Chunk[] = []
+
+  for (const seg of segments) {
+    if (!seg.hebrew) {
+      // English text: split on whitespace, each word is a separate chunk
+      // Preserve leading/trailing space awareness
+      const words = seg.text.split(/(\s+)/)
+      for (const w of words) {
+        if (w) chunks.push({ text: w, hebrew: false })
+      }
+    } else {
+      // Hebrew text: keep as one atomic chunk (including internal spaces)
+      // Trim trailing space only — leading space preserved
+      const trimmed = seg.text.replace(/\s+$/, '')
+      if (trimmed) chunks.push({ text: trimmed, hebrew: true })
+    }
+  }
+
+  if (chunks.length === 0) return []
+
+  // Step 3: Wrap chunks into lines
   const lines: string[] = []
   let currentLine = ''
 
-  for (const word of words) {
-    if (!word) continue
-    const testLine = currentLine ? `${currentLine} ${word}` : word
-    const width = bidiLineWidth(testLine, fontSize, latinFont, hebrewFont)
-    if (width <= maxWidth && currentLine) {
+  const measureLine = (line: string) => bidiLineWidth(line, fontSize, latinFont, hebrewFont)
+
+  for (const chunk of chunks) {
+    // Skip whitespace-only chunks at the start of a line
+    if (!currentLine && /^\s+$/.test(chunk.text)) continue
+
+    // For whitespace chunks, just append
+    if (/^\s+$/.test(chunk.text)) {
+      currentLine += chunk.text
+      continue
+    }
+
+    const testLine = currentLine ? `${currentLine.trimEnd()} ${chunk.text}` : chunk.text
+    const testWidth = measureLine(testLine)
+
+    if (testWidth <= maxWidth) {
+      // Fits on current line
       currentLine = testLine
     } else if (!currentLine) {
-      currentLine = word
+      // Empty line but chunk doesn't fit — need to force-break
+      if (chunk.hebrew) {
+        // Break Hebrew at word boundaries within the phrase
+        const hebrewWords = chunk.text.split(/\s+/)
+        let hebLine = ''
+        for (const hw of hebrewWords) {
+          if (!hw) continue
+          const testHeb = hebLine ? `${hebLine} ${hw}` : hw
+          if (measureLine(testHeb) <= maxWidth && hebLine) {
+            hebLine = testHeb
+          } else if (!hebLine) {
+            hebLine = hw
+          } else {
+            lines.push(hebLine)
+            hebLine = hw
+          }
+        }
+        if (hebLine) currentLine = hebLine
+      } else {
+        // A single English word wider than maxWidth — just place it
+        currentLine = chunk.text
+      }
     } else {
-      lines.push(currentLine)
-      currentLine = word
+      // Doesn't fit — push current line and start new with this chunk
+      lines.push(currentLine.trimEnd())
+      // Now check if the chunk fits on a fresh line
+      if (chunk.hebrew && measureLine(chunk.text) > maxWidth) {
+        // Hebrew phrase too long for a full line — break at word boundaries
+        const hebrewWords = chunk.text.split(/\s+/)
+        let hebLine = ''
+        for (const hw of hebrewWords) {
+          if (!hw) continue
+          const testHeb = hebLine ? `${hebLine} ${hw}` : hw
+          if (measureLine(testHeb) <= maxWidth && hebLine) {
+            hebLine = testHeb
+          } else if (!hebLine) {
+            hebLine = hw
+          } else {
+            lines.push(hebLine)
+            hebLine = hw
+          }
+        }
+        currentLine = hebLine || ''
+      } else {
+        currentLine = chunk.text
+      }
     }
   }
-  if (currentLine) lines.push(currentLine)
+  if (currentLine.trimEnd()) lines.push(currentLine.trimEnd())
   return lines
 }
 
@@ -1587,7 +1715,35 @@ export async function GET(
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
         // Check if this page has explicit diagram references — use lower filter threshold
         const allRegionText = regions.map(r => (r.translatedText || '')).join(' ')
-        const pageHasDiagramRef = /\[THIS IS DIAGRAM|Drawing \d|Diagram \d|Sketch of|Layout of|שרטוט|ציור \d/i.test(allRegionText)
+        const explicitDiagramRef = /\[THIS IS DIAGRAM|Drawing \d|Diagram \d|Sketch of|Layout of|שרטוט|ציור \d/i.test(allRegionText)
+
+        // Also detect pages with scattered measurement labels (amos/amah with numbers)
+        const hasMeasurementLabels = /\d+\s*amos?\b|\bamos?\s*\d|\d+\s*amah?\b|\bamah?\s*\d|\d+\s*אמ[הות]/i.test(allRegionText)
+
+        // Detect pages with large illustration gaps (>20% of page height) AND many short regions
+        const sortedRegs = [...regions].sort((a, b) => a.origY - b.origY)
+        let hasLargeGap = false
+        for (let ri = 0; ri < sortedRegs.length - 1; ri++) {
+          const gapSize = sortedRegs[ri + 1].origY - (sortedRegs[ri].origY + sortedRegs[ri].origHeight)
+          if (gapSize > 20) { hasLargeGap = true; break }
+        }
+        // First region far from top or last region far from bottom also counts
+        if (!hasLargeGap && sortedRegs.length > 0) {
+          if (sortedRegs[0].origY > 25) hasLargeGap = true
+          const lastBottom = sortedRegs[sortedRegs.length - 1].origY + sortedRegs[sortedRegs.length - 1].origHeight
+          if (lastBottom < 75) hasLargeGap = true
+        }
+        const shortRegionCount = regions.filter(r => {
+          const words = (r.translatedText || '').trim().split(/\s+/).length
+          return words > 0 && words < 10
+        }).length
+        const gapWithShortRegions = hasLargeGap && shortRegionCount >= 3
+
+        // Safety net: known Hebrew pages with diagrams that fail variance checks
+        const knownDiagramPages = new Set([132, 196, 270, 271, 284, 295])
+        const isKnownDiagramPage = knownDiagramPages.has(page.pageNumber)
+
+        const pageHasDiagramRef = explicitDiagramRef || hasMeasurementLabels || gapWithShortRegions || isKnownDiagramPage
 
         const illustrations = await detectAndCropIllustrations(
           page.id, page.pageNumber, bookId, regions, cfg, pageHasDiagramRef,
@@ -1783,9 +1939,12 @@ export async function GET(
         }
 
         // Add topic dividers for content pages (not intro section)
+        // Exception: Introduction/Foreword pages get dividers even in the intro section
         const startsWithHeader = dedupedElements[0]?.type === 'header'
         const isIntroSection = page.pageNumber <= 12
-        if (!isFirstSection && !isLetterPg && startsWithHeader && !isIntroSection) {
+        const headerText = startsWithHeader ? (dedupedElements[0].text || '') : ''
+        const isIntroOrForeword = /introduction|foreword/i.test(headerText)
+        if (!isFirstSection && !isLetterPg && startsWithHeader && (!isIntroSection || isIntroOrForeword)) {
           allElements.push({ type: 'divider' })
         }
         isFirstSection = false
@@ -1955,7 +2114,7 @@ export async function GET(
         '40:28': 'The Inner Courtyard — Southern Gate',
         '40:29': 'The Inner Gate Chambers',
         '40:31': 'The Vestibule of the Inner Azarah',
-        '40:36': 'The Northern Inner Gate',
+        '40:36': 'Overview of the Beis HaMikdash Structure',
         '40:39': 'The Tables for Korbanos',
         '40:42': 'The Slaughter Tables and Hooks',
         '40:44': 'The Chambers of the Singers',
@@ -2033,7 +2192,7 @@ export async function GET(
           cleanDisplay = fallback.length >= 8 ? fallback : cleanDisplay
         }
         // Replace bare "Pasuk N" entries with meaningful topic descriptions
-        const pasukForDesc = cleanDisplay.match(/^Pasuk(?:im)?\s+(\d+)(?:\s+(\d+))?/i)
+        const pasukForDesc = cleanDisplay.match(/^P[ae]suk(?:im)?\s+(\d+)(?:[\s\-]+(\d+))?/i)
         if (pasukForDesc && lastPerek) {
           const pasukNum = pasukForDesc[1]
           const perekNum = lastPerek.replace('YECHEZKEL PEREK ', '')

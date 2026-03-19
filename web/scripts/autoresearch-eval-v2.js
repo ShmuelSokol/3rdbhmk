@@ -467,7 +467,7 @@ function evalE9_ReasonablePageCount(pageCount, testInput) {
   };
 }
 
-function evalE10_NoTinyPages(pagesText) {
+function evalE10_NoTinyPages(pagesText, pageImages) {
   if (pagesText.length <= 2) return { pass: true, detail: 'Too few pages to evaluate' };
 
   const tinyPages = [];
@@ -487,6 +487,12 @@ function evalE10_NoTinyPages(pagesText) {
     });
     const words = lines.join(' ').split(/\s+/).filter(w => w.length > 1).length;
     if (words < 15) {
+      // Letter/diagram image pages have few extractable words but large PNG file size
+      // (>20KB means real image content is present, not an empty/broken page)
+      if (pageImages && pageImages[i] && fs.existsSync(pageImages[i])) {
+        const pngSize = fs.statSync(pageImages[i]).size;
+        if (pngSize > 20 * 1024) continue; // image-heavy page, not truly tiny
+      }
       tinyPages.push({ page: i + 1, words });
     }
   }
@@ -1132,7 +1138,7 @@ function evalE29_FooterPageNumbersSequential(text) {
   };
 }
 
-function evalE30_NoEmptyContentPages(pagesText) {
+function evalE30_NoEmptyContentPages(pagesText, pageImages) {
   if (pagesText.length <= 2) return { pass: true, detail: 'Too few pages' };
 
   let emptyPages = 0;
@@ -1152,6 +1158,12 @@ function evalE30_NoEmptyContentPages(pagesText) {
     });
     const words = lines.join(' ').split(/\s+/).filter(w => w.length > 1).length;
     if (words < 5) {
+      // Letter/diagram image pages have few extractable words but large PNG file size
+      // (>20KB means real image content is present, not an empty/broken page)
+      if (pageImages && pageImages[i] && fs.existsSync(pageImages[i])) {
+        const pngSize = fs.statSync(pageImages[i]).size;
+        if (pngSize > 20 * 1024) continue; // image-heavy page, not truly empty
+      }
       emptyPages++;
       if (examples.length < 5) examples.push(`p${i + 1}(${words}w)`);
     }
@@ -1255,7 +1267,7 @@ async function runEvals(configOverride) {
       : { pass: true, detail: 'Skipped (no rendered pages)' };
     evals.E8 = evalE8_DecorationPresent(text);
     evals.E9 = evalE9_ReasonablePageCount(pageCount, testInput);
-    evals.E10 = evalE10_NoTinyPages(pagesText);
+    evals.E10 = evalE10_NoTinyPages(pagesText, pageImages);
 
     // Category 3: Illustration Quality
     console.log('  --- Illustration Quality ---');
@@ -1289,7 +1301,7 @@ async function runEvals(configOverride) {
     evals.E27 = evalE27_HeadersVisuallyDistinct(text);
     evals.E28 = evalE28_SectionContentCohesive(pagesText);
     evals.E29 = evalE29_FooterPageNumbersSequential(text);
-    evals.E30 = evalE30_NoEmptyContentPages(pagesText);
+    evals.E30 = evalE30_NoEmptyContentPages(pagesText, pageImages);
 
     // Tally results
     let inputScore = 0;

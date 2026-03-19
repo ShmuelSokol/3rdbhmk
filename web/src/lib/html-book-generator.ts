@@ -206,7 +206,7 @@ export async function generateHtmlBook(
 
   @page {
     size: ${cfg.pageWidth}pt ${cfg.pageHeight}pt;
-    margin: ${cfg.marginTop - 16}pt ${cfg.marginRight - 8}pt ${cfg.marginBottom}pt ${cfg.marginLeft - 8}pt;
+    margin: 0; /* Playwright margin params handle this */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -218,7 +218,11 @@ export async function generateHtmlBook(
     color: ${textColor};
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    padding: 0 8pt;
+    padding: 4pt 8pt;
+    border-left: 0.7pt solid rgb(184, 174, 158);
+    border-right: 0.7pt solid rgb(184, 174, 158);
+    outline: 0.3pt solid rgb(209, 199, 186);
+    outline-offset: -4pt;
   }
 
   /* Running header on every page */
@@ -625,11 +629,42 @@ export async function htmlToPdf(
     const mLeft = `${(cfg.marginLeft / 72).toFixed(4)}in`
     const mRight = `${(cfg.marginRight / 72).toFixed(4)}in`
 
+    // Use Playwright margins + displayHeaderFooter for per-page chrome
+    // The header/footer templates render on EVERY page in the margin area
+    const borderColor = 'rgb(184, 174, 158)'
+    const innerBorderColor = 'rgb(209, 199, 186)'
+    const headerTextColor = 'rgb(133, 122, 112)'
+    const pageNumColor = 'rgb(122, 115, 107)'
+
+    // Header template: running title + top border lines
+    const headerTemplate = `
+      <div style="width: 100%; font-size: 7pt; color: ${headerTextColor}; text-align: center; padding: 0 ${cfg.marginLeft - 8}pt;">
+        <div style="border-top: 0.7pt solid ${borderColor}; margin: 0 0 3pt 0;"></div>
+        <div style="border-top: 0.3pt solid ${innerBorderColor}; margin: 0 3pt 4pt 3pt;"></div>
+        <span style="font-family: serif; letter-spacing: 0.3pt;">LISHCHNO TIDRESHU — ENGLISH TRANSLATION</span>
+      </div>`
+
+    // Footer template: page number + bottom border lines
+    const footerTemplate = `
+      <div style="width: 100%; font-size: ${cfg.pageNumberFontSize}pt; color: ${pageNumColor}; text-align: center; padding: 0 ${cfg.marginLeft - 8}pt;">
+        <div style="border-bottom: 0.3pt solid ${innerBorderColor}; margin: 0 3pt 3pt 3pt;"></div>
+        <div style="border-bottom: 0.7pt solid ${borderColor}; margin: 0 0 4pt 0;"></div>
+        <span style="font-family: serif;">— <span class="pageNumber"></span> —</span>
+      </div>`
+
     const pdfBuffer = await page.pdf({
       width: `${widthIn}in`,
       height: `${heightIn}in`,
+      margin: {
+        top: `${mTop}`,
+        bottom: `${mBottom}`,
+        left: `${mLeft}`,
+        right: `${(cfg.marginRight / 72).toFixed(4)}in`,
+      },
       printBackground: true,
-      preferCSSPageSize: true, // use @page CSS margins instead of Playwright's
+      displayHeaderFooter: true,
+      headerTemplate,
+      footerTemplate,
     })
 
     return Buffer.from(pdfBuffer)

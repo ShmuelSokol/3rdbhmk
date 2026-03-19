@@ -382,25 +382,24 @@ function decoratePage(
 function drawSectionDivider(pdfPage: PDFPage, y: number, cfg: TypesetConfig, font: PDFFont) {
   const centerX = cfg.pageWidth / 2
   const dividerColor = rgb(0.72, 0.68, 0.62)
-  const ornament = '\u25C6' // ◆
-  const ornW = font.widthOfTextAtSize(ornament, 7)
 
-  // Center ornament
-  pdfPage.drawText(ornament, {
-    x: centerX - ornW / 2,
-    y: y - 4,
-    size: 7, font, color: dividerColor,
-  })
-  // Lines flanking the ornament
+  // Draw a diamond shape using lines (WinAnsi-safe — no special chars)
+  const dSize = 3
+  pdfPage.drawLine({ start: { x: centerX, y: y + dSize }, end: { x: centerX + dSize, y }, thickness: 0.6, color: dividerColor })
+  pdfPage.drawLine({ start: { x: centerX + dSize, y }, end: { x: centerX, y: y - dSize }, thickness: 0.6, color: dividerColor })
+  pdfPage.drawLine({ start: { x: centerX, y: y - dSize }, end: { x: centerX - dSize, y }, thickness: 0.6, color: dividerColor })
+  pdfPage.drawLine({ start: { x: centerX - dSize, y }, end: { x: centerX, y: y + dSize }, thickness: 0.6, color: dividerColor })
+
+  // Lines flanking the diamond
   const lineLen = 40
   pdfPage.drawLine({
-    start: { x: centerX - ornW / 2 - 6 - lineLen, y },
-    end: { x: centerX - ornW / 2 - 6, y },
+    start: { x: centerX - dSize - 6 - lineLen, y },
+    end: { x: centerX - dSize - 6, y },
     thickness: 0.4, color: dividerColor,
   })
   pdfPage.drawLine({
-    start: { x: centerX + ornW / 2 + 6, y },
-    end: { x: centerX + ornW / 2 + 6 + lineLen, y },
+    start: { x: centerX + dSize + 6, y },
+    end: { x: centerX + dSize + 6 + lineLen, y },
     thickness: 0.4, color: dividerColor,
   })
 }

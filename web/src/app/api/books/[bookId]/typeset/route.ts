@@ -290,8 +290,9 @@ async function detectAndCropIllustrations(
     if (cropHeight < 200) continue // min 200px height — filters out page design residue
 
     try {
-      // Crop with small horizontal margins to avoid page edges
-      const marginX = Math.round(imgW * 0.03)
+      // Minimal horizontal margins — just 1% to avoid very edge artifacts
+      // (was 3% but cut off letter/image content on sides)
+      const marginX = Math.round(imgW * 0.01)
       const cropData = await sharp(imgBuf)
         .extract({
           left: marginX,
@@ -317,9 +318,12 @@ async function detectAndCropIllustrations(
       const avgVariance = stats.channels.reduce((s, c) => s + (c.stdev || 0), 0) / stats.channels.length
       if (avgVariance < 30) continue
 
-      // Also check mean brightness — very bright crops (>220/255) are likely just background
+      // Check mean brightness — bright crops with low variance are just page background/borders
       const avgMean = stats.channels.reduce((s, c) => s + (c.mean || 0), 0) / stats.channels.length
-      if (avgMean > 220 && avgVariance < 40) continue // bright + low variance = page background
+      if (avgMean > 200 && avgVariance < 45) continue // bright + low-medium variance = page background
+      // Also filter crops that are very uniform in any channel (page design patterns)
+      const minStdev = Math.min(...stats.channels.map(c => c.stdev || 0))
+      if (minStdev < 10 && avgMean > 180) continue // at least one channel is very uniform + bright
 
       // Trim yellowish/beige borders to maximize illustration area
       const trimmedData = await trimIllustrationBorders(cropData)
@@ -484,6 +488,16 @@ function isRecurringSourceHeader(text: string, hebrewText?: string, pageRegionCo
     if (t === re) return true
   }
   return false
+}
+
+/** Detect if a page is a Table of Contents page (should be skipped — we generate our own) */
+function isTocPage(regions: { translatedText?: string | null; hebrewText?: string | null; regionType: string }[]): boolean {
+  const allText = regions.map(r => (r.translatedText || '') + ' ' + (r.hebrewText || '')).join(' ').toLowerCase()
+  // Look for TOC indicators
+  const hasTocTitle = /main topics|table of contents|contents|תוכן עניינים/.test(allText)
+  const hasPageRefs = (allText.match(/\d+-\d+/g) || []).length >= 3 // page ranges like "97-100"
+  const hasPasukRefs = (allText.match(/perek|pasuk|פרק|פסוק/gi) || []).length >= 3
+  return hasTocTitle && (hasPageRefs || hasPasukRefs)
 }
 
 /** Check if text is just a standalone Hebrew source page number (should be filtered out) */
@@ -742,8 +756,10 @@ async function renderElements(
         continue
       }
 
-      const maxW = textWidth * cfg.illustrationMaxWidth
-      const maxH = textHeight * 0.5 // cap at 50% of text area
+      // For letter/full-page images, allow up to 80% of text area
+      const isFullPageImage = img.width > 800 && img.height > 1000
+      const maxW = textWidth * (isFullPageImage ? 0.95 : cfg.illustrationMaxWidth)
+      const maxH = textHeight * (isFullPageImage ? 0.75 : 0.5)
       const baseScale = Math.min(maxW / img.width, maxH / img.height)
       let drawW = img.width * baseScale
       let drawH = img.height * baseScale
@@ -751,29 +767,47 @@ async function renderElements(
 
       const remaining = curY - cfg.marginBottom
       if (totalH > remaining) {
-        // Try scaling to fit remaining space instead of creating a page break gap
         const spaceForImg = remaining - cfg.illustrationPadding * 2
         if (spaceForImg > textHeight * 0.2) {
-          // Remaining space is >= 20% of page — scale illustration to fit
           const fitScale = Math.min(maxW / img.width, spaceForImg / img.height)
           drawW = img.width * fitScale
           drawH = img.height * fitScale
           totalH = drawH + cfg.illustrationPadding * 2
         } else {
-          // Too little space left — new page
           newPage()
         }
       }
 
-      curY -= cfg.illustrationPadding
-      const imgX = cfg.marginLeft + (textWidth - drawW) / 2
-      pdfPage.drawImage(img, {
-        x: imgX,
-        y: curY - drawH,
-        width: drawW,
-        height: drawH,
-      })
-      curY -= drawH + cfg.illustrationPadding
+      // Check if this image should be placed at the BOTTOM of the page
+      // (when the next element is a divider/new topic, put image at bottom
+      // so blank space is above the image, not below)
+      const nextEl = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      const nextIsDividerOrEnd = !nextEl || nextEl.type === 'divider'
+      const spaceAfterImage = (curY - cfg.illustrationPadding - drawH) - cfg.marginBottom
+
+      if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.15) {
+        // Place image at bottom of page — push curY down to position image near margin
+        const bottomY = cfg.marginBottom + cfg.illustrationPadding + drawH
+        const imgX = cfg.marginLeft + (textWidth - drawW) / 2
+        pdfPage.drawImage(img, {
+          x: imgX,
+          y: cfg.marginBottom + cfg.illustrationPadding,
+          width: drawW,
+          height: drawH,
+        })
+        curY = cfg.marginBottom // page is full after bottom-placed image
+      } else {
+        // Normal placement: image flows top-down
+        curY -= cfg.illustrationPadding
+        const imgX = cfg.marginLeft + (textWidth - drawW) / 2
+        pdfPage.drawImage(img, {
+          x: imgX,
+          y: curY - drawH,
+          width: drawW,
+          height: drawH,
+        })
+        curY -= drawH + cfg.illustrationPadding
+      }
 
     } else if (el.type === 'caption') {
       // Render as smaller italic-style caption text (centered)
@@ -1262,10 +1296,27 @@ export async function GET(
     const allElements: ContentElement[] = []
     let isFirstSection = true
 
+    // Track which Hebrew source pages map to which topics (for dynamic TOC)
+    const tocEntries: { title: string; hebrewPage: number }[] = []
+
     for (const page of pages) {
       const pageElements: ContentElement[] = []
       const regions = page.regions || []
       const translation = page.translation
+
+      // Skip Hebrew TOC pages — we'll generate our own English TOC with correct page numbers
+      if (isTocPage(regions)) {
+        continue
+      }
+
+      // Track topic headers for TOC generation
+      const headerRegions = regions.filter(r => r.regionType === 'header' && r.translatedText?.trim())
+      for (const hr of headerRegions) {
+        const title = cleanTranslationText(hr.translatedText || '').trim()
+        if (title.length > 10 && title.length < 120 && !isRecurringSourceHeader(title, hr.hebrewText || undefined, regions.length)) {
+          tocEntries.push({ title, hebrewPage: page.pageNumber })
+        }
+      }
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
         const illustrations = await detectAndCropIllustrations(
@@ -1292,7 +1343,8 @@ export async function GET(
               const imgMeta = await sharp(fullPageImg).metadata()
               const imgW = imgMeta.width || 1655
               const imgH = imgMeta.height || 2340
-              const marginPct = 0.05
+              // Minimal margins (2%) — preserve full letter/image content
+              const marginPct = 0.02
               const cropData = await sharp(fullPageImg)
                 .extract({
                   left: Math.round(imgW * marginPct),
@@ -1319,9 +1371,15 @@ export async function GET(
           }
 
           if (letterPage) {
+            // Force letter images to start on a new page (add divider before)
+            // This ensures the image + "Translation of the above letter:" are together
+            if (allElements.length > 0) {
+              // The pageElements already has the illustration; we'll add a divider
+              // before pushing them to allElements (handled below)
+            }
+
             // For letter pages: add CLEAN translation below the image
-            // Strip all Hebrew from the translation (the original Hebrew is in the image)
-            // Also strip the enhance-artscroll.js Hebrew header prefixes
+            // Strip all Hebrew + skip English text that duplicates letterhead content
             const textParts = regions
               .filter(r => r.translatedText?.trim())
               .map(r => {
@@ -1335,6 +1393,9 @@ export async function GET(
                 return text
               })
               .filter(t => t.length > 10)
+              // Skip duplicate English from letterheads (English text in Hebrew regions)
+              // Remove very short fragments and exact duplicates
+              .filter(t => t.split(/\s+/).length >= 4)
             const uniqueParts = Array.from(new Set(textParts))
             if (uniqueParts.length > 0) {
               pageElements.push({ type: 'caption', text: 'Translation of the above letter:' })
@@ -1442,13 +1503,18 @@ export async function GET(
           dedupedElements.push(el)
         }
 
-        // Only add a topic divider if this page starts with a header (new section/topic)
-        // Pages that start with body text are continuations of the previous topic
-        // Don't add dividers for the first ~12 source pages (intro/letters/title section)
-        // — those flow continuously without topic breaks
+        // Force new page for letter pages (each letter starts fresh)
+        // so the image + "Translation of the above letter:" are always together
+        const hasLetterContent = dedupedElements.some(e => e.type === 'caption' && (e.text || '').includes('Translation of the above'))
+        const isLetterPg = hasLetterContent || (page.pageNumber >= 4 && page.pageNumber <= 12 && dedupedElements.some(e => e.type === 'illustration'))
+        if (!isFirstSection && isLetterPg) {
+          allElements.push({ type: 'divider' })
+        }
+
+        // Add topic dividers for content pages (not intro section)
         const startsWithHeader = dedupedElements[0]?.type === 'header'
         const isIntroSection = page.pageNumber <= 12
-        if (!isFirstSection && startsWithHeader && !isIntroSection) {
+        if (!isFirstSection && !isLetterPg && startsWithHeader && !isIntroSection) {
           allElements.push({ type: 'divider' })
         }
         isFirstSection = false

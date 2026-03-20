@@ -2777,7 +2777,7 @@ export async function GET(
         // 3 smaller images: use clean illustration crops instead of the Hebrew page thumbnails
         // Load from source pages with clean 3D renders
         const thumbSources = [
-          { page: 13, cropTop: 0.50, cropH: 0.35, label: 'The Mishkan in the Desert' },
+          { page: 13, cropTop: 0.55, cropH: 0.30, label: 'The Mishkan in the Desert' },
           { page: 14, cropTop: 0.48, cropH: 0.35, label: 'The Mishkan in Shiloh' },
           { page: 16, cropTop: 0.38, cropH: 0.45, label: 'Destruction of the Beis HaMikdash' },
         ]
@@ -2899,12 +2899,12 @@ export async function GET(
         pageNum: line.pageNum !== undefined ? line.pageNum + tocPageCount : undefined,
       }))
 
-      // Create and insert TOC pages at position 2 (after front cover + original title page)
+      // Create and insert TOC pages at position 3 (after front cover + about + original title page)
       let tocLineIdx = 0
       const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
 
       for (let tp = 0; tp < tocPageCount; tp++) {
-        const tocPage = doc.insertPage(2 + tp, [cfg.pageWidth, cfg.pageHeight])
+        const tocPage = doc.insertPage(3 + tp, [cfg.pageWidth, cfg.pageHeight])
         decoratePage(tocPage, tp + 2, fonts.body, cfg)
 
         let y = cfg.pageHeight - cfg.marginTop
@@ -3023,7 +3023,7 @@ export async function GET(
     // ── BACK COVER (insert at page 2, right after front cover) ─────────
     {
       // Insert after front cover + original title + TOC pages
-      const backPage = doc.insertPage(2 + tocPageCount, [cfg.pageWidth, cfg.pageHeight])
+      const backPage = doc.insertPage(1, [cfg.pageWidth, cfg.pageHeight])
       const bgColor = rgb(0.95, 0.93, 0.90)
       const goldC = rgb(0.6, 0.52, 0.35)
       const darkC = rgb(0.12, 0.10, 0.08)
@@ -3093,7 +3093,7 @@ export async function GET(
       const previewSources = [
         { page: 344, cropTop: 0.15, cropH: 0.65, label: 'The Entrance to the Heichal' },
         { page: 51, cropTop: 0.15, cropH: 0.60, label: 'Chamber of Musical Instruments' },
-        { page: 13, cropTop: 0.38, cropH: 0.40, label: 'The Mishkan in the Desert' },
+        { page: 13, cropTop: 0.55, cropH: 0.30, label: 'The Mishkan in the Desert' },
       ]
       const imgSlotW = (textW - 20) / 3
       const imgSlotH = 140

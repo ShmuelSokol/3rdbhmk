@@ -1384,10 +1384,10 @@ async function renderElements(
           deferredText = null
         }
 
-        // Draw figure label above the bottom-placed image
+        // Draw figure label above the bottom-placed image (only if explicit reference exists)
         figureCounter++
-        {
-          const bpLabel = el.figureLabel || `Figure ${figureCounter}`
+        if (el.figureLabel) {
+          const bpLabel = el.figureLabel
           const bpLabelSize = cfg.bodyFontSize * 0.8
           try {
             const bpLabelW = fonts.bold.widthOfTextAtSize(bpLabel, bpLabelSize)
@@ -1395,6 +1395,8 @@ async function renderElements(
             const bpLabelY = imgBottomY + drawH + 4
             pdfPage.drawText(bpLabel, { x: bpLabelX, y: bpLabelY, size: bpLabelSize, font: fonts.bold, color: rgb(0.4, 0.38, 0.35) })
           } catch {}
+        } else {
+          figureCounter-- // don't count unlabeled images
         }
 
         curY = safeMarginBottom // page is full after bottom-placed image
@@ -1430,10 +1432,10 @@ async function renderElements(
         curY -= drawH + cfg.illustrationPadding
       }
 
-      // Draw figure label below the illustration
-      figureCounter++
-      const labelText = el.figureLabel || `Figure ${figureCounter}`
-      {
+      // Draw figure label below the illustration (only if explicit reference exists)
+      if (el.figureLabel) {
+        figureCounter++
+        const labelText = el.figureLabel
         const labelSize = cfg.bodyFontSize * 0.8
         try {
           const labelW = fonts.bold.widthOfTextAtSize(labelText, labelSize)

@@ -726,6 +726,13 @@ function cleanTranslationText(text: string): string {
     .replace(/^[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״']+\n+/g, '')
     // Strip leftover separator junk at start: ". — ", "— ", "- ", etc.
     .replace(/^[\s.,;:\u2014\u2013\-]+(?=[A-Z([\d])/g, '')
+    // Collapse repeated consecutive words (case-insensitive), excluding valid English patterns
+    .replace(/\b(\w{3,})\s+\1\b/gi, (match, word) => {
+      const lower = word.toLowerCase()
+      // Valid English: "there there", "that that", "had had", "very very"
+      if (['there', 'that', 'had', 'very', 'so', 'now'].includes(lower)) return match
+      return word
+    })
     .trim()
 }
 

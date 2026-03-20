@@ -716,6 +716,11 @@ function cleanTranslationText(text: string): string {
     .replace(/\[Note:.*?\]/gi, '')
     // Remove [Diagram showing measurements: ...] blocks
     .replace(/\[(?:Diagram|Figure|Drawing)\s+showing\s+[^\]]*\]/gi, '')
+    // Remove AI translation failures ("I don't see any Hebrew", "I apologize", etc.)
+    .replace(/I don't see any Hebrew.*$/gis, '')
+    .replace(/I cannot provide an accurate.*$/gis, '')
+    .replace(/I apologize, but I cannot.*$/gis, '')
+    .replace(/Could you please provide the Hebrew.*$/gis, '')
     // Fix concatenation errors: insert space between camelCase-like merges
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')

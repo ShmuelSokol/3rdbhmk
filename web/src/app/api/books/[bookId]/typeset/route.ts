@@ -574,10 +574,12 @@ async function detectAndCropIllustrations(
 
       // Check mean brightness — bright crops with low variance are just page background/borders
       const avgMean = stats.channels.reduce((s, c) => s + (c.mean || 0), 0) / stats.channels.length
-      if (avgMean > 200 && avgVariance < 45) continue // bright + low-medium variance = page background
+      if (avgMean > 200 && avgVariance < 50) continue // bright + low-medium variance = page background
+      if (avgMean > 230 && avgVariance < 55) continue // very bright — higher variance still noise
       // Also filter crops that are very uniform in any channel (page design patterns)
       const minStdev = Math.min(...stats.channels.map(c => c.stdev || 0))
       if (minStdev < 10 && avgMean > 180) continue // at least one channel is very uniform + bright
+      if (minStdev < 15 && avgMean > 220) continue // almost uniform + very bright
 
       // Trim yellowish/beige borders to maximize illustration area
       const trimmedData = await trimIllustrationBorders(cropData)

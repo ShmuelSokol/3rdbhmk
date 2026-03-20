@@ -1958,7 +1958,7 @@ export async function GET(
                   width: Math.round(imgW * (1 - 2 * marginPct)),
                   height: Math.round(imgH * (1 - 2 * marginPct)),
                 })
-                .jpeg({ quality: 70 })
+                .jpeg({ quality: 55 })
                 .toBuffer()
               const cropMeta = await sharp(cropData).metadata()
               // Don't trim borders on letter pages — preserve full letter content

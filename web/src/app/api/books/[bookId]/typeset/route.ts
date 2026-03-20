@@ -1216,10 +1216,10 @@ async function renderElements(
       let drawH = img.height * baseScale
       let totalH = drawH + cfg.illustrationPadding * 2
 
-      // Minimum 70% of base size — never shrink images below this
-      // If it doesn't fit at 70%, start a new page instead
-      const minDrawW = drawW * 0.7
-      const minDrawH = drawH * 0.7
+      // Minimum 50% of base size — allow moderate shrinking to keep image on same page as text
+      // If it doesn't fit at 50%, start a new page instead
+      const minDrawW = drawW * 0.5
+      const minDrawH = drawH * 0.5
 
       const remaining = curY - safeMarginBottom
       if (totalH > remaining) {

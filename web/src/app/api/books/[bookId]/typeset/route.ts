@@ -488,36 +488,38 @@ async function detectAndCropIllustrations(
   const gaps: { topY: number; bottomY: number }[] = []
 
   // Gap before first region (if first region doesn't start near top)
+  // Extend 2% into text region to avoid clipping illustration edges
   const firstRegionTop = sorted[0].origY
   if (firstRegionTop > cfg.illustrationGapThreshold + 5) {
-    gaps.push({ topY: 3, bottomY: firstRegionTop - 1 })
+    gaps.push({ topY: 2, bottomY: firstRegionTop + 1 })
   }
 
   // Gaps between consecutive regions
+  // Extend 2% into each adjacent region to capture illustration edges
   for (let i = 0; i < sorted.length - 1; i++) {
     const bottomOfCurrent = sorted[i].origY + sorted[i].origHeight
     const topOfNext = sorted[i + 1].origY
     const gapSize = topOfNext - bottomOfCurrent
 
     if (gapSize > cfg.illustrationGapThreshold) {
-      gaps.push({ topY: bottomOfCurrent + 0.5, bottomY: topOfNext - 0.5 })
+      gaps.push({ topY: bottomOfCurrent - 2, bottomY: topOfNext + 2 })
     }
   }
 
   // Gap after last region (if last region doesn't reach near bottom)
   const lastRegionBottom = sorted[sorted.length - 1].origY + sorted[sorted.length - 1].origHeight
   if (lastRegionBottom < 100 - cfg.illustrationGapThreshold - 5) {
-    gaps.push({ topY: lastRegionBottom + 1, bottomY: 97 })
+    gaps.push({ topY: lastRegionBottom - 1, bottomY: 98 })
   }
 
   if (gaps.length === 0) return []
 
-  // Merge adjacent gaps that are close together (< 5% apart) — prevents splitting
+  // Merge adjacent gaps that are close together (< 10% apart) — prevents splitting
   // one illustration into two crops when gap detection finds a thin text band in the middle
   const mergedGaps: { topY: number; bottomY: number }[] = []
   for (const gap of gaps.sort((a, b) => a.topY - b.topY)) {
     const prev = mergedGaps[mergedGaps.length - 1]
-    if (prev && gap.topY - prev.bottomY < 5) {
+    if (prev && gap.topY - prev.bottomY < 10) {
       prev.bottomY = gap.bottomY // merge into previous gap
     } else {
       mergedGaps.push({ ...gap })
@@ -552,7 +554,7 @@ async function detectAndCropIllustrations(
           width: imgW - marginX * 2,
           height: cropHeight,
         })
-        .jpeg({ quality: 60 })
+        .jpeg({ quality: 50 })
         .toBuffer()
 
       // Check if the crop actually contains content (not just blank space)
@@ -675,7 +677,7 @@ async function trimIllustrationBorders(imgBuffer: Buffer): Promise<Buffer> {
 
   return sharp(imgBuffer)
     .extract({ left, top, width: trimmedW, height: trimmedH })
-    .jpeg({ quality: 92 })
+    .jpeg({ quality: 60 })
     .toBuffer()
 }
 
@@ -1585,11 +1587,14 @@ async function renderElements(
           if (upcoming.type === 'divider') continue
           break
         }
-        if (hdrIllFollows && hdrIllBottomPlace && lines.length <= 3) {
+        if (hdrIllFollows && lines.length <= 3) {
           const hdrH = blockH + cfg.headerSpacingAbove + cfg.headerSpacingBelow
           const estimatedImgH = textHeight * 0.3
-          if ((curY - hdrH - estimatedImgH) > safeMarginBottom + textHeight * 0.10) {
-            // Big gap would form — defer this header to draw above the image
+          const spaceAfterHdrAndImg = curY - hdrH - estimatedImgH
+          // Defer if: (a) image would be bottom-placed with gap, OR (b) image won't fit at all
+          const wouldBottomPlaceWithGap = hdrIllBottomPlace && spaceAfterHdrAndImg > safeMarginBottom + textHeight * 0.10
+          const wouldOverflow = spaceAfterHdrAndImg < safeMarginBottom && contentRenderedOnPage
+          if (wouldBottomPlaceWithGap || wouldOverflow) {
             deferredText = {
               lines,
               font,
@@ -1602,7 +1607,7 @@ async function renderElements(
               color: cfg.headerColor as [number, number, number],
               spacingAfter: cfg.headerSpacingBelow,
             }
-            continue // skip normal rendering
+            continue // skip normal rendering — will be drawn with the image
           }
         }
       }
@@ -1657,9 +1662,11 @@ async function renderElements(
             const bodyH = testLines.length * cfg.bodyFontSize * cfg.lineHeight + cfg.paragraphSpacing
             const estimatedImgH = textHeight * 0.3
 
-            if (illustrationWillBottomPlace && (curY - bodyH - estimatedImgH) > safeMarginBottom + textHeight * 0.10) {
-              // Image will be bottom-placed with lots of gap — defer this text
-              // so it renders just above the image instead of stranded at curY
+            const spaceForBoth = curY - bodyH - estimatedImgH
+            const wouldBottomPlace = illustrationWillBottomPlace && spaceForBoth > safeMarginBottom + textHeight * 0.10
+            const wouldOverflow = spaceForBoth < safeMarginBottom && contentRenderedOnPage
+            if (wouldBottomPlace || wouldOverflow) {
+              // Defer: image will be bottom-placed with gap, or won't fit at all
               const isAllBold = rawText.startsWith('**') && rawText.endsWith('**')
               const cleanBody = sanitizeForPdf(
                 rawText.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
@@ -2227,7 +2234,7 @@ export async function GET(
                   width: Math.round(imgW * (1 - 2 * marginPct)),
                   height: Math.round(imgH * (1 - 2 * marginPct)),
                 })
-                .jpeg({ quality: 40 })
+                .jpeg({ quality: 30 })
                 .toBuffer()
               const cropMeta = await sharp(cropData).metadata()
               // Don't trim borders on letter pages — preserve full letter content

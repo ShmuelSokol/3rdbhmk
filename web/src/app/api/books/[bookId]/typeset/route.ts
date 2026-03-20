@@ -745,6 +745,10 @@ function cleanTranslationText(text: string): string {
     // Strip trailing ] left from [THIS IS DIAGRAM: ...] cleanup
     .replace(/\]$/g, '')
     .replace(/\]\s*\./g, '.')
+    // Close unclosed figure brackets: [Diagram 5. → [Diagram 5].
+    .replace(/(\[(?:Diagram|Figure|Drawing)\s+[\d][\w\-.:,\s]*)(?=[.\s]|$)/gi, '$1]')
+    // Clean doubled brackets from the above: ]] → ]
+    .replace(/\]\]/g, ']')
     .trim()
 }
 
@@ -1200,6 +1204,7 @@ async function renderElements(
   let pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
   let pageCount = 1
   const tocEntries: TocEntry[] = []
+  let figureCounter = 0 // sequential figure number for all illustrations
 
   decoratePage(pdfPage, startPageNum, fonts.body, cfg, runningTitle)
 
@@ -1348,7 +1353,7 @@ async function renderElements(
       const nextIsDividerOrEnd = !nextEl || nextEl.type === 'divider'
       const spaceAfterImage = (curY - cfg.illustrationPadding - drawH) - safeMarginBottom
 
-      if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.15) {
+      if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.05) {
         // Place image at bottom of page
         const imgBottomY = cfg.marginBottom + cfg.illustrationPadding
         const imgX = cfg.marginLeft + (textWidth - drawW) / 2
@@ -1377,6 +1382,19 @@ async function renderElements(
             dtY -= dt.lh
           }
           deferredText = null
+        }
+
+        // Draw figure label above the bottom-placed image
+        figureCounter++
+        {
+          const bpLabel = el.figureLabel || `Figure ${figureCounter}`
+          const bpLabelSize = cfg.bodyFontSize * 0.8
+          try {
+            const bpLabelW = fonts.bold.widthOfTextAtSize(bpLabel, bpLabelSize)
+            const bpLabelX = cfg.marginLeft + (textWidth - bpLabelW) / 2
+            const bpLabelY = imgBottomY + drawH + 4
+            pdfPage.drawText(bpLabel, { x: bpLabelX, y: bpLabelY, size: bpLabelSize, font: fonts.bold, color: rgb(0.4, 0.38, 0.35) })
+          } catch {}
         }
 
         curY = safeMarginBottom // page is full after bottom-placed image
@@ -1412,10 +1430,11 @@ async function renderElements(
         curY -= drawH + cfg.illustrationPadding
       }
 
-      // Draw figure label below the illustration if available
-      if (el.figureLabel) {
+      // Draw figure label below the illustration
+      figureCounter++
+      const labelText = el.figureLabel || `Figure ${figureCounter}`
+      {
         const labelSize = cfg.bodyFontSize * 0.8
-        const labelText = el.figureLabel
         try {
           const labelW = fonts.bold.widthOfTextAtSize(labelText, labelSize)
           const labelX = cfg.marginLeft + (textWidth - labelW) / 2
@@ -2532,12 +2551,17 @@ export async function GET(
       }
 
       if (pageElements.length > 0) {
-        // Deduplicate consecutive identical text elements (e.g., repeated diagram labels)
+        // Deduplicate identical text elements (even across types — header and body can repeat)
         const dedupedElements: ContentElement[] = []
         const seenTexts = new Set<string>()
+        const seenTextContent = new Set<string>()
         for (const el of pageElements) {
           if (el.type === 'header' || el.type === 'body' || el.type === 'caption') {
             const key = `${el.type}:${el.text || ''}`
+            // Also check if this exact text appeared as a different type
+            const textOnly = (el.text || '').trim().toLowerCase()
+            if (seenTextContent.has(textOnly) && textOnly.length > 20) continue
+            seenTextContent.add(textOnly)
             if (seenTexts.has(key)) continue
             seenTexts.add(key)
           }

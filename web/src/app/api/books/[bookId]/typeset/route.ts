@@ -712,6 +712,8 @@ function cleanTranslationText(text: string): string {
     .replace(/\[(TABLE|DIAGRAM|CHART|IMAGE|FIGURE):\s*/gi, '')
     .replace(/\[END (TABLE|DIAGRAM|CHART|FIGURE)\]/gi, '')
     .replace(/\[Note:.*?\]/gi, '')
+    // Remove [Diagram showing measurements: ...] blocks
+    .replace(/\[(?:Diagram|Figure|Drawing)\s+showing\s+[^\]]*\]/gi, '')
     // Fix concatenation errors: insert space between camelCase-like merges
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -756,6 +758,24 @@ function deduplicatePhrases(text: string): string {
     deduped.push(sentences[i])
   }
   return deduped.join(' ')
+}
+
+/** Check if text is primarily a garbled measurement diagram — numbers + units
+ *  arranged spatially in Hebrew that lose meaning when linearized.
+ *  These should be skipped since the original Hebrew page image is shown. */
+function isMeasurementNoise(text: string): boolean {
+  const lines = text.split(/\n/).filter(l => l.trim())
+  if (lines.length < 2) return false
+  const measLines = lines.filter(l => {
+    const lt = l.trim()
+    return /^\d+\.?\d*\s*(?:amos?|amah?|a'|tefach)/i.test(lt) ||
+           /^(?:amos?|amah?|a')\s*=?\s*\d/i.test(lt) ||
+           /^\d+\s*(?:amos?|amah?|a')$/i.test(lt) ||
+           /^\d+$/i.test(lt) ||
+           (lt.split(/\s+/).length <= 3 && /\d/.test(lt) && /amo|ama|a'/i.test(lt))
+  })
+  // If ≥30% of lines are measurement-only and there are at least 2, it's noise
+  return measLines.length >= 2 && measLines.length / lines.length > 0.3
 }
 
 /** Check if text is a recurring Hebrew source header that should be filtered out.
@@ -2352,6 +2372,8 @@ export async function GET(
             if (isStandalonePageNumber(trimmed)) continue
             // Filter out recurring Hebrew source headers (book title, section markers)
             if (isRecurringSourceHeader(trimmed, region.hebrewText || undefined, regions.length)) continue
+            // Filter out garbled measurement diagrams (numbers + units that lost spatial layout)
+            if (isMeasurementNoise(trimmed)) continue
             const wordCount = trimmed.split(/\s+/).length
 
             // Detect diagram labels / captions: short text (< 8 words) near illustrations

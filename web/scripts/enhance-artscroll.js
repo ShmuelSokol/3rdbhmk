@@ -16,9 +16,12 @@ const prisma = new PrismaClient();
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const FORCE = process.argv.includes('--force'); // re-enhance even if already has Hebrew
+const ALL_PAGES = process.argv.includes('--all'); // process all pages, not just eval ranges
 const PAGE_ARG = process.argv.find(a => a.startsWith('--page='));
 const SINGLE_PAGE = PAGE_ARG ? parseInt(PAGE_ARG.split('=')[1]) : null;
 const BOOK_ID = 'jcqje5aut5wve5w5b8hv6fcq8';
+// Pages with manually crafted Hebrew (don't overwrite)
+const PROTECTED_PAGES = new Set([14, 15]);
 
 // Hebrew letter name → actual Hebrew character mappings
 const LETTER_NAMES = {
@@ -328,10 +331,10 @@ async function main() {
     console.log(`Processing only page ${SINGLE_PAGE}`);
   }
 
-  // Filter pages to the eval ranges for faster iteration
+  // Filter pages: --all processes everything, --page=N processes one page,
+  // otherwise only eval ranges for quick iteration
   const evalPages = SINGLE_PAGE ? [SINGLE_PAGE] : [];
-  if (!SINGLE_PAGE) {
-    // Process all pages in the eval ranges + some extra
+  if (!SINGLE_PAGE && !ALL_PAGES) {
     const ranges = [
       [14, 15], [50, 52], [100, 102], [200, 202], [300, 302]
     ];
@@ -343,6 +346,7 @@ async function main() {
   const pageFilter = evalPages.length > 0
     ? { ...where, pageNumber: { in: evalPages } }
     : where;
+  if (ALL_PAGES) console.log('Processing ALL pages (protected: ' + [...PROTECTED_PAGES].join(', ') + ')');
 
   const pages = await prisma.page.findMany({
     where: pageFilter,
@@ -361,6 +365,12 @@ async function main() {
   let alreadyGood = 0;
 
   for (const page of pages) {
+    // Skip manually crafted pages (have hand-written Hebrew)
+    if (PROTECTED_PAGES.has(page.pageNumber) && !FORCE) {
+      skipped += page.regions.length;
+      continue;
+    }
+
     for (const region of page.regions) {
       if (!region.translatedText || !region.hebrewText) {
         skipped++;

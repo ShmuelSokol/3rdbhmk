@@ -708,8 +708,8 @@ function isTableContent(text: string, regionType: string): boolean {
 }
 
 /** Clean translation text: remove meta-text artifacts from Claude translations */
-function cleanTranslationText(text: string): string {
-  return text
+function cleanTranslationText(text: string, keepHebrew = false): string {
+  let result = text
     // Remove meta-text markers like "[THIS IS TABLE:", "[THIS IS DIAGRAM:", "[TABLE:", etc.
     .replace(/\[THIS IS (TABLE|DIAGRAM|CHART|IMAGE|FIGURE)[:\]]/gi, '')
     .replace(/\[(TABLE|DIAGRAM|CHART|IMAGE|FIGURE):\s*/gi, '')
@@ -732,17 +732,22 @@ function cleanTranslationText(text: string): string {
     .replace(/([a-z])\.([A-Z])/g, '$1. $2')
     // Fix word:Word → word: Word
     .replace(/([a-z]):([A-Z])/g, '$1: $2')
-    // Strip leading Hebrew block up to separator (em-dash or hyphen).
-    // Only match when the first letter-class character is Hebrew (not English).
-    // This prevents stripping English text that contains inline Hebrew references.
-    .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s*[\u2014\u2013]\s*/g, '')
-    .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s+\-\s+/g, '')
-    // Then strip orphan page numbers left behind (number + period/space + newline)
-    .replace(/^\d+[.\s]*\n/g, '')
-    // Strip Hebrew-only lines at the start (no em-dash, just pure Hebrew line then English)
-    .replace(/^[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״']+\n+/g, '')
-    // Strip leftover separator junk at start: ". — ", "— ", "- ", etc.
-    .replace(/^[\s.,;:\u2014\u2013\-]+(?=[A-Z([\d])/g, '')
+
+  if (!keepHebrew) {
+    result = result
+      // Strip leading Hebrew block up to separator (em-dash or hyphen).
+      // Only match when the first letter-class character is Hebrew (not English).
+      .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s*[\u2014\u2013]\s*/g, '')
+      .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s+\-\s+/g, '')
+      // Then strip orphan page numbers left behind (number + period/space + newline)
+      .replace(/^\d+[.\s]*\n/g, '')
+      // Strip Hebrew-only lines at the start (no em-dash, just pure Hebrew line then English)
+      .replace(/^[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״']+\n+/g, '')
+      // Strip leftover separator junk at start: ". — ", "— ", "- ", etc.
+      .replace(/^[\s.,;:\u2014\u2013\-]+(?=[A-Z([\d])/g, '')
+  }
+
+  return result
     // Collapse repeated consecutive words (case-insensitive), excluding valid English patterns
     .replace(/\b(\w{3,})\s+\1\b/gi, (match, word) => {
       const lower = word.toLowerCase()
@@ -2506,7 +2511,8 @@ export async function GET(
             if (!region.translatedText?.trim()) continue
 
             // Clean the translation text (remove meta-text artifacts, fix concatenation)
-            const trimmed = cleanTranslationText(region.translatedText.trim())
+            // keepHebrew=true preserves inline Hebrew pesukim for ArtScroll-style rendering
+            const trimmed = cleanTranslationText(region.translatedText.trim(), true)
             if (!trimmed) continue
             // Filter out standalone Hebrew source page numbers
             if (isStandalonePageNumber(trimmed)) continue
@@ -2560,7 +2566,7 @@ export async function GET(
         }
 
       } else if (translation?.englishOutput?.trim()) {
-        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput) })
+        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput, true) })
       } else {
         continue
       }
@@ -3065,7 +3071,7 @@ export async function GET(
         'gate, courtyard, and measurement described in the prophecy.',
         'Three commentaries illuminate the text:',
         '',
-        '  "Keitz Ha Yamin" \u2014 A summary of Rashi and the Ramchal',
+        '  "Keitz HaYamin" \u2014 A summary of Rashi and the Ramchal',
         '  "Be\'ur Chai" \u2014 Sources and reasoning on each topic',
         '  "Hashlamat Sares" \u2014 Additions from Torah and Chazal',
       ]

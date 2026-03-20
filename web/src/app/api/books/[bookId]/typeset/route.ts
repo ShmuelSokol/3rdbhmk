@@ -2259,7 +2259,13 @@ export async function GET(
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
         const knownDiagrams = new Set([22, 24, 26, 47, 48, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
-        const diagramPage = !letterPage && (isDiagramPage(regions) || knownDiagrams.has(page.pageNumber))
+        // Also treat pages with measurement-noise regions as diagram pages —
+        // the original Hebrew page image shows measurements with arrows/annotations
+        // that get lost when illustration crops exclude the text label areas
+        const hasMeasurementNoise = regions.some(r =>
+          r.translatedText?.trim() && isMeasurementNoise(cleanTranslationText(r.translatedText.trim()))
+        )
+        const diagramPage = !letterPage && (isDiagramPage(regions) || knownDiagrams.has(page.pageNumber) || hasMeasurementNoise)
         const imageOnlyPage = letterPage || diagramPage
 
         if (imageOnlyPage) {

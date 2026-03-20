@@ -2756,43 +2756,51 @@ export async function GET(
         const cW = coverMeta.width || 1655
         const cH = coverMeta.height || 2340
 
-        // Main image: overhead view (top 60% of page, skip header)
+        // Main image: overhead view — crop tighter to skip Hebrew headers/borders
         const mainCrop = await sharp(coverImgBuf)
-          .extract({ left: Math.round(cW * 0.03), top: Math.round(cH * 0.04), width: Math.round(cW * 0.94), height: Math.round(cH * 0.57) })
+          .extract({ left: Math.round(cW * 0.05), top: Math.round(cH * 0.06), width: Math.round(cW * 0.90), height: Math.round(cH * 0.55) })
           .jpeg({ quality: 80 }).toBuffer()
         const mainImg = await doc.embedJpg(mainCrop)
         const mainMaxW = cfg.pageWidth - 50
-        const mainMaxH = cfg.pageHeight * 0.42
+        const mainMaxH = cfg.pageHeight * 0.40
         const mainScale = Math.min(mainMaxW / mainImg.width, mainMaxH / mainImg.height)
         const mainDW = mainImg.width * mainScale
         const mainDH = mainImg.height * mainScale
-        titlePage.drawImage(mainImg, { x: (cfg.pageWidth - mainDW) / 2, y: cfg.pageHeight * 0.28, width: mainDW, height: mainDH })
+        const mainImgY = cfg.pageHeight * 0.28
+        titlePage.drawImage(mainImg, { x: (cfg.pageWidth - mainDW) / 2, y: mainImgY, width: mainDW, height: mainDH })
 
-        // 3 smaller images at the bottom of the source page
-        const thumbY = Math.round(cH * 0.72)
-        const thumbH = Math.round(cH * 0.20)
-        const thumbW = Math.round(cW * 0.30)
-        const thumbPositions = [
-          { left: Math.round(cW * 0.03), label: 'Ezras Yisroel' },
-          { left: Math.round(cW * 0.35), label: 'First Beis HaMikdash' },
-          { left: Math.round(cW * 0.67), label: 'The Mishkan' },
+        // Label below main image: "The Third Beis HaMikdash"
+        const mainLabel = 'The Third Beis HaMikdash'
+        const mlW = boldFont.widthOfTextAtSize(mainLabel, 9)
+        titlePage.drawText(mainLabel, { x: (cfg.pageWidth - mlW) / 2, y: mainImgY - 12, size: 9, font: boldFont, color: warmGray })
+
+        // 3 smaller images: use clean illustration crops instead of the Hebrew page thumbnails
+        // Load from source pages with clean 3D renders
+        const thumbSources = [
+          { page: 13, cropTop: 0.50, cropH: 0.35, label: 'The Mishkan in the Desert' },
+          { page: 14, cropTop: 0.48, cropH: 0.35, label: 'The Mishkan in Shiloh' },
+          { page: 16, cropTop: 0.38, cropH: 0.45, label: 'Destruction of the Beis HaMikdash' },
         ]
         const slotW = (cfg.pageWidth - 60) / 3
-        for (let ti = 0; ti < thumbPositions.length; ti++) {
-          const tp = thumbPositions[ti]
-          const thumbCrop = await sharp(coverImgBuf)
-            .extract({ left: tp.left, top: thumbY, width: thumbW, height: thumbH })
-            .jpeg({ quality: 70 }).toBuffer()
-          const thumbImg = await doc.embedJpg(thumbCrop)
-          const tScale = Math.min((slotW - 8) / thumbImg.width, 80 / thumbImg.height)
-          const tDW = thumbImg.width * tScale
-          const tDH = thumbImg.height * tScale
-          const tX = 30 + ti * slotW + (slotW - tDW) / 2
-          titlePage.drawImage(thumbImg, { x: tX, y: cfg.pageHeight * 0.17, width: tDW, height: tDH })
-          // Thumb label
+        for (let ti = 0; ti < thumbSources.length; ti++) {
           try {
-            const lW = bodyFont.widthOfTextAtSize(tp.label, 7)
-            titlePage.drawText(tp.label, { x: tX + (tDW - lW) / 2, y: cfg.pageHeight * 0.155, size: 7, font: bodyFont, color: warmGray })
+            const ts = thumbSources[ti]
+            const tBuf = await getPageImage('', ts.page, bookId)
+            if (!tBuf) continue
+            const tMeta = await sharp(tBuf).metadata()
+            const tpH = tMeta.height || 2340
+            const tpW = tMeta.width || 1655
+            const thumbCrop = await sharp(tBuf)
+              .extract({ left: Math.round(tpW * 0.05), top: Math.round(tpH * ts.cropTop), width: Math.round(tpW * 0.90), height: Math.round(tpH * ts.cropH) })
+              .jpeg({ quality: 70 }).toBuffer()
+            const thumbImg = await doc.embedJpg(thumbCrop)
+            const tScale = Math.min((slotW - 8) / thumbImg.width, 80 / thumbImg.height)
+            const tDW = thumbImg.width * tScale
+            const tDH = thumbImg.height * tScale
+            const tX = 30 + ti * slotW + (slotW - tDW) / 2
+            titlePage.drawImage(thumbImg, { x: tX, y: cfg.pageHeight * 0.17, width: tDW, height: tDH })
+            const lW = bodyFont.widthOfTextAtSize(ts.label, 7)
+            titlePage.drawText(ts.label, { x: tX + (tDW - lW) / 2, y: cfg.pageHeight * 0.155, size: 7, font: bodyFont, color: warmGray })
           } catch {}
         }
       }
@@ -3081,21 +3089,25 @@ export async function GET(
       bY -= 12
 
       // Load 3 preview images
-      const previewPages = [344, 51, 13] // front entrance, instruments, Mishkan in desert
-      const previewLabels = ['The Entrance to the Heichal', 'Chamber of Musical Instruments', 'The Mishkan in the Desert']
+      // Use illustration crops instead of full source pages (cleaner, no Hebrew headers)
+      const previewSources = [
+        { page: 344, cropTop: 0.15, cropH: 0.65, label: 'The Entrance to the Heichal' },
+        { page: 51, cropTop: 0.15, cropH: 0.60, label: 'Chamber of Musical Instruments' },
+        { page: 13, cropTop: 0.38, cropH: 0.40, label: 'The Mishkan in the Desert' },
+      ]
       const imgSlotW = (textW - 20) / 3
       const imgSlotH = 140
 
-      for (let pi = 0; pi < previewPages.length; pi++) {
+      for (let pi = 0; pi < previewSources.length; pi++) {
         try {
-          const pvBuf = await getPageImage('', previewPages[pi], bookId)
+          const ps = previewSources[pi]
+          const pvBuf = await getPageImage('', ps.page, bookId)
           if (!pvBuf) continue
           const pvMeta = await sharp(pvBuf).metadata()
           const pvH = pvMeta.height || 2340
           const pvCW = pvMeta.width || 1655
-          // Crop to illustration area
           const pvCrop = await sharp(pvBuf)
-            .extract({ left: Math.round(pvCW * 0.05), top: Math.round(pvH * 0.15), width: Math.round(pvCW * 0.9), height: Math.round(pvH * 0.65) })
+            .extract({ left: Math.round(pvCW * 0.05), top: Math.round(pvH * ps.cropTop), width: Math.round(pvCW * 0.9), height: Math.round(pvH * ps.cropH) })
             .jpeg({ quality: 70 })
             .toBuffer()
           const pvImg = await doc.embedJpg(pvCrop)
@@ -3106,7 +3118,7 @@ export async function GET(
           backPage.drawImage(pvImg, { x: pvX, y: bY - pvDH, width: pvDW, height: pvDH })
 
           // Image label
-          const label = previewLabels[pi]
+          const label = previewSources[pi].label
           const lW = bodyFont.widthOfTextAtSize(label, 7)
           const lX = 40 + pi * (imgSlotW + 10) + (imgSlotW - lW) / 2
           backPage.drawText(label, { x: Math.max(40, lX), y: bY - pvDH - 10, size: 7, font: bodyFont, color: warmGray })

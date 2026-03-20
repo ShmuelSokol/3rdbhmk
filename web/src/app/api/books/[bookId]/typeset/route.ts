@@ -2271,6 +2271,7 @@ export async function GET(
     const url = new URL(request.url)
     const from = parseInt(url.searchParams.get('from') || '1')
     const to = parseInt(url.searchParams.get('to') || '367')
+    const nocover = url.searchParams.get('nocover') === 'true'
 
     // Load config overrides from ?config=JSON query param (for autoresearch)
     const configParam = url.searchParams.get('config')
@@ -2712,11 +2713,14 @@ export async function GET(
 
     const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
 
-    // ── FRONT COVER ──────────────────────────────────────────────────────
-    const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+    // Shared colors for cover pages
     const darkColor = rgb(0.12, 0.10, 0.08)
     const goldColor = rgb(0.6, 0.52, 0.35)
     const warmGray = rgb(0.45, 0.42, 0.38)
+
+    // ── FRONT COVER ──────────────────────────────────────────────────────
+    if (!nocover) {
+    const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
 
     // Dark background fill
     titlePage.drawRectangle({ x: 0, y: 0, width: cfg.pageWidth, height: cfg.pageHeight, color: rgb(0.95, 0.93, 0.90) })
@@ -2865,8 +2869,9 @@ export async function GET(
       const otDescW = bodyFont.widthOfTextAtSize(otDesc, 10)
       origTitle.drawText(otDesc, { x: (cfg.pageWidth - otDescW) / 2, y: cfg.pageHeight * 0.46, size: 10, font: bodyFont, color: rgb(0.5, 0.48, 0.44) })
     }
+    } // end if (!nocover) — front cover + original title
 
-    let totalPdfPages = 2 // front cover + original title page
+    let totalPdfPages = nocover ? 0 : 2 // front cover + original title page
 
     // Render all elements in one continuous flow
     // Content starts after title page; we'll insert TOC pages after rendering
@@ -2880,6 +2885,7 @@ export async function GET(
     // Generate Table of Contents and insert after title page
     // We now know exactly which page each topic landed on.
     let tocPageCount = 0
+    if (nocover) { /* skip TOC for nocover chunks */ } else {
     // Insert TOC pages at index 1 (after title page, before content).
     // This shifts all content page numbers by tocPageCount, so we adjust.
     if (renderedTocEntries.length > 0) {
@@ -3025,9 +3031,10 @@ export async function GET(
         color: rgb(0.48, 0.45, 0.42),
       })
     }
+    } // end if (!nocover) — TOC
 
     // ── BACK COVER (insert at page 2, right after front cover) ─────────
-    {
+    if (!nocover) {
       // Insert after front cover + original title + TOC pages
       const backPage = doc.insertPage(1, [cfg.pageWidth, cfg.pageHeight])
       const bgColor = rgb(0.95, 0.93, 0.90)

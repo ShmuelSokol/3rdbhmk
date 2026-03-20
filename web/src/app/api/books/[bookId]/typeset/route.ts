@@ -2222,10 +2222,12 @@ export async function GET(
             }
           } else {
             // Diagram page: generate a meaningful description of what the diagram depicts
-            const labels = regions
-              .filter(r => r.translatedText?.trim())
-              .map(r => cleanTranslationText(r.translatedText || '').trim())
-              .filter(Boolean)
+            const labels = Array.from(new Set(
+              regions
+                .filter(r => r.translatedText?.trim())
+                .map(r => cleanTranslationText(r.translatedText || '').trim())
+                .filter(Boolean)
+            ))
             const shortLabels = labels.filter(l => l.split(/\s+/).length < 10)
             const bodyTexts = labels.filter(l => l.split(/\s+/).length >= 10)
 

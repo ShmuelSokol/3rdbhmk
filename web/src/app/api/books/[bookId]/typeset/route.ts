@@ -488,28 +488,26 @@ async function detectAndCropIllustrations(
   const gaps: { topY: number; bottomY: number }[] = []
 
   // Gap before first region (if first region doesn't start near top)
-  // Extend 2% into text region to avoid clipping illustration edges
   const firstRegionTop = sorted[0].origY
   if (firstRegionTop > cfg.illustrationGapThreshold + 5) {
-    gaps.push({ topY: 2, bottomY: firstRegionTop + 1 })
+    gaps.push({ topY: 3, bottomY: firstRegionTop - 0.5 })
   }
 
   // Gaps between consecutive regions
-  // Extend 2% into each adjacent region to capture illustration edges
   for (let i = 0; i < sorted.length - 1; i++) {
     const bottomOfCurrent = sorted[i].origY + sorted[i].origHeight
     const topOfNext = sorted[i + 1].origY
     const gapSize = topOfNext - bottomOfCurrent
 
     if (gapSize > cfg.illustrationGapThreshold) {
-      gaps.push({ topY: bottomOfCurrent - 2, bottomY: topOfNext + 2 })
+      gaps.push({ topY: bottomOfCurrent + 0.5, bottomY: topOfNext - 0.5 })
     }
   }
 
   // Gap after last region (if last region doesn't reach near bottom)
   const lastRegionBottom = sorted[sorted.length - 1].origY + sorted[sorted.length - 1].origHeight
   if (lastRegionBottom < 100 - cfg.illustrationGapThreshold - 5) {
-    gaps.push({ topY: lastRegionBottom - 1, bottomY: 98 })
+    gaps.push({ topY: lastRegionBottom + 1, bottomY: 97 })
   }
 
   if (gaps.length === 0) return []

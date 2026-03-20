@@ -2810,7 +2810,49 @@ export async function GET(
     const bdW = bodyFont.widthOfTextAtSize(bottomDesc, 9)
     titlePage.drawText(bottomDesc, { x: (cfg.pageWidth - bdW) / 2, y: cfg.pageHeight * 0.07, size: 9, font: bodyFont, color: warmGray })
 
-    let totalPdfPages = 1 // title page
+    // ── ORIGINAL TITLE PAGE (the elegant text-only design) ─────────────
+    {
+      const origTitle = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+      const otFrameColor = rgb(0.72, 0.68, 0.62)
+      const otLightColor = rgb(0.82, 0.78, 0.73)
+
+      // Double-line border
+      const ox1 = cfg.marginLeft - 8, oy1 = cfg.marginBottom - 8
+      const ox2 = cfg.pageWidth - cfg.marginRight + 8, oy2 = cfg.pageHeight - cfg.marginTop + 22
+      for (const off of [0, 3]) {
+        const w = off === 0 ? 0.7 : 0.3
+        const c = off === 0 ? otFrameColor : otLightColor
+        origTitle.drawLine({ start: { x: ox1 + off, y: oy2 - off }, end: { x: ox2 - off, y: oy2 - off }, thickness: w, color: c })
+        origTitle.drawLine({ start: { x: ox1 + off, y: oy1 + off }, end: { x: ox2 - off, y: oy1 + off }, thickness: w, color: c })
+        origTitle.drawLine({ start: { x: ox1 + off, y: oy1 + off }, end: { x: ox1 + off, y: oy2 - off }, thickness: w, color: c })
+        origTitle.drawLine({ start: { x: ox2 - off, y: oy1 + off }, end: { x: ox2 - off, y: oy2 - off }, thickness: w, color: c })
+      }
+
+      // Hebrew title
+      const otHebTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5'
+      const otHebW = bidiLineWidth(otHebTitle, 20, headerFont, hebrewBoldFont)
+      drawBidiLine(origTitle, otHebTitle, (cfg.pageWidth - otHebW) / 2, cfg.pageHeight * 0.63, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
+      // English title
+      const otTitle = 'Lishchno Tidreshu'
+      const otTitleW = bidiLineWidth(otTitle, 22, headerFont, hebrewBoldFont)
+      drawBidiLine(origTitle, otTitle, (cfg.pageWidth - otTitleW) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+
+      // Ornamental divider
+      drawSectionDivider(origTitle, cfg.pageHeight * 0.55, cfg)
+
+      // Subtitle
+      const otSub = 'English Translation'
+      const otSubW = bodyFont.widthOfTextAtSize(otSub, 13)
+      origTitle.drawText(otSub, { x: (cfg.pageWidth - otSubW) / 2, y: cfg.pageHeight * 0.50, size: 13, font: bodyFont, color: rgb(0.4, 0.38, 0.35) })
+
+      // Description
+      const otDesc = 'The Third Beis HaMikdash According to Yechezkel HaNavi'
+      const otDescW = bodyFont.widthOfTextAtSize(otDesc, 10)
+      origTitle.drawText(otDesc, { x: (cfg.pageWidth - otDescW) / 2, y: cfg.pageHeight * 0.46, size: 10, font: bodyFont, color: rgb(0.5, 0.48, 0.44) })
+    }
+
+    let totalPdfPages = 2 // front cover + original title page
 
     // Render all elements in one continuous flow
     // Content starts after title page; we'll insert TOC pages after rendering
@@ -2823,6 +2865,7 @@ export async function GET(
 
     // Generate Table of Contents and insert after title page
     // We now know exactly which page each topic landed on.
+    let tocPageCount = 0
     // Insert TOC pages at index 1 (after title page, before content).
     // This shifts all content page numbers by tocPageCount, so we adjust.
     if (renderedTocEntries.length > 0) {
@@ -2840,7 +2883,7 @@ export async function GET(
       for (const line of pdfLibTocLines) {
         totalTocHeight += line.type === 'section' ? tocSectionLineHeight : tocEntryLineHeight
       }
-      const tocPageCount = Math.max(1, Math.ceil(totalTocHeight / tocTextHeight))
+      tocPageCount = Math.max(1, Math.ceil(totalTocHeight / tocTextHeight))
 
       // Adjust all page numbers: content shifts right by tocPageCount
       const adjustedTocLines = pdfLibTocLines.map(line => ({
@@ -2848,12 +2891,12 @@ export async function GET(
         pageNum: line.pageNum !== undefined ? line.pageNum + tocPageCount : undefined,
       }))
 
-      // Create and insert TOC pages directly at position 1 (after title page)
+      // Create and insert TOC pages at position 2 (after front cover + original title page)
       let tocLineIdx = 0
       const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
 
       for (let tp = 0; tp < tocPageCount; tp++) {
-        const tocPage = doc.insertPage(1 + tp, [cfg.pageWidth, cfg.pageHeight])
+        const tocPage = doc.insertPage(2 + tp, [cfg.pageWidth, cfg.pageHeight])
         decoratePage(tocPage, tp + 2, fonts.body, cfg)
 
         let y = cfg.pageHeight - cfg.marginTop
@@ -2971,7 +3014,8 @@ export async function GET(
 
     // ── BACK COVER (insert at page 2, right after front cover) ─────────
     {
-      const backPage = doc.insertPage(1, [cfg.pageWidth, cfg.pageHeight])
+      // Insert after front cover + original title + TOC pages
+      const backPage = doc.insertPage(2 + tocPageCount, [cfg.pageWidth, cfg.pageHeight])
       const bgColor = rgb(0.95, 0.93, 0.90)
       const goldC = rgb(0.6, 0.52, 0.35)
       const darkC = rgb(0.12, 0.10, 0.08)

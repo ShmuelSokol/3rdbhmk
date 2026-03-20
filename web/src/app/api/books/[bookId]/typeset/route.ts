@@ -1616,18 +1616,20 @@ async function renderElements(
         const minBodySpace = minBodyLines * cfg.bodyFontSize * cfg.lineHeight
         // Look ahead for next body/table element
         let nextBodyFound = false
+        let nextIllustrationFound = false
+        let nextDividerOnly = false
         for (let look = 1; look <= 5 && elIdx + look < elements.length; look++) {
           const upcoming = elements[elIdx + look]
           if (upcoming.type === 'body' || upcoming.type === 'table') { nextBodyFound = true; break }
-          if (upcoming.type === 'divider') break
-          if (upcoming.type === 'illustration') break
+          if (upcoming.type === 'illustration') { nextIllustrationFound = true; break }
+          if (upcoming.type === 'divider') { nextDividerOnly = true; break }
         }
         if (nextBodyFound && spaceAfterHeader < minBodySpace) {
           newPage()
         }
-        // If no body text follows this header before the next divider/illustration,
-        // skip the header entirely — it would just sit alone on the page
-        if (!nextBodyFound && contentRenderedOnPage) continue
+        // Only skip headers that have NOTHING after them before the next divider —
+        // NOT headers followed by illustrations (those are image descriptions)
+        if (!nextBodyFound && !nextIllustrationFound && nextDividerOnly && contentRenderedOnPage) continue
       }
 
       // Track ALL headers with metadata — filtering is done post-rendering

@@ -720,10 +720,10 @@ function cleanTranslationText(text: string): string {
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     // Strip leading Hebrew block up to separator (em-dash or hyphen).
-    // Matches: any prefix containing Hebrew chars, up to and including " — " or " - "
-    // Must contain at least one Hebrew char; stops at the separator.
-    .replace(/^[^\n]*?[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s*[\u2014\u2013]\s*/g, '')
-    .replace(/^[^\n]*?[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s+\-\s+/g, '')
+    // Only match when the first letter-class character is Hebrew (not English).
+    // This prevents stripping English text that contains inline Hebrew references.
+    .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s*[\u2014\u2013]\s*/g, '')
+    .replace(/^[^a-zA-Z\n]*[\u0590-\u05FF\uFB1D-\uFB4F][^\n]*?\s+\-\s+/g, '')
     // Then strip orphan page numbers left behind (number + period/space + newline)
     .replace(/^\d+[.\s]*\n/g, '')
     // Strip Hebrew-only lines at the start (no em-dash, just pure Hebrew line then English)

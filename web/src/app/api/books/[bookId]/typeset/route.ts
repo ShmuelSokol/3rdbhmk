@@ -1212,6 +1212,7 @@ async function renderElements(
   let pageCount = 1
   const tocEntries: TocEntry[] = []
   let figureCounter = 0 // sequential figure number for all illustrations
+  void figureCounter // used conditionally in illustration rendering
 
   decoratePage(pdfPage, startPageNum, fonts.body, cfg, runningTitle)
 
@@ -2700,55 +2701,84 @@ export async function GET(
 
     const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
 
-    // Title page with elegant design
+    // ── FRONT COVER ──────────────────────────────────────────────────────
     const titlePage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
-    const frameColor = rgb(0.72, 0.68, 0.62)
+    const darkColor = rgb(0.12, 0.10, 0.08)
+    const goldColor = rgb(0.6, 0.52, 0.35)
+    const warmGray = rgb(0.45, 0.42, 0.38)
 
-    // Title page decorative border
-    const tfx1 = cfg.marginLeft - 8, tfy1 = cfg.marginBottom - 8
-    const tfx2 = cfg.pageWidth - cfg.marginRight + 8, tfy2 = cfg.pageHeight - cfg.marginTop + 22
-    for (const off of [0, 3]) {
-      const w = off === 0 ? 0.7 : 0.3
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy2 - off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy1 + off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx1 + off, y: tfy2 - off }, thickness: w, color: frameColor })
-      titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: frameColor })
+    // Dark background fill
+    titlePage.drawRectangle({ x: 0, y: 0, width: cfg.pageWidth, height: cfg.pageHeight, color: rgb(0.95, 0.93, 0.90) })
+
+    // Decorative double border
+    const tfx1 = 20, tfy1 = 20, tfx2 = cfg.pageWidth - 20, tfy2 = cfg.pageHeight - 20
+    for (const [off, w] of [[0, 1.2], [4, 0.4]] as [number, number][]) {
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy2 - off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: goldColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy1 + off }, thickness: w, color: goldColor })
+      titlePage.drawLine({ start: { x: tfx1 + off, y: tfy1 + off }, end: { x: tfx1 + off, y: tfy2 - off }, thickness: w, color: goldColor })
+      titlePage.drawLine({ start: { x: tfx2 - off, y: tfy1 + off }, end: { x: tfx2 - off, y: tfy2 - off }, thickness: w, color: goldColor })
     }
 
-    // Hebrew title (original book name)
-    const hebrewTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5' // לשכנו תדרשו
-    const hebTitleWidth = bidiLineWidth(hebrewTitle, 20, headerFont, hebrewBoldFont)
-    drawBidiLine(titlePage, hebrewTitle, (cfg.pageWidth - hebTitleWidth) / 2, cfg.pageHeight * 0.63, 20, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+    // Hebrew title at top
+    const hebrewTitle = '\u05DC\u05E9\u05DB\u05E0\u05D5 \u05EA\u05D3\u05E8\u05E9\u05D5'
+    const hebTitleWidth = bidiLineWidth(hebrewTitle, 24, headerFont, hebrewBoldFont)
+    drawBidiLine(titlePage, hebrewTitle, (cfg.pageWidth - hebTitleWidth) / 2, cfg.pageHeight * 0.88, 24, headerFont, hebrewBoldFont, goldColor)
 
-    // Title text
-    const titleText = sanitizeForPdf(book.name || 'Lishchno Tidreshu', true)
-    const titleWidth = bidiLineWidth(titleText, 22, headerFont, hebrewBoldFont)
-    drawBidiLine(titlePage, titleText, (cfg.pageWidth - titleWidth) / 2, cfg.pageHeight * 0.58, 22, headerFont, hebrewBoldFont, rgb(...cfg.headerColor))
+    // English title
+    const titleText = 'Lishchno Tidreshu'
+    const titleWidth = headerFont.widthOfTextAtSize(titleText, 28)
+    titlePage.drawText(titleText, { x: (cfg.pageWidth - titleWidth) / 2, y: cfg.pageHeight * 0.83, size: 28, font: headerFont, color: darkColor })
 
-    // Ornamental divider under title
-    drawSectionDivider(titlePage, cfg.pageHeight * 0.55, cfg)
+    // Decorative line
+    const lineY = cfg.pageHeight * 0.81
+    titlePage.drawLine({ start: { x: cfg.pageWidth * 0.25, y: lineY }, end: { x: cfg.pageWidth * 0.75, y: lineY }, thickness: 0.6, color: goldColor })
 
     // Subtitle
-    const subtitleText = 'English Translation'
-    const subWidth = bodyFont.widthOfTextAtSize(subtitleText, 13)
-    titlePage.drawText(subtitleText, {
-      x: (cfg.pageWidth - subWidth) / 2,
-      y: cfg.pageHeight * 0.50,
-      size: 13,
-      font: bodyFont,
-      color: rgb(0.4, 0.38, 0.35),
-    })
+    const sub1 = 'The Third Beis HaMikdash'
+    const sub1W = bodyFont.widthOfTextAtSize(sub1, 14)
+    titlePage.drawText(sub1, { x: (cfg.pageWidth - sub1W) / 2, y: cfg.pageHeight * 0.78, size: 14, font: bodyFont, color: warmGray })
 
-    // Description
-    const descText = 'The Third Beis HaMikdash According to Yechezkel HaNavi'
-    const descW = bodyFont.widthOfTextAtSize(descText, 10)
-    titlePage.drawText(descText, {
-      x: (cfg.pageWidth - descW) / 2,
-      y: cfg.pageHeight * 0.46,
-      size: 10,
-      font: bodyFont,
-      color: rgb(0.5, 0.48, 0.44),
-    })
+    const sub2 = 'According to Yechezkel HaNavi'
+    const sub2W = bodyFont.widthOfTextAtSize(sub2, 12)
+    titlePage.drawText(sub2, { x: (cfg.pageWidth - sub2W) / 2, y: cfg.pageHeight * 0.755, size: 12, font: bodyFont, color: warmGray })
+
+    // Cover image: load the overhead 3D Beis HaMikdash (source page 29)
+    try {
+      const coverImgBuf = await getPageImage('', 29, bookId)
+      if (coverImgBuf) {
+        const coverMeta = await sharp(coverImgBuf).metadata()
+        const cW = coverMeta.width || 1655
+        const cH = coverMeta.height || 2340
+        // Crop to the illustration area (top 85% of the page, skip headers)
+        const cropTop = Math.round(cH * 0.05)
+        const cropH = Math.round(cH * 0.80)
+        const coverCrop = await sharp(coverImgBuf)
+          .extract({ left: Math.round(cW * 0.02), top: cropTop, width: Math.round(cW * 0.96), height: cropH })
+          .jpeg({ quality: 80 })
+          .toBuffer()
+        const coverImg = await doc.embedJpg(coverCrop)
+        const imgMaxW = cfg.pageWidth - 60
+        const imgMaxH = cfg.pageHeight * 0.50
+        const imgScale = Math.min(imgMaxW / coverImg.width, imgMaxH / coverImg.height)
+        const imgDrawW = coverImg.width * imgScale
+        const imgDrawH = coverImg.height * imgScale
+        const imgX = (cfg.pageWidth - imgDrawW) / 2
+        const imgY = cfg.pageHeight * 0.22
+        titlePage.drawImage(coverImg, { x: imgX, y: imgY, width: imgDrawW, height: imgDrawH })
+      }
+    } catch (e) { console.error('Cover image failed:', e) }
+
+    // Bottom text
+    const bottomText = 'English Translation'
+    const btW = headerFont.widthOfTextAtSize(bottomText, 16)
+    titlePage.drawText(bottomText, { x: (cfg.pageWidth - btW) / 2, y: cfg.pageHeight * 0.12, size: 16, font: headerFont, color: darkColor })
+
+    // Bottom decorative line
+    titlePage.drawLine({ start: { x: cfg.pageWidth * 0.3, y: cfg.pageHeight * 0.10 }, end: { x: cfg.pageWidth * 0.7, y: cfg.pageHeight * 0.10 }, thickness: 0.4, color: goldColor })
+
+    const bottomDesc = 'With Illustrations and Diagrams'
+    const bdW = bodyFont.widthOfTextAtSize(bottomDesc, 9)
+    titlePage.drawText(bottomDesc, { x: (cfg.pageWidth - bdW) / 2, y: cfg.pageHeight * 0.07, size: 9, font: bodyFont, color: warmGray })
 
     let totalPdfPages = 1 // title page
 
@@ -2907,6 +2937,126 @@ export async function GET(
         font: bodyFont,
         color: rgb(0.48, 0.45, 0.42),
       })
+    }
+
+    // ── BACK COVER ──────────────────────────────────────────────────────
+    {
+      const backPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+      const bgColor = rgb(0.95, 0.93, 0.90)
+      const goldC = rgb(0.6, 0.52, 0.35)
+      const darkC = rgb(0.12, 0.10, 0.08)
+      const bodyC = rgb(0.25, 0.23, 0.20)
+
+      // Background
+      backPage.drawRectangle({ x: 0, y: 0, width: cfg.pageWidth, height: cfg.pageHeight, color: bgColor })
+
+      // Border
+      for (const [off, w] of [[0, 1.2], [4, 0.4]] as [number, number][]) {
+        backPage.drawLine({ start: { x: 20 + off, y: cfg.pageHeight - 20 - off }, end: { x: cfg.pageWidth - 20 - off, y: cfg.pageHeight - 20 - off }, thickness: w, color: goldC })
+        backPage.drawLine({ start: { x: 20 + off, y: 20 + off }, end: { x: cfg.pageWidth - 20 - off, y: 20 + off }, thickness: w, color: goldC })
+        backPage.drawLine({ start: { x: 20 + off, y: 20 + off }, end: { x: 20 + off, y: cfg.pageHeight - 20 - off }, thickness: w, color: goldC })
+        backPage.drawLine({ start: { x: cfg.pageWidth - 20 - off, y: 20 + off }, end: { x: cfg.pageWidth - 20 - off, y: cfg.pageHeight - 20 - off }, thickness: w, color: goldC })
+      }
+
+      const textW = cfg.pageWidth - 80
+      let bY = cfg.pageHeight - 55
+
+      // "About This Book" header
+      const aboutTitle = 'About This Book'
+      const aboutW = headerFont.widthOfTextAtSize(aboutTitle, 16)
+      backPage.drawText(aboutTitle, { x: (cfg.pageWidth - aboutW) / 2, y: bY, size: 16, font: headerFont, color: darkC })
+      bY -= 8
+      backPage.drawLine({ start: { x: cfg.pageWidth * 0.3, y: bY }, end: { x: cfg.pageWidth * 0.7, y: bY }, thickness: 0.5, color: goldC })
+      bY -= 18
+
+      // Book description
+      const blurbLines = [
+        'Lishchno Tidreshu is a comprehensive exploration of the Third',
+        'Beis HaMikdash as described in the prophecy of Yechezkel',
+        'HaNavi (Chapters 40-42). This English translation brings to',
+        'life the intricate details of the future Temple through detailed',
+        'commentary from Rashi, the Ramchal (Mishkenos Elyon), and',
+        'other classical sources.',
+        '',
+        'Featuring over 100 original 3D illustrations and architectural',
+        'diagrams, this work provides a visual guide to every chamber,',
+        'gate, courtyard, and measurement described in the prophecy.',
+        'Three commentaries illuminate the text:',
+        '',
+        '  "Keitz Ha Yamin" \u2014 A summary of Rashi and the Ramchal',
+        '  "Be\'ur Chai" \u2014 Sources and reasoning on each topic',
+        '  "Hashlamat Sares" \u2014 Additions from Torah and Chazal',
+      ]
+
+      for (const line of blurbLines) {
+        if (line === '') { bY -= 8; continue }
+        try {
+          backPage.drawText(line, { x: 40, y: bY, size: 9.5, font: bodyFont, color: bodyC })
+        } catch { /* skip */ }
+        bY -= 14
+      }
+
+      bY -= 10
+      backPage.drawLine({ start: { x: cfg.pageWidth * 0.2, y: bY }, end: { x: cfg.pageWidth * 0.8, y: bY }, thickness: 0.3, color: goldC })
+      bY -= 14
+
+      // Preview images section
+      const previewTitle = 'Preview Illustrations'
+      const pvW = boldFont.widthOfTextAtSize(previewTitle, 10)
+      backPage.drawText(previewTitle, { x: (cfg.pageWidth - pvW) / 2, y: bY, size: 10, font: boldFont, color: darkC })
+      bY -= 12
+
+      // Load 3 preview images
+      const previewPages = [344, 51, 15] // front entrance, instruments, Mishkan Nov
+      const previewLabels = ['The Entrance to the Heichal', 'Chamber of Musical Instruments', 'The Mishkan in Nov']
+      const imgSlotW = (textW - 20) / 3
+      const imgSlotH = 140
+
+      for (let pi = 0; pi < previewPages.length; pi++) {
+        try {
+          const pvBuf = await getPageImage('', previewPages[pi], bookId)
+          if (!pvBuf) continue
+          const pvMeta = await sharp(pvBuf).metadata()
+          const pvH = pvMeta.height || 2340
+          const pvCW = pvMeta.width || 1655
+          // Crop to illustration area
+          const pvCrop = await sharp(pvBuf)
+            .extract({ left: Math.round(pvCW * 0.05), top: Math.round(pvH * 0.15), width: Math.round(pvCW * 0.9), height: Math.round(pvH * 0.65) })
+            .jpeg({ quality: 70 })
+            .toBuffer()
+          const pvImg = await doc.embedJpg(pvCrop)
+          const pvScale = Math.min(imgSlotW / pvImg.width, imgSlotH / pvImg.height)
+          const pvDW = pvImg.width * pvScale
+          const pvDH = pvImg.height * pvScale
+          const pvX = 40 + pi * (imgSlotW + 10) + (imgSlotW - pvDW) / 2
+          backPage.drawImage(pvImg, { x: pvX, y: bY - pvDH, width: pvDW, height: pvDH })
+
+          // Image label
+          const label = previewLabels[pi]
+          const lW = bodyFont.widthOfTextAtSize(label, 7)
+          const lX = 40 + pi * (imgSlotW + 10) + (imgSlotW - lW) / 2
+          backPage.drawText(label, { x: Math.max(40, lX), y: bY - pvDH - 10, size: 7, font: bodyFont, color: warmGray })
+        } catch (e) { console.error('Preview image failed:', e) }
+      }
+
+      bY -= imgSlotH + 25
+
+      // Bottom section
+      backPage.drawLine({ start: { x: cfg.pageWidth * 0.2, y: bY }, end: { x: cfg.pageWidth * 0.8, y: bY }, thickness: 0.3, color: goldC })
+      bY -= 14
+
+      const closingLines = [
+        '"For when it will be built speedily in our days, one must',
+        'preserve and make that structure and that arrangement because',
+        'it is with divine inspiration." \u2014 Rambam',
+      ]
+      for (const line of closingLines) {
+        try {
+          const clW = bodyFont.widthOfTextAtSize(line, 8.5)
+          backPage.drawText(line, { x: (cfg.pageWidth - clW) / 2, y: bY, size: 8.5, font: bodyFont, color: bodyC })
+        } catch {}
+        bY -= 12
+      }
     }
 
     // Generate PDF buffer

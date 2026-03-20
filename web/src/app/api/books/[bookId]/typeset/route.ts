@@ -1887,7 +1887,7 @@ export async function GET(
       // which we already show on the English title page
       if (page.pageNumber === 2 && regions.length <= 2) {
         const allText = regions.map(r => (r.translatedText || '')).join(' ')
-        if (/lishchno|לשכנו/i.test(allText) && allText.length < 100) continue
+        if (allText.length < 100) continue // skip half-title page (just book title)
       }
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {

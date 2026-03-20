@@ -461,6 +461,7 @@ interface ContentElement {
   imageHeight?: number  // original px
   pageNumber?: number   // source Hebrew page number
   rows?: string[][]     // for tables: array of rows, each row is array of cell strings
+  figureLabel?: string  // figure/diagram number label for illustrations
 }
 
 // ─── Illustration detection & cropping ──────────────────────────────────────
@@ -717,10 +718,10 @@ function cleanTranslationText(text: string): string {
     // Remove [Diagram showing measurements: ...] blocks
     .replace(/\[(?:Diagram|Figure|Drawing)\s+showing\s+[^\]]*\]/gi, '')
     // Remove AI translation failures ("I don't see any Hebrew", "I apologize", etc.)
-    .replace(/I don't see any Hebrew.*$/gis, '')
-    .replace(/I cannot provide an accurate.*$/gis, '')
-    .replace(/I apologize, but I cannot.*$/gis, '')
-    .replace(/Could you please provide the Hebrew.*$/gis, '')
+    .replace(/I don't see any Hebrew.*/gi, '')
+    .replace(/I cannot provide an accurate.*/gi, '')
+    .replace(/I apologize, but I cannot.*/gi, '')
+    .replace(/Could you please provide the Hebrew.*/gi, '')
     // Fix concatenation errors: insert space between camelCase-like merges
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -1409,6 +1410,26 @@ async function renderElements(
           height: drawH,
         })
         curY -= drawH + cfg.illustrationPadding
+      }
+
+      // Draw figure label below the illustration if available
+      if (el.figureLabel) {
+        const labelSize = cfg.bodyFontSize * 0.8
+        const labelText = el.figureLabel
+        try {
+          const labelW = fonts.bold.widthOfTextAtSize(labelText, labelSize)
+          const labelX = cfg.marginLeft + (textWidth - labelW) / 2
+          if (curY - labelSize > safeMarginBottom) {
+            pdfPage.drawText(labelText, {
+              x: labelX,
+              y: curY - labelSize,
+              size: labelSize,
+              font: fonts.bold,
+              color: rgb(0.4, 0.38, 0.35),
+            })
+            curY -= labelSize + 4
+          }
+        } catch { /* skip label if font encoding fails */ }
       }
       contentRenderedOnPage = true
 
@@ -2319,6 +2340,19 @@ export async function GET(
           ill.width >= 200 && ill.height >= 200
         )
 
+        // Extract figure/diagram labels from this page's text for image labeling
+        const pageFigureLabels: string[] = []
+        for (const r of regions) {
+          const t = (r.translatedText || '')
+          const refs = t.match(/(?:diagram|figure|drawing|sketch)\s+[\d]+[\w\-.:]*/gi) || []
+          for (const ref of refs) {
+            const label = ref.replace(/^(diagram|figure|drawing|sketch)\s+/i, (_, type) =>
+              type.charAt(0).toUpperCase() + type.slice(1).toLowerCase() + ' '
+            )
+            if (!pageFigureLabels.includes(label)) pageFigureLabels.push(label)
+          }
+        }
+
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
@@ -2362,10 +2396,11 @@ export async function GET(
                 imageData: finalImg,
                 imageWidth: finalMeta.width || cropMeta.width || imgW,
                 imageHeight: finalMeta.height || cropMeta.height || imgH,
+                figureLabel: pageFigureLabels[0] || undefined,
               })
             } catch {
               for (const ill of validIllustrations) {
-                pageElements.push({ type: 'illustration', imageData: ill.imageData, imageWidth: ill.width, imageHeight: ill.height })
+                pageElements.push({ type: 'illustration', imageData: ill.imageData, imageWidth: ill.width, imageHeight: ill.height, figureLabel: pageFigureLabels[0] || undefined })
               }
             }
           }
@@ -2429,6 +2464,7 @@ export async function GET(
                 imageData: validIllustrations[illustIdx].imageData,
                 imageWidth: validIllustrations[illustIdx].width,
                 imageHeight: validIllustrations[illustIdx].height,
+                figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
               })
               illustIdx++
             }
@@ -2483,6 +2519,7 @@ export async function GET(
               imageData: validIllustrations[illustIdx].imageData,
               imageWidth: validIllustrations[illustIdx].width,
               imageHeight: validIllustrations[illustIdx].height,
+              figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
             })
             illustIdx++
           }

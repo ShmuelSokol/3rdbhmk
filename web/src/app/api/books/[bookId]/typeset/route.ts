@@ -94,8 +94,8 @@ function sanitizeForPdf(text: string, keepHebrew = false): string {
   if (keepHebrew) {
     return text
       .replace(/[\u0000-\u001F]/g, '')  // remove control chars
-      .replace(/[\u200E\u200F\u200B-\u200D\u2028\u2029\uFEFF]/g, '') // remove bidi marks, zero-width, BOM
-      .replace(/[\u2000-\u206F]/g, ' ') // replace general punctuation block with space (avoids □)
+      .replace(/[\u200B-\u200F\u2028\u2029\u202A-\u202E\uFEFF]/g, '') // remove ALL bidi marks, zero-width, embeddings
+      .replace(/[\u2000-\u200A\u2010-\u2027\u2030-\u206F]/g, ' ') // replace remaining general punctuation with space
       .replace(/[\uFB50-\uFDFF\uFE70-\uFEFF]/g, '') // remove Arabic presentation forms (not in our fonts)
       .replace(/\s+/g, ' ')
       .trim()

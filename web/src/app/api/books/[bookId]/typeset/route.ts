@@ -1581,8 +1581,10 @@ async function renderElements(
       contentRenderedOnPage = true
 
     } else if (el.type === 'header') {
-      const text = sanitizeForPdf(el.text || '', true)
+      const text = sanitizeForPdf((el.text || '').replace(/\*\*/g, ''), true)
       if (!text) continue
+      // Filter standalone numbers that slipped through as headers (e.g., "19")
+      if (/^\d{1,3}$/.test(text.trim())) continue
 
       const fontSize = cfg.headerFontSize
       const font = fonts.header
@@ -1597,6 +1599,10 @@ async function renderElements(
       if (curY - blockH < safeMarginBottom && contentRenderedOnPage) {
         // Only start a new page for the header if we already have content on this page.
         // If the page is empty, start rendering here — per-line breaks will handle overflow.
+        newPage()
+      } else if (curY - blockH < safeMarginBottom + 120 && contentRenderedOnPage) {
+        // Header fits but leaves <120pt for content below — orphan header.
+        // Push to next page so the header has room for content below it.
         newPage()
       }
 
@@ -2260,7 +2266,7 @@ export async function GET(
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
-        const knownDiagrams = new Set([22, 24, 26, 36, 40, 41, 47, 48, 57, 64, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
+        const knownDiagrams = new Set([22, 24, 26, 36, 38, 40, 41, 47, 48, 57, 64, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
         // Also treat pages with measurement-noise regions as diagram pages —
         // the original Hebrew page image shows measurements with arrows/annotations
         // that get lost when illustration crops exclude the text label areas

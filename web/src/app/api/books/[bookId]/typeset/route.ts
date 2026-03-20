@@ -223,7 +223,9 @@ function drawBidiLine(
   color: ReturnType<typeof rgb>,
   maxX?: number,
 ) {
-  const segments = getVisualSegments(line)
+  // Strip ALL bidi control chars that cause rectangles — safety net
+  const cleanLine = line.replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g, '')
+  const segments = getVisualSegments(cleanLine)
   let curX = x
   const rightBound = maxX || (x + 500)
 
@@ -266,7 +268,8 @@ function drawBidiLine(
  *  Uses visual-order splitting (after bidi reorder) for accurate width measurement
  *  that matches what drawBidiLine will actually render. */
 function bidiLineWidth(line: string, fontSize: number, latinFont: PDFFont, hebrewFont: PDFFont): number {
-  const segments = getVisualSegments(line)
+  const cleanLine = line.replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g, '')
+  const segments = getVisualSegments(cleanLine)
   let w = 0
   for (const seg of segments) {
     const font = seg.hebrew ? hebrewFont : latinFont

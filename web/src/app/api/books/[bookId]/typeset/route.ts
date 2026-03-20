@@ -1586,6 +1586,14 @@ async function renderElements(
       // Filter standalone numbers that slipped through as headers (e.g., "19")
       if (/^\d{1,3}$/.test(text.trim())) continue
 
+      // Long "headers" (>150 chars) are actually misclassified body text — render as body
+      const strippedLen = text.replace(/[\u0590-\u05FF\u200E\u200F]/g, '').trim().length
+      if (strippedLen > 150) {
+        // Re-inject as body element to be rendered next iteration
+        elements.splice(elIdx + 1, 0, { type: 'body', text: text })
+        continue
+      }
+
       const fontSize = cfg.headerFontSize
       const font = fonts.header
       const hebFont = fonts.hebrewBold
@@ -1836,7 +1844,7 @@ async function renderElements(
         const isLastPara = pIdx === paragraphs.length - 1
         const isAllBold = para.startsWith('**') && para.endsWith('**')
         const cleanText = deduplicatePhrases(sanitizeForPdf(
-          para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
+          para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/\*+/g, '').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
           true // keep Hebrew
         ))
         if (!cleanText) continue
@@ -1930,9 +1938,15 @@ async function renderElements(
           const isLastLine = i === allLines.length - 1
 
           if (isAllBold) {
-            const lineW = bidiLineWidth(line, fontSize, font, hebFont)
-            x = cfg.marginLeft + (textWidth - lineW) / 2
-            drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
+            // Justify bold paragraphs — fill full width like body text
+            if (!isLastLine && allLines.length > 2) {
+              drawJustifiedBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), textWidth, cfg.pageWidth - cfg.marginRight)
+            } else {
+              // Last line or short paragraph: center it
+              const lineW = bidiLineWidth(line, fontSize, font, hebFont)
+              x = cfg.marginLeft + (textWidth - lineW) / 2
+              drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
+            }
           } else if (i === 0 && cfg.firstLineIndent > 0) {
             x += cfg.firstLineIndent
             // Justify first line within its narrower width (textWidth - indent)

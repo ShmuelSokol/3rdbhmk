@@ -544,6 +544,9 @@ export async function generateHtmlBook(
     margin: ${cfg.illustrationPadding}pt auto;
     page-break-inside: avoid;
   }
+  .figure-group {
+    page-break-inside: avoid;
+  }
   .illustration img {
     max-width: 100%;
     height: auto;
@@ -703,13 +706,46 @@ export async function generateHtmlBook(
     } else if (el.type === 'caption') {
       const text = sanitize(el.text || '')
       if (!text) continue
-      html.push(`<div class="caption-text">${markupBidi(text)}</div>`)
+      // Check if next element is an illustration — if so, group them together
+      const nextEl = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      if (nextEl?.type === 'illustration' && nextEl.imageData) {
+        // Open figure group: caption + illustration kept together
+        html.push(`<div class="figure-group">`)
+        html.push(`<div class="caption-text">${markupBidi(text)}</div>`)
+        const b64 = nextEl.imageData.toString('base64')
+        const isFullPage = (nextEl.imageWidth || 0) > 800 && (nextEl.imageHeight || 0) > 1000
+        const cls = isFullPage ? 'illustration full-page' : 'illustration normal'
+        html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
+        // Check if the element after the illustration is also a caption (label below image)
+        const afterIll = elIdx + 2 < elements.length ? elements[elIdx + 2] : null
+        if (afterIll?.type === 'caption') {
+          const afterText = sanitize(afterIll.text || '')
+          if (afterText) html.push(`<div class="caption-text">${markupBidi(afterText)}</div>`)
+          elIdx += 2 // skip both illustration and trailing caption
+        } else {
+          elIdx += 1 // skip just the illustration
+        }
+        html.push(`</div>`) // close figure-group
+      } else {
+        html.push(`<div class="caption-text">${markupBidi(text)}</div>`)
+      }
 
     } else if (el.type === 'illustration' && el.imageData) {
       const b64 = el.imageData.toString('base64')
       const isFullPage = (el.imageWidth || 0) > 800 && (el.imageHeight || 0) > 1000
       const cls = isFullPage ? 'illustration full-page' : 'illustration normal'
-      html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
+      // Check if next element is a caption — group them together
+      const nextEl = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      if (nextEl?.type === 'caption') {
+        const capText = sanitize(nextEl.text || '')
+        html.push(`<div class="figure-group">`)
+        html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
+        if (capText) html.push(`<div class="caption-text">${markupBidi(capText)}</div>`)
+        html.push(`</div>`)
+        elIdx += 1 // skip the caption
+      } else {
+        html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
+      }
 
     } else if (el.type === 'table' && el.rows) {
       const rows = el.rows.map(row => [...row].reverse())

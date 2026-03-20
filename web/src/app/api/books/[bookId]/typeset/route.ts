@@ -195,7 +195,22 @@ function getVisualSegments(text: string): TextSegment[] {
     }
 
     if (!isStrong) {
-      cur += ch // neutral chars stay with current run
+      if (curHeb) {
+        // Neutral char after Hebrew — check if it's safe to draw with Hebrew font
+        // Only keep with Hebrew if it's a space or Hebrew punctuation (geresh, gershayim, maqaf)
+        const code = ch.charCodeAt(0)
+        const isHebrewSafe = ch === ' ' || (code >= 0x0590 && code <= 0x05FF) || (code >= 0xFB1D && code <= 0xFB4F) || ch === '\u05F3' || ch === '\u05F4' || ch === '\u05BE'
+        if (isHebrewSafe) {
+          cur += ch
+        } else {
+          // Push Hebrew segment, start new non-Hebrew segment for this punctuation
+          if (cur) segments.push({ text: cur, hebrew: curHeb })
+          cur = ch
+          curHeb = false
+        }
+      } else {
+        cur += ch // neutral chars after Latin stay with Latin (Latin font has all ASCII)
+      }
     } else if (heb === curHeb) {
       cur += ch
     } else {

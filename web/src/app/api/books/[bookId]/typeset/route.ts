@@ -722,9 +722,16 @@ function cleanTranslationText(text: string): string {
     .replace(/I cannot provide an accurate.*/gi, '')
     .replace(/I apologize, but I cannot.*/gi, '')
     .replace(/Could you please provide the Hebrew.*/gi, '')
-    // Fix concatenation errors: insert space between camelCase-like merges
-    .replace(/([a-z])\n([A-Z])/g, '$1 $2')
+    // Fix concatenation errors: insert space between words joined by newlines or missing spaces
+    .replace(/([a-z])\n([A-Z"(])/g, '$1 $2')
+    .replace(/([a-z.!?"\)])\n([A-Z"(])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
+    // Add space around quotes when squeezed between letters: word"Word → word" Word
+    .replace(/([a-zA-Z])"([a-zA-Z])/g, '$1" $2')
+    // Fix word.Word → word. Word (missing space after period)
+    .replace(/([a-z])\.([A-Z])/g, '$1. $2')
+    // Fix word:Word → word: Word
+    .replace(/([a-z]):([A-Z])/g, '$1: $2')
     // Strip leading Hebrew block up to separator (em-dash or hyphen).
     // Only match when the first letter-class character is Hebrew (not English).
     // This prevents stripping English text that contains inline Hebrew references.

@@ -2243,7 +2243,7 @@ export async function GET(
         const gapWithShortRegions = hasLargeGap && shortRegionCount >= 3
 
         // Safety net: known Hebrew pages with diagrams that fail variance checks
-        const knownDiagramPages = new Set([22, 132, 196, 270, 271, 284, 295])
+        const knownDiagramPages = new Set([22, 36, 40, 41, 57, 64, 132, 196, 270, 271, 284, 295])
         const isKnownDiagramPage = knownDiagramPages.has(page.pageNumber)
 
         const pageHasDiagramRef = explicitDiagramRef || hasMeasurementLabels || gapWithShortRegions || isKnownDiagramPage
@@ -2260,7 +2260,7 @@ export async function GET(
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
-        const knownDiagrams = new Set([22, 24, 26, 47, 48, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
+        const knownDiagrams = new Set([22, 24, 26, 36, 40, 41, 47, 48, 57, 64, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
         // Also treat pages with measurement-noise regions as diagram pages —
         // the original Hebrew page image shows measurements with arrows/annotations
         // that get lost when illustration crops exclude the text label areas

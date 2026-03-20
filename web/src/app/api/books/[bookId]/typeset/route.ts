@@ -173,62 +173,39 @@ function splitBidi(text: string): TextSegment[] {
   return fixed
 }
 
-/** Build visual-order segments for drawing using bidi-js.
- *  Returns segments in LEFT-TO-RIGHT visual order, with Hebrew text in
- *  logical character order (the font handles RTL glyph shaping).
- *
- *  Uses bidi-js getReorderedIndices() to determine visual character positions,
- *  then groups into Hebrew/Latin runs. Hebrew runs have their chars un-reversed
- *  (bidi gives char-reversed order, but NotoSerifHebrew needs logical order). */
+/** Split text into Hebrew/Latin segments for font switching.
+ *  Simple character-class grouping — no bidi reordering.
+ *  Hebrew text stays in logical order (font handles RTL glyph shaping). */
 function getVisualSegments(text: string): TextSegment[] {
-  if (!text || text.length < 2) {
-    const heb = text ? isHebrew(text[0]) : false
-    return text ? [{ text, hebrew: heb }] : []
-  }
+  if (!text) return []
+  const segments: TextSegment[] = []
+  let cur = ''
+  let curHeb = false
+  let started = false
 
-  const b = getBidi()
-  const levels = b.getEmbeddingLevels(text, 'ltr')
-  const indices = b.getReorderedIndices(text, levels)
+  for (const ch of text) {
+    const heb = isHebrew(ch)
+    const isStrong = heb || /[a-zA-Z0-9]/.test(ch)
 
-  // Build visual runs grouped by EMBEDDING LEVEL (RTL vs LTR)
-  // This ensures parentheses and punctuation adjacent to Hebrew stay with the Hebrew run
-  // because bidi-js assigns them RTL embedding levels when they're in Hebrew context
-  const runs: TextSegment[] = []
-  let runStart = 0
-
-  for (let i = 1; i <= indices.length; i++) {
-    // Use bidi embedding level to determine direction, not character range
-    const prevLevel = levels.levels[indices[i - 1]] || 0
-    const prevIsRTL = prevLevel % 2 === 1
-
-    let currIsRTL = false
-    if (i < indices.length) {
-      const currLevel = levels.levels[indices[i]] || 0
-      currIsRTL = currLevel % 2 === 1
+    if (!started) {
+      cur = ch
+      curHeb = isStrong ? heb : false
+      started = true
+      continue
     }
 
-    if (i === indices.length || prevIsRTL !== currIsRTL) {
-      const chars: string[] = []
-      for (let j = runStart; j < i; j++) chars.push(text[indices[j]])
-
-      // Check if this run contains ANY Hebrew characters (for font selection)
-      const hasHebrewChars = chars.some(ch => {
-        const c = ch.charCodeAt(0)
-        return (c >= 0x0590 && c <= 0x05FF) || (c >= 0xFB1D && c <= 0xFB4F)
-      })
-
-      if (prevIsRTL) {
-        // RTL run: bidi reversed the characters — reverse back to logical order
-        // so the Hebrew font can shape them correctly
-        chars.reverse()
-      }
-
-      runs.push({ text: chars.join(''), hebrew: hasHebrewChars })
-      runStart = i
+    if (!isStrong) {
+      cur += ch // neutral chars stay with current run
+    } else if (heb === curHeb) {
+      cur += ch
+    } else {
+      if (cur) segments.push({ text: cur, hebrew: curHeb })
+      cur = ch
+      curHeb = heb
     }
   }
-
-  return runs
+  if (cur) segments.push({ text: cur, hebrew: curHeb })
+  return segments
 }
 
 /** Draw a line of mixed bidi text using per-segment visual positioning.
@@ -254,22 +231,33 @@ function drawBidiLine(
     if (curX >= rightBound) break
 
     const font = seg.hebrew ? hebrewFont : latinFont
+    // Filter out characters that might cause rectangles — draw character by character if needed
+    let drawText = seg.text
     try {
-      const segWidth = font.widthOfTextAtSize(seg.text, fontSize)
-      if (curX + segWidth <= rightBound + 5) {
-        page.drawText(seg.text, { x: curX, y, size: fontSize, font, color })
-      }
-      curX += segWidth
+      // Test if the whole segment can be encoded
+      font.widthOfTextAtSize(drawText, fontSize)
     } catch {
-      // Fallback to other font
-      try {
+      // Some chars can't be encoded — filter them out
+      drawText = Array.from(drawText).filter(ch => {
+        try { font.widthOfTextAtSize(ch, fontSize); return true } catch { return false }
+      }).join('')
+      if (!drawText) {
+        // Try with alternate font
         const altFont = seg.hebrew ? latinFont : hebrewFont
-        const segWidth = altFont.widthOfTextAtSize(seg.text, fontSize)
+        drawText = Array.from(seg.text).filter(ch => {
+          try { altFont.widthOfTextAtSize(ch, fontSize); return true } catch { return false }
+        }).join('')
+      }
+    }
+
+    if (drawText) {
+      try {
+        const segWidth = font.widthOfTextAtSize(drawText, fontSize)
         if (curX + segWidth <= rightBound + 5) {
-          page.drawText(seg.text, { x: curX, y, size: fontSize, font: altFont, color })
+          page.drawText(drawText, { x: curX, y, size: fontSize, font, color })
         }
         curX += segWidth
-      } catch { /* skip */ }
+      } catch { /* skip entirely */ }
     }
   }
 }

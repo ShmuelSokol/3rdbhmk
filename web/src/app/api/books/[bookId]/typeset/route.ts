@@ -749,6 +749,8 @@ function cleanTranslationText(text: string): string {
       if (['there', 'that', 'had', 'very', 'so', 'now'].includes(lower)) return match
       return word
     })
+    // Join Hebrew compound words: "Ha Mikdash" → "HaMikdash", "Ha Melech" → "HaMelech"
+    .replace(/\bHa ([A-Z])/g, 'Ha$1')
     // Strip trailing ] left from [THIS IS DIAGRAM: ...] cleanup
     .replace(/\]$/g, '')
     .replace(/\]\s*\./g, '.')
@@ -1431,11 +1433,14 @@ async function renderElements(
         }
         curY -= cfg.illustrationPadding
         const imgX = cfg.marginLeft + (textWidth - drawW) / 2
+        // Clamp image position to stay within border frame
+        const imgYPos = Math.max(safeMarginBottom, curY - drawH)
+        const clampedH = curY - imgYPos // may be smaller than drawH if clamped
         pdfPage.drawImage(img, {
           x: imgX,
-          y: curY - drawH,
+          y: imgYPos,
           width: drawW,
-          height: drawH,
+          height: clampedH,
         })
         curY -= drawH + cfg.illustrationPadding
       }
@@ -3032,8 +3037,8 @@ export async function GET(
       bY -= 12
 
       // Load 3 preview images
-      const previewPages = [344, 51, 15] // front entrance, instruments, Mishkan Nov
-      const previewLabels = ['The Entrance to the Heichal', 'Chamber of Musical Instruments', 'The Mishkan in Nov']
+      const previewPages = [344, 51, 13] // front entrance, instruments, Mishkan in desert
+      const previewLabels = ['The Entrance to the Heichal', 'Chamber of Musical Instruments', 'The Mishkan in the Desert']
       const imgSlotW = (textW - 20) / 3
       const imgSlotH = 140
 

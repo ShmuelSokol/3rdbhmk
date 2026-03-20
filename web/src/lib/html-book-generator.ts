@@ -295,8 +295,9 @@ export async function generateHtmlBook(
   // Playwright margins define where body content can flow
   const PW_MARGIN_TOP = OUTER_INSET + INNER_GAP + CONTENT_PAD + HEADER_SPACE  // ~35pt
   const PW_MARGIN_BOTTOM = OUTER_INSET + INNER_GAP + CONTENT_PAD + FOOTER_SPACE // ~35pt
-  const PW_MARGIN_LEFT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt — enough clearance from inner border
-  const PW_MARGIN_RIGHT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt
+  const _PW_MARGIN_LEFT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt — enough clearance from inner border
+  const _PW_MARGIN_RIGHT = OUTER_INSET + INNER_GAP + CONTENT_PAD + 14  // ~35pt
+  void _PW_MARGIN_LEFT; void _PW_MARGIN_RIGHT;
 
   // Estimate TOC pages (roughly 30 entries per page)
   const totalTocPages = tocLines.length > 0 ? Math.max(1, Math.ceil(tocLines.length / 30)) : 0
@@ -686,7 +687,7 @@ export async function generateHtmlBook(
 
       for (const para of paragraphs) {
         const isAllBold = para.startsWith('**') && para.endsWith('**')
-        let cleanText = sanitize(
+        const cleanText = sanitize(
           para
             .replace(/\*\*([\s\S]*?)\*\*/g, '$1')
             .replace(/^#+\s+/gm, '')
@@ -761,7 +762,8 @@ export async function htmlToPdf(
     const OUTER_INSET = 8
     const INNER_GAP = 3
     const CONTENT_PAD = 10
-    const HEADER_SPACE = 14
+    const _HEADER_SPACE = 14
+    void _HEADER_SPACE;
 
     // Colors
     const outerColor = 'rgb(184,174,158)'

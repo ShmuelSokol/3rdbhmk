@@ -8,11 +8,13 @@ import { readFile } from 'fs/promises'
 import path from 'path'
 import sharp from 'sharp'
 import { generateHtmlBook, htmlToPdf } from '@/lib/html-book-generator'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TocEntry as HtmlTocEntry } from '@/lib/html-book-generator'
 
 // bidi-js: Unicode Bidirectional Algorithm for proper RTL text rendering
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 let _bidiModule: any = null
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getBidi() {
   if (!_bidiModule) {
     try {
@@ -466,6 +468,18 @@ async function detectAndCropIllustrations(
 
   if (gaps.length === 0) return []
 
+  // Merge adjacent gaps that are close together (< 5% apart) — prevents splitting
+  // one illustration into two crops when gap detection finds a thin text band in the middle
+  const mergedGaps: { topY: number; bottomY: number }[] = []
+  for (const gap of gaps.sort((a, b) => a.topY - b.topY)) {
+    const prev = mergedGaps[mergedGaps.length - 1]
+    if (prev && gap.topY - prev.bottomY < 5) {
+      prev.bottomY = gap.bottomY // merge into previous gap
+    } else {
+      mergedGaps.push({ ...gap })
+    }
+  }
+
   // Get original page image
   const imgBuf = await getPageImage(pageId, pageNumber, bookId)
   if (!imgBuf) return []
@@ -476,7 +490,7 @@ async function detectAndCropIllustrations(
 
   const results: { y: number; imageData: Buffer; width: number; height: number }[] = []
 
-  for (const gap of gaps) {
+  for (const gap of mergedGaps) {
     const cropTop = Math.round((gap.topY / 100) * imgH)
     const cropBottom = Math.round((gap.bottomY / 100) * imgH)
     const cropHeight = cropBottom - cropTop
@@ -494,7 +508,7 @@ async function detectAndCropIllustrations(
           width: imgW - marginX * 2,
           height: cropHeight,
         })
-        .jpeg({ quality: 90 })
+        .jpeg({ quality: 70 })
         .toBuffer()
 
       // Check if the crop actually contains content (not just blank space)
@@ -657,6 +671,15 @@ function cleanTranslationText(text: string): string {
     // Fix concatenation errors: insert space between camelCase-like merges
     .replace(/([a-z])\n([A-Z])/g, '$1 $2')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
+    // Strip leading Hebrew prefix up to em-dash: "ז. חורבן בית שני — ..." → "..."
+    .replace(/^[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״'.,;:\d]+\s*[\u2014\u2013\-]+\s*/g, '')
+    // Then strip orphan page numbers left behind (number + period/space + newline)
+    .replace(/^\d+[.\s]*\n/g, '')
+    // Strip Hebrew-only lines at the start (no em-dash, just pure Hebrew line then English)
+    .replace(/^[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״']+\n+/g, '')
+    // Strip Hebrew words preceded/followed by punctuation at the start:
+    // "(מפרשים — . — And..." → "And..."
+    .replace(/^[(\[{<\s]*[\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F][\u0590-\u05FF\u200E\u200F\uFB1D-\uFB4F\s׳״']*[\s)\]}>.,;\u2014\u2013\-]*(?=[A-Z])/g, '')
     .trim()
 }
 
@@ -1079,6 +1102,21 @@ async function renderElements(
 
   let contentRenderedOnPage = false // tracks if real content was rendered on current page
 
+  // Deferred text: when a short body/header/caption precedes a bottom-placed image,
+  // we defer its rendering so it can be drawn just above the image.
+  let deferredText: {
+    lines: string[];
+    font: PDFFont;
+    hebFont: PDFFont;
+    fontSize: number;
+    lh: number;
+    isAllBold: boolean;
+    hasIndent: boolean;
+    centered: boolean;
+    color: [number, number, number];
+    spacingAfter: number;
+  } | null = null
+
   const newPage = () => {
     pdfPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
     pageCount++
@@ -1090,6 +1128,28 @@ async function renderElements(
   let lastWasDivider = true // first header is always a topic start
   for (let elIdx = 0; elIdx < elements.length; elIdx++) {
     const el = elements[elIdx]
+
+    // Safety: flush deferred text if the current element is NOT an illustration
+    // (deferred text is only meant to be consumed by the next illustration)
+    if (deferredText && el.type !== 'illustration') {
+      const dt = deferredText
+      for (let li = 0; li < dt.lines.length; li++) {
+        if (curY - dt.lh < safeMarginBottom) newPage()
+        const ln = dt.lines[li]
+        let x = cfg.marginLeft
+        if (dt.centered) {
+          const lineW = bidiLineWidth(ln, dt.fontSize, dt.font, dt.hebFont)
+          x = cfg.marginLeft + (textWidth - lineW) / 2
+        } else if (li === 0 && dt.hasIndent) {
+          x += cfg.firstLineIndent
+        }
+        drawBidiLine(pdfPage, ln, x, curY - dt.fontSize, dt.fontSize, dt.font, dt.hebFont, rgb(...dt.color), cfg.pageWidth - cfg.marginRight)
+        curY -= dt.lh
+      }
+      curY -= dt.spacingAfter
+      contentRenderedOnPage = true
+      deferredText = null
+    }
 
     if (el.type === 'divider') {
       // New topic = new page (matches Hebrew book layout)
@@ -1186,17 +1246,58 @@ async function renderElements(
       const spaceAfterImage = (curY - cfg.illustrationPadding - drawH) - safeMarginBottom
 
       if (nextIsDividerOrEnd && spaceAfterImage > textHeight * 0.15) {
-        // Place image at bottom of page — push curY down to position image near margin
+        // Place image at bottom of page
+        const imgBottomY = cfg.marginBottom + cfg.illustrationPadding
         const imgX = cfg.marginLeft + (textWidth - drawW) / 2
         pdfPage.drawImage(img, {
           x: imgX,
-          y: cfg.marginBottom + cfg.illustrationPadding,
+          y: imgBottomY,
           width: drawW,
           height: drawH,
         })
+
+        // If there's deferred text, draw it just above the bottom-placed image
+        if (deferredText) {
+          const dt = deferredText
+          const dtTotalH = dt.lines.length * dt.lh + dt.spacingAfter
+          let dtY = imgBottomY + drawH + cfg.illustrationPadding + dtTotalH
+          for (let li = 0; li < dt.lines.length; li++) {
+            const ln = dt.lines[li]
+            let x = cfg.marginLeft
+            if (dt.centered) {
+              const lineW = bidiLineWidth(ln, dt.fontSize, dt.font, dt.hebFont)
+              x = cfg.marginLeft + (textWidth - lineW) / 2
+            } else if (li === 0 && dt.hasIndent) {
+              x += cfg.firstLineIndent
+            }
+            drawBidiLine(pdfPage, ln, x, dtY - dt.fontSize, dt.fontSize, dt.font, dt.hebFont, rgb(...dt.color), cfg.pageWidth - cfg.marginRight)
+            dtY -= dt.lh
+          }
+          deferredText = null
+        }
+
         curY = safeMarginBottom // page is full after bottom-placed image
       } else {
         // Normal placement: image flows top-down
+        // If there's deferred text, draw it first in normal flow
+        if (deferredText) {
+          const dt = deferredText
+          for (let li = 0; li < dt.lines.length; li++) {
+            if (curY - dt.lh < safeMarginBottom) newPage()
+            const ln = dt.lines[li]
+            let x = cfg.marginLeft
+            if (dt.centered) {
+              const lineW = bidiLineWidth(ln, dt.fontSize, dt.font, dt.hebFont)
+              x = cfg.marginLeft + (textWidth - lineW) / 2
+            } else if (li === 0 && dt.hasIndent) {
+              x += cfg.firstLineIndent
+            }
+            drawBidiLine(pdfPage, ln, x, curY - dt.fontSize, dt.fontSize, dt.font, dt.hebFont, rgb(...dt.color), cfg.pageWidth - cfg.marginRight)
+            curY -= dt.lh
+          }
+          curY -= dt.spacingAfter
+          deferredText = null
+        }
         curY -= cfg.illustrationPadding
         const imgX = cfg.marginLeft + (textWidth - drawW) / 2
         pdfPage.drawImage(img, {
@@ -1422,6 +1523,44 @@ async function renderElements(
       }
       lastWasDivider = false
 
+      // Look-ahead: if this header is short and followed by a bottom-placed illustration,
+      // defer rendering so the header draws just above the image instead of stranded high up.
+      {
+        let hdrIllFollows = false
+        let hdrIllBottomPlace = false
+        for (let look = 1; look <= 3 && elIdx + look < elements.length; look++) {
+          const upcoming = elements[elIdx + look]
+          if (upcoming.type === 'illustration') {
+            hdrIllFollows = true
+            const afterIll = elIdx + look + 1 < elements.length ? elements[elIdx + look + 1] : null
+            hdrIllBottomPlace = !afterIll || afterIll.type === 'divider'
+            break
+          }
+          if (upcoming.type === 'divider') continue
+          break
+        }
+        if (hdrIllFollows && hdrIllBottomPlace && lines.length <= 3) {
+          const hdrH = blockH + cfg.headerSpacingAbove + cfg.headerSpacingBelow
+          const estimatedImgH = textHeight * 0.3
+          if ((curY - hdrH - estimatedImgH) > safeMarginBottom + textHeight * 0.10) {
+            // Big gap would form — defer this header to draw above the image
+            deferredText = {
+              lines,
+              font,
+              hebFont,
+              fontSize,
+              lh,
+              isAllBold: true,
+              hasIndent: false,
+              centered: true,
+              color: cfg.headerColor as [number, number, number],
+              spacingAfter: cfg.headerSpacingBelow,
+            }
+            continue // skip normal rendering
+          }
+        }
+      }
+
       for (const line of lines) {
         // Per-line page break check (headers can be long on title pages)
         if (curY - lh < safeMarginBottom) {
@@ -1442,6 +1581,79 @@ async function renderElements(
 
       // Check if next element is a divider — if so, this is last content before topic break
       const nextIsDivider = elIdx + 1 < elements.length && elements[elIdx + 1].type === 'divider'
+
+      // Look-ahead: keep short descriptive body text with the following illustration.
+      // If this body is short (<3 wrapped lines) and followed by an illustration
+      // (directly or after a divider), ensure both fit on the same page.
+      // Also: if the illustration will be bottom-placed (next after it is divider/end),
+      // defer rendering this text so it can be drawn just above the image.
+      {
+        let illustrationFollows = false
+        let illustrationWillBottomPlace = false
+        for (let look = 1; look <= 3 && elIdx + look < elements.length; look++) {
+          const upcoming = elements[elIdx + look]
+          if (upcoming.type === 'illustration') {
+            illustrationFollows = true
+            // Check if the element AFTER the illustration is divider/end
+            const afterIll = elIdx + look + 1 < elements.length ? elements[elIdx + look + 1] : null
+            illustrationWillBottomPlace = !afterIll || afterIll.type === 'divider'
+            break
+          }
+          if (upcoming.type === 'divider') continue // skip dividers
+          break // any other element = stop looking
+        }
+        if (illustrationFollows) {
+          const testLines = wrapTextBidi(
+            sanitizeForPdf(rawText.replace(/\*\*([\s\S]*?)\*\*/g, '$1'), true),
+            fonts.body, fonts.hebrew, cfg.bodyFontSize, textWidth - cfg.firstLineIndent,
+          )
+          if (testLines.length <= 3) {
+            const bodyH = testLines.length * cfg.bodyFontSize * cfg.lineHeight + cfg.paragraphSpacing
+            const estimatedImgH = textHeight * 0.3
+
+            if (illustrationWillBottomPlace && (curY - bodyH - estimatedImgH) > safeMarginBottom + textHeight * 0.10) {
+              // Image will be bottom-placed with lots of gap — defer this text
+              // so it renders just above the image instead of stranded at curY
+              const isAllBold = rawText.startsWith('**') && rawText.endsWith('**')
+              const cleanBody = sanitizeForPdf(
+                rawText.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
+                true,
+              )
+              const bFont = isAllBold ? fonts.bold : fonts.body
+              const bHebFont = isAllBold ? fonts.hebrewBold : fonts.hebrew
+              const bFontSize = isAllBold ? cfg.subheaderFontSize : cfg.bodyFontSize
+              const bLh = bFontSize * cfg.lineHeight
+              let allLines: string[]
+              if (!isAllBold && cfg.firstLineIndent > 0) {
+                const first = wrapTextBidi(cleanBody, bFont, bHebFont, bFontSize, textWidth - cfg.firstLineIndent)
+                allLines = [first[0] || '']
+                if (first.length > 1) {
+                  allLines.push(...wrapTextBidi(first.slice(1).join(' '), bFont, bHebFont, bFontSize, textWidth))
+                }
+              } else {
+                allLines = wrapTextBidi(cleanBody, bFont, bHebFont, bFontSize, textWidth)
+              }
+              deferredText = {
+                lines: allLines,
+                font: bFont,
+                hebFont: bHebFont,
+                fontSize: bFontSize,
+                lh: bLh,
+                isAllBold,
+                hasIndent: !isAllBold && cfg.firstLineIndent > 0,
+                centered: isAllBold,
+                color: cfg.textColor as [number, number, number],
+                spacingAfter: cfg.paragraphSpacing,
+              }
+              continue // skip normal rendering — deferred text will be drawn above the image
+            }
+
+            if (curY - bodyH - estimatedImgH < safeMarginBottom && contentRenderedOnPage) {
+              newPage()
+            }
+          }
+        }
+      }
 
       // Split into paragraphs by double newlines
       let paragraphs = rawText.split(/\n\s*\n/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean)
@@ -1935,7 +2147,7 @@ export async function GET(
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
-        const knownDiagrams = new Set([22, 24, 26, 47, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
+        const knownDiagrams = new Set([22, 24, 26, 47, 48, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
         const diagramPage = !letterPage && (isDiagramPage(regions) || knownDiagrams.has(page.pageNumber))
         const imageOnlyPage = letterPage || diagramPage
 
@@ -1958,7 +2170,7 @@ export async function GET(
                   width: Math.round(imgW * (1 - 2 * marginPct)),
                   height: Math.round(imgH * (1 - 2 * marginPct)),
                 })
-                .jpeg({ quality: 55 })
+                .jpeg({ quality: 40 })
                 .toBuffer()
               const cropMeta = await sharp(cropData).metadata()
               // Don't trim borders on letter pages — preserve full letter content

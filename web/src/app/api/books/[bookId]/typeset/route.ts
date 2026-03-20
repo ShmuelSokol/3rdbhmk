@@ -713,7 +713,7 @@ function isDiagramPage(regions: { translatedText?: string | null; regionType: st
   // Check for explicit diagram markers — but only in SHORT regions (<50 words)
   // where the marker IS the primary content, not just mentioned in passing
   // in a long body paragraph like "See Drawing 5 on the next page"
-  const diagramMarkerPattern = /\[THIS IS DIAGRAM|^\s*Drawing \d|^\s*Diagram \d|^\s*Sketch of|^\s*Layout of|^\s*Figure \d/i
+  const diagramMarkerPattern = /\[THIS IS DIAGRAM|\[DIAGRAM LABELS|^\s*Drawing \d|^\s*Diagram \d|^\s*Sketch of|^\s*Layout of|^\s*Figure \d|^\s*Floor plan/i
   let diagramMarkerCount = 0
   for (const r of translated) {
     const text = (r.translatedText || '').trim()
@@ -1935,7 +1935,7 @@ export async function GET(
         // Check page type: letter, diagram, or normal
         const letterPage = isLetterPage(regions, page.pageNumber)
         // Check both the algorithmic detection AND the known diagram pages list
-        const knownDiagrams = new Set([22, 132, 196, 270, 271, 284, 295])
+        const knownDiagrams = new Set([22, 24, 26, 47, 132, 160, 166, 188, 196, 203, 215, 221, 270, 271, 284, 295, 296, 348])
         const diagramPage = !letterPage && (isDiagramPage(regions) || knownDiagrams.has(page.pageNumber))
         const imageOnlyPage = letterPage || diagramPage
 

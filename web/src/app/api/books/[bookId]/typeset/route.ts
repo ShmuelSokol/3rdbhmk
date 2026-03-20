@@ -2742,29 +2742,54 @@ export async function GET(
     const sub2W = bodyFont.widthOfTextAtSize(sub2, 12)
     titlePage.drawText(sub2, { x: (cfg.pageWidth - sub2W) / 2, y: cfg.pageHeight * 0.755, size: 12, font: bodyFont, color: warmGray })
 
-    // Cover image: load the overhead 3D Beis HaMikdash (source page 29)
+    // Cover images: load overhead 3D Beis HaMikdash (source page 29)
+    // This page has 1 main image + 3 smaller comparison images at the bottom
     try {
       const coverImgBuf = await getPageImage('', 29, bookId)
       if (coverImgBuf) {
         const coverMeta = await sharp(coverImgBuf).metadata()
         const cW = coverMeta.width || 1655
         const cH = coverMeta.height || 2340
-        // Crop to the illustration area (top 85% of the page, skip headers)
-        const cropTop = Math.round(cH * 0.05)
-        const cropH = Math.round(cH * 0.80)
-        const coverCrop = await sharp(coverImgBuf)
-          .extract({ left: Math.round(cW * 0.02), top: cropTop, width: Math.round(cW * 0.96), height: cropH })
-          .jpeg({ quality: 80 })
-          .toBuffer()
-        const coverImg = await doc.embedJpg(coverCrop)
-        const imgMaxW = cfg.pageWidth - 60
-        const imgMaxH = cfg.pageHeight * 0.50
-        const imgScale = Math.min(imgMaxW / coverImg.width, imgMaxH / coverImg.height)
-        const imgDrawW = coverImg.width * imgScale
-        const imgDrawH = coverImg.height * imgScale
-        const imgX = (cfg.pageWidth - imgDrawW) / 2
-        const imgY = cfg.pageHeight * 0.22
-        titlePage.drawImage(coverImg, { x: imgX, y: imgY, width: imgDrawW, height: imgDrawH })
+
+        // Main image: overhead view (top 60% of page, skip header)
+        const mainCrop = await sharp(coverImgBuf)
+          .extract({ left: Math.round(cW * 0.03), top: Math.round(cH * 0.04), width: Math.round(cW * 0.94), height: Math.round(cH * 0.57) })
+          .jpeg({ quality: 80 }).toBuffer()
+        const mainImg = await doc.embedJpg(mainCrop)
+        const mainMaxW = cfg.pageWidth - 50
+        const mainMaxH = cfg.pageHeight * 0.42
+        const mainScale = Math.min(mainMaxW / mainImg.width, mainMaxH / mainImg.height)
+        const mainDW = mainImg.width * mainScale
+        const mainDH = mainImg.height * mainScale
+        titlePage.drawImage(mainImg, { x: (cfg.pageWidth - mainDW) / 2, y: cfg.pageHeight * 0.28, width: mainDW, height: mainDH })
+
+        // 3 smaller images at the bottom of the source page
+        const thumbY = Math.round(cH * 0.72)
+        const thumbH = Math.round(cH * 0.20)
+        const thumbW = Math.round(cW * 0.30)
+        const thumbPositions = [
+          { left: Math.round(cW * 0.03), label: 'Ezras Yisroel' },
+          { left: Math.round(cW * 0.35), label: 'First Beis HaMikdash' },
+          { left: Math.round(cW * 0.67), label: 'The Mishkan' },
+        ]
+        const slotW = (cfg.pageWidth - 60) / 3
+        for (let ti = 0; ti < thumbPositions.length; ti++) {
+          const tp = thumbPositions[ti]
+          const thumbCrop = await sharp(coverImgBuf)
+            .extract({ left: tp.left, top: thumbY, width: thumbW, height: thumbH })
+            .jpeg({ quality: 70 }).toBuffer()
+          const thumbImg = await doc.embedJpg(thumbCrop)
+          const tScale = Math.min((slotW - 8) / thumbImg.width, 80 / thumbImg.height)
+          const tDW = thumbImg.width * tScale
+          const tDH = thumbImg.height * tScale
+          const tX = 30 + ti * slotW + (slotW - tDW) / 2
+          titlePage.drawImage(thumbImg, { x: tX, y: cfg.pageHeight * 0.17, width: tDW, height: tDH })
+          // Thumb label
+          try {
+            const lW = bodyFont.widthOfTextAtSize(tp.label, 7)
+            titlePage.drawText(tp.label, { x: tX + (tDW - lW) / 2, y: cfg.pageHeight * 0.155, size: 7, font: bodyFont, color: warmGray })
+          } catch {}
+        }
       }
     } catch (e) { console.error('Cover image failed:', e) }
 
@@ -2939,9 +2964,9 @@ export async function GET(
       })
     }
 
-    // ── BACK COVER ──────────────────────────────────────────────────────
+    // ── BACK COVER (insert at page 2, right after front cover) ─────────
     {
-      const backPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
+      const backPage = doc.insertPage(1, [cfg.pageWidth, cfg.pageHeight])
       const bgColor = rgb(0.95, 0.93, 0.90)
       const goldC = rgb(0.6, 0.52, 0.35)
       const darkC = rgb(0.12, 0.10, 0.08)

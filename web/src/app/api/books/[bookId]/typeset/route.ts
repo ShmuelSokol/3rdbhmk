@@ -295,6 +295,50 @@ function bidiLineWidth(line: string, fontSize: number, latinFont: PDFFont, hebre
   return w
 }
 
+/** Draw a justified bidi line — distributes extra space between words to fill targetWidth.
+ *  Only justifies if the extra space per gap is reasonable (≤ 4pt). */
+function drawJustifiedBidiLine(
+  page: PDFPage,
+  line: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  latinFont: PDFFont,
+  hebrewFont: PDFFont,
+  color: ReturnType<typeof rgb>,
+  targetWidth: number,
+  maxX?: number,
+) {
+  const words = line.split(/(\s+)/).filter(w => w.trim().length > 0)
+  if (words.length <= 1) {
+    drawBidiLine(page, line, x, y, fontSize, latinFont, hebrewFont, color, maxX)
+    return
+  }
+
+  // Measure total word width (without spaces)
+  let totalWordWidth = 0
+  for (const word of words) {
+    totalWordWidth += bidiLineWidth(word, fontSize, latinFont, hebrewFont)
+  }
+
+  const gaps = words.length - 1
+  const slack = targetWidth - totalWordWidth
+  const extraPerGap = slack / gaps
+
+  // Only justify if extra space is reasonable (≤ 4pt per gap)
+  if (extraPerGap < 0 || extraPerGap > 4) {
+    drawBidiLine(page, line, x, y, fontSize, latinFont, hebrewFont, color, maxX)
+    return
+  }
+
+  let curX = x
+  for (let i = 0; i < words.length; i++) {
+    drawBidiLine(page, words[i], curX, y, fontSize, latinFont, hebrewFont, color, maxX)
+    curX += bidiLineWidth(words[i], fontSize, latinFont, hebrewFont)
+    if (i < words.length - 1) curX += extraPerGap
+  }
+}
+
 /** Wrap text using bidi-aware chunking.
  *  Hebrew phrases are treated as atomic units — never split across lines.
  *  If a Hebrew phrase is too long for the remaining line, the ENTIRE phrase
@@ -508,7 +552,7 @@ async function detectAndCropIllustrations(
           width: imgW - marginX * 2,
           height: cropHeight,
         })
-        .jpeg({ quality: 70 })
+        .jpeg({ quality: 60 })
         .toBuffer()
 
       // Check if the crop actually contains content (not just blank space)
@@ -1805,15 +1849,26 @@ async function renderElements(
 
           const line = allLines[i]
           let x = cfg.marginLeft
+          const isLastLine = i === allLines.length - 1
 
           if (isAllBold) {
             const lineW = bidiLineWidth(line, fontSize, font, hebFont)
             x = cfg.marginLeft + (textWidth - lineW) / 2
+            drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
           } else if (i === 0 && cfg.firstLineIndent > 0) {
             x += cfg.firstLineIndent
+            // Justify first line within its narrower width (textWidth - indent)
+            if (!isLastLine && allLines.length > 2) {
+              drawJustifiedBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), textWidth - cfg.firstLineIndent, cfg.pageWidth - cfg.marginRight)
+            } else {
+              drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
+            }
+          } else if (!isLastLine && allLines.length > 2) {
+            // Justify non-last lines of multi-line paragraphs
+            drawJustifiedBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), textWidth, cfg.pageWidth - cfg.marginRight)
+          } else {
+            drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
           }
-
-          drawBidiLine(pdfPage, line, x, curY - fontSize, fontSize, font, hebFont, rgb(...cfg.textColor), cfg.pageWidth - cfg.marginRight)
           curY -= lh
         }
 

@@ -729,11 +729,33 @@ function cleanTranslationText(text: string): string {
     // Collapse repeated consecutive words (case-insensitive), excluding valid English patterns
     .replace(/\b(\w{3,})\s+\1\b/gi, (match, word) => {
       const lower = word.toLowerCase()
-      // Valid English: "there there", "that that", "had had", "very very"
       if (['there', 'that', 'had', 'very', 'so', 'now'].includes(lower)) return match
       return word
     })
+    // Strip trailing ] left from [THIS IS DIAGRAM: ...] cleanup
+    .replace(/\]$/g, '')
+    .replace(/\]\s*\./g, '.')
     .trim()
+}
+
+/** Remove consecutive duplicate sentences/clauses from text.
+ *  Only removes when a sentence/clause is immediately repeated (back-to-back). */
+function deduplicatePhrases(text: string): string {
+  if (!text || text.length < 80) return text
+  // Split by sentence boundaries and remove consecutive identical sentences
+  const sentences = text.split(/(?<=[.!?])\s+/)
+  if (sentences.length < 2) return text
+  const deduped: string[] = [sentences[0]]
+  for (let i = 1; i < sentences.length; i++) {
+    const prev = deduped[deduped.length - 1].toLowerCase().trim()
+    const curr = sentences[i].toLowerCase().trim()
+    // Skip if this sentence is identical to the previous one
+    if (curr === prev) continue
+    // Skip if this sentence is a substring of the previous (partial repeat)
+    if (prev.length > 30 && curr.length > 30 && prev.includes(curr)) continue
+    deduped.push(sentences[i])
+  }
+  return deduped.join(' ')
 }
 
 /** Check if text is a recurring Hebrew source header that should be filtered out.
@@ -1769,10 +1791,10 @@ async function renderElements(
         const para = paragraphs[pIdx]
         const isLastPara = pIdx === paragraphs.length - 1
         const isAllBold = para.startsWith('**') && para.endsWith('**')
-        const cleanText = sanitizeForPdf(
+        const cleanText = deduplicatePhrases(sanitizeForPdf(
           para.replace(/\*\*([\s\S]*?)\*\*/g, '$1').replace(/^#+\s+/gm, '').replace(/`([^`]+)`/g, '$1'),
           true // keep Hebrew
-        )
+        ))
         if (!cleanText) continue
 
         const font = isAllBold ? fonts.bold : fonts.body

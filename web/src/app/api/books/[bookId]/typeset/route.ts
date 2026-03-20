@@ -1902,18 +1902,37 @@ async function renderElements(
 
         for (let i = 0; i < allLines.length; i++) {
           if (curY - lh < safeMarginBottom) {
-            // About to start a new page — check for orphan situation
-            // If this is the last body element before a divider, and only 1-5 lines remain,
-            // try squeezing the remaining lines to fit on the current page
             const remainingLines = allLines.length - i
+            const spaceLeft = curY - safeMarginBottom
+
+            // Widow prevention: if only 1-2 lines would spill to the next page,
+            // try squeezing them onto the current page instead
+            if (remainingLines > 0 && remainingLines <= 2) {
+              let squeezed = false
+              for (const factor of [0.93, 0.90, 0.87]) {
+                const sqH = remainingLines * (lh * factor)
+                if (sqH <= spaceLeft) {
+                  const sqFontSize = fontSize * factor
+                  const sqLhActual = sqFontSize * cfg.lineHeight
+                  for (let j = i; j < allLines.length; j++) {
+                    const ln = allLines[j]
+                    const lnX = cfg.marginLeft + (isAllBold ? 0 : (j === 0 ? 0 : 0))
+                    drawBidiLine(pdfPage, ln, lnX, curY - sqFontSize, sqFontSize, font, hebFont, rgb(...cfg.textColor))
+                    curY -= sqLhActual
+                  }
+                  squeezed = true
+                  break
+                }
+              }
+              if (squeezed) break
+            }
+
+            // Orphan prevention for last paragraph before divider (squeeze up to 5 lines)
             if (isLastPara && nextIsDivider && remainingLines > 0 && remainingLines <= 5) {
-              const spaceLeft = curY - safeMarginBottom
-              // Try progressively larger squeezes for the remaining lines
               let squeezed = false
               for (const factor of [0.92, 0.88, 0.85]) {
                 const sqH = remainingLines * (lh * factor)
                 if (sqH <= spaceLeft) {
-                  // Re-render remaining lines with squeezed spacing
                   const sqFontSize = fontSize * factor
                   const sqLhActual = sqFontSize * cfg.lineHeight
                   for (let j = i; j < allLines.length; j++) {
@@ -1930,7 +1949,7 @@ async function renderElements(
                   break
                 }
               }
-              if (squeezed) break // all remaining lines were squeezed onto current page
+              if (squeezed) break
             }
             newPage()
           }

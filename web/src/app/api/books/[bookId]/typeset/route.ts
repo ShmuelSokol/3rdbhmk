@@ -1600,10 +1600,26 @@ async function renderElements(
         // Only start a new page for the header if we already have content on this page.
         // If the page is empty, start rendering here — per-line breaks will handle overflow.
         newPage()
-      } else if (curY - blockH < safeMarginBottom + 120 && contentRenderedOnPage) {
-        // Header fits but leaves <120pt for content below — orphan header.
-        // Push to next page so the header has room for content below it.
-        newPage()
+      } else if (contentRenderedOnPage) {
+        // Smart orphan check: would the next body/table element fit at least 3 lines
+        // on this page after the header? If not, push header to next page.
+        const spaceAfterHeader = curY - blockH - cfg.headerSpacingAbove - cfg.headerSpacingBelow - safeMarginBottom
+        const minBodyLines = 3
+        const minBodySpace = minBodyLines * cfg.bodyFontSize * cfg.lineHeight
+        // Look ahead for next body/table element
+        let nextBodyFound = false
+        for (let look = 1; look <= 5 && elIdx + look < elements.length; look++) {
+          const upcoming = elements[elIdx + look]
+          if (upcoming.type === 'body' || upcoming.type === 'table') { nextBodyFound = true; break }
+          if (upcoming.type === 'divider') break
+          if (upcoming.type === 'illustration') break
+        }
+        if (nextBodyFound && spaceAfterHeader < minBodySpace) {
+          newPage()
+        }
+        // If no body text follows this header before the next divider/illustration,
+        // skip the header entirely — it would just sit alone on the page
+        if (!nextBodyFound && contentRenderedOnPage) continue
       }
 
       // Track ALL headers with metadata — filtering is done post-rendering

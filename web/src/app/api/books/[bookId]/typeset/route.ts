@@ -2556,9 +2556,12 @@ export async function GET(
             }
 
             if (region.regionType === 'header') {
+              // Headers: strip Hebrew (clean English only) — Hebrew in headers is OCR noise
+              const headerText = cleanTranslationText(region.translatedText!.trim(), false)
+              if (!headerText) continue
               // Skip headers that are page numbers or recurring source headers
-              if (!isStandalonePageNumber(trimmed) && !isRecurringSourceHeader(trimmed, region.hebrewText || undefined, regions.length)) {
-                pageElements.push({ type: 'header', text: trimmed })
+              if (!isStandalonePageNumber(headerText) && !isRecurringSourceHeader(headerText, region.hebrewText || undefined, regions.length)) {
+                pageElements.push({ type: 'header', text: headerText })
               }
             } else {
               pageElements.push({ type: 'body', text: trimmed })

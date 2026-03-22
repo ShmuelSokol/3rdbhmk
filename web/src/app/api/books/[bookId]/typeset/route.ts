@@ -2514,6 +2514,31 @@ export async function GET(
             }
           }
         } else {
+          // Pages with illustrations that gap-detection misses: insert full source image
+          // before the translated text (like letter pages but keeping full translation)
+          const sourceImagePages = new Set([105,107,108,109,110,112,113,114,115,116,117,118,121,123,125,126,127,129,130,131,133,134,135,136,137,138,143,144,145,147,150,151,152,153,154,155,156,157,158,161,163,164,165,167,169,170,171,172,173,174,176,177,178,179,182,183,184,185,186,189,190,191,192,193,195,197,198,199,200,201,202,204,205,206,207,209,210,212,216,217,219,220,222,223,224,225,227,230,231,232,233,234,235,237,238,240,241,243,245,247,248,249,251,252,255,257,260,261,262,263,266,267,268,269,272,273,274,275,276,277,278,279,280,281,285,286,287,288,289,290,291,292,293,294,297,298,299,300,301,302,303,305,306,307,308,309,310,311,312,313,314,315,316,318,319,320,321,324,325,326,327,329,330,331,332,333,335,337,338,339,340,341,342,343,345,347,349,351,352,353,354,355,357,358,362,363])
+          if (sourceImagePages.has(page.pageNumber)) {
+            try {
+              const srcImg = await getPageImage(page.id, page.pageNumber, bookId)
+              if (srcImg) {
+                const srcMeta = await sharp(srcImg).metadata()
+                const srcW = srcMeta.width || 1655
+                const srcH = srcMeta.height || 2340
+                const cropped = await sharp(srcImg)
+                  .extract({ left: Math.round(srcW * 0.02), top: Math.round(srcH * 0.02), width: Math.round(srcW * 0.96), height: Math.round(srcH * 0.96) })
+                  .jpeg({ quality: 40 })
+                  .toBuffer()
+                const croppedMeta = await sharp(cropped).metadata()
+                pageElements.push({
+                  type: 'illustration',
+                  imageData: cropped,
+                  imageWidth: croppedMeta.width || srcW,
+                  imageHeight: croppedMeta.height || srcH,
+                })
+              }
+            } catch { /* skip if image fails */ }
+          }
+
           // Normal page: render text with interleaved illustrations
           const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
           let illustIdx = 0

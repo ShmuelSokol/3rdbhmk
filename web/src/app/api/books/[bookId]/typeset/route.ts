@@ -829,6 +829,14 @@ function isRecurringSourceHeader(text: string, hebrewText?: string, pageRegionCo
   for (const re of recurringEnglish) {
     if (t === re) return true
   }
+  // Filter running page headers — these repeat on every page of a section
+  // "Introduction - Summary of the History of the Mishkan..."
+  // "To His dwelling you shall seek - Introduction..."
+  // "Yechezkel Perek 40 Pasuk N 'L'Shichno Tidreshu'"
+  if (/^(?:introduction|to his dwelling|his dwelling).*(?:history|mishkan|mikdash)/i.test(t)) return true
+  if (/^(?:to his dwelling|his dwelling).*(?:you shall seek|shall you seek)/i.test(t) && t.length < 80) return true
+  // "Yechezkel Perek N Pasuk N" standalone headers (running section titles)
+  if (/^yechezkel perek \d+ pasuk \d+/i.test(t) && t.length < 80) return true
   return false
 }
 

@@ -2338,6 +2338,10 @@ export async function GET(
         if (allText.length < 100) continue // skip half-title page (just book title)
       }
 
+      // Skip duplicate pages 3-67 — the expanded version at pages 72-200 is kept instead.
+      // The Hebrew book contains both a short and expanded version of the same content.
+      if (page.pageNumber >= 3 && page.pageNumber <= 67) continue
+
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
         // Check if this page has explicit diagram references — use lower filter threshold
         const allRegionText = regions.map(r => (r.translatedText || '')).join(' ')
@@ -2478,13 +2482,17 @@ export async function GET(
             }
           } else {
             // Diagram page: generate a meaningful description of what the diagram depicts
+            // Filter out garbled measurement labels (numbers + units linearized from spatial diagrams)
             const labels = Array.from(new Set(
               regions
                 .filter(r => r.translatedText?.trim())
                 .map(r => cleanTranslationText(r.translatedText || '').trim())
                 .filter(Boolean)
+                .filter(l => !isMeasurementNoise(l))
             ))
             const shortLabels = labels.filter(l => l.split(/\s+/).length < 10)
+              .filter(l => !/^\d+\s*(amos?|amah?|Amah)?\s*$/.test(l.trim())) // filter bare numbers/measurements
+              .filter(l => !/^(Story|Ceiling|Floor)\s+\d/.test(l.trim())) // filter linearized diagram labels
             const bodyTexts = labels.filter(l => l.split(/\s+/).length >= 10)
 
             const description = generateImageDescription(shortLabels, bodyTexts)

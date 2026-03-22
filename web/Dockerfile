@@ -56,6 +56,8 @@ COPY --from=builder /app/node_modules/playwright-core ./node_modules/playwright-
 
 # Copy Playwright browsers + dependencies from builder
 COPY --from=builder /root/.cache/ms-playwright /home/nextjs/.cache/ms-playwright
+ENV PLAYWRIGHT_BROWSERS_PATH=/home/nextjs/.cache/ms-playwright
+ENV HOME=/home/nextjs
 # Install Chromium runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \

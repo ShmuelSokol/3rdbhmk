@@ -2558,8 +2558,9 @@ export async function GET(
             if (!region.translatedText?.trim()) continue
 
             // Clean the translation text (remove meta-text artifacts, fix concatenation)
-            // keepHebrew=true preserves inline Hebrew pesukim for ArtScroll-style rendering
-            const trimmed = cleanTranslationText(region.translatedText.trim(), true)
+            // keepHebrew=false for pdf-lib renderer (bidi renders Hebrew backwards)
+            // Once Playwright/HTML renderer is active, switch to keepHebrew=true
+            const trimmed = cleanTranslationText(region.translatedText.trim(), false)
             if (!trimmed) continue
             // Filter out standalone Hebrew source page numbers
             if (isStandalonePageNumber(trimmed)) continue
@@ -2616,7 +2617,7 @@ export async function GET(
         }
 
       } else if (translation?.englishOutput?.trim()) {
-        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput, true) })
+        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput, false) })
       } else {
         continue
       }

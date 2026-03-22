@@ -830,13 +830,15 @@ function isRecurringSourceHeader(text: string, hebrewText?: string, pageRegionCo
     if (t === re) return true
   }
   // Filter running page headers — these repeat on every page of a section
-  // "Introduction - Summary of the History of the Mishkan..."
-  // "To His dwelling you shall seek - Introduction..."
-  // "Yechezkel Perek 40 Pasuk N 'L'Shichno Tidreshu'"
-  if (/^(?:introduction|to his dwelling|his dwelling).*(?:history|mishkan|mikdash)/i.test(t)) return true
-  if (/^(?:to his dwelling|his dwelling).*(?:you shall seek|shall you seek)/i.test(t) && t.length < 80) return true
-  // "Yechezkel Perek N Pasuk N" standalone headers (running section titles)
-  if (/^yechezkel perek \d+ pasuk \d+/i.test(t) && t.length < 80) return true
+  // Only filter SHORT texts (< 120 chars) — long body text starting with these words is real content
+  if (t.length < 120) {
+    // "Introduction - Summary of the History of the Mishkan..."
+    if (/^(?:introduction|to his dwelling|his dwelling).*(?:history|mishkan|mikdash)/i.test(t)) return true
+    // "To His dwelling you shall seek" standalone
+    if (/^(?:to his dwelling|his dwelling).*(?:you shall seek|shall you seek)/i.test(t)) return true
+    // "Yechezkel Perek N Pasuk N" standalone headers (running section titles)
+    if (/^yechezkel perek \d+ pasuk \d+/i.test(t)) return true
+  }
   return false
 }
 

@@ -732,6 +732,8 @@ function cleanTranslationText(text: string, keepHebrew = false): string {
     .replace(/([a-z])\.([A-Z])/g, '$1. $2')
     // Fix word:Word → word: Word
     .replace(/([a-z]):([A-Z])/g, '$1: $2')
+    // Fix number joined to word: "28To" → "28 To", "14When" → "14 When"
+    .replace(/(\d)([A-Z])/g, '$1 $2')
 
   if (!keepHebrew) {
     result = result
@@ -3045,7 +3047,7 @@ export async function GET(
     // ── BACK COVER (insert at page 2, right after front cover) ─────────
     if (!nocover) {
       // Insert after front cover + original title + TOC pages
-      const backPage = doc.insertPage(1, [cfg.pageWidth, cfg.pageHeight])
+      const backPage = doc.addPage([cfg.pageWidth, cfg.pageHeight])
       const bgColor = rgb(0.95, 0.93, 0.90)
       const goldC = rgb(0.6, 0.52, 0.35)
       const darkC = rgb(0.12, 0.10, 0.08)

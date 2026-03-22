@@ -2340,7 +2340,8 @@ export async function GET(
 
       // Skip duplicate pages 3-67 — the expanded version at pages 72-200 is kept instead.
       // The Hebrew book contains both a short and expanded version of the same content.
-      if (page.pageNumber >= 3 && page.pageNumber <= 67) continue
+      // Also skip junk pages 68-70 (contact info / empty pages between versions).
+      if (page.pageNumber >= 3 && page.pageNumber <= 70) continue
 
       if (regions.length > 0 && regions.some(r => r.translatedText?.trim())) {
         // Check if this page has explicit diagram references — use lower filter threshold
@@ -3094,7 +3095,8 @@ export async function GET(
       for (const line of blurbLines) {
         if (line === '') { bY -= 8; continue }
         try {
-          backPage.drawText(line, { x: 40, y: bY, size: 9.5, font: bodyFont, color: bodyC })
+          const lineW = bodyFont.widthOfTextAtSize(line, 9.5)
+          backPage.drawText(line, { x: (cfg.pageWidth - lineW) / 2, y: bY, size: 9.5, font: bodyFont, color: bodyC })
         } catch { /* skip */ }
         bY -= 14
       }

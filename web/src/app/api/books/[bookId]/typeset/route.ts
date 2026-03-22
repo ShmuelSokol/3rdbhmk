@@ -2940,7 +2940,7 @@ export async function GET(
       const textWidth = cfg.pageWidth - cfg.marginLeft - cfg.marginRight
 
       for (let tp = 0; tp < tocPageCount; tp++) {
-        const tocPage = doc.insertPage(3 + tp, [cfg.pageWidth, cfg.pageHeight])
+        const tocPage = doc.insertPage(2 + tp, [cfg.pageWidth, cfg.pageHeight])
         decoratePage(tocPage, tp + 2, fonts.body, cfg)
 
         let y = cfg.pageHeight - cfg.marginTop

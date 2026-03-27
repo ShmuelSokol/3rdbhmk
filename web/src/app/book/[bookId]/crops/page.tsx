@@ -61,6 +61,8 @@ export default function CropsEditorPage() {
   // React state mirrors for rendering (updated during drag)
   const [localOverrides, setLocalOverrides] = useState<Record<number, CropRect>>({});
   const [drawRect, setDrawRect] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  // Undo history
+  const [undoStack, setUndoStack] = useState<CropsData[]>([]);
   const [activeDragMode, setActiveDragMode] = useState<DragMode>(null);
 
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -124,7 +126,25 @@ export default function CropsEditorPage() {
 
   // ─── Crop CRUD ────────────────────────────────────────────────────────────
 
+  const pushUndo = useCallback(() => {
+    setUndoStack((prev) => [...prev.slice(-20), JSON.parse(JSON.stringify(cropsData))]);
+  }, [cropsData]);
+
+  const handleUndo = useCallback(() => {
+    setUndoStack((prev) => {
+      if (prev.length === 0) return prev;
+      const newStack = [...prev];
+      const last = newStack.pop()!;
+      setCropsData(last);
+      setDirty(true);
+      setSelectedCropIdx(null);
+      setLocalOverrides({});
+      return newStack;
+    });
+  }, []);
+
   const addCropRect = useCallback((crop: CropRect) => {
+    pushUndo();
     let newIdx = 0;
     setCropsData((prev) => {
       const next = { ...prev };
@@ -135,11 +155,11 @@ export default function CropsEditorPage() {
     });
     setLocalOverrides({});
     setDirty(true);
-    // Select the newly added crop after state updates
     setTimeout(() => setSelectedCropIdx(newIdx), 0);
-  }, [pageKey]);
+  }, [pageKey, pushUndo]);
 
   const deleteCrop = useCallback((idx: number) => {
+    pushUndo();
     setCropsData((prev) => {
       const next = { ...prev };
       const existing = next[pageKey] || [];
@@ -154,9 +174,10 @@ export default function CropsEditorPage() {
     setLocalOverrides({});
     setSelectedCropIdx(null);
     setDirty(true);
-  }, [pageKey]);
+  }, [pageKey, pushUndo]);
 
   const commitOverride = useCallback((idx: number, crop: CropRect) => {
+    pushUndo();
     setCropsData((prev) => {
       const next = { ...prev };
       const existing = [...(next[pageKey] || [])];
@@ -531,6 +552,10 @@ export default function CropsEditorPage() {
         e.preventDefault();
         handleSave();
       }
+      if (e.key === 'z' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        handleUndo();
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
@@ -691,10 +716,33 @@ export default function CropsEditorPage() {
         </div>
       )}
 
+      {/* ─── Floating Action Buttons ─────────────────────────────────── */}
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+        {undoStack.length > 0 && (
+          <button
+            onClick={handleUndo}
+            className="px-4 py-3 rounded-full bg-[#71717a] hover:bg-[#52525b] text-white font-medium shadow-lg flex items-center gap-2"
+          >
+            ↩ Undo
+          </button>
+        )}
+        <button
+          onClick={handleSave}
+          disabled={saving || !dirty}
+          className={`px-5 py-3 rounded-full font-medium shadow-lg flex items-center gap-2 ${
+            dirty
+              ? 'bg-[#3b82f6] hover:bg-[#2563eb] text-white shadow-blue-500/30'
+              : 'bg-[#2e2f3a] text-[#71717a]'
+          }`}
+        >
+          {saving ? 'Saving...' : saveStatus === 'saved' ? '✓ Saved' : '💾 Save'}
+        </button>
+      </div>
+
       {/* ─── Main Content ─────────────────────────────────────────────────── */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* ─── LEFT: Source Image + Crop Overlays ─────────────────────────── */}
-        <div className="w-[60%] border-r border-[#2e2f3a] overflow-auto p-4 flex justify-center">
+        <div className="w-full md:w-[65%] border-b md:border-b-0 md:border-r border-[#2e2f3a] overflow-auto p-2 md:p-4 flex justify-center">
           <div
             ref={imageContainerRef}
             className="relative select-none"
@@ -894,7 +942,7 @@ export default function CropsEditorPage() {
         </div>
 
         {/* ─── RIGHT: Crop Previews + Details ─────────────────────────────── */}
-        <div className="w-[40%] overflow-auto p-4 bg-[#0f1117]">
+        <div className="w-full md:w-[35%] overflow-auto p-2 md:p-4 bg-[#0f1117]">
           <h2 className="text-sm font-semibold mb-3 text-[#a1a1aa]">
             Page {currentPage} — {crops.length} Crop{crops.length !== 1 ? 's' : ''}
           </h2>

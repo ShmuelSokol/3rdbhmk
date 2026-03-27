@@ -2232,14 +2232,26 @@ function buildTocLines(entries: TocEntry[]): TocLineItem[] {
   tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
 
   // Hardcoded Introduction section — headers are split across regions in the source
+  // Page numbers are looked up from rendered entries by matching keywords
+  const introSections = [
+    { text: 'The Mishkan in the Wilderness', keywords: ['wilderness', 'mishkan was erected'] },
+    { text: 'The Mishkan in Gilgal', keywords: ['gilgal'] },
+    { text: 'The Mishkan in Shiloh', keywords: ['shiloh'] },
+    { text: 'The Mishkan in Nov and Givon', keywords: ['givon', 'nov'] },
+    { text: 'The First Beis HaMikdash', keywords: ['first beis hamikdash', 'shlomo hamelech', 'when they came to yerushalayim'] },
+    { text: 'The Second Beis HaMikdash', keywords: ['second beis hamikdash'] },
+    { text: 'The Destruction of the Beis HaMikdash', keywords: ['destruction'] },
+  ]
   tocLines.push({ type: 'section', text: 'INTRODUCTION' })
-  tocLines.push({ type: 'entry', text: 'The Mishkan in the Wilderness', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The Mishkan in Gilgal', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The Mishkan in Shiloh', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The Mishkan in Nov and Givon', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The First Beis HaMikdash', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The Second Beis HaMikdash', pageNum: 2 })
-  tocLines.push({ type: 'entry', text: 'The Destruction of the Beis HaMikdash', pageNum: 2 })
+  for (const intro of introSections) {
+    // Find the first rendered entry containing any keyword
+    let pageNum = 2
+    for (const kw of intro.keywords) {
+      const match = entries.find(e => e.title.toLowerCase().includes(kw))
+      if (match) { pageNum = match.pageNum; break }
+    }
+    tocLines.push({ type: 'entry', text: intro.text, pageNum })
+  }
 
   for (const entry of finalTocItems) {
     const perekMatch = entry.title.match(perekRegex)

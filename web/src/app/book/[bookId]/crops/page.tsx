@@ -63,6 +63,7 @@ export default function CropsEditorPage() {
   const [drawRect, setDrawRect] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   // Undo history
   const [undoStack, setUndoStack] = useState<CropsData[]>([]);
+  const [showOverlays, setShowOverlays] = useState(true);
   const [activeDragMode, setActiveDragMode] = useState<DragMode>(null);
 
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -718,6 +719,14 @@ export default function CropsEditorPage() {
 
       {/* ─── Floating Action Buttons ─────────────────────────────────── */}
       <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+        <button
+          onClick={() => setShowOverlays(!showOverlays)}
+          className={`px-4 py-3 rounded-full font-medium shadow-lg flex items-center gap-2 ${
+            showOverlays ? 'bg-[#22c55e] text-white' : 'bg-[#2e2f3a] text-[#a1a1aa]'
+          }`}
+        >
+          {showOverlays ? '👁 Hide Boxes' : '👁 Show Boxes'}
+        </button>
         {undoStack.length > 0 && (
           <button
             onClick={handleUndo}
@@ -742,7 +751,7 @@ export default function CropsEditorPage() {
       {/* ─── Main Content ─────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* ─── LEFT: Source Image + Crop Overlays ─────────────────────────── */}
-        <div className="w-full md:w-[65%] border-b md:border-b-0 md:border-r border-[#2e2f3a] overflow-auto p-2 md:p-4 flex justify-center">
+        <div className="w-full md:w-[65%] md:border-r border-[#2e2f3a] overflow-auto p-1 md:p-4 flex justify-center">
           <div
             ref={imageContainerRef}
             className="relative select-none"
@@ -801,8 +810,8 @@ export default function CropsEditorPage() {
               </div>
             )}
 
-            {/* Crop Rectangles */}
-            {!imageError && crops.map((crop, idx) => {
+            {/* Crop Rectangles (toggleable) */}
+            {!imageError && showOverlays && crops.map((crop, idx) => {
               const isSelected = selectedCropIdx === idx;
               const borderColor = isSelected ? '#22c55e' : 'rgba(34, 197, 94, 0.7)';
 
@@ -942,7 +951,7 @@ export default function CropsEditorPage() {
         </div>
 
         {/* ─── RIGHT: Crop Previews + Details ─────────────────────────────── */}
-        <div className="w-full md:w-[35%] overflow-auto p-2 md:p-4 bg-[#0f1117]">
+        <div className="hidden md:block md:w-[35%] overflow-auto p-2 md:p-4 bg-[#0f1117]">
           <h2 className="text-sm font-semibold mb-3 text-[#a1a1aa]">
             Page {currentPage} — {crops.length} Crop{crops.length !== 1 ? 's' : ''}
           </h2>

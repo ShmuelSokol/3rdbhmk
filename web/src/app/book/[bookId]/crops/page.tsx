@@ -118,20 +118,6 @@ export default function CropsEditorPage() {
 
   // ─── Crop CRUD ────────────────────────────────────────────────────────────
 
-  const updateCropsForPage = useCallback((newCrops: CropRect[]) => {
-    setCropsData((prev) => {
-      const next = { ...prev };
-      if (newCrops.length === 0) {
-        delete next[pageKey];
-      } else {
-        next[pageKey] = newCrops;
-      }
-      return next;
-    });
-    setLocalOverrides({});
-    setDirty(true);
-  }, [pageKey]);
-
   const addCropRect = useCallback((crop: CropRect) => {
     let newIdx = 0;
     setCropsData((prev) => {

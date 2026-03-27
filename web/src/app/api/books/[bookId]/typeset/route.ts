@@ -2531,7 +2531,7 @@ export async function GET(
           // Crop coordinates were computed via pixel-level color density analysis.
           try {
             const illustrationCrops: Record<string, Array<{topPct: number, leftPct: number, widthPct: number, heightPct: number}>> =
-              JSON.parse(await readFile(path.join(process.cwd(), 'src/lib/illustration-crops.json'), 'utf8'))
+              JSON.parse(await readFile(path.join(process.cwd(), 'public/illustration-crops.json'), 'utf8'))
             const pageCrops = illustrationCrops[String(page.pageNumber)]
             if (pageCrops && pageCrops.length > 0) {
               const srcImg = await getPageImage(page.id, page.pageNumber, bookId)
@@ -2845,8 +2845,8 @@ export async function GET(
           .extract({ left: Math.round(cW * 0.05), top: Math.round(cH * 0.06), width: Math.round(cW * 0.90), height: Math.round(cH * 0.55) })
           .jpeg({ quality: 80 }).toBuffer()
         const mainImg = await doc.embedJpg(mainCrop)
-        const mainMaxW = cfg.pageWidth - 70
-        const mainMaxH = cfg.pageHeight * 0.38
+        const mainMaxW = cfg.pageWidth - 90
+        const mainMaxH = cfg.pageHeight * 0.36
         const mainScale = Math.min(mainMaxW / mainImg.width, mainMaxH / mainImg.height)
         const mainDW = mainImg.width * mainScale
         const mainDH = mainImg.height * mainScale
@@ -2865,7 +2865,7 @@ export async function GET(
           { page: 14, cropTop: 0.48, cropH: 0.35, label: 'The Mishkan in Shiloh' },
           { page: 16, cropTop: 0.38, cropH: 0.45, label: 'Destruction of the Beis HaMikdash' },
         ]
-        const slotW = (cfg.pageWidth - 60) / 3
+        const slotW = (cfg.pageWidth - 80) / 3
         for (let ti = 0; ti < thumbSources.length; ti++) {
           try {
             const ts = thumbSources[ti]
@@ -2878,10 +2878,10 @@ export async function GET(
               .extract({ left: Math.round(tpW * 0.05), top: Math.round(tpH * ts.cropTop), width: Math.round(tpW * 0.90), height: Math.round(tpH * ts.cropH) })
               .jpeg({ quality: 70 }).toBuffer()
             const thumbImg = await doc.embedJpg(thumbCrop)
-            const tScale = Math.min((slotW - 8) / thumbImg.width, 80 / thumbImg.height)
+            const tScale = Math.min((slotW - 10) / thumbImg.width, 75 / thumbImg.height)
             const tDW = thumbImg.width * tScale
             const tDH = thumbImg.height * tScale
-            const tX = 30 + ti * slotW + (slotW - tDW) / 2
+            const tX = 40 + ti * slotW + (slotW - tDW) / 2
             titlePage.drawImage(thumbImg, { x: tX, y: cfg.pageHeight * 0.17, width: tDW, height: tDH })
             const lW = bodyFont.widthOfTextAtSize(ts.label, 7)
             titlePage.drawText(ts.label, { x: tX + (tDW - lW) / 2, y: cfg.pageHeight * 0.155, size: 7, font: bodyFont, color: warmGray })
@@ -3183,8 +3183,8 @@ export async function GET(
         { page: 51, cropTop: 0.15, cropH: 0.60, label: 'Chamber of Musical Instruments' },
         { page: 13, cropTop: 0.55, cropH: 0.30, label: 'The Mishkan in the Desert' },
       ]
-      const imgSlotW = (textW - 20) / 3
-      const imgSlotH = 140
+      const imgSlotW = (textW - 40) / 3
+      const imgSlotH = 130
 
       for (let pi = 0; pi < previewSources.length; pi++) {
         try {

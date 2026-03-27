@@ -808,7 +808,7 @@ export default function CropsEditorPage() {
                         onTouchStart={(e) => e.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
-                          deleteCropRect(idx);
+                          deleteCrop(idx);
                           setSelectedCropIdx(null);
                         }}
                       >

@@ -321,6 +321,20 @@ export default function HomePage() {
                     {new Date(book.createdAt).toLocaleDateString()}
                   </p>
                   <ProgressBar pages={book.pages || []} totalPages={book.totalPages} />
+                  <div className="mt-3 flex gap-2">
+                    <span
+                      className="text-xs px-2 py-1 rounded bg-[#f97316]/20 text-[#f97316] hover:bg-[#f97316]/30 cursor-pointer"
+                      onClick={(e) => { e.stopPropagation(); router.push(`/book/${book.id}/crops`); }}
+                    >
+                      Crop Editor
+                    </span>
+                    <span
+                      className="text-xs px-2 py-1 rounded bg-[#3b82f6]/20 text-[#3b82f6] hover:bg-[#3b82f6]/30 cursor-pointer"
+                      onClick={(e) => { e.stopPropagation(); router.push(`/book/${book.id}/pipeline`); }}
+                    >
+                      Pipeline
+                    </span>
+                  </div>
                 </button>
               ))}
             </div>

@@ -343,15 +343,31 @@ export default function CropsEditorPage() {
     setActiveDragMode(null);
   }, [addCropRect, commitOverride]);
 
-  // Attach window-level listeners for drag
+  // Touch event wrappers
+  const handleWindowTouchMove = useCallback((e: TouchEvent) => {
+    if (!dragModeRef.current) return;
+    e.preventDefault(); // prevent scroll while dragging
+    const touch = e.touches[0];
+    handleWindowMouseMove({ clientX: touch.clientX, clientY: touch.clientY } as MouseEvent);
+  }, [handleWindowMouseMove]);
+
+  const handleWindowTouchEnd = useCallback(() => {
+    handleWindowMouseUp();
+  }, [handleWindowMouseUp]);
+
+  // Attach window-level listeners for drag (mouse + touch)
   useEffect(() => {
     window.addEventListener('mousemove', handleWindowMouseMove);
     window.addEventListener('mouseup', handleWindowMouseUp);
+    window.addEventListener('touchmove', handleWindowTouchMove, { passive: false });
+    window.addEventListener('touchend', handleWindowTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleWindowMouseMove);
       window.removeEventListener('mouseup', handleWindowMouseUp);
+      window.removeEventListener('touchmove', handleWindowTouchMove);
+      window.removeEventListener('touchend', handleWindowTouchEnd);
     };
-  }, [handleWindowMouseMove, handleWindowMouseUp]);
+  }, [handleWindowMouseMove, handleWindowMouseUp, handleWindowTouchMove, handleWindowTouchEnd]);
 
   // ─── Container mousedown: either start drawing or select+move ─────────────
 
@@ -391,6 +407,20 @@ export default function CropsEditorPage() {
     e.stopPropagation();
     e.preventDefault();
     const coords = getRelativeCoords(e.clientX, e.clientY);
+    const crop = crops[idx];
+    if (!crop) return;
+    dragModeRef.current = mode;
+    dragCropIdxRef.current = idx;
+    dragStartRef.current = coords;
+    dragOrigCropRef.current = { ...crop };
+    setSelectedCropIdx(idx);
+    setActiveDragMode(mode);
+  };
+
+  const startResizeTouch = (e: React.TouchEvent, idx: number, mode: DragMode) => {
+    e.stopPropagation();
+    const touch = e.touches[0];
+    const coords = getRelativeCoords(touch.clientX, touch.clientY);
     const crop = crops[idx];
     if (!crop) return;
     dragModeRef.current = mode;
@@ -509,7 +539,8 @@ export default function CropsEditorPage() {
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
-  const handleSize = 9;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const handleSize = isMobile ? 20 : 10;
   const hasCrops = crops.length > 0;
   const imageUrl = `/api/books/${bookId}/page-image?page=${currentPage}`;
 
@@ -672,6 +703,20 @@ export default function CropsEditorPage() {
               cursor: containerCursor,
             }}
             onMouseDown={handleContainerMouseDown}
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              const coords = getRelativeCoords(touch.clientX, touch.clientY);
+              const hitIdx = hitTestCrops(coords.x, coords.y, crops);
+              if (hitIdx === null) {
+                // Draw new crop
+                setSelectedCropIdx(null);
+                dragModeRef.current = 'draw';
+                dragStartRef.current = coords;
+                drawCurrentRef.current = coords;
+                setDrawRect({ x: coords.x, y: coords.y, w: 0, h: 0 });
+                setActiveDragMode('draw');
+              }
+            }}
             onContextMenu={(e) => {
               e.preventDefault();
               // Right-click on a crop to delete it
@@ -739,10 +784,37 @@ export default function CropsEditorPage() {
                     dragOrigCropRef.current = { ...crop };
                     setActiveDragMode('move');
                   }}
+                  onTouchStart={(e) => {
+                    e.stopPropagation();
+                    const touch = e.touches[0];
+                    setSelectedCropIdx(idx);
+                    const coords = getRelativeCoords(touch.clientX, touch.clientY);
+                    dragModeRef.current = 'move';
+                    dragCropIdxRef.current = idx;
+                    dragStartRef.current = coords;
+                    dragOrigCropRef.current = { ...crop };
+                    setActiveDragMode('move');
+                  }}
                 >
-                  {/* Crop label */}
-                  <div className="absolute -top-5 left-0 text-[10px] font-mono px-1 py-0.5 rounded bg-[#22c55e] text-white whitespace-nowrap">
-                    Crop {idx + 1}
+                  {/* Crop label + delete button */}
+                  <div className="absolute -top-6 left-0 flex items-center gap-1" style={{ pointerEvents: 'auto' }}>
+                    <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-[#22c55e] text-white whitespace-nowrap">
+                      Crop {idx + 1}
+                    </span>
+                    {isSelected && (
+                      <button
+                        className="text-[10px] px-1.5 py-0.5 rounded bg-red-500 text-white hover:bg-red-600"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteCropRect(idx);
+                          setSelectedCropIdx(null);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
 
                   {/* Resize Handles (only when selected) */}
@@ -752,43 +824,43 @@ export default function CropsEditorPage() {
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: -(handleSize / 2), cursor: 'nw-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-nw')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-nw')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-nw')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), right: -(handleSize / 2), cursor: 'ne-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-ne')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-ne')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-ne')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: -(handleSize / 2), cursor: 'sw-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-sw')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-sw')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-sw')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), right: -(handleSize / 2), cursor: 'se-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-se')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-se')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-se')}
                       />
                       {/* Edge handles */}
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 'n-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-n')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-n')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-n')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 's-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-s')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-s')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-s')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), left: -(handleSize / 2), cursor: 'w-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-w')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-w')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-w')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
                         style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), right: -(handleSize / 2), cursor: 'e-resize', zIndex: 30, pointerEvents: 'auto' }}
-                        onMouseDown={(e) => startResize(e, idx, 'resize-e')}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-e')} onTouchStart={(e) => startResizeTouch(e, idx, 'resize-e')}
                       />
                     </>
                   )}

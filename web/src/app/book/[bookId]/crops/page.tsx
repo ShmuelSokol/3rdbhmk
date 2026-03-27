@@ -76,6 +76,12 @@ export default function CropsEditorPage() {
       if (!res.ok) throw new Error('Failed to fetch crops');
       const data: CropsData = await res.json();
       setCropsData(data);
+      // Auto-navigate to first page with crops
+      const firstCropPage = Object.keys(data).map(Number).sort((a, b) => a - b)[0];
+      if (firstCropPage) {
+        setCurrentPage(firstCropPage);
+        setPageInput(String(firstCropPage));
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load crops');
     } finally {

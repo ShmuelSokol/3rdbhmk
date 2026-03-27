@@ -718,7 +718,7 @@ export default function CropsEditorPage() {
       )}
 
       {/* ─── Floating Action Buttons ─────────────────────────────────── */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+      <div className="fixed bottom-4 left-4 z-50 flex flex-row gap-2 flex-wrap">
         <button
           onClick={() => setShowOverlays(!showOverlays)}
           className={`px-4 py-3 rounded-full font-medium shadow-lg flex items-center gap-2 ${
@@ -834,23 +834,12 @@ export default function CropsEditorPage() {
                     e.stopPropagation();
                     e.preventDefault();
                     setSelectedCropIdx(idx);
-                    const coords = getRelativeCoords(e.clientX, e.clientY);
-                    dragModeRef.current = 'move';
-                    dragCropIdxRef.current = idx;
-                    dragStartRef.current = coords;
-                    dragOrigCropRef.current = { ...crop };
-                    setActiveDragMode('move');
+                    // Select only — no move. Use resize handles to adjust.
                   }}
                   onTouchStart={(e) => {
                     e.stopPropagation();
-                    const touch = e.touches[0];
                     setSelectedCropIdx(idx);
-                    const coords = getRelativeCoords(touch.clientX, touch.clientY);
-                    dragModeRef.current = 'move';
-                    dragCropIdxRef.current = idx;
-                    dragStartRef.current = coords;
-                    dragOrigCropRef.current = { ...crop };
-                    setActiveDragMode('move');
+                    // Select only — no move. Use resize handles to adjust.
                   }}
                 >
                   {/* Crop label + delete button */}

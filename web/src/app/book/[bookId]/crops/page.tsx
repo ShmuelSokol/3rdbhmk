@@ -17,6 +17,7 @@ type CropsData = Record<string, CropRect[]>;
 type DragMode =
   | null
   | 'move'
+  | 'draw'
   | 'resize-nw'
   | 'resize-ne'
   | 'resize-sw'
@@ -49,12 +50,18 @@ export default function CropsEditorPage() {
   const [imageError, setImageError] = useState(false);
   const [dirty, setDirty] = useState(false);
 
-  // Drag/resize state
-  const [dragMode, setDragMode] = useState<DragMode>(null);
-  const [dragCropIdx, setDragCropIdx] = useState<number | null>(null);
-  const [dragStartCoords, setDragStartCoords] = useState<{ x: number; y: number } | null>(null);
-  const [dragOrigCrop, setDragOrigCrop] = useState<CropRect | null>(null);
+  // Drag/resize/draw state — kept in refs for window event listeners
+  const dragModeRef = useRef<DragMode>(null);
+  const dragCropIdxRef = useRef<number | null>(null);
+  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
+  const dragOrigCropRef = useRef<CropRect | null>(null);
+  // For draw-to-create new crop
+  const drawCurrentRef = useRef<{ x: number; y: number } | null>(null);
+
+  // React state mirrors for rendering (updated during drag)
   const [localOverrides, setLocalOverrides] = useState<Record<number, CropRect>>({});
+  const [drawRect, setDrawRect] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  const [activeDragMode, setActiveDragMode] = useState<DragMode>(null);
 
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const previewCanvasRefs = useRef<Record<number, HTMLCanvasElement | null>>({});
@@ -111,7 +118,7 @@ export default function CropsEditorPage() {
 
   // ─── Crop CRUD ────────────────────────────────────────────────────────────
 
-  const updateCropsForPage = (newCrops: CropRect[]) => {
+  const updateCropsForPage = useCallback((newCrops: CropRect[]) => {
     setCropsData((prev) => {
       const next = { ...prev };
       if (newCrops.length === 0) {
@@ -123,114 +130,164 @@ export default function CropsEditorPage() {
     });
     setLocalOverrides({});
     setDirty(true);
-  };
+  }, [pageKey]);
 
-  const addCrop = () => {
-    const newCrop: CropRect = {
-      topPct: 0.3,
-      leftPct: 0.1,
-      widthPct: 0.8,
-      heightPct: 0.4,
-    };
-    updateCropsForPage([...rawCrops, newCrop]);
-    setSelectedCropIdx(rawCrops.length);
-  };
+  const addCropRect = useCallback((crop: CropRect) => {
+    let newIdx = 0;
+    setCropsData((prev) => {
+      const next = { ...prev };
+      const existing = next[pageKey] || [];
+      newIdx = existing.length;
+      next[pageKey] = [...existing, crop];
+      return next;
+    });
+    setLocalOverrides({});
+    setDirty(true);
+    // Select the newly added crop after state updates
+    setTimeout(() => setSelectedCropIdx(newIdx), 0);
+  }, [pageKey]);
 
-  const deleteCrop = (idx: number) => {
-    const newCrops = rawCrops.filter((_, i) => i !== idx);
-    updateCropsForPage(newCrops);
+  const deleteCrop = useCallback((idx: number) => {
+    setCropsData((prev) => {
+      const next = { ...prev };
+      const existing = next[pageKey] || [];
+      const newCrops = existing.filter((_, i) => i !== idx);
+      if (newCrops.length === 0) {
+        delete next[pageKey];
+      } else {
+        next[pageKey] = newCrops;
+      }
+      return next;
+    });
+    setLocalOverrides({});
     setSelectedCropIdx(null);
-  };
+    setDirty(true);
+  }, [pageKey]);
 
-  const commitOverride = (idx: number, crop: CropRect) => {
-    const newCrops = [...rawCrops];
-    newCrops[idx] = crop;
-    updateCropsForPage(newCrops);
-  };
+  const commitOverride = useCallback((idx: number, crop: CropRect) => {
+    setCropsData((prev) => {
+      const next = { ...prev };
+      const existing = [...(next[pageKey] || [])];
+      existing[idx] = crop;
+      next[pageKey] = existing;
+      return next;
+    });
+    setLocalOverrides({});
+    setDirty(true);
+  }, [pageKey]);
 
   // ─── Coordinate Helpers ───────────────────────────────────────────────────
 
-  const getRelativeCoords = (e: React.MouseEvent): { x: number; y: number } => {
+  const getRelativeCoords = useCallback((clientX: number, clientY: number): { x: number; y: number } => {
     const container = imageContainerRef.current;
     if (!container) return { x: 0, y: 0 };
     const rect = container.getBoundingClientRect();
     return {
-      x: (e.clientX - rect.left) / rect.width, // 0-1 range
-      y: (e.clientY - rect.top) / rect.height,  // 0-1 range
+      x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
+      y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)),
     };
-  };
+  }, []);
 
-  // ─── Drag/Resize Handlers ────────────────────────────────────────────────
+  // ─── Hit test: is a point inside a crop? ──────────────────────────────────
 
-  const startDrag = (e: React.MouseEvent, idx: number, mode: DragMode) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const coords = getRelativeCoords(e);
-    const crop = crops[idx];
-    if (!crop) return;
-    setDragMode(mode);
-    setDragCropIdx(idx);
-    setDragStartCoords(coords);
-    setDragOrigCrop({ ...crop });
-    setSelectedCropIdx(idx);
-  };
+  const hitTestCrops = useCallback((px: number, py: number, cropsList: CropRect[]): number | null => {
+    // Check in reverse order so topmost (last rendered) crops get priority
+    for (let i = cropsList.length - 1; i >= 0; i--) {
+      const c = cropsList[i];
+      if (
+        px >= c.leftPct &&
+        px <= c.leftPct + c.widthPct &&
+        py >= c.topPct &&
+        py <= c.topPct + c.heightPct
+      ) {
+        return i;
+      }
+    }
+    return null;
+  }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!dragMode || dragCropIdx === null || !dragStartCoords || !dragOrigCrop) return;
-    const coords = getRelativeCoords(e);
-    const dx = coords.x - dragStartCoords.x;
-    const dy = coords.y - dragStartCoords.y;
+  // ─── Window-level mouse handlers (refs avoid stale closures) ──────────────
 
-    let top = dragOrigCrop.topPct;
-    let left = dragOrigCrop.leftPct;
-    let width = dragOrigCrop.widthPct;
-    let height = dragOrigCrop.heightPct;
+  const handleWindowMouseMove = useCallback((e: MouseEvent) => {
+    const mode = dragModeRef.current;
+    if (!mode) return;
 
-    switch (dragMode) {
+    const coords = getRelativeCoords(e.clientX, e.clientY);
+
+    if (mode === 'draw') {
+      // Drawing a new crop rectangle
+      const start = dragStartRef.current;
+      if (!start) return;
+      drawCurrentRef.current = coords;
+
+      const x = Math.min(start.x, coords.x);
+      const y = Math.min(start.y, coords.y);
+      const w = Math.abs(coords.x - start.x);
+      const h = Math.abs(coords.y - start.y);
+
+      setDrawRect({ x, y, w, h });
+      return;
+    }
+
+    // Move or resize
+    const idx = dragCropIdxRef.current;
+    const startCoords = dragStartRef.current;
+    const origCrop = dragOrigCropRef.current;
+    if (idx === null || !startCoords || !origCrop) return;
+
+    const dx = coords.x - startCoords.x;
+    const dy = coords.y - startCoords.y;
+
+    let top = origCrop.topPct;
+    let left = origCrop.leftPct;
+    let width = origCrop.widthPct;
+    let height = origCrop.heightPct;
+
+    switch (mode) {
       case 'move':
-        top = dragOrigCrop.topPct + dy;
-        left = dragOrigCrop.leftPct + dx;
+        top = origCrop.topPct + dy;
+        left = origCrop.leftPct + dx;
         break;
       case 'resize-nw':
-        top = dragOrigCrop.topPct + dy;
-        left = dragOrigCrop.leftPct + dx;
-        width = dragOrigCrop.widthPct - dx;
-        height = dragOrigCrop.heightPct - dy;
+        top = origCrop.topPct + dy;
+        left = origCrop.leftPct + dx;
+        width = origCrop.widthPct - dx;
+        height = origCrop.heightPct - dy;
         break;
       case 'resize-ne':
-        top = dragOrigCrop.topPct + dy;
-        width = dragOrigCrop.widthPct + dx;
-        height = dragOrigCrop.heightPct - dy;
+        top = origCrop.topPct + dy;
+        width = origCrop.widthPct + dx;
+        height = origCrop.heightPct - dy;
         break;
       case 'resize-sw':
-        left = dragOrigCrop.leftPct + dx;
-        width = dragOrigCrop.widthPct - dx;
-        height = dragOrigCrop.heightPct + dy;
+        left = origCrop.leftPct + dx;
+        width = origCrop.widthPct - dx;
+        height = origCrop.heightPct + dy;
         break;
       case 'resize-se':
-        width = dragOrigCrop.widthPct + dx;
-        height = dragOrigCrop.heightPct + dy;
+        width = origCrop.widthPct + dx;
+        height = origCrop.heightPct + dy;
         break;
       case 'resize-n':
-        top = dragOrigCrop.topPct + dy;
-        height = dragOrigCrop.heightPct - dy;
+        top = origCrop.topPct + dy;
+        height = origCrop.heightPct - dy;
         break;
       case 'resize-s':
-        height = dragOrigCrop.heightPct + dy;
+        height = origCrop.heightPct + dy;
         break;
       case 'resize-e':
-        width = dragOrigCrop.widthPct + dx;
+        width = origCrop.widthPct + dx;
         break;
       case 'resize-w':
-        left = dragOrigCrop.leftPct + dx;
-        width = dragOrigCrop.widthPct - dx;
+        left = origCrop.leftPct + dx;
+        width = origCrop.widthPct - dx;
         break;
     }
 
-    // Enforce minimum size (1% of image in 0-1 range = 0.01)
+    // Enforce minimum size
     if (width < 0.01) width = 0.01;
     if (height < 0.01) height = 0.01;
-    // Clamp to image bounds (0-1)
+    // Clamp to image bounds
     if (top < 0) top = 0;
     if (left < 0) left = 0;
     if (top + height > 1) height = 1 - top;
@@ -238,29 +295,118 @@ export default function CropsEditorPage() {
 
     setLocalOverrides((prev) => ({
       ...prev,
-      [dragCropIdx]: {
+      [idx]: {
         topPct: Math.round(top * 1000) / 1000,
         leftPct: Math.round(left * 1000) / 1000,
         widthPct: Math.round(width * 1000) / 1000,
         heightPct: Math.round(height * 1000) / 1000,
       },
     }));
-  };
+  }, [getRelativeCoords]);
 
-  const handleMouseUp = () => {
-    if (dragMode && dragCropIdx !== null && localOverrides[dragCropIdx]) {
-      commitOverride(dragCropIdx, localOverrides[dragCropIdx]);
+  const handleWindowMouseUp = useCallback(() => {
+    const mode = dragModeRef.current;
+    const idx = dragCropIdxRef.current;
+
+    if (mode === 'draw') {
+      // Finish drawing a new crop
+      const start = dragStartRef.current;
+      const current = drawCurrentRef.current;
+      if (start && current) {
+        const x = Math.min(start.x, current.x);
+        const y = Math.min(start.y, current.y);
+        const w = Math.abs(current.x - start.x);
+        const h = Math.abs(current.y - start.y);
+
+        // Minimum 1% in both dimensions to avoid accidental tiny crops
+        if (w >= 0.01 && h >= 0.01) {
+          const newCrop: CropRect = {
+            topPct: Math.round(y * 1000) / 1000,
+            leftPct: Math.round(x * 1000) / 1000,
+            widthPct: Math.round(w * 1000) / 1000,
+            heightPct: Math.round(h * 1000) / 1000,
+          };
+          addCropRect(newCrop);
+        }
+      }
+      setDrawRect(null);
+      drawCurrentRef.current = null;
+    } else if (mode && idx !== null) {
+      // Finish move/resize — commit the override
+      setLocalOverrides((prev) => {
+        const override = prev[idx];
+        if (override) {
+          // Use setTimeout to commit after this render cycle
+          setTimeout(() => commitOverride(idx, override), 0);
+        }
+        return prev;
+      });
     }
-    setDragMode(null);
-    setDragCropIdx(null);
-    setDragStartCoords(null);
-    setDragOrigCrop(null);
-  };
 
-  const handleBackgroundClick = () => {
-    if (!dragMode) {
+    // Reset all drag state
+    dragModeRef.current = null;
+    dragCropIdxRef.current = null;
+    dragStartRef.current = null;
+    dragOrigCropRef.current = null;
+    setActiveDragMode(null);
+  }, [addCropRect, commitOverride]);
+
+  // Attach window-level listeners for drag
+  useEffect(() => {
+    window.addEventListener('mousemove', handleWindowMouseMove);
+    window.addEventListener('mouseup', handleWindowMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleWindowMouseMove);
+      window.removeEventListener('mouseup', handleWindowMouseUp);
+    };
+  }, [handleWindowMouseMove, handleWindowMouseUp]);
+
+  // ─── Container mousedown: either start drawing or select+move ─────────────
+
+  const handleContainerMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return; // Left click only
+
+    const coords = getRelativeCoords(e.clientX, e.clientY);
+
+    // Check if we clicked on an existing crop
+    const hitIdx = hitTestCrops(coords.x, coords.y, crops);
+
+    if (hitIdx !== null) {
+      // Clicked on a crop — select it and start moving
+      e.preventDefault();
+      setSelectedCropIdx(hitIdx);
+      const crop = crops[hitIdx];
+      dragModeRef.current = 'move';
+      dragCropIdxRef.current = hitIdx;
+      dragStartRef.current = coords;
+      dragOrigCropRef.current = { ...crop };
+      setActiveDragMode('move');
+    } else {
+      // Clicked on empty space — deselect any crop, start drawing a new one
       setSelectedCropIdx(null);
+      e.preventDefault();
+      dragModeRef.current = 'draw';
+      dragStartRef.current = coords;
+      drawCurrentRef.current = coords;
+      setDrawRect({ x: coords.x, y: coords.y, w: 0, h: 0 });
+      setActiveDragMode('draw');
     }
+  };
+
+  // ─── Handle mousedown on resize handles ───────────────────────────────────
+
+  const startResize = (e: React.MouseEvent, idx: number, mode: DragMode) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const coords = getRelativeCoords(e.clientX, e.clientY);
+    const crop = crops[idx];
+    if (!crop) return;
+    dragModeRef.current = mode;
+    dragCropIdxRef.current = idx;
+    dragStartRef.current = coords;
+    dragOrigCropRef.current = { ...crop };
+    setSelectedCropIdx(idx);
+    setActiveDragMode(mode);
   };
 
   // ─── Preview rendering ───────────────────────────────────────────────────
@@ -298,12 +444,10 @@ export default function CropsEditorPage() {
 
   const handleImageLoad = () => {
     setImageError(false);
-    // Track displayed image size for container sizing
     const img = sourceImageRef.current;
     if (img) {
       setImgDisplaySize({ w: img.clientWidth, h: img.clientHeight });
     }
-    // Draw all previews once the image is loaded
     crops.forEach((crop, idx) => {
       drawPreview(idx, crop);
     });
@@ -346,6 +490,9 @@ export default function CropsEditorPage() {
           deleteCrop(selectedCropIdx);
         }
       }
+      if (e.key === 'Escape') {
+        setSelectedCropIdx(null);
+      }
       if (e.key === 'ArrowLeft') {
         if (document.activeElement?.tagName !== 'INPUT') {
           e.preventDefault();
@@ -366,13 +513,29 @@ export default function CropsEditorPage() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCropIdx, currentPage, cropsData]);
+  }, [selectedCropIdx, currentPage, cropsData, deleteCrop]);
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
-  const handleSize = 8;
+  const handleSize = 9;
   const hasCrops = crops.length > 0;
   const imageUrl = `/api/books/${bookId}/page-image?page=${currentPage}`;
+
+  // Compute cursor for the container
+  const containerCursor = activeDragMode === 'draw'
+    ? 'crosshair'
+    : activeDragMode === 'move'
+    ? 'move'
+    : activeDragMode?.startsWith('resize-')
+    ? (() => {
+        const dir = activeDragMode.replace('resize-', '');
+        const cursorMap: Record<string, string> = {
+          nw: 'nw-resize', ne: 'ne-resize', sw: 'sw-resize', se: 'se-resize',
+          n: 'n-resize', s: 's-resize', e: 'e-resize', w: 'w-resize',
+        };
+        return cursorMap[dir] || 'default';
+      })()
+    : 'crosshair';
 
   if (loading) {
     return (
@@ -467,12 +630,6 @@ export default function CropsEditorPage() {
             </span>
           )}
           <button
-            onClick={addCrop}
-            className="px-3 py-1.5 text-xs rounded bg-[#22c55e] hover:bg-[#16a34a] text-white font-medium transition-colors"
-          >
-            + Add Crop
-          </button>
-          <button
             onClick={handleSave}
             disabled={saving || !dirty}
             className={`px-4 py-1.5 text-xs rounded font-medium transition-colors flex items-center gap-1.5 ${
@@ -518,11 +675,20 @@ export default function CropsEditorPage() {
           <div
             ref={imageContainerRef}
             className="relative select-none"
-            style={imgDisplaySize ? { width: imgDisplaySize.w, height: imgDisplaySize.h } : { display: 'inline-block' }}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onClick={handleBackgroundClick}
+            style={{
+              ...(imgDisplaySize ? { width: imgDisplaySize.w, height: imgDisplaySize.h } : { display: 'inline-block' }),
+              cursor: containerCursor,
+            }}
+            onMouseDown={handleContainerMouseDown}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              // Right-click on a crop to delete it
+              const coords = getRelativeCoords(e.clientX, e.clientY);
+              const hitIdx = hitTestCrops(coords.x, coords.y, crops);
+              if (hitIdx !== null) {
+                deleteCrop(hitIdx);
+              }
+            }}
           >
             {/* Source Image */}
             <img
@@ -530,7 +696,7 @@ export default function CropsEditorPage() {
               src={imageUrl}
               alt={`Page ${currentPage}`}
               className="block max-h-[75vh]"
-              style={{ width: 'auto', height: 'auto', maxHeight: '75vh' }}
+              style={{ width: 'auto', height: 'auto', maxHeight: '75vh', pointerEvents: 'none' }}
               draggable={false}
               onLoad={handleImageLoad}
               onError={() => setImageError(true)}
@@ -568,20 +734,8 @@ export default function CropsEditorPage() {
                     backgroundColor: isSelected ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.12)',
                     zIndex: isSelected ? 20 : 10,
                     cursor: isSelected ? 'move' : 'pointer',
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedCropIdx(idx);
-                  }}
-                  onMouseDown={(e) => {
-                    if (isSelected) {
-                      startDrag(e, idx, 'move');
-                    }
-                  }}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    deleteCrop(idx);
+                    // Prevent this div from capturing mousedown — the container handler does hit-testing
+                    pointerEvents: 'none',
                   }}
                 >
                   {/* Crop label */}
@@ -595,50 +749,73 @@ export default function CropsEditorPage() {
                       {/* Corner handles */}
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: -(handleSize / 2), cursor: 'nw-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-nw')}
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: -(handleSize / 2), cursor: 'nw-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-nw')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), right: -(handleSize / 2), cursor: 'ne-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-ne')}
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), right: -(handleSize / 2), cursor: 'ne-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-ne')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: -(handleSize / 2), cursor: 'sw-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-sw')}
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: -(handleSize / 2), cursor: 'sw-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-sw')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), right: -(handleSize / 2), cursor: 'se-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-se')}
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), right: -(handleSize / 2), cursor: 'se-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-se')}
                       />
                       {/* Edge handles */}
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 'n-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-n')}
+                        style={{ width: handleSize, height: handleSize, top: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 'n-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-n')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 's-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-s')}
+                        style={{ width: handleSize, height: handleSize, bottom: -(handleSize / 2), left: '50%', marginLeft: -(handleSize / 2), cursor: 's-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-s')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), left: -(handleSize / 2), cursor: 'w-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-w')}
+                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), left: -(handleSize / 2), cursor: 'w-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-w')}
                       />
                       <div
                         className="absolute bg-white border-2 border-[#22c55e] rounded-sm"
-                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), right: -(handleSize / 2), cursor: 'e-resize', zIndex: 30 }}
-                        onMouseDown={(e) => startDrag(e, idx, 'resize-e')}
+                        style={{ width: handleSize, height: handleSize, top: '50%', marginTop: -(handleSize / 2), right: -(handleSize / 2), cursor: 'e-resize', zIndex: 30, pointerEvents: 'auto' }}
+                        onMouseDown={(e) => startResize(e, idx, 'resize-e')}
                       />
                     </>
                   )}
                 </div>
               );
             })}
+
+            {/* Drawing rectangle preview (while drawing a new crop) */}
+            {drawRect && drawRect.w > 0.001 && drawRect.h > 0.001 && (
+              <div
+                className="absolute border-2 border-dashed border-[#22c55e] bg-[#22c55e]/15 pointer-events-none"
+                style={{
+                  left: `${drawRect.x * 100}%`,
+                  top: `${drawRect.y * 100}%`,
+                  width: `${drawRect.w * 100}%`,
+                  height: `${drawRect.h * 100}%`,
+                  zIndex: 25,
+                }}
+              />
+            )}
+
+            {/* Instruction overlay when no crops and no image error */}
+            {!imageError && crops.length === 0 && !activeDragMode && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="bg-black/60 text-white/80 text-sm px-4 py-2 rounded-lg">
+                  Click and drag to draw a crop region
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -651,12 +828,7 @@ export default function CropsEditorPage() {
           {crops.length === 0 && (
             <div className="text-center text-[#71717a] py-12">
               <p className="text-sm mb-2">No crops on this page</p>
-              <button
-                onClick={addCrop}
-                className="px-3 py-1.5 text-xs rounded bg-[#22c55e] hover:bg-[#16a34a] text-white font-medium transition-colors"
-              >
-                + Add Crop
-              </button>
+              <p className="text-xs text-[#52525b]">Draw on the image to add a crop</p>
             </div>
           )}
 
@@ -679,7 +851,7 @@ export default function CropsEditorPage() {
                       deleteCrop(idx);
                     }}
                     className="text-[#71717a] hover:text-[#ef4444] transition-colors"
-                    title="Delete crop"
+                    title="Delete crop (or press Delete key)"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -734,9 +906,13 @@ export default function CropsEditorPage() {
 
           {/* Keyboard shortcuts help */}
           <div className="mt-4 pt-3 border-t border-[#2e2f3a] text-[10px] text-[#52525b]">
-            <p>Arrow keys: prev/next page</p>
+            <p>Click + drag on image: draw new crop</p>
+            <p>Click crop: select, then drag to move</p>
+            <p>Drag white handles: resize selected crop</p>
             <p>Delete/Backspace: remove selected crop</p>
             <p>Right-click crop: delete</p>
+            <p>Escape: deselect</p>
+            <p>Arrow keys: prev/next page</p>
             <p>Cmd/Ctrl+S: save</p>
           </div>
         </div>

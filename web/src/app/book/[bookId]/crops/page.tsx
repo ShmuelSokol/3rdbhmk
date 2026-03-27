@@ -59,6 +59,7 @@ export default function CropsEditorPage() {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const previewCanvasRefs = useRef<Record<number, HTMLCanvasElement | null>>({});
   const sourceImageRef = useRef<HTMLImageElement | null>(null);
+  const [imgDisplaySize, setImgDisplaySize] = useState<{ w: number; h: number } | null>(null);
 
   // ─── Data Loading ─────────────────────────────────────────────────────────
 
@@ -297,6 +298,11 @@ export default function CropsEditorPage() {
 
   const handleImageLoad = () => {
     setImageError(false);
+    // Track displayed image size for container sizing
+    const img = sourceImageRef.current;
+    if (img) {
+      setImgDisplaySize({ w: img.clientWidth, h: img.clientHeight });
+    }
     // Draw all previews once the image is loaded
     crops.forEach((crop, idx) => {
       drawPreview(idx, crop);
@@ -312,6 +318,7 @@ export default function CropsEditorPage() {
     setSelectedCropIdx(null);
     setLocalOverrides({});
     setImageError(false);
+    setImgDisplaySize(null);
   };
 
   const handlePageInputSubmit = (e: React.FormEvent) => {
@@ -511,7 +518,7 @@ export default function CropsEditorPage() {
           <div
             ref={imageContainerRef}
             className="relative select-none"
-            style={{ maxHeight: '100%', width: 'fit-content' }}
+            style={imgDisplaySize ? { width: imgDisplaySize.w, height: imgDisplaySize.h } : { display: 'inline-block' }}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
@@ -522,8 +529,8 @@ export default function CropsEditorPage() {
               ref={sourceImageRef}
               src={imageUrl}
               alt={`Page ${currentPage}`}
-              className="block"
-              style={{ height: '600px', width: 'auto' }}
+              className="block max-h-[75vh]"
+              style={{ width: 'auto', height: 'auto', maxHeight: '75vh' }}
               draggable={false}
               onLoad={handleImageLoad}
               onError={() => setImageError(true)}

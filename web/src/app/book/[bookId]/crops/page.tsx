@@ -720,8 +720,18 @@ export default function CropsEditorPage() {
                     backgroundColor: isSelected ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.12)',
                     zIndex: isSelected ? 20 : 10,
                     cursor: isSelected ? 'move' : 'pointer',
-                    // Prevent this div from capturing mousedown — the container handler does hit-testing
-                    pointerEvents: 'none',
+                    pointerEvents: 'auto',
+                  }}
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    setSelectedCropIdx(idx);
+                    const coords = getRelativeCoords(e.clientX, e.clientY);
+                    dragModeRef.current = 'move';
+                    dragCropIdxRef.current = idx;
+                    dragStartRef.current = coords;
+                    dragOrigCropRef.current = { ...crop };
+                    setActiveDragMode('move');
                   }}
                 >
                   {/* Crop label */}

@@ -2785,7 +2785,7 @@ export async function GET(
 
     const fonts = { body: bodyFont, bold: boldFont, header: headerFont, hebrew: hebrewFont, hebrewBold: hebrewBoldFont }
 
-    const runningTitle = 'Lishchno Tidreshu \u2014 English Translation'
+    const runningTitle = 'Lishchno Tidreshu -- English Translation'
 
     // Shared colors for cover pages
     const darkColor = rgb(0.12, 0.10, 0.08)

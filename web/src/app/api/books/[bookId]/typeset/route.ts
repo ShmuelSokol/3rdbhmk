@@ -2529,6 +2529,7 @@ export async function GET(
           // Extract ONLY illustration regions from source pages using pre-computed crop coordinates.
           // This inserts cropped 3D renders, diagrams, floor plans — not full Hebrew pages.
           // Crop coordinates were computed via pixel-level color density analysis.
+          let usedPrecomputedCrops = false
           try {
             const illustrationCrops: Record<string, Array<{topPct: number, leftPct: number, widthPct: number, heightPct: number}>> =
               JSON.parse(await readFile(path.join(process.cwd(), 'public/illustration-crops.json'), 'utf8'))
@@ -2557,6 +2558,7 @@ export async function GET(
                       imageWidth: croppedMeta.width || cropW,
                       imageHeight: croppedMeta.height || cropH,
                     })
+                    usedPrecomputedCrops = true
                   } catch { /* skip individual crop failures */ }
                 }
               }
@@ -2564,19 +2566,22 @@ export async function GET(
           } catch { /* illustration-crops.json not found — skip */ }
 
           // Normal page: render text with interleaved illustrations
+          // Skip gap-based illustration detection if pre-computed crops were used (avoids duplicates)
           const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)
           let illustIdx = 0
 
           for (const region of sortedRegions) {
-            while (illustIdx < validIllustrations.length && validIllustrations[illustIdx].y < region.origY) {
-              pageElements.push({
-                type: 'illustration',
-                imageData: validIllustrations[illustIdx].imageData,
-                imageWidth: validIllustrations[illustIdx].width,
-                imageHeight: validIllustrations[illustIdx].height,
-                figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
-              })
-              illustIdx++
+            if (!usedPrecomputedCrops) {
+              while (illustIdx < validIllustrations.length && validIllustrations[illustIdx].y < region.origY) {
+                pageElements.push({
+                  type: 'illustration',
+                  imageData: validIllustrations[illustIdx].imageData,
+                  imageWidth: validIllustrations[illustIdx].width,
+                  imageHeight: validIllustrations[illustIdx].height,
+                  figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
+                })
+                illustIdx++
+              }
             }
 
             if (!region.translatedText?.trim()) continue
@@ -2628,15 +2633,17 @@ export async function GET(
             }
           }
 
-          while (illustIdx < validIllustrations.length) {
-            pageElements.push({
-              type: 'illustration',
-              imageData: validIllustrations[illustIdx].imageData,
-              imageWidth: validIllustrations[illustIdx].width,
-              imageHeight: validIllustrations[illustIdx].height,
-              figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
-            })
-            illustIdx++
+          if (!usedPrecomputedCrops) {
+            while (illustIdx < validIllustrations.length) {
+              pageElements.push({
+                type: 'illustration',
+                imageData: validIllustrations[illustIdx].imageData,
+                imageWidth: validIllustrations[illustIdx].width,
+                imageHeight: validIllustrations[illustIdx].height,
+                figureLabel: pageFigureLabels[illustIdx] || pageFigureLabels[0] || undefined,
+              })
+              illustIdx++
+            }
           }
         }
 

@@ -112,7 +112,7 @@ export default function CropsEditorPage() {
     } else {
       locked.push(pageKey);
     }
-    setCropsData((prev) => ({ ...prev, _locked: locked }));
+    setCropsData((prev) => ({ ...prev, _locked: locked } as CropsData));
     setDirty(true);
   };
 

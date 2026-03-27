@@ -2514,32 +2514,42 @@ export async function GET(
             }
           }
         } else {
-          // Pages with illustrations that gap-detection misses: insert full source image
-          // before the translated text (like letter pages but keeping full translation)
-          // Curated list: pages with actual 3D renders, diagrams, floor plans, or photos
-          // (verified via pixel saturation analysis of inner content area)
-          const sourceImagePages = new Set([92,93,94,95,96,97,98,99,100,107,110,111,112,113,114,116,117,119,120,123,124,125,128,130,131,133,134,135,136,137,139,140,141,142,143,144,147,148,149,150,152,153,154,156,157,158,159,162,163,165,168,170,171,175,176,177,178,179,180,181,182,183,184,185,186,187,189,191,193,194,195,196,197,198,199,201,202,203,204,205,206,207,208,209,211,212,213,214,215,216,217,218,219,221,222,223,225,226,227,228,229,230,231,232,233,234,236,237,238,239,240,242,243,244,245,247,249,250,251,253,254,255,256,257,258,259,260,261,262,263,264,265,266,268,269,270,271,272,273,275,276,277,278,279,281,282,283,285,286,289,290,291,292,293,295,298,299,301,302,303,304,305,308,309,311,312,313,316,320,323,328,331,333,337,338,340,344,345,346,347,353,354,355,356,357,359,360,361])
-          if (sourceImagePages.has(page.pageNumber)) {
-            try {
+          // Extract ONLY illustration regions from source pages using pre-computed crop coordinates.
+          // This inserts cropped 3D renders, diagrams, floor plans — not full Hebrew pages.
+          // Crop coordinates were computed via pixel-level color density analysis.
+          try {
+            const illustrationCrops: Record<string, Array<{topPct: number, leftPct: number, widthPct: number, heightPct: number}>> =
+              JSON.parse(await readFile(path.join(process.cwd(), 'src/lib/illustration-crops.json'), 'utf8'))
+            const pageCrops = illustrationCrops[String(page.pageNumber)]
+            if (pageCrops && pageCrops.length > 0) {
               const srcImg = await getPageImage(page.id, page.pageNumber, bookId)
               if (srcImg) {
                 const srcMeta = await sharp(srcImg).metadata()
                 const srcW = srcMeta.width || 1655
                 const srcH = srcMeta.height || 2340
-                const cropped = await sharp(srcImg)
-                  .extract({ left: Math.round(srcW * 0.02), top: Math.round(srcH * 0.02), width: Math.round(srcW * 0.96), height: Math.round(srcH * 0.96) })
-                  .jpeg({ quality: 40 })
-                  .toBuffer()
-                const croppedMeta = await sharp(cropped).metadata()
-                pageElements.push({
-                  type: 'illustration',
-                  imageData: cropped,
-                  imageWidth: croppedMeta.width || srcW,
-                  imageHeight: croppedMeta.height || srcH,
-                })
+                for (const crop of pageCrops) {
+                  try {
+                    const cropLeft = Math.round(crop.leftPct * srcW)
+                    const cropTop = Math.round(crop.topPct * srcH)
+                    const cropW = Math.min(Math.round(crop.widthPct * srcW), srcW - cropLeft)
+                    const cropH = Math.min(Math.round(crop.heightPct * srcH), srcH - cropTop)
+                    if (cropW < 50 || cropH < 50) continue
+                    const cropped = await sharp(srcImg)
+                      .extract({ left: cropLeft, top: cropTop, width: cropW, height: cropH })
+                      .jpeg({ quality: 50 })
+                      .toBuffer()
+                    const croppedMeta = await sharp(cropped).metadata()
+                    pageElements.push({
+                      type: 'illustration',
+                      imageData: cropped,
+                      imageWidth: croppedMeta.width || cropW,
+                      imageHeight: croppedMeta.height || cropH,
+                    })
+                  } catch { /* skip individual crop failures */ }
+                }
               }
-            } catch { /* skip if image fails */ }
-          }
+            }
+          } catch { /* illustration-crops.json not found — skip */ }
 
           // Normal page: render text with interleaved illustrations
           const sortedRegions = [...regions].sort((a, b) => a.origY - b.origY)

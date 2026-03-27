@@ -5,7 +5,7 @@ import path from 'path'
 import { getSupabase } from '@/lib/supabase'
 
 const LOCAL_PATH = path.join(process.cwd(), 'public', 'illustration-crops.json')
-const SUPABASE_PATH = 'config/illustration-crops.json'
+const SUPABASE_PATH = 'config/illustration-crops-v2.json'
 
 export async function GET() {
   try {

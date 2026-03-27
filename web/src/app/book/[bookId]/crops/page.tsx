@@ -12,7 +12,7 @@ interface CropRect {
   heightPct: number;
 }
 
-type CropsData = Record<string, CropRect[]>;
+type CropsData = Record<string, CropRect[]> & { _locked?: string[] };
 
 type DragMode =
   | null
@@ -101,6 +101,20 @@ export default function CropsEditorPage() {
   const pageKey = String(currentPage);
   const rawCrops = cropsData[pageKey] || [];
   const crops: CropRect[] = rawCrops.map((c, i) => localOverrides[i] ?? c);
+  const lockedPages = cropsData._locked || [];
+  const isPageLocked = lockedPages.includes(pageKey);
+
+  const toggleLock = () => {
+    const locked = [...(cropsData._locked || [])];
+    if (isPageLocked) {
+      const idx = locked.indexOf(pageKey);
+      if (idx >= 0) locked.splice(idx, 1);
+    } else {
+      locked.push(pageKey);
+    }
+    setCropsData((prev) => ({ ...prev, _locked: locked }));
+    setDirty(true);
+  };
 
   // ─── Save ─────────────────────────────────────────────────────────────────
 
@@ -720,12 +734,20 @@ export default function CropsEditorPage() {
       {/* ─── Floating Action Buttons ─────────────────────────────────── */}
       <div className="fixed bottom-4 left-4 z-50 flex flex-row gap-2 flex-wrap">
         <button
+          onClick={toggleLock}
+          className={`px-4 py-3 rounded-full font-medium shadow-lg flex items-center gap-2 ${
+            isPageLocked ? 'bg-[#22c55e] text-white' : 'bg-[#2e2f3a] text-[#a1a1aa]'
+          }`}
+        >
+          {isPageLocked ? '🔒 Locked' : '✓ Approve'}
+        </button>
+        <button
           onClick={() => setShowOverlays(!showOverlays)}
           className={`px-4 py-3 rounded-full font-medium shadow-lg flex items-center gap-2 ${
             showOverlays ? 'bg-[#22c55e] text-white' : 'bg-[#2e2f3a] text-[#a1a1aa]'
           }`}
         >
-          {showOverlays ? '👁 Hide Boxes' : '👁 Show Boxes'}
+          {showOverlays ? '👁 Hide' : '👁 Show'}
         </button>
         {undoStack.length > 0 && (
           <button
@@ -1015,10 +1037,12 @@ export default function CropsEditorPage() {
                     className={`px-1.5 py-0.5 text-[10px] rounded font-mono transition-colors ${
                       p === currentPage
                         ? 'bg-[#3b82f6] text-white'
+                        : (cropsData._locked || []).includes(String(p))
+                        ? 'bg-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e]/50'
                         : 'bg-[#2e2f3a] text-[#a1a1aa] hover:bg-[#3e3f4a] hover:text-white'
                     }`}
                   >
-                    {p}
+                    {(cropsData._locked || []).includes(String(p)) ? '✓' : ''}{p}
                   </button>
                 ))}
             </div>

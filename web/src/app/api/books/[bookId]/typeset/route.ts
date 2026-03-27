@@ -732,8 +732,10 @@ function cleanTranslationText(text: string, keepHebrew = false): string {
     .replace(/([a-z])\.([A-Z])/g, '$1. $2')
     // Fix word:Word → word: Word
     .replace(/([a-z]):([A-Z])/g, '$1: $2')
-    // Fix number joined to word: "28To" → "28 To", "14When" → "14 When"
+    // Fix number joined to word: "28To" → "28 To", "West4Its" → "West 4 Its"
     .replace(/(\d)([A-Z])/g, '$1 $2')
+    .replace(/([a-z])(\d)/g, '$1 $2')
+    .replace(/(\d)([a-z])/g, '$1 $2')
 
   if (!keepHebrew) {
     result = result
@@ -2228,6 +2230,16 @@ function buildTocLines(entries: TocEntry[]): TocLineItem[] {
   let lastPerek = ''
 
   tocLines.push({ type: 'entry', text: 'Haskamos (Approval Letters)', pageNum: 2 })
+
+  // Hardcoded Introduction section — headers are split across regions in the source
+  tocLines.push({ type: 'section', text: 'INTRODUCTION' })
+  tocLines.push({ type: 'entry', text: 'The Mishkan in the Wilderness', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The Mishkan in Gilgal', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The Mishkan in Shiloh', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The Mishkan in Nov and Givon', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The First Beis HaMikdash', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The Second Beis HaMikdash', pageNum: 2 })
+  tocLines.push({ type: 'entry', text: 'The Destruction of the Beis HaMikdash', pageNum: 2 })
 
   for (const entry of finalTocItems) {
     const perekMatch = entry.title.match(perekRegex)

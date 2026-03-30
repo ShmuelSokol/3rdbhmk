@@ -104,7 +104,7 @@ export default function CropsEditorPage() {
   const lockedPages = cropsData._locked || [];
   const isPageLocked = lockedPages.includes(pageKey);
 
-  const toggleLock = () => {
+  const toggleLock = async () => {
     const locked = [...(cropsData._locked || [])];
     if (isPageLocked) {
       const idx = locked.indexOf(pageKey);
@@ -112,8 +112,19 @@ export default function CropsEditorPage() {
     } else {
       locked.push(pageKey);
     }
-    setCropsData((prev) => ({ ...prev, _locked: locked } as CropsData));
-    setDirty(true);
+    const updated = { ...cropsData, _locked: locked } as CropsData;
+    setCropsData(updated);
+    // Auto-save immediately
+    try {
+      await fetch(`/api/books/${bookId}/illustration-crops`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      });
+      setSaveStatus('saved');
+      setDirty(false);
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch { /* silent */ }
   };
 
   // ─── Save ─────────────────────────────────────────────────────────────────

@@ -80,11 +80,7 @@ export default function CropsEditorPage() {
       const data: CropsData = await res.json();
       setCropsData(data);
       // Auto-navigate to first page with crops
-      const firstCropPage = Object.keys(data).map(Number).sort((a, b) => a - b)[0];
-      if (firstCropPage) {
-        setCurrentPage(firstCropPage);
-        setPageInput(String(firstCropPage));
-      }
+      // Don't auto-jump — start at page 1 so user can navigate sequentially
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load crops');
     } finally {
@@ -657,11 +653,9 @@ export default function CropsEditorPage() {
           <button
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage <= MIN_PAGE}
-            className="p-1.5 rounded hover:bg-[#2e2f3a] text-[#a1a1aa] hover:text-white disabled:opacity-30 transition-colors"
+            className="px-3 py-1.5 rounded bg-[#2e2f3a] hover:bg-[#3e3f4a] text-[#a1a1aa] hover:text-white disabled:opacity-30 transition-colors text-sm font-medium"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            ‹ Prev
           </button>
 
           <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
@@ -678,11 +672,9 @@ export default function CropsEditorPage() {
           <button
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage >= MAX_PAGE}
-            className="p-1.5 rounded hover:bg-[#2e2f3a] text-[#a1a1aa] hover:text-white disabled:opacity-30 transition-colors"
+            className="px-3 py-1.5 rounded bg-[#2e2f3a] hover:bg-[#3e3f4a] text-[#a1a1aa] hover:text-white disabled:opacity-30 transition-colors text-sm font-medium"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            Next ›
           </button>
           <button
             onClick={() => {

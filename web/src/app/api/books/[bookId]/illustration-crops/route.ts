@@ -6,7 +6,6 @@ import { getSupabase } from '@/lib/supabase'
 
 const BUNDLED_PATH = path.join(process.cwd(), 'public', 'illustration-crops.json')
 const TMP_PATH = '/tmp/illustration-crops-edits.json'
-const TMP_TS_PATH = '/tmp/illustration-crops-ts.txt'
 
 // Use timestamped Supabase path to bust CDN cache
 function getSupabasePath() {

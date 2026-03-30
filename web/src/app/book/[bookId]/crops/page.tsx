@@ -27,7 +27,7 @@ type DragMode =
   | 'resize-e'
   | 'resize-w';
 
-const MIN_PAGE = 71;
+const MIN_PAGE = 1;
 const MAX_PAGE = 367;
 
 // ─── Main Component ─────────────────────────────────────────────────────────

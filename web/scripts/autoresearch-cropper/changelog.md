@@ -1,108 +1,161 @@
-## Experiment 0 — baseline
-Score: 36.2/100
-IoU: 47.1%
+# Autoresearch Round 2
 
-## Experiment 1 — KEEP
-Score: 37.0/100
-Change: rowThreshold: 0.06 -> 0.08
-IoU: 46.2% Count: 20%
+## Exp 1 — KEEP
+Score: 68.1
+Change: rowThreshold=0.03
 
-## Experiment 2 — discard
-Score: 36.8/100
-Change: rowThreshold: 0.06 -> 0.07
+## Exp 2 — discard
+Score: 67.7
+Change: rowThreshold=0.04
 
-## Experiment 3 — discard
-Score: 36.2/100
-Change: headerMaxY: 0.12 -> 0.08
+## Exp 3 — discard
+Score: 65.4
+Change: rowThreshold=0.05
 
-## Experiment 4 — discard
-Score: 36.2/100
-Change: headerMaxH: 0.1 -> 0.08
+## Exp 4 — discard
+Score: 65.2
+Change: rowThreshold=0.06
 
-## Experiment 5 — discard
-Score: 36.2/100
-Change: headerMaxY: 0.12 -> 0.15
+## Exp 5 — discard
+Score: 65.1
+Change: rowThreshold=0.07
 
-## Experiment 6 — discard
-Score: 33.7/100
-Change: mergeGap: 0.02 -> 0.04
+## Exp 6 — discard
+Score: 62.7
+Change: rowThreshold=0.08
 
-## Experiment 7 — discard
-Score: 35.4/100
-Change: padding: 0.01 -> 0.02
+## Exp 7 — discard
+Score: 62.7
+Change: rowThreshold=0.09
 
-## Experiment 8 — discard
-Score: 36.2/100
-Change: minBandHeight: 0.035 -> 0.04
+## Exp 8 — discard
+Score: 63.2
+Change: rowThreshold=0.1
 
-## Experiment 9 — discard
-Score: 36.3/100
-Change: mergeGap: 0.02 -> 0.015
+## Exp 9 — discard
+Score: 58.7
+Change: rowThreshold=0.12
 
-## Experiment 10 — discard
-Score: 33.8/100
-Change: mergeGap: 0.02 -> 0.03
+## Exp 10 — discard
+Score: 66.8
+Change: minBandHeight=0.015
 
-## Experiment 11 — KEEP
-Score: 37.4/100
-Change: colThreshold: 0.05 -> 0.06
-IoU: 47.7% Count: 18%
+## Exp 11 — discard
+Score: 67.5
+Change: minBandHeight=0.02
 
-## Experiment 12 — discard
-Score: 36.2/100
-Change: headerMaxY: 0.12 -> 0.1
+## Exp 12 — discard
+Score: 67.5
+Change: minBandHeight=0.025
 
-## Experiment 13 — KEEP
-Score: 42.4/100
-Change: minBandHeight: 0.035 -> 0.025
-IoU: 50.2% Count: 26%
+## Exp 13 — KEEP
+Score: 68.6
+Change: minBandHeight=0.03
 
-## Experiment 14 — KEEP
-Score: 42.9/100
-Change: minCropHeight: 0.12 -> 0.08
-IoU: 55.0% Count: 21%
+## Exp 14 — discard
+Score: 68.1
+Change: minBandHeight=0.035
 
-## Experiment 15 — discard
-Score: 35.4/100
-Change: padding: 0.01 -> 0.005
+## Exp 15 — discard
+Score: 67.8
+Change: minBandHeight=0.04
 
-## Experiment 16 — KEEP
-Score: 50.3/100
-Change: sideBySideGap: 0.05 -> 0.1
-IoU: 56.8% Count: 33%
+## Exp 16 — discard
+Score: 67.8
+Change: minBandHeight=0.05
 
-## Experiment 17 — discard
-Score: 40.6/100
-Change: minColorRange: 20 -> 18
+## Exp 17 — discard
+Score: 67.7
+Change: mergeGap=0.01
 
-## Experiment 18 — discard
-Score: 38.1/100
-Change: minCropWidth: 0.08 -> 0.05
+## Exp 18 — discard
+Score: 67.6
+Change: mergeGap=0.015
 
-## Experiment 19 — discard
-Score: 36.2/100
-Change: brightnessMin: 45 -> 40
+## Exp 19 — discard
+Score: 66.8
+Change: mergeGap=0.025
 
-## Experiment 20 — discard
-Score: 42.5/100
-Change: colThreshold: 0.05 -> 0.1
+## Exp 20 — discard
+Score: 65.2
+Change: mergeGap=0.03
 
-## Experiment 21 — discard
-Score: 34.8/100
-Change: mergeGap: 0.02 -> 0.025
+## Exp 21 — discard
+Score: 62.8
+Change: mergeGap=0.04
 
-## Experiment 22 — discard
-Score: 39.2/100
-Change: rowThreshold: 0.06 -> 0.05
+## Exp 22 — discard
+Score: 62.5
+Change: mergeGap=0.05
 
-## Experiment 23 — discard
-Score: 39.8/100
-Change: colThreshold: 0.05 -> 0.03
+## Exp 23 — discard
+Score: 61.4
+Change: mergeGap=0.06
 
-## Experiment 24 — discard
-Score: 35.5/100
-Change: brightnessMax: 215 -> 210
+## Exp 24 — discard
+Score: 68.6
+Change: headerMaxY=0.08
 
-## Experiment 25 — discard
-Score: 36.3/100
-Change: brightnessMin: 45 -> 55
+## Exp 25 — discard
+Score: 68.6
+Change: headerMaxY=0.1
+
+## Exp 26 — discard
+Score: 68.6
+Change: headerMaxY=0.15
+
+## Exp 27 — discard
+Score: 68.6
+Change: headerMaxY=0.18
+
+## Exp 28 — discard
+Score: 68.6
+Change: headerMaxH=0.06
+
+## Exp 29 — discard
+Score: 68.6
+Change: headerMaxH=0.08
+
+## Exp 30 — discard
+Score: 68.6
+Change: headerMaxH=0.12
+
+## Exp 31 — discard
+Score: 68.3
+Change: headerMaxH=0.15
+
+## Exp 32 — KEEP
+Score: 70.9
+Change: minCropHeight=0.04
+
+## Exp 33 — discard
+Score: 70.7
+Change: minCropHeight=0.06
+
+## Exp 34 — discard
+Score: 69.1
+Change: minCropHeight=0.08
+
+## Exp 35 — discard
+Score: 69.0
+Change: minCropHeight=0.1
+
+## Exp 36 — discard
+Score: 68.6
+Change: minCropHeight=0.12
+
+## Exp 37 — discard
+Score: 68.3
+Change: minCropHeight=0.14
+
+## Exp 38 — discard
+Score: 70.6
+Change: colThreshold=0.02
+
+## Exp 39 — KEEP
+Score: 71.7
+Change: colThreshold=0.03
+
+## Exp 40 — discard
+Score: 70.8
+Change: colThreshold=0.04

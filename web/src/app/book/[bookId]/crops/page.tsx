@@ -27,7 +27,7 @@ type DragMode =
   | 'resize-e'
   | 'resize-w';
 
-const MIN_PAGE = 1;
+const MIN_PAGE = 71; // Pages 1-70 are duplicates of 71+ (skipped in English PDF)
 const MAX_PAGE = 367;
 
 // ─── Main Component ─────────────────────────────────────────────────────────

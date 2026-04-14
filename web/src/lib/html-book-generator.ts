@@ -827,8 +827,8 @@ export async function htmlToPdf(
     const pageNumColor = 'rgb(122,115,107)'
 
     // Playwright margins in pt (converted to inches for API)
-    const mTopPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 20  // 41pt — room for header text + borders + padding
-    const mBottomPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 20 // 41pt — room for page number + borders + padding
+    const mTopPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 28  // 49pt — room for header text + borders + padding + extra clearance
+    const mBottomPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 28 // 49pt — room for page number + borders + padding + extra clearance
     const mLeftPt = 1   // body padding handles actual content indentation
     const mRightPt = 1  // body padding handles actual content indentation
 

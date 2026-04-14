@@ -547,6 +547,16 @@ export async function generateHtmlBook(
   .figure-group {
     page-break-inside: avoid;
   }
+  /* Push last illustration to bottom of page when it's the final element in a section */
+  .illustration-bottom {
+    margin-top: auto;
+  }
+  /* Section wrapper for flex bottom-push */
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
   .illustration img {
     max-width: 100%;
     height: auto;
@@ -734,17 +744,26 @@ export async function generateHtmlBook(
       const b64 = el.imageData.toString('base64')
       const isFullPage = (el.imageWidth || 0) > 800 && (el.imageHeight || 0) > 1000
       const cls = isFullPage ? 'illustration full-page' : 'illustration normal'
-      // Check if next element is a caption — group them together
+
+      // Check if this illustration is the last content before a divider or end of book
+      // If so, push it to the bottom of the page
+      let isLastBeforeBreak = false
       const nextEl = elIdx + 1 < elements.length ? elements[elIdx + 1] : null
+      const afterNext = elIdx + 2 < elements.length ? elements[elIdx + 2] : null
+      if (!nextEl || nextEl.type === 'divider') isLastBeforeBreak = true
+      if (nextEl?.type === 'caption' && (!afterNext || afterNext.type === 'divider')) isLastBeforeBreak = true
+      const bottomClass = isLastBeforeBreak ? ' illustration-bottom' : ''
+
+      // Check if next element is a caption — group them together
       if (nextEl?.type === 'caption') {
         const capText = sanitize(nextEl.text || '')
-        html.push(`<div class="figure-group">`)
+        html.push(`<div class="figure-group${bottomClass}">`)
         html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
         if (capText) html.push(`<div class="caption-text">${markupBidi(capText)}</div>`)
         html.push(`</div>`)
         elIdx += 1 // skip the caption
       } else {
-        html.push(`<div class="${cls}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
+        html.push(`<div class="${cls}${bottomClass}"><img src="data:image/jpeg;base64,${b64}" /></div>`)
       }
 
     } else if (el.type === 'table' && el.rows) {

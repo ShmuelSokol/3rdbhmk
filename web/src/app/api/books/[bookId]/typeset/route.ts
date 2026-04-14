@@ -2661,8 +2661,11 @@ export async function GET(
             }
 
             if (region.regionType === 'header') {
-              // Headers: strip Hebrew (clean English only) — Hebrew in headers is OCR noise
-              const headerText = cleanTranslationText(region.translatedText!.trim(), false)
+              // Headers: keep Hebrew if it's intentional content (brachos, pesukim)
+              // Only strip if the Hebrew is OCR noise (standalone Hebrew without English context)
+              const rawHeader = region.translatedText!.trim()
+              const hasIntentionalHebrew = /[\u0590-\u05FF].*[—\-].*[a-zA-Z]|[a-zA-Z].*[—\-].*[\u0590-\u05FF]/.test(rawHeader)
+              const headerText = cleanTranslationText(rawHeader, hasIntentionalHebrew || keepHebrew)
               if (!headerText) continue
               // Skip headers that are page numbers or recurring source headers
               if (!isStandalonePageNumber(headerText) && !isRecurringSourceHeader(headerText, region.hebrewText || undefined, regions.length)) {

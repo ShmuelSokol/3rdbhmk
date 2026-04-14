@@ -223,13 +223,11 @@ function getVisualSegments(text: string): TextSegment[] {
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
 
-  // Reverse word order within Hebrew segments for visual RTL display
+  // Reverse word order within ALL Hebrew segments for visual RTL display
   // pdf-lib draws left-to-right, so Hebrew words must be reversed
-  // Only reverse segments with 3+ words — short phrases (1-2 words) are already in correct visual order
   for (const seg of segments) {
-    const words = seg.text.split(' ')
-    if (seg.hebrew && words.length >= 3) {
-      seg.text = words.reverse().join(' ')
+    if (seg.hebrew && seg.text.includes(' ')) {
+      seg.text = seg.text.split(' ').reverse().join(' ')
     }
   }
 

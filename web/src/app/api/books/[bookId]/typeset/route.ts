@@ -2569,7 +2569,10 @@ export async function GET(
                     const cropH = Math.min(Math.round(crop.heightPct * srcH), srcH - cropTop)
                     if (cropW < 50 || cropH < 50) continue
                     // Skip crops that cover too much of the page (likely full Hebrew page, not a specific illustration)
-                    if (crop.widthPct > 0.80 && crop.heightPct > 0.70) continue
+                    // BUT never filter user-locked pages — they approved these crops
+                    const lockedPages: string[] = illustrationCrops._locked as unknown as string[] || []
+                    const isLockedPage = lockedPages.includes(String(page.pageNumber))
+                    if (!isLockedPage && crop.widthPct > 0.80 && crop.heightPct > 0.70) continue
                     const cropped = await sharp(srcImg)
                       .extract({ left: cropLeft, top: cropTop, width: cropW, height: cropH })
                       .jpeg({ quality: 50 })

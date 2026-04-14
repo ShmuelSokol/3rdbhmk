@@ -2568,6 +2568,8 @@ export async function GET(
                     const cropW = Math.min(Math.round(crop.widthPct * srcW), srcW - cropLeft)
                     const cropH = Math.min(Math.round(crop.heightPct * srcH), srcH - cropTop)
                     if (cropW < 50 || cropH < 50) continue
+                    // Skip crops that cover >85% of the page (likely full page, not a specific illustration)
+                    if (crop.widthPct > 0.85 && crop.heightPct > 0.85) continue
                     const cropped = await sharp(srcImg)
                       .extract({ left: cropLeft, top: cropTop, width: cropW, height: cropH })
                       .jpeg({ quality: 50 })

@@ -107,6 +107,20 @@ The workflow is NOT overlay-on-Hebrew-pages. It's a fully separate English book 
 - Start a new page wherever the Hebrew version intentionally started a new page with a new topic
 - Analyze the Hebrew source to detect intentional page breaks (new section/topic starts)
 - Mirror those page breaks in the English version
+- Only force page breaks for MAJOR sections (Perek/Pasuk headers) — minor topic changes use inline dividers
+
+### Content to Skip/Remove
+- Hebrew book's own TOC (source page 101) — redundant, we generate our own English TOC
+- Letterhead junk from haskamos: addresses, phone numbers, dates, registration numbers, "All rights reserved"
+- Orphaned numbers (standalone 1-3 digit numbers from Hebrew source page numbers)
+- Duplicate rabbi name/title blocks (English + ALL-CAPS transliteration)
+- "SCAN Entire Book" and contact info
+
+### Hebrew Text Rules  
+- Brachos/tefillos should stay in HEBREW (not translated to English) — e.g., "יהי רצון..."
+- Hebrew bidi in pdf-lib: reverse word order for 3+ word Hebrew phrases (getVisualSegments)
+- Short Hebrew phrases (1-2 words) stay as-is — already in correct visual order
+- Running header uses "--" not em-dash (TimesRoman font limitation)
 
 ### Avoiding Blank Pages
 - If a page has under 5 lines of text with no images (mostly blank), fit that content on the previous page by slightly decreasing font size

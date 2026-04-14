@@ -341,7 +341,7 @@ export async function generateHtmlBook(
 
   @page {
     size: ${pageW}pt ${pageH}pt;
-    margin: 0;
+    margin: 60pt 0 55pt 0;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -353,11 +353,11 @@ export async function generateHtmlBook(
     color: ${textColor};
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    /* Padding pushes content inside the border frame.
-       Left/right: outer_inset(8) + inner_gap(3) + content_pad(12) = 23pt
-       Top/bottom: handled by Playwright header/footer margin areas */
+    /* Padding pushes content inside the border frame on all sides */
     padding-left: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
     padding-right: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
+    padding-top: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
+    padding-bottom: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
   }
 
   /* ── Left/right vertical border lines ──
@@ -827,8 +827,8 @@ export async function htmlToPdf(
     const pageNumColor = 'rgb(122,115,107)'
 
     // Playwright margins in pt (converted to inches for API)
-    const mTopPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 28  // 49pt — room for header text + borders + padding + extra clearance
-    const mBottomPt = OUTER_INSET + INNER_GAP + CONTENT_PAD + 28 // 49pt — room for page number + borders + padding + extra clearance
+    const mTopPt = 65  // Must clear: header text + outer border + inner border + padding
+    const mBottomPt = 60 // Must clear: page number + outer border + inner border + padding
     const mLeftPt = 1   // body padding handles actual content indentation
     const mRightPt = 1  // body padding handles actual content indentation
 

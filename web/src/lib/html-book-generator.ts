@@ -147,8 +147,14 @@ function cleanTranslationText(text: string): string {
 function sanitize(text: string): string {
   return text
     .replace(/[\u0000-\u001F]/g, '')
-    .replace(/[\u200E\u200F\u200B-\u200D\u2028\u2029\uFEFF]/g, '')
+    .replace(/[\u200B-\u200D\u2028\u2029\uFEFF]/g, '') // keep \u200E (LRM) and \u200F (RLM) for bidi
     .replace(/\s+/g, ' ')
+    // Ensure space around em-dash between Hebrew and English
+    .replace(/([\u0590-\u05FF])\s*[—\u2014]\s*([A-Za-z"'])/g, '$1 — $2')
+    .replace(/([A-Za-z.!?"])\s*[—\u2014]\s*([\u0590-\u05FF])/g, '$1 — $2')
+    // Ensure space between Hebrew and English characters
+    .replace(/([\u0590-\u05FF])([A-Za-z])/g, '$1 $2')
+    .replace(/([A-Za-z])([\u0590-\u05FF])/g, '$1 $2')
     .trim()
 }
 

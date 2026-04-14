@@ -364,6 +364,9 @@ export async function generateHtmlBook(
     padding-right: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
     padding-top: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
     padding-bottom: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
+    /* Flex column layout enables margin-top:auto to push images to page bottom */
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Left/right vertical border lines ──
@@ -554,14 +557,11 @@ export async function generateHtmlBook(
     page-break-inside: avoid;
   }
   /* Push last illustration to bottom of page when it's the final element in a section */
+  /* Push illustrations to bottom when they're the last thing before a page break.
+     This works because body uses column flex layout for printed pages. */
   .illustration-bottom {
     margin-top: auto;
-  }
-  /* Section wrapper for flex bottom-push */
-  .section-content {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+    page-break-before: auto;
   }
   .illustration img {
     max-width: 100%;

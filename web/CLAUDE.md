@@ -92,6 +92,10 @@ The workflow is NOT overlay-on-Hebrew-pages. It's a fully separate English book 
 - When Hebrew text quotes a pasuk from Tanach or Gemara, include the quote in Hebrew with the Perek or Daf reference
 - Translate the quote if it helps the flow make sense to an average Ashkenazi frum-from-birth Jew
 - ArtScroll em-dash format: "Hebrew — English translation (Source reference)"
+- Hebrew text MUST have proper spacing between Hebrew and English (space + em-dash + space)
+- When source has numbered items (itemized list), the number should appear ONCE on the correct side (before the English text, not duplicated or placed on wrong side of Hebrew)
+- Hebrew and English should flow naturally in the same paragraph — no abrupt joins or missing whitespace
+- Translations should be as close to ArtScroll style as possible (scholarly, flowing English with Hebrew terms sprinkled in, proper source citations)
 
 ### Image Placement Rules
 - Images should be at the BOTTOM of the page when nothing follows the image on that page (image + its accompanying caption text included)

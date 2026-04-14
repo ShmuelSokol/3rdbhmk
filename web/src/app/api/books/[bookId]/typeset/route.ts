@@ -765,6 +765,14 @@ function cleanTranslationText(text: string, keepHebrew = false): string {
     .replace(/\]\s*\./g, '.')
     // Close unclosed figure brackets: [Diagram 5. → [Diagram 5].
     .replace(/(\[(?:Diagram|Figure|Drawing)\s+[\d][\w\-.:,\s]*)(?=[.\s]|$)/gi, '$1]')
+    // Ensure spacing between Hebrew and English text
+    .replace(/([\u0590-\u05FF\uFB1D-\uFB4F])([A-Za-z])/g, '$1 $2')
+    .replace(/([A-Za-z])([\u0590-\u05FF\uFB1D-\uFB4F])/g, '$1 $2')
+    // Ensure space around em-dash between Hebrew and English
+    .replace(/([\u0590-\u05FF])\s*[—\u2014]\s*([A-Z])/g, '$1 — $2')
+    .replace(/([a-z.])\s*[—\u2014]\s*([\u0590-\u05FF])/g, '$1 — $2')
+    // Deduplicate numbers: "14 14 When" → "14 When" (number appears in both Hebrew and English)
+    .replace(/(\d+)\s+\1\b/g, '$1')
     // Clean doubled brackets from the above: ]] → ]
     .replace(/\]\]/g, ']')
     .trim()
@@ -2319,6 +2327,8 @@ export async function GET(
 
     // Renderer selection: ?renderer=pdflib for legacy, default is html (Playwright)
     const renderer = url.searchParams.get('renderer') || 'html'
+    // HTML renderer handles Hebrew bidi natively; pdf-lib renders it backwards
+    const keepHebrew = renderer === 'html'
 
     // Fetch book and pages
     const book = await prisma.book.findUnique({ where: { id: bookId } })
@@ -2599,9 +2609,7 @@ export async function GET(
             if (!region.translatedText?.trim()) continue
 
             // Clean the translation text (remove meta-text artifacts, fix concatenation)
-            // keepHebrew=false for pdf-lib renderer (bidi renders Hebrew backwards)
-            // Once Playwright/HTML renderer is active, switch to keepHebrew=true
-            const trimmed = cleanTranslationText(region.translatedText.trim(), false)
+            const trimmed = cleanTranslationText(region.translatedText.trim(), keepHebrew)
             if (!trimmed) continue
             // Filter out standalone Hebrew source page numbers
             if (isStandalonePageNumber(trimmed)) continue
@@ -2660,7 +2668,7 @@ export async function GET(
         }
 
       } else if (translation?.englishOutput?.trim()) {
-        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput, false) })
+        pageElements.push({ type: 'body', text: cleanTranslationText(translation.englishOutput, keepHebrew) })
       } else {
         continue
       }

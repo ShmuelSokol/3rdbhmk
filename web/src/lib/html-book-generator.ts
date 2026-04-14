@@ -833,9 +833,8 @@ export async function htmlToPdf(
     // Border geometry — MUST match the CSS values in generateHtmlBook
     const OUTER_INSET = 8
     const INNER_GAP = 3
-    const CONTENT_PAD = 10
     const _HEADER_SPACE = 14
-    void _HEADER_SPACE;
+    void OUTER_INSET; void INNER_GAP; void _HEADER_SPACE;
 
     // Colors
     const outerColor = 'rgb(184,174,158)'

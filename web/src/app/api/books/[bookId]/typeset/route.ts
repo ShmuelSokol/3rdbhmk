@@ -222,6 +222,15 @@ function getVisualSegments(text: string): TextSegment[] {
     }
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
+
+  // Reverse word order within Hebrew segments for visual RTL display
+  // pdf-lib draws left-to-right, so Hebrew words must be reversed
+  for (const seg of segments) {
+    if (seg.hebrew && seg.text.includes(' ')) {
+      seg.text = seg.text.split(' ').reverse().join(' ')
+    }
+  }
+
   return segments
 }
 
@@ -2334,8 +2343,8 @@ export async function GET(
 
     // Renderer selection: ?renderer=pdflib for legacy, default is html (Playwright)
     const renderer = url.searchParams.get('renderer') || 'html'
-    // HTML renderer handles Hebrew bidi natively; pdf-lib renders it backwards
-    const keepHebrew = renderer === 'html'
+    // Both renderers now support Hebrew: HTML via native HarfBuzz, pdf-lib via word-reversal
+    const keepHebrew = true
 
     // Fetch book and pages
     const book = await prisma.book.findUnique({ where: { id: bookId } })

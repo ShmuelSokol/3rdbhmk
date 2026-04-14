@@ -673,16 +673,20 @@ export async function generateHtmlBook(
         if (upcoming.type === 'divider' || upcoming.type === 'body') break
       }
 
-      // Check if the content AFTER the divider is short (< 5 elements before next divider)
-      // If so, don't force a page break — it would create a near-empty page
-      let contentAfterCount = 0
-      for (let look = 1; elIdx + look < elements.length; look++) {
-        if (elements[elIdx + look].type === 'divider') break
-        contentAfterCount++
+      // Check if this is a MAJOR section break (next header contains "Perek" or "Pasuk")
+      // Only major sections get page breaks; everything else flows inline
+      let isMajorBreak = false
+      for (let look = 1; look <= 5 && elIdx + look < elements.length; look++) {
+        const upcoming = elements[elIdx + look]
+        if (upcoming.type === 'header') {
+          const headerText = (upcoming.text || '').toLowerCase()
+          if (/perek|chapter|pasuk \d/.test(headerText)) { isMajorBreak = true }
+          break
+        }
+        if (upcoming.type === 'divider') break
       }
-      const forcePageBreak = contentAfterCount >= 3 // Only break if enough content follows
 
-      if (illustrationComingSoon || !forcePageBreak) {
+      if (illustrationComingSoon || !isMajorBreak) {
         html.push(`<div class="inline-break">
   <span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span>
 </div>`)

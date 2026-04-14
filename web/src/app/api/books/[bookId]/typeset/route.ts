@@ -2548,10 +2548,9 @@ export async function GET(
             }
           }
         } else {
-          // Extract ONLY illustration regions from source pages using pre-computed crop coordinates.
-          // This inserts cropped 3D renders, diagrams, floor plans — not full Hebrew pages.
-          // Crop coordinates were computed via pixel-level color density analysis.
+          // Extract illustration crops — collect them to insert AFTER text (not before)
           let usedPrecomputedCrops = false
+          const precomputedIllustrations: ContentElement[] = []
           try {
             const illustrationCrops: Record<string, Array<{topPct: number, leftPct: number, widthPct: number, heightPct: number}>> =
               JSON.parse(await readFile(path.join(process.cwd(), 'public/illustration-crops.json'), 'utf8'))
@@ -2574,7 +2573,7 @@ export async function GET(
                       .jpeg({ quality: 50 })
                       .toBuffer()
                     const croppedMeta = await sharp(cropped).metadata()
-                    pageElements.push({
+                    precomputedIllustrations.push({
                       type: 'illustration',
                       imageData: cropped,
                       imageWidth: croppedMeta.width || cropW,
@@ -2664,6 +2663,11 @@ export async function GET(
               })
               illustIdx++
             }
+          }
+
+          // Append pre-computed illustration crops AFTER the text (so they appear with their own page's content)
+          for (const ill of precomputedIllustrations) {
+            pageElements.push(ill)
           }
         }
 

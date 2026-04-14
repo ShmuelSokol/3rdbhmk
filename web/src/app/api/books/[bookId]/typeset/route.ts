@@ -2257,7 +2257,7 @@ function buildTocLines(entries: TocEntry[]): TocLineItem[] {
     { text: 'The Mishkan in Gilgal', keywords: ['gilgal'] },
     { text: 'The Mishkan in Shiloh', keywords: ['shiloh'] },
     { text: 'The Mishkan in Nov and Givon', keywords: ['givon', 'nov'] },
-    { text: 'The First Beis HaMikdash', keywords: ['first beis hamikdash', 'shlomo hamelech', 'when they came to yerushalayim'] },
+    { text: 'The First Beis HaMikdash', keywords: ['first beis hamikdash', 'shlomo hamelech', 'came to yerushalayim', 'v\'shachanti'] },
     { text: 'The Second Beis HaMikdash', keywords: ['second beis hamikdash'] },
     { text: 'The Destruction of the Beis HaMikdash', keywords: ['destruction'] },
   ]

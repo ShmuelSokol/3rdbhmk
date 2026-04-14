@@ -66,24 +66,54 @@ E1 Hebrew chars, E3 completeness, E8 decoration, E10 no blank pages, E30 no empt
 - Citation normalization: Chapter→Perek, verse→Pasuk, folio→Daf
 - Run with `--force` to re-enhance, only processes eval page ranges by default
 
-## Key Decisions (2026-03-19)
-- **bidi-js** chosen over Puppeteer for pdf-lib renderer (low migration, fast)
-- **Playwright HTML-to-PDF** added as primary renderer for perfect bidi
-- **Never increase paragraphSpacing above 10** — caused blank pages at 20
+## Key Decisions
+- **Playwright HTML-to-PDF** is primary renderer for perfect Hebrew bidi
+- **pdf-lib** is fallback renderer (Hebrew bidi partially broken)
 - **Never add middle-dot separators** — visual noise
-- **safeMarginBottom = cfg.marginBottom + 20** — text must NEVER touch page numbers
-- **Minimum 70% image size** — if doesn't fit at 70%, start new page
 - **Letter pages = source pages 4-12** with any letter keyword match
 - **Hebrew TOC pages skipped** — dynamic English TOC generated instead
-- **isDiagramPage()** requires 2+ markers in short regions, or 1 marker + 30% short labels
+- **Pages 3-70 skipped** — duplicate short version; expanded version at pages 71+ is used
 
 ## Infrastructure
 - Railway project: `5d90489e-8dfb-4a60-8b19-28c9e603c61b`
 - Railway service: `a1b9d33c-7764-487b-92f3-11ba1d2a30f2`
 - Supabase exports: `bhmk/exports/Lishchno_Tidreshu_*.pdf`
 
-## Critical Rules
-- Illustrations can be ANYWHERE — NEVER assume photos are only at bottom
+## Current Methodology (English Typeset PDF)
+
+The workflow is NOT overlay-on-Hebrew-pages. It's a fully separate English book with illustrations extracted from the Hebrew source.
+
+### OCR & Source Analysis
+1. OCR the Hebrew book and record: paragraph spacing, text size, centered text, image placement
+2. Image placement is its own flow — bounding box detector with user-approved crops (lock pages you like, algorithm improves from your edits via autoresearch)
+3. If an image has a header/footer caption explaining it, place that caption directly above/below the image in the English version
+
+### Hebrew Quotes & Translation Style
+- When Hebrew text quotes a pasuk from Tanach or Gemara, include the quote in Hebrew with the Perek or Daf reference
+- Translate the quote if it helps the flow make sense to an average Ashkenazi frum-from-birth Jew
+- ArtScroll em-dash format: "Hebrew — English translation (Source reference)"
+
+### Image Placement Rules
+- Images should be at the BOTTOM of the page when nothing follows the image on that page (image + its accompanying caption text included)
+- Illustrations can appear ANYWHERE in the source — never assume they're only at bottom
+- Image crops: user locks approved pages, algorithm regenerates remaining pages learning from user edits
+- Minimum 70% image size — if doesn't fit at 70%, start new page
+
+### Page Break Rules
+- Start a new page wherever the Hebrew version intentionally started a new page with a new topic
+- Analyze the Hebrew source to detect intentional page breaks (new section/topic starts)
+- Mirror those page breaks in the English version
+
+### Avoiding Blank Pages
+- If a page has under 5 lines of text with no images (mostly blank), fit that content on the previous page by slightly decreasing font size
+- Never leave near-empty pages
+
+### Text Justification
+- Text blocks should be FULLY JUSTIFIED — words hugging both left and right margins with slight margin from page border
+- Use variable word spacing to get the right edge of text close to the right margin without overflowing to the next line
+- Both left and right margins should look clean and aligned
+
+## Infrastructure Rules
 - OCR coordinates are percentages (0-100) of image dimensions
 - Prisma v5 required (npx pulls v7 which breaks schema)
 - Don't hardcode PORT in Dockerfile (Railway sets it)

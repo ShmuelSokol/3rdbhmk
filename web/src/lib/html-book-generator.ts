@@ -364,9 +364,7 @@ export async function generateHtmlBook(
     padding-right: ${OUTER_INSET + INNER_GAP + CONTENT_PAD}pt;
     padding-top: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
     padding-bottom: ${OUTER_INSET + INNER_GAP + CONTENT_PAD + 5}pt;
-    /* Flex column layout enables margin-top:auto to push images to page bottom */
-    display: flex;
-    flex-direction: column;
+    /* Note: flex layout breaks Playwright print pagination. Don't use flex on body. */
   }
 
   /* ── Left/right vertical border lines ──

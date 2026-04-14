@@ -410,7 +410,7 @@ export async function generateHtmlBook(
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: ${pageH}pt;
+    min-height: ${Math.round(pageH * 0.85)}pt;
     page-break-after: always;
   }
   .title-hebrew {

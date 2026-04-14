@@ -2261,7 +2261,14 @@ function buildTocLines(entries: TocEntry[]): TocLineItem[] {
     tocLines.push({ type: 'entry', text: intro.text, pageNum })
   }
 
+  // Skip entries that duplicate the hardcoded intro sections
+  const introKeywords = introSections.flatMap(s => s.keywords)
+
   for (const entry of finalTocItems) {
+    // Skip if this entry matches an intro section keyword (already in hardcoded list)
+    const lowerTitle = entry.title.toLowerCase()
+    if (introKeywords.some(kw => lowerTitle.includes(kw)) && !lowerTitle.includes('perek') && !lowerTitle.includes('pasuk')) continue
+
     const perekMatch = entry.title.match(perekRegex)
     if (perekMatch) {
       const perekLabel = `YECHEZKEL PEREK ${perekMatch[1]}`

@@ -131,6 +131,12 @@ The workflow is NOT overlay-on-Hebrew-pages. It's a fully separate English book 
 - Use variable word spacing to get the right edge of text close to the right margin without overflowing to the next line
 - Both left and right margins should look clean and aligned
 
+## Deploy Rules
+- ALWAYS check Railway deploy status after every `git push`
+- The Dockerfile build is STRICT — unused variables cause ESLint errors that fail the build
+- If deploy fails, check build logs immediately and fix
+- Railway deploys: eslint errors in the Dockerfile build stage are FATAL (exit code 1)
+
 ## Infrastructure Rules
 - OCR coordinates are percentages (0-100) of image dimensions
 - Prisma v5 required (npx pulls v7 which breaks schema)

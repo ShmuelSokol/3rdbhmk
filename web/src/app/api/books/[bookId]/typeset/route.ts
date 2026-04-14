@@ -2355,6 +2355,7 @@ export async function GET(
     // This prevents half-empty pages between sections
     const allElements: ContentElement[] = []
     let isFirstSection = true
+    const insertedCropPages = new Set<number>() // Track which pages already had crops inserted
 
     const hebrewTocTitles: string[] = [] // topics from Hebrew TOC pages
 
@@ -2668,8 +2669,12 @@ export async function GET(
           }
 
           // Append pre-computed illustration crops AFTER the text (so they appear with their own page's content)
-          for (const ill of precomputedIllustrations) {
-            pageElements.push(ill)
+          // Only insert once per source page to avoid duplicates
+          if (!insertedCropPages.has(page.pageNumber) && precomputedIllustrations.length > 0) {
+            for (const ill of precomputedIllustrations) {
+              pageElements.push(ill)
+            }
+            insertedCropPages.add(page.pageNumber)
           }
         }
 

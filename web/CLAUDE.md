@@ -77,7 +77,19 @@ E1 Hebrew chars, E3 completeness, E8 decoration, E10 no blank pages, E30 no empt
 ## Infrastructure
 - Railway project: `5d90489e-8dfb-4a60-8b19-28c9e603c61b`
 - Railway service: `a1b9d33c-7764-487b-92f3-11ba1d2a30f2`
+- Supabase project: `dngsshakdiuroctlwtfx` (dedicated to 3rdBHMK, region: us-east-1)
+- Supabase pooler: `aws-1-us-east-1.pooler.supabase.com`
+- Supabase bucket: `bhmk` (public)
 - Supabase exports: `bhmk/exports/Lishchno_Tidreshu_*.pdf`
+
+## DANGER — DB safety (post-migration 2026-04-19)
+
+Previously shared `ushngszdltlctmqlwgot` project with ocr-hebrew + 3d-images. OCR Hebrew's schema was silently wiped when one of the three ran `prisma db push`. Migrated to dedicated project.
+
+- **NEVER run `prisma db push` with prod `DATABASE_URL`** without going through `npm run db:push:prod` (guarded; refuses if DB has data unless `CONFIRM_SCHEMA_CHANGE=yes`).
+- **Docker CMD does NOT auto-run db push** — schema changes are deliberate.
+- **Nightly backup**: `npm run db:backup` → `backups/db-YYYY-MM-DD.json`, 30-day rotation.
+- **Health check** at `/api/health` returns 503 `schema-missing` if required tables disappear (book, page, oCRResult, boundingBox, translation).
 
 ## Current Methodology (English Typeset PDF)
 

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push:prod": "node scripts/db-push-guarded.js",
+    "db:backup": "node scripts/db-backup.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

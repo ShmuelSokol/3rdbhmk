@@ -175,33 +175,20 @@ function splitBidi(text: string): TextSegment[] {
 }
 
 /** Split text into Hebrew/Latin segments for font switching.
- *  Applies the Unicode Bidirectional Algorithm via bidi-js to reorder the
- *  FULL line from logical to visual order, then splits into font-switching
- *  segments. Output is in visual (draw) order — first segment is drawn at
- *  leftmost x, etc. This handles inter-word AND intra-word Hebrew direction
- *  correctly because pdf-lib draws glyphs LTR with no native bidi support.
+ *  Passes Hebrew text in logical order to pdf-lib.
+ *  (User preference — confirmed 2026-04-22 with probe PDF. bidi-js-reordered
+ *  output visually rearranges final-form letters wrongly since pdf-lib draws
+ *  LTR with no glyph substitution for medial/final forms.)
  */
 function getVisualSegments(text: string): TextSegment[] {
   if (!text) return []
-
-  // Reorder via Unicode bidi algorithm. For pure/mostly-Hebrew text, this
-  // produces a visually-correct char sequence (Hebrew runs reversed, Latin
-  // preserved, neutrals resolved per spec).
-  let visual = text
-  try {
-    const bidi = getBidi()
-    const embedding = bidi.getEmbeddingLevels(text)
-    visual = bidi.getReorderedString(text, embedding)
-  } catch {
-    // bidi-js failure — fall back to logical order (degraded but non-crashing)
-  }
 
   const segments: TextSegment[] = []
   let cur = ''
   let curHeb = false
   let started = false
 
-  for (const ch of visual) {
+  for (const ch of text) {
     const heb = isHebrew(ch)
     const isStrong = heb || /[a-zA-Z0-9]/.test(ch)
 
@@ -2927,10 +2914,11 @@ export async function GET(
         const cW = coverMeta.width || 1655
         const cH = coverMeta.height || 2340
 
-        // Main image: overhead view — crop tighter to skip Hebrew headers/borders
+        // Main image: overhead view — crop to include the full illustration
+        // (skip Hebrew header, include all of bottom diagram)
         const mainCrop = await sharp(coverImgBuf)
-          .extract({ left: Math.round(cW * 0.05), top: Math.round(cH * 0.06), width: Math.round(cW * 0.90), height: Math.round(cH * 0.55) })
-          .jpeg({ quality: 80 }).toBuffer()
+          .extract({ left: Math.round(cW * 0.03), top: Math.round(cH * 0.08), width: Math.round(cW * 0.94), height: Math.round(cH * 0.68) })
+          .jpeg({ quality: 85 }).toBuffer()
         const mainImg = await doc.embedJpg(mainCrop)
         const mainMaxW = cfg.pageWidth - 90
         const mainMaxH = cfg.pageHeight * 0.36

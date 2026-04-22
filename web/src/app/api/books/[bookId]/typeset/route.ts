@@ -2664,7 +2664,17 @@ export async function GET(
               if (!headerText) continue
               // Skip headers that are page numbers or recurring source headers
               if (!isStandalonePageNumber(headerText) && !isRecurringSourceHeader(headerText, region.hebrewText || undefined, regions.length)) {
-                pageElements.push({ type: 'header', text: headerText })
+                // Detect Hebrew section-title pattern: "<summary> <letter>. <chapter-title> — <page#>"
+                // OCR concatenates a summary line + chapter sub-title into one header region.
+                // Split into chapter-title (top) + summary (below) so the chapter letter leads.
+                const chapterSplit = headerText.match(/^(.+?)\s+([\u05D0-\u05EA])\.\s+([\u0590-\u05FF\s]+?)(\s*[—\-]\s*\d+)?$/)
+                if (chapterSplit && chapterSplit[1].trim().length >= 10 && chapterSplit[3].trim().length >= 4) {
+                  const [, summary, letter, chapterTitle] = chapterSplit
+                  pageElements.push({ type: 'header', text: `${letter}. ${chapterTitle.trim()}` })
+                  pageElements.push({ type: 'header', text: summary.trim() })
+                } else {
+                  pageElements.push({ type: 'header', text: headerText })
+                }
               }
             } else {
               pageElements.push({ type: 'body', text: trimmed })

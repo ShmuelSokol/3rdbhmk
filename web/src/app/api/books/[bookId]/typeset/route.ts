@@ -986,10 +986,25 @@ async function getPageImage(pageId: string, pageNumber: number, bookId: string):
     return readFile(cachePath)
   }
 
-  // Use shared helper (downloads PDF from Supabase, extracts page, caches)
+  // If we have a pageId, use the shared helper (downloads PDF, extracts page, caches)
+  if (pageId) {
+    try {
+      const result = await getPageImageBuffer(pageId)
+      return result.buffer
+    } catch {
+      // fall through to direct Supabase fetch
+    }
+  }
+
+  // Fallback: fetch rendered JPG directly from Supabase storage bucket
   try {
-    const result = await getPageImageBuffer(pageId)
-    return result.buffer
+    const { getSupabase } = await import('@/lib/supabase')
+    const sb = getSupabase()
+    const { data, error } = await sb.storage
+      .from('bhmk')
+      .download(`pages/${bookId}/page-${pageNumber}.jpg`)
+    if (error || !data) return null
+    return Buffer.from(await data.arrayBuffer())
   } catch {
     return null
   }

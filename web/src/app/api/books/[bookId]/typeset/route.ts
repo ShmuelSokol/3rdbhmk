@@ -223,15 +223,11 @@ function getVisualSegments(text: string): TextSegment[] {
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
 
-  // Reverse WORD order (not letters) within Hebrew segments.
-  // User feedback 2026-04-22: Hebrew font shapes letters correctly within
-  // each word already — don't reverse chars inside a word. But pdf-lib draws
-  // LTR, so word ORDER within a Hebrew segment must be reversed for RTL.
-  for (const seg of segments) {
-    if (seg.hebrew && seg.text.includes(' ')) {
-      seg.text = seg.text.split(' ').reverse().join(' ')
-    }
-  }
+  // Hebrew bidi: NO reversal needed.
+  // pdf-lib + fontkit + NotoSerifHebrew already applies proper RTL shaping
+  // for both letters-within-word AND word order. Verified empirically
+  // 2026-04-22 with a 4-option probe PDF: passing logical text produced
+  // the correct visual. Any reversal breaks this.
 
   return segments
 }

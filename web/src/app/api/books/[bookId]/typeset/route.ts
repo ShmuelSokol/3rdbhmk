@@ -14,7 +14,6 @@ import type { TocEntry as HtmlTocEntry } from '@/lib/html-book-generator'
 // bidi-js: Unicode Bidirectional Algorithm for proper RTL text rendering
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 let _bidiModule: any = null
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getBidi() {
   if (!_bidiModule) {
     try {
@@ -176,16 +175,33 @@ function splitBidi(text: string): TextSegment[] {
 }
 
 /** Split text into Hebrew/Latin segments for font switching.
- *  Simple character-class grouping — no bidi reordering.
- *  Hebrew text stays in logical order (font handles RTL glyph shaping). */
+ *  Applies the Unicode Bidirectional Algorithm via bidi-js to reorder the
+ *  FULL line from logical to visual order, then splits into font-switching
+ *  segments. Output is in visual (draw) order — first segment is drawn at
+ *  leftmost x, etc. This handles inter-word AND intra-word Hebrew direction
+ *  correctly because pdf-lib draws glyphs LTR with no native bidi support.
+ */
 function getVisualSegments(text: string): TextSegment[] {
   if (!text) return []
+
+  // Reorder via Unicode bidi algorithm. For pure/mostly-Hebrew text, this
+  // produces a visually-correct char sequence (Hebrew runs reversed, Latin
+  // preserved, neutrals resolved per spec).
+  let visual = text
+  try {
+    const bidi = getBidi()
+    const embedding = bidi.getEmbeddingLevels(text)
+    visual = bidi.getReorderedString(text, embedding)
+  } catch {
+    // bidi-js failure — fall back to logical order (degraded but non-crashing)
+  }
+
   const segments: TextSegment[] = []
   let cur = ''
   let curHeb = false
   let started = false
 
-  for (const ch of text) {
+  for (const ch of visual) {
     const heb = isHebrew(ch)
     const isStrong = heb || /[a-zA-Z0-9]/.test(ch)
 
@@ -198,20 +214,17 @@ function getVisualSegments(text: string): TextSegment[] {
 
     if (!isStrong) {
       if (curHeb) {
-        // Neutral char after Hebrew — check if it's safe to draw with Hebrew font
-        // Only keep with Hebrew if it's a space or Hebrew punctuation (geresh, gershayim, maqaf)
         const code = ch.charCodeAt(0)
         const isHebrewSafe = ch === ' ' || (code >= 0x0590 && code <= 0x05FF) || (code >= 0xFB1D && code <= 0xFB4F) || ch === '\u05F3' || ch === '\u05F4' || ch === '\u05BE'
         if (isHebrewSafe) {
           cur += ch
         } else {
-          // Push Hebrew segment, start new non-Hebrew segment for this punctuation
           if (cur) segments.push({ text: cur, hebrew: curHeb })
           cur = ch
           curHeb = false
         }
       } else {
-        cur += ch // neutral chars after Latin stay with Latin (Latin font has all ASCII)
+        cur += ch
       }
     } else if (heb === curHeb) {
       cur += ch
@@ -222,11 +235,6 @@ function getVisualSegments(text: string): TextSegment[] {
     }
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
-
-  // Hebrew bidi: NO reversal.
-  // pdf-lib + fontkit + NotoSerifHebrew applies native RTL bidi rendering
-  // for all Hebrew text, so logical text in → correct RTL visual out.
-  // Confirmed 2026-04-22 with definitive user probe.
 
   return segments
 }

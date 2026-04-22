@@ -223,14 +223,13 @@ function getVisualSegments(text: string): TextSegment[] {
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
 
-  // Reverse ALL characters in Hebrew segments for visual RTL display.
-  // pdf-lib draws left-to-right. A Hebrew reader reads right-to-left, so the
-  // first logical character must end up at the visual right. Reversing the full
-  // char array (not just word order) flips both inter-word AND intra-word
-  // direction in one pass.
+  // Reverse WORD order (not letters) within Hebrew segments.
+  // User feedback 2026-04-22: Hebrew font shapes letters correctly within
+  // each word already — don't reverse chars inside a word. But pdf-lib draws
+  // LTR, so word ORDER within a Hebrew segment must be reversed for RTL.
   for (const seg of segments) {
-    if (seg.hebrew) {
-      seg.text = Array.from(seg.text).reverse().join('')
+    if (seg.hebrew && seg.text.includes(' ')) {
+      seg.text = seg.text.split(' ').reverse().join(' ')
     }
   }
 

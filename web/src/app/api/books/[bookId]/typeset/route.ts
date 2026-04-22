@@ -12,8 +12,12 @@ import { generateHtmlBook, htmlToPdf } from '@/lib/html-book-generator'
 import type { TocEntry as HtmlTocEntry } from '@/lib/html-book-generator'
 
 // bidi-js: Unicode Bidirectional Algorithm for proper RTL text rendering
+// Kept available but not currently called — per 2026-04-22 user feedback,
+// Hebrew is passed through in logical order so final-form glyphs stay at
+// word ends. Re-wire if we switch to visual-order pipeline.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 let _bidiModule: any = null
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getBidi() {
   if (!_bidiModule) {
     try {

@@ -223,24 +223,10 @@ function getVisualSegments(text: string): TextSegment[] {
   }
   if (cur) segments.push({ text: cur, hebrew: curHeb })
 
-  // Hebrew bidi: reverse word order for 3+ word Hebrew segments ONLY.
-  //
-  // Verified empirically 2026-04-22:
-  //  - Short Hebrew (1-2 "words") like "לשכנו תדרשו" or "א. מבוא" is stored
-  //    in LOGICAL order → pdf-lib + fontkit + NotoSerifHebrew renders correctly
-  //    as-is via native RTL shaping.
-  //  - Long Hebrew (3+ words) — typically OCR'd pesukim added by
-  //    enhance-artscroll.js — is stored in REVERSED word order (because OCR
-  //    scans LTR). Reversing word order restores logical order for correct
-  //    bidi rendering.
-  for (const seg of segments) {
-    if (seg.hebrew) {
-      const words = seg.text.split(' ').filter(w => w.length > 0)
-      if (words.length >= 3) {
-        seg.text = seg.text.split(' ').reverse().join(' ')
-      }
-    }
-  }
+  // Hebrew bidi: NO reversal.
+  // pdf-lib + fontkit + NotoSerifHebrew applies native RTL bidi rendering
+  // for all Hebrew text, so logical text in → correct RTL visual out.
+  // Confirmed 2026-04-22 with definitive user probe.
 
   return segments
 }

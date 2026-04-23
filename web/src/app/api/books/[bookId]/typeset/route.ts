@@ -2918,11 +2918,10 @@ export async function GET(
         const cW = coverMeta.width || 1655
         const cH = coverMeta.height || 2340
 
-        // Main image: overhead view — crop to include the full illustration
-        // (skip Hebrew header, include all of bottom diagram)
+        // Main image: overhead view — crop tighter to skip Hebrew headers/borders
         const mainCrop = await sharp(coverImgBuf)
-          .extract({ left: Math.round(cW * 0.03), top: Math.round(cH * 0.08), width: Math.round(cW * 0.94), height: Math.round(cH * 0.68) })
-          .jpeg({ quality: 85 }).toBuffer()
+          .extract({ left: Math.round(cW * 0.05), top: Math.round(cH * 0.06), width: Math.round(cW * 0.90), height: Math.round(cH * 0.55) })
+          .jpeg({ quality: 80 }).toBuffer()
         const mainImg = await doc.embedJpg(mainCrop)
         const mainMaxW = cfg.pageWidth - 90
         const mainMaxH = cfg.pageHeight * 0.36

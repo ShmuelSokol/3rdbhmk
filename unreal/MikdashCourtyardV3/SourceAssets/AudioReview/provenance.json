@@ -1,0 +1,43 @@
+{
+  "sourceDescription": "Original project synthesized air, nonverbal formant murmur, chirps and distant steps; documented seed46. No third-party recordings or voice clone stated.",
+  "licenseStatus": "Local README and synthesis script document original project authorship; no explicit SPDX/open-source asset license found. Do not relabel as CC0.",
+  "conversion": "ffmpeg -n -v error -i courtyard.mp3 -ac 2 -ar 24000 -c:a pcm_s16le courtyard_pcm.wav",
+  "conversionNote": "Decoded existing MP3 to PCM; does not restore information lost in MP3 encoding. No new synthesis or audio edits.",
+  "audio": {
+    "channels": 2,
+    "sampleWidthBytes": 2,
+    "sampleRate": 24000,
+    "frames": 768000,
+    "durationSeconds": 32.0,
+    "peak": 0.71575927734375,
+    "rms": 0.10936812866699372,
+    "lastToFirstSampleJumpPerChannel": [
+      0.04168701171875,
+      0.0517578125
+    ]
+  },
+  "files": [
+    {
+      "path": "mikdash-walkthrough/public/audio/courtyard.mp3",
+      "bytes": 513453,
+      "sha256": "d7706001fcb614839904075c86b9a0c88e6d5f17f6911e35e8783d9045a72a3b"
+    },
+    {
+      "path": "mikdash-walkthrough/public/audio/README.txt",
+      "bytes": 590,
+      "sha256": "9f2970766308389fb0ea8e0939492981b42b23c7b1562e173465a12e99e0469c"
+    },
+    {
+      "path": "mikdash-walkthrough/scripts/prepare-ambience.py",
+      "bytes": 2273,
+      "sha256": "e19e0865fca4efe14c34a1bd1d28b4bcb23310c466fad4ad49e10bc1dbc2912d"
+    },
+    {
+      "path": "output/cloud-unreal-v3/audio-review/courtyard_pcm.wav",
+      "bytes": 3072078,
+      "sha256": "161220261f32db2685dbf7785e0a8e32ae90afb37451d7f717ab52b2fefdfd2c"
+    }
+  ],
+  "heardInUnreal": false,
+  "loopAudition": "NOT PERFORMED; sample boundary measurement alone does not certify click-free playback"
+}

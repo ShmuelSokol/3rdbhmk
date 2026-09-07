@@ -1,0 +1,139 @@
+{
+  "status": "PILOT_UNAPPLIED_UNTESTED",
+  "manifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "targets": [
+    {
+      "assetName": "SM_0071_floor_Ezras_Kohanim_floor",
+      "sourceName": "Ezras Kohanim floor",
+      "sourcePart": "inner",
+      "semantic": "floor",
+      "slot": 0,
+      "importedSlotName": "M_innerPaving_f7f2d9a76b",
+      "profileKey": "innerPaving",
+      "finishKind": "paving",
+      "boundsUnrealCm": {
+        "min": [
+          -2500.0,
+          -2500.0,
+          605.0000190734863
+        ],
+        "max": [
+          1575.0,
+          2500.0,
+          625.0
+        ]
+      }
+    },
+    {
+      "assetName": "SM_0129_floor_Outer_court_floor",
+      "sourceName": "Outer court floor",
+      "sourcePart": "outer",
+      "semantic": "floor",
+      "slot": 0,
+      "importedSlotName": "M_paving_adab89a32a",
+      "profileKey": "paving",
+      "finishKind": "paving",
+      "boundsUnrealCm": {
+        "min": [
+          -7800.0,
+          -7800.0,
+          280.0000190734863
+        ],
+        "max": [
+          7800.0,
+          7800.0,
+          300.0
+        ]
+      }
+    },
+    {
+      "assetName": "SM_0130_floor_Inner_court_clear_floor",
+      "sourceName": "Inner court clear floor",
+      "sourcePart": "inner",
+      "semantic": "floor",
+      "slot": 0,
+      "importedSlotName": "M_innerPaving_f7f2d9a76b",
+      "profileKey": "innerPaving",
+      "finishKind": "paving",
+      "boundsUnrealCm": {
+        "min": [
+          1675.0,
+          -2500.0,
+          480.0000190734863
+        ],
+        "max": [
+          2500.0,
+          2500.0,
+          500.0
+        ]
+      }
+    },
+    {
+      "assetName": "SM_2630_union_Derived_union_of_source_House_walls_and_",
+      "sourceName": "Derived union of source House walls and roofs",
+      "sourcePart": "mixed",
+      "semantic": "union",
+      "slot": 0,
+      "importedSlotName": "M_blue_467ee3a23a",
+      "profileKey": "blue",
+      "finishKind": "vertical",
+      "boundsUnrealCm": {
+        "min": [
+          -7000.0,
+          -2500.0,
+          925.0
+        ],
+        "max": [
+          -2500.0,
+          2500.0,
+          6075.0
+        ]
+      }
+    }
+  ],
+  "restrictedWallSourceIndices": [
+    43,
+    44,
+    45
+  ],
+  "wallScope": "Exact source AABBs; cardinal vertical faces only; cap/roof/other union faces stay canonical",
+  "materialDimensionStatus": "Artistic finish choices, not source-measured block sizes",
+  "sourceBoundsUnrealCm": {
+    "43": {
+      "min": [
+        -2750,
+        -2500,
+        925
+      ],
+      "max": [
+        -2500,
+        -350,
+        5925
+      ]
+    },
+    "44": {
+      "min": [
+        -2750,
+        350,
+        925
+      ],
+      "max": [
+        -2500,
+        2500,
+        5925
+      ]
+    },
+    "45": {
+      "min": [
+        -2750,
+        -350,
+        3425
+      ],
+      "max": [
+        -2500,
+        350,
+        5925
+      ]
+    }
+  }
+}

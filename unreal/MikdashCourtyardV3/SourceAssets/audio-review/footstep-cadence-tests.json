@@ -1,0 +1,40 @@
+{
+  "status": "standalone_cpp_tests_passed",
+  "compiler": "Installed MSVC14.28, VS2019; C++14, /W4 /WX",
+  "scope": "Actual production footstep distance accumulator only; not Unreal plugin compilation, native audio or packaged behavior",
+  "checks": [
+    "standing silence",
+    "blocked displacement silence",
+    "pause silence",
+    "airborne silence",
+    "relocation reset",
+    "long frame reset",
+    "nonfinite input reset",
+    "possession reset",
+    "30/60/120fps cadence"
+  ],
+  "stepsPer10SecondsAt30_60_120fps": {
+    "100cm/s": [
+      15,
+      15,
+      15
+    ],
+    "240cm/s": [
+      26,
+      26,
+      26
+    ],
+    "600cm/s": [
+      37,
+      37,
+      37
+    ]
+  },
+  "sourceSha256": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/FootstepCadence.h": "97b95580d7de5045d89ab54a55aca902ec6847dd76b444d82d82704ba5239c34",
+    "Plugins/MikdashRuntime/Tests/FootstepCadenceTest.cpp": "7c63b276eaf86315315d976a8f1d0653fabdfa3edf01f265cd724ef5e59bdc0b"
+  },
+  "unrealPluginCompile": "PENDING_COMPATIBLE_COMPILER_APPROVAL",
+  "surfaceAwareAudio": "PENDING",
+  "audition": "PENDING"
+}

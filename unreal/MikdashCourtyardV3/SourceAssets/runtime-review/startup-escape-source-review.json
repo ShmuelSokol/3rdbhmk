@@ -1,0 +1,8 @@
+{
+  "status": "SOURCE_REVIEW_PASSED_RUNTIME_PENDING",
+  "problem": "Escape on initial welcome screen previously resumed and captured mouse before explicit Start.",
+  "change": "Escape routes through guarded menu toggle; bHasStarted is required to resume from Escape. Explicit Start click still starts. Repeated Slate Escape and M events are consumed without toggling.",
+  "verification": ["Reviewed both controller Escape binding and Slate OnKeyDown routing", "Explicit Start lambda still calls ResumeWalkthrough", "FInputEvent::IsRepeat confirmed in installed UE5.8 SlateCore/Public/Input/Events.h", "git diff --check no whitespace errors; no-index exit1 denotes file difference"],
+  "remaining": ["Supported Unreal C++ compilation", "Escape before Start leaves pointer free", "Repeated pause/resume cycles", "Held Escape and M behavior with each button focused", "Packaged startup and fresh-process verification"],
+  "pluginEnabled": false
+}

@@ -1,0 +1,81 @@
+[
+  {
+    "label": "V3 daylight daylight \u2014 20000 lux",
+    "class": "DirectionalLight",
+    "components": [
+      {
+        "class": "DirectionalLightComponent",
+        "props": {
+          "intensity": "20000.0",
+          "mobility": "<ComponentMobility.MOVABLE: 2>",
+          "source_type": "DirectionalLightComponent: Failed to find property 'source_type' for attribute 'source_type' on 'DirectionalLightComponent'",
+          "cubemap": "DirectionalLightComponent: Failed to find property 'cubemap' for attribute 'cubemap' on 'DirectionalLightComponent'",
+          "real_time_capture": "DirectionalLightComponent: Failed to find property 'real_time_capture' for attribute 'real_time_capture' on 'DirectionalLightComponent'",
+          "visible": "True",
+          "hidden_in_game": "False",
+          "affects_world": "True",
+          "indirect_lighting_intensity": "1.0",
+          "lower_hemisphere_is_black": "DirectionalLightComponent: Failed to find property 'lower_hemisphere_is_black' for attribute 'lower_hemisphere_is_black' on 'DirectionalLightComponent'",
+          "atmosphere_sun_light": "True"
+        }
+      }
+    ]
+  },
+  {
+    "label": "V3 daylight sky",
+    "class": "SkyAtmosphere",
+    "components": [
+      {
+        "class": "SkyAtmosphereComponent",
+        "props": {
+          "intensity": "SkyAtmosphereComponent: Failed to find property 'intensity' for attribute 'intensity' on 'SkyAtmosphereComponent'",
+          "mobility": "<ComponentMobility.MOVABLE: 2>",
+          "source_type": "SkyAtmosphereComponent: Failed to find property 'source_type' for attribute 'source_type' on 'SkyAtmosphereComponent'",
+          "cubemap": "SkyAtmosphereComponent: Failed to find property 'cubemap' for attribute 'cubemap' on 'SkyAtmosphereComponent'",
+          "real_time_capture": "SkyAtmosphereComponent: Failed to find property 'real_time_capture' for attribute 'real_time_capture' on 'SkyAtmosphereComponent'",
+          "visible": "True",
+          "hidden_in_game": "False",
+          "affects_world": "SkyAtmosphereComponent: Failed to find property 'affects_world' for attribute 'affects_world' on 'SkyAtmosphereComponent'",
+          "indirect_lighting_intensity": "SkyAtmosphereComponent: Failed to find property 'indirect_lighting_intensity' for attribute 'indirect_lighting_intensity' on 'SkyAtmosphereComponent'",
+          "lower_hemisphere_is_black": "SkyAtmosphereComponent: Failed to find property 'lower_hemisphere_is_black' for attribute 'lower_hemisphere_is_black' on 'SkyAtmosphereComponent'",
+          "atmosphere_sun_light": "SkyAtmosphereComponent: Failed to find property 'atmosphere_sun_light' for attribute 'atmosphere_sun_light' on 'SkyAtmosphereComponent'"
+        }
+      }
+    ]
+  },
+  {
+    "label": "V2 skylight",
+    "class": "SkyLight",
+    "components": [
+      {
+        "class": "SkyLightComponent",
+        "props": {
+          "intensity": "1.0",
+          "mobility": "<ComponentMobility.MOVABLE: 2>",
+          "source_type": "<SkyLightSourceType.SLS_CAPTURED_SCENE: 0>",
+          "cubemap": "None",
+          "real_time_capture": "True",
+          "visible": "True",
+          "hidden_in_game": "False",
+          "affects_world": "True",
+          "indirect_lighting_intensity": "1.0",
+          "lower_hemisphere_is_black": "True",
+          "atmosphere_sun_light": "SkyLightComponent: Failed to find property 'atmosphere_sun_light' for attribute 'atmosphere_sun_light' on 'SkyLightComponent'"
+        }
+      }
+    ]
+  },
+  {
+    "label": "V3 FIXED exposure \u2014 ISO100 f8 1-125s EV13",
+    "class": "PostProcessVolume",
+    "components": [],
+    "settings": {
+      "auto_exposure_method": "<AutoExposureMethod.AEM_MANUAL: 2>",
+      "auto_exposure_min_brightness": "0.029999999329447746",
+      "auto_exposure_max_brightness": "8.0",
+      "auto_exposure_bias": "0.0",
+      "dynamic_global_illumination_method": "<DynamicGlobalIlluminationMethod.LUMEN: 1>",
+      "override_dynamic_global_illumination_method": "True"
+    }
+  }
+]

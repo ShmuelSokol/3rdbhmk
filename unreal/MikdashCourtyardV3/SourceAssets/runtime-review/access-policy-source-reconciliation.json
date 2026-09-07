@@ -1,0 +1,22 @@
+{
+  "status": "source_policy_reconciled_native_journey_not_implemented",
+  "sourceFiles": {
+    "journey.ts": {
+      "path": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\lib\\mikdash\\journey.ts",
+      "sha256": "c58ceacffea499047b2887b50570c3d51a02d062657c3767c3a4fec64e2caf3f"
+    },
+    "viewer.ts": {
+      "path": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\lib\\mikdash\\viewer.ts",
+      "sha256": "93bc071a569741ed59e667358af0a457d74ab8f25c6f1e5a7c54aec5dc6797b1"
+    },
+    "life.ts": {
+      "path": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\lib\\mikdash\\life.ts",
+      "sha256": "2fb6a7bcd19ddfd01711b6aa871ccd8e992f590ef33fbdeccd00e5d9baa45e2c"
+    }
+  },
+  "freeExploration": "viewer.ts allows movement with collision when journey.stage is idle; no pilgrim zone condition in idle mode",
+  "journeyPilgrimPolicySourceAmot": "x>=34 && x<=230 && abs(z)<50; offering owner/witness additionally x20..40 and z-29..-21",
+  "conversionToUnrealCm": "UE x=source x*50; UE y=source z*50; UE z=source height*50",
+  "npcPolicy": "life.ts permitted(plan,x,z) is role-specific NPC placement policy and must not be substituted for player free-exploration rules",
+  "nativeState": "Current Unreal walkthrough has no implemented offering journey state or source-role access gate. Scripted lane/gate/wall tests validate collision only. No arbitrary invisible access barriers added."
+}

@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "status": "SOURCE_AUDIT_AND_IMPLEMENTATION_BRIEF_ONLY",
+  "date": "2026-09-07",
+  "nativeExecution": false,
+  "geometryEdited": false,
+  "scenario": "Preserve recognizable present-day Western Wall appearance within user-directed future Temple scene. This is an explicit artistic scenario, not a prediction or archaeological reconstruction of the future.",
+  "currentAsset": {
+    "osmFeatureId": 817206833,
+    "osmEnglishName": "Western Wall",
+    "osmTags": {
+      "building": "wall",
+      "height": "20",
+      "building:levels": "5"
+    },
+    "sourceFootprint": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+    "generator": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\lib\\mikdash\\jerusalem.ts",
+    "mappingEvidence": "Footprint extrema match component7085 minX-331.07 maxX-282.94 minZ174.21 maxZ355.56 within float precision; tagged20m becomes40 source amos. Generator extrudes full footprint with no bevel and building vertex tint. This is an inferred identification from exact geometry bounds, not a preserved OSM-ID field in native mesh.",
+    "component": {
+      "componentId": 7085,
+      "sourceRootVertexId": 99030,
+      "triangles": 100,
+      "sourceBoundsAmos": {
+        "min": [
+          -331.07,
+          -27.9939,
+          174.21
+        ],
+        "max": [
+          -282.94,
+          12.0061,
+          355.56
+        ]
+      },
+      "maximumHorizontalSpanMeters": 90.675,
+      "assignedGroup": "Grid_N002_P001"
+    },
+    "componentDerivedUnrealBoundsCm": {
+      "min": [
+        -15678.014984215617,
+        8682.932517753074,
+        -1399.695
+      ],
+      "max": [
+        -13271.514984215617,
+        17750.432517753074,
+        600.305
+      ]
+    },
+    "nativeMesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+    "nativeMeshExistsOnDisk": true,
+    "nativeMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemBuildings_VertexColor",
+    "nativeMaterialExistsOnDisk": true,
+    "manifestMaterial": {
+      "fbxMaterialName": "M_JerusalemBuildings_VertexColor",
+      "sourceMaterialKey": "jerusalemBuildings",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "metalness": 0,
+      "roughness": 0.88,
+      "colorSpace": "linear RGB"
+    },
+    "sharedGridComponentIds": [
+      6873,
+      6876,
+      6900,
+      6949,
+      6966,
+      7041,
+      7085,
+      7115,
+      7169
+    ],
+    "wholeGridTriangles": 284,
+    "wallComponentTriangles": 100,
+    "warning": "One material slot covers nine source components in this grid mesh. Do not replace material on the whole grid expecting only the Kotel to change. Actual live actor overrides require root native inspection; disk/source mapping does not verify current live state. The separately named CityWalls grid is not the Western Wall building footprint."
+  },
+  "provenance": {
+    "manifest": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\buildings-manifest.json",
+    "manifestSha256": "777598ca54e98c8be79a8a498fa4b3209d22a4525821087e58904e5bf13c5063",
+    "alignment": {
+      "degrees": 0,
+      "translationSourceAmos": [
+        17.509700315687695,
+        0,
+        -0.5513496449385334
+      ],
+      "bakedOnce": true,
+      "anchor": "OSM 4709536 footprint centroid to illustrative Temple stone [-126,0]",
+      "historicalOrientationCertified": false
+    },
+    "scale": "Source amos times50 to Unreal cm, sourceZ becomes UnrealY; current20m wall extrusion is OSM/model height, not measured visible prayer-face height. Keep source coordinate alignment; no global architecture resize."
+  },
+  "primaryReferences": [
+    {
+      "url": "https://thekotel.org/en/visitor-info/",
+      "authority": "Western Wall Heritage Foundation",
+      "finding": "Present wall contains stones of different periods. Herodian stones have drafted borders; smaller upper stones include early20th-century work. Page reports45 courses,28 above ground,17 below plaza;32m from bedrock to highest point of plaza section. These are section-specific descriptions, not a survey of every visible block. Do not use full wall488m length or bedrock height as prayer-face dimensions.",
+      "referenceImage": "https://thekotel.org/wp-content/uploads/2023/03/n2r3.jpg",
+      "rights": "Reference only; all-rights-reserved website, no image copied into project."
+    },
+    {
+      "url": "https://hadashot.iaa.org.il/Report_Detail_eng.aspx?id=25029&mag_id=124&print=all",
+      "authority": "Israel Antiquities Authority, Hagbi and Uziel2016",
+      "finding": "Documents foundation courses in Davidson Center, including partial dressing, cracks, broken corners, flaking bosses and ancient/modern repair distinctions. Use as localized material/conservation analog; these excavated foundations are not a blanket weathering template for the prayer plaza facade. Figures2 and3 are direct reference links in article."
+    }
+  ],
+  "implementation": [
+    "First native audit: locate grid mesh actor by exact mesh path; record transform, mesh hash, overrides, material slots, collision and baseline exterior/plaza screenshots. Record wall footprint component selection before extracting anything.",
+    "Create a separate original Kotel detail assembly in a new review namespace. Extract or reproduce only component7085 under frozen bounds, keeping the other eight grid components and original grid asset recoverable; avoid coincident hidden base faces/z-fighting. Root must approve extraction plan before geometry work.",
+    "Create an original course layout as editable per-course/per-block data from reference observation. Large long lower dressed stones, unequal widths and offset joints, transitional upper courses and smaller top masonry must read as distinct bands. Exact course elevations, stone counts across face and individual widths remain unsurveyed; mark approximated values explicitly rather than procedurally inventing historical precision.",
+    "Use real shallow beveled geometry for visible block edges and recessed drafted margins on close approach; reserve normal detail for pores/tooling. Localized chipped corners and rounded wear, sparse cracks and restrained darker joint pockets; no uniform ruin damage, black grid grout or identical noisily bulging stones.",
+    "Author original warm ivory/beige/pale gray variation tied to individual stone identity, with restrained correlated roughness and fine porous normals. Keep sun shading out of base color; low metallic, nonplastic response. Reuse StoneV2 shader techniques only after visual inspection, not its uniform100x50cm course pattern.",
+    "Keep current wall patina distinct from fresh maintained new Temple stone. Add sparse localized vegetation emerging from demonstrated joints only as separate editable detail; no blanket moss or indiscriminate vines. Papers/notes are tiny optional original props with no readable personal contents.",
+    "Coordinate with platform/plaza lane: preserve recognizable western prayer face and open plaza approach. Platform must meet the back/interior side with supported levels; stairs and entrance require capsule/continuous walking tests. Removal of Al-Aqsa in this user-directed virtual scenario belongs to separate identified asset subset; do not remove this shared Kotel grid or unrelated buildings."
+  ],
+  "reviewGates": {
+    "status": "ALL_PENDING",
+    "cameras": "Source-bound-derived unobstructed plaza-facing approach,0.5m/2m/10m and wideplaza; same sun/exposure A/B. Positions must be computed after scene isolation, not invented here.",
+    "visual": [
+      "Recognizable mixed course scale and drafted lower blocks from plaza",
+      "Edges and joints have depth at oblique light without geometric collision snagging",
+      "No repeating stamped damage, zebra color bands, huge pores or plastic highlights",
+      "Current Kotel preserved while new Temple retains its separate maintained appearance",
+      "No inappropriate gilding, newly invented inscriptions or speculative precision claims"
+    ],
+    "technical": [
+      "Validate extraction component triangle mapping and frozen surrounding assets",
+      "Normals/UV tangents nondegenerate; no import warnings suppressed",
+      "No z-fighting, hole at plaza/platform join or changed collision from material-only stage",
+      "Measure GPU cost and draw calls versus same-camera baseline; design target is bounded local detail, not one actor/drawcall per tiny chip",
+      "Walk from plaza entrance to prayer face and intended stairs with existing capsule and automatic stop",
+      "Reopen saved candidate map and packaged runtime review after approval"
+    ]
+  },
+  "unknowns": [
+    "Exact present prayer-face per-stone survey and facade-plane segmentation",
+    "Live actor material overrides and any later root scene changes",
+    "Site-specific color under calibrated neutral light",
+    "Exact platform height and authentic future access layout",
+    "Model is approximate OSM extruded footprint, not photogrammetry"
+  ],
+  "assetRights": "No paid assets or third-party photographs/textures downloaded or incorporated. Model/material detail should be original; preserve existing OSM/source credits."
+}

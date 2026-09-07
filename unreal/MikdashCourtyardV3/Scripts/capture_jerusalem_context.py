@@ -58,20 +58,17 @@ def prepare():
             floor = hit.get_editor_property('impact_point')
             chosen = (actor, floor, extent)
             break
-    if chosen is None:
-        raise RuntimeError('No measured eastern stone-path triangle contact; do not invent floor height')
-    actor, floor, extent = chosen
-    eye = [floor.x, floor.y, floor.z+170.0]
-    street_target = [eye[0], eye[1]+1000.0, eye[2]] if extent.y >= extent.x else [eye[0]+1000.0, eye[1], eye[2]]
-    views = {
-        'arrival': dict(camera=eye, target=[center[0], center[1], floor.z+170.0]),
-        'overall': dict(camera=[hi[0]+span*1.5, hi[1]+span, hi[2]+span*1.5], target=center),
-        'street': dict(camera=eye, target=street_target),
-    }
+    views = {'overall': dict(camera=[hi[0]+span*1.5, hi[1]+span, hi[2]+span*1.5], target=center)}
+    if chosen is not None:
+        actor, floor, extent = chosen
+        eye = [floor.x, floor.y, floor.z+170.0]
+        street_target = [eye[0], eye[1]+1000.0, eye[2]] if extent.y >= extent.x else [eye[0]+1000.0, eye[1], eye[2]]
+        views['arrival'] = dict(camera=eye, target=[center[0], center[1], floor.z+170.0])
+        views['street'] = dict(camera=eye, target=street_target)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     report = json.loads(SPEC.read_text())
     report['execution'] = dict(started_utc=stamp, architecture_bounds_cm=bounds,
-        selected_path=actor.get_actor_label(), measured_path_contact_cm=_xyz(floor),
+        selected_path=actor.get_actor_label() if chosen else None, measured_path_contact_cm=_xyz(floor) if chosen else None, ground_views_status='available' if chosen else 'no_verified_path_contact',
         views=views, capture_requests=[], visual_acceptance=False)
     map_file = ROOT / 'Content/MikdashV3/Maps/Courtyard.umap'
     _state = dict(editor=editor, world=world, camera=editor.get_level_viewport_camera_info(),

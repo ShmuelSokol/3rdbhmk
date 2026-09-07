@@ -1,10 +1,69 @@
 {
   "status": "authored_native_execution_pending",
   "scope": "Three review cameras in the existing Courtyard map; no actor, material, lighting or map writes",
-  "measurement_sources": ["SourceAssets/architecture-manifest.json expectedBoundsUnrealCm", "Existing imported StonePaths actor bounds and native triangle trace"],
+  "measurement_sources": [
+    "SourceAssets/architecture-manifest.json expectedBoundsUnrealCm",
+    "Existing imported StonePaths actor bounds and native triangle trace"
+  ],
   "camera_design": "170cm illustrative eye height above measured path contact; elevated framing derived from architecture span; street heading follows path AABB major axis",
-  "limitations": ["Camera framing and eye height are review design, not historic measurements", "Path-only trace proves source surface contact, not unobstructed player placement or walkability; inspect occlusion", "Overall camera is an aerial review view, not an authorized avatar zone", "Native screenshot requests require later file/render inspection", "City context does not establish future Jerusalem's appearance"],
-  "existing_evidence": ["buildings-reopen.json verifies 1499 building meshes and vertex colors; this is geometry evidence", "streets-reopen.json verifies integrated streets; two held source path pieces remain excluded", "terrain-collision receipt verifies terrain-only samples, explicitly not unfiltered physical walking"],
-  "next_visible_fix_candidates": ["Inspect simplified building silhouettes, roof variation and facade detail before choosing a bounded city block upgrade", "Inspect path-ground contact and junction seams before decorative street additions", "Inspect terrain-to-city material transitions and distant silhouette continuity", "Keep present-day context/landmark reconstruction distinct from reviewed future-city design"],
-  "fresh_screenshots_reviewed": false
+  "limitations": [
+    "Camera framing and eye height are review design, not historic measurements",
+    "Path-only trace proves source surface contact, not unobstructed player placement or walkability; inspect occlusion",
+    "Overall camera is an aerial review view, not an authorized avatar zone",
+    "Native screenshot requests require later file/render inspection",
+    "City context does not establish future Jerusalem's appearance"
+  ],
+  "existing_evidence": [
+    "buildings-reopen.json verifies 1499 building meshes and vertex colors; this is geometry evidence",
+    "streets-reopen.json verifies integrated streets; two held source path pieces remain excluded",
+    "terrain-collision receipt verifies terrain-only samples, explicitly not unfiltered physical walking"
+  ],
+  "next_visible_fix_candidates": [
+    "Inspect simplified building silhouettes, roof variation and facade detail before choosing a bounded city block upgrade",
+    "Inspect path-ground contact and junction seams before decorative street additions",
+    "Inspect terrain-to-city material transitions and distant silhouette continuity",
+    "Keep present-day context/landmark reconstruction distinct from reviewed future-city design"
+  ],
+  "fresh_screenshots_reviewed": false,
+  "execution": {
+    "started_utc": "20260907T140404Z",
+    "architecture_bounds_cm": {
+      "min": [
+        -8100.0,
+        -9450.0,
+        0.0
+      ],
+      "max": [
+        9200.0,
+        9450.0,
+        6129.999923706055
+      ]
+    },
+    "selected_path": null,
+    "measured_path_contact_cm": null,
+    "ground_views_status": "no_verified_path_contact",
+    "views": {
+      "overall": {
+        "camera": [
+          37550.0,
+          28350.0,
+          34479.999923706055
+        ],
+        "target": [
+          550.0,
+          0.0,
+          3064.9999618530273
+        ]
+      }
+    },
+    "capture_requests": [
+      {
+        "view": "overall",
+        "file": "..\\..\\..\\..\\..\\..\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\Screenshots\\ContextReview\\20260907T140404Z-overall.png",
+        "status": "requested_not_verified"
+      }
+    ],
+    "visual_acceptance": false,
+    "map_file_unchanged": true
+  }
 }

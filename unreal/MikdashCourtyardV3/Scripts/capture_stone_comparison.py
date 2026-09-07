@@ -134,10 +134,33 @@ def start(profile):
     folder = ROOT/"SourceAssets/visual-review"/("stone-capture-"+profile+"-"+time.strftime("%Y%m%dT%H%M%S"))
     assert not folder.exists()
     folder.mkdir()
+    # TakeHighResScreenshot calls this same synchronous loading barrier internally.
+    # Run it BEFORE the bounded review clock: the first call can spend >20 s
+    # compiling assets, otherwise the baseline can silently cross into candidate.
+    # Load the pilot first so its pending compilation is included. No map mutation.
+    readiness = {"status": "loading_before_review", "barrierBeforeReview": True,
+                 "method": "AutomationLibrary.finish_loading_before_screenshot"}
+    readiness_path = folder / "readiness-receipt.json"
+    readiness_path.write_text(json.dumps(readiness, indent=2)+"\n", encoding="utf-8")
+    warmup_started = time.monotonic()
+    try:
+        pilot_path = "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/"+review.PROFILES[profile]["pilot"]
+        pilot = unreal.load_asset(pilot_path)
+        assert isinstance(pilot, unreal.Material), "Candidate material unavailable"
+        unreal.AutomationLibrary.finish_loading_before_screenshot()
+        readiness.update(status="ready", pilot=pilot_path,
+                         elapsedSeconds=round(time.monotonic()-warmup_started, 3))
+    except Exception as error:
+        readiness.update(status="failed_before_review", error=str(error),
+                         elapsedSeconds=round(time.monotonic()-warmup_started, 3))
+        raise
+    finally:
+        readiness_path.write_text(json.dumps(readiness, indent=2)+"\n", encoding="utf-8")
     review.start(profile)
     _state = {"active":True,"review":review,"started":time.monotonic(),"handle":None,
               "folder":folder,"receipt":folder/"capture-receipt.json","pending":None,
               "report":{"status":"running","profile":profile,"captures":[],"mapSaved":False,
+                        "readiness":readiness,"readinessReceipt":str(readiness_path),
                         "renderer":"Unreal native 1280x720 PNG viewport screenshot",
                         "limits":"Material comparison only. File validity is not visual approval. Source-derived face-normal camera still requires occlusion/lighting inspection. Screenshots can include editor overlays because game-view state is preserved."}}
     try:

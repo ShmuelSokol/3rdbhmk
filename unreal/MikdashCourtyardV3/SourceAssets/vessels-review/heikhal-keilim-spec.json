@@ -1,0 +1,30 @@
+{
+  "status": "dimensioned_original_study_native_and_visual_review_pending",
+  "amah_cm": 50,
+  "unit_status": "Existing reconstruction convention; not a claim that all halachic measures agree",
+  "sources": [
+    {"id":"KEL-ALTAR","reference":"Exodus30:1-5","url":"https://www.chabad.org/library/bible_cdo/aid/9891/jewish/Chapter-30.htm","paraphrase":"Square one-amah incense altar, two amah high, acacia overlaid with gold, horns and crown, two carrying rings. Distinct from the outdoor sacrificial altar."},
+    {"id":"KEL-TABLE","reference":"Exodus25:23-29","url":"https://www.chabad.org/library/bible_cdo/aid/9886/jewish/Chapter-25.htm","paraphrase":"Table two by one amah, one and a half amah high; gold overlay, crown, handbreadth frame and four rings at its legs."},
+    {"id":"KEL-LAYOUT","reference":"Rambam Beit HaBechirah3:12-17; Exodus26:35","url":"https://www.chabad.org/library/article_cdo/aid/1007196/jewish/Beit-Habechirah-Chapter-3.htm","paraphrase":"Table long axis follows the Sanctuary. Incense altar is central north-south, eastward of table and menorah, beyond the first third toward the curtain. Supports,28 hollow half-rods and two frankincense bowls require separate detailed modeling."}
+  ],
+  "geometry": {
+    "altar": {"body_width_depth_cm":[50,50],"floor_to_horn_top_cm":100,"body_top_cm":90,"horns":4,"rings":2},
+    "shulchan": {"tabletop_width_depth_cm":[100,50],"floor_to_tabletop_cm":75,"crown_top_cm":76,"legs":4,"rings":4,"frame_height_cm":8.3333333333},
+    "artistic_choices":["Bevel radii, trim profiles, ten-centimeter horn portion, ring dimensions and exact ring anchors","Four table leg profiles and reinforced feet","Frame drawn below tabletop; interpretive arrangement subject to review","Gold material color and roughness are artistic real-time choices"],
+    "not_modeled_yet":["Shulchan bread arrangements,28 hollow rods,four supports,two frankincense bowls and molds","Carry poles stored separately during stationary display","Temple Institute menorah; no generic substitute is included"]
+  },
+  "existing_import_audit": {"manifest":"SourceAssets/architecture-manifest.json","heikhal_vessel_name_matches":0,"excluded_vessel_name_matches":0,"checked_terms":["menorah","shulchan","incense","showbread"]},
+  "placement_plan": {
+    "floor_asset":"SM_0146_floor_Heichal_clear_floor",
+    "floor_bounds_cm":{"min":[-5600,-500,904.9999237060547],"max":[-3600,500,925]},
+    "axes":"X east; Y south; Z up; entrance east; north negativeY",
+    "altar_origin_cm":[-4500,0,925],
+    "table_origin_cm":[-4900,-300,925],
+    "table_yaw_degrees":0,
+    "reserved_menorah_origin_cm":[-4900,300,925],
+    "basis":"Floor Z is measured imported floor top. Proposed XY positions are an illustrative mapping of earlier-Temple ordering into this Yechezkel model, not newly sourced exact offsets. Both lie beyond eastern third; altar eastward of table.",
+    "requirements_before_placement":["Native mesh axes/bounds and rendered gold review","Confirm floor actor location and absence of duplicates","Collision/clearance and source-review signoff","Do not add ordinary visitor entry permission merely because vessels are present"]
+  },
+  "future_temple_status":"Earlier Torah vessel dimensions and Temple layout used as explicit reconstruction interpretation; Yechezkel41:22 and future vessel questions require review. No claim of final Temple Institute replica or ritual certification.",
+  "native_plan":"Import two original triangulated OBJ meshes into unique MaterialReview/HeikhalKeilimV1; save assets only. Root separately stages reviewed placement. No lighting, map or scheduler changes."
+}

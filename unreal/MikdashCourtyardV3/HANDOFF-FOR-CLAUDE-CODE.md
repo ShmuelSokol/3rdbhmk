@@ -124,3 +124,7 @@ Running the same audit in a dedicated hidden UnrealEditor process with -ExecuteP
 ## Claude takeover boundary
 
 User asked to hand off to Claude. All three root subagents were confirmed completed, and Codex heartbeat mikdash-three-minute-progress was paused. Do not infer a finished release from this handoff. Final asynchronous PIE floor helper C:\Mikdash\Working-5.8\run-release-pie-floor-probe.py was launched in a dedicated hidden editor PID 44744, but the editor requested exit before a receipt appeared; no PIE result is accepted. Log: C:\Mikdash\Working-5.8\Release-PIE-Floor-01.log. -ExecutePythonScript may close the editor when a script returns before registered tick callbacks finish; use the established persistent editor execution mechanism for asynchronous PIE tests. Recheck that PID has exited before launching another native job. User GUI editors must be preserved. Codex is yielding project ownership to Claude and will not start further work unless asked.
+
+## Recovered original lion/keruv visual (user follow-up)
+
+Read CLAUDE-VISUAL-ASSETS.md. The original generated gold-palm-cherub-relief.png and exact correction prompt are now copied and hash-verified in SourceAssets/visual-reference-handoff. They existed in the immutable web-project transfer but were omitted from this initial handoff. Use the existing image as a visual reference; no Stable Diffusion installation is needed to access it. It is not a native 3D mesh or a certified source-accurate reconstruction.

@@ -1,0 +1,149 @@
+{
+  "status": "captured_restored_requires_visual_review",
+  "maps": {
+    "/Game/MikdashV3/Maps/Courtyard": "f729834e481056e52cb01734cdf652c4a69a7800a75e6719c16ad847703bd409",
+    "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fovDegrees": 75,
+  "warmupSecondsPerView": 45,
+  "minimumSlateTicksPerView": 120,
+  "watchdogSeconds": 600,
+  "sourceManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "interiorFloorBounds": {
+    "min": [
+      -5600.0,
+      -500.0,
+      904.9999237060547
+    ],
+    "max": [
+      -3600.0,
+      500.0,
+      925.0
+    ]
+  },
+  "views": [
+    {
+      "id": "heikhal_west",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "yaw": 180.0,
+      "basis": "SM_0146_floor_Heichal_clear_floor: X[-5600,-3600],Y[-500,500],topZ925cm; camera168cm above floor,400cm inside eastern floor edge; west is UE-X"
+    },
+    {
+      "id": "exterior_courtyard",
+      "position": [
+        6500.0,
+        -1800.0,
+        468.0
+      ],
+      "yaw": 155.0,
+      "basis": "Same exterior camera as reviewed Scripts/review_exterior_exposure.py;168cm above300cm outer-court floor"
+    }
+  ],
+  "events": [
+    {
+      "event": "warming_original_heikhal_west",
+      "elapsedSeconds": 0.26
+    },
+    {
+      "event": "requested_original_heikhal_west",
+      "elapsedSeconds": 58.26
+    },
+    {
+      "event": "captured_original_heikhal_west",
+      "elapsedSeconds": 59.34
+    },
+    {
+      "event": "warming_original_exterior_courtyard",
+      "elapsedSeconds": 59.38
+    },
+    {
+      "event": "requested_original_exterior_courtyard",
+      "elapsedSeconds": 104.44
+    },
+    {
+      "event": "captured_original_exterior_courtyard",
+      "elapsedSeconds": 104.95
+    },
+    {
+      "event": "warming_pilot_heikhal_west",
+      "elapsedSeconds": 108.58
+    },
+    {
+      "event": "requested_pilot_heikhal_west",
+      "elapsedSeconds": 153.67
+    },
+    {
+      "event": "captured_pilot_heikhal_west",
+      "elapsedSeconds": 154.28
+    },
+    {
+      "event": "warming_pilot_exterior_courtyard",
+      "elapsedSeconds": 154.28
+    },
+    {
+      "event": "requested_pilot_exterior_courtyard",
+      "elapsedSeconds": 199.33
+    },
+    {
+      "event": "captured_pilot_exterior_courtyard",
+      "elapsedSeconds": 199.94
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 202.06
+    }
+  ],
+  "captures": [
+    {
+      "map": "/Game/MikdashV3/Maps/Courtyard",
+      "view": "heikhal_west",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\interior-exposure-comparison-37020d7137\\original_heikhal_west.png",
+      "bytes": 814198,
+      "sha256": "12a5158f887a4a56f855e3d3938a0d33a4116de731adbd1300efb1be7de13795",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    },
+    {
+      "map": "/Game/MikdashV3/Maps/Courtyard",
+      "view": "exterior_courtyard",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\interior-exposure-comparison-37020d7137\\original_exterior_courtyard.png",
+      "bytes": 1602908,
+      "sha256": "dc9567056113b3833c7d3c9b9d12b4efd36e14c073c539e7d30cc80620a4b6cd",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1",
+      "view": "heikhal_west",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\interior-exposure-comparison-37020d7137\\pilot_heikhal_west.png",
+      "bytes": 2321528,
+      "sha256": "a365e46173c470d8fc34a9d81f34d3e6e694e2e37ef84533baeefa7bd1cb56ba",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1",
+      "view": "exterior_courtyard",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\interior-exposure-comparison-37020d7137\\pilot_exterior_courtyard.png",
+      "bytes": 1622504,
+      "sha256": "30863727b000bfcfb88ddf7f59ac622a2cca18b5bf7cbb768023c06b9fabe86c",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    }
+  ],
+  "mapSaved": false,
+  "adopted": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical comparison stills. No access authorization, automatic image quality approval, transition/motion acceptance or packaged proof. Screenshots retain native renderer pixels.",
+  "originalMapAndCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapsUnchanged": true
+}

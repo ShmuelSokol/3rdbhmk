@@ -1,0 +1,12 @@
+{
+  "status": "AUTHORED_NATIVE_CAPTURE_PENDING",
+  "candidate": "Existing JerusalemStoneV2; no candidate material changes in this task",
+  "reviewDependency": "Scripts/review_jerusalem_stone_v2.py source-derived2m face-normal cameras and verified restoration",
+  "captures": "Native1280x720 PNG at8s baseline and30s candidate; taskcompletion, PNGdimensions andSHA256 recorded",
+  "deadline": "Capture controller restores by firsttick48s; existingreview provides independent50s callback. Editorstalls can delaycallbacks.",
+  "wall": {"cameraCm": [3000, 1525, 700], "targetCm": [2800, 1525, 700], "source": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1"},
+  "paving": {"cameraCm": [2087.5, 0, 700], "targetCm": [2087.5, 0, 500], "source": "SM_0130_floor_Inner_court_clear_floor"},
+  "scenePolicy": "No light/exposure/day changes, no save or persistent assignment; fullmaterialoverridearray/camera/throttle restored. Mainmapmustbegin clean; rootreloads afterreview if dirtyflagremains.",
+  "priorEvidence": "ExistingV2wall/paving receipts restored successfully. Exteriorwallview too distant; earlierfloorview occluded. Ulamclosepilotimage shows broadflat beige surfaces and subtleblocks but doesnot validateV2 closegrain. Needcapturedcurrentcandidate before materialchange.",
+  "acceptance": ["Targetsurface visibly unobstructed inbothframes", "Sameexposureandcamera", "Restrainedwarmtonevariation withoutcheckerboard", "No regularnoise/plasticshine orgrainaliasing", "Readableformswithoutclipping", "Rejectambiguousdifference; motionandpackagedacceptanceremainseparate"]
+}

@@ -57,39 +57,72 @@ bool AMikdashResidentCharacter::NearFeet(const FVector& A, const FVector& B)
 }
 
 bool AMikdashResidentCharacter::RequestReviewedRoute(const FString& RouteId,
-    const FVector& OriginFeet, const FVector& DestinationFeet)
+    const FVector& OriginFeet, const FVector& DestinationFeet, bool bAllowReviewedDirectCorridor)
 {
+    const auto Reject = [this](const TCHAR* Reason) { RouteDiagnostic = Reason; return false; };
     const MikdashCrowd::Person* Person = Resident();
-    if (!Person || !ReviewSegment || RouteToken != 0 || Crowd->IsPaused() || UGameplayStatics::IsGamePaused(this)
-        || Person->State != MikdashCrowd::Phase::RouteWait || !Person->Access
-        || OriginFeet.ContainsNaN() || DestinationFeet.ContainsNaN()) return false;
+    if (!Person || !ReviewSegment) return Reject(TEXT("Unbound or missing authoritative reviewer"));
+    if (RouteToken != 0) return Reject(TEXT("Existing reservation retained"));
+    if (Crowd->IsPaused() || UGameplayStatics::IsGamePaused(this)) return Reject(TEXT("Paused"));
+    if (Person->State != MikdashCrowd::Phase::RouteWait || !Person->Access)
+        return Reject(TEXT("Schedule/access/state does not authorize route"));
+    if (OriginFeet.ContainsNaN() || DestinationFeet.ContainsNaN()) return Reject(TEXT("Nonfinite waypoint"));
     UCharacterMovementComponent* Movement = GetCharacterMovement();
-    if (!Movement->IsMovingOnGround() || !NearFeet(Movement->GetActorFeetLocation(), OriginFeet)) return false;
+    if (!Movement->IsMovingOnGround()) return Reject(TEXT("Body not grounded"));
+    if (!NearFeet(Movement->GetActorFeetLocation(), OriginFeet)) return Reject(TEXT("Body not at confirmed origin"));
+
+    TArray<FVector> Candidate;
+    FString NavigationFailure;
     UNavigationSystemV1* Nav = UNavigationSystemV1::GetCurrent(GetWorld());
-    if (!Nav) return false;
-    FNavLocation ProjectedStart, ProjectedEnd;
-    const FVector Extent(40.f, 40.f, 100.f);
-    const FNavAgentProperties& Properties = Movement->GetNavAgentPropertiesRef();
-    if (!Nav->ProjectPointToNavigation(OriginFeet, ProjectedStart, Extent, &Properties)
-        || !Nav->ProjectPointToNavigation(DestinationFeet, ProjectedEnd, Extent, &Properties)
-        || !NearFeet(ProjectedStart.Location, OriginFeet) || !NearFeet(ProjectedEnd.Location, DestinationFeet)) return false;
-    UNavigationPath* Path = UNavigationSystemV1::FindPathToLocationSynchronously(
-        this, ProjectedStart.Location, ProjectedEnd.Location, this);
-    if (!Path || !Path->IsValid() || Path->IsPartial() || Path->PathPoints.Num() < 2
-        || !NearFeet(Path->PathPoints[0], OriginFeet) || !NearFeet(Path->PathPoints.Last(), DestinationFeet)) return false;
-    FVector From = Movement->GetActorFeetLocation();
-    for (const FVector& To : Path->PathPoints)
+    if (!Nav) NavigationFailure = TEXT("Navigation system unavailable");
+    else
     {
-        if (To.ContainsNaN() || !ReviewSegment(ResidentId, From, To)) return false;
+        FNavLocation ProjectedStart, ProjectedEnd;
+        const FVector Extent(40.f, 40.f, 100.f);
+        const FNavAgentProperties& Properties = Movement->GetNavAgentPropertiesRef();
+        if (!Nav->ProjectPointToNavigation(OriginFeet, ProjectedStart, Extent, &Properties)
+            || !Nav->ProjectPointToNavigation(DestinationFeet, ProjectedEnd, Extent, &Properties))
+            NavigationFailure = TEXT("Navigation endpoint projection unavailable");
+        else if (!NearFeet(ProjectedStart.Location, OriginFeet) || !NearFeet(ProjectedEnd.Location, DestinationFeet))
+            return Reject(TEXT("Navigation projection outside reviewed waypoint tolerance"));
+        else
+        {
+            UNavigationPath* Path = UNavigationSystemV1::FindPathToLocationSynchronously(
+                this, ProjectedStart.Location, ProjectedEnd.Location, this);
+            if (!Path || !Path->IsValid() || Path->IsPartial() || Path->PathPoints.Num() < 2)
+                NavigationFailure = TEXT("Complete navigation path unavailable");
+            else if (!NearFeet(Path->PathPoints[0], OriginFeet) || !NearFeet(Path->PathPoints.Last(), DestinationFeet))
+                return Reject(TEXT("Navigation path endpoints outside reviewed tolerance"));
+            else Candidate = Path->PathPoints;
+        }
+    }
+    const bool bDirect = Candidate.Num() == 0;
+    if (bDirect)
+    {
+        if (!bAllowReviewedDirectCorridor) { RouteDiagnostic = NavigationFailure; return false; }
+        if (FVector::DistSquared(OriginFeet, DestinationFeet) > FMath::Square(100.0)
+            || FMath::Abs(OriginFeet.Z-DestinationFeet.Z) > 3.0)
+            return Reject(TEXT("Direct corridor exceeds 100cm or flatness bound"));
+        Candidate.Add(OriginFeet); Candidate.Add(DestinationFeet);
+    }
+    // Every candidate, including the opt-in straight corridor, receives the same
+    // authoritative physical/access review. A rejection never selects another path.
+    FVector From = Movement->GetActorFeetLocation();
+    for (const FVector& To : Candidate)
+    {
+        if (To.ContainsNaN() || !ReviewSegment(ResidentId, From, To))
+            return Reject(TEXT("Authoritative segment review rejected: access/floor/capsule"));
         From = To;
     }
-    if (!ReviewSegment(ResidentId, From, DestinationFeet)) return false;
+    if (!ReviewSegment(ResidentId, From, DestinationFeet))
+        return Reject(TEXT("Authoritative destination review rejected"));
     const uint64 Token = Crowd->Reserve(ResidentKey, std::string(TCHAR_TO_UTF8(*RouteId)));
-    if (Token == 0) return false;
-    RoutePoints = Path->PathPoints;
+    if (Token == 0) return Reject(TEXT("Reservation unavailable"));
+    RoutePoints = MoveTemp(Candidate);
     RoutePoints.Add(DestinationFeet);
     MappedDestination = DestinationFeet;
     PointIndex = 0; RouteToken = Token; bNeedsPassageClearance = false;
+    RouteDiagnostic = bDirect ? TEXT("Accepted reviewed direct corridor; ") + NavigationFailure : TEXT("Accepted reviewed navigation path");
     return true;
 }
 
@@ -110,7 +143,7 @@ void AMikdashResidentCharacter::FailRoute()
     }
 }
 
-void AMikdashResidentCharacter::RequestResidentStop() { FailRoute(); }
+void AMikdashResidentCharacter::RequestResidentStop() { RouteDiagnostic = TEXT("External stop requested; reservation retained if active"); FailRoute(); }
 
 bool AMikdashResidentCharacter::ConfirmPassageCleared(uint64 ExpectedToken)
 {
@@ -132,10 +165,10 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
     if (RouteToken == 0) return;
     if (Person->Token != RouteToken || Person->State != MikdashCrowd::Phase::Traveling || !Person->Access)
     {
-        FailRoute(); return;
+        RouteDiagnostic = TEXT("Travel interrupted: token/state/access changed"); FailRoute(); return;
     }
     UCharacterMovementComponent* Movement = GetCharacterMovement();
-    if (!Movement->IsMovingOnGround()) { FailRoute(); return; }
+    if (!Movement->IsMovingOnGround()) { RouteDiagnostic = TEXT("Travel interrupted: lost ground"); FailRoute(); return; }
     const FVector Feet = Movement->GetActorFeetLocation();
     while (RoutePoints.IsValidIndex(PointIndex) && NearFeet(Feet, RoutePoints[PointIndex])) ++PointIndex;
     if (!RoutePoints.IsValidIndex(PointIndex))
@@ -146,13 +179,14 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
             || !NearFeet(Feet, MappedDestination) || !ReviewSegment(ResidentId, Feet, MappedDestination)
             || !Crowd->Arrive(ResidentKey, RouteToken, Identity->Goals[Person->GoalIndex].Destination))
         {
-            FailRoute(); return;
+            RouteDiagnostic = TEXT("Physical arrival/state confirmation rejected"); FailRoute(); return;
         }
+        RouteDiagnostic = TEXT("Physical arrival confirmed");
         RouteToken = 0; RoutePoints.Reset(); PointIndex = 0;
         return;
     }
     const FVector Target = RoutePoints[PointIndex];
-    if (!ReviewSegment(ResidentId, Feet, Target)) { FailRoute(); return; }
+    if (!ReviewSegment(ResidentId, Feet, Target)) { RouteDiagnostic = TEXT("Travel interrupted: authoritative floor/capsule/access review"); FailRoute(); return; }
     FVector Direction = Target - Feet; Direction.Z = 0.0;
     if (Direction.IsNearlyZero()) { FailRoute(); return; }
     AddMovementInput(Direction.GetSafeNormal(), 1.f, true);

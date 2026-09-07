@@ -9,6 +9,8 @@
 
 class SWidget;
 class USoundBase;
+class AMikdashDovePawn;
+class ACharacter;
 
 /** Uses the existing measured-walkthrough Character and its collision. */
 UCLASS(Config=Game)
@@ -37,11 +39,25 @@ public:
     UFUNCTION(BlueprintPure, Category="Walkthrough")
     bool IsSoundMuted() const { return bSoundMuted; }
 
+    UFUNCTION(BlueprintCallable, Category="Walkthrough") void ToggleDoveFlight();
+    UFUNCTION(BlueprintCallable, Category="Walkthrough") void RequestDoveFlightFromMenu();
+    UFUNCTION(BlueprintPure, Category="Walkthrough") bool IsDoveFlightActive() const { return bDoveFlight; }
+    UFUNCTION(BlueprintPure, Category="Walkthrough") FString GetDoveFlightStatus() const { return DoveFlightStatus; }
     void QuitWalkthrough();
     void ShowPreparationLesson();
     void BackToWalkthroughMenu();
 
 private:
+    UPROPERTY() TObjectPtr<AMikdashDovePawn> DovePawn;
+    UPROPERTY() TObjectPtr<ACharacter> ParkedWalker;
+    FVector ParkedWalkLocation = FVector::ZeroVector;
+    FRotator ParkedControlRotation = FRotator::ZeroRotator;
+    FString DoveFlightStatus = TEXT("Ground walking");
+    bool bDoveFlight = false;
+    bool bPendingMenuDove = false;
+    double MenuDoveDeadline = 0.0;
+    uint8 ParkedMovementMode = 1;
+    uint8 ParkedCustomMovementMode = 0;
     void OpenMenu();
     void ApplySoundVolume();
     void Turn(float Value);

@@ -1,4 +1,5 @@
 #include "MikdashPlayerController.h"
+#include "MikdashDovePawn.h"
 #include "SMikdashPreparation.h"
 #include "AudioDevice.h"
 #include "AudioDeviceHandle.h"
@@ -62,11 +63,20 @@ public:
                         "A measured reconstruction based on Yechezkel.\nSurrounding Jerusalem and vegetation are illustrative.\nDevelopment preview: visuals and runtime are under review."))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
                     [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
-                        "W A S D or arrow keys: walk\nMouse: look around\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
+                        "W A S D or arrow keys: walk\nMouse: look around\nF: white dove / return to walking\nDove: Space up, Ctrl down, Shift fast\nAerial exploration is an architectural review mode.\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
                     [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text(Args._HasStarted ? LOCTEXT("Resume", "Resume walkthrough") : LOCTEXT("Start", "Start walkthrough"))
                         .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ResumeWalkthrough(); return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text_Lambda([this]() { return Controller.IsValid() && Controller->IsDoveFlightActive()
+                            ? LOCTEXT("DoveReturn", "Return to walking") : LOCTEXT("DoveStart", "Explore as a white dove"); })
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) { Controller->RequestDoveFlightFromMenu(); } return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(STextBlock).AutoWrapText(true)
+                        .Text_Lambda([this]() { return Controller.IsValid()
+                            ? FText::FromString(Controller->GetDoveFlightStatus()) : FText::GetEmpty(); })]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
                     [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text(LOCTEXT("Prepare", "Preparation: learn before arriving"))
@@ -140,6 +150,7 @@ void AMikdashPlayerController::SetupInputComponent()
     // Controller is above the pawn in BuildInputStack: keep template action
     // bindings from adding movement/look a second time or enabling jumping.
     InputComponent->bBlockInput = true;
+    InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AMikdashPlayerController::ToggleDoveFlight);
     InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::P, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::M, IE_Pressed, this, &AMikdashPlayerController::ToggleSound).bExecuteWhenPaused = true;
@@ -150,6 +161,26 @@ void AMikdashPlayerController::SetupInputComponent()
 void AMikdashPlayerController::PlayerTick(float DeltaTime)
 {
     Super::PlayerTick(DeltaTime);
+    if (bDoveFlight && !IsValid(DovePawn)) ToggleDoveFlight();
+    if (bPendingMenuDove)
+    {
+        if (bMenuOpen || IsPaused()) bPendingMenuDove=false;
+        else if (GetWorld() && GetWorld()->GetRealTimeSeconds() >= MenuDoveDeadline)
+        {
+            bPendingMenuDove=false;
+            DoveFlightStatus=TEXT("Dove flight could not start: stand on clear ground and try again");
+            OpenMenu();
+        }
+        else if (ACharacter* Walker=Cast<ACharacter>(GetPawn()))
+        {
+            if (Walker->GetCharacterMovement()->IsMovingOnGround())
+            {
+                bPendingMenuDove=false;
+                ToggleDoveFlight();
+                if (!bDoveFlight) OpenMenu();
+            }
+        }
+    }
     UpdateFootsteps(DeltaTime);
     if (bMenuOpen || !IsLocalController() || !GetPawn() || IsPaused()) return;
     ResidentClockSeconds += FMath::Max(0.0, static_cast<double>(DeltaTime));
@@ -160,7 +191,71 @@ void AMikdashPlayerController::PlayerTick(float DeltaTime)
         - (IsInputKeyDown(EKeys::A) || IsInputKeyDown(EKeys::Left) ? 1.f : 0.f);
     const FRotator Heading(0.f, GetControlRotation().Yaw, 0.f);
     const FVector Direction = Heading.Vector() * Forward + FRotationMatrix(Heading).GetUnitAxis(EAxis::Y) * Right;
-    GetPawn()->AddMovementInput(Direction.GetClampedToMaxSize(1.f));
+    if (bDoveFlight && IsValid(DovePawn))
+    {
+        const float Up=(IsInputKeyDown(EKeys::SpaceBar) ? 1.f : 0.f)
+            -(IsInputKeyDown(EKeys::LeftControl) || IsInputKeyDown(EKeys::RightControl) ? 1.f : 0.f);
+        DovePawn->SetFlightBoost(IsInputKeyDown(EKeys::LeftShift) || IsInputKeyDown(EKeys::RightShift));
+        DovePawn->AddMovementInput((Direction+FVector(0,0,Up)).GetClampedToMaxSize(1.f));
+    }
+    else GetPawn()->AddMovementInput(Direction.GetClampedToMaxSize(1.f));
+}
+
+void AMikdashPlayerController::RequestDoveFlightFromMenu()
+{
+    if (!IsLocalController() || !GetWorld()) return;
+    ResumeWalkthrough();
+    if (bDoveFlight)
+    {
+        ToggleDoveFlight();
+        if (bDoveFlight) OpenMenu();
+        return;
+    }
+    DoveFlightStatus=TEXT("Preparing dove flight; waiting for grounded footing");
+    bPendingMenuDove=true;
+    MenuDoveDeadline=GetWorld()->GetRealTimeSeconds()+3.0;
+}
+
+void AMikdashPlayerController::ToggleDoveFlight()
+{
+    if (!IsLocalController() || !GetWorld() || bMenuOpen || IsPaused()) return;
+    bPendingMenuDove=false;
+    if (bDoveFlight)
+    {
+        if (!IsValid(ParkedWalker) || FVector::Dist(ParkedWalker->GetActorLocation(),ParkedWalkLocation)>5.f)
+        { DoveFlightStatus=TEXT("Return unavailable: walking character changed; restart walkthrough safely"); return; }
+        AMikdashDovePawn* PreviousDove=DovePawn;
+        Possess(ParkedWalker);
+        if (GetPawn()!=ParkedWalker) { DoveFlightStatus=TEXT("Return possession failed"); return; }
+        ParkedWalker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);
+        SetControlRotation(ParkedControlRotation);
+        bDoveFlight=false;DovePawn=nullptr;ParkedWalker=nullptr;
+        if (IsValid(PreviousDove)) PreviousDove->Destroy();
+        if (PlayerInput) PlayerInput->FlushPressedKeys();
+        DoveFlightStatus=TEXT("Ground walking restored at departure point");
+        return;
+    }
+    ACharacter* Walker=Cast<ACharacter>(GetPawn());
+    if (!Walker || !Walker->GetCharacterMovement()->IsMovingOnGround())
+    { DoveFlightStatus=TEXT("Stand on the ground before beginning dove flight"); return; }
+    FActorSpawnParameters Params;Params.Owner=this;Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+    AMikdashDovePawn* Bird=GetWorld()->SpawnActor<AMikdashDovePawn>(AMikdashDovePawn::StaticClass(),
+        Walker->GetActorLocation()+FVector(0,0,150),FRotator(0,GetControlRotation().Yaw,0),Params);
+    if (!Bird) { DoveFlightStatus=TEXT("No clear space above: step into an open area"); return; }
+    ParkedWalker=Walker;ParkedWalkLocation=Walker->GetActorLocation();ParkedControlRotation=GetControlRotation();
+    ParkedMovementMode=static_cast<uint8>(Walker->GetCharacterMovement()->MovementMode.GetValue());
+    ParkedCustomMovementMode=Walker->GetCharacterMovement()->CustomMovementMode;
+    Walker->GetCharacterMovement()->StopMovementImmediately();
+    Walker->ConsumeMovementInputVector();Walker->GetCharacterMovement()->DisableMovement();
+    Possess(Bird);
+    if (GetPawn()!=Bird)
+    {
+        Walker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);Possess(Walker);
+        Bird->Destroy();ParkedWalker=nullptr;DoveFlightStatus=TEXT("Flight possession failed; walking retained");return;
+    }
+    DovePawn=Bird;bDoveFlight=true;
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    DoveFlightStatus=TEXT("White dove: aerial architectural exploration; F returns to departure point");
 }
 
 void AMikdashPlayerController::Turn(float Value) { if (!bMenuOpen) AddYawInput(Value); }
@@ -294,6 +389,9 @@ void AMikdashPlayerController::QuitWalkthrough()
 
 void AMikdashPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 {
+    if (IsValid(ParkedWalker)) ParkedWalker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);
+    if (IsValid(DovePawn)) DovePawn->Destroy();
+    DovePawn=nullptr;ParkedWalker=nullptr;bDoveFlight=false;
     if (FSlateApplication::IsInitialized())
         FSlateApplication::Get().OnApplicationActivationStateChanged().Remove(ActivationHandle);
     if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())

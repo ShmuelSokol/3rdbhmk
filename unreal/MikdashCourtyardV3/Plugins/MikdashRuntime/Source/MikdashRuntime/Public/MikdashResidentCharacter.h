@@ -28,7 +28,9 @@ public:
 
     // Both feet transforms are reviewed semantic waypoint mappings in native cm.
     // Path projection must stay near them; no partial path or teleport fallback.
-    bool RequestReviewedRoute(const FString& RouteId, const FVector& OriginFeet, const FVector& DestinationFeet);
+    // Explicit opt-in permits a <=100cm flat, physically reviewed direct corridor
+    // only when navigation is unavailable. Authoritative review always remains required.
+    bool RequestReviewedRoute(const FString& RouteId, const FVector& OriginFeet, const FVector& DestinationFeet, bool bAllowReviewedDirectCorridor = false);
 
     // Call only after externally confirming body stopped AND passage resource clear.
     // A stopped body inside a doorway is not clear. This adapter never auto-releases.
@@ -53,12 +55,16 @@ public:
     UFUNCTION(BlueprintPure, Category="Residents")
     bool NeedsPassageClearance() const { return bNeedsPassageClearance; }
 
+    UFUNCTION(BlueprintPure, Category="Residents")
+    FString GetRouteDiagnostic() const { return RouteDiagnostic; }
+
     uint64 GetRouteToken() const { return RouteToken; }
 
 private:
     TSharedPtr<MikdashCrowd::Runtime> Crowd;
     FMikdashResidentSegmentReview ReviewSegment;
     FString ResidentId;
+    FString RouteDiagnostic = TEXT("No route requested");
     std::string ResidentKey;
     TArray<FVector> RoutePoints;
     int32 PointIndex = 0;

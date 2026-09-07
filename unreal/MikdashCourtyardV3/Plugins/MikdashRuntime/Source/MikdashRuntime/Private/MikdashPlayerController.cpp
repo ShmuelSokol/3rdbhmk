@@ -51,10 +51,10 @@ public:
                     [SNew(STextBlock).Text(LOCTEXT("Title", "Third Beis HaMikdash"))
                         .Font(FCoreStyle::GetDefaultFontStyle("Bold", 28))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
-                    [SNew(STextBlock).AutoWrapText(true).Text(LOCTEXT("Source",
+                    [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Source",
                         "A measured reconstruction based on Yechezkel.\nSurrounding Jerusalem and vegetation are illustrative.\nDevelopment preview: visuals and runtime are under review."))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
-                    [SNew(STextBlock).AutoWrapText(true).Text(LOCTEXT("Controls",
+                    [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
                         "W A S D or arrow keys: walk\nMouse: look around\nEscape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
                     [SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))

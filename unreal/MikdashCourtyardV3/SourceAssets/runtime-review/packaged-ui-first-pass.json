@@ -1,0 +1,39 @@
+{
+  "build": "Walkthrough-01",
+  "scope": "Observed packaged UI with editor closed; not complete runtime acceptance",
+  "passed": [
+    "Welcome Escape does not start",
+    "Start button displays architecture",
+    "Escape opens pause menu",
+    "Escape resumes",
+    "M updates sound menu state",
+    "Alt-tab opens pause and returning stays paused",
+    "Quit button requests clean engine shutdown",
+    "Alt-F4 requests clean shutdown"
+  ],
+  "failed": [
+    "Mute did not persist to fresh process"
+  ],
+  "visualIssues": [
+    "Menu instruction text too small",
+    "Architecture still simple; no studio-quality acceptance"
+  ],
+  "notVerified": [
+    "Sustained WASD/arrows walking",
+    "Diagonal speed",
+    "Held key repeat",
+    "Mouse look range",
+    "Audio audition and actual output mute",
+    "Performance and longer routes"
+  ],
+  "logs": [
+    {
+      "path": "C:\\Mikdash\\Working-5.8\\Packaged-Runtime-01.log",
+      "sha256": "1606285a4ac073ae4421be8a698c62d76db6469d6b87736db57cb6f1f51f0656"
+    },
+    {
+      "path": "C:\\Mikdash\\Working-5.8\\Packaged-Runtime-02.log",
+      "sha256": "e63cd37f8e878789631b23c9aa544e28daf2336302133635cdb572d714be76a5"
+    }
+  ]
+}

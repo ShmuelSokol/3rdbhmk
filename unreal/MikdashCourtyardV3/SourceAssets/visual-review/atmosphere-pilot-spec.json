@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "status": "AUTHORING_IMPLEMENTED_OFFLINE_CHECKED_NATIVE_PENDING",
+  "entryPoint": "import build_atmosphere_pilot as a; a.build('/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere')",
+  "requirements": [
+    "Root creates and opens saved review copy in exact namespace/Maps; no PIE or dirty maps. Script never launches engine or saves maps.",
+    "SequencerScripting editor plugin required for authoring only; runtime uses native LevelSequence, MovieScene float tracks, cloud and wind actors.",
+    "No pre-existing wind/cloud accepted silently. Existing sky, sun, skylight, exposure, trees, geometry, transit remain untouched.",
+    "After native success root explicitly saves/reopens review map, validates bounded PIE and packaged runtime before applying to production."
+  ],
+  "existingEvidence": {
+    "file": "SourceAssets/lighting-diagnostic.json",
+    "actors": [
+      "DirectionalLight atmosphereSunLight true",
+      "SkyAtmosphere",
+      "SkyLight realTimeCapture true",
+      "PostProcessVolume"
+    ],
+    "limitation": "Historical audit, not a current liveworld snapshot. Script verifies atmosphere/sun exist and refuses duplicate cloud/wind."
+  },
+  "cloud": {
+    "installedParent": "/Engine/EngineSky/VolumetricClouds/m_SimpleVolumetricCloud_Inst",
+    "nativeAssetSha256": "9094a7ab8742bf44c8afb9cf8ca17bb1e992fc3d0e335a4917ec3b0fb76adc18",
+    "runtimeEvidence": "Engine/Source/Runtime/Engine/Private/Components/VolumetricCloudComponent.cpp constructor selects this EngineSky material as default. This is not EditorResources or plugin demo content. Exact cook dependencies still require package verification.",
+    "reviewCopy": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+    "layerBottomKm": 1.8,
+    "layerHeightKm": 2.4,
+    "interpretation": "Art-directed light cloud-layer target, not a forecast, climatological claim or scripture requirement. Parent density, drift and scattering unchanged; native receipt lists parameter names for subsequent controlled tuning.",
+    "limitations": [
+      "Actual cloud appearance and animation unverified",
+      "No global sun/exposure changes to hide lighting defects",
+      "Cloud drift not yet coupled to ground wind",
+      "Existing cloud defaults may need density/coverage adjustment after reference screenshots"
+    ]
+  },
+  "wind": {
+    "nativeActor": "WindDirectionalSource",
+    "yawDegrees": 25,
+    "artisticUnits": true,
+    "notMeteorologicalSpeed": true,
+    "minimumGustAmount": 0.05,
+    "maximumGustAmount": 0.15,
+    "sequenceDurationSeconds": 72,
+    "framesPerSecond": 30,
+    "keysSecondsStrengthSpeed": [
+      [
+        0,
+        0.18,
+        0.25
+      ],
+      [
+        12,
+        0.24,
+        0.32
+      ],
+      [
+        26,
+        0.42,
+        0.48
+      ],
+      [
+        39,
+        0.21,
+        0.29
+      ],
+      [
+        55,
+        0.32,
+        0.4
+      ],
+      [
+        72,
+        0.18,
+        0.25
+      ]
+    ],
+    "interpolation": "Linear continuous ramps with matching loop endpoints; deterministic authored variability, not random weather.",
+    "runtimeMechanism": "Saved native LevelSequence autoplay loops indefinitely. Actor/component possessable binding drives Strength and Speed. No Python runtime ticker or editor-only playback callback.",
+    "inputPreservation": "No camera tracks/cuts, no movement/look input suppression.",
+    "criticalConsumerLimit": "WindDirectionalSource documentation and installed header say only SpeedTree assets. Generic context vegetation and cloth do not automatically respond. Existing trees are preserved, no Mount trees added. Wind response and actor setters must be sampled in PIE before claiming visible motion."
+  },
+  "sourceRefs": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/VolumetricCloudComponent?application_version=4.27",
+      "supports": "Cloud material volume domain and altitude in kilometres; setters verified against installed5.8 header."
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/unreal-engine/API/Runtime/Engine/UWindDirectionalSourceComponent",
+      "supports": "Native wind component and setters; installed header explicitly restricts SpeedTree consumer support."
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/MovieSceneSequencePlaybackSettings?application_version=4.27",
+      "supports": "Autoplay, looping and input-preservation fields; installed LevelSequenceActor.h confirms PlaybackSettings."
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/MovieSceneSequenceLoopCount?application_version=4.27",
+      "supports": "Minus1 means infinite loop."
+    }
+  ],
+  "installedAPIRefs": [
+    "Engine/Source/Runtime/Engine/Classes/Components/WindDirectionalSourceComponent.h",
+    "Engine/Source/Runtime/Engine/Private/Components/VolumetricCloudComponent.cpp",
+    "Engine/Source/Runtime/LevelSequence/Public/LevelSequenceActor.h",
+    "Engine/Plugins/MovieScene/SequencerScripting/Source/SequencerScripting/Public/ExtensionLibraries/MovieSceneBindingExtensions.h",
+    "Engine/Plugins/MovieScene/SequencerScripting/Source/SequencerScripting/Public/ExtensionLibraries/MovieSceneSectionExtensions.h"
+  ],
+  "acceptanceGates": [
+    "Native create/save assets and save/reopen separate map; exactly3new actors and no original lighting/geometry edits",
+    "Read cloud material domain and runtime dependency/cook audit; no /EditorResources/ reference in playable dependencies",
+    "PIE sample windStrength/Speed at0,12,26,39,55seconds and loop boundary with auto-stop; verify values vary and no input capture",
+    "Observe compatible foliage if available without modifying existing tree ownership; otherwise explicitly report wind data-only output",
+    "Same-camera cloud screenshots outdoors includingTemple silhouette; observe motion/time sequence, sun visibility, no flat white sky or overdark interior",
+    "Measure frame time against identical camera/scalability before/after; budget is unmeasured until test",
+    "Respect user Mount/tree boundary; no trees planted, moved or deleted by this pilot",
+    "No resemblance claims to Breath of the Wild beyond user-inspired readable, gentle atmosphere target; no borrowed game assets"
+  ],
+  "verification": "Python syntax, continuous endpoints, bounded key values and runtime cloud file existence/hash passed. No engine execution. No paid assets."
+}

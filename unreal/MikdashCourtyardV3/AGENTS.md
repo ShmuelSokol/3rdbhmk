@@ -145,3 +145,5 @@ User confirmed ShmuelSokol/3rdbhmk as native destination. Clone C:\Mikdash\GitHu
 - User adds no trees on Mount, surroundingvegetationbasedonactualsatellite/mappedevidence, clouds/variablewind, cobblestoneapproaches+pavedbusroads, modernbuses/proposedtrainstation/train. Preserveexternaltrees; cliponlyenclosureinstances. Futuretransitdesign must be labeledauthored, notexistinginfrastructure. BreathoftheWild likely intendedvisualatmospherereference.
 
 - Art direction: cinematicrealism/WarnerBrothersproductionambition/LordoftheRingsfilms primary; BreathoftheWild onlysecondaryatmosphere/movement/discovery reference. Avoidcartoonstyle substitution.
+
+- Atmosphere pilot native authoring saved/reopened with 0 errors/0 warnings. Duplicate includes gold sanctuary finishes, volumetric cloud and looping native wind sequence. Main map SHA unchanged. Rendered appearance/runtime wind response/package remain unverified; generic trees do not respond automatically. Cinematic realism remains primary art direction.

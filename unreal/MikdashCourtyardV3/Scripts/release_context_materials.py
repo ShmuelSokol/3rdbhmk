@@ -44,7 +44,7 @@ Switches (exactly one mode):
   -ContextApply                import if the namespace is missing, then assign + save + reopen + readback.
   -ContextRevert[=<receipt>]   restore the recorded original material on every mesh of the latest
                                (or named) native-apply receipt; textures/materials are kept.
-  -ContextCategories=a,b       subset of buildings,asphalt,paths,walls,terrain,terraincut (apply/revert).
+  -ContextCategories=a,b       subset of buildings,asphalt,paths,walls,kotelcut,terrain,terraincut (apply/revert).
   -ContextSamples=<n>          detailed readback samples per category (default spec value).
 
 Offline (no engine):
@@ -60,13 +60,14 @@ import json
 import random
 import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_context_materials.spec.json'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
-CATEGORY_ORDER = ('buildings', 'asphalt', 'paths', 'walls', 'terrain', 'terraincut')
+CATEGORY_ORDER = ('buildings', 'asphalt', 'paths', 'walls', 'kotelcut', 'terrain', 'terraincut')
 MAP_KEYS = ('diffuse', 'normal', 'roughness')
 MAP_SUFFIX = {'diffuse': 'D', 'normal': 'N', 'roughness': 'R'}
 
@@ -162,6 +163,8 @@ def category_disk_inventory(spec, category):
             skipped.append(cfg['folder'] + '/' + name)
             continue
         touched.append(cfg['folder'] + '/' + name)
+    if cfg.get('exactAssets') and set(touched) != set(cfg['exactAssets']):
+        raise RuntimeError('Exact asset inventory differs for ' + category)
     return touched, skipped
 
 
@@ -817,6 +820,9 @@ class Engine:
         touched, skipped = category_disk_inventory(self.spec, category)
         new_path = _asset_path(material)
         rows = []
+        if not dry_run:
+            self.receipt['assignments'][category] = rows
+            self.write()
         for asset_path in touched:
             mesh = ue.load_asset(asset_path)
             if not isinstance(mesh, ue.StaticMesh):
@@ -836,19 +842,26 @@ class Engine:
                 row['action'] = 'planned'
                 rows.append(row)
                 continue
+            row.update(action='assignment_started', uassetSha256Before=sha256_of(disk_path(asset_path)))
+            rows.append(row)
+            self.write()
             mesh.set_material(0, material)
             if _asset_path(mesh.get_material(0)) != new_path:
                 raise RuntimeError('set_material readback differs for ' + asset_path)
+            row['action'] = 'save_started'
+            self.write()
             if not self.assets.save_loaded_asset(mesh, only_if_is_dirty=False):
                 raise RuntimeError('save_loaded_asset failed for ' + asset_path)
             row['action'] = 'assigned_saved'
             row['uassetSha256After'] = sha256_of(disk_path(asset_path))
-            rows.append(row)
+            self.write()
         return rows, skipped
 
-    def revert_rows(self, rows, context_material_paths):
+    def revert_rows(self, rows, context_material_paths, category):
         ue = self.ue
         out = []
+        self.receipt['assignments'][category] = out
+        self.write()
         for row in rows:
             asset_path = row['asset']
             mesh = ue.load_asset(asset_path)
@@ -856,6 +869,8 @@ class Engine:
                 raise RuntimeError('Not a StaticMesh: ' + asset_path)
             current = _asset_path(mesh.get_material(0))
             entry = {'asset': asset_path, 'before': current, 'original': row['original']}
+            out.append(entry)
+            self.write()
             if current == row['original']:
                 entry['action'] = 'already_original'
             elif current not in context_material_paths:
@@ -864,13 +879,15 @@ class Engine:
                 original = ue.load_asset(row['original'])
                 if not isinstance(original, ue.MaterialInterface):
                     raise RuntimeError('Original material missing: ' + row['original'])
+                entry['action'] = 'revert_started'
+                self.write()
                 mesh.set_material(0, original)
                 if _asset_path(mesh.get_material(0)) != row['original']:
                     raise RuntimeError('revert readback differs for ' + asset_path)
                 if not self.assets.save_loaded_asset(mesh, only_if_is_dirty=False):
                     raise RuntimeError('save_loaded_asset failed for ' + asset_path)
                 entry['action'] = 'reverted_saved'
-            out.append(entry)
+            self.write()
         return out
 
     # -- map / readback ---------------------------------------------------------
@@ -937,10 +954,16 @@ class Engine:
             picked = rng.sample(rows, min(samples_per_category, len(rows))) if rows else []
             samples[category] = [{'actor': a.get_actor_label(), 'component': c.get_path_name(), 'mesh': m, 'material': mat, 'overrideMaterials': o,
                                   'mobility': str(c.get_editor_property('mobility'))} for a, c, m, mat, o in picked]
+        inventory = {}
+        for category, stats in per_category.items():
+            disk, _ = category_disk_inventory(spec, category)
+            inventory[category] = {'liveMeshAssets': sorted(stats['meshes']),
+                                   'diskAssetsWithoutLiveComponent': sorted(set(disk)-stats['meshes']),
+                                   'unusedReason': spec['categories'][category].get('unusedReason', 'Unused source assets are reported; no assertion that all disk assets are live')}
         summary = {c: {'components': s['components'], 'distinctMeshes': len(s['meshes']), 'matching': s['matching'],
                        'mismatched': s['mismatched'], 'mismatchedCount': s['components'] - s['matching'], 'componentsWithOverrides': s['overridden']}
                    for c, s in per_category.items()}
-        return {'actorCount': actor_count, 'perCategory': summary, 'samples': samples, 'landmarkComponentsUntouched': landmarks,
+        return {'actorCount': actor_count, 'liveInventory': inventory, 'perCategory': summary, 'samples': samples, 'landmarkComponentsUntouched': landmarks,
                 'decorativeInstanceComponents': ism, 'decorativeInstancesTotal': sum(r['instances'] for r in ism)}
 
 
@@ -977,6 +1000,8 @@ def _checkpoint(spec, stamp, map_file, asset_paths):
         destination = checkpoint / 'Content' / (asset_path[6:] + '.uasset')
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
+        if sha256_of(source) != sha256_of(destination):
+            raise RuntimeError('Checkpoint asset copy differs: ' + asset_path)
         copied += 1
     return checkpoint, copied
 
@@ -1016,15 +1041,15 @@ def run(mode, categories=CATEGORY_ORDER, samples=None, revert_receipt=None):
             if not prior.get('assignments'):
                 raise RuntimeError('Apply receipt has no assignments: ' + str(source))
             context_paths = {material_asset_path(spec, k) for k in spec['materials']}
-            touched = [row['asset'] for category in categories for row in prior['assignments'].get(category, []) if row.get('action') == 'assigned_saved']
+            touched = [row['asset'] for category in categories for row in prior['assignments'].get(category, []) if row.get('action') in ('assignment_started', 'save_started', 'assigned_saved')]
             checkpoint, copied = _checkpoint(spec, stamp, map_file, touched)
             receipt['checkpoint'] = str(checkpoint)
             receipt['checkpointAssetCopies'] = copied
             world = engine.load_target()
             receipt['actorCountBefore'] = len(engine.actors.get_all_level_actors())
             for category in categories:
-                rows = [row for row in prior['assignments'].get(category, []) if row.get('action') == 'assigned_saved']
-                receipt['assignments'][category] = engine.revert_rows(rows, context_paths)
+                rows = [row for row in prior['assignments'].get(category, []) if row.get('action') in ('assignment_started', 'save_started', 'assigned_saved')]
+                receipt['assignments'][category] = engine.revert_rows(rows, context_paths, category)
                 saved_anything = saved_anything or any(r['action'] == 'reverted_saved' for r in receipt['assignments'][category])
                 engine.write()
             expected = {c: spec['categories'][c]['expectedOriginalMaterial'] for c in categories}
@@ -1088,6 +1113,9 @@ def run(mode, categories=CATEGORY_ORDER, samples=None, revert_receipt=None):
         receipt['reopenedReadback'] = readback
         receipt['actorCountAfter'] = readback['actorCount']
         mismatched = {c: v['mismatchedCount'] for c, v in readback['perCategory'].items() if v['mismatchedCount']}
+        empty = [c for c, v in readback['perCategory'].items() if v['components'] == 0]
+        if empty:
+            raise RuntimeError('No live components found for requested categories: %s' % empty)
         if mismatched:
             raise RuntimeError('Components still carry another material after reopen: %s' % mismatched)
         counts = {c: len([r for r in receipt['assignments'][c] if r['action'] in ('assigned_saved', 'reverted_saved')]) for c in categories}
@@ -1097,7 +1125,9 @@ def run(mode, categories=CATEGORY_ORDER, samples=None, revert_receipt=None):
         return receipt
     except Exception as error:
         receipt['errors'].append(repr(error))
-        if saved_anything:
+        possible_mesh_saves = any(row.get('action') in ('assignment_started', 'save_started', 'assigned_saved', 'revert_started', 'reverted_saved')
+                                  for rows in receipt['assignments'].values() for row in rows)
+        if saved_anything or possible_mesh_saves or receipt.get('checkpoint'):
             receipt['status'] = 'failed_after_saves_checkpoint_available' if receipt.get('checkpoint') else 'failed_after_namespace_saves_map_unchanged'
         else:
             receipt['status'] = 'failed_before_any_save_nothing_changed'
@@ -1107,7 +1137,12 @@ def run(mode, categories=CATEGORY_ORDER, samples=None, revert_receipt=None):
         receipt['mapBytesChanged'] = receipt['mapSha256After'] != map_sha_before
         receipt['protectedMapsUnchanged'] = all(sha256_of(disk_path(m, 'umap')) == v for m, v in protected.items())
         receipt['assignedMeshCount'] = sum(len([r for r in rows if r.get('action') in ('assigned_saved', 'reverted_saved')]) for rows in receipt['assignments'].values())
+        if not receipt['protectedMapsUnchanged']:
+            receipt['status'] = 'failed_protected_map_hash_changed'
+            receipt['errors'].append('Protected map bytes changed; dependency appearance is separately disclosed')
         engine.write()
+        if not receipt['protectedMapsUnchanged'] and sys.exc_info()[0] is None:
+            raise RuntimeError('Protected map hash changed')
 
 
 def _latest_apply_receipt(spec):

@@ -291,7 +291,8 @@
       "folder": "/Game/MikdashV3/JerusalemContext/Streets",
       "namePrefix": "SM_Jerusalem_CityWalls_",
       "expectedCount": 58,
-      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_CityWalls_2b334de9"
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_CityWalls_2b334de9",
+      "unusedReason": "Two original wall batches replaced in live map by KotelCut duplicates; source assets remain for protected maps."
     },
     "terrain": {
       "material": "terrain",
@@ -299,7 +300,8 @@
       "namePrefix": "SM_JerusalemTerrain_",
       "expectedCount": 256,
       "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemTerrain_VertexColor",
-      "vertexColorsExpected": true
+      "vertexColorsExpected": true,
+      "unusedReason": "Four original tiles replaced in live map by FutureMountCut duplicates; source tiles remain for protected maps."
     },
     "terraincut": {
       "material": "terrain",
@@ -309,6 +311,18 @@
       "expectedCount": 4,
       "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemTerrain_VertexColor",
       "vertexColorsExpected": true
+    },
+    "kotelcut": {
+      "material": "citywall",
+      "folder": "/Game/MikdashV3/FutureMountV1/KotelApproach",
+      "namePrefix": "SM_Jerusalem_CityWalls_",
+      "nameSuffix": "_KotelCut",
+      "expectedCount": 2,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_CityWalls_2b334de9",
+      "exactAssets": [
+        "/Game/MikdashV3/FutureMountV1/KotelApproach/SM_Jerusalem_CityWalls_04_Grid_N002_P000_KotelCut",
+        "/Game/MikdashV3/FutureMountV1/KotelApproach/SM_Jerusalem_CityWalls_04_Grid_N002_P001_KotelCut"
+      ]
     }
   },
   "untouched": {
@@ -326,7 +340,7 @@
     },
     "measuredArchitecture": "Nothing under /Game/MikdashV3/Architecture, Release/* actors, sanctuary or vessels is read for mutation."
   },
-  "plannedAssignments": 4625,
+  "plannedAssignments": 4627,
   "sampleReadbackPerCategory": 8,
   "verification": {
     "materialSlotCountExpected": 1

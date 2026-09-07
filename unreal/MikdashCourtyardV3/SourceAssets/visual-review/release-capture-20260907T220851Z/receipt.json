@@ -1,0 +1,273 @@
+{
+  "status": "captured_restored_requires_visual_review",
+  "map": "/Game/MikdashV3/MaterialReview/BusVisualAuditV1/Maps/Walkthrough",
+  "mapSha256": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+  "startedUtc": "20260907T220851Z",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "process": "dedicated GUI UnrealEditor.exe, real RHI (no -nullrhi), -ExecCmds py runner",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fovDegrees": 75.0,
+  "warmupSecondsPerView": 45.0,
+  "minimumSlateTicksPerView": 120,
+  "captureTimeoutSeconds": 90.0,
+  "watchdogSeconds": 1800.0,
+  "readinessPolicy": "Global finish_loading_before_screenshot after map load; per view: set camera, finish_loading_before_screenshot (loading barrier), then >=45 s and >=120 Slate ticks rendered warmup, then take_high_res_screenshot. Flat frames (luma stdev < 4.0) retried once.",
+  "streamingPoolSizeMB": 1000,
+  "views": [
+    {
+      "id": "h_bus_street_level",
+      "busPlacedXY": [
+        -37951.473,
+        46854.779
+      ],
+      "busYaw": -15.979516029357915,
+      "busGroundTrace": {
+        "point": [
+          -37951.473,
+          46854.779,
+          973.0765798107504
+        ],
+        "normalZ": 0.9937,
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      },
+      "cameraGroundTrace": {
+        "point": [
+          -37181.517783772695,
+          48090.5657797498,
+          641.8205214633517
+        ],
+        "normalZ": 0.9349,
+        "actor": "SM_JerusalemTerrain_07_09"
+      },
+      "busActorsFound": 13,
+      "basis": "Saved TransitV2 actor origin and yaw; camera 14 m off the door side, 4 m forward, at traced street level + 168. No historical candidate coordinates used.",
+      "position": [
+        -37181.517783772695,
+        48090.5657797498,
+        809.8205214633517
+      ],
+      "target": [
+        -37951.473,
+        46854.779,
+        1153.0771609905732
+      ],
+      "pitch": 13.265247100547988,
+      "yaw": -121.92491193028087,
+      "cameraClearance": true
+    }
+  ],
+  "viewTiming": [
+    {
+      "view": "h_bus_street_level",
+      "file": "h_bus_street_level.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 19.468,
+      "barrierElapsedSeconds": 1.86,
+      "warmupStartedSeconds": 21.328,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3283,
+      "screenshotCallElapsedSeconds": 0.047
+    }
+  ],
+  "captures": [
+    {
+      "view": "h_bus_street_level",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260907T220851Z\\h_bus_street_level.png",
+      "bytes": 1919591,
+      "sha256": "c2b6ff92578294759df93beeb4f11b5e4883b34efb18a2ee447fcd3ff26bd213",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -37181.517783772695,
+          48090.5657797498,
+          809.8205214633517
+        ],
+        "pitch": 13.265247100547988,
+        "yaw": -121.92491193028087,
+        "target": [
+          -37951.473,
+          46854.779,
+          1153.0771609905732
+        ]
+      },
+      "timing": {
+        "view": "h_bus_street_level",
+        "file": "h_bus_street_level.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 19.468,
+        "barrierElapsedSeconds": 1.86,
+        "warmupStartedSeconds": 21.328,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3283,
+        "screenshotCallElapsedSeconds": 0.047
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 125.43,
+        "lumaStdev": 68.02,
+        "lumaMin": 13.5,
+        "lumaMax": 219.5,
+        "decodeSeconds": 2.31
+      },
+      "flatFrameSuspect": false
+    }
+  ],
+  "failures": [],
+  "events": [
+    {
+      "event": "global_barrier_started",
+      "elapsedSeconds": 0.08
+    },
+    {
+      "event": "global_barrier_finished",
+      "elapsedSeconds": 19.0,
+      "seconds": 18.922
+    },
+    {
+      "event": "readiness_h_bus_street_level",
+      "elapsedSeconds": 19.47
+    },
+    {
+      "event": "warming_h_bus_street_level",
+      "elapsedSeconds": 21.33
+    },
+    {
+      "event": "requested_h_bus_street_level",
+      "elapsedSeconds": 66.39
+    },
+    {
+      "event": "captured_h_bus_street_level",
+      "elapsedSeconds": 69.19,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 69.26
+    }
+  ],
+  "mapSaved": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical stills of the saved combined map. No access authorization, no automatic image-quality approval, no motion/wind/packaged proof. Zero-count inventory entries mean those assets were not yet placed in this map.",
+  "globalBarrierSeconds": 18.922,
+  "sceneInventory": {
+    "actorCount": 7558,
+    "aronParts": 0,
+    "keruvimActors": 0,
+    "pilgrimActors": 5,
+    "busActors": 13,
+    "kotelOverlayActors": 6,
+    "pilgrimLocations": [
+      [
+        4900.0,
+        1000.0,
+        300.00128173828125
+      ],
+      [
+        5120.0,
+        1120.0,
+        300.00128173828125
+      ],
+      [
+        4980.0,
+        1260.0,
+        300.00128173828125
+      ],
+      [
+        5240.0,
+        1330.0,
+        300.00128173828125
+      ],
+      [
+        4760.0,
+        1180.0,
+        300.00128173828125
+      ]
+    ],
+    "busLocations": [
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ]
+    ],
+    "note": "Counts are what the saved map contains at capture time. Zero pilgrims/keruvim/bus/overlay means release step 2 placement had not been done in this map; the view is still captured."
+  },
+  "summary": {
+    "viewsPlanned": 1,
+    "viewsSkipped": 0,
+    "filesVerifiedNotFlat": 1,
+    "failureCount": 0
+  },
+  "originalCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapUnchanged": true
+}

@@ -272,12 +272,15 @@ def encode_value(ue, value):
     if value is None:
         return {'type': 'none'}
     if isinstance(value, ue.EnumBase):
-        # Before the int check: engine enums convert with int() and must stay revertible by name.
+        # UE 5.8 EnumBase does not support int(value); restore by verified member name.
         name = getattr(value, 'name', None)
         match = _ENUM_REPR.match(repr(value))
         if not isinstance(name, str) and match:
             name = match.group(2)
-        return {'type': 'enum', 'class': type(value).__name__, 'name': str(name), 'int': int(value)}
+        if not isinstance(name, str) or getattr(type(value), name, None) != value:
+            raise ValueError('Cannot identify a reversible enum member: ' + repr(value))
+        return {'type': 'enum', 'class': type(value).__name__, 'name': name,
+                'int': int(match.group(3)) if match else None}
     if isinstance(value, bool):
         return {'type': 'bool', 'value': value}
     if isinstance(value, int):
@@ -296,12 +299,6 @@ def encode_value(ue, value):
         return {'type': 'LinearColor', 'value': [float(value.r), float(value.g), float(value.b), float(value.a)]}
     if isinstance(value, ue.Color):
         return {'type': 'Color', 'value': [int(value.r), int(value.g), int(value.b), int(value.a)]}
-    if isinstance(value, ue.EnumBase):
-        name = getattr(value, 'name', None)
-        match = _ENUM_REPR.match(repr(value))
-        if not isinstance(name, str) and match:
-            name = match.group(2)
-        return {'type': 'enum', 'class': type(value).__name__, 'name': str(name), 'int': int(value)}
     if isinstance(value, ue.Object):
         return {'type': 'object', 'path': value.get_path_name(), 'class': value.get_class().get_name()}
     return {'type': 'repr', 'value': str(value), 'class': type(value).__name__}
@@ -417,6 +414,8 @@ class Polish:
             raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
         if self.editor.get_game_world():
             raise RuntimeError('A game world is active; never mutate during play')
+        if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+            raise RuntimeError('Dirty packages present before loading target; refusing to discard unsaved work')
         if load_target and not self.levels.load_level(TARGET):
             raise RuntimeError('load_level failed for ' + TARGET)
         self.world = self.editor.get_editor_world()
@@ -780,6 +779,9 @@ class Polish:
             raise RuntimeError('Dirty content packages before the map save (assets must be saved explicitly): %s' % dirty)
         if not self.levels.save_current_level():
             raise RuntimeError('save_current_level returned False')
+        self.receipt['mapSaved'] = True
+        self.receipt['mapSha256AfterSave'] = sha256_of(ROOT / self.spec['targetMapFile'])
+        self.write_receipt()
         if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages():
             raise RuntimeError('Map still dirty after save')
         if not self.levels.load_level(TARGET):
@@ -806,12 +808,14 @@ def _protected_hashes(spec):
     hashes = {}
     for asset in spec['protectedMaps']:
         path = disk_path(asset, 'umap')
-        if path.exists():
-            hashes[asset] = sha256_of(path)
+        if not path.exists():
+            raise RuntimeError('Required protected map missing: ' + str(path))
+        hashes[asset] = sha256_of(path)
     for asset in spec.get('protectedAssets', []):
         path = disk_path(asset)
-        if path.exists():
-            hashes[asset] = sha256_of(path)
+        if not path.exists():
+            raise RuntimeError('Required protected asset missing: ' + str(path))
+        hashes[asset] = sha256_of(path)
     return hashes
 
 
@@ -931,7 +935,7 @@ def run(load_target=True, sun=None, use_hdri=False, fill=None, fog=None, clouds=
         return polish.receipt
     except Exception as error:
         polish.receipt['errors'].append({'stage': 'run', 'error': repr(error)})
-        polish.receipt['status'] = 'failed_after_save_checkpoint_available' if saved else 'failed_before_save_map_unchanged'
+        polish.receipt['status'] = 'failed_after_save_checkpoint_available' if polish.receipt.get('mapSaved') or sha256_of(map_file) != map_sha_before else 'failed_before_save_map_unchanged'
         raise
     finally:
         polish.receipt['mapSha256After'] = sha256_of(map_file)
@@ -939,7 +943,12 @@ def run(load_target=True, sun=None, use_hdri=False, fill=None, fog=None, clouds=
         polish.receipt['protectedUnchanged'] = _protected_hashes(spec) == protected
         polish.receipt['appliedChangeCount'] = sum(1 for c in polish.receipt['changes'] if c.get('applied'))
         polish.receipt['skippedChangeCount'] = sum(1 for c in polish.receipt['changes'] if not c.get('applied'))
+        if not polish.receipt['protectedUnchanged']:
+            polish.receipt['status'] = 'failed_protected_hash_guard'
+            polish.receipt['errors'].append({'stage': 'verification', 'error': 'Protected hash changed'})
         polish.write_receipt()
+        if not polish.receipt['protectedUnchanged']:
+            raise RuntimeError('Protected hash changed')
 
 
 def revert(receipt_path=None, load_target=True):
@@ -1060,13 +1069,18 @@ def revert(receipt_path=None, load_target=True):
         return polish.receipt
     except Exception as error:
         polish.receipt['errors'].append({'stage': 'revert', 'error': repr(error)})
-        polish.receipt['status'] = 'failed_after_save_checkpoint_available' if saved else 'failed_before_save_map_unchanged'
+        polish.receipt['status'] = 'failed_after_save_checkpoint_available' if polish.receipt.get('mapSaved') or sha256_of(map_file) != map_sha_before else 'failed_before_save_map_unchanged'
         raise
     finally:
         polish.receipt['mapSha256After'] = sha256_of(map_file)
         polish.receipt['mapBytesChanged'] = polish.receipt['mapSha256After'] != map_sha_before
         polish.receipt['protectedUnchanged'] = _protected_hashes(spec) == protected
+        if not polish.receipt['protectedUnchanged']:
+            polish.receipt['status'] = 'failed_protected_hash_guard'
+            polish.receipt['errors'].append({'stage': 'verification', 'error': 'Protected hash changed'})
         polish.write_receipt()
+        if not polish.receipt['protectedUnchanged']:
+            raise RuntimeError('Protected hash changed')
 
 
 # --------------------------------------------------------------------------

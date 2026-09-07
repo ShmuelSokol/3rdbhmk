@@ -120,7 +120,7 @@
     "label": "RELEASE_HeightFog",
     "location": [0.0, 0.0, 0.0],
     "component": {
-      "required": ["fog_density", "volumetric_fog"],
+      "required": ["fog_density", "enable_volumetric_fog"],
       "properties": {
         "fog_density": 0.005,
         "fog_height_falloff": 0.05,
@@ -130,7 +130,7 @@
         "directional_inscattering_luminance": {"$linearColor": [1500.0, 1170.0, 750.0, 1.0]},
         "directional_inscattering_exponent": 16.0,
         "directional_inscattering_start_distance": 5000.0,
-        "volumetric_fog": true,
+        "enable_volumetric_fog": true,
         "volumetric_fog_scattering_distribution": 0.3,
         "volumetric_fog_extinction_scale": 1.0,
         "volumetric_fog_distance": 20000.0,
@@ -185,11 +185,11 @@
     "note": "Parameter names come from SourceAssets/visual-review/atmosphere-native-20260907T102723.json (cloudScalarParameterNames of the engine m_SimpleVolumetricCloud instance). The protected donor MI is never edited: it is duplicated into the lighting namespace, the coverage parameter is set on the copy, and the cloud component is pointed at the copy (a map property, so -LightingRevert restores the donor). Coverage 0.35 = scattered fair-weather clouds, so the sun's cloud shadows fall as patches, not a blanket."
   },
   "postProcess": {
-    "labelAfter": "V3 cinematic exposure - histogram EV 8-14, filmic",
+    "labelAfter": "V3 cinematic exposure - histogram EV 0-14, filmic",
     "exposure": {
-      "minEV100": 8.0,
+      "minEV100": 0.0,
       "maxEV100": 14.0,
-      "unitsRule": "PostProcessEyeAdaptation.cpp: with r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange=1 AutoExposureMin/MaxBrightness are EV100 and the engine converts with LuminanceMax * 2^EV (LuminanceMax = 0.78 / r.EyeAdaptation.LensAttenuation, 1.0 at defaults); with the flag at 0 (this project, DefaultEngine.ini has no override and the live readback showed 0) the fields are raw scene luminance, so the script writes 2^EV (256 and 16384) and records both forms. Enabling the cvar later needs the values rewritten as 8/14, which the receipt makes explicit."
+      "unitsRule": "PostProcessEyeAdaptation.cpp: with r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange=1 AutoExposureMin/MaxBrightness are EV100 and the engine converts with LuminanceMax * 2^EV (LuminanceMax = 0.78 / r.EyeAdaptation.LensAttenuation, 1.0 at defaults); with the flag at 0 (this project, DefaultEngine.ini has no override and the live readback showed 0) the fields are raw scene luminance, so the script writes 2^EV (1 and 16384) and records both forms. Enabling the cvar later needs the values rewritten as 0/14, which the receipt makes explicit."
     },
     "settings": {
       "required": ["auto_exposure_method", "auto_exposure_min_brightness", "auto_exposure_max_brightness", "auto_exposure_bias"],
@@ -197,7 +197,7 @@
         "override_auto_exposure_method": true,
         "auto_exposure_method": {"$enum": "AutoExposureMethod.AEM_HISTOGRAM"},
         "override_auto_exposure_min_brightness": true,
-        "auto_exposure_min_brightness": {"$ev100": 8.0},
+        "auto_exposure_min_brightness": {"$ev100": 0.0},
         "override_auto_exposure_max_brightness": true,
         "auto_exposure_max_brightness": {"$ev100": 14.0},
         "override_auto_exposure_bias": true,

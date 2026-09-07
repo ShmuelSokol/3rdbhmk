@@ -112,3 +112,7 @@ Packaging entry: `Engine\Build\BatchFiles\RunUAT.bat BuildCookRun -project=<upro
 ## Communication
 
 User wants action, frequent concise updates and honest results. Do not ask for approvals already covered by project authorization. Do not restart many agents: prior research/art workers were told to stop for budget consolidation. Never equate an imported asset, a mocked test or a polished plan with a finished visible feature.
+
+## Native audit attempt after initial handoff (2026-09-07 15:28 UTC)
+
+The combined-map audit was executed using UnrealEditor-Cmd with NullRHI. It exited 1 at audit_future_mount_routes.py line 182: get_editor_subsystem(StaticMeshEditorSubsystem) returned None, so has_vertex_colors could not run. This is an audit environment/API failure, not proof of broken mesh colors. Map bytes were verified unchanged. Receipt: SourceAssets/FutureMountV1/route-review/native-route-audit-20260907T152823Z.json. Full log: C:\Mikdash\Working-5.8\Release-Route-Audit-01.log. The process exited; do not wait on it. Use an appropriate native editor context or implement a supported commandlet color check without weakening acceptance. Two GUI editor processes (38704 and 39764) were observed before this run; recheck live state before any build or close operation.

@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "status": "AUTHORED_NOT_EXECUTED",
+  "assetNamespace": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2",
+  "purpose": "Reversible unassigned artistic limestone material pilot for flat wall and paving review",
+  "sourceAuthority": "IAA historical limestone analogue; no claim of exact Third Temple quarry or finish",
+  "geometryPolicy": "No geometry, collision, source mesh, existing material, map assignment or map save changes",
+  "rights": "Original procedural shader only; no third-party imagery",
+  "dimensionsStatus": "All block spacing and grain periods are artistic design choices in centimeters, not measured Yechezkel masonry courses or geological data",
+  "mapping": "World-space dominant-axis projection; bounded flat axis-aligned surfaces only. Sloping and curved transitions are unaccepted.",
+  "profiles": [
+    {
+      "assetName": "M_JerusalemStoneV2_WallReview",
+      "baseLinearRgb": [0.65, 0.635, 0.605],
+      "parameters": {
+        "BlockWidthCm": 100.0,
+        "BlockHeightCm": 50.0,
+        "BlockVariation": 0.065,
+        "GrainPeriodCm": 0.45,
+        "RoughnessBase": 0.78,
+        "NormalSlope": 0.025
+      }
+    },
+    {
+      "assetName": "M_JerusalemStoneV2_PavingReview",
+      "baseLinearRgb": [0.64, 0.63, 0.605],
+      "parameters": {
+        "BlockWidthCm": 60.0,
+        "BlockHeightCm": 60.0,
+        "BlockVariation": 0.045,
+        "GrainPeriodCm": 0.45,
+        "RoughnessBase": 0.70,
+        "NormalSlope": 0.015
+      }
+    }
+  ],
+  "behavior": "Small seeded block tint and value shifts, broad dressed-face variation, derivative-faded fine grain in color/roughness/world normal. No cracks, grime, moss, simulated grout recess or displacement.",
+  "limits": [
+    "Periodic analytical grain is a low-cost pilot, not a scanned limestone surface; reject if its pattern is visible.",
+    "No automatic material assignment or map save. Root must checkpoint, temporarily assign a bounded patch, compare and restore.",
+    "Do not assign to source-blue Ulam or other distinct material classes indiscriminately.",
+    "Shader recompilation request and asset save do not prove shader or visual acceptance.",
+    "No performance budget or texture-memory benefit has been measured. No texture resources are introduced."
+  ],
+  "acceptance": {
+    "nativeShaderCompile": "PENDING",
+    "sourceGeometryUnchanged": "PENDING_NATIVE_CHECK",
+    "closeAndWideStillReview": "PENDING",
+    "motionAliasingReview": "PENDING",
+    "packagedRuntimeReview": "PENDING",
+    "performanceComparison": "PENDING",
+    "reviewDistancesMeters": [0.5, 2, 10],
+    "requiredViews": ["sunlit wall", "shaded wall", "paving", "whole courtyard"],
+    "passCriteria": "Matched fixed exposure, readable relief without clipping, no visible repeat pattern or seams, no crawling grain during walking/turning, no new streaming or frame-time regression. Artistic palette must visibly improve the current scene before adoption."
+  }
+}

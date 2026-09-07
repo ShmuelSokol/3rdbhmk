@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "FootstepCadence.h"
+#include "PreparationJourney.h"
+#include "ResidentSimulation.h"
 #include "MikdashPlayerController.generated.h"
 
 class SWidget;
@@ -36,6 +38,8 @@ public:
     bool IsSoundMuted() const { return bSoundMuted; }
 
     void QuitWalkthrough();
+    void ShowPreparationLesson();
+    void BackToWalkthroughMenu();
 
 private:
     void OpenMenu();
@@ -53,6 +57,9 @@ private:
     FMikdashFootstepCadence FootstepCadence;
     int32 FootstepSide = 0;
     int32 LastStepVariation[2] = {-1, -1};
+    MikdashPreparation::Journey PreparationJourney;
+    MikdashResidents::Simulation ResidentSimulation;
+    double ResidentClockSeconds = 0.0;
     TSharedPtr<SWidget> MenuWidget;
     FDelegateHandle ActivationHandle;
     bool bMenuOpen = false;

@@ -1,4 +1,5 @@
 #include "MikdashPlayerController.h"
+#include "SMikdashPreparation.h"
 #include "AudioDevice.h"
 #include "AudioDeviceHandle.h"
 #include "Components/InputComponent.h"
@@ -19,6 +20,7 @@
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
+#include "Widgets/Layout/SScrollBox.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/SCompoundWidget.h"
 #include "Widgets/Text/STextBlock.h"
@@ -38,13 +40,18 @@ public:
     void Construct(const FArguments& Args)
     {
         Controller = Args._Controller;
+        ButtonText = FCoreStyle::Get().GetWidgetStyle<FTextBlockStyle>("NormalText");
+        ButtonText.SetFont(FCoreStyle::GetDefaultFontStyle("Regular", 18));
         ChildSlot
         [
             SNew(SBorder)
             .BorderBackgroundColor(FLinearColor(0.025f, 0.035f, 0.05f, 0.97f))
             .HAlign(HAlign_Center).VAlign(VAlign_Center).Padding(28)
             [
-                SNew(SBox).WidthOverride(520)
+                SNew(SBox).WidthOverride(760).MaxDesiredHeight(640)
+                [
+                    SNew(SScrollBox)
+                    + SScrollBox::Slot()
                 [
                     SNew(SVerticalBox)
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 18)
@@ -57,17 +64,22 @@ public:
                     [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
                         "W A S D or arrow keys: walk\nMouse: look around\nEscape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
-                    [SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text(Args._HasStarted ? LOCTEXT("Resume", "Resume walkthrough") : LOCTEXT("Start", "Start walkthrough"))
                         .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ResumeWalkthrough(); return FReply::Handled(); })]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
-                    [SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text(LOCTEXT("Prepare", "Preparation: learn before arriving"))
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ShowPreparationLesson(); return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text_Lambda([this]() { return Controller.IsValid() && Controller->IsSoundMuted()
                             ? LOCTEXT("SoundOff", "Sound: off — turn on") : LOCTEXT("SoundOn", "Sound: on — mute"); })
                         .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ToggleSound(); return FReply::Handled(); })]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
-                    [SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12)).Text(LOCTEXT("Quit", "Quit"))
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12)).Text(LOCTEXT("Quit", "Quit"))
                         .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->QuitWalkthrough(); return FReply::Handled(); })]
+                ]
                 ]
             ]
         ];
@@ -88,6 +100,7 @@ public:
         return SCompoundWidget::OnKeyDown(Geometry, Event);
     }
 private:
+    FTextBlockStyle ButtonText;
     TWeakObjectPtr<AMikdashPlayerController> Controller;
 };
 }
@@ -138,6 +151,8 @@ void AMikdashPlayerController::PlayerTick(float DeltaTime)
     Super::PlayerTick(DeltaTime);
     UpdateFootsteps(DeltaTime);
     if (bMenuOpen || !IsLocalController() || !GetPawn() || IsPaused()) return;
+    ResidentClockSeconds += FMath::Max(0.0, static_cast<double>(DeltaTime));
+    ResidentSimulation.AdvanceTo(static_cast<std::uint64_t>(ResidentClockSeconds));
     const float Forward = (IsInputKeyDown(EKeys::W) || IsInputKeyDown(EKeys::Up) ? 1.f : 0.f)
         - (IsInputKeyDown(EKeys::S) || IsInputKeyDown(EKeys::Down) ? 1.f : 0.f);
     const float Right = (IsInputKeyDown(EKeys::D) || IsInputKeyDown(EKeys::Right) ? 1.f : 0.f)
@@ -204,6 +219,28 @@ void AMikdashPlayerController::OpenMenu()
     Mode.SetWidgetToFocus(MenuWidget).SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false);
     SetInputMode(Mode);
     UE_LOG(LogTemp, Display, TEXT("MIKDASH_MENU_OPEN cursor=visible pause=%d"), IsPaused());
+}
+
+void AMikdashPlayerController::ShowPreparationLesson()
+{
+    if (!bMenuOpen || !GetWorld() || !GetWorld()->GetGameViewport()) return;
+    if (MenuWidget.IsValid()) GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget = SNew(SMikdashPreparation).Journey(&PreparationJourney)
+        .OnBack(FSimpleDelegate::CreateUObject(this, &AMikdashPlayerController::BackToWalkthroughMenu));
+    GetWorld()->GetGameViewport()->AddViewportWidgetContent(MenuWidget.ToSharedRef(), 100);
+    FInputModeGameAndUI Mode;
+    Mode.SetWidgetToFocus(MenuWidget).SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false);
+    SetInputMode(Mode);
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_PREPARATION_OPEN"));
+}
+
+void AMikdashPlayerController::BackToWalkthroughMenu()
+{
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    bMenuOpen = false;
+    OpenMenu();
 }
 
 void AMikdashPlayerController::ResumeWalkthrough()

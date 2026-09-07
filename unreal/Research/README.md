@@ -37,11 +37,7 @@ service reconciliations, object measurements/variants, exact market locations an
 music. No invented answer is promoted to prophecy or settled halacha. Further
 source and qualified halachic review are needed before scoring disputed lessons.
 
-The research agents have **not** implemented characters, a mikvah, new vessels,
-stone materials or a rule engine. Building agents should receive the shared contract
-and a bounded acceptance scene after the relevant research decisions are reconciled.
-Neutral data/scheduling infrastructure and reversible art samples can proceed while
-unresolved content remains disabled and explicitly marked.
+Implementation has begun: a five-scenario preparation learning model, three authored resident schedules with in-memory identity/task continuity, and an unassigned procedural stone pilot. Root integrated the lesson into the paused menu and the resident clock into unpaused gameplay. Native compilation and Walkthrough-03 packaging passed; lesson UI and stone shader/visual review are pending. These are foundations: no embodied characters, physical mikvah environment, new vessels, reviewed sacred-zone permission table or complete curriculum yet.
 
 ## Existing executable baseline
 
@@ -50,7 +46,4 @@ mute state toggle and exit behavior were observed. A fresh restart found mute di
 not persist, and the instruction text was too small.
 
 Walkthrough-02 built successfully after an exact configuration save-section allowlist
-and larger body font. Its fresh-launch persistence/readability verification was
-interrupted by physical Escape; do not mark those fixes runtime-accepted yet.
-The source-backed living-world work described here is subsequent development, not
-a description of what is already inside either package.
+and larger body font. A subsequent fresh-process test verified Sound: off survived restart (runtime receipt mute-restart-v2.json). Actual audio audition remains pending. Walkthrough-03 packaged successfully with larger buttons and the preparation lesson. A Windows system network prompt currently blocks its interface test; UI acceptance remains pending.

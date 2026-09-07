@@ -1,0 +1,30 @@
+{
+  "status": "logic_and_native_package_passed_ui_pending",
+  "tests": [
+    "PreparationJourneyTest.cpp",
+    "ResidentSimulationTest.cpp",
+    "FootstepCadenceTest.cpp"
+  ],
+  "compilerFlags": "C++14 /W4 /WX (assert enabled)",
+  "review": "Independent read-only agent compiled and ran all three actual-header tests, exit 0. No scripts/verify.py exists.",
+  "hashes": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/PreparationJourney.h": "ef7e1369436f62539bf60bd2054c81433dda61e9f8e05fa839df7b520bf4e749",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ResidentSimulation.h": "dcb9e62cf4d7f952e695efff16f5900eaa96767030c871fc8d3e901cf8edbea8",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/FootstepCadence.h": "97b95580d7de5045d89ab54a55aca902ec6847dd76b444d82d82704ba5239c34"
+  },
+  "limitations": [
+    "Residents are three authored state models, no embodied NPC navigation or disk save.",
+    "Preparation mode denotes retained lesson session; walking remains free exploration with existing collision. No journey permission gate consumes mode.",
+    "Stone material unassigned pending native review.",
+    "Runtime UI checks pending."
+  ],
+  "package": {
+    "build": "Walkthrough-03",
+    "result": "BUILD SUCCESSFUL exit 0",
+    "seconds": 215.63,
+    "cook": "0 errors, 0 warnings",
+    "log": "C:/Mikdash/Working-5.8/Package-Walkthrough-03.log",
+    "logSha256": "a7c23ecf80cf596179d2044edf7b1370c187167979eabf50bf3c57501c644213"
+  },
+  "runtimeBlocker": "Windows Security optional network prompt is not targetable through sky; requested user Cancel. No native lesson UI acceptance yet."
+}

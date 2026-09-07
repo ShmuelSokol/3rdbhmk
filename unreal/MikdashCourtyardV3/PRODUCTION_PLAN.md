@@ -10,7 +10,7 @@ Each scene progresses through source decisions, authored assets, native integrat
 
 Deliver Heikhal and Kodesh HaKodashim together: correctly assigned floor/wall/ceiling finishes, cedar lining and sourced relief treatment, openings, folding doors and paroches, menorah, shulchan, golden incense altar, Aron and keruvim. Follow Temple Institute references where requested; record uncertain forms and measurements. Do not coat the entire shared House union because it includes exterior faces.
 
-Current evidence: reviewed exposure is adopted and saved/reopened; static interior is readable but plain. Native import predates some newer source lining/relief work. Aron has16original mesh parts but no finished keruvim or room placement. Keilim and finishes workers are authoring concrete assets now. Incense remains an isolated defective study, secondary to visible scene completion.
+Current evidence: reviewed exposure is adopted and saved/reopened; static interior is readable but plain. Native import predates some newer source lining/relief work. Aron has16original mesh parts but no finished keruvim or room placement. Gold sanctuary review now has seven interior veneer panels and two dimensioned original vessels (incense altar and shulchan), saved/reopened natively. Bread, supports, bowls, poles, menorah and rendered acceptance remain incomplete. Incense remains an isolated defective study, secondary to visible scene completion.
 
 Acceptance: whole-room and close-up native renders from several directions; visually identify each vessel and source profile; no missing backs, intersecting walls, blocked openings or generic substitute props. Walk doorway/stair routes and test exposure transitions. Preserve appropriate guided-view/access distinctions. Package and recheck the same rooms.
 
@@ -18,7 +18,7 @@ Acceptance: whole-room and close-up native renders from several directions; visu
 
 Deliver one level platform within the inferred enclosure beyond the measured Temple, preserving its internal courtyard heights and existing gateway stairs. Target outer platformZ0cm preserves12existing25cm risers to outercourt300cm. Preserve present WesternWall and lowerplaza. Add a proper plaza surface and designed entrance/stair approach. Remove the exact audited AlAqsa building/dome actors only within the user-selected future scenario.
 
-Current evidence: boundary66points and protectedpolygons mapped; currentplaza source is boundary ribbons rather than filledsurface. Platformdesign/sourceaudits ready; original platformmesh generation assigned. Future-scenario duplication/removal helper syntaxchecked but not executed. No platform/stairs/removal is integrated yet.
+Current evidence: boundary66points and protectedpolygons mapped; currentplaza source is boundary ribbons rather than filledsurface. Future scenario was saved/reopened with the two audited building/dome actors removed and protected Western Wall unchanged. Platform source meshes passed geometric checks; native placement is being repaired after commandlet actor-creation failure. Platform, stairs and terrain clipping are not yet accepted.
 
 Acceptance: render boundary overlay before changing terrain; exact clipping preserves WesternWall/plaza and outsidecity. No whole-tile flattening or shared-grid deletion. Verify stair landings, rises, headroom, falls, gateway continuity and Kotelapproach in native walking. Check allterrain/deck seams and remainingstructures visually. WesternWall needs isolated detailedcourses, not blanketsharedmaterialswap.
 

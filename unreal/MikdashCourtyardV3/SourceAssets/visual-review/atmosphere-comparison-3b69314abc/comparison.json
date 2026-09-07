@@ -1,0 +1,109 @@
+{
+  "status": "captured_restored_requires_visual_review",
+  "maps": {
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "379e62f72fc873321b7f337717b2552106a64928eb492af9f60b3bbf63d7fb28",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "originalMainMapInvariantHashFromCreationReceipt": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "comparisonScope": "Two visual acceptance stills: Gold sanctuary and Atmosphere exterior. Different maps; not an A/B comparison. Atmosphere predates later keilim placement.",
+  "fovDegrees": 75,
+  "warmupSecondsPerView": 45,
+  "minimumSlateTicksPerView": 120,
+  "watchdogSeconds": 600,
+  "sourceManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "interiorFloorBounds": {
+    "min": [
+      -5600.0,
+      -500.0,
+      904.9999237060547
+    ],
+    "max": [
+      -3600.0,
+      500.0,
+      925.0
+    ]
+  },
+  "views": [
+    {
+      "id": "heikhal_west",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "yaw": 180.0,
+      "basis": "SM_0146_floor_Heichal_clear_floor: X[-5600,-3600],Y[-500,500],topZ925cm; camera168cm above floor,400cm inside eastern floor edge; west is UE-X"
+    },
+    {
+      "id": "exterior_courtyard",
+      "position": [
+        6500.0,
+        -1800.0,
+        468.0
+      ],
+      "yaw": 155.0,
+      "basis": "Same exterior camera as reviewed Scripts/review_exterior_exposure.py;168cm above300cm outer-court floor"
+    }
+  ],
+  "events": [
+    {
+      "event": "warming_gold_heikhal_west",
+      "elapsedSeconds": 0.26
+    },
+    {
+      "event": "requested_gold_heikhal_west",
+      "elapsedSeconds": 48.3
+    },
+    {
+      "event": "captured_gold_heikhal_west",
+      "elapsedSeconds": 49.34
+    },
+    {
+      "event": "warming_atmosphere_exterior_courtyard",
+      "elapsedSeconds": 52.72
+    },
+    {
+      "event": "requested_atmosphere_exterior_courtyard",
+      "elapsedSeconds": 97.73
+    },
+    {
+      "event": "captured_atmosphere_exterior_courtyard",
+      "elapsedSeconds": 98.11
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 99.88
+    }
+  ],
+  "captures": [
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+      "view": "heikhal_west",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\atmosphere-comparison-3b69314abc\\gold_heikhal_west.png",
+      "bytes": 2810779,
+      "sha256": "030d553ebac0dc4469d0f2bb43be7e3ffc09b0217b51cc0c6e3decc7c6d82925",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere",
+      "view": "exterior_courtyard",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\atmosphere-comparison-3b69314abc\\atmosphere_exterior_courtyard.png",
+      "bytes": 1630121,
+      "sha256": "854ec97582ea7044d8ddba76a35f2ac5602b283faf37dbb05bbaabfde51fadd4",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    }
+  ],
+  "mapSaved": false,
+  "adopted": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical comparison stills. No access authorization, automatic image quality approval, transition/motion acceptance or packaged proof. Screenshots retain native renderer pixels.",
+  "originalMapAndCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapsUnchanged": true
+}

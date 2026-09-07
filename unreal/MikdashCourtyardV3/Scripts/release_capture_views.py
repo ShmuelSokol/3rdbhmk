@@ -444,17 +444,25 @@ class ReleaseCapture:
         # (h) bus at street level: Z unknown, trace it; skip honestly if nothing is there.
         def view_h():
             view_id = "h_bus_street_level"
-            heading = math.radians(BUS_YAW)
+            if not bus_items:
+                self.failure(view_id, "missing_bus", "No placed TransitV2 bus; refusing to photograph an old candidate site.")
+                return {"id": view_id, "skipped": True, "position": None, "pitch": None, "yaw": None}
+            bus_origin = bus_items[0]["location"]
+            bus_yaw = float(bus_items[0]["actor"].get_actor_rotation().yaw)
+            if any(math.dist(i["location"], bus_origin) > 1.0 for i in bus_items):
+                raise RuntimeError("TransitV2 bus parts do not share an origin; review placement before capture")
+            bus_xy = bus_origin[:2]
+            heading = math.radians(bus_yaw)
             forward = (math.cos(heading), math.sin(heading))
             door_side = (-math.sin(heading), math.cos(heading))   # bus local +Y is the door side
-            cam_xy = [BUS_XY[0] + door_side[0] * 1400.0 + forward[0] * 400.0,
-                      BUS_XY[1] + door_side[1] * 1400.0 + forward[1] * 400.0]
+            cam_xy = [bus_xy[0] + door_side[0] * 1400.0 + forward[0] * 400.0,
+                      bus_xy[1] + door_side[1] * 1400.0 + forward[1] * 400.0]
             ignore = [i["actor"] for i in bus_items]
-            bus_ground = self.trace_ground(BUS_XY[0], BUS_XY[1], 6000.0, -9000.0, ignore)
+            bus_ground = self.trace_ground(bus_xy[0], bus_xy[1], 6000.0, -9000.0, ignore)
             cam_ground = self.trace_ground(cam_xy[0], cam_xy[1], 6000.0, -9000.0, ignore)
-            view = {"id": view_id, "busCandidateXY": list(BUS_XY), "busYaw": BUS_YAW,
+            view = {"id": view_id, "busPlacedXY": list(bus_xy), "busYaw": bus_yaw,
                     "busGroundTrace": bus_ground, "cameraGroundTrace": cam_ground, "busActorsFound": len(bus_items),
-                    "basis": "HANDOFF TransitV2 bus candidate XY on mapped Batei Mahase road, yaw -60.08; camera 14 m off the door side, 4 m forward, at traced street level + 168."}
+                    "basis": "Saved TransitV2 actor origin and yaw; camera 14 m off the door side, 4 m forward, at traced street level + 168. No historical candidate coordinates used."}
             if cam_ground is None and bus_items:
                 cam_ground = {"point": [cam_xy[0], cam_xy[1], bus_items[0]["location"][2]], "normalZ": None, "actor": "fallback: bus actor Z"}
                 self.failure(view_id, "ground_trace", "No street hit at camera point; fell back to placed bus actor Z.")
@@ -469,7 +477,7 @@ class ReleaseCapture:
                 bus_z = bus_ground["point"][2]
             else:
                 bus_z = cam_ground["point"][2]
-            target = [BUS_XY[0], BUS_XY[1], bus_z + 180.0]
+            target = [bus_xy[0], bus_xy[1], bus_z + 180.0]
             pitch, yaw = look_at(position, target)
             view.update(position=position, target=target, pitch=pitch, yaw=yaw)
             return view

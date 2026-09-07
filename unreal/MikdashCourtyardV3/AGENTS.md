@@ -124,3 +124,7 @@ preparation lesson); 55 cm step height on BP_MikdashWalker. Actor count 7322 (73
 - `MP_PixelDepthOffset` is hidden in UE 5.8 Python. Multi-mesh FBX import: pass literal `destination_name='None'`.
 - Loading barrier must precede warmup; early gray frames were a loading issue, not lighting.
 - Receipt JSON written by PowerShell carries a UTF-8 BOM; read with `encoding="utf-8-sig"`.
+
+## Astra takeover baseline (2026-09-07)
+
+Current evidence supersedes the older Walkthrough-06 state above: see RELEASE-NOTE-Walkthrough-08.md and HANDOFF-FOR-GPT-ASTRA.md. Walkthrough-08 packaged launch, Start/P/preparation-P/Quit passed interactive observation; fresh east-gate and Mount-platform synthetic walk completed with zero errors (release-walk-20260907T211526Z.json). Baseline capture release-capture-20260907T210550Z preserves actual visual defects: occluded Kotel, bright gold/rear wall, plain context surfaces. Its bus-labelled image is not bus evidence because the old capture used BUS_XY/BUS_YAW candidate constants. Capture cameras for multipart props must derive from current saved actors and verify their common origin; do not reuse historical placement candidates. The new capture fix affects only the test script, not maps or runtime assets.

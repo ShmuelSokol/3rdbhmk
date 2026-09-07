@@ -37,25 +37,29 @@ with receipt names. This file describes the last known state; recheck files and 
 Future Mount platform; four cut terrain tiles rewound front-face-up on 2026-09-07 (429/566/480/454 tris, vertex colours kept);
 Mount trees removed with outside vegetation preserved; two audited Al-Aqsa actors removed only in this future scenario;
 Western Wall and plaza unchanged plus six `RELEASE_Kotel_1..6` overlay meshes at identity (NoCollision); sanctuary gold
-finishes (7 veneers); heikhal keilim moved to the book positions: menorah `[-5330,350]` yaw 90, shulchan `[-5300,-350]`,
-incense altar `[-5150,0]`, all Z 925; sixteen Aron parts at origin `[-6200,0,925]` yaw 90 with `RELEASE_Keruvim_1`
-(all 100 slots gold) on the kaporet; five idle PilgrimRigV2 figures `RELEASE_Pilgrims_1..5` in the outer court around
+finishes (7 veneers); heikhal keilim at the book positions and sizes: CC BY Titus-style menorah `RELEASE_Menorah`
+`[-5330,315,925]` 150 cm, branches north-south; shulchan study `[-5300,-350,925]` (76 cm, book says 3 amot: open);
+incense altar study `[-4650,0,925]` scaled to the 5-tefach amah; CC BY-SA "Ark Box" `RELEASE_Aron_Body/Lid` at
+`[-6200,0,925]` yaw 0 (length north-south per Rambam 3:12; this model's poles therefore also north-south, open);
+Kodesh doors (open inward) and 7 x 6 amot paroches (`Release/Doors`, 15 actors); 196 `RELEASE_Frieze_*` 250 cm Nanite
+displaced gold relief panels on all Heikhal/Kodesh walls from `visual-reference-handoff/gold-palm-cherub-relief.png`
+(palm-only panels removed); `RELEASE_KodeshInteriorLight`; bus `RELEASE_Bus_1..13` at `[-37951,46855,973]` on real
+asphalt at the west end of Batei Mahase road; five idle PilgrimRigV2 figures `RELEASE_Pilgrims_1..5` in the outer court around
 `[5000,1180]` on floor Z 300; volumetric clouds; bound wind sequence; +1 stop exposure and interior histogram fields;
 compiled MikdashRuntime controller (menu, pause/release, WASD, mouse look, mute persistence, footsteps, P-key fix in the
 preparation lesson); 55 cm step height on BP_MikdashWalker. Actor count 7322 (7310 before the release edits).
 
 ## Imported but NOT placed
 
-- TransitV2 bus + station (25 meshes). Candidate XY `[-23101.76, 36185.43]`, yaw `-60.0787`, has about 28 degrees of road
-  crossfall by offline interpolation; no native trace hit in any commandlet process. Needs a PIE trace or another candidate
-  and an explicit `bus_ground_z`. Station unset; no source-proven railway; aisle too narrow for the capsule.
+- TransitV2 station (12 meshes): placement unset; no source-proven railway. Bus aisle too narrow for the capsule (no boarding).
+- Heikhal folding door leaves (24 planned actors) deliberately not placed: the measured architecture already carries the
+  four open gold door slabs. Reuse `Scripts\release_import_doors.py -DoorsPlaceOnly -DoorsGroups=heichal` only after review.
+- Fetched CC models not used: GPL menorah/Aron (license decision pending), CC0 shulchan blockout (no loaves).
 
 ## Source-only (authored, native import/placement NOT run)
 
-- Doors/paroches: `Scripts\create_sanctuary_doors.py`, `SourceAssets\sanctuary-detail\DoorsParochesV1` (9 meshes).
-  Paroches at X -5600, 350 x 300 cm; Kodesh doors 2 x (3.5 x 6 amot), modelled open inward.
-- Reliefs: `Scripts\create_sanctuary_reliefs.py` makes a palm-only panel. The Yechezkel 41:18-20 keruv-with-two-faces panels
-  were never modeled. Highest-priority art item.
+- Reliefs follow-ups: paroches pattern (book p. 238 shows palm + keruvim on the curtain), doorposts and lintels, seamless
+  retile of the frieze image (joint every 250 cm), a sculpted keruv panel as the upgrade path (scratchpad keruv-relief-feasibility.md).
 - Mount access / Kotel opening: `create_mount_access.py`, `create_kotel_opening.py`, `mount-access\OpeningV2`.
   No source-proven western gate through the sanctuary wall; do not cut protected geometry.
 - Resident crowd: `ResidentCrowdRuntime.h` (520/520 checks, debug and release) and the `MikdashResidentCharacter` adapter now
@@ -63,9 +67,11 @@ preparation lesson); 55 cm step height on BP_MikdashWalker. Actor count 7322 (73
 - Audio: CC0 wind candidate not auditioned; synthesized pilot ambience stays autoActivate=false; footsteps live.
   `MikdashSurfaceAudioRouting.h` standalone-tested, not wired.
 - Incense: `SourceAssets\IncenseRepairV4` offline only; V1-V3 studies fail visually (wisps at floor level).
-- Keilim dimensions still the old studies: shulchan 76 cm high (book: 3 amot = 150), menorah 180 cm (book: 18 tefachim =
-  150 at this project's 50 cm amah), incense altar 50 cm square (book: amah of 5 tefachim, about 41.7). Aron lacks luchot.
-  Source review: `SourceAssets\vessels-review\book-keilim-review-20260907.md`.
+- Keilim still open: shulchan height 3 amot with rods, trays and 12 loaves (book pp. 241, 250); incense altar detail; Aron
+  poles east-west (Yoma 54a) as separate meshes; luchot. Reference photos with the owners' permission:
+  `SourceAssets\reference-ti\dossier.md` (gitignored). Book requirements table with 15 ranked gaps (Mount enclosure largest):
+  `SourceAssets\research\book-scene-requirements-20260907.md`. Source review: `SourceAssets\vessels-review\book-keilim-review-20260907.md`.
+- Kotel overlay hidden behind OSM slab `SM_Jerusalem_CityWalls_04_Grid_N002_P00x` 1 m west of the face (scratchpad kotel-visibility.md).
 - Controls: P-key fix compiled, not keyboard-tested. `SourceAssets\runtime-review\control-audit`.
 
 ## Hard rules

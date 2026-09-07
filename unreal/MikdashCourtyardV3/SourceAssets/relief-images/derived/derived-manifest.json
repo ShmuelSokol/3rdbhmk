@@ -1,0 +1,151 @@
+{
+  "images": [
+    {
+      "source": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-reference-handoff\\gold-palm-cherub-relief.png",
+      "sourceSha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+      "stem": "gold-palm-cherub-relief",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "decoder": "pure_python_zlib",
+      "isDefaultSource": true,
+      "aspectWidthOverHeight": 1.0,
+      "seam": {
+        "horizontal": {
+          "rightVsLeftMeanAbsDiff": 0.1298896581918254,
+          "edgeAdjacentColumnMeanAbsDiff": 0.061744674297151095,
+          "interiorAdjacentColumnMeanAbsDiff": 0.062167869709383906,
+          "ratioSeamOverAdjacent": 2.1036576785022985,
+          "ratioSeamOverInterior": 2.089337447125348,
+          "correlationRightLeft": 0.168355831784719
+        },
+        "vertical": {
+          "bottomVsTopMeanAbsDiff": 0.11930823091597094,
+          "edgeAdjacentRowMeanAbsDiff": 0.02718905932388903,
+          "ratioSeamOverAdjacent": 4.388097046488973,
+          "correlationBottomTop": -0.006788481063666873
+        },
+        "unit": "luma 0..1",
+        "rule": "ratio near 1 = the repeat joint is as smooth as neighbouring columns; >> 1 = visible seam"
+      },
+      "cornerPatchesLuma": {
+        "topLeft": {
+          "mean": 0.563011091387648,
+          "stdev": 0.14260828110085894
+        },
+        "topRight": {
+          "mean": 0.5517065475097409,
+          "stdev": 0.11860414084931706
+        },
+        "bottomLeft": {
+          "mean": 0.4503297545448982,
+          "stdev": 0.11563545456169158
+        },
+        "bottomRight": {
+          "mean": 0.4270674032360079,
+          "stdev": 0.09938013848180881
+        }
+      },
+      "cornerPatchesHeight": {
+        "topLeft": {
+          "mean": 0.3467219573710535,
+          "stdev": 0.14957044923634147
+        },
+        "topRight": {
+          "mean": 0.16781318449041285,
+          "stdev": 0.12169107728314392
+        },
+        "bottomLeft": {
+          "mean": 0.17248906878440062,
+          "stdev": 0.12754978841930018
+        },
+        "bottomRight": {
+          "mean": 0.09171189144111365,
+          "stdev": 0.0794343288065621
+        }
+      },
+      "parameters": {
+        "lumaWeights": [
+          0.299,
+          0.587,
+          0.114
+        ],
+        "lowFrequencyRadiusPx": 75,
+        "lowFrequencyBlurPasses": 2,
+        "medianPasses": 1,
+        "smoothRadiusPx": 1,
+        "topPercentile": 99.7,
+        "topValue": 0.30489063672160666,
+        "heightGamma": 1.0,
+        "background": {
+          "mode": 0.009167002948025194,
+          "madBelowMode": 0.06301496203316537,
+          "robustSigma": 0.09342598271037096,
+          "level": 0.10259298565839615,
+          "modeBinFraction": 0.009717548183929448,
+          "bins": 512,
+          "sigmaMultiplier": 1.0
+        },
+        "massLayer": {
+          "noiseFloor": 0.10908958767122075,
+          "noiseFloorPercentile": 75.0,
+          "blurRadiusPx": 25,
+          "blurPasses": 2,
+          "topPercentile": 99.0,
+          "topValue": 0.0403743597840066,
+          "baseCut": 0.12,
+          "gamma": 0.7,
+          "massWeight": 0.65,
+          "detailWeight": 0.45
+        },
+        "derivedSize": [
+          2048,
+          2048
+        ],
+        "resample": "bilinear",
+        "normalSlopeFactorPerTexel": 24.576,
+        "normalStrengthMultiplier": 1.0,
+        "normalGreenConvention": "directx: green encodes the component along +V (image down), the UE default (Flip Green Channel off)",
+        "flipGreen": false,
+        "displacementCm": 3.0
+      },
+      "heightStatistics": {
+        "fractionAboveBackground": 0.8282554835690066,
+        "meanHeight": 0.27818894652076925
+      },
+      "heightIsApproximate": "Derived from a lit colour render: detail = high-pass luma (lit edges read higher than shadowed edges), mass = blurred edge density. Plausible bas-relief, not measured relief.",
+      "outputs": {
+        "height": {
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_height16.png",
+          "sha256": "45db5a164472068f70c745706dd5afe4f7455eb9d8a12a33b79f7db0945a30b7",
+          "bitDepth": 16,
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        "normal": {
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_normal.png",
+          "sha256": "1312004bf35903637fcdd37bf03c869f198d70aed07a77798d4e0bde933d08a8",
+          "bitDepth": 8,
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      },
+      "timingsSeconds": {
+        "decodeS": 1.625,
+        "highPassS": 1.562000000005355,
+        "smoothS": 1.2969999999913853,
+        "normaliseS": 4.35899999999674,
+        "resampleS": 0.5470000000059372,
+        "writeHeightS": 1.6410000000032596,
+        "normalS": 4.9689999999973224,
+        "totalS": 16.25
+      }
+    }
+  ],
+  "updated": "2026-09-07T19:47:12.821250+00:00",
+  "specSha256": "667c8060c4377e82a08dc7227dd2d0cbd207ecbfaefe383c9f9e16d51cb9ab0b"
+}

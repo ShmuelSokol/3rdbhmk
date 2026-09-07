@@ -1,0 +1,298 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable scale plan consumed by Scripts/release_scale_keilim.py. Rescales the three Heikhal vessel studies in the combined map to the dimensions given in Lishchno Tidreshu (book review item 8). Every number below was resolved from receipts on disk; nothing here is a claim of visual acceptance or of a measured Temple Institute replica.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KeilimScale-",
+  "receiptFolder": "SourceAssets/vessels-review",
+  "receiptPrefix": "keilim-scale-",
+  "logTag": "MIKDASH_KEILIM_SCALE",
+  "units": {
+    "amahCm": 50.0,
+    "tefachCm": 8.333333333333334,
+    "unitStatus": "Existing reconstruction convention (50 cm amah, 6 tefachim per amah); not a claim that all halachic measures agree. The golden altar uses the book's 5-tefach amah (p. 255) = 41.667 cm."
+  },
+  "frame": "X east, Y south, Z up. Heikhal clear floor X -5600..-3600, Y -500..+500, floor top Z 925 (measured SM_0146_floor_Heichal_clear_floor).",
+  "heikhal": {
+    "xmin": -5600.0,
+    "xmax": -3600.0,
+    "ymin": -500.0,
+    "ymax": 500.0,
+    "floorZ": 925.0
+  },
+  "heikhalWallMarginCm": 40.0,
+  "wallClearance": {
+    "minCm": 100.0,
+    "measure": "world AABB of the whole actor (branch tips included for the menorah) to the Y=-500 and Y=+500 walls",
+    "rule": "A group whose predicted post-scale AABB is closer than minCm to either north/south wall is OMITTED (recorded with numeric evidence) and nothing is scaled or moved for it. Other groups proceed. Override the threshold with -KeilimWallClearanceCm=<cm> on the engine command line.",
+    "knownState": "The menorah at Y=+350 (keilim-move-20260907T163327Z) already has its branch tips 79.25 cm from the south wall; after the 5/6 scale the tips sit at Y 408.96 (91.04 cm) and the base edge at Y 387.5 (112.5 cm). With the default 100 cm the menorah is therefore omitted; pass -KeilimWallClearanceCm=90 to accept 91 cm, or move the menorah to Y about +315 (book review reading A, 2.5 amot to the branch tips) before scaling."
+  },
+  "identification": {
+    "clusterCm": 60.0,
+    "candidateZRange": [
+      900.0,
+      1200.0
+    ],
+    "excludedFolderPrefixes": [
+      "Measured architecture",
+      "Jerusalem context"
+    ],
+    "rule": "Same as run-release-move-keilim.py: static-mesh actors inside the Heikhal floor rectangle are clustered by current XY; each cluster must contain exactly one actor and its label must equal the expected label; the static mesh path, pre-scale bounds (tolerance boundsToleranceCm) and current scale (1,1,1) must match. An actor already at the target scale is recorded as already_scaled and skipped."
+  },
+  "boundsToleranceCm": 0.5,
+  "reopenToleranceCm": 0.05,
+  "scaleTolerance": 0.0005,
+  "yawToleranceDeg": 0.01,
+  "groups": {
+    "menorah": {
+      "enabledByDefault": true,
+      "label": "REVIEW_TempleInstituteMenorahStudyV1",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "mesh": "/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1/Meshes/SM_MenorahStudyV1.SM_MenorahStudyV1",
+      "currentXY": [
+        -5330.0,
+        315.0
+      ],
+      "expectedYaw": 90.0,
+      "yawMustNotChange": true,
+      "yawMeaning": "Local X spans the seven lamps; yaw 90 puts the branches north-south (Rambam Beit HaBechirah 3:12; book pp. 252-254). Uniform scaling leaves the rotation untouched; the script verifies yaw before and after.",
+      "localBoundsCm": {
+        "min": [
+          -70.749,
+          -38.971,
+          0.0
+        ],
+        "max": [
+          70.749,
+          38.971,
+          180.0
+        ]
+      },
+      "localBoundsSource": "SourceAssets/vessels-review/MenorahStudyV1/geometry-manifest.json and native-import.json (bounds_error_cm 1.4e-06)",
+      "pivot": "origin at the base contact plane (local Z min = 0); scaling about the actor location keeps the base on the floor",
+      "expectedBoundsBefore": {
+        "min": [
+          -5368.971141815186,
+          244.2509994506836,
+          925.0
+        ],
+        "max": [
+          -5291.028858184814,
+          385.7490005493164,
+          1105.0
+        ]
+      },
+      "expectedBoundsBeforeSource": "SourceAssets/vessels-review/keilim-move-20260907T163327Z.json boundsAfter",
+      "currentDimensionsCm": {
+        "x": 77.94,
+        "y": 141.5,
+        "z": 180.0,
+        "note": "World X = local Y (depth), world Y = local X (lamp span) because of yaw 90. Base footprint (BaseLower part) 90 x 78 cm local."
+      },
+      "targetDimensionsCm": {
+        "z": 150.0,
+        "y": 117.92,
+        "x": 64.95
+      },
+      "scale": [
+        0.8333333333333334,
+        0.8333333333333334,
+        0.8333333333333334
+      ],
+      "scaleKind": "uniform",
+      "scaleDerivation": "150 / 180 = 5/6. 18 tefachim x 8.3333 cm = 150 cm at this project's 50 cm amah. The model's 180 cm was the Temple Institute schematic conversion at a larger amah (menorah-model-spec.json physical_dimensions.warning).",
+      "predictedBoundsAfter": {
+        "min": [
+          -5362.476,
+          291.042,
+          925.0
+        ],
+        "max": [
+          -5297.524,
+          408.958,
+          1075.0
+        ]
+      },
+      "predictedWallClearanceCm": {
+        "north": 791.04,
+        "south": 91.04,
+        "southBaseEdge": 112.5
+      },
+      "book": {
+        "page": 252,
+        "quote": "The height of the Menorah is eighteen tefachim (1), and before the Menorah there is a stone with three steps, upon which the Kohen stands",
+        "bookSource": "Rambam Beit HaBechirah 3:10-3:11",
+        "alternatives": "None recorded in the book for the height. The Temple Institute's 180 cm is the same 18 tefachim at a 60 cm amah (10 cm tefach); the project convention is 50 cm."
+      }
+    },
+    "shulchan": {
+      "enabledByDefault": false,
+      "enabledByDefaultReason": "Non-uniform Z scaling is a judgment call: it doubles the tabletop slab thickness, the tefach frame (8.33 -> 16.67 cm) and the crown height while leaving leg cross-sections unchanged. Uniform scaling to 150 cm high would make the footprint 200 x 100 cm (4 x 2 amot) and break the book's 2 x 1 amot. Enable with -KeilimGroups=shulchan (or together with the others) after deciding, or treat the height as a modelling task.",
+      "label": "REVIEW_HeikhalKeilim_SM_ShulchanStudy",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_ShulchanStudy.SM_ShulchanStudy",
+      "currentXY": [
+        -5300.0,
+        -350.0
+      ],
+      "expectedYaw": 0.0,
+      "yawMustNotChange": true,
+      "yawMeaning": "Yaw 0 keeps the 100 cm long axis east-west ('its length along the length of the House', book p. 250).",
+      "localBoundsCm": {
+        "min": [
+          -50.0,
+          -26.5,
+          0.0
+        ],
+        "max": [
+          50.0,
+          26.5,
+          76.0
+        ]
+      },
+      "localBoundsSource": "SourceAssets/vessels-review/HeikhalKeilimV1/geometry-manifest.json (tabletop 100 x 50, rings add 1.5 cm each side in Y, tabletop at 75, crown top at 76)",
+      "pivot": "origin at the base contact plane (local Z min = 0)",
+      "expectedBoundsBefore": {
+        "min": [
+          -5350.0,
+          -376.5,
+          925.0
+        ],
+        "max": [
+          -5250.0,
+          -323.5,
+          1001.0
+        ]
+      },
+      "expectedBoundsBeforeSource": "SourceAssets/vessels-review/keilim-move-20260907T163327Z.json boundsAfter",
+      "currentDimensionsCm": {
+        "x": 100.0,
+        "y": 53.0,
+        "z": 76.0,
+        "note": "Footprint already 2 x 1 amot (100 x 50 body; 53 with rings). Height to tabletop 75 cm = 1.5 amot (Shemos 25:23 convention used by heikhal-keilim-spec.json)."
+      },
+      "targetDimensionsCm": {
+        "x": 100.0,
+        "y": 50.0,
+        "z": 150.0
+      },
+      "scale": [
+        1.0,
+        1.0,
+        2.0
+      ],
+      "scaleKind": "non-uniform Z only",
+      "scaleDerivation": "Tabletop 75 -> 150 cm (3 amot): Z scale 2.0; crown top lands at 152 cm. Alternative 150/76 = 1.9737 puts the crown top at exactly 150 cm (tabletop 148.4). Footprint unchanged, so the north-wall clearance stays 123.5 cm.",
+      "predictedBoundsAfter": {
+        "min": [
+          -5350.0,
+          -376.5,
+          925.0
+        ],
+        "max": [
+          -5250.0,
+          -323.5,
+          1077.0
+        ]
+      },
+      "predictedWallClearanceCm": {
+        "north": 123.5,
+        "south": 823.5
+      },
+      "uniformAlternativeRejected": "Uniform 2.0 would give bounds X -5400..-5200, Y -456..-244 (footprint 200 x 106 cm, north clearance 44 cm) and violate the 2 x 1 amot footprint the book states on the same page.",
+      "book": {
+        "page": 241,
+        "quote": "The length of the shulchan is two amos, in width one amah, and in height three amos [Yechezkel 41:22]",
+        "bookSource": "Yechezkel 41:22; the 3-amah height is the author's main line (Targum, Rashi, Radak, Metzudos, Mishkenei Elyon), book pp. 241-249",
+        "alternatives": "p. 246 (Tosafos Menachos 97a): the three amot may include the lechem hapanim stacked on the table, in which case the table body stays 1.5 amot (75 cm) and no rescale is due; the bread would then be modelled 75 cm tall above the tabletop."
+      }
+    },
+    "altar": {
+      "enabledByDefault": true,
+      "label": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_GoldenIncenseAltarStudy.SM_GoldenIncenseAltarStudy",
+      "currentXY": [
+        -4650.0,
+        0.0
+      ],
+      "expectedYaw": 0.0,
+      "yawMustNotChange": true,
+      "localBoundsCm": {
+        "min": [
+          -25.0,
+          -26.5,
+          0.0
+        ],
+        "max": [
+          25.0,
+          26.5,
+          100.0
+        ]
+      },
+      "localBoundsSource": "SourceAssets/vessels-review/HeikhalKeilimV1/geometry-manifest.json (body 50 x 50, rings add 1.5 cm each side in Y, horn tops at 100, body top at 90)",
+      "pivot": "origin at the base contact plane (local Z min = 0)",
+      "expectedBoundsBefore": {
+        "min": [
+          -4675.0,
+          -26.5,
+          925.0
+        ],
+        "max": [
+          -4625.0,
+          26.5,
+          1025.0
+        ]
+      },
+      "expectedBoundsBeforeSource": "SourceAssets/vessels-review/keilim-move-20260907T163327Z.json boundsAfter",
+      "currentDimensionsCm": {
+        "x": 50.0,
+        "y": 53.0,
+        "z": 100.0,
+        "note": "1 x 1 amah body, 2 amot high at the 6-tefach 50 cm amah."
+      },
+      "targetDimensionsCm": {
+        "x": 41.667,
+        "y": 41.667,
+        "z": 83.333,
+        "note": "Body; rings make the world Y AABB 44.17 cm."
+      },
+      "scale": [
+        0.8333333333333334,
+        0.8333333333333334,
+        0.8333333333333334
+      ],
+      "scaleKind": "uniform",
+      "scaleDerivation": "5-tefach amah / 6-tefach amah = 5/6 = 0.83333. 41.667 / 50 = 83.333 / 100 = 5/6.",
+      "predictedBoundsAfter": {
+        "min": [
+          -5170.833,
+          -22.083,
+          925.0
+        ],
+        "max": [
+          -5129.167,
+          22.083,
+          1008.333
+        ]
+      },
+      "predictedWallClearanceCm": {
+        "north": 477.92,
+        "south": 477.92
+      },
+      "book": {
+        "page": 255,
+        "quote": "one amah by one amah in length and width and two amos in height, and every amah is measured by an amah of five tefachim",
+        "bookSource": "Shemos 30:2; Rambam Beit HaBechirah 3:17; note 4: Eruvin 4a per Yechezkel 43:13 (also p. 253)",
+        "alternatives": "None recorded in the book. The 5-tefach amah applies to the golden altar only; the shulchan and menorah keep the 6-tefach amah."
+      }
+    }
+  },
+  "source": "SourceAssets/vessels-review/book-keilim-review-20260907.md item 8 (Lishchno Tidreshu PDF pp. 241, 246, 252, 255; page numbers are source-PDF indexes, printed folio about 105 lower)",
+  "notes": [
+    "2026-09-07: altar cluster updated to (-4650,0) per book diagrams 22:28/22:29 (midline); menorah cluster to (-5330,315) so scaled branch tips sit 2.5 amot (125 cm) from the south wall (review reading A)."
+  ]
+}

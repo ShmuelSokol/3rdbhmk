@@ -1,0 +1,45 @@
+Third-party model attributions - additions for the Mikdash Courtyard walkthrough credits
+========================================================================================
+
+Prepared 2026-09-07 for Scripts/release_import_thirdparty_vessels.py. Copy these lines into the
+distributed credits (in-game credits screen, README of every build, and any page or video that shows
+the models). The wording follows each folder's LICENSE.txt. Only the two models below are imported;
+the GPL-3.0 folders (aron-ark-pazzah-mishkan-printables-GPL, menorah-pazzah-mishkan-printables-GPL)
+are NOT used and need no attribution.
+
+1. Aron (body with poles, and lid with keruvim) - imported as
+   /Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronBody_davidgra11 and
+   /Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronLid_davidgra11
+
+   "Ark of the Covenant Box" by davidgra11 (Thingiverse user; same design on Printables as
+   "David graubart 11"), https://www.thingiverse.com/thing:7391849, licensed Creative Commons
+   Attribution-ShareAlike (Thingiverse license code "cc-sa"; version not stated in the zip -
+   Thingiverse currently links CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/).
+   Changes: converted from the original 3MF to two OBJ meshes (per-face normals, welded vertices,
+   each re-based with XY centred and bottom at Z 0), imported into Unreal Engine, scaled x1.471 to a
+   125 cm long body, given a flat gold material, and placed in the Kodesh of the walkthrough.
+
+   ShareAlike notice: because this model is CC BY-SA, every derivative of it stays CC BY-SA - the
+   imported .uasset files, the two OBJ conversions in this folder, any screenshot, video frame or
+   build in which the Aron model is the featured content, and any further remix. Such derivatives
+   must carry this attribution and the same license (or a compatible later CC BY-SA version), and
+   may not be re-licensed under a more restrictive or a non-ShareAlike license. Note kept with the
+   asset: the same author lists this model on Printables (model 1800658) as CC BY-NC; the copy used
+   here is the Thingiverse copy carrying CC BY-SA (provenance.json in the asset folder).
+
+2. Menorah - imported as /Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_Menorah_DahanMeir
+
+   "The Menorah in the Temple in Jerusalem - based on the structure from the Arch of Triumph
+   (Titus) in Rome" by Dahan Meir (Printables user),
+   https://www.printables.com/model/1501834-the-menorah-in-the-temple-in-jerusalem-based-on-th,
+   licensed Creative Commons Attribution 4.0 International (CC BY 4.0)
+   (https://creativecommons.org/licenses/by/4.0/).
+   Changes: converted from the original STL to OBJ (per-face normals, welded vertices, units
+   unchanged), imported into Unreal Engine, scaled x0.715 to 150 cm tall including the base, given a
+   flat gold material, and placed in the Heikhal of the walkthrough.
+
+   CC BY 4.0 requires this attribution, the license link and an indication of changes on every
+   distribution; it does not restrict the license of the surrounding work.
+
+Both attributions must remain in SourceAssets/third-party/<slug>/LICENSE.txt and provenance.json
+next to the source files; this file only collects the lines to add to the distributed credits.

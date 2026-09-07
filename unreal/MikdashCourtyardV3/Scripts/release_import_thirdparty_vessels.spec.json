@@ -1,0 +1,394 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_thirdparty_vessels.py: native OBJ import of two CC-licensed vessel models (davidgra11 Aron body+lid, Dahan Meir Titus menorah), gold material on every slot, GeometryScript winding check with conditional flip, removal of the rejected procedural Aron/keruvim/menorah review actors from the combined map, and placement of RELEASE_Aron_Body, RELEASE_Aron_Lid and RELEASE_Menorah. Every number below comes from SourceAssets/third-party provenance files, an offline vertex parse of the frozen OBJs, the architecture manifest or earlier receipts; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "1be186e626b536946858a381427307fa186702fe935b5c3774fd1db26ee08a2d",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk when this spec was prepared (DoorsParochesV1/native-import-20260907T184828Z.json mapSha256AfterSave, i.e. after the doors/paroches placement). Recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Vessels-",
+  "receiptFolder": "SourceAssets/third-party",
+  "receiptPrefix": "native-import-vessels-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "placementHelperSpec": "Scripts/release_place_assets.spec.json",
+  "actorTag": "ReleaseThirdPartyVesselsV1",
+  "labelPrefix": "RELEASE_",
+  "folder": "Release/Vessels",
+  "collisionProfile": "NoCollision",
+  "collisionNote": "All three actors NoCollision (recorded). The Aron body is also NoCollision: the Kodesh is not on the visitor walking route and a 715k-triangle complex collision would be built for nothing. Revisit if the walker ever enters the Kodesh.",
+  "source": {
+    "folder": "SourceAssets/third-party",
+    "thirdPartyManifest": "SourceAssets/third-party/third-party-manifest.json",
+    "namespace": "/Game/MikdashV3/ThirdParty/Vessels",
+    "meshFolder": "/Game/MikdashV3/ThirdParty/Vessels/Meshes",
+    "unitsNote": "Both models are 3D-print files in millimetres with Z up (provenance unitsGuess). The importer reads the numbers as Unreal centimetres (import_uniform_scale 1.0), so the ASSET is 10x too small in 'cm'; the ACTOR scale below (1.471 / 0.715) carries both the mm->cm factor and the book-size fit. Local bounds recorded below are therefore in file units (mm) and equal the imported asset's local bounds in engine cm units.",
+    "excludedFolders": [
+      "aron-ark-pazzah-mishkan-printables-GPL",
+      "menorah-pazzah-mishkan-printables-GPL"
+    ],
+    "excludedFoldersNote": "GPL-3.0 models are never imported by this script (license not compatible with the project's CC distribution terms).",
+    "boundsToleranceCm": 0.05,
+    "maxTriangleLossFraction": 0.02,
+    "maxTriangleLossNote": "remove_degenerates=True may drop a few sliver triangles from print-oriented meshes; the import is refused if more than this fraction of the source triangles is lost. The actual imported count is recorded. Raised to 0.02 on 2026-09-07: the Dahan Meir menorah loses 961/75258 (1.3%) sliver triangles to remove_degenerates; harmless for a print-oriented mesh.",
+    "meshes": [
+      {
+        "name": "SM_ThirdParty_AronBody_davidgra11",
+        "role": "aronBody",
+        "slug": "aron-ark-box-davidgra11-thingiverse",
+        "file": "ark_box_with_poles.obj",
+        "sha256": "60d0103b8abdf30213104c4cd91bb38d8a2f1e95fb651722d7705027678337d3",
+        "triangles": 715248,
+        "vertices": 355162,
+        "sourceBoundsFileUnits": {
+          "min": [
+            -27.0599,
+            -61.375,
+            0.0
+          ],
+          "max": [
+            27.0599,
+            61.375,
+            49.1747
+          ]
+        },
+        "license": "CC BY-SA 4.0 (Thingiverse 'cc-sa')",
+        "notes": "Open-topped box with four rings and two carrying poles. Offline parse: the box walls span |x| <= ~21.7 mm and |y| <= ~39.4 mm (~43 x 79 mm at mid-height, ~46 x 81 mm at the top moulding); the poles run along local Y at x = +-27 mm, z 34.4..39.3 mm, spanning y +-61.4 mm. The top plane has 0 interior triangles (open box); the inner floor is at z ~2.58 mm; inner wall faces at |x| >= 20.05 mm, |y| >= 38.03 mm (z 40..47 mm)."
+      },
+      {
+        "name": "SM_ThirdParty_AronLid_davidgra11",
+        "role": "aronLid",
+        "slug": "aron-ark-box-davidgra11-thingiverse",
+        "file": "ark_lid_with_keruvim.obj",
+        "sha256": "613bc2700dfe030723e72dbd4f1517ef15eeb986ffc48dc63122f0dd8f0795b4",
+        "triangles": 286976,
+        "vertices": 143360,
+        "sourceBoundsFileUnits": {
+          "min": [
+            -23.1754,
+            -40.8525,
+            0.0
+          ],
+          "max": [
+            23.1754,
+            40.8525,
+            37.8561
+          ]
+        },
+        "license": "CC BY-SA 4.0 (Thingiverse 'cc-sa')",
+        "notes": "Kaporet with two kneeling winged keruvim facing each other across local Y. Offline parse: an inner lip plate z 0..3.129 mm with footprint +-19.35 x +-37.195 mm (14 vertices, 14 bottom-plane triangles), then the flange underside at z 3.129 mm with footprint +-22.5 x +-40.3 mm."
+      },
+      {
+        "name": "SM_ThirdParty_Menorah_DahanMeir",
+        "role": "menorah",
+        "slug": "menorah-titus-dahan-meir-printables",
+        "file": "menorah.obj",
+        "sha256": "b589b183da961813e1802e47ee65bd4a2edb0078c0ebaaaebeb0d792ffa6b63e",
+        "triangles": 75258,
+        "vertices": 37880,
+        "sourceBoundsFileUnits": {
+          "min": [
+            -87.1287,
+            -64.8756,
+            -69.7129
+          ],
+          "max": [
+            87.1374,
+            70.1418,
+            140.0488
+          ]
+        },
+        "license": "CC BY 4.0",
+        "notes": "Arch-of-Titus style, seven arms. Offline parse: the branch fan spans local X (+-87.1 mm at the top, z 119..140 mm); the two-tier hexagonal base occupies z -69.7..-12 mm with footprint ~156 x 135 mm (the base's local Y range -64.9..+70.1 is asymmetric). Local Z min is -69.7129 mm: the actor must be lifted by 69.7129 x scale to put the base on the floor."
+      }
+    ]
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/Aron V3/reliefs/doors OBJ adapter path (FbxFactory). Single-mesh OBJ: destination_name is the exact mesh name. The legacy OBJ path REFLECTS Y (proven by the reliefs/doors asymmetric-bounds round trip); these raw OBJs are NOT pre-reflected, so the imported asset is the Y-mirror of the file. Both vessels are symmetric about their local XZ plane to within the recorded tolerances except the menorah base, so the mirror is recorded as a limitation, not corrected. The winding check decides whether faces point outward after the mirror; a raw right-handed outward OBJ is expected to import with POSITIVE UE signed volume (reflection flips handedness, UE's left-handed face normal flips it back).",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of every mesh (SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation. No material is created.",
+    "gold": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold_fallback"
+        }
+      ]
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting). Bulk path: get_all_vertex_positions + get_all_triangle_indices converted with GeometryScript_List, signed volume by the divergence theorem with UE's left-handed face normal cross(C-A, B-A); a sample of triangles is cross-checked against get_triangle_face_normal (disagreements must be 0). Falls back to the per-triangle loop of release_import_reliefs.py if the bulk API is unavailable. If the signed volume is NEGATIVE the mesh is inside-out under UE's convention: the triangle order is reversed with append_buffers_to_mesh (normals recomputed) and written back with copy_mesh_to_static_mesh before the asset is saved, then re-checked; the flip is recorded per mesh.",
+    "requireForPlacement": true,
+    "flipIfNegative": true,
+    "faceNormalSampleTriangles": 2000,
+    "passCriteria": [
+      "signedVolumeUEcm3 > 0 after any flip",
+      "faceNormalVsCrossDisagreements == 0 on the sample"
+    ],
+    "expectedOfflineRightHandedVolumeSign": "positive for all three files (offline parse 2026-09-07: body 42024.4 mm3, lid 22673.2 mm3, menorah 784623.8 mm3), so no flip is expected; the flip path exists for safety.",
+    "rewriteOptions": {
+      "enable_recompute_normals": true,
+      "enable_recompute_tangents": true,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": true,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    }
+  },
+  "removals": {
+    "note": "The user rejected the procedural Aron/keruvim and the TI-photo menorah study as crude. They are destroyed in memory AFTER the .umap checkpoint and only persist as removed when the level is saved at the end; every removed actor's label, folder, mesh, pose and world bounds are recorded in the receipt. The run refuses if the expected set is not found exactly (count, mesh, pose).",
+    "poseToleranceCm": 0.01,
+    "aronParts": {
+      "folder": "Integrated review/Review/Aron_Incomplete_NoKeruvim",
+      "labelPrefix": "REVIEW_AronIncomplete_",
+      "meshPrefix": "/Game/MikdashV3/MaterialReview/AronStudyV3/Meshes/",
+      "sharedOrigin": [
+        -6200.0,
+        0.0,
+        925.0
+      ],
+      "yaw": 90.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "partNames": [
+        "SM_AronStudyV1_BodyBottom",
+        "SM_AronStudyV1_BodyEndWallXMinus",
+        "SM_AronStudyV1_BodyEndWallXPlus",
+        "SM_AronStudyV1_BodyLongWallYMinus",
+        "SM_AronStudyV1_BodyLongWallYPlus",
+        "SM_AronStudyV1_CrownEndXMinus",
+        "SM_AronStudyV1_CrownEndXPlus",
+        "SM_AronStudyV1_CrownLongYMinus",
+        "SM_AronStudyV1_CrownLongYPlus",
+        "SM_AronStudyV1_KaporetCover",
+        "SM_AronStudyV1_PoleXMinus",
+        "SM_AronStudyV1_PoleXPlus",
+        "SM_AronStudyV1_RingXMinusYMinus",
+        "SM_AronStudyV1_RingXMinusYPlus",
+        "SM_AronStudyV1_RingXPlusYMinus",
+        "SM_AronStudyV1_RingXPlusYPlus"
+      ]
+    },
+    "keruvim": {
+      "label": "RELEASE_Keruvim_1",
+      "folder": "Release/Keruvim",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/Meshes/SM_KeruvimStudyV1",
+      "location": [
+        -6200.0,
+        0.0,
+        925.0
+      ],
+      "yaw": 90.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "menorah": {
+      "label": "REVIEW_TempleInstituteMenorahStudyV1",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "mesh": "/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1/Meshes/SM_MenorahStudyV1",
+      "location": [
+        -5330.0,
+        315.0,
+        925.0
+      ],
+      "yaw": 90.0,
+      "scale": [
+        0.8333333333333334,
+        0.8333333333333334,
+        0.8333333333333334
+      ],
+      "source": "SourceAssets/vessels-review/keilim-scale-20260907T171503Z.json groups.menorah.after"
+    }
+  },
+  "placement": {
+    "axes": "X east, Y south, Z up (project convention).",
+    "floors": {
+      "kodesh": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -6700.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -5700.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "heikhal": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -5600.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -3600.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor_component_bounds (traces return nothing in commandlets; measured floor top read from the loaded level)"
+    },
+    "aron": {
+      "origin": [
+        -6200.0,
+        0.0,
+        925.0
+      ],
+      "scale": 1.471,
+      "scaleDerivation": "Box walls ~85 mm long at the lower moulding (provenance lowQuarterExtentXY_bodyEstimate 84.946) x 1.471 = 124.96 cm; body height 49.1747 x 1.471 = 72.34 cm; width 49.186 x 1.471 = 72.35 cm. Book: 2.5 x 1.5 x 1.5 amot at 50 cm = 125 x 75 x 75 cm; the model's proportions give 72 cm, accepted.",
+      "orientationRule": "poles_east_west",
+      "orientationRuleNote": "The task asked for the 125 cm length north-south (Y) AND the poles east-west (X), which is how the procedural Aron (poles across the width, yaw 90) was placed. In THIS model the poles run along the long axis (local Y, offline parse), so both cannot hold at once. Default rule 'poles_east_west' follows Yoma 54a / Rambam (poles pointing at the paroches, east-west): yaw 90 turns local Y into world X, so the length also runs east-west. Switch -VesselsAronLengthNorthSouth selects 'length_north_south' (yaw 0: length and poles north-south). Recorded in the receipt either way.",
+      "yawByRule": {
+        "poles_east_west": 90.0,
+        "length_north_south": 0.0
+      },
+      "lengthAxisLocal": "Y",
+      "polesAxisLocal": "Y",
+      "bodyLabel": "RELEASE_Aron_Body",
+      "lidLabel": "RELEASE_Aron_Lid",
+      "lid": {
+        "rule": "The lid has an inner lip plate (z 0..lipHeightFileUnits) that drops into the open box; its flange underside rests on the body's top rim. Lid actor Z = body origin Z + bodyTop x scale - lipHeightFileUnits x scale. Switch -VesselsLidOnTop places the lid bottom plane on the body top instead (lip visible as a gap under the flange).",
+        "seating": "lip_inside_box",
+        "lipHeightFileUnits": 3.129375,
+        "lipDetectionMinZFileUnits": 0.5,
+        "lipFootprintHalfFileUnits": [
+          19.350002,
+          37.195
+        ],
+        "bodyInnerHalfFileUnits": [
+          20.052274,
+          38.029163
+        ],
+        "bodyInnerProbeZFileUnits": [
+          40.0,
+          47.0
+        ],
+        "bodyTopFileUnits": 49.1747,
+        "bodyTopOpenRule": "No triangle within 1 mm of the body top plane may have its centroid inside |x| < 15, |y| < 30 (offline: 0 interior, 10771 rim triangles).",
+        "toleranceFileUnits": 0.01
+      }
+    },
+    "menorah": {
+      "x": -5330.0,
+      "scale": 0.715,
+      "scaleDerivation": "209.7618 mm total height (base included) x 0.715 = 149.98 cm = 18 tefachim at the project's 50 cm amah (Rambam Beit HaBechirah 3:10).",
+      "yaw": 90.0,
+      "yawNote": "The branch fan spans local X; yaw 90 turns local X into world Y so the fan spans north-south and the flat face looks east toward the Heikhal entrance.",
+      "fanAxisLocal": "X",
+      "southWallY": 500.0,
+      "nearestTipClearanceCm": 125.0,
+      "yRule": "y = southWallY - nearestTipClearanceCm - (max world-Y extent of the scaled, yawed local box measured from the actor origin). With the engine-measured local bounds this is 500 - 125 - 87.1374 x 0.715 = 312.697 (offline prediction; the run recomputes from the imported asset).",
+      "baseRule": "Actor Z = floor top - localBoundsMinZ x scale, so the lowest base vertex sits exactly on the floor (offline: 925 + 69.7129 x 0.715 = 974.845).",
+      "label": "RELEASE_Menorah"
+    },
+    "clearance": {
+      "rule": "Each planned world AABB (scaled local box rotated by yaw) must not have strictly positive overlap volume with any mesh-bearing actor of the level other than the removed actors, the two floors, terrain tiles and hollow architecture unions whose verified constituent boxes are not hit (release_place_assets.py rules). A blocker refuses the run BEFORE anything is saved (the in-memory removals are discarded with the unsaved level).",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "terrainFolders": [
+        "Jerusalem context/Terrain",
+        "FutureMountV1/Terrain",
+        "Future Mount/Terrain"
+      ],
+      "roomEnvelope": {
+        "kodesh": {
+          "min": [
+            -6700.0,
+            -500.0,
+            925.0
+          ],
+          "max": [
+            -5700.0,
+            500.0,
+            2925.0
+          ]
+        },
+        "heikhal": {
+          "min": [
+            -5600.0,
+            -500.0,
+            925.0
+          ],
+          "max": [
+            -3600.0,
+            500.0,
+            2925.0
+          ]
+        },
+        "rule": "Every planned AABB must lie inside its room envelope (Aron in the Kodesh, menorah in the Heikhal)."
+      }
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "Third-party art: the Aron box is an ornate hobbyist storage-box design (carved panels, inner lip) and the menorah follows the Arch of Titus relief (rounded arms, two-tier hexagonal base), not the Rambam's descriptions of the keruvim, the zer or the menorah's cups/knobs/flowers; both are placeholders chosen over the rejected procedural models.",
+    "The OBJ importer mirrors local Y; both vessels are XZ-symmetric except the menorah base (local Y -64.9..+70.1 mm), so the mirror is recorded, not corrected.",
+    "Aron orientation: poles and length are coaxial in this model, so 'length north-south' and 'poles east-west' cannot both hold; the default follows the poles (see placement.aron.orientationRuleNote).",
+    "Aron size 125 x 72 x 72 cm and lid seating depth 4.6 cm come from the model's proportions, not the book's 1.5 amot width/height.",
+    "No collision on any vessel (recorded).",
+    "Import, material assignment, winding check and placement are geometric only; no visual, lighting, LOD, Nanite, performance or packaged acceptance is established. 1M triangles without Nanite is a render-cost risk to review.",
+    "Traces return nothing in commandlets; grounding uses the measured floor component bounds.",
+    "License: the Aron model is CC BY-SA; derivatives (the imported .uasset, screenshots that feature it) must stay BY-SA with attribution (SourceAssets/third-party/ATTRIBUTION-additions.txt)."
+  ]
+}

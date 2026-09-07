@@ -347,27 +347,83 @@ class ReleaseCapture:
             return view
 
         # (f) Kotel ground-level detail: longest west-facing face, outward normal offset, real ground trace.
-        def view_f():
-            view_id = "f_kotel_ground_detail"
+        # 2026-09-07 finding (release-capture-20260907T163722Z): the frame was a featureless beige plane
+        # because the OSM city-wall batch (SM_Jerusalem_CityWalls_04_Grid_N002_P001 / _P000, source mesh
+        # "Mapped city walls 4") stands 99..120 cm WEST of the Kotel building face along all four west-facing
+        # footprint edges, from the wall base up to Z +637..784. It hides the base wall and the 0.15..3.2 cm
+        # stone overlay from every plaza camera. The probe below records which actor the camera really sees
+        # at the face, so the receipt names the occluder instead of leaving a silent flat frame.
+        def kotel_face_probe(view_id, position, face_point, ignore):
+            """First blocking hit from the camera to a point 30 cm inside the face plane (Pawn profile, complex)."""
+            end = [face_point[0] - KOTEL_FACE_NORMAL[0] * 30.0, face_point[1] - KOTEL_FACE_NORMAL[1] * 30.0, face_point[2]]
+            hit = unreal.SystemLibrary.line_trace_single_by_profile(
+                world_context_object=self.world(), start=unreal.Vector(*position), end=unreal.Vector(*end),
+                profile_name="Pawn", trace_complex=True, actors_to_ignore=list(ignore),
+                draw_debug_type=unreal.DrawDebugTrace.NONE, ignore_self=False)
+            if not hit:
+                return {"hit": False, "note": "nothing with Pawn collision between camera and face plane (overlays are NoCollision and ignored)"}
+            result = {"hit": True, "actor": "unavailable", "meshes": None}
+            try:
+                if hasattr(unreal.GameplayStatics, "break_hit_result"):
+                    split = unreal.GameplayStatics.break_hit_result(hit)
+                    point, hit_actor = split[5], split[9]
+                else:
+                    data = {str(k).lower(): v for k, v in hit.to_dict().items()}
+                    point = data.get("impact_point") or data.get("impactpoint") or data.get("location")
+                    hit_actor = data.get("hit_actor") or data.get("actor") or data.get("hitactor")
+                if point is not None:
+                    result["point"] = [point.x, point.y, point.z]
+                    result["distanceFromCameraCm"] = round(math.sqrt(sum((point_c - cam_c) ** 2 for point_c, cam_c in zip(result["point"], position))), 1)
+                    result["westOfFacePlaneCm"] = round((point.x - KOTEL_FACE_A[0]) * KOTEL_FACE_NORMAL[0] + (point.y - KOTEL_FACE_A[1]) * KOTEL_FACE_NORMAL[1], 1)
+                if hit_actor:
+                    result["actor"] = hit_actor.get_actor_label()
+                    comps = hit_actor.get_components_by_class(unreal.StaticMeshComponent)
+                    result["meshes"] = [c.static_mesh.get_path_name().split(".")[0] for c in comps if c.static_mesh][:3]
+            except Exception as error:
+                self.failure(view_id, "face_probe_parse", error)
+            return result
+
+        def kotel_face_view(view_id, distance, yaw_off_degrees, target_rise, basis):
+            """Camera `distance` cm from the edge-0 midpoint, rotated `yaw_off_degrees` off the outward normal
+            toward +tangent (south), eye at traced ground + 168, looking at the face midpoint `target_rise` cm
+            above eye level. Records ground trace and the face probe; per-view problems are recorded, not fatal."""
             mid = [(KOTEL_FACE_A[0] + KOTEL_FACE_B[0]) / 2.0, (KOTEL_FACE_A[1] + KOTEL_FACE_B[1]) / 2.0]
-            distance = 1000.0   # kotel-detail review-workflow.json basis: outward normal offset 1000 cm
-            xy = [mid[0] + KOTEL_FACE_NORMAL[0] * distance, mid[1] + KOTEL_FACE_NORMAL[1] * distance]
+            tangent = (KOTEL_FACE_NORMAL[1], -KOTEL_FACE_NORMAL[0])   # edge-0 tangent from the manifest (0.1699, 0.9855)
+            cos_o, sin_o = math.cos(math.radians(yaw_off_degrees)), math.sin(math.radians(yaw_off_degrees))
+            xy = [mid[i] + KOTEL_FACE_NORMAL[i] * distance * cos_o + tangent[i] * distance * sin_o for i in (0, 1)]
             ignore = [i["actor"] for i in kotel_overlay_items]
             ground = self.trace_ground(xy[0], xy[1], KOTEL_WALL_Z[1] + 500.0, KOTEL_WALL_Z[0] - 1500.0, ignore)
             floor_z = ground["point"][2] if ground else KOTEL_PLAZA_FALLBACK_Z
             position = [xy[0], xy[1], floor_z + EYE_HEIGHT_CM]
-            target = [mid[0] + KOTEL_FACE_NORMAL[0] * 5.0, mid[1] + KOTEL_FACE_NORMAL[1] * 5.0, position[2] + 250.0]
+            target = [mid[0] + KOTEL_FACE_NORMAL[0] * 5.0, mid[1] + KOTEL_FACE_NORMAL[1] * 5.0, position[2] + target_rise]
             pitch, yaw = look_at(position, target)
+            probe = kotel_face_probe(view_id, position, target, ignore)
             view = {"id": view_id, "position": position, "target": target, "pitch": pitch, "yaw": yaw,
                     "groundTrace": ground, "faceMidpoint": mid, "faceNormal": list(KOTEL_FACE_NORMAL),
-                    "basis": "kotel-detail manifest edge 0 (3986 cm, west-facing) midpoint + outward normal x 600 cm; eye = traced ground + 168; slight upward pitch to include courses."}
+                    "distanceFromFaceCm": distance, "yawOffNormalDegrees": yaw_off_degrees, "faceProbe": probe,
+                    "basis": basis}
             if ground is None:
                 self.failure(view_id, "ground_trace", "No floor west of the Kotel face; used plaza-centre terrain fallback Z %.2f." % KOTEL_PLAZA_FALLBACK_Z)
             elif ground["normalZ"] < 0.9:
                 self.failure(view_id, "ground_slope", "Ground normal Z %.3f is sloped; eye height may be off." % ground["normalZ"])
             if not (KOTEL_WALL_Z[0] + 20 < position[2] < KOTEL_WALL_Z[1] - 20):
                 self.failure(view_id, "eye_height_outside_face", "Eye Z %.1f outside modeled Kotel face Z range %s." % (position[2], KOTEL_WALL_Z))
+            if not probe.get("hit"):
+                self.failure(view_id, "face_probe_miss", "Camera-to-face trace hit nothing; the Kotel base wall should block a Pawn trace. Inspect collision/placement.")
+            elif probe.get("westOfFacePlaneCm") is not None and probe["westOfFacePlaneCm"] > 5.0:
+                self.failure(view_id, "face_occluded", "Actor %r (%s) stands %.1f cm west of the Kotel face plane, %.0f cm from the camera; the <=3.2 cm stone overlay cannot be visible from here." % (
+                    probe.get("actor"), probe.get("meshes"), probe["westOfFacePlaneCm"], probe.get("distanceFromCameraCm") or -1))
             return view
+
+        def view_f():
+            return kotel_face_view("f_kotel_ground_detail", 1000.0, 0.0, 250.0,
+                                   "kotel-detail manifest edge 0 (3986 cm, west-facing) midpoint + outward normal x 1000 cm (review-workflow.json basis); eye = traced ground + 168; slight upward pitch to include courses. faceProbe names what the camera actually sees at the face.")
+
+        # (f2) Raking view for course relief: 300 cm from the face, 30 degrees off the outward normal toward
+        # +tangent (south), looking slightly up. Only shows relief once nothing stands in front of the face.
+        def view_f2():
+            return kotel_face_view("f2_kotel_raking_relief", 300.0, 30.0, 100.0,
+                                   "Same edge-0 midpoint; camera 300 cm out, rotated 30 degrees toward +tangent so grazing light reveals the 2 cm plate / 1.4 cm boss / 0.35 cm bevel relief; eye = traced ground + 168. faceProbe records any occluder.")
 
         # (g) Mount platform approach toward the outer eastern gate.
         def view_g():
@@ -428,6 +484,7 @@ class ReleaseCapture:
         planners = [("a_exterior_wide_arrival", view_a), ("b_courtyard_spawn_west", view_b),
                     ("c_outer_court_pilgrims", view_c), ("d_heikhal_west_vessels", view_d),
                     ("e_kodesh_aron_keruvim", view_e), ("f_kotel_ground_detail", view_f),
+                    ("f2_kotel_raking_relief", view_f2),
                     ("g_mount_platform_approach", view_g), ("h_bus_street_level", view_h),
                     ("i_overhead_city", view_i)]
         views = []

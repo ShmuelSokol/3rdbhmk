@@ -1,0 +1,133 @@
+{
+  "status": "failed",
+  "mode": "apply",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "stamp": "20260907T171426Z",
+  "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_scale_keilim.spec.json",
+  "specSha256": "7736d2c8e209d45de09fe9622d645ce2a9c26a37e64b70c4af4ef7183445d9ef",
+  "enabledGroups": [
+    "menorah",
+    "altar"
+  ],
+  "groupsSwitch": [
+    "menorah",
+    "altar"
+  ],
+  "wallClearanceMinCm": 100.0,
+  "wallClearanceOverride": false,
+  "mapSha256Before": "dc1d9ea6563a5bacbd006249e7eaf8f24529634d038351070fd00d4c062d8dfe",
+  "groups": {
+    "menorah": {
+      "label": "REVIEW_TempleInstituteMenorahStudyV1",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "mesh": "/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1/Meshes/SM_MenorahStudyV1.SM_MenorahStudyV1",
+      "enabled": true,
+      "before": {
+        "location": [
+          -5330.0,
+          315.0,
+          925.0
+        ],
+        "rotation": [
+          0.0,
+          89.99999999999999,
+          -0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "boundsBefore": {
+        "min": [
+          -5368.971141815186,
+          244.2509994506836,
+          925.0
+        ],
+        "max": [
+          -5291.028858184814,
+          385.7490005493164,
+          1105.0
+        ]
+      },
+      "sizeBefore": [
+        77.9422836303711,
+        141.4980010986328,
+        180.0
+      ],
+      "book": {
+        "page": 252,
+        "quote": "The height of the Menorah is eighteen tefachim (1), and before the Menorah there is a stone with three steps, upon which the Kohen stands",
+        "bookSource": "Rambam Beit HaBechirah 3:10-3:11",
+        "alternatives": "None recorded in the book for the height. The Temple Institute's 180 cm is the same 18 tefachim at a 60 cm amah (10 cm tefach); the project convention is 50 cm."
+      },
+      "scaleDerivation": "150 / 180 = 5/6. 18 tefachim x 8.3333 cm = 150 cm at this project's 50 cm amah. The model's 180 cm was the Temple Institute schematic conversion at a larger amah (menorah-model-spec.json physical_dimensions.warning)."
+    }
+  },
+  "omitted": {},
+  "source": "SourceAssets/vessels-review/book-keilim-review-20260907.md item 8 (Lishchno Tidreshu PDF pp. 241, 246, 252, 255; page numbers are source-PDF indexes, printed folio about 105 lower)",
+  "heikhalCandidates": [
+    {
+      "label": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "location": [
+        -4650.0,
+        0.0,
+        925.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "label": "REVIEW_HeikhalKeilim_SM_ShulchanStudy",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "location": [
+        -5300.0,
+        -350.0,
+        925.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "label": "REVIEW_TempleInstituteMenorahStudyV1",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "location": [
+        -5330.0,
+        315.0,
+        925.0
+      ],
+      "rotation": [
+        0.0,
+        89.99999999999999,
+        -0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unmatchedHeikhalCandidates": [],
+  "error": "cluster menorah bounds differ from expectedBoundsBefore: {\"min\": [-5368.971141815186, 244.2509994506836, 925.0], \"max\": [-5291.028858184814, 385.7490005493164, 1105.0]}",
+  "mapSha256After": "dc1d9ea6563a5bacbd006249e7eaf8f24529634d038351070fd00d4c062d8dfe",
+  "mapBytesChanged": false
+}

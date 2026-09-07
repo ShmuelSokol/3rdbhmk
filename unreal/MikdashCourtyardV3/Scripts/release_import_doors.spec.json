@@ -1,0 +1,2648 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_doors.py: native OBJ import of the nine DoorsParochesV1 meshes, material assignment from EXISTING materials, and placement of the OPEN folding leaves plus the paroches in the combined map. Every number below is read from receipts, the frozen source manifest or the frozen architecture manifest, or is derived from them by the rules in doorPlan (the derivation is stored in derivedPlan for review). Nothing here claims visual, walking or packaged acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "b84a9ff3971f2a8b37d21fdafbf4df96ee41bacb3309d22bbb19189a8a19f079",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk before the second (place-only) run; identical to mapSha256Before/After of the first run receipt native-import-20260907T173609Z.json, which changed no map bytes. The earlier value 62ecb6dd... predated the bus release run (ReleaseBus-20260907T173220Z checkpoint). Recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Doors-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/DoorsParochesV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "actorTag": "ReleaseDoorsV1",
+  "labelPrefix": "RELEASE_",
+  "group": "Doors",
+  "folder": "Release/Doors",
+  "defaultGroups": [
+    "kodesh",
+    "paroches"
+  ],
+  "defaultGroupsNote": "Groups placed when -DoorsGroups is absent. Every group excluded here must have a deliberateOmissions entry; an excluded family is neither derived nor asserted by plan_doors and the omission is written into the receipt.",
+  "deliberateOmissions": {
+    "heichal": "Coordinator decision 2026-09-07: the Heichal folding leaves (24 planned actors, derivedPlan indices 1-24) are NOT placed. The measured architecture already carries four gold 'Open Heichal door' slabs (SM_1948..1951, 240 x 11 x 2500 cm at |Y| 250.5..261.5) that read as the open Heichal doors; adding the folded cedar stacks beside them would duplicate the leaves. The nine meshes stay imported (SM_HeichalFoldingLeafV1, SM_HeichalDoorPalmReliefV1, SM_HeichalDoorHardwareV1 saved, unused) and the derivedPlan keeps the Heichal rows for a future -DoorsGroups=heichal run after a review decision on the slabs."
+  },
+  "sourceReference": "Yechezkel 41:3 (Kodesh entrance six amot high, seven wide with two always-open doors) and 41:23-25 with Rashi (doors for both rooms, folding leaves per Middot 4:1 R. Yehudah); Lishchno Tidreshu pp. 59-60, 185, 259-261 (paroches the size of the gate on the Heichal side; doors probably open inward); Mishnah Middot 4:1 (folding leaves covering the wall thickness). Book review: SourceAssets/vessels-review/book-keilim-review-20260907.md item 7.",
+  "source": {
+    "folder": "SourceAssets/sanctuary-detail/DoorsParochesV1",
+    "manifest": "SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json",
+    "manifestStatusRequired": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+    "frozenFiles": "SourceAssets/sanctuary-detail/DoorsParochesV1/frozen-files.json",
+    "placementJson": "SourceAssets/sanctuary-detail/DoorsParochesV1/placement-and-articulation.json",
+    "placementJsonSha256": "198e3d81f88bb2c5e7be8828d8e479acea03b9eb6c595e7004f2db962c3d06e7",
+    "authoringScript": "Scripts/create_sanctuary_doors.py",
+    "authoringScriptSha256": "184e535d3b3e86fae91b8dfb0cb0425d9d07e3d8e4a96ad3310667ed3dec1a2f",
+    "namespace": "/Game/MikdashV3/MaterialReview/DoorsParochesV1",
+    "namespaceNote": "Requested target namespace. The authoring helper's own DEST was /Game/MikdashV3/MaterialReview/SanctuaryDoorsParochesV1; neither exists in Content yet. The script refuses if the target directory already exists (never overwrite a native namespace).",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes",
+    "totalTriangles": 90588,
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Every OBJ is written with canonical Y reflected and triangle winding reversed for the legacy OBJ importer (create_sanctuary_doors.export, same adapter as the keilim, keruvim, Aron V3 and palm-relief imports). The importer reflects Y back, so the imported StaticMesh must reproduce canonicalBoundsCm; the hardware (Y 3.8..10) and fixings (Y 2.4..11.6) are asymmetric in Y, so a failed reflection would fail the bounds check.",
+    "meshes": [
+      {
+        "name": "SM_HeichalFoldingLeafV1",
+        "file": "SM_HeichalFoldingLeafV1.obj",
+        "sha256": "0c040621f3317d5c6e69a77235adf1f6f59ecc5a2fc7ca2e2c9c512191ee0b1c",
+        "triangles": 7020,
+        "family": "Heichal",
+        "role": "leaf",
+        "partVolumeSumCm3": 2296205.8443527184,
+        "canonicalBoundsCm": {
+          "min": [
+            0.5000000000000014,
+            -5.2,
+            -9.092726571680032e-14
+          ],
+          "max": [
+            124.5,
+            5.2,
+            2496.0
+          ]
+        }
+      },
+      {
+        "name": "SM_HeichalDoorPalmReliefV1",
+        "file": "SM_HeichalDoorPalmReliefV1.obj",
+        "sha256": "0cdfe8cbb9646797703b46769fb60a358eb29c9f4dde8ec667455f03f0e77259",
+        "triangles": 36608,
+        "family": "Heichal",
+        "role": "relief",
+        "partVolumeSumCm3": 63971.03954571331,
+        "canonicalBoundsCm": {
+          "min": [
+            15.969999999999999,
+            -6.2829999999999995,
+            44.545
+          ],
+          "max": [
+            109.03,
+            6.2829999999999995,
+            2445.515
+          ]
+        }
+      },
+      {
+        "name": "SM_HeichalDoorHardwareV1",
+        "file": "SM_HeichalDoorHardwareV1.obj",
+        "sha256": "d91a28e302334510c7175b1722953cda69cd847834c2c7e805523fe6b5fa3917",
+        "triangles": 1768,
+        "family": "Heichal",
+        "role": "hardware",
+        "partVolumeSumCm3": 2174.0416156007755,
+        "canonicalBoundsCm": {
+          "min": [
+            -2.0,
+            3.8000000000000007,
+            12.0
+          ],
+          "max": [
+            114.65,
+            10.0,
+            2484.0
+          ]
+        }
+      },
+      {
+        "name": "SM_KodeshFoldingLeafV1",
+        "file": "SM_KodeshFoldingLeafV1.obj",
+        "sha256": "099fe3711b5be976604290a006e3d7153b7bb033c78c5c2ba1dd318998e5ea14",
+        "triangles": 972,
+        "family": "Kodesh",
+        "role": "leaf",
+        "partVolumeSumCm3": 192969.048864869,
+        "canonicalBoundsCm": {
+          "min": [
+            0.5000000000000014,
+            -5.2,
+            -5.662137425588298e-15
+          ],
+          "max": [
+            87.0,
+            5.2,
+            296.0
+          ]
+        }
+      },
+      {
+        "name": "SM_KodeshDoorPalmReliefV1",
+        "file": "SM_KodeshDoorPalmReliefV1.obj",
+        "sha256": "120da42c9754d7a29cb476699c2947b63aa04b3893501a5cbbf2ebf5087939da",
+        "triangles": 4576,
+        "family": "Kodesh",
+        "role": "relief",
+        "partVolumeSumCm3": 1916.9605909865359,
+        "canonicalBoundsCm": {
+          "min": [
+            14.844999999999999,
+            -5.6455,
+            76.045
+          ],
+          "max": [
+            72.655,
+            5.6455,
+            216.265
+          ]
+        }
+      },
+      {
+        "name": "SM_KodeshDoorHardwareV1",
+        "file": "SM_KodeshDoorHardwareV1.obj",
+        "sha256": "efab6578d0c7d2b9617dd4618d20566433a9d8c2397c014161b47b383f219631",
+        "triangles": 1368,
+        "family": "Kodesh",
+        "role": "hardware",
+        "partVolumeSumCm3": 1065.0931775355787,
+        "canonicalBoundsCm": {
+          "min": [
+            -2.0,
+            3.8000000000000007,
+            12.0
+          ],
+          "max": [
+            77.15,
+            10.0,
+            284.0
+          ]
+        }
+      },
+      {
+        "name": "SM_ParochesClothV1",
+        "file": "SM_ParochesClothV1.obj",
+        "sha256": "38a68e5b26339405e31373c2c585f703c1ebbca62203fadaad2e035c79daf401",
+        "triangles": 23712,
+        "family": "Paroches",
+        "role": "cloth",
+        "partVolumeSumCm3": 66031.20000000011,
+        "canonicalBoundsCm": {
+          "min": [
+            -180.0,
+            -8.423320038943825,
+            0.0
+          ],
+          "max": [
+            180.0,
+            8.499955235670283,
+            306.0
+          ]
+        }
+      },
+      {
+        "name": "SM_ParochesHemV1",
+        "file": "SM_ParochesHemV1.obj",
+        "sha256": "6f698e52906dff213f12d93327b435e8c88854d9e279711bd1936f323049593e",
+        "triangles": 4456,
+        "family": "Paroches",
+        "role": "hem",
+        "partVolumeSumCm3": 2279.828043720544,
+        "canonicalBoundsCm": {
+          "min": [
+            -180.0,
+            -6.72371176206303,
+            0.0
+          ],
+          "max": [
+            180.0,
+            8.78941292161853,
+            306.0
+          ]
+        }
+      },
+      {
+        "name": "SM_ParochesFixingsV1",
+        "file": "SM_ParochesFixingsV1.obj",
+        "sha256": "176dc15bb38fcafd498538df34170ca13717c857daf608d3be076951637cb658",
+        "triangles": 10108,
+        "family": "Paroches",
+        "role": "fixings",
+        "partVolumeSumCm3": 4213.950955548491,
+        "canonicalBoundsCm": {
+          "min": [
+            -191.0,
+            2.4000000000000004,
+            305.4
+          ],
+          "max": [
+            191.0,
+            11.6,
+            314.8
+          ]
+        }
+      }
+    ]
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed OBJ adapter path: Scripts/create_heikhal_keilim.py run_native (Keilim-Native-01.log, receipt SourceAssets/vessels-review/HeikhalKeilimV1/native-import.json, bounds error ~1e-15), reused by create_keruvim_study.run_native, create_aron_study_v1 and release_import_reliefs.import_one_mesh (bounds error ~1e-7, 236 material slots on the carving). Single-object OBJ: destination_name is the exact mesh name; the literal 'None' destination_name trick is only for multi-mesh FBX (TransitV2) and is not used here. import_materials False and auto_generate_collision False, so the mesh gets one empty slot per OBJ group and NO simple collision (recorded in the receipt).",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (the OBJ importer makes one slot per 'g' group; SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation. No material is created or duplicated: all candidates are existing project assets. Content grep for M_*Cedar*/M_*Wood*: M_Canonical_cedar_6e144262d4 (canonical dark cedar, sRGB #513021, roughness .85, already on 52 architecture slots) and M_TransitV2_BenchWood (bus-study bench wood); no fabric material exists beyond M_TransitV2_SeatFabric (dark teal), M_Pilgrim_Linen/Mantle (garment colours) and the canonical flat colours, so the curtain uses the canonical deep red (#8e3029, roughness .85, non-metallic) as the fabric-like choice.",
+    "leaf": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_cedar_6e144262d4",
+          "kind": "cedar"
+        },
+        {
+          "path": "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_BenchWood",
+          "kind": "wood_fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_trim_96ae259843",
+          "kind": "neutral_fallback"
+        }
+      ]
+    },
+    "relief": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV1/M_AronStudyV1_Gold",
+          "kind": "gold_fallback"
+        }
+      ]
+    },
+    "hardware": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV1/M_AronStudyV1_Gold",
+          "kind": "gold_fallback"
+        }
+      ]
+    },
+    "cloth": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64",
+          "kind": "fabric_like_canonical_red"
+        },
+        {
+          "path": "/Game/MikdashV3/CharacterReview/PilgrimStudyV1/Materials/M_Pilgrim_Mantle",
+          "kind": "fabric_fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_trim_96ae259843",
+          "kind": "neutral_fallback"
+        }
+      ]
+    },
+    "hem": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64",
+          "kind": "fabric_like_canonical_red"
+        },
+        {
+          "path": "/Game/MikdashV3/CharacterReview/PilgrimStudyV1/Materials/M_Pilgrim_Mantle",
+          "kind": "fabric_fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_trim_96ae259843",
+          "kind": "neutral_fallback"
+        }
+      ]
+    },
+    "fixings": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV1/M_AronStudyV1_Gold",
+          "kind": "gold_fallback"
+        }
+      ]
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (copy_mesh_from_static_mesh_v2 + get_triangle_face_normal, as release_import_reliefs.py and release_fix_terrain_winding.py). Needs -EnablePlugins=GeometryScripting. Every authored part is a closed solid with positive canonical volume (asserted at export), so the divergence volume computed with UE face normals must be positive and equal the manifest part-volume sum; a reversed winding gives the negative value. The reliefs run showed that a 'front band' criterion is ill-posed for bevelled boxes, so only the volume criteria are used here.",
+    "requireForPlacement": true,
+    "maxRelativeVolumeError": 0.01,
+    "criteria": [
+      "signedVolumeUEcm3 > 0 (cross(C-A, B-A) face normals, UE left-handed)",
+      "abs(signedVolumeUEcm3 - manifestPartVolumeSumCm3) / manifestPartVolumeSumCm3 <= maxRelativeVolumeError",
+      "faceNormalVsCrossDisagreements == 0"
+    ]
+  },
+  "openings": {
+    "architectureManifest": "SourceAssets/architecture-manifest.json",
+    "architectureManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+    "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+    "boundsToleranceCm": 1.0,
+    "note": "Openings are derived from LEVEL actor bounds at run time (identity transform required) and must agree with these manifest-derived expectations. Kodesh: shoulders SM_0142/0143 leave Y +-175, lintel SM_0144 underside Z 1225, floor top Z 925 -> 350 x 300 cm, partition depth X -5700..-5600 (Heichal face at X -5600). Heichal: the House union SM_2630 source boxes 'Heichal ten-amah doorway jamb -1/1' leave Y +-250, 'Heichal ten-amah doorway lintel' underside Z 3425 -> 500 x 2500 cm, wall depth X -3600..-3300. The 2000 cm entrance veneer (build_sanctuary_finishes.py) is NOT the doorway height (HANDOFF).",
+    "kodesh": {
+      "actors": {
+        "shoulderNorth": "SM_0142_architecture_Kodesh_partition_shoulder",
+        "shoulderSouth": "SM_0143_architecture_Kodesh_partition_shoulder",
+        "lintel": "SM_0144_architecture_Kodesh_partition_lintel",
+        "heichalFloor": "SM_0146_floor_Heichal_clear_floor",
+        "kodeshFloor": "SM_0147_floor_Kodesh_clear_floor"
+      }
+    },
+    "heichal": {
+      "unionAsset": "SM_2630_union_Derived_union_of_source_House_walls_and_",
+      "unionElements": {
+        "jambNorth": "Heichal ten-amah doorway jamb -1",
+        "jambSouth": "Heichal ten-amah doorway jamb 1",
+        "lintel": "Heichal ten-amah doorway lintel"
+      }
+    },
+    "expected": {
+      "Kodesh": {
+        "widthCm": 350.0,
+        "heightCm": 300.0,
+        "depthCm": 100.0,
+        "xMin": -5700.0,
+        "xMax": -5600.0,
+        "floorZ": 925.0
+      },
+      "Heichal": {
+        "widthCm": 500.0,
+        "heightCm": 2500.0,
+        "depthCm": 300.0,
+        "xMin": -3600.0,
+        "xMax": -3300.0,
+        "floorZ": 925.0
+      }
+    }
+  },
+  "knownLevelGeometry": {
+    "note": "Existing geometry the new leaves must clear. The four 'Open Heichal door' source primitives (gold slabs 240 x 11 x 2500 cm at |Y| 250.5..261.5, protruding 70 cm inside and 80 cm outside the wall faces) are the placement JSON's replace_review_only list; this script never hides or deletes them, it only records them and proves the new stacks (|Y| <= 249) do not intersect them. Veneer panels are the seven SanctuaryFinishesV1 cubes (sanctuary-finishes-native-20260907T101833.json), read from the level by mesh at run time; the offline check uses these expected boxes.",
+    "openHeichalDoorPrimitives": [
+      "SM_1948_detail_Open_Heichal_door",
+      "SM_1949_detail_Open_Heichal_door",
+      "SM_1950_detail_Open_Heichal_door",
+      "SM_1951_detail_Open_Heichal_door"
+    ],
+    "veneerMesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+    "veneerExpectedCount": 7,
+    "sanctuaryVeneerPanels": [
+      {
+        "name": "HeichalSide-1",
+        "center": [
+          -4600.0,
+          -500.0,
+          1925.0
+        ],
+        "size": [
+          2000.0,
+          0.2,
+          2000.0
+        ]
+      },
+      {
+        "name": "HeichalSide1",
+        "center": [
+          -4600.0,
+          500.0,
+          1925.0
+        ],
+        "size": [
+          2000.0,
+          0.2,
+          2000.0
+        ]
+      },
+      {
+        "name": "KodeshSide-1",
+        "center": [
+          -6200.0,
+          -500.0,
+          1925.0
+        ],
+        "size": [
+          1000.0,
+          0.2,
+          2000.0
+        ]
+      },
+      {
+        "name": "KodeshSide1",
+        "center": [
+          -6200.0,
+          500.0,
+          1925.0
+        ],
+        "size": [
+          1000.0,
+          0.2,
+          2000.0
+        ]
+      },
+      {
+        "name": "KodeshRear",
+        "center": [
+          -6700.0,
+          0.0,
+          1925.0
+        ],
+        "size": [
+          0.2,
+          1000.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "HeichalEntranceJamb-1",
+        "center": [
+          -3600.0,
+          -375.0,
+          1925.0
+        ],
+        "size": [
+          0.2,
+          250.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "HeichalEntranceJamb1",
+        "center": [
+          -3600.0,
+          375.0,
+          1925.0
+        ],
+        "size": [
+          0.2,
+          250.0,
+          2000.0
+        ]
+      }
+    ]
+  },
+  "doorPlan": {
+    "note": "Open-state derivation from the placement JSON closed poses. Leaf frame: hinge at local X 0, leaf along +X to width/4 (nominal), front local +Y (hinge barrels at (0, 8)), bottom Z 0. Second leaf per JSON fold_formula: translation (nominal + 8 sin a, 8 - 8 cos a, 0), relative yaw a. The meshes are not mirrored, so the second leaf always stacks on the hinge leaf's +Y side; the hinge Y of each stack is solved so the whole stack envelope (leaf + relief + hardware of both leaves) lies jambGapCm inside the jamb plane. The hinge leaf points along the bank's 'pointing' direction (yaw 180 = west, yaw 0 = east).",
+    "leafLiftCm": 2.0,
+    "planToleranceCm": 0.5,
+    "planToleranceNote": "JSON-vs-opening agreement tolerance in cm (hinge Y on the jamb plane, leaf bottom Z = floor + lift, 4 x nominal = width). The plan itself is derived from the EXACT manifest openings; the level floor top reads 925.00006 (float32), so exact equality with the JSON 927.0 fails, which is what aborted Release-Doors-01 before placement.",
+    "jambGapCm": 1.0,
+    "collisionProfile": null,
+    "collisionNote": "null = leave the StaticMeshActor/mesh default ('as authored'). The imported meshes have no simple collision (auto_generate_collision false), so leaves do not block the walker capsule; geometric corridor clearance is verified regardless and the mesh collision state is recorded.",
+    "fit": {
+      "minHeightClearanceCm": 2.0,
+      "maxHeightClearanceCm": 10.0,
+      "minEdgeGapCm": 0.5
+    },
+    "families": [
+      {
+        "family": "Heichal",
+        "foldDegrees": 180.0,
+        "banks": [
+          {
+            "bank": 0,
+            "jsonHingeX": -3325.0,
+            "pointing": -1,
+            "hingeShiftTowardFaceCm": 4.0,
+            "reading": "Outer bank (JSON x_max - 25). Folded 180 and swung 90 west into the doorway to lie along the jamb reveal, covering the wall thickness (Middot 4:1, R. Yehudah). Hinge shifted 4 cm toward the outer face so the fold-line barrels of the two banks do not coincide at X -3450."
+          },
+          {
+            "bank": 1,
+            "jsonHingeX": -3575.0,
+            "pointing": 1,
+            "hingeShiftTowardFaceCm": 4.0,
+            "reading": "Inner bank (JSON x_min + 25). Folded 180 and swung 90 east into the doorway; the two folded stacks meet near X -3450 with a 4 cm gap and leave 21 cm doorposts at each face (JSON: 25)."
+          }
+        ]
+      },
+      {
+        "family": "Kodesh",
+        "foldDegrees": 0.0,
+        "banks": [
+          {
+            "bank": 0,
+            "jsonHingeX": -5650.0,
+            "pointing": -1,
+            "hingeShiftTowardFaceCm": 0.0,
+            "reading": "Single bank in the 100 cm partition (JSON centre). The two leaves stay in line (one 175 cm door per side) and swing 90 west INTO the Kodesh HaKodashim about the JSON hinge, lying along the jamb reveal for 50 cm and continuing 125 cm into the room (always open, opening inward: Lishchno Tidreshu pp. 60, 261; Yechezkel 41:3)."
+          }
+        ]
+      }
+    ]
+  },
+  "paroches": {
+    "jsonLocationCm": [
+      -5585.0,
+      0.0,
+      928.0
+    ],
+    "jsonYawDegrees": -90.0,
+    "maxStandoffCm": 20.0,
+    "collisionProfile": "NoCollision",
+    "note": "Placement JSON curtain proposal. Yaw -90 maps cloth width (local X +-180) to world Y +-180 and drape (local Y) to world X, so the cloth hangs at X -5593.4..-5576.5, 6.6 cm in front of the Heichal face of the Kodesh wall (X -5600), 5 cm wider than the 350 cm opening each side, Z 928..1234 against the 925..1225 opening; rod and rings above. Book item 7: paroches at X -5600 (Heichal face), 7 x 6 amot = 350 x 300 cm, Y -175..+175, Z 925..1225. NoCollision: the curtain closes the view but is not a walk-through surface; it necessarily crosses the y=0 corridor and that is recorded, not refused."
+  },
+  "corridor": {
+    "note": "Walking route through the Heichal along y = 0 (x -5600..-3600) extended through both doorways; no door leaf may intersect it. The paroches (NoCollision) does and is recorded. Pre-existing actors inside it (e.g. the incense altar at x -5150) are listed for information.",
+    "xMin": -5700.0,
+    "xMax": -3200.0,
+    "halfWidthCm": 100.0,
+    "floorZ": 925.0,
+    "heightCm": 200.0
+  },
+  "clearance": {
+    "rule": "Planned world AABB of every new actor must not have strictly positive overlap volume with (a) the manifest wall/floor boxes (Kodesh shoulders, lintel, floors, all 27 House-union source boxes), (b) the veneer panels and open-door primitives read from the level, (c) any mesh-bearing level actor. A union actor in unionFolder with a verified decomposition is tested against its constituent boxes; an actor larger than largeActorExtentCm without a decomposition is recorded as an envelope-only overlap (terrain tiles, instanced city meshes), not a blocker; everything else overlapping is a blocker and the run aborts before saving.",
+    "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+    "unionFolder": "Measured architecture/union",
+    "unionBoundsToleranceCm": 1.0,
+    "largeActorExtentCm": 3000.0
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "Open-state poses are derived by this script from the JSON closed poses (fold 180 + 90-degree swing for the Heichal, in-line 90-degree inward swing for the Kodesh); the placement JSON itself only proposes closed poses. Heichal bank hinges are 21 cm from the faces instead of the JSON's 25 cm.",
+    "The leaf meshes are not mirrored: the second leaf always stacks on the hinge leaf's +Y side and hardware faces differ between the north and south stacks; the visible stack envelopes are symmetric.",
+    "Doors are static open studies: no articulation, swept-volume, hinge-support or functional access is established. Imported meshes have no simple collision, so leaves do not block the walker capsule.",
+    "The four existing 'Open Heichal door' gold primitives are left in place (replace_review_only). By the coordinator decision recorded in deliberateOmissions.heichal the Heichal folding leaves are not placed (defaultGroups = kodesh, paroches), so no duplicated leaves appear; a future -DoorsGroups=heichal run would set the new stacks inside the opening beside the slabs.",
+    "Cedar is the canonical flat dark colour (#513021) and the curtain is the canonical flat deep red (#8e3029); no wood grain, weave, techelet/argaman/tolaat-shani palette or cherub design exists. Palm reliefs only.",
+    "Paroches dimensions are opening-fit interpretation (Yechezkel 41:3 and Mishkenos Elyon via the book), not the historical Second Temple curtain (Shekalim 8:5). The paroches blocks the view into the Kodesh HaKodashim; NoCollision.",
+    "Import, material assignment and placement are geometric only; no visual, lighting, LOD, performance or packaged acceptance is established. Traces return nothing in commandlets; nothing here relies on a trace.",
+    "Scripts/release_place_assets.py refuses RELEASE_ actors of unknown groups; after this run (and the reliefs) it needs a 'doors'/'reliefs' group or a relaxed check before it can run again."
+  ],
+  "derivedPlan": {
+    "note": "Generated by release_import_doors.py --write-plan from the placement JSON, the frozen manifests and the doorPlan rules above; offline_check() recomputes it and refuses to run if it differs.",
+    "openings": {
+      "Kodesh": {
+        "xMin": -5700.0,
+        "xMax": -5600.0,
+        "yMin": -175.0,
+        "yMax": 175.0,
+        "floorZ": 925.0,
+        "lintelZ": 1225.0,
+        "widthCm": 350.0,
+        "heightCm": 300.0,
+        "depthCm": 100.0
+      },
+      "Heichal": {
+        "xMin": -3600.0,
+        "xMax": -3300.0,
+        "yMin": -250.0,
+        "yMax": 250.0,
+        "floorZ": 925.0,
+        "lintelZ": 3425.0,
+        "widthCm": 500.0,
+        "heightCm": 2500.0,
+        "depthCm": 300.0
+      }
+    },
+    "families": {
+      "Heichal": {
+        "nominalWidthCm": 125.0,
+        "fit": {
+          "leafHeightCm": 2496.0,
+          "openingHeightCm": 2500.0,
+          "leafWidthCm": 124.0,
+          "nominalWidthCm": 125.0,
+          "fourLeavesCm": 500.0,
+          "openingWidthCm": 500.0,
+          "heightClearanceCm": 4.0
+        },
+        "familyLocalBoxCm": {
+          "min": [
+            -2.0,
+            -6.283,
+            -0.0
+          ],
+          "max": [
+            124.5,
+            10.0,
+            2496.0
+          ]
+        },
+        "barrelOffsetCm": 8.0,
+        "banks": [
+          {
+            "bank": 0,
+            "jsonHingeX": -3325.0,
+            "hingeX": -3321.0,
+            "pointing": -1,
+            "hingeYaw": 180.0,
+            "foldDegrees": 180.0,
+            "childTranslationInHingeFrame": [
+              125.0,
+              16.0,
+              0.0
+            ],
+            "childRelativeYaw": 180.0,
+            "stackEnvelopeHingeFrame": {
+              "min": [
+                -2.0,
+                -6.283,
+                -0.0
+              ],
+              "max": [
+                127.0,
+                22.283,
+                2496.0
+              ]
+            },
+            "stackWorldBoundsCm": {
+              "-1": {
+                "min": [
+                  -3448.0,
+                  -249.0,
+                  927.0
+                ],
+                "max": [
+                  -3319.0,
+                  -220.434,
+                  3423.0
+                ]
+              },
+              "1": {
+                "min": [
+                  -3448.0,
+                  220.434,
+                  927.0
+                ],
+                "max": [
+                  -3319.0,
+                  249.0,
+                  3423.0
+                ]
+              }
+            },
+            "reading": "Outer bank (JSON x_max - 25). Folded 180 and swung 90 west into the doorway to lie along the jamb reveal, covering the wall thickness (Middot 4:1, R. Yehudah). Hinge shifted 4 cm toward the outer face so the fold-line barrels of the two banks do not coincide at X -3450."
+          },
+          {
+            "bank": 1,
+            "jsonHingeX": -3575.0,
+            "hingeX": -3579.0,
+            "pointing": 1,
+            "hingeYaw": 0.0,
+            "foldDegrees": 180.0,
+            "childTranslationInHingeFrame": [
+              125.0,
+              16.0,
+              0.0
+            ],
+            "childRelativeYaw": 180.0,
+            "stackEnvelopeHingeFrame": {
+              "min": [
+                -2.0,
+                -6.283,
+                -0.0
+              ],
+              "max": [
+                127.0,
+                22.283,
+                2496.0
+              ]
+            },
+            "stackWorldBoundsCm": {
+              "-1": {
+                "min": [
+                  -3581.0,
+                  -249.0,
+                  927.0
+                ],
+                "max": [
+                  -3452.0,
+                  -220.434,
+                  3423.0
+                ]
+              },
+              "1": {
+                "min": [
+                  -3581.0,
+                  220.434,
+                  927.0
+                ],
+                "max": [
+                  -3452.0,
+                  249.0,
+                  3423.0
+                ]
+              }
+            },
+            "reading": "Inner bank (JSON x_min + 25). Folded 180 and swung 90 east into the doorway; the two folded stacks meet near X -3450 with a 4 cm gap and leave 21 cm doorposts at each face (JSON: 25)."
+          }
+        ]
+      },
+      "Kodesh": {
+        "nominalWidthCm": 87.5,
+        "fit": {
+          "leafHeightCm": 296.0,
+          "openingHeightCm": 300.0,
+          "leafWidthCm": 86.5,
+          "nominalWidthCm": 87.5,
+          "fourLeavesCm": 350.0,
+          "openingWidthCm": 350.0,
+          "heightClearanceCm": 4.0
+        },
+        "familyLocalBoxCm": {
+          "min": [
+            -2.0,
+            -5.6455,
+            -0.0
+          ],
+          "max": [
+            87.0,
+            10.0,
+            296.0
+          ]
+        },
+        "barrelOffsetCm": 8.0,
+        "banks": [
+          {
+            "bank": 0,
+            "jsonHingeX": -5650.0,
+            "hingeX": -5650.0,
+            "pointing": -1,
+            "hingeYaw": 180.0,
+            "foldDegrees": 0.0,
+            "childTranslationInHingeFrame": [
+              87.5,
+              0.0,
+              0.0
+            ],
+            "childRelativeYaw": 0.0,
+            "stackEnvelopeHingeFrame": {
+              "min": [
+                -2.0,
+                -5.6455,
+                -0.0
+              ],
+              "max": [
+                174.5,
+                10.0,
+                296.0
+              ]
+            },
+            "stackWorldBoundsCm": {
+              "-1": {
+                "min": [
+                  -5824.5,
+                  -174.0,
+                  927.0
+                ],
+                "max": [
+                  -5648.0,
+                  -158.3545,
+                  1223.0
+                ]
+              },
+              "1": {
+                "min": [
+                  -5824.5,
+                  158.3545,
+                  927.0
+                ],
+                "max": [
+                  -5648.0,
+                  174.0,
+                  1223.0
+                ]
+              }
+            },
+            "reading": "Single bank in the 100 cm partition (JSON centre). The two leaves stay in line (one 175 cm door per side) and swing 90 west INTO the Kodesh HaKodashim about the JSON hinge, lying along the jamb reveal for 50 cm and continuing 125 cm into the room (always open, opening inward: Lishchno Tidreshu pp. 60, 261; Yechezkel 41:3)."
+          }
+        ]
+      }
+    },
+    "actors": [
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3321.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3445.5,
+            -231.917,
+            927.0
+          ],
+          "max": [
+            -3321.5,
+            -221.517,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 1
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3321.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3430.03,
+            -233.0,
+            971.545
+          ],
+          "max": [
+            -3336.97,
+            -220.434,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 2
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3321.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3435.65,
+            -236.717,
+            939.0
+          ],
+          "max": [
+            -3319.0,
+            -230.517,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 3
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3446.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3445.5,
+            -247.917,
+            927.0
+          ],
+          "max": [
+            -3321.5,
+            -237.517,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 4
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3446.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3430.03,
+            -249.0,
+            971.545
+          ],
+          "max": [
+            -3336.97,
+            -236.434,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 5
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "HeichalB0N_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3446.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3448.0,
+            -238.917,
+            939.0
+          ],
+          "max": [
+            -3331.35,
+            -232.717,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 6
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3321.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3445.5,
+            237.517,
+            927.0
+          ],
+          "max": [
+            -3321.5,
+            247.917,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 7
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3321.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3430.03,
+            236.434,
+            971.545
+          ],
+          "max": [
+            -3336.97,
+            249.0,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 8
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3321.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3435.65,
+            232.717,
+            939.0
+          ],
+          "max": [
+            -3319.0,
+            238.917,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 9
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3446.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3445.5,
+            221.517,
+            927.0
+          ],
+          "max": [
+            -3321.5,
+            231.917,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 10
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3446.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3430.03,
+            220.434,
+            971.545
+          ],
+          "max": [
+            -3336.97,
+            233.0,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 11
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "HeichalB0S_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3446.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3448.0,
+            230.517,
+            939.0
+          ],
+          "max": [
+            -3331.35,
+            236.717,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3325,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 12
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3579.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3578.5,
+            -247.917,
+            927.0
+          ],
+          "max": [
+            -3454.5,
+            -237.517,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 13
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3579.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3563.03,
+            -249.0,
+            971.545
+          ],
+          "max": [
+            -3469.97,
+            -236.434,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 14
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3579.0,
+          -242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3581.0,
+            -238.917,
+            939.0
+          ],
+          "max": [
+            -3464.35,
+            -232.717,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 15
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3454.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3578.5,
+            -231.917,
+            927.0
+          ],
+          "max": [
+            -3454.5,
+            -221.517,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 16
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3454.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3563.03,
+            -233.0,
+            971.545
+          ],
+          "max": [
+            -3469.97,
+            -220.434,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 17
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": -1,
+        "roleTag": "HeichalB1N_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3454.0,
+          -226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3568.65,
+            -236.717,
+            939.0
+          ],
+          "max": [
+            -3452.0,
+            -230.517,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            -250.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 18
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3579.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3578.5,
+            221.517,
+            927.0
+          ],
+          "max": [
+            -3454.5,
+            231.917,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 19
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3579.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3563.03,
+            220.434,
+            971.545
+          ],
+          "max": [
+            -3469.97,
+            233.0,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 20
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3579.0,
+          226.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3581.0,
+            230.517,
+            939.0
+          ],
+          "max": [
+            -3464.35,
+            236.717,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 21
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_HeichalFoldingLeafV1",
+        "location": [
+          -3454.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3578.5,
+            237.517,
+            927.0
+          ],
+          "max": [
+            -3454.5,
+            247.917,
+            3423.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 22
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_HeichalDoorPalmReliefV1",
+        "location": [
+          -3454.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3563.03,
+            236.434,
+            971.545
+          ],
+          "max": [
+            -3469.97,
+            249.0,
+            3372.515
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 23
+      },
+      {
+        "group": "heichal",
+        "family": "Heichal",
+        "bank": 1,
+        "side": 1,
+        "roleTag": "HeichalB1S_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_HeichalDoorHardwareV1",
+        "location": [
+          -3454.0,
+          242.717,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -3568.65,
+            232.717,
+            939.0
+          ],
+          "max": [
+            -3452.0,
+            238.917,
+            3411.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -3575,
+            250.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 24
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_KodeshFoldingLeafV1",
+        "location": [
+          -5650.0,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5737.0,
+            -169.2,
+            927.0
+          ],
+          "max": [
+            -5650.5,
+            -158.8,
+            1223.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 25
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_KodeshDoorPalmReliefV1",
+        "location": [
+          -5650.0,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5722.655,
+            -169.6455,
+            1003.045
+          ],
+          "max": [
+            -5664.845,
+            -158.3545,
+            1143.265
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 26
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_KodeshDoorHardwareV1",
+        "location": [
+          -5650.0,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5727.15,
+            -174.0,
+            939.0
+          ],
+          "max": [
+            -5648.0,
+            -167.8,
+            1211.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 27
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_KodeshFoldingLeafV1",
+        "location": [
+          -5737.5,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5824.5,
+            -169.2,
+            927.0
+          ],
+          "max": [
+            -5738.0,
+            -158.8,
+            1223.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 28
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_KodeshDoorPalmReliefV1",
+        "location": [
+          -5737.5,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5810.155,
+            -169.6455,
+            1003.045
+          ],
+          "max": [
+            -5752.345,
+            -158.3545,
+            1143.265
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 29
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": -1,
+        "roleTag": "KodeshB0N_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_KodeshDoorHardwareV1",
+        "location": [
+          -5737.5,
+          -164.0,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5814.65,
+            -174.0,
+            939.0
+          ],
+          "max": [
+            -5735.5,
+            -167.8,
+            1211.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            -175.0,
+            927.0
+          ],
+          "jsonClosedYaw": 90
+        },
+        "index": 30
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Hinge_Leaf",
+        "leafRole": "hinge_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_KodeshFoldingLeafV1",
+        "location": [
+          -5650.0,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5737.0,
+            163.1545,
+            927.0
+          ],
+          "max": [
+            -5650.5,
+            173.5545,
+            1223.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 31
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Hinge_Relief",
+        "leafRole": "hinge_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_KodeshDoorPalmReliefV1",
+        "location": [
+          -5650.0,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5722.655,
+            162.709,
+            1003.045
+          ],
+          "max": [
+            -5664.845,
+            174.0,
+            1143.265
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 32
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Hinge_Hardware",
+        "leafRole": "hinge_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_KodeshDoorHardwareV1",
+        "location": [
+          -5650.0,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5727.15,
+            158.3545,
+            939.0
+          ],
+          "max": [
+            -5648.0,
+            164.5545,
+            1211.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 33
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Second_Leaf",
+        "leafRole": "second_leaf",
+        "meshRole": "leaf",
+        "meshName": "SM_KodeshFoldingLeafV1",
+        "location": [
+          -5737.5,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5824.5,
+            163.1545,
+            927.0
+          ],
+          "max": [
+            -5738.0,
+            173.5545,
+            1223.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 34
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Second_Relief",
+        "leafRole": "second_leaf",
+        "meshRole": "relief",
+        "meshName": "SM_KodeshDoorPalmReliefV1",
+        "location": [
+          -5737.5,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5810.155,
+            162.709,
+            1003.045
+          ],
+          "max": [
+            -5752.345,
+            174.0,
+            1143.265
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 35
+      },
+      {
+        "group": "kodesh",
+        "family": "Kodesh",
+        "bank": 0,
+        "side": 1,
+        "roleTag": "KodeshB0S_Second_Hardware",
+        "leafRole": "second_leaf",
+        "meshRole": "hardware",
+        "meshName": "SM_KodeshDoorHardwareV1",
+        "location": [
+          -5737.5,
+          168.3545,
+          927.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5814.65,
+            158.3545,
+            939.0
+          ],
+          "max": [
+            -5735.5,
+            164.5545,
+            1211.0
+          ]
+        },
+        "closedReference": {
+          "jsonHingeLocationCm": [
+            -5650.0,
+            175.0,
+            927.0
+          ],
+          "jsonClosedYaw": -90
+        },
+        "index": 36
+      },
+      {
+        "group": "paroches",
+        "family": "Paroches",
+        "roleTag": "Paroches_Cloth",
+        "meshRole": "cloth",
+        "meshName": "SM_ParochesClothV1",
+        "location": [
+          -5585.0,
+          0.0,
+          928.0
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5593.42332,
+            -180.0,
+            928.0
+          ],
+          "max": [
+            -5576.500045,
+            180.0,
+            1234.0
+          ]
+        },
+        "index": 37
+      },
+      {
+        "group": "paroches",
+        "family": "Paroches",
+        "roleTag": "Paroches_Hem",
+        "meshRole": "hem",
+        "meshName": "SM_ParochesHemV1",
+        "location": [
+          -5585.0,
+          0.0,
+          928.0
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5591.723712,
+            -180.0,
+            928.0
+          ],
+          "max": [
+            -5576.210587,
+            180.0,
+            1234.0
+          ]
+        },
+        "index": 38
+      },
+      {
+        "group": "paroches",
+        "family": "Paroches",
+        "roleTag": "Paroches_Fixings",
+        "meshRole": "fixings",
+        "meshName": "SM_ParochesFixingsV1",
+        "location": [
+          -5585.0,
+          0.0,
+          928.0
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5582.6,
+            -191.0,
+            1233.4
+          ],
+          "max": [
+            -5573.4,
+            191.0,
+            1242.8
+          ]
+        },
+        "index": 39
+      }
+    ],
+    "parochesFace": {
+      "wallHeichalFaceX": -5600.0,
+      "clothMinX": -5593.42332,
+      "standoffCm": 6.576680000000124,
+      "clothY": [
+        -180.0,
+        180.0
+      ],
+      "openingY": [
+        -175.0,
+        175.0
+      ],
+      "clothZ": [
+        928.0,
+        1234.0
+      ],
+      "openingZ": [
+        925.0,
+        1225.0
+      ],
+      "coversOpening": true
+    },
+    "clearance": {
+      "wallBoxesTested": 43,
+      "leafWallIntersections": [],
+      "corridorLeafIntersections": [],
+      "leafPairIntersections": [],
+      "parochesWallIntersections": [],
+      "parochesIntersectsCorridor": true
+    },
+    "corridorBoxCm": {
+      "min": [
+        -5700.0,
+        -100.0,
+        925.0
+      ],
+      "max": [
+        -3200.0,
+        100.0,
+        1125.0
+      ]
+    }
+  }
+}

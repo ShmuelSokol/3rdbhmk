@@ -1,0 +1,165 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_reliefs.py: native OBJ import of the PalmReliefV1 pair, material assignment, and a repeating alternating row on both long inner Heikhal walls of the combined map. Every number below is read from receipts or the frozen source manifest; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "683650c441ef1f51d839d9b0b04b8df64fd4cf908188c37b9e731b6f9e402d7d",
+  "lastKnownMapSha256Note": "AGENTS.md value after the keilim move; recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Reliefs-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/PalmReliefV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "placementHelperSpec": "Scripts/release_place_assets.spec.json",
+  "actorTag": "ReleaseReliefsV1",
+  "labelPrefix": "RELEASE_",
+  "group": "Reliefs",
+  "folder": "Release/Reliefs",
+  "collisionProfile": "NoCollision",
+
+  "source": {
+    "folder": "SourceAssets/sanctuary-detail/PalmReliefV1",
+    "manifest": "SourceAssets/sanctuary-detail/PalmReliefV1/geometry-manifest.json",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "authoringScript": "Scripts/create_sanctuary_reliefs.py",
+    "namespace": "/Game/MikdashV3/MaterialReview/SanctuaryPalmReliefV1",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/SanctuaryPalmReliefV1/Meshes",
+    "meshes": [
+      {
+        "name": "SM_CedarPalmBackingV1",
+        "file": "SM_CedarPalmBackingV1.obj",
+        "sha256": "01057f23c4755171a424cb51eb4cea90e22380652c2c256b9932768e90b60f83",
+        "triangles": 540,
+        "role": "backing",
+        "canonicalBoundsCm": {"min": [-60.0, 0.0, 0.0], "max": [60.0, 3.1, 260.0]}
+      },
+      {
+        "name": "SM_PalmCarvingV1",
+        "file": "SM_PalmCarvingV1.obj",
+        "sha256": "95d578e12bf996c87248056c976dc2f1ad1420e6a946a739e02e2c8300bae1d9",
+        "triangles": 36672,
+        "role": "carving",
+        "canonicalBoundsCm": {"min": [-49.0, 1.2756984439308439, 18.0], "max": [49.0, 5.919135289670153, 246.0]}
+      }
+    ],
+    "objAdapter": "Source OBJ has Y reflected and triangle winding reversed for the legacy OBJ importer (create_sanctuary_reliefs.export). The importer reflects Y back, so the imported StaticMesh must reproduce canonicalBoundsCm (local +Y is the relief front) and its front faces must point +Y. Both are verified natively.",
+    "boundsToleranceCm": 0.05
+  },
+
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/Aron V3 OBJ adapter path (create_heikhal_keilim.run_native, create_keruvim_study.run_native). Single-mesh OBJ: destination_name is the exact mesh name; the literal 'None' trick is only for multi-mesh FBX.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation. No material is created.",
+    "backing": {
+      "candidates": [
+        {"path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_cedar_6e144262d4", "kind": "cedar"},
+        {"path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_trim_96ae259843", "kind": "neutral_fallback"}
+      ]
+    },
+    "carving": {
+      "candidates": [
+        {"path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold", "kind": "gold"},
+        {"path": "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/M_KeruvimStudyGold", "kind": "gold_fallback"}
+      ]
+    }
+  },
+
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (copy_mesh_from_static_mesh_v2 + get_triangle_face_normal, as Scripts/release_fix_terrain_winding.py). Needs -EnablePlugins=GeometryScripting. Local +Y is the room direction after placement (yaw 0 on the -Y wall, yaw 180 on the +Y wall).",
+    "requireForPlacement": true,
+    "facingCosine": 0.95,
+    "planeToleranceCm": 0.5,
+    "minFrontBandAgreement": 0.99,
+    "passCriteria": [
+      "signedVolumeUE > 0: divergence-theorem volume using UE face normals (cross(C-A, B-A)) is positive; every part is a closed solid, so front faces point outward and the relief front points along local +Y",
+      "faceNormalVsCrossDisagreements == 0"
+    ],
+    "informationalOnly": [
+      "frontBand / backBand: triangles within planeToleranceCm of local max/min Y and how many face +Y / -Y. The bands include bevel and moulding side faces, so the fraction is recorded but not judged (first run 2026-09-07: backing 8/168, carving 235/715 while signed volumes were 54518 and 5869 cm3)",
+      "plusYFacingReachesFrontPlane / minusYFacingReachesBackPlane"
+    ]
+  },
+
+  "row": {
+    "note": "Yechezkel 41:18-20: keruvim and palms alternate along the wall. Only the palm panel exists, so palm slots and keruv slots alternate and keruv slots are left EMPTY and recorded as pending. Slot 0 is at the west (Kodesh partition) end.",
+    "floorMesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+    "floorWorldBoundsCm": {"min": [-5600.0, -500.0, 904.9999237060547], "max": [-3600.0, 500.0, 925.0]},
+    "floorTopZ": 925.0,
+    "xRangeCm": [-5600.0, -3600.0],
+    "moduleCm": 120.0,
+    "palmSlotParity": 0,
+    "baseLiftCm": 0.0,
+    "walls": [
+      {"sign": -1, "name": "Heikhal negative-Y inner face", "yawDegrees": 0.0, "roomDirectionWorldY": 1.0},
+      {"sign": 1, "name": "Heikhal positive-Y inner face", "yawDegrees": 180.0, "roomDirectionWorldY": -1.0}
+    ],
+    "veneer": {
+      "note": "build_sanctuary_finishes.py veneers: 0.2 cm cubes centred on the source face, so the room-facing face is 0.1 cm proud of |Y| = 500. Bounds are READ from the level, then checked against these expectations.",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "folderSuffix": "Sanctuary finishes",
+      "expectedCount": 7,
+      "heikhalSideExpectedBoundsCm": {
+        "-1": {"min": [-5600.0, -500.1, 925.0], "max": [-3600.0, -499.9, 2925.0]},
+        "1": {"min": [-5600.0, 499.9, 925.0], "max": [-3600.0, 500.1, 2925.0]}
+      },
+      "boundsToleranceCm": 0.05,
+      "standoffCm": 1.5,
+      "standoffWindowCm": [1.0, 2.0]
+    },
+    "clearance": {
+      "rule": "The planned world AABB of a slot (union of both mesh local boxes, rotated by wall yaw) must not have strictly positive overlap volume with any mesh-bearing actor. Union actors in unionFolder with a verified manifest decomposition are tested against their constituent boxes (release_place_assets.py). A blocked slot is skipped and recorded; it is never force-filled.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0
+    }
+  },
+
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+
+  "limitations": [
+    "Palm motif only. The two-faced keruv panels of Yechezkel 41:18-20 do not exist; their slots are left empty and recorded as pending.",
+    "120 x 260 cm module, relief profiles, base height and the alternation phase are artistic choices, not text-measured.",
+    "Cedar species follows Rashi on 41:16; the material is a flat canonical colour, not a wood texture.",
+    "Import, material assignment and placement are geometric only; no visual, lighting, LOD, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; the row is grounded from the measured floor component bounds, not a trace."
+  ]
+}

@@ -1,0 +1,1268 @@
+{
+  "status": "failed_placing_map_unchanged",
+  "mode": "trace_and_place",
+  "stamp": "20260907T173220192861Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "4b1293f6124e40751c79d32dc1e1afae6356cde4f8ce388e6b96c46db65117b2",
+  "mapLoadedByJob": false,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_place_bus.spec.json",
+  "specSha256": "9234dde5a81024d12319272061c5125ed77a8e31e9925355be6006e2ef3b3700",
+  "offlineCheck": {
+    "assetFilesChecked": 15,
+    "missingFiles": [],
+    "candidates": [
+      {
+        "rank": 1,
+        "xy": [
+          -37951.473,
+          46854.779
+        ],
+        "yaw": -15.979516,
+        "offline": {
+          "spreadCm": 58.5089999999999,
+          "gradientDegrees": 3.1414317090013175,
+          "crossfallDegrees": 5.649426223263547,
+          "pitchDegrees": -3.1414317090013175,
+          "rollDegrees": 5.640991645747087
+        },
+        "planePoseLocation": [
+          -37951.473,
+          46854.779,
+          973.0695000000001
+        ],
+        "planePoseRotation": [
+          -3.1414317090013175,
+          -15.979516,
+          5.640991645747087
+        ],
+        "planePoseMaxWheelFloatCm": 0.10405983636837846,
+        "plannedWorldBoundsCm": {
+          "min": [
+            -38578.2124326667,
+            46523.73706844456,
+            923.047362669534
+          ],
+          "max": [
+            -37298.363356713664,
+            47212.18959261193,
+            1352.7389764763543
+          ]
+        }
+      },
+      {
+        "rank": 2,
+        "xy": [
+          -37232.533,
+          46641.201
+        ],
+        "yaw": -16.650374,
+        "offline": {
+          "spreadCm": 58.934999999999945,
+          "gradientDegrees": 3.1786401292245303,
+          "crossfallDegrees": 5.68547786096016,
+          "pitchDegrees": -3.1786401292245303,
+          "rollDegrees": 5.6281020834174065
+        },
+        "planePoseLocation": [
+          -37232.533,
+          46641.201,
+          931.989
+        ],
+        "planePoseRotation": [
+          -3.1786401292245303,
+          -16.650374,
+          5.6281020834174065
+        ],
+        "planePoseMaxWheelFloatCm": 0.18792498926575263,
+        "plannedWorldBoundsCm": {
+          "min": [
+            -37859.18467253761,
+            46303.92624141087,
+            881.6137825530103
+          ],
+          "max": [
+            -36579.01998463093,
+            47004.40124662731,
+            1312.0070542131982
+          ]
+        }
+      },
+      {
+        "rank": 3,
+        "xy": [
+          -43965.968,
+          47335.197
+        ],
+        "yaw": -5.981192,
+        "offline": {
+          "spreadCm": 55.49000000000001,
+          "gradientDegrees": 2.7003701611259436,
+          "crossfallDegrees": 7.551244947423843,
+          "pitchDegrees": -2.7003701611259436,
+          "rollDegrees": 6.391406389730228
+        },
+        "planePoseLocation": [
+          -43965.968,
+          47335.197,
+          1512.3294999999998
+        ],
+        "planePoseRotation": [
+          -2.7003701611259436,
+          -5.981192,
+          6.391406389730228
+        ],
+        "planePoseMaxWheelFloatCm": 2.070012997579852,
+        "plannedWorldBoundsCm": {
+          "min": [
+            -44583.6721435082,
+            47102.156387134164,
+            1464.7122135093637
+          ],
+          "max": [
+            -43328.967633699496,
+            47603.34841557539,
+            1889.2687411475351
+          ]
+        }
+      }
+    ],
+    "handoffCandidateStillFails": true,
+    "status": "offline_spec_consistent"
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "commandLine": "\"C:/Program Files/Git/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough\" -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_place_bus.py\" -unattended -NoSplash -nullrhi -abslog=C:/Mikdash/Working-5.8/Release-Bus-01.log",
+  "config": {
+    "hardLimitSeconds": 120,
+    "quitEditor": true,
+    "poseStyle": "plane",
+    "candidateFilter": null,
+    "poseReceipt": null,
+    "oldThrottle": 1,
+    "oldGameGetsMouseControl": false
+  },
+  "scope": "Line traces in a bounded PIE world (not a NullRHI editor world); pose from the traced wheel plane; placement in the editor world after end-play with checkpoint, save, reopen and numeric readback. Not visual, collision-route, boarding or packaged acceptance.",
+  "events": [
+    {
+      "state": "wait_game_world",
+      "kind": "state",
+      "seconds": 0.657
+    },
+    {
+      "world": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough",
+      "kind": "game_world_seen",
+      "seconds": 14.891
+    },
+    {
+      "state": "tracing",
+      "kind": "state",
+      "seconds": 16.391
+    },
+    {
+      "rank": 1,
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "kind": "candidate_accepted",
+      "seconds": 16.422
+    },
+    {
+      "accepted": true,
+      "method": "profile_Pawn",
+      "kind": "traces_done",
+      "seconds": 16.422
+    },
+    {
+      "state": "ending_pie",
+      "kind": "state",
+      "seconds": 16.422
+    },
+    {
+      "state": "placing",
+      "kind": "state",
+      "seconds": 18.438
+    },
+    {
+      "state": "finished",
+      "kind": "state",
+      "seconds": 20.86
+    },
+    {
+      "state": "reopening",
+      "kind": "state",
+      "seconds": 22.969
+    }
+  ],
+  "errors": [
+    {
+      "stage": "placing",
+      "error": "RuntimeError('Dirty packages present before placement; refusing to save foreign edits')"
+    }
+  ],
+  "traceErrors": [],
+  "candidates": [
+    {
+      "rank": 1,
+      "xy": [
+        -37951.473,
+        46854.779
+      ],
+      "yaw": -15.979516,
+      "probes": {
+        "center": {
+          "xy": [
+            -37951.473,
+            46854.779
+          ],
+          "traceStartZ": 2973.07,
+          "traceEndZ": -1026.9299999999998,
+          "hit": {
+            "pointCm": [
+              -37951.473,
+              46854.779,
+              973.0765798107507
+            ],
+            "normal": [
+              0.07949150278410763,
+              0.0794841569864713,
+              0.9936615972116837
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "offlineZ": 973.069,
+          "support": "mesh_prefix",
+          "offlineDeltaCm": 0.007579810750712568,
+          "offlineAgreement": true
+        },
+        "wheel_front_left": {
+          "xy": [
+            -37578.95514299217,
+            46847.96385434508
+          ],
+          "traceStartZ": 2973.07,
+          "traceEndZ": -1026.9299999999998,
+          "hit": {
+            "pointCm": [
+              -37578.95514299217,
+              46847.96385434508,
+              943.8223299449503
+            ],
+            "normal": [
+              0.07949652028843543,
+              0.0794842337029019,
+              0.9936611896691412
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "offlineZ": 943.815,
+          "support": "mesh_prefix",
+          "offlineDeltaCm": 0.0073299449502428615,
+          "offlineAgreement": true
+        },
+        "wheel_front_right": {
+          "xy": [
+            -37631.811528481136,
+            46663.3827000713
+          ],
+          "traceStartZ": 2973.07,
+          "traceEndZ": -1026.9299999999998,
+          "hit": {
+            "pointCm": [
+              -37631.811528481136,
+              46663.3827000713,
+              962.8159170157398
+            ],
+            "normal": [
+              0.07949652028843543,
+              0.0794842337029019,
+              0.9936611896691412
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "offlineZ": 962.808,
+          "support": "mesh_prefix",
+          "offlineDeltaCm": 0.007917015739849376,
+          "offlineAgreement": true
+        },
+        "wheel_rear_left": {
+          "xy": [
+            -38271.13447151886,
+            47046.175299928705
+          ],
+          "traceStartZ": 2973.07,
+          "traceEndZ": -1026.9299999999998,
+          "hit": {
+            "pointCm": [
+              -38271.13447151886,
+              47046.175299928705,
+              983.3384712415852
+            ],
+            "normal": [
+              0.07949064390941206,
+              0.07948440793211527,
+              0.9936616458465871
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "offlineZ": 983.331,
+          "support": "mesh_prefix",
+          "offlineDeltaCm": 0.007471241585221833,
+          "offlineAgreement": true
+        },
+        "wheel_rear_right": {
+          "xy": [
+            -38323.990857007826,
+            46861.594145654926
+          ],
+          "traceStartZ": 2973.07,
+          "traceEndZ": -1026.9299999999998,
+          "hit": {
+            "pointCm": [
+              -38323.990857007826,
+              46861.594145654926,
+              1002.3319257600174
+            ],
+            "normal": [
+              0.0794897383647833,
+              0.07948578614432873,
+              0.9936616080415487
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "offlineZ": 1002.324,
+          "support": "mesh_prefix",
+          "offlineDeltaCm": 0.007925760017428729,
+          "offlineAgreement": true
+        }
+      },
+      "bodyCorners": {
+        "body_front_left": {
+          "xy": [
+            -37343.266910964456,
+            46810.11801859465
+          ],
+          "hit": {
+            "pointCm": [
+              -37343.266910964456,
+              46810.11801859465,
+              927.9935915306639
+            ],
+            "normal": [
+              0.07949745107644052,
+              0.07948394994159813,
+              0.9936611379006581
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "support": "mesh_prefix"
+        },
+        "body_front_right": {
+          "xy": [
+            -37411.81503589545,
+            46570.739334145845
+          ],
+          "hit": {
+            "pointCm": [
+              -37411.81503589545,
+              46570.739334145845,
+              952.6261863401135
+            ],
+            "normal": [
+              0.07949530734007415,
+              0.07948701431882682,
+              0.9936610642797602
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "support": "mesh_prefix"
+        },
+        "body_rear_left": {
+          "xy": [
+            -38491.130964104545,
+            47138.81866585416
+          ],
+          "hit": {
+            "pointCm": [
+              -38491.130964104545,
+              47138.81866585416,
+              993.5270338696532
+            ],
+            "normal": [
+              0.07949167053788221,
+              0.07948410797223503,
+              0.9936615877123132
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "support": "mesh_prefix"
+        },
+        "body_rear_right": {
+          "xy": [
+            -38559.67908903554,
+            46899.439981405354
+          ],
+          "hit": {
+            "pointCm": [
+              -38559.67908903554,
+              46899.439981405354,
+              1018.1589673836929
+            ],
+            "normal": [
+              0.07949167053788221,
+              0.07948410797223503,
+              0.9936615877123132
+            ],
+            "actorLabel": "SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "mesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+            "parsedBy": "to_dict",
+            "method": "profile_Pawn"
+          },
+          "support": "mesh_prefix"
+        }
+      },
+      "supportCheck": {
+        "wheelZ": {
+          "wheel_front_left": 943.8223299449503,
+          "wheel_front_right": 962.8159170157398,
+          "wheel_rear_left": 983.3384712415852,
+          "wheel_rear_right": 1002.3319257600174
+        },
+        "spreadCm": 58.50959581506709,
+        "gradientDegrees": 3.141437661010982,
+        "crossfallDegrees": 5.649599716520283,
+        "planeA": -0.05488343752841145,
+        "planeB": -0.09892458747193149,
+        "planeC": 973.0771609905731,
+        "pitchDegrees": -3.141437661010982,
+        "rollDegrees": 5.64114529407796,
+        "planeResidualsCm": {
+          "wheel_front_left": -3.313808929306106e-05,
+          "wheel_front_right": 3.313808929306106e-05,
+          "wheel_rear_left": 3.313808952043473e-05,
+          "wheel_rear_right": -3.313808929306106e-05
+        },
+        "maxPlaneResidualCm": 3.313808952043473e-05,
+        "maxWheelZ": 1002.3319257600174,
+        "failures": [],
+        "passed": true
+      },
+      "rejectReasons": [],
+      "accepted": true
+    }
+  ],
+  "pose": {
+    "style": "plane",
+    "location": [
+      -37951.473,
+      46854.779,
+      973.0771609905731
+    ],
+    "rotation": [
+      -3.141437661010982,
+      -15.979516,
+      5.64114529407796
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotationOrder": "unreal.Rotator(pitch, yaw, roll)",
+    "wheels": {
+      "wheel_front_left": {
+        "worldContactPointCm": [
+          -37580.10035356884,
+          46847.80818705359,
+          943.9264277307436
+        ],
+        "tracedGroundZ": 943.8223299449503,
+        "floatCm": 0.10409778579332851
+      },
+      "wheel_front_right": {
+        "worldContactPointCm": [
+          -37631.70645708877,
+          46663.83622007643,
+          962.771200110514
+        ],
+        "tracedGroundZ": 962.8159170157398,
+        "floatCm": -0.044716905225868686
+      },
+      "wheel_rear_left": {
+        "worldContactPointCm": [
+          -38271.23954291123,
+          47045.72177992357,
+          983.3831218706323
+        ],
+        "tracedGroundZ": 983.3384712415852,
+        "floatCm": 0.04465062904705519
+      },
+      "wheel_rear_right": {
+        "worldContactPointCm": [
+          -38322.84564643115,
+          46861.749812946415,
+          1002.2278942504026
+        ],
+        "tracedGroundZ": 1002.3319257600174,
+        "floatCm": -0.10403150961474239
+      }
+    },
+    "maxWheelFloatCm": 0.10409778579332851,
+    "candidateRank": 1,
+    "groundSource": "pie_line_trace_profile_Pawn",
+    "supportMeshes": [
+      "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+    ],
+    "offlineAgreementAllProbes": true,
+    "mapSha256Before": "4b1293f6124e40751c79d32dc1e1afae6356cde4f8ce388e6b96c46db65117b2"
+  },
+  "poseStatus": "pose_ok",
+  "placed": [
+    {
+      "label": "RELEASE_Bus_1",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_IvoryPaint",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38552.759635206006,
+          46576.627404265295,
+          993.7229967578229
+        ],
+        "max": [
+          -37318.70871254448,
+          47164.40707987512,
+          1345.921335712812
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38552.759635011455,
+          46576.6274038801,
+          993.7229957765571
+        ],
+        "max": [
+          -37318.7087121306,
+          47164.4070796114,
+          1345.9213366973145
+        ]
+      },
+      "boundsErrorCm": 9.845025488175452e-07
+    },
+    {
+      "label": "RELEASE_Bus_2",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_TealPaint",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38531.4522005411,
+          46583.55346530437,
+          993.1988324039178
+        ],
+        "max": [
+          -37353.152372042896,
+          47150.205313338134,
+          1152.8408676153445
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38531.452200352964,
+          46583.553464931014,
+          993.1988314725186
+        ],
+        "max": [
+          -37353.15237191725,
+          47150.2053133805,
+          1152.8408685580239
+        ]
+      },
+      "boundsErrorCm": 9.426794349565171e-07
+    },
+    {
+      "label": "RELEASE_Bus_3",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Rubber",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38556.37404056726,
+          46574.05167188534,
+          927.705380026268
+        ],
+        "max": [
+          -37321.38504644143,
+          47165.86292278918,
+          1307.3651868663337
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38556.37404047334,
+          46574.051671608766,
+          927.7053790520081
+        ],
+        "max": [
+          -37321.38504608447,
+          47165.86292258811,
+          1307.365187851473
+        ]
+      },
+      "boundsErrorCm": 9.851391951087862e-07
+    },
+    {
+      "label": "RELEASE_Bus_4",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Glass",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38550.130130516605,
+          46576.852688248335,
+          1007.1058876181521
+        ],
+        "max": [
+          -37323.88927030882,
+          47165.07791505008,
+          1283.3582750818987
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38550.13013030162,
+          46576.85268784112,
+          1007.1058866481262
+        ],
+        "max": [
+          -37323.88926998865,
+          47165.077914888694,
+          1283.358276060425
+        ]
+      },
+      "boundsErrorCm": 9.785262591321953e-07
+    },
+    {
+      "label": "RELEASE_Bus_5",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Aluminium",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38535.34202658124,
+          46537.80649543926,
+          943.3207763427037
+        ],
+        "max": [
+          -37344.46057377508,
+          47192.424525554,
+          1268.031602297886
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38535.34202648737,
+          46537.80649514788,
+          943.3207754752252
+        ],
+        "max": [
+          -37344.460573459204,
+          47192.42452540693,
+          1268.031603163785
+        ]
+      },
+      "boundsErrorCm": 8.674784339746111e-07
+    },
+    {
+      "label": "RELEASE_Bus_6",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_DarkTrim",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38574.038095171396,
+          46526.71249662711,
+          954.3324838577233
+        ],
+        "max": [
+          -37300.0429785281,
+          47211.70935852035,
+          1352.6511675388192
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38574.038095047734,
+          46526.71249629572,
+          954.3324829187015
+        ],
+        "max": [
+          -37300.042978093836,
+          47211.70935825669,
+          1352.651168480809
+        ]
+      },
+      "boundsErrorCm": 9.419898105988977e-07
+    },
+    {
+      "label": "RELEASE_Bus_7",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Headlamp",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -37476.25909869506,
+          46608.73572111703,
+          1047.113580288969
+        ],
+        "max": [
+          -37333.90421205652,
+          46817.36277416761,
+          1124.3368535116265
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -37476.25909867579,
+          46608.735720645585,
+          1047.1135792617158
+        ],
+        "max": [
+          -37333.90421190057,
+          46817.362773650275,
+          1124.3368524449681
+        ]
+      },
+      "boundsErrorCm": 1.066658342097071e-06
+    },
+    {
+      "label": "RELEASE_Bus_8",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_RedLens",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38546.13295292394,
+          46939.69122919406,
+          1113.0939410451163
+        ],
+        "max": [
+          -38492.99705901835,
+          47120.37585236413,
+          1143.4815057841324
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38546.13295263709,
+          46939.69122928059,
+          1113.0939422823694
+        ],
+        "max": [
+          -38492.997058638175,
+          47120.37585243247,
+          1143.4815068133962
+        ]
+      },
+      "boundsErrorCm": 1.237253172803321e-06
+    },
+    {
+      "label": "RELEASE_Bus_9",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_AmberLens",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38558.64524253646,
+          46574.327226011745,
+          1020.8754406400228
+        ],
+        "max": [
+          -37326.57470581798,
+          47152.956167835,
+          1146.8654276521233
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38558.64524229804,
+          46574.32722557707,
+          1020.875439647242
+        ],
+        "max": [
+          -37326.57470571378,
+          47152.95616790425,
+          1146.865428646727
+        ]
+      },
+      "boundsErrorCm": 9.946036243491108e-07
+    },
+    {
+      "label": "RELEASE_Bus_10",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_SeatFabric",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38468.42401620373,
+          46626.04545729382,
+          1057.2646911561712
+        ],
+        "max": [
+          -37449.967443923604,
+          47121.779711796815,
+          1220.1754764798175
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38468.424015937715,
+          46626.045456874126,
+          1057.2646903946163
+        ],
+        "max": [
+          -37449.967443670634,
+          47121.77971169427,
+          1220.1754773258933
+        ]
+      },
+      "boundsErrorCm": 8.460758635919774e-07
+    },
+    {
+      "label": "RELEASE_Bus_11",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_CabinFloor",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38517.123099847355,
+          46598.27089785489,
+          1019.459568735103
+        ],
+        "max": [
+          -37371.3558983612,
+          47125.75356707833,
+          1107.541172208384
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38517.123099620505,
+          46598.27089744687,
+          1019.4595678011833
+        ],
+        "max": [
+          -37371.355898308415,
+          47125.75356718812,
+          1107.5411731437912
+        ]
+      },
+      "boundsErrorCm": 9.354071153211407e-07
+    },
+    {
+      "label": "RELEASE_Bus_12",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_CabinLining",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38517.74588002611,
+          46595.23518649112,
+          1023.0906908091977
+        ],
+        "max": [
+          -37354.35837989103,
+          47145.1634090808,
+          1308.6043485202354
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38517.74587979453,
+          46595.235186076534,
+          1023.0906898792757
+        ],
+        "max": [
+          -37354.358379526486,
+          47145.16340885959,
+          1308.6043494533285
+        ]
+      },
+      "boundsErrorCm": 9.33093133426155e-07
+    },
+    {
+      "label": "RELEASE_Bus_13",
+      "mesh": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_SafetyYellow",
+      "location": [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      "rotation": [
+        -3.141437661010982,
+        -15.979516,
+        5.64114529407796
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollisionTraceFlag": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -38453.80087167436,
+          46733.59607722076,
+          1044.5103030986822
+        ],
+        "max": [
+          -37601.32325315257,
+          47058.39382790113,
+          1289.647626265353
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -38453.80087142105,
+          46733.59607691367,
+          1044.5103025236424
+        ],
+        "max": [
+          -37601.32325277643,
+          47058.393827673586,
+          1289.6476272008542
+        ]
+      },
+      "boundsErrorCm": 9.355012480227742e-07
+    }
+  ],
+  "mapSaved": true,
+  "stationMeshesOmitted": [
+    "SM_TransitV2_Station_TealPaint",
+    "SM_TransitV2_Station_Glass",
+    "SM_TransitV2_Station_Aluminium",
+    "SM_TransitV2_Station_DarkTrim",
+    "SM_TransitV2_Station_Headlamp",
+    "SM_TransitV2_Station_SafetyYellow",
+    "SM_TransitV2_Station_PlatformStone",
+    "SM_TransitV2_Station_TrackSteel",
+    "SM_TransitV2_Station_SleeperConcrete",
+    "SM_TransitV2_Station_Ballast",
+    "SM_TransitV2_Station_CanopyMetal",
+    "SM_TransitV2_Station_BenchWood"
+  ],
+  "stationOmissionReason": "arrival-placement-spec.json sets station world_position null; no mapped rail route exists. The 12 station meshes are deliberately not placed.",
+  "elapsedSeconds": 22.969,
+  "state": "reopening",
+  "actorCountBefore": 7354,
+  "preExistingReleaseActors": [
+    "RELEASE_Keruvim_1",
+    "RELEASE_Kotel_1",
+    "RELEASE_Kotel_2",
+    "RELEASE_Kotel_3",
+    "RELEASE_Kotel_4",
+    "RELEASE_Kotel_5",
+    "RELEASE_Kotel_6",
+    "RELEASE_Pilgrims_1",
+    "RELEASE_Pilgrims_2",
+    "RELEASE_Pilgrims_3",
+    "RELEASE_Pilgrims_4",
+    "RELEASE_Pilgrims_5",
+    "RELEASE_Reliefs_1",
+    "RELEASE_Reliefs_10",
+    "RELEASE_Reliefs_11",
+    "RELEASE_Reliefs_12",
+    "RELEASE_Reliefs_13",
+    "RELEASE_Reliefs_14",
+    "RELEASE_Reliefs_15",
+    "RELEASE_Reliefs_16",
+    "RELEASE_Reliefs_17",
+    "RELEASE_Reliefs_18",
+    "RELEASE_Reliefs_19",
+    "RELEASE_Reliefs_2",
+    "RELEASE_Reliefs_20",
+    "RELEASE_Reliefs_21",
+    "RELEASE_Reliefs_22",
+    "RELEASE_Reliefs_23",
+    "RELEASE_Reliefs_24",
+    "RELEASE_Reliefs_25",
+    "RELEASE_Reliefs_26",
+    "RELEASE_Reliefs_27",
+    "RELEASE_Reliefs_28",
+    "RELEASE_Reliefs_29",
+    "RELEASE_Reliefs_3",
+    "RELEASE_Reliefs_30",
+    "RELEASE_Reliefs_31",
+    "RELEASE_Reliefs_32",
+    "RELEASE_Reliefs_4",
+    "RELEASE_Reliefs_5",
+    "RELEASE_Reliefs_6",
+    "RELEASE_Reliefs_7",
+    "RELEASE_Reliefs_8",
+    "RELEASE_Reliefs_9"
+  ],
+  "stopPie": "requested",
+  "restoreMouseSetting": "completed",
+  "restoreThrottle": "completed",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ReleaseBus-20260907T173220192861Z",
+  "oneFilePerActorFoldersCopied": [],
+  "engineWheelContacts": {
+    "wheel_front_left": {
+      "engineWorldContactCm": [
+        -37580.10035361658,
+        46847.80818688704,
+        943.9264271624054
+      ],
+      "tracedGroundZ": 943.8223299449503,
+      "floatCm": 0.1040972174550916
+    },
+    "wheel_front_right": {
+      "engineWorldContactCm": [
+        -37631.70645721389,
+        46663.83621990931,
+        962.7711993246623
+      ],
+      "tracedGroundZ": 962.8159170157398,
+      "floatCm": -0.04471769107749424
+    },
+    "wheel_rear_left": {
+      "engineWorldContactCm": [
+        -38271.239542786105,
+        47045.721780090695,
+        983.3831226564839
+      ],
+      "tracedGroundZ": 983.3384712415852,
+      "floatCm": 0.04465141489868074
+    },
+    "wheel_rear_right": {
+      "engineWorldContactCm": [
+        -38322.845646383415,
+        46861.74981311296,
+        1002.2278948187409
+      ],
+      "tracedGroundZ": 1002.3319257600174,
+      "floatCm": -0.10403094127650547
+    }
+  },
+  "engineMaxWheelFloatCm": 0.1040972174550916,
+  "mapSha256After": "4b1293f6124e40751c79d32dc1e1afae6356cde4f8ce388e6b96c46db65117b2",
+  "mapBytesChanged": false,
+  "protectedMapsUnchanged": true,
+  "mapSha256AfterSave": "b84a9ff3971f2a8b37d21fdafbf4df96ee41bacb3309d22bbb19189a8a19f079"
+}

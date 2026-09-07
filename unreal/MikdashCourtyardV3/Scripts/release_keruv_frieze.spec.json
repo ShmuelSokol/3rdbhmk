@@ -1,0 +1,406 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_keruv_frieze.py: derive an approximate height map and a tangent-space normal map from the finished gold palm/keruv relief image, import them as textures, build gold bas-relief materials, create a flat and a really displaced 250 x 250 cm frieze panel, remove the superseded palm panels and tile the inner walls of the Heikhal and the Kodesh in the combined map. Every number below is read from receipts or the frozen image; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "1be186e626b536946858a381427307fa186702fe935b5c3774fd1db26ee08a2d",
+  "lastKnownMapSha256Note": "mapSha256AfterSave of the doors run (DoorsParochesV1/native-import-20260907T184828Z.json), the last receipt that saved the map. Recorded as matched/not matched only, not a guard; the vessels run may have saved after it.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KeruvFrieze-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/KeruvFriezeV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "reliefsScript": "Scripts/release_import_reliefs.py",
+  "reliefsReceiptFolder": "SourceAssets/sanctuary-detail/PalmReliefV1",
+  "reliefsReceiptStatusPrefix": "reliefs_saved_reopened",
+  "actorTag": "ReleaseKeruvFriezeV1",
+  "labelPrefix": "RELEASE_",
+  "group": "Frieze",
+  "folder": "Release/Frieze",
+  "collisionProfile": "NoCollision",
+  "image": {
+    "defaultSource": "SourceAssets/visual-reference-handoff/gold-palm-cherub-relief.png",
+    "defaultSourceSha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+    "defaultSourceNote": "1254 x 1254 8-bit RGB PNG, colour render with baked even lighting (CLAUDE-VISUAL-ASSETS.md, prompt in gold-relief-prompt.txt). Central palm, two winged keruvim with the human face toward the central palm and the lion face toward the partial palms at the edges; meant to repeat horizontally, not vertically.",
+    "promptFile": "SourceAssets/visual-reference-handoff/gold-relief-prompt.txt",
+    "alternativeFolder": "SourceAssets/relief-images",
+    "alternativeFolderNote": "-FriezeImage=<stem or path> may name another PNG (keruv_*.png from the image-generation agent); never written here.",
+    "derivedFolder": "SourceAssets/relief-images/derived",
+    "derivedManifest": "derived-manifest.json",
+    "requirePng": {
+      "bitDepth": 8,
+      "colorTypes": [
+        2,
+        6
+      ],
+      "interlace": 0,
+      "note": "8-bit RGB or RGBA, non-interlaced; PIL is used when importable, otherwise the pure zlib decoder adapted from release_capture_views.png_luma_stats."
+    },
+    "lumaWeights": [
+      0.299,
+      0.587,
+      0.114
+    ],
+    "heightPipeline": [
+      "luma = dot(rgb / 255, lumaWeights)",
+      "low = boxBlur(luma, lowFrequencyRadiusFraction * width) repeated lowFrequencyBlurPasses times (approximate Gaussian); high = luma - low removes the baked lighting gradient",
+      "smooth = median3x3(high) repeated medianPasses times, then boxBlur radius smoothRadiusPx",
+      "DETAIL layer: background = histogram mode of smooth (backgroundHistogramBins) + backgroundSigmaMultiplier * 1.4826 * MAD of the values below the mode (the hammered ground occupies most of the panel, so the mode is the ground level); detail = clamp((smooth - background) / (percentile(smooth, topPercentile) - background), 0, 1) ** heightGamma. This keeps only lit relief edges and chased texture",
+      "MASS layer: activity = max(|smooth| - percentile(|smooth|, massNoiseFloorPercentile), 0) marks relief edges (highlights and shadows) above the hammered-ground noise; mass = clamp((boxBlur(activity, massBlurRadiusFraction * width, massBlurPasses) / percentile(., massTopPercentile) - massBaseCut) / (1 - massBaseCut), 0, 1) ** massGamma raises the figures (bodies, wings, trunk, fronds) as plateaus because their edges are dense while the ground's are sparse; massBaseCut flattens the ground",
+      "height = clamp(massWeight * mass + detailWeight * detail, 0, 1), resampled bilinearly to derivedSize, written as a 16-bit grayscale PNG; the normal map is a Sobel of the resampled height"
+    ],
+    "lowFrequencyRadiusFraction": 0.06,
+    "lowFrequencyBlurPasses": 2,
+    "medianPasses": 1,
+    "smoothRadiusPx": 1,
+    "backgroundHistogramBins": 512,
+    "backgroundSigmaMultiplier": 1.0,
+    "topPercentile": 99.7,
+    "heightGamma": 1.0,
+    "cornerPatchFraction": 0.05,
+    "derivedSize": [
+      2048,
+      2048
+    ],
+    "resample": "bilinear",
+    "normalStrengthMultiplier": 1.0,
+    "normalStrengthRule": "slope per texel = panel.displacementCm * derivedWidth / panel.sizeCm[0] * normalStrengthMultiplier * Sobel(height)/8, so the normal map agrees with the displaced mesh; normal = normalize(-slopeU, -slopeVdown, 1)",
+    "normalGreenConvention": "directx: green encodes the component along +V (image down), the UE default (Flip Green Channel off)",
+    "flipGreen": false,
+    "seamCheck": "mean absolute luma difference between the rightmost and leftmost columns, divided by the mean adjacent-column difference at both edges; ratio near 1 means the horizontal repeat is as smooth as the image itself. Top/bottom is reported for information only.",
+    "outputs": {
+      "heightSuffix": "_height16.png",
+      "normalSuffix": "_normal.png",
+      "heightBitDepth": 16,
+      "heightPngColorType": 0,
+      "normalPngColorType": 2
+    },
+    "heightIsApproximate": "Derived from a lit colour render: detail = high-pass luma (lit edges read higher than shadowed edges), mass = blurred edge density. Plausible bas-relief, not measured relief.",
+    "massNoiseFloorPercentile": 75.0,
+    "massBlurRadiusFraction": 0.02,
+    "massBlurPasses": 2,
+    "massTopPercentile": 99.0,
+    "massGamma": 0.7,
+    "massWeight": 0.65,
+    "detailWeight": 0.45,
+    "massBaseCut": 0.12
+  },
+  "textures": {
+    "folder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures",
+    "namePrefix": "T_KeruvFrieze_",
+    "height": {
+      "suffix": "_Height",
+      "compression": "TC_GRAYSCALE",
+      "compressionFallback": "TC_MASKS",
+      "srgb": false,
+      "samplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "samplerTypeFallback": "SAMPLERTYPE_LINEAR_COLOR"
+    },
+    "normal": {
+      "suffix": "_Normal",
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "flipGreenChannel": false,
+      "samplerType": "SAMPLERTYPE_NORMAL"
+    }
+  },
+  "material": {
+    "folder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials",
+    "names": {
+      "flat": "M_KeruvFrieze",
+      "displaced": "M_KeruvFrieze_Displaced",
+      "tessellated": "M_KeruvFrieze_Tessellated"
+    },
+    "goldSource": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+    "goldSourceRule": "Read the Constant3Vector wired to BaseColor of goldSource through MaterialEditingLibrary.get_material_property_input_node; if unreadable use goldFallbackLinear and record it.",
+    "goldFallbackLinear": [
+      1.0,
+      0.766,
+      0.336
+    ],
+    "goldFallbackNote": "Values written by Scripts/create_heikhal_keilim.py for M_HeikhalKeilim_Gold.",
+    "metallic": 1.0,
+    "roughness": {
+      "atHeight0": 0.45,
+      "atHeight1": 0.35,
+      "nominal": 0.4,
+      "rule": "Lerp(A=atHeight0, B=atHeight1, Alpha=height.R): raised relief slightly more polished than the hammered ground."
+    },
+    "graphs": {
+      "flat": "Constant3Vector(gold) -> BaseColor; Constant(1) -> Metallic; TextureSample(height).R -> Lerp(0.45, 0.35).Alpha -> Roughness; TextureSample(normal, SAMPLERTYPE_NORMAL) -> Normal",
+      "displaced": "Same without the normal texture: the displaced mesh carries real geometry and analytic vertex normals, so the normal map is not doubled",
+      "tessellated": "Optional, UNASSIGNED review material. MP_Displacement is UMETA(Hidden) in UE 5.8 SceneTypes.h and therefore absent from unreal.MaterialProperty, so the Displacement pin is reached through MaterialExpressionMakeMaterialAttributes.Displacement with use_material_attributes, enable_tessellation and displacement_scaling (Magnitude = panel.displacementCm, Center 0). Created only when those properties and the input name exist at run time; failures are recorded, never fatal. r.Nanite.Tessellation defaults to 1 in 5.8 (NaniteCullRaster.cpp) but the project config does not set it, so runtime tessellation is unverified."
+    },
+    "createTessellationMaterial": true,
+    "neverWired": "WorldPositionOffset stays unconnected; MP_PixelDepthOffset is hidden in UE 5.8 Python and never referenced."
+  },
+  "panel": {
+    "namespace": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes",
+    "flatName": "SM_KeruvFriezePanelV1",
+    "displacedName": "SM_KeruvFriezePanelDisplacedV1",
+    "sizeCm": [
+      250.0,
+      250.0
+    ],
+    "thicknessCm": 6.0,
+    "displacementCm": 3.0,
+    "displacedGrid": 256,
+    "displacedBorderFeatherCells": 4,
+    "pivot": "bottom-centre of the back face; local +Y is the relief front (room direction after placement, as the palm panels)",
+    "flatLocalBoundsCm": {
+      "min": [
+        -125.0,
+        0.0,
+        0.0
+      ],
+      "max": [
+        125.0,
+        6.0,
+        250.0
+      ]
+    },
+    "displacedLocalBoundsMaxYCm": 9.0,
+    "flatTriangles": 12,
+    "displacedTriangleBudget": 150000,
+    "construction": "Explicit GeometryScriptSimpleMeshBuffers (per-face split vertices, per-face normals on the box, analytic gradient normals on the displaced grid, per-face planar UVs) appended with GeometryScript_MeshEdits.append_buffers_to_mesh, then GeometryScript_NewAssetUtils.create_new_static_mesh_asset_from_mesh. AppendBox is NOT used because FGridBoxMeshGenerator's per-face UV orientation is undocumented; explicit buffers make the +Y face UV mapping a construction fact that is then read back with GeometryScript_MeshQueries.get_triangle_uvs.",
+    "frontFaceUv": {
+      "u": "(x + 125) / 250",
+      "v": "1 - z / 250",
+      "note": "UE UV (0,0) is the top-left texel. A viewer in the room facing the -Y wall has world +X on the right (right = up x forward in UE's left-handed frame), so U grows with local +X and V grows downward: the image is upright and not mirrored. Yaw 180 / -90 rotate the whole local frame, so the same mesh is upright on every wall."
+    },
+    "sideFaceUv": "each side and the back face planar 0..1 over its own extent (non-degenerate; the 6 cm edges stretch the motif and are accepted)",
+    "createOptions": {
+      "enable_recompute_normals": false,
+      "enable_recompute_tangents": true,
+      "enable_collision": false,
+      "use_original_vertex_order": true
+    },
+    "naniteOnDisplaced": true,
+    "naniteOnFlat": false,
+    "placeVariant": "displaced",
+    "allowFlatFallback": true,
+    "uvReadbackToleranceUv": 0.001,
+    "boundsToleranceCm": 0.05
+  },
+  "windingCheck": {
+    "note": "Same GeometryScript readback as Scripts/release_import_reliefs.winding_report (needs -EnablePlugins=GeometryScripting). Both panels are closed solids, so the signed volume under UE's cross(C-A, B-A) convention must be positive and match the offline value computed from the same buffers.",
+    "requireForPlacement": true,
+    "volumeRelativeTolerance": 0.001,
+    "facingCosine": 0.95,
+    "planeToleranceCm": 0.5,
+    "minFrontBandAgreement": 0.99
+  },
+  "frieze": {
+    "moduleCm": 250.0,
+    "maxRows": 8,
+    "standoffCm": 1.5,
+    "standoffWindowCm": [
+      1.0,
+      2.0
+    ],
+    "veneerBoundsToleranceCm": 0.05,
+    "veneerSource": "veneers.all of the latest PalmReliefV1 receipt (labels and world bounds), matched against the live level within veneerBoundsToleranceCm",
+    "floors": {
+      "heikhal": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -5600.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -3600.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "kodesh": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -6700.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -5700.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor_component_bounds (traces return nothing in commandlets)"
+    },
+    "walls": [
+      {
+        "name": "Heikhal negative-Y inner face",
+        "veneerLabel": "Review_HeichalSide-1",
+        "normalAxis": "y",
+        "sign": -1,
+        "yawDegrees": 0.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -5600.0,
+          -3600.0
+        ],
+        "floor": "heikhal",
+        "enabled": true
+      },
+      {
+        "name": "Heikhal positive-Y inner face",
+        "veneerLabel": "Review_HeichalSide1",
+        "normalAxis": "y",
+        "sign": 1,
+        "yawDegrees": 180.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -5600.0,
+          -3600.0
+        ],
+        "floor": "heikhal",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh negative-Y inner face",
+        "veneerLabel": "Review_KodeshSide-1",
+        "normalAxis": "y",
+        "sign": -1,
+        "yawDegrees": 0.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -6700.0,
+          -5700.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh positive-Y inner face",
+        "veneerLabel": "Review_KodeshSide1",
+        "normalAxis": "y",
+        "sign": 1,
+        "yawDegrees": 180.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -6700.0,
+          -5700.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh rear (west) inner face",
+        "veneerLabel": "Review_KodeshRear",
+        "normalAxis": "x",
+        "sign": -1,
+        "yawDegrees": -90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          500.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Heikhal rear (west, Kodesh partition) inner face",
+        "veneerLabel": null,
+        "veneerSearchBoundsCm": {
+          "min": [
+            -5600.1,
+            -500.0,
+            925.0
+          ],
+          "max": [
+            -5599.9,
+            500.0,
+            2925.0
+          ]
+        },
+        "normalAxis": "x",
+        "sign": -1,
+        "yawDegrees": -90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          500.0
+        ],
+        "floor": "heikhal",
+        "enabled": true,
+        "note": "No veneer actor is recorded on this face (the paroches hangs here); tiled only if a veneer with these bounds exists in the level, otherwise recorded as skipped."
+      },
+      {
+        "name": "Heikhal entrance jamb negative-Y",
+        "veneerLabel": "Review_HeichalEntranceJamb-1",
+        "normalAxis": "x",
+        "sign": 1,
+        "yawDegrees": 90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          -250.0
+        ],
+        "floor": "heikhal",
+        "enabled": false,
+        "note": "250 cm jamb beside the door opening; disabled by default (not requested)."
+      },
+      {
+        "name": "Heikhal entrance jamb positive-Y",
+        "veneerLabel": "Review_HeichalEntranceJamb1",
+        "normalAxis": "x",
+        "sign": 1,
+        "yawDegrees": 90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          250.0,
+          500.0
+        ],
+        "floor": "heikhal",
+        "enabled": false,
+        "note": "Disabled by default (not requested)."
+      }
+    ],
+    "orientationRule": "local +Y after yaw = (-sin yaw, cos yaw) must point into the room (opposite to sign along normalAxis); local +X = along-axis direction seen as 'right' by a viewer facing the wall. Both are asserted per wall.",
+    "cornerOverlapRule": "Panels are checked against pre-existing actors only. Where two tiled walls meet (Kodesh rear and side walls) the 9 cm deep corner panels interpenetrate by up to thickness+displacement; the overlap is recorded as information, not skipped."
+  },
+  "palms": {
+    "rule": "The 32 RELEASE_Reliefs_* palm actors of the latest PalmReliefV1 receipt are superseded by the frieze and removed first. Labels, meshes, poses and folders are recorded for restore; the run refuses if the set in the level differs from the receipt. -FriezeKeepPalms skips the removal (their floor-row slots then fail clearance and are skipped).",
+    "labelPrefix": "RELEASE_Reliefs_",
+    "meshNamespace": "/Game/MikdashV3/MaterialReview/SanctuaryPalmReliefV1/Meshes"
+  },
+  "row": {
+    "clearance": {
+      "rule": "The planned world AABB of a panel (asset local box rotated by wall yaw) must not have strictly positive overlap volume with any mesh-bearing actor. Union actors in unionFolder with a verified manifest decomposition are tested against their constituent boxes (release_place_assets.py); terrain tiles are excluded (release_import_reliefs.ReliefRow.clearance_candidates). A blocked panel is skipped and recorded; it is never force-filled.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "The frieze is an image-based relief: a generated 2D render turned into a height field. Full bodies and wings on the keruvim are the image's artistic interpretation and must be checked against the sources before final adoption (CLAUDE-VISUAL-ASSETS.md).",
+    "Height is approximate: high-pass luma of a lit render, background clamped by a histogram estimate. Lit edges read higher than shadowed edges. displacementCm 3 and the 250 cm module are artistic choices.",
+    "The image repeats horizontally by design and not vertically; stacking 8 rows repeats the panel as tiles with a visible horizontal joint at every 250 cm.",
+    "Textures, materials, meshes and placement are geometric and graph-level only; no visual, shader-compile, Nanite, lighting, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; rows are grounded from the measured floor component bounds, not a trace."
+  ]
+}

@@ -1,0 +1,2653 @@
+{
+  "status": "completed_all_routes_requires_visual_review",
+  "scope": "Synthetic continuous CharacterMovement in bounded PIE on the combined map; no teleport, no flying, no map save. Not physical keyboard, mouse-release, rendering or packaged acceptance.",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256Before": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+  "mapLoadedByProbe": false,
+  "config": {
+    "limitSeconds": 90,
+    "sampleSeconds": 0.25,
+    "pawnTimeoutSeconds": 45.0,
+    "routes": [
+      "east_gate",
+      "mount_platform"
+    ],
+    "quitEditor": true,
+    "oldThrottle": 1,
+    "oldGameGetsMouseControl": false
+  },
+  "routes": [
+    {
+      "name": "east_gate_down_up",
+      "source": "Known-good Courtyard probe check_east_gate_walk.py: spawn x2100 floor 500 -> x5000 floor 300 -> back",
+      "envelope": {
+        "x": [
+          1900,
+          5200
+        ],
+        "y": [
+          -200,
+          200
+        ],
+        "z": [
+          250,
+          800
+        ]
+      },
+      "legs": [
+        {
+          "label": "outer court east of gate stairs",
+          "targetCm": [
+            5000.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return to spawn",
+          "targetCm": [
+            2100.0,
+            0.0
+          ],
+          "expectedFloorCm": 500.0,
+          "checkpoint": true
+        }
+      ]
+    },
+    {
+      "name": "outer_court_to_mount_platform_deck",
+      "source": "route-source-plan.json route \"Platform to measured outer eastern gate\" (native cm), reversed; stairs pass-through",
+      "envelope": {
+        "x": [
+          1900,
+          10300.0
+        ],
+        "y": [
+          -200,
+          200
+        ],
+        "z": [
+          -150.0,
+          800
+        ]
+      },
+      "legs": [
+        {
+          "label": "Outer gate floor x7600",
+          "targetCm": [
+            7600.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Outer gate floor x7950",
+          "targetCm": [
+            7950.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Outer gate floor x8250",
+          "targetCm": [
+            8250.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Outer gate floor x8500",
+          "targetCm": [
+            8500.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Outer E stair 12 tread top",
+          "targetCm": [
+            8625.0,
+            0.0
+          ],
+          "expectedFloorCm": 300.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 11 tread top",
+          "targetCm": [
+            8675.0,
+            0.0
+          ],
+          "expectedFloorCm": 275.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 10 tread top",
+          "targetCm": [
+            8725.0,
+            0.0
+          ],
+          "expectedFloorCm": 250.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 9 tread top",
+          "targetCm": [
+            8775.0,
+            0.0
+          ],
+          "expectedFloorCm": 225.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 8 tread top",
+          "targetCm": [
+            8825.0,
+            0.0
+          ],
+          "expectedFloorCm": 200.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 7 tread top",
+          "targetCm": [
+            8875.0,
+            0.0
+          ],
+          "expectedFloorCm": 175.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 6 tread top",
+          "targetCm": [
+            8925.0,
+            0.0
+          ],
+          "expectedFloorCm": 150.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 5 tread top",
+          "targetCm": [
+            8975.0,
+            0.0
+          ],
+          "expectedFloorCm": 125.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 4 tread top",
+          "targetCm": [
+            9025.0,
+            0.0
+          ],
+          "expectedFloorCm": 100.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 3 tread top",
+          "targetCm": [
+            9075.0,
+            0.0
+          ],
+          "expectedFloorCm": 75.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 2 tread top",
+          "targetCm": [
+            9125.0,
+            0.0
+          ],
+          "expectedFloorCm": 50.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Outer E stair 1 tread top",
+          "targetCm": [
+            9175.0,
+            0.0
+          ],
+          "expectedFloorCm": 25.0,
+          "checkpoint": false
+        },
+        {
+          "label": "Platform east gate approach",
+          "targetCm": [
+            9300.0,
+            0.0
+          ],
+          "expectedFloorCm": 0.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Platform east gate approach",
+          "targetCm": [
+            9500.0,
+            0.0
+          ],
+          "expectedFloorCm": 0.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Platform east gate approach",
+          "targetCm": [
+            9750.0,
+            0.0
+          ],
+          "expectedFloorCm": 0.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Platform east gate approach",
+          "targetCm": [
+            10000.0,
+            0.0
+          ],
+          "expectedFloorCm": 0.0,
+          "checkpoint": true
+        }
+      ]
+    }
+  ],
+  "pawn": {
+    "path": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_0",
+    "pawnClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+    "controllerClass": "/Script/MikdashRuntime.MikdashPlayerController",
+    "maxStepHeightCm": 55.0,
+    "maxWalkSpeedCmPerSecond": 600.0,
+    "capsuleHalfHeightCm": 96.0,
+    "capsuleRadiusCm": 33.99907684326172,
+    "pieStartSeconds": 12.906
+  },
+  "resumeCalls": 1,
+  "events": [
+    {
+      "path": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_0",
+      "pawnClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+      "controllerClass": "/Script/MikdashRuntime.MikdashPlayerController",
+      "maxStepHeightCm": 55.0,
+      "maxWalkSpeedCmPerSecond": 600.0,
+      "capsuleHalfHeightCm": 96.0,
+      "capsuleRadiusCm": 33.99907684326172,
+      "pieStartSeconds": 12.906,
+      "kind": "pawn_found",
+      "seconds": 12.922
+    },
+    {
+      "route": "east_gate_down_up",
+      "kind": "route_started",
+      "seconds": 12.922
+    },
+    {
+      "paused": true,
+      "menuOpen": true,
+      "count": 1,
+      "kind": "resume_walkthrough_called",
+      "seconds": 12.922
+    },
+    {
+      "gameTimeSeconds": 0.4000000059604645,
+      "kind": "walking_input_begins",
+      "seconds": 14.047
+    },
+    {
+      "route": "east_gate_down_up",
+      "kind": "route_completed",
+      "seconds": 24.469
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "kind": "route_started",
+      "seconds": 24.469
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "kind": "route_completed",
+      "seconds": 37.813
+    }
+  ],
+  "reached": [
+    {
+      "route": "east_gate_down_up",
+      "label": "outer court east of gate stairs",
+      "positionCm": [
+        4974.9597191239145,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1499996185302734,
+      "walking": true,
+      "seconds": 19.438
+    },
+    {
+      "route": "east_gate_down_up",
+      "label": "return to spawn",
+      "positionCm": [
+        2128.587780715316,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "expectedFloorCm": 500.0,
+      "floorErrorCm": 1.9240119880935254,
+      "walking": true,
+      "seconds": 24.469
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer gate floor x7600",
+      "positionCm": [
+        7572.204225787751,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1500065750381054,
+      "walking": true,
+      "seconds": 33.813
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer gate floor x7950",
+      "positionCm": [
+        7924.109746793143,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1500065750381054,
+      "walking": true,
+      "seconds": 34.391
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer gate floor x8250",
+      "positionCm": [
+        8223.934426436059,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1500065750381054,
+      "walking": true,
+      "seconds": 34.891
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer gate floor x8500",
+      "positionCm": [
+        8470.80784765803,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1500065750381054,
+      "walking": true,
+      "seconds": 35.313
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Platform east gate approach",
+      "positionCm": [
+        9274.060906002156,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "expectedFloorCm": 0.0,
+      "floorErrorCm": 2.225703520228535,
+      "walking": true,
+      "seconds": 36.641
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Platform east gate approach",
+      "positionCm": [
+        9474.080867597691,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "expectedFloorCm": 0.0,
+      "floorErrorCm": 2.225703520228535,
+      "walking": true,
+      "seconds": 36.985
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Platform east gate approach",
+      "positionCm": [
+        9723.319127688042,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "expectedFloorCm": 0.0,
+      "floorErrorCm": 2.225703520228535,
+      "walking": true,
+      "seconds": 37.391
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Platform east gate approach",
+      "positionCm": [
+        9971.111867109172,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "expectedFloorCm": 0.0,
+      "floorErrorCm": 2.225703520228535,
+      "walking": true,
+      "seconds": 37.813
+    }
+  ],
+  "passThrough": [
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 12 tread top",
+      "positionCm": [
+        8597.912567386262,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 300.0,
+      "floorErrorCm": 2.1500065750381054,
+      "walking": true,
+      "seconds": 35.516
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 11 tread top",
+      "positionCm": [
+        8649.642765799395,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "expectedFloorCm": 275.0,
+      "floorErrorCm": 27.150006575038105,
+      "walking": true,
+      "seconds": 35.61
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 10 tread top",
+      "positionCm": [
+        8697.003285864226,
+        0.0,
+        373.1499846405288
+      ],
+      "footHeightCm": 277.1499846405288,
+      "expectedFloorCm": 250.0,
+      "floorErrorCm": 27.149984640528828,
+      "walking": true,
+      "seconds": 35.688
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 9 tread top",
+      "positionCm": [
+        8750.154107341401,
+        0.0,
+        348.1499927467605
+      ],
+      "footHeightCm": 252.14999274676052,
+      "expectedFloorCm": 225.0,
+      "floorErrorCm": 27.149992746760518,
+      "walking": true,
+      "seconds": 35.766
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 8 tread top",
+      "positionCm": [
+        8798.335727581612,
+        0.0,
+        323.1499908394119
+      ],
+      "footHeightCm": 227.14999083941188,
+      "expectedFloorCm": 200.0,
+      "floorErrorCm": 27.149990839411885,
+      "walking": true,
+      "seconds": 35.86
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 7 tread top",
+      "positionCm": [
+        8846.247826048962,
+        0.0,
+        298.14998416369167
+      ],
+      "footHeightCm": 202.14998416369167,
+      "expectedFloorCm": 175.0,
+      "floorErrorCm": 27.14998416369167,
+      "walking": true,
+      "seconds": 35.938
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 6 tread top",
+      "positionCm": [
+        8899.416826197736,
+        0.0,
+        273.14997319643703
+      ],
+      "footHeightCm": 177.14997319643703,
+      "expectedFloorCm": 150.0,
+      "floorErrorCm": 27.14997319643703,
+      "walking": true,
+      "seconds": 36.016
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 5 tread top",
+      "positionCm": [
+        8946.369046995274,
+        0.0,
+        248.149994177272
+      ],
+      "footHeightCm": 152.149994177272,
+      "expectedFloorCm": 125.0,
+      "floorErrorCm": 27.149994177271992,
+      "walking": true,
+      "seconds": 36.094
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 4 tread top",
+      "positionCm": [
+        8998.151445666186,
+        0.0,
+        223.14999322359768
+      ],
+      "footHeightCm": 127.14999322359768,
+      "expectedFloorCm": 100.0,
+      "floorErrorCm": 27.149993223597676,
+      "walking": true,
+      "seconds": 36.188
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 3 tread top",
+      "positionCm": [
+        9046.160146126382,
+        0.0,
+        198.1499884552261
+      ],
+      "footHeightCm": 102.1499884552261,
+      "expectedFloorCm": 75.0,
+      "floorErrorCm": 27.149988455226094,
+      "walking": true,
+      "seconds": 36.266
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 2 tread top",
+      "positionCm": [
+        9095.672805884711,
+        0.0,
+        173.14999799196926
+      ],
+      "footHeightCm": 77.14999799196926,
+      "expectedFloorCm": 50.0,
+      "floorErrorCm": 27.149997991969258,
+      "walking": true,
+      "seconds": 36.344
+    },
+    {
+      "route": "outer_court_to_mount_platform_deck",
+      "label": "Outer E stair 1 tread top",
+      "positionCm": [
+        9148.481987694136,
+        0.0,
+        148.14999226992336
+      ],
+      "footHeightCm": 52.14999226992336,
+      "expectedFloorCm": 25.0,
+      "floorErrorCm": 27.14999226992336,
+      "walking": true,
+      "seconds": 36.438
+    }
+  ],
+  "samples": [
+    {
+      "seconds": 12.906,
+      "gameTimeSeconds": 0.0,
+      "positionCm": [
+        2100.0,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": true,
+      "menuOpen": true,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": true
+    },
+    {
+      "seconds": 14.047,
+      "gameTimeSeconds": 0.4000000059604645,
+      "positionCm": [
+        2100.0,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 14.297,
+      "gameTimeSeconds": 0.9576834142208099,
+      "positionCm": [
+        2100.0,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 14.547,
+      "gameTimeSeconds": 1.2392495200037956,
+      "positionCm": [
+        2100.0,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 14.797,
+      "gameTimeSeconds": 1.5193725191056728,
+      "positionCm": [
+        2185.1959519404195,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        573.691904249734,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 15.047,
+      "gameTimeSeconds": 1.7673669196665287,
+      "positionCm": [
+        2333.9239380682257,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 15.297,
+      "gameTimeSeconds": 2.021268919110298,
+      "positionCm": [
+        2486.2651377344873,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 15.547,
+      "gameTimeSeconds": 2.2709215208888054,
+      "positionCm": [
+        2636.0566988015917,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 15.797,
+      "gameTimeSeconds": 2.516080018132925,
+      "positionCm": [
+        2783.1517971480635,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 16.047,
+      "gameTimeSeconds": 2.7721347212791443,
+      "positionCm": [
+        2936.784619035795,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 16.297,
+      "gameTimeSeconds": 3.016597718000412,
+      "positionCm": [
+        3083.4624170685556,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 16.547,
+      "gameTimeSeconds": 3.269722320139408,
+      "positionCm": [
+        3235.3371783519533,
+        0.0,
+        598.0001907348633
+      ],
+      "footHeightCm": 502.0001907348633,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 16.797,
+      "gameTimeSeconds": 3.513473719358444,
+      "positionCm": [
+        3381.588017883375,
+        0.0,
+        576.7254657745361
+      ],
+      "footHeightCm": 480.72546577453613,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 17.047,
+      "gameTimeSeconds": 3.7713744193315506,
+      "positionCm": [
+        3536.328437867239,
+        0.0,
+        498.1499629020691
+      ],
+      "footHeightCm": 402.1499629020691,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 17.297,
+      "gameTimeSeconds": 4.0156245194375515,
+      "positionCm": [
+        3682.8784979308393,
+        0.0,
+        423.1499853134155
+      ],
+      "footHeightCm": 327.1499853134155,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 17.547,
+      "gameTimeSeconds": 4.268883518874645,
+      "positionCm": [
+        3834.8338975930956,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 17.797,
+      "gameTimeSeconds": 4.520569618791342,
+      "positionCm": [
+        3985.8455575431135,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 18.047,
+      "gameTimeSeconds": 4.764763418585062,
+      "positionCm": [
+        4132.361837419346,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 18.297,
+      "gameTimeSeconds": 5.022110421210527,
+      "positionCm": [
+        4286.770038994625,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 18.547,
+      "gameTimeSeconds": 5.264619119465351,
+      "positionCm": [
+        4432.275257947519,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 18.797,
+      "gameTimeSeconds": 5.517661120742559,
+      "positionCm": [
+        4584.100458713844,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 19.047,
+      "gameTimeSeconds": 5.7699638195335865,
+      "positionCm": [
+        4735.48207798846,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 19.297,
+      "gameTimeSeconds": 6.020215019583702,
+      "positionCm": [
+        4885.63279801853,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 19.547,
+      "gameTimeSeconds": 6.266199421137571,
+      "positionCm": [
+        4994.300158001721,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        8.345913382203465,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 19.797,
+      "gameTimeSeconds": 6.522974420338869,
+      "positionCm": [
+        4926.30239137059,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -518.680659724681,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 20.047,
+      "gameTimeSeconds": 6.764767020940781,
+      "positionCm": [
+        4782.4980017857415,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 20.297,
+      "gameTimeSeconds": 7.020831920206547,
+      "positionCm": [
+        4628.859062226282,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 20.547,
+      "gameTimeSeconds": 7.267440419644117,
+      "positionCm": [
+        4480.8939625637395,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 20.797,
+      "gameTimeSeconds": 7.522100318223238,
+      "positionCm": [
+        4328.098023416267,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.047,
+      "gameTimeSeconds": 7.769062921404839,
+      "positionCm": [
+        4179.920461507307,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.297,
+      "gameTimeSeconds": 8.022469118237495,
+      "positionCm": [
+        4027.8767434077126,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.547,
+      "gameTimeSeconds": 8.26822191849351,
+      "positionCm": [
+        3880.4250632541043,
+        0.0,
+        398.1499996185303
+      ],
+      "footHeightCm": 302.1499996185303,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.922,
+      "gameTimeSeconds": 8.521621320396662,
+      "positionCm": [
+        3728.385422112213,
+        0.0,
+        407.8643809834955
+      ],
+      "footHeightCm": 311.8643809834955,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.172,
+      "gameTimeSeconds": 8.896540820598602,
+      "positionCm": [
+        3503.4337196056003,
+        0.0,
+        522.9762109376079
+      ],
+      "footHeightCm": 426.9762109376079,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.422,
+      "gameTimeSeconds": 9.145740520209074,
+      "positionCm": [
+        3353.913900078624,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.672,
+      "gameTimeSeconds": 9.39227281883359,
+      "positionCm": [
+        3205.9945209039147,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.922,
+      "gameTimeSeconds": 9.647225819528103,
+      "positionCm": [
+        3053.0227204872067,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.172,
+      "gameTimeSeconds": 9.891106620430946,
+      "positionCm": [
+        2906.6942399455006,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.422,
+      "gameTimeSeconds": 10.146311718970537,
+      "positionCm": [
+        2753.571180821746,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.672,
+      "gameTimeSeconds": 10.39106621965766,
+      "positionCm": [
+        2606.7184804094727,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.922,
+      "gameTimeSeconds": 10.647615619003773,
+      "positionCm": [
+        2452.788840801805,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.172,
+      "gameTimeSeconds": 10.892753519117832,
+      "positionCm": [
+        2305.706100733369,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.422,
+      "gameTimeSeconds": 11.14251871779561,
+      "positionCm": [
+        2155.846981526702,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "east_gate_down_up",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.672,
+      "gameTimeSeconds": 11.395669020712376,
+      "positionCm": [
+        2122.1060933412696,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        219.5743346970786,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.922,
+      "gameTimeSeconds": 11.646329820156097,
+      "positionCm": [
+        2238.939646908872,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.172,
+      "gameTimeSeconds": 11.89182411879301,
+      "positionCm": [
+        2386.23622609102,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.422,
+      "gameTimeSeconds": 12.139986518770456,
+      "positionCm": [
+        2535.1336660774873,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.672,
+      "gameTimeSeconds": 12.391735918819904,
+      "positionCm": [
+        2686.183306107156,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.922,
+      "gameTimeSeconds": 12.647709418088198,
+      "positionCm": [
+        2839.767405668132,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.172,
+      "gameTimeSeconds": 12.89133021980524,
+      "positionCm": [
+        2985.939886698358,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.422,
+      "gameTimeSeconds": 13.147709019482136,
+      "positionCm": [
+        3139.767166504495,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.672,
+      "gameTimeSeconds": 13.392899919301271,
+      "positionCm": [
+        3286.8817063959764,
+        0.0,
+        597.9240119880935
+      ],
+      "footHeightCm": 501.9240119880935,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.922,
+      "gameTimeSeconds": 13.639571320265532,
+      "positionCm": [
+        3434.8845469745324,
+        0.0,
+        548.1499698585769
+      ],
+      "footHeightCm": 452.1499698585769,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.172,
+      "gameTimeSeconds": 13.894831020385027,
+      "positionCm": [
+        3588.0403670462297,
+        0.0,
+        473.1876771873733
+      ],
+      "footHeightCm": 377.1876771873733,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.422,
+      "gameTimeSeconds": 14.142399318516254,
+      "positionCm": [
+        3736.581345924966,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.672,
+      "gameTimeSeconds": 14.396313518285751,
+      "positionCm": [
+        3888.9298657866643,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.922,
+      "gameTimeSeconds": 14.644272118806839,
+      "positionCm": [
+        4037.705026099317,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.172,
+      "gameTimeSeconds": 14.88949092105031,
+      "positionCm": [
+        4184.836307445399,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.422,
+      "gameTimeSeconds": 15.144471321254969,
+      "positionCm": [
+        4337.824547568194,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.672,
+      "gameTimeSeconds": 15.390270620584488,
+      "positionCm": [
+        4485.304127165906,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.922,
+      "gameTimeSeconds": 15.64091131836176,
+      "positionCm": [
+        4635.688545832269,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.172,
+      "gameTimeSeconds": 15.895814221352339,
+      "positionCm": [
+        4788.630287626616,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.422,
+      "gameTimeSeconds": 16.140534818172455,
+      "positionCm": [
+        4935.462645718686,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.672,
+      "gameTimeSeconds": 16.393907118588686,
+      "positionCm": [
+        5087.486025968425,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.922,
+      "gameTimeSeconds": 16.640320621430874,
+      "positionCm": [
+        5235.334127673737,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.172,
+      "gameTimeSeconds": 16.895672518759966,
+      "positionCm": [
+        5388.545266071193,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.422,
+      "gameTimeSeconds": 17.139518719166517,
+      "positionCm": [
+        5534.852986315123,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.672,
+      "gameTimeSeconds": 17.39515132084489,
+      "positionCm": [
+        5688.232547322146,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.922,
+      "gameTimeSeconds": 17.64220482110977,
+      "positionCm": [
+        5836.464647481076,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 31.172,
+      "gameTimeSeconds": 17.89585192129016,
+      "positionCm": [
+        5988.652907589309,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 31.422,
+      "gameTimeSeconds": 18.143145721405745,
+      "positionCm": [
+        6137.02918765866,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 31.672,
+      "gameTimeSeconds": 18.396142918616533,
+      "positionCm": [
+        6288.827505985133,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 31.922,
+      "gameTimeSeconds": 18.644053619354963,
+      "positionCm": [
+        6437.573926428191,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 32.172,
+      "gameTimeSeconds": 18.89890882000327,
+      "positionCm": [
+        6590.487046817176,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 32.422,
+      "gameTimeSeconds": 19.14649821817875,
+      "positionCm": [
+        6739.0406857224625,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 32.672,
+      "gameTimeSeconds": 19.39300151914358,
+      "positionCm": [
+        6886.942666301362,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 32.922,
+      "gameTimeSeconds": 19.640590619295835,
+      "positionCm": [
+        7035.496126392714,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 33.172,
+      "gameTimeSeconds": 19.89492041990161,
+      "positionCm": [
+        7188.094006756179,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 33.422,
+      "gameTimeSeconds": 20.145814917981625,
+      "positionCm": [
+        7338.630705604188,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 33.672,
+      "gameTimeSeconds": 20.392430920153856,
+      "positionCm": [
+        7486.600306907527,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 33.922,
+      "gameTimeSeconds": 20.64247341826558,
+      "positionCm": [
+        7636.625805774562,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 34.172,
+      "gameTimeSeconds": 20.890541218221188,
+      "positionCm": [
+        7785.466485747926,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 34.422,
+      "gameTimeSeconds": 21.14777621999383,
+      "positionCm": [
+        7939.807486811511,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 34.672,
+      "gameTimeSeconds": 21.391832120716572,
+      "positionCm": [
+        8086.241027245156,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 34.922,
+      "gameTimeSeconds": 21.64732762053609,
+      "positionCm": [
+        8239.538327136866,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 3,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 35.172,
+      "gameTimeSeconds": 21.89165312051773,
+      "positionCm": [
+        8386.133627125851,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 3,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 35.422,
+      "gameTimeSeconds": 22.147716518491507,
+      "positionCm": [
+        8539.771665910117,
+        0.0,
+        398.1500065750381
+      ],
+      "footHeightCm": 302.1500065750381,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 4,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 35.672,
+      "gameTimeSeconds": 22.392645619809628,
+      "positionCm": [
+        8686.72912670099,
+        0.0,
+        373.1499846405288
+      ],
+      "footHeightCm": 277.1499846405288,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 6,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 35.922,
+      "gameTimeSeconds": 22.64099071919918,
+      "positionCm": [
+        8835.736186334721,
+        0.0,
+        298.14998416369167
+      ],
+      "footHeightCm": 202.14998416369167,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 9,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 36.172,
+      "gameTimeSeconds": 22.894600618630648,
+      "positionCm": [
+        8987.902125993602,
+        0.0,
+        223.14999322359768
+      ],
+      "footHeightCm": 127.14999322359768,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 12,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 36.422,
+      "gameTimeSeconds": 23.144564118236303,
+      "positionCm": [
+        9137.880225756995,
+        0.0,
+        148.14999226992336
+      ],
+      "footHeightCm": 52.14999226992336,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 15,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 36.672,
+      "gameTimeSeconds": 23.39724301919341,
+      "positionCm": [
+        9289.48756633126,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 17,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 36.922,
+      "gameTimeSeconds": 23.64410302042961,
+      "positionCm": [
+        9437.60356707298,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 17,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 37.172,
+      "gameTimeSeconds": 23.897649120539427,
+      "positionCm": [
+        9589.73122713887,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 18,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 37.422,
+      "gameTimeSeconds": 24.146516021341085,
+      "positionCm": [
+        9739.051367619864,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 19,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 37.672,
+      "gameTimeSeconds": 24.392595920711756,
+      "positionCm": [
+        9886.699307242267,
+        0.0,
+        98.22570352022854
+      ],
+      "footHeightCm": 2.225703520228535,
+      "velocityCmPerSecond": [
+        600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "paused": false,
+      "menuOpen": false,
+      "route": "outer_court_to_mount_platform_deck",
+      "leg": 19,
+      "cursorFlag": false
+    }
+  ],
+  "errors": [],
+  "elapsedSeconds": 37.813,
+  "stopPie": "requested",
+  "restoreMouseSetting": "completed",
+  "restoreThrottle": "completed",
+  "mapBytesUnchanged": true,
+  "stopRequested": true
+}

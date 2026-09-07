@@ -1,0 +1,680 @@
+{
+  "status": "failed_partial_assets_preserved_map_unchanged",
+  "stamp": "20260907T194509354006Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "ecea426f96540e8c88d85f6205818ffb21d2bc1e63e404929c8212fe6646ea71",
+  "mapMatchesLastKnownSha256": false,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_keruv_frieze.spec.json",
+  "specSha256": "667c8060c4377e82a08dc7227dd2d0cbd207ecbfaefe383c9f9e16d51cb9ab0b",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "defaultImage": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-reference-handoff\\gold-palm-cherub-relief.png",
+      "sha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+      "frozenHashMatches": true
+    },
+    "promptFile": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-reference-handoff\\gold-relief-prompt.txt",
+      "exists": true,
+      "sha256": "3aae297ed95ca0640c31cbcf8d113ae5a331056d81708ae1ece7dbdac650635c"
+    },
+    "reliefsReceipt": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sanctuary-detail\\PalmReliefV1\\native-import-20260907T172243648752Z.json",
+      "status": "reliefs_saved_reopened_visual_acceptance_pending_keruv_panels_pending",
+      "veneerLabels": [
+        "Review_HeichalEntranceJamb-1",
+        "Review_HeichalEntranceJamb1",
+        "Review_HeichalSide-1",
+        "Review_HeichalSide1",
+        "Review_KodeshRear",
+        "Review_KodeshSide-1",
+        "Review_KodeshSide1"
+      ],
+      "palmActorCount": 32
+    },
+    "flatPanel": {
+      "signedVolumeUEcm3": 375000.0,
+      "faceNormalVsCrossDisagreements": 0,
+      "localBoundsCm": {
+        "min": [
+          -125.0,
+          0,
+          0
+        ],
+        "max": [
+          125.0,
+          6.0,
+          250.0
+        ]
+      },
+      "vertices": 24,
+      "triangles": 12
+    },
+    "displacedPanelTriangleEstimate": 133122,
+    "walls": [
+      {
+        "wall": "Heikhal negative-Y inner face",
+        "enabled": true,
+        "veneer": "present",
+        "columns": 8,
+        "rows": 8,
+        "conflict": null,
+        "planned": 64
+      },
+      {
+        "wall": "Heikhal positive-Y inner face",
+        "enabled": true,
+        "veneer": "present",
+        "columns": 8,
+        "rows": 8,
+        "conflict": null,
+        "planned": 64
+      },
+      {
+        "wall": "Kodesh negative-Y inner face",
+        "enabled": true,
+        "veneer": "present",
+        "columns": 4,
+        "rows": 8,
+        "conflict": null,
+        "planned": 32
+      },
+      {
+        "wall": "Kodesh positive-Y inner face",
+        "enabled": true,
+        "veneer": "present",
+        "columns": 4,
+        "rows": 8,
+        "conflict": null,
+        "planned": 32
+      },
+      {
+        "wall": "Kodesh rear (west) inner face",
+        "enabled": true,
+        "veneer": "present",
+        "columns": 4,
+        "rows": 8,
+        "conflict": null,
+        "planned": 32
+      },
+      {
+        "wall": "Heikhal rear (west, Kodesh partition) inner face",
+        "enabled": true,
+        "veneer": "absent_in_receipt",
+        "planned": 0
+      },
+      {
+        "wall": "Heikhal entrance jamb negative-Y",
+        "enabled": false,
+        "veneer": "present",
+        "columns": 1,
+        "rows": 8,
+        "conflict": null,
+        "planned": 0
+      },
+      {
+        "wall": "Heikhal entrance jamb positive-Y",
+        "enabled": false,
+        "veneer": "present",
+        "columns": 1,
+        "rows": 8,
+        "conflict": null,
+        "planned": 0
+      }
+    ],
+    "plannedPanelsFromReceiptGeometry": 224,
+    "plannedTrianglesIfDisplaced": 29819328,
+    "namespaceFolderExistsOnDisk": false,
+    "goldSourceOnDisk": true,
+    "derivedOnDisk": {
+      "height": false,
+      "normal": false
+    },
+    "status": "offline_spec_consistent"
+  },
+  "reliefsReceipt": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sanctuary-detail\\PalmReliefV1\\native-import-20260907T172243648752Z.json",
+  "switches": {
+    "imagesOnly": false,
+    "assetsOnly": false,
+    "placeOnly": false,
+    "image": null,
+    "keepPalms": false,
+    "allowUnverified": false
+  },
+  "sourceReference": "Yechezkel 41:18-20: keruvim and palms alternate; each keruv has a man's face and a young lion's face. The image renders that layout as one repeating unit; its full bodies and wings are artistic interpretation (CLAUDE-VISUAL-ASSETS.md).",
+  "image": {
+    "source": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-reference-handoff\\gold-palm-cherub-relief.png",
+    "sourceSha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+    "stem": "gold-palm-cherub-relief",
+    "width": 1254,
+    "height": 1254,
+    "channels": 3,
+    "decoder": "pure_python_zlib",
+    "isDefaultSource": true,
+    "aspectWidthOverHeight": 1.0,
+    "seam": {
+      "horizontal": {
+        "rightVsLeftMeanAbsDiff": 0.1298896581918254,
+        "edgeAdjacentColumnMeanAbsDiff": 0.061744674297151095,
+        "interiorAdjacentColumnMeanAbsDiff": 0.062167869709383906,
+        "ratioSeamOverAdjacent": 2.1036576785022985,
+        "ratioSeamOverInterior": 2.089337447125348,
+        "correlationRightLeft": 0.168355831784719
+      },
+      "vertical": {
+        "bottomVsTopMeanAbsDiff": 0.11930823091597094,
+        "edgeAdjacentRowMeanAbsDiff": 0.02718905932388903,
+        "ratioSeamOverAdjacent": 4.388097046488973,
+        "correlationBottomTop": -0.006788481063666873
+      },
+      "unit": "luma 0..1",
+      "rule": "ratio near 1 = the repeat joint is as smooth as neighbouring columns; >> 1 = visible seam"
+    },
+    "cornerPatchesLuma": {
+      "topLeft": {
+        "mean": 0.563011091387648,
+        "stdev": 0.14260828110085894
+      },
+      "topRight": {
+        "mean": 0.5517065475097409,
+        "stdev": 0.11860414084931706
+      },
+      "bottomLeft": {
+        "mean": 0.4503297545448982,
+        "stdev": 0.11563545456169158
+      },
+      "bottomRight": {
+        "mean": 0.4270674032360079,
+        "stdev": 0.09938013848180881
+      }
+    },
+    "cornerPatchesHeight": {
+      "topLeft": {
+        "mean": 0.3467219573710535,
+        "stdev": 0.14957044923634147
+      },
+      "topRight": {
+        "mean": 0.16781318449041285,
+        "stdev": 0.12169107728314392
+      },
+      "bottomLeft": {
+        "mean": 0.17248906878440062,
+        "stdev": 0.12754978841930018
+      },
+      "bottomRight": {
+        "mean": 0.09171189144111365,
+        "stdev": 0.0794343288065621
+      }
+    },
+    "parameters": {
+      "lumaWeights": [
+        0.299,
+        0.587,
+        0.114
+      ],
+      "lowFrequencyRadiusPx": 75,
+      "lowFrequencyBlurPasses": 2,
+      "medianPasses": 1,
+      "smoothRadiusPx": 1,
+      "topPercentile": 99.7,
+      "topValue": 0.30489063672160666,
+      "heightGamma": 1.0,
+      "background": {
+        "mode": 0.009167002948025194,
+        "madBelowMode": 0.06301496203316537,
+        "robustSigma": 0.09342598271037096,
+        "level": 0.10259298565839615,
+        "modeBinFraction": 0.009717548183929448,
+        "bins": 512,
+        "sigmaMultiplier": 1.0
+      },
+      "massLayer": {
+        "noiseFloor": 0.10908958767122075,
+        "noiseFloorPercentile": 75.0,
+        "blurRadiusPx": 25,
+        "blurPasses": 2,
+        "topPercentile": 99.0,
+        "topValue": 0.0403743597840066,
+        "baseCut": 0.12,
+        "gamma": 0.7,
+        "massWeight": 0.65,
+        "detailWeight": 0.45
+      },
+      "derivedSize": [
+        2048,
+        2048
+      ],
+      "resample": "bilinear",
+      "normalSlopeFactorPerTexel": 24.576,
+      "normalStrengthMultiplier": 1.0,
+      "normalGreenConvention": "directx: green encodes the component along +V (image down), the UE default (Flip Green Channel off)",
+      "flipGreen": false,
+      "displacementCm": 3.0
+    },
+    "heightStatistics": {
+      "fractionAboveBackground": 0.8282554835690066,
+      "meanHeight": 0.27818894652076925
+    },
+    "heightIsApproximate": "Derived from a lit colour render: detail = high-pass luma (lit edges read higher than shadowed edges), mass = blurred edge density. Plausible bas-relief, not measured relief.",
+    "outputs": {
+      "height": {
+        "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_height16.png",
+        "sha256": "45db5a164472068f70c745706dd5afe4f7455eb9d8a12a33b79f7db0945a30b7",
+        "bitDepth": 16,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "normal": {
+        "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_normal.png",
+        "sha256": "1312004bf35903637fcdd37bf03c869f198d70aed07a77798d4e0bde933d08a8",
+        "bitDepth": 8,
+        "size": [
+          2048,
+          2048
+        ]
+      }
+    },
+    "timingsSeconds": {
+      "decodeS": 1.639999999999418,
+      "highPassS": 1.5780000000086147,
+      "smoothS": 1.3279999999940628,
+      "normaliseS": 4.452999999994063,
+      "resampleS": 0.5470000000059372,
+      "writeHeightS": 1.6720000000059372,
+      "normalS": 4.890999999988708,
+      "totalS": 16.375
+    },
+    "manifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\derived-manifest.json"
+  },
+  "textures": {
+    "height": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Height",
+      "sourcePng": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_height16.png",
+      "sourceSha256": "45db5a164472068f70c745706dd5afe4f7455eb9d8a12a33b79f7db0945a30b7",
+      "compression": "TC_GRAYSCALE",
+      "srgb": false,
+      "size": [
+        2048,
+        2048
+      ],
+      "uassetSha256": "435d076b65cd2a38389678dd52ba3af6ed6e9dc1025ad7ecc8116935d096bbc1"
+    },
+    "normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Normal",
+      "sourcePng": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\relief-images\\derived\\gold-palm-cherub-relief_normal.png",
+      "sourceSha256": "1312004bf35903637fcdd37bf03c869f198d70aed07a77798d4e0bde933d08a8",
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "size": [
+        2048,
+        2048
+      ],
+      "uassetSha256": "951832a7352de56997040ead539b4774c5e6681eb5b9cfa139d9624a030bda1f",
+      "flipGreenChannel": false
+    }
+  },
+  "gold": {
+    "source": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+    "read": true,
+    "linear": [
+      1.0,
+      0.765999972820282,
+      0.335999995470047
+    ],
+    "note": "Values written by Scripts/create_heikhal_keilim.py for M_HeikhalKeilim_Gold.",
+    "nodeClass": "MaterialExpressionConstant3Vector",
+    "sourceRoughness": 0.2800000011920929
+  },
+  "materials": {
+    "flat": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze",
+      "variant": "flat",
+      "nodes": [
+        {
+          "class": "MaterialExpressionConstant3Vector",
+          "position": [
+            -700,
+            -300
+          ],
+          "properties": {
+            "constant": "<Struct 'LinearColor' (0x0000022238D6C160) {r: 1.000000, g: 0.766000, b: 0.336000, a: 1.000000}>"
+          }
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -700,
+            -100
+          ],
+          "properties": {
+            "r": 1.0
+          }
+        },
+        {
+          "class": "MaterialExpressionTextureSample",
+          "position": [
+            -1000,
+            100
+          ],
+          "properties": {
+            "texture": "<Object '/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Height.T_KeruvFrieze_gold_palm_cherub_relief_Height' (0x000002222618AE00) Class 'Texture2D'>",
+            "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_LINEAR_GRAYSCALE: 7>"
+          }
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -700,
+            100
+          ],
+          "properties": {
+            "const_a": 0.45,
+            "const_b": 0.35
+          }
+        },
+        {
+          "class": "MaterialExpressionTextureSample",
+          "position": [
+            -700,
+            350
+          ],
+          "properties": {
+            "texture": "<Object '/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Normal.T_KeruvFrieze_gold_palm_cherub_relief_Normal' (0x000002222618CC00) Class 'Texture2D'>",
+            "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_NORMAL: 3>"
+          }
+        }
+      ],
+      "connections": [
+        "MaterialExpressionTextureSample.R -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionConstant3Vector.RGB -> MP_BASE_COLOR",
+        "MaterialExpressionConstant.RGB -> MP_METALLIC",
+        "MaterialExpressionLinearInterpolate.RGB -> MP_ROUGHNESS",
+        "MaterialExpressionTextureSample.RGB -> MP_NORMAL"
+      ],
+      "status": "saved",
+      "heightSamplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "inputsWired": {
+        "MP_BASE_COLOR": "MaterialExpressionConstant3Vector",
+        "MP_METALLIC": "MaterialExpressionConstant",
+        "MP_ROUGHNESS": "MaterialExpressionLinearInterpolate",
+        "MP_NORMAL": "MaterialExpressionTextureSample",
+        "MP_WORLD_POSITION_OFFSET": null,
+        "MP_MATERIAL_ATTRIBUTES": null
+      },
+      "pixelDepthOffsetExposed": false,
+      "displacementPropertyExposed": false,
+      "uassetSha256": "3ca5d806991bcd1cc740150c55e049d7fe5c4906f447b13b8b481c19f0c167ed"
+    },
+    "displaced": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze_Displaced",
+      "variant": "displaced",
+      "nodes": [
+        {
+          "class": "MaterialExpressionConstant3Vector",
+          "position": [
+            -700,
+            -300
+          ],
+          "properties": {
+            "constant": "<Struct 'LinearColor' (0x00000222246351E0) {r: 1.000000, g: 0.766000, b: 0.336000, a: 1.000000}>"
+          }
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -700,
+            -100
+          ],
+          "properties": {
+            "r": 1.0
+          }
+        },
+        {
+          "class": "MaterialExpressionTextureSample",
+          "position": [
+            -1000,
+            100
+          ],
+          "properties": {
+            "texture": "<Object '/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Height.T_KeruvFrieze_gold_palm_cherub_relief_Height' (0x000002222618AE00) Class 'Texture2D'>",
+            "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_LINEAR_GRAYSCALE: 7>"
+          }
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -700,
+            100
+          ],
+          "properties": {
+            "const_a": 0.45,
+            "const_b": 0.35
+          }
+        }
+      ],
+      "connections": [
+        "MaterialExpressionTextureSample.R -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionConstant3Vector.RGB -> MP_BASE_COLOR",
+        "MaterialExpressionConstant.RGB -> MP_METALLIC",
+        "MaterialExpressionLinearInterpolate.RGB -> MP_ROUGHNESS"
+      ],
+      "status": "saved",
+      "heightSamplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "inputsWired": {
+        "MP_BASE_COLOR": "MaterialExpressionConstant3Vector",
+        "MP_METALLIC": "MaterialExpressionConstant",
+        "MP_ROUGHNESS": "MaterialExpressionLinearInterpolate",
+        "MP_NORMAL": null,
+        "MP_WORLD_POSITION_OFFSET": null,
+        "MP_MATERIAL_ATTRIBUTES": null
+      },
+      "pixelDepthOffsetExposed": false,
+      "displacementPropertyExposed": false,
+      "uassetSha256": "18d0b983963183f67255629c9d1e53cacb3c831d7a295a171a570bb2d9fe17aa"
+    },
+    "tessellated": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze_Tessellated",
+      "variant": "tessellated",
+      "nodes": [
+        {
+          "class": "MaterialExpressionConstant3Vector",
+          "position": [
+            -700,
+            -300
+          ],
+          "properties": {
+            "constant": "<Struct 'LinearColor' (0x00000222245253A0) {r: 1.000000, g: 0.766000, b: 0.336000, a: 1.000000}>"
+          }
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -700,
+            -100
+          ],
+          "properties": {
+            "r": 1.0
+          }
+        },
+        {
+          "class": "MaterialExpressionTextureSample",
+          "position": [
+            -1000,
+            100
+          ],
+          "properties": {
+            "texture": "<Object '/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Height.T_KeruvFrieze_gold_palm_cherub_relief_Height' (0x000002222618AE00) Class 'Texture2D'>",
+            "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_LINEAR_GRAYSCALE: 7>"
+          }
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -700,
+            100
+          ],
+          "properties": {
+            "const_a": 0.45,
+            "const_b": 0.35
+          }
+        },
+        {
+          "class": "MaterialExpressionTextureSample",
+          "position": [
+            -700,
+            350
+          ],
+          "properties": {
+            "texture": "<Object '/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Textures/T_KeruvFrieze_gold_palm_cherub_relief_Normal.T_KeruvFrieze_gold_palm_cherub_relief_Normal' (0x000002222618CC00) Class 'Texture2D'>",
+            "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_NORMAL: 3>"
+          }
+        },
+        {
+          "class": "MaterialExpressionMakeMaterialAttributes",
+          "position": [
+            -300,
+            0
+          ],
+          "properties": {}
+        }
+      ],
+      "connections": [
+        "MaterialExpressionTextureSample.R -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionConstant3Vector.RGB -> MaterialExpressionMakeMaterialAttributes.BaseColor",
+        "MaterialExpressionConstant.RGB -> MaterialExpressionMakeMaterialAttributes.Metallic",
+        "MaterialExpressionLinearInterpolate.RGB -> MaterialExpressionMakeMaterialAttributes.Roughness",
+        "MaterialExpressionTextureSample.RGB -> MaterialExpressionMakeMaterialAttributes.Normal",
+        "MaterialExpressionTextureSample.R -> MaterialExpressionMakeMaterialAttributes.Displacement",
+        "MaterialExpressionMakeMaterialAttributes.RGB -> MP_MATERIAL_ATTRIBUTES"
+      ],
+      "status": "saved",
+      "heightSamplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "displacementScaling": {
+        "magnitude": 3.0,
+        "center": 0.0
+      },
+      "inputsWired": {
+        "MP_BASE_COLOR": null,
+        "MP_METALLIC": null,
+        "MP_ROUGHNESS": null,
+        "MP_NORMAL": null,
+        "MP_WORLD_POSITION_OFFSET": null,
+        "MP_MATERIAL_ATTRIBUTES": "MaterialExpressionMakeMaterialAttributes"
+      },
+      "pixelDepthOffsetExposed": false,
+      "displacementPropertyExposed": false,
+      "uassetSha256": "6de0863176915c39b6fc75005ce841bd0c97563429f8e3a3dd9c395684d659a9",
+      "assignment": "UNASSIGNED review material; Nanite tessellation displacement needs r.Nanite.Tessellation (default 1 in 5.8) and a Nanite mesh; unverified here"
+    }
+  },
+  "meshes": {
+    "SM_KeruvFriezePanelV1": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelV1",
+      "triangles": 12,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze",
+      "localBoundsCm": {
+        "min": [
+          -125.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          125.0,
+          6.0,
+          250.0
+        ]
+      },
+      "nanite": false,
+      "offline": {
+        "signedVolumeUEcm3": 375000.0,
+        "faceNormalVsCrossDisagreements": 0,
+        "localBoundsCm": {
+          "min": [
+            -125.0,
+            0,
+            0
+          ],
+          "max": [
+            125.0,
+            6.0,
+            250.0
+          ]
+        },
+        "vertices": 24,
+        "triangles": 12
+      },
+      "uassetSha256": "2aa023f2a7f791eec9483843cbd705c5fe273cc4d9a347ef7e50bd5c7f5e20df",
+      "naniteEnabledReadback": false
+    },
+    "SM_KeruvFriezePanelDisplacedV1": {
+      "asset": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1",
+      "triangles": 133122,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze_Displaced",
+      "localBoundsCm": {
+        "min": [
+          -125.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          125.0,
+          9.0,
+          250.0
+        ]
+      },
+      "nanite": true,
+      "offline": {
+        "signedVolumeUEcm3": 426302.2325954046,
+        "faceNormalVsCrossDisagreements": 0,
+        "localBoundsCm": {
+          "min": [
+            -125.0,
+            0,
+            0.0
+          ],
+          "max": [
+            125.0,
+            9.0,
+            250.0
+          ]
+        },
+        "vertices": 70149,
+        "triangles": 133122,
+        "grid": 256,
+        "borderFeatherCells": 4,
+        "meanDisplacementCm": 0.8144603225780938,
+        "maxDisplacementCm": 3.0
+      },
+      "uassetSha256": "4a568d63c7eb17d478753bf804fd65d934dce42ecfd3ef89a9fd87c0eaaf6c36",
+      "naniteEnabledReadback": false
+    }
+  },
+  "uvReadback": {},
+  "windingCheck": {},
+  "placed": [],
+  "errors": [
+    "AttributeError(\"type object 'GeometryScript_MeshQueries' has no attribute 'get_triangle_uvs'\")"
+  ],
+  "mapSaved": false,
+  "limitations": [
+    "The frieze is an image-based relief: a generated 2D render turned into a height field. Full bodies and wings on the keruvim are the image's artistic interpretation and must be checked against the sources before final adoption (CLAUDE-VISUAL-ASSETS.md).",
+    "Height is approximate: high-pass luma of a lit render, background clamped by a histogram estimate. Lit edges read higher than shadowed edges. displacementCm 3 and the 250 cm module are artistic choices.",
+    "The image repeats horizontally by design and not vertically; stacking 8 rows repeats the panel as tiles with a visible horizontal joint at every 250 cm.",
+    "Textures, materials, meshes and placement are geometric and graph-level only; no visual, shader-compile, Nanite, lighting, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; rows are grounded from the measured floor component bounds, not a trace."
+  ],
+  "mapSha256After": "ecea426f96540e8c88d85f6205818ffb21d2bc1e63e404929c8212fe6646ea71",
+  "mapBytesChanged": false,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 0
+}

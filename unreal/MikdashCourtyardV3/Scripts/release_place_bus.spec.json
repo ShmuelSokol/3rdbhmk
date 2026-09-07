@@ -1,0 +1,1269 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_place_bus.py: bounded PIE ground traces for the TransitV2 bus, then guarded placement of its 13 material-group meshes into the combined Walkthrough map. Every number below was computed offline from frozen source data or copied from receipts on disk; nothing here is a claim of visual or runtime acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ReleaseBus-",
+  "receiptFolder": "SourceAssets/arrival-review/TransitV2",
+  "receiptPrefix": "native-placement-",
+  "nativeImportReceipt": "SourceAssets/arrival-review/TransitV2/native-import.json",
+  "nativeImportStatusRequired": "assets_saved_unplaced_native_visual_collision_motion_pending",
+  "actorTag": "ReleasePlacementV1",
+  "groupTag": "ReleaseBus",
+  "labelPrefix": "RELEASE_Bus_",
+  "folder": "Release/Bus",
+  "collisionProfile": "BlockAll",
+  "collisionNote": "Street actors use BlockAll with LOD0 complex-as-simple. The bus meshes were imported with auto_generate_collision=False and this script does not modify any mesh asset, so BlockAll on the actors does not by itself establish pawn blocking; each mesh collision_trace_flag is recorded read-only in the receipt.",
+  "authoring": "All 13 bus meshes were authored in one shared local frame (bus +X forward, +Y door side, tire contact at local Z 0) and imported with identity, so one StaticMeshActor per mesh sharing a single transform reassembles the bus exactly.",
+  "meshFolder": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/",
+  "meshes": [
+    {
+      "name": "SM_TransitV2_Bus_IvoryPaint",
+      "triangles": 200,
+      "localBoundsCm": {
+        "min": [
+          -597.0,
+          -124.5,
+          66.0
+        ],
+        "max": [
+          597.0,
+          124.5,
+          330.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_TealPaint",
+      "triangles": 2992,
+      "localBoundsCm": {
+        "min": [
+          -575.0,
+          -123.5,
+          65.0
+        ],
+        "max": [
+          575.0,
+          132.0,
+          137.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_Rubber",
+      "triangles": 9636,
+      "localBoundsCm": {
+        "min": [
+          -596.0,
+          -122.0,
+          0.0
+        ],
+        "max": [
+          596.0,
+          129.5,
+          291.5
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_Glass",
+      "triangles": 776,
+      "localBoundsCm": {
+        "min": [
+          -595.0,
+          -126.0,
+          80.0
+        ],
+        "max": [
+          595.0,
+          131.0,
+          267.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_Aluminium",
+      "triangles": 6404,
+      "localBoundsCm": {
+        "min": [
+          -562.0,
+          -170.5,
+          18.0
+        ],
+        "max": [
+          564.0,
+          170.5,
+          249.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_DarkTrim",
+      "triangles": 4668,
+      "localBoundsCm": {
+        "min": [
+          -603.0,
+          -172.0,
+          31.380982706687234
+        ],
+        "max": [
+          603.0,
+          172.0,
+          331.75
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_Headlamp",
+      "triangles": 140,
+      "localBoundsCm": {
+        "min": [
+          511.55,
+          -93.5,
+          117.0
+        ],
+        "max": [
+          603.0,
+          93.5,
+          171.201246117975
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_RedLens",
+      "triangles": 56,
+      "localBoundsCm": {
+        "min": [
+          -603.0,
+          -93.5,
+          117.0
+        ],
+        "max": [
+          -601.0,
+          93.5,
+          129.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_AmberLens",
+      "triangles": 392,
+      "localBoundsCm": {
+        "min": [
+          -604.75,
+          -127.0,
+          94.0
+        ],
+        "max": [
+          604.75,
+          127.0,
+          129.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_SeatFabric",
+      "triangles": 924,
+      "localBoundsCm": {
+        "min": [
+          -517.0,
+          -113.0,
+          122.0
+        ],
+        "max": [
+          473.5,
+          113.0,
+          209.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_CabinFloor",
+      "triangles": 28,
+      "localBoundsCm": {
+        "min": [
+          -565.0,
+          -113.0,
+          89.0
+        ],
+        "max": [
+          565.0,
+          113.0,
+          93.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_CabinLining",
+      "triangles": 224,
+      "localBoundsCm": {
+        "min": [
+          -565.0,
+          -116.5,
+          93.0
+        ],
+        "max": [
+          565.0,
+          116.5,
+          295.0
+        ]
+      }
+    },
+    {
+      "name": "SM_TransitV2_Bus_SafetyYellow",
+      "triangles": 440,
+      "localBoundsCm": {
+        "min": [
+          -520.0,
+          -39.6,
+          94.0
+        ],
+        "max": [
+          330.0,
+          39.6,
+          286.0
+        ]
+      }
+    }
+  ],
+  "assemblyLocalBoundsCm": {
+    "min": [
+      -604.75,
+      -172.0,
+      0.0
+    ],
+    "max": [
+      604.75,
+      172.0,
+      331.75
+    ]
+  },
+  "tireContactLocalZ": 0.0,
+  "scale": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "stationMeshesOmitted": [
+    "SM_TransitV2_Station_TealPaint",
+    "SM_TransitV2_Station_Glass",
+    "SM_TransitV2_Station_Aluminium",
+    "SM_TransitV2_Station_DarkTrim",
+    "SM_TransitV2_Station_Headlamp",
+    "SM_TransitV2_Station_SafetyYellow",
+    "SM_TransitV2_Station_PlatformStone",
+    "SM_TransitV2_Station_TrackSteel",
+    "SM_TransitV2_Station_SleeperConcrete",
+    "SM_TransitV2_Station_Ballast",
+    "SM_TransitV2_Station_CanopyMetal",
+    "SM_TransitV2_Station_BenchWood"
+  ],
+  "stationOmissionReason": "arrival-placement-spec.json sets station world_position null; no mapped rail route exists. The 12 station meshes are deliberately not placed.",
+  "groundProbes": {
+    "localPointsCm": {
+      "center": [
+        0.0,
+        0.0
+      ],
+      "wheel_front_left": [
+        360.0,
+        96.0
+      ],
+      "wheel_front_right": [
+        360.0,
+        -96.0
+      ],
+      "wheel_rear_left": [
+        -360.0,
+        96.0
+      ],
+      "wheel_rear_right": [
+        -360.0,
+        -96.0
+      ]
+    },
+    "bodyCornerPointsCm": {
+      "body_front_left": [
+        597.0,
+        124.5
+      ],
+      "body_front_right": [
+        597.0,
+        -124.5
+      ],
+      "body_rear_left": [
+        -597.0,
+        124.5
+      ],
+      "body_rear_right": [
+        -597.0,
+        -124.5
+      ]
+    },
+    "wheelbaseCm": 720.0,
+    "trackCm": 192.0,
+    "maxWheelSpreadCm": 60.0,
+    "maxGradientDegrees": 10.0,
+    "maxCrossfallDegrees": 8.0,
+    "traceAboveOfflineMeanWheelZCm": 2000.0,
+    "traceBelowOfflineMeanWheelZCm": 2000.0,
+    "supportMeshPrefixes": [
+      "/Game/MikdashV3/JerusalemContext/Streets/",
+      "/Game/MikdashV3/JerusalemContext/Terrain/"
+    ],
+    "supportLabelPrefixes": [
+      "SM_Jerusalem_Asphalt_",
+      "SM_Jerusalem_StonePaths_",
+      "terrain_",
+      "SM_JerusalemTerrain_"
+    ],
+    "supportLabelPrefixNote": "Street actors were labelled with their mesh name by import_streets_ue58.py; labels are only used when the hit component cannot be resolved through the HitResult API of the current launch mode.",
+    "offlineAgreementToleranceCm": 5.0,
+    "offlineAgreementNote": "Informative: native hit Z is compared with the offline barycentric Z per probe. Float32 FBX storage error was 0.00011 m and imported bounds errors were <= 0.015 cm, so a larger disagreement indicates a different support surface (building, path, terrain) rather than precision."
+  },
+  "poseRule": {
+    "method": "least-squares plane through the four traced wheel contacts in the yaw-aligned local frame: z = c + a*x + b*y with a = (mean front - mean rear)/720, b = (mean left - mean right)/192, c = mean of the four wheel Z",
+    "location": "[x, y, c - tireContactLocalZ]",
+    "pitchDegrees": "atan(a) (UE positive pitch = nose up; a > 0 means front higher)",
+    "rollDegrees": "-atan(b * cos(pitch)) (UE positive roll = right side (+Y) down; b > 0 means left side higher)",
+    "yaw": "candidate yaw",
+    "rejectIf": "any probe misses or hits a non-support mesh, spread > 60 cm, gradient > 10 deg, crossfall > 8 deg, |pitch| > maxGradientDegrees, |roll| > maxCrossfallDegrees",
+    "flatAlternative": "MIKDASH_BUS_POSE=flat places pitch=roll=0 at Z = max wheel contact (no wheel penetrates; the others float by at most the spread); recorded per wheel either way"
+  },
+  "offlineSearch": {
+    "method": "Barycentric interpolation of exact source asphalt triangles (jerusalem-meshes.json mesh 2) via convert(); highest triangle under each probe; heading tangent to the OSM centreline in point order",
+    "reproduce": "scratchpad bus/find_bus_candidate.py (numpy, Python 3.8); output candidates-496167693.json. Equivalent to the offlineGroundEvidence method in release_place_assets.spec.json; the handoff candidate reproduces at 27.9 deg crossfall.",
+    "sourceHashes": {
+      "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+      "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+      "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\streets-manifest.json": "cc9eb91e99298565db296ea52a4eef744944e3bac3014829b573e30235aea8da",
+      "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\mount-platform-design.json": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+      "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\FutureMountV1\\mount-platform.mesh.json": "693d76b5bae73e4ed70f80e4fb48e19c3834ec4f505c873c622465c57b41c524"
+    },
+    "stepCm": 25.0,
+    "roadLengthCm": 32435.56674718781,
+    "roadPointCount": 25,
+    "candidatesEvaluated": 1298,
+    "candidatesPassingAllLimits": 72,
+    "passingSegments": [
+      0,
+      6,
+      7
+    ],
+    "selectionRule": "minimum crossfall, then minimum gradient, then minimum plane residual; top 3 must be at least 700 cm apart so each fallback is a distinct footprint",
+    "obstacleChecks": "rotated 1209.5 x 344 cm mirror envelope vs OSM building footprints (must not intersect), 12 city-wall polylines (200 cm wide), tree-trunk instance anchors (>150 cm), Mount enclosure ring and platform deck ring and protected Western Wall / plaza polygons (+201 cm guard); painted body corners must be over asphalt; no stone-path triangle above any probe",
+    "guardBufferCm": 201.0,
+    "handoffCandidate": {
+      "xy": [
+        -23101.765,
+        36185.433
+      ],
+      "yaw": -60.078676,
+      "surfaceZCm": {
+        "wheel_front_left": -1202.796,
+        "wheel_front_right": -1100.94,
+        "wheel_rear_left": -1111.762,
+        "wheel_rear_right": -1012.737,
+        "center": -1108.233
+      },
+      "crossfallDegrees": 27.946,
+      "gradientDegrees": 7.095,
+      "spreadCm": 190.059,
+      "fails": [
+        "crossfall",
+        "spread"
+      ],
+      "codexRecorded": {
+        "frontCrossfallCm": 101.856,
+        "rearCrossfallCm": 99.025,
+        "approxCrossfallDegrees": 27.7,
+        "leftGradientCm": 91.034,
+        "approxGradientDegrees": 7.2
+      }
+    },
+    "segmentSummary": [
+      {
+        "segment": 0,
+        "count": 37,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 7.276,
+        "gradientMin": 2.696,
+        "passing": 14,
+        "fails": [
+          "spread"
+        ]
+      },
+      {
+        "segment": 1,
+        "count": 37,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 7.42,
+        "gradientMin": 3.424,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 2,
+        "count": 36,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 6.715,
+        "gradientMin": 4.76,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 3,
+        "count": 30,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 3.778,
+        "gradientMin": 7.965,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 4,
+        "count": 13,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 4.649,
+        "gradientMin": 7.037,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 5,
+        "count": 42,
+        "rejectedOffAsphalt": 2,
+        "crossfallMin": 5.29,
+        "gradientMin": 5.343,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 6,
+        "count": 55,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 5.649,
+        "gradientMin": 3.141,
+        "passing": 31,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 7,
+        "count": 38,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 5.685,
+        "gradientMin": 3.075,
+        "passing": 27,
+        "fails": [
+          "spread"
+        ]
+      },
+      {
+        "segment": 8,
+        "count": 33,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 7.364,
+        "gradientMin": 4.807,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread"
+        ]
+      },
+      {
+        "segment": 9,
+        "count": 51,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 13.541,
+        "gradientMin": 15.167,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread",
+          "stone_path_above_probe"
+        ]
+      },
+      {
+        "segment": 10,
+        "count": 109,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 14.561,
+        "gradientMin": 4.255,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread",
+          "stone_path_above_probe",
+          "wall_overlap"
+        ]
+      },
+      {
+        "segment": 11,
+        "count": 200,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 11.403,
+        "gradientMin": 3.677,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread",
+          "wall_overlap"
+        ]
+      },
+      {
+        "segment": 12,
+        "count": 75,
+        "rejectedOffAsphalt": 7,
+        "crossfallMin": 9.994,
+        "gradientMin": 5.06,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread",
+          "wall_overlap"
+        ]
+      },
+      {
+        "segment": 13,
+        "count": 25,
+        "rejectedOffAsphalt": 8,
+        "crossfallMin": 19.998,
+        "gradientMin": 6.136,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "spread",
+          "wall_overlap"
+        ]
+      },
+      {
+        "segment": 14,
+        "count": 56,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 20.235,
+        "gradientMin": 0.052,
+        "passing": 0,
+        "fails": [
+          "crossfall",
+          "spread"
+        ]
+      },
+      {
+        "segment": 15,
+        "count": 77,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 25.278,
+        "gradientMin": 2.703,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "spread",
+          "stone_path_above_probe"
+        ]
+      },
+      {
+        "segment": 16,
+        "count": 150,
+        "rejectedOffAsphalt": 0,
+        "crossfallMin": 26.926,
+        "gradientMin": 0.167,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "spread",
+          "stone_path_above_probe"
+        ]
+      },
+      {
+        "segment": 17,
+        "count": 39,
+        "rejectedOffAsphalt": 1,
+        "crossfallMin": 30.56,
+        "gradientMin": 0.679,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "spread"
+        ]
+      },
+      {
+        "segment": 18,
+        "count": 36,
+        "rejectedOffAsphalt": 2,
+        "crossfallMin": 20.504,
+        "gradientMin": 10.013,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread"
+        ]
+      },
+      {
+        "segment": 19,
+        "count": 30,
+        "rejectedOffAsphalt": 2,
+        "crossfallMin": 10.461,
+        "gradientMin": 0.035,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "gradient",
+          "spread"
+        ]
+      },
+      {
+        "segment": 20,
+        "count": 45,
+        "rejectedOffAsphalt": 3,
+        "crossfallMin": 9.495,
+        "gradientMin": 0.731,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall"
+        ]
+      },
+      {
+        "segment": 21,
+        "count": 15,
+        "rejectedOffAsphalt": 5,
+        "crossfallMin": 10.023,
+        "gradientMin": 2.997,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "crossfall",
+          "spread"
+        ]
+      },
+      {
+        "segment": 22,
+        "count": 16,
+        "rejectedOffAsphalt": 2,
+        "crossfallMin": 5.824,
+        "gradientMin": 3.616,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      },
+      {
+        "segment": 23,
+        "count": 7,
+        "rejectedOffAsphalt": 8,
+        "crossfallMin": 4.367,
+        "gradientMin": 5.289,
+        "passing": 0,
+        "fails": [
+          "body_corner_off_asphalt",
+          "spread"
+        ]
+      }
+    ],
+    "roadCentrelineUEcm": [
+      [
+        -44140.015,
+        47353.433
+      ],
+      [
+        -43228.515,
+        47257.933
+      ],
+      [
+        -42287.015,
+        47121.433
+      ],
+      [
+        -41360.515,
+        47146.933
+      ],
+      [
+        -40608.015,
+        47298.933
+      ],
+      [
+        -40247.015,
+        47321.433
+      ],
+      [
+        -39169.015,
+        47203.433
+      ],
+      [
+        -37838.515,
+        46822.433
+      ],
+      [
+        -36924.015,
+        46548.933
+      ],
+      [
+        -36121.515,
+        46264.433
+      ],
+      [
+        -34981.515,
+        45651.933
+      ],
+      [
+        -32619.515,
+        44301.933
+      ],
+      [
+        -28077.015,
+        42192.433
+      ],
+      [
+        -26223.015,
+        41331.433
+      ],
+      [
+        -25747.015,
+        40648.933
+      ],
+      [
+        -25011.015,
+        39478.933
+      ],
+      [
+        -24041.015,
+        37817.433
+      ],
+      [
+        -22162.515,
+        34553.433
+      ],
+      [
+        -21711.015,
+        33670.933
+      ],
+      [
+        -21511.515,
+        32750.933
+      ],
+      [
+        -21480.015,
+        31946.433
+      ],
+      [
+        -21586.015,
+        30738.433
+      ],
+      [
+        -21447.015,
+        30253.433
+      ],
+      [
+        -21215.015,
+        29878.933
+      ],
+      [
+        -20929.515,
+        29643.433
+      ]
+    ]
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "road": "Batei Mahase (OSM way 496167693, highway=residential)",
+      "segmentIndex": 6,
+      "alongCentrelineCm": 6275.0,
+      "xy": [
+        -37951.473,
+        46854.779
+      ],
+      "yaw": -15.979516,
+      "headingNote": "Tangent to the OSM centreline in point order (bus +X forward). yaw+180 is an equally valid heading with the same crossfall/gradient; pitch and roll would flip sign.",
+      "offlineSurfaceZCm": {
+        "wheel_front_left": 943.815,
+        "wheel_front_right": 962.808,
+        "wheel_rear_left": 983.331,
+        "wheel_rear_right": 1002.324,
+        "center": 973.069
+      },
+      "offlineMeanWheelZCm": 973.07,
+      "offlineCentreMinusMeanWheelCm": -0.001,
+      "offlineDerived": {
+        "crossfallDegrees": 5.649,
+        "gradientDegrees": 3.141,
+        "spreadCm": 58.509,
+        "maxPlaneResidualCm": 0.0,
+        "planeResidualsCm": {
+          "wheel_front_left": 0.0,
+          "wheel_front_right": 0.0,
+          "wheel_rear_left": -0.0,
+          "wheel_rear_right": -0.0
+        },
+        "pitchDegrees": -3.141,
+        "rollDegrees": 5.641,
+        "limitMargin": 0.0249
+      },
+      "demTerrainZAtCentreCm": 953.069,
+      "expectedSupportAssets": [
+        "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      ],
+      "probeAssets": {
+        "wheel_front_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_front_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_rear_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_rear_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "center": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      },
+      "probeXY": {
+        "wheel_front_left": [
+          -37578.955,
+          46847.964
+        ],
+        "wheel_front_right": [
+          -37631.811,
+          46663.383
+        ],
+        "wheel_rear_left": [
+          -38271.134,
+          47046.175
+        ],
+        "wheel_rear_right": [
+          -38323.99,
+          46861.594
+        ],
+        "center": [
+          -37951.473,
+          46854.779
+        ]
+      },
+      "paintedBodyCornersOnAsphalt": 4,
+      "clearances": {
+        "mountBoundaryCm": 32074.3,
+        "platformDeckRingCm": 32226.1,
+        "protectedCm": {
+          "Western Wall": 37029.9,
+          "Western Wall Plaza": 28119.4
+        },
+        "nearestBuildingCm": 120.8,
+        "nearestBuildings": [
+          {
+            "distanceCm": 120.8,
+            "osmId": 290722445,
+            "name": null
+          },
+          {
+            "distanceCm": 2302.3,
+            "osmId": 290722443,
+            "name": null
+          }
+        ],
+        "nearestCityWall": {
+          "distanceCm": 3646.0,
+          "osmId": 391433911
+        },
+        "nearestTreeTrunkCm": 1424.7,
+        "nearestTreeTrunks": [
+          {
+            "distanceCm": 1424.7,
+            "sourceInstanceIndex": 2643,
+            "anchorXY": [
+              -36077.26953125,
+              47545.4765625
+            ],
+            "anchorZ": 652.3056030273438
+          },
+          {
+            "distanceCm": 1951.4,
+            "sourceInstanceIndex": 2648,
+            "anchorXY": [
+              -36712.19140625,
+              48707.109375
+            ],
+            "anchorZ": 463.5381774902344
+          },
+          {
+            "distanceCm": 3176.4,
+            "sourceInstanceIndex": 2650,
+            "anchorXY": [
+              -34148.625,
+              46973.578125
+            ],
+            "anchorZ": -32.99354934692383
+          }
+        ]
+      },
+      "mirrorEnvelopeXY": [
+        [
+          -38580.21,
+          46855.91
+        ],
+        [
+          -37417.44,
+          46522.94
+        ],
+        [
+          -37322.74,
+          46853.65
+        ],
+        [
+          -38485.5,
+          47186.62
+        ]
+      ],
+      "stonePathAboveProbes": {}
+    },
+    {
+      "rank": 2,
+      "road": "Batei Mahase (OSM way 496167693, highway=residential)",
+      "segmentIndex": 7,
+      "alongCentrelineCm": 7025.0,
+      "xy": [
+        -37232.533,
+        46641.201
+      ],
+      "yaw": -16.650374,
+      "headingNote": "Tangent to the OSM centreline in point order (bus +X forward). yaw+180 is an equally valid heading with the same crossfall/gradient; pitch and roll would flip sign.",
+      "offlineSurfaceZCm": {
+        "wheel_front_left": 902.604,
+        "wheel_front_right": 921.389,
+        "wheel_rear_left": 942.424,
+        "wheel_rear_right": 961.539,
+        "center": 932.639
+      },
+      "offlineMeanWheelZCm": 931.989,
+      "offlineCentreMinusMeanWheelCm": 0.65,
+      "offlineDerived": {
+        "crossfallDegrees": 5.685,
+        "gradientDegrees": 3.179,
+        "spreadCm": 58.935,
+        "maxPlaneResidualCm": 0.083,
+        "planeResidualsCm": {
+          "wheel_front_left": 0.082,
+          "wheel_front_right": -0.082,
+          "wheel_rear_left": -0.083,
+          "wheel_rear_right": 0.082
+        },
+        "pitchDegrees": -3.179,
+        "rollDegrees": 5.628,
+        "limitMargin": 0.0177
+      },
+      "demTerrainZAtCentreCm": 912.64,
+      "expectedSupportAssets": [
+        "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      ],
+      "probeAssets": {
+        "wheel_front_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_front_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_rear_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "wheel_rear_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004",
+        "center": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      },
+      "probeXY": {
+        "wheel_front_left": [
+          -36860.12,
+          46630.025
+        ],
+        "wheel_front_right": [
+          -36915.134,
+          46446.075
+        ],
+        "wheel_rear_left": [
+          -37549.932,
+          46836.327
+        ],
+        "wheel_rear_right": [
+          -37604.945,
+          46652.377
+        ],
+        "center": [
+          -37232.533,
+          46641.201
+        ]
+      },
+      "paintedBodyCornersOnAsphalt": 4,
+      "clearances": {
+        "mountBoundaryCm": 31384.2,
+        "platformDeckRingCm": 31536.4,
+        "protectedCm": {
+          "Western Wall": 36411.4,
+          "Western Wall Plaza": 27552.6
+        },
+        "nearestBuildingCm": 65.0,
+        "nearestBuildings": [
+          {
+            "distanceCm": 65.0,
+            "osmId": 290722445,
+            "name": null
+          },
+          {
+            "distanceCm": 2161.5,
+            "osmId": 290722443,
+            "name": null
+          }
+        ],
+        "nearestCityWall": {
+          "distanceCm": 2951.5,
+          "osmId": 391433911
+        },
+        "nearestTreeTrunkCm": 1053.8,
+        "nearestTreeTrunks": [
+          {
+            "distanceCm": 1053.8,
+            "sourceInstanceIndex": 2643,
+            "anchorXY": [
+              -36077.26953125,
+              47545.4765625
+            ],
+            "anchorZ": 652.3056030273438
+          },
+          {
+            "distanceCm": 1956.4,
+            "sourceInstanceIndex": 2648,
+            "anchorXY": [
+              -36712.19140625,
+              48707.109375
+            ],
+            "anchorZ": 463.5381774902344
+          },
+          {
+            "distanceCm": 2478.8,
+            "sourceInstanceIndex": 2650,
+            "anchorXY": [
+              -34148.625,
+              46973.578125
+            ],
+            "anchorZ": -32.99354934692383
+          }
+        ]
+      },
+      "mirrorEnvelopeXY": [
+        [
+          -37861.21,
+          46649.69
+        ],
+        [
+          -36702.42,
+          46303.13
+        ],
+        [
+          -36603.86,
+          46632.71
+        ],
+        [
+          -37762.64,
+          46979.27
+        ]
+      ],
+      "stonePathAboveProbes": {}
+    },
+    {
+      "rank": 3,
+      "road": "Batei Mahase (OSM way 496167693, highway=residential)",
+      "segmentIndex": 0,
+      "alongCentrelineCm": 175.0,
+      "xy": [
+        -43965.968,
+        47335.197
+      ],
+      "yaw": -5.981192,
+      "headingNote": "Tangent to the OSM centreline in point order (bus +X forward). yaw+180 is an equally valid heading with the same crossfall/gradient; pitch and roll would flip sign.",
+      "offlineSurfaceZCm": {
+        "wheel_front_left": 1482.624,
+        "wheel_front_right": 1508.076,
+        "wheel_rear_left": 1520.504,
+        "wheel_rear_right": 1538.114,
+        "center": 1512.105
+      },
+      "offlineMeanWheelZCm": 1512.329,
+      "offlineCentreMinusMeanWheelCm": -0.224,
+      "offlineDerived": {
+        "crossfallDegrees": 7.551,
+        "gradientDegrees": 2.7,
+        "spreadCm": 55.49,
+        "maxPlaneResidualCm": 1.961,
+        "planeResidualsCm": {
+          "wheel_front_left": -1.96,
+          "wheel_front_right": 1.961,
+          "wheel_rear_left": 1.961,
+          "wheel_rear_right": -1.96
+        },
+        "pitchDegrees": -2.7,
+        "rollDegrees": 6.391,
+        "limitMargin": 0.0561
+      },
+      "demTerrainZAtCentreCm": 1501.284,
+      "expectedSupportAssets": [
+        "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004"
+      ],
+      "probeAssets": {
+        "wheel_front_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004",
+        "wheel_front_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004",
+        "wheel_rear_left": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004",
+        "wheel_rear_right": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004",
+        "center": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N005_P004"
+      },
+      "probeXY": {
+        "wheel_front_left": [
+          -43597.924,
+          47393.162
+        ],
+        "wheel_front_right": [
+          -43617.931,
+          47202.207
+        ],
+        "wheel_rear_left": [
+          -44314.004,
+          47468.187
+        ],
+        "wheel_rear_right": [
+          -44334.011,
+          47277.232
+        ],
+        "center": [
+          -43965.968,
+          47335.197
+        ]
+      },
+      "paintedBodyCornersOnAsphalt": 4,
+      "clearances": {
+        "mountBoundaryCm": 37194.1,
+        "platformDeckRingCm": 37341.8,
+        "protectedCm": {
+          "Western Wall": 41454.6,
+          "Western Wall Plaza": 32173.4
+        },
+        "nearestBuildingCm": 2736.2,
+        "nearestBuildings": [
+          {
+            "distanceCm": 2736.2,
+            "osmId": 290722445,
+            "name": null
+          }
+        ],
+        "nearestCityWall": {
+          "distanceCm": 5684.8,
+          "osmId": 391433911
+        },
+        "nearestTreeTrunkCm": 6001.5,
+        "nearestTreeTrunks": [
+          {
+            "distanceCm": 6001.5,
+            "sourceInstanceIndex": 2647,
+            "anchorXY": [
+              -38236.14453125,
+              50589.80859375
+            ],
+            "anchorZ": 67.4208984375
+          },
+          {
+            "distanceCm": 6753.7,
+            "sourceInstanceIndex": 2648,
+            "anchorXY": [
+              -36712.19140625,
+              48707.109375
+            ],
+            "anchorZ": 463.5381774902344
+          },
+          {
+            "distanceCm": 7270.0,
+            "sourceInstanceIndex": 2643,
+            "anchorXY": [
+              -36077.26953125,
+              47545.4765625
+            ],
+            "anchorZ": 652.3056030273438
+          }
+        ]
+      },
+      "mirrorEnvelopeXY": [
+        [
+          -44585.35,
+          47227.15
+        ],
+        [
+          -43382.43,
+          47101.12
+        ],
+        [
+          -43346.59,
+          47443.24
+        ],
+        [
+          -44549.5,
+          47569.28
+        ]
+      ],
+      "stonePathAboveProbes": {}
+    }
+  ],
+  "candidateNote": "The two best crossfall spots (ranks 1-2) sit within 0.65-1.2 m of building 290722445 and carry a 58.5-58.9 cm wheel spread against the 60 cm limit; rank 3 has 27 m building clearance and the largest margin to all limits but the worst crossfall (7.55 deg). The whole eastern half of the road (segments 9-21, including the handoff spot) exceeds 8 deg crossfall by offline interpolation.",
+  "verification": {
+    "staticBoundsToleranceCm": 0.05,
+    "transformToleranceCm": 0.001,
+    "rotationToleranceDegrees": 0.001,
+    "wheelContactToleranceCm": 5.0,
+    "wheelContactToleranceNote": "Engine transform of the four wheel points vs traced ground Z. Wheels straddling two non-coplanar ribbon triangles leave up to about 2 cm (rank 3: 2.07 cm offline); a pitch or roll sign error would show as about 19 cm, so 5 cm still catches convention mistakes.",
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "pie": {
+    "hardLimitSeconds": 120,
+    "pieWorldTimeoutSeconds": 70,
+    "settleSecondsAfterWorld": 1.5,
+    "endPlaySettleSeconds": 2.0,
+    "reopenSettleSeconds": 1.0,
+    "note": "The hard limit aborts before the map is saved; once saved the run completes readback and records limitExceededAfterSave instead of leaving a half-verified save."
+  },
+  "invocation": {
+    "traceAndPlace": "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe\" \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" /Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_place_bus.py\" -unattended -NoSplash -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-Bus-01.log\"",
+    "traceAndPlaceEnv": {
+      "MIKDASH_BUS_MODE": "trace_and_place",
+      "MIKDASH_BUS_QUIT_EDITOR": "1"
+    },
+    "traceOnly": "same command with MIKDASH_BUS_MODE=trace_only (writes the pose to the receipt, no map mutation)",
+    "placeFromReceipt": "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe\" \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" -run=pythonscript -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_place_bus.py\" -unattended -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-Bus-02.log\"",
+    "placeFromReceiptEnv": {
+      "MIKDASH_BUS_MODE": "place_from_receipt",
+      "MIKDASH_BUS_POSE_RECEIPT": "<trace receipt path>"
+    }
+  }
+}

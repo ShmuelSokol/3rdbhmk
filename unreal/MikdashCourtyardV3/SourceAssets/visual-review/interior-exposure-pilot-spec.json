@@ -1,0 +1,96 @@
+{
+  "status": "prepared_not_executed",
+  "pilotMap": "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1",
+  "sourceMap": "/Game/MikdashV3/Maps/Courtyard",
+  "intent": "Evaluate whether histogram adaptation improves exterior-to-interior readability without adding fictional light sources or modifying the measured architecture.",
+  "baseline": "Fresh inner-lighting-audit.json: manual physical ISO100, f8, shutter125, compensation+1. One directional light reported; skylight was outside that audit's LightComponent filter.",
+  "pilot": {
+    "metering": "Histogram",
+    "minimumEV100": 0,
+    "maximumEV100": 16,
+    "histogramMinimumEV100OrLegacyLog2": -4,
+    "histogramMaximumEV100OrLegacyLog2": 20,
+    "speedUpStopsPerSecond": 3,
+    "speedDownStopsPerSecond": 1,
+    "lowPercent": 10,
+    "highPercent": 90,
+    "exposureCompensation": "Keep existing +1 unchanged",
+    "physicalCameraExposure": "Keep existing property unchanged; installed Scene.h states it affects only Manual mode",
+    "extendedLuminanceRange": "Read live project cvar, never alter it. If legacy mode, MinBrightness=2^0=1 and MaxBrightness=2^16=65536; histogram values remain log2. Extended mode receives EV values directly."
+  },
+  "parameterBasis": {
+    "evBounds": "A bounded art-review candidate, not a measured illumination claim: encompasses baseline physical EV about13 and allows darker adaptation while avoiding the full engine extended default -10..20. Lower bound0 and upper16 require interior/exterior visual review; they are not historical lighting values.",
+    "adaptationSpeeds": "Installed Scene.cpp default values: SpeedUp3, SpeedDown1. Scene.h documents stops/second. Retain familiar engine default adaptation before tuning.",
+    "histogramPercentiles": "Installed Scene.cpp constructor defaults10/90, rather than guessing from older tooltip recommendations.",
+    "histogramBounds": "Review range -4..20 surrounds metering bounds0..16. This bounds histogram sampling and is not a lux measurement."
+  },
+  "localSourceEvidence": [
+    "Engine/Source/Runtime/Engine/Classes/Engine/Scene.h: EAutoExposureMethod; bOverride_AutoExposure*; AutoExposureMinBrightness/MaxBrightness units depend on ExtendDefaultLuminanceRange; SpeedUp/Down units; physical camera only Manual",
+    "Engine/Source/Runtime/Engine/Private/Scene.cpp: FPostProcessSettings constructor defaults histogram10/90, speed3/1 and extended brightness/histogram defaults-10..20",
+    "Engine/Source/Runtime/Renderer/Private/PostProcess/PostProcessEyeAdaptation.cpp: LuminanceMaxFromLensAttenuation returns1 in legacy mode; legacy Min/MaxBrightness used directly; extended values converted fromEV100",
+    "Engine/Source/Runtime/RenderCore/Public/RenderUtils.h: EV100ToLuminance and EV100ToLog2 conversion functions",
+    "Engine/Source/Editor/UnrealEd/Public/FileHelpers.h: EditorLoadingAndSavingUtils.NewMapFromTemplate, SaveMap with explicit new asset path",
+    "Engine/Plugins/Experimental/PythonScriptPlugin/Source/PythonScriptPlugin/Private/PyWrapperStruct.cpp: copy and export_text methods"
+  ],
+  "verificationPlan": [
+    "Refuse PIE, dirty maps, existing pilot path or namespace; validate all reflected properties before mutation.",
+    "Hash original Courtyard.umap; snapshot actor names/classes/labels/transforms and SceneComponent transforms/mobility/visibility; mesh/material/collision and all ISM transforms; LightComponentBase inventory including skylight.",
+    "Create separate world through native template API and save only unique pilot asset; assert template semantic inventory matches.",
+    "Save/reopen pilot; verify selected property values and every other postprocess field via restoring selected fields in an unattached struct copy and comparing export_text.",
+    "Verify semantic scene inventory, original map hash, and restore original map view without saving it. Retain failed partial pilot for diagnosis rather than overwriting it."
+  ],
+  "limitations": [
+    "Exposure adaptation cannot create missing bounced illumination, correct occlusion, or make a truly unlit space physically bright.",
+    "Bright portals may clip and dark interiors may reveal noise or temporal GI instability. No visual improvement has been established.",
+    "No new lights, emissive materials, source geometry, source material assignments, project cvars, default startup map, or packaging maps are changed.",
+    "Semantic inventory is broad but not a byte-for-byte comparison of every serialized UObject property. Full postprocess settings are compared separately.",
+    "Native execution, shader behavior, exterior-to-interior transitions, deep interior readability, return-to-sun adaptation and packaged rendering remain pending."
+  ],
+  "visualReviewGate": [
+    "Compare source and pilot at same sunlit exterior and shaded entrance cameras after settling; preserve pale-wall detail.",
+    "Walk continuously into interior and return outdoors; inspect adaptation delay, pumping and disorientation while facing both doorway and dark wall.",
+    "Review darkest intended public viewing position for believable visibility and temporal noise; do not approve solely because a screenshot is brighter.",
+    "If indirect light is absent, diagnose source openings and Lumen behavior separately; this pilot does not authorize invented historic fixtures."
+  ],
+  "execution": {
+    "status": "saved_reopened_semantically_verified",
+    "sourceMap": "/Game/MikdashV3/Maps/Courtyard",
+    "pilotMap": "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1",
+    "originalMapSha256": "f729834e481056e52cb01734cdf652c4a69a7800a75e6719c16ad847703bd409",
+    "beforeScene": {
+      "actorCount": 7281,
+      "semanticInventorySha256": "97f412be5642d92864f75ace0238f6efdd86ac24e483b60e8b4fa838e01ee649"
+    },
+    "extendedLuminanceRange": 0,
+    "appliedSettings": {
+      "auto_exposure_method": "<AutoExposureMethod.AEM_HISTOGRAM: 0>",
+      "auto_exposure_min_brightness": "1.0",
+      "auto_exposure_max_brightness": "65536.0",
+      "histogram_log_min": "-4.0",
+      "histogram_log_max": "20.0",
+      "auto_exposure_speed_up": "3.0",
+      "auto_exposure_speed_down": "1.0",
+      "auto_exposure_low_percent": "10.0",
+      "auto_exposure_high_percent": "90.0",
+      "override_auto_exposure_method": "True",
+      "override_auto_exposure_min_brightness": "True",
+      "override_auto_exposure_max_brightness": "True",
+      "override_histogram_log_min": "True",
+      "override_histogram_log_max": "True",
+      "override_auto_exposure_speed_up": "True",
+      "override_auto_exposure_speed_down": "True",
+      "override_auto_exposure_low_percent": "True",
+      "override_auto_exposure_high_percent": "True"
+    },
+    "visualAcceptance": "PENDING",
+    "packagedAcceptance": "PENDING",
+    "afterScene": {
+      "actorCount": 7281,
+      "semanticInventorySha256": "97f412be5642d92864f75ace0238f6efdd86ac24e483b60e8b4fa838e01ee649"
+    },
+    "onlySelectedPostprocessFieldsChanged": true,
+    "pilotMapSha256": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "originalMapUnchanged": true,
+    "sourceMapRestored": true
+  }
+}

@@ -62,7 +62,7 @@ public:
                         "A measured reconstruction based on Yechezkel.\nSurrounding Jerusalem and vegetation are illustrative.\nDevelopment preview: visuals and runtime are under review."))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
                     [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
-                        "W A S D or arrow keys: walk\nMouse: look around\nEscape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
+                        "W A S D or arrow keys: walk\nMouse: look around\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
                     [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text(Args._HasStarted ? LOCTEXT("Resume", "Resume walkthrough") : LOCTEXT("Start", "Start walkthrough"))
@@ -87,7 +87,7 @@ public:
     virtual bool SupportsKeyboardFocus() const override { return true; }
     virtual FReply OnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override
     {
-        if (Controller.IsValid() && Event.GetKey() == EKeys::Escape)
+        if (Controller.IsValid() && (Event.GetKey() == EKeys::Escape || Event.GetKey() == EKeys::P))
         {
             if (!Event.IsRepeat()) Controller->ToggleWalkthroughMenu();
             return FReply::Handled();
@@ -141,6 +141,7 @@ void AMikdashPlayerController::SetupInputComponent()
     // bindings from adding movement/look a second time or enabling jumping.
     InputComponent->bBlockInput = true;
     InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::P, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::M, IE_Pressed, this, &AMikdashPlayerController::ToggleSound).bExecuteWhenPaused = true;
     InputComponent->BindAxisKey(EKeys::MouseX, this, &AMikdashPlayerController::Turn);
     InputComponent->BindAxisKey(EKeys::MouseY, this, &AMikdashPlayerController::LookUp);

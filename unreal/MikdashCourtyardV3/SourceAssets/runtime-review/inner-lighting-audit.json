@@ -1,0 +1,35 @@
+{
+  "actorCount": 7281,
+  "lights": [
+    {
+      "actor": "V3 daylight daylight \u2014 20000 lux",
+      "class": "DirectionalLightComponent",
+      "location": "<Struct 'Vector' (0x00000193D6EC0DD0) {x: 0.000000, y: 0.000000, z: 8000.000000}>",
+      "settings": {
+        "intensity": "20000.0",
+        "indirect_lighting_intensity": "1.0",
+        "affects_world": "True",
+        "visible": "True",
+        "mobility": "<ComponentMobility.MOVABLE: 2>"
+      }
+    }
+  ],
+  "postProcess": [
+    {
+      "actor": "V3 daylight exposure - physical EV13 with +1 stop compensation",
+      "settings": {
+        "auto_exposure_method": "<AutoExposureMethod.AEM_MANUAL: 2>",
+        "auto_exposure_bias": "1.0",
+        "auto_exposure_apply_physical_camera_exposure": "True",
+        "camera_iso": "100.0",
+        "camera_shutter_speed": "125.0",
+        "depth_of_field_fstop": "8.0",
+        "lumen_scene_lighting_quality": "1.0",
+        "lumen_scene_detail": "1.0",
+        "lumen_scene_view_distance": "20000.0",
+        "lumen_max_trace_distance": "20000.0"
+      }
+    }
+  ],
+  "savedMapChanged": false
+}

@@ -1,0 +1,161 @@
+{
+  "status": "authoring_script_prepared_not_run",
+  "engine": "Installed UE 5.8.2",
+  "asset_root": "/Game/MikdashV3/MaterialReview/IncenseSmokeV1",
+  "authoring_api": "CascadeToNiagaraConverter editor plugin: FXConverterUtilitiesLibrary, NiagaraSystemConversionContext, NiagaraEmitterConversionContext",
+  "required_editor_module": "CascadeToNiagaraConverter",
+  "engine_evidence": [
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Source/CascadeToNiagaraConverter/Public/NiagaraStackGraphUtilitiesAdapterLibrary.h",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/CascadeToNiagaraConverter.py",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/PropertiesConversionScripts/CascadeEmitterToNiagaraEmitterState.py",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/ModuleConversionScripts/CascadeParticleLifetimeToNiagaraParticleLifetime.py",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/ModuleConversionScripts/CascadeDirectLocationToNiagara.py"
+  ],
+  "design": "Finite narrow shaft and eight delayed radial ceiling wisps, original analytic translucent sprite material; illustrative kinematics, not a fluid simulation",
+  "source_ids": [
+    "KET-SMOKE-FORM",
+    "KET-SMOKE-DAILY"
+  ],
+  "default_artistic_parameters": {
+    "emission_seconds": 6.0,
+    "rise_seconds": 3.0,
+    "ceiling_height_cm": 900.0,
+    "spread_seconds": 2.0,
+    "spread_speed_cm_s": 80.0
+  },
+  "placement": "No actors or components created; no system activated",
+  "assets_created": false,
+  "compile_verified": false,
+  "visual_verified": false,
+  "runtime_schedule_bound": false,
+  "runtime_dependency_audit_passed": false,
+  "limitations": [
+    "Module parameter/version acceptance needs a native editor run",
+    "Fixed ceiling height has no collision/roof detection; use only a matched isolated review rig",
+    "Sprites use finite lifetimes but no visually verified fade or realistic volumetric scattering",
+    "No external media or textures; generated material must still be compiled and dependency-audited",
+    "Runtime Niagara module dependencies may remain; no converter helper asset paths are intentionally referenced",
+    "Do not infer historical smoke dimensions or botanical identity from artistic defaults"
+  ],
+  "priorExecutions": [
+    {
+      "status": "authoring_failed_partial_assets_may_exist",
+      "asset_root": "/Game/MikdashV3/MaterialReview/IncenseSmokeV1",
+      "placement": "unplaced; no components or activation created",
+      "source_ids": [
+        "KET-SMOKE-FORM",
+        "KET-SMOKE-DAILY"
+      ],
+      "design_parameters": {
+        "emission_seconds": 6.0,
+        "rise_seconds": 3.0,
+        "ceiling_height_cm": 900.0,
+        "spread_seconds": 2.0,
+        "spread_speed_cm_s": 80.0
+      },
+      "limitations": [
+        "Illustrative kinematics, not fluid simulation or confirmed historical dimensions",
+        "No collision or roof detection; only valid in a matched review rig",
+        "No particle compile, visual, package or scheduler-binding acceptance yet",
+        "No external raster assets; analytic original soft sprite material",
+        "Future runtime binding must use one scheduler event and matching lifetime parameters"
+      ],
+      "error": "Niagara input rejected: Spawn Rate"
+    },
+    {
+      "status": "native_commandlet_crashed_before_save",
+      "asset_root": "/Game/MikdashV3/MaterialReview/IncenseSmokeV1",
+      "started_utc": "2026-09-07T13:14:29.420582+00:00",
+      "module_versions": {
+        "state": [
+          1,
+          0
+        ],
+        "spawn": [
+          1,
+          0
+        ],
+        "init": [
+          1,
+          0
+        ],
+        "life": [
+          1,
+          1
+        ],
+        "solve": null,
+        "position": null
+      },
+      "placement": "unplaced; no components or activation created",
+      "source_ids": [
+        "KET-SMOKE-FORM",
+        "KET-SMOKE-DAILY"
+      ],
+      "design_parameters": {
+        "emission_seconds": 6.0,
+        "rise_seconds": 3.0,
+        "ceiling_height_cm": 900.0,
+        "spread_seconds": 2.0,
+        "spread_speed_cm_s": 80.0
+      },
+      "limitations": [
+        "Illustrative kinematics, not fluid simulation or confirmed historical dimensions",
+        "No collision or roof detection; only valid in a matched review rig",
+        "No particle compile, visual, package or scheduler-binding acceptance yet",
+        "No external raster assets; analytic original soft sprite material",
+        "Future runtime binding must use one scheduler event and matching lifetime parameters"
+      ],
+      "error": "Niagara conversion Finalize requires Slate application; commandlet NullRHI has none. No saved IncenseSmokeV1 directory after process exit."
+    }
+  ],
+  "execution": {
+    "status": "authored_saved_unplaced_not_compile_or_visual_verified",
+    "asset_root": "/Game/MikdashV3/MaterialReview/IncenseSmokeV1",
+    "started_utc": "2026-09-07T13:16:39.605381+00:00",
+    "module_versions": {
+      "state": [
+        1,
+        0
+      ],
+      "spawn": [
+        1,
+        0
+      ],
+      "init": [
+        1,
+        0
+      ],
+      "life": [
+        1,
+        1
+      ],
+      "solve": null,
+      "position": null
+    },
+    "placement": "unplaced; no components or activation created",
+    "source_ids": [
+      "KET-SMOKE-FORM",
+      "KET-SMOKE-DAILY"
+    ],
+    "design_parameters": {
+      "emission_seconds": 6.0,
+      "rise_seconds": 3.0,
+      "ceiling_height_cm": 900.0,
+      "spread_seconds": 2.0,
+      "spread_speed_cm_s": 80.0
+    },
+    "limitations": [
+      "Illustrative kinematics, not fluid simulation or confirmed historical dimensions",
+      "No collision or roof detection; only valid in a matched review rig",
+      "No particle compile, visual, package or scheduler-binding acceptance yet",
+      "No external raster assets; analytic original soft sprite material",
+      "Future runtime binding must use one scheduler event and matching lifetime parameters"
+    ],
+    "assets": [
+      "/Game/MikdashV3/MaterialReview/IncenseSmokeV1/M_OriginalSoftSmoke.M_OriginalSoftSmoke",
+      "/Game/MikdashV3/MaterialReview/IncenseSmokeV1/NS_FiniteIncenseStudy.NS_FiniteIncenseStudy"
+    ],
+    "emitter_count": 9,
+    "nominal_visual_end_seconds": 11.0
+  }
+}

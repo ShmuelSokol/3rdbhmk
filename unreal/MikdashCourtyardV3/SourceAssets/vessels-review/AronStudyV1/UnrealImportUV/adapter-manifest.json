@@ -1,0 +1,364 @@
+{
+  "status": "UV_ADAPTER_EXPORTED_NATIVE_V3_PENDING",
+  "convention": "ImportOBJ=(SourceX,-SourceY,SourceZ); normals transformed identically; triangle winding reversed. Legacy UE OBJ importer observed to reflect Y. Native output must equal original source bounds.",
+  "evidence": "native-import.json: BodyLongWallYMinus imported Y+34.5..37.5 instead of Y-37.5..-34.5",
+  "nativeNamespace": "/Game/MikdashV3/MaterialReview/AronStudyV3",
+  "sourceManifestSha256": "b11c2a4ef427e9b08676c0cdb3659eb62cb800ac9ac4fbf83b1fc9b59f15fc38",
+  "sourceSpecSha256": "e539430a080985fd0a2a913b0466da939f2cbe80ad909204de879489e1885478",
+  "parts": [
+    {
+      "name": "SM_AronStudyV1_BodyBottom",
+      "file": "SM_AronStudyV1_BodyBottom.obj",
+      "sourceSha256": "27629d5d4c9c8c107c4e9fd5db33afa2d6351daa75b29451c9839c46fa1e365f",
+      "adapterSha256": "f345682cc7975ea6d920864248cb5e4e95955bcb65a7c4f8549005803fc5ac04",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -62.5,
+          -37.5,
+          0.0
+        ],
+        "max": [
+          62.5,
+          37.5,
+          3.0
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "03eb5b86bee10f748d554893b3bd21aa60d627345e15c5de3b3cab2fbd9181d8",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 1.1249999999999998
+    },
+    {
+      "name": "SM_AronStudyV1_BodyLongWallYMinus",
+      "file": "SM_AronStudyV1_BodyLongWallYMinus.obj",
+      "sourceSha256": "6525c76e81ba98febde4609f144c15cc976fd1f803a30ec32131e5ebd665fb76",
+      "adapterSha256": "8cc5654d5a80b195899029e363a9cf398b6c8f4c80171c6bc7388e7bbe6b3d5c",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -62.5,
+          -37.5,
+          3.0
+        ],
+        "max": [
+          62.5,
+          -34.5,
+          75.0
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "c1230686e96f94b5bab8cf66bf8a3db9a6c769407f41735d1d181ce7b782c929",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 1.08
+    },
+    {
+      "name": "SM_AronStudyV1_BodyEndWallXMinus",
+      "file": "SM_AronStudyV1_BodyEndWallXMinus.obj",
+      "sourceSha256": "88865c1be65d7ed6dc9a34227a9fccf88116218dedaac33baecbe4e2f98fcbbc",
+      "adapterSha256": "be506bc5f7844078e98cea4208033fcad2d70f94b8da9318e11778841c4ef617",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -62.5,
+          -34.5,
+          3.0
+        ],
+        "max": [
+          -59.5,
+          34.5,
+          75.0
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "b5fa6bd8db80ad4bbce254f5d78a63fd429ca6fcd12eb841eb906f21e1f1202c",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 1.035
+    },
+    {
+      "name": "SM_AronStudyV1_BodyLongWallYPlus",
+      "file": "SM_AronStudyV1_BodyLongWallYPlus.obj",
+      "sourceSha256": "d88508b4a8a3c51cf1de61d8b0b2953288bbe51cfaf631b2979cef65118d225e",
+      "adapterSha256": "ed62a8c00c3a4216d51965ee40958386941f37c9022542c3aa9c8f4275888dd7",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -62.5,
+          34.5,
+          3.0
+        ],
+        "max": [
+          62.5,
+          37.5,
+          75.0
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "062c8a504101929d39ed397b966d4193e43bc8131d484b902c47f3eafd2ee689",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 1.08
+    },
+    {
+      "name": "SM_AronStudyV1_BodyEndWallXPlus",
+      "file": "SM_AronStudyV1_BodyEndWallXPlus.obj",
+      "sourceSha256": "99957891efc66b1b3cb420030c8f8d189411af4f6d9a1da38240875b84e43960",
+      "adapterSha256": "9b1fea64db3e9dca0d53cc188873bfba5c4a24c2e43b85cb761a96eb217fac82",
+      "expectedNativeBoundsCm": {
+        "min": [
+          59.5,
+          -34.5,
+          3.0
+        ],
+        "max": [
+          62.5,
+          34.5,
+          75.0
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "429e16561ec212caf773799a7069518cd70df4f7fe883b477aa4e0920dd47f41",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 1.035
+    },
+    {
+      "name": "SM_AronStudyV1_KaporetCover",
+      "file": "SM_AronStudyV1_KaporetCover.obj",
+      "sourceSha256": "75a8a14a6365346c8dc4447f6177f182f753899f2d5a005416bfb9a42d2c8b52",
+      "adapterSha256": "f9a38feda9a95fffa0d0f5f063be0126cc632abb16562da954eac00ad250ac12",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -62.5,
+          -37.5,
+          75.0
+        ],
+        "max": [
+          62.5,
+          37.5,
+          83.33333333333334
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "916d67cbfb673f46f15683badb03a79040a0e7488a48381600669ae194500086",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 3.1249999998749995
+    },
+    {
+      "name": "SM_AronStudyV1_CrownLongYMinus",
+      "file": "SM_AronStudyV1_CrownLongYMinus.obj",
+      "sourceSha256": "5adcc389db80fe8fd41a82a73dc58ac56d632ca3d241b2130dde230dc8980af0",
+      "adapterSha256": "1bfce3356f953d9ac544e50bb8f3f4dd3233e664b7769264b6774f3a859bacf5",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -64.0,
+          -39.0,
+          81.83333333333333
+        ],
+        "max": [
+          64.0,
+          -37.5,
+          84.83333333333333
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "a01ed337abdcf794baa19872f9df9e186fb4fd01e0be134b591de38dc794e935",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 0.0225
+    },
+    {
+      "name": "SM_AronStudyV1_CrownEndXMinus",
+      "file": "SM_AronStudyV1_CrownEndXMinus.obj",
+      "sourceSha256": "7baa8904af266670f9863e014c3fa9210ca035486375c759f2f6ccc8d22fd9ee",
+      "adapterSha256": "9b7763cea44cc9a451d07ad5dd2f566654c899ca089e794175b8fd8ab8bd790e",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -64.0,
+          -37.5,
+          81.83333333333333
+        ],
+        "max": [
+          -62.5,
+          37.5,
+          84.83333333333333
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "fcffef13307385b8ff438c7b022e85473b74c2f4e72009c5af2d64fc7a62388e",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 0.0225
+    },
+    {
+      "name": "SM_AronStudyV1_CrownLongYPlus",
+      "file": "SM_AronStudyV1_CrownLongYPlus.obj",
+      "sourceSha256": "44f279cf741f2b0de780584ed72b715863a5ab2437a2262d4a2e6bac8cdfb476",
+      "adapterSha256": "4dd2c515ca49d786cd417966f109e98876073a71b1ab8817e577691b77c96a57",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -64.0,
+          37.5,
+          81.83333333333333
+        ],
+        "max": [
+          64.0,
+          39.0,
+          84.83333333333333
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "5f63edbb9061422fe2b2b18e5c1aa0f8f1267bdbf2b0774cc4a3e2b37e00bb10",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 0.0225
+    },
+    {
+      "name": "SM_AronStudyV1_CrownEndXPlus",
+      "file": "SM_AronStudyV1_CrownEndXPlus.obj",
+      "sourceSha256": "3bd43177108919e55d6bdb764731b538776171ce79e386928b3c9a54e4de3316",
+      "adapterSha256": "f7b36aa133939efd8fff7056c3af816a02c442bd8fc6e429300c3f82c45538d5",
+      "expectedNativeBoundsCm": {
+        "min": [
+          62.5,
+          -37.5,
+          81.83333333333333
+        ],
+        "max": [
+          64.0,
+          37.5,
+          84.83333333333333
+        ]
+      },
+      "triangles": 12,
+      "priorAdapterSha256": "f4785b7747d3b95617ee12fbe2ed2909b4fff2b4e0f0db5108f702c70ddf7cfb",
+      "uvCount": 36,
+      "minimumTriangleUvArea": 0.0225
+    },
+    {
+      "name": "SM_AronStudyV1_PoleXMinus",
+      "file": "SM_AronStudyV1_PoleXMinus.obj",
+      "sourceSha256": "c87175a7c96160dd376d9dca02895ab1331a3b14fe167bfd669835be7dc1e71d",
+      "adapterSha256": "72b99ffc5abac39c19ef4a9b77ef032cef9abd96d41f803357c501e691dad111",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -67.5,
+          -125.0,
+          60.5
+        ],
+        "max": [
+          -64.5,
+          125.0,
+          63.5
+        ]
+      },
+      "triangles": 256,
+      "priorAdapterSha256": "55ced6fdafed6e9253813b1f564717d3b4fcb0451be5dc1633671184e7ba79fe",
+      "uvCount": 768,
+      "minimumTriangleUvArea": 0.0011026928224729953
+    },
+    {
+      "name": "SM_AronStudyV1_RingXMinusYMinus",
+      "file": "SM_AronStudyV1_RingXMinusYMinus.obj",
+      "sourceSha256": "9eea9ccb4732da87dd3136f8a58819a3c5a0cb5d995d71399be1e298d7457d31",
+      "adapterSha256": "757440fc8efaa3ead6e997c9fc83a275bc5bac8c59e4d4150882d6d56a35eed9",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -71.2,
+          -29.2,
+          56.8
+        ],
+        "max": [
+          -60.8,
+          -26.8,
+          67.2
+        ]
+      },
+      "triangles": 2048,
+      "priorAdapterSha256": "fe755471473907bded1f71d716ed336f0df97d7bc1cd0d917b98b7f58811ab1a",
+      "uvCount": 6144,
+      "minimumTriangleUvArea": 0.0006432511518662794
+    },
+    {
+      "name": "SM_AronStudyV1_RingXMinusYPlus",
+      "file": "SM_AronStudyV1_RingXMinusYPlus.obj",
+      "sourceSha256": "5fb3fca1476e8953d46abc1a673c5b74d774f56704c1d03fb21fdb15491d6f8b",
+      "adapterSha256": "975564ea22dcfe37e8955217337779303da46ea7ff6ebfcaf66a67404483a349",
+      "expectedNativeBoundsCm": {
+        "min": [
+          -71.2,
+          26.8,
+          56.8
+        ],
+        "max": [
+          -60.8,
+          29.2,
+          67.2
+        ]
+      },
+      "triangles": 2048,
+      "priorAdapterSha256": "6c7fa3aac569e9b6ca396de883c4e14409eebd7bd34ae9bdaaaaf553c042f288",
+      "uvCount": 6144,
+      "minimumTriangleUvArea": 0.0006432511518662794
+    },
+    {
+      "name": "SM_AronStudyV1_PoleXPlus",
+      "file": "SM_AronStudyV1_PoleXPlus.obj",
+      "sourceSha256": "4a89d5168b4d885466f65920dd54c5b8f76c394d0ca4ae3373493a9667ea7e36",
+      "adapterSha256": "4aade497c95716960d636ccc79422b402c4dd9afd117692530dbb8191c104c13",
+      "expectedNativeBoundsCm": {
+        "min": [
+          64.5,
+          -125.0,
+          60.5
+        ],
+        "max": [
+          67.5,
+          125.0,
+          63.5
+        ]
+      },
+      "triangles": 256,
+      "priorAdapterSha256": "54617b8219e3e17495006497c9a4f5e4ca011158c412856710d2d6a1a0b0e803",
+      "uvCount": 768,
+      "minimumTriangleUvArea": 0.0011026928224729953
+    },
+    {
+      "name": "SM_AronStudyV1_RingXPlusYMinus",
+      "file": "SM_AronStudyV1_RingXPlusYMinus.obj",
+      "sourceSha256": "0237be584cbbdd40bbd77ab6f843e503011a1611c25775d2e512af61b0d6fe39",
+      "adapterSha256": "d378902d31ac52833abb33aaa54dfab9ed4fa07cd268377b894ff5a1ad5023b4",
+      "expectedNativeBoundsCm": {
+        "min": [
+          60.8,
+          -29.2,
+          56.8
+        ],
+        "max": [
+          71.2,
+          -26.8,
+          67.2
+        ]
+      },
+      "triangles": 2048,
+      "priorAdapterSha256": "d4a3d2044b1c8f6e876ac16211f1c0e315dfc6175e6619c257456d17e99b760a",
+      "uvCount": 6144,
+      "minimumTriangleUvArea": 0.0006432511518662794
+    },
+    {
+      "name": "SM_AronStudyV1_RingXPlusYPlus",
+      "file": "SM_AronStudyV1_RingXPlusYPlus.obj",
+      "sourceSha256": "c4f614fa2a8266955e53481965a9c418f50a14804365aca5d219def8ca93f208",
+      "adapterSha256": "52cd9d03602dc7e4c6fdbcea932425268defecb9c45b8c00caf2bb7b531e785b",
+      "expectedNativeBoundsCm": {
+        "min": [
+          60.8,
+          26.8,
+          56.8
+        ],
+        "max": [
+          71.2,
+          29.2,
+          67.2
+        ]
+      },
+      "triangles": 2048,
+      "priorAdapterSha256": "16d8be96be5fe3fe45a5d019ba8c9bb13f6f1fd06553de77a469e9cb4a147c67",
+      "uvCount": 6144,
+      "minimumTriangleUvArea": 0.0006432511518662794
+    }
+  ],
+  "priorAdapterManifestSha256": "72a582a4bb79f3a3b3513c6079ec399af2714b4f3651d9e71cb732b70a722fb5",
+  "uvConvention": "Independent planar triangle charts, 10cm per UV unit. U follows first edge, V is face normal cross U; positive signed UV area. Deliberate chart seams/overlap are acceptable for uniform procedural gold, not a production painted atlas. Existing positions, normals and winding unchanged."
+}

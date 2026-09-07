@@ -1,0 +1,66 @@
+{
+  "status": "official_finished_object_photo_inspected_original_model_spec_ready_dimensional_replica_not_verified",
+  "checked_date": "2026-09-07",
+  "selected_identity": "Temple Institute manufactured golden menorah shown in its official modern-object photograph; rounded branches and its actual ornament/base vocabulary",
+  "prior_research_read": ["unreal/Research/temple-institute-menorah-reference-audit.md", "unreal/Research/vessels-garments-stone.md"],
+  "reference_register": [
+    {"id":"TI-FINISHED","page":"https://templeinstitute.org/history-holy-temple-menorah/","image":"https://templeinstitute.org/wp-content/uploads/2020/01/menora-classic-720.jpg","inspection":"Official image rendered and visually inspected in browser this pass. Full front-oblique photo with glass reflections and partially obscured lower base; not orthographic/calibrated.","classification":"Actual manufactured object under The Holy Temple Menorah Today"},
+    {"id":"TI-CONSTRUCTION","page":"https://templeinstitute.org/history-holy-temple-menorah/","image":"https://templeinstitute.org/wp-content/uploads/2020/02/building-the-menorah-6-720.jpg","inspection":"Page text read; image browser retrieval failed HTTP2 this pass. Prior audit recorded retrieval but not complete multiview inspection.","classification":"Construction/gold-application collage, includes workshop support frames; not a clean finished-object elevation"},
+    {"id":"TI-COUNTS","page":"https://templeinstitute.org/illustrated-tour-the-vessels/","classification":"Schematic vessel explanation, distinct from measurement of manufactured artifact"},
+    {"id":"TI-SERVICE","page":"https://templeinstitute.org/a-day-in-the-holy-temple-part-7/","classification":"Earlier Temple service/design explanation"},
+    {"id":"TI-KNOP","page":"https://wiki.temple.org.il/wt/%D7%9B%D7%A4%D7%AA%D7%95%D7%A8","classification":"Prior audit identifies captioned manufactured-object detail; detailed surface inspection pending"},
+    {"id":"TI-FLOWER","page":"https://wiki.temple.org.il/wt/%D7%A4%D7%A8%D7%97","classification":"Prior audit identifies manufactured-object upper flower; detailed image inspection pending"}
+  ],
+  "physical_dimensions": {
+    "actual_height_cm":null,"actual_width_cm":null,"actual_depth_cm":null,"actual_base_footprint_cm":null,
+    "actual_branch_cross_sections_cm":null,"actual_lamp_dimensions_cm":null,
+    "status":"No exact measured schedule located in existing bounded official-source audit; photograph does not establish scale",
+    "schematic_height_tefachim":18,
+    "schematic_ti_height_approx_cm":180,
+    "warning":"180cm is TI schematic conversion, not verified manufactured-object height. Project50cm amah and18tefachim also do not establish actual artifact dimensions. Keep physical scale an explicit review parameter."
+  },
+  "finished_photo_observations": {
+    "branches":"Three nested rounded U-shaped paired branch forms spring from three separate ornamented stem junctions. End segments rise near vertically. Preserve smooth continuous curves and generous negative spaces; no straight diagonal-branch substitution.",
+    "section":"Branches show broad reflective front bands with narrow edge highlights; exact section/depth cannot be recovered from this view. Do not default silently to thin circular tubes.",
+    "central_stem":"Straight vertical faceted-looking shaft, visibly substantial rather than wire-like; three spaced collar/knop junctions, lower ornament group and separate lower shaft above the base.",
+    "upper_groups":"Seven similarly sized ornament stacks terminate at approximately one horizontal lamp level. Each presents flared goblet-like tiers below a broad decorated knop and an upward flower supporting the lamp.",
+    "lamps":"Seven broad shallow covered-looking gold lamp forms with small raised top details in this display photograph. Exact lid/nozzle/wick geometry and display-versus-service fittings require close-up verification. Do not substitute candles or add a shamash.",
+    "base":"Visible gold base is a broad, stepped, polygonal plinth with raised ornamental panels, under a circular-looking stem collar. At least two stepped tiers are visible; rear outline, exact polygon count and bottom contact are not established by this partially occluded view. Do not replace it with a generic tripod merely because a separate schematic discusses three feet.",
+    "surface":"Glossy warm gold with broad coherent highlights and fine relief ornament, not orange emissive plastic. Fine relief motifs remain unclassified at available resolution.",
+    "excluded_display_context":["Glass case","Stone display platform","Spotlights","Interpretive sign","People and scenery","Workshop lifting frames"]
+  },
+  "normalized_photo_fit_targets": {
+    "status":"Approximate visual estimates from one perspective photograph; authoring guides only, not measured artifact proportions",
+    "normalization":"H=visible gold object height from lower visible plinth to highest lamp detail; image has perspective and base occlusion",
+    "overall_width_over_H_range":[0.73,0.83],
+    "lamp_center_horizontal_offsets_over_H_approx":[-0.35,-0.24,-0.13,0,0.12,0.23,0.34],
+    "junction_heights_over_H_low_to_high_approx":[0.45,0.55,0.65],
+    "branch_to_upper_ornament_transition_height_over_H_approx":0.77,
+    "upper_lamp_level_over_H_approx":0.96,
+    "visible_base_tiers_height_fraction_range":[0.12,0.18],
+    "uncertainty":"Ratios are intentionally low precision. Use symmetry for original construction, then compare matched-perspective renders; do not report these as survey dimensions or lock them before review."
+  },
+  "count_contract": {
+    "source":"TI-COUNTS; Torah Exodus25:31-40",
+    "lamp_positions":7,"side_branches":6,"paired_junctions":3,
+    "goblets_total":22,"goblets_each_side_branch":3,"goblets_central_shaft":4,
+    "knops_total":11,"knops_upper_groups":7,"knops_branch_junctions":3,"knops_lower_central":1,
+    "flowers_total":9,"flowers_upper_groups":7,"flowers_lower_central":2,
+    "implementation":"Give every counted ornament its own semantic ID in the original source mesh manifest. Maintain counts in LODs; surface simplification must not delete whole required silhouette ornaments.",
+    "limit":"Correct counts alone do not prove a faithful TI model or ritual validity."
+  },
+  "modeling_deliverable": {
+    "namespace_candidate":"/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1",
+    "original_mesh_parts":["Base tiers and stem collar","Central shaft and lower ornament group","Three paired curved branch assemblies","Seven individually indexed upper ornament groups","Seven removable lamp meshes"],
+    "construction":"Author original parameterized curves and ornament meshes; no extracted photographic textures or unlicensed scans. Use lathed goblet/knop silhouettes, modeled petal silhouettes and a curve sweep with controllable section. Base relief should remain explicitly unfinished until readable references identify motifs.",
+    "authoring_axes":"Local X spans seven lamps; local Z up; local Y front/back depth. Keep object origin at its actual modeled contact plane.",
+    "service_sockets":["Lamp_01 through Lamp_07 oil-bowl anchors","Wick_01 through Wick_07, direction pending reviewed service interpretation","Temporary tending-tool anchors kept separate from vessel geometry"],
+    "initial_state":"Unlit reference study; no permanent flames and no invented uninterrupted daily burning schedule",
+    "placement":"Reserved proposed Heichal south anchor[-4900,300,925]cm from heikhal-keilim-spec; final scale/orientation, stone tending steps and clearance reviewed separately. Does not grant visitor access.",
+    "acceptance":["Seven lamps and42ornaments audited by IDs","Matched-perspective render compared directly with TI-FINISHED silhouette, negative spaces, upper stacks and base tiers","Front/side/back/close-up native views checked; no false multiview match claim when reference missing","Gold material under actual sanctuary exposure reviewed; no emissive compensation","Native bounds/import/UV/tangent checks and runtime performance","Physical dimensions and concealed details remain unknown until adequate evidence"]
+  },
+  "construction_context":"Official history describes a bronze armature with gold surface. It gives45kg in its introduction and43kg in construction account; retain discrepancy and do not derive geometry from metal density. Real-world fabrication method is not a required real-time mesh topology.",
+  "open_review_items":["Exact manufactured object's height, width, depth and contact footprint","Close-up identification of lamp lids, oil apertures and wick nozzles","Base back view, polygon plan and relief motifs","Branch cross-sections and concealed joins","Detailed goblet/knop/flower profile photographs","Reviewed interpretation of lamp orientation and daily tending steps","Permission if any official imagery later becomes distributed media rather than inspection reference"],
+  "claims_allowed":"Original approximate 3D study guided by the Temple Institute manufactured menorah photograph, once created and visually checked",
+  "claims_not_allowed":["Exact measured Temple Institute replica","Rabbinically certified vessel","Verified final appearance of the future Temple menorah","Complete model before native rendering and reference comparison"]
+}

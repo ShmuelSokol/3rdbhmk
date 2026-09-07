@@ -1,0 +1,897 @@
+{
+  "status": "failed_before_save_map_unchanged",
+  "stamp": "20260907T204736473894Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "f1568d0aa3cdf017507ac856aa86958867c41928eea9946734949b231c32a3d6",
+  "mapMatchesLastKnownSha256": false,
+  "protectedSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud": "bb7ff44a214d5f2b86fca14f3f984bea2b5c93e4435c4fef30823015d4f53d7c"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_lighting_polish.spec.json",
+  "specSha256": "e50d750639be225499b057e6769ddff0745727050149bb04dc888121905b8635",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "switches": {
+    "sun": "morning",
+    "useHdri": false,
+    "fill": true,
+    "fog": true,
+    "clouds": true,
+    "dryRun": false
+  },
+  "sun": {
+    "preset": "morning",
+    "azimuthDeg": 110.0,
+    "elevationDeg": 30.0,
+    "why": "Entrance faces east: a sun from the east-south-east at 30 degrees rakes the east gate facade and the Ulam stairs, throws long west-pointing shadows across the courts, and reads as about 08:00-08:30 in spring/autumn at 31.8 N (approximate, not an ephemeris). The beam enters the Heikhal doorway and strikes the Kodesh partition below about Z 2270 (2500 cm door top minus 2000 cm x tan 30), so that wall stays the brightest surface indoors; auto exposure plus the filmic shoulder compress it instead of clipping it.",
+    "rotatorPitchYawRoll": [
+      -30.0,
+      -160.0,
+      0.0
+    ],
+    "directionUE": [
+      -0.8137976813493738,
+      -0.29619813272602386,
+      -0.49999999999999994
+    ],
+    "rotatorForwardDot": 1.0
+  },
+  "offlineCheck": {
+    "sunPresets": {
+      "morning": {
+        "preset": "morning",
+        "azimuthDeg": 110.0,
+        "elevationDeg": 30.0,
+        "why": "Entrance faces east: a sun from the east-south-east at 30 degrees rakes the east gate facade and the Ulam stairs, throws long west-pointing shadows across the courts, and reads as about 08:00-08:30 in spring/autumn at 31.8 N (approximate, not an ephemeris). The beam enters the Heikhal doorway and strikes the Kodesh partition below about Z 2270 (2500 cm door top minus 2000 cm x tan 30), so that wall stays the brightest surface indoors; auto exposure plus the filmic shoulder compress it instead of clipping it.",
+        "rotatorPitchYawRoll": [
+          -30.0,
+          -160.0,
+          0.0
+        ],
+        "directionUE": [
+          -0.8137976813493738,
+          -0.29619813272602386,
+          -0.49999999999999994
+        ],
+        "rotatorForwardDot": 1.0
+      },
+      "afternoon": {
+        "preset": "afternoon",
+        "azimuthDeg": 250.0,
+        "elevationDeg": 27.0,
+        "why": "Late afternoon from the west-south-west (about 16:30 in spring/autumn). The east facade is in soft sky light and the Heikhal receives no direct beam, so the Kodesh partition reads as gold rather than a sunlit patch; the western city and the Kotel plaza get the raking light instead. Use when the render d blow-out matters more than the arrival facade.",
+        "rotatorPitchYawRoll": [
+          -27.0,
+          -19.99999999999999,
+          0.0
+        ],
+        "directionUE": [
+          0.8372722558519103,
+          -0.30474217910701135,
+          -0.45399049973954675
+        ],
+        "rotatorForwardDot": 1.0
+      }
+    },
+    "sunSelected": {
+      "preset": "morning",
+      "azimuthDeg": 110.0,
+      "elevationDeg": 30.0,
+      "why": "Entrance faces east: a sun from the east-south-east at 30 degrees rakes the east gate facade and the Ulam stairs, throws long west-pointing shadows across the courts, and reads as about 08:00-08:30 in spring/autumn at 31.8 N (approximate, not an ephemeris). The beam enters the Heikhal doorway and strikes the Kodesh partition below about Z 2270 (2500 cm door top minus 2000 cm x tan 30), so that wall stays the brightest surface indoors; auto exposure plus the filmic shoulder compress it instead of clipping it.",
+      "rotatorPitchYawRoll": [
+        -30.0,
+        -160.0,
+        0.0
+      ],
+      "directionUE": [
+        -0.8137976813493738,
+        -0.29619813272602386,
+        -0.49999999999999994
+      ],
+      "rotatorForwardDot": 1.0
+    },
+    "exposureFieldValues": {
+      "extendedRange": {
+        "min": 8.0,
+        "max": 14.0
+      },
+      "rawLuminance": {
+        "min": 256.0,
+        "max": 16384.0
+      }
+    },
+    "fillForward": [
+      -0.9396926207859084,
+      1.1507915602278503e-16,
+      -0.3420201433256687
+    ],
+    "hdri": {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\lighting-review\\kiara_4_mid-morning_2k.hdr",
+      "exists": true,
+      "provenance": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\lighting-review\\kiara_4_mid-morning-provenance.json",
+      "provenanceExists": true,
+      "bytes": 6103040,
+      "sha256": "33d7f534efce587723947b792c73e52960bbd8cff3733da9e22199e1fd787dbd",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "sha256MatchesProvenance": true,
+      "bytesMatchProvenance": true
+    },
+    "targetMapSha256": "f1568d0aa3cdf017507ac856aa86958867c41928eea9946734949b231c32a3d6",
+    "targetMapMatchesLastKnown": false,
+    "status": "offline_spec_consistent"
+  },
+  "cvars": {
+    "r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange": 0,
+    "r.EyeAdaptation.LensAttenuation": 0.7799999713897705,
+    "r.Shadow.Virtual.Enable": 1,
+    "r.DynamicGlobalIlluminationMethod": 1,
+    "r.ReflectionMethod": 1,
+    "exposureBoundsUnits": "raw scene luminance (2^EV100 written)",
+    "exposureBoundsWritten": {
+      "min": 256.0,
+      "max": 16384.0
+    },
+    "exposureBoundsEV100": {
+      "min": 8.0,
+      "max": 14.0
+    }
+  },
+  "actors": {
+    "DirectionalLight": [
+      {
+        "name": "DirectionalLight_0",
+        "label": "V3 daylight daylight \u2014 20000 lux",
+        "class": "DirectionalLight"
+      }
+    ],
+    "SkyLight": [
+      {
+        "name": "SkyLight_0",
+        "label": "V2 skylight",
+        "class": "SkyLight"
+      }
+    ],
+    "SkyAtmosphere": [
+      {
+        "name": "SkyAtmosphere_0",
+        "label": "V3 daylight sky",
+        "class": "SkyAtmosphere"
+      }
+    ],
+    "VolumetricCloud": [
+      {
+        "name": "VolumetricCloud_0",
+        "label": "IntegratedReview_VolumetricCloud",
+        "class": "VolumetricCloud"
+      }
+    ],
+    "PostProcessVolume": [
+      {
+        "name": "PostProcessVolume_0",
+        "label": "V3 daylight exposure - physical EV13 with +1 stop compensation",
+        "class": "PostProcessVolume"
+      }
+    ],
+    "ExponentialHeightFog": [],
+    "tagged": [],
+    "kodesh": [
+      {
+        "name": "PointLight_0",
+        "label": "RELEASE_KodeshInteriorLight",
+        "class": "PointLight"
+      }
+    ]
+  },
+  "recordedOnly": {
+    "skyAtmosphere": {
+      "rayleigh_scattering_scale": {
+        "type": "float",
+        "value": 0.03310000151395798
+      },
+      "mie_absorption_scale": {
+        "type": "float",
+        "value": 0.0004440000047907233
+      },
+      "mie_anisotropy": {
+        "type": "float",
+        "value": 0.800000011920929
+      },
+      "height_fog_contribution": {
+        "type": "float",
+        "value": 1.0
+      },
+      "sky_luminance_factor": {
+        "type": "LinearColor",
+        "value": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "skyLight": {
+      "source_type": {
+        "type": "unavailable",
+        "error": "int() argument must be a string, a bytes-like object or a real number, not 'SkyLightSourceType'"
+      },
+      "cubemap": {
+        "type": "none"
+      },
+      "lower_hemisphere_is_black": {
+        "type": "bool",
+        "value": true
+      },
+      "indirect_lighting_intensity": {
+        "type": "float",
+        "value": 1.0
+      },
+      "cubemap_resolution": {
+        "type": "int",
+        "value": 128
+      }
+    }
+  },
+  "changes": [
+    {
+      "target": "sun",
+      "property": "actor_rotation",
+      "required": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "before": {
+        "type": "Rotator",
+        "value": [
+          -51.0,
+          153.0,
+          -2.5269757079996167e-15
+        ]
+      },
+      "desired": {
+        "type": "Rotator",
+        "value": [
+          -30.0,
+          -160.0,
+          0.0
+        ]
+      },
+      "forwardBefore": [
+        -0.56072857423018,
+        0.28570547882900266,
+        -0.7771459614569709
+      ],
+      "after": {
+        "type": "Rotator",
+        "value": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      },
+      "forwardAfter": [
+        -0.8137976813493739,
+        -0.296198132726024,
+        -0.5000000000000001
+      ],
+      "forwardDotDesired": 1.0000000000000004,
+      "applied": true,
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "intensity",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 20000.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 30000.0
+      },
+      "after": {
+        "type": "float",
+        "value": 30000.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "use_temperature",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "temperature",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 6500.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 5000.0
+      },
+      "after": {
+        "type": "float",
+        "value": 5000.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "light_source_angle",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.5357000231742859
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.5
+      },
+      "after": {
+        "type": "float",
+        "value": 0.5
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "light_source_soft_angle",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.0
+      },
+      "after": {
+        "type": "float",
+        "value": 0.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "contact_shadow_length",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.02
+      },
+      "after": {
+        "type": "float",
+        "value": 0.019999999552965164
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "contact_shadow_length_in_ws",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": false
+      },
+      "after": {
+        "type": "bool",
+        "value": false
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "enable_light_shaft_bloom",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "bloom_scale",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.20000000298023224
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.1
+      },
+      "after": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "enable_light_shaft_occlusion",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "occlusion_mask_darkness",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.05000000074505806
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.5
+      },
+      "after": {
+        "type": "float",
+        "value": 0.5
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "volumetric_scattering_intensity",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 1.0
+      },
+      "after": {
+        "type": "float",
+        "value": 1.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "cast_cloud_shadows",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "cloud_shadow_strength",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.6
+      },
+      "after": {
+        "type": "float",
+        "value": 0.6000000238418579
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "cast_shadows_on_atmosphere",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "cast_shadows_on_clouds",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "dynamic_shadow_distance_movable_light",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 40000.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 25000.0
+      },
+      "after": {
+        "type": "float",
+        "value": 25000.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "dynamic_shadow_cascades",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "int",
+        "value": 4
+      },
+      "desired": {
+        "type": "int",
+        "value": 4
+      },
+      "after": {
+        "type": "int",
+        "value": 4
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "cascade_distribution_exponent",
+      "required": false,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 3.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 3.0
+      },
+      "after": {
+        "type": "float",
+        "value": 3.0
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "atmosphere_sun_light",
+      "required": true,
+      "applied": true,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "componentClass": "DirectionalLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": true
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "sun",
+      "property": "actor_label",
+      "required": false,
+      "actorName": "DirectionalLight_0",
+      "actorLabel": "V3 daylight daylight \u2014 20000 lux",
+      "before": {
+        "type": "str",
+        "value": "V3 daylight daylight \u2014 20000 lux"
+      },
+      "desired": {
+        "type": "str",
+        "value": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+      },
+      "after": {
+        "type": "str",
+        "value": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+      },
+      "applied": true,
+      "matches": true
+    },
+    {
+      "target": "skyAtmosphere",
+      "property": "aerial_pespective_view_distance_scale",
+      "required": false,
+      "applied": true,
+      "actorName": "SkyAtmosphere_0",
+      "actorLabel": "V3 daylight sky",
+      "componentClass": "SkyAtmosphereComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 1.8
+      },
+      "after": {
+        "type": "float",
+        "value": 1.7999999523162842
+      },
+      "matches": true
+    },
+    {
+      "target": "skyAtmosphere",
+      "property": "mie_scattering_scale",
+      "required": false,
+      "applied": true,
+      "actorName": "SkyAtmosphere_0",
+      "actorLabel": "V3 daylight sky",
+      "componentClass": "SkyAtmosphereComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 0.003996000159531832
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.005
+      },
+      "after": {
+        "type": "float",
+        "value": 0.004999999888241291
+      },
+      "matches": true
+    },
+    {
+      "target": "skyLight",
+      "property": "intensity",
+      "required": true,
+      "applied": true,
+      "actorName": "SkyLight_0",
+      "actorLabel": "V2 skylight",
+      "componentClass": "SkyLightComponent",
+      "struct": null,
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 1.0
+      },
+      "after": {
+        "type": "float",
+        "value": 1.0
+      },
+      "matches": true
+    },
+    {
+      "target": "skyLight",
+      "property": "real_time_capture",
+      "required": false,
+      "applied": true,
+      "actorName": "SkyLight_0",
+      "actorLabel": "V2 skylight",
+      "componentClass": "SkyLightComponent",
+      "struct": null,
+      "before": {
+        "type": "bool",
+        "value": true
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    }
+  ],
+  "created": [],
+  "clouds": {
+    "currentMaterial": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+    "expectedSourceMaterial": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+    "enabled": true,
+    "parameters": {
+      "Cloud_GlobalCoverage": -0.20000000298023224,
+      "Cloud_GlobalDensity": 0.00800000037997961,
+      "Layout_CloudGlobalScale": 256.0,
+      "StormClouds": 0.0
+    },
+    "scatteredDuplicated": true,
+    "coverageBefore": -0.20000000298023224
+  },
+  "hdri": null,
+  "notes": [],
+  "errors": [
+    {
+      "stage": "run",
+      "error": "RuntimeError('set_material_instance_scalar_parameter_value failed for Cloud_GlobalCoverage')"
+    }
+  ],
+  "mapSaved": false,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Lighting-20260907T204736473894Z",
+  "limitations": [
+    "Every value is an artistic proposal read back numerically; no still, walk or packaged acceptance is established by this script.",
+    "Sun angles are approximate for 31.8 N in spring/autumn, not an ephemeris; no date or time is asserted.",
+    "The fill light, fog and cloud coverage are authored additions, not sourced features of the Mikdash.",
+    "Cloud shadow, volumetric fog and higher Lumen quality cost GPU time; the RTX 2070 walk test decides whether they stay.",
+    "Exposure bounds are written in the units the project's ExtendDefaultLuminanceRange cvar implies at run time; flipping that cvar later invalidates the written min/max brightness."
+  ],
+  "actorCountBefore": 7556,
+  "unrelatedActorBaselineCount": 7551,
+  "oneFilePerActorFoldersCopied": [],
+  "mapSha256After": "f1568d0aa3cdf017507ac856aa86958867c41928eea9946734949b231c32a3d6",
+  "mapBytesChanged": false,
+  "protectedUnchanged": true,
+  "appliedChangeCount": 26,
+  "skippedChangeCount": 0
+}

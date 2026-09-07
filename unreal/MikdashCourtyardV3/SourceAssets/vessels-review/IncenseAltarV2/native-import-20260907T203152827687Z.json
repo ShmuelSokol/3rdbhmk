@@ -1,0 +1,2441 @@
+{
+  "status": "altar_saved_reopened_old_study_removed_visual_and_walk_acceptance_pending",
+  "stamp": "20260907T203152827687Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+  "mapMatchesLastKnown": true,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_import_incense_altar.spec.json",
+  "specSha256": "2405fc491b2161893994d60ed324d70f74ca5ce9b9e8703bcd58e01d61d66abf",
+  "manifestSha256": "ff3a4300859015332571c7b7dc77958acc321f04d3fbb3f3cccf1a216c9614a2",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "sourceFiles": [
+      {
+        "name": "SM_IncenseAltarV2_Body",
+        "role": "body",
+        "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\IncenseAltarV2\\SM_IncenseAltarV2_Body.obj",
+        "sha256": "5baf53dcbbddfc4423c16ea4b3c7cdd32fe6261fe84991ad0455734a248dd8bb",
+        "triangles": 13504,
+        "vertices": 40512,
+        "fileBounds": {
+          "min": [
+            -22.083333333,
+            -27.133333333,
+            0.0
+          ],
+          "max": [
+            22.083333333,
+            27.133333333,
+            83.333333333
+          ]
+        },
+        "canonicalBoundsCm": {
+          "min": [
+            -22.083333333333336,
+            -27.13333333333334,
+            -1.1102230246251565e-16
+          ],
+          "max": [
+            22.083333333333336,
+            27.13333333333334,
+            83.33333333333334
+          ]
+        },
+        "fileRightHandedSignedVolumeCm3": 133034.14522993454,
+        "manifestPartVolumeSumCm3": 133034.14522799393
+      },
+      {
+        "name": "SM_IncenseAltarV2_Poles",
+        "role": "poles",
+        "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\IncenseAltarV2\\SM_IncenseAltarV2_Poles.obj",
+        "sha256": "45740b1a0fff4890a9b1ad6710d35dc80227fa1dd960f68223dd6696b3b2dda5",
+        "triangles": 1080,
+        "vertices": 3240,
+        "fileBounds": {
+          "min": [
+            -52.4,
+            -26.383333333,
+            68.433333333
+          ],
+          "max": [
+            52.4,
+            26.383333333,
+            73.233333333
+          ]
+        },
+        "canonicalBoundsCm": {
+          "min": [
+            -52.4,
+            -26.383333333333336,
+            68.43333333333334
+          ],
+          "max": [
+            52.4,
+            26.383333333333336,
+            73.23333333333335
+          ]
+        },
+        "fileRightHandedSignedVolumeCm3": 1614.7479172867982,
+        "manifestPartVolumeSumCm3": 1614.7479174859127
+      }
+    ],
+    "materialsOnDisk": {
+      "gold": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold",
+          "onDisk": true
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold_fallback",
+          "onDisk": true
+        }
+      ]
+    },
+    "manifestSha256": "ff3a4300859015332571c7b7dc77958acc321f04d3fbb3f3cccf1a216c9614a2",
+    "dimensionsCm": {
+      "faceToFace": [
+        41.66666666666667,
+        41.66666666666667
+      ],
+      "heightToHornTops": 83.33333333333334,
+      "tefach": 8.333333333333334,
+      "amah": 41.66666666666667,
+      "bodyBoundsIncludingZerAndRings": [
+        44.16666666666667,
+        54.26666666666668,
+        83.33333333333334
+      ]
+    },
+    "removalCrossCheck": "matches keilim-scale-20260907T171503Z.json",
+    "oldStudySizeCm": [
+      41.66666666666606,
+      44.16666666666667,
+      83.33333333333326
+    ],
+    "namespaceFolderExistsOnDisk": false,
+    "savedMeshFilesOnDisk": {
+      "SM_IncenseAltarV2_Body": false,
+      "SM_IncenseAltarV2_Poles": false
+    },
+    "mapSha256OnDisk": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+    "mapMatchesLastKnown": true,
+    "plan": {
+      "actors": {
+        "body": {
+          "label": "RELEASE_IncenseAltar_Body",
+          "role": "body",
+          "location": [
+            -4650.0,
+            0.0,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "collisionProfile": "BlockAll",
+          "plannedWorldBoundsCm": {
+            "min": [
+              -4672.083333333333,
+              -27.13333333333334,
+              925.0
+            ],
+            "max": [
+              -4627.916666666667,
+              27.13333333333334,
+              1008.3333333333334
+            ]
+          },
+          "room": "heikhal"
+        },
+        "poles": {
+          "label": "RELEASE_IncenseAltar_Poles",
+          "role": "poles",
+          "location": [
+            -4650.0,
+            0.0,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "collisionProfile": "BlockAll",
+          "plannedWorldBoundsCm": {
+            "min": [
+              -4702.4,
+              -26.383333333333336,
+              993.4333333333334
+            ],
+            "max": [
+              -4597.6,
+              26.383333333333336,
+              998.2333333333333
+            ]
+          },
+          "room": "heikhal"
+        }
+      },
+      "derived": {
+        "yaw": 0.0,
+        "polesAxisWorld": "X (east-west)",
+        "bodySizeCm": [
+          44.16666666666606,
+          54.26666666666668,
+          83.33333333333337
+        ],
+        "polesSizeCm": [
+          104.79999999999927,
+          52.76666666666667,
+          4.7999999999999545
+        ],
+        "bodyTopZ": 1008.3333333333334
+      },
+      "corridor": {
+        "xMin": -5700.0,
+        "xMax": -3200.0,
+        "halfWidthCm": 100.0,
+        "floorZ": 925.0,
+        "heightCm": 200.0,
+        "source": "Scripts/release_import_doors.spec.json corridor (walking route through the Heichal along y = 0)",
+        "rule": "The altar sits on the corridor centreline by source, so the corridor passes AROUND it: the receipt records the free lane width on each side (halfWidthCm minus the planned AABB's |y| extent). The straight y = 0 walk-probe leg through the Heikhal will meet the altar and must detour; this is expected, not a blocker.",
+        "lanes": {
+          "body": {
+            "maxAbsYcm": 27.13333333333334,
+            "freeLaneEachSideCm": 72.86666666666666,
+            "insideCorridorX": true,
+            "heightAboveFloorCm": 83.33333333333337
+          },
+          "poles": {
+            "maxAbsYcm": 26.383333333333336,
+            "freeLaneEachSideCm": 73.61666666666666,
+            "insideCorridorX": true,
+            "heightAboveFloorCm": 73.23333333333335
+          }
+        },
+        "verdict": "corridor_passes_around_the_altar"
+      }
+    },
+    "status": "offline_spec_consistent"
+  },
+  "switches": {
+    "importOnly": false,
+    "placeOnly": false,
+    "allowUnverifiedWinding": false,
+    "polesNoCollision": false
+  },
+  "mode": "import_and_place",
+  "materials": {
+    "gold": {
+      "assigned": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "kind": "gold",
+      "tried": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold",
+          "exists": true,
+          "loaded": true
+        }
+      ]
+    }
+  },
+  "meshes": {
+    "SM_IncenseAltarV2_Body": {
+      "asset": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Body",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\IncenseAltarV2\\SM_IncenseAltarV2_Body.obj",
+      "triangles": 13504,
+      "vertices": 40411,
+      "localBoundsCm": {
+        "min": [
+          -22.08333396911621,
+          -27.133333206176758,
+          0.0
+        ],
+        "max": [
+          22.08333396911621,
+          27.133333206176758,
+          83.33333587646484
+        ]
+      },
+      "boundsErrorCm": 2.5431315009427635e-06,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "importSeconds": 0.7477,
+      "buildNanite": false,
+      "uassetSha256": "9c1add7fe44276ac9c3a305cca24fc68769158a9eeb4d29c8bf5d184a7d202a3"
+    },
+    "SM_IncenseAltarV2_Poles": {
+      "asset": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Poles",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\IncenseAltarV2\\SM_IncenseAltarV2_Poles.obj",
+      "triangles": 1080,
+      "vertices": 3240,
+      "localBoundsCm": {
+        "min": [
+          -52.400001525878906,
+          -26.383333206176758,
+          68.43333435058594
+        ],
+        "max": [
+          52.400001525878906,
+          26.383333206176758,
+          73.23332977294922
+        ]
+      },
+      "boundsErrorCm": 3.5603841297415784e-06,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "importSeconds": 0.076954,
+      "buildNanite": false,
+      "uassetSha256": "a7e1ae050380ed85432ee57f423414a23682150dfdae83a459a18d537df19d54"
+    }
+  },
+  "windingCheck": {
+    "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Body": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 13504,
+      "signedVolumeUEcm3": 133034.13990422114,
+      "manifestPartVolumeSumCm3": 133034.14522799393,
+      "relativeVolumeError": 4.001809291290306e-08,
+      "faceNormalSamples": 13504,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0, relativeVolumeError <= 0.01, faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); volume by divergence theorem (asset cm)"
+    },
+    "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Poles": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 1080,
+      "signedVolumeUEcm3": 1614.7475394036335,
+      "manifestPartVolumeSumCm3": 1614.7479174859127,
+      "relativeVolumeError": 2.3414322143915703e-07,
+      "faceNormalSamples": 1080,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0, relativeVolumeError <= 0.01, faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); volume by divergence theorem (asset cm)"
+    }
+  },
+  "windingFlips": {},
+  "removed": [
+    {
+      "label": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+      "name": "StaticMeshActor_7273",
+      "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_GoldenIncenseAltarStudy"
+      ],
+      "pose": {
+        "location": [
+          -4650.0,
+          0.0,
+          925.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.8333333333333334,
+          0.8333333333333334,
+          0.8333333333333334
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -4670.833333333333,
+          -22.083333333333336,
+          925.0
+        ],
+        "max": [
+          -4629.166666666667,
+          22.083333333333336,
+          1008.3333333333333
+        ]
+      }
+    }
+  ],
+  "placed": [
+    {
+      "label": "RELEASE_IncenseAltar_Body",
+      "kind": "StaticMeshActor",
+      "role": "body",
+      "mesh": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Body",
+      "location": [
+        -4650.0,
+        0.0,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4672.083333969116,
+          -27.133333206176758,
+          925.0000610351562
+        ],
+        "max": [
+          -4627.916666030884,
+          27.133333206176758,
+          1008.3333969116211
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -4672.083333969116,
+          -27.133333206176758,
+          925.0000610351562
+        ],
+        "max": [
+          -4627.916666030884,
+          27.133333206176758,
+          1008.3333969116211
+        ]
+      },
+      "boundsErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_IncenseAltar_Poles",
+      "kind": "StaticMeshActor",
+      "role": "poles",
+      "mesh": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Poles",
+      "location": [
+        -4650.0,
+        0.0,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4702.400001525879,
+          -26.383333206176758,
+          993.4333953857422
+        ],
+        "max": [
+          -4597.599998474121,
+          26.383333206176758,
+          998.2333908081055
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -4702.400001525879,
+          -26.383333206176758,
+          993.4333953857422
+        ],
+        "max": [
+          -4597.599998474121,
+          26.383333206176758,
+          998.2333908081055
+        ]
+      },
+      "boundsErrorCm": 0.0
+    }
+  ],
+  "errors": [],
+  "mapSaved": true,
+  "collision": {
+    "note": "The altar stands on the Heikhal walking corridor centreline (source position), so NoCollision is not acceptable for an 83 cm object in the path. Imported OBJ meshes carry no simple collision (auto_generate_collision False), so each static mesh's BodySetup gets collision_trace_flag CTF_USE_COMPLEX_AS_SIMPLE (the terrain/buildings/streets import pattern) and the actors use the BlockAll profile. The poles are a separate actor so their hip-height bar can be switched off with -AltarPolesNoCollision if the walker review prefers it.",
+    "traceFlag": "CTF_USE_COMPLEX_AS_SIMPLE",
+    "body": {
+      "profile": "BlockAll"
+    },
+    "poles": {
+      "profile": "BlockAll",
+      "noCollisionSwitchProfile": "NoCollision"
+    }
+  },
+  "corridor": {
+    "xMin": -5700.0,
+    "xMax": -3200.0,
+    "halfWidthCm": 100.0,
+    "floorZ": 925.0,
+    "heightCm": 200.0,
+    "source": "Scripts/release_import_doors.spec.json corridor (walking route through the Heichal along y = 0)",
+    "rule": "The altar sits on the corridor centreline by source, so the corridor passes AROUND it: the receipt records the free lane width on each side (halfWidthCm minus the planned AABB's |y| extent). The straight y = 0 walk-probe leg through the Heikhal will meet the altar and must detour; this is expected, not a blocker.",
+    "lanes": {
+      "body": {
+        "maxAbsYcm": 27.13333333333334,
+        "freeLaneEachSideCm": 72.86666666666666,
+        "insideCorridorX": true,
+        "heightAboveFloorCm": 83.33333333333337
+      },
+      "poles": {
+        "maxAbsYcm": 26.383333333333336,
+        "freeLaneEachSideCm": 73.61666666666666,
+        "insideCorridorX": true,
+        "heightAboveFloorCm": 73.23333333333335
+      }
+    },
+    "verdict": "corridor_passes_around_the_altar"
+  },
+  "limitations": [
+    "Original study geometry: pilaster reeding, disc frieze, stem/knot/bud motif, closed crenellations, horn/zer/ring/pole sizes are artistic choices recorded in the geometry manifest; only the one-amah (five tefachim) footprint and the two-amot height are measured.",
+    "Poles are shown resting in the rings (book drawing 25) although the dossier records that the Temple altar had no rings/poles in use; recorded as artistic.",
+    "Collision is BlockAll with complex-as-simple on both meshes; this is geometric only, no walker or navigation acceptance is established. The corridor probe along y = 0 will need a detour around the altar.",
+    "Import, material assignment, winding check and placement are geometric only; no visual, lighting, LOD, Nanite, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; grounding uses the measured floor component bounds."
+  ],
+  "windingVerifiedOutward": true,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\IncenseAltarV2-20260907T203152827687Z",
+  "preExistingReleaseActors": [
+    {
+      "label": "RELEASE_Kotel_1",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint0"
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_2",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint1"
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_3",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint2"
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_4",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint3"
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_5",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint4"
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_6",
+      "folder": "Release/Kotel",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint5"
+      ]
+    },
+    {
+      "label": "RELEASE_Pilgrims_1",
+      "folder": "Release/Pilgrims",
+      "meshes": [
+        "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2"
+      ]
+    },
+    {
+      "label": "RELEASE_Pilgrims_2",
+      "folder": "Release/Pilgrims",
+      "meshes": [
+        "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2"
+      ]
+    },
+    {
+      "label": "RELEASE_Pilgrims_3",
+      "folder": "Release/Pilgrims",
+      "meshes": [
+        "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2"
+      ]
+    },
+    {
+      "label": "RELEASE_Pilgrims_4",
+      "folder": "Release/Pilgrims",
+      "meshes": [
+        "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2"
+      ]
+    },
+    {
+      "label": "RELEASE_Pilgrims_5",
+      "folder": "Release/Pilgrims",
+      "meshes": [
+        "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_1",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_IvoryPaint"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_2",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_TealPaint"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_3",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Rubber"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_4",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Glass"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_5",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Aluminium"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_6",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_DarkTrim"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_7",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_Headlamp"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_8",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_RedLens"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_9",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_AmberLens"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_10",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_SeatFabric"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_11",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_CabinFloor"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_12",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_CabinLining"
+      ]
+    },
+    {
+      "label": "RELEASE_Bus_13",
+      "folder": "Release/Bus",
+      "meshes": [
+        "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/SM_TransitV2_Bus_SafetyYellow"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_25_KodeshB0N_Hinge_Leaf",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshFoldingLeafV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_26_KodeshB0N_Hinge_Relief",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorPalmReliefV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_27_KodeshB0N_Hinge_Hardware",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorHardwareV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_28_KodeshB0N_Second_Leaf",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshFoldingLeafV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_29_KodeshB0N_Second_Relief",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorPalmReliefV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_30_KodeshB0N_Second_Hardware",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorHardwareV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_31_KodeshB0S_Hinge_Leaf",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshFoldingLeafV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_32_KodeshB0S_Hinge_Relief",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorPalmReliefV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_33_KodeshB0S_Hinge_Hardware",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorHardwareV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_34_KodeshB0S_Second_Leaf",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshFoldingLeafV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_35_KodeshB0S_Second_Relief",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorPalmReliefV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_36_KodeshB0S_Second_Hardware",
+      "folder": "Release/Doors/Kodesh",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_KodeshDoorHardwareV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_37_Paroches_Cloth",
+      "folder": "Release/Doors/Paroches",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesClothV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_38_Paroches_Hem",
+      "folder": "Release/Doors/Paroches",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesHemV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Doors_39_Paroches_Fixings",
+      "folder": "Release/Doors/Paroches",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesFixingsV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Aron_Body",
+      "folder": "Release/Vessels",
+      "meshes": [
+        "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronBody_davidgra11"
+      ]
+    },
+    {
+      "label": "RELEASE_Aron_Lid",
+      "folder": "Release/Vessels",
+      "meshes": [
+        "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronLid_davidgra11"
+      ]
+    },
+    {
+      "label": "RELEASE_Menorah",
+      "folder": "Release/Vessels",
+      "meshes": [
+        "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_Menorah_DahanMeir"
+      ]
+    },
+    {
+      "label": "RELEASE_KodeshInteriorLight",
+      "folder": "Release/Lighting",
+      "meshes": []
+    },
+    {
+      "label": "RELEASE_Frieze_1",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_2",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_3",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_4",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_5",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_6",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_7",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_8",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_9",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_10",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_11",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_12",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_13",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_14",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_15",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_16",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_17",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_18",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_19",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_20",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_21",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_22",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_23",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_24",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_25",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_26",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_27",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_28",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_29",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_30",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_31",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_32",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_33",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_34",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_35",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_36",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_37",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_38",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_39",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_40",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_41",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_42",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_43",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_44",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_45",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_46",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_47",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_48",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_49",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_50",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_51",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_52",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_53",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_54",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_55",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_56",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_57",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_58",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_59",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_60",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_61",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_62",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_63",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_64",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_65",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_66",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_67",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_68",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_69",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_70",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_71",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_72",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_73",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_74",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_75",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_76",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_77",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_78",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_79",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_80",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_81",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_82",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_83",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_84",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_85",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_86",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_87",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_88",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_89",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_90",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_91",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_92",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_93",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_94",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_95",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_96",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_97",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_98",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_99",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_100",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_101",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_102",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_103",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_104",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_105",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_106",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_107",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_108",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_109",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_110",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_111",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_112",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_113",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_114",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_115",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_116",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_117",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_118",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_119",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_120",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_121",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_122",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_123",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_124",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_125",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_126",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_127",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_128",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_129",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_130",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_131",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_132",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_133",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_134",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_135",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_136",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_137",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_138",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_139",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_140",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_141",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_142",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_143",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_144",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_145",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_146",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_147",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_148",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_149",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_150",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_151",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_152",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_153",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_154",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_155",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_156",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_157",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_158",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_159",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_160",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_161",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_162",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_163",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_164",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_165",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_166",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_167",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_168",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_169",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_170",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_171",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_172",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_173",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_174",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_175",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_176",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_177",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_178",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_179",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_180",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_181",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_182",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_183",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_184",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_185",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_186",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_187",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_188",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_189",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_190",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_191",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_192",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_193",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_194",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_195",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    },
+    {
+      "label": "RELEASE_Frieze_196",
+      "folder": "Release/Frieze",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes/SM_KeruvFriezePanelDisplacedV1"
+      ]
+    }
+  ],
+  "actorCountBefore": 7532,
+  "plan": {
+    "actors": {
+      "body": {
+        "label": "RELEASE_IncenseAltar_Body",
+        "role": "body",
+        "location": [
+          -4650.0,
+          0.0,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "collisionProfile": "BlockAll",
+        "plannedWorldBoundsCm": {
+          "min": [
+            -4672.083333969116,
+            -27.133333206176758,
+            925.0000610351562
+          ],
+          "max": [
+            -4627.916666030884,
+            27.133333206176758,
+            1008.3333969116211
+          ]
+        },
+        "room": "heikhal"
+      },
+      "poles": {
+        "label": "RELEASE_IncenseAltar_Poles",
+        "role": "poles",
+        "location": [
+          -4650.0,
+          0.0,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "collisionProfile": "BlockAll",
+        "plannedWorldBoundsCm": {
+          "min": [
+            -4702.400001525879,
+            -26.383333206176758,
+            993.4333953857422
+          ],
+          "max": [
+            -4597.599998474121,
+            26.383333206176758,
+            998.2333908081055
+          ]
+        },
+        "room": "heikhal"
+      }
+    },
+    "derived": {
+      "yaw": 0.0,
+      "polesAxisWorld": "X (east-west)",
+      "bodySizeCm": [
+        44.16666793823242,
+        54.266666412353516,
+        83.33333587646484
+      ],
+      "polesSizeCm": [
+        104.80000305175781,
+        52.766666412353516,
+        4.799995422363281
+      ],
+      "bodyTopZ": 1008.3333969116211
+    },
+    "corridor": {
+      "xMin": -5700.0,
+      "xMax": -3200.0,
+      "halfWidthCm": 100.0,
+      "floorZ": 925.0,
+      "heightCm": 200.0,
+      "source": "Scripts/release_import_doors.spec.json corridor (walking route through the Heichal along y = 0)",
+      "rule": "The altar sits on the corridor centreline by source, so the corridor passes AROUND it: the receipt records the free lane width on each side (halfWidthCm minus the planned AABB's |y| extent). The straight y = 0 walk-probe leg through the Heikhal will meet the altar and must detour; this is expected, not a blocker.",
+      "lanes": {
+        "body": {
+          "maxAbsYcm": 27.133333206176758,
+          "freeLaneEachSideCm": 72.86666679382324,
+          "insideCorridorX": true,
+          "heightAboveFloorCm": 83.33333587646484
+        },
+        "poles": {
+          "maxAbsYcm": 26.383333206176758,
+          "freeLaneEachSideCm": 73.61666679382324,
+          "insideCorridorX": true,
+          "heightAboveFloorCm": 73.23332977294922
+        }
+      },
+      "verdict": "corridor_passes_around_the_altar"
+    }
+  },
+  "clearance": {
+    "actorsConsidered": 7260,
+    "excludedActors": [
+      "Heichal clear floor",
+      "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy"
+    ],
+    "excludedTerrainTileCount": 256,
+    "unionsDecomposed": {
+      "SM_1676_union_Derived_union_of_House_and_Ulam_foundati": 2,
+      "SM_2629_union_Derived_union_of_source_outer_envelope_w": 116,
+      "SM_2630_union_Derived_union_of_source_House_walls_and_": 27,
+      "SM_2631_union_Derived_union_of_source_raised_gallery_s": 6,
+      "SM_2632_union_Derived_union_of_source_western_paving_a": 11
+    },
+    "blockers": {}
+  },
+  "removedCount": 1,
+  "mapSha256AfterSave": "16a07e9d8d6d09e824df0e6dac18ab7b0fd0245e701cd7e40e50708da8b2e647",
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_IncenseAltar_Body",
+      "folder": "Release/Vessels",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Body"
+      ],
+      "pose": {
+        "location": [
+          -4650.0,
+          0.0,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -4672.083333969116,
+          -27.133333206176758,
+          925.0000610351562
+        ],
+        "max": [
+          -4627.916666030884,
+          27.133333206176758,
+          1008.3333969116211
+        ]
+      },
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0,
+      "collisionProfile": "BlockAll",
+      "collisionEnabled": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_IncenseAltar_Poles",
+      "folder": "Release/Vessels",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/SM_IncenseAltarV2_Poles"
+      ],
+      "pose": {
+        "location": [
+          -4650.0,
+          0.0,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -4702.400001525879,
+          -26.383333206176758,
+          993.4333953857422
+        ],
+        "max": [
+          -4597.599998474121,
+          26.383333206176758,
+          998.2333908081055
+        ]
+      },
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0,
+      "collisionProfile": "BlockAll",
+      "collisionEnabled": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "meshCollision": {
+        "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+        "simpleCollisionElements": 0
+      },
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    }
+  ],
+  "actorCountAfter": 7533,
+  "mapSha256After": "16a07e9d8d6d09e824df0e6dac18ab7b0fd0245e701cd7e40e50708da8b2e647",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 2,
+  "removedActorCount": 1
+}

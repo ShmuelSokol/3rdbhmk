@@ -1,0 +1,3456 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_enclosure.py: native OBJ import of the EnclosureV1 parts (future Temple Mount wall 3000 x 3000 amot with five gates, cheil slab and wall, soreg band, optional book-proportion steps) generated offline by Scripts/create_mount_enclosure.py, assignment of EXISTING canonical materials, BlockAll collision through complex-as-simple, and placement as a separate toggleable actor folder Release/Enclosure in the combined map. Nothing here claims visual, walking, performance or packaged acceptance. The frozen section is written by `python Scripts/release_import_enclosure.py --freeze` after the generated files were reviewed; offline_check() refuses to run when the files on disk differ from it.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "targetMapNote": "The Walkthrough map carries the measured architecture, the Jerusalem context (Buildings 1498, Streets 2877, Terrain 256 actors) and the FutureMountV1/Platform deck (2 actors, top Z 0) per release-inventory-20260907T173546Z.json. L_FutureMount is protected and never loaded.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Enclosure-",
+  "receiptFolder": "SourceAssets/FutureMountV1/EnclosureV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "actorTag": "ReleaseEnclosureV1",
+  "labelPrefix": "RELEASE_",
+  "group": "Enclosure",
+  "folder": "Release/Enclosure",
+  "toggleNote": "All actors live under the outliner folder Release/Enclosure/<group> and carry the tag ReleaseEnclosureV1, so the whole future enclosure can be hidden or shown as one layer without touching any city, terrain or platform actor. No existing actor is moved, hidden or deleted.",
+  "defaultGroups": [
+    "wall",
+    "gates",
+    "cheil",
+    "soreg"
+  ],
+  "deliberateOmissions": {
+    "steps": "The measured scene already carries the 12 east (SM_0261..0272) and 7 north/south (SM_0357..0363, SM_0458..0464) gateway stairs at the same threshold planes. The book-proportion step slabs (0.5 x 0.5 amah, last step 4.5 deep) are imported for comparison but NOT placed by default; -EnclosureGroups=steps would be refused by the clearance check unless the measured stairs are hidden first."
+  },
+  "sourceReference": "Lishchno Tidreshu pp. 113, 115-118 (wall 6 x 6, 3000 x 3000 amot, five gates 10 x 50, Temple near the NW: 500 W / 501 N), pp. 119-126 (soreg 10 tefachim, cheil wall 10 amot + 10 amot open, 12/7 steps), pp. 359-363 (500 x 500 reeds measured from outside; Rashi 42:20 cheil wall around the whole mountain; author's starred 500-amot soreg ring). Research: SourceAssets/research/book-scene-requirements-20260907.md section 1, gap 3.",
+  "source": {
+    "folder": "SourceAssets/FutureMountV1/EnclosureV1",
+    "manifest": "SourceAssets/FutureMountV1/EnclosureV1/geometry-manifest.json",
+    "manifestStatusRequired": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+    "design": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json",
+    "designStatusRequired": "offline_design_generated_native_pending",
+    "generator": "Scripts/create_mount_enclosure.py",
+    "namespace": "/Game/MikdashV3/FutureMountV1/EnclosureV1",
+    "meshFolder": "/Game/MikdashV3/FutureMountV1/EnclosureV1/Meshes",
+    "namespaceNote": "The script refuses to import if the namespace directory already exists (never overwrite a native namespace); -EnclosurePlaceOnly verifies an existing import instead.",
+    "boundsToleranceCm": 0.05,
+    "maxTotalTriangles": 200000
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed OBJ adapter path (create_heikhal_keilim.run_native; release_import_reliefs; release_import_doors): FbxFactory on the OBJ, import_materials False, auto_generate_collision False, one empty material slot per OBJ 'g' group. After import the mesh BodySetup is set to CTF_USE_COMPLEX_AS_SIMPLE (as import_mount_platform.py / import_buildings_ue58.py) so the BlockAll component profile blocks on the actual box geometry.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "collision": {
+    "componentProfile": "BlockAll",
+    "meshCollisionTraceFlag": "CTF_USE_COMPLEX_AS_SIMPLE",
+    "lodForCollision": 0,
+    "note": "BlockAll via complex-as-simple on every enclosure mesh; the walker collides with the wall/gate boxes, the cheil wall and the soreg band; the 5 cm cheil slab is a walkable lip."
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (one slot per OBJ group). No material is created or duplicated. Falling past the first candidate is recorded as a limitation.",
+    "stone": {
+      "use": "wall chunks, gate piers/lintels, cheil wall, steps",
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6",
+          "kind": "canonical stone of the measured architecture (architecture manifest slot M_stone_16ec6ebc63 -> M_Canonical_stone per canonical-material-review.json; original material of the inner gate jamb SM_0138 per jerusalem-stone-v2-wall review)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+          "kind": "Jerusalem stone V2 wall review pilot (fallback)"
+        }
+      ]
+    },
+    "paving": {
+      "use": "cheil slab (10-amot open strip)",
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_paving_5b05255363",
+          "kind": "canonical paving of the measured courts"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6",
+          "kind": "canonical stone (fallback)"
+        }
+      ]
+    },
+    "cedar": {
+      "use": "soreg band (wooden lattice, simplified)",
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_cedar_6e144262d4",
+          "kind": "canonical dark cedar (already on 52 architecture slots)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6",
+          "kind": "canonical stone (fallback)"
+        }
+      ]
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 (copy_mesh_from_static_mesh_v2 + get_triangle_face_normal, as release_import_doors.py). Every authored part is a closed box with positive canonical volume, so the divergence volume with UE face normals must be positive and equal the manifest part-volume sum. Needs -EnablePlugins=GeometryScripting; without a pass nothing is placed unless -EnclosureAllowUnverifiedWinding is given (recorded).",
+    "requireForPlacement": true,
+    "maxRelativeVolumeError": 0.01
+  },
+  "platform": {
+    "folder": "FutureMountV1/Platform",
+    "deckTopZcm": 0.0,
+    "deckTopToleranceCm": 2.0,
+    "rule": "The cheil, soreg and steps groups stand on the future platform deck (design Z policy platform_deck_z0). Before placing them the script requires at least one actor in this folder whose world bounds top is within deckTopToleranceCm of 0 and whose XY bounds contain every ring footprint; otherwise those groups become recorded omissions and only wall/gates are placed."
+  },
+  "clearance": {
+    "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+    "unionFolder": "Measured architecture/union",
+    "unionBoundsToleranceCm": 0.05,
+    "largeActorExtentCm": 20000.0,
+    "architectureManifest": "SourceAssets/architecture-manifest.json",
+    "ringGroups": [
+      "cheil",
+      "soreg",
+      "steps"
+    ],
+    "rule": "Ring groups: any overlapping small actor (or union constituent box) is a blocker and aborts the placement (all spawned actors destroyed). Wall/gates: overlaps with city/terrain actors are EXPECTED (the book's 1500 m square covers the modern city, which is the comparison context); they are counted and listed in the receipt as cityOverlap, never treated as blockers. Actors with an extent above largeActorExtentCm (terrain tiles, platform, instanced batches) are envelope-only."
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "Traces return nothing in commandlets; no native grounding is attempted. Wall and gate base heights come from the offline source DEM triangles (enclosure-design.json terrainSampledZcm); the future terrain is unknown and the current city DEM is only the comparison datum.",
+    "The 3000-amot wall (1500 m square) crosses the modern city model: buildings, streets and trees intersect the wall and gate boxes. This is inherent to the book's layout; the receipt lists the intersecting actors and the enclosure folder can be hidden as one layer.",
+    "Gate positions along the walls, the 60-amot piers/lintel, the soreg distance and the cheil-wall openings are assumptions or the author's starred suggestions (see enclosure-design.json uncertainties). Gate doors are not modelled.",
+    "The soreg is a solid 25 cm band, not a lattice; the cheil slab is a 5 cm lip on the deck.",
+    "Import, material assignment and placement are geometric only; no visual, lighting, LOD, performance or packaged acceptance is established. The 60-amot gate piers and the 32 wall chunks add 37 large actors to the city view frustum; culling behaviour is unverified."
+  ],
+  "frozen": {
+    "manifestSha256": "5b799b454f5f89885f96004e88cee72af53280d380e08cd395680f046b35370a",
+    "designSha256": "17db3e8199d61765b547b336ed5d6548f31541b21ed034e074551f0c30376edd",
+    "generatorSha256": "52c9560ce914ce078efde237552cf6692a74ffb2a7543ae4b9d19fe5d1e4945a",
+    "manifestGeneratorSha256": "52c9560ce914ce078efde237552cf6692a74ffb2a7543ae4b9d19fe5d1e4945a",
+    "designGeneratorSha256": "52c9560ce914ce078efde237552cf6692a74ffb2a7543ae4b9d19fe5d1e4945a",
+    "totalTriangles": 3780,
+    "meshes": [
+      {
+        "name": "SM_EnclosureV1_Wall_W_01",
+        "file": "SM_EnclosureV1_Wall_W_01.obj",
+        "sha256": "dcde13bbfc0c36e94a8cc4cb7613dc32521e8832d6fba647b0fb8fc329211663",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            2152.5698022091146
+          ]
+        },
+        "partVolumeSumCm3": 3550550977.616481,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_02",
+        "file": "SM_EnclosureV1_Wall_W_02.obj",
+        "sha256": "a93dd95eeaa9b3707a967b0384c47976737d96b28f81e2643bc101b2642ee8f0",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            892.9361019728759
+          ]
+        },
+        "partVolumeSumCm3": 2533453394.5311384,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_03",
+        "file": "SM_EnclosureV1_Wall_W_03.obj",
+        "sha256": "aedb7ca702a1bee600c8db153693d42cf890b73a427904358a1094adf34f4338",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            1807.814002051623
+          ]
+        },
+        "partVolumeSumCm3": 3456580219.3046775,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_04",
+        "file": "SM_EnclosureV1_Wall_W_04.obj",
+        "sha256": "61c34dec5fac59df8a8b3301092612ce3c7ce519d539160abac597e143f724e6",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            1692.6665973170034
+          ]
+        },
+        "partVolumeSumCm3": 3339126910.788844,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_05",
+        "file": "SM_EnclosureV1_Wall_W_05.obj",
+        "sha256": "8764554b60b2f2e8bd1e02dd9708f8fff95b929927f876f884eaf856eb8fce2a",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            3754.166597317004
+          ]
+        },
+        "partVolumeSumCm3": 4854960913.119268,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_06",
+        "file": "SM_EnclosureV1_Wall_W_06.obj",
+        "sha256": "c029b8a3fff25bc80e356271862a4313b67db624193a1147e47c2e02ba48ca46",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            1190.48360347187
+          ]
+        },
+        "partVolumeSumCm3": 3639246332.4526553,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_07",
+        "file": "SM_EnclosureV1_Wall_W_07.obj",
+        "sha256": "b6052fe313e9cda09a91861730dd8ab547a46ba1bfeaa8358dbdc8ca95019dbc",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            4523.182197949785
+          ]
+        },
+        "partVolumeSumCm3": 5399571442.927709,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_W_08",
+        "file": "SM_EnclosureV1_Wall_W_08.obj",
+        "sha256": "a4e9b55f7b79d051da70cb5a4f162de446ee36569f78e63af95381ce8a5419c3",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            3461.741299763762
+          ]
+        },
+        "partVolumeSumCm3": 5905187935.06912,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_01",
+        "file": "SM_EnclosureV1_Wall_E_01.obj",
+        "sha256": "378585df831c3757bdc7e59afec9d013515bc88cc788cbf546e3fe6b8f0989f0",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            3063.228599209725
+          ]
+        },
+        "partVolumeSumCm3": 4487797550.0923195,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_02",
+        "file": "SM_EnclosureV1_Wall_E_02.obj",
+        "sha256": "a5b1821087348ab7a7068744a11e00ee36fca73b0f774ac1fc8134c9883c593d",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            5116.338295660519
+          ]
+        },
+        "partVolumeSumCm3": 4884800023.353994,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_03",
+        "file": "SM_EnclosureV1_Wall_E_03.obj",
+        "sha256": "6d4c0678d9907db362caff2707f3ff5cd8b1f6daf35477f37ef8918af8cb1036",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            6216.525304813367
+          ]
+        },
+        "partVolumeSumCm3": 6368103778.708384,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_04",
+        "file": "SM_EnclosureV1_Wall_E_04.obj",
+        "sha256": "5121faa4a5a6fbd73cfe7c3e172b6a922289a3c8ce83581706cf514d4774c01c",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            2459.8059936862355
+          ]
+        },
+        "partVolumeSumCm3": 3875488589.3106422,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_05",
+        "file": "SM_EnclosureV1_Wall_E_05.obj",
+        "sha256": "0c262bef787814f21e906634085a3d99bffee0d02c32cc185b3ef4d3107bf29f",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            2336.494095818014
+          ]
+        },
+        "partVolumeSumCm3": 4093415856.4899273,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_06",
+        "file": "SM_EnclosureV1_Wall_E_06.obj",
+        "sha256": "e7a2b77f3e242c67775fa71e974fc922efa828f08ffbba07c0a18c31d3e4161b",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            3069.622307970255
+          ]
+        },
+        "partVolumeSumCm3": 4523640685.291601,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_07",
+        "file": "SM_EnclosureV1_Wall_E_07.obj",
+        "sha256": "16449b8a411e1b528c30d41adeb0a63762bc41a0ea527ce022ef6c66695ad085",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            1494.0889947914966
+          ]
+        },
+        "partVolumeSumCm3": 3525003907.5705676,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_E_08",
+        "file": "SM_EnclosureV1_Wall_E_08.obj",
+        "sha256": "26d032ba3b1550c29cc3e10b76e9d6394354dad43ded2b4d6610a7f2b67e97d3",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -9375.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            9375.0,
+            3301.822010417014
+          ]
+        },
+        "partVolumeSumCm3": 4712218601.074478,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_01",
+        "file": "SM_EnclosureV1_Wall_N_01.obj",
+        "sha256": "44136800ea67f5f7f7f5d7a0b65dd72c8e9c880758937b7eb14c54072e7ffd09",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            1471.3558001574897
+          ]
+        },
+        "partVolumeSumCm3": 3319553312.211381,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_02",
+        "file": "SM_EnclosureV1_Wall_N_02.obj",
+        "sha256": "43450680857cc88b1630e5d2cd3cf3fc14dd2b4fdf5619654cd81a28dbbbaac0",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            1896.833402682998
+          ]
+        },
+        "partVolumeSumCm3": 3054445946.489375,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_03",
+        "file": "SM_EnclosureV1_Wall_N_03.obj",
+        "sha256": "34b23d2004010a23d80ed27f6f00b84b588829de59f83da9f8f24ec749053516",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            2783.3719958967517
+          ]
+        },
+        "partVolumeSumCm3": 4286665544.3177266,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_04",
+        "file": "SM_EnclosureV1_Wall_N_04.obj",
+        "sha256": "48c31db98897987084133c6069ecbd0cb2445e72414092ac40dea969a8fd6826",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            2240.7085067074945
+          ]
+        },
+        "partVolumeSumCm3": 4272029013.067732,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_05",
+        "file": "SM_EnclosureV1_Wall_N_05.obj",
+        "sha256": "3c4558a6bfeee509de47b9ab4e21e8a20b8a03afaca723974a55fdf53d0c66c5",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            5019.192110179364
+          ]
+        },
+        "partVolumeSumCm3": 5555275904.347479,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_06",
+        "file": "SM_EnclosureV1_Wall_N_06.obj",
+        "sha256": "48f0b6dd3a0ecb6a1bd3f846cc5e28c178ee7ea52aa3970e838c6ec836c20775",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            4058.9611987372427
+          ]
+        },
+        "partVolumeSumCm3": 5274026264.490639,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_07",
+        "file": "SM_EnclosureV1_Wall_N_07.obj",
+        "sha256": "85aa767e09db88822194d1293b8ab34a0197ebfd72968b2adbcd1299bb1d5b51",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            2060.610499606265
+          ]
+        },
+        "partVolumeSumCm3": 3538349986.37512,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_N_08",
+        "file": "SM_EnclosureV1_Wall_N_08.obj",
+        "sha256": "7a710e9842597ed0955c03d1d8f3a2838ead6a8ce333a5534290d0917441d83e",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            2680.1703973155877
+          ]
+        },
+        "partVolumeSumCm3": 4056329331.3700542,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_01",
+        "file": "SM_EnclosureV1_Wall_S_01.obj",
+        "sha256": "619ae19ef14ec5145f1080e4b5cd1b265af1d7e4b7d4270eebc1eecddf610c85",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            5172.998103865603
+          ]
+        },
+        "partVolumeSumCm3": 5804742964.759797,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_02",
+        "file": "SM_EnclosureV1_Wall_S_02.obj",
+        "sha256": "6b075a1b5c0d9b0dccd811f1d5f1397c03ca157727b7bcc2a445e670745b6237",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            3325.8546994487733
+          ]
+        },
+        "partVolumeSumCm3": 5177038445.8997555,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_03",
+        "file": "SM_EnclosureV1_Wall_S_03.obj",
+        "sha256": "612a1557790e50f361cf3237f5abee8dc56d825c295387bad23f41e778f516ee",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            8144.185997948379
+          ]
+        },
+        "partVolumeSumCm3": 7205715865.9752445,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_04",
+        "file": "SM_EnclosureV1_Wall_S_04.obj",
+        "sha256": "282ccd7982e7d01490494597d06bad302aa6ee0e67ec532668e4f7a7bce074bf",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            2415.891604577129
+          ]
+        },
+        "partVolumeSumCm3": 4079154831.8065314,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_05",
+        "file": "SM_EnclosureV1_Wall_S_05.obj",
+        "sha256": "8aeeb2e16337b4a500dfdd26d74e85be5772efc1c950ba0e95e2db29e885d412",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            1848.8779000787476
+          ]
+        },
+        "partVolumeSumCm3": 3504422157.941445,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_06",
+        "file": "SM_EnclosureV1_Wall_S_06.obj",
+        "sha256": "3c9e60cf58823c72aefb2ca8cf821078c777c6119f828f79d7709149f92bdc85",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            3336.428301656486
+          ]
+        },
+        "partVolumeSumCm3": 3833603143.4472065,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_07",
+        "file": "SM_EnclosureV1_Wall_S_07.obj",
+        "sha256": "a5aead6ae050d641b4cf247759e071978a7d1795036c93d0c25ee055d2f7f3da",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            6269.333194634
+          ]
+        },
+        "partVolumeSumCm3": 6517020513.08785,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Wall_S_08",
+        "file": "SM_EnclosureV1_Wall_S_08.obj",
+        "sha256": "d2e6a7b232dc1a8cbf07065faea9f741c61c615af2b7c953cef848ab64b3c6ff",
+        "triangles": 96,
+        "parts": 8,
+        "canonicalBoundsCm": {
+          "min": [
+            -9337.5,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            9337.5,
+            150.0,
+            1801.2385037095155
+          ]
+        },
+        "partVolumeSumCm3": 3644693074.809613,
+        "group": "wall",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Gate_E",
+        "file": "SM_EnclosureV1_Gate_E.obj",
+        "sha256": "fc8df880a9eab285025f06029e95dc8060ced482fdcb21e5215dd0494b3fbab6",
+        "triangles": 36,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -750.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            750.0,
+            3841.3080978696426
+          ]
+        },
+        "partVolumeSumCm3": 1227392429.360893,
+        "group": "gates",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Gate_N",
+        "file": "SM_EnclosureV1_Gate_N.obj",
+        "sha256": "d3fba2420b5191a39164cafcd9592f0e22c05090d4624ee2f00312e062e8df3a",
+        "triangles": 36,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -750.0,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            750.0,
+            150.0,
+            3171.999999999998
+          ]
+        },
+        "partVolumeSumCm3": 1026599999.9999993,
+        "group": "gates",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Gate_W",
+        "file": "SM_EnclosureV1_Gate_W.obj",
+        "sha256": "56219e288627954495ea6123858e6e878a503976f20e6bcf41b6020c04224c1b",
+        "triangles": 36,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -150.0,
+            -750.0,
+            0.0
+          ],
+          "max": [
+            150.0,
+            750.0,
+            3124.000000000001
+          ]
+        },
+        "partVolumeSumCm3": 1012200000.0000001,
+        "group": "gates",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Gate_S1",
+        "file": "SM_EnclosureV1_Gate_S1.obj",
+        "sha256": "70a32ada5254e58685a99ce829a5a30729d4633621fe1c93c80b101b30c7b260",
+        "triangles": 36,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -750.0,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            750.0,
+            150.0,
+            3377.9167013414963
+          ]
+        },
+        "partVolumeSumCm3": 1088375010.402449,
+        "group": "gates",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Gate_S2",
+        "file": "SM_EnclosureV1_Gate_S2.obj",
+        "sha256": "4694276891deed1b002fd1487a92960e87032916037f1fd1cbc0cf3d86a0ad65",
+        "triangles": 36,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -750.0,
+            -150.0,
+            0.0
+          ],
+          "max": [
+            750.0,
+            150.0,
+            3485.9167013414944
+          ]
+        },
+        "partVolumeSumCm3": 1120775010.4024484,
+        "group": "gates",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilslab_E",
+        "file": "SM_EnclosureV1_Cheilslab_E.obj",
+        "sha256": "221ca3e7497d82d84d4eb8c8aa8d7ad378a908c80026b2abe1134ff53dd35357",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -250.0,
+            -9700.0,
+            0.0
+          ],
+          "max": [
+            250.0,
+            9700.0,
+            5.0
+          ]
+        },
+        "partVolumeSumCm3": 48499999.99999999,
+        "group": "cheil",
+        "materialRole": "paving"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilslab_W",
+        "file": "SM_EnclosureV1_Cheilslab_W.obj",
+        "sha256": "9be68f9698008a6bce7269860442a0f375c692fd5b777800daeb5fc742d69173",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -250.0,
+            -9700.0,
+            0.0
+          ],
+          "max": [
+            250.0,
+            9700.0,
+            5.0
+          ]
+        },
+        "partVolumeSumCm3": 48499999.99999999,
+        "group": "cheil",
+        "materialRole": "paving"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilslab_N",
+        "file": "SM_EnclosureV1_Cheilslab_N.obj",
+        "sha256": "20d4509bdafcdf400ce9c28039fe772095408e9f0734dd063e29563cdbc6f448",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -9200.0,
+            -250.0,
+            0.0
+          ],
+          "max": [
+            9200.0,
+            250.0,
+            5.0
+          ]
+        },
+        "partVolumeSumCm3": 46000000.00000001,
+        "group": "cheil",
+        "materialRole": "paving"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilslab_S",
+        "file": "SM_EnclosureV1_Cheilslab_S.obj",
+        "sha256": "04735e075b86c6a466ea3ca45f085764586f01e8c6c342ea671711efb69da7c8",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -9200.0,
+            -250.0,
+            0.0
+          ],
+          "max": [
+            9200.0,
+            250.0,
+            5.0
+          ]
+        },
+        "partVolumeSumCm3": 46000000.00000001,
+        "group": "cheil",
+        "materialRole": "paving"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilwall_E",
+        "file": "SM_EnclosureV1_Cheilwall_E.obj",
+        "sha256": "dfbbbc9589d92147f9d07b4370cdb5c0d42c4f812e924f08cdabf8069fcf1be9",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -25.0,
+            -9750.0,
+            0.0
+          ],
+          "max": [
+            25.0,
+            9750.0,
+            500.0
+          ]
+        },
+        "partVolumeSumCm3": 474999999.99999994,
+        "group": "cheil",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilwall_W",
+        "file": "SM_EnclosureV1_Cheilwall_W.obj",
+        "sha256": "24514c5350705c329d556627d1331ec6d1248dd45e3cc0804a77f0782d02085e",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -25.0,
+            -9750.0,
+            0.0
+          ],
+          "max": [
+            25.0,
+            9750.0,
+            500.0
+          ]
+        },
+        "partVolumeSumCm3": 487500000.0,
+        "group": "cheil",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilwall_N",
+        "file": "SM_EnclosureV1_Cheilwall_N.obj",
+        "sha256": "08519fd5fd44af1e26c9b89d60f00b36c9b5370b057747b8076aae49f9ddd93c",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -9700.0,
+            -25.0,
+            0.0
+          ],
+          "max": [
+            9700.0,
+            25.0,
+            500.0
+          ]
+        },
+        "partVolumeSumCm3": 472500000.0,
+        "group": "cheil",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Cheilwall_S",
+        "file": "SM_EnclosureV1_Cheilwall_S.obj",
+        "sha256": "2dea238427d4a75ef4ea3b554d3449c7f889ceced224769fd3cfde22ee042aff",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -9700.0,
+            -25.0,
+            0.0
+          ],
+          "max": [
+            9700.0,
+            25.0,
+            500.0
+          ]
+        },
+        "partVolumeSumCm3": 472500000.0,
+        "group": "cheil",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Soreg_E",
+        "file": "SM_EnclosureV1_Soreg_E.obj",
+        "sha256": "794997bd1036c61039d3f97e22b79198b888f85403a06111f9efeebb5fe2dc3f",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -12.5,
+            -10275.0,
+            0.0
+          ],
+          "max": [
+            12.5,
+            10275.0,
+            83.33333333333334
+          ]
+        },
+        "partVolumeSumCm3": 41770833.33333333,
+        "group": "soreg",
+        "materialRole": "cedar"
+      },
+      {
+        "name": "SM_EnclosureV1_Soreg_W",
+        "file": "SM_EnclosureV1_Soreg_W.obj",
+        "sha256": "60c326fc24144fc72913dd007e8e9742a3044ca62a3c2468432477df541ff125",
+        "triangles": 12,
+        "parts": 1,
+        "canonicalBoundsCm": {
+          "min": [
+            -12.5,
+            -10275.0,
+            0.0
+          ],
+          "max": [
+            12.5,
+            10275.0,
+            83.33333333333334
+          ]
+        },
+        "partVolumeSumCm3": 42812500.00000001,
+        "group": "soreg",
+        "materialRole": "cedar"
+      },
+      {
+        "name": "SM_EnclosureV1_Soreg_N",
+        "file": "SM_EnclosureV1_Soreg_N.obj",
+        "sha256": "4734c39dfc7889b42484ce846eeeb869784cf89e6a06aa50455ca3a6caca2f4f",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -10250.0,
+            -12.5,
+            0.0
+          ],
+          "max": [
+            10250.0,
+            12.5,
+            83.33333333333334
+          ]
+        },
+        "partVolumeSumCm3": 41666666.66666667,
+        "group": "soreg",
+        "materialRole": "cedar"
+      },
+      {
+        "name": "SM_EnclosureV1_Soreg_S",
+        "file": "SM_EnclosureV1_Soreg_S.obj",
+        "sha256": "5fd0a11212d802bd8b71bbb5c5ebc9b108392d73206123ec979d6122862095de",
+        "triangles": 24,
+        "parts": 2,
+        "canonicalBoundsCm": {
+          "min": [
+            -10250.0,
+            -12.5,
+            0.0
+          ],
+          "max": [
+            10250.0,
+            12.5,
+            83.33333333333334
+          ]
+        },
+        "partVolumeSumCm3": 41666666.66666667,
+        "group": "soreg",
+        "materialRole": "cedar"
+      },
+      {
+        "name": "SM_EnclosureV1_Steps_E",
+        "file": "SM_EnclosureV1_Steps_E.obj",
+        "sha256": "278919dae09b5bf714e792e9c4da80d78ac58d1d3c69feea1c846ab7f45d7cea",
+        "triangles": 144,
+        "parts": 12,
+        "canonicalBoundsCm": {
+          "min": [
+            -250.0,
+            -250.0,
+            0.0
+          ],
+          "max": [
+            250.0,
+            250.0,
+            300.0
+          ]
+        },
+        "partVolumeSumCm3": 54375000.0,
+        "group": "steps",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Steps_N",
+        "file": "SM_EnclosureV1_Steps_N.obj",
+        "sha256": "170f7dd54c1893618ceb618a8aa01eaf3cba87bd5649bfbab9884dd43075c861",
+        "triangles": 84,
+        "parts": 7,
+        "canonicalBoundsCm": {
+          "min": [
+            -250.0,
+            -187.5,
+            0.0
+          ],
+          "max": [
+            250.0,
+            187.5,
+            175.0
+          ]
+        },
+        "partVolumeSumCm3": 26250000.0,
+        "group": "steps",
+        "materialRole": "stone"
+      },
+      {
+        "name": "SM_EnclosureV1_Steps_S",
+        "file": "SM_EnclosureV1_Steps_S.obj",
+        "sha256": "a097ef96a36c37019640bbaf5bc3299da61f92cbb86fbd6eb5f47634f0f9454d",
+        "triangles": 84,
+        "parts": 7,
+        "canonicalBoundsCm": {
+          "min": [
+            -250.0,
+            -187.5,
+            0.0
+          ],
+          "max": [
+            250.0,
+            187.5,
+            175.0
+          ]
+        },
+        "partVolumeSumCm3": 26250000.0,
+        "group": "steps",
+        "materialRole": "stone"
+      }
+    ],
+    "note": "Written by release_import_enclosure.py --freeze after review of the generated files; offline_check() recomputes it and refuses to run if the files differ.",
+    "frozenUtc": "2026-09-07T20:38:18Z",
+    "plan": [
+      {
+        "index": 1,
+        "meshName": "SM_EnclosureV1_Wall_W_01",
+        "file": "SM_EnclosureV1_Wall_W_01.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          -23775.0,
+          -302.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            -33150.0,
+            -302.5
+          ],
+          "max": [
+            -32800.0,
+            -14400.0,
+            1850.0698022091146
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_01",
+        "label": "RELEASE_Enclosure_wall_Wall_W_01",
+        "terrainSampledZcm": {
+          "min": -202.5,
+          "max": 1550.0698022091149
+        },
+        "partVolumeSumCm3": 3550550977.616481
+      },
+      {
+        "index": 2,
+        "meshName": "SM_EnclosureV1_Wall_W_02",
+        "file": "SM_EnclosureV1_Wall_W_02.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          -5025.0,
+          -277.39730071012275
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            -14400.0,
+            -277.39730071012275
+          ],
+          "max": [
+            -32800.0,
+            4350.0,
+            615.5388012627532
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_02",
+        "label": "RELEASE_Enclosure_wall_Wall_W_02",
+        "terrainSampledZcm": {
+          "min": -177.39730071012275,
+          "max": 315.53880126275317
+        },
+        "partVolumeSumCm3": 2533453394.5311384
+      },
+      {
+        "index": 3,
+        "meshName": "SM_EnclosureV1_Wall_W_03",
+        "file": "SM_EnclosureV1_Wall_W_03.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          13725.0,
+          166.6415005526295
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            4350.0,
+            166.6415005526295
+          ],
+          "max": [
+            -32800.0,
+            23100.0,
+            1974.4555026042526
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_03",
+        "label": "RELEASE_Enclosure_wall_Wall_W_03",
+        "terrainSampledZcm": {
+          "min": 266.6415005526295,
+          "max": 1674.4555026042526
+        },
+        "partVolumeSumCm3": 3456580219.3046775
+      },
+      {
+        "index": 4,
+        "meshName": "SM_EnclosureV1_Wall_W_04",
+        "file": "SM_EnclosureV1_Wall_W_04.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          32475.0,
+          260.2695046558727
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            23100.0,
+            260.2695046558727
+          ],
+          "max": [
+            -32800.0,
+            41850.0,
+            1952.936101972876
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_04",
+        "label": "RELEASE_Enclosure_wall_Wall_W_04",
+        "terrainSampledZcm": {
+          "min": 360.2695046558727,
+          "max": 1652.936101972876
+        },
+        "partVolumeSumCm3": 3339126910.788844
+      },
+      {
+        "index": 5,
+        "meshName": "SM_EnclosureV1_Wall_W_05",
+        "file": "SM_EnclosureV1_Wall_W_05.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          51225.0,
+          -3045.897092661129
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            41850.0,
+            -3045.897092661129
+          ],
+          "max": [
+            -32800.0,
+            60600.0,
+            708.2695046558747
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_05",
+        "label": "RELEASE_Enclosure_wall_Wall_W_05",
+        "terrainSampledZcm": {
+          "min": -2945.897092661129,
+          "max": 408.2695046558745
+        },
+        "partVolumeSumCm3": 4854960913.119268
+      },
+      {
+        "index": 6,
+        "meshName": "SM_EnclosureV1_Wall_W_06",
+        "file": "SM_EnclosureV1_Wall_W_06.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          69975.0,
+          -3764.3806961329965
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            60600.0,
+            -3764.3806961329965
+          ],
+          "max": [
+            -32800.0,
+            79350.0,
+            -2573.8970926611264
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_06",
+        "label": "RELEASE_Enclosure_wall_Wall_W_06",
+        "terrainSampledZcm": {
+          "min": -3664.3806961329965,
+          "max": -2873.8970926611264
+        },
+        "partVolumeSumCm3": 3639246332.4526553
+      },
+      {
+        "index": 7,
+        "meshName": "SM_EnclosureV1_Wall_W_07",
+        "file": "SM_EnclosureV1_Wall_W_07.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          88725.0,
+          -7112.5463935301495
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            79350.0,
+            -7112.5463935301495
+          ],
+          "max": [
+            -32800.0,
+            98100.0,
+            -2589.364195580364
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_07",
+        "label": "RELEASE_Enclosure_wall_Wall_W_07",
+        "terrainSampledZcm": {
+          "min": -7012.5463935301495,
+          "max": -2889.3641955803637
+        },
+        "partVolumeSumCm3": 5399571442.927709
+      },
+      {
+        "index": 8,
+        "meshName": "SM_EnclosureV1_Wall_W_08",
+        "file": "SM_EnclosureV1_Wall_W_08.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          107475.0,
+          -9087.388496449386
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            98100.0,
+            -9087.388496449386
+          ],
+          "max": [
+            -32800.0,
+            116850.0,
+            -5625.647196685624
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_W_08",
+        "label": "RELEASE_Enclosure_wall_Wall_W_08",
+        "terrainSampledZcm": {
+          "min": -8987.388496449386,
+          "max": -5925.647196685624
+        },
+        "partVolumeSumCm3": 5905187935.06912
+      },
+      {
+        "index": 9,
+        "meshName": "SM_EnclosureV1_Wall_E_01",
+        "file": "SM_EnclosureV1_Wall_E_01.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          -23775.0,
+          3172.4323019742833
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            -33150.0,
+            3172.4323019742833
+          ],
+          "max": [
+            116900.0,
+            -14400.0,
+            6235.660901184008
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_01",
+        "label": "RELEASE_Enclosure_wall_Wall_E_01",
+        "terrainSampledZcm": {
+          "min": 3272.4323019742833,
+          "max": 5935.660901184008
+        },
+        "partVolumeSumCm3": 4487797550.0923195
+      },
+      {
+        "index": 10,
+        "meshName": "SM_EnclosureV1_Wall_E_02",
+        "file": "SM_EnclosureV1_Wall_E_02.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          -5025.0,
+          1264.9226055234897
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            -14400.0,
+            1264.9226055234897
+          ],
+          "max": [
+            116900.0,
+            4350.0,
+            6381.260901184009
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_02",
+        "label": "RELEASE_Enclosure_wall_Wall_E_02",
+        "terrainSampledZcm": {
+          "min": 1364.9226055234897,
+          "max": 6081.260901184009
+        },
+        "partVolumeSumCm3": 4884800023.353994
+      },
+      {
+        "index": 11,
+        "meshName": "SM_EnclosureV1_Wall_E_03",
+        "file": "SM_EnclosureV1_Wall_E_03.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          13725.0,
+          -4527.602699289877
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            4350.0,
+            -4527.602699289877
+          ],
+          "max": [
+            116900.0,
+            23100.0,
+            1688.9226055234903
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_03",
+        "label": "RELEASE_Enclosure_wall_Wall_E_03",
+        "terrainSampledZcm": {
+          "min": -4427.602699289877,
+          "max": 1388.9226055234906
+        },
+        "partVolumeSumCm3": 6368103778.708384
+      },
+      {
+        "index": 12,
+        "meshName": "SM_EnclosureV1_Wall_E_04",
+        "file": "SM_EnclosureV1_Wall_E_04.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          32475.0,
+          -6587.408692976112
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            23100.0,
+            -6587.408692976112
+          ],
+          "max": [
+            116900.0,
+            41850.0,
+            -4127.602699289877
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_04",
+        "label": "RELEASE_Enclosure_wall_Wall_E_04",
+        "terrainSampledZcm": {
+          "min": -6487.408692976112,
+          "max": -4427.602699289877
+        },
+        "partVolumeSumCm3": 3875488589.3106422
+      },
+      {
+        "index": 13,
+        "meshName": "SM_EnclosureV1_Wall_E_05",
+        "file": "SM_EnclosureV1_Wall_E_05.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          51225.0,
+          -8403.902788794121
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            41850.0,
+            -8403.902788794121
+          ],
+          "max": [
+            116900.0,
+            60600.0,
+            -6067.408692976107
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_05",
+        "label": "RELEASE_Enclosure_wall_Wall_E_05",
+        "terrainSampledZcm": {
+          "min": -8303.902788794121,
+          "max": -6367.408692976107
+        },
+        "partVolumeSumCm3": 4093415856.4899273
+      },
+      {
+        "index": 14,
+        "meshName": "SM_EnclosureV1_Wall_E_06",
+        "file": "SM_EnclosureV1_Wall_E_06.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          69975.0,
+          -10941.525096764371
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            60600.0,
+            -10941.525096764371
+          ],
+          "max": [
+            116900.0,
+            79350.0,
+            -7871.9027887941165
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_06",
+        "label": "RELEASE_Enclosure_wall_Wall_E_06",
+        "terrainSampledZcm": {
+          "min": -10841.525096764371,
+          "max": -8171.9027887941165
+        },
+        "partVolumeSumCm3": 4523640685.291601
+      },
+      {
+        "index": 15,
+        "meshName": "SM_EnclosureV1_Wall_E_07",
+        "file": "SM_EnclosureV1_Wall_E_07.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          88725.0,
+          -11987.614091555866
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            79350.0,
+            -11987.614091555866
+          ],
+          "max": [
+            116900.0,
+            98100.0,
+            -10493.52509676437
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_07",
+        "label": "RELEASE_Enclosure_wall_Wall_E_07",
+        "terrainSampledZcm": {
+          "min": -11887.614091555866,
+          "max": -10793.52509676437
+        },
+        "partVolumeSumCm3": 3525003907.5705676
+      },
+      {
+        "index": 16,
+        "meshName": "SM_EnclosureV1_Wall_E_08",
+        "file": "SM_EnclosureV1_Wall_E_08.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          107475.0,
+          -14769.436101972877
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            98100.0,
+            -14769.436101972877
+          ],
+          "max": [
+            116900.0,
+            116850.0,
+            -11467.614091555863
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_E_08",
+        "label": "RELEASE_Enclosure_wall_Wall_E_08",
+        "terrainSampledZcm": {
+          "min": -14669.436101972877,
+          "max": -11767.614091555863
+        },
+        "partVolumeSumCm3": 4712218601.074478
+      },
+      {
+        "index": 17,
+        "meshName": "SM_EnclosureV1_Wall_N_01",
+        "file": "SM_EnclosureV1_Wall_N_01.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -23462.5,
+          -33000.0,
+          623.3528033143762
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -32800.0,
+            -33150.0,
+            623.3528033143762
+          ],
+          "max": [
+            -14125.0,
+            -32850.0,
+            2094.708603471866
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_01",
+        "label": "RELEASE_Enclosure_wall_Wall_N_01",
+        "terrainSampledZcm": {
+          "min": 723.3528033143762,
+          "max": 1794.708603471866
+        },
+        "partVolumeSumCm3": 3319553312.211381
+      },
+      {
+        "index": 18,
+        "meshName": "SM_EnclosureV1_Wall_N_02",
+        "file": "SM_EnclosureV1_Wall_N_02.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -4787.5,
+          -33000.0,
+          -849.4805993686236
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -14125.0,
+            -33150.0,
+            -849.4805993686236
+          ],
+          "max": [
+            4550.0,
+            -32850.0,
+            1047.3528033143743
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_02",
+        "label": "RELEASE_Enclosure_wall_Wall_N_02",
+        "terrainSampledZcm": {
+          "min": -749.4805993686236,
+          "max": 747.3528033143742
+        },
+        "partVolumeSumCm3": 3054445946.489375
+      },
+      {
+        "index": 19,
+        "meshName": "SM_EnclosureV1_Wall_N_03",
+        "file": "SM_EnclosureV1_Wall_N_03.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          13887.5,
+          -33000.0,
+          -3232.8525952653754
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            4550.0,
+            -33150.0,
+            -3232.8525952653754
+          ],
+          "max": [
+            23225.0,
+            -32850.0,
+            -449.48059936862364
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_03",
+        "label": "RELEASE_Enclosure_wall_Wall_N_03",
+        "terrainSampledZcm": {
+          "min": -3132.8525952653754,
+          "max": -749.4805993686236
+        },
+        "partVolumeSumCm3": 4286665544.3177266
+      },
+      {
+        "index": 20,
+        "meshName": "SM_EnclosureV1_Wall_N_04",
+        "file": "SM_EnclosureV1_Wall_N_04.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          32562.5,
+          -33000.0,
+          -5025.561101972874
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            23225.0,
+            -33150.0,
+            -5025.561101972874
+          ],
+          "max": [
+            41900.0,
+            -32850.0,
+            -2784.8525952653795
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_04",
+        "label": "RELEASE_Enclosure_wall_Wall_N_04",
+        "terrainSampledZcm": {
+          "min": -4925.561101972874,
+          "max": -3084.8525952653795
+        },
+        "partVolumeSumCm3": 4272029013.067732
+      },
+      {
+        "index": 21,
+        "meshName": "SM_EnclosureV1_Wall_N_05",
+        "file": "SM_EnclosureV1_Wall_N_05.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          51237.5,
+          -33000.0,
+          -4258.161109233003
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            41900.0,
+            -33150.0,
+            -4258.161109233003
+          ],
+          "max": [
+            60575.0,
+            -32850.0,
+            761.031000946361
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_05",
+        "label": "RELEASE_Enclosure_wall_Wall_N_05",
+        "terrainSampledZcm": {
+          "min": -4158.161109233003,
+          "max": 461.03100094636085
+        },
+        "partVolumeSumCm3": 5555275904.347479
+      },
+      {
+        "index": 22,
+        "meshName": "SM_EnclosureV1_Wall_N_06",
+        "file": "SM_EnclosureV1_Wall_N_06.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          69912.5,
+          -33000.0,
+          313.0310009463647
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            60575.0,
+            -33150.0,
+            313.0310009463647
+          ],
+          "max": [
+            79250.0,
+            -32850.0,
+            4371.992199683607
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_06",
+        "label": "RELEASE_Enclosure_wall_Wall_N_06",
+        "terrainSampledZcm": {
+          "min": 413.0310009463647,
+          "max": 4071.992199683607
+        },
+        "partVolumeSumCm3": 5274026264.490639
+      },
+      {
+        "index": 23,
+        "meshName": "SM_EnclosureV1_Wall_N_07",
+        "file": "SM_EnclosureV1_Wall_N_07.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          88587.5,
+          -33000.0,
+          3923.992199683611
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            79250.0,
+            -33150.0,
+            3923.992199683611
+          ],
+          "max": [
+            97925.0,
+            -32850.0,
+            5984.602699289876
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_07",
+        "label": "RELEASE_Enclosure_wall_Wall_N_07",
+        "terrainSampledZcm": {
+          "min": 4023.992199683611,
+          "max": 5684.602699289876
+        },
+        "partVolumeSumCm3": 3538349986.37512
+      },
+      {
+        "index": 24,
+        "meshName": "SM_EnclosureV1_Wall_N_08",
+        "file": "SM_EnclosureV1_Wall_N_08.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          107262.5,
+          -33000.0,
+          3304.4323019742883
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            97925.0,
+            -33150.0,
+            3304.4323019742883
+          ],
+          "max": [
+            116600.0,
+            -32850.0,
+            5984.602699289876
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_N_08",
+        "label": "RELEASE_Enclosure_wall_Wall_N_08",
+        "terrainSampledZcm": {
+          "min": 3404.4323019742883,
+          "max": 5684.602699289876
+        },
+        "partVolumeSumCm3": 4056329331.3700542
+      },
+      {
+        "index": 25,
+        "meshName": "SM_EnclosureV1_Wall_S_01",
+        "file": "SM_EnclosureV1_Wall_S_01.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -23462.5,
+          116700.0,
+          -10960.645300551229
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -32800.0,
+            116550.0,
+            -10960.645300551229
+          ],
+          "max": [
+            -14125.0,
+            116850.0,
+            -5787.647196685625
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_01",
+        "label": "RELEASE_Enclosure_wall_Wall_S_01",
+        "terrainSampledZcm": {
+          "min": -10860.645300551229,
+          "max": -6087.647196685625
+        },
+        "partVolumeSumCm3": 5804742964.759797
+      },
+      {
+        "index": 26,
+        "meshName": "SM_EnclosureV1_Wall_S_02",
+        "file": "SM_EnclosureV1_Wall_S_02.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          -4787.5,
+          116700.0,
+          -13802.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -14125.0,
+            116550.0,
+            -13802.5
+          ],
+          "max": [
+            4550.0,
+            116850.0,
+            -10476.645300551227
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_02",
+        "label": "RELEASE_Enclosure_wall_Wall_S_02",
+        "terrainSampledZcm": {
+          "min": -13702.5,
+          "max": -10776.645300551227
+        },
+        "partVolumeSumCm3": 5177038445.8997555
+      },
+      {
+        "index": 27,
+        "meshName": "SM_EnclosureV1_Wall_S_03",
+        "file": "SM_EnclosureV1_Wall_S_03.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          13887.5,
+          116700.0,
+          -12739.885700395138
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            4550.0,
+            116550.0,
+            -12739.885700395138
+          ],
+          "max": [
+            23225.0,
+            116850.0,
+            -4595.699702446759
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_03",
+        "label": "RELEASE_Enclosure_wall_Wall_S_03",
+        "terrainSampledZcm": {
+          "min": -12639.885700395138,
+          "max": -4895.699702446759
+        },
+        "partVolumeSumCm3": 7205715865.9752445
+      },
+      {
+        "index": 28,
+        "meshName": "SM_EnclosureV1_Wall_S_04",
+        "file": "SM_EnclosureV1_Wall_S_04.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          32562.5,
+          116700.0,
+          -5007.699702446759
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            23225.0,
+            116550.0,
+            -5007.699702446759
+          ],
+          "max": [
+            41900.0,
+            116850.0,
+            -2591.8080978696303
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_04",
+        "label": "RELEASE_Enclosure_wall_Wall_S_04",
+        "terrainSampledZcm": {
+          "min": -4907.699702446759,
+          "max": -2891.8080978696303
+        },
+        "partVolumeSumCm3": 4079154831.8065314
+      },
+      {
+        "index": 29,
+        "meshName": "SM_EnclosureV1_Wall_S_05",
+        "file": "SM_EnclosureV1_Wall_S_05.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          51237.5,
+          116700.0,
+          -4640.685997948378
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            41900.0,
+            116550.0,
+            -4640.685997948378
+          ],
+          "max": [
+            60575.0,
+            116850.0,
+            -2791.8080978696303
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_05",
+        "label": "RELEASE_Enclosure_wall_Wall_S_05",
+        "terrainSampledZcm": {
+          "min": -4540.685997948378,
+          "max": -3091.8080978696303
+        },
+        "partVolumeSumCm3": 3504422157.941445
+      },
+      {
+        "index": 30,
+        "meshName": "SM_EnclosureV1_Wall_S_06",
+        "file": "SM_EnclosureV1_Wall_S_06.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          69912.5,
+          116700.0,
+          -7553.114299604863
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            60575.0,
+            116550.0,
+            -7553.114299604863
+          ],
+          "max": [
+            79250.0,
+            116850.0,
+            -4216.685997948377
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_06",
+        "label": "RELEASE_Enclosure_wall_Wall_S_06",
+        "terrainSampledZcm": {
+          "min": -7453.114299604863,
+          "max": -4516.685997948377
+        },
+        "partVolumeSumCm3": 3833603143.4472065
+      },
+      {
+        "index": 31,
+        "meshName": "SM_EnclosureV1_Wall_S_07",
+        "file": "SM_EnclosureV1_Wall_S_07.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          88587.5,
+          116700.0,
+          -13376.364195580361
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            79250.0,
+            116550.0,
+            -13376.364195580361
+          ],
+          "max": [
+            97925.0,
+            116850.0,
+            -7107.031000946361
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_07",
+        "label": "RELEASE_Enclosure_wall_Wall_S_07",
+        "terrainSampledZcm": {
+          "min": -13276.364195580361,
+          "max": -7407.031000946361
+        },
+        "partVolumeSumCm3": 6517020513.08785
+      },
+      {
+        "index": 32,
+        "meshName": "SM_EnclosureV1_Wall_S_08",
+        "file": "SM_EnclosureV1_Wall_S_08.obj",
+        "group": "wall",
+        "materialRole": "stone",
+        "location": [
+          107262.5,
+          116700.0,
+          -14777.602699289877
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            97925.0,
+            116550.0,
+            -14777.602699289877
+          ],
+          "max": [
+            116600.0,
+            116850.0,
+            -12976.364195580361
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Wall_S_08",
+        "label": "RELEASE_Enclosure_wall_Wall_S_08",
+        "terrainSampledZcm": {
+          "min": -14677.602699289877,
+          "max": -13276.364195580361
+        },
+        "partVolumeSumCm3": 3644693074.809613
+      },
+      {
+        "index": 33,
+        "meshName": "SM_EnclosureV1_Gate_E",
+        "file": "SM_EnclosureV1_Gate_E.obj",
+        "group": "gates",
+        "materialRole": "stone",
+        "location": [
+          116750.0,
+          0.0,
+          2729.2425117570992
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            116600.0,
+            -750.0,
+            2729.2425117570992
+          ],
+          "max": [
+            116900.0,
+            750.0,
+            6570.550609626742
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Gate_E",
+        "label": "RELEASE_Enclosure_gates_Gate_E",
+        "terrainSampledZcm": {
+          "min": 2829.2425117570992,
+          "max": 3570.5506096267422
+        },
+        "partVolumeSumCm3": 1227392429.360893
+      },
+      {
+        "index": 34,
+        "meshName": "SM_EnclosureV1_Gate_N",
+        "file": "SM_EnclosureV1_Gate_N.obj",
+        "group": "gates",
+        "materialRole": "stone",
+        "location": [
+          0.0,
+          -33000.0,
+          -622.3779000787468
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -750.0,
+            -33150.0,
+            -622.3779000787468
+          ],
+          "max": [
+            750.0,
+            -32850.0,
+            2549.6220999212514
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Gate_N",
+        "label": "RELEASE_Enclosure_gates_Gate_N",
+        "terrainSampledZcm": {
+          "min": -522.3779000787468,
+          "max": -450.3779000787484
+        },
+        "partVolumeSumCm3": 1026599999.9999993
+      },
+      {
+        "index": 35,
+        "meshName": "SM_EnclosureV1_Gate_W",
+        "file": "SM_EnclosureV1_Gate_W.obj",
+        "group": "gates",
+        "materialRole": "stone",
+        "location": [
+          -32950.0,
+          0.0,
+          191.53880126275226
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -33100.0,
+            -750.0,
+            191.53880126275226
+          ],
+          "max": [
+            -32800.0,
+            750.0,
+            3315.538801262753
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Gate_W",
+        "label": "RELEASE_Enclosure_gates_Gate_W",
+        "terrainSampledZcm": {
+          "min": 291.53880126275226,
+          "max": 315.53880126275317
+        },
+        "partVolumeSumCm3": 1012200000.0000001
+      },
+      {
+        "index": 36,
+        "meshName": "SM_EnclosureV1_Gate_S1",
+        "file": "SM_EnclosureV1_Gate_S1.obj",
+        "group": "gates",
+        "materialRole": "stone",
+        "location": [
+          16900.0,
+          116700.0,
+          -6822.699702446752
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            16150.0,
+            116550.0,
+            -6822.699702446752
+          ],
+          "max": [
+            17650.0,
+            116850.0,
+            -3444.7830011052556
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Gate_S1",
+        "label": "RELEASE_Enclosure_gates_Gate_S1",
+        "terrainSampledZcm": {
+          "min": -6722.699702446752,
+          "max": -6444.783001105256
+        },
+        "partVolumeSumCm3": 1088375010.402449
+      },
+      {
+        "index": 37,
+        "meshName": "SM_EnclosureV1_Gate_S2",
+        "file": "SM_EnclosureV1_Gate_S2.obj",
+        "group": "gates",
+        "materialRole": "stone",
+        "location": [
+          66900.0,
+          116700.0,
+          -5865.28089692187
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            66150.0,
+            116550.0,
+            -5865.28089692187
+          ],
+          "max": [
+            67650.0,
+            116850.0,
+            -2379.364195580376
+          ]
+        },
+        "zPolicy": "terrain_min_footing_max_plus_height",
+        "roleTag": "Gate_S2",
+        "label": "RELEASE_Enclosure_gates_Gate_S2",
+        "terrainSampledZcm": {
+          "min": -5765.28089692187,
+          "max": -5379.364195580376
+        },
+        "partVolumeSumCm3": 1120775010.4024484
+      },
+      {
+        "index": 38,
+        "meshName": "SM_EnclosureV1_Cheilslab_E",
+        "file": "SM_EnclosureV1_Cheilslab_E.obj",
+        "group": "cheil",
+        "materialRole": "paving",
+        "location": [
+          9450.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            9200.0,
+            -9700.0,
+            0.0
+          ],
+          "max": [
+            9700.0,
+            9700.0,
+            5.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilslab_E",
+        "label": "RELEASE_Enclosure_cheil_Cheilslab_E",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 48499999.99999999
+      },
+      {
+        "index": 39,
+        "meshName": "SM_EnclosureV1_Cheilslab_W",
+        "file": "SM_EnclosureV1_Cheilslab_W.obj",
+        "group": "cheil",
+        "materialRole": "paving",
+        "location": [
+          -9450.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9700.0,
+            -9700.0,
+            0.0
+          ],
+          "max": [
+            -9200.0,
+            9700.0,
+            5.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilslab_W",
+        "label": "RELEASE_Enclosure_cheil_Cheilslab_W",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 48499999.99999999
+      },
+      {
+        "index": 40,
+        "meshName": "SM_EnclosureV1_Cheilslab_N",
+        "file": "SM_EnclosureV1_Cheilslab_N.obj",
+        "group": "cheil",
+        "materialRole": "paving",
+        "location": [
+          0.0,
+          -9450.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9200.0,
+            -9700.0,
+            0.0
+          ],
+          "max": [
+            9200.0,
+            -9200.0,
+            5.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilslab_N",
+        "label": "RELEASE_Enclosure_cheil_Cheilslab_N",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 46000000.00000001
+      },
+      {
+        "index": 41,
+        "meshName": "SM_EnclosureV1_Cheilslab_S",
+        "file": "SM_EnclosureV1_Cheilslab_S.obj",
+        "group": "cheil",
+        "materialRole": "paving",
+        "location": [
+          0.0,
+          9450.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9200.0,
+            9200.0,
+            0.0
+          ],
+          "max": [
+            9200.0,
+            9700.0,
+            5.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilslab_S",
+        "label": "RELEASE_Enclosure_cheil_Cheilslab_S",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 46000000.00000001
+      },
+      {
+        "index": 42,
+        "meshName": "SM_EnclosureV1_Cheilwall_E",
+        "file": "SM_EnclosureV1_Cheilwall_E.obj",
+        "group": "cheil",
+        "materialRole": "stone",
+        "location": [
+          9725.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            9700.0,
+            -9750.0,
+            0.0
+          ],
+          "max": [
+            9750.0,
+            9750.0,
+            500.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilwall_E",
+        "label": "RELEASE_Enclosure_cheil_Cheilwall_E",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 474999999.99999994
+      },
+      {
+        "index": 43,
+        "meshName": "SM_EnclosureV1_Cheilwall_W",
+        "file": "SM_EnclosureV1_Cheilwall_W.obj",
+        "group": "cheil",
+        "materialRole": "stone",
+        "location": [
+          -9725.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9750.0,
+            -9750.0,
+            0.0
+          ],
+          "max": [
+            -9700.0,
+            9750.0,
+            500.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilwall_W",
+        "label": "RELEASE_Enclosure_cheil_Cheilwall_W",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 487500000.0
+      },
+      {
+        "index": 44,
+        "meshName": "SM_EnclosureV1_Cheilwall_N",
+        "file": "SM_EnclosureV1_Cheilwall_N.obj",
+        "group": "cheil",
+        "materialRole": "stone",
+        "location": [
+          0.0,
+          -9725.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9700.0,
+            -9750.0,
+            0.0
+          ],
+          "max": [
+            9700.0,
+            -9700.0,
+            500.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilwall_N",
+        "label": "RELEASE_Enclosure_cheil_Cheilwall_N",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 472500000.0
+      },
+      {
+        "index": 45,
+        "meshName": "SM_EnclosureV1_Cheilwall_S",
+        "file": "SM_EnclosureV1_Cheilwall_S.obj",
+        "group": "cheil",
+        "materialRole": "stone",
+        "location": [
+          0.0,
+          9725.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -9700.0,
+            9700.0,
+            0.0
+          ],
+          "max": [
+            9700.0,
+            9750.0,
+            500.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Cheilwall_S",
+        "label": "RELEASE_Enclosure_cheil_Cheilwall_S",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 472500000.0
+      },
+      {
+        "index": 46,
+        "meshName": "SM_EnclosureV1_Soreg_E",
+        "file": "SM_EnclosureV1_Soreg_E.obj",
+        "group": "soreg",
+        "materialRole": "cedar",
+        "location": [
+          10262.5,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            10250.0,
+            -10275.0,
+            0.0
+          ],
+          "max": [
+            10275.0,
+            10275.0,
+            83.33333333333334
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Soreg_E",
+        "label": "RELEASE_Enclosure_soreg_Soreg_E",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 41770833.33333333
+      },
+      {
+        "index": 47,
+        "meshName": "SM_EnclosureV1_Soreg_W",
+        "file": "SM_EnclosureV1_Soreg_W.obj",
+        "group": "soreg",
+        "materialRole": "cedar",
+        "location": [
+          -10262.5,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -10275.0,
+            -10275.0,
+            0.0
+          ],
+          "max": [
+            -10250.0,
+            10275.0,
+            83.33333333333334
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Soreg_W",
+        "label": "RELEASE_Enclosure_soreg_Soreg_W",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 42812500.00000001
+      },
+      {
+        "index": 48,
+        "meshName": "SM_EnclosureV1_Soreg_N",
+        "file": "SM_EnclosureV1_Soreg_N.obj",
+        "group": "soreg",
+        "materialRole": "cedar",
+        "location": [
+          0.0,
+          -10262.5,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -10250.0,
+            -10275.0,
+            0.0
+          ],
+          "max": [
+            10250.0,
+            -10250.0,
+            83.33333333333334
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Soreg_N",
+        "label": "RELEASE_Enclosure_soreg_Soreg_N",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 41666666.66666667
+      },
+      {
+        "index": 49,
+        "meshName": "SM_EnclosureV1_Soreg_S",
+        "file": "SM_EnclosureV1_Soreg_S.obj",
+        "group": "soreg",
+        "materialRole": "cedar",
+        "location": [
+          0.0,
+          10262.5,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -10250.0,
+            10250.0,
+            0.0
+          ],
+          "max": [
+            10250.0,
+            10275.0,
+            83.33333333333334
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Soreg_S",
+        "label": "RELEASE_Enclosure_soreg_Soreg_S",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 41666666.66666667
+      },
+      {
+        "index": 50,
+        "meshName": "SM_EnclosureV1_Steps_E",
+        "file": "SM_EnclosureV1_Steps_E.obj",
+        "group": "steps",
+        "materialRole": "stone",
+        "location": [
+          8850.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            8600.0,
+            -250.0,
+            0.0
+          ],
+          "max": [
+            9100.0,
+            250.0,
+            300.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Steps_E",
+        "label": "RELEASE_Enclosure_steps_Steps_E",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 54375000.0
+      },
+      {
+        "index": 51,
+        "meshName": "SM_EnclosureV1_Steps_N",
+        "file": "SM_EnclosureV1_Steps_N.obj",
+        "group": "steps",
+        "materialRole": "stone",
+        "location": [
+          0.0,
+          -8787.5,
+          250.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -250.0,
+            -8975.0,
+            250.0
+          ],
+          "max": [
+            250.0,
+            -8600.0,
+            425.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Steps_N",
+        "label": "RELEASE_Enclosure_steps_Steps_N",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 26250000.0
+      },
+      {
+        "index": 52,
+        "meshName": "SM_EnclosureV1_Steps_S",
+        "file": "SM_EnclosureV1_Steps_S.obj",
+        "group": "steps",
+        "materialRole": "stone",
+        "location": [
+          0.0,
+          8787.5,
+          250.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -250.0,
+            8600.0,
+            250.0
+          ],
+          "max": [
+            250.0,
+            8975.0,
+            425.0
+          ]
+        },
+        "zPolicy": "platform_deck_z0",
+        "roleTag": "Steps_S",
+        "label": "RELEASE_Enclosure_steps_Steps_S",
+        "terrainSampledZcm": null,
+        "partVolumeSumCm3": 26250000.0
+      }
+    ]
+  }
+}

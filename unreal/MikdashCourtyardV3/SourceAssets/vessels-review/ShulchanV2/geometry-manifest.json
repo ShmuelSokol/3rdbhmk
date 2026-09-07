@@ -1,0 +1,2258 @@
+{
+  "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/ShulchanV2",
+  "amah_cm": 50.0,
+  "tefach_cm": 8.333333333333334,
+  "etzba_cm": 2.0833333333333335,
+  "script": "Scripts/create_shulchan_v2.py",
+  "script_sha256": "491b27097ff360796cd2382b1ad4b5a766f7b658763d10c44b25e7023a1bb765",
+  "bevel_helper": "Scripts/create_heikhal_keilim.py",
+  "bevel_helper_sha256": "08bfcc194f07b8283635045a5fdfc23ea3d5ea4dc7da07889a0c7bc1595449d5",
+  "convention": "Canonical XYZ Unreal cm: X = table length (east-west at yaw 0), +Y = room side (south; the table stands at the north wall), Z up, common bottom-centre pivot on the floor under the table centre for every part. OBJ files carry Y reflected and winding reversed for the legacy OBJ importer (create_heikhal_keilim / create_sanctuary_doors adapter); the importer reflects Y back, so imported bounds must equal bounds_cm and UE signed volumes must be positive. Per-triangle normals and non-degenerate UV charts; no images.",
+  "assembly": {
+    "table_top_z_cm": 150.0,
+    "loaf_bottoms_z_cm": [
+      150.0,
+      168.16666666666666,
+      186.33333333333334,
+      204.5,
+      222.66666666666669,
+      240.83333333333334
+    ],
+    "loaf_tops_z_cm": [
+      166.66666666666666,
+      184.83333333333331,
+      203.0,
+      221.16666666666666,
+      239.33333333333334,
+      257.5
+    ],
+    "top_of_stack_z_cm": 257.5,
+    "plate_top_z_cm": 250.0,
+    "plate_center_abs_y_cm": 36.5,
+    "plate_outer_abs_y_cm": 38.0,
+    "stack_centers_x_cm": [
+      -29.16666666666667,
+      29.16666666666667
+    ],
+    "rod_rows_per_stack": [
+      3,
+      3,
+      3,
+      3,
+      2,
+      0
+    ],
+    "supports_side": "north and south LONG sides, one plate per stack per side (p. 250 diagram 22:17; TI column pairs at the long sides); rods run north-south",
+    "assembly_min_y_cm": -38.9,
+    "north_wall_clearance_note": "Placed at Y -350 the assembly (snifim collars) reaches Y -388.9, 111.1 cm from the north wall face Y -500 (>= 100 cm guard in release_import_shulchan.py)"
+  },
+  "dimensions": [
+    {
+      "item": "table length",
+      "value_cm": 100.0,
+      "halachic": "2 amot",
+      "kind": "measured",
+      "source": "p. 241 (Yechezkel 41:22); Shemos 25:23"
+    },
+    {
+      "item": "table width",
+      "value_cm": 50.0,
+      "halachic": "1 amah",
+      "kind": "measured",
+      "source": "p. 241; Shemos 25:23"
+    },
+    {
+      "item": "table height (floor to top surface)",
+      "value_cm": 150.0,
+      "halachic": "3 amot",
+      "kind": "measured",
+      "source": "p. 241 main line (Targum, Rashi, Radak); alternative reading p. 246 that 3 amot include the bread is NOT modelled"
+    },
+    {
+      "item": "misgeret (frame) height",
+      "value_cm": 8.333333333333334,
+      "halachic": "1 tefach",
+      "kind": "measured",
+      "source": "Shemos 25:25; TI dossier; drawn BELOW the top between the legs as on p. 242 render (position disputed)"
+    },
+    {
+      "item": "misgeret thickness",
+      "value_cm": 2.5,
+      "halachic": null,
+      "kind": "artistic",
+      "source": "profile"
+    },
+    {
+      "item": "zer (crown) on top rim: height / thickness / crenel size and pitch",
+      "value_cm": [
+        5.5,
+        2.0,
+        2.0,
+        5.0
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "Shemos 25:24 gives a zer without size; TI shows a crenellated band; second zer moulding on the misgeret per TI dossier"
+    },
+    {
+      "item": "top slab thickness",
+      "value_cm": 5.0,
+      "halachic": null,
+      "kind": "artistic",
+      "source": "profile; the 3-amot height is measured to the top surface"
+    },
+    {
+      "item": "legs: tapered pilasters, top / bottom section",
+      "value_cm": [
+        9.0,
+        6.0
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "p. 242 render and TI show tapered pilasters; outer faces flush with the top edges"
+    },
+    {
+      "item": "rings: 4, at the legs against the misgeret, hole axis east-west (poles along the length)",
+      "value_cm": [
+        3.5,
+        0.8
+      ],
+      "halachic": null,
+      "kind": "artistic size, measured count/position",
+      "source": "Shemos 25:26-27 (four rings at the four legs, against the misgeret, housings for the poles); p. 242 render shows the pole along the long side"
+    },
+    {
+      "item": "snifim plates: count",
+      "value_cm": 4,
+      "halachic": "2 per stack",
+      "kind": "measured",
+      "source": "p. 250 text: four rectangular gold plates, two per stack"
+    },
+    {
+      "item": "snifim plate width",
+      "value_cm": 41.66666666666667,
+      "halachic": "5 tefachim",
+      "kind": "measured",
+      "source": "p. 250 text and diagram 22:17 label"
+    },
+    {
+      "item": "snifim plate height from the floor",
+      "value_cm": 250.0,
+      "halachic": "5 amot",
+      "kind": "measured",
+      "source": "p. 250 text \"5 amot from the ground\"; diagram 22:17 label"
+    },
+    {
+      "item": "snifim plate thickness",
+      "value_cm": 3.0,
+      "halachic": null,
+      "kind": "artistic",
+      "source": "profile"
+    },
+    {
+      "item": "snifim position: standing on the floor at the two LONG sides (north and south), one pair per stack",
+      "value_cm": 10.0,
+      "halachic": null,
+      "kind": "interpretation",
+      "source": "p. 250 diagram 22:17 shows the two 5-tefach plates side by side face-on with the 2-tefach gap between them and the rod ends as dots (rods perpendicular to the plates, i.e. north-south); TI columns stand in pairs at the long sides. The 10 cm stand-off from the table edge is artistic (clears the rings)."
+    },
+    {
+      "item": "kanim (rods): count and distribution per stack",
+      "value_cm": [
+        28,
+        [
+          3,
+          3,
+          3,
+          3,
+          2,
+          0
+        ]
+      ],
+      "halachic": "14 per stack",
+      "kind": "measured",
+      "source": "p. 250 text: 3 on loaves 1-4, 2 on loaf 5, none on the top loaf (Menachos 97a). NOTE the brief said \"3 for the lower five, 2 for the top\" (=17); the book page gives 3+3+3+3+2 = 14."
+    },
+    {
+      "item": "kanim shape: half tube (split reed), convex side up",
+      "value_cm": [
+        1.5,
+        1.0
+      ],
+      "halachic": null,
+      "kind": "artistic radius, measured shape",
+      "source": "p. 250 \"half-reed shaped holes\"; Rashi Shemos 25:29; Menachos 96a"
+    },
+    {
+      "item": "kanim length (plate outer face to plate outer face)",
+      "value_cm": 76.0,
+      "halachic": null,
+      "kind": "derived",
+      "source": "spans the two plates"
+    },
+    {
+      "item": "loaves: count and arrangement",
+      "value_cm": [
+        12,
+        "two stacks of six along the length"
+      ],
+      "halachic": "12",
+      "kind": "measured",
+      "source": "p. 241 text; Vayikra 24:5-6; Menachos 96a"
+    },
+    {
+      "item": "loaf unfolded length x width",
+      "value_cm": [
+        83.33333333333334,
+        41.66666666666667
+      ],
+      "halachic": "10 x 5 tefachim",
+      "kind": "measured",
+      "source": "Menachos 96a; p. 250 diagram 22:17 marks 5 tefachim"
+    },
+    {
+      "item": "loaf folded base (across the table width) and wall height",
+      "value_cm": [
+        50.0,
+        16.666666666666668
+      ],
+      "halachic": "6 and 2 tefachim",
+      "kind": "measured",
+      "source": "Menachos 96a per R' Meir (table 12 x 6): 10 = 2 + 6 + 2; p. 250 diagram 22:20 \"golden tray 6 tefachim\". The brief's \"walls 7 tefachim\" was checked against p. 241 diagram 22:6: the 7 is \"7 etzbaot\" (fingers) for the karnot gap, not a wall height; 2-tefach walls are used."
+    },
+    {
+      "item": "karnot (horn tabs) gap / depth",
+      "value_cm": [
+        14.583333333333334,
+        2.0833333333333335
+      ],
+      "halachic": "7 etzbaot gap",
+      "kind": "measured gap, artistic depth",
+      "source": "p. 241 diagram 22:6 shows the two wall-top tabs with a 7-etzbaot gap; the 1-etzba notch depth is artistic"
+    },
+    {
+      "item": "loaf dough thickness",
+      "value_cm": 4.166666666666667,
+      "halachic": null,
+      "kind": "artistic",
+      "source": "half a tefach so the six-loaf stack (6 x 2 tefachim + rods) ends near the 5-amot plate top as in diagrams 22:3 and 22:17"
+    },
+    {
+      "item": "gap between the two stacks (bazichin stand here)",
+      "value_cm": 16.666666666666668,
+      "halachic": "2 tefachim",
+      "kind": "measured",
+      "source": "p. 250 diagram 22:14 label \"2 tefachim\"; Menachos 96a"
+    },
+    {
+      "item": "bazichin (censers): count, position",
+      "value_cm": [
+        2,
+        "on the table between the stacks"
+      ],
+      "halachic": null,
+      "kind": "measured position, artistic shape",
+      "source": "p. 250 diagram 22:14 caption \"the bazichin on the table between the loaves\"; footed lidded goblet profile after TI"
+    },
+    {
+      "item": "bazichin radius / height",
+      "value_cm": [
+        6.5,
+        22.5
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "fits the 2-tefach gap"
+    },
+    {
+      "item": "placement: table centre 2.5 amot from the north wall, 5 amot from the west wall, length east-west",
+      "value_cm": [
+        -5300,
+        -350,
+        925
+      ],
+      "halachic": "2.5 / 5 amot",
+      "kind": "measured",
+      "source": "p. 241, p. 250 (32)(33)(34); scene mapping per book-keilim-review reading A"
+    }
+  ],
+  "brief_discrepancies": [
+    "Brief: loaf walls 7 tefachim. Page 241 diagram 22:6 labels the karnot gap \"7 etzbaot\"; Menachos 96a gives 2-tefach folded walls. Modelled: 2-tefach walls, 7-etzba karnot gap.",
+    "Brief: rods 3 for each of the lower five loaves + 2 for the top (17). Page 250 text: 3,3,3,3,2,0 = 14 per stack, 28 total. Modelled per the book.",
+    "Brief asked whether the supports stand at the short ends. Book diagram 22:17 and the TI table both put them at the LONG sides; modelled at the long sides."
+  ],
+  "artistic_summary": "Profiles (bevels, crenellated zer, misgeret moulding and bosses, leg taper), plate thickness and stand-off, rod radii, dough thickness, censer shape are artistic. Counts, halachic sizes and positions are from the cited pages.",
+  "total_triangles": 34492,
+  "meshes": [
+    {
+      "name": "SM_ShulchanV2_Table",
+      "file": "SM_ShulchanV2_Table.obj",
+      "sha256": "5f8e90f51f3bc499ba236219a77fa578f9351e7b1834c64a5d6f85e5216b27b8",
+      "triangles": 2604,
+      "parts": 113,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -52.25,
+          -27.25,
+          0.0
+        ],
+        "max": [
+          52.25,
+          27.25,
+          152.35
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 2.5600000000000214,
+      "part_checks": [
+        {
+          "name": "TopSlab",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 24935.110026188206
+        },
+        {
+          "name": "ZerTopLong_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 1123.2424858691566
+        },
+        {
+          "name": "ZerTopLong_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 1123.2424858691581
+        },
+        {
+          "name": "ZerTopEnd_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 582.6150688711864
+        },
+        {
+          "name": "ZerTopEnd_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 582.6150688711879
+        },
+        {
+          "name": "Crenel_000",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_001",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_002",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_003",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_004",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_005",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_006",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_007",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_008",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_009",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_010",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_011",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_012",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_013",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_014",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_015",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_016",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_017",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_018",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_019",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_020",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_021",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_022",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_023",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_024",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_025",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_026",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_027",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_028",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_029",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_030",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_031",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_032",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_033",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_034",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_035",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_036",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_037",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_038",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_039",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_040",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_041",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_042",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_043",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_044",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_045",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_046",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_047",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_048",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_049",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_050",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_051",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_052",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_053",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_054",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_055",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_056",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_057",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_058",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Crenel_059",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 9.200000000000045
+        },
+        {
+          "name": "Leg_-1_-1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 8293.5
+        },
+        {
+          "name": "Leg_-1_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 8293.5
+        },
+        {
+          "name": "Leg_1_-1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 8293.5
+        },
+        {
+          "name": "Leg_1_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 8293.5
+        },
+        {
+          "name": "Misgeret_Long_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2010.0700939377882
+        },
+        {
+          "name": "ZerMisgeret_Long_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 616.5172345013758
+        },
+        {
+          "name": "Misgeret_Long_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2010.070093937785
+        },
+        {
+          "name": "ZerMisgeret_Long_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 616.5172345013701
+        },
+        {
+          "name": "Misgeret_End_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 983.0480882117939
+        },
+        {
+          "name": "ZerMisgeret_End_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 310.8898175034022
+        },
+        {
+          "name": "Misgeret_End_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 983.0480882117936
+        },
+        {
+          "name": "ZerMisgeret_End_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 310.8898175034013
+        },
+        {
+          "name": "Boss_000",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000214
+        },
+        {
+          "name": "Boss_001",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000307
+        },
+        {
+          "name": "Boss_002",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_003",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_004",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_005",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000307
+        },
+        {
+          "name": "Boss_006",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_007",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000005
+        },
+        {
+          "name": "Boss_008",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_009",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_010",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_011",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_012",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000214
+        },
+        {
+          "name": "Boss_013",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000214
+        },
+        {
+          "name": "Boss_014",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_015",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000005
+        },
+        {
+          "name": "Boss_016",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_017",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_018",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000307
+        },
+        {
+          "name": "Boss_019",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_020",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000005
+        },
+        {
+          "name": "Boss_021",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_022",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_023",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000005
+        },
+        {
+          "name": "Boss_024",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000005
+        },
+        {
+          "name": "Boss_025",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000214
+        },
+        {
+          "name": "Boss_026",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_027",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_028",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000307
+        },
+        {
+          "name": "Boss_029",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_030",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_031",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_032",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_033",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.5600000000000307
+        },
+        {
+          "name": "Boss_034",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        },
+        {
+          "name": "Boss_035",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2.56000000000004
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_Rings",
+      "file": "SM_ShulchanV2_Rings.obj",
+      "sha256": "af7dfe70d0e036448db6b64b57f5a92f15d2722a2269381fcc8fc187fdb929c2",
+      "triangles": 3072,
+      "parts": 4,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -46.3,
+          -33.1,
+          136.53333333333333
+        ],
+        "max": [
+          46.3,
+          33.1,
+          145.13333333333335
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 41.95222284634817,
+      "part_checks": [
+        {
+          "name": "Ring_-1_-1",
+          "triangles": 768,
+          "closed": true,
+          "volume_cm3": 41.95222284634827
+        },
+        {
+          "name": "Ring_-1_1",
+          "triangles": 768,
+          "closed": true,
+          "volume_cm3": 41.95222284634834
+        },
+        {
+          "name": "Ring_1_-1",
+          "triangles": 768,
+          "closed": true,
+          "volume_cm3": 41.95222284634817
+        },
+        {
+          "name": "Ring_1_1",
+          "triangles": 768,
+          "closed": true,
+          "volume_cm3": 41.95222284634824
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_Snifim",
+      "file": "SM_ShulchanV2_Snifim.obj",
+      "sha256": "5d0fa8280dc21c8b44b72c3ae79349643cf724584910768e46ad3bc44c17269a",
+      "triangles": 14768,
+      "parts": 60,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -50.00000000000001,
+          -38.9,
+          -5.662137425588298e-15
+        ],
+        "max": [
+          50.00000000000001,
+          38.9,
+          250.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 13.716073962105137,
+      "part_checks": [
+        {
+          "name": "Plate_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 31126.20334202054
+        },
+        {
+          "name": "Collar_-1_-1_00",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105265
+        },
+        {
+          "name": "Collar_-1_-1_01",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105249
+        },
+        {
+          "name": "Collar_-1_-1_02",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105236
+        },
+        {
+          "name": "Collar_-1_-1_03",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210541
+        },
+        {
+          "name": "Collar_-1_-1_04",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105208
+        },
+        {
+          "name": "Collar_-1_-1_05",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105334
+        },
+        {
+          "name": "Collar_-1_-1_06",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105142
+        },
+        {
+          "name": "Collar_-1_-1_07",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105236
+        },
+        {
+          "name": "Collar_-1_-1_08",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105183
+        },
+        {
+          "name": "Collar_-1_-1_09",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210536
+        },
+        {
+          "name": "Collar_-1_-1_10",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105304
+        },
+        {
+          "name": "Collar_-1_-1_11",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105185
+        },
+        {
+          "name": "Collar_-1_-1_12",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105321
+        },
+        {
+          "name": "Collar_-1_-1_13",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210519
+        },
+        {
+          "name": "Plate_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 31126.20334202051
+        },
+        {
+          "name": "Collar_-1_1_00",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105208
+        },
+        {
+          "name": "Collar_-1_1_01",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105275
+        },
+        {
+          "name": "Collar_-1_1_02",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105364
+        },
+        {
+          "name": "Collar_-1_1_03",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105282
+        },
+        {
+          "name": "Collar_-1_1_04",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105225
+        },
+        {
+          "name": "Collar_-1_1_05",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105208
+        },
+        {
+          "name": "Collar_-1_1_06",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105236
+        },
+        {
+          "name": "Collar_-1_1_07",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105144
+        },
+        {
+          "name": "Collar_-1_1_08",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105213
+        },
+        {
+          "name": "Collar_-1_1_09",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105355
+        },
+        {
+          "name": "Collar_-1_1_10",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105186
+        },
+        {
+          "name": "Collar_-1_1_11",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105321
+        },
+        {
+          "name": "Collar_-1_1_12",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105336
+        },
+        {
+          "name": "Collar_-1_1_13",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105298
+        },
+        {
+          "name": "Plate_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 31126.203342020497
+        },
+        {
+          "name": "Collar_1_-1_00",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105199
+        },
+        {
+          "name": "Collar_1_-1_01",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105185
+        },
+        {
+          "name": "Collar_1_-1_02",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105254
+        },
+        {
+          "name": "Collar_1_-1_03",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105234
+        },
+        {
+          "name": "Collar_1_-1_04",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105137
+        },
+        {
+          "name": "Collar_1_-1_05",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210519
+        },
+        {
+          "name": "Collar_1_-1_06",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210522
+        },
+        {
+          "name": "Collar_1_-1_07",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105305
+        },
+        {
+          "name": "Collar_1_-1_08",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105257
+        },
+        {
+          "name": "Collar_1_-1_09",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105261
+        },
+        {
+          "name": "Collar_1_-1_10",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105249
+        },
+        {
+          "name": "Collar_1_-1_11",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105149
+        },
+        {
+          "name": "Collar_1_-1_12",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105336
+        },
+        {
+          "name": "Collar_1_-1_13",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210524
+        },
+        {
+          "name": "Plate_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 31126.20334202055
+        },
+        {
+          "name": "Collar_1_1_00",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105169
+        },
+        {
+          "name": "Collar_1_1_01",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105154
+        },
+        {
+          "name": "Collar_1_1_02",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105382
+        },
+        {
+          "name": "Collar_1_1_03",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105304
+        },
+        {
+          "name": "Collar_1_1_04",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210519
+        },
+        {
+          "name": "Collar_1_1_05",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105142
+        },
+        {
+          "name": "Collar_1_1_06",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105275
+        },
+        {
+          "name": "Collar_1_1_07",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105234
+        },
+        {
+          "name": "Collar_1_1_08",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105261
+        },
+        {
+          "name": "Collar_1_1_09",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.71607396210535
+        },
+        {
+          "name": "Collar_1_1_10",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105229
+        },
+        {
+          "name": "Collar_1_1_11",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105211
+        },
+        {
+          "name": "Collar_1_1_12",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105156
+        },
+        {
+          "name": "Collar_1_1_13",
+          "triangles": 256,
+          "closed": true,
+          "volume_cm3": 13.716073962105213
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_Kanim",
+      "file": "SM_ShulchanV2_Kanim.obj",
+      "sha256": "594fba4ecd945847fe85d2d0bd61029429d0dac94fefa80adf435ebfb7aa3bac",
+      "triangles": 2800,
+      "parts": 28,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -43.16666666666667,
+          -38.0,
+          166.66666666666666
+        ],
+        "max": [
+          43.16666666666667,
+          38.0,
+          240.83333333333334
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 49.17561856946506,
+      "part_checks": [
+        {
+          "name": "Kaneh_-1_00",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947876
+        },
+        {
+          "name": "Kaneh_-1_01",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569481124
+        },
+        {
+          "name": "Kaneh_-1_02",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856948543
+        },
+        {
+          "name": "Kaneh_-1_03",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947088
+        },
+        {
+          "name": "Kaneh_-1_04",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569480825
+        },
+        {
+          "name": "Kaneh_-1_05",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569472995
+        },
+        {
+          "name": "Kaneh_-1_06",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856948452
+        },
+        {
+          "name": "Kaneh_-1_07",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947779
+        },
+        {
+          "name": "Kaneh_-1_08",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856948452
+        },
+        {
+          "name": "Kaneh_-1_09",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947967
+        },
+        {
+          "name": "Kaneh_-1_10",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569480214
+        },
+        {
+          "name": "Kaneh_-1_11",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947906
+        },
+        {
+          "name": "Kaneh_-1_12",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.1756185694827
+        },
+        {
+          "name": "Kaneh_-1_13",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947355
+        },
+        {
+          "name": "Kaneh_1_00",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569482964
+        },
+        {
+          "name": "Kaneh_1_01",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856948294
+        },
+        {
+          "name": "Kaneh_1_02",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947876
+        },
+        {
+          "name": "Kaneh_1_03",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856947842
+        },
+        {
+          "name": "Kaneh_1_04",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856946748
+        },
+        {
+          "name": "Kaneh_1_05",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569474814
+        },
+        {
+          "name": "Kaneh_1_06",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569472654
+        },
+        {
+          "name": "Kaneh_1_07",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856946991
+        },
+        {
+          "name": "Kaneh_1_08",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569483305
+        },
+        {
+          "name": "Kaneh_1_09",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569474175
+        },
+        {
+          "name": "Kaneh_1_10",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569480214
+        },
+        {
+          "name": "Kaneh_1_11",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569477244
+        },
+        {
+          "name": "Kaneh_1_12",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.17561856946506
+        },
+        {
+          "name": "Kaneh_1_13",
+          "triangles": 100,
+          "closed": true,
+          "volume_cm3": 49.175618569477244
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_LoavesWest",
+      "file": "SM_ShulchanV2_LoavesWest.obj",
+      "sha256": "294a39e4a78be130ac16d388c23b273f95ca8cd36ec0bb457cf83d02c6395b2a",
+      "triangles": 4536,
+      "parts": 42,
+      "material_role": "bread",
+      "bounds_cm": {
+        "min": [
+          -50.0,
+          -25.000000000000004,
+          150.0
+        ],
+        "max": [
+          -8.333333333333336,
+          25.000000000000004,
+          257.5
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 686.9779288926406,
+      "part_checks": [
+        {
+          "name": "Loaf1_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582834
+        },
+        {
+          "name": "Loaf1_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122637
+        },
+        {
+          "name": "Loaf1_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf1_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926419
+        },
+        {
+          "name": "Loaf1_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf1_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122653
+        },
+        {
+          "name": "Loaf1_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926425
+        },
+        {
+          "name": "Loaf2_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582858
+        },
+        {
+          "name": "Loaf2_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.628399912264
+        },
+        {
+          "name": "Loaf2_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122652
+        },
+        {
+          "name": "Loaf2_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926425
+        },
+        {
+          "name": "Loaf2_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122646
+        },
+        {
+          "name": "Loaf2_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122653
+        },
+        {
+          "name": "Loaf2_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926421
+        },
+        {
+          "name": "Loaf3_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582747
+        },
+        {
+          "name": "Loaf3_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122637
+        },
+        {
+          "name": "Loaf3_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122642
+        },
+        {
+          "name": "Loaf3_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.977928892644
+        },
+        {
+          "name": "Loaf3_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122647
+        },
+        {
+          "name": "Loaf3_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122651
+        },
+        {
+          "name": "Loaf3_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926428
+        },
+        {
+          "name": "Loaf4_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.84585358287
+        },
+        {
+          "name": "Loaf4_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122646
+        },
+        {
+          "name": "Loaf4_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122646
+        },
+        {
+          "name": "Loaf4_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926424
+        },
+        {
+          "name": "Loaf4_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122646
+        },
+        {
+          "name": "Loaf4_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf4_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.977928892641
+        },
+        {
+          "name": "Loaf5_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582816
+        },
+        {
+          "name": "Loaf5_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122635
+        },
+        {
+          "name": "Loaf5_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122649
+        },
+        {
+          "name": "Loaf5_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926421
+        },
+        {
+          "name": "Loaf5_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122642
+        },
+        {
+          "name": "Loaf5_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122651
+        },
+        {
+          "name": "Loaf5_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926434
+        },
+        {
+          "name": "Loaf6_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.84585358282
+        },
+        {
+          "name": "Loaf6_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122653
+        },
+        {
+          "name": "Loaf6_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122658
+        },
+        {
+          "name": "Loaf6_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926414
+        },
+        {
+          "name": "Loaf6_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122652
+        },
+        {
+          "name": "Loaf6_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122643
+        },
+        {
+          "name": "Loaf6_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926406
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_LoavesEast",
+      "file": "SM_ShulchanV2_LoavesEast.obj",
+      "sha256": "440445ae4af6610063ecdc43494aa15905e62b5181d48004d429e3187be506c1",
+      "triangles": 4536,
+      "parts": 42,
+      "material_role": "bread",
+      "bounds_cm": {
+        "min": [
+          8.333333333333336,
+          -25.000000000000004,
+          150.0
+        ],
+        "max": [
+          50.0,
+          25.000000000000004,
+          257.5
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 686.9779288926414,
+      "part_checks": [
+        {
+          "name": "Loaf1_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582847
+        },
+        {
+          "name": "Loaf1_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122656
+        },
+        {
+          "name": "Loaf1_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf1_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926434
+        },
+        {
+          "name": "Loaf1_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122652
+        },
+        {
+          "name": "Loaf1_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122647
+        },
+        {
+          "name": "Loaf1_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926433
+        },
+        {
+          "name": "Loaf2_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582814
+        },
+        {
+          "name": "Loaf2_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122642
+        },
+        {
+          "name": "Loaf2_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.628399912264
+        },
+        {
+          "name": "Loaf2_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926425
+        },
+        {
+          "name": "Loaf2_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122642
+        },
+        {
+          "name": "Loaf2_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122653
+        },
+        {
+          "name": "Loaf2_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926425
+        },
+        {
+          "name": "Loaf3_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582801
+        },
+        {
+          "name": "Loaf3_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122655
+        },
+        {
+          "name": "Loaf3_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.628399912264
+        },
+        {
+          "name": "Loaf3_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926421
+        },
+        {
+          "name": "Loaf3_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122649
+        },
+        {
+          "name": "Loaf3_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122652
+        },
+        {
+          "name": "Loaf3_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926421
+        },
+        {
+          "name": "Loaf4_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582825
+        },
+        {
+          "name": "Loaf4_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122643
+        },
+        {
+          "name": "Loaf4_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf4_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926421
+        },
+        {
+          "name": "Loaf4_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122651
+        },
+        {
+          "name": "Loaf4_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.628399912264
+        },
+        {
+          "name": "Loaf4_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926414
+        },
+        {
+          "name": "Loaf5_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.845853582827
+        },
+        {
+          "name": "Loaf5_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122652
+        },
+        {
+          "name": "Loaf5_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122625
+        },
+        {
+          "name": "Loaf5_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926416
+        },
+        {
+          "name": "Loaf5_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122656
+        },
+        {
+          "name": "Loaf5_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf5_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926426
+        },
+        {
+          "name": "Loaf6_Base",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 8609.84585358287
+        },
+        {
+          "name": "Loaf6_Karn_-1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122662
+        },
+        {
+          "name": "Loaf6_Karn_-1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122666
+        },
+        {
+          "name": "Loaf6_WallMid_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.977928892643
+        },
+        {
+          "name": "Loaf6_Karn_1_-1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122661
+        },
+        {
+          "name": "Loaf6_Karn_1_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 711.6283999122644
+        },
+        {
+          "name": "Loaf6_WallMid_1",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 686.9779288926435
+        }
+      ]
+    },
+    {
+      "name": "SM_ShulchanV2_Bazichin",
+      "file": "SM_ShulchanV2_Bazichin.obj",
+      "sha256": "6741c074535f6d2b042bd40b0454d773c5e0bd636fbfb8473ef5ca775dae3cd4",
+      "triangles": 2176,
+      "parts": 2,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -6.5,
+          -19.0,
+          150.0
+        ],
+        "max": [
+          6.5,
+          19.0,
+          172.5
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 1401.5215899918542,
+      "part_checks": [
+        {
+          "name": "Bazich_-1",
+          "triangles": 1088,
+          "closed": true,
+          "volume_cm3": 1401.5215899918542
+        },
+        {
+          "name": "Bazich_1",
+          "triangles": 1088,
+          "closed": true,
+          "volume_cm3": 1401.5215899918555
+        }
+      ]
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_ShulchanV2_Table",
+      "triangles": 2604,
+      "bounds_error_cm": 0.0,
+      "file_space_signed_volume_cm3": 70006.0356037356,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_Rings",
+      "triangles": 3072,
+      "bounds_error_cm": 3.333582299092086e-10,
+      "file_space_signed_volume_cm3": 167.8088913857784,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_Snifim",
+      "triangles": 14768,
+      "bounds_error_cm": 7.105427357601002e-15,
+      "file_space_signed_volume_cm3": 125272.91351144259,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_Kanim",
+      "triangles": 2800,
+      "bounds_error_cm": 3.333298081997782e-10,
+      "file_space_signed_volume_cm3": 1376.9173195348314,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_LoavesWest",
+      "triangles": 4536,
+      "bounds_error_cm": 3.333351372702964e-10,
+      "file_space_signed_volume_cm3": 76981.89186907544,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_LoavesEast",
+      "triangles": 4536,
+      "bounds_error_cm": 3.333351372702964e-10,
+      "file_space_signed_volume_cm3": 76981.89186907538,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_ShulchanV2_Bazichin",
+      "triangles": 2176,
+      "bounds_error_cm": 0.0,
+      "file_space_signed_volume_cm3": 2803.0431800893743,
+      "normals_and_uvs": "PASS"
+    }
+  ],
+  "previews": {
+    "shulchan-v2-preview.png": [
+      "south elevation (looking north, east right)",
+      "east elevation (looking west, north right)",
+      "oblique from the south-east above"
+    ],
+    "shulchan-v2-preview-top.png": [
+      "plan (north up)"
+    ]
+  },
+  "preview_limit": "Software orthographic source preview with illustrative gold/bread colours; not a native render or material acceptance."
+}

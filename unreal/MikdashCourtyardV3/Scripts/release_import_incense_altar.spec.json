@@ -1,0 +1,268 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_incense_altar.py: native OBJ import of the original IncenseAltarV2 study (body + poles), gold on every slot, complex-as-simple collision on both static meshes, GeometryScript winding check against the manifest part-volume sum (flip if negative), removal of the plain-box REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy actor (pose recorded) and placement of RELEASE_IncenseAltar_Body / RELEASE_IncenseAltar_Poles at the same spot, scale 1, poles east-west. Numbers come from the frozen geometry manifest, keilim-scale-20260907T171503Z.json, the architecture manifest and the doors corridor spec; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk when this spec was prepared (after the third-party vessels placement and the Kodesh light receipt). Recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "IncenseAltarV2-",
+  "receiptFolder": "SourceAssets/vessels-review/IncenseAltarV2",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "actorTag": "ReleaseIncenseAltarV2",
+  "labelPrefix": "RELEASE_",
+  "folder": "Release/Vessels",
+  "source": {
+    "folder": "SourceAssets/vessels-review/IncenseAltarV2",
+    "manifest": "SourceAssets/vessels-review/IncenseAltarV2/geometry-manifest.json",
+    "manifestStatusRequired": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+    "authoringScript": "Scripts/create_incense_altar_v2.py",
+    "authoringScriptSha256": "41fced4d96c992ee6be6d04bb74830c85ee1073af735e921d82a502e7fcf8ff4",
+    "namespace": "/Game/MikdashV3/MaterialReview/IncenseAltarV2",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes",
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Both OBJs are written with canonical Y reflected and triangle winding reversed (create_incense_altar_v2.write_obj), the adapter proven by the keilim/keruvim/reliefs/doors imports. The importer reflects Y back, so the imported StaticMesh must reproduce canonicalBoundsCm and its UE signed volume must equal partVolumeSumCm3 (positive).",
+    "totalTriangles": 14584,
+    "meshes": [
+      {
+        "name": "SM_IncenseAltarV2_Body",
+        "file": "SM_IncenseAltarV2_Body.obj",
+        "sha256": "5baf53dcbbddfc4423c16ea4b3c7cdd32fe6261fe84991ad0455734a248dd8bb",
+        "triangles": 13504,
+        "role": "body",
+        "partCount": 146,
+        "partVolumeSumCm3": 133034.14522799393,
+        "canonicalBoundsCm": {
+          "min": [
+            -22.083333333333336,
+            -27.13333333333334,
+            -1.1102230246251565e-16
+          ],
+          "max": [
+            22.083333333333336,
+            27.13333333333334,
+            83.33333333333334
+          ]
+        }
+      },
+      {
+        "name": "SM_IncenseAltarV2_Poles",
+        "file": "SM_IncenseAltarV2_Poles.obj",
+        "sha256": "45740b1a0fff4890a9b1ad6710d35dc80227fa1dd960f68223dd6696b3b2dda5",
+        "triangles": 1080,
+        "role": "poles",
+        "partCount": 6,
+        "partVolumeSumCm3": 1614.7479174859127,
+        "canonicalBoundsCm": {
+          "min": [
+            -52.4,
+            -26.383333333333336,
+            68.43333333333334
+          ],
+          "max": [
+            52.4,
+            26.383333333333336,
+            73.23333333333335
+          ]
+        }
+      }
+    ]
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/Aron V3/reliefs/doors/third-party OBJ adapter path (FbxFactory). No 'g' groups in these OBJs, so one material slot per mesh is expected; gold goes on every slot regardless.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of both meshes. Falling past the first candidate is recorded as a limitation. No material is created.",
+    "gold": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold_fallback"
+        }
+      ]
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting), as release_import_doors.py: divergence volume with UE's left-handed face normal cross(C-A, B-A) must be positive and within maxRelativeVolumeError of the manifest part-volume sum, with zero face-normal/cross disagreements. A negative volume means inside-out: the triangle order is reversed via GeometryScript (release_import_thirdparty_vessels.flip_winding pattern), the asset re-saved and re-checked; the flip is recorded.",
+    "requireForPlacement": true,
+    "flipIfNegative": true,
+    "maxRelativeVolumeError": 0.01,
+    "faceNormalSampleTriangles": 2000,
+    "rewriteOptions": {
+      "enable_recompute_normals": true,
+      "enable_recompute_tangents": true,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": true,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    }
+  },
+  "collision": {
+    "note": "The altar stands on the Heikhal walking corridor centreline (source position), so NoCollision is not acceptable for an 83 cm object in the path. Imported OBJ meshes carry no simple collision (auto_generate_collision False), so each static mesh's BodySetup gets collision_trace_flag CTF_USE_COMPLEX_AS_SIMPLE (the terrain/buildings/streets import pattern) and the actors use the BlockAll profile. The poles are a separate actor so their hip-height bar can be switched off with -AltarPolesNoCollision if the walker review prefers it.",
+    "traceFlag": "CTF_USE_COMPLEX_AS_SIMPLE",
+    "body": {
+      "profile": "BlockAll"
+    },
+    "poles": {
+      "profile": "BlockAll",
+      "noCollisionSwitchProfile": "NoCollision"
+    }
+  },
+  "removal": {
+    "note": "Exactly one actor with this label, folder, mesh and pose (the 0.8333-scaled plain box) is destroyed in memory after the .umap checkpoint and persists as removed only when the level is saved at the end; its pose and world bounds are recorded in the receipt. The run refuses if the match is not exact.",
+    "label": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+    "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+    "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_GoldenIncenseAltarStudy",
+    "location": [
+      -4650.0,
+      0.0,
+      925.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.8333333333333334,
+      0.8333333333333334,
+      0.8333333333333334
+    ],
+    "worldBoundsCm": {
+      "min": [
+        -4670.833333333333,
+        -22.083333333333336,
+        925.0
+      ],
+      "max": [
+        -4629.166666666667,
+        22.083333333333336,
+        1008.3333333333333
+      ]
+    },
+    "poseToleranceCm": 0.01,
+    "source": "SourceAssets/vessels-review/keilim-scale-20260907T171503Z.json groups.altar.after / boundsAfter"
+  },
+  "placement": {
+    "axes": "X east, Y south, Z up (project convention).",
+    "origin": [
+      -4650.0,
+      0.0,
+      925.0
+    ],
+    "yaw": 0.0,
+    "scale": 1.0,
+    "yawNote": "The poles run along local X; yaw 0 keeps them east-west along the Heikhal axis (artistic; the Temple altar had no poles in use).",
+    "polesAxisLocal": "X",
+    "bodyLabel": "RELEASE_IncenseAltar_Body",
+    "polesLabel": "RELEASE_IncenseAltar_Poles",
+    "floors": {
+      "heikhal": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -5600.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -3600.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor_component_bounds (traces return nothing in commandlets; measured floor top read from the loaded level)"
+    },
+    "roomEnvelope": {
+      "heikhal": {
+        "min": [
+          -5600.0,
+          -500.0,
+          925.0
+        ],
+        "max": [
+          -3600.0,
+          500.0,
+          2925.0
+        ]
+      },
+      "rule": "Every planned AABB must lie inside the Heikhal envelope (poles included)."
+    },
+    "corridor": {
+      "xMin": -5700.0,
+      "xMax": -3200.0,
+      "halfWidthCm": 100.0,
+      "floorZ": 925.0,
+      "heightCm": 200.0,
+      "source": "Scripts/release_import_doors.spec.json corridor (walking route through the Heichal along y = 0)",
+      "rule": "The altar sits on the corridor centreline by source, so the corridor passes AROUND it: the receipt records the free lane width on each side (halfWidthCm minus the planned AABB's |y| extent). The straight y = 0 walk-probe leg through the Heikhal will meet the altar and must detour; this is expected, not a blocker."
+    },
+    "clearance": {
+      "rule": "Each planned world AABB must not have strictly positive overlap volume with any mesh-bearing actor of the level other than the removed actor, the Heikhal floor, terrain tiles and hollow architecture unions whose verified constituent boxes are not hit (release_place_assets.py rules). A blocker refuses the run BEFORE anything is saved.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "terrainFolders": [
+        "Jerusalem context/Terrain",
+        "FutureMountV1/Terrain",
+        "Future Mount/Terrain"
+      ]
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "Original study geometry: pilaster reeding, disc frieze, stem/knot/bud motif, closed crenellations, horn/zer/ring/pole sizes are artistic choices recorded in the geometry manifest; only the one-amah (five tefachim) footprint and the two-amot height are measured.",
+    "Poles are shown resting in the rings (book drawing 25) although the dossier records that the Temple altar had no rings/poles in use; recorded as artistic.",
+    "Collision is BlockAll with complex-as-simple on both meshes; this is geometric only, no walker or navigation acceptance is established. The corridor probe along y = 0 will need a detour around the altar.",
+    "Import, material assignment, winding check and placement are geometric only; no visual, lighting, LOD, Nanite, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; grounding uses the measured floor component bounds."
+  ]
+}

@@ -1,0 +1,342 @@
+{
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ContextMaterials-",
+  "receiptFolder": "SourceAssets/materials-context",
+  "sourceFolder": "SourceAssets/materials-context",
+  "namespace": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1",
+  "textureFolder": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures",
+  "materialFolder": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials",
+  "texturePrefix": "T_Ctx_",
+  "polyHaven": {
+    "api": "https://api.polyhaven.com",
+    "cdnFileRoot": "https://dl.polyhaven.org/file/ph-assets/",
+    "license": "CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/)",
+    "licenseNote": "Every Poly Haven asset is published under CC0; attribution is not required but is recorded per set in provenance.json and should be added to Content/Distribution/CREDITS.txt when the materials ship.",
+    "resolution": "2k",
+    "format": "png",
+    "maps": {
+      "diffuse": "Diffuse",
+      "normal": "nor_dx",
+      "roughness": "Rough"
+    },
+    "normalConvention": "nor_dx = DirectX (green down), the convention Unreal expects; sampled raw in HLSL and unpacked xy*2-1, z reconstructed (BC5 drops z).",
+    "totalBudgetBytes": 314572800,
+    "formats": {
+      "diffuse": "png",
+      "normal": "png",
+      "roughness": "jpg"
+    },
+    "formatNote": "Diffuse and normal as 2K PNG (some sets are 16-bit RGB/RGBA, which the UE PNG importer accepts); roughness as 2K JPG because several Poly Haven Rough PNGs are 16-bit grey+alpha and a lossy single-channel mask is visually harmless."
+  },
+  "sets": [
+    {
+      "slug": "facade-limestone",
+      "polyHavenId": "sandstone_blocks_05",
+      "use": "building facades (smooth warm ashlar)",
+      "realSizeCm": 300
+    },
+    {
+      "slug": "ground-dry-rocky",
+      "polyHavenId": "dry_ground_rocks",
+      "use": "terrain: dry rocky soil",
+      "realSizeCm": 400
+    },
+    {
+      "slug": "scrub-dry-grass",
+      "polyHavenId": "withered_grass",
+      "use": "terrain: dry grass / scrub on mapped green areas",
+      "realSizeCm": 200
+    },
+    {
+      "slug": "road-asphalt",
+      "polyHavenId": "asphalt_02",
+      "use": "asphalt road ribbons",
+      "realSizeCm": 300
+    },
+    {
+      "slug": "path-cobble-limestone",
+      "polyHavenId": "cobblestone_large_01",
+      "use": "stone footpaths (old cobble / paving)",
+      "realSizeCm": 400
+    },
+    {
+      "slug": "city-wall-old-stone",
+      "polyHavenId": "stone_block_wall",
+      "use": "old city walls",
+      "realSizeCm": 210
+    }
+  ],
+  "textureImport": {
+    "diffuse": {
+      "compression": "TC_DEFAULT",
+      "srgb": true
+    },
+    "normal": {
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "flipGreenChannel": false
+    },
+    "roughness": {
+      "compression": "TC_GRAYSCALE",
+      "compressionFallback": "TC_MASKS",
+      "srgb": false
+    }
+  },
+  "materials": {
+    "building": {
+      "name": "M_Context_Building",
+      "kind": "triplanar",
+      "set": "facade-limestone",
+      "twoSided": false,
+      "params": {
+        "TileCm": 400.0,
+        "RoofScale": 0.5,
+        "RoofStart": 0.6,
+        "RoofEnd": 0.85,
+        "RoofFlatten": 0.6,
+        "RoughScale": 1.0,
+        "RoughBias": 0.0,
+        "RoughVar": 0.12,
+        "NormalStrength": 1.0,
+        "VCInfluence": 0.5,
+        "VCMeanLum": 0.38,
+        "HashObjectWeight": 1.0,
+        "HashVertexColorWeight": 1.0
+      },
+      "tints": [
+        [
+          1.0,
+          0.96,
+          0.9
+        ],
+        [
+          0.97,
+          0.9,
+          0.8
+        ],
+        [
+          0.92,
+          0.86,
+          0.75
+        ],
+        [
+          1.0,
+          0.94,
+          0.86
+        ]
+      ],
+      "roofTint": [
+        0.62,
+        0.6,
+        0.56
+      ],
+      "note": "Buildings are 100 m buckets of many footprints (1499 meshes, 11400 components); per-building variation therefore comes from hashing the per-building vertex color together with ObjectPositionWS. Roof (upward) faces fade toward a flat plaster tint so the overhead read is not ashlar on every roof. Floor-line darkening is deliberately omitted: a bucket's bounds min Z is the lowest building in the bucket, not each building's floor line."
+    },
+    "citywall": {
+      "name": "M_Context_CityWall",
+      "kind": "triplanar",
+      "set": "city-wall-old-stone",
+      "twoSided": false,
+      "params": {
+        "TileCm": 350.0,
+        "RoofScale": 1.0,
+        "RoofStart": 0.9,
+        "RoofEnd": 0.99,
+        "RoofFlatten": 0.3,
+        "RoughScale": 1.0,
+        "RoughBias": 0.0,
+        "RoughVar": 0.06,
+        "NormalStrength": 1.0,
+        "VCInfluence": 0.0,
+        "VCMeanLum": 1.0,
+        "HashObjectWeight": 1.0,
+        "HashVertexColorWeight": 0.0
+      },
+      "tints": [
+        [
+          1.0,
+          0.97,
+          0.92
+        ],
+        [
+          0.97,
+          0.94,
+          0.88
+        ],
+        [
+          1.02,
+          0.98,
+          0.92
+        ],
+        [
+          0.99,
+          0.95,
+          0.9
+        ]
+      ],
+      "roofTint": [
+        0.85,
+        0.82,
+        0.76
+      ]
+    },
+    "terrain": {
+      "name": "M_Context_Terrain",
+      "kind": "terrain",
+      "groundSet": "ground-dry-rocky",
+      "scrubSet": "scrub-dry-grass",
+      "twoSided": false,
+      "params": {
+        "TileCm": 400.0,
+        "ScrubTileCm": 250.0,
+        "MaskLumLow": 0.4,
+        "MaskLumHigh": 0.5,
+        "SlopeStart": 0.7,
+        "SlopeEnd": 0.92,
+        "MacroCm": 6000.0,
+        "MacroAmp": 0.12,
+        "RoughScale": 1.0,
+        "RoughBias": 0.0,
+        "NormalStrength": 1.0
+      },
+      "groundTint": [
+        1.05,
+        1.02,
+        0.95
+      ],
+      "scrubTint": [
+        0.85,
+        0.9,
+        0.7
+      ],
+      "vertexColorRule": "Source (mikdash-walkthrough/lib/mikdash/jerusalem.ts:32): HSL lightness 0.32 (hue 0.21) on mapped green land use except cemeteries, 0.53 (hue 0.104) elsewhere, +-0.02 hash jitter; linear RGB in the FBX. Terrain luminance is ~0.55 (bare) vs ~0.36 (green): smoothstep(MaskLumLow, MaskLumHigh, luminance) = 0 selects scrub, 1 selects ground. Slope (VertexNormalWS.z below SlopeStart) forces bare ground."
+    },
+    "asphalt": {
+      "name": "M_Context_Asphalt",
+      "kind": "flat",
+      "set": "road-asphalt",
+      "twoSided": true,
+      "params": {
+        "TileCm": 300.0,
+        "MacroCm": 2500.0,
+        "MacroAmp": 0.08,
+        "RoughScale": 1.0,
+        "RoughBias": 0.0,
+        "NormalStrength": 1.0
+      },
+      "tint": [
+        1.25,
+        1.25,
+        1.22
+      ]
+    },
+    "stonepath": {
+      "name": "M_Context_StonePath",
+      "kind": "flat",
+      "set": "path-cobble-limestone",
+      "twoSided": true,
+      "params": {
+        "TileCm": 400.0,
+        "MacroCm": 1800.0,
+        "MacroAmp": 0.08,
+        "RoughScale": 1.0,
+        "RoughBias": 0.0,
+        "NormalStrength": 1.0
+      },
+      "tint": [
+        1.0,
+        0.97,
+        0.9
+      ]
+    }
+  },
+  "categories": {
+    "buildings": {
+      "material": "building",
+      "folder": "/Game/MikdashV3/JerusalemContext/Buildings",
+      "namePrefix": "SM_JerusalemBuildings_",
+      "expectedCount": 1499,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemBuildings_VertexColor",
+      "vertexColorsExpected": true
+    },
+    "asphalt": {
+      "material": "asphalt",
+      "folder": "/Game/MikdashV3/JerusalemContext/Streets",
+      "namePrefix": "SM_Jerusalem_Asphalt_",
+      "expectedCount": 1667,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_Asphalt_a167e3e4"
+    },
+    "paths": {
+      "material": "stonepath",
+      "folder": "/Game/MikdashV3/JerusalemContext/Streets",
+      "namePrefix": "SM_Jerusalem_StonePaths_",
+      "skipSuffixes": [
+        "_ReviewHeld"
+      ],
+      "expectedCount": 1141,
+      "expectedSkipped": 2,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_StonePaths_4755dbc9"
+    },
+    "walls": {
+      "material": "citywall",
+      "folder": "/Game/MikdashV3/JerusalemContext/Streets",
+      "namePrefix": "SM_Jerusalem_CityWalls_",
+      "expectedCount": 58,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_CityWalls_2b334de9"
+    },
+    "terrain": {
+      "material": "terrain",
+      "folder": "/Game/MikdashV3/JerusalemContext/Terrain",
+      "namePrefix": "SM_JerusalemTerrain_",
+      "expectedCount": 256,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemTerrain_VertexColor",
+      "vertexColorsExpected": true
+    },
+    "terraincut": {
+      "material": "terrain",
+      "folder": "/Game/MikdashV3/FutureMountV1/Terrain",
+      "namePrefix": "SM_JerusalemTerrain_",
+      "nameSuffix": "_FutureMountCut",
+      "expectedCount": 4,
+      "expectedOriginalMaterial": "/Game/MikdashV3/JerusalemContext/Materials/M_JerusalemTerrain_VertexColor",
+      "vertexColorsExpected": true
+    }
+  },
+  "untouched": {
+    "landmarks": {
+      "folder": "/Game/MikdashV3/JerusalemContext/Streets",
+      "namePrefix": "SM_Jerusalem_Landmark_",
+      "expectedCount": 12,
+      "reason": "Three source landmark materials (domes etc.) keep their reviewed flat colours; not a street category."
+    },
+    "decorativeInstances": {
+      "folder": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1",
+      "expectedInstances": 44793,
+      "expectedComponents": 5,
+      "reason": "Simple prototype meshes (12 to 32 triangles: trunks, crowns, tanks, panels, markers) on InstancedStaticMeshComponents with flat ISM materials; left as is and recorded."
+    },
+    "measuredArchitecture": "Nothing under /Game/MikdashV3/Architecture, Release/* actors, sanctuary or vessels is read for mutation."
+  },
+  "plannedAssignments": 4625,
+  "sampleReadbackPerCategory": 8,
+  "verification": {
+    "materialSlotCountExpected": 1
+  },
+  "limitations": [
+    "Texture and material creation is graph-level; no visual, shader-compile, Lumen or packaged acceptance is established by this script.",
+    "Assignment is at the StaticMesh asset level: the protected Courtyard and L_FutureMount maps also reference these meshes and will render with the new materials although their .umap bytes stay unchanged.",
+    "Per-building variation is a hash of the per-building vertex colour and the 100 m bucket position; it is illustrative and not a survey of Jerusalem facades.",
+    "Normal-map handedness (nor_dx, V = +axis) is reasoned, not visually verified; NormalGreenSign in the HLSL flips it if the raking light reads inverted.",
+    "Poly Haven CC0 sets are photographic surfaces from other places (sandstone, cobbles, asphalt); they stand in for Jerusalem limestone, not document it."
+  ],
+  "lastKnownMapSha256Note": "Informational only (recorded as mapMatchesLastKnownSha256 in the receipt, never a guard): the combined map is being edited concurrently by the architecture/lighting work."
+}

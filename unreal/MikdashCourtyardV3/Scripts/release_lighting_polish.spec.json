@@ -1,0 +1,278 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_lighting_polish.py: move the combined Walkthrough map from flat noon-like light with a fixed EV12 exposure toward a low warm sun, bounded auto exposure, filmic tonemapping, atmospheric depth (height/volumetric fog, aerial perspective), cloud shadows, and a soft entrance fill in the Heikhal. Every number is an artistic proposal for visual review; nothing here claims acceptance. Property names are snake_case of the UE 5.8 UPROPERTY names verified in Engine/Source/Runtime/Engine/Classes (Components/*.h, Engine/Scene.h).",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "504bf402c989fb9c86f51b6185428c2e472e87e9117f19b190db3726859599e2",
+  "lastKnownMapSha256Note": "mapSha256 of SourceAssets/visual-review/release-capture-20260907T194843Z/receipt.json (the renders this design answers). Recorded as matched/not matched only, never a guard. While this spec was authored a parallel IncenseAltarV2 job re-saved the map (ReviewCheckpoints/IncenseAltarV2-20260907T203152827687Z, 16:32 local; hash then 16a07e9d8d6d09e824df0e6dac18ab7b0fd0245e701cd7e40e50708da8b2e647), so a mismatch is expected and other native jobs may still be running: check live UnrealEditor PIDs and run this script strictly serial.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedAssets": [
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Lighting-",
+  "revertCheckpointPrefix": "LightingRevert-",
+  "receiptFolder": "SourceAssets/lighting-review",
+  "receiptPrefix": "native-apply-",
+  "revertReceiptPrefix": "native-revert-",
+  "actorTag": "ReleaseLightingPolishV1",
+  "labelPrefix": "RELEASE_",
+  "folder": "Release/Lighting",
+  "assetNamespace": "/Game/MikdashV3/IntegratedReviewV2/Lighting",
+  "expectedActorCounts": {
+    "DirectionalLight": 1,
+    "SkyLight": 1,
+    "SkyAtmosphere": 1,
+    "VolumetricCloud": 1,
+    "PostProcessVolume": 1,
+    "ExponentialHeightFog": 0
+  },
+  "kodeshLightLabel": "RELEASE_KodeshInteriorLight",
+  "worldFrame": {
+    "eastAxis": "+X",
+    "southAxis": "+Y",
+    "upAxis": "+Z",
+    "basis": "Capture receipt b_courtyard_spawn_west: 'west is UE -X'. Batei Mahase road (south-west of the Mount) carries the bus at +Y 46855, so +Y is south. Sun azimuth is compass azimuth (0 north, 90 east, clockwise); elevation above the horizon.",
+    "directionRule": "Light travel direction d = (-sin(az) cos(el), +cos(az) cos(el), -sin(el)) in UE X/Y/Z; the DirectionalLight actor forward vector must equal d, so pitch = -el and yaw = atan2(d.y, d.x)."
+  },
+  "sun": {
+    "default": "morning",
+    "presets": {
+      "morning": {
+        "azimuthDeg": 110.0,
+        "elevationDeg": 30.0,
+        "why": "Entrance faces east: a sun from the east-south-east at 30 degrees rakes the east gate facade and the Ulam stairs, throws long west-pointing shadows across the courts, and reads as about 08:00-08:30 in spring/autumn at 31.8 N (approximate, not an ephemeris). The beam enters the Heikhal doorway and strikes the Kodesh partition below about Z 2270 (2500 cm door top minus 2000 cm x tan 30), so that wall stays the brightest surface indoors; auto exposure plus the filmic shoulder compress it instead of clipping it."
+      },
+      "afternoon": {
+        "azimuthDeg": 250.0,
+        "elevationDeg": 27.0,
+        "why": "Late afternoon from the west-south-west (about 16:30 in spring/autumn). The east facade is in soft sky light and the Heikhal receives no direct beam, so the Kodesh partition reads as gold rather than a sunlit patch; the western city and the Kotel plaza get the raking light instead. Use when the render d blow-out matters more than the arrival facade."
+      }
+    },
+    "labelAfter": "V3 daylight sun - 30000 lux 5000 K",
+    "component": {
+      "required": ["intensity", "use_temperature", "temperature", "light_source_angle", "contact_shadow_length", "atmosphere_sun_light"],
+      "properties": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 5000.0,
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "contact_shadow_length": 0.02,
+        "contact_shadow_length_in_ws": false,
+        "enable_light_shaft_bloom": true,
+        "bloom_scale": 0.1,
+        "enable_light_shaft_occlusion": true,
+        "occlusion_mask_darkness": 0.5,
+        "volumetric_scattering_intensity": 1.0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6,
+        "cast_shadows_on_atmosphere": true,
+        "cast_shadows_on_clouds": true,
+        "dynamic_shadow_distance_movable_light": 25000.0,
+        "dynamic_shadow_cascades": 4,
+        "cascade_distribution_exponent": 3.0,
+        "atmosphere_sun_light": true
+      },
+      "notes": {
+        "intensity": "Real 30-degree sun is 60-75 klux; 30 klux keeps the same sun/sky ratio (SkyAtmosphere derives the sky from this light) with exposure headroom. Auto exposure makes the absolute value a ratio choice, not a brightness choice.",
+        "temperature": "5000 K against the tonemapper's 6500 K white point reads warm without going orange.",
+        "light_source_angle": "0.5 degrees is the real solar disc; virtual shadow maps then give crisp near-contact penumbrae instead of the soft 1-degree default.",
+        "contact_shadow_length": "Screen-space contact shadows close the gap where VSM leaks at wall/floor joints (render c floor, render g reveals).",
+        "cloud_shadow_strength": "Cloud shadows are the cheapest way to break the uniform terrain tone in renders a and i; 0.6 keeps them readable, not black.",
+        "cascades": "Ignored while r.Shadow.Virtual.Enable=1 (VSM on); kept sane for any fallback."
+      }
+    }
+  },
+  "skyLight": {
+    "component": {
+      "required": ["intensity"],
+      "properties": {
+        "intensity": 1.0,
+        "real_time_capture": true
+      }
+    },
+    "recordOnly": ["source_type", "cubemap", "lower_hemisphere_is_black", "indirect_lighting_intensity", "cubemap_resolution"]
+  },
+  "skyAtmosphere": {
+    "component": {
+      "required": [],
+      "properties": {
+        "aerial_pespective_view_distance_scale": 1.8,
+        "mie_scattering_scale": 0.005
+      },
+      "notes": {
+        "aerial_pespective_view_distance_scale": "Engine property name carries the 'Pespective' typo. 1.8 x aerial perspective adds distance haze to the city in renders a and i without a fog card.",
+        "mie_scattering_scale": "Default 0.003996; slightly dustier Mediterranean sky, brighter warm horizon."
+      }
+    },
+    "recordOnly": ["rayleigh_scattering_scale", "mie_absorption_scale", "mie_anisotropy", "height_fog_contribution", "sky_luminance_factor"]
+  },
+  "fog": {
+    "enabledByDefault": true,
+    "label": "RELEASE_HeightFog",
+    "location": [0.0, 0.0, 0.0],
+    "component": {
+      "required": ["fog_density", "volumetric_fog"],
+      "properties": {
+        "fog_density": 0.005,
+        "fog_height_falloff": 0.05,
+        "start_distance": 3000.0,
+        "fog_max_opacity": 0.85,
+        "sky_atmosphere_ambient_contribution_color_scale": {"$linearColor": [1.0, 0.94, 0.82, 1.0]},
+        "directional_inscattering_luminance": {"$linearColor": [1500.0, 1170.0, 750.0, 1.0]},
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "volumetric_fog": true,
+        "volumetric_fog_scattering_distribution": 0.3,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0,
+        "volumetric_fog_start_distance": 0.0
+      },
+      "notes": {
+        "fog_density": "UE scales density by 1/1000 per cm: 0.005 gives roughly 30 percent haze at 1 km and 65 percent at 3 km, so the far city recedes while the courts stay clear (start_distance 30 m).",
+        "fog_height_falloff": "0.05 halves density every ~140 m of height so the Mount is not a fog island above a clear city.",
+        "sky_atmosphere_ambient_contribution_color_scale": "The height fog takes its colour from the SkyAtmosphere at physical scale; this warm multiplier tints that haze. fog_inscattering_luminance (default ~1 cd/m2) is negligible at 30 klux and is left as is.",
+        "directional_inscattering_luminance": "Physical-scale warm glow around the sun direction; 1500 cd/m2 is well under a clear-sky horizon (~5000-8000).",
+        "volumetric_fog_distance": "200 m of volumetric fog: the sun beam through the Heikhal doorway and the east gate becomes a visible shaft; beyond that the analytic height fog takes over."
+      }
+    }
+  },
+  "fill": {
+    "enabledByDefault": true,
+    "label": "RELEASE_HeikhalEntranceFill",
+    "location": [-3750.0, 0.0, 2800.0],
+    "rotation": {"pitch": -20.0, "yaw": 180.0, "roll": 0.0},
+    "heikhalInteriorBoundsCm": {"min": [-5600.0, -500.0, 925.0], "max": [-3600.0, 500.0, 2925.0]},
+    "heikhalInteriorBoundsBasis": "architecture-manifest.json: Heichal clear floor top 925, Sanctuary ceiling bottom 2925, side walls at |Y| 500, Kodesh partition east face -5600, doorway west face -3600.",
+    "mobility": "MOVABLE",
+    "component": {
+      "required": ["intensity", "intensity_units", "attenuation_radius"],
+      "properties": {
+        "intensity_units": {"$enum": "LightUnits.CANDELAS"},
+        "intensity": 25000.0,
+        "use_temperature": true,
+        "temperature": 4300.0,
+        "source_width": 400.0,
+        "source_height": 200.0,
+        "attenuation_radius": 3500.0,
+        "specular_scale": 0.25,
+        "cast_shadows": true,
+        "volumetric_scattering_intensity": 0.0,
+        "indirect_lighting_intensity": 1.0
+      },
+      "notes": {
+        "purpose": "A 4 x 2 m warm rect light just inside the doorway, high, aimed west-down. It does not lower the sunlit partition; it raises the gold side walls and vessels so the exposure meter sees a smaller contrast ratio and the filmic shoulder can hold the end wall. Movable, not Stationary, so no unbuilt-lighting state and no leak through the partition (cast_shadows on).",
+        "intensity": "25,000 cd over ~10 m gives ~250 lux at the vessels: about 7 stops under the 30 klux beam, 1-2 stops above sky bounce. Review-pending like every value here.",
+        "specular_scale": "0.25 avoids a hot rectangle reflection in the metallic gold veneer."
+      }
+    }
+  },
+  "clouds": {
+    "enabledByDefault": true,
+    "expectedSourceMaterial": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+    "scatteredMaterial": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered",
+    "coverageParameter": "Cloud_GlobalCoverage",
+    "coverage": 0.35,
+    "recordParameters": ["Cloud_GlobalCoverage", "Cloud_GlobalDensity", "Layout_CloudGlobalScale", "StormClouds"],
+    "note": "Parameter names come from SourceAssets/visual-review/atmosphere-native-20260907T102723.json (cloudScalarParameterNames of the engine m_SimpleVolumetricCloud instance). The protected donor MI is never edited: it is duplicated into the lighting namespace, the coverage parameter is set on the copy, and the cloud component is pointed at the copy (a map property, so -LightingRevert restores the donor). Coverage 0.35 = scattered fair-weather clouds, so the sun's cloud shadows fall as patches, not a blanket."
+  },
+  "postProcess": {
+    "labelAfter": "V3 cinematic exposure - histogram EV 8-14, filmic",
+    "exposure": {
+      "minEV100": 8.0,
+      "maxEV100": 14.0,
+      "unitsRule": "PostProcessEyeAdaptation.cpp: with r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange=1 AutoExposureMin/MaxBrightness are EV100 and the engine converts with LuminanceMax * 2^EV (LuminanceMax = 0.78 / r.EyeAdaptation.LensAttenuation, 1.0 at defaults); with the flag at 0 (this project, DefaultEngine.ini has no override and the live readback showed 0) the fields are raw scene luminance, so the script writes 2^EV (256 and 16384) and records both forms. Enabling the cvar later needs the values rewritten as 8/14, which the receipt makes explicit."
+    },
+    "settings": {
+      "required": ["auto_exposure_method", "auto_exposure_min_brightness", "auto_exposure_max_brightness", "auto_exposure_bias"],
+      "properties": {
+        "override_auto_exposure_method": true,
+        "auto_exposure_method": {"$enum": "AutoExposureMethod.AEM_HISTOGRAM"},
+        "override_auto_exposure_min_brightness": true,
+        "auto_exposure_min_brightness": {"$ev100": 8.0},
+        "override_auto_exposure_max_brightness": true,
+        "auto_exposure_max_brightness": {"$ev100": 14.0},
+        "override_auto_exposure_bias": true,
+        "auto_exposure_bias": 0.0,
+        "override_film_slope": true,
+        "film_slope": 0.9,
+        "override_film_toe": true,
+        "film_toe": 0.55,
+        "override_film_shoulder": true,
+        "film_shoulder": 0.26,
+        "override_bloom_intensity": true,
+        "bloom_intensity": 0.3,
+        "override_vignette_intensity": true,
+        "vignette_intensity": 0.3,
+        "override_scene_fringe_intensity": true,
+        "scene_fringe_intensity": 0.0,
+        "override_film_grain_intensity": true,
+        "film_grain_intensity": 0.0,
+        "override_reflection_method": true,
+        "reflection_method": {"$enum": "ReflectionMethod.LUMEN"},
+        "override_lumen_reflection_quality": true,
+        "lumen_reflection_quality": 1.5,
+        "override_lumen_scene_detail": true,
+        "lumen_scene_detail": 1.5,
+        "override_lumen_final_gather_quality": true,
+        "lumen_final_gather_quality": 1.25
+      },
+      "notes": {
+        "auto_exposure_method": "Histogram metering replaces the fixed ISO 100 1/125 f/8 (+1 stop) camera. The sunlit courts meter near EV 13-14 (bright stone stops washing out); the gold rooms meter near EV 8-10 without a hand-set stop; the min/max bounds stop the interiors from turning the sun into night.",
+        "film_shoulder": "0.26 (default 0.26) with slope 0.9 and toe 0.55 keeps midtone contrast while rolling highlights: the sunlit Kodesh partition and the light stone walls compress instead of clipping.",
+        "bloom_intensity": "0.3 of the default 0.675: a hint of glare on the gold and the sun shaft, not a haze over the frame.",
+        "vignette_intensity": "0.3 draws the eye inward in the wide exteriors (renders a, i).",
+        "chromatic_aberration_and_grain": "Off: the architecture is measured; grain and fringe read as noise on the fine frieze.",
+        "lumen": "Reflection quality 1.5 and final gather 1.25 reduce the speckle on the metallic gold veneer (renders d, e); scene detail 1.5 lets Lumen represent the 250 cm frieze panels and vessels. Roughly +1.5-2.5 ms at 1080p on an RTX 2070 with software ray tracing; drop to 1.0 if the walk test falls under 60 fps.",
+        "ambient_occlusion": "Lumen GI supplies AO; legacy SSAO stays untouched (no override written)."
+      }
+    },
+    "recordOnly": [
+      "auto_exposure_apply_physical_camera_exposure", "camera_iso", "camera_shutter_speed", "depth_of_field_fstop",
+      "auto_exposure_low_percent", "auto_exposure_high_percent", "auto_exposure_speed_up", "auto_exposure_speed_down",
+      "histogram_log_min", "histogram_log_max", "dynamic_global_illumination_method", "lumen_scene_lighting_quality",
+      "white_temp", "ambient_occlusion_intensity", "bloom_method"
+    ]
+  },
+  "hdri": {
+    "enabledByDefault": false,
+    "file": "SourceAssets/lighting-review/kiara_4_mid-morning_2k.hdr",
+    "provenance": "SourceAssets/lighting-review/kiara_4_mid-morning-provenance.json",
+    "assetName": "T_HDRI_Kiara4MidMorning_2k",
+    "skyLightProperties": {
+      "required": ["source_type", "cubemap", "real_time_capture", "intensity"],
+      "properties": {
+        "source_type": {"$enum": "SkyLightSourceType.SLS_SPECIFIED_CUBEMAP"},
+        "cubemap": {"$importedHdri": true},
+        "real_time_capture": false,
+        "source_cubemap_angle": 0.0,
+        "intensity": 2500.0
+      },
+      "notes": {
+        "intensity": "Poly Haven HDRIs are unclipped but relative (sky ~1-3 linear). Against a 30 klux sun the cubemap must be scaled toward a real clear-sky luminance (5000-8000 cd/m2); 2500 keeps the sky-lit shadows slightly under the SkyAtmosphere capture. Review against the default before adopting.",
+        "source_cubemap_angle": "0 until the HDRI sun is aligned with the scene sun azimuth by eye; a mismatch shows as a second highlight on the gold.",
+        "why_off_by_default": "SkyAtmosphere + real-time capture keep sky lighting consistent with the chosen sun. The HDRI is only for richer reflections on gold and a photographed horizon; it breaks the sun/sky link."
+      }
+    }
+  },
+  "verification": {
+    "floatRelativeTolerance": 0.0001,
+    "directionDotMinimum": 0.99999,
+    "compareRule": "Numeric fields, enum integers and asset paths only; str(Struct) is never compared."
+  },
+  "limitations": [
+    "Every value is an artistic proposal read back numerically; no still, walk or packaged acceptance is established by this script.",
+    "Sun angles are approximate for 31.8 N in spring/autumn, not an ephemeris; no date or time is asserted.",
+    "The fill light, fog and cloud coverage are authored additions, not sourced features of the Mikdash.",
+    "Cloud shadow, volumetric fog and higher Lumen quality cost GPU time; the RTX 2070 walk test decides whether they stay.",
+    "Exposure bounds are written in the units the project's ExtendDefaultLuminanceRange cvar implies at run time; flipping that cvar later invalidates the written min/max brightness."
+  ]
+}

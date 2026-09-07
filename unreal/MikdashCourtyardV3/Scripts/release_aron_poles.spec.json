@@ -1,0 +1,184 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_aron_poles.py: strip the north-south carrying poles from the CC BY-SA davidgra11 Aron body (GeometryScript, duplicate asset), build one gold east-west pole (capsule) and place two of them beside the Aron so they reach the paroches (Yoma 54a / Menachot 98a-b, Rashi Shemot 25:12), swapping RELEASE_Aron_Body to the pole-less duplicate. Every number below comes from an offline parse of the frozen OBJ, the import/rotate/doors receipts or the sources quoted in 'sources'; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "f02caed1a91e2143503bba248361d678e57a228e8e1e35522f8a5a918df769e1",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk at 2026-09-07 16:40 local while the ShulchanV2 import (SourceAssets/vessels-review/ShulchanV2/native-import-20260907T203842904337Z.json) was still running; other native jobs keep changing the map, so this is recorded as matched/not matched only, never a guard. The body actor's mesh/pose/bounds and the paroches bounds are verified at run time instead. Run this script only when no other native job is active.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "AronPoles-",
+  "receiptFolder": "SourceAssets/third-party",
+  "receiptPrefix": "aron-poles-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "vesselsScript": "Scripts/release_import_thirdparty_vessels.py",
+  "actorTag": "ReleaseAronPolesV1",
+  "labelPrefix": "RELEASE_",
+  "folder": "Release/Vessels",
+  "collisionProfile": "NoCollision",
+  "collisionNote": "Both poles NoCollision like the vessels: the Kodesh is not on the visitor route and the poles cross the Kodesh doorway and the paroches (a NoCollision curtain) on purpose.",
+  "source": {
+    "slug": "aron-ark-box-davidgra11-thingiverse",
+    "folder": "SourceAssets/third-party",
+    "file": "ark_box_with_poles.obj",
+    "sha256": "60d0103b8abdf30213104c4cd91bb38d8a2f1e95fb651722d7705027678337d3",
+    "triangles": 715248,
+    "vertices": 355162,
+    "boundsFileUnits": {"min": [-27.0599, -61.375, 0.0], "max": [27.0599, 61.375, 49.1747]},
+    "license": "CC BY-SA 4.0 (Thingiverse 'cc-sa')",
+    "connectedComponents": 1,
+    "connectedComponentsNote": "Offline union-find over the welded OBJ: ONE component. The poles are fused to the ring bores (216 shared vertices at |y| 34..36 mm), so GeometryScript connected-component splitting cannot isolate them; the rule below is geometric (distance from the pole axis plus outward-normal test)."
+  },
+  "bodyMesh": {
+    "asset": "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronBody_davidgra11",
+    "importedTriangles": 715138,
+    "importedTrianglesNote": "native-import-vessels-20260907T190204035803Z.json: 110 sliver triangles lost to remove_degenerates; the importer mirrored local Y (asset units = file mm read as cm).",
+    "localBoundsCm": {"min": [-27.0599, -61.375, 0.0], "max": [27.0599, 61.375, 49.1747]},
+    "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+    "boundsToleranceCm": 0.05,
+    "noPolesName": "SM_ThirdParty_AronBody_davidgra11_NoPoles",
+    "noPolesAsset": "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_AronBody_davidgra11_NoPoles",
+    "windingConvention": "UE face normal cross(C-A, B-A) points outward on the imported asset (winding receipt: signed volume +42024.4, 0 disagreements over all 715138 triangles). The raw OBJ is right-handed: cross(B-A, C-A) outward.",
+    "rewriteOptions": {
+      "enable_recompute_normals": false,
+      "enable_recompute_tangents": false,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": false,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    },
+    "maxTriangleCountDeviationFraction": 0.001
+  },
+  "poleRule": {
+    "note": "Model poles: two cylinders along local Y at x = +-24.1 mm, z = 36.86 mm, radius 1.85-1.91 mm, spanning y +-61.375 mm; the body ends at |y| = 42.52 mm (lower moulding), walls at |y| <= 39.4. A triangle is a pole triangle when its centroid lies within poleInnerRadius of its side's pole axis, OR within poleOuterRadius with a face normal pointing AWAY from the axis (radial dot > outwardDotMin); ring-bore triangles in the same band point TOWARD the axis and stay. Axes are re-derived in the engine from the pole-tip corners (|y| > tipMinAbsY) and must match 'axes' within axisToleranceFileUnits.",
+    "tipMinAbsY": 45.0,
+    "candidateRadius": 3.0,
+    "poleInnerRadius": 1.95,
+    "poleOuterRadius": 2.6,
+    "outwardDotMin": 0.5,
+    "axes": {"plus": [24.1194, 36.8579, 1.9059], "minus": [-24.1466, 36.8606, 1.8498]},
+    "axesNote": "[x, z, maxRadius] of the pole cross-section per side from the tip vertices (|y| > 45).",
+    "axisToleranceFileUnits": 0.05,
+    "expectedPoleTriangles": 85740,
+    "poleCountToleranceFraction": 0.01,
+    "sensitivity": "rin 1.90..2.10 / dot 0.3..0.7 give 85703..85855 pole triangles (offline 2026-09-07).",
+    "expectedRingBoreBandTriangles": 597,
+    "expectedKeptBoundsFileUnits": {"min": [-27.0599, -42.4274, 0.0], "max": [27.0599, 42.5187, 49.1747]},
+    "keptBoundsNote": "X extent stays +-27.06 because the four rings (on the local +-X faces, axis along Y) remain; Y shrinks from +-61.375 (pole tips) to the body's lower moulding +-42.5; Z unchanged.",
+    "keptBoundsToleranceFileUnits": 0.05,
+    "tubeSelfCheckMinOutwardFraction": 0.9,
+    "tubeSelfCheckNote": "Among sure pole-tube triangles (centroid distance < 1.8, |y| < 60) at least this fraction must have an outward radial normal under the engine convention; otherwise the handedness assumption is wrong and the run refuses."
+  },
+  "ringRule": {
+    "enabledByDefault": false,
+    "switch": "-AronPolesDeleteRings",
+    "note": "Optional: also delete the four empty rings (centroid |x| > minAbsX in the ring z band, |y| < maxAbsY, not pole). Not default: the rings are unioned into the wall so deleting them leaves ring-footprint holes in the wall; kept rings are recorded as a limitation (empty rings on the east/west faces, axis north-south, not threaded by the new east-west poles).",
+    "minAbsX": 22.3,
+    "zBand": [27.0, 42.0],
+    "maxAbsY": 43.0,
+    "expectedRingTriangles": 4265,
+    "expectedRingTrianglesNote": "Informational (offline 2026-09-07): 3839 ring-body triangles plus 426 ring-bore band triangles inside the ring region; 171 band triangles outside it stay.",
+    "expectedKeptBoundsFileUnitsIfDeleted": {"min": [-24.5627, -42.4274, 0.0], "max": [24.6230, 42.5187, 49.1747]},
+    "expectedKeptBoundsIfDeletedNote": "Offline 2026-09-07: the ring-bore band is deleted with the rings; the remaining X extent is the carved panel frames (asymmetric by 0.06 mm in the source)."
+  },
+  "aronActors": {
+    "rotateReceipt": "SourceAssets/third-party/aron-rotate-20260907T192942Z.json",
+    "bodyLabel": "RELEASE_Aron_Body",
+    "lidLabel": "RELEASE_Aron_Lid",
+    "folder": "Release/Vessels",
+    "body": {
+      "location": [-6200.0, 0.0, 925.0000610351562],
+      "rotation": [0.0, 0.0, 0.0],
+      "scale": [1.471, 1.471, 1.471],
+      "worldBoundsCm": {"min": [-6239.805074037552, -90.28262500000001, 925.0000610351562], "max": [-6160.194925962448, 90.28262500000001, 997.336075279236]}
+    },
+    "lid": {
+      "location": [-6200.0, 0.0, 992.7327646542359],
+      "rotation": [0.0, 0.0, 0.0],
+      "scale": [1.471, 1.471, 1.471]
+    },
+    "poseToleranceCm": 0.01,
+    "boundsToleranceCm": 0.05
+  },
+  "poles": {
+    "meshAsset": "/Game/MikdashV3/MaterialReview/AronStudyV3/Meshes/SM_AronPolesEW",
+    "meshNote": "One capsule pole along local X, origin at its centre, used by both actors. Project geometry (not third-party): lives beside the earlier procedural Aron parts.",
+    "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+    "radiusCm": 4.0,
+    "circleSteps": 32,
+    "hemisphereSteps": 8,
+    "segmentSteps": 0,
+    "endCaps": "hemispherical (GeometryScript append_capsule)",
+    "labels": {"north": "RELEASE_Aron_Pole_N", "south": "RELEASE_Aron_Pole_S"},
+    "axes": "X east, Y south, Z up (project convention): the north pole has negative Y.",
+    "yRule": "poleCentreY = +-(bodyHalfLengthWorld + radius + gapCm), bodyHalfLengthWorld = max |y| of the pole-less body (42.5187 mm) x 1.471 = 62.55 cm. The poles lie along the OUTSIDE of the two short (north/south) faces: Rashi Shemot 25:12 - rings at the upper corners, two on each side across the WIDTH of the Aron, the LENGTH of the Aron (2.5 amot) separating pole from pole; Menachot 98b - the poles lay across the width so two carriers walked between them. With the length north-south the poles therefore run east-west beside the north and south faces.",
+    "gapCm": 0.5,
+    "zRule": "poleCentreZ = body origin Z + model pole axis z (36.859 mm) x 1.471 = 925 + 54.22 = 979.22 cm; the model's own ring height (upper part of the 72.3 cm body, Rashi: 'at the upper corners near the kaporet'). The task's 'lower third, +25 cm' guess is NOT used; recorded.",
+    "modelPoleAxisZFileUnits": 36.859,
+    "xRule": "West end = body west extent (rings included, -6239.8) - westStubCm; east end = eastEndX, which must lie inside the paroches cloth's X range (the poles press into the curtain 'like two breasts', Yoma 54a). Length = eastEndX - westEnd (~680 cm, 13.6 amot at 50 cm). The brief's 300 cm default cannot reach: Aron centre -6200 to paroches -5600 is 600 cm. The book gives NO number (see sources); the Gemara has the poles miraculously lengthen ('ויאריכו הבדים') to the paroches, so the length is fixed by the geometry.",
+    "westStubCm": 30.0,
+    "westStubNote": "About the model's own pole overhang (18.86 mm x 1.471 = 27.7 cm) rounded up; the west stub stays inside the Kodesh (west wall at X -6700). Override: -AronPolesWestStubCm=<cm>.",
+    "eastEndX": -5590.0,
+    "eastEndOverride": "-AronPolesEastEndX=<x>",
+    "paroches": {
+      "clothMesh": "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesClothV1",
+      "clothLabel": "RELEASE_Doors_37_Paroches_Cloth",
+      "clothWorldBoundsCm": {"min": [-5593.4, -180.0, 928.0], "max": [-5576.5, 180.0, 1234.0]},
+      "hemMesh": "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesHemV1",
+      "hemLabel": "RELEASE_Doors_38_Paroches_Hem",
+      "boundsToleranceCm": 1.0,
+      "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json reopenedReadback; cloth hangs 6.6 cm in front of the Heichal face of the Kodesh wall (X -5600).",
+      "intentionalIntersectionNote": "The pole tips end 3.4 cm inside the cloth drape AABB (-5593.4..-5576.5): the 'bulge'. Cloth and hem are excluded from the clearance check and the penetration is recorded."
+    },
+    "kodeshEnvelope": {"min": [-6700.0, -500.0, 925.0], "max": [-5576.5, 500.0, 2925.0]},
+    "kodeshEnvelopeNote": "Kodesh room plus the amah-traksin zone (-5700..-5600) and the paroches cloth drape up to its Heichal face (-5576.5): the pole tips may sit inside the cloth but never beyond it. The doorway is 350 cm wide (Y +-175) and 300 cm high (Z 925..1225): both poles (Y +-67, Z 975..983) pass through it; the open Kodesh door leaves sit at Y +-158..174."
+  },
+  "placement": {
+    "clearance": {
+      "rule": "Same rules as release_import_thirdparty_vessels.py: each planned pole AABB must not overlap any mesh-bearing actor except the paroches cloth/hem (intentional), terrain tiles, and hollow architecture unions whose verified constituent boxes are not hit. A blocker refuses the run BEFORE anything is saved.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "terrainFolders": ["Jerusalem context/Terrain", "FutureMountV1/Terrain", "Future Mount/Terrain"]
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.1,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared. Capsule facets (32 steps) keep the radius within 0.02 cm of nominal."
+  },
+  "sources": {
+    "orientation": "Task brief: Aron length north-south (Rambam Beit HaBechirah, as cited in the brief); poles east-west protruding into the paroches (Yoma 54a).",
+    "yoma54a": "Yoma 54a: the poles pressed against and protruded into the paroches and appeared like two breasts ('דוחקין ובולטין בפרוכת ונראין כשני דדי אשה').",
+    "menachot98": "Menachot 98a-b: 'ויאריכו הבדים' - the poles reached the paroches without tearing through; the poles were laid across the WIDTH of the Aron (two carriers between the poles).",
+    "rashiShemot25_12": "Rashi Shemot 25:12: the rings sat at the upper corners near the kaporet, two on each side across the width, the Aron's length (2.5 amot) separating pole from pole.",
+    "book": {
+      "title": "Lishchno Tidreshu (the user's book), reference-page scans in 'mikdash book/reference-pages'",
+      "pages": [
+        {"file": "page-059.png", "printedPage": 79, "content": "Yechezkel 41:3 - Kodesh entrance; 'דלתות פתוחות': the Kodesh HaKodashim doors stayed open and 'והבדים [מוטות לנשיאה של הארון] בלטו בפרוכת'."},
+        {"file": "page-060.png", "printedPage": 81, "content": "Picture ג7 'בדי הארון נוגעים בפרוכת ק\"ק'; text: 'ונעשה נס שבדי ארון הברית [שני קרשים מצופים זהב, שהיו משני צדי הארון] האריכו ודחקו הפרוכת, ונראו כמו שני דדי אשה' (Yoma 54a, Tosafot Menachot 98b); Second Temple: amah traksin with two curtains."},
+        {"file": "page-260.png", "printedPage": 155, "content": "Yechezkel 41:23 - 'ויאריכו הבדים ... ויראו ראשי הבדים מן הקדש על פני הדביר ולא יראו החוצה'; Menachot 98a: poles touch the paroches, do not tear out; 'הבדין דוחקין ובולטין בפרוכת ודומין כמין שני דדי אשה'. Picture כג4 'דלתות קדש הקדשים מזהב והבדים נוגעים בפרוכת'."},
+        {"file": "page-261.png", "printedPage": 156, "content": "Abarbanel: the bulge showed the Kohen Gadol where the Aron stood; picture כג5 'בליטת הבדים בפרוכת קדש הקדשים'. No numeric pole length anywhere on these pages."}
+      ],
+      "poleLengthNumber": null,
+      "poleLengthNote": "The book gives no length; its pictures draw the poles spanning from the Aron to the paroches, which is what the geometry rule reproduces."
+    }
+  },
+  "limitations": [
+    "Third-party art (CC BY-SA): the pole-less duplicate is a further derivative of davidgra11's 'Ark of the Covenant Box' and stays CC BY-SA with the attribution in SourceAssets/third-party/ATTRIBUTION-additions.txt; the new capsule poles are project geometry.",
+    "The four model rings stay on the east/west faces with a north-south axis (empty; the pole/ring fusion leaves a small open loop inside each ring bore). The new poles run beside the north/south faces and are not threaded through rings (no rings are modelled on the short faces). Optional -AronPolesDeleteRings removes the rings at the cost of ring-footprint holes in the wall.",
+    "Pole length (~680 cm) follows the Gemara's miracle geometry, not a measured number; radius 4 cm, gold material, hemispherical ends are modelling choices.",
+    "Pole height uses the model's own ring height (54 cm above the floor), not the brief's 'lower third' guess.",
+    "Geometric verification only: no visual, lighting, LOD, Nanite, performance or packaged acceptance.",
+    "No collision on the poles (recorded)."
+  ]
+}

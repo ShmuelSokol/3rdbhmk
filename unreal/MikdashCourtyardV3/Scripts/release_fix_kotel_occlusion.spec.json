@@ -1,0 +1,5421 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_fix_kotel_occlusion.py: per-box cut of the two OSM city-wall batches in front of the Kotel face, applied to DUPLICATE assets and swapped into the combined map only. Every box below was recomputed from the frozen source mesh; `cut` boxes are removed, all others stay. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "96f9d046775c708ab6ce07f933c5af6161ba3dfa26c0c41e768d68212ffce3e4",
+  "lastKnownMapSha256Note": "Recorded as matched/not matched in the receipt only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KotelOcclusion-",
+  "receiptFolder": "SourceAssets/kotel-detail/KotelStoneV1",
+  "receiptPrefix": "occlusion-fix-",
+  "diagnosticPrefix": "occlusion-diagnostic-",
+  "kotelManifest": {
+    "file": "SourceAssets/kotel-detail/KotelStoneV1/manifest.json",
+    "sha256": "24ee1225a6e7633dd77d42a5dbc1e8893de36a5304d34b4b519a963af689f12c",
+    "sourceMeshSha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+    "sharedGrid": "SM_JerusalemBuildings_Grid_N002_P001"
+  },
+  "streetsManifest": {
+    "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\streets-manifest.json",
+    "sha256": "cc9eb91e99298565db296ea52a4eef744944e3bac3014829b573e30235aea8da",
+    "sourceMeshFile": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json",
+    "sourceMeshSha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+    "translationSourceAmos": [
+      17.509700315687695,
+      0,
+      -0.5513496449385334
+    ],
+    "sourceToUnrealCm": "[(x+tx)*50, (z+tz)*50, y*50] (source amot: X east, Y up, Z south); identical to the Kotel manifest conversion (create_kotel_stone_detail.py)"
+  },
+  "faces": [
+    {
+      "edge": 0,
+      "a": [
+        -15127.514984215617,
+        11907.932517753074
+      ],
+      "b": [
+        -14450.014984215613,
+        15836.432517753074
+      ],
+      "tangent": [
+        0.1699489173129251,
+        0.9854528733045355
+      ],
+      "normal": [
+        -0.9854528733045355,
+        0.1699489173129251
+      ],
+      "lengthCm": 3986.492004256374
+    },
+    {
+      "edge": 1,
+      "a": [
+        -14450.014984215613,
+        15836.432517753074
+      ],
+      "b": [
+        -14107.514984215617,
+        17750.432517753074
+      ],
+      "tangent": [
+        0.17614662966888817,
+        0.9843639392299431
+      ],
+      "normal": [
+        -0.9843639392299431,
+        0.17614662966888817
+      ],
+      "lengthCm": 1944.4028003477054
+    },
+    {
+      "edge": 24,
+      "a": [
+        -15678.014984215617,
+        8845.432517753074
+      ],
+      "b": [
+        -15665.014984215617,
+        9170.932517753074
+      ],
+      "tangent": [
+        0.039906741362013116,
+        0.9992034087180975
+      ],
+      "normal": [
+        -0.9992034087180975,
+        0.039906741362013116
+      ],
+      "lengthCm": 325.7594971754469
+    },
+    {
+      "edge": 25,
+      "a": [
+        -15665.014984215617,
+        9170.932517753074
+      ],
+      "b": [
+        -15127.514984215617,
+        11907.932517753074
+      ],
+      "tangent": [
+        0.19270215428078052,
+        0.981257295379528
+      ],
+      "normal": [
+        -0.981257295379528,
+        0.19270215428078052
+      ],
+      "lengthCm": 2789.2786253796876
+    }
+  ],
+  "faceConvention": "a/b footprint corners (cm, XY); tangent=(b-a)/|b-a|; normal=(-tangent.y, tangent.x) points WEST (away from the building); west = dot(p-a, normal); along = dot(p-a, tangent).",
+  "cutRule": {
+    "cutEdges": [
+      0,
+      1,
+      24,
+      25
+    ],
+    "westMinCm": -20.0,
+    "westMaxCm": 160.0,
+    "alongPadCm": 80.0,
+    "zMinCm": -1500.0,
+    "zMaxCm": 800.0,
+    "cornerIgnoreAlongCm": 20.0,
+    "unit": "whole 12-triangle source box, decided by box centroid",
+    "rationale": "Body boxes straddle the face plane (-100..+100 cm) so their top/bottom/end triangles have centroid west 0.0; removing whole closed boxes leaves no open single-sided shells. westMin -20 absorbs -0.0 rounding. alongPad 80 includes the bend merlons at the edge joints (along 0 / L) and excludes the wall continuing north of Y 17732 (box 783, along 2046 > 1944+80) and south of Y 8861 (box 238, along -280). cornerIgnoreAlongCm 20: the probe ignores the outer 20 cm of each face, where the kept box 238 (OSM wall body continuing south) overlaps the first ~16 cm of the 326 cm edge-24 stub at the SW corner."
+  },
+  "probe": {
+    "pointsPerEdge": 20,
+    "zFromCm": -1000.0,
+    "zToCm": 500.0,
+    "minClearanceCm": 160.0,
+    "rule": "Candidates are remaining triangle centroids in front of the face segment (west > 0, along within cornerIgnoreAlongCm..L-cornerIgnoreAlongCm). For every probe point the nearest candidate must be farther than minClearanceCm, and no candidate may lie within westMaxCm of the face at Z zMin..zMax."
+  },
+  "verification": {
+    "cornerToleranceCm": 0.5,
+    "boundsToleranceCm": 0.5,
+    "transformToleranceCm": 0.001,
+    "trianglesPerBox": 12
+  },
+  "baseWall": {
+    "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+    "triangles": 284,
+    "expectedTransform": "identity",
+    "rule": "exactly one component; untouched"
+  },
+  "overlays": {
+    "meshFolder": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/",
+    "labels": [
+      "RELEASE_Kotel_1",
+      "RELEASE_Kotel_2",
+      "RELEASE_Kotel_3",
+      "RELEASE_Kotel_4",
+      "RELEASE_Kotel_5",
+      "RELEASE_Kotel_6"
+    ],
+    "meshes": [
+      "SM_KotelFace_Tint0",
+      "SM_KotelFace_Tint1",
+      "SM_KotelFace_Tint2",
+      "SM_KotelFace_Tint3",
+      "SM_KotelFace_Tint4",
+      "SM_KotelFace_Tint5"
+    ],
+    "expectedTransform": "identity"
+  },
+  "optionB": {
+    "offsetCm": 122.0,
+    "alongOutwardNormalOfEdge": 0,
+    "normal": [
+      -0.9854528733045355,
+      0.1699489173129251
+    ],
+    "note": "Fallback only (flag -KotelOcclusionOptionB): overlay moved in front of the OSM slab; misaligned up to ~19 cm on edge 24."
+  },
+  "assets": [
+    {
+      "source": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_CityWalls_04_Grid_N002_P000",
+      "destination": "/Game/MikdashV3/FutureMountV1/KotelApproach/SM_Jerusalem_CityWalls_04_Grid_N002_P000_KotelCut",
+      "uassetFile": "Content/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_CityWalls_04_Grid_N002_P000.uasset",
+      "lastKnownUassetSha256": "48e84b7bf769831fe71ba40af870a0789dd3d618fc99b3d779a4df0213875d1b",
+      "materialSlotFbxName": "M_Jerusalem_CityWalls_2b334de9",
+      "materialSlots": 1,
+      "expectedBoundsUnrealCm": {
+        "min": [
+          -17170.289611816406,
+          166.79751873016357,
+          -392.65499114990234
+        ],
+        "max": [
+          -15409.800720214844,
+          9942.082214355469,
+          797.4249839782715
+        ]
+      },
+      "triangles": 456,
+      "boxCount": 38,
+      "cutBoxes": 4,
+      "cutBoxIds": [
+        811,
+        812,
+        813,
+        814
+      ],
+      "expectedTrianglesAfterCut": 408,
+      "expectedBoundsAfterCutCm": {
+        "min": [
+          -17170.29,
+          166.7975,
+          -392.655
+        ],
+        "max": [
+          -15579.17,
+          8860.5775,
+          797.425
+        ]
+      },
+      "cutCornerWestRangeCm": [
+        -120.203,
+        120.203
+      ],
+      "sharedCornerPairsAcrossCutBoundary": [],
+      "boxes": [
+        {
+          "box": 207,
+          "sourceTriangles": [
+            2484,
+            2495
+          ],
+          "corners": [
+            [
+              -17170.29,
+              206.0325,
+              607.345
+            ],
+            [
+              -17170.29,
+              206.0325,
+              742.345
+            ],
+            [
+              -17143.54,
+              353.6275,
+              607.345
+            ],
+            [
+              -17143.54,
+              353.6275,
+              742.345
+            ],
+            [
+              -16953.815,
+              166.7975,
+              607.345
+            ],
+            [
+              -16953.815,
+              166.7975,
+              742.345
+            ],
+            [
+              -16927.065,
+              314.3925,
+              607.345
+            ],
+            [
+              -16927.065,
+              314.3925,
+              742.345
+            ]
+          ],
+          "centroidCm": [
+            -17048.6775,
+            260.2125,
+            674.845
+          ],
+          "minCm": [
+            -17170.29,
+            166.7975,
+            607.345
+          ],
+          "maxCm": [
+            -16927.065,
+            353.6275,
+            742.345
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 208,
+          "sourceTriangles": [
+            2496,
+            2507
+          ],
+          "corners": [
+            [
+              -17127.905,
+              383.7975,
+              -392.655
+            ],
+            [
+              -17127.905,
+              383.7975,
+              607.345
+            ],
+            [
+              -16987.905,
+              1154.7975,
+              -392.655
+            ],
+            [
+              -16987.905,
+              1154.7975,
+              607.345
+            ],
+            [
+              -16931.125,
+              348.0675,
+              -392.655
+            ],
+            [
+              -16931.125,
+              348.0675,
+              607.345
+            ],
+            [
+              -16791.125,
+              1119.0675,
+              -392.655
+            ],
+            [
+              -16791.125,
+              1119.0675,
+              607.345
+            ]
+          ],
+          "centroidCm": [
+            -16959.515,
+            751.4325,
+            107.345
+          ],
+          "minCm": [
+            -17127.905,
+            348.0675,
+            -392.655
+          ],
+          "maxCm": [
+            -16791.125,
+            1154.7975,
+            607.345
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 209,
+          "sourceTriangles": [
+            2508,
+            2519
+          ],
+          "corners": [
+            [
+              -17151.145,
+              311.7925,
+              607.345
+            ],
+            [
+              -17151.145,
+              311.7925,
+              742.345
+            ],
+            [
+              -17124.345,
+              459.3775,
+              607.345
+            ],
+            [
+              -17124.345,
+              459.3775,
+              742.345
+            ],
+            [
+              -16934.685,
+              272.4875,
+              607.345
+            ],
+            [
+              -16934.685,
+              272.4875,
+              742.345
+            ],
+            [
+              -16907.885,
+              420.0725,
+              607.345
+            ],
+            [
+              -16907.885,
+              420.0725,
+              742.345
+            ]
+          ],
+          "centroidCm": [
+            -17029.515,
+            365.9325,
+            674.845
+          ],
+          "minCm": [
+            -17151.145,
+            272.4875,
+            607.345
+          ],
+          "maxCm": [
+            -16907.885,
+            459.3775,
+            742.345
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 210,
+          "sourceTriangles": [
+            2520,
+            2531
+          ],
+          "corners": [
+            [
+              -17088.615,
+              656.1625,
+              607.345
+            ],
+            [
+              -17088.615,
+              656.1625,
+              742.345
+            ],
+            [
+              -17061.815,
+              803.7475,
+              607.345
+            ],
+            [
+              -17061.815,
+              803.7475,
+              742.345
+            ],
+            [
+              -16872.155,
+              616.8575,
+              607.345
+            ],
+            [
+              -16872.155,
+              616.8575,
+              742.345
+            ],
+            [
+              -16845.355,
+              764.4425,
+              607.345
+            ],
+            [
+              -16845.355,
+              764.4425,
+              742.345
+            ]
+          ],
+          "centroidCm": [
+            -16966.985,
+            710.3025,
+            674.845
+          ],
+          "minCm": [
+            -17088.615,
+            616.8575,
+            607.345
+          ],
+          "maxCm": [
+            -16845.355,
+            803.7475,
+            742.345
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 211,
+          "sourceTriangles": [
+            2532,
+            2543
+          ],
+          "corners": [
+            [
+              -17026.08,
+              1000.5275,
+              607.345
+            ],
+            [
+              -17026.08,
+              1000.5275,
+              742.345
+            ],
+            [
+              -16999.285,
+              1148.1175,
+              607.345
+            ],
+            [
+              -16999.285,
+              1148.1175,
+              742.345
+            ],
+            [
+              -16809.62,
+              961.2225,
+              607.345
+            ],
+            [
+              -16809.62,
+              961.2225,
+              742.345
+            ],
+            [
+              -16782.825,
+              1108.8125,
+              607.345
+            ],
+            [
+              -16782.825,
+              1108.8125,
+              742.345
+            ]
+          ],
+          "centroidCm": [
+            -16904.4525,
+            1054.67,
+            674.845
+          ],
+          "minCm": [
+            -17026.08,
+            961.2225,
+            607.345
+          ],
+          "maxCm": [
+            -16782.825,
+            1148.1175,
+            742.345
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 212,
+          "sourceTriangles": [
+            2544,
+            2555
+          ],
+          "corners": [
+            [
+              -16987.9,
+              1154.8275,
+              -392.485
+            ],
+            [
+              -16987.9,
+              1154.8275,
+              607.515
+            ],
+            [
+              -16798.9,
+              2193.8275,
+              -392.485
+            ],
+            [
+              -16798.9,
+              2193.8275,
+              607.515
+            ],
+            [
+              -16791.13,
+              1119.0375,
+              -392.485
+            ],
+            [
+              -16791.13,
+              1119.0375,
+              607.515
+            ],
+            [
+              -16602.13,
+              2158.0375,
+              -392.485
+            ],
+            [
+              -16602.13,
+              2158.0375,
+              607.515
+            ]
+          ],
+          "centroidCm": [
+            -16795.015,
+            1656.4325,
+            107.515
+          ],
+          "minCm": [
+            -16987.9,
+            1119.0375,
+            -392.485
+          ],
+          "maxCm": [
+            -16602.13,
+            2193.8275,
+            607.515
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 213,
+          "sourceTriangles": [
+            2556,
+            2567
+          ],
+          "corners": [
+            [
+              -17011.16,
+              1082.8275,
+              607.515
+            ],
+            [
+              -17011.16,
+              1082.8275,
+              742.515
+            ],
+            [
+              -16984.315,
+              1230.4075,
+              607.515
+            ],
+            [
+              -16984.315,
+              1230.4075,
+              742.515
+            ],
+            [
+              -16794.715,
+              1043.4575,
+              607.515
+            ],
+            [
+              -16794.715,
+              1043.4575,
+              742.515
+            ],
+            [
+              -16767.87,
+              1191.0375,
+              607.515
+            ],
+            [
+              -16767.87,
+              1191.0375,
+              742.515
+            ]
+          ],
+          "centroidCm": [
+            -16889.515,
+            1136.9325,
+            675.015
+          ],
+          "minCm": [
+            -17011.16,
+            1043.4575,
+            607.515
+          ],
+          "maxCm": [
+            -16767.87,
+            1230.4075,
+            742.515
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 214,
+          "sourceTriangles": [
+            2568,
+            2579
+          ],
+          "corners": [
+            [
+              -16948.525,
+              1427.1775,
+              607.515
+            ],
+            [
+              -16948.525,
+              1427.1775,
+              742.515
+            ],
+            [
+              -16921.675,
+              1574.7575,
+              607.515
+            ],
+            [
+              -16921.675,
+              1574.7575,
+              742.515
+            ],
+            [
+              -16732.075,
+              1387.8075,
+              607.515
+            ],
+            [
+              -16732.075,
+              1387.8075,
+              742.515
+            ],
+            [
+              -16705.23,
+              1535.3825,
+              607.515
+            ],
+            [
+              -16705.23,
+              1535.3825,
+              742.515
+            ]
+          ],
+          "centroidCm": [
+            -16826.8762,
+            1481.2813,
+            675.015
+          ],
+          "minCm": [
+            -16948.525,
+            1387.8075,
+            607.515
+          ],
+          "maxCm": [
+            -16705.23,
+            1574.7575,
+            742.515
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 215,
+          "sourceTriangles": [
+            2580,
+            2591
+          ],
+          "corners": [
+            [
+              -16885.885,
+              1771.5275,
+              607.515
+            ],
+            [
+              -16885.885,
+              1771.5275,
+              742.515
+            ],
+            [
+              -16859.04,
+              1919.1075,
+              607.515
+            ],
+            [
+              -16859.04,
+              1919.1075,
+              742.515
+            ],
+            [
+              -16669.435,
+              1732.1575,
+              607.515
+            ],
+            [
+              -16669.435,
+              1732.1575,
+              742.515
+            ],
+            [
+              -16642.59,
+              1879.7325,
+              607.515
+            ],
+            [
+              -16642.59,
+              1879.7325,
+              742.515
+            ]
+          ],
+          "centroidCm": [
+            -16764.2375,
+            1825.6313,
+            675.015
+          ],
+          "minCm": [
+            -16885.885,
+            1732.1575,
+            607.515
+          ],
+          "maxCm": [
+            -16642.59,
+            1919.1075,
+            742.515
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 216,
+          "sourceTriangles": [
+            2592,
+            2603
+          ],
+          "corners": [
+            [
+              -16823.245,
+              2115.8775,
+              607.515
+            ],
+            [
+              -16823.245,
+              2115.8775,
+              742.515
+            ],
+            [
+              -16796.4,
+              2263.4575,
+              607.515
+            ],
+            [
+              -16796.4,
+              2263.4575,
+              742.515
+            ],
+            [
+              -16606.795,
+              2076.5025,
+              607.515
+            ],
+            [
+              -16606.795,
+              2076.5025,
+              742.515
+            ],
+            [
+              -16579.95,
+              2224.0825,
+              607.515
+            ],
+            [
+              -16579.95,
+              2224.0825,
+              742.515
+            ]
+          ],
+          "centroidCm": [
+            -16701.5975,
+            2169.98,
+            675.015
+          ],
+          "minCm": [
+            -16823.245,
+            2076.5025,
+            607.515
+          ],
+          "maxCm": [
+            -16579.95,
+            2263.4575,
+            742.515
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 217,
+          "sourceTriangles": [
+            2604,
+            2615
+          ],
+          "corners": [
+            [
+              -16799.36,
+              2191.0975,
+              -391.64
+            ],
+            [
+              -16799.36,
+              2191.0975,
+              608.36
+            ],
+            [
+              -16601.67,
+              2160.7675,
+              -391.64
+            ],
+            [
+              -16601.67,
+              2160.7675,
+              608.36
+            ],
+            [
+              -15997.36,
+              7419.0975,
+              -391.64
+            ],
+            [
+              -15997.36,
+              7419.0975,
+              608.36
+            ],
+            [
+              -15799.67,
+              7388.7675,
+              -391.64
+            ],
+            [
+              -15799.67,
+              7388.7675,
+              608.36
+            ]
+          ],
+          "centroidCm": [
+            -16299.515,
+            4789.9325,
+            108.36
+          ],
+          "minCm": [
+            -16799.36,
+            2160.7675,
+            -391.64
+          ],
+          "maxCm": [
+            -15799.67,
+            7419.0975,
+            608.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 218,
+          "sourceTriangles": [
+            2616,
+            2627
+          ],
+          "corners": [
+            [
+              -16820.615,
+              2118.4775,
+              608.36
+            ],
+            [
+              -16820.615,
+              2118.4775,
+              743.36
+            ],
+            [
+              -16797.87,
+              2266.7425,
+              608.36
+            ],
+            [
+              -16797.87,
+              2266.7425,
+              743.36
+            ],
+            [
+              -16603.16,
+              2085.1225,
+              608.36
+            ],
+            [
+              -16603.16,
+              2085.1225,
+              743.36
+            ],
+            [
+              -16580.415,
+              2233.3875,
+              608.36
+            ],
+            [
+              -16580.415,
+              2233.3875,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16700.515,
+            2175.9325,
+            675.86
+          ],
+          "minCm": [
+            -16820.615,
+            2085.1225,
+            608.36
+          ],
+          "maxCm": [
+            -16580.415,
+            2266.7425,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 219,
+          "sourceTriangles": [
+            2628,
+            2639
+          ],
+          "corners": [
+            [
+              -16767.545,
+              2464.4325,
+              608.36
+            ],
+            [
+              -16767.545,
+              2464.4325,
+              743.36
+            ],
+            [
+              -16744.8,
+              2612.6975,
+              608.36
+            ],
+            [
+              -16744.8,
+              2612.6975,
+              743.36
+            ],
+            [
+              -16550.09,
+              2431.0725,
+              608.36
+            ],
+            [
+              -16550.09,
+              2431.0725,
+              743.36
+            ],
+            [
+              -16527.345,
+              2579.3375,
+              608.36
+            ],
+            [
+              -16527.345,
+              2579.3375,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16647.445,
+            2521.885,
+            675.86
+          ],
+          "minCm": [
+            -16767.545,
+            2431.0725,
+            608.36
+          ],
+          "maxCm": [
+            -16527.345,
+            2612.6975,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 220,
+          "sourceTriangles": [
+            2640,
+            2651
+          ],
+          "corners": [
+            [
+              -16714.475,
+              2810.3875,
+              608.36
+            ],
+            [
+              -16714.475,
+              2810.3875,
+              743.36
+            ],
+            [
+              -16691.73,
+              2958.6525,
+              608.36
+            ],
+            [
+              -16691.73,
+              2958.6525,
+              743.36
+            ],
+            [
+              -16497.015,
+              2777.0275,
+              608.36
+            ],
+            [
+              -16497.015,
+              2777.0275,
+              743.36
+            ],
+            [
+              -16474.27,
+              2925.2925,
+              608.36
+            ],
+            [
+              -16474.27,
+              2925.2925,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16594.3725,
+            2867.84,
+            675.86
+          ],
+          "minCm": [
+            -16714.475,
+            2777.0275,
+            608.36
+          ],
+          "maxCm": [
+            -16474.27,
+            2958.6525,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 221,
+          "sourceTriangles": [
+            2652,
+            2663
+          ],
+          "corners": [
+            [
+              -16661.405,
+              3156.3375,
+              608.36
+            ],
+            [
+              -16661.405,
+              3156.3375,
+              743.36
+            ],
+            [
+              -16638.66,
+              3304.6025,
+              608.36
+            ],
+            [
+              -16638.66,
+              3304.6025,
+              743.36
+            ],
+            [
+              -16443.945,
+              3122.9775,
+              608.36
+            ],
+            [
+              -16443.945,
+              3122.9775,
+              743.36
+            ],
+            [
+              -16421.2,
+              3271.2425,
+              608.36
+            ],
+            [
+              -16421.2,
+              3271.2425,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16541.3025,
+            3213.79,
+            675.86
+          ],
+          "minCm": [
+            -16661.405,
+            3122.9775,
+            608.36
+          ],
+          "maxCm": [
+            -16421.2,
+            3304.6025,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 222,
+          "sourceTriangles": [
+            2664,
+            2675
+          ],
+          "corners": [
+            [
+              -16608.33,
+              3502.2925,
+              608.36
+            ],
+            [
+              -16608.33,
+              3502.2925,
+              743.36
+            ],
+            [
+              -16585.585,
+              3650.5575,
+              608.36
+            ],
+            [
+              -16585.585,
+              3650.5575,
+              743.36
+            ],
+            [
+              -16390.875,
+              3468.9325,
+              608.36
+            ],
+            [
+              -16390.875,
+              3468.9325,
+              743.36
+            ],
+            [
+              -16368.13,
+              3617.1975,
+              608.36
+            ],
+            [
+              -16368.13,
+              3617.1975,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16488.23,
+            3559.745,
+            675.86
+          ],
+          "minCm": [
+            -16608.33,
+            3468.9325,
+            608.36
+          ],
+          "maxCm": [
+            -16368.13,
+            3650.5575,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 223,
+          "sourceTriangles": [
+            2676,
+            2687
+          ],
+          "corners": [
+            [
+              -16555.26,
+              3848.2425,
+              608.36
+            ],
+            [
+              -16555.26,
+              3848.2425,
+              743.36
+            ],
+            [
+              -16532.515,
+              3996.5075,
+              608.36
+            ],
+            [
+              -16532.515,
+              3996.5075,
+              743.36
+            ],
+            [
+              -16337.805,
+              3814.8875,
+              608.36
+            ],
+            [
+              -16337.805,
+              3814.8875,
+              743.36
+            ],
+            [
+              -16315.06,
+              3963.1525,
+              608.36
+            ],
+            [
+              -16315.06,
+              3963.1525,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16435.16,
+            3905.6975,
+            675.86
+          ],
+          "minCm": [
+            -16555.26,
+            3814.8875,
+            608.36
+          ],
+          "maxCm": [
+            -16315.06,
+            3996.5075,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 224,
+          "sourceTriangles": [
+            2688,
+            2699
+          ],
+          "corners": [
+            [
+              -16502.19,
+              4194.1975,
+              608.36
+            ],
+            [
+              -16502.19,
+              4194.1975,
+              743.36
+            ],
+            [
+              -16479.445,
+              4342.4625,
+              608.36
+            ],
+            [
+              -16479.445,
+              4342.4625,
+              743.36
+            ],
+            [
+              -16284.735,
+              4160.8375,
+              608.36
+            ],
+            [
+              -16284.735,
+              4160.8375,
+              743.36
+            ],
+            [
+              -16261.99,
+              4309.1025,
+              608.36
+            ],
+            [
+              -16261.99,
+              4309.1025,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16382.09,
+            4251.65,
+            675.86
+          ],
+          "minCm": [
+            -16502.19,
+            4160.8375,
+            608.36
+          ],
+          "maxCm": [
+            -16261.99,
+            4342.4625,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 225,
+          "sourceTriangles": [
+            2700,
+            2711
+          ],
+          "corners": [
+            [
+              -16449.12,
+              4540.1525,
+              608.36
+            ],
+            [
+              -16449.12,
+              4540.1525,
+              743.36
+            ],
+            [
+              -16426.375,
+              4688.4175,
+              608.36
+            ],
+            [
+              -16426.375,
+              4688.4175,
+              743.36
+            ],
+            [
+              -16231.665,
+              4506.7925,
+              608.36
+            ],
+            [
+              -16231.665,
+              4506.7925,
+              743.36
+            ],
+            [
+              -16208.92,
+              4655.0575,
+              608.36
+            ],
+            [
+              -16208.92,
+              4655.0575,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16329.02,
+            4597.605,
+            675.86
+          ],
+          "minCm": [
+            -16449.12,
+            4506.7925,
+            608.36
+          ],
+          "maxCm": [
+            -16208.92,
+            4688.4175,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 226,
+          "sourceTriangles": [
+            2712,
+            2723
+          ],
+          "corners": [
+            [
+              -16396.05,
+              4886.1025,
+              608.36
+            ],
+            [
+              -16396.05,
+              4886.1025,
+              743.36
+            ],
+            [
+              -16373.305,
+              5034.3675,
+              608.36
+            ],
+            [
+              -16373.305,
+              5034.3675,
+              743.36
+            ],
+            [
+              -16178.59,
+              4852.7425,
+              608.36
+            ],
+            [
+              -16178.59,
+              4852.7425,
+              743.36
+            ],
+            [
+              -16155.845,
+              5001.0075,
+              608.36
+            ],
+            [
+              -16155.845,
+              5001.0075,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16275.9475,
+            4943.555,
+            675.86
+          ],
+          "minCm": [
+            -16396.05,
+            4852.7425,
+            608.36
+          ],
+          "maxCm": [
+            -16155.845,
+            5034.3675,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 227,
+          "sourceTriangles": [
+            2724,
+            2735
+          ],
+          "corners": [
+            [
+              -16342.98,
+              5232.0575,
+              608.36
+            ],
+            [
+              -16342.98,
+              5232.0575,
+              743.36
+            ],
+            [
+              -16320.235,
+              5380.3225,
+              608.36
+            ],
+            [
+              -16320.235,
+              5380.3225,
+              743.36
+            ],
+            [
+              -16125.52,
+              5198.6975,
+              608.36
+            ],
+            [
+              -16125.52,
+              5198.6975,
+              743.36
+            ],
+            [
+              -16102.775,
+              5346.9625,
+              608.36
+            ],
+            [
+              -16102.775,
+              5346.9625,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16222.8775,
+            5289.51,
+            675.86
+          ],
+          "minCm": [
+            -16342.98,
+            5198.6975,
+            608.36
+          ],
+          "maxCm": [
+            -16102.775,
+            5380.3225,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 228,
+          "sourceTriangles": [
+            2736,
+            2747
+          ],
+          "corners": [
+            [
+              -16289.905,
+              5578.0075,
+              608.36
+            ],
+            [
+              -16289.905,
+              5578.0075,
+              743.36
+            ],
+            [
+              -16267.16,
+              5726.2725,
+              608.36
+            ],
+            [
+              -16267.16,
+              5726.2725,
+              743.36
+            ],
+            [
+              -16072.45,
+              5544.6525,
+              608.36
+            ],
+            [
+              -16072.45,
+              5544.6525,
+              743.36
+            ],
+            [
+              -16049.705,
+              5692.9175,
+              608.36
+            ],
+            [
+              -16049.705,
+              5692.9175,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16169.805,
+            5635.4625,
+            675.86
+          ],
+          "minCm": [
+            -16289.905,
+            5544.6525,
+            608.36
+          ],
+          "maxCm": [
+            -16049.705,
+            5726.2725,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 229,
+          "sourceTriangles": [
+            2748,
+            2759
+          ],
+          "corners": [
+            [
+              -16236.835,
+              5923.9625,
+              608.36
+            ],
+            [
+              -16236.835,
+              5923.9625,
+              743.36
+            ],
+            [
+              -16214.09,
+              6072.2275,
+              608.36
+            ],
+            [
+              -16214.09,
+              6072.2275,
+              743.36
+            ],
+            [
+              -16019.38,
+              5890.6025,
+              608.36
+            ],
+            [
+              -16019.38,
+              5890.6025,
+              743.36
+            ],
+            [
+              -15996.635,
+              6038.8675,
+              608.36
+            ],
+            [
+              -15996.635,
+              6038.8675,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16116.735,
+            5981.415,
+            675.86
+          ],
+          "minCm": [
+            -16236.835,
+            5890.6025,
+            608.36
+          ],
+          "maxCm": [
+            -15996.635,
+            6072.2275,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 230,
+          "sourceTriangles": [
+            2760,
+            2771
+          ],
+          "corners": [
+            [
+              -16183.765,
+              6269.9175,
+              608.36
+            ],
+            [
+              -16183.765,
+              6269.9175,
+              743.36
+            ],
+            [
+              -16161.02,
+              6418.1825,
+              608.36
+            ],
+            [
+              -16161.02,
+              6418.1825,
+              743.36
+            ],
+            [
+              -15966.31,
+              6236.5575,
+              608.36
+            ],
+            [
+              -15966.31,
+              6236.5575,
+              743.36
+            ],
+            [
+              -15943.565,
+              6384.8225,
+              608.36
+            ],
+            [
+              -15943.565,
+              6384.8225,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16063.665,
+            6327.37,
+            675.86
+          ],
+          "minCm": [
+            -16183.765,
+            6236.5575,
+            608.36
+          ],
+          "maxCm": [
+            -15943.565,
+            6418.1825,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 231,
+          "sourceTriangles": [
+            2772,
+            2783
+          ],
+          "corners": [
+            [
+              -16130.695,
+              6615.8675,
+              608.36
+            ],
+            [
+              -16130.695,
+              6615.8675,
+              743.36
+            ],
+            [
+              -16107.95,
+              6764.1325,
+              608.36
+            ],
+            [
+              -16107.95,
+              6764.1325,
+              743.36
+            ],
+            [
+              -15913.24,
+              6582.5075,
+              608.36
+            ],
+            [
+              -15913.24,
+              6582.5075,
+              743.36
+            ],
+            [
+              -15890.495,
+              6730.7775,
+              608.36
+            ],
+            [
+              -15890.495,
+              6730.7775,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -16010.595,
+            6673.3213,
+            675.86
+          ],
+          "minCm": [
+            -16130.695,
+            6582.5075,
+            608.36
+          ],
+          "maxCm": [
+            -15890.495,
+            6764.1325,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 232,
+          "sourceTriangles": [
+            2784,
+            2795
+          ],
+          "corners": [
+            [
+              -16077.625,
+              6961.8225,
+              608.36
+            ],
+            [
+              -16077.625,
+              6961.8225,
+              743.36
+            ],
+            [
+              -16054.88,
+              7110.0875,
+              608.36
+            ],
+            [
+              -16054.88,
+              7110.0875,
+              743.36
+            ],
+            [
+              -15860.165,
+              6928.4625,
+              608.36
+            ],
+            [
+              -15860.165,
+              6928.4625,
+              743.36
+            ],
+            [
+              -15837.42,
+              7076.7275,
+              608.36
+            ],
+            [
+              -15837.42,
+              7076.7275,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -15957.5225,
+            7019.275,
+            675.86
+          ],
+          "minCm": [
+            -16077.625,
+            6928.4625,
+            608.36
+          ],
+          "maxCm": [
+            -15837.42,
+            7110.0875,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 233,
+          "sourceTriangles": [
+            2796,
+            2807
+          ],
+          "corners": [
+            [
+              -16024.555,
+              7307.7725,
+              608.36
+            ],
+            [
+              -16024.555,
+              7307.7725,
+              743.36
+            ],
+            [
+              -16001.81,
+              7456.0375,
+              608.36
+            ],
+            [
+              -16001.81,
+              7456.0375,
+              743.36
+            ],
+            [
+              -15807.095,
+              7274.4175,
+              608.36
+            ],
+            [
+              -15807.095,
+              7274.4175,
+              743.36
+            ],
+            [
+              -15784.35,
+              7422.6825,
+              608.36
+            ],
+            [
+              -15784.35,
+              7422.6825,
+              743.36
+            ]
+          ],
+          "centroidCm": [
+            -15904.4525,
+            7365.2275,
+            675.86
+          ],
+          "minCm": [
+            -16024.555,
+            7274.4175,
+            608.36
+          ],
+          "maxCm": [
+            -15784.35,
+            7456.0375,
+            743.36
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 234,
+          "sourceTriangles": [
+            2808,
+            2819
+          ],
+          "corners": [
+            [
+              -15997.37,
+              7419.0375,
+              -337.575
+            ],
+            [
+              -15997.37,
+              7419.0375,
+              662.425
+            ],
+            [
+              -15862.365,
+              8302.5375,
+              -337.575
+            ],
+            [
+              -15862.365,
+              8302.5375,
+              662.425
+            ],
+            [
+              -15799.665,
+              7388.8275,
+              -337.575
+            ],
+            [
+              -15799.665,
+              7388.8275,
+              662.425
+            ],
+            [
+              -15664.66,
+              8272.3275,
+              -337.575
+            ],
+            [
+              -15664.66,
+              8272.3275,
+              662.425
+            ]
+          ],
+          "centroidCm": [
+            -15831.015,
+            7845.6825,
+            162.425
+          ],
+          "minCm": [
+            -15997.37,
+            7388.8275,
+            -337.575
+          ],
+          "maxCm": [
+            -15664.66,
+            8302.5375,
+            662.425
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 235,
+          "sourceTriangles": [
+            2820,
+            2831
+          ],
+          "corners": [
+            [
+              -16018.58,
+              7346.4075,
+              662.425
+            ],
+            [
+              -16018.58,
+              7346.4075,
+              797.425
+            ],
+            [
+              -15995.925,
+              7494.6875,
+              662.425
+            ],
+            [
+              -15995.925,
+              7494.6875,
+              797.425
+            ],
+            [
+              -15801.105,
+              7313.1775,
+              662.425
+            ],
+            [
+              -15801.105,
+              7313.1775,
+              797.425
+            ],
+            [
+              -15778.45,
+              7461.4575,
+              662.425
+            ],
+            [
+              -15778.45,
+              7461.4575,
+              797.425
+            ]
+          ],
+          "centroidCm": [
+            -15898.515,
+            7403.9325,
+            729.925
+          ],
+          "minCm": [
+            -16018.58,
+            7313.1775,
+            662.425
+          ],
+          "maxCm": [
+            -15778.45,
+            7494.6875,
+            797.425
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 236,
+          "sourceTriangles": [
+            2832,
+            2843
+          ],
+          "corners": [
+            [
+              -15965.715,
+              7692.3925,
+              662.425
+            ],
+            [
+              -15965.715,
+              7692.3925,
+              797.425
+            ],
+            [
+              -15943.055,
+              7840.6725,
+              662.425
+            ],
+            [
+              -15943.055,
+              7840.6725,
+              797.425
+            ],
+            [
+              -15748.24,
+              7659.1625,
+              662.425
+            ],
+            [
+              -15748.24,
+              7659.1625,
+              797.425
+            ],
+            [
+              -15725.58,
+              7807.4425,
+              662.425
+            ],
+            [
+              -15725.58,
+              7807.4425,
+              797.425
+            ]
+          ],
+          "centroidCm": [
+            -15845.6475,
+            7749.9175,
+            729.925
+          ],
+          "minCm": [
+            -15965.715,
+            7659.1625,
+            662.425
+          ],
+          "maxCm": [
+            -15725.58,
+            7840.6725,
+            797.425
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 237,
+          "sourceTriangles": [
+            2844,
+            2855
+          ],
+          "corners": [
+            [
+              -15912.85,
+              8038.3775,
+              662.425
+            ],
+            [
+              -15912.85,
+              8038.3775,
+              797.425
+            ],
+            [
+              -15890.19,
+              8186.6575,
+              662.425
+            ],
+            [
+              -15890.19,
+              8186.6575,
+              797.425
+            ],
+            [
+              -15695.37,
+              8005.1475,
+              662.425
+            ],
+            [
+              -15695.37,
+              8005.1475,
+              797.425
+            ],
+            [
+              -15672.715,
+              8153.4275,
+              662.425
+            ],
+            [
+              -15672.715,
+              8153.4275,
+              797.425
+            ]
+          ],
+          "centroidCm": [
+            -15792.7812,
+            8095.9025,
+            729.925
+          ],
+          "minCm": [
+            -15912.85,
+            8005.1475,
+            662.425
+          ],
+          "maxCm": [
+            -15672.715,
+            8186.6575,
+            797.425
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 238,
+          "sourceTriangles": [
+            2856,
+            2867
+          ],
+          "corners": [
+            [
+              -15862.36,
+              8302.5775,
+              -350.79
+            ],
+            [
+              -15862.36,
+              8302.5775,
+              649.21
+            ],
+            [
+              -15776.86,
+              8860.5775,
+              -350.79
+            ],
+            [
+              -15776.86,
+              8860.5775,
+              649.21
+            ],
+            [
+              -15664.67,
+              8272.2875,
+              -350.79
+            ],
+            [
+              -15664.67,
+              8272.2875,
+              649.21
+            ],
+            [
+              -15579.17,
+              8830.2875,
+              -350.79
+            ],
+            [
+              -15579.17,
+              8830.2875,
+              649.21
+            ]
+          ],
+          "centroidCm": [
+            -15720.765,
+            8566.4325,
+            149.21
+          ],
+          "minCm": [
+            -15862.36,
+            8272.2875,
+            -350.79
+          ],
+          "maxCm": [
+            -15579.17,
+            8860.5775,
+            649.21
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 239,
+          "sourceTriangles": [
+            2868,
+            2879
+          ],
+          "corners": [
+            [
+              -15883.605,
+              8229.9575,
+              649.21
+            ],
+            [
+              -15883.605,
+              8229.9575,
+              784.21
+            ],
+            [
+              -15860.885,
+              8378.2275,
+              649.21
+            ],
+            [
+              -15860.885,
+              8378.2275,
+              784.21
+            ],
+            [
+              -15666.145,
+              8196.6375,
+              649.21
+            ],
+            [
+              -15666.145,
+              8196.6375,
+              784.21
+            ],
+            [
+              -15643.425,
+              8344.9075,
+              649.21
+            ],
+            [
+              -15643.425,
+              8344.9075,
+              784.21
+            ]
+          ],
+          "centroidCm": [
+            -15763.515,
+            8287.4325,
+            716.71
+          ],
+          "minCm": [
+            -15883.605,
+            8196.6375,
+            649.21
+          ],
+          "maxCm": [
+            -15643.425,
+            8378.2275,
+            784.21
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 240,
+          "sourceTriangles": [
+            2880,
+            2891
+          ],
+          "corners": [
+            [
+              -15830.595,
+              8575.9225,
+              649.21
+            ],
+            [
+              -15830.595,
+              8575.9225,
+              784.21
+            ],
+            [
+              -15807.875,
+              8724.1925,
+              649.21
+            ],
+            [
+              -15807.875,
+              8724.1925,
+              784.21
+            ],
+            [
+              -15613.135,
+              8542.5975,
+              649.21
+            ],
+            [
+              -15613.135,
+              8542.5975,
+              784.21
+            ],
+            [
+              -15590.415,
+              8690.8675,
+              649.21
+            ],
+            [
+              -15590.415,
+              8690.8675,
+              784.21
+            ]
+          ],
+          "centroidCm": [
+            -15710.505,
+            8633.395,
+            716.71
+          ],
+          "minCm": [
+            -15830.595,
+            8542.5975,
+            649.21
+          ],
+          "maxCm": [
+            -15590.415,
+            8724.1925,
+            784.21
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 811,
+          "sourceTriangles": [
+            9732,
+            9743
+          ],
+          "corners": [
+            [
+              -15654.58,
+              9794.8925,
+              501.755
+            ],
+            [
+              -15654.58,
+              9794.8925,
+              636.755
+            ],
+            [
+              -15625.675,
+              9942.0825,
+              501.755
+            ],
+            [
+              -15625.675,
+              9942.0825,
+              636.755
+            ],
+            [
+              -15438.705,
+              9752.5025,
+              501.755
+            ],
+            [
+              -15438.705,
+              9752.5025,
+              636.755
+            ],
+            [
+              -15409.8,
+              9899.6875,
+              501.755
+            ],
+            [
+              -15409.8,
+              9899.6875,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15532.19,
+            9847.2913,
+            569.255
+          ],
+          "minCm": [
+            -15654.58,
+            9752.5025,
+            501.755
+          ],
+          "maxCm": [
+            -15409.8,
+            9942.0825,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 689.278,
+          "cut": true
+        },
+        {
+          "box": 812,
+          "sourceTriangles": [
+            9744,
+            9755
+          ],
+          "corners": [
+            [
+              -15722.025,
+              9451.4525,
+              501.755
+            ],
+            [
+              -15722.025,
+              9451.4525,
+              636.755
+            ],
+            [
+              -15693.12,
+              9598.6425,
+              501.755
+            ],
+            [
+              -15693.12,
+              9598.6425,
+              636.755
+            ],
+            [
+              -15506.15,
+              9409.0625,
+              501.755
+            ],
+            [
+              -15506.15,
+              9409.0625,
+              636.755
+            ],
+            [
+              -15477.245,
+              9556.2475,
+              501.755
+            ],
+            [
+              -15477.245,
+              9556.2475,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15599.635,
+            9503.8513,
+            569.255
+          ],
+          "minCm": [
+            -15722.025,
+            9409.0625,
+            501.755
+          ],
+          "maxCm": [
+            -15477.245,
+            9598.6425,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 339.278,
+          "cut": true
+        },
+        {
+          "box": 813,
+          "sourceTriangles": [
+            9756,
+            9767
+          ],
+          "corners": [
+            [
+              -15777.935,
+              8849.4225,
+              -358.235
+            ],
+            [
+              -15777.935,
+              8849.4225,
+              641.765
+            ],
+            [
+              -15764.935,
+              9174.9225,
+              -358.235
+            ],
+            [
+              -15764.935,
+              9174.9225,
+              641.765
+            ],
+            [
+              -15578.095,
+              8841.4425,
+              -358.235
+            ],
+            [
+              -15578.095,
+              8841.4425,
+              641.765
+            ],
+            [
+              -15565.095,
+              9166.9425,
+              -358.235
+            ],
+            [
+              -15565.095,
+              9166.9425,
+              641.765
+            ]
+          ],
+          "centroidCm": [
+            -15671.515,
+            9008.1825,
+            141.765
+          ],
+          "minCm": [
+            -15777.935,
+            8841.4425,
+            -358.235
+          ],
+          "maxCm": [
+            -15565.095,
+            9174.9225,
+            641.765
+          ],
+          "edge": 24,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 162.88,
+          "cut": true
+        },
+        {
+          "box": 814,
+          "sourceTriangles": [
+            9768,
+            9779
+          ],
+          "corners": [
+            [
+              -15777.92,
+              9100.3825,
+              641.765
+            ],
+            [
+              -15777.92,
+              9100.3825,
+              776.765
+            ],
+            [
+              -15771.935,
+              9250.2625,
+              641.765
+            ],
+            [
+              -15771.935,
+              9250.2625,
+              776.765
+            ],
+            [
+              -15558.095,
+              9091.6025,
+              641.765
+            ],
+            [
+              -15558.095,
+              9091.6025,
+              776.765
+            ],
+            [
+              -15552.11,
+              9241.4825,
+              641.765
+            ],
+            [
+              -15552.11,
+              9241.4825,
+              776.765
+            ]
+          ],
+          "centroidCm": [
+            -15665.015,
+            9170.9325,
+            709.265
+          ],
+          "minCm": [
+            -15777.92,
+            9091.6025,
+            641.765
+          ],
+          "maxCm": [
+            -15552.11,
+            9250.2625,
+            776.765
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": -0.0,
+          "cut": true
+        }
+      ]
+    },
+    {
+      "source": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_CityWalls_04_Grid_N002_P001",
+      "destination": "/Game/MikdashV3/FutureMountV1/KotelApproach/SM_Jerusalem_CityWalls_04_Grid_N002_P001_KotelCut",
+      "uassetFile": "Content/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_CityWalls_04_Grid_N002_P001.uasset",
+      "lastKnownUassetSha256": "38502158a5065cfdb9bff70ccdd95385a8db814293814a087e887936e914aef8",
+      "materialSlotFbxName": "M_Jerusalem_CityWalls_2b334de9",
+      "materialSlots": 1,
+      "expectedBoundsUnrealCm": {
+        "min": [
+          -15763.139343261719,
+          9151.66244506836,
+          -1522.3400115966797
+        ],
+        "max": [
+          -13607.049560546875,
+          19957.91778564453,
+          636.7549896240234
+        ]
+      },
+      "triangles": 444,
+      "boxCount": 37,
+      "cutBoxes": 27,
+      "cutBoxIds": [
+        784,
+        785,
+        786,
+        787,
+        788,
+        789,
+        790,
+        791,
+        792,
+        793,
+        794,
+        795,
+        796,
+        797,
+        798,
+        799,
+        800,
+        801,
+        802,
+        803,
+        804,
+        805,
+        806,
+        807,
+        808,
+        809,
+        810
+      ],
+      "expectedTrianglesAfterCut": 120,
+      "expectedBoundsAfterCutCm": {
+        "min": [
+          -14210.86,
+          17732.3975,
+          -1522.34
+        ],
+        "max": [
+          -13607.05,
+          19957.9175,
+          -318.67
+        ]
+      },
+      "cutCornerWestRangeCm": [
+        -110.471,
+        110.471
+      ],
+      "sharedCornerPairsAcrossCutBoundary": [],
+      "boxes": [
+        {
+          "box": 774,
+          "sourceTriangles": [
+            9288,
+            9299
+          ],
+          "corners": [
+            [
+              -13850.19,
+              19810.3025,
+              -1135.96
+            ],
+            [
+              -13850.19,
+              19810.3025,
+              -1000.96
+            ],
+            [
+              -13823.55,
+              19957.9175,
+              -1135.96
+            ],
+            [
+              -13823.55,
+              19957.9175,
+              -1000.96
+            ],
+            [
+              -13633.685,
+              19771.2325,
+              -1135.96
+            ],
+            [
+              -13633.685,
+              19771.2325,
+              -1000.96
+            ],
+            [
+              -13607.05,
+              19918.8475,
+              -1135.96
+            ],
+            [
+              -13607.05,
+              19918.8475,
+              -1000.96
+            ]
+          ],
+          "centroidCm": [
+            -13728.6187,
+            19864.575,
+            -1068.46
+          ],
+          "minCm": [
+            -13850.19,
+            19771.2325,
+            -1135.96
+          ],
+          "maxCm": [
+            -13607.05,
+            19957.9175,
+            -1000.96
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 775,
+          "sourceTriangles": [
+            9300,
+            9311
+          ],
+          "corners": [
+            [
+              -13912.35,
+              19465.8675,
+              -1135.96
+            ],
+            [
+              -13912.35,
+              19465.8675,
+              -1000.96
+            ],
+            [
+              -13885.71,
+              19613.4825,
+              -1135.96
+            ],
+            [
+              -13885.71,
+              19613.4825,
+              -1000.96
+            ],
+            [
+              -13695.85,
+              19426.7925,
+              -1135.96
+            ],
+            [
+              -13695.85,
+              19426.7925,
+              -1000.96
+            ],
+            [
+              -13669.21,
+              19574.4075,
+              -1135.96
+            ],
+            [
+              -13669.21,
+              19574.4075,
+              -1000.96
+            ]
+          ],
+          "centroidCm": [
+            -13790.78,
+            19520.1375,
+            -1068.46
+          ],
+          "minCm": [
+            -13912.35,
+            19426.7925,
+            -1135.96
+          ],
+          "maxCm": [
+            -13669.21,
+            19613.4825,
+            -1000.96
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 776,
+          "sourceTriangles": [
+            9312,
+            9323
+          ],
+          "corners": [
+            [
+              -13974.51,
+              19121.4275,
+              -1135.96
+            ],
+            [
+              -13974.51,
+              19121.4275,
+              -1000.96
+            ],
+            [
+              -13947.87,
+              19269.0475,
+              -1135.96
+            ],
+            [
+              -13947.87,
+              19269.0475,
+              -1000.96
+            ],
+            [
+              -13758.01,
+              19082.3575,
+              -1135.96
+            ],
+            [
+              -13758.01,
+              19082.3575,
+              -1000.96
+            ],
+            [
+              -13731.37,
+              19229.9725,
+              -1135.96
+            ],
+            [
+              -13731.37,
+              19229.9725,
+              -1000.96
+            ]
+          ],
+          "centroidCm": [
+            -13852.94,
+            19175.7013,
+            -1068.46
+          ],
+          "minCm": [
+            -13974.51,
+            19082.3575,
+            -1135.96
+          ],
+          "maxCm": [
+            -13731.37,
+            19269.0475,
+            -1000.96
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 777,
+          "sourceTriangles": [
+            9324,
+            9335
+          ],
+          "corners": [
+            [
+              -14036.67,
+              18776.9925,
+              -1135.96
+            ],
+            [
+              -14036.67,
+              18776.9925,
+              -1000.96
+            ],
+            [
+              -14010.03,
+              18924.6075,
+              -1135.96
+            ],
+            [
+              -14010.03,
+              18924.6075,
+              -1000.96
+            ],
+            [
+              -13820.17,
+              18737.9225,
+              -1135.96
+            ],
+            [
+              -13820.17,
+              18737.9225,
+              -1000.96
+            ],
+            [
+              -13793.53,
+              18885.5375,
+              -1135.96
+            ],
+            [
+              -13793.53,
+              18885.5375,
+              -1000.96
+            ]
+          ],
+          "centroidCm": [
+            -13915.1,
+            18831.265,
+            -1068.46
+          ],
+          "minCm": [
+            -14036.67,
+            18737.9225,
+            -1135.96
+          ],
+          "maxCm": [
+            -13793.53,
+            18924.6075,
+            -1000.96
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 778,
+          "sourceTriangles": [
+            9336,
+            9347
+          ],
+          "corners": [
+            [
+              -14124.545,
+              18212.0275,
+              -1522.34
+            ],
+            [
+              -14124.545,
+              18212.0275,
+              -522.34
+            ],
+            [
+              -14027.045,
+              18774.0275,
+              -1522.34
+            ],
+            [
+              -14027.045,
+              18774.0275,
+              -522.34
+            ],
+            [
+              -13927.485,
+              18177.8375,
+              -1522.34
+            ],
+            [
+              -13927.485,
+              18177.8375,
+              -522.34
+            ],
+            [
+              -13829.985,
+              18739.8375,
+              -1522.34
+            ],
+            [
+              -13829.985,
+              18739.8375,
+              -522.34
+            ]
+          ],
+          "centroidCm": [
+            -13977.265,
+            18475.9325,
+            -1022.34
+          ],
+          "minCm": [
+            -14124.545,
+            18177.8375,
+            -1522.34
+          ],
+          "maxCm": [
+            -13829.985,
+            18774.0275,
+            -522.34
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 779,
+          "sourceTriangles": [
+            9348,
+            9359
+          ],
+          "corners": [
+            [
+              -14049.715,
+              18701.8375,
+              -522.34
+            ],
+            [
+              -14049.715,
+              18701.8375,
+              -387.34
+            ],
+            [
+              -14024.075,
+              18849.6325,
+              -522.34
+            ],
+            [
+              -14024.075,
+              18849.6325,
+              -387.34
+            ],
+            [
+              -13832.955,
+              18664.2325,
+              -522.34
+            ],
+            [
+              -13832.955,
+              18664.2325,
+              -387.34
+            ],
+            [
+              -13807.315,
+              18812.0275,
+              -522.34
+            ],
+            [
+              -13807.315,
+              18812.0275,
+              -387.34
+            ]
+          ],
+          "centroidCm": [
+            -13928.515,
+            18756.9325,
+            -454.84
+          ],
+          "minCm": [
+            -14049.715,
+            18664.2325,
+            -522.34
+          ],
+          "maxCm": [
+            -13807.315,
+            18849.6325,
+            -387.34
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 780,
+          "sourceTriangles": [
+            9360,
+            9371
+          ],
+          "corners": [
+            [
+              -14109.545,
+              18356.9925,
+              -522.34
+            ],
+            [
+              -14109.545,
+              18356.9925,
+              -387.34
+            ],
+            [
+              -14083.905,
+              18504.7825,
+              -522.34
+            ],
+            [
+              -14083.905,
+              18504.7825,
+              -387.34
+            ],
+            [
+              -13892.78,
+              18319.3875,
+              -522.34
+            ],
+            [
+              -13892.78,
+              18319.3875,
+              -387.34
+            ],
+            [
+              -13867.14,
+              18467.1775,
+              -522.34
+            ],
+            [
+              -13867.14,
+              18467.1775,
+              -387.34
+            ]
+          ],
+          "centroidCm": [
+            -13988.3425,
+            18412.085,
+            -454.84
+          ],
+          "minCm": [
+            -14109.545,
+            18319.3875,
+            -522.34
+          ],
+          "maxCm": [
+            -13867.14,
+            18504.7825,
+            -387.34
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 781,
+          "sourceTriangles": [
+            9372,
+            9383
+          ],
+          "corners": [
+            [
+              -14205.875,
+              17768.4675,
+              -1453.67
+            ],
+            [
+              -14205.875,
+              17768.4675,
+              -453.67
+            ],
+            [
+              -14124.375,
+              18212.9675,
+              -1453.67
+            ],
+            [
+              -14124.375,
+              18212.9675,
+              -453.67
+            ],
+            [
+              -14009.155,
+              17732.3975,
+              -1453.67
+            ],
+            [
+              -14009.155,
+              17732.3975,
+              -453.67
+            ],
+            [
+              -13927.655,
+              18176.8975,
+              -1453.67
+            ],
+            [
+              -13927.655,
+              18176.8975,
+              -453.67
+            ]
+          ],
+          "centroidCm": [
+            -14066.765,
+            17972.6825,
+            -953.67
+          ],
+          "minCm": [
+            -14205.875,
+            17732.3975,
+            -1453.67
+          ],
+          "maxCm": [
+            -13927.655,
+            18212.9675,
+            -453.67
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 782,
+          "sourceTriangles": [
+            9384,
+            9395
+          ],
+          "corners": [
+            [
+              -14147.735,
+              18141.0025,
+              -453.67
+            ],
+            [
+              -14147.735,
+              18141.0025,
+              -318.67
+            ],
+            [
+              -14120.685,
+              18288.5425,
+              -453.67
+            ],
+            [
+              -14120.685,
+              18288.5425,
+              -318.67
+            ],
+            [
+              -13931.345,
+              18101.3225,
+              -453.67
+            ],
+            [
+              -13931.345,
+              18101.3225,
+              -318.67
+            ],
+            [
+              -13904.295,
+              18248.8675,
+              -453.67
+            ],
+            [
+              -13904.295,
+              18248.8675,
+              -318.67
+            ]
+          ],
+          "centroidCm": [
+            -14026.015,
+            18194.9338,
+            -386.17
+          ],
+          "minCm": [
+            -14147.735,
+            18101.3225,
+            -453.67
+          ],
+          "maxCm": [
+            -13904.295,
+            18288.5425,
+            -318.67
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 783,
+          "sourceTriangles": [
+            9396,
+            9407
+          ],
+          "corners": [
+            [
+              -14210.86,
+              17796.7375,
+              -453.67
+            ],
+            [
+              -14210.86,
+              17796.7375,
+              -318.67
+            ],
+            [
+              -14183.805,
+              17944.2825,
+              -453.67
+            ],
+            [
+              -14183.805,
+              17944.2825,
+              -318.67
+            ],
+            [
+              -13994.465,
+              17757.0625,
+              -453.67
+            ],
+            [
+              -13994.465,
+              17757.0625,
+              -318.67
+            ],
+            [
+              -13967.415,
+              17904.6025,
+              -453.67
+            ],
+            [
+              -13967.415,
+              17904.6025,
+              -318.67
+            ]
+          ],
+          "centroidCm": [
+            -14089.1362,
+            17850.6713,
+            -386.17
+          ],
+          "minCm": [
+            -14210.86,
+            17757.0625,
+            -453.67
+          ],
+          "maxCm": [
+            -13967.415,
+            17944.2825,
+            -318.67
+          ],
+          "edge": null,
+          "centroidWestCm": null,
+          "centroidAlongCm": null,
+          "cut": false
+        },
+        {
+          "box": 784,
+          "sourceTriangles": [
+            9408,
+            9419
+          ],
+          "corners": [
+            [
+              -14548.45,
+              15854.0475,
+              -1399.695
+            ],
+            [
+              -14548.45,
+              15854.0475,
+              -399.695
+            ],
+            [
+              -14351.58,
+              15818.8175,
+              -1399.695
+            ],
+            [
+              -14351.58,
+              15818.8175,
+              -399.695
+            ],
+            [
+              -14205.95,
+              17768.0475,
+              -1399.695
+            ],
+            [
+              -14205.95,
+              17768.0475,
+              -399.695
+            ],
+            [
+              -14009.08,
+              17732.8175,
+              -1399.695
+            ],
+            [
+              -14009.08,
+              17732.8175,
+              -399.695
+            ]
+          ],
+          "centroidCm": [
+            -14278.765,
+            16793.4325,
+            -899.695
+          ],
+          "minCm": [
+            -14548.45,
+            15818.8175,
+            -1399.695
+          ],
+          "maxCm": [
+            -14009.08,
+            17768.0475,
+            -399.695
+          ],
+          "edge": 1,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 972.201,
+          "cut": true
+        },
+        {
+          "box": 785,
+          "sourceTriangles": [
+            9420,
+            9431
+          ],
+          "corners": [
+            [
+              -14229.005,
+              17695.9825,
+              -399.695
+            ],
+            [
+              -14229.005,
+              17695.9825,
+              -264.695
+            ],
+            [
+              -14202.585,
+              17843.6375,
+              -399.695
+            ],
+            [
+              -14202.585,
+              17843.6375,
+              -264.695
+            ],
+            [
+              -14012.445,
+              17657.2275,
+              -399.695
+            ],
+            [
+              -14012.445,
+              17657.2275,
+              -264.695
+            ],
+            [
+              -13986.025,
+              17804.8825,
+              -399.695
+            ],
+            [
+              -13986.025,
+              17804.8825,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14107.515,
+            17750.4325,
+            -332.195
+          ],
+          "minCm": [
+            -14229.005,
+            17657.2275,
+            -399.695
+          ],
+          "maxCm": [
+            -13986.025,
+            17843.6375,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 1944.403,
+          "cut": true
+        },
+        {
+          "box": 786,
+          "sourceTriangles": [
+            9432,
+            9443
+          ],
+          "corners": [
+            [
+              -14290.655,
+              17351.4525,
+              -399.695
+            ],
+            [
+              -14290.655,
+              17351.4525,
+              -264.695
+            ],
+            [
+              -14264.235,
+              17499.1075,
+              -399.695
+            ],
+            [
+              -14264.235,
+              17499.1075,
+              -264.695
+            ],
+            [
+              -14074.095,
+              17312.7025,
+              -399.695
+            ],
+            [
+              -14074.095,
+              17312.7025,
+              -264.695
+            ],
+            [
+              -14047.675,
+              17460.3575,
+              -399.695
+            ],
+            [
+              -14047.675,
+              17460.3575,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14169.165,
+            17405.905,
+            -332.195
+          ],
+          "minCm": [
+            -14290.655,
+            17312.7025,
+            -399.695
+          ],
+          "maxCm": [
+            -14047.675,
+            17499.1075,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": -0.001,
+          "centroidAlongCm": 1594.403,
+          "cut": true
+        },
+        {
+          "box": 787,
+          "sourceTriangles": [
+            9444,
+            9455
+          ],
+          "corners": [
+            [
+              -14352.31,
+              17006.9275,
+              -399.695
+            ],
+            [
+              -14352.31,
+              17006.9275,
+              -264.695
+            ],
+            [
+              -14325.885,
+              17154.5825,
+              -399.695
+            ],
+            [
+              -14325.885,
+              17154.5825,
+              -264.695
+            ],
+            [
+              -14135.75,
+              16968.1725,
+              -399.695
+            ],
+            [
+              -14135.75,
+              16968.1725,
+              -264.695
+            ],
+            [
+              -14109.325,
+              17115.8275,
+              -399.695
+            ],
+            [
+              -14109.325,
+              17115.8275,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14230.8175,
+            17061.3775,
+            -332.195
+          ],
+          "minCm": [
+            -14352.31,
+            16968.1725,
+            -399.695
+          ],
+          "maxCm": [
+            -14109.325,
+            17154.5825,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 1244.403,
+          "cut": true
+        },
+        {
+          "box": 788,
+          "sourceTriangles": [
+            9456,
+            9467
+          ],
+          "corners": [
+            [
+              -14413.96,
+              16662.3975,
+              -399.695
+            ],
+            [
+              -14413.96,
+              16662.3975,
+              -264.695
+            ],
+            [
+              -14387.54,
+              16810.0525,
+              -399.695
+            ],
+            [
+              -14387.54,
+              16810.0525,
+              -264.695
+            ],
+            [
+              -14197.4,
+              16623.6475,
+              -399.695
+            ],
+            [
+              -14197.4,
+              16623.6475,
+              -264.695
+            ],
+            [
+              -14170.98,
+              16771.3025,
+              -399.695
+            ],
+            [
+              -14170.98,
+              16771.3025,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14292.47,
+            16716.85,
+            -332.195
+          ],
+          "minCm": [
+            -14413.96,
+            16623.6475,
+            -399.695
+          ],
+          "maxCm": [
+            -14170.98,
+            16810.0525,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 894.402,
+          "cut": true
+        },
+        {
+          "box": 789,
+          "sourceTriangles": [
+            9468,
+            9479
+          ],
+          "corners": [
+            [
+              -14475.61,
+              16317.8725,
+              -399.695
+            ],
+            [
+              -14475.61,
+              16317.8725,
+              -264.695
+            ],
+            [
+              -14449.19,
+              16465.5275,
+              -399.695
+            ],
+            [
+              -14449.19,
+              16465.5275,
+              -264.695
+            ],
+            [
+              -14259.05,
+              16279.1175,
+              -399.695
+            ],
+            [
+              -14259.05,
+              16279.1175,
+              -264.695
+            ],
+            [
+              -14232.63,
+              16426.7725,
+              -399.695
+            ],
+            [
+              -14232.63,
+              16426.7725,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14354.12,
+            16372.3225,
+            -332.195
+          ],
+          "minCm": [
+            -14475.61,
+            16279.1175,
+            -399.695
+          ],
+          "maxCm": [
+            -14232.63,
+            16465.5275,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 544.402,
+          "cut": true
+        },
+        {
+          "box": 790,
+          "sourceTriangles": [
+            9480,
+            9491
+          ],
+          "corners": [
+            [
+              -14537.26,
+              15973.3425,
+              -399.695
+            ],
+            [
+              -14537.26,
+              15973.3425,
+              -264.695
+            ],
+            [
+              -14510.84,
+              16120.9975,
+              -399.695
+            ],
+            [
+              -14510.84,
+              16120.9975,
+              -264.695
+            ],
+            [
+              -14320.7,
+              15934.5925,
+              -399.695
+            ],
+            [
+              -14320.7,
+              15934.5925,
+              -264.695
+            ],
+            [
+              -14294.28,
+              16082.2475,
+              -399.695
+            ],
+            [
+              -14294.28,
+              16082.2475,
+              -264.695
+            ]
+          ],
+          "centroidCm": [
+            -14415.77,
+            16027.795,
+            -332.195
+          ],
+          "minCm": [
+            -14537.26,
+            15934.5925,
+            -399.695
+          ],
+          "maxCm": [
+            -14294.28,
+            16120.9975,
+            -264.695
+          ],
+          "edge": 1,
+          "centroidWestCm": -0.002,
+          "centroidAlongCm": 194.402,
+          "cut": true
+        },
+        {
+          "box": 791,
+          "sourceTriangles": [
+            9492,
+            9503
+          ],
+          "corners": [
+            [
+              -15226.06,
+              11924.9275,
+              -703.14
+            ],
+            [
+              -15226.06,
+              11924.9275,
+              296.86
+            ],
+            [
+              -15028.97,
+              11890.9375,
+              -703.14
+            ],
+            [
+              -15028.97,
+              11890.9375,
+              296.86
+            ],
+            [
+              -14548.56,
+              15853.4275,
+              -703.14
+            ],
+            [
+              -14548.56,
+              15853.4275,
+              296.86
+            ],
+            [
+              -14351.47,
+              15819.4375,
+              -703.14
+            ],
+            [
+              -14351.47,
+              15819.4375,
+              296.86
+            ]
+          ],
+          "centroidCm": [
+            -14788.765,
+            13872.1825,
+            -203.14
+          ],
+          "minCm": [
+            -15226.06,
+            11890.9375,
+            -703.14
+          ],
+          "maxCm": [
+            -14351.47,
+            15853.4275,
+            296.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 1993.246,
+          "cut": true
+        },
+        {
+          "box": 792,
+          "sourceTriangles": [
+            9504,
+            9515
+          ],
+          "corners": [
+            [
+              -14571.16,
+              15781.2175,
+              296.86
+            ],
+            [
+              -14571.16,
+              15781.2175,
+              431.86
+            ],
+            [
+              -14545.67,
+              15929.0375,
+              296.86
+            ],
+            [
+              -14545.67,
+              15929.0375,
+              431.86
+            ],
+            [
+              -14354.36,
+              15743.8275,
+              296.86
+            ],
+            [
+              -14354.36,
+              15743.8275,
+              431.86
+            ],
+            [
+              -14328.87,
+              15891.6475,
+              296.86
+            ],
+            [
+              -14328.87,
+              15891.6475,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14450.015,
+            15836.4325,
+            364.36
+          ],
+          "minCm": [
+            -14571.16,
+            15743.8275,
+            296.86
+          ],
+          "maxCm": [
+            -14328.87,
+            15929.0375,
+            431.86
+          ],
+          "edge": 1,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": -0.0,
+          "cut": true
+        },
+        {
+          "box": 793,
+          "sourceTriangles": [
+            9516,
+            9527
+          ],
+          "corners": [
+            [
+              -14630.645,
+              15436.3075,
+              296.86
+            ],
+            [
+              -14630.645,
+              15436.3075,
+              431.86
+            ],
+            [
+              -14605.15,
+              15584.1275,
+              296.86
+            ],
+            [
+              -14605.15,
+              15584.1275,
+              431.86
+            ],
+            [
+              -14413.845,
+              15398.9225,
+              296.86
+            ],
+            [
+              -14413.845,
+              15398.9225,
+              431.86
+            ],
+            [
+              -14388.35,
+              15546.7375,
+              296.86
+            ],
+            [
+              -14388.35,
+              15546.7375,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14509.4975,
+            15491.5238,
+            364.36
+          ],
+          "minCm": [
+            -14630.645,
+            15398.9225,
+            296.86
+          ],
+          "maxCm": [
+            -14388.35,
+            15584.1275,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 3636.492,
+          "cut": true
+        },
+        {
+          "box": 794,
+          "sourceTriangles": [
+            9528,
+            9539
+          ],
+          "corners": [
+            [
+              -14690.125,
+              15091.4025,
+              296.86
+            ],
+            [
+              -14690.125,
+              15091.4025,
+              431.86
+            ],
+            [
+              -14664.635,
+              15239.2175,
+              296.86
+            ],
+            [
+              -14664.635,
+              15239.2175,
+              431.86
+            ],
+            [
+              -14473.325,
+              15054.0125,
+              296.86
+            ],
+            [
+              -14473.325,
+              15054.0125,
+              431.86
+            ],
+            [
+              -14447.835,
+              15201.8325,
+              296.86
+            ],
+            [
+              -14447.835,
+              15201.8325,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14568.98,
+            15146.6163,
+            364.36
+          ],
+          "minCm": [
+            -14690.125,
+            15054.0125,
+            296.86
+          ],
+          "maxCm": [
+            -14447.835,
+            15239.2175,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 3286.493,
+          "cut": true
+        },
+        {
+          "box": 795,
+          "sourceTriangles": [
+            9540,
+            9551
+          ],
+          "corners": [
+            [
+              -14749.61,
+              14746.4925,
+              296.86
+            ],
+            [
+              -14749.61,
+              14746.4925,
+              431.86
+            ],
+            [
+              -14724.115,
+              14894.3125,
+              296.86
+            ],
+            [
+              -14724.115,
+              14894.3125,
+              431.86
+            ],
+            [
+              -14532.81,
+              14709.1025,
+              296.86
+            ],
+            [
+              -14532.81,
+              14709.1025,
+              431.86
+            ],
+            [
+              -14507.315,
+              14856.9225,
+              296.86
+            ],
+            [
+              -14507.315,
+              14856.9225,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14628.4625,
+            14801.7075,
+            364.36
+          ],
+          "minCm": [
+            -14749.61,
+            14709.1025,
+            296.86
+          ],
+          "maxCm": [
+            -14507.315,
+            14894.3125,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 2936.492,
+          "cut": true
+        },
+        {
+          "box": 796,
+          "sourceTriangles": [
+            9552,
+            9563
+          ],
+          "corners": [
+            [
+              -14809.09,
+              14401.5825,
+              296.86
+            ],
+            [
+              -14809.09,
+              14401.5825,
+              431.86
+            ],
+            [
+              -14783.595,
+              14549.4025,
+              296.86
+            ],
+            [
+              -14783.595,
+              14549.4025,
+              431.86
+            ],
+            [
+              -14592.29,
+              14364.1975,
+              296.86
+            ],
+            [
+              -14592.29,
+              14364.1975,
+              431.86
+            ],
+            [
+              -14566.795,
+              14512.0125,
+              296.86
+            ],
+            [
+              -14566.795,
+              14512.0125,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14687.9425,
+            14456.7988,
+            364.36
+          ],
+          "minCm": [
+            -14809.09,
+            14364.1975,
+            296.86
+          ],
+          "maxCm": [
+            -14566.795,
+            14549.4025,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": -0.001,
+          "centroidAlongCm": 2586.492,
+          "cut": true
+        },
+        {
+          "box": 797,
+          "sourceTriangles": [
+            9564,
+            9575
+          ],
+          "corners": [
+            [
+              -14868.57,
+              14056.6725,
+              296.86
+            ],
+            [
+              -14868.57,
+              14056.6725,
+              431.86
+            ],
+            [
+              -14843.08,
+              14204.4925,
+              296.86
+            ],
+            [
+              -14843.08,
+              14204.4925,
+              431.86
+            ],
+            [
+              -14651.77,
+              14019.2875,
+              296.86
+            ],
+            [
+              -14651.77,
+              14019.2875,
+              431.86
+            ],
+            [
+              -14626.28,
+              14167.1025,
+              296.86
+            ],
+            [
+              -14626.28,
+              14167.1025,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14747.425,
+            14111.8888,
+            364.36
+          ],
+          "minCm": [
+            -14868.57,
+            14019.2875,
+            296.86
+          ],
+          "maxCm": [
+            -14626.28,
+            14204.4925,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": -0.001,
+          "centroidAlongCm": 2236.491,
+          "cut": true
+        },
+        {
+          "box": 798,
+          "sourceTriangles": [
+            9576,
+            9587
+          ],
+          "corners": [
+            [
+              -14928.055,
+              13711.7675,
+              296.86
+            ],
+            [
+              -14928.055,
+              13711.7675,
+              431.86
+            ],
+            [
+              -14902.56,
+              13859.5825,
+              296.86
+            ],
+            [
+              -14902.56,
+              13859.5825,
+              431.86
+            ],
+            [
+              -14711.255,
+              13674.3775,
+              296.86
+            ],
+            [
+              -14711.255,
+              13674.3775,
+              431.86
+            ],
+            [
+              -14685.76,
+              13822.1975,
+              296.86
+            ],
+            [
+              -14685.76,
+              13822.1975,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14806.9075,
+            13766.9813,
+            364.36
+          ],
+          "minCm": [
+            -14928.055,
+            13674.3775,
+            296.86
+          ],
+          "maxCm": [
+            -14685.76,
+            13859.5825,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 1886.492,
+          "cut": true
+        },
+        {
+          "box": 799,
+          "sourceTriangles": [
+            9588,
+            9599
+          ],
+          "corners": [
+            [
+              -14987.535,
+              13366.8575,
+              296.86
+            ],
+            [
+              -14987.535,
+              13366.8575,
+              431.86
+            ],
+            [
+              -14962.045,
+              13514.6775,
+              296.86
+            ],
+            [
+              -14962.045,
+              13514.6775,
+              431.86
+            ],
+            [
+              -14770.735,
+              13329.4675,
+              296.86
+            ],
+            [
+              -14770.735,
+              13329.4675,
+              431.86
+            ],
+            [
+              -14745.245,
+              13477.2875,
+              296.86
+            ],
+            [
+              -14745.245,
+              13477.2875,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14866.39,
+            13422.0725,
+            364.36
+          ],
+          "minCm": [
+            -14987.535,
+            13329.4675,
+            296.86
+          ],
+          "maxCm": [
+            -14745.245,
+            13514.6775,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 1536.492,
+          "cut": true
+        },
+        {
+          "box": 800,
+          "sourceTriangles": [
+            9600,
+            9611
+          ],
+          "corners": [
+            [
+              -15047.02,
+              13021.9525,
+              296.86
+            ],
+            [
+              -15047.02,
+              13021.9525,
+              431.86
+            ],
+            [
+              -15021.525,
+              13169.7675,
+              296.86
+            ],
+            [
+              -15021.525,
+              13169.7675,
+              431.86
+            ],
+            [
+              -14830.22,
+              12984.5625,
+              296.86
+            ],
+            [
+              -14830.22,
+              12984.5625,
+              431.86
+            ],
+            [
+              -14804.725,
+              13132.3775,
+              296.86
+            ],
+            [
+              -14804.725,
+              13132.3775,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14925.8725,
+            13077.165,
+            364.36
+          ],
+          "minCm": [
+            -15047.02,
+            12984.5625,
+            296.86
+          ],
+          "maxCm": [
+            -14804.725,
+            13169.7675,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 1186.492,
+          "cut": true
+        },
+        {
+          "box": 801,
+          "sourceTriangles": [
+            9612,
+            9623
+          ],
+          "corners": [
+            [
+              -15106.5,
+              12677.0425,
+              296.86
+            ],
+            [
+              -15106.5,
+              12677.0425,
+              431.86
+            ],
+            [
+              -15081.01,
+              12824.8575,
+              296.86
+            ],
+            [
+              -15081.01,
+              12824.8575,
+              431.86
+            ],
+            [
+              -14889.7,
+              12639.6525,
+              296.86
+            ],
+            [
+              -14889.7,
+              12639.6525,
+              431.86
+            ],
+            [
+              -14864.21,
+              12787.4725,
+              296.86
+            ],
+            [
+              -14864.21,
+              12787.4725,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -14985.355,
+            12732.2563,
+            364.36
+          ],
+          "minCm": [
+            -15106.5,
+            12639.6525,
+            296.86
+          ],
+          "maxCm": [
+            -14864.21,
+            12824.8575,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 836.492,
+          "cut": true
+        },
+        {
+          "box": 802,
+          "sourceTriangles": [
+            9624,
+            9635
+          ],
+          "corners": [
+            [
+              -15165.98,
+              12332.1325,
+              296.86
+            ],
+            [
+              -15165.98,
+              12332.1325,
+              431.86
+            ],
+            [
+              -15140.49,
+              12479.9525,
+              296.86
+            ],
+            [
+              -15140.49,
+              12479.9525,
+              431.86
+            ],
+            [
+              -14949.18,
+              12294.7425,
+              296.86
+            ],
+            [
+              -14949.18,
+              12294.7425,
+              431.86
+            ],
+            [
+              -14923.69,
+              12442.5625,
+              296.86
+            ],
+            [
+              -14923.69,
+              12442.5625,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -15044.835,
+            12387.3475,
+            364.36
+          ],
+          "minCm": [
+            -15165.98,
+            12294.7425,
+            296.86
+          ],
+          "maxCm": [
+            -14923.69,
+            12479.9525,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": -0.001,
+          "centroidAlongCm": 486.492,
+          "cut": true
+        },
+        {
+          "box": 803,
+          "sourceTriangles": [
+            9636,
+            9647
+          ],
+          "corners": [
+            [
+              -15225.465,
+              11987.2225,
+              296.86
+            ],
+            [
+              -15225.465,
+              11987.2225,
+              431.86
+            ],
+            [
+              -15199.97,
+              12135.0425,
+              296.86
+            ],
+            [
+              -15199.97,
+              12135.0425,
+              431.86
+            ],
+            [
+              -15008.665,
+              11949.8375,
+              296.86
+            ],
+            [
+              -15008.665,
+              11949.8375,
+              431.86
+            ],
+            [
+              -14983.175,
+              12097.6525,
+              296.86
+            ],
+            [
+              -14983.175,
+              12097.6525,
+              431.86
+            ]
+          ],
+          "centroidCm": [
+            -15104.3187,
+            12042.4388,
+            364.36
+          ],
+          "minCm": [
+            -15225.465,
+            11949.8375,
+            296.86
+          ],
+          "maxCm": [
+            -14983.175,
+            12135.0425,
+            431.86
+          ],
+          "edge": 0,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 136.492,
+          "cut": true
+        },
+        {
+          "box": 804,
+          "sourceTriangles": [
+            9648,
+            9659
+          ],
+          "corners": [
+            [
+              -15763.14,
+              9190.2025,
+              -498.245
+            ],
+            [
+              -15763.14,
+              9190.2025,
+              501.755
+            ],
+            [
+              -15566.89,
+              9151.6625,
+              -498.245
+            ],
+            [
+              -15566.89,
+              9151.6625,
+              501.755
+            ],
+            [
+              -15225.64,
+              11927.2025,
+              -498.245
+            ],
+            [
+              -15225.64,
+              11927.2025,
+              501.755
+            ],
+            [
+              -15029.39,
+              11888.6625,
+              -498.245
+            ],
+            [
+              -15029.39,
+              11888.6625,
+              501.755
+            ]
+          ],
+          "centroidCm": [
+            -15396.265,
+            10539.4325,
+            1.755
+          ],
+          "minCm": [
+            -15763.14,
+            9151.6625,
+            -498.245
+          ],
+          "maxCm": [
+            -15029.39,
+            11927.2025,
+            501.755
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 1394.639,
+          "cut": true
+        },
+        {
+          "box": 805,
+          "sourceTriangles": [
+            9660,
+            9671
+          ],
+          "corners": [
+            [
+              -15249.905,
+              11855.5375,
+              501.755
+            ],
+            [
+              -15249.905,
+              11855.5375,
+              636.755
+            ],
+            [
+              -15221.0,
+              12002.7225,
+              501.755
+            ],
+            [
+              -15221.0,
+              12002.7225,
+              636.755
+            ],
+            [
+              -15034.03,
+              11813.1425,
+              501.755
+            ],
+            [
+              -15034.03,
+              11813.1425,
+              636.755
+            ],
+            [
+              -15005.125,
+              11960.3275,
+              501.755
+            ],
+            [
+              -15005.125,
+              11960.3275,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15127.515,
+            11907.9325,
+            569.255
+          ],
+          "minCm": [
+            -15249.905,
+            11813.1425,
+            501.755
+          ],
+          "maxCm": [
+            -15005.125,
+            12002.7225,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 2789.279,
+          "cut": true
+        },
+        {
+          "box": 806,
+          "sourceTriangles": [
+            9672,
+            9683
+          ],
+          "corners": [
+            [
+              -15317.35,
+              11512.0975,
+              501.755
+            ],
+            [
+              -15317.35,
+              11512.0975,
+              636.755
+            ],
+            [
+              -15288.445,
+              11659.2825,
+              501.755
+            ],
+            [
+              -15288.445,
+              11659.2825,
+              636.755
+            ],
+            [
+              -15101.475,
+              11469.7025,
+              501.755
+            ],
+            [
+              -15101.475,
+              11469.7025,
+              636.755
+            ],
+            [
+              -15072.57,
+              11616.8875,
+              501.755
+            ],
+            [
+              -15072.57,
+              11616.8875,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15194.96,
+            11564.4925,
+            569.255
+          ],
+          "minCm": [
+            -15317.35,
+            11469.7025,
+            501.755
+          ],
+          "maxCm": [
+            -15072.57,
+            11659.2825,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": -0.001,
+          "centroidAlongCm": 2439.279,
+          "cut": true
+        },
+        {
+          "box": 807,
+          "sourceTriangles": [
+            9684,
+            9695
+          ],
+          "corners": [
+            [
+              -15384.8,
+              11168.6575,
+              501.755
+            ],
+            [
+              -15384.8,
+              11168.6575,
+              636.755
+            ],
+            [
+              -15355.89,
+              11315.8425,
+              501.755
+            ],
+            [
+              -15355.89,
+              11315.8425,
+              636.755
+            ],
+            [
+              -15168.92,
+              11126.2625,
+              501.755
+            ],
+            [
+              -15168.92,
+              11126.2625,
+              636.755
+            ],
+            [
+              -15140.015,
+              11273.4475,
+              501.755
+            ],
+            [
+              -15140.015,
+              11273.4475,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15262.4062,
+            11221.0525,
+            569.255
+          ],
+          "minCm": [
+            -15384.8,
+            11126.2625,
+            501.755
+          ],
+          "maxCm": [
+            -15140.015,
+            11315.8425,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 2089.279,
+          "cut": true
+        },
+        {
+          "box": 808,
+          "sourceTriangles": [
+            9696,
+            9707
+          ],
+          "corners": [
+            [
+              -15452.245,
+              10825.2125,
+              501.755
+            ],
+            [
+              -15452.245,
+              10825.2125,
+              636.755
+            ],
+            [
+              -15423.34,
+              10972.4025,
+              501.755
+            ],
+            [
+              -15423.34,
+              10972.4025,
+              636.755
+            ],
+            [
+              -15236.365,
+              10782.8225,
+              501.755
+            ],
+            [
+              -15236.365,
+              10782.8225,
+              636.755
+            ],
+            [
+              -15207.46,
+              10930.0075,
+              501.755
+            ],
+            [
+              -15207.46,
+              10930.0075,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15329.8525,
+            10877.6113,
+            569.255
+          ],
+          "minCm": [
+            -15452.245,
+            10782.8225,
+            501.755
+          ],
+          "maxCm": [
+            -15207.46,
+            10972.4025,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.0,
+          "centroidAlongCm": 1739.278,
+          "cut": true
+        },
+        {
+          "box": 809,
+          "sourceTriangles": [
+            9708,
+            9719
+          ],
+          "corners": [
+            [
+              -15519.69,
+              10481.7775,
+              501.755
+            ],
+            [
+              -15519.69,
+              10481.7775,
+              636.755
+            ],
+            [
+              -15490.785,
+              10628.9625,
+              501.755
+            ],
+            [
+              -15490.785,
+              10628.9625,
+              636.755
+            ],
+            [
+              -15303.81,
+              10439.3825,
+              501.755
+            ],
+            [
+              -15303.81,
+              10439.3825,
+              636.755
+            ],
+            [
+              -15274.905,
+              10586.5675,
+              501.755
+            ],
+            [
+              -15274.905,
+              10586.5675,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15397.2975,
+            10534.1725,
+            569.255
+          ],
+          "minCm": [
+            -15519.69,
+            10439.3825,
+            501.755
+          ],
+          "maxCm": [
+            -15274.905,
+            10628.9625,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": -0.0,
+          "centroidAlongCm": 1389.279,
+          "cut": true
+        },
+        {
+          "box": 810,
+          "sourceTriangles": [
+            9720,
+            9731
+          ],
+          "corners": [
+            [
+              -15587.135,
+              10138.3375,
+              501.755
+            ],
+            [
+              -15587.135,
+              10138.3375,
+              636.755
+            ],
+            [
+              -15558.23,
+              10285.5225,
+              501.755
+            ],
+            [
+              -15558.23,
+              10285.5225,
+              636.755
+            ],
+            [
+              -15371.26,
+              10095.9425,
+              501.755
+            ],
+            [
+              -15371.26,
+              10095.9425,
+              636.755
+            ],
+            [
+              -15342.355,
+              10243.1275,
+              501.755
+            ],
+            [
+              -15342.355,
+              10243.1275,
+              636.755
+            ]
+          ],
+          "centroidCm": [
+            -15464.745,
+            10190.7325,
+            569.255
+          ],
+          "minCm": [
+            -15587.135,
+            10095.9425,
+            501.755
+          ],
+          "maxCm": [
+            -15342.355,
+            10285.5225,
+            636.755
+          ],
+          "edge": 25,
+          "centroidWestCm": 0.001,
+          "centroidAlongCm": 1039.279,
+          "cut": true
+        }
+      ]
+    }
+  ],
+  "collateral": {
+    "statement": "All cut boxes have every corner within +-121 cm of their edge plane and along -170..L+170 cm; the remaining boxes are the OSM wall continuing north (Y >= 17732) and south (Y <= 8861) of the Kotel footprint. No other building or wall geometry is in these two batches within 160 cm west of the face.",
+    "keptCornerOverlap": "Box 238 (P000, Y 8272..8861, the wall body south of the footprint) overlaps the first ~16 cm of edge 24 at the SW corner and is deliberately kept (cutting it would open a 6 m gap).",
+    "totalBoxes": 75,
+    "totalCutBoxes": 31,
+    "totalTrianglesBefore": 900,
+    "totalTrianglesAfter": 528
+  },
+  "limitations": [
+    "Geometric fix only; no visual, lighting or packaged acceptance.",
+    "The OSM wall now ends flush with the footprint corners; the closed boxes there expose no open faces, but the transition to the Kotel base wall is unreviewed.",
+    "Only the combined Walkthrough map references the duplicates; other maps keep the original batches."
+  ]
+}

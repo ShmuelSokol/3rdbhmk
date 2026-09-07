@@ -1,0 +1,101 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_pbr_architecture.py: import seven CC0 Poly Haven PBR texture sets, build one world-aligned (triplanar) master material with per-kind instances, and swap the flat M_Canonical_* colour materials on the measured Temple architecture for those instances at the component-override level in the combined Walkthrough map. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "PbrArchitecture-",
+  "receiptFolder": "SourceAssets/materials-pbr",
+  "receiptPrefix": "native-apply-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "canonicalReview": "SourceAssets/canonical-material-review.json",
+  "canonicalReviewSha256": "expected-at-runtime-recorded-only",
+  "architectureManifest": "SourceAssets/architecture-manifest.json",
+  "architectureManifestUvNote": "architecture-manifest.json: every one of the 2633 meshes has uvLayers == []; the FBX carries no UVs, so the master material projects by world position and outputs world-space normals (tangent basis is undefined without UVs).",
+  "sourceRoot": "SourceAssets/materials-pbr",
+  "nativeRoot": "/Game/MikdashV3/Materials/PBR",
+  "instanceFolder": "/Game/MikdashV3/Materials/PBR/Instances",
+  "masterMaterial": {
+    "name": "M_PBR_Tiled",
+    "textureParameters": {"albedo": "Albedo", "normal": "Normal", "arm": "ARM"},
+    "scalarParameters": {"TilingCm": 300.0, "NormalStrength": 1.0, "RoughnessScale": 1.0, "Metallic": 0.0, "AlbedoFlatness": 0.0},
+    "vectorParameters": {"Tint": [1.0, 1.0, 1.0, 1.0]},
+    "blendExponent": 4.0,
+    "tangentSpaceNormal": false,
+    "note": "Explicit triplanar: WorldPosition / TilingCm -> xy, xz, yz UV sets; weights = normalize(pow(abs(VertexNormalWS), blendExponent)); albedo and ARM blended per plane; normal-map deviations swizzled into world space per plane (UDN style), scaled by NormalStrength, added to VertexNormalWS and normalized. About 61 nodes."
+  },
+  "textures": {
+    "albedo": {"suffix": "_Albedo", "compression": "TC_DEFAULT", "srgb": true, "samplerType": "SAMPLERTYPE_COLOR"},
+    "normal": {"suffix": "_Normal", "compression": "TC_NORMALMAP", "srgb": false, "flipGreenChannel": false, "samplerType": "SAMPLERTYPE_NORMAL"},
+    "arm": {"suffix": "_ARM", "compression": "TC_MASKS", "srgb": false, "samplerType": "SAMPLERTYPE_MASKS", "channels": "R ambient occlusion, G roughness, B metallic"},
+    "height": {"suffix": "_Height", "compression": "TC_GRAYSCALE", "compressionFallback": "TC_DISPLACEMENTMAP", "srgb": false, "imported": true, "wired": false, "note": "Imported for a later Nanite-tessellation pass; not wired (Nanite is off on the architecture meshes)."}
+  },
+  "sets": {
+    "limestone-ashlar": {"assetId": "sandstone_blocks_08", "folderName": "LimestoneAshlar", "tilingCm": 300.0},
+    "paving-slabs": {"assetId": "rectangular_paving", "folderName": "PavingSlabs", "tilingCm": 200.0},
+    "rough-stone": {"assetId": "castle_wall_slates", "folderName": "RoughStone", "tilingCm": 250.0},
+    "marble": {"assetId": "marble_01", "folderName": "Marble", "tilingCm": 150.0},
+    "cedar-planks": {"assetId": "japanese_cedar_planks", "folderName": "CedarPlanks", "tilingCm": 113.0},
+    "plaster": {"assetId": "white_plaster_rough_01", "folderName": "Plaster", "tilingCm": 100.0},
+    "scratched-metal": {"assetId": "blue_metal_plate", "folderName": "ScratchedMetal", "tilingCm": 250.0}
+  },
+  "instances": {
+    "MI_PBR_LimestoneAshlar": {"set": "limestone-ashlar", "scalars": {"TilingCm": 300.0, "NormalStrength": 1.0, "RoughnessScale": 1.0}, "tint": [1.0, 1.0, 1.0, 1.0]},
+    "MI_PBR_LimestoneTrim": {"set": "limestone-ashlar", "scalars": {"TilingCm": 300.0, "NormalStrength": 0.8, "RoughnessScale": 0.95}, "tint": [1.08, 1.06, 1.02, 1.0]},
+    "MI_PBR_PavingSlabs": {"set": "paving-slabs", "scalars": {"TilingCm": 200.0, "NormalStrength": 1.0, "RoughnessScale": 1.0}, "tint": [1.0, 1.0, 1.0, 1.0]},
+    "MI_PBR_PavingInner": {"set": "paving-slabs", "scalars": {"TilingCm": 200.0, "NormalStrength": 1.0, "RoughnessScale": 1.0}, "tint": [1.12, 1.1, 1.05, 1.0]},
+    "MI_PBR_RoughStone": {"set": "rough-stone", "scalars": {"TilingCm": 250.0, "NormalStrength": 1.0, "RoughnessScale": 1.0}, "tint": [1.0, 1.0, 1.0, 1.0]},
+    "MI_PBR_Marble": {"set": "marble", "scalars": {"TilingCm": 150.0, "NormalStrength": 0.6, "RoughnessScale": 0.9}, "tint": [1.0, 1.0, 1.0, 1.0]},
+    "MI_PBR_CedarPlanks": {"set": "cedar-planks", "scalars": {"TilingCm": 113.0, "NormalStrength": 1.0, "RoughnessScale": 1.0}, "tint": [1.0, 1.0, 1.0, 1.0]},
+    "MI_PBR_Plaster": {"set": "plaster", "scalars": {"TilingCm": 100.0, "NormalStrength": 0.8, "RoughnessScale": 1.0}, "tint": [1.0, 0.97, 0.88, 1.0]},
+    "MI_PBR_GoldHammered": {"set": "scratched-metal", "scalars": {"TilingCm": 250.0, "NormalStrength": 0.6, "RoughnessScale": 1.0, "Metallic": 1.0, "AlbedoFlatness": 1.0}, "tint": [0.6104955708078648, 0.39157247774972326, 0.08650046203654976, 1.0], "tintSource": "canonical-material-review.json nativeMaterials.gold.profile.color (metalness 0.82, roughness 0.48)"},
+    "MI_PBR_GoldFloor": {"set": "scratched-metal", "scalars": {"TilingCm": 250.0, "NormalStrength": 0.4, "RoughnessScale": 1.1, "Metallic": 0.8, "AlbedoFlatness": 1.0}, "tint": [0.5775804404296506, 0.5088813208549338, 0.3277780980565422, 1.0], "tintSource": "canonical-material-review.json nativeMaterials.goldPaving.profile.color"}
+  },
+  "profileMapping": {
+    "stone": "MI_PBR_LimestoneAshlar",
+    "blue": "MI_PBR_LimestoneAshlar",
+    "trim": "MI_PBR_LimestoneTrim",
+    "paving": "MI_PBR_PavingSlabs",
+    "innerPaving": "MI_PBR_PavingInner",
+    "ground": "MI_PBR_RoughStone",
+    "altar": "MI_PBR_Plaster",
+    "cedar": "MI_PBR_CedarPlanks"
+  },
+  "goldProfileMapping": {
+    "gold": "MI_PBR_GoldHammered",
+    "goldPaving": "MI_PBR_GoldFloor"
+  },
+  "goldMappingNote": "Only applied with -PbrIncludeGold. Default keeps M_Canonical_gold / M_Canonical_goldPaving on the 596 gold architecture components.",
+  "untouchedProfiles": ["dark", "red", "ash", "copper-body", "copper-edge", "copper-mouth", "water"],
+  "sourceNameOverrides": [
+    {"contains": "foundation", "instance": "MI_PBR_RoughStone", "reason": "foundations read as rough-hewn masonry"},
+    {"equals": ["Stone slaughter table", "Stone table leg"], "instance": "MI_PBR_Marble", "reason": "book: marble tables in the slaughterhouse (Bertinoro on Tamid 4:2)"}
+  ],
+  "profileNotes": {
+    "blue": "legacy name; canonical colour [0.776, 0.680, 0.497] is pale stone (House walls, cell doorways)",
+    "altar": "the altar, hearths and stone tables; the altar was plastered (whitewashed), so plaster; tables overridden to marble by name",
+    "marbleHeikhalFloor": "not applied: the book/canonical layer make the Heichal, Ulam and Kodesh floors gold (goldPaving), so marble is used only for the slaughterhouse tables"
+  },
+  "architectureFolderPrefix": "Measured architecture/",
+  "excludedFolders": ["Measured architecture/vessel", "Measured architecture/water"],
+  "excludedFolderNote": "Vessels (copper) and the basin water keep their materials; the sanctuary veneers/frieze/vessels (Release/*, Integrated review/*) and the Jerusalem context (Streets/Buildings/Terrain) are outside the folder prefix and are never touched.",
+  "architectureMeshPrefix": "/Game/MikdashV3/Architecture/architecture_",
+  "canonicalMaterialPrefix": "M_Canonical_",
+  "originalImportedMaterialFolder": "/Game/MikdashV3/Materials/",
+  "applyLevel": "component_override",
+  "applyLevelJustification": "The canonical colour layer was applied as StaticMeshComponent override_materials (canonical-material-review.json: originalComponents overrideMaterialPaths [] -> componentChanges), so a static-mesh-slot change would be masked by those overrides; overriding at the component level changes exactly what is visible, keeps the 2633 imported mesh assets byte-identical, saves only the map, and the receipt records the previous override array per slot for restore.",
+  "verification": {"readbackSamplePerInstance": 3},
+  "limitations": [
+    "Texture sets are CC0 photogrammetry stand-ins for Second Temple stone, cedar, plaster and gold; they are reconstruction choices, not sourced surfaces.",
+    "World-projected detail has no per-block alignment with the measured wall geometry; block joints in the texture do not coincide with modelled courses.",
+    "No screenshot or runtime acceptance is performed here; visual review is pending.",
+    "Nanite is off on the architecture meshes, so height maps are imported but not used."
+  ]
+}

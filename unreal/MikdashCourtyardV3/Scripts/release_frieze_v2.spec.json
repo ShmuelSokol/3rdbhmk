@@ -1,0 +1,495 @@
+{
+  "specVersion": 2,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_frieze_v2.py: second pass of the gold keruv/palm frieze after the 20260907T194843Z renders. Fixes three readings of the V1 panels: (1) a visible joint at every 250 cm because the image's left and right edges differ (seam ratio 2.1) -> horizontal MIRROR tiling, seamless by construction; (2) identical rows stacked vertically -> odd rows offset by half a panel (brick bond) with half-width end panels and a shallower displacement (2.5 vs 3.0 cm); (3) panel edges reading as grid lines -> 3 cm flush-jointed panels whose displaced front border is at height 0 (2 px zero margin in the height map, 1-cell side feather, 2-cell top/bottom feather), box sides in the same gold material. V1 assets in /Game/MikdashV3/MaterialReview/KeruvFriezeV1 are never overwritten; -FriezeReplace removes the V1 RELEASE_Frieze_* actors (recorded for restore) and places the V2 scheme. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "unknown_after_v1_frieze_run",
+  "lastKnownMapSha256Note": "The V1 frieze run (KeruvFriezeV1/native-import-20260907T194656318175Z.json) saved the map; its mapSha256AfterSave is recorded in that receipt. Compared and recorded, never a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KeruvFriezeV2-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/KeruvFriezeV2",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "reliefsScript": "Scripts/release_import_reliefs.py",
+  "reliefsReceiptFolder": "SourceAssets/sanctuary-detail/PalmReliefV1",
+  "reliefsReceiptStatusPrefix": "reliefs_saved_reopened",
+  "v1": {
+    "script": "Scripts/release_keruv_frieze.py",
+    "spec": "Scripts/release_keruv_frieze.spec.json",
+    "receiptFolder": "SourceAssets/sanctuary-detail/KeruvFriezeV1",
+    "receiptStatusPrefix": "frieze_saved_reopened",
+    "labelPrefix": "RELEASE_Frieze_",
+    "meshNamespace": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Meshes",
+    "namespace": "/Game/MikdashV3/MaterialReview/KeruvFriezeV1",
+    "note": "The V1 module is imported for its pure helpers (PNG codec, blur, height pipeline, buffers, material/texture/mesh builders). V1 assets stay on disk untouched; only the V1 ACTORS are removed by -FriezeReplace."
+  },
+  "actorTag": "ReleaseKeruvFriezeV2",
+  "labelPrefix": "RELEASE_",
+  "group": "Frieze",
+  "folder": "Release/Frieze",
+  "collisionProfile": "NoCollision",
+  "image": {
+    "defaultSource": "SourceAssets/visual-reference-handoff/gold-palm-cherub-relief.png",
+    "defaultSourceSha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+    "defaultSourceNote": "1254 x 1254 8-bit RGB PNG, colour render with baked even lighting. Central palm, two winged keruvim (human face toward the central palm, lion face toward the partial palms at the edges); bilaterally symmetric composition.",
+    "promptFile": "SourceAssets/visual-reference-handoff/gold-relief-prompt.txt",
+    "alternativeFolder": "SourceAssets/relief-images",
+    "derivedFolder": "SourceAssets/relief-images/derived",
+    "derivedManifest": "derived-manifest-v2.json",
+    "requirePng": {
+      "bitDepth": 8,
+      "colorTypes": [
+        2,
+        6
+      ],
+      "interlace": 0
+    },
+    "lumaWeights": [
+      0.299,
+      0.587,
+      0.114
+    ],
+    "heightPipeline": "Identical to release_keruv_frieze.spec.json image.heightPipeline (V1 derive_relief is called), then the V2 post-pass: the outer heightMapZeroMarginPx texels of the 2048 height map are set to 0 on all four sides and the normal map is recomputed from the margined height.",
+    "lowFrequencyRadiusFraction": 0.06,
+    "lowFrequencyBlurPasses": 2,
+    "medianPasses": 1,
+    "smoothRadiusPx": 1,
+    "backgroundHistogramBins": 512,
+    "backgroundSigmaMultiplier": 1.0,
+    "topPercentile": 99.7,
+    "heightGamma": 1.0,
+    "cornerPatchFraction": 0.05,
+    "derivedSize": [
+      2048,
+      2048
+    ],
+    "resample": "bilinear",
+    "normalStrengthMultiplier": 1.0,
+    "normalGreenConvention": "directx: green encodes the component along +V (image down), the UE default (Flip Green Channel off)",
+    "flipGreen": false,
+    "outputs": {
+      "heightSuffix": "_v2_height16.png",
+      "normalSuffix": "_v2_normal.png",
+      "heightBitDepth": 16,
+      "heightPngColorType": 0,
+      "normalPngColorType": 2,
+      "mirrorPairPreviewSuffix": "_v2_preview_mirror_pair.png",
+      "layoutPreviewSuffix": "_v2_preview_row_layout.png",
+      "previewPanelPx": 256
+    },
+    "heightIsApproximate": "Derived from a lit colour render: detail = high-pass luma, mass = blurred edge density. Plausible bas-relief, not measured relief.",
+    "massNoiseFloorPercentile": 75.0,
+    "massBlurRadiusFraction": 0.02,
+    "massBlurPasses": 2,
+    "massTopPercentile": 99.0,
+    "massGamma": 0.7,
+    "massWeight": 0.65,
+    "detailWeight": 0.45,
+    "massBaseCut": 0.12,
+    "heightMapZeroMarginPx": 2,
+    "horizontalRepeat": "mirror",
+    "horizontalRepeatChoice": "MIRROR tiling (panel A, then its horizontal mirror A', alternating) instead of an offset cross-fade. Reasons: (a) seamless by construction: at every joint the two abutting texel columns are the SAME column of the source, so the height, normal and colour are C0-continuous with no blending band; a 6-8 % cross-fade would smear the partial palm trunks at the image edges into a soft ghost 15-20 cm wide at every joint; (b) the composition is already bilaterally symmetric (central palm, two keruvim, partial palms at both edges), so the mirror reads as the same design language and the edge half-palms of A and A' complete each other into one palm at the joint, keeping the pasuk's palm / keruv / palm alternation; (c) no new image content is invented. Cost: at each joint the relief is mirror-symmetric (a derivative kink), which real repousse panels also show.",
+    "seamRule": "For MIRROR tiling the joint is measured on the tiled sequence A|A': the two texel columns meeting at the joint are compared (identical by construction -> 0), and the columns one texel in from the joint are compared against the interior adjacent-column difference (the honest 'as smooth as its neighbours' figure). Both ratios must be < seamRatioMax. The V1 plain-repeat ratio (right column vs left column) is recorded for comparison.",
+    "seamRatioMax": 1.2
+  },
+  "textures": {
+    "folder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Textures",
+    "namePrefix": "T_KeruvFriezeV2_",
+    "height": {
+      "suffix": "_Height",
+      "compression": "TC_GRAYSCALE",
+      "compressionFallback": "TC_MASKS",
+      "srgb": false,
+      "samplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "samplerTypeFallback": "SAMPLERTYPE_LINEAR_COLOR"
+    },
+    "normal": {
+      "suffix": "_Normal",
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "flipGreenChannel": false,
+      "samplerType": "SAMPLERTYPE_NORMAL"
+    }
+  },
+  "material": {
+    "folder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials",
+    "names": {
+      "flat": "M_KeruvFriezeV2",
+      "displaced": "M_KeruvFriezeV2_Displaced",
+      "tessellated": "M_KeruvFriezeV2_Tessellated"
+    },
+    "goldSource": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+    "goldFallbackLinear": [
+      1.0,
+      0.766,
+      0.336
+    ],
+    "goldFallbackNote": "Values written by Scripts/create_heikhal_keilim.py for M_HeikhalKeilim_Gold.",
+    "metallic": 1.0,
+    "roughness": {
+      "atHeight0": 0.45,
+      "atHeight1": 0.35,
+      "rule": "Lerp(A=atHeight0, B=atHeight1, Alpha=height.R): raised relief slightly more polished than the hammered ground."
+    },
+    "graphs": {
+      "flat": "Constant3Vector(gold) -> BaseColor; Constant(1) -> Metallic; TextureSample(height).R -> Lerp(0.45, 0.35).Alpha -> Roughness; TextureSample(normal) -> Normal. Mirrored meshes carry mirrored UVs; tangents are recomputed from the UVs, so the tangent-space normal map is mirrored consistently.",
+      "displaced": "Same without the normal texture: the displaced meshes carry real geometry and analytic vertex normals."
+    },
+    "createTessellationMaterial": false,
+    "sideFaces": "Every mesh has ONE material slot, so the 3 cm box sides carry the same gold material as the front; asserted per mesh in the receipt.",
+    "neverWired": "WorldPositionOffset stays unconnected; MP_PixelDepthOffset is hidden in UE 5.8 Python and never referenced."
+  },
+  "panel": {
+    "namespace": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes",
+    "flatName": "SM_KeruvFriezeV2_FlatRef",
+    "sizeCm": [
+      250.0,
+      250.0
+    ],
+    "thicknessCm": 3.0,
+    "displacementCm": 3.0,
+    "displacementCmNote": "Reference depth for the normal-map slope factor (normal = flat material only). Per-row depths are in layout.depthByRowParity and per variant below.",
+    "displacedGrid": 256,
+    "displacedGridNote": "Cells across a full 250 cm panel (0.977 cm); half panels use 128 cells so the cell size is identical.",
+    "borderFeatherCellsX": 1,
+    "borderFeatherCellsZ": 2,
+    "borderRule": "Front-grid border vertices are at exactly height 0 on all four sides (weight 0 at border index 0 and n) and ramp to full height over borderFeatherCellsX cells at the left/right edges (mirror tiling already makes the abutting columns identical, so the side groove is kept to ~1 cm) and borderFeatherCellsZ cells at the top/bottom edges (rows do not match, so a 2 cm flat band hides the row joint). Adjacent panels therefore meet flat at y = thickness; the 3 cm box sides lie between panels.",
+    "pivot": "bottom-centre of the back face; local +Y is the relief front (room direction after placement)",
+    "flatLocalBoundsCm": {
+      "min": [
+        -125.0,
+        0.0,
+        0.0
+      ],
+      "max": [
+        125.0,
+        3.0,
+        250.0
+      ]
+    },
+    "flatTriangles": 12,
+    "displacedTriangleBudget": 150000,
+    "variants": [
+      {
+        "name": "SM_KeruvFriezeV2_A_D30",
+        "role": "evenFull",
+        "widthCm": 250.0,
+        "uRange": [
+          0.0,
+          1.0
+        ],
+        "depthCm": 3.0,
+        "content": "panel A (source image as is)"
+      },
+      {
+        "name": "SM_KeruvFriezeV2_M_D30",
+        "role": "evenFullMirror",
+        "widthCm": 250.0,
+        "uRange": [
+          1.0,
+          0.0
+        ],
+        "depthCm": 3.0,
+        "content": "panel A' (horizontal mirror)"
+      },
+      {
+        "name": "SM_KeruvFriezeV2_A_D25",
+        "role": "oddFull",
+        "widthCm": 250.0,
+        "uRange": [
+          0.0,
+          1.0
+        ],
+        "depthCm": 2.5,
+        "content": "panel A, shallower"
+      },
+      {
+        "name": "SM_KeruvFriezeV2_M_D25",
+        "role": "oddFullMirror",
+        "widthCm": 250.0,
+        "uRange": [
+          1.0,
+          0.0
+        ],
+        "depthCm": 2.5,
+        "content": "panel A', shallower"
+      },
+      {
+        "name": "SM_KeruvFriezeV2_MR_D25",
+        "role": "oddHalfStart",
+        "widthCm": 125.0,
+        "uRange": [
+          0.5,
+          0.0
+        ],
+        "depthCm": 2.5,
+        "content": "right half of A' (source u 0.5 -> 0.0 across local -X..+X)"
+      },
+      {
+        "name": "SM_KeruvFriezeV2_ML_D25",
+        "role": "oddHalfEnd",
+        "widthCm": 125.0,
+        "uRange": [
+          1.0,
+          0.5
+        ],
+        "depthCm": 2.5,
+        "content": "left half of A' (source u 1.0 -> 0.5 across local -X..+X)"
+      }
+    ],
+    "frontFaceUv": {
+      "u": "uRange[0] + (uRange[1] - uRange[0]) * (x + w/2) / w",
+      "v": "1 - z / 250",
+      "note": "UE UV (0,0) is the top-left texel. A viewer facing the -Y wall has world +X on the right, so U grows with local +X for panel A and decreases for the mirrored panels. The height used for displacement is sampled at the same (u, v), so geometry and roughness texture agree on every variant."
+    },
+    "construction": "Explicit GeometryScriptSimpleMeshBuffers as V1 (per-face split vertices, analytic gradient normals on the front grid, planar UVs on the box), appended with GeometryScript_MeshEdits.append_buffers_to_mesh, then GeometryScript_NewAssetUtils.create_new_static_mesh_asset_from_mesh, Nanite on.",
+    "createOptions": {
+      "enable_recompute_normals": false,
+      "enable_recompute_tangents": true,
+      "enable_collision": false,
+      "use_original_vertex_order": true
+    },
+    "naniteOnDisplaced": true,
+    "naniteOnFlat": false,
+    "placeVariant": "displaced",
+    "allowFlatFallback": false,
+    "uvReadbackToleranceUv": 0.001,
+    "boundsToleranceCm": 0.05
+  },
+  "layout": {
+    "rule": "Rows are numbered from the floor (row 0). EVEN rows: full panels A, A', A, A' ... from the wall start (column 0 = A). ODD rows: the same infinite A/A' sequence shifted by half a panel (125 cm): the wall starts with the RIGHT half of A' (variant oddHalfStart), then full panels A, A', A ... (one fewer than the even row), then the LEFT half of A' (variant oddHalfEnd). At every joint the two abutting texel columns are identical (mirror tiling), so no half-panel joint or brick-bond T-joint exposes a mismatch. Odd rows are displaced 2.5 cm, even rows 3.0 cm.",
+    "evenRowSequence": "A M A M ...",
+    "oddRowSequence": "MR | A M A M ... | ML",
+    "depthByRowParity": {
+      "even": 3.0,
+      "odd": 2.5
+    },
+    "whyNotMirrorPhaseOnly": "Because A' is the mirror of a nearly symmetric image, swapping A/A' between rows changes almost nothing visually; the half-panel offset staggers the panel joints (brick bond) and the depth alternation separates the rows.",
+    "palmPeriodObservation": "Mirror tiling gives a palm every 125 cm (the central palm of each panel and the joint palm formed by the two edge half-palms), so a 125 cm row offset keeps the palm AXES in vertical register: above each central palm (keruvim with the human face toward it) sits a joint palm (keruvim with the lion face toward it) and vice versa. The rows therefore differ in palm type, keruv facing, joint position and depth, not in palm position (see the _v2_preview_row_layout.png preview). A 62.5 cm offset would shift the axes but needs quarter panels; not done.",
+    "wallsRequire": "even-row column count >= 1; odd rows need at least 2 columns (Heikhal 8 -> 7 full + 2 half; Kodesh 4 -> 3 full + 2 half); a 1-column wall gets a plain A on every row."
+  },
+  "windingCheck": {
+    "note": "Same GeometryScript readback as Scripts/release_import_reliefs.winding_report (needs -EnablePlugins=GeometryScripting). Every panel is a closed solid, so the signed volume under UE's cross(C-A, B-A) convention must be positive and match the offline value.",
+    "requireForPlacement": true,
+    "volumeRelativeTolerance": 0.001,
+    "facingCosine": 0.95,
+    "planeToleranceCm": 0.5,
+    "minFrontBandAgreement": 0.99
+  },
+  "frieze": {
+    "moduleCm": 250.0,
+    "maxRows": 8,
+    "rowFitToleranceCm": 0.01,
+    "rowFitToleranceNote": "The live Heikhal/Kodesh floor tops read 925.00006 cm; without this tolerance the top row (2675-2925) is dropped, as happened in V1 (7 rows placed instead of 8).",
+    "standoffCm": 1.5,
+    "standoffWindowCm": [
+      1.0,
+      2.0
+    ],
+    "veneerBoundsToleranceCm": 0.05,
+    "veneerSource": "veneers.all of the latest PalmReliefV1 receipt (labels and world bounds), matched against the live level within veneerBoundsToleranceCm",
+    "floors": {
+      "heikhal": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -5600.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -3600.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "kodesh": {
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor",
+        "worldBoundsCm": {
+          "min": [
+            -6700.0,
+            -500.0,
+            904.9999237060547
+          ],
+          "max": [
+            -5700.0,
+            500.0,
+            925.0
+          ]
+        },
+        "topZ": 925.0
+      },
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor_component_bounds (traces return nothing in commandlets)"
+    },
+    "walls": [
+      {
+        "name": "Heikhal negative-Y inner face",
+        "veneerLabel": "Review_HeichalSide-1",
+        "normalAxis": "y",
+        "sign": -1,
+        "yawDegrees": 0.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -5600.0,
+          -3600.0
+        ],
+        "floor": "heikhal",
+        "enabled": true
+      },
+      {
+        "name": "Heikhal positive-Y inner face",
+        "veneerLabel": "Review_HeichalSide1",
+        "normalAxis": "y",
+        "sign": 1,
+        "yawDegrees": 180.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -5600.0,
+          -3600.0
+        ],
+        "floor": "heikhal",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh negative-Y inner face",
+        "veneerLabel": "Review_KodeshSide-1",
+        "normalAxis": "y",
+        "sign": -1,
+        "yawDegrees": 0.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -6700.0,
+          -5700.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh positive-Y inner face",
+        "veneerLabel": "Review_KodeshSide1",
+        "normalAxis": "y",
+        "sign": 1,
+        "yawDegrees": 180.0,
+        "alongAxis": "x",
+        "alongRangeCm": [
+          -6700.0,
+          -5700.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Kodesh rear (west) inner face",
+        "veneerLabel": "Review_KodeshRear",
+        "normalAxis": "x",
+        "sign": -1,
+        "yawDegrees": -90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          500.0
+        ],
+        "floor": "kodesh",
+        "enabled": true
+      },
+      {
+        "name": "Heikhal rear (west, Kodesh partition) inner face",
+        "veneerLabel": null,
+        "veneerSearchBoundsCm": {
+          "min": [
+            -5600.1,
+            -500.0,
+            925.0
+          ],
+          "max": [
+            -5599.9,
+            500.0,
+            2925.0
+          ]
+        },
+        "normalAxis": "x",
+        "sign": -1,
+        "yawDegrees": -90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          500.0
+        ],
+        "floor": "heikhal",
+        "enabled": true,
+        "note": "No veneer actor is recorded on this face (the paroches hangs here); tiled only if a veneer with these bounds exists in the level, otherwise recorded as skipped."
+      },
+      {
+        "name": "Heikhal entrance jamb negative-Y",
+        "veneerLabel": "Review_HeichalEntranceJamb-1",
+        "normalAxis": "x",
+        "sign": 1,
+        "yawDegrees": 90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          -500.0,
+          -250.0
+        ],
+        "floor": "heikhal",
+        "enabled": false
+      },
+      {
+        "name": "Heikhal entrance jamb positive-Y",
+        "veneerLabel": "Review_HeichalEntranceJamb1",
+        "normalAxis": "x",
+        "sign": 1,
+        "yawDegrees": 90.0,
+        "alongAxis": "y",
+        "alongRangeCm": [
+          250.0,
+          500.0
+        ],
+        "floor": "heikhal",
+        "enabled": false
+      }
+    ],
+    "orientationRule": "local +Y after yaw = (-sin yaw, cos yaw) must point into the room (opposite to sign along normalAxis); local +X = along-axis direction seen as 'right' by a viewer facing the wall. Both are asserted per wall.",
+    "cornerOverlapRule": "Panels are checked against pre-existing actors only. Where two tiled walls meet the corner panels interpenetrate by up to thickness+displacement (6 cm); recorded as information, not skipped."
+  },
+  "palms": {
+    "rule": "The 32 RELEASE_Reliefs_* palm actors were removed by the V1 run (restore data in the V1 receipt palmsRemoved). V2 requires them to be absent and refuses otherwise.",
+    "labelPrefix": "RELEASE_Reliefs_"
+  },
+  "replace": {
+    "switch": "-FriezeReplace",
+    "rule": "Without the switch any RELEASE_Frieze_* actor makes the run refuse (as V1). With it, the live RELEASE_Frieze_* actors must all carry a V1 namespace mesh and their label set must equal the placed set of the latest V1 receipt; each is recorded (label, name, folder, mesh, pose, bounds, tags) and destroyed before placement. Restore: spawn StaticMeshActor per entry, or copy the checkpoint back."
+  },
+  "row": {
+    "clearance": {
+      "rule": "The planned world AABB of a panel (variant local box rotated by wall yaw) must not have strictly positive overlap volume with any mesh-bearing actor (union actors decomposed, terrain excluded, release_import_reliefs.ReliefRow). A blocked panel is skipped and recorded; never force-filled.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "limitations": [
+    "The frieze is an image-based relief: a generated 2D render turned into a height field. Full bodies and wings on the keruvim are the image's artistic interpretation (CLAUDE-VISUAL-ASSETS.md).",
+    "Height is approximate (high-pass luma + edge-density mass of a lit render). displacement 3.0 / 2.5 cm and the 250 cm module are artistic choices.",
+    "Mirror tiling makes every vertical joint mirror-symmetric; the image repeats horizontally by design but not vertically, so row joints rely on the 2-cell flat border band and the half-panel offset rather than on matching content.",
+    "Textures, materials, meshes and placement are geometric and graph-level only; no visual, shader-compile, Nanite, lighting, performance or packaged acceptance is established.",
+    "Traces return nothing in commandlets; rows are grounded from the measured floor component bounds, not a trace."
+  ]
+}

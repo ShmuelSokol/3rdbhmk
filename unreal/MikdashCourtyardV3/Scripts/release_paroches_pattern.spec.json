@@ -1,0 +1,128 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_paroches_pattern.py: give the paroches cloth (RELEASE_Doors_37_Paroches_Cloth, SM_ParochesClothV1, currently the flat canonical red) a woven palm-and-two-keruvim pattern taken from the frieze relief image, as the book shows on page 238 (Lishchno Tidreshu, Yechezkel 41:19 figure 'paroches kodesh hakodashim'). The pattern is a luminance modulation of the red (lerp 0.7..1.0) plus the relief normal map at low strength (0.3), projected once onto the cloth from world position because the cloth mesh's own UVs are per-face scraps. The hem, rod and rings keep their materials. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ParochesPattern-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/ParochesPatternV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "friezeV2Script": "Scripts/release_frieze_v2.py",
+  "actorTag": "ReleaseParochesPatternV1",
+  "sourceReference": "Book page 238 (mikdash book/reference-pages/page-238.png): figure 'paroches kodesh hakodashim' shows the curtain woven with a palm and two keruvim (Yechezkel 41:18-19 applied to the paroches). The pattern colours of the historical paroches (techelet, argaman, tolaat shani, shesh) are NOT modelled: only the canonical red with a tone/relief pattern.",
+  "doors": {
+    "receiptFolder": "SourceAssets/sanctuary-detail/DoorsParochesV1",
+    "receiptStatusPrefix": "doors_paroches_saved_reopened",
+    "labelPrefix": "RELEASE_Doors_",
+    "clothMeshNameContains": "ParochesCloth",
+    "parochesMeshNameContains": "Paroches",
+    "expectedClothMesh": "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesClothV1",
+    "expectedClothMaterial": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64",
+    "expectedClothWorldBoundsCm": {
+      "min": [
+        -5593.42332,
+        -180.0,
+        928.0
+      ],
+      "max": [
+        -5576.500045,
+        180.0,
+        1234.0
+      ]
+    },
+    "clothBoundsToleranceCm": 0.5,
+    "clothFacing": "+X (east, toward the Heikhal viewer); yaw -90 maps mesh local +X to world -Y",
+    "untouched": "SM_ParochesHemV1 (hem, stays canonical red) and SM_ParochesFixingsV1 (rod and rings, gold) keep their materials; asserted after reopen."
+  },
+  "image": {
+    "source": "SourceAssets/visual-reference-handoff/gold-palm-cherub-relief.png",
+    "sourceSha256": "2fdf8488bfbd65edbe094aef6ff43e68f3af6ac0f5182249906043abe4e7c829",
+    "lumaWeights": [
+      0.299,
+      0.587,
+      0.114
+    ],
+    "lumaLowPercentile": 1.0,
+    "lumaHighPercentile": 99.0,
+    "lumaRule": "luma = dot(rgb, lumaWeights) / 255, stretched so lumaLowPercentile -> 0 and lumaHighPercentile -> 1 (clamped); the margins outside the fitted image are filled with the stretched mean so the plain cloth matches the pattern's average tone.",
+    "normalSource": "SourceAssets/relief-images/derived/gold-palm-cherub-relief_v2_normal.png",
+    "normalSourceRule": "The V2 frieze normal map (Scripts/release_frieze_v2.py image stage) is re-sampled into the cloth layout; margins are flat (128, 128, 255). Its slope encodes the 3 cm / 250 cm panel relief; on cloth it is only used at normalStrength.",
+    "derivedFolder": "SourceAssets/relief-images/derived",
+    "outputs": {
+      "lumaSuffix": "_paroches_luma.png",
+      "normalSuffix": "_paroches_normal.png",
+      "textureWidthPx": 2048
+    },
+    "cloth": {
+      "widthCm": 360.0,
+      "heightCm": 306.0,
+      "note": "Live cloth: Y -180..180 (360 cm), Z 928..1234 (306 cm). The book's 7 x 6 amot = 350 x 300 cm opening is 5 cm narrower each side and 3 cm lower; the pattern is fitted to the live cloth."
+    },
+    "fit": "The square image is scaled uniformly to the cloth HEIGHT (306 cm -> 306 cm wide) and centred horizontally; the remaining 27 cm bands each side carry the fill values. Texture = textureWidthPx x round(textureWidthPx * heightCm / widthCm) covering the whole cloth, so material UV = ((Ymax - Y) / widthCm, (Ztop - Z) / heightCm)."
+  },
+  "textures": {
+    "folder": "/Game/MikdashV3/MaterialReview/ParochesPatternV1/Textures",
+    "namePrefix": "T_ParochesPattern_",
+    "luma": {
+      "suffix": "_Luma",
+      "compression": "TC_GRAYSCALE",
+      "compressionFallback": "TC_MASKS",
+      "srgb": false,
+      "samplerType": "SAMPLERTYPE_LINEAR_GRAYSCALE",
+      "samplerTypeFallback": "SAMPLERTYPE_LINEAR_COLOR"
+    },
+    "normal": {
+      "suffix": "_Normal",
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "flipGreenChannel": false,
+      "samplerType": "SAMPLERTYPE_NORMAL"
+    },
+    "addressMode": "TA_CLAMP"
+  },
+  "material": {
+    "namespace": "/Game/MikdashV3/MaterialReview/ParochesPatternV1",
+    "folder": "/Game/MikdashV3/MaterialReview/ParochesPatternV1/Materials",
+    "name": "M_ParochesPattern",
+    "redSource": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64",
+    "redSourceRule": "Read the Constant3Vector wired to BaseColor (and a Constant on Roughness) of redSource via MaterialEditingLibrary.get_material_property_input_node; fall back to redFallbackLinear / roughnessFallback and record it.",
+    "redFallbackLinear": [
+      0.2706,
+      0.0295,
+      0.0222
+    ],
+    "redFallbackNote": "sRGB #8e3029 (release_import_doors.spec.json material note) converted to linear.",
+    "roughnessFallback": 0.85,
+    "metallic": 0.0,
+    "lumaLerp": {
+      "atLuma0": 0.7,
+      "atLuma1": 1.0
+    },
+    "normalStrength": 0.3,
+    "graph": "WorldPosition -> Custom(HLSL: float2((YMAX - P.y) / W, (ZTOP - P.z) / H)) -> UVs of TextureSample(luma) and TextureSample(normal). BaseColor = Constant3Vector(red) * Lerp(0.7, 1.0, luma.R). Normal (tangent_space_normal = false): Custom(HLSL: normalize(N + S * (T.x * float3(0,-1,0) + T.y * float3(0,0,-1)))) with N = VertexNormalWS and T = normal sample (-1..1): the map's +U (image right) is world -Y and its +V (image down, DirectX green) is world -Z on the east-facing cloth, so the perturbation is applied in the projection's own frame and the drape's vertex normals are kept. Roughness = Constant(red source roughness); Metallic 0.",
+    "whyWorldProjection": "SM_ParochesClothV1.obj carries per-face UV scraps (every vertex has 4-5 unrelated UVs, u range -0.05..0.84, no correlation with x or arc length) and GeometryScript_MeshQueries.get_triangle_uvs is not bound in UE 5.8 Python, so mesh UVs cannot carry the pattern nor a coherent tangent frame; a world-position projection with an explicit world-space normal composition avoids both.",
+    "neverWired": "WorldPositionOffset stays unconnected; MP_PixelDepthOffset is hidden in UE 5.8 Python and never referenced."
+  },
+  "assignment": {
+    "rule": "The new material is set as a component-level override on every slot of the cloth actor's StaticMeshComponent (the SM_ParochesClothV1 asset in DoorsParochesV1 is not modified). Hem and fixings are untouched.",
+    "verifyAfterReopen": true
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "boundsToleranceCm": 0.05
+  },
+  "limitations": [
+    "The paroches design colours (techelet, argaman, tolaat shani, shesh) are not modelled; only a tone/relief pattern on the canonical red.",
+    "The pattern is the frieze relief image (a generated render) projected once; the book figure shows a palm with two keruvim, matched in subject but not in drawing.",
+    "World-position projection: the pattern does not follow the drape folds (it is flat in Y/Z), which reads as a printed rather than woven pattern where the cloth curves; at +-8 cm of drape the distortion is small.",
+    "Material graph level only; shader compile and look are unverified in the -nullrhi commandlet."
+  ]
+}

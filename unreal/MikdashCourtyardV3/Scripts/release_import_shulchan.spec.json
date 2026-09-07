@@ -1,0 +1,376 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_shulchan.py: native OBJ import of the seven original ShulchanV2 parts, gold material on every slot (bread material on the loaves), GeometryScript winding check with conditional flip, removal of the crude REVIEW_HeikhalKeilim_SM_ShulchanStudy box and placement of the RELEASE_Shulchan_* assembly at the same origin in the combined map. Every number below is read from the frozen geometry manifest or receipts; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "16a07e9d8d6d09e824df0e6dac18ab7b0fd0245e701cd7e40e50708da8b2e647",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk when this spec was prepared (after the keruv frieze placement). Recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Shulchan-",
+  "receiptFolder": "SourceAssets/vessels-review/ShulchanV2",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "placementHelperSpec": "Scripts/release_place_assets.spec.json",
+  "actorTag": "ReleaseShulchanV2",
+  "folder": "Release/Shulchan",
+  "collisionProfile": "NoCollision",
+  "collisionNote": "All parts NoCollision like the other release vessels (the Heikhal is not on the visitor walking route; a bounded review, not a walkable prop).",
+  "source": {
+    "folder": "SourceAssets/vessels-review/ShulchanV2",
+    "manifest": "SourceAssets/vessels-review/ShulchanV2/geometry-manifest.json",
+    "manifestSha256": "9f580bda6d2fa1089fab090c73ddee82d91118100999008ff1e3008b14eba7c5",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "authoringScript": "Scripts/create_shulchan_v2.py",
+    "authoringScriptSha256": "491b27097ff360796cd2382b1ad4b5a766f7b658763d10c44b25e7023a1bb765",
+    "namespace": "/Game/MikdashV3/MaterialReview/ShulchanV2",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/ShulchanV2/Meshes",
+    "meshes": [
+      {
+        "name": "SM_ShulchanV2_Table",
+        "part": "Table",
+        "file": "SM_ShulchanV2_Table.obj",
+        "sha256": "5f8e90f51f3bc499ba236219a77fa578f9351e7b1834c64a5d6f85e5216b27b8",
+        "triangles": 2604,
+        "role": "gold",
+        "canonicalBoundsCm": {
+          "min": [
+            -52.25,
+            -27.25,
+            0.0
+          ],
+          "max": [
+            52.25,
+            27.25,
+            152.35
+          ]
+        },
+        "dependsOn": []
+      },
+      {
+        "name": "SM_ShulchanV2_Rings",
+        "part": "Rings",
+        "file": "SM_ShulchanV2_Rings.obj",
+        "sha256": "af7dfe70d0e036448db6b64b57f5a92f15d2722a2269381fcc8fc187fdb929c2",
+        "triangles": 3072,
+        "role": "gold",
+        "canonicalBoundsCm": {
+          "min": [
+            -46.3,
+            -33.1,
+            136.53333333333333
+          ],
+          "max": [
+            46.3,
+            33.1,
+            145.13333333333335
+          ]
+        },
+        "dependsOn": []
+      },
+      {
+        "name": "SM_ShulchanV2_Snifim",
+        "part": "Snifim",
+        "file": "SM_ShulchanV2_Snifim.obj",
+        "sha256": "5d0fa8280dc21c8b44b72c3ae79349643cf724584910768e46ad3bc44c17269a",
+        "triangles": 14768,
+        "role": "gold",
+        "canonicalBoundsCm": {
+          "min": [
+            -50.00000000000001,
+            -38.9,
+            -5.662137425588298e-15
+          ],
+          "max": [
+            50.00000000000001,
+            38.9,
+            250.0
+          ]
+        },
+        "dependsOn": []
+      },
+      {
+        "name": "SM_ShulchanV2_Kanim",
+        "part": "Kanim",
+        "file": "SM_ShulchanV2_Kanim.obj",
+        "sha256": "594fba4ecd945847fe85d2d0bd61029429d0dac94fefa80adf435ebfb7aa3bac",
+        "triangles": 2800,
+        "role": "gold",
+        "canonicalBoundsCm": {
+          "min": [
+            -43.16666666666667,
+            -38.0,
+            166.66666666666666
+          ],
+          "max": [
+            43.16666666666667,
+            38.0,
+            240.83333333333334
+          ]
+        },
+        "dependsOn": [
+          "SM_ShulchanV2_Snifim"
+        ]
+      },
+      {
+        "name": "SM_ShulchanV2_LoavesWest",
+        "part": "LoavesWest",
+        "file": "SM_ShulchanV2_LoavesWest.obj",
+        "sha256": "294a39e4a78be130ac16d388c23b273f95ca8cd36ec0bb457cf83d02c6395b2a",
+        "triangles": 4536,
+        "role": "bread",
+        "canonicalBoundsCm": {
+          "min": [
+            -50.0,
+            -25.000000000000004,
+            150.0
+          ],
+          "max": [
+            -8.333333333333336,
+            25.000000000000004,
+            257.5
+          ]
+        },
+        "dependsOn": []
+      },
+      {
+        "name": "SM_ShulchanV2_LoavesEast",
+        "part": "LoavesEast",
+        "file": "SM_ShulchanV2_LoavesEast.obj",
+        "sha256": "440445ae4af6610063ecdc43494aa15905e62b5181d48004d429e3187be506c1",
+        "triangles": 4536,
+        "role": "bread",
+        "canonicalBoundsCm": {
+          "min": [
+            8.333333333333336,
+            -25.000000000000004,
+            150.0
+          ],
+          "max": [
+            50.0,
+            25.000000000000004,
+            257.5
+          ]
+        },
+        "dependsOn": []
+      },
+      {
+        "name": "SM_ShulchanV2_Bazichin",
+        "part": "Bazichin",
+        "file": "SM_ShulchanV2_Bazichin.obj",
+        "sha256": "6741c074535f6d2b042bd40b0454d773c5e0bd636fbfb8473ef5ca775dae3cd4",
+        "triangles": 2176,
+        "role": "gold",
+        "canonicalBoundsCm": {
+          "min": [
+            -6.5,
+            -19.0,
+            150.0
+          ],
+          "max": [
+            6.5,
+            19.0,
+            172.5
+          ]
+        },
+        "dependsOn": []
+      }
+    ],
+    "maxTotalTriangles": 120000,
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Source OBJ has Y reflected and triangle winding reversed for the legacy OBJ importer (create_shulchan_v2.write_obj, same as the keilim/doors/reliefs adapter). The importer reflects Y back, so the imported StaticMesh must reproduce canonicalBoundsCm (local +Y = room side = south at yaw 0) and UE signed volumes must be positive. Every part shares the bottom-centre pivot on the floor under the table centre, so all seven actors take the same transform."
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/reliefs/doors/vessels OBJ adapter path (FbxFactory). Single-mesh OBJ: destination_name is the exact mesh name.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation.",
+    "gold": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold (same as the keilim studies)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold_fallback (vessels release)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/M_KeruvimStudyGold",
+          "kind": "gold_fallback"
+        }
+      ]
+    },
+    "bread": {
+      "candidates": [],
+      "candidatesNote": "No existing bread-like or neutral matte material was found in Content/ on 2026-09-07 (126 materials surveyed: gold variants, stone/paving, cedar and bench wood with grain, linen, Kotel tints). Wood-grain and linen were rejected as misleading on bread, so the loaves get a created constant material.",
+      "createPath": "/Game/MikdashV3/MaterialReview/ShulchanV2/M_ShulchanV2_Bread",
+      "duplicateFrom": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+      "method": "EditorAssetSubsystem.duplicate_asset(duplicateFrom -> createPath), then new Constant3Vector/Constant expressions wired to BaseColor/Metallic/Roughness (connect_material_property replaces the gold inputs; the orphaned gold constants stay unconnected). Fallback: MaterialFactoryNew with the same recipe as create_heikhal_keilim.run_native. Recorded in the receipt.",
+      "constants": {
+        "baseColor": [
+          0.55,
+          0.36,
+          0.17
+        ],
+        "metallic": 0.0,
+        "roughness": 0.85,
+        "note": "warm matte crust tone; artistic real-time choice"
+      }
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting): bulk vertex/triangle lists, signed volume by the divergence theorem with UE left-handed face normal cross(C-A, B-A), a sample cross-checked against get_triangle_face_normal (disagreements must be 0). Falls back to the per-triangle loop. Negative volume -> triangle order reversed with append_buffers_to_mesh and written back with copy_mesh_to_static_mesh, re-saved, re-checked, recorded.",
+    "requireForPlacement": true,
+    "flipIfNegative": true,
+    "faceNormalSampleTriangles": 2000,
+    "passCriteria": [
+      "signedVolumeUEcm3 > 0 after any flip",
+      "faceNormalVsCrossDisagreements == 0 on the sample"
+    ],
+    "expectedOfflineRightHandedVolumeSign": "positive for all seven files (create_shulchan_v2 readback: the Y reflection and the winding reversal each flip the sign once), so no flip is expected; the flip path exists for safety.",
+    "rewriteOptions": {
+      "enable_recompute_normals": true,
+      "enable_recompute_tangents": true,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": true,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    }
+  },
+  "removal": {
+    "note": "The crude 100 x 50 x 76 cm box study is destroyed in memory AFTER the .umap checkpoint and only persists as removed when the level is saved at the end; its label, folder, mesh, pose and world bounds are recorded. The run refuses if it is not found exactly once with this mesh and pose (keilim-move-20260907T171347Z.json / keilim-scale-20260907T171503Z.json readback).",
+    "label": "REVIEW_HeikhalKeilim_SM_ShulchanStudy",
+    "folder": "Integrated review/Review/HeikhalKeilim_IncompleteAssemblies",
+    "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_ShulchanStudy",
+    "location": [
+      -5300.0,
+      -350.0,
+      925.0
+    ],
+    "yaw": 0.0,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "poseToleranceCm": 0.01,
+    "assetsLeftInPlace": "SM_ShulchanStudy and M_HeikhalKeilim_Gold stay in HeikhalKeilimV1 (the altar study still uses the gold material)."
+  },
+  "placement": {
+    "axes": "X east; Y south; Z up; the table stands at the north side of the Heikhal, local +Y (room side) = south.",
+    "origin": [
+      -5300.0,
+      -350.0,
+      925.0
+    ],
+    "yaw": 0.0,
+    "originBasis": "Book pp. 241, 250: table centre 2.5 amot (125 cm) from the north wall face Y -500 measured to the table edge (reading A of book-keilim-review: -500 + 125 + 25 = -350) and 5 amot from the west wall X -5600 (-5600 + 250 + 50 = -5300); length along the House (east-west) = yaw 0. Same origin as the study it replaces.",
+    "labelPrefix": "RELEASE_Shulchan_",
+    "supportsSide": "north and south LONG sides, one plate per stack per side; rods run north-south. Basis: book p. 250 diagram 22:17 shows the two 5-tefach plates side by side face-on with the 2-tefach gap and the rod ends as dots; TI showbread table columns stand in pairs at the long sides. The alternative in the brief (short ends) was checked and rejected.",
+    "northWall": {
+      "faceY": -500.0,
+      "minClearanceCm": 100.0,
+      "rule": "Every placed part AABB must keep min Y >= faceY + minClearanceCm (2 amot; Rashi Shemos 26:35 passage). By the manifest the full assembly reaches Y -388.9 (111.1 cm clearance); if any part violates the guard it and its dependants are dropped and the table-only set is placed; recorded."
+    },
+    "tableOnlyParts": [
+      "SM_ShulchanV2_Table",
+      "SM_ShulchanV2_Rings",
+      "SM_ShulchanV2_Bazichin",
+      "SM_ShulchanV2_LoavesWest",
+      "SM_ShulchanV2_LoavesEast"
+    ],
+    "tableOnlyNote": "Fallback set when the supports would violate the wall guard (or -ShulchanTableOnly): the table with its rings, the censers and the two loaf stacks (they rest on the table); snifim and kanim are skipped and recorded.",
+    "floor": {
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+      "worldBoundsCm": {
+        "min": [
+          -5600.0,
+          -500.0,
+          904.9999237060547
+        ],
+        "max": [
+          -3600.0,
+          500.0,
+          925.0
+        ]
+      },
+      "topZ": 925.0,
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor component bounds read from the loaded level (traces return nothing in commandlets)"
+    },
+    "roomEnvelope": {
+      "min": [
+        -5600.0,
+        -500.0,
+        925.0
+      ],
+      "max": [
+        -3600.0,
+        500.0,
+        2925.0
+      ],
+      "rule": "Every placed AABB must lie inside the Heikhal envelope."
+    },
+    "clearance": {
+      "rule": "Each planned world AABB must not have strictly positive overlap volume with any mesh-bearing actor of the level other than the removed study, the floor, terrain tiles and hollow architecture unions whose verified constituent boxes are not hit (release_place_assets.py rules). A blocker refuses the run BEFORE anything is saved.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "terrainFolders": [
+        "Jerusalem context/Terrain",
+        "FutureMountV1/Terrain",
+        "Future Mount/Terrain"
+      ]
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only."
+  },
+  "limitations": [
+    "Original interpretive model: profiles (crenellated zer, misgeret moulding and bosses, tapered legs, plate thickness and stand-off, rod radii, dough thickness, censer shape) are artistic; counts and halachic sizes follow the cited pages (geometry-manifest.json dimensions table).",
+    "The 3-amot table height follows the book's main line (p. 241); the alternative reading that 3 amot include the bread (p. 246) is not modelled.",
+    "Loaf walls are 2 tefachim (Menachos 96a) with a 7-etzbaot karnot gap (p. 241 diagram 22:6); the brief's 'walls 7 tefachim' was read against the page and not used.",
+    "Rods per stack 3+3+3+3+2 = 14 (p. 250 text), not 3x5+2.",
+    "Plates stand at the LONG sides (p. 250 diagram 22:17; TI); the short-end alternative is not modelled.",
+    "No carrying poles, no TI ornament (vine band, acanthus brackets), no bread texture; the bread material is a constant colour.",
+    "NoCollision on every part; visual acceptance pending."
+  ]
+}

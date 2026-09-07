@@ -1,0 +1,1158 @@
+{
+  "status": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/IncenseAltarV2",
+  "units": "centimeters, canonical Unreal XYZ (X east, Y south, Z up); origin at the floor centre of the altar",
+  "tefach_cm": 8.333333333333334,
+  "amah_cm": 41.66666666666667,
+  "body_face_to_face_cm": [
+    41.66666666666667,
+    41.66666666666667
+  ],
+  "height_to_horn_tops_cm": 83.33333333333334,
+  "bounds_note": "Body bounds exceed the one-amah faces by the zer projection (1.250 cm each side in X and Y) and the rings (6.300 cm each side in Y); the poles mesh spans 100 cm in X.",
+  "convention": "Canonical XYZ Unreal cm. Each OBJ is written with Y reflected and triangle winding reversed to compensate the verified legacy OBJ importer reflection (same adapter as create_heikhal_keilim.py / create_sanctuary_doors.py). Per-triangle normals, nondegenerate UV charts, no groups (single material slot), no external images. Every part is a closed solid with positive canonical volume; parts overlap additively.",
+  "dimensions": [
+    {
+      "item": "tefach",
+      "cm": 8.333333333333334,
+      "basis": "project convention",
+      "source": "50 cm amah / 6"
+    },
+    {
+      "item": "amah of the golden altar",
+      "cm": 41.66666666666667,
+      "basis": "measured",
+      "source": "Lishchno Tidreshu p. 255 (Rambam Beit HaBechirah 3:17; Eruvin 4a per Yechezkel 43:13): five tefachim"
+    },
+    {
+      "item": "footprint (square)",
+      "cm": 41.66666666666667,
+      "basis": "measured",
+      "source": "Shemos 30:2 one amah by one amah"
+    },
+    {
+      "item": "total height to horn tops",
+      "cm": 83.33333333333334,
+      "basis": "measured",
+      "source": "Shemos 30:2 two amot; horns counted inside the height (interpretation, as for the outer altar)"
+    },
+    {
+      "item": "roof top plane",
+      "cm": 79.16666666666667,
+      "basis": "artistic",
+      "source": "total height minus horn height"
+    },
+    {
+      "item": "horn size (square) and height above roof",
+      "cm": 4.166666666666667,
+      "basis": "artistic",
+      "source": "book drawing 25 proportion; dossier: opinions from 3/4 finger to one finger"
+    },
+    {
+      "item": "panel recess depth",
+      "cm": 1.6666666666666667,
+      "basis": "artistic",
+      "source": "TI photos: recessed panel between pilaster strips"
+    },
+    {
+      "item": "corner pilaster width",
+      "cm": 6.0,
+      "basis": "artistic",
+      "source": "TI photos: fluted strips at both edges"
+    },
+    {
+      "item": "plinth band height",
+      "cm": 6.666666666666668,
+      "basis": "artistic",
+      "source": "TI photos"
+    },
+    {
+      "item": "frieze height",
+      "cm": 8.333333333333334,
+      "basis": "artistic",
+      "source": "TI photos: arch frieze below the zer"
+    },
+    {
+      "item": "zer projection beyond face",
+      "cm": 1.25,
+      "basis": "artistic",
+      "source": "Shemos 30:3 zer; kol shehu (dossier)"
+    },
+    {
+      "item": "zer band height",
+      "cm": 3.0,
+      "basis": "artistic",
+      "source": "book drawing 25: layered crown"
+    },
+    {
+      "item": "crenellation height",
+      "cm": 1.6666666666666667,
+      "basis": "artistic",
+      "source": "TI photos: pierced crenellated rim (closed blocks here)"
+    },
+    {
+      "item": "hearth recess (square)",
+      "cm": 25.0,
+      "basis": "artistic",
+      "source": "TI top hollow; three tefachim chosen for the incense smoke anchor"
+    },
+    {
+      "item": "hearth recess depth",
+      "cm": 1.6666666666666714,
+      "basis": "artistic",
+      "source": "shallow hollow"
+    },
+    {
+      "item": "ring major radius",
+      "cm": 2.6,
+      "basis": "artistic",
+      "source": "Shemos 30:4 two rings below the zer on two flanks"
+    },
+    {
+      "item": "ring axis height",
+      "cm": 70.83333333333334,
+      "basis": "artistic",
+      "source": "below the zer, mid-frieze (book drawing 25)"
+    },
+    {
+      "item": "pole length",
+      "cm": 100.0,
+      "basis": "artistic",
+      "source": "Shemos 30:5 poles; length and knob ends after book drawing 25"
+    },
+    {
+      "item": "pole radius",
+      "cm": 1.5,
+      "basis": "artistic",
+      "source": "fits the ring inner radius 2.05"
+    },
+    {
+      "item": "pole direction",
+      "cm": null,
+      "basis": "artistic",
+      "source": "east-west along the Heikhal axis so the altar is carried along the house; the Temple altar had no poles in use (dossier), poles shown as in the book drawing"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "SM_IncenseAltarV2_Body",
+      "file": "SM_IncenseAltarV2_Body.obj",
+      "sha256": "5baf53dcbbddfc4423c16ea4b3c7cdd32fe6261fe84991ad0455734a248dd8bb",
+      "triangles": 13504,
+      "partCount": 146,
+      "partVolumeSumCm3": 133034.14522799393,
+      "bounds_cm": {
+        "min": [
+          -22.083333333333336,
+          -27.13333333333334,
+          -1.1102230246251565e-16
+        ],
+        "max": [
+          22.083333333333336,
+          27.13333333333334,
+          83.33333333333334
+        ]
+      },
+      "size_cm": [
+        44.16666666666667,
+        54.26666666666668,
+        83.33333333333334
+      ],
+      "parts": [
+        {
+          "name": "Core",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 110164.1911677319
+        },
+        {
+          "name": "Pilaster_WN",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2674.7982625485497
+        },
+        {
+          "name": "Reed_-x_WN_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000023
+        },
+        {
+          "name": "Reed_-x_WN_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47799999999999
+        },
+        {
+          "name": "Reed_-x_WN_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000008
+        },
+        {
+          "name": "Reed_-y_WN_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000022
+        },
+        {
+          "name": "Reed_-y_WN_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000028
+        },
+        {
+          "name": "Reed_-y_WN_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000009
+        },
+        {
+          "name": "Pilaster_WS",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2674.7982625485497
+        },
+        {
+          "name": "Reed_-x_WS_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000022
+        },
+        {
+          "name": "Reed_-x_WS_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.478000000000016
+        },
+        {
+          "name": "Reed_-x_WS_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000024
+        },
+        {
+          "name": "Reed_+y_WS_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000007
+        },
+        {
+          "name": "Reed_+y_WS_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.4780000000002
+        },
+        {
+          "name": "Reed_+y_WS_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.478000000000144
+        },
+        {
+          "name": "Pilaster_EN",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2674.798262548552
+        },
+        {
+          "name": "Reed_+x_EN_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.4780000000002
+        },
+        {
+          "name": "Reed_+x_EN_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000028
+        },
+        {
+          "name": "Reed_+x_EN_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000016
+        },
+        {
+          "name": "Reed_-y_EN_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000013
+        },
+        {
+          "name": "Reed_-y_EN_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47799999999997
+        },
+        {
+          "name": "Reed_-y_EN_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.478000000000144
+        },
+        {
+          "name": "Pilaster_ES",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 2674.79826254855
+        },
+        {
+          "name": "Reed_+x_ES_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.478000000000215
+        },
+        {
+          "name": "Reed_+x_ES_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000028
+        },
+        {
+          "name": "Reed_+x_ES_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.478000000000144
+        },
+        {
+          "name": "Reed_+y_ES_0",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000017
+        },
+        {
+          "name": "Reed_+y_ES_1",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000003
+        },
+        {
+          "name": "Reed_+y_ES_2",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 35.47800000000019
+        },
+        {
+          "name": "Plinth_+y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 333.5734719628409
+        },
+        {
+          "name": "Frieze_+y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 418.4462377146251
+        },
+        {
+          "name": "FriezeDisc_+y_0",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542967
+        },
+        {
+          "name": "FriezeDisc_+y_1",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542977
+        },
+        {
+          "name": "FriezeDisc_+y_2",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.1329810695429865
+        },
+        {
+          "name": "FriezeDisc_+y_3",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542963
+        },
+        {
+          "name": "Stem_+y",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 39.929999999999986
+        },
+        {
+          "name": "Knot_+y_0",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986607
+        },
+        {
+          "name": "Knot_+y_1",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986612
+        },
+        {
+          "name": "Knot_+y_2",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 12.778921488789289
+        },
+        {
+          "name": "Bud_+y",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 6.785158560384262
+        },
+        {
+          "name": "Plinth_-y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 333.5734719628406
+        },
+        {
+          "name": "Frieze_-y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 418.4462377146253
+        },
+        {
+          "name": "FriezeDisc_-y_0",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542969
+        },
+        {
+          "name": "FriezeDisc_-y_1",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542978
+        },
+        {
+          "name": "FriezeDisc_-y_2",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.1329810695429865
+        },
+        {
+          "name": "FriezeDisc_-y_3",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542964
+        },
+        {
+          "name": "Stem_-y",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 39.9300000000001
+        },
+        {
+          "name": "Knot_-y_0",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986605
+        },
+        {
+          "name": "Knot_-y_1",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986621
+        },
+        {
+          "name": "Knot_-y_2",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 12.778921488789287
+        },
+        {
+          "name": "Bud_-y",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 6.785158560384225
+        },
+        {
+          "name": "Plinth_+x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 333.5734719628408
+        },
+        {
+          "name": "Frieze_+x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 418.4462377146253
+        },
+        {
+          "name": "FriezeDisc_+x_0",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542974
+        },
+        {
+          "name": "FriezeDisc_+x_1",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542977
+        },
+        {
+          "name": "FriezeDisc_+x_2",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542983
+        },
+        {
+          "name": "FriezeDisc_+x_3",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542962
+        },
+        {
+          "name": "Stem_+x",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 39.92999999999996
+        },
+        {
+          "name": "Knot_+x_0",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986608
+        },
+        {
+          "name": "Knot_+x_1",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986621
+        },
+        {
+          "name": "Knot_+x_2",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 12.778921488789306
+        },
+        {
+          "name": "Bud_+x",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 6.785158560384267
+        },
+        {
+          "name": "Plinth_-x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 333.573471962841
+        },
+        {
+          "name": "Frieze_-x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 418.44623771462494
+        },
+        {
+          "name": "FriezeDisc_-x_0",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542976
+        },
+        {
+          "name": "FriezeDisc_-x_1",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542974
+        },
+        {
+          "name": "FriezeDisc_-x_2",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542984
+        },
+        {
+          "name": "FriezeDisc_-x_3",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 4.132981069542962
+        },
+        {
+          "name": "Stem_-x",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 39.93000000000004
+        },
+        {
+          "name": "Knot_-x_0",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986577
+        },
+        {
+          "name": "Knot_-x_1",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 15.973651860986593
+        },
+        {
+          "name": "Knot_-x_2",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 12.778921488789308
+        },
+        {
+          "name": "Bud_-x",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 6.785158560384215
+        },
+        {
+          "name": "RoofPlate",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 4324.331522921321
+        },
+        {
+          "name": "RoofFrame_N",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 569.1620472319663
+        },
+        {
+          "name": "RoofFrame_S",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 569.162047231964
+        },
+        {
+          "name": "RoofFrame_W",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 340.8047600844888
+        },
+        {
+          "name": "RoofFrame_E",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 340.8047600844887
+        },
+        {
+          "name": "Zer_+y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 258.03974480018434
+        },
+        {
+          "name": "Zer_-y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 258.03974480018485
+        },
+        {
+          "name": "Zer_+x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 234.613815509059
+        },
+        {
+          "name": "Zer_-x",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 234.61381550905867
+        },
+        {
+          "name": "Merlon_+y_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_01",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_02",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_03",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_04",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333286
+        },
+        {
+          "name": "Merlon_+y_05",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_+y_06",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+y_07",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+y_08",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_+y_09",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333286
+        },
+        {
+          "name": "Merlon_+y_10",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_11",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_12",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+y_13",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_01",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_02",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_03",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_04",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-y_05",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_-y_06",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-y_07",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-y_08",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_-y_09",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-y_10",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_11",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_12",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-y_13",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_01",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_02",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_03",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_04",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+x_05",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_+x_06",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+x_07",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+x_08",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_+x_09",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_+x_10",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_11",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_12",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_+x_13",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_01",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_02",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_03",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_04",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-x_05",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_-x_06",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-x_07",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-x_08",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333305
+        },
+        {
+          "name": "Merlon_-x_09",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333296
+        },
+        {
+          "name": "Merlon_-x_10",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_11",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_12",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Merlon_-x_13",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 5.333333333333314
+        },
+        {
+          "name": "Horn_WN",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 98.76092892792376
+        },
+        {
+          "name": "Horn_WS",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 98.76092892792381
+        },
+        {
+          "name": "Horn_EN",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 98.76092892792387
+        },
+        {
+          "name": "Horn_ES",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 98.76092892792376
+        },
+        {
+          "name": "Ring_+y",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 14.358031072761122
+        },
+        {
+          "name": "RingKnuckle_+y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 13.659118231755736
+        },
+        {
+          "name": "Ring_-y",
+          "triangles": 480,
+          "closed": true,
+          "volume_cm3": 14.358031072761127
+        },
+        {
+          "name": "RingKnuckle_-y",
+          "triangles": 108,
+          "closed": true,
+          "volume_cm3": 13.65911823175576
+        }
+      ]
+    },
+    {
+      "name": "SM_IncenseAltarV2_Poles",
+      "file": "SM_IncenseAltarV2_Poles.obj",
+      "sha256": "45740b1a0fff4890a9b1ad6710d35dc80227fa1dd960f68223dd6696b3b2dda5",
+      "triangles": 1080,
+      "partCount": 6,
+      "partVolumeSumCm3": 1614.7479174859127,
+      "bounds_cm": {
+        "min": [
+          -52.4,
+          -26.383333333333336,
+          68.43333333333334
+        ],
+        "max": [
+          52.4,
+          26.383333333333336,
+          73.23333333333335
+        ]
+      },
+      "size_cm": [
+        104.8,
+        52.76666666666667,
+        4.800000000000011
+      ],
+      "parts": [
+        {
+          "name": "Pole_+y",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 698.8114217768072
+        },
+        {
+          "name": "Knob_+y_W",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 54.28126848307434
+        },
+        {
+          "name": "Knob_+y_E",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 54.28126848307431
+        },
+        {
+          "name": "Pole_-y",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 698.8114217768083
+        },
+        {
+          "name": "Knob_-y_W",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 54.281268483074285
+        },
+        {
+          "name": "Knob_-y_E",
+          "triangles": 224,
+          "closed": true,
+          "volume_cm3": 54.28126848307432
+        }
+      ]
+    }
+  ],
+  "totalTriangles": 14584,
+  "anchors": {
+    "hearth_recess_centre_local_cm": [
+      0.0,
+      0.0,
+      77.5
+    ],
+    "hearth_recess_size_cm": [
+      25.0,
+      25.0,
+      1.6666666666666714
+    ],
+    "roof_top_local_cm": 79.16666666666667,
+    "ring_axis_local_cm": {
+      "y": [
+        23.983333333333338,
+        -23.983333333333338
+      ],
+      "z": 70.83333333333334
+    },
+    "pole_axis": "local X (east-west at yaw 0)"
+  },
+  "placement_intent": {
+    "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "location_cm": [
+      -4650.0,
+      0.0,
+      925.0
+    ],
+    "yaw_degrees": 0.0,
+    "scale": 1.0,
+    "replaces": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy (scale 0.8333 plain box)",
+    "handled_by": "Scripts/release_import_incense_altar.py"
+  },
+  "references": [
+    "Shemos 30:1-5",
+    "Lishchno Tidreshu pp. 253-256 (mikdash book/reference-pages/page-253.png, page-255.png, page-256.png)",
+    "SourceAssets/reference-ti/incense-altar/*.jpg (Temple Institute, reference use only, not redistributed)",
+    "SourceAssets/reference-ti/dossier.md section 3"
+  ],
+  "artistic_choices": [
+    "Pilaster reeding, disc frieze, stem/knot/bud panel motif, closed crenellations instead of a pierced lattice",
+    "Horn size, zer profile, ring and pole dimensions, knob ends, pole length",
+    "Hearth recess size and depth",
+    "Gold material is assigned at import, not authored here"
+  ],
+  "not_modeled": [
+    "Repousse relief detail of the TI panels (a normal map could carry it later)",
+    "Coals, incense, smoke (separate study)",
+    "Wood core (the model is the gold surface)"
+  ],
+  "script_sha256": "41fced4d96c992ee6be6d04bb74830c85ee1073af735e921d82a502e7fcf8ff4",
+  "preview": "orthographic-preview.png",
+  "preview_note": "Software orthographic render of the re-read OBJ files with an illustrative gold shade; not a native render or material acceptance"
+}

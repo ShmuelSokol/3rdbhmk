@@ -1,0 +1,6762 @@
+{
+  "status": "offline_design_generated_native_pending",
+  "generatedBy": "Scripts/create_mount_enclosure.py",
+  "generatorSha256": "52c9560ce914ce078efde237552cf6692a74ffb2a7543ae4b9d19fe5d1e4945a",
+  "cmPerAmah": 50.0,
+  "tefachCm": 8.333333333333334,
+  "coordinateConvention": "UE cm: X east, Y south, Z up; measured court centre at the origin; OBJ files carry Y negated and reversed winding (legacy adapter)",
+  "inputs": {
+    "architectureManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\architecture-manifest.json",
+    "architectureManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+    "platformDesign": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\mount-platform-design.json",
+    "platformDesignSha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+    "courtPlatformBoundsCm": {
+      "min": [
+        -8100.0,
+        -8100.0,
+        0.0
+      ],
+      "max": [
+        8100.0,
+        8100.0,
+        299.0000009536743
+      ]
+    },
+    "measuredStairs": {
+      "east": {
+        "assets": [
+          "SM_0261_architecture_Outer_E_stair_1",
+          "SM_0262_architecture_Outer_E_stair_2",
+          "SM_0263_architecture_Outer_E_stair_3",
+          "SM_0264_architecture_Outer_E_stair_4",
+          "SM_0265_architecture_Outer_E_stair_5",
+          "SM_0266_architecture_Outer_E_stair_6",
+          "SM_0267_architecture_Outer_E_stair_7",
+          "SM_0268_architecture_Outer_E_stair_8",
+          "SM_0269_architecture_Outer_E_stair_9",
+          "SM_0270_architecture_Outer_E_stair_10",
+          "SM_0271_architecture_Outer_E_stair_11",
+          "SM_0272_architecture_Outer_E_stair_12"
+        ],
+        "unionMin": [
+          8600.0,
+          -250.0,
+          0.0
+        ],
+        "unionMax": [
+          9200.0,
+          250.0,
+          300.0
+        ]
+      },
+      "north": {
+        "assets": [
+          "SM_0357_architecture_Outer_N_stair_1",
+          "SM_0358_architecture_Outer_N_stair_2",
+          "SM_0359_architecture_Outer_N_stair_3",
+          "SM_0360_architecture_Outer_N_stair_4",
+          "SM_0361_architecture_Outer_N_stair_5",
+          "SM_0362_architecture_Outer_N_stair_6",
+          "SM_0363_architecture_Outer_N_stair_7"
+        ],
+        "unionMin": [
+          -250.0,
+          -8950.0,
+          250.0
+        ],
+        "unionMax": [
+          250.0,
+          -8600.0,
+          425.0
+        ]
+      },
+      "south": {
+        "assets": [
+          "SM_0458_architecture_Outer_S_stair_1",
+          "SM_0459_architecture_Outer_S_stair_2",
+          "SM_0460_architecture_Outer_S_stair_3",
+          "SM_0461_architecture_Outer_S_stair_4",
+          "SM_0462_architecture_Outer_S_stair_5",
+          "SM_0463_architecture_Outer_S_stair_6",
+          "SM_0464_architecture_Outer_S_stair_7"
+        ],
+        "unionMin": [
+          -250.0,
+          8600.0,
+          250.0
+        ],
+        "unionMax": [
+          250.0,
+          8950.0,
+          425.0
+        ]
+      }
+    },
+    "terrain": {
+      "status": "source_grid_exact_triangulation",
+      "detail": {
+        "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json",
+        "sha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+        "vertices": 66049,
+        "cellCm": 2500.0,
+        "triangulation": "cell (c,r): (v00,v01,v10),(v01,v11,v10) as in source indices"
+      }
+    }
+  },
+  "enclosure": {
+    "sideAmot": 3000.0,
+    "sideCm": 150000.0,
+    "wallThicknessCm": 300.0,
+    "wallHeightCm": 300.0,
+    "outerFacesCm": {
+      "xWest": -33100.0,
+      "xEast": 116900.0,
+      "yNorth": -33150.0,
+      "ySouth": 116850.0
+    },
+    "centreCm": [
+      41900.0,
+      41850.0
+    ],
+    "orientation": "axis-aligned with the measured Temple (yaw 0); the book draws the Mount square parallel to the Temple",
+    "clearancesAmot": {
+      "west": 500.0,
+      "north": 501.0,
+      "east": 2176.0,
+      "south": 2175.0
+    },
+    "offsetRule": "West and north clearances 500 / 501 amot from the outer court supporting platform faces (+-8100 cm) per fig. 2'2 (p. 113); east/south follow from the 3000 square (2176 / 2175 instead of the diagram's 2149 / 2153 because the measured court envelope is 324 amot, the diagram's ~351 x 346). Order south > east > north > west preserved (Mishkenei Elyon 196 m.1).",
+    "measuredFromOutside": "Yechezkel 42:15-20 measures the wall from outside (p. 359 \"mivachutz\"); the 3000 amot are taken as the outer faces",
+    "gates": [
+      {
+        "id": "E",
+        "side": "E",
+        "along": 0.0,
+        "name": "East gate",
+        "rule": "on the Temple east-west axis (Yechezkel 42:15 measures through the east gate)"
+      },
+      {
+        "id": "N",
+        "side": "N",
+        "along": 0.0,
+        "name": "North gate (Tadi analogue)",
+        "rule": "on the Temple north-south axis (fig. 5'3 shows gate 5 beside the Sanctuary)"
+      },
+      {
+        "id": "W",
+        "side": "W",
+        "along": 0.0,
+        "name": "West gate (Kiponus analogue)",
+        "rule": "ASSUMPTION: on the Temple east-west axis; the book gives no position"
+      },
+      {
+        "id": "S1",
+        "side": "S",
+        "along": 16900.0,
+        "name": "South gate 1 (Chuldah analogue)",
+        "rule": "ASSUMPTION: at one third of the south wall (fig. 5'3 spaces the two gates along the side)"
+      },
+      {
+        "id": "S2",
+        "side": "S",
+        "along": 66900.0,
+        "name": "South gate 2 (Chuldah analogue)",
+        "rule": "ASSUMPTION: at two thirds of the south wall"
+      }
+    ],
+    "gateBlockAmot": {
+      "pierWidth": 10.0,
+      "openingWidth": 10.0,
+      "openingHeight": 50.0,
+      "totalHeight": 60.0,
+      "depth": 6.0
+    },
+    "chunksPerSide": 8,
+    "subBoxMaxCm": 2500.0,
+    "zPolicyOutsidePlatform": "Every wall sub-box (<= 25 m) and every gate block: base Z = lowest sampled source-terrain Z - 100 cm footing, top Z = highest sampled Z + nominal height (stepped wall following the ground; ground read offline from the source DEM triangles, not from native traces). Fallback when the terrain source is absent: base -100, top nominal (recorded)."
+  },
+  "approachRing": {
+    "slabInnerCm": 9200.0,
+    "slabOuterCm": 9700.0,
+    "cheilWallOuterCm": 9750.0,
+    "soregInnerCm": 10250.0,
+    "soregOuterCm": 10275.0,
+    "approachOpeningCm": 500.0,
+    "gateSides": {
+      "E": "x+",
+      "N": "y-",
+      "S": "y+"
+    },
+    "cheilWallHeightCm": 500.0,
+    "soregHeightCm": 83.33333333333334,
+    "slabThicknessCm": 5.0,
+    "zPolicy": "on the future platform deck top Z 0 (all footprints verified inside the platform polygon with >= 311 cm inset)",
+    "sequence": "gate threshold (X 8600, Z 300) -> measured 12 steps to X 9200 -> 10 amot open cheil (9200..9700) -> cheil wall 1 amah (9700..9750, 10 amot high) -> 10 amot gap (assumption) -> soreg (10250..10275, 10 tefachim)"
+  },
+  "ring500Alternative": {
+    "westEdgeX": -12500.0,
+    "eastEdgeX": 12500.0,
+    "northEdgeY": -12500.0,
+    "southEdgeY": 12500.0,
+    "cornersInsidePlatform": [
+      true,
+      false,
+      true,
+      true
+    ],
+    "relationToPlatform": "crossing",
+    "kotelRelation": "outside",
+    "note": "Author (*) p. 359/363: possibly a soreg ring 500 x 500 amot around the Sanctuary in addition to the 3000 wall. Not generated: centred on the court it is not contained by the platform polygon (east edge X 12500 lies beyond the platform edge north of Y -1800); shifting it west would put its west side inside the protected Kotel polygon."
+  },
+  "uncertainties": [
+    "Gate positions along the walls are not given by the book (only the count per side); E/N/W gates are set on the Temple axes, the two south gates at thirds.",
+    "The 60-amot gate piers and lintel are the author's starred suggestion; the book's certain data are opening 10 x 50 and thickness 6. Doors are omitted (open).",
+    "Soreg distance from the cheil wall is unknown (Rambam/Rosh/Mishkenei Elyon); 10 amot chosen. The soreg is a solid band, not a lattice.",
+    "Cheil wall thickness 1 amah is the author's study value. Openings in the cheil wall/soreg in front of the E/N/S gates are an assumption (Middos: 13 breaches in the soreg).",
+    "West/north clearances are measured from the court supporting platform faces; the book's diagram envelope is ~27 amot larger, so east/south clearances differ by ~25 amot.",
+    "Wall base follows the current-city DEM (future terrain unknown); the book says the Mount slopes up from all sides to the House (author).",
+    "The steps group reproduces the book proportions but duplicates the measured stairs and is not placed by default."
+  ],
+  "placements": [
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_01",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        -23775.0,
+        -302.5
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          -33150.0,
+          -302.5
+        ],
+        "max": [
+          -32800.0,
+          -14400.0,
+          1850.0698022091149
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_01_01",
+          "rect": [
+            -33100.0,
+            -33150.0,
+            -32800.0,
+            -30806.25
+          ],
+          "z0": 1200.775200788869,
+          "z1": 1850.0698022091149
+        },
+        {
+          "name": "wall_W_01_02",
+          "rect": [
+            -33100.0,
+            -30806.25,
+            -32800.0,
+            -28462.5
+          ],
+          "z0": 950.6725014989916,
+          "z1": 1612.7752007888694
+        },
+        {
+          "name": "wall_W_01_03",
+          "rect": [
+            -33100.0,
+            -28462.5,
+            -32800.0,
+            -26118.75
+          ],
+          "z0": 613.0698022091144,
+          "z1": 1362.672501498992
+        },
+        {
+          "name": "wall_W_01_04",
+          "rect": [
+            -33100.0,
+            -26118.75,
+            -32800.0,
+            -23775.0
+          ],
+          "z0": 288.1725014989916,
+          "z1": 1025.0698022091149
+        },
+        {
+          "name": "wall_W_01_05",
+          "rect": [
+            -33100.0,
+            -23775.0,
+            -32800.0,
+            -21431.25
+          ],
+          "z0": -36.93019779088558,
+          "z1": 700.172501498992
+        },
+        {
+          "name": "wall_W_01_06",
+          "rect": [
+            -33100.0,
+            -21431.25,
+            -32800.0,
+            -19087.5
+          ],
+          "z0": -261.5194006313766,
+          "z1": 375.06980220911487
+        },
+        {
+          "name": "wall_W_01_07",
+          "rect": [
+            -33100.0,
+            -19087.5,
+            -32800.0,
+            -16743.75
+          ],
+          "z0": -302.5,
+          "z1": 150.48059936862387
+        },
+        {
+          "name": "wall_W_01_08",
+          "rect": [
+            -33100.0,
+            -16743.75,
+            -32800.0,
+            -14400.0
+          ],
+          "z0": -302.5,
+          "z1": 122.60269928987725
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -202.5,
+        "max": 1550.0698022091149
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_02",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        -5025.0,
+        -277.39730071012275
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          -14400.0,
+          -277.39730071012275
+        ],
+        "max": [
+          -32800.0,
+          4350.0,
+          615.5388012627532
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_02_01",
+          "rect": [
+            -33100.0,
+            -14400.0,
+            -32800.0,
+            -12125.0
+          ],
+          "z0": -277.39730071012275,
+          "z1": 188.7247992111304
+        },
+        {
+          "name": "wall_W_02_02",
+          "rect": [
+            -33100.0,
+            -12125.0,
+            -32800.0,
+            -9850.0
+          ],
+          "z0": -223.27520078887005,
+          "z1": 363.62209992125315
+        },
+        {
+          "name": "wall_W_02_03",
+          "rect": [
+            -33100.0,
+            -9850.0,
+            -32800.0,
+            -7575.0
+          ],
+          "z0": -48.3779000787473,
+          "z1": 415.53880126275317
+        },
+        {
+          "name": "wall_W_02_04",
+          "rect": [
+            -33100.0,
+            -7575.0,
+            -32800.0,
+            -5300.0
+          ],
+          "z0": -8.461198737247742,
+          "z1": 504.6415005526305
+        },
+        {
+          "name": "wall_W_02_05",
+          "rect": [
+            -33100.0,
+            -5300.0,
+            -32800.0,
+            -3025.0
+          ],
+          "z0": 80.64150055262957,
+          "z1": 536.6220999212535
+        },
+        {
+          "name": "wall_W_02_06",
+          "rect": [
+            -33100.0,
+            -3025.0,
+            -32800.0,
+            -750.0
+          ],
+          "z0": 124.6220999212531,
+          "z1": 615.5388012627532
+        },
+        {
+          "name": "wall_W_02_07",
+          "rect": [
+            -33100.0,
+            750.0,
+            -32800.0,
+            2550.0
+          ],
+          "z0": 138.5582018941284,
+          "z1": 615.5388012627532
+        },
+        {
+          "name": "wall_W_02_08",
+          "rect": [
+            -33100.0,
+            2550.0,
+            -32800.0,
+            4350.0
+          ],
+          "z0": 138.5582018941284,
+          "z1": 590.6415005526304
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -177.39730071012275,
+        "max": 315.53880126275317
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_03",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        13725.0,
+        166.6415005526295
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          4350.0,
+          166.6415005526295
+        ],
+        "max": [
+          -32800.0,
+          23100.0,
+          1974.4555026042526
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_03_01",
+          "rect": [
+            -33100.0,
+            4350.0,
+            -32800.0,
+            6693.75
+          ],
+          "z0": 166.6415005526295,
+          "z1": 900.7828970807628
+        },
+        {
+          "name": "wall_W_03_02",
+          "rect": [
+            -33100.0,
+            6693.75,
+            -32800.0,
+            9037.5
+          ],
+          "z0": 488.7828970807624,
+          "z1": 1185.3080978696316
+        },
+        {
+          "name": "wall_W_03_03",
+          "rect": [
+            -33100.0,
+            9037.5,
+            -32800.0,
+            11381.25
+          ],
+          "z0": 785.3080978696318,
+          "z1": 1522.910797159509
+        },
+        {
+          "name": "wall_W_03_04",
+          "rect": [
+            -33100.0,
+            11381.25,
+            -32800.0,
+            13725.0
+          ],
+          "z0": 1104.2441998425068,
+          "z1": 1715.7441998425077
+        },
+        {
+          "name": "wall_W_03_05",
+          "rect": [
+            -33100.0,
+            13725.0,
+            -32800.0,
+            16068.75
+          ],
+          "z0": 1291.7441998425068,
+          "z1": 1903.244199842508
+        },
+        {
+          "name": "wall_W_03_06",
+          "rect": [
+            -33100.0,
+            16068.75,
+            -32800.0,
+            18412.5
+          ],
+          "z0": 1479.2441998425068,
+          "z1": 1974.4555026042526
+        },
+        {
+          "name": "wall_W_03_07",
+          "rect": [
+            -33100.0,
+            18412.5,
+            -32800.0,
+            20756.25
+          ],
+          "z0": 1407.2055026042513,
+          "z1": 1936.9555026042526
+        },
+        {
+          "name": "wall_W_03_08",
+          "rect": [
+            -33100.0,
+            20756.25,
+            -32800.0,
+            23100.0
+          ],
+          "z0": 1397.7053985797545,
+          "z1": 1897.5
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 266.6415005526295,
+        "max": 1674.4555026042526
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_04",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        32475.0,
+        260.2695046558727
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          23100.0,
+          260.2695046558727
+        ],
+        "max": [
+          -32800.0,
+          41850.0,
+          1952.936101972876
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_04_01",
+          "rect": [
+            -33100.0,
+            23100.0,
+            -32800.0,
+            25443.75
+          ],
+          "z0": 1497.5,
+          "z1": 1950.480599368624
+        },
+        {
+          "name": "wall_W_04_02",
+          "rect": [
+            -33100.0,
+            25443.75,
+            -32800.0,
+            27787.5
+          ],
+          "z0": 1497.5,
+          "z1": 1950.480599368624
+        },
+        {
+          "name": "wall_W_04_03",
+          "rect": [
+            -33100.0,
+            27787.5,
+            -32800.0,
+            30131.25
+          ],
+          "z0": 1497.5,
+          "z1": 1903.8526992898774
+        },
+        {
+          "name": "wall_W_04_04",
+          "rect": [
+            -33100.0,
+            30131.25,
+            -32800.0,
+            32475.0
+          ],
+          "z0": 1491.4361019728751,
+          "z1": 1952.936101972876
+        },
+        {
+          "name": "wall_W_04_05",
+          "rect": [
+            -33100.0,
+            32475.0,
+            -32800.0,
+            34818.75
+          ],
+          "z0": 1350.852803314374,
+          "z1": 1915.436101972876
+        },
+        {
+          "name": "wall_W_04_06",
+          "rect": [
+            -33100.0,
+            34818.75,
+            -32800.0,
+            37162.5
+          ],
+          "z0": 1163.352803314374,
+          "z1": 1786.8528033143753
+        },
+        {
+          "name": "wall_W_04_07",
+          "rect": [
+            -33100.0,
+            37162.5,
+            -32800.0,
+            39506.25
+          ],
+          "z0": 616.1087074963638,
+          "z1": 1599.3528033143753
+        },
+        {
+          "name": "wall_W_04_08",
+          "rect": [
+            -33100.0,
+            39506.25,
+            -32800.0,
+            41850.0
+          ],
+          "z0": 260.2695046558727,
+          "z1": 1064.1087074963657
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 360.2695046558727,
+        "max": 1652.936101972876
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_05",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        51225.0,
+        -3045.897092661129
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          41850.0,
+          -3045.897092661129
+        ],
+        "max": [
+          -32800.0,
+          60600.0,
+          708.2695046558745
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_05_01",
+          "rect": [
+            -33100.0,
+            41850.0,
+            -32800.0,
+            44193.75
+          ],
+          "z0": -111.66649329250563,
+          "z1": 708.2695046558745
+        },
+        {
+          "name": "wall_W_05_02",
+          "rect": [
+            -33100.0,
+            44193.75,
+            -32800.0,
+            46537.5
+          ],
+          "z0": -455.21109471275116,
+          "z1": 348.3335067074966
+        },
+        {
+          "name": "wall_W_05_03",
+          "rect": [
+            -33100.0,
+            46537.5,
+            -32800.0,
+            48881.25
+          ],
+          "z0": -1008.8912925036362,
+          "z1": 4.7889052872511115
+        },
+        {
+          "name": "wall_W_05_04",
+          "rect": [
+            -33100.0,
+            48881.25,
+            -32800.0,
+            51225.0
+          ],
+          "z0": -1514.8331946340043,
+          "z1": -558.2245911621351
+        },
+        {
+          "name": "wall_W_05_05",
+          "rect": [
+            -33100.0,
+            51225.0,
+            -32800.0,
+            53568.75
+          ],
+          "z0": -1977.5385932137588,
+          "z1": -1066.8331946340027
+        },
+        {
+          "name": "wall_W_05_06",
+          "rect": [
+            -33100.0,
+            53568.75,
+            -32800.0,
+            55912.5
+          ],
+          "z0": -2299.0444973957487,
+          "z1": -1529.538593213757
+        },
+        {
+          "name": "wall_W_05_07",
+          "rect": [
+            -33100.0,
+            55912.5,
+            -32800.0,
+            58256.25
+          ],
+          "z0": -2539.8331946340045,
+          "z1": -1863.0444973957474
+        },
+        {
+          "name": "wall_W_05_08",
+          "rect": [
+            -33100.0,
+            58256.25,
+            -32800.0,
+            60600.0
+          ],
+          "z0": -3045.897092661129,
+          "z1": -2091.8331946340027
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -2945.897092661129,
+        "max": 408.2695046558745
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_06",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        69975.0,
+        -3764.3806961329965
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          60600.0,
+          -3764.3806961329965
+        ],
+        "max": [
+          -32800.0,
+          79350.0,
+          -2573.8970926611264
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_06_01",
+          "rect": [
+            -33100.0,
+            60600.0,
+            -32800.0,
+            62943.75
+          ],
+          "z0": -3476.941694081375,
+          "z1": -2573.8970926611264
+        },
+        {
+          "name": "wall_W_06_02",
+          "rect": [
+            -33100.0,
+            62943.75,
+            -32800.0,
+            65287.5
+          ],
+          "z0": -3680.0056961329965,
+          "z1": -3004.941694081372
+        },
+        {
+          "name": "wall_W_06_03",
+          "rect": [
+            -33100.0,
+            65287.5,
+            -32800.0,
+            67631.25
+          ],
+          "z0": -3764.3806961329965,
+          "z1": -3220.005696132994
+        },
+        {
+          "name": "wall_W_06_04",
+          "rect": [
+            -33100.0,
+            67631.25,
+            -32800.0,
+            69975.0
+          ],
+          "z0": -3754.697598263365,
+          "z1": -3148.280896921863
+        },
+        {
+          "name": "wall_W_06_05",
+          "rect": [
+            -33100.0,
+            69975.0,
+            -32800.0,
+            72318.75
+          ],
+          "z0": -3620.280896921866,
+          "z1": -3054.530896921863
+        },
+        {
+          "name": "wall_W_06_06",
+          "rect": [
+            -33100.0,
+            72318.75,
+            -32800.0,
+            74662.5
+          ],
+          "z0": -3526.530896921866,
+          "z1": -2960.780896921863
+        },
+        {
+          "name": "wall_W_06_07",
+          "rect": [
+            -33100.0,
+            74662.5,
+            -32800.0,
+            77006.25
+          ],
+          "z0": -3432.780896921866,
+          "z1": -2704.3254983421084
+        },
+        {
+          "name": "wall_W_06_08",
+          "rect": [
+            -33100.0,
+            77006.25,
+            -32800.0,
+            79350.0
+          ],
+          "z0": -3176.325498342111,
+          "z1": -2589.3641955803637
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -3664.3806961329965,
+        "max": -2873.8970926611264
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_07",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        88725.0,
+        -7112.5463935301495
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          79350.0,
+          -7112.5463935301495
+        ],
+        "max": [
+          -32800.0,
+          98100.0,
+          -2589.3641955803637
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_07_01",
+          "rect": [
+            -33100.0,
+            79350.0,
+            -32800.0,
+            81693.75
+          ],
+          "z0": -3117.3002975532418,
+          "z1": -2589.3641955803637
+        },
+        {
+          "name": "wall_W_07_02",
+          "rect": [
+            -33100.0,
+            81693.75,
+            -32800.0,
+            84037.5
+          ],
+          "z0": -3114.4223974744955,
+          "z1": -2610.4252975532395
+        },
+        {
+          "name": "wall_W_07_03",
+          "rect": [
+            -33100.0,
+            84037.5,
+            -32800.0,
+            86381.25
+          ],
+          "z0": -3349.1664932925055,
+          "z1": -2666.4223974744937
+        },
+        {
+          "name": "wall_W_07_04",
+          "rect": [
+            -33100.0,
+            86381.25,
+            -32800.0,
+            88725.0
+          ],
+          "z0": -3817.9164932925055,
+          "z1": -2891.8331946340027
+        },
+        {
+          "name": "wall_W_07_05",
+          "rect": [
+            -33100.0,
+            88725.0,
+            -32800.0,
+            91068.75
+          ],
+          "z0": -4769.046185481156,
+          "z1": -3357.916493292503
+        },
+        {
+          "name": "wall_W_07_06",
+          "rect": [
+            -33100.0,
+            91068.75,
+            -32800.0,
+            93412.5
+          ],
+          "z0": -5884.48819163602,
+          "z1": -4309.046185481153
+        },
+        {
+          "name": "wall_W_07_07",
+          "rect": [
+            -33100.0,
+            93412.5,
+            -32800.0,
+            95756.25
+          ],
+          "z0": -6559.263496449386,
+          "z1": -5460.488191636019
+        },
+        {
+          "name": "wall_W_07_08",
+          "rect": [
+            -33100.0,
+            95756.25,
+            -32800.0,
+            98100.0
+          ],
+          "z0": -7112.5463935301495,
+          "z1": -6159.263496449386
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -7012.5463935301495,
+        "max": -2889.3641955803637
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_W_08",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        107475.0,
+        -9087.388496449386
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          98100.0,
+          -9087.388496449386
+        ],
+        "max": [
+          -32800.0,
+          116850.0,
+          -5625.647196685624
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_W_08_01",
+          "rect": [
+            -33100.0,
+            98100.0,
+            -32800.0,
+            100443.75
+          ],
+          "z0": -8034.468895029141,
+          "z1": -6700.5463935301495
+        },
+        {
+          "name": "wall_W_08_02",
+          "rect": [
+            -33100.0,
+            100443.75,
+            -32800.0,
+            102787.5
+          ],
+          "z0": -8665.513496449386,
+          "z1": -7634.468895029141
+        },
+        {
+          "name": "wall_W_08_03",
+          "rect": [
+            -33100.0,
+            102787.5,
+            -32800.0,
+            105131.25
+          ],
+          "z0": -9087.388496449386,
+          "z1": -8265.513496449386
+        },
+        {
+          "name": "wall_W_08_04",
+          "rect": [
+            -33100.0,
+            105131.25,
+            -32800.0,
+            107475.0
+          ],
+          "z0": -9064.383804260737,
+          "z1": -8100.959510651843
+        },
+        {
+          "name": "wall_W_08_05",
+          "rect": [
+            -33100.0,
+            107475.0,
+            -32800.0,
+            109818.75
+          ],
+          "z0": -8500.959510651843,
+          "z1": -6647.876211993341
+        },
+        {
+          "name": "wall_W_08_06",
+          "rect": [
+            -33100.0,
+            109818.75,
+            -32800.0,
+            112162.5
+          ],
+          "z0": -7059.876211993341,
+          "z1": -6005.467102919237
+        },
+        {
+          "name": "wall_W_08_07",
+          "rect": [
+            -33100.0,
+            112162.5,
+            -32800.0,
+            114506.25
+          ],
+          "z0": -6417.467102919238,
+          "z1": -5662.736399526116
+        },
+        {
+          "name": "wall_W_08_08",
+          "rect": [
+            -33100.0,
+            114506.25,
+            -32800.0,
+            116850.0
+          ],
+          "z0": -6211.647196685626,
+          "z1": -5625.647196685624
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -8987.388496449386,
+        "max": -5925.647196685624
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_01",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        -23775.0,
+        3172.4323019742833
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          -33150.0,
+          3172.4323019742833
+        ],
+        "max": [
+          116900.0,
+          -14400.0,
+          6235.660901184008
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_01_01",
+          "rect": [
+            116600.0,
+            -33150.0,
+            116900.0,
+            -30806.25
+          ],
+          "z0": 3172.4323019742833,
+          "z1": 4154.124204104657
+        },
+        {
+          "name": "wall_E_01_02",
+          "rect": [
+            116600.0,
+            -30806.25,
+            116900.0,
+            -28462.5
+          ],
+          "z0": 3631.957502763152,
+          "z1": 4620.707502763157
+        },
+        {
+          "name": "wall_E_01_03",
+          "rect": [
+            116600.0,
+            -28462.5,
+            116900.0,
+            -26118.75
+          ],
+          "z0": 4111.457398738654,
+          "z1": 5120.046601579148
+        },
+        {
+          "name": "wall_E_01_04",
+          "rect": [
+            116600.0,
+            -26118.75,
+            116900.0,
+            -23775.0
+          ],
+          "z0": 4636.046601579145,
+          "z1": 5473.924501657894
+        },
+        {
+          "name": "wall_E_01_05",
+          "rect": [
+            116600.0,
+            -23775.0,
+            116900.0,
+            -21431.25
+          ],
+          "z0": 5001.924501657892,
+          "z1": 5667.46910307814
+        },
+        {
+          "name": "wall_E_01_06",
+          "rect": [
+            116600.0,
+            -21431.25,
+            116900.0,
+            -19087.5
+          ],
+          "z0": 5195.469103078137,
+          "z1": 5810.558201894131
+        },
+        {
+          "name": "wall_E_01_07",
+          "rect": [
+            116600.0,
+            -19087.5,
+            116900.0,
+            -16743.75
+          ],
+          "z0": 5374.5582018941295,
+          "z1": 5964.949598422263
+        },
+        {
+          "name": "wall_E_01_08",
+          "rect": [
+            116600.0,
+            -16743.75,
+            116900.0,
+            -14400.0
+          ],
+          "z0": 5540.949598422262,
+          "z1": 6235.660901184008
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 3272.4323019742833,
+        "max": 5935.660901184008
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_02",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        -5025.0,
+        1264.9226055234897
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          -14400.0,
+          1264.9226055234897
+        ],
+        "max": [
+          116900.0,
+          4350.0,
+          6381.260901184009
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_02_01",
+          "rect": [
+            116600.0,
+            -14400.0,
+            116900.0,
+            -12125.0
+          ],
+          "z0": 5799.660901184007,
+          "z1": 6326.660901184008
+        },
+        {
+          "name": "wall_E_02_02",
+          "rect": [
+            116600.0,
+            -12125.0,
+            116900.0,
+            -9850.0
+          ],
+          "z0": 5823.205606628753,
+          "z1": 6381.260901184009
+        },
+        {
+          "name": "wall_E_02_03",
+          "rect": [
+            116600.0,
+            -9850.0,
+            116900.0,
+            -7575.0
+          ],
+          "z0": 5537.372203945754,
+          "z1": 6295.205606628756
+        },
+        {
+          "name": "wall_E_02_04",
+          "rect": [
+            116600.0,
+            -7575.0,
+            116900.0,
+            -5300.0
+          ],
+          "z0": 4672.633908285234,
+          "z1": 5985.372203945756
+        },
+        {
+          "name": "wall_E_02_05",
+          "rect": [
+            116600.0,
+            -5300.0,
+            116900.0,
+            -3025.0
+          ],
+          "z0": 4233.064106076122,
+          "z1": 5108.6339082852355
+        },
+        {
+          "name": "wall_E_02_06",
+          "rect": [
+            116600.0,
+            -3025.0,
+            116900.0,
+            -750.0
+          ],
+          "z0": 3422.5506096267404,
+          "z1": 4681.064106076124
+        },
+        {
+          "name": "wall_E_02_07",
+          "rect": [
+            116600.0,
+            750.0,
+            116900.0,
+            2550.0
+          ],
+          "z0": 1808.7560082064876,
+          "z1": 3177.242511757101
+        },
+        {
+          "name": "wall_E_02_08",
+          "rect": [
+            116600.0,
+            2550.0,
+            116900.0,
+            4350.0
+          ],
+          "z0": 1264.9226055234897,
+          "z1": 2256.7560082064892
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 1364.9226055234897,
+        "max": 6081.260901184009
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_03",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        13725.0,
+        -4527.602699289877
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          4350.0,
+          -4527.602699289877
+        ],
+        "max": [
+          116900.0,
+          23100.0,
+          1688.9226055234906
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_03_01",
+          "rect": [
+            116600.0,
+            4350.0,
+            116900.0,
+            6693.75
+          ],
+          "z0": 240.12030781135024,
+          "z1": 1688.9226055234906
+        },
+        {
+          "name": "wall_E_03_02",
+          "rect": [
+            116600.0,
+            6693.75,
+            116900.0,
+            9037.5
+          ],
+          "z0": -415.5134964493863,
+          "z1": 644.4537104943497
+        },
+        {
+          "name": "wall_E_03_03",
+          "rect": [
+            116600.0,
+            9037.5,
+            116900.0,
+            11381.25
+          ],
+          "z0": -1335.0850907684041,
+          "z1": -15.513496449386253
+        },
+        {
+          "name": "wall_E_03_04",
+          "rect": [
+            116600.0,
+            11381.25,
+            116900.0,
+            13725.0
+          ],
+          "z0": -2224.2382956605175,
+          "z1": -935.0850907684041
+        },
+        {
+          "name": "wall_E_03_05",
+          "rect": [
+            116600.0,
+            13725.0,
+            116900.0,
+            16068.75
+          ],
+          "z0": -3055.8990928200265,
+          "z1": -1812.238295660517
+        },
+        {
+          "name": "wall_E_03_06",
+          "rect": [
+            116600.0,
+            16068.75,
+            116900.0,
+            18412.5
+          ],
+          "z0": -3893.891396528132,
+          "z1": -2643.899092820026
+        },
+        {
+          "name": "wall_E_03_07",
+          "rect": [
+            116600.0,
+            18412.5,
+            116900.0,
+            20756.25
+          ],
+          "z0": -4227.910797159509,
+          "z1": -3481.8913965281317
+        },
+        {
+          "name": "wall_E_03_08",
+          "rect": [
+            116600.0,
+            20756.25,
+            116900.0,
+            23100.0
+          ],
+          "z0": -4527.602699289877,
+          "z1": -3827.9107971595085
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -4427.602699289877,
+        "max": 1388.9226055234906
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_04",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        32475.0,
+        -6587.408692976112
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          23100.0,
+          -6587.408692976112
+        ],
+        "max": [
+          116900.0,
+          41850.0,
+          -4127.602699289877
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_04_01",
+          "rect": [
+            116600.0,
+            23100.0,
+            116900.0,
+            25443.75
+          ],
+          "z0": -4756.5967951078865,
+          "z1": -4127.602699289877
+        },
+        {
+          "name": "wall_E_04_02",
+          "rect": [
+            116600.0,
+            25443.75,
+            116900.0,
+            27787.5
+          ],
+          "z0": -5223.930197790886,
+          "z1": -4344.5967951078865
+        },
+        {
+          "name": "wall_E_04_03",
+          "rect": [
+            116600.0,
+            27787.5,
+            116900.0,
+            30131.25
+          ],
+          "z0": -5569.949598422263,
+          "z1": -4811.930197790885
+        },
+        {
+          "name": "wall_E_04_04",
+          "rect": [
+            116600.0,
+            30131.25,
+            116900.0,
+            32475.0
+          ],
+          "z0": -6043.5832986585,
+          "z1": -5145.949598422262
+        },
+        {
+          "name": "wall_E_04_05",
+          "rect": [
+            116600.0,
+            32475.0,
+            116900.0,
+            34818.75
+          ],
+          "z0": -6206.999895975502,
+          "z1": -5631.5832986585
+        },
+        {
+          "name": "wall_E_04_06",
+          "rect": [
+            116600.0,
+            34818.75,
+            116900.0,
+            37162.5
+          ],
+          "z0": -6341.627796054248,
+          "z1": -5770.9998959755
+        },
+        {
+          "name": "wall_E_04_07",
+          "rect": [
+            116600.0,
+            37162.5,
+            116900.0,
+            39506.25
+          ],
+          "z0": -6478.088890766998,
+          "z1": -5893.627796054247
+        },
+        {
+          "name": "wall_E_04_08",
+          "rect": [
+            116600.0,
+            39506.25,
+            116900.0,
+            41850.0
+          ],
+          "z0": -6587.408692976112,
+          "z1": -5970.088890766992
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -6487.408692976112,
+        "max": -4427.602699289877
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_05",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        51225.0,
+        -8403.902788794121
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          41850.0,
+          -8403.902788794121
+        ],
+        "max": [
+          116900.0,
+          60600.0,
+          -6067.408692976107
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_05_01",
+          "rect": [
+            116600.0,
+            41850.0,
+            116900.0,
+            44193.75
+          ],
+          "z0": -6809.030792897366,
+          "z1": -6067.408692976107
+        },
+        {
+          "name": "wall_E_05_02",
+          "rect": [
+            116600.0,
+            44193.75,
+            116900.0,
+            46537.5
+          ],
+          "z0": -6871.325394317611,
+          "z1": -6298.864091555862
+        },
+        {
+          "name": "wall_E_05_03",
+          "rect": [
+            116600.0,
+            46537.5,
+            116900.0,
+            48881.25
+          ],
+          "z0": -6927.678093607488,
+          "z1": -6363.325394317607
+        },
+        {
+          "name": "wall_E_05_04",
+          "rect": [
+            116600.0,
+            48881.25,
+            116900.0,
+            51225.0
+          ],
+          "z0": -6939.466894870242,
+          "z1": -6408.591894870238
+        },
+        {
+          "name": "wall_E_05_05",
+          "rect": [
+            116600.0,
+            51225.0,
+            116900.0,
+            53568.75
+          ],
+          "z0": -7036.088994791496,
+          "z1": -6455.466894870238
+        },
+        {
+          "name": "wall_E_05_06",
+          "rect": [
+            116600.0,
+            53568.75,
+            116900.0,
+            55912.5
+          ],
+          "z0": -7302.172293449996,
+          "z1": -6564.088994791493
+        },
+        {
+          "name": "wall_E_05_07",
+          "rect": [
+            116600.0,
+            55912.5,
+            116900.0,
+            58256.25
+          ],
+          "z0": -7759.441590056875,
+          "z1": -6818.172293449993
+        },
+        {
+          "name": "wall_E_05_08",
+          "rect": [
+            116600.0,
+            58256.25,
+            116900.0,
+            60600.0
+          ],
+          "z0": -8403.902788794121,
+          "z1": -7251.441590056871
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -8303.902788794121,
+        "max": -6367.408692976107
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_06",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        69975.0,
+        -10941.525096764371
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          60600.0,
+          -10941.525096764371
+        ],
+        "max": [
+          116900.0,
+          79350.0,
+          -7871.9027887941165
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_06_01",
+          "rect": [
+            116600.0,
+            60600.0,
+            116900.0,
+            62943.75
+          ],
+          "z0": -8950.825290293113,
+          "z1": -7871.9027887941165
+        },
+        {
+          "name": "wall_E_06_02",
+          "rect": [
+            116600.0,
+            62943.75,
+            116900.0,
+            65287.5
+          ],
+          "z0": -9295.088786742499,
+          "z1": -8406.825290293107
+        },
+        {
+          "name": "wall_E_06_03",
+          "rect": [
+            116600.0,
+            65287.5,
+            116900.0,
+            67631.25
+          ],
+          "z0": -9849.40289281862,
+          "z1": -8751.088786742494
+        },
+        {
+          "name": "wall_E_06_04",
+          "rect": [
+            116600.0,
+            67631.25,
+            116900.0,
+            69975.0
+          ],
+          "z0": -10131.06368997813,
+          "z1": -9353.402892818616
+        },
+        {
+          "name": "wall_E_06_05",
+          "rect": [
+            116600.0,
+            69975.0,
+            116900.0,
+            72318.75
+          ],
+          "z0": -10578.313898027125,
+          "z1": -9635.063689978126
+        },
+        {
+          "name": "wall_E_06_06",
+          "rect": [
+            116600.0,
+            72318.75,
+            116900.0,
+            74662.5
+          ],
+          "z0": -10731.083298658501,
+          "z1": -10154.313898027123
+        },
+        {
+          "name": "wall_E_06_07",
+          "rect": [
+            116600.0,
+            74662.5,
+            116900.0,
+            77006.25
+          ],
+          "z0": -10810.480495344125,
+          "z1": -10319.083298658501
+        },
+        {
+          "name": "wall_E_06_08",
+          "rect": [
+            116600.0,
+            77006.25,
+            116900.0,
+            79350.0
+          ],
+          "z0": -10941.525096764371,
+          "z1": -10362.480495344123
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -10841.525096764371,
+        "max": -8171.9027887941165
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_07",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        88725.0,
+        -11987.614091555866
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          79350.0,
+          -11987.614091555866
+        ],
+        "max": [
+          116900.0,
+          98100.0,
+          -10493.52509676437
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_07_01",
+          "rect": [
+            116600.0,
+            79350.0,
+            116900.0,
+            81693.75
+          ],
+          "z0": -11054.941694081373,
+          "z1": -10493.52509676437
+        },
+        {
+          "name": "wall_E_07_02",
+          "rect": [
+            116600.0,
+            81693.75,
+            116900.0,
+            84037.5
+          ],
+          "z0": -11151.966894870242,
+          "z1": -10587.27509676437
+        },
+        {
+          "name": "wall_E_07_03",
+          "rect": [
+            116600.0,
+            84037.5,
+            116900.0,
+            86381.25
+          ],
+          "z0": -11189.364195580365,
+          "z1": -10676.38359621174
+        },
+        {
+          "name": "wall_E_07_04",
+          "rect": [
+            116600.0,
+            86381.25,
+            116900.0,
+            88725.0
+          ],
+          "z0": -11362.408692976112,
+          "z1": -10705.364195580361
+        },
+        {
+          "name": "wall_E_07_05",
+          "rect": [
+            116600.0,
+            88725.0,
+            116900.0,
+            91068.75
+          ],
+          "z0": -11456.158692976112,
+          "z1": -10842.408692976107
+        },
+        {
+          "name": "wall_E_07_06",
+          "rect": [
+            116600.0,
+            91068.75,
+            116900.0,
+            93412.5
+          ],
+          "z0": -11587.51139226599,
+          "z1": -10936.158692976107
+        },
+        {
+          "name": "wall_E_07_07",
+          "rect": [
+            116600.0,
+            93412.5,
+            116900.0,
+            95756.25
+          ],
+          "z0": -11815.991991634613,
+          "z1": -11067.511392265984
+        },
+        {
+          "name": "wall_E_07_08",
+          "rect": [
+            116600.0,
+            95756.25,
+            116900.0,
+            98100.0
+          ],
+          "z0": -11987.614091555866,
+          "z1": -11283.991991634608
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -11887.614091555866,
+        "max": -10793.52509676437
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_E_08",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        107475.0,
+        -14769.436101972877
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          98100.0,
+          -14769.436101972877
+        ],
+        "max": [
+          116900.0,
+          116850.0,
+          -11467.614091555863
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_E_08_01",
+          "rect": [
+            116600.0,
+            98100.0,
+            116900.0,
+            100443.75
+          ],
+          "z0": -12391.805889661737,
+          "z1": -11467.614091555863
+        },
+        {
+          "name": "wall_E_08_02",
+          "rect": [
+            116600.0,
+            100443.75,
+            116900.0,
+            102787.5
+          ],
+          "z0": -12682.486087452622,
+          "z1": -11835.805889661731
+        },
+        {
+          "name": "wall_E_08_03",
+          "rect": [
+            116600.0,
+            102787.5,
+            116900.0,
+            105131.25
+          ],
+          "z0": -13143.050193528743,
+          "z1": -12138.486087452617
+        },
+        {
+          "name": "wall_E_08_04",
+          "rect": [
+            116600.0,
+            105131.25,
+            116900.0,
+            107475.0
+          ],
+          "z0": -13331.06368997813,
+          "z1": -12647.05019352874
+        },
+        {
+          "name": "wall_E_08_05",
+          "rect": [
+            116600.0,
+            107475.0,
+            116900.0,
+            109818.75
+          ],
+          "z0": -13882.813794002626,
+          "z1": -12835.063689978126
+        },
+        {
+          "name": "wall_E_08_06",
+          "rect": [
+            116600.0,
+            109818.75,
+            116900.0,
+            112162.5
+          ],
+          "z0": -14229.230495344125,
+          "z1": -13422.813794002624
+        },
+        {
+          "name": "wall_E_08_07",
+          "rect": [
+            116600.0,
+            112162.5,
+            116900.0,
+            114506.25
+          ],
+          "z0": -14665.205398579756,
+          "z1": -13781.230495344123
+        },
+        {
+          "name": "wall_E_08_08",
+          "rect": [
+            116600.0,
+            114506.25,
+            116900.0,
+            116850.0
+          ],
+          "z0": -14769.436101972877,
+          "z1": -14265.205398579756
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -14669.436101972877,
+        "max": -11767.614091555863
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_01",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -23462.5,
+        -33000.0,
+        623.3528033143762
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -32800.0,
+          -33150.0,
+          623.3528033143762
+        ],
+        "max": [
+          -14125.0,
+          -32850.0,
+          2094.708603471866
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_01_01",
+          "rect": [
+            -32800.0,
+            -33150.0,
+            -30465.625,
+            -32850.0
+          ],
+          "z0": 1402.0698022091187,
+          "z1": 1989.8004015777396
+        },
+        {
+          "name": "wall_N_01_02",
+          "rect": [
+            -30465.625,
+            -33150.0,
+            -28131.25,
+            -32850.0
+          ],
+          "z0": 1541.8004015777435,
+          "z1": 2094.708603471866
+        },
+        {
+          "name": "wall_N_01_03",
+          "rect": [
+            -28131.25,
+            -33150.0,
+            -25796.875,
+            -32850.0
+          ],
+          "z0": 1569.9807033931243,
+          "z1": 2072.1919021303684
+        },
+        {
+          "name": "wall_N_01_04",
+          "rect": [
+            -25796.875,
+            -33150.0,
+            -23462.5,
+            -32850.0
+          ],
+          "z0": 1396.8140020516237,
+          "z1": 2005.9807033931215
+        },
+        {
+          "name": "wall_N_01_05",
+          "rect": [
+            -23462.5,
+            -33150.0,
+            -21128.125,
+            -32850.0
+          ],
+          "z0": 1316.336302761747,
+          "z1": 1820.8140020516216
+        },
+        {
+          "name": "wall_N_01_06",
+          "rect": [
+            -21128.125,
+            -33150.0,
+            -18793.75,
+            -32850.0
+          ],
+          "z0": 1183.602803314374,
+          "z1": 1747.2946014202455
+        },
+        {
+          "name": "wall_N_01_07",
+          "rect": [
+            -18793.75,
+            -33150.0,
+            -16459.375,
+            -32850.0
+          ],
+          "z0": 903.4778033143772,
+          "z1": 1619.2695046558702
+        },
+        {
+          "name": "wall_N_01_08",
+          "rect": [
+            -16459.375,
+            -33150.0,
+            -14125.0,
+            -32850.0
+          ],
+          "z0": 623.3528033143762,
+          "z1": 1327.4778033143753
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 723.3528033143762,
+        "max": 1794.708603471866
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_02",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -4787.5,
+        -33000.0,
+        -849.4805993686236
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -14125.0,
+          -33150.0,
+          -849.4805993686236
+        ],
+        "max": [
+          4550.0,
+          -32850.0,
+          1047.3528033143743
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_02_01",
+          "rect": [
+            -14125.0,
+            -33150.0,
+            -11895.833333333334,
+            -32850.0
+          ],
+          "z0": 266.70553727908043,
+          "z1": 1047.3528033143743
+        },
+        {
+          "name": "wall_N_02_02",
+          "rect": [
+            -11895.833333333334,
+            -33150.0,
+            -9666.666666666668,
+            -32850.0
+          ],
+          "z0": 197.5,
+          "z1": 690.7055372790785
+        },
+        {
+          "name": "wall_N_02_03",
+          "rect": [
+            -9666.666666666668,
+            -33150.0,
+            -7437.5,
+            -32850.0
+          ],
+          "z0": -29.839098815993168,
+          "z1": 597.5
+        },
+        {
+          "name": "wall_N_02_04",
+          "rect": [
+            -7437.5,
+            -33150.0,
+            -5208.333333333334,
+            -32850.0
+          ],
+          "z0": -240.69183278070568,
+          "z1": 382.16090118400587
+        },
+        {
+          "name": "wall_N_02_05",
+          "rect": [
+            -5208.333333333334,
+            -33150.0,
+            -2979.166666666666,
+            -32850.0
+          ],
+          "z0": -443.92246682416163,
+          "z1": 171.30816721929335
+        },
+        {
+          "name": "wall_N_02_06",
+          "rect": [
+            -2979.166666666666,
+            -33150.0,
+            -750.0,
+            -32850.0
+          ],
+          "z0": -562.3779000787474,
+          "z1": -19.922466824163564
+        },
+        {
+          "name": "wall_N_02_07",
+          "rect": [
+            750.0,
+            -33150.0,
+            2650.0,
+            -32850.0
+          ],
+          "z0": -744.4611987372491,
+          "z1": -210.3779000787478
+        },
+        {
+          "name": "wall_N_02_08",
+          "rect": [
+            2650.0,
+            -33150.0,
+            4550.0,
+            -32850.0
+          ],
+          "z0": -849.4805993686236,
+          "z1": -344.4611987372491
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -749.4805993686236,
+        "max": 747.3528033143742
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_03",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        13887.5,
+        -33000.0,
+        -3232.8525952653754
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          4550.0,
+          -33150.0,
+          -3232.8525952653754
+        ],
+        "max": [
+          23225.0,
+          -32850.0,
+          -449.48059936862364
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_03_01",
+          "rect": [
+            4550.0,
+            -33150.0,
+            6884.375,
+            -32850.0
+          ],
+          "z0": -904.1636972382529,
+          "z1": -449.48059936862364
+        },
+        {
+          "name": "wall_N_03_02",
+          "rect": [
+            6884.375,
+            -33150.0,
+            9218.75,
+            -32850.0
+          ],
+          "z0": -960.1886972382525,
+          "z1": -453.1161957392635
+        },
+        {
+          "name": "wall_N_03_03",
+          "rect": [
+            9218.75,
+            -33150.0,
+            11553.125,
+            -32850.0
+          ],
+          "z0": -952.2217951078824,
+          "z1": -453.1161957392635
+        },
+        {
+          "name": "wall_N_03_04",
+          "rect": [
+            11553.125,
+            -33150.0,
+            13887.5,
+            -32850.0
+          ],
+          "z0": -1176.063689978134,
+          "z1": -480.22179510788817
+        },
+        {
+          "name": "wall_N_03_05",
+          "rect": [
+            13887.5,
+            -33150.0,
+            16221.875,
+            -32850.0
+          ],
+          "z0": -1867.6412925036352,
+          "z1": -696.4803913196386
+        },
+        {
+          "name": "wall_N_03_06",
+          "rect": [
+            16221.875,
+            -33150.0,
+            18556.25,
+            -32850.0
+          ],
+          "z0": -2277.2942893467393,
+          "z1": -1383.641292503642
+        },
+        {
+          "name": "wall_N_03_07",
+          "rect": [
+            18556.25,
+            -33150.0,
+            20890.625,
+            -32850.0
+          ],
+          "z0": -2940.435893923874,
+          "z1": -1793.2942893467462
+        },
+        {
+          "name": "wall_N_03_08",
+          "rect": [
+            20890.625,
+            -33150.0,
+            23225.0,
+            -32850.0
+          ],
+          "z0": -3232.8525952653754,
+          "z1": -2480.4358939238787
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -3132.8525952653754,
+        "max": -749.4805993686236
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_04",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        32562.5,
+        -33000.0,
+        -5025.561101972874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          23225.0,
+          -33150.0,
+          -5025.561101972874
+        ],
+        "max": [
+          41900.0,
+          -32850.0,
+          -2784.8525952653795
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_04_01",
+          "rect": [
+            23225.0,
+            -33150.0,
+            25559.375,
+            -32850.0
+          ],
+          "z0": -3613.2304953441244,
+          "z1": -2784.8525952653795
+        },
+        {
+          "name": "wall_N_04_02",
+          "rect": [
+            25559.375,
+            -33150.0,
+            27893.75,
+            -32850.0
+          ],
+          "z0": -3893.1025952653777,
+          "z1": -3177.230495344127
+        },
+        {
+          "name": "wall_N_04_03",
+          "rect": [
+            27893.75,
+            -33150.0,
+            30228.125,
+            -32850.0
+          ],
+          "z0": -4295.64419258238,
+          "z1": -3445.1025952653813
+        },
+        {
+          "name": "wall_N_04_04",
+          "rect": [
+            30228.125,
+            -33150.0,
+            32562.5,
+            -32850.0
+          ],
+          "z0": -4505.494095818006,
+          "z1": -3823.6441925823865
+        },
+        {
+          "name": "wall_N_04_05",
+          "rect": [
+            32562.5,
+            -33150.0,
+            34896.875,
+            -32850.0
+          ],
+          "z0": -4772.169497395752,
+          "z1": -4045.4940958180114
+        },
+        {
+          "name": "wall_N_04_06",
+          "rect": [
+            34896.875,
+            -33150.0,
+            37231.25,
+            -32850.0
+          ],
+          "z0": -4981.627900078745,
+          "z1": -4360.169497395753
+        },
+        {
+          "name": "wall_N_04_07",
+          "rect": [
+            37231.25,
+            -33150.0,
+            39565.625,
+            -32850.0
+          ],
+          "z0": -5025.561101972874,
+          "z1": -4416.061205997379
+        },
+        {
+          "name": "wall_N_04_08",
+          "rect": [
+            39565.625,
+            -33150.0,
+            41900.0,
+            -32850.0
+          ],
+          "z0": -4864.0612059973755,
+          "z1": -3798.1611092330077
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -4925.561101972874,
+        "max": -3084.8525952653795
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_05",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        51237.5,
+        -33000.0,
+        -4258.161109233003
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          41900.0,
+          -33150.0,
+          -4258.161109233003
+        ],
+        "max": [
+          60575.0,
+          -32850.0,
+          761.0310009463608
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_05_01",
+          "rect": [
+            41900.0,
+            -33150.0,
+            44234.375,
+            -32850.0
+          ],
+          "z0": -4258.161109233003,
+          "z1": -3082.311205997376
+        },
+        {
+          "name": "wall_N_05_02",
+          "rect": [
+            44234.375,
+            -33150.0,
+            46568.75,
+            -32850.0
+          ],
+          "z0": -3530.311205997372,
+          "z1": -2521.283105129755
+        },
+        {
+          "name": "wall_N_05_03",
+          "rect": [
+            46568.75,
+            -33150.0,
+            48903.125,
+            -32850.0
+          ],
+          "z0": -2933.283105129754,
+          "z1": -1896.9720031568777
+        },
+        {
+          "name": "wall_N_05_04",
+          "rect": [
+            48903.125,
+            -33150.0,
+            51237.5,
+            -32850.0
+          ],
+          "z0": -2300.763704498376,
+          "z1": -1357.694006313752
+        },
+        {
+          "name": "wall_N_05_05",
+          "rect": [
+            51237.5,
+            -33150.0,
+            53571.875,
+            -32850.0
+          ],
+          "z0": -1759.2773049722532,
+          "z1": -546.1803018153768
+        },
+        {
+          "name": "wall_N_05_06",
+          "rect": [
+            53571.875,
+            -33150.0,
+            55906.25,
+            -32850.0
+          ],
+          "z0": -958.1803018153759,
+          "z1": -168.98850370949907
+        },
+        {
+          "name": "wall_N_05_07",
+          "rect": [
+            55906.25,
+            -33150.0,
+            58240.625,
+            -32850.0
+          ],
+          "z0": -580.9885037094981,
+          "z1": 414.92819763198327
+        },
+        {
+          "name": "wall_N_05_08",
+          "rect": [
+            58240.625,
+            -33150.0,
+            60575.0,
+            -32850.0
+          ],
+          "z0": -9.0718023680148,
+          "z1": 761.0310009463608
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -4158.161109233003,
+        "max": 461.03100094636085
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_06",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        69912.5,
+        -33000.0,
+        313.0310009463647
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          60575.0,
+          -33150.0,
+          313.0310009463647
+        ],
+        "max": [
+          79250.0,
+          -32850.0,
+          4371.992199683607
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_06_01",
+          "rect": [
+            60575.0,
+            -33150.0,
+            62909.375,
+            -32850.0
+          ],
+          "z0": 313.0310009463647,
+          "z1": 1466.1676012613475
+        },
+        {
+          "name": "wall_N_06_02",
+          "rect": [
+            62909.375,
+            -33150.0,
+            65243.75,
+            -32850.0
+          ],
+          "z0": 970.1676012613552,
+          "z1": 1870.6648052070993
+        },
+        {
+          "name": "wall_N_06_03",
+          "rect": [
+            65243.75,
+            -33150.0,
+            67578.125,
+            -32850.0
+          ],
+          "z0": 1350.664805207109,
+          "z1": 2448.109503391721
+        },
+        {
+          "name": "wall_N_06_04",
+          "rect": [
+            67578.125,
+            -33150.0,
+            69912.5,
+            -32850.0
+          ],
+          "z0": 1916.1095033917313,
+          "z1": 2769.434205838477
+        },
+        {
+          "name": "wall_N_06_05",
+          "rect": [
+            69912.5,
+            -33150.0,
+            72246.875,
+            -32850.0
+          ],
+          "z0": 2249.434205838487,
+          "z1": 3100.9147011826094
+        },
+        {
+          "name": "wall_N_06_06",
+          "rect": [
+            72246.875,
+            -33150.0,
+            74581.25,
+            -32850.0
+          ],
+          "z0": 2616.914701182616,
+          "z1": 3659.6006991309914
+        },
+        {
+          "name": "wall_N_06_07",
+          "rect": [
+            74581.25,
+            -33150.0,
+            76915.625,
+            -32850.0
+          ],
+          "z0": 3199.600699130996,
+          "z1": 4105.19770228786
+        },
+        {
+          "name": "wall_N_06_08",
+          "rect": [
+            76915.625,
+            -33150.0,
+            79250.0,
+            -32850.0
+          ],
+          "z0": 3645.1977022878646,
+          "z1": 4371.992199683607
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 413.0310009463647,
+        "max": 4071.992199683607
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_07",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        88587.5,
+        -33000.0,
+        3923.992199683611
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          79250.0,
+          -33150.0,
+          3923.992199683611
+        ],
+        "max": [
+          97925.0,
+          -32850.0,
+          5984.602699289876
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_07_01",
+          "rect": [
+            79250.0,
+            -33150.0,
+            81584.375,
+            -32850.0
+          ],
+          "z0": 3923.992199683611,
+          "z1": 4757.258700236239
+        },
+        {
+          "name": "wall_N_07_02",
+          "rect": [
+            81584.375,
+            -33150.0,
+            83918.75,
+            -32850.0
+          ],
+          "z0": 4321.258700236242,
+          "z1": 5037.38370023624
+        },
+        {
+          "name": "wall_N_07_03",
+          "rect": [
+            83918.75,
+            -33150.0,
+            86253.125,
+            -32850.0
+          ],
+          "z0": 4610.2169988947435,
+          "z1": 5347.294601420245
+        },
+        {
+          "name": "wall_N_07_04",
+          "rect": [
+            86253.125,
+            -33150.0,
+            88587.5,
+            -32850.0
+          ],
+          "z0": 4925.502900078748,
+          "z1": 5421.540400078747
+        },
+        {
+          "name": "wall_N_07_05",
+          "rect": [
+            88587.5,
+            -33150.0,
+            90921.875,
+            -32850.0
+          ],
+          "z0": 4998.5792013414975,
+          "z1": 5662.519296606879
+        },
+        {
+          "name": "wall_N_07_06",
+          "rect": [
+            90921.875,
+            -33150.0,
+            93256.25,
+            -32850.0
+          ],
+          "z0": 5226.519296606882,
+          "z1": 5849.26929660688
+        },
+        {
+          "name": "wall_N_07_07",
+          "rect": [
+            93256.25,
+            -33150.0,
+            95590.625,
+            -32850.0
+          ],
+          "z0": 5413.269296606883,
+          "z1": 5973.208298658499
+        },
+        {
+          "name": "wall_N_07_08",
+          "rect": [
+            95590.625,
+            -33150.0,
+            97925.0,
+            -32850.0
+          ],
+          "z0": 5561.2082986585,
+          "z1": 5984.602699289876
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 4023.992199683611,
+        "max": 5684.602699289876
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_N_08",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        107262.5,
+        -33000.0,
+        3304.4323019742883
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          97925.0,
+          -33150.0,
+          3304.4323019742883
+        ],
+        "max": [
+          116600.0,
+          -32850.0,
+          5984.602699289876
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_N_08_01",
+          "rect": [
+            97925.0,
+            -33150.0,
+            100259.375,
+            -32850.0
+          ],
+          "z0": 5497.247099921254,
+          "z1": 5984.602699289876
+        },
+        {
+          "name": "wall_N_08_02",
+          "rect": [
+            100259.375,
+            -33150.0,
+            102593.75,
+            -32850.0
+          ],
+          "z0": 5378.974799211131,
+          "z1": 5909.247099921253
+        },
+        {
+          "name": "wall_N_08_03",
+          "rect": [
+            102593.75,
+            -33150.0,
+            104928.125,
+            -32850.0
+          ],
+          "z0": 5260.7024985010075,
+          "z1": 5802.974799211129
+        },
+        {
+          "name": "wall_N_08_04",
+          "rect": [
+            104928.125,
+            -33150.0,
+            107262.5,
+            -32850.0
+          ],
+          "z0": 5111.846899132383,
+          "z1": 5696.702498501005
+        },
+        {
+          "name": "wall_N_08_05",
+          "rect": [
+            107262.5,
+            -33150.0,
+            109596.875,
+            -32850.0
+          ],
+          "z0": 4925.0968991323825,
+          "z1": 5547.84689913238
+        },
+        {
+          "name": "wall_N_08_06",
+          "rect": [
+            109596.875,
+            -33150.0,
+            111931.25,
+            -32850.0
+          ],
+          "z0": 4512.065898186015,
+          "z1": 5361.09689913238
+        },
+        {
+          "name": "wall_N_08_07",
+          "rect": [
+            111931.25,
+            -33150.0,
+            114265.625,
+            -32850.0
+          ],
+          "z0": 4009.5852988173883,
+          "z1": 4996.065898186009
+        },
+        {
+          "name": "wall_N_08_08",
+          "rect": [
+            114265.625,
+            -33150.0,
+            116600.0,
+            -32850.0
+          ],
+          "z0": 3304.4323019742883,
+          "z1": 4493.585298817381
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 3404.4323019742883,
+        "max": 5684.602699289876
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_01",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -23462.5,
+        116700.0,
+        -10960.645300551229
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -32800.0,
+          116550.0,
+          -10960.645300551229
+        ],
+        "max": [
+          -14125.0,
+          116850.0,
+          -5787.647196685625
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_01_01",
+          "rect": [
+            -32800.0,
+            116550.0,
+            -30465.625,
+            116850.0
+          ],
+          "z0": -6587.922397474497,
+          "z1": -5787.647196685625
+        },
+        {
+          "name": "wall_S_01_02",
+          "rect": [
+            -30465.625,
+            116550.0,
+            -28131.25,
+            116850.0
+          ],
+          "z0": -6918.858499447373,
+          "z1": -6187.922397474497
+        },
+        {
+          "name": "wall_S_01_03",
+          "rect": [
+            -28131.25,
+            116550.0,
+            -25796.875,
+            116850.0
+          ],
+          "z0": -7304.242095659111,
+          "z1": -6506.858499447372
+        },
+        {
+          "name": "wall_S_01_04",
+          "rect": [
+            -25796.875,
+            116550.0,
+            -23462.5,
+            116850.0
+          ],
+          "z0": -7888.414597158107,
+          "z1": -6867.617199683609
+        },
+        {
+          "name": "wall_S_01_05",
+          "rect": [
+            -23462.5,
+            116550.0,
+            -21128.125,
+            116850.0
+          ],
+          "z0": -8523.16180110386,
+          "z1": -7437.247999841104
+        },
+        {
+          "name": "wall_S_01_06",
+          "rect": [
+            -21128.125,
+            116550.0,
+            -18793.75,
+            116850.0
+          ],
+          "z0": -9095.88159605286,
+          "z1": -8051.161801103857
+        },
+        {
+          "name": "wall_S_01_07",
+          "rect": [
+            -18793.75,
+            116550.0,
+            -16459.375,
+            116850.0
+          ],
+          "z0": -10276.728599209728,
+          "z1": -8623.881596052855
+        },
+        {
+          "name": "wall_S_01_08",
+          "rect": [
+            -16459.375,
+            116550.0,
+            -14125.0,
+            116850.0
+          ],
+          "z0": -10960.645300551229,
+          "z1": -9804.728599209724
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -10860.645300551229,
+        "max": -6087.647196685625
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_02",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        -4787.5,
+        116700.0,
+        -13802.5
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -14125.0,
+          116550.0,
+          -13802.5
+        ],
+        "max": [
+          4550.0,
+          116850.0,
+          -10476.645300551227
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_02_01",
+          "rect": [
+            -14125.0,
+            116550.0,
+            -11790.625,
+            116850.0
+          ],
+          "z0": -12250.423193369856,
+          "z1": -10476.645300551227
+        },
+        {
+          "name": "wall_S_02_02",
+          "rect": [
+            -11790.625,
+            116550.0,
+            -9456.25,
+            116850.0
+          ],
+          "z0": -12833.575498342117,
+          "z1": -11802.423193369854
+        },
+        {
+          "name": "wall_S_02_03",
+          "rect": [
+            -9456.25,
+            116550.0,
+            -7121.875,
+            116850.0
+          ],
+          "z0": -13153.508700236245,
+          "z1": -12397.575498342116
+        },
+        {
+          "name": "wall_S_02_04",
+          "rect": [
+            -7121.875,
+            116550.0,
+            -4787.5,
+            116850.0
+          ],
+          "z0": -13360.153100867617,
+          "z1": -12717.508700236243
+        },
+        {
+          "name": "wall_S_02_05",
+          "rect": [
+            -4787.5,
+            116550.0,
+            -2453.125,
+            116850.0
+          ],
+          "z0": -13636.777996843119,
+          "z1": -12924.153100867616
+        },
+        {
+          "name": "wall_S_02_06",
+          "rect": [
+            -2453.125,
+            116550.0,
+            -118.75,
+            116850.0
+          ],
+          "z0": -13802.5,
+          "z1": -13236.777996843119
+        },
+        {
+          "name": "wall_S_02_07",
+          "rect": [
+            -118.75,
+            116550.0,
+            2215.625,
+            116850.0
+          ],
+          "z0": -13802.5,
+          "z1": -12936.757904340891
+        },
+        {
+          "name": "wall_S_02_08",
+          "rect": [
+            2215.625,
+            116550.0,
+            4550.0,
+            116850.0
+          ],
+          "z0": -13348.757904340891,
+          "z1": -12303.885700395136
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -13702.5,
+        "max": -10776.645300551227
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_03",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        13887.5,
+        116700.0,
+        -12739.885700395138
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          4550.0,
+          116550.0,
+          -12739.885700395138
+        ],
+        "max": [
+          23225.0,
+          116850.0,
+          -4595.699702446759
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_03_01",
+          "rect": [
+            4550.0,
+            116550.0,
+            6870.0,
+            116850.0
+          ],
+          "z0": -12739.885700395138,
+          "z1": -11421.304505919992
+        },
+        {
+          "name": "wall_S_03_02",
+          "rect": [
+            6870.0,
+            116550.0,
+            9190.0,
+            116850.0
+          ],
+          "z0": -11881.304505919994,
+          "z1": -9964.143307182792
+        },
+        {
+          "name": "wall_S_03_03",
+          "rect": [
+            9190.0,
+            116550.0,
+            11510.0,
+            116850.0
+          ],
+          "z0": -10408.776709865793,
+          "z1": -8488.763302920648
+        },
+        {
+          "name": "wall_S_03_04",
+          "rect": [
+            11510.0,
+            116550.0,
+            13830.0,
+            116850.0
+          ],
+          "z0": -8924.28000426215,
+          "z1": -7592.357606787624
+        },
+        {
+          "name": "wall_S_03_05",
+          "rect": [
+            13830.0,
+            116550.0,
+            16150.0,
+            116850.0
+          ],
+          "z0": -8016.357606787625,
+          "z1": -6410.699702446752
+        },
+        {
+          "name": "wall_S_03_06",
+          "rect": [
+            17650.0,
+            116550.0,
+            19508.333333333332,
+            116850.0
+          ],
+          "z0": -6568.7830011052565,
+          "z1": -5575.566071560169
+        },
+        {
+          "name": "wall_S_03_07",
+          "rect": [
+            19508.333333333332,
+            116550.0,
+            21366.666666666668,
+            116850.0
+          ],
+          "z0": -5999.56607156017,
+          "z1": -4950.116334438584
+        },
+        {
+          "name": "wall_S_03_08",
+          "rect": [
+            21366.666666666668,
+            116550.0,
+            23225.0,
+            116850.0
+          ],
+          "z0": -5374.116334438585,
+          "z1": -4595.699702446759
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -12639.885700395138,
+        "max": -4895.699702446759
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_04",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        32562.5,
+        116700.0,
+        -5007.699702446759
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          23225.0,
+          116550.0,
+          -5007.699702446759
+        ],
+        "max": [
+          41900.0,
+          116850.0,
+          -2591.8080978696303
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_04_01",
+          "rect": [
+            23225.0,
+            116550.0,
+            25559.375,
+            116850.0
+          ],
+          "z0": -5007.699702446759,
+          "z1": -4004.57180236801
+        },
+        {
+          "name": "wall_S_04_02",
+          "rect": [
+            25559.375,
+            116550.0,
+            27893.75,
+            116850.0
+          ],
+          "z0": -4428.571802368011,
+          "z1": -3767.244199842505
+        },
+        {
+          "name": "wall_S_04_03",
+          "rect": [
+            27893.75,
+            116550.0,
+            30228.125,
+            116850.0
+          ],
+          "z0": -4191.244199842506,
+          "z1": -3432.5939990536335
+        },
+        {
+          "name": "wall_S_04_04",
+          "rect": [
+            30228.125,
+            116550.0,
+            32562.5,
+            116850.0
+          ],
+          "z0": -3880.5939990536353,
+          "z1": -3084.9883996850076
+        },
+        {
+          "name": "wall_S_04_05",
+          "rect": [
+            32562.5,
+            116550.0,
+            34896.875,
+            116850.0
+          ],
+          "z0": -3532.9883996850094,
+          "z1": -2748.3857003951293
+        },
+        {
+          "name": "wall_S_04_06",
+          "rect": [
+            34896.875,
+            116550.0,
+            37231.25,
+            116850.0
+          ],
+          "z0": -3184.3857003951307,
+          "z1": -2591.8080978696303
+        },
+        {
+          "name": "wall_S_04_07",
+          "rect": [
+            37231.25,
+            116550.0,
+            39565.625,
+            116850.0
+          ],
+          "z0": -3220.8302945552555,
+          "z1": -2609.14139652813
+        },
+        {
+          "name": "wall_S_04_08",
+          "rect": [
+            39565.625,
+            116550.0,
+            41900.0,
+            116850.0
+          ],
+          "z0": -3378.013496449386,
+          "z1": -2760.830294555253
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -4907.699702446759,
+        "max": -2891.8080978696303
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_05",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        51237.5,
+        116700.0,
+        -4640.685997948378
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          41900.0,
+          116550.0,
+          -4640.685997948378
+        ],
+        "max": [
+          60575.0,
+          116850.0,
+          -2791.8080978696303
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_05_01",
+          "rect": [
+            41900.0,
+            116550.0,
+            44234.375,
+            116850.0
+          ],
+          "z0": -3345.846899132385,
+          "z1": -2791.8080978696303
+        },
+        {
+          "name": "wall_S_05_02",
+          "rect": [
+            44234.375,
+            116550.0,
+            46568.75,
+            116850.0
+          ],
+          "z0": -3438.730495344128,
+          "z1": -2791.8080978696303
+        },
+        {
+          "name": "wall_S_05_03",
+          "rect": [
+            46568.75,
+            116550.0,
+            48903.125,
+            116850.0
+          ],
+          "z0": -3791.124895975505,
+          "z1": -2993.5637940026277
+        },
+        {
+          "name": "wall_S_05_04",
+          "rect": [
+            48903.125,
+            116550.0,
+            51237.5,
+            116850.0
+          ],
+          "z0": -4131.871995896759,
+          "z1": -3355.1248959755035
+        },
+        {
+          "name": "wall_S_05_05",
+          "rect": [
+            51237.5,
+            116550.0,
+            53571.875,
+            116850.0
+          ],
+          "z0": -4160.56099794838,
+          "z1": -3683.8719958967567
+        },
+        {
+          "name": "wall_S_05_06",
+          "rect": [
+            53571.875,
+            116550.0,
+            55906.25,
+            116850.0
+          ],
+          "z0": -4256.397196685631,
+          "z1": -3736.5609979483784
+        },
+        {
+          "name": "wall_S_05_07",
+          "rect": [
+            55906.25,
+            116550.0,
+            58240.625,
+            116850.0
+          ],
+          "z0": -4536.522196685623,
+          "z1": -3832.3971966856298
+        },
+        {
+          "name": "wall_S_05_08",
+          "rect": [
+            58240.625,
+            116550.0,
+            60575.0,
+            116850.0
+          ],
+          "z0": -4640.685997948378,
+          "z1": -4112.5221966856225
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -4540.685997948378,
+        "max": -3091.8080978696303
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_06",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        69912.5,
+        116700.0,
+        -7553.114299604863
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          60575.0,
+          116550.0,
+          -7553.114299604863
+        ],
+        "max": [
+          79250.0,
+          116850.0,
+          -4216.685997948377
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_06_01",
+          "rect": [
+            60575.0,
+            116550.0,
+            62433.333333333336,
+            116850.0
+          ],
+          "z0": -4951.7557308078285,
+          "z1": -4216.685997948377
+        },
+        {
+          "name": "wall_S_06_02",
+          "rect": [
+            62433.333333333336,
+            116550.0,
+            64291.666666666664,
+            116850.0
+          ],
+          "z0": -5212.441798105873,
+          "z1": -4551.7557308078285
+        },
+        {
+          "name": "wall_S_06_03",
+          "rect": [
+            64291.666666666664,
+            116550.0,
+            66150.0,
+            116850.0
+          ],
+          "z0": -5479.364195580376,
+          "z1": -4812.441798105873
+        },
+        {
+          "name": "wall_S_06_04",
+          "rect": [
+            67650.0,
+            116550.0,
+            69970.0,
+            116850.0
+          ],
+          "z0": -6176.972501498994,
+          "z1": -5453.2808969218695
+        },
+        {
+          "name": "wall_S_06_05",
+          "rect": [
+            69970.0,
+            116550.0,
+            72290.0,
+            116850.0
+          ],
+          "z0": -6496.09489897349,
+          "z1": -5740.972501498993
+        },
+        {
+          "name": "wall_S_06_06",
+          "rect": [
+            72290.0,
+            116550.0,
+            74610.0,
+            116850.0
+          ],
+          "z0": -6996.9921996836265,
+          "z1": -6060.094898973489
+        },
+        {
+          "name": "wall_S_06_07",
+          "rect": [
+            74610.0,
+            116550.0,
+            76930.0,
+            116850.0
+          ],
+          "z0": -7297.553100867617,
+          "z1": -6548.992199683625
+        },
+        {
+          "name": "wall_S_06_08",
+          "rect": [
+            76930.0,
+            116550.0,
+            79250.0,
+            116850.0
+          ],
+          "z0": -7553.114299604863,
+          "z1": -6861.553100867615
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -7453.114299604863,
+        "max": -4516.685997948377
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_07",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        88587.5,
+        116700.0,
+        -13376.364195580361
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          79250.0,
+          116550.0,
+          -13376.364195580361
+        ],
+        "max": [
+          97925.0,
+          116850.0,
+          -7107.031000946361
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_07_01",
+          "rect": [
+            79250.0,
+            116550.0,
+            81584.375,
+            116850.0
+          ],
+          "z0": -7863.511600314988,
+          "z1": -7107.031000946361
+        },
+        {
+          "name": "wall_S_07_02",
+          "rect": [
+            81584.375,
+            116550.0,
+            83918.75,
+            116850.0
+          ],
+          "z0": -8408.767296447984,
+          "z1": -7418.969898973486
+        },
+        {
+          "name": "wall_S_07_03",
+          "rect": [
+            83918.75,
+            116550.0,
+            86253.125,
+            116850.0
+          ],
+          "z0": -9203.825498342116,
+          "z1": -7972.767296447984
+        },
+        {
+          "name": "wall_S_07_04",
+          "rect": [
+            86253.125,
+            116550.0,
+            88587.5,
+            116850.0
+          ],
+          "z0": -9734.895196526739,
+          "z1": -8767.825498342114
+        },
+        {
+          "name": "wall_S_07_05",
+          "rect": [
+            88587.5,
+            116550.0,
+            90921.875,
+            116850.0
+          ],
+          "z0": -10724.32549834212,
+          "z1": -9286.895196526737
+        },
+        {
+          "name": "wall_S_07_06",
+          "rect": [
+            90921.875,
+            116550.0,
+            93256.25,
+            116850.0
+          ],
+          "z0": -11342.908797000624,
+          "z1": -10288.325498342117
+        },
+        {
+          "name": "wall_S_07_07",
+          "rect": [
+            93256.25,
+            116550.0,
+            95590.625,
+            116850.0
+          ],
+          "z0": -12668.481291239465,
+          "z1": -10918.908797000622
+        },
+        {
+          "name": "wall_S_07_08",
+          "rect": [
+            95590.625,
+            116550.0,
+            97925.0,
+            116850.0
+          ],
+          "z0": -13376.364195580361,
+          "z1": -12256.481291239465
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -13276.364195580361,
+        "max": -7407.031000946361
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Wall_S_08",
+      "group": "wall",
+      "materialRole": "stone",
+      "location": [
+        107262.5,
+        116700.0,
+        -14777.602699289877
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          97925.0,
+          116550.0,
+          -14777.602699289877
+        ],
+        "max": [
+          116600.0,
+          116850.0,
+          -12976.364195580361
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "wall_S_08_01",
+          "rect": [
+            97925.0,
+            116550.0,
+            100259.375,
+            116850.0
+          ],
+          "z0": -14256.055993686236,
+          "z1": -12976.364195580361
+        },
+        {
+          "name": "wall_S_08_02",
+          "rect": [
+            100259.375,
+            116550.0,
+            102593.75,
+            116850.0
+          ],
+          "z0": -14683.79449739575,
+          "z1": -13856.055993686236
+        },
+        {
+          "name": "wall_S_08_03",
+          "rect": [
+            102593.75,
+            116550.0,
+            104928.125,
+            116850.0
+          ],
+          "z0": -14767.831997395748,
+          "z1": -14261.44409581801
+        },
+        {
+          "name": "wall_S_08_04",
+          "rect": [
+            104928.125,
+            116550.0,
+            107262.5,
+            116850.0
+          ],
+          "z0": -14777.469095818014,
+          "z1": -14207.052297712136
+        },
+        {
+          "name": "wall_S_08_05",
+          "rect": [
+            107262.5,
+            116550.0,
+            109596.875,
+            116850.0
+          ],
+          "z0": -14667.052297712138,
+          "z1": -14120.181595818009
+        },
+        {
+          "name": "wall_S_08_06",
+          "rect": [
+            109596.875,
+            116550.0,
+            111931.25,
+            116850.0
+          ],
+          "z0": -14670.038697238257,
+          "z1": -14154.910797159508
+        },
+        {
+          "name": "wall_S_08_07",
+          "rect": [
+            111931.25,
+            116550.0,
+            114265.625,
+            116850.0
+          ],
+          "z0": -14777.602699289877,
+          "z1": -14234.038697238257
+        },
+        {
+          "name": "wall_S_08_08",
+          "rect": [
+            114265.625,
+            116550.0,
+            116600.0,
+            116850.0
+          ],
+          "z0": -14777.602699289877,
+          "z1": -14363.019296606883
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -14677.602699289877,
+        "max": -13276.364195580361
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Gate_E",
+      "group": "gates",
+      "materialRole": "stone",
+      "location": [
+        116750.0,
+        0.0,
+        2729.2425117570992
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          116600.0,
+          -750.0,
+          2729.2425117570992
+        ],
+        "max": [
+          116900.0,
+          750.0,
+          6570.550609626742
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "gate_E_pier_a",
+          "rect": [
+            116600.0,
+            -750.0,
+            116900.0,
+            -250.0
+          ],
+          "z0": 2729.2425117570992,
+          "z1": 6570.550609626742
+        },
+        {
+          "name": "gate_E_pier_b",
+          "rect": [
+            116600.0,
+            250.0,
+            116900.0,
+            750.0
+          ],
+          "z0": 2729.2425117570992,
+          "z1": 6570.550609626742
+        },
+        {
+          "name": "gate_E_lintel",
+          "rect": [
+            116600.0,
+            -250.0,
+            116900.0,
+            250.0
+          ],
+          "z0": 6070.550609626742,
+          "z1": 6570.550609626742
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 2829.2425117570992,
+        "max": 3570.5506096267422
+      },
+      "gate": {
+        "id": "E",
+        "side": "E",
+        "along": 0.0,
+        "name": "East gate",
+        "rule": "on the Temple east-west axis (Yechezkel 42:15 measures through the east gate)"
+      },
+      "openingCm": {
+        "width": 500.0,
+        "height": 2500.0,
+        "sillZ": 3570.5506096267422,
+        "headZ": 6070.550609626742
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Gate_N",
+      "group": "gates",
+      "materialRole": "stone",
+      "location": [
+        0.0,
+        -33000.0,
+        -622.3779000787468
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -750.0,
+          -33150.0,
+          -622.3779000787468
+        ],
+        "max": [
+          750.0,
+          -32850.0,
+          2549.6220999212514
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "gate_N_pier_a",
+          "rect": [
+            -750.0,
+            -33150.0,
+            -250.0,
+            -32850.0
+          ],
+          "z0": -622.3779000787468,
+          "z1": 2549.6220999212514
+        },
+        {
+          "name": "gate_N_pier_b",
+          "rect": [
+            250.0,
+            -33150.0,
+            750.0,
+            -32850.0
+          ],
+          "z0": -622.3779000787468,
+          "z1": 2549.6220999212514
+        },
+        {
+          "name": "gate_N_lintel",
+          "rect": [
+            -250.0,
+            -33150.0,
+            250.0,
+            -32850.0
+          ],
+          "z0": 2049.6220999212514,
+          "z1": 2549.6220999212514
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -522.3779000787468,
+        "max": -450.3779000787484
+      },
+      "gate": {
+        "id": "N",
+        "side": "N",
+        "along": 0.0,
+        "name": "North gate (Tadi analogue)",
+        "rule": "on the Temple north-south axis (fig. 5'3 shows gate 5 beside the Sanctuary)"
+      },
+      "openingCm": {
+        "width": 500.0,
+        "height": 2500.0,
+        "sillZ": -450.3779000787484,
+        "headZ": 2049.6220999212514
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Gate_W",
+      "group": "gates",
+      "materialRole": "stone",
+      "location": [
+        -32950.0,
+        0.0,
+        191.53880126275226
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -33100.0,
+          -750.0,
+          191.53880126275226
+        ],
+        "max": [
+          -32800.0,
+          750.0,
+          3315.538801262753
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "gate_W_pier_a",
+          "rect": [
+            -33100.0,
+            -750.0,
+            -32800.0,
+            -250.0
+          ],
+          "z0": 191.53880126275226,
+          "z1": 3315.538801262753
+        },
+        {
+          "name": "gate_W_pier_b",
+          "rect": [
+            -33100.0,
+            250.0,
+            -32800.0,
+            750.0
+          ],
+          "z0": 191.53880126275226,
+          "z1": 3315.538801262753
+        },
+        {
+          "name": "gate_W_lintel",
+          "rect": [
+            -33100.0,
+            -250.0,
+            -32800.0,
+            250.0
+          ],
+          "z0": 2815.538801262753,
+          "z1": 3315.538801262753
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": 291.53880126275226,
+        "max": 315.53880126275317
+      },
+      "gate": {
+        "id": "W",
+        "side": "W",
+        "along": 0.0,
+        "name": "West gate (Kiponus analogue)",
+        "rule": "ASSUMPTION: on the Temple east-west axis; the book gives no position"
+      },
+      "openingCm": {
+        "width": 500.0,
+        "height": 2500.0,
+        "sillZ": 315.53880126275317,
+        "headZ": 2815.538801262753
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Gate_S1",
+      "group": "gates",
+      "materialRole": "stone",
+      "location": [
+        16900.0,
+        116700.0,
+        -6822.699702446752
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          16150.0,
+          116550.0,
+          -6822.699702446752
+        ],
+        "max": [
+          17650.0,
+          116850.0,
+          -3444.7830011052556
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "gate_S1_pier_a",
+          "rect": [
+            16150.0,
+            116550.0,
+            16650.0,
+            116850.0
+          ],
+          "z0": -6822.699702446752,
+          "z1": -3444.7830011052556
+        },
+        {
+          "name": "gate_S1_pier_b",
+          "rect": [
+            17150.0,
+            116550.0,
+            17650.0,
+            116850.0
+          ],
+          "z0": -6822.699702446752,
+          "z1": -3444.7830011052556
+        },
+        {
+          "name": "gate_S1_lintel",
+          "rect": [
+            16650.0,
+            116550.0,
+            17150.0,
+            116850.0
+          ],
+          "z0": -3944.7830011052556,
+          "z1": -3444.7830011052556
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -6722.699702446752,
+        "max": -6444.783001105256
+      },
+      "gate": {
+        "id": "S1",
+        "side": "S",
+        "along": 16900.0,
+        "name": "South gate 1 (Chuldah analogue)",
+        "rule": "ASSUMPTION: at one third of the south wall (fig. 5'3 spaces the two gates along the side)"
+      },
+      "openingCm": {
+        "width": 500.0,
+        "height": 2500.0,
+        "sillZ": -6444.783001105256,
+        "headZ": -3944.7830011052556
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Gate_S2",
+      "group": "gates",
+      "materialRole": "stone",
+      "location": [
+        66900.0,
+        116700.0,
+        -5865.28089692187
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          66150.0,
+          116550.0,
+          -5865.28089692187
+        ],
+        "max": [
+          67650.0,
+          116850.0,
+          -2379.364195580376
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "gate_S2_pier_a",
+          "rect": [
+            66150.0,
+            116550.0,
+            66650.0,
+            116850.0
+          ],
+          "z0": -5865.28089692187,
+          "z1": -2379.364195580376
+        },
+        {
+          "name": "gate_S2_pier_b",
+          "rect": [
+            67150.0,
+            116550.0,
+            67650.0,
+            116850.0
+          ],
+          "z0": -5865.28089692187,
+          "z1": -2379.364195580376
+        },
+        {
+          "name": "gate_S2_lintel",
+          "rect": [
+            66650.0,
+            116550.0,
+            67150.0,
+            116850.0
+          ],
+          "z0": -2879.364195580376,
+          "z1": -2379.364195580376
+        }
+      ],
+      "zPolicy": "terrain_min_footing_max_plus_height",
+      "placeByDefault": true,
+      "terrainSampledZcm": {
+        "min": -5765.28089692187,
+        "max": -5379.364195580376
+      },
+      "gate": {
+        "id": "S2",
+        "side": "S",
+        "along": 66900.0,
+        "name": "South gate 2 (Chuldah analogue)",
+        "rule": "ASSUMPTION: at two thirds of the south wall"
+      },
+      "openingCm": {
+        "width": 500.0,
+        "height": 2500.0,
+        "sillZ": -5379.364195580376,
+        "headZ": -2879.364195580376
+      }
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilslab_E",
+      "group": "cheil",
+      "materialRole": "paving",
+      "location": [
+        9450.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          9200.0,
+          -9700.0,
+          0.0
+        ],
+        "max": [
+          9700.0,
+          9700.0,
+          5.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilslab_E_01",
+          "rect": [
+            9200.0,
+            -9700.0,
+            9700.0,
+            9700.0
+          ],
+          "z0": 0.0,
+          "z1": 5.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilslab_W",
+      "group": "cheil",
+      "materialRole": "paving",
+      "location": [
+        -9450.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9700.0,
+          -9700.0,
+          0.0
+        ],
+        "max": [
+          -9200.0,
+          9700.0,
+          5.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilslab_W_01",
+          "rect": [
+            -9700.0,
+            -9700.0,
+            -9200.0,
+            9700.0
+          ],
+          "z0": 0.0,
+          "z1": 5.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilslab_N",
+      "group": "cheil",
+      "materialRole": "paving",
+      "location": [
+        0.0,
+        -9450.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9200.0,
+          -9700.0,
+          0.0
+        ],
+        "max": [
+          9200.0,
+          -9200.0,
+          5.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilslab_N_01",
+          "rect": [
+            -9200.0,
+            -9700.0,
+            9200.0,
+            -9200.0
+          ],
+          "z0": 0.0,
+          "z1": 5.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilslab_S",
+      "group": "cheil",
+      "materialRole": "paving",
+      "location": [
+        0.0,
+        9450.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9200.0,
+          9200.0,
+          0.0
+        ],
+        "max": [
+          9200.0,
+          9700.0,
+          5.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilslab_S_01",
+          "rect": [
+            -9200.0,
+            9200.0,
+            9200.0,
+            9700.0
+          ],
+          "z0": 0.0,
+          "z1": 5.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilwall_E",
+      "group": "cheil",
+      "materialRole": "stone",
+      "location": [
+        9725.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          9700.0,
+          -9750.0,
+          0.0
+        ],
+        "max": [
+          9750.0,
+          9750.0,
+          500.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilwall_E_01",
+          "rect": [
+            9700.0,
+            -9750.0,
+            9750.0,
+            -250.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        },
+        {
+          "name": "cheilwall_E_02",
+          "rect": [
+            9700.0,
+            250.0,
+            9750.0,
+            9750.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilwall_W",
+      "group": "cheil",
+      "materialRole": "stone",
+      "location": [
+        -9725.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9750.0,
+          -9750.0,
+          0.0
+        ],
+        "max": [
+          -9700.0,
+          9750.0,
+          500.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilwall_W_01",
+          "rect": [
+            -9750.0,
+            -9750.0,
+            -9700.0,
+            9750.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilwall_N",
+      "group": "cheil",
+      "materialRole": "stone",
+      "location": [
+        0.0,
+        -9725.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9700.0,
+          -9750.0,
+          0.0
+        ],
+        "max": [
+          9700.0,
+          -9700.0,
+          500.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilwall_N_01",
+          "rect": [
+            -9700.0,
+            -9750.0,
+            -250.0,
+            -9700.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        },
+        {
+          "name": "cheilwall_N_02",
+          "rect": [
+            250.0,
+            -9750.0,
+            9700.0,
+            -9700.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Cheilwall_S",
+      "group": "cheil",
+      "materialRole": "stone",
+      "location": [
+        0.0,
+        9725.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9700.0,
+          9700.0,
+          0.0
+        ],
+        "max": [
+          9700.0,
+          9750.0,
+          500.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "cheilwall_S_01",
+          "rect": [
+            -9700.0,
+            9700.0,
+            -250.0,
+            9750.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        },
+        {
+          "name": "cheilwall_S_02",
+          "rect": [
+            250.0,
+            9700.0,
+            9700.0,
+            9750.0
+          ],
+          "z0": 0.0,
+          "z1": 500.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Soreg_E",
+      "group": "soreg",
+      "materialRole": "cedar",
+      "location": [
+        10262.5,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          10250.0,
+          -10275.0,
+          0.0
+        ],
+        "max": [
+          10275.0,
+          10275.0,
+          83.33333333333334
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "soreg_E_01",
+          "rect": [
+            10250.0,
+            -10275.0,
+            10275.0,
+            -250.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        },
+        {
+          "name": "soreg_E_02",
+          "rect": [
+            10250.0,
+            250.0,
+            10275.0,
+            10275.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Soreg_W",
+      "group": "soreg",
+      "materialRole": "cedar",
+      "location": [
+        -10262.5,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -10275.0,
+          -10275.0,
+          0.0
+        ],
+        "max": [
+          -10250.0,
+          10275.0,
+          83.33333333333334
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "soreg_W_01",
+          "rect": [
+            -10275.0,
+            -10275.0,
+            -10250.0,
+            10275.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Soreg_N",
+      "group": "soreg",
+      "materialRole": "cedar",
+      "location": [
+        0.0,
+        -10262.5,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -10250.0,
+          -10275.0,
+          0.0
+        ],
+        "max": [
+          10250.0,
+          -10250.0,
+          83.33333333333334
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "soreg_N_01",
+          "rect": [
+            -10250.0,
+            -10275.0,
+            -250.0,
+            -10250.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        },
+        {
+          "name": "soreg_N_02",
+          "rect": [
+            250.0,
+            -10275.0,
+            10250.0,
+            -10250.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Soreg_S",
+      "group": "soreg",
+      "materialRole": "cedar",
+      "location": [
+        0.0,
+        10262.5,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -10250.0,
+          10250.0,
+          0.0
+        ],
+        "max": [
+          10250.0,
+          10275.0,
+          83.33333333333334
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "soreg_S_01",
+          "rect": [
+            -10250.0,
+            10250.0,
+            -250.0,
+            10275.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        },
+        {
+          "name": "soreg_S_02",
+          "rect": [
+            250.0,
+            10250.0,
+            10250.0,
+            10275.0
+          ],
+          "z0": 0.0,
+          "z1": 83.33333333333334
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": true
+    },
+    {
+      "mesh": "SM_EnclosureV1_Steps_E",
+      "group": "steps",
+      "materialRole": "stone",
+      "location": [
+        8850.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          8600.0,
+          -250.0,
+          0.0
+        ],
+        "max": [
+          9100.0,
+          250.0,
+          300.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "step_E_01",
+          "rect": [
+            8600.0,
+            -250.0,
+            9100.0,
+            250.0
+          ],
+          "z0": 0.0,
+          "z1": 25.0
+        },
+        {
+          "name": "step_E_02",
+          "rect": [
+            8600.0,
+            -250.0,
+            9075.0,
+            250.0
+          ],
+          "z0": 25.0,
+          "z1": 50.0
+        },
+        {
+          "name": "step_E_03",
+          "rect": [
+            8600.0,
+            -250.0,
+            9050.0,
+            250.0
+          ],
+          "z0": 50.0,
+          "z1": 75.0
+        },
+        {
+          "name": "step_E_04",
+          "rect": [
+            8600.0,
+            -250.0,
+            9025.0,
+            250.0
+          ],
+          "z0": 75.0,
+          "z1": 100.0
+        },
+        {
+          "name": "step_E_05",
+          "rect": [
+            8600.0,
+            -250.0,
+            9000.0,
+            250.0
+          ],
+          "z0": 100.0,
+          "z1": 125.0
+        },
+        {
+          "name": "step_E_06",
+          "rect": [
+            8600.0,
+            -250.0,
+            8975.0,
+            250.0
+          ],
+          "z0": 125.0,
+          "z1": 150.0
+        },
+        {
+          "name": "step_E_07",
+          "rect": [
+            8600.0,
+            -250.0,
+            8950.0,
+            250.0
+          ],
+          "z0": 150.0,
+          "z1": 175.0
+        },
+        {
+          "name": "step_E_08",
+          "rect": [
+            8600.0,
+            -250.0,
+            8925.0,
+            250.0
+          ],
+          "z0": 175.0,
+          "z1": 200.0
+        },
+        {
+          "name": "step_E_09",
+          "rect": [
+            8600.0,
+            -250.0,
+            8900.0,
+            250.0
+          ],
+          "z0": 200.0,
+          "z1": 225.0
+        },
+        {
+          "name": "step_E_10",
+          "rect": [
+            8600.0,
+            -250.0,
+            8875.0,
+            250.0
+          ],
+          "z0": 225.0,
+          "z1": 250.0
+        },
+        {
+          "name": "step_E_11",
+          "rect": [
+            8600.0,
+            -250.0,
+            8850.0,
+            250.0
+          ],
+          "z0": 250.0,
+          "z1": 275.0
+        },
+        {
+          "name": "step_E_12",
+          "rect": [
+            8600.0,
+            -250.0,
+            8825.0,
+            250.0
+          ],
+          "z0": 275.0,
+          "z1": 300.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": false,
+      "duplicatesMeasuredStairs": [
+        "SM_0261_architecture_Outer_E_stair_1",
+        "SM_0262_architecture_Outer_E_stair_2",
+        "SM_0263_architecture_Outer_E_stair_3",
+        "SM_0264_architecture_Outer_E_stair_4",
+        "SM_0265_architecture_Outer_E_stair_5",
+        "SM_0266_architecture_Outer_E_stair_6",
+        "SM_0267_architecture_Outer_E_stair_7",
+        "SM_0268_architecture_Outer_E_stair_8",
+        "SM_0269_architecture_Outer_E_stair_9",
+        "SM_0270_architecture_Outer_E_stair_10",
+        "SM_0271_architecture_Outer_E_stair_11",
+        "SM_0272_architecture_Outer_E_stair_12"
+      ]
+    },
+    {
+      "mesh": "SM_EnclosureV1_Steps_N",
+      "group": "steps",
+      "materialRole": "stone",
+      "location": [
+        0.0,
+        -8787.5,
+        250.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -250.0,
+          -8975.0,
+          250.0
+        ],
+        "max": [
+          250.0,
+          -8600.0,
+          425.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "step_N_01",
+          "rect": [
+            -250.0,
+            -8975.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 250.0,
+          "z1": 275.0
+        },
+        {
+          "name": "step_N_02",
+          "rect": [
+            -250.0,
+            -8950.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 275.0,
+          "z1": 300.0
+        },
+        {
+          "name": "step_N_03",
+          "rect": [
+            -250.0,
+            -8925.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 300.0,
+          "z1": 325.0
+        },
+        {
+          "name": "step_N_04",
+          "rect": [
+            -250.0,
+            -8900.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 325.0,
+          "z1": 350.0
+        },
+        {
+          "name": "step_N_05",
+          "rect": [
+            -250.0,
+            -8875.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 350.0,
+          "z1": 375.0
+        },
+        {
+          "name": "step_N_06",
+          "rect": [
+            -250.0,
+            -8850.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 375.0,
+          "z1": 400.0
+        },
+        {
+          "name": "step_N_07",
+          "rect": [
+            -250.0,
+            -8825.0,
+            250.0,
+            -8600.0
+          ],
+          "z0": 400.0,
+          "z1": 425.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": false,
+      "duplicatesMeasuredStairs": [
+        "SM_0357_architecture_Outer_N_stair_1",
+        "SM_0358_architecture_Outer_N_stair_2",
+        "SM_0359_architecture_Outer_N_stair_3",
+        "SM_0360_architecture_Outer_N_stair_4",
+        "SM_0361_architecture_Outer_N_stair_5",
+        "SM_0362_architecture_Outer_N_stair_6",
+        "SM_0363_architecture_Outer_N_stair_7"
+      ]
+    },
+    {
+      "mesh": "SM_EnclosureV1_Steps_S",
+      "group": "steps",
+      "materialRole": "stone",
+      "location": [
+        0.0,
+        8787.5,
+        250.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -250.0,
+          8600.0,
+          250.0
+        ],
+        "max": [
+          250.0,
+          8975.0,
+          425.0
+        ]
+      },
+      "boxesWorldCm": [
+        {
+          "name": "step_S_01",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8975.0
+          ],
+          "z0": 250.0,
+          "z1": 275.0
+        },
+        {
+          "name": "step_S_02",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8950.0
+          ],
+          "z0": 275.0,
+          "z1": 300.0
+        },
+        {
+          "name": "step_S_03",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8925.0
+          ],
+          "z0": 300.0,
+          "z1": 325.0
+        },
+        {
+          "name": "step_S_04",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8900.0
+          ],
+          "z0": 325.0,
+          "z1": 350.0
+        },
+        {
+          "name": "step_S_05",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8875.0
+          ],
+          "z0": 350.0,
+          "z1": 375.0
+        },
+        {
+          "name": "step_S_06",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8850.0
+          ],
+          "z0": 375.0,
+          "z1": 400.0
+        },
+        {
+          "name": "step_S_07",
+          "rect": [
+            -250.0,
+            8600.0,
+            250.0,
+            8825.0
+          ],
+          "z0": 400.0,
+          "z1": 425.0
+        }
+      ],
+      "zPolicy": "platform_deck_z0",
+      "placeByDefault": false,
+      "duplicatesMeasuredStairs": [
+        "SM_0458_architecture_Outer_S_stair_1",
+        "SM_0459_architecture_Outer_S_stair_2",
+        "SM_0460_architecture_Outer_S_stair_3",
+        "SM_0461_architecture_Outer_S_stair_4",
+        "SM_0462_architecture_Outer_S_stair_5",
+        "SM_0463_architecture_Outer_S_stair_6",
+        "SM_0464_architecture_Outer_S_stair_7"
+      ]
+    }
+  ],
+  "checks": {
+    "perMesh": [
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_01",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 11404.815314194759,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 28870.61661684801,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_02",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 12776.067435301045,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 13690.036746532433,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_03",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 16228.645075015298,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 9404.10130788202,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_04",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 19342.810293144958,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 10441.813339416398,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_05",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 25547.2571561881,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 21735.781546141934,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_06",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 39932.08144812143,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 38161.225176089254,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_07",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 56917.527259662325,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 56047.8624705277,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_W_08",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 74751.34573992233,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 74361.08974517646,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_01",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 104666.7779858251,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 133223.54228187093,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_02",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 102759.75257530423,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 130546.1235947416,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_03",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 101529.32729445412,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 129874.02887912118,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_04",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 101538.93441987543,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 129987.73659922136,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_05",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 103543.56683878897,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 132115.3206360396,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_06",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 108791.13136774414,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 136803.61554921913,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_07",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 116845.51893354216,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 143802.3835265381,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_E_08",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 127174.5466884933,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 152794.4592859589,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_01",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 10066.252287914916,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 41538.80603396798,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_02",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 8079.561278954359,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 41538.80603396798,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_03",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 7599.6282380261555,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 45829.22175184753,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_04",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 14914.168733658753,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 56326.49444118118,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_05",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 32437.0658147195,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 70303.21212921082,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_06",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 50787.84597047648,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 86080.89535627063,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_07",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 69307.49612354908,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 102833.89861806083,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_N_08",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 87848.95487528511,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 120154.95043751637,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_01",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 90454.1178701534,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 91510.70694584207,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_02",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 90446.93548230243,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 91637.86617893494,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_03",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 92051.21408398688,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 94433.6187976441,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_04",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 95217.03795262676,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 100607.70481862292,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_05",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 98751.68948883843,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 109652.28419200196,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_06",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 105368.98090307394,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 120924.96780308012,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_07",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 114677.19627809516,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 133864.04856356455,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Wall_S_08",
+        "group": "wall",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 126081.75048696445,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 148033.2071107046,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Gate_E",
+        "group": "gates",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 103133.57292696468,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 130960.61354370309,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Gate_N",
+        "group": "gates",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 8478.138276747379,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 43852.57469692759,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Gate_W",
+        "group": "gates",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 15317.198152754005,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 16496.527520996904,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Gate_S1",
+        "group": "gates",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 94064.7168128267,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 97896.01578638205,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Gate_S2",
+        "group": "gates",
+        "expectedPlatformRelation": "outside",
+        "platformRelations": [
+          "outside",
+          "outside",
+          "outside"
+        ],
+        "minBoundaryDistanceCm": 107893.6729082107,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 124635.3938704715,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilslab_E",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 2090.046777247424,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 23384.905096450922,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilslab_W",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 5751.26202655689,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 4644.941959105015,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilslab_N",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 2590.0348544145777,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 18746.284864436857,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilslab_S",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 4563.275069329726,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 5137.655183783195,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilwall_E",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 2040.2672083044276,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 23880.302722164484,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilwall_W",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 5692.564054073874,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 4586.980603104218,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilwall_N",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 2090.046777247424,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 19083.56920894554,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Cheilwall_S",
+        "group": "cheil",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 4117.897502281833,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 4636.258464716386,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Soreg_E",
+        "group": "soreg",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 1614.8018944695173,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 24400.461992362285,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Soreg_W",
+        "group": "soreg",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 5076.235343002211,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 3985.9916556736966,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Soreg_N",
+        "group": "soreg",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 1629.9195634393564,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 19477.49914747821,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Soreg_S",
+        "group": "soreg",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 3627.9821785291483,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 4010.393400690303,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Steps_E",
+        "group": "steps",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 3681.456058287833,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 24895.288812520623,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Steps_N",
+        "group": "steps",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 11563.755237049181,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 22607.235465899284,
+        "protectedCheckPassed": true
+      },
+      {
+        "mesh": "SM_EnclosureV1_Steps_S",
+        "group": "steps",
+        "expectedPlatformRelation": "inside",
+        "platformRelations": [
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside",
+          "inside"
+        ],
+        "minBoundaryDistanceCm": 13402.589057366155,
+        "platformCheckPassed": true,
+        "protectedPolygonHits": [],
+        "minProtectedDistanceCm": 14077.846260117927,
+        "protectedCheckPassed": true
+      }
+    ],
+    "allPlatformChecksPassed": true,
+    "allProtectedChecksPassed": true,
+    "minProtectedDistanceCmOverAllParts": 3985.9916556736966,
+    "rule": "ring parts must lie inside the platform polygon by >= wall inset 110 + guard 201 cm; wall/gate parts must lie entirely outside it (they stand on terrain/city); no part may enter or come within the no-edit buffer of the Western Wall or plaza polygons"
+  },
+  "totals": {
+    "meshes": 52,
+    "triangles": 3780,
+    "byGroup": {
+      "wall": 32,
+      "gates": 5,
+      "cheil": 8,
+      "soreg": 4,
+      "steps": 3
+    }
+  }
+}

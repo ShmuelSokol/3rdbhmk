@@ -1,0 +1,65 @@
+{
+  "status": "script_prepared_not_executed",
+  "map": "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV1/L_IncenseSmokeReview",
+  "purpose": "Original smoke visibility and finite-lifetime study in an artificial open-front enclosure",
+  "ceiling_underside_cm": 900,
+  "camera_cm": [
+    0,
+    -1800,
+    450
+  ],
+  "camera_yaw_degrees": 90,
+  "field_of_view_degrees": 60,
+  "reference_ages_seconds": [
+    0,
+    1,
+    3,
+    6,
+    9,
+    12
+  ],
+  "activation": "Saved inactive. Explicit preview_at() only, no automatic loop or gameplay placement",
+  "native_api_evidence": [
+    "LevelEditorSubsystem.h: NewLevel, SaveCurrentLevel, LoadLevel",
+    "NiagaraActor.h: reflected NiagaraComponent; Actor.GetComponentByClass",
+    "NiagaraComponent.h: SetAsset, SetDesiredAge, SetAgeUpdateMode, DeactivateImmediate",
+    "Engine/Scene.h: manual exposure and physical-camera-exposure overrides"
+  ],
+  "review_required": [
+    "Native authoring and reopen readback",
+    "Visible plume before matched ceiling-spread phase",
+    "No roof clipping or constant exterior pillar",
+    "No smoke remaining after finite study duration",
+    "Material readability and source dependency audit",
+    "No historical altar, temple room, lighting or vantage claim"
+  ],
+  "execution": {
+    "status": "failed_partial_review_assets_preserved",
+    "map": "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV2/L_IncenseSmokeReview",
+    "previous_editor_map": "/Engine/Maps/Entry",
+    "main_map_sha256_before": "f729834e481056e52cb01734cdf652c4a69a7800a75e6719c16ad847703bd409",
+    "camera_cm": [
+      0.0,
+      -1800.0,
+      450.0
+    ],
+    "camera_rotation": {
+      "pitch": 0.0,
+      "yaw": 90.0,
+      "roll": 0.0
+    },
+    "ceiling_underside_cm": 900,
+    "smoke_origin_cm": [
+      0,
+      0,
+      0
+    ],
+    "limits": [
+      "Artificial open-front room, not Temple architecture",
+      "No collision-aware smoke; matched height only",
+      "No native rendering or lifetime acceptance implied by save/reopen",
+      "Smoke asset saved inactive; activate only for explicit review"
+    ],
+    "error": "Reopened smoke assignment or inactive default differs"
+  }
+}

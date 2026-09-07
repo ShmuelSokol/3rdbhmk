@@ -15,7 +15,7 @@ design or a halachic ruling. Every claim points at a receipt under `SourceAssets
     MENU_OPEN once, no MENU_RESUME, 0 errors, closed by the test's safeguard. Earlier resume events in the 06 and 07-rc1
     tests happened while no input was sent by the test; a 40 s settle test showed the timing was independent of the script,
     consistent with an operator click. Not reproduced here.
-  - git commit (`ShmuelSokol/3rdbhmk`, `unreal/MikdashCourtyardV3`): see the follow-up commit that records the hash.
+  - git commit (`ShmuelSokol/3rdbhmk`, `unreal/MikdashCourtyardV3`): `29cf0195716f689eaebe426637144ce4e056ef2e` (hash recorded in the following commit).
 - Release candidate `Walkthrough-07-rc1` (before the frieze and the Aron rotation): 7,958 packages, 0 errors, 179 s,
   peak 8.4 GB; launch smoke `RuntimeBuild-07\rc1\Packaged-Launch-*.json` (menu ready 20 s, 0 errors).
 

@@ -1,0 +1,94 @@
+{
+  "status": "restored",
+  "profile": "paving",
+  "component": "/Game/MikdashV3/Maps/Courtyard.Courtyard:PersistentLevel.StaticMeshActor_130.StaticMeshComponent0",
+  "sourceMesh": "SM_0130_floor_Inner_court_clear_floor",
+  "sourceBoundsCm": {
+    "min": [
+      1675.0,
+      -2500.0,
+      479.9996032714844
+    ],
+    "max": [
+      2500.0,
+      2500.0,
+      500.0003967285156
+    ]
+  },
+  "manifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "originalMaterial": "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Paving_Pilot01_innerPaving.M_StonePilot_Paving_Pilot01_innerPaving",
+  "originalOverrides": [
+    "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Paving_Pilot01_innerPaving.M_StonePilot_Paving_Pilot01_innerPaving"
+  ],
+  "pilot": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview.M_JerusalemStoneV2_PavingReview",
+  "originalCamera": {
+    "location": [
+      2089.941384,
+      1.70914,
+      667.518924
+    ],
+    "rotationPitchYawRoll": [
+      2e-06,
+      -179.999999,
+      0.0
+    ]
+  },
+  "reviewCamera": [
+    2100,
+    -1500,
+    668
+  ],
+  "reviewRotationPitchYawRoll": [
+    0,
+    170,
+    0
+  ],
+  "cameraSource": "Scripts/review_exposure_bounded.py",
+  "originalThrottle": 1,
+  "exposureBiasBefore": [
+    {
+      "actor": "/Game/MikdashV3/Maps/Courtyard.Courtyard:PersistentLevel.PostProcessVolume_0",
+      "bias": 1.0
+    }
+  ],
+  "mapSaved": false,
+  "events": [
+    {
+      "stage": "baseline",
+      "seconds": 0.0
+    },
+    {
+      "stage": "candidate_applied",
+      "seconds": 20.0
+    },
+    {
+      "stage": "restored",
+      "seconds": 50.031
+    }
+  ],
+  "visualAcceptance": "not_approved_for_broad_assignment",
+  "scope": "One component; fixed existing camera. Operator must confirm target visibility. No lighting changes, source geometry changes, screenshots or automatic visual judgment.",
+  "timing": "20s baseline+30s candidate; restore on first tick >=50s; stalled editor may delay callback",
+  "overridesRestored": true,
+  "materialRestored": true,
+  "cameraAfter": {
+    "location": [
+      2089.941384,
+      1.70914,
+      667.518924
+    ],
+    "rotationPitchYawRoll": [
+      2e-06,
+      -179.999999,
+      0.0
+    ]
+  },
+  "cameraRestored": true,
+  "throttleRestored": true,
+  "exposureBiasUnchanged": true,
+  "dirtyMapPackagesAfter": [
+    "/Game/MikdashV3/Maps/Courtyard"
+  ],
+  "restoreErrors": [],
+  "observedReview": "Paving camera is obscured by foreground steps; cannot judge candidate detail reliably."
+}

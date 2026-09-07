@@ -1,0 +1,25 @@
+{
+  "build": "Walkthrough-03",
+  "status": "bounded_packaged_preparation_ui_pass_with_usability_issue",
+  "passed": [
+    "Windows dialog cleared by user; menu visible with larger labels",
+    "Preparation opens from welcome without starting walk",
+    "Selected unfinished purification scenario",
+    "Incorrect all-clear answer retained Recall and displayed correction",
+    "Scrolling exposed all answers, correction, source and back control",
+    "Correct answer showed private offscreen preparation",
+    "Completion retained unfinished corpse process in reflection",
+    "Escape from lesson returned welcome menu without starting",
+    "Reopened lesson preserved reflection progress",
+    "AltF4 closed game"
+  ],
+  "issues": [
+    "Scenario chooser remains above active card, causing unnecessary scrolling and hiding corrective feedback. Focused layout fix in progress."
+  ],
+  "limits": [
+    "Other four scenarios not individually exercised in native UI; model suite covers all five",
+    "No physical mikvah environment or animation",
+    "No full walkthrough movement acceptance from this test"
+  ],
+  "log": "C:/Mikdash/Working-5.8/Packaged-Runtime-05.log"
+}

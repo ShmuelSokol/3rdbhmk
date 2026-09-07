@@ -23,17 +23,40 @@ PROFILES = {
         "source": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
         "sourceMaterialKey": "stone",
         "pilot": "M_JerusalemStoneV2_WallReview",
-        "camera": [6500, -1800, 468], "rotation": [0, 155, 0],
-        "cameraSource": "Scripts/review_exterior_exposure.py",
+        "viewFace": "east", "viewDistanceCm": 200.0,
+        "cameraSource": "Verified manifest east face; center in Y, 200cm above its bottom",
     },
     "paving": {
         "source": "SM_0130_floor_Inner_court_clear_floor",
         "sourceMaterialKey": "innerPaving",
         "pilot": "M_JerusalemStoneV2_PavingReview",
-        "camera": [2100, -1500, 668], "rotation": [0, 170, 0],
-        "cameraSource": "Scripts/review_exposure_bounded.py",
+        "viewFace": "top", "viewDistanceCm": 200.0,
+        "cameraSource": "Verified manifest slab top center; downward normal view",
     },
 }
+
+
+def _derive_camera(bounds, face, distance_cm):
+    """Pure geometry: a 2m face-normal sample, never an inferred walk position."""
+    lower, upper = bounds["min"], bounds["max"]
+    assert distance_cm > 0 and all(upper[i] > lower[i] for i in range(3))
+    target = [(lower[i]+upper[i])*0.5 for i in range(3)]
+    if face == "east":
+        target[0] = upper[0]
+        target[2] = lower[2]+min(200.0, (upper[2]-lower[2])*0.5)
+        camera = [target[0]+distance_cm, target[1], target[2]]
+    elif face == "top":
+        target[2] = upper[2]
+        camera = [target[0], target[1], target[2]+distance_cm]
+    else:
+        raise ValueError("Unsupported bounded-review face")
+    direction = [target[i]-camera[i] for i in range(3)]
+    horizontal = math.hypot(direction[0], direction[1])
+    pitch = math.degrees(math.atan2(direction[2], horizontal))
+    yaw = math.degrees(math.atan2(direction[1], direction[0])) if horizontal > 0 else 0.0
+    assert abs(math.sqrt(sum(value*value for value in direction))-distance_cm) < 0.0001
+    assert not all(lower[i] <= camera[i] <= upper[i] for i in range(3))
+    return camera, [pitch, yaw, 0.0], target
 
 
 def _path(obj):
@@ -158,6 +181,8 @@ def start(profile):
     error = max(abs(bounds[k][i]-source["expectedBoundsUnrealCm"][k][i])
                 for k in bounds for i in range(3))
     assert math.isfinite(error) and error <= 0.5
+    review_camera, review_rotation, review_target = _derive_camera(
+        source["expectedBoundsUnrealCm"], chosen["viewFace"], chosen["viewDistanceCm"])
     assert mesh.get_num_triangles(0) == source["triangles"]
     transform = component.get_world_transform()
     loc, scale, rot = transform.translation, transform.scale3d, transform.rotation.rotator()
@@ -182,11 +207,13 @@ def start(profile):
               "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
               "originalMaterial": _path(original), "originalOverrides": [_path(x) for x in overrides],
               "pilot": _path(pilot), "originalCamera": _camera_data(camera),
-              "reviewCamera": chosen["camera"], "reviewRotationPitchYawRoll": chosen["rotation"],
+              "reviewCamera": review_camera, "reviewRotationPitchYawRoll": review_rotation,
+              "reviewTargetCm": review_target, "reviewFace": chosen["viewFace"],
+              "reviewDistanceCm": chosen["viewDistanceCm"],
               "cameraSource": chosen["cameraSource"], "originalThrottle": throttle,
               "exposureBiasBefore": [{"actor": _path(a), "bias": b} for a, b in exposure],
               "mapSaved": False, "events": [], "visualAcceptance": "PENDING",
-              "scope": "One component; fixed existing camera. Operator must confirm target visibility. No lighting changes, source geometry changes, screenshots or automatic visual judgment.",
+              "scope": "One component; fixed 2m face-normal camera derived from verified source bounds. Operator must confirm no other geometry occludes it. This is a material inspection view, not a player/access position. No lighting changes, source geometry changes, screenshots or automatic visual judgment.",
               "timing": "20s baseline+30s candidate; restore on first tick >=50s; stalled editor may delay callback"}
     _state = dict(active=True, phase="baseline", started=time.monotonic(), handle=None,
                   component=component, overrides=overrides, original=original, pilot=pilot,
@@ -195,8 +222,8 @@ def start(profile):
     try:
         _state["handle"] = unreal.register_slate_post_tick_callback(_tick)
         unreal.SystemLibrary.execute_console_command(world, "Slate.bAllowThrottling 0")
-        pitch, yaw, roll = chosen["rotation"]
-        editor.set_level_viewport_camera_info(unreal.Vector(*chosen["camera"]),
+        pitch, yaw, roll = review_rotation
+        editor.set_level_viewport_camera_info(unreal.Vector(*review_camera),
             unreal.Rotator(pitch=pitch, yaw=yaw, roll=roll))
         _record("baseline")
         unreal.log("JERUSALEM_STONE_V2_BASELINE: "+profile+"; candidate after 20 seconds")

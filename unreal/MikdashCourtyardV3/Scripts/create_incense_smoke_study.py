@@ -10,9 +10,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 import unreal as ue
 
-ROOT = '/Game/MikdashV3/MaterialReview/IncenseSmokeV1'
+ROOT = '/Game/MikdashV3/MaterialReview/IncenseSmokeV2'
 REPORT = Path(ue.Paths.project_dir()) / 'SourceAssets/vessels-review/incense-smoke-study-spec.json'
 MODULES = {
+    'velocity': '/Niagara/Modules/Spawn/Velocity/AddVelocity.AddVelocity',
     'state': '/Niagara/Modules/Emitter/EmitterState.EmitterState',
     'spawn': '/Niagara/Modules/Emitter/SpawnRate.SpawnRate',
     'init': '/Niagara/Modules/Spawn/Initialization/V2/InitializeParticle.InitializeParticle',
@@ -23,8 +24,11 @@ MODULES = {
 # Exact versions used by the installed UE converter examples. ParticleState
 # uses 1.1, while SolveForcesAndVelocity deliberately uses the exposed version.
 MODULE_VERSIONS = {'state': [1, 0], 'spawn': [1, 0], 'init': [1, 0],
-                   'life': [1, 1], 'solve': None, 'position': None}
+                   'velocity': [1, 2], 'life': [1, 1], 'solve': None, 'position': None}
 ENUMS = {
+    'size': '/Niagara/Enums/ENiagara_SizeScaleMode.ENiagara_SizeScaleMode',
+    'positionmode': '/Niagara/Enums/ENiagara_PositionInitializationMode.ENiagara_PositionInitializationMode',
+    'space': '/Niagara/Enums/ENiagaraCoordinateSpace.ENiagaraCoordinateSpace',
     'lifecycle': '/Niagara/Enums/ENiagaraEmitterLifeCycleMode.ENiagaraEmitterLifeCycleMode',
     'loop': '/Niagara/Enums/ENiagara_EmitterStateOptions.ENiagara_EmitterStateOptions',
     'inactive': '/Niagara/Enums/ENiagaraInactiveMode.ENiagaraInactiveMode',
@@ -142,11 +146,16 @@ def build(emission_seconds=6.0, rise_seconds=3.0, ceiling_height_cm=900.0,
             setp(spawn, 'SpawnRate', fx.create_script_input_float(rate))
             init = module(e, 'InitializeParticle', 'init', ue.ScriptExecutionCategory.PARTICLE_SPAWN)
             setp(init, 'Lifetime', fx.create_script_input_float(life))
-            e.set_parameter_directly('Particles.SpriteSize', fx.create_script_input_vec2(ue.Vector2D(size, size)), ue.ScriptExecutionCategory.PARTICLE_SPAWN)
-            e.set_parameter_directly('Particles.Velocity', fx.create_script_input_vector(ue.Vector(*velocity)), ue.ScriptExecutionCategory.PARTICLE_SPAWN)
-            position = fx.create_script_context(ue.CreateScriptContextArgs(fx.create_asset_data(MODULES['position'])))
-            setp(position, 'Input Position', fx.create_script_input_vector(ue.Vector(*offset)))
-            e.set_parameter_directly('Particles.Position', fx.create_script_input_dynamic(position, ue.NiagaraScriptInputType.POSITION), ue.ScriptExecutionCategory.PARTICLE_SPAWN)
+            # Converter direct assignments precede InitializeParticle, so use
+            # initializer inputs and the ordered AddVelocity spawn module.
+            setp(init, 'Sprite Size Mode', fx.create_script_input_enum(ENUMS['size'], 'Non-Uniform'))
+            setp(init, 'Sprite Size', fx.create_script_input_vec2(ue.Vector2D(size, size)), True)
+            setp(init, 'Position Mode', fx.create_script_input_enum(ENUMS['positionmode'], 'Simulation Position'))
+            setp(init, 'UsePositionOffset', fx.create_script_input_bool(True))
+            setp(init, 'Position Offset', fx.create_script_input_vector(ue.Vector(*offset)))
+            setp(init, 'Position Offset Coordinate Space', fx.create_script_input_enum(ENUMS['space'], 'Local'))
+            velocity_script = module(e, 'AddVelocity', 'velocity', ue.ScriptExecutionCategory.PARTICLE_SPAWN)
+            setp(velocity_script, 'Velocity', fx.create_script_input_vector(ue.Vector(*velocity)))
             life_script = module(e, 'ParticleState', 'life', ue.ScriptExecutionCategory.PARTICLE_UPDATE)
             setp(life_script, 'Kill Particles When Lifetime Has Elapsed', fx.create_script_input_bool(True))
             module(e, 'SolveVelocity', 'solve', ue.ScriptExecutionCategory.PARTICLE_UPDATE)

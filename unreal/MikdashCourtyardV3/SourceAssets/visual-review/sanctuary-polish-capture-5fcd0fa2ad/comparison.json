@@ -1,0 +1,168 @@
+{
+  "status": "captured_restored_requires_visual_review",
+  "maps": {
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "priorWideImage": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\atmosphere-comparison-3b69314abc\\gold_heikhal_west.png",
+  "priorWideImageSha256": "030d553ebac0dc4469d0f2bb43be7e3ffc09b0217b51cc0c6e3decc7c6d82925",
+  "comparisonScope": "Wide camera matches prior Gold image, but candidate may add menorah and other objects; scene inventory is recorded. Not a controlled materials-only A/B. New close vessel view has no prior matched baseline.",
+  "fovDegrees": 75,
+  "warmupSecondsPerView": 45,
+  "minimumSlateTicksPerView": 120,
+  "watchdogSeconds": 600,
+  "sourceManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "interiorFloorBounds": {
+    "min": [
+      -5600.0,
+      -500.0,
+      904.9999237060547
+    ],
+    "max": [
+      -3600.0,
+      500.0,
+      925.0
+    ]
+  },
+  "views": [
+    {
+      "id": "heikhal_west",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "yaw": 180.0,
+      "pitch": 0.0,
+      "basis": "Exact prior Gold baseline camera; source Heichal floor top925cm plus168cm eyeheight."
+    },
+    {
+      "id": "altar_close",
+      "position": [
+        -4280.0,
+        -130.0,
+        1093.0
+      ],
+      "target": [
+        -4500.0,
+        0.0,
+        980.0
+      ],
+      "yaw": 149.42077312751098,
+      "pitch": -23.855166272985333,
+      "basis": "Verified actual altar at[-4500,0,925];220cm east/130cm north offset;168cm above measured floor."
+    }
+  ],
+  "events": [
+    {
+      "event": "warming_polish_heikhal_west",
+      "elapsedSeconds": 0.33
+    },
+    {
+      "event": "requested_polish_heikhal_west",
+      "elapsedSeconds": 53.55
+    },
+    {
+      "event": "captured_polish_heikhal_west",
+      "elapsedSeconds": 55.01
+    },
+    {
+      "event": "warming_polish_altar_close",
+      "elapsedSeconds": 55.19
+    },
+    {
+      "event": "requested_polish_altar_close",
+      "elapsedSeconds": 100.22
+    },
+    {
+      "event": "captured_polish_altar_close",
+      "elapsedSeconds": 100.69
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 104.7
+    }
+  ],
+  "captures": [
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+      "view": "heikhal_west",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-5fcd0fa2ad\\polish_heikhal_west.png",
+      "bytes": 2737716,
+      "sha256": "34894506d011287d2afde9d2fbde19acf76bb8445e25c9fb2582e9219a936b4c",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+      "view": "altar_close",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-5fcd0fa2ad\\polish_altar_close.png",
+      "bytes": 3364031,
+      "sha256": "e783acb7a4dd25bd4c5a0342b487559339b4b9d6f6b7b21e58ac50639f9df2d6",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true
+    }
+  ],
+  "mapSaved": false,
+  "adopted": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical comparison stills. No access authorization, automatic image quality approval, transition/motion acceptance or packaged proof. Screenshots retain native renderer pixels.",
+  "reviewObjectInventory": [
+    {
+      "actor": "Review_HeichalSide-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D738C40) {x: -4600.000000, y: -500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalSide1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D7393C0) {x: -4600.000000, y: 500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshSide-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D739370) {x: -6200.000000, y: -500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshSide1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D738AB0) {x: -6200.000000, y: 500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshRear",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D7392D0) {x: -6700.000000, y: 0.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalEntranceJamb-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D739280) {x: -3600.000000, y: -375.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalEntranceJamb1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x000002851D7380B0) {x: -3600.000000, y: 375.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_GoldenIncenseAltarStudy",
+      "position": "<Struct 'Vector' (0x000002851D7380B0) {x: -4500.000000, y: 0.000000, z: 925.000000}>"
+    },
+    {
+      "actor": "REVIEW_HeikhalKeilim_SM_ShulchanStudy",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_ShulchanStudy",
+      "position": "<Struct 'Vector' (0x000002851D7380B0) {x: -4900.000000, y: -300.000000, z: 925.000000}>"
+    },
+    {
+      "actor": "REVIEW_TempleInstituteMenorahStudyV1",
+      "mesh": "/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1/Meshes/SM_MenorahStudyV1",
+      "position": "<Struct 'Vector' (0x000002851D7380B0) {x: -4900.000000, y: 300.000000, z: 925.000000}>"
+    }
+  ],
+  "originalMapAndCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapsUnchanged": true
+}

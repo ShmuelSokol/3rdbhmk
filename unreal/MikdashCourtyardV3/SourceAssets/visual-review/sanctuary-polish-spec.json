@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "status": "NATIVE_PILOT_AUTHORED_NOT_EXECUTED",
+  "evidenceImage": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\atmosphere-comparison-3b69314abc\\gold_heikhal_west.png",
+  "evidenceSha256": "030d553ebac0dc4469d0f2bb43be7e3ffc09b0217b51cc0c6e3decc7c6d82925",
+  "observations": [
+    "Central partition is pale and visually dominant; side/floor gold have strong contrast and visible stochastic grain; altar front nearlyblack. No cinematic acceptance.",
+    "PNG sample centralwall x620..1290 y80..400 meanRGB236.5/225.4/193.8, no pixels with any channel>=250; bright glare/desaturation rather than demonstrated output clipping.",
+    "Altar front x920..1000 y790..860 meanRGB1.2/1.5/0.7 is effectively black. These display-pixel readings are not scene radiance or lighting measurements."
+  ],
+  "diagnosis": {
+    "confirmed": [
+      "Constant metallicgold1/.766/.336 with metallic1, wall/floor roughness.34, vessels.28; no authored texture noise in these materials.",
+      "Historical lighting audit has20,000lux sun; capturedscene uses later exposure adaptation. Existing Lumen quality1 historicalaudit, not current native proof."
+    ],
+    "inferences": [
+      "Large specular contrast and missing visible reflection illumination likely contribute to dark altar and pale wall. Raising roughness should spread reflections, but may not repair insufficient lighting.",
+      "Visible grain may be stochastic indirect/reflection sampling; one screenshot cannot distinguish GI noise from temporal capture convergence. Do not add faux texture to hide it."
+    ]
+  },
+  "script": "Scripts/build_sanctuary_polish.py",
+  "entryPoint": "import build_sanctuary_polish as p; p.build('/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish', portal_fill=True)",
+  "requirements": [
+    "Root duplicates latest savedGold map with both studiedkeilim into newnamespace/Maps; noPIE/dirtymap; script savesonlynewmaterials and leavesmapunsaved",
+    "Native needs RectLight setters and UE.Material/PP export_text alreadyusedinproject; offline syntax only",
+    "Originalmaterial assets and sharednative geometryneveredited; failuresrestorecomponentoverrides andremoveonlynewproxyactor; originalreviewmap remains on disk",
+    "Fresh materialnamespace required; existingpartialassets preserved rather than silentlyoverwritten"
+  ],
+  "adjustments": {
+    "wallRoughness": 0.48,
+    "floorRoughness": 0.55,
+    "vesselRoughness": 0.38,
+    "goldLinearRGBUnchanged": [
+      1,
+      0.766,
+      0.336
+    ],
+    "metallicUnchanged": 1,
+    "globalExposureChanged": false,
+    "emissiveAdded": false,
+    "lightOptional": {
+      "kind": "Broad rectangle at existingentrance, not fictional visiblefixture",
+      "enabledByDefault": false,
+      "sourceLocationCm": [
+        -3590,
+        0,
+        1900
+      ],
+      "faces": "west intoHeikhal",
+      "sourceDimensionsCm": [
+        400,
+        1000
+      ],
+      "lumens": 1200,
+      "temperatureKelvin": 5500,
+      "attenuationCm": 2600,
+      "certainty": "Artistic daylightproxy inside preserveddoor opening; not measured historicalradiance. May improve altarreflection but could addglare. A/Brequired."
+    }
+  },
+  "captureProtocol": [
+    "Same1920x1080 heikhal_westcamera/FOV75 and45secondwarmup120ticks as originalevidence; no globalexposure/sky time changes",
+    "Save/reopenreviewonly, capturematerial-only first whenisolatingcause; optionalportal-fill test in separatelyversionedreview ifneeded",
+    "If inspecting combinedportal_fill=True candidate, label combinedmaterial+lighttest and donotattribute improvementsolelytoroughness",
+    "Readback allexistinglights andPPunchanged; newrectlightonlyinoptionalcase",
+    "Compare goldhue, hierarchy ofbright/darkareas, altarfrontlegibility andgrain; do notjudgefewer clippedpixels alone",
+    "Repeat movingcamera/runtimeview to distinguishstochasticnoise andreflectionpop; performGPUtiming beforeincreasingLumenquality",
+    "Do not claimroomcomplete: carvings, authenticdetailing, menorahandserviceassembliesstill separatependingtasks"
+  ],
+  "verification": "Syntaxpassed; sourcevaluesread; imageviewedandpixelROIsmeasured viaPillow. No engineexecution or claimofimprovement."
+}

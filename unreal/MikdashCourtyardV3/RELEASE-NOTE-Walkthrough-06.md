@@ -16,7 +16,7 @@ finished future-Temple design and not a halachic ruling. Every claim below point
   - Packaged launch test `RuntimeBuild-06\final\Packaged-Launch-20260907T165414Z.json`: engine and menu ready after 20.3 s,
     0 errors, closed via WM_CLOSE. One MENU_RESUME event 9 s after launch that the passive test did not send (an operator
     click on Start is suspected); the menu reopened on focus loss 0.35 s later, which exercises auto-pause and mouse release.
-  - TODO-FILL git commit (publishing clone `ShmuelSokol/3rdbhmk`, `unreal/MikdashCourtyardV3`): `_______`
+  - git commit (publishing clone `ShmuelSokol/3rdbhmk`, `unreal/MikdashCourtyardV3`): `b6caf1c36d19a889ad2651698485b7b875654252` (this note's hash line added in the following commit)
 - Release candidate rc1 (superseded by the final build, kept as evidence): `C:\Mikdash\Builds\Walkthrough-06-rc1\`,
   cooked 7929/7929 packages, 0 cook errors, BuildCookRun exit 0 in 260 s (16:03:59-16:08:19 UTC), iostore pak,
   archive 2,733,244,796 bytes, exe SHA-256 `0B1DA59DA948ED5C27AA0DAAD3CBB4A9C07872CC684B258A2329A191335A9E0C`.

@@ -1,0 +1,77 @@
+{
+  "status": "APPLIED_UNSAVED_NATIVE_RUNTIME_AND_VISUAL_ACCEPTANCE_PENDING",
+  "map": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere",
+  "mapSaved": false,
+  "originalActorCount": 7288,
+  "cloudParent": "/Engine/EngineSky/VolumetricClouds/m_SimpleVolumetricCloud_Inst",
+  "windKeys": [
+    [
+      0,
+      0.18,
+      0.25
+    ],
+    [
+      12,
+      0.24,
+      0.32
+    ],
+    [
+      26,
+      0.42,
+      0.48
+    ],
+    [
+      39,
+      0.21,
+      0.29
+    ],
+    [
+      55,
+      0.32,
+      0.4
+    ],
+    [
+      72,
+      0.18,
+      0.25
+    ]
+  ],
+  "originalSkyLightingExposureChanged": false,
+  "treesChanged": false,
+  "cloudScalarParameterNames": [
+    "Layout_CloudGlobalScale",
+    "Cloud_GlobalCoverage",
+    "Cloud_GlobalDensity",
+    "StormClouds",
+    "Storm_LightningTexScale"
+  ],
+  "cloudVectorParameterNames": [
+    "Cloud_AlbedoColor",
+    "Layout_WindControls",
+    "Noise2_Coordinates",
+    "Noise3_Coordinates",
+    "Noise1_Coordinates",
+    "Layout_CloudType",
+    "Storm_LightningColor",
+    "Storm_AlbedoColor",
+    "Layout_GlobalTexturePlacement",
+    "Layout_CloudPerTypeScale",
+    "Layout_CloudTypeMask",
+    "Multiscatter_Controls",
+    "Phase_Controls",
+    "Noise3_MultChannel",
+    "Noise_Bias",
+    "Noise_Strength",
+    "Storm_LightningAnim",
+    "Storm_LightningClouds",
+    "Storm_LightningMasks"
+  ],
+  "createdActors": [
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere.CourtyardAtmosphere:PersistentLevel.VolumetricCloud_0",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere.CourtyardAtmosphere:PersistentLevel.WindDirectionalSource_0",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere.CourtyardAtmosphere:PersistentLevel.LevelSequenceActor_0"
+  ],
+  "sequence": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/LS_GentleVariableWind",
+  "cloudMaterial": "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+  "windConsumerLimitation": "Engine directional wind affects SpeedTree-compatible materials. Current generic context trees and cloth have no verified response; no implied coupling with cloud drift."
+}

@@ -1,0 +1,239 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable placement plan consumed by Scripts/release_place_assets.py. Every asset path, transform and bound below was resolved from receipts on disk; nothing here is a claim of visual or runtime acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "targetMapOneFilePerActor": false,
+  "targetMapOneFilePerActorNote": "Content/__ExternalActors__ and Content/__ExternalObjects__ contain only FirstPerson; no Walkthrough subfolder exists. The script still checks both folders at run time and copies them into the checkpoint if present.",
+  "integrationReceipt": "SourceAssets/IntegratedReviewV2/native-integration.json",
+  "integrationReceiptStatusRequired": "integrated_review_saved_reopened_visual_runtime_acceptance_pending",
+  "integrationTargetSha256": "acf11caff50b78df851cdde221ed3a33498d3e8e4433c3c09d0037a9cde958b1",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Release-",
+  "receiptFolder": "SourceAssets/IntegratedReviewV2",
+  "receiptPrefix": "release-placement-",
+  "actorTag": "ReleasePlacementV1",
+  "labelPrefix": "RELEASE_",
+  "folderPrefix": "Release/",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "traceSelfTest": {
+    "note": "The 2026-09-07 native route audit against this map (native-route-audit-20260907T153006Z.json) returned no hit for all 128 downward line traces, including exact deck top and measured floor probes. These self-test probes establish whether traces work in the current process before grounding decisions are made.",
+    "probes": [
+      {"label": "Kodesh floor beside Aron", "start": [-6200, 300, 1100], "end": [-6200, 300, 800], "expectedZ": 925.0, "expectedMesh": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor"},
+      {"label": "Outer court floor near pilgrim zone", "start": [5000, 1200, 500], "end": [5000, 1200, 200], "expectedZ": 300.0, "expectedMesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor"}
+    ],
+    "toleranceCm": 2.0
+  },
+  "keruvim": {
+    "group": "Keruvim",
+    "folder": "Release/Keruvim",
+    "receipt": "SourceAssets/vessels-review/KeruvimStudyV1/native-import.json",
+    "receiptStatusRequired": "native_asset_saved_unassigned_visual_review_pending",
+    "placementSpec": "SourceAssets/vessels-review/KeruvimStudyV1/placement-spec.json",
+    "mesh": "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/Meshes/SM_KeruvimStudyV1",
+    "meshFile": "Content/MikdashV3/MaterialReview/KeruvimStudyV1/Meshes/SM_KeruvimStudyV1.uasset",
+    "meshFileVerifiedOnDisk": true,
+    "triangles": 70848,
+    "localBoundsCm": {"min": [-51.66, -32.0, 83.33333333333333], "max": [51.66, 32.0, 193.66666666666669]},
+    "location": [-6200.0, 0.0, 925.0],
+    "rotation": {"pitch": 0.0, "yaw": 90.0, "roll": 0.0},
+    "scale": [1.0, 1.0, 1.0],
+    "collisionProfile": "NoCollision",
+    "coverHeightRule": "Local geometry already starts at cover height 83.3333 cm above the Aron origin. Actor Z is the shared Aron origin Z 925; the cover height is NOT added again.",
+    "plannedWorldBoundsCm": {"min": [-6232.0, -51.66, 1008.3333333333333], "max": [-6168.0, 51.66, 1118.6666666666667]},
+    "aron": {
+      "manifest": "SourceAssets/vessels-review/AronStudyV1/geometry-manifest.json",
+      "meshPrefix": "/Game/MikdashV3/MaterialReview/AronStudyV3/Meshes/",
+      "labelPrefix": "REVIEW_AronIncomplete_",
+      "partCount": 16,
+      "sharedOrigin": [-6200.0, 0.0, 925.0],
+      "yaw": 90.0,
+      "coverPart": "SM_AronStudyV1_KaporetCover",
+      "coverWorldBoundsCm": {"min": [-6237.5, -62.5, 1000.0], "max": [-6162.5, 62.5, 1008.3333333333334]},
+      "contactToleranceCm": 0.05,
+      "overlapRule": "Keruvim world AABB may touch the cover top plane only; strictly positive 3D overlap volume with any of the 16 Aron part AABBs (crown rims included) is rejected."
+    }
+  },
+  "pilgrims": {
+    "group": "Pilgrims",
+    "folder": "Release/Pilgrims",
+    "receipt": "SourceAssets/characters-review/PilgrimRigV2/native-import.json",
+    "receiptStatusRequired": "skeletal_and_two_clips_imported_saved_unplaced_native_visual_validation_pending",
+    "skeletalMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2",
+    "skeletalMeshFile": "Content/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.uasset",
+    "idleAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle",
+    "idleAnimationFile": "Content/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.uasset",
+    "walkAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk",
+    "walkAnimationFile": "Content/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.uasset",
+    "filesVerifiedOnDisk": true,
+    "sourceTriangles": 29336,
+    "sourceJoints": 27,
+    "sourceIdleBoundsCm": {"min": [-30.578167924326912, -15.927312031344094, 0.0], "max": [30.578167924326912, 18.407312031344095, 182.0]},
+    "meshSanity": {"minFeetZ": -10.0, "maxFeetZ": 10.0, "minHeight": 150.0, "maxHeight": 220.0},
+    "collisionProfile": "BlockAll",
+    "animationRule": "override_animation_data(idle, looping=True, playing=True, position=phase, play_rate=1.0) on the SkeletalMeshComponent so the animation is serialized; play_animation is transient and is not used. All five use Idle; the in-place Walk clip is not assigned (walking in place on a fixed actor is not goal-directed movement).",
+    "idleDurationSeconds": 3.2,
+    "facingConvention": "Authored rig faces local -Y (toe 'ball' joints sit at -Y of the foot joints). Facing vector for yaw theta is (sin theta, -cos theta). This is verified numerically at run time by reading foot_l/ball_l/head/pelvis bone locations; the group is refused if a figure is not upright.",
+    "floor": {
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor",
+      "meshFile": "Content/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.uasset",
+      "worldBoundsCm": {"min": [-7800.0, -7800.0, 280.0000190734863], "max": [7800.0, 7800.0, 300.0]},
+      "topZ": 300.0,
+      "source": "SourceAssets/architecture-manifest.json expectedBoundsUnrealCm for SM_0129; the bounded walk checker previously measured floor 302.15 at x 4974 y 0 (AGENTS.md)."
+    },
+    "exclusionRectanglesXY": [
+      {"name": "Inner court platform, sanctuary block and margins", "min": [-8100.0, -3000.0], "max": [2900.0, 3000.0]},
+      {"name": "East gate route corridor (outer east gate to inner east gate)", "min": [2500.0, -700.0], "max": [8600.0, 700.0]},
+      {"name": "North lateral gate corridor", "min": [-700.0, 2500.0], "max": [700.0, 8100.0]},
+      {"name": "South lateral gate corridor", "min": [-700.0, -8100.0], "max": [700.0, -2500.0]}
+    ],
+    "groundingRule": "Trace downward at each XY from Z 500 to Z 200 expecting the outer court floor mesh within 2 cm of Z 300. If the process cannot trace (self-test failed) the measured floor component world bounds top (read from the loaded level, not from this file) is used and the receipt marks groundSource 'floor_component_bounds_fallback'. The 2026-09-07 commandlet run (Release-Placement-01.log) returned no hit for both self-test probes, so the fallback is the expected path; the measured floor top must agree with topZ within 1 cm or the group is refused.",
+    "feetRule": {
+      "sourceLocalBoundsMinZCm": 0.0,
+      "sourceLocalBoundsMaxZCm": 182.0,
+      "engineMinZToleranceCm": 10.0,
+      "rule": "Actor Z = floor top + (0 - sourceIdleBoundsCm.min.z). The rig origin is at the feet (idle bounds Z 0.0 to 182.0), so the offset is 0.0 and the SkeletalMeshActor is placed exactly at the floor top (expected 300). The engine-reported skeletal bounds min Z must agree with the source feet plane within engineMinZToleranceCm; the placed actor bounds min Z must be within verification.skeletalFeetToleranceCm of the ground."
+    },
+    "clearanceBoxHalfWidthCm": 40.0,
+    "clearanceHeightCm": 190.0,
+    "clearance": {
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "nearRadiusCm": 1500.0,
+      "falsePositive20260907": "Release-Placement-01.log: 'Pilgrim 1 clearance box intersects [Derived union of source outer envelope walls]'. That actor (architecture_SM_2629_union_Derived_union_of_source_outer_envelope_w, 1544 triangles) is a hollow Boolean union of 116 outer wall boxes whose AABB is [-8100,-8100,300]..[8100,8100,3425], so a plain actor-AABB test flags every point inside the court. No other level actor overlapped. Its constituent walls are not placed as separate actors ('originals retained hidden'), so the union cannot simply be ignored.",
+      "rule": "Every mesh-bearing actor except the outer court floor is a clearance candidate (AABB test, strictly positive overlap volume). An actor in unionFolder whose single mesh maps to a manifest entry with semantic 'union' and whose level bounds match expectedBoundsUnrealCm within unionBoundsToleranceCm is tested against its constituent source boxes (sourceProperties.source_elements_json, box centre + full size, amot to cm via [x*50, z*50, y*50]; recomposing the boxes must reproduce expectedBoundsUnrealCm). A constituent hit is a blocker; an AABB-only overlap of a hollow union is recorded as an excluded envelope. A union actor without a verified decomposition stays an AABB blocker. The receipt records actors considered, union actors and their treatment, nearby non-union actors within nearRadiusCm crossing the clearance height, and per-pilgrim blockers/exclusions.",
+      "offlineEvidence": "Against the manifest expected bounds at floor top 300: all five clearance boxes overlap only the outer envelope union AABB; none of its 116 constituent boxes is hit (nearest: 'Outer eastern gate wall jamb 1' at x 7800..8100, 2560 cm east of the zone). A probe box inside the east wall at x 7910..7990 hits the jamb boxes, so the decomposed test still rejects a pilgrim inside a wall."
+    },
+    "spacing": {"minPairwiseCm": 150.0, "maxNearestNeighbourCm": 300.0},
+    "actors": [
+      {"index": 1, "xy": [4900.0, 1000.0], "yaw": 150.0, "animation": "idle", "phaseSeconds": 0.0},
+      {"index": 2, "xy": [5120.0, 1120.0], "yaw": -115.0, "animation": "idle", "phaseSeconds": 0.7},
+      {"index": 3, "xy": [4980.0, 1260.0], "yaw": 15.0, "animation": "idle", "phaseSeconds": 1.4},
+      {"index": 4, "xy": [5240.0, 1330.0], "yaw": -60.0, "animation": "idle", "phaseSeconds": 2.1},
+      {"index": 5, "xy": [4760.0, 1180.0], "yaw": 90.0, "animation": "idle", "phaseSeconds": 2.8}
+    ],
+    "placementBasis": "Outer court, north of the east-gate axis (y 1000 to 1330, x 4760 to 5240), roughly 1000 cm off the measured route that reached [4974, 0, 398] and well inside the 7800 cm outer wall line. No sanctuary, inner court or gate corridor is touched. Figures loosely face one another."
+  },
+  "bus": {
+    "group": "Bus",
+    "folder": "Release/Bus",
+    "receipt": "SourceAssets/arrival-review/TransitV2/native-import.json",
+    "receiptStatusRequired": "assets_saved_unplaced_native_visual_collision_motion_pending",
+    "offlineChecks": "SourceAssets/arrival-review/TransitV2/offline-checks.json",
+    "candidateSpec": "SourceAssets/arrival-review/arrival-placement-spec.json",
+    "authoring": "All 13 bus meshes were authored in one shared local frame (bus +X forward, +Y door side, tire contact at local Z 0) and imported with identity, so one StaticMeshActor per mesh sharing a single transform reassembles the bus exactly.",
+    "xy": [-23101.764984215613, 36185.43251775307],
+    "yaw": -60.07867649075458,
+    "scale": [1.0, 1.0, 1.0],
+    "tireContactLocalZ": 0.0,
+    "assemblyLocalBoundsCm": {"min": [-604.75, -172.0, 0.0], "max": [604.75, 172.0, 331.75]},
+    "collisionProfile": "BlockAll",
+    "collisionNote": "Existing street actors use BlockAll with LOD0 complex-as-simple. Bus meshes were imported with auto_generate_collision=False and their body setup is not modified by this script, so pawn blocking is NOT established; the receipt records each mesh's collision_trace_flag read-only.",
+    "meshFolder": "/Game/MikdashV3/ArrivalReview/TransitV2/Bus/",
+    "meshes": [
+      {"name": "SM_TransitV2_Bus_IvoryPaint", "triangles": 200, "localBoundsCm": {"min": [-597.0, -124.5, 66.0], "max": [597.0, 124.5, 330.0]}},
+      {"name": "SM_TransitV2_Bus_TealPaint", "triangles": 2992, "localBoundsCm": {"min": [-575.0, -123.5, 65.0], "max": [575.0, 132.0, 137.0]}},
+      {"name": "SM_TransitV2_Bus_Rubber", "triangles": 9636, "localBoundsCm": {"min": [-596.0, -122.0, 0.0], "max": [596.0, 129.5, 291.5]}},
+      {"name": "SM_TransitV2_Bus_Glass", "triangles": 776, "localBoundsCm": {"min": [-595.0, -126.0, 80.0], "max": [595.0, 131.0, 267.0]}},
+      {"name": "SM_TransitV2_Bus_Aluminium", "triangles": 6404, "localBoundsCm": {"min": [-562.0, -170.5, 18.0], "max": [564.0, 170.5, 249.0]}},
+      {"name": "SM_TransitV2_Bus_DarkTrim", "triangles": 4668, "localBoundsCm": {"min": [-603.0, -172.0, 31.380982706687234], "max": [603.0, 172.0, 331.75]}},
+      {"name": "SM_TransitV2_Bus_Headlamp", "triangles": 140, "localBoundsCm": {"min": [511.55, -93.5, 117.0], "max": [603.0, 93.5, 171.201246117975]}},
+      {"name": "SM_TransitV2_Bus_RedLens", "triangles": 56, "localBoundsCm": {"min": [-603.0, -93.5, 117.0], "max": [-601.0, 93.5, 129.0]}},
+      {"name": "SM_TransitV2_Bus_AmberLens", "triangles": 392, "localBoundsCm": {"min": [-604.75, -127.0, 94.0], "max": [604.75, 127.0, 129.0]}},
+      {"name": "SM_TransitV2_Bus_SeatFabric", "triangles": 924, "localBoundsCm": {"min": [-517.0, -113.0, 122.0], "max": [473.5, 113.0, 209.0]}},
+      {"name": "SM_TransitV2_Bus_CabinFloor", "triangles": 28, "localBoundsCm": {"min": [-565.0, -113.0, 89.0], "max": [565.0, 113.0, 93.0]}},
+      {"name": "SM_TransitV2_Bus_CabinLining", "triangles": 224, "localBoundsCm": {"min": [-565.0, -116.5, 93.0], "max": [565.0, 116.5, 295.0]}},
+      {"name": "SM_TransitV2_Bus_SafetyYellow", "triangles": 440, "localBoundsCm": {"min": [-520.0, -39.6, 94.0], "max": [330.0, 39.6, 286.0]}}
+    ],
+    "meshFilesVerifiedOnDisk": true,
+    "stationMeshesOmitted": [
+      "SM_TransitV2_Station_TealPaint", "SM_TransitV2_Station_Glass", "SM_TransitV2_Station_Aluminium", "SM_TransitV2_Station_DarkTrim",
+      "SM_TransitV2_Station_Headlamp", "SM_TransitV2_Station_SafetyYellow", "SM_TransitV2_Station_PlatformStone", "SM_TransitV2_Station_TrackSteel",
+      "SM_TransitV2_Station_SleeperConcrete", "SM_TransitV2_Station_Ballast", "SM_TransitV2_Station_CanopyMetal", "SM_TransitV2_Station_BenchWood"
+    ],
+    "stationOmissionReason": "arrival-placement-spec.json sets station world_position null; no mapped rail route exists. The 12 station meshes are deliberately not placed.",
+    "groundProbes": {
+      "traceStartZ": 4000.0,
+      "traceEndZ": -6000.0,
+      "requiredSupportMeshPrefix": "/Game/MikdashV3/JerusalemContext/Streets/",
+      "localPointsCm": {
+        "center": [0.0, 0.0],
+        "wheel_front_left": [360.0, 96.0],
+        "wheel_front_right": [360.0, -96.0],
+        "wheel_rear_left": [-360.0, 96.0],
+        "wheel_rear_right": [-360.0, -96.0]
+      },
+      "wheelbaseCm": 720.0,
+      "trackCm": 192.0,
+      "maxWheelSpreadCm": 60.0,
+      "maxGradientDegrees": 10.0,
+      "maxCrossfallDegrees": 8.0
+    },
+    "offlineGroundEvidence": {
+      "method": "Barycentric interpolation of the exact source road triangles (jerusalem-meshes.json mesh 'Asphalt roads 2' via streets-manifest.json sourceTriangleIndices, same transform as audit_future_mount_routes.convert). Not a native trace; recorded so a reviewer can judge the candidate before running.",
+      "sourceMeshSha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+      "supportAsset": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_Asphalt_02_Grid_N003_P003",
+      "supportAssetBoundsCm": {"min": [-25548.304748535156, 29960.858154296875, -1403.5099983215332], "max": [-21160.995483398438, 40170.428466796875, -819.8049545288086]},
+      "surfaceZCm": {
+        "center": -1108.233,
+        "wheel_front_left": -1202.796,
+        "wheel_front_right": -1100.94,
+        "wheel_rear_left": -1111.762,
+        "wheel_rear_right": -1012.737
+      },
+      "demTerrainZAtCenter": -1128.41,
+      "derived": {
+        "frontCrossfallCm": 101.856,
+        "rearCrossfallCm": 99.025,
+        "approxCrossfallDegrees": 27.7,
+        "leftGradientCm": 91.034,
+        "approxGradientDegrees": 7.2
+      },
+      "expectedOutcome": "With the thresholds above the native support check is expected to FAIL on crossfall (about 28 degrees across the 192 cm wheel track). The script will then record the bus as an omission with numeric evidence instead of placing a tilted or floating bus. A reviewer may pass bus_ground_z explicitly, or choose a different candidate, in a later run."
+    }
+  },
+  "kotel": {
+    "group": "Kotel",
+    "folder": "Release/Kotel",
+    "receipt": "SourceAssets/kotel-detail/KotelStoneV1/native-import.json",
+    "receiptStatusRequired": "NATIVE_ASSETS_SAVED_UNPLACED_VISUAL_PENDING",
+    "manifest": "SourceAssets/kotel-detail/KotelStoneV1/manifest.json",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/",
+    "meshes": [
+      {"name": "SM_KotelFace_Tint0", "triangles": 58968, "localBoundsCm": {"min": [-15681.05879416927, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}},
+      {"name": "SM_KotelFace_Tint1", "triangles": 50868, "localBoundsCm": {"min": [-15681.05879416927, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}},
+      {"name": "SM_KotelFace_Tint2", "triangles": 56160, "localBoundsCm": {"min": [-15681.05879416927, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}},
+      {"name": "SM_KotelFace_Tint3", "triangles": 56052, "localBoundsCm": {"min": [-15680.978980686546, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}},
+      {"name": "SM_KotelFace_Tint4", "triangles": 54972, "localBoundsCm": {"min": [-15681.05879416927, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}},
+      {"name": "SM_KotelFace_Tint5", "triangles": 53460, "localBoundsCm": {"min": [-15681.05879416927, 8845.852152487243, -1399.2949999999998], "max": [-14107.794748778753, 17750.355836110786, 599.9050000000001]}}
+    ],
+    "meshFilesVerifiedOnDisk": true,
+    "totalDetailTriangles": 330480,
+    "transform": "identity (geometry baked in world coordinates)",
+    "collisionProfile": "NoCollision",
+    "baseWall": {
+      "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+      "meshFile": "Content/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001.uasset",
+      "meshFileVerifiedOnDisk": true,
+      "triangles": 284,
+      "expectedTransform": "identity",
+      "rule": "Exactly one component with this mesh must exist at identity before placement; its mesh, materials, override materials, collision and transform are snapshotted and must be unchanged after placement and after reopen."
+    },
+    "sourceBaseBoundsCm": {"min": [-15678.014984215617, 8682.932517753074, -1399.695], "max": [-13271.514984215617, 17750.432517753074, 600.305]},
+    "maxProtrusionCm": 3.2
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "skeletalFeetToleranceCm": 15.0,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  }
+}

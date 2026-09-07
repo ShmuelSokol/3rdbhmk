@@ -1,0 +1,172 @@
+{
+  "status": "authored_assets_offline_checked_native_unverified",
+  "source_v1_placement": {
+    "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\arrival-review\\arrival-placement-spec.json",
+    "sha256": "38fb7bd86e0c91c5fd48c3f58320aacccfc354905c9f9636a1faddeba6d87cb4"
+  },
+  "source_context": {
+    "path": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+    "sha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+    "osm_date": "2026-05-06T03:25:00Z",
+    "license": "Preserve project OpenStreetMap ODbL attribution",
+    "coordinate_transform": "Source Three east/up/south amot to UEcm[(x+17.509700315687695)*50,(z-.5513496449385334)*50,y*50]; alignment already baked in native meshes; NEVER apply twice."
+  },
+  "boundary_audit": {
+    "path": "SourceAssets\\visual-review\\mount-platform-design.json",
+    "sha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81"
+  },
+  "bus_candidate": {
+    "road_id": 496167693,
+    "road_name": "Batei Mahase",
+    "classification": "residential",
+    "segment_source_amot": [
+      [
+        -498.33,
+        756.9
+      ],
+      [
+        -460.76,
+        691.62
+      ]
+    ],
+    "position_xy_cm": [
+      -23101.764984215613,
+      36185.43251775307
+    ],
+    "z_cm": null,
+    "yaw_degrees": -60.07867649075458,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "tire_contact_local_z_cm": 0,
+    "rotated_mirror_envelope_xy_cm": [
+      [
+        -23552.494854912937,
+        36623.780719712624
+      ],
+      [
+        -23254.346212779343,
+        36795.371474690546
+      ],
+      [
+        -22949.183755651884,
+        35575.493560815594
+      ],
+      [
+        -22651.03511351829,
+        35747.084315793516
+      ]
+    ],
+    "checks": [
+      {
+        "region": "inferred Mount enclosure",
+        "bounds_cm": {
+          "min": [
+            -21434.014984,
+            -25326.567482
+          ],
+          "max": [
+            15073.485016,
+            26107.432518
+          ]
+        },
+        "south_separation_after_200cm_buffer": 9268.061042815592,
+        "pass_horizontal_bbox_separation": true
+      },
+      {
+        "region": "Western Wall",
+        "bounds_cm": {
+          "min": [
+            -15678.014984,
+            8682.932518
+          ],
+          "max": [
+            -13271.514984,
+            17750.432518
+          ]
+        },
+        "south_separation_after_200cm_buffer": 17625.061042815592,
+        "pass_horizontal_bbox_separation": true
+      },
+      {
+        "region": "Western Wall Plaza",
+        "bounds_cm": {
+          "min": [
+            -23414.514984,
+            11907.932518
+          ],
+          "max": [
+            -14107.514984,
+            25039.432518
+          ]
+        },
+        "south_separation_after_200cm_buffer": 10336.061042815592,
+        "pass_horizontal_bbox_separation": true
+      }
+    ],
+    "required_before_placement": [
+      "Native downward ground traces at all four wheel contact points, gradient and crossfall review; reject inconsistent support",
+      "Inspect road width/clearance and static overlap against buildings, trees, walls and sidewalks; no widening or demolition implied",
+      "Capture bus front/side/rear near ground scale, mirrors and native glazing/reflections",
+      "Add reviewed simple collision proxy and test pedestrian passage before any gameplay bus",
+      "Bus animation requires separate wheel/door groups, vehicle controls/path, stopping zones and passengers"
+    ]
+  },
+  "bus": {
+    "replaces_complete_v1_bus": true,
+    "passenger_seats": 20,
+    "seat_width_cm": 42,
+    "central_aisle_cm": 54,
+    "driver_cockpit": true,
+    "human_driver": false,
+    "glass": {
+      "opacity": 0.18,
+      "blend": "translucent",
+      "lighting_mode": "SurfacePerPixelLighting",
+      "native_verified": false
+    },
+    "boarding": "Not accepted for current approximately84cm diameter pawn; closed doors and floor step remain"
+  },
+  "station": {
+    "classification": "Illustrative proposed future infrastructure, not actual surveyed location or approved engineering",
+    "world_position": null,
+    "platform_dimensions_cm": [
+      6000,
+      600,
+      55
+    ],
+    "canopy_length_cm": 4700,
+    "rail_length_cm": 7000,
+    "rail_center_local_y_cm": -150,
+    "rail_inner_gauge_cm": 143.5,
+    "rail_top_local_z_cm": 28,
+    "platform_top_local_z_cm": 55,
+    "end_ramp_run_cm": 1100,
+    "end_ramp_rise_cm": 55,
+    "illustrative_ramp_grade": 0.05,
+    "sleepers": 108,
+    "illustrative_vehicle_interface": {
+      "carriage_not_yet_authored": true,
+      "assumed_carriage_width_cm": 280,
+      "nominal_side_gap_cm": 10,
+      "floor_level_target_cm": 55,
+      "engineering_validated": false
+    }
+  },
+  "placement_rules": [
+    "Bus candidate inherits horizontal exclusion only; Z/width/obstacles pending native audit",
+    "Station must have an audited outside-Mount/outside-Kotel world transform before placement; no world transform supplied",
+    "Keep all source protected geometry unchanged, preserve mapped boundary200cm buffers",
+    "Use cobblestone pedestrian routes distinct from paved transit roads, smooth walking strip and checked crossings",
+    "No paid/external unlicensed assets; preserve original context OSM attribution"
+  ],
+  "native_acceptance": [
+    "Transparency/cabin visibility on bus front/side/interior views",
+    "No opaque V1 backing left by overlay assembly",
+    "Station front/rear/platform/ramp close views and native collision walking",
+    "Vehicle platform/track clearance once carriage is authored",
+    "No native movement, passengers or engineering validation claimed"
+  ]
+}

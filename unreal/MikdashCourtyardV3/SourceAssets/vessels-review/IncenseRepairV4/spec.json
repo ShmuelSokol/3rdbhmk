@@ -1,0 +1,18 @@
+{
+  "status": "source_repair_prepared_native_pending",
+  "asset_root": "/Game/MikdashV3/MaterialReview/IncenseSmokeV4",
+  "repair": "Keep InitializeParticle1.0; disable ineffective initializer offset and add ShapeLocation after init for eight wisps, sphere radius0.01cm, Local offset z865cm. Preserve velocity and finite lifecycle.",
+  "engine_evidence": [
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Source/CascadeToNiagaraConverter/Private/NiagaraStackGraphUtilitiesAdapterLibrary.cpp:2055 InternalFinalizeStackEntryAddActions separates assignment/module actions",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/ModuleConversionScripts/CascadeLocationSphereToNiagara.py:206-234 Offset/Local inputs",
+    "Engine/Plugins/FX/CascadeToNiagaraConverter/Content/Python/Paths.py:74-77 ShapeLocation and enums"
+  ],
+  "historical_spec_sha256": "298ee07644517618a0fa890ba9e4a31756b4dd4d404f317950bae6948749a6eb",
+  "acceptance": "Native full editor authoring (converter loaded), saved/reopen; SimCache actual6 with all8wisps z841..865 +/-2cm; matched visible shaft/ceiling native captures; no mainmap changes. Compile/cook and scheduler integration separate.",
+  "limitations": [
+    "Source-supported repair, not proved runtime correctness",
+    "ShapeLocation exposed module version must be accepted by native authoring",
+    "Rendering, motion, lifetime end, dependency audit, cook and scheduler unverified",
+    "Artistic kinematics and dimensions; not historical measurements"
+  ]
+}

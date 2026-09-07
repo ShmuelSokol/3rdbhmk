@@ -1,0 +1,421 @@
+{
+  "status": "original_humanoid_not_Mannequin_compatible_without_retarget",
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "position_cm": [
+        0,
+        0,
+        0
+      ],
+      "parent_index": null,
+      "local_translation_cm": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "pelvis",
+      "parent": "root",
+      "position_cm": [
+        0,
+        0,
+        98
+      ],
+      "parent_index": 0,
+      "local_translation_cm": [
+        0,
+        0,
+        98
+      ]
+    },
+    {
+      "name": "spine_01",
+      "parent": "pelvis",
+      "position_cm": [
+        0,
+        0,
+        114
+      ],
+      "parent_index": 1,
+      "local_translation_cm": [
+        0,
+        0,
+        16
+      ]
+    },
+    {
+      "name": "spine_02",
+      "parent": "spine_01",
+      "position_cm": [
+        0,
+        0,
+        132
+      ],
+      "parent_index": 2,
+      "local_translation_cm": [
+        0,
+        0,
+        18
+      ]
+    },
+    {
+      "name": "chest",
+      "parent": "spine_02",
+      "position_cm": [
+        0,
+        0,
+        143
+      ],
+      "parent_index": 3,
+      "local_translation_cm": [
+        0,
+        0,
+        11
+      ]
+    },
+    {
+      "name": "neck_01",
+      "parent": "chest",
+      "position_cm": [
+        0,
+        0,
+        153
+      ],
+      "parent_index": 4,
+      "local_translation_cm": [
+        0,
+        0,
+        10
+      ]
+    },
+    {
+      "name": "head",
+      "parent": "neck_01",
+      "position_cm": [
+        0,
+        0,
+        166
+      ],
+      "parent_index": 5,
+      "local_translation_cm": [
+        0,
+        0,
+        13
+      ]
+    },
+    {
+      "name": "clavicle_l",
+      "parent": "chest",
+      "position_cm": [
+        -10,
+        0,
+        143
+      ],
+      "parent_index": 4,
+      "local_translation_cm": [
+        -10,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "upperarm_l",
+      "parent": "clavicle_l",
+      "position_cm": [
+        -20,
+        0,
+        143
+      ],
+      "parent_index": 7,
+      "local_translation_cm": [
+        -10,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "lowerarm_l",
+      "parent": "upperarm_l",
+      "position_cm": [
+        -33,
+        -0.5,
+        123
+      ],
+      "parent_index": 8,
+      "local_translation_cm": [
+        -13,
+        -0.5,
+        -20
+      ]
+    },
+    {
+      "name": "hand_l",
+      "parent": "lowerarm_l",
+      "position_cm": [
+        -44,
+        -1,
+        98
+      ],
+      "parent_index": 9,
+      "local_translation_cm": [
+        -11,
+        -0.5,
+        -25
+      ]
+    },
+    {
+      "name": "thigh_l",
+      "parent": "pelvis",
+      "position_cm": [
+        -8,
+        0,
+        88
+      ],
+      "parent_index": 1,
+      "local_translation_cm": [
+        -8,
+        0,
+        -10
+      ]
+    },
+    {
+      "name": "calf_l",
+      "parent": "thigh_l",
+      "position_cm": [
+        -8,
+        0,
+        47
+      ],
+      "parent_index": 11,
+      "local_translation_cm": [
+        0,
+        0,
+        -41
+      ]
+    },
+    {
+      "name": "foot_l",
+      "parent": "calf_l",
+      "position_cm": [
+        -8,
+        0,
+        6
+      ],
+      "parent_index": 12,
+      "local_translation_cm": [
+        0,
+        0,
+        -41
+      ]
+    },
+    {
+      "name": "ball_l",
+      "parent": "foot_l",
+      "position_cm": [
+        -8,
+        -9,
+        3
+      ],
+      "parent_index": 13,
+      "local_translation_cm": [
+        0,
+        -9,
+        -3
+      ]
+    },
+    {
+      "name": "skirt_l",
+      "parent": "pelvis",
+      "position_cm": [
+        -8,
+        0,
+        88
+      ],
+      "parent_index": 1,
+      "local_translation_cm": [
+        -8,
+        0,
+        -10
+      ]
+    },
+    {
+      "name": "clavicle_r",
+      "parent": "chest",
+      "position_cm": [
+        10,
+        0,
+        143
+      ],
+      "parent_index": 4,
+      "local_translation_cm": [
+        10,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "upperarm_r",
+      "parent": "clavicle_r",
+      "position_cm": [
+        20,
+        0,
+        143
+      ],
+      "parent_index": 16,
+      "local_translation_cm": [
+        10,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "lowerarm_r",
+      "parent": "upperarm_r",
+      "position_cm": [
+        33,
+        -0.5,
+        123
+      ],
+      "parent_index": 17,
+      "local_translation_cm": [
+        13,
+        -0.5,
+        -20
+      ]
+    },
+    {
+      "name": "hand_r",
+      "parent": "lowerarm_r",
+      "position_cm": [
+        44,
+        -1,
+        98
+      ],
+      "parent_index": 18,
+      "local_translation_cm": [
+        11,
+        -0.5,
+        -25
+      ]
+    },
+    {
+      "name": "thigh_r",
+      "parent": "pelvis",
+      "position_cm": [
+        8,
+        0,
+        88
+      ],
+      "parent_index": 1,
+      "local_translation_cm": [
+        8,
+        0,
+        -10
+      ]
+    },
+    {
+      "name": "calf_r",
+      "parent": "thigh_r",
+      "position_cm": [
+        8,
+        0,
+        47
+      ],
+      "parent_index": 20,
+      "local_translation_cm": [
+        0,
+        0,
+        -41
+      ]
+    },
+    {
+      "name": "foot_r",
+      "parent": "calf_r",
+      "position_cm": [
+        8,
+        0,
+        6
+      ],
+      "parent_index": 21,
+      "local_translation_cm": [
+        0,
+        0,
+        -41
+      ]
+    },
+    {
+      "name": "ball_r",
+      "parent": "foot_r",
+      "position_cm": [
+        8,
+        -9,
+        3
+      ],
+      "parent_index": 22,
+      "local_translation_cm": [
+        0,
+        -9,
+        -3
+      ]
+    },
+    {
+      "name": "skirt_r",
+      "parent": "pelvis",
+      "position_cm": [
+        8,
+        0,
+        88
+      ],
+      "parent_index": 1,
+      "local_translation_cm": [
+        8,
+        0,
+        -10
+      ]
+    },
+    {
+      "name": "mantle_front",
+      "parent": "chest",
+      "position_cm": [
+        0,
+        -9,
+        143
+      ],
+      "parent_index": 4,
+      "local_translation_cm": [
+        0,
+        -9,
+        0
+      ]
+    },
+    {
+      "name": "mantle_back",
+      "parent": "chest",
+      "position_cm": [
+        0,
+        11,
+        143
+      ],
+      "parent_index": 4,
+      "local_translation_cm": [
+        0,
+        11,
+        0
+      ]
+    }
+  ],
+  "influence_policy": "Explicit anatomical/garment policies, normalized up to4 joints; fingers currently rigid to hand.",
+  "animations": [
+    {
+      "name": "A_Pilgrim_Original_Idle",
+      "channels": 9
+    },
+    {
+      "name": "A_Pilgrim_Original_Walk",
+      "channels": 18
+    }
+  ]
+}

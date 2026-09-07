@@ -1,0 +1,28 @@
+{
+  "status": "PREPARED_OFFLINE_SYNTAX_CHECKED_NATIVE_PENDING",
+  "placementEntry": "import place_kotel_detail_review as k; k.run('/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough')",
+  "alternativeTemplate": "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+  "outputs": [
+    "/Game/MikdashV3/MaterialReview/KotelStoneV1/Maps/IntegratedDetail",
+    "/Game/MikdashV3/MaterialReview/KotelStoneV1/Maps/FutureMountDetail"
+  ],
+  "placementRequirements": [
+    "NativeKotelStoneV1 sixmeshimport receipt success",
+    "Startfromsavedmap withnoPIE/dirtymap/content; rootserialengineexecution",
+    "Neitheroutputmapmayexist; preserveoldtrial insteadofoverwrite",
+    "Actualsharedbasegridstill284tri andidentity; sourceasset/materialhash/overrides/collision unchanged"
+  ],
+  "captureEntry": "import mikdash_kotel_detail_capture as c; c.start('/Game/MikdashV3/MaterialReview/KotelStoneV1/Maps/IntegratedDetail', dedicated_editor=True)",
+  "captureLoad": "Execute Scripts/capture_kotel_detail_review.py first in separateGUIcaptureeditor; merelyloadingdoesnotstart",
+  "cameraBasis": "Longest sourced westernfacade segment edge0, midpoint, outwardnormaloffset1000cm and200cm. Actualgroundcontact at3points alongtangent; positivegroundnormal>0.9 andheightvariation<30cm. Eye168cm aboveground, withinmodeledwallheight. Rejectblockedcamera/sightline. No inventedplazaZ or universalbboxcamera.",
+  "captureTiming": "Per-viewnativeassetreadiness barrier,then45seconds+120renderedticks;1920x1080FOV75,600secondwatchdog;map/camera/FOV/gameview/throttle restore",
+  "limitations": [
+    "Groundtracevalidity doesnotprovecontinuouswalkableplaza/accesspermission",
+    "Pawncollisiontracecannotdetectallnoncollidingvisualoccluders; reviewimages",
+    "Tracecanfailifmodeledwallbase/terrainmisaligned; reportfailure ratherthanmoveKotel",
+    "Overlayprojectionandcornersneedalignmentreview",
+    "330480detailtriangles across6meshactors unmeasuredGPUcost",
+    "Originalsourcebase/grid andfrozen generation outputsremainunchanged",
+    "No automaticvisualacceptance or source-stone accuracyclaim"
+  ]
+}

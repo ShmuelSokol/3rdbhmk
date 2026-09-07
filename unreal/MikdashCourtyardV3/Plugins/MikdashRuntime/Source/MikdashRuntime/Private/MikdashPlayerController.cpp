@@ -187,10 +187,12 @@ void AMikdashPlayerController::UpdateFootsteps(float DeltaTime)
     const UStaticMeshComponent* Floor = Cast<UStaticMeshComponent>(WalkingCharacter->GetCharacterMovement()->CurrentFloor.HitResult.GetComponent());
     if (!Floor || !Floor->GetStaticMesh()) return;
     const FString FloorAsset = Floor->GetStaticMesh()->GetPathName();
-    const bool SoftGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Terrain/"));
+    const bool SoftGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Terrain/"))
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/FutureMountV1/Terrain/"));
     const bool HardGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/Architecture/"))
         || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Streets/"))
-        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Buildings/"));
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Buildings/"))
+        || FloorAsset == TEXT("/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface");
     // Unknown/new floor families require an explicit sound assignment.
     if (!SoftGround && !HardGround) return;
     const TArray<TObjectPtr<USoundBase>>& Samples = SoftGround ? SoftSteps : StoneSteps;

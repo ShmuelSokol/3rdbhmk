@@ -1,4 +1,4 @@
-"""Transient V2 particle evidence. begin(); allow editor frames; sample(1/3/6/9/12).
+"""Transient V4 particle evidence. begin(); allow editor frames; sample(1/3/6/9/12).
 
 Never saves Unreal assets/maps. Each sample advances only the delta from the
 previous requested age; capture validity is recorded separately from empty data.
@@ -10,8 +10,8 @@ from pathlib import Path
 import unreal as ue
 
 MAP = '/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV3/L_IncenseSmokeReview'
-SYSTEM = '/Game/MikdashV3/MaterialReview/IncenseSmokeV2/NS_FiniteIncenseStudy'
-REPORT = Path(ue.Paths.project_dir()) / 'SourceAssets/vessels-review/incense-particle-inspection.json'
+SYSTEM = '/Game/MikdashV3/MaterialReview/IncenseSmokeV4/NS_FiniteIncenseStudy'
+REPORT = Path(ue.Paths.project_dir()) / 'SourceAssets/vessels-review/IncenseRepairV4/particle-inspection.json'
 _comp = None
 _age = 0.0
 _report = {}
@@ -33,7 +33,7 @@ def begin():
         raise RuntimeError('Expected exactly one isolated review actor')
     system = ue.load_asset(SYSTEM)
     if not isinstance(system, ue.NiagaraSystem):
-        raise RuntimeError('V2 study is missing')
+        raise RuntimeError('V4 study is missing')
     previous = json.loads(REPORT.read_text(encoding='utf-8')) if REPORT.exists() else None
     _report = dict(started_utc=datetime.now(timezone.utc).isoformat(), system=SYSTEM,
                    map=MAP, samples=[], limits=['Transient diagnostic, no asset saves',
@@ -104,6 +104,7 @@ def sample(seconds):
                     row['z_range_cm'] = [min(v.z for v in positions), max(v.z for v in positions)]
                 entry['emitters'].append(row)
             entry['status'] = 'captured_attributes_not_visual_acceptance'
+            entry['origin_check'] = check_wisp_origins(entry)
     except Exception as error:
         entry.update(status='diagnostic_api_failure', error=str(error))
         raise
@@ -118,3 +119,38 @@ def stop():
         _comp.set_editor_property('auto_activate', False)
     _report['stopped_without_asset_save'] = True
     _write()
+
+
+def check_wisp_origins(entry, ceiling_height_cm=900.0, spread_seconds=2.0):
+    """Validate actual cached local positions, never requested screenshot ages.
+
+    Default near-point spawn z865 then vz-12 => alive z841..865cm.
+    A 2cm tolerance accommodates fixed-step age ordering; rejects V2 floor wisps.
+    Only a valid, live 6-second cache with all eight emitters establishes this gate.
+    This does not establish visible smoke, collision, scheduler or cooked behavior.
+    """
+    actual = entry.get('cache_start_seconds')
+    if not entry.get('cache_valid') or actual is None or abs(actual - 6.0) > 0.05:
+        return dict(status='not_assessed', reason='Requires valid actual-age6 cache')
+    rows = entry.get('emitters', [])
+    errors = []
+    expected = {'CeilingWisp_%02d' % i for i in range(8)}
+    wisps = [r for r in rows if r['name'] in expected]
+    if len(wisps) != 8 or {r['name'] for r in wisps} != expected:
+        errors.append('Expected exactly eight named ceiling emitters')
+    origin = ceiling_height_cm - 35.0
+    for row in wisps:
+        positions, ages = row['positions'], row['ages']
+        if not positions or len(positions) != len(ages):
+            errors.append(row['name'] + ': missing/mismatched positions/ages')
+            continue
+        for pos, age in zip(positions, ages):
+            if (not all(math.isfinite(v) for v in pos + [age]) or
+                    not 0 <= age <= spread_seconds + 0.05 or
+                    not origin - 12 * spread_seconds - 2 <= pos[2] <= origin + 2 or
+                    abs(pos[2] - (origin - 12 * age)) > 2):
+                errors.append(row['name'] + ': local origin/vertical trajectory mismatch')
+                break
+    return dict(status='pass_attributes_only' if not errors else 'fail', errors=errors,
+                actual_age_seconds=actual, expected_origin_z_cm=origin,
+                tolerance_cm=2.0)

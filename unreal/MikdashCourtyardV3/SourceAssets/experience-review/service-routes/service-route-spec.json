@@ -1,0 +1,4476 @@
+{
+  "adapter": {
+    "currentRuntimeIntegration": false,
+    "externalChecks": "Gate dispatch by named phase plus all three-valued conditions on every transition; runtime Access boolean alone is insufficient",
+    "locationMismatch": "SourceNpcPointPermitted(Kohen) X>-48amot excludes Heikhal X=-88amot candidate; it is a placement envelope, not service authority",
+    "persistence": "Stable IDs plus spec hash, phase events, role/preparation/garment facts, service cycle and prior duty history must survive save/load",
+    "roleMap": {
+      "Kohen": "Kohen",
+      "Levi": "Levi",
+      "Visitor": "Visitor"
+    },
+    "routeAdapter": "No straight-line movement between endpoints. Resolve actual measured portals/stairs/nav corridors and resource capacity first",
+    "target": "MikdashCrowd::Identity/Goal/Route in ResidentCrowdRuntime.h",
+    "unresolvedDuration": "Do not convert null to zero or fabricate ritual clocktimes; require an explicit authored pacing profile"
+  },
+  "charity": {
+    "futureDefault": "practical_help_hospitality_not_ambient_destitution",
+    "historicalLessonDestination": "historical_charity",
+    "historicalLessonEnabled": false,
+    "noPovertyPopulationClaim": true,
+    "noPublicNeedLabels": true,
+    "sourceIds": [
+      "CHARITY",
+      "ABUNDANCE",
+      "DESIGN"
+    ]
+  },
+  "conditions": {
+    "assigned_kohen": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Qualified kohen with this current service assignment",
+      "falseResult": "denied",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "daily_withdrawal_complete": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Heikhal and Ulam-to-altar withdrawal complete under reviewed geometry policy",
+      "falseResult": "denied",
+      "sourceIds": [
+        "KET_LOCATION"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "daylight_confirmed": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Actual modeled daylight cue confirmed, not arbitrary wall-clock hour",
+      "falseResult": "denied",
+      "sourceIds": [
+        "DAYLIGHT"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "garments_reviewed": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Selected role/service garment profile reviewed and worn",
+      "falseResult": "denied",
+      "sourceIds": [
+        "GARMENTS",
+        "GARMENT_PROFILE"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "hands_feet_ready": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Separate sanctification state valid for this service",
+      "falseResult": "denied",
+      "sourceIds": [
+        "HANDS_FEET"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "immersion_for_service": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Service immersion complete without erasing other preparation requirements",
+      "falseResult": "denied",
+      "sourceIds": [
+        "SERVICE_IMMERSION"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "incense_assignment": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Incense duty assignment and relevant prior-duty history reviewed",
+      "falseResult": "denied",
+      "sourceIds": [
+        "LOTTERY"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "location_reviewed": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Exact destination purpose/zone reviewed, including unresolved rooms",
+      "falseResult": "denied",
+      "sourceIds": [
+        "ACCESS"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "navigation_verified": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Actual continuous nav route, collision, stairs and occupancy passed",
+      "falseResult": "denied",
+      "sourceIds": [
+        "DESIGN"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "off_duty_clothes": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Reviewed changing/storage transition complete before public return",
+      "falseResult": "denied",
+      "sourceIds": [
+        "GARMENTS",
+        "GARMENT_PROFILE"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "ordinary_day": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Selected calendar profile is ordinary weekday, not special event",
+      "falseResult": "denied",
+      "sourceIds": [
+        "GATES",
+        "PM_ORDER"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "preparation_reviewed": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "All independent fictional preparation states known and satisfied",
+      "falseResult": "denied",
+      "sourceIds": [
+        "PREP"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "privacy_ready": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Closed opaque presentation ready; equivalent skip available",
+      "falseResult": "denied",
+      "sourceIds": [
+        "SERVICE_IMMERSION",
+        "DESIGN"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "purpose_authorized": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Current intended task permits this journey; no unrelated shortcut",
+      "falseResult": "denied",
+      "sourceIds": [
+        "ACCESS",
+        "REVERENCE"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "sacred_food_authorized": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Correct role/item/task/consumption boundary independently checked",
+      "falseResult": "denied",
+      "sourceIds": [
+        "KITCHENS"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "scenario_reviewed": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Selected future/historical interpretation approved for this activity",
+      "falseResult": "denied",
+      "sourceIds": [
+        "DESIGN"
+      ],
+      "unknownResult": "needs_review"
+    },
+    "supervisor_cue": {
+      "authority": "external_reviewed_adapter",
+      "default": null,
+      "description": "Supervisor cue received for this cycle and service",
+      "falseResult": "denied",
+      "sourceIds": [
+        "KET_LOCATION"
+      ],
+      "unknownResult": "needs_review"
+    }
+  },
+  "destinations": {
+    "city_supply": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "city_supply",
+      "label": "city supply",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Interpretive provisioning/ordinary food area outside precinct; no modern prices",
+      "sourceIds": [
+        "SUPPLY",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "city"
+    },
+    "duty_lodging": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "duty_lodging",
+      "label": "duty lodging",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Earlier-Temple duty lodging, not identified in this future geometry",
+      "sourceIds": [
+        "LODGING"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "family_home": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "family_home",
+      "label": "family home",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Priestly family home: residential allocation is sourced; exact model location absent",
+      "sourceIds": [
+        "HOMES"
+      ],
+      "spawnAllowed": false,
+      "zone": "city"
+    },
+    "garment_storage": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "garment_storage",
+      "label": "garment storage",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Review exact chamber; do not silently choose priestly_room_candidate",
+      "sourceIds": [
+        "GARMENTS",
+        "GARMENT_PROFILE"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "heikhal": {
+      "assetId": "SM_0146_floor_Heichal_clear_floor",
+      "boundsCm": {
+        "max": [
+          -3600.0,
+          500.0,
+          925.0
+        ],
+        "min": [
+          -5600.0,
+          -500.0,
+          904.9999237060547
+        ]
+      },
+      "candidateFloorPointCm": [
+        -4400,
+        0,
+        925.0
+      ],
+      "id": "heikhal",
+      "label": "Heichal clear floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Daily incense room; candidate point is not officiant pose or altar top",
+      "sourceIds": [
+        "KET_LOCATION",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "heikhal"
+    },
+    "historical_charity": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "historical_charity",
+      "label": "historical charity",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Separate earlier-Temple lesson only; no future beggar placement",
+      "sourceIds": [
+        "CHARITY",
+        "ABUNDANCE"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "hospitality_help": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "hospitality_help",
+      "label": "hospitality help",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Discrete practical assistance meeting; no public need labels",
+      "sourceIds": [
+        "ABUNDANCE",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "city"
+    },
+    "host_home": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "host_home",
+      "label": "host home",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Authored host meeting/home location outside precinct; no measured address",
+      "sourceIds": [
+        "HOSTING",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "city"
+    },
+    "inner_north": {
+      "assetId": "SM_0571_floor_Inner_N_vestibule_floor",
+      "boundsCm": {
+        "max": [
+          625.0,
+          -2800.0,
+          625.0
+        ],
+        "min": [
+          -625.0,
+          -3300.0,
+          605.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        0.0,
+        -3050.0,
+        625.0
+      ],
+      "id": "inner_north",
+      "label": "Inner N vestibule floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0571_floor_Inner_N_vestibule_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Candidate assigned kohen approach; access still reviewed",
+      "sourceIds": [
+        "ACCESS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "inner_gate"
+    },
+    "kodesh": {
+      "assetId": "SM_0147_floor_Kodesh_clear_floor",
+      "boundsCm": {
+        "max": [
+          -5700.0,
+          500.0,
+          925.0
+        ],
+        "min": [
+          -6700.0,
+          -500.0,
+          904.9999237060547
+        ]
+      },
+      "candidateFloorPointCm": [
+        -6200.0,
+        0.0,
+        925.0
+      ],
+      "id": "kodesh",
+      "label": "Kodesh clear floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Excluded from ordinary-day routes; reserved separate reviewed YK module",
+      "sourceIds": [
+        "YK",
+        "ACCESS"
+      ],
+      "spawnAllowed": false,
+      "zone": "kodesh"
+    },
+    "laver": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "laver",
+      "label": "laver",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Hands-and-feet preparation fixture anchor not established by this audit",
+      "sourceIds": [
+        "HANDS_FEET"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "mikvah_entry": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "mikvah_entry",
+      "label": "mikvah entry",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Opaque preparation entrance: no measured room ID established",
+      "sourceIds": [
+        "SERVICE_IMMERSION",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "mikvah_exit": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "mikvah_exit",
+      "label": "mikvah exit",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Fully dressed exit; no measured room or bodily depiction",
+      "sourceIds": [
+        "SERVICE_IMMERSION",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "outer_court": {
+      "assetId": "SM_0129_floor_Outer_court_floor",
+      "boundsCm": {
+        "max": [
+          7800.0,
+          7800.0,
+          300.0
+        ],
+        "min": [
+          -7800.0,
+          -7800.0,
+          280.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        5000,
+        0,
+        300.0
+      ],
+      "id": "outer_court",
+      "label": "Outer court floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Candidate waiting point outside inner court",
+      "sourceIds": [
+        "ACCESS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "outer_court"
+    },
+    "outer_north": {
+      "assetId": "SM_0275_floor_Outer_N_vestibule_floor",
+      "boundsCm": {
+        "max": [
+          625.0,
+          -7300.0,
+          425.0
+        ],
+        "min": [
+          -625.0,
+          -7800.0,
+          405.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        0.0,
+        -7550.0,
+        425.0
+      ],
+      "id": "outer_north",
+      "label": "Outer N vestibule floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0275_floor_Outer_N_vestibule_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Candidate ordinary arrival gate; not a mandated historical itinerary",
+      "sourceIds": [
+        "GATES",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "outer_gate"
+    },
+    "priestly_court": {
+      "assetId": "SM_0071_floor_Ezras_Kohanim_floor",
+      "boundsCm": {
+        "max": [
+          1575.0,
+          2500.0,
+          625.0
+        ],
+        "min": [
+          -2500.0,
+          -2500.0,
+          605.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        1200,
+        1500,
+        625.0
+      ],
+      "id": "priestly_court",
+      "label": "Ezras Kohanim floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0071_floor_Ezras_Kohanim_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Assigned service staging; centroid not used because altar occupies center",
+      "sourceIds": [
+        "ACCESS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "priestly_court"
+    },
+    "priestly_kitchen": {
+      "assetId": null,
+      "boundsCm": null,
+      "candidateFloorPointCm": null,
+      "id": "priestly_kitchen",
+      "label": "priestly kitchen",
+      "mapping": "unresolved_no_coordinate",
+      "nativeAsset": null,
+      "navigation": "unavailable",
+      "purpose": "Sacred food preparation; exact mesh purpose not mapped",
+      "sourceIds": [
+        "KITCHENS"
+      ],
+      "spawnAllowed": false,
+      "zone": "unmapped"
+    },
+    "priestly_room_candidate": {
+      "assetId": "SM_1265_floor_Priestly_room_floor",
+      "boundsCm": {
+        "max": [
+          -6550.0,
+          -2850.0,
+          425.0
+        ],
+        "min": [
+          -7450.0,
+          -5150.0,
+          405.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        -7000.0,
+        -4000.0,
+        425.0
+      ],
+      "id": "priestly_room_candidate",
+      "label": "Priestly room floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_1265_floor_Priestly_room_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Candidate only: generic room label does not establish garment storage or lodging",
+      "sourceIds": [
+        "GARMENTS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "priestly_room"
+    },
+    "song_chamber": {
+      "assetId": "SM_0041_architecture_Song_chamber",
+      "boundsCm": {
+        "max": [
+          -1700.0,
+          2400.0,
+          625.0
+        ],
+        "min": [
+          -2200.0,
+          1900.0,
+          605.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        -1950.0,
+        2150.0,
+        625.0
+      ],
+      "id": "song_chamber",
+      "label": "Song chamber",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0041_architecture_Song_chamber",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Source-named song chamber; rehearsal scheduling is authored",
+      "sourceIds": [
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "priestly_court"
+    },
+    "ulam": {
+      "assetId": "SM_0145_floor_Ulam_clear_floor",
+      "boundsCm": {
+        "max": [
+          -2750.0,
+          500.0,
+          925.0
+        ],
+        "min": [
+          -3300.0,
+          -500.0,
+          904.9999237060547
+        ]
+      },
+      "candidateFloorPointCm": [
+        -3025.0,
+        0.0,
+        925.0
+      ],
+      "id": "ulam",
+      "label": "Ulam clear floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0145_floor_Ulam_clear_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Logical sanctuary approach; preserve twelve stair risers",
+      "sourceIds": [
+        "ACCESS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "ulam"
+    },
+    "visitor_lane": {
+      "assetId": "SM_0130_floor_Inner_court_clear_floor",
+      "boundsCm": {
+        "max": [
+          2500.0,
+          2500.0,
+          500.0
+        ],
+        "min": [
+          1675.0,
+          -2500.0,
+          480.0000190734863
+        ]
+      },
+      "candidateFloorPointCm": [
+        2100,
+        0,
+        500.0
+      ],
+      "id": "visitor_lane",
+      "label": "Inner court clear floor",
+      "mapping": "measured_geometry_purpose_interpretation_needs_review",
+      "nativeAsset": "/Game/MikdashV3/Architecture/architecture_SM_0130_floor_Inner_court_clear_floor",
+      "navigation": "not_traced_not_path_validated",
+      "purpose": "Measured lane; permission and connecting north route remain separate",
+      "sourceIds": [
+        "ACCESS",
+        "DESIGN"
+      ],
+      "spawnAllowed": false,
+      "zone": "visitor_lane"
+    }
+  },
+  "identities": [
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Read fictional preparation card; choose equivalent skip or opaque transition",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_entry",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "preparation_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "kohen_am_leg_01",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return fully dressed; record only this modeled immersion step",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_exit",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_02",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "kohen_am_leg_02",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Use reviewed service garment profile",
+          "completion": "external_confirmed_action",
+          "destination": "garment_storage",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_03",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "immersion_for_service",
+            "garments_reviewed"
+          ],
+          "routeId": "kohen_am_leg_03",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Approach via candidate north gate",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_04",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_am_leg_04",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for current duty assignment",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_05",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_am_leg_05",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Enter reviewed priestly route",
+          "completion": "external_confirmed_action",
+          "destination": "inner_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_06",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen"
+          ],
+          "routeId": "kohen_am_leg_06",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Record independent hands-and-feet sanctification",
+          "completion": "external_confirmed_action",
+          "destination": "laver",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_07",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen"
+          ],
+          "routeId": "kohen_am_leg_07",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Join reviewed service staging",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_08",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_am_leg_08",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Approach sanctuary for assigned morning incense",
+          "completion": "external_confirmed_action",
+          "destination": "ulam",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_09",
+          "nativeEnabled": false,
+          "phase": "morning_blood_completed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready",
+            "incense_assignment"
+          ],
+          "routeId": "kohen_am_leg_09",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for cue then dispatch Morning once for this cycle",
+          "completion": "external_confirmed_action",
+          "destination": "heikhal",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_10",
+          "nativeEnabled": false,
+          "phase": "morning_incense_cue",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready",
+            "incense_assignment",
+            "daily_withdrawal_complete",
+            "supervisor_cue"
+          ],
+          "routeId": "kohen_am_leg_10",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Exit Heikhal; withdrawal remains until reviewed exit boundary",
+          "completion": "external_confirmed_action",
+          "destination": "ulam",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_11",
+          "nativeEnabled": false,
+          "phase": "morning_officiant_exit",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_am_leg_11",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Confirm officiant exit at reviewed boundary",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_12",
+          "nativeEnabled": false,
+          "phase": "morning_officiant_exit",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_am_leg_12",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for remaining reviewed duties; no automatic second incense assignment",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_13",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": null,
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Finish assigned duty and depart",
+          "completion": "external_confirmed_action",
+          "destination": "inner_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_14",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_am_leg_14",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Follow reviewed garment-change route",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_15",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_am_leg_15",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Change/store according to reviewed profile",
+          "completion": "external_confirmed_action",
+          "destination": "garment_storage",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_16",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "garments_reviewed"
+          ],
+          "routeId": "kohen_am_leg_16",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return to public life in off-duty clothes",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_17",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "off_duty_clothes"
+          ],
+          "routeId": "kohen_am_leg_17",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Reconnect with fictional family; retain duty history",
+          "completion": "external_confirmed_action",
+          "destination": "family_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_am_goal_18",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "off_duty_clothes"
+          ],
+          "routeId": "kohen_am_leg_18",
+          "sourceIds": [
+            "HOMES",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "LOTTERY",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "kohen_am",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Natan",
+      "personality": {
+        "motivation": "check each new assignment",
+        "relationship": "knows host Tamar",
+        "speakingStyle": "careful and concise"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Kohen",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "start": "family_home"
+    },
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Read fictional preparation card; choose equivalent skip or opaque transition",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_entry",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "preparation_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "kohen_pm_leg_01",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return fully dressed; record only this modeled immersion step",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_exit",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_02",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "kohen_pm_leg_02",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Use reviewed service garment profile",
+          "completion": "external_confirmed_action",
+          "destination": "garment_storage",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_03",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "immersion_for_service",
+            "garments_reviewed"
+          ],
+          "routeId": "kohen_pm_leg_03",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Approach via candidate north gate",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_04",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_pm_leg_04",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for current duty assignment",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_05",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_pm_leg_05",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Enter reviewed priestly route",
+          "completion": "external_confirmed_action",
+          "destination": "inner_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_06",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen"
+          ],
+          "routeId": "kohen_pm_leg_06",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Record independent hands-and-feet sanctification",
+          "completion": "external_confirmed_action",
+          "destination": "laver",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_07",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen"
+          ],
+          "routeId": "kohen_pm_leg_07",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Join reviewed service staging",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_08",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_pm_leg_08",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Remain available for reviewed duties; no invented idle service",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_09",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": null,
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Approach for separately assigned afternoon incense",
+          "completion": "external_confirmed_action",
+          "destination": "ulam",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_10",
+          "nativeEnabled": false,
+          "phase": "afternoon_limbs_completed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready",
+            "incense_assignment"
+          ],
+          "routeId": "kohen_pm_leg_10",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for cue then dispatch Afternoon once for this cycle",
+          "completion": "external_confirmed_action",
+          "destination": "heikhal",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_11",
+          "nativeEnabled": false,
+          "phase": "afternoon_incense_cue",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready",
+            "incense_assignment",
+            "daily_withdrawal_complete",
+            "supervisor_cue"
+          ],
+          "routeId": "kohen_pm_leg_11",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Exit; residual particles never decide entry permission",
+          "completion": "external_confirmed_action",
+          "destination": "ulam",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_12",
+          "nativeEnabled": false,
+          "phase": "afternoon_officiant_exit",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_pm_leg_12",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Confirm reviewed officiant exit",
+          "completion": "external_confirmed_action",
+          "destination": "priestly_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_13",
+          "nativeEnabled": false,
+          "phase": "afternoon_officiant_exit",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_pm_leg_13",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Finish assigned duty and depart",
+          "completion": "external_confirmed_action",
+          "destination": "inner_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_14",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed",
+            "assigned_kohen",
+            "immersion_for_service",
+            "garments_reviewed",
+            "hands_feet_ready"
+          ],
+          "routeId": "kohen_pm_leg_14",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Follow reviewed garment-change route",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_15",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "kohen_pm_leg_15",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Change/store according to reviewed profile",
+          "completion": "external_confirmed_action",
+          "destination": "garment_storage",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_16",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "garments_reviewed"
+          ],
+          "routeId": "kohen_pm_leg_16",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return to public life in off-duty clothes",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_17",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "off_duty_clothes"
+          ],
+          "routeId": "kohen_pm_leg_17",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Reconnect with fictional family; retain duty history",
+          "completion": "external_confirmed_action",
+          "destination": "family_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "kohen_pm_goal_18",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "off_duty_clothes"
+          ],
+          "routeId": "kohen_pm_leg_18",
+          "sourceIds": [
+            "LODGING",
+            "ROTATION",
+            "SERVICE_IMMERSION",
+            "HANDS_FEET",
+            "GARMENTS",
+            "KET_LOCATION",
+            "KET_ORDER",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "kohen_pm",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Avi",
+      "personality": {
+        "motivation": "arrive prepared for afternoon assignment",
+        "speakingStyle": "quiet and methodical"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Kohen",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "start": "duty_lodging"
+    },
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Review previously authored purification history; no personal questionnaire",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_entry",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "preparation_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "pilgrim_leg_01",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Offscreen optional immersion lesson; retain outstanding requirements",
+          "completion": "external_confirmed_action",
+          "destination": "mikvah_exit",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_02",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "privacy_ready"
+          ],
+          "routeId": "pilgrim_leg_02",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Meet group for meaningful visit",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_03",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "pilgrim_leg_03",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Wait for individually reviewed zone access",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_04",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "pilgrim_leg_04",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Guided view only through reviewed route; never Heikhal entry",
+          "completion": "external_confirmed_action",
+          "destination": "visitor_lane",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_05",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "pilgrim_leg_05",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Leave with group",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_06",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "pilgrim_leg_06",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Retrace candidate weekday itinerary; opposite gate is not universally required",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_07",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "pilgrim_leg_07",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return to host and remember meeting",
+          "completion": "external_confirmed_action",
+          "destination": "host_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "pilgrim_goal_08",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "pilgrim_leg_08",
+          "sourceIds": [
+            "PREP",
+            "ACCESS",
+            "GATES",
+            "HOSTING",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "pilgrim",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Ezra",
+      "personality": {
+        "motivation": "stay with group and understand preparation",
+        "speakingStyle": "curious first-time visitor"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Visitor",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "start": "host_home"
+    },
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Collect ordinary provisions; no sacred-food substitution",
+          "completion": "external_confirmed_action",
+          "destination": "city_supply",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "host_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "host_leg_01",
+          "sourceIds": [
+            "HOSTING",
+            "ABUNDANCE",
+            "SUPPLY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Offer discreet directions and practical help",
+          "completion": "external_confirmed_action",
+          "destination": "hospitality_help",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "host_goal_02",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "host_leg_02",
+          "sourceIds": [
+            "HOSTING",
+            "ABUNDANCE",
+            "SUPPLY",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Welcome returning group; no assumed paid lodging economy",
+          "completion": "external_confirmed_action",
+          "destination": "host_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "host_goal_03",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "host_leg_03",
+          "sourceIds": [
+            "HOSTING",
+            "ABUNDANCE",
+            "SUPPLY",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "host",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Tamar",
+      "personality": {
+        "motivation": "remember guests and useful meeting places",
+        "speakingStyle": "welcoming and unhurried"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Visitor",
+      "sourceIds": [
+        "HOSTING",
+        "ABUNDANCE",
+        "SUPPLY",
+        "DESIGN"
+      ],
+      "start": "host_home"
+    },
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Prepare authored ordinary-food display outside precinct",
+          "completion": "external_confirmed_action",
+          "destination": "city_supply",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "supplier_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": null,
+          "sourceIds": [
+            "SUPPLY",
+            "REVERENCE",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Deliver host provisions without sacred-precinct shortcut",
+          "completion": "external_confirmed_action",
+          "destination": "host_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "supplier_goal_02",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "supplier_leg_02",
+          "sourceIds": [
+            "SUPPLY",
+            "REVERENCE",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Reconcile supplies; prices and future economy remain unset",
+          "completion": "external_confirmed_action",
+          "destination": "city_supply",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "supplier_goal_03",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "supplier_leg_03",
+          "sourceIds": [
+            "SUPPLY",
+            "REVERENCE",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "supplier",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Oren",
+      "personality": {
+        "motivation": "keep ordinary supplies separate from sacred ingredients",
+        "speakingStyle": "organized and specific"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Visitor",
+      "sourceIds": [
+        "SUPPLY",
+        "REVERENCE",
+        "DESIGN"
+      ],
+      "start": "city_supply"
+    },
+    {
+      "fictional": true,
+      "goals": [
+        {
+          "action": "Join assigned rotation",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_01",
+          "nativeEnabled": false,
+          "phase": "preparation_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "levi_leg_01",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Await reviewed route and assigned musical duty",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_02",
+          "nativeEnabled": false,
+          "phase": "assignments_ready",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "levi_leg_02",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Authored rehearsal; service song/time needs separate review",
+          "completion": "external_confirmed_action",
+          "destination": "song_chamber",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_03",
+          "nativeEnabled": false,
+          "phase": "between_services",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "levi_leg_03",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Finish reviewed duties",
+          "completion": "external_confirmed_action",
+          "destination": "outer_court",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_04",
+          "nativeEnabled": false,
+          "phase": "remaining_duties_reviewed",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "levi_leg_04",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Depart without unrelated shortcut",
+          "completion": "external_confirmed_action",
+          "destination": "outer_north",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_05",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed",
+            "navigation_verified",
+            "purpose_authorized",
+            "preparation_reviewed"
+          ],
+          "routeId": "levi_leg_05",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        },
+        {
+          "action": "Return to authored household",
+          "completion": "external_confirmed_action",
+          "destination": "family_home",
+          "durationSeconds": null,
+          "evidenceCategory": "D",
+          "id": "levi_goal_06",
+          "nativeEnabled": false,
+          "phase": "return_home_window",
+          "requiredConditions": [
+            "scenario_reviewed",
+            "location_reviewed"
+          ],
+          "routeId": "levi_leg_06",
+          "sourceIds": [
+            "ROTATION",
+            "ACCESS",
+            "DESIGN"
+          ]
+        }
+      ],
+      "id": "levi",
+      "memory": [
+        "completed_goal_ids",
+        "relationships",
+        "assigned_duty",
+        "prior_incense_service",
+        "privacy_preferences"
+      ],
+      "name": "Yedidya",
+      "personality": {
+        "motivation": "help colleagues prepare without blocking passage",
+        "speakingStyle": "patient teacher"
+      },
+      "personalityCannotOverride": "access, preparation, service order or privacy",
+      "populationClaim": "authored_cast_not_future_census",
+      "role": "Levi",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "start": "family_home"
+    }
+  ],
+  "incense": {
+    "altarPlacementReceipt": "SourceAssets/vessels-review/HeikhalKeilimV1/placement-20260907T143211410537Z.json",
+    "destination": "heikhal",
+    "events": [
+      {
+        "exit": "morning_officiant_exit",
+        "id": "DAILY_AM",
+        "predecessor": "morning_blood_completed",
+        "runtimeService": "Morning",
+        "trigger": "morning_incense_cue"
+      },
+      {
+        "exit": "afternoon_officiant_exit",
+        "id": "DAILY_PM",
+        "predecessor": "afternoon_limbs_completed",
+        "runtimeService": "Afternoon",
+        "trigger": "afternoon_incense_cue"
+      }
+    ],
+    "executionKey": [
+      "cycle_id",
+      "service"
+    ],
+    "fastForward": "evaluate_each_event_boundary_once",
+    "load": "restore_once_only_state_and_residual_remaining",
+    "ordinaryDayInnerService": false,
+    "pause": "freeze_shared_simulation_clock",
+    "reentry": "never_retrigger",
+    "requirements": [
+      "scenario_reviewed",
+      "location_reviewed",
+      "navigation_verified",
+      "purpose_authorized",
+      "preparation_reviewed",
+      "assigned_kohen",
+      "immersion_for_service",
+      "garments_reviewed",
+      "hands_feet_ready",
+      "incense_assignment",
+      "daily_withdrawal_complete",
+      "supervisor_cue"
+    ],
+    "smokeEmissionSeconds": null,
+    "smokeResidualSeconds": null,
+    "sourceIds": [
+      "KET_LOCATION",
+      "KET_ORDER",
+      "SMOKE"
+    ],
+    "withdrawalBoundary": "needs_explicit_polygon_and_officiant_exit_review",
+    "yomKippur": "separate_unimplemented_profile_with_own_withdrawal"
+  },
+  "inputFiles": [
+    {
+      "bytes": 10256663,
+      "path": "SourceAssets/architecture-manifest.json",
+      "sha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d"
+    },
+    {
+      "bytes": 17543,
+      "path": "unreal/Research/people-and-city.md",
+      "sha256": "a157374514d8e284e59561ef6f8cc545e0d591b6524befedb974409e45aecf03"
+    },
+    {
+      "bytes": 14393,
+      "path": "unreal/Research/halacha-and-service.md",
+      "sha256": "29174566f1e88c79ab3627e7a75f55f8871f7d802af17021dbf83090c0862de5"
+    },
+    {
+      "bytes": 9935,
+      "path": "unreal/Research/ketores-service-and-smoke.md",
+      "sha256": "a1186b329a00c69b28ecaf619d3c6739a1377daba93660c154c454042aa03cd5"
+    }
+  ],
+  "phases": {
+    "afternoon_incense_cue": {
+      "absoluteClock": null,
+      "after": [
+        "afternoon_limbs_completed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "afternoon_incense_cue",
+      "sourceIds": [
+        "KET_LOCATION",
+        "KET_ORDER"
+      ]
+    },
+    "afternoon_libations_completed": {
+      "absoluteClock": null,
+      "after": [
+        "afternoon_officiant_exit"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "afternoon_libations_completed",
+      "sourceIds": [
+        "KET_ORDER",
+        "DESIGN"
+      ]
+    },
+    "afternoon_limbs_completed": {
+      "absoluteClock": null,
+      "after": [
+        "between_services"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "afternoon_limbs_completed",
+      "sourceIds": [
+        "PM_ORDER",
+        "KET_ORDER"
+      ]
+    },
+    "afternoon_officiant_exit": {
+      "absoluteClock": null,
+      "after": [
+        "afternoon_incense_cue"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "afternoon_officiant_exit",
+      "sourceIds": [
+        "KET_LOCATION"
+      ]
+    },
+    "assignments_ready": {
+      "absoluteClock": null,
+      "after": [
+        "preparation_window"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "assignments_ready",
+      "sourceIds": [
+        "LOTTERY",
+        "ROTATION"
+      ]
+    },
+    "between_services": {
+      "absoluteClock": null,
+      "after": [
+        "morning_limbs_completed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "between_services",
+      "sourceIds": [
+        "DESIGN"
+      ]
+    },
+    "day_open": {
+      "absoluteClock": null,
+      "after": [],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "day_open",
+      "sourceIds": [
+        "DESIGN"
+      ]
+    },
+    "daylight_confirmed": {
+      "absoluteClock": null,
+      "after": [
+        "day_open"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "daylight_confirmed",
+      "sourceIds": [
+        "DAYLIGHT"
+      ]
+    },
+    "morning_blood_completed": {
+      "absoluteClock": null,
+      "after": [
+        "assignments_ready",
+        "daylight_confirmed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "morning_blood_completed",
+      "sourceIds": [
+        "KET_ORDER"
+      ]
+    },
+    "morning_incense_cue": {
+      "absoluteClock": null,
+      "after": [
+        "morning_blood_completed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "morning_incense_cue",
+      "sourceIds": [
+        "KET_LOCATION",
+        "KET_ORDER"
+      ]
+    },
+    "morning_limbs_completed": {
+      "absoluteClock": null,
+      "after": [
+        "morning_officiant_exit"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "morning_limbs_completed",
+      "sourceIds": [
+        "KET_ORDER",
+        "DESIGN"
+      ]
+    },
+    "morning_officiant_exit": {
+      "absoluteClock": null,
+      "after": [
+        "morning_incense_cue"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "morning_officiant_exit",
+      "sourceIds": [
+        "KET_LOCATION"
+      ]
+    },
+    "preparation_window": {
+      "absoluteClock": null,
+      "after": [
+        "day_open"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "preparation_window",
+      "sourceIds": [
+        "SERVICE_IMMERSION",
+        "DAYLIGHT"
+      ]
+    },
+    "remaining_duties_reviewed": {
+      "absoluteClock": null,
+      "after": [
+        "afternoon_libations_completed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "remaining_duties_reviewed",
+      "sourceIds": [
+        "DESIGN"
+      ]
+    },
+    "return_home_window": {
+      "absoluteClock": null,
+      "after": [
+        "remaining_duties_reviewed"
+      ],
+      "detail": "Authored partial-order cue; not an exhaustive liturgical chronology or duration",
+      "dispatch": "external_event_not_elapsed_seconds",
+      "id": "return_home_window",
+      "sourceIds": [
+        "DESIGN"
+      ]
+    }
+  },
+  "privacy": {
+    "completionEffect": "record_modeled_step_only_no_universal_purity_grant",
+    "excludes": [
+      "nude_body",
+      "wet_clothing_silhouette",
+      "underwater_body",
+      "changing_animation",
+      "intimate_audio"
+    ],
+    "noPersonalQuestionnaire": true,
+    "scene": "opaque_door_or_neutral_fade_then_fully_dressed_exit",
+    "skipEquivalent": true,
+    "sourceIds": [
+      "SERVICE_IMMERSION",
+      "PREP",
+      "DESIGN"
+    ]
+  },
+  "routes": {
+    "host_leg_01": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "host_home",
+      "id": "host_leg_01",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_city_supply_host_home",
+      "sourceIds": [
+        "HOSTING",
+        "ABUNDANCE",
+        "SUPPLY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "city_supply",
+      "waypointsCm": []
+    },
+    "host_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "city_supply",
+      "id": "host_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_city_supply_hospitality_help",
+      "sourceIds": [
+        "HOSTING",
+        "ABUNDANCE",
+        "SUPPLY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "hospitality_help",
+      "waypointsCm": []
+    },
+    "host_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "hospitality_help",
+      "id": "host_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_hospitality_help_host_home",
+      "sourceIds": [
+        "HOSTING",
+        "ABUNDANCE",
+        "SUPPLY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "host_home",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_01": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "family_home",
+      "id": "kohen_am_leg_01",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "privacy_ready"
+      ],
+      "resource": "review_family_home_mikvah_entry",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_entry",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_entry",
+      "id": "kohen_am_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "privacy_ready"
+      ],
+      "resource": "review_mikvah_entry_mikvah_exit",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_exit",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_exit",
+      "id": "kohen_am_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "immersion_for_service",
+        "garments_reviewed"
+      ],
+      "resource": "review_garment_storage_mikvah_exit",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "garment_storage",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_04": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "garment_storage",
+      "id": "kohen_am_leg_04",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_garment_storage_outer_north",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_05": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "kohen_am_leg_05",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_06": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "kohen_am_leg_06",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen"
+      ],
+      "resource": "review_inner_north_outer_court",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "inner_north",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_07": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "inner_north",
+      "id": "kohen_am_leg_07",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen"
+      ],
+      "resource": "review_inner_north_laver",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "laver",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_08": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "laver",
+      "id": "kohen_am_leg_08",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_laver_priestly_court",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "priestly_court",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_09": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "priestly_court",
+      "id": "kohen_am_leg_09",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready",
+        "incense_assignment"
+      ],
+      "resource": "review_priestly_court_ulam",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "ulam",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_10": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "ulam",
+      "id": "kohen_am_leg_10",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready",
+        "incense_assignment",
+        "daily_withdrawal_complete",
+        "supervisor_cue"
+      ],
+      "resource": "review_heikhal_ulam",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "heikhal",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_11": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "heikhal",
+      "id": "kohen_am_leg_11",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_heikhal_ulam",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "ulam",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_12": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "ulam",
+      "id": "kohen_am_leg_12",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_priestly_court_ulam",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "priestly_court",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_14": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "priestly_court",
+      "id": "kohen_am_leg_14",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_inner_north_priestly_court",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "inner_north",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_15": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "inner_north",
+      "id": "kohen_am_leg_15",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_inner_north_outer_court",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_16": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "kohen_am_leg_16",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "garments_reviewed"
+      ],
+      "resource": "review_garment_storage_outer_court",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "garment_storage",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_17": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "garment_storage",
+      "id": "kohen_am_leg_17",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "off_duty_clothes"
+      ],
+      "resource": "review_garment_storage_outer_north",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "kohen_am_leg_18": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "kohen_am_leg_18",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "off_duty_clothes"
+      ],
+      "resource": "review_family_home_outer_north",
+      "sourceIds": [
+        "HOMES",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "LOTTERY",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "family_home",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_01": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "duty_lodging",
+      "id": "kohen_pm_leg_01",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "privacy_ready"
+      ],
+      "resource": "review_duty_lodging_mikvah_entry",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_entry",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_entry",
+      "id": "kohen_pm_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "privacy_ready"
+      ],
+      "resource": "review_mikvah_entry_mikvah_exit",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_exit",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_exit",
+      "id": "kohen_pm_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "immersion_for_service",
+        "garments_reviewed"
+      ],
+      "resource": "review_garment_storage_mikvah_exit",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "garment_storage",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_04": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "garment_storage",
+      "id": "kohen_pm_leg_04",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_garment_storage_outer_north",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_05": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "kohen_pm_leg_05",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_06": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "kohen_pm_leg_06",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen"
+      ],
+      "resource": "review_inner_north_outer_court",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "inner_north",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_07": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "inner_north",
+      "id": "kohen_pm_leg_07",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen"
+      ],
+      "resource": "review_inner_north_laver",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "laver",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_08": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "laver",
+      "id": "kohen_pm_leg_08",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_laver_priestly_court",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "priestly_court",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_10": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "priestly_court",
+      "id": "kohen_pm_leg_10",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready",
+        "incense_assignment"
+      ],
+      "resource": "review_priestly_court_ulam",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "ulam",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_11": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "ulam",
+      "id": "kohen_pm_leg_11",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready",
+        "incense_assignment",
+        "daily_withdrawal_complete",
+        "supervisor_cue"
+      ],
+      "resource": "review_heikhal_ulam",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "heikhal",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_12": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "heikhal",
+      "id": "kohen_pm_leg_12",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_heikhal_ulam",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "ulam",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_13": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "ulam",
+      "id": "kohen_pm_leg_13",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_priestly_court_ulam",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "priestly_court",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_14": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "priestly_court",
+      "id": "kohen_pm_leg_14",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "assigned_kohen",
+        "immersion_for_service",
+        "garments_reviewed",
+        "hands_feet_ready"
+      ],
+      "resource": "review_inner_north_priestly_court",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "inner_north",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_15": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "inner_north",
+      "id": "kohen_pm_leg_15",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_inner_north_outer_court",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_16": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "kohen_pm_leg_16",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "garments_reviewed"
+      ],
+      "resource": "review_garment_storage_outer_court",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "garment_storage",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_17": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "garment_storage",
+      "id": "kohen_pm_leg_17",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "off_duty_clothes"
+      ],
+      "resource": "review_garment_storage_outer_north",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "kohen_pm_leg_18": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "kohen_pm_leg_18",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "off_duty_clothes"
+      ],
+      "resource": "review_family_home_outer_north",
+      "sourceIds": [
+        "LODGING",
+        "ROTATION",
+        "SERVICE_IMMERSION",
+        "HANDS_FEET",
+        "GARMENTS",
+        "KET_LOCATION",
+        "KET_ORDER",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "family_home",
+      "waypointsCm": []
+    },
+    "levi_leg_01": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "family_home",
+      "id": "levi_leg_01",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_family_home_outer_north",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "levi_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "levi_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "levi_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "levi_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_song_chamber",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "song_chamber",
+      "waypointsCm": []
+    },
+    "levi_leg_04": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "song_chamber",
+      "id": "levi_leg_04",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_song_chamber",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "levi_leg_05": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "levi_leg_05",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "levi_leg_06": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "levi_leg_06",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_family_home_outer_north",
+      "sourceIds": [
+        "ROTATION",
+        "ACCESS",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "family_home",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_01": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "host_home",
+      "id": "pilgrim_leg_01",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed",
+        "privacy_ready"
+      ],
+      "resource": "review_host_home_mikvah_entry",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_entry",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_entry",
+      "id": "pilgrim_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "privacy_ready"
+      ],
+      "resource": "review_mikvah_entry_mikvah_exit",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "mikvah_exit",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "mikvah_exit",
+      "id": "pilgrim_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_mikvah_exit_outer_north",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_04": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "pilgrim_leg_04",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_05": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "pilgrim_leg_05",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_visitor_lane",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "visitor_lane",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_06": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "visitor_lane",
+      "id": "pilgrim_leg_06",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_visitor_lane",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_court",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_07": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_court",
+      "id": "pilgrim_leg_07",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized",
+        "preparation_reviewed"
+      ],
+      "resource": "review_outer_court_outer_north",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "outer_north",
+      "waypointsCm": []
+    },
+    "pilgrim_leg_08": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "outer_north",
+      "id": "pilgrim_leg_08",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_host_home_outer_north",
+      "sourceIds": [
+        "PREP",
+        "ACCESS",
+        "GATES",
+        "HOSTING",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "host_home",
+      "waypointsCm": []
+    },
+    "supplier_leg_02": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "city_supply",
+      "id": "supplier_leg_02",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_city_supply_host_home",
+      "sourceIds": [
+        "SUPPLY",
+        "REVERENCE",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "host_home",
+      "waypointsCm": []
+    },
+    "supplier_leg_03": {
+      "blockReason": "needs_measured_path_and_access_review",
+      "capacity": null,
+      "connection": "logical_only_no_straight_line_interpolation",
+      "enabled": false,
+      "from": "host_home",
+      "id": "supplier_leg_03",
+      "requiredConditions": [
+        "scenario_reviewed",
+        "location_reviewed",
+        "navigation_verified",
+        "purpose_authorized"
+      ],
+      "resource": "review_city_supply_host_home",
+      "sourceIds": [
+        "SUPPLY",
+        "REVERENCE",
+        "DESIGN"
+      ],
+      "timeoutSeconds": null,
+      "to": "city_supply",
+      "waypointsCm": []
+    }
+  },
+  "scenario": {
+    "completeJourneyMeaning": "Authored departure-preparation-duty-return chains; unresolved destinations stay blocked",
+    "defaultSpawnCount": 0,
+    "exactFuturePopulation": null,
+    "futureInterpretationReviewed": false,
+    "historicalCompleteness": "Selected service anchors only; not all daily rites or all halachic exceptions",
+    "id": "ordinary_weekday_interpretive_v1",
+    "innerEastGate": "not_used_pending_Ezekiel46_mapping",
+    "literalClockTimes": false,
+    "sourceCategory": "D"
+  },
+  "schemaVersion": 1,
+  "sources": {
+    "ABUNDANCE": {
+      "category": "H",
+      "claim": "Future abundance and uncertainty require review before importing historical poverty as ambient scenery.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Melachim uMilchamot 12:2,5",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1188357/jewish/Melachim-uMilchamot-Chapter-12.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "ACCESS": {
+      "category": "H",
+      "claim": "Role, task and zone matter; ordinary visitors do not enter the innermost sanctuary.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Kelim 1:8-9",
+      "url": "https://www.sefaria.org/Mishnah_Kelim.1.8-9",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "CHARITY": {
+      "category": "H",
+      "claim": "Discreet assistance is described; no exact chamber in this measured model is identified.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Shekalim 5:6",
+      "url": "https://www.sefaria.org/Mishnah_Shekalim.5.6",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "DAYLIGHT": {
+      "category": "H",
+      "claim": "Supervisor arrival is variable; daylight is checked before morning slaughter.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Tamid 1:2; 3:2",
+      "url": "https://www.sefaria.org/Mishnah_Tamid.3.2",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "DESIGN": {
+      "category": "D",
+      "claim": "All named individuals, personality, pacing and logical connections are authored.",
+      "dossier": null,
+      "futureApplication": "illustrative_not_predicted",
+      "reference": "Original authored scene specification",
+      "url": null,
+      "verification": "authored_here"
+    },
+    "GARMENTS": {
+      "category": "P",
+      "claim": "Holy-food/service-garment chambers differ from family housing; exact room assignment unresolved.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Ezekiel 42:13-14; 44:17-19",
+      "url": "https://www.chabad.org/library/bible_cdo/aid/16140/jewish/Chapter-42.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "GARMENT_PROFILE": {
+      "category": "H",
+      "claim": "Garment sets depend on role/service; reconcile with the selected prophetic interpretation.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Klei HaMikdash 8:1-3,11",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1008233/jewish/Klei-Hamikdash-Chapter-8.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "GATES": {
+      "category": "P",
+      "claim": "Inner east gate and opposite-gate gathering routes are calendar-specific; future mapping requires review.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Ezekiel 46:1-3,9-10",
+      "url": "https://www.chabad.org/library/bible_cdo/aid/16144/jewish/Chapter-46.htm",
+      "verification": "primary_page_reopened_2026-09-07_plus_local_dossier"
+    },
+    "HANDS_FEET": {
+      "category": "H",
+      "claim": "Hands-and-feet sanctification is a separate service prerequisite.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Biat HaMikdash 5:1-2",
+      "url": "https://www.chabad.org/torah-texts/1008246/Mishneh-Torah-Rambam/Sefer-Avodah/Biat-Hamikdash/Biat-Hamikdash-Chapter-5",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "HOMES": {
+      "category": "P",
+      "claim": "Priestly residential land is described; individual addresses and floor plans are not supplied.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Ezekiel 45:4",
+      "url": "https://www.chabad.org/library/bible_cdo/aid/16143/jewish/Chapter-45.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "HOSTING": {
+      "category": "H",
+      "claim": "Hosting has a legal context; do not assume ordinary paid hotel quests.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Yoma 12a",
+      "url": "https://www.sefaria.org/Yoma.12a",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "KET_LOCATION": {
+      "category": "H",
+      "claim": "Daily incense is on the Golden Altar; withdrawal and supervisor cue precede it, clearance lasts until officiant exit.",
+      "dossier": "ketores-service-and-smoke.md",
+      "futureApplication": "needs_review",
+      "reference": "Temidin uMusafim 3:1,3,9",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1013255/jewish/Temidin-uMusafim-Chapter-3.htm",
+      "verification": "primary_page_reopened_2026-09-07_plus_local_dossier"
+    },
+    "KET_ORDER": {
+      "category": "H",
+      "claim": "Morning incense is between blood and limbs; afternoon incense between limbs and libations.",
+      "dossier": "ketores-service-and-smoke.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Yoma 3:5",
+      "url": "https://www.sefaria.org/Mishnah_Yoma.3.5",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "KITCHENS": {
+      "category": "P",
+      "claim": "Priestly and people-offering kitchens have different purposes; neither is a cafe.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Ezekiel 46:19-24",
+      "url": "https://www.chabad.org/library/bible_cdo/aid/16144/jewish/Chapter-46.htm",
+      "verification": "primary_page_reopened_2026-09-07_plus_local_dossier"
+    },
+    "LODGING": {
+      "category": "H",
+      "claim": "Duty lodging, bedding and discreet immersion access are earlier-Temple practices, not family housing.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Tamid 1:1",
+      "url": "https://www.sefaria.org/Mishnah_Tamid.1.1",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "LOTTERY": {
+      "category": "H",
+      "claim": "New-to-incense eligibility matters for the described lottery; retain prior duty history.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Tamid 5:2",
+      "url": "https://www.sefaria.org/Mishnah_Tamid.5.2",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "PM_ORDER": {
+      "category": "H",
+      "claim": "Ordinary afternoon timing uses seasonal hours; Erev Pesach profiles differ.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Pesachim 5:1",
+      "url": "https://www.sefaria.org/Mishnah_Pesachim.5.1",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "PREP": {
+      "category": "H",
+      "claim": "Independent preparation states and sacred zones; immersion is not a universal reset.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Numbers 19:11-19; Biat HaMikdash 3:3-7,14",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1008244/jewish/Biat-Hamikdash-Chapter-3.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "REVERENCE": {
+      "category": "H",
+      "claim": "An unrelated business shortcut is not a sacred-precinct journey purpose.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Beit HaBechirah 7:1-2",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1007200/jewish/Beit-Habechirah-Chapter-7.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "ROTATION": {
+      "category": "H",
+      "claim": "Watches explain duty rotation, not future watch population.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Taanit 4:2",
+      "url": "https://www.sefaria.org/Mishnah_Taanit.4.2",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "SERVICE_IMMERSION": {
+      "category": "H",
+      "claim": "Service immersion has its own purpose; privacy precedent does not specify our screen treatment.",
+      "dossier": "halacha-and-service.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Yoma 3:3-4",
+      "url": "https://www.sefaria.org/Mishnah_Yoma.3.3-4",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "SMOKE": {
+      "category": "H",
+      "claim": "Qualitative rising/spreading smoke description supplies no particle seconds or authenticated botanical identity.",
+      "dossier": "ketores-service-and-smoke.md",
+      "futureApplication": "needs_review",
+      "reference": "Yoma 53a:4-11",
+      "url": "https://www.sefaria.org/Yoma.53a.4-11",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "SUPPLY": {
+      "category": "H",
+      "claim": "Temple supply administration differs from an ordinary city provisioning scene.",
+      "dossier": "people-and-city.md",
+      "futureApplication": "needs_review",
+      "reference": "Mishnah Shekalim 5:3-5; Maaser Sheni 5:2",
+      "url": "https://www.sefaria.org/Mishnah_Shekalim.5.3-5",
+      "verification": "reused_local_dossier_2026-09-07"
+    },
+    "YK": {
+      "category": "H",
+      "claim": "Inner incense is a separate Kohen Gadol service with its own garments, prerequisites and withdrawal.",
+      "dossier": "ketores-service-and-smoke.md",
+      "futureApplication": "needs_review",
+      "reference": "Avodat Yom HaKippurim 4:1-2",
+      "url": "https://www.chabad.org/library/article_cdo/aid/1062926/jewish/Avodat-Yom-haKippurim-Chapter-4.htm",
+      "verification": "reused_local_dossier_2026-09-07"
+    }
+  },
+  "status": "offline_inputs_native_review_required",
+  "vendorPolicy": {
+    "kitchenDestination": "priestly_kitchen",
+    "kitchenIsCafe": false,
+    "ordinaryAndSacredItemsSeparate": true,
+    "precinctRetail": false,
+    "prices": null,
+    "sourceIds": [
+      "SUPPLY",
+      "KITCHENS",
+      "DESIGN"
+    ]
+  }
+}

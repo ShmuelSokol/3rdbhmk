@@ -1,0 +1,213 @@
+{
+  "status": "IMPLEMENTED_OFFLINE_CHECKED_NATIVE_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/ExteriorStoneV1",
+  "entryPoint": "import build_exterior_stone_review as s; s.build('/Game/MikdashV3/MaterialReview/ExteriorStoneV1/Maps/CourtyardExteriorStone')",
+  "template": "Root chooses current saved integrated review map and duplicates it into namespace/Maps. Keep a saved matching template before assignment for true A/B.",
+  "targets": [
+    {
+      "asset": "SM_0129_floor_Outer_court_floor",
+      "source": "Outer court floor",
+      "boundsCm": {
+        "min": [
+          -7800.0,
+          -7800.0,
+          280.0000190734863
+        ],
+        "max": [
+          7800.0,
+          7800.0,
+          300.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0130_floor_Inner_court_clear_floor",
+      "source": "Inner court clear floor",
+      "boundsCm": {
+        "min": [
+          1675.0,
+          -2500.0,
+          480.0000190734863
+        ],
+        "max": [
+          2500.0,
+          2500.0,
+          500.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0131_architecture_Inner_lateral_gate_lintel",
+      "source": "Inner lateral gate lintel",
+      "boundsCm": {
+        "min": [
+          -250.0,
+          -2800.0,
+          3125.0
+        ],
+        "max": [
+          250.0,
+          -2500.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0132_architecture_Inner_lateral_gate_lintel",
+      "source": "Inner lateral gate lintel",
+      "boundsCm": {
+        "min": [
+          -250.0,
+          2500.0,
+          3125.0
+        ],
+        "max": [
+          250.0,
+          2800.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0133_architecture_Inner_side_wall",
+      "source": "Inner side wall",
+      "boundsCm": {
+        "min": [
+          -2500.0,
+          -2800.0,
+          625.0
+        ],
+        "max": [
+          -250.0,
+          -2500.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0134_architecture_Inner_side_wall",
+      "source": "Inner side wall",
+      "boundsCm": {
+        "min": [
+          250.0,
+          -2800.0,
+          625.0
+        ],
+        "max": [
+          2500.0,
+          -2500.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0135_architecture_Inner_side_wall",
+      "source": "Inner side wall",
+      "boundsCm": {
+        "min": [
+          -2500.0,
+          2500.0,
+          625.0
+        ],
+        "max": [
+          -250.0,
+          2800.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0136_architecture_Inner_side_wall",
+      "source": "Inner side wall",
+      "boundsCm": {
+        "min": [
+          250.0,
+          2500.0,
+          625.0
+        ],
+        "max": [
+          2500.0,
+          2800.0,
+          3625.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0137_architecture_Inner_eastern_gate_wall_jamb_1",
+      "source": "Inner eastern gate wall jamb -1",
+      "boundsCm": {
+        "min": [
+          2500.0,
+          -2800.0,
+          500.0
+        ],
+        "max": [
+          2800.0,
+          -250.0,
+          3500.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+      "source": "Inner eastern gate wall jamb 1",
+      "boundsCm": {
+        "min": [
+          2500.0,
+          250.0,
+          500.0
+        ],
+        "max": [
+          2800.0,
+          2800.0,
+          3500.0
+        ]
+      }
+    },
+    {
+      "asset": "SM_0139_architecture_Inner_eastern_gate_wall_lintel",
+      "source": "Inner eastern gate wall lintel",
+      "boundsCm": {
+        "min": [
+          2500.0,
+          -250.0,
+          3000.0
+        ],
+        "max": [
+          2800.0,
+          250.0,
+          3500.0
+        ]
+      }
+    }
+  ],
+  "materials": {
+    "wall": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+    "paving": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+  },
+  "newShaders": false,
+  "scope": "Nine existing inner gate/side wall or lintel components plus two courtfloor components, all independent single-slot meshes. Excludes sharedHouseunion, sanctuary finishes, exterior envelope union, Kotel, figures/reliefs and existing curved pillars. Material-only; geometry/openings/collision unchanged.",
+  "imageEvidence": "SourceAssets/visual-review/atmosphere-comparison-3b69314abc/atmosphere_exterior_courtyard.png",
+  "observations": "Reviewed image shows tall blank pale inner gatewall masses, lower chambers and foreground paving. This is a readable outdoorbaseline unlike earlier failed closewall camera. Upper wall candidate should read against same sun; foregroundpaving candidate tests shadow/sun continuity. Lower chamber facades and columns remain unchanged for this bounded trial.",
+  "camera": {
+    "position": [
+      6500,
+      -1800,
+      468
+    ],
+    "pitch": 0,
+    "yaw": 155,
+    "roll": 0,
+    "fov": 75
+  },
+  "materialLimits": "StoneV2 is original worldcm dominant-axis shader: artist100x50cm wallcourse,60x60cm paving, restrained warmgray/ivory variation and subcm grain. No newly surveyed stonecourse claim. Inspect scale/tiling and avoid excessive noise. No automatic quality approval.",
+  "capturePlan": [
+    "Use exact imagecamera/FOV75 with current unchanged sun/exposure,45s/120tick warmup",
+    "Match template and candidate screenshots before any scenechange; priorAtmosphereimage is contextual only if chosen template hasaddedobjects",
+    "Ensure exteriorcamera 10cm sphereclearance and actual viewportstill1920x1080",
+    "Close surface followup only after readablewideview; do notreuse failed blackwall camera",
+    "Inspect seams, largewall colorhierarchy, grain/shadow clarity, aliasing and foregroundpavingcontinuity",
+    "No stairgeometry or sharedHousecladding changes inthistrial; root merges candidate onlyafter visualacceptance"
+  ],
+  "verification": "PythonAST, frozenmanifesthash,11single-slot nonunion meshes andpermittedmaterialkeys passed. Native savedassets existence andcomponentidentity/bounds verified atbuildtime. No engineexecution."
+}

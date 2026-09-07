@@ -1,0 +1,100 @@
+{
+  "status": "restored",
+  "profile": "wall",
+  "component": "/Game/MikdashV3/Maps/Courtyard.Courtyard:PersistentLevel.StaticMeshActor_138.StaticMeshComponent0",
+  "sourceMesh": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+  "sourceBoundsCm": {
+    "min": [
+      2500.0,
+      249.9994354248047,
+      500.0000305175781
+    ],
+    "max": [
+      2800.0,
+      2800.0,
+      3500.00048828125
+    ]
+  },
+  "manifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "originalMaterial": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6.M_Canonical_stone_60db7e17c6",
+  "originalOverrides": [
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6.M_Canonical_stone_60db7e17c6"
+  ],
+  "pilot": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview.M_JerusalemStoneV2_WallReview",
+  "originalCamera": {
+    "location": [
+      6500.0,
+      -1800.0,
+      468.0
+    ],
+    "rotationPitchYawRoll": [
+      0.0,
+      155.0,
+      0.0
+    ]
+  },
+  "reviewCamera": [
+    3000.0,
+    1525.0,
+    700.0
+  ],
+  "reviewRotationPitchYawRoll": [
+    0.0,
+    180.0,
+    0.0
+  ],
+  "reviewTargetCm": [
+    2800.0,
+    1525.0,
+    700.0
+  ],
+  "reviewFace": "east",
+  "reviewDistanceCm": 200.0,
+  "cameraSource": "Verified manifest east face; center in Y, 200cm above its bottom",
+  "originalThrottle": 1,
+  "exposureBiasBefore": [
+    {
+      "actor": "/Game/MikdashV3/Maps/Courtyard.Courtyard:PersistentLevel.PostProcessVolume_0",
+      "bias": 1.0
+    }
+  ],
+  "mapSaved": false,
+  "events": [
+    {
+      "stage": "baseline",
+      "seconds": 0.015
+    },
+    {
+      "stage": "candidate_applied",
+      "seconds": 20.0
+    },
+    {
+      "stage": "restored",
+      "seconds": 30.297
+    }
+  ],
+  "visualAcceptance": "PENDING",
+  "scope": "One component; fixed 2m face-normal camera derived from verified source bounds. Operator must confirm no other geometry occludes it. This is a material inspection view, not a player/access position. No lighting changes, source geometry changes, screenshots or automatic visual judgment.",
+  "timing": "20s baseline+30s candidate; restore on first tick >=50s; stalled editor may delay callback",
+  "overridesRestored": true,
+  "materialRestored": true,
+  "cameraAfter": {
+    "location": [
+      6500.0,
+      -1800.0,
+      468.0
+    ],
+    "rotationPitchYawRoll": [
+      0.0,
+      155.0,
+      0.0
+    ]
+  },
+  "cameraRestored": true,
+  "throttleRestored": true,
+  "exposureBiasUnchanged": true,
+  "dirtyMapPackagesAfter": [
+    "/Game/MikdashV3/Maps/Courtyard"
+  ],
+  "restoreErrors": []
+}

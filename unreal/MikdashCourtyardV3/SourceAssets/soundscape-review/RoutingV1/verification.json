@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "command": "SourceAssets\\soundscape-review\\RoutingV1\\run_tests.cmd",
+  "compiler": "MSVC 2019 BuildTools, x64, /std:c++14 /W4 /WX",
+  "result": "PASS 24 actual-header routing checks",
+  "header": {
+    "path": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashSurfaceAudioRouting.h",
+    "sha256": "d4d0e64edcf51fbd44a32a8f1e76292df52d38c18411d006ecb826dd25860b43",
+    "bytes": 3005
+  },
+  "evidence": [
+    {
+      "path": "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashPlayerController.cpp",
+      "sha256": "edbae2176392e7f27914a180b4fb1ed5888976cdd5801183c994eea944bbcb6c",
+      "bytes": 15439
+    },
+    {
+      "path": "SourceAssets/FutureMountV1/native-platform-existing-verification-03.json",
+      "sha256": "48564ea7be8c99e44fcf904c2be76e10eec6ecfb5d46921474beb7960d43c9c0",
+      "bytes": 4290
+    },
+    {
+      "path": "Scripts/create_mount_access.py",
+      "sha256": "3aa302dcd5bf06031eb49936eb64860725e36a4647de9b894c2d0f1034e7a5b4",
+      "bytes": 13376
+    },
+    {
+      "path": "Scripts/create_arrival_assets.py",
+      "sha256": "858f04a870af2eb5ec680d14ecb54f2a28b6584d554511c2862997afd527e18d",
+      "bytes": 16153
+    },
+    {
+      "path": "Scripts/build_sanctuary_finishes.py",
+      "sha256": "39bf33fb8be3e13db34974ed619fcef2e0eba63125712ee4b8a6ace732889301",
+      "bytes": 9046
+    }
+  ],
+  "limitations": [
+    "No Unreal compilation",
+    "No audio audition or map changes",
+    "Access native paths pending",
+    "Interior source login gated; not downloaded"
+  ]
+}

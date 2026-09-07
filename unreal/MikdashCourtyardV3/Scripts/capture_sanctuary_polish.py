@@ -1,4 +1,4 @@
-"""Finite two-view native sanctuary polish capture; no map/material/light changes or adoption.
+"""Finite wide-close-wide native sanctuary polish capture; no map/material/light changes or adoption.
 
 API basis (installed UE5.8 source):
   FunctionalTesting/Public/AutomationBlueprintFunctionLibrary.h: TakeHighResScreenshot,
@@ -31,7 +31,11 @@ import unreal
 
 MODULE_NAME = "mikdash_sanctuary_polish_capture"
 ROOT = Path(r"C:\Mikdash\Working-5.8\MikdashCourtyardV3")
-ALLOWED = "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/"
+ALLOWED = frozenset((
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV2/Maps/MaterialOnly",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV2/Maps/LowFill",
+))
 BASELINE_IMAGE = ROOT/"SourceAssets/visual-review/atmosphere-comparison-3b69314abc/gold_heikhal_west.png"
 RESOLUTION = (1920, 1080)
 WIDE_VIEW = {"id":"heikhal_west", "position":(-4000.0,0.0,1093.0),"yaw":180.0,"pitch":0.0,
@@ -74,11 +78,22 @@ class Comparison:
         assert Path(unreal.Paths.project_dir()).resolve() == ROOT
         assert not self.editor.get_game_world(), "Stop PIE before comparison"
         assert not unreal.EditorLoadingAndSavingUtils.get_dirty_map_packages(), "Preserve unsaved maps first"
-        assert review_map_path.startswith(ALLOWED) and map_file(review_map_path).exists()
+        assert review_map_path in ALLOWED and map_file(review_map_path).exists()
         self.review_map = review_map_path
         self.hashes = {review_map_path:file_hash(map_file(review_map_path))}
+        self.variant_provenance=None
+        if "/SanctuaryPolishV2/" in review_map_path:
+            matches=[]
+            for receipt in (ROOT/"SourceAssets/visual-review").glob("sanctuary-fill-variants-*/variants.json"):
+                data=json.loads(receipt.read_text(encoding="utf-8"))
+                if data.get("status")!="SAVED_REOPENED_INTENSITY_ONLY_VERIFIED_VISUAL_PENDING":continue
+                for variant in data.get("variants",[]):
+                    if variant["map"]==review_map_path and variant["sha256"]==self.hashes[review_map_path]:
+                        matches.append(dict(receipt=str(receipt),sourceMap=data["source"],sourceHash=data["sourceSha256"],lumens=variant["intensityLumens"],interpretation="Verified intensity-only variant of same savedPolish template. Compare samecamera to other verifiedvariant; historicalGold image still differs inobjects/materials."))
+            assert len(matches)==1,"Need matching saved/reopened intensity-only variant receipt"
+            self.variant_provenance=matches[0]
         assert BASELINE_IMAGE.exists(), "Prior native baseline image required"
-        self.views=[dict(WIDE_VIEW),None]
+        self.views=[dict(WIDE_VIEW,id="heikhal_west_A"),None,dict(WIDE_VIEW,id="heikhal_west_B")]
         manifest = json.loads((ROOT / "SourceAssets/architecture-manifest.json").read_text())
         floors = [item for item in manifest["meshes"] if item["assetName"] == "SM_0146_floor_Heichal_clear_floor"]
         assert len(floors) == 1
@@ -101,9 +116,12 @@ class Comparison:
         self.report_path = self.folder / "comparison.json"
         self.report = {
             "status": "running", "maps": self.hashes, "resolution": RESOLUTION,
+            "lightingVariant":self.variant_provenance,
             "priorWideImage": str(BASELINE_IMAGE), "priorWideImageSha256":file_hash(BASELINE_IMAGE),
             "comparisonScope": "Wide camera matches prior Gold image, but candidate may add menorah and other objects; scene inventory is recorded. Not a controlled materials-only A/B. New close vessel view has no prior matched baseline.",
             "fovDegrees": 75, "warmupSecondsPerView": 45, "minimumSlateTicksPerView": 120,
+            "readinessPolicy":"After camera placement finish_loading_before_screenshot, then start rendered warmup; wide A, close, exact wide B. No material/light changes.",
+            "viewTiming":[],
             "watchdogSeconds": 600, "sourceManifestSha256": file_hash(ROOT / "SourceAssets/architecture-manifest.json"),
             "interiorFloorBounds": bounds, "views": self.views, "events": [], "captures": [],
             "mapSaved": False, "adopted": False, "visualAcceptance": "PENDING",
@@ -120,7 +138,7 @@ class Comparison:
 
     def next_view(self):
         self.index += 1
-        if self.index == 2:
+        if self.index == 3:
             self.finish("captured_restored_requires_visual_review")
             return
         asset = self.review_map
@@ -175,11 +193,25 @@ class Comparison:
         self.editor.set_level_viewport_camera_info(location, unreal.Rotator(pitch=self.view["pitch"], yaw=self.view["yaw"], roll=0))
         self.filename = self.folder / ("polish_" + self.view["id"] + ".png")
         assert not self.filename.exists()
-        self.phase = "warming"
-        self.phase_started = time.monotonic()
-        self.ticks = 0
-        self.task = None
-        self.event("warming_" + self.filename.stem)
+        # Loading can pump Slate. Prevent a reentrant tick from touching state.
+        previous_busy = self.busy
+        self.busy = True
+        self.phase = "readiness"
+        barrier_started = time.monotonic()
+        self.view_timing = {"view":self.view["id"], "barrierStartedSeconds":round(barrier_started-self.started,3)}
+        self.report["viewTiming"].append(self.view_timing)
+        self.event("readiness_"+self.filename.stem)
+        try:
+            unreal.AutomationLibrary.finish_loading_before_screenshot()
+            self.view_timing["barrierElapsedSeconds"] = round(time.monotonic()-barrier_started,3)
+            self.phase = "warming"
+            self.phase_started = time.monotonic()
+            self.view_timing["warmupStartedSeconds"] = round(self.phase_started-self.started,3)
+            self.ticks = 0
+            self.task = None
+            self.event("warming_" + self.filename.stem)
+        finally:
+            self.busy = previous_busy
 
     def tick(self, delta_seconds):
         if not self.active or self.busy:
@@ -199,9 +231,13 @@ class Comparison:
                 assert camera and (camera[0] - unreal.Vector(*self.view["position"])).length() < 0.1, "Camera moved during warmup"
                 yaw_error = (camera[1].yaw - self.view["yaw"] + 180.0) % 360.0 - 180.0
                 assert abs(yaw_error) < 0.1 and abs(camera[1].pitch-self.view["pitch"]) < 0.1 and abs(camera[1].roll) < 0.1, "Camera rotation changed"
+                self.view_timing["warmupElapsedSeconds"] = round(now-self.phase_started,3)
+                self.view_timing["warmupSlateTicks"] = self.ticks
+                screenshot_call_started = time.monotonic()
                 self.task = unreal.AutomationLibrary.take_high_res_screenshot(
                     RESOLUTION[0], RESOLUTION[1], str(self.filename), camera=None,
                     mask_enabled=False, capture_hdr=False, delay=0.0, force_game_view=False)
+                self.view_timing["screenshotCallElapsedSeconds"] = round(time.monotonic()-screenshot_call_started,3)
                 assert self.task and self.task.is_valid_task(), "Screenshot task was not configured"
                 self.phase = "capturing"
                 self.phase_started = time.monotonic()
@@ -215,7 +251,8 @@ class Comparison:
                     assert (width, height) == RESOLUTION, "Screenshot resolution mismatch"
                     self.report["captures"].append({"map": self.asset, "view": self.view["id"],
                         "file": str(self.filename), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
-                        "nativeTaskDone": True, "cameraClearanceChecked": True})
+                        "nativeTaskDone": True, "cameraClearanceChecked": True,
+                        "camera":self.view,"timing":dict(self.view_timing)})
                     self.event("captured_" + self.filename.stem)
                     self.next_view()
         except Exception as error:
@@ -232,6 +269,13 @@ class Comparison:
             unreal.unregister_slate_post_tick_callback(self.handle)
             self.handle = None
         self.report["status"] = status
+        if len(self.report["captures"]) == 3:
+            first,last = self.report["captures"][0],self.report["captures"][2]
+            self.report["repeatedWide"]={"first":first["file"],"last":last["file"],
+                "sameSavedMap":first["map"]==last["map"],
+                "sameCamera":all(first["camera"][k]==last["camera"][k] for k in ("position","yaw","pitch")),
+                "byteIdentical":first["sha256"]==last["sha256"],
+                "visualStability":"PENDING image comparison; byte inequality alone is not instability."}
         if error:
             self.report["error"] = error
         restore_errors = []

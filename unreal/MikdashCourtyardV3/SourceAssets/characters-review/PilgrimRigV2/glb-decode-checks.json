@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "checks": [
+    "Actual GLB packed weights/indices/inverse bind matrices read",
+    "Actual GLB sampled animation channels evaluated through hierarchy",
+    "Independent matrix LBS agrees with author quaternion LBS within0.0001cm"
+  ],
+  "samples": [
+    {
+      "clip": "Bind",
+      "time_s": 0,
+      "decoded_glb_skin_max_error_cm": 1.4454937883101593e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Idle",
+      "time_s": 0,
+      "decoded_glb_skin_max_error_cm": 1.4454937883101593e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Idle",
+      "time_s": 0.8,
+      "decoded_glb_skin_max_error_cm": 1.445954458745291e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Idle",
+      "time_s": 3.2,
+      "decoded_glb_skin_max_error_cm": 1.4454937883101593e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Walk",
+      "time_s": 0,
+      "decoded_glb_skin_max_error_cm": 1.5050067105448761e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Walk",
+      "time_s": 0.3,
+      "decoded_glb_skin_max_error_cm": 1.4591231661142956e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Walk",
+      "time_s": 0.6,
+      "decoded_glb_skin_max_error_cm": 1.5049898308916454e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Walk",
+      "time_s": 0.9,
+      "decoded_glb_skin_max_error_cm": 1.458892117511823e-05,
+      "vertices": 14774
+    },
+    {
+      "clip": "Walk",
+      "time_s": 1.2,
+      "decoded_glb_skin_max_error_cm": 1.5050067105448761e-05,
+      "vertices": 14774
+    }
+  ],
+  "limits": [
+    "Exact sampled keys tested; interpolation behavior not native-tested",
+    "No cloth self-intersection guarantee"
+  ]
+}

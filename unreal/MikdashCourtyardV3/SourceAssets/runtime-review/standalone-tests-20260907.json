@@ -1,0 +1,54 @@
+{
+  "stamp": "20260907T164502Z",
+  "toolchain": "VS2022 BuildTools MSVC 14.44; plugin tests cl /std:c++17 /EHsc /W4; crowd test /std:c++14 /W4 /WX (/Od debug, /O2 /DNDEBUG release)",
+  "sources": "Plugins/MikdashRuntime/Tests/*.cpp and SourceAssets/runtime-review/resident-crowd/ResidentCrowdRuntimeTest.cpp against Plugins/MikdashRuntime/Source/MikdashRuntime/Public",
+  "results": [
+    {
+      "test": "FootstepCadenceTest.exe",
+      "args": [],
+      "exitCode": 0,
+      "stdout": "speed=100 steps/10s=15,15,15\nspeed=240 steps/10s=26,26,26\nspeed=600 steps/10s=37,37,37\nPASS: standing, wall, pause, air, relocation, reset and frame-rate cadence",
+      "exeSha256": "60f1a889e5d999f0d65d55e9b626dd3beb1ac4773829f3e59168bbaabc58fbca"
+    },
+    {
+      "test": "IncenseServiceScheduleTest.exe",
+      "args": [],
+      "exitCode": 0,
+      "stdout": "Incense schedule: ritual phases, prerequisites, pause, distinct services, smoke lifetime and reload checks passed",
+      "exeSha256": "796f5354822bd760a86634ec03219f35c46cae907641d334fd4a21591ca964cf"
+    },
+    {
+      "test": "PreparationJourneyTest.exe",
+      "args": [],
+      "exitCode": 0,
+      "stdout": "PreparationJourney: all semantic checks passed",
+      "exeSha256": "a74c0af22a3c84575be1ad1806eb61360b6e834233b33fbb3a32c29fd23dc91d"
+    },
+    {
+      "test": "ResidentSimulationTest.exe",
+      "args": [],
+      "exitCode": 0,
+      "stdout": "Resident simulation: continuity, clock, travel, authorization and memory checks passed",
+      "exeSha256": "fc5bea243bd505ef1784bb46a091aec6596a6713f490cfc4a0e064289dcfa11c"
+    },
+    {
+      "test": "crowd_debug.exe",
+      "args": [
+        "<temp snapshot path>"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS 520 checks: schedules, variation, pause, routes, access, memory, disk roundtrip, corruption, capacity",
+      "exeSha256": "c4355b8abec69834bb27f94078d05c0de1b65e692c593ff4107d527a827d4424"
+    },
+    {
+      "test": "crowd_release.exe",
+      "args": [
+        "<temp snapshot path>"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS 520 checks: schedules, variation, pause, routes, access, memory, disk roundtrip, corruption, capacity",
+      "exeSha256": "286943e49b5cb496422bba5df8c50c19ab2569709fd947239febdfa5dbeffd24"
+    }
+  ],
+  "allPassed": true
+}

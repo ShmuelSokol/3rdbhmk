@@ -1,0 +1,31 @@
+# TransitV2: visible bus cabin and original future station study
+
+This delivery preserves the frozen BusStudyV1. It contains a complete replacement bus assembly with open window frames, translucent-glass material preparation, 20 original passenger seats, a driver's seat/dashboard/gauges/pedals/steering wheel, floor/lining, wheelhouse covers and grab rails. It also contains an original editable future station platform, canopy, track, ramps, seating and fixtures. Geometry is original and unbranded; no external models, textures, logos or paid generation were used. V1 helper geometry is reused read-only with its source hash recorded.
+
+## Evidence and limits
+
+The bus has 1,004 closed parts / 26,880 triangles. The station has 1,444 closed parts / 41,400 triangles. All 25 material-group OBJ adapters passed hash, triangle-count, normal-count, UV-area and coordinate-bounds checks. Serialized canonical meshes were independently rechecked for closed indexed edges, positive volumes, finite coordinates and nondegenerate triangles. Passenger seat count/width, rail inner-edge spacing and ramp slopes were checked geometrically. See `verification.json` and `offline-checks.json`.
+
+Offline exterior/cutaway PNGs use an original software depth buffer with approximate alpha compositing. They were inspected to establish that seats/cockpit are visible through the open-frame glazing treatment and the station has a coherent recognizable assembly. The cutaway previews hide roof geometry only for inspection. They are **not Unreal renders**, do not validate engine transparency/shadows and do not establish production visual quality.
+
+There is no human driver or passenger, seated character pose, train carriage, vehicle rig, moving wheel, opening door, vehicle simulation, LOD, accepted collision or packaged acceptance. The bus has 42 cm wide passenger cushions with a 54 cm central aisle; it is intended for visible seated interiors, **not currently boardable by the project's approximately 84 cm diameter pawn**. Closed doors, the floor/threshold step and wheelhouses have not been made into a walking route. Do not shrink the existing pawn or claim accessibility to conceal this limitation.
+
+## Native handoff
+
+Load `Scripts/create_transit_assets.py` in the correct idle editor and explicitly invoke `run_native()`. It creates only isolated materials and static meshes under `/Game/MikdashV3/ArrivalReview/TransitV2/{Bus,Station,Materials}`. It refuses existing namespaces and dirty maps/content, validates native mesh bounds and triangle counts, saves those assets and writes `native-import.json`. **This agent has not run Unreal.** Root must inspect partial imports before retrying failures. No actors, maps, terrain, roads, protected geometry or V1 assets are modified by the helper.
+
+The Glass material is prepared as `BLEND_TRANSLUCENT` with opacity 0.18, roughness 0.08, metallic 0 and `TLM_SURFACE_PER_PIXEL_LIGHTING`. The installed UE5.8 `EngineTypes.h` defines the mode and `Public/Materials/Material.h` exposes the property. Reflected Python execution and visual behavior remain unverified. This is ordinary glass with no refraction/distortion node. Check interior visibility, transparency ordering, shadowing and cost in a native close view before adoption.
+
+All components within each assembly share one local origin. Bus assembly uses local +X forward, +Y door side, Z0 tire contact, dimensions matching V1. **Replace the complete V1 bus instance with V2 components; do not overlay them**, because V1's opaque window/door backing would hide the new interior. Station assembly is authored in local coordinates only. Both use centimeters. The canonical JSON/OBJ uses Unreal XYZ; `SM_TransitV2_*.obj` are reflected-Y/reversed-winding legacy import adapters. Never apply another reflection or unit conversion.
+
+`python SourceAssets/arrival-review/TransitV2/verify_offline.py` reruns checks. `python SourceAssets/arrival-review/TransitV2/render_preview.py` regenerates the four offline PNGs. `python Scripts/create_transit_assets.py --export` generates geometry before freeze; it refuses an existing frozen-file manifest. Author another version for later changes. Both source and canonical data remain editable by named part/material.
+
+## Context and design provenance
+
+`transit-design-spec.json` links the retained source-road and protected-boundary audit hashes. Bus world XY/yaw candidate remains the previously documented Batei Mahase road segment south of the Mount/Kotel areas; ground Z, road width and obstructions are unaccepted. Station world placement is intentionally unset. The helper cannot accidentally place it at the Temple's world origin because it never spawns an actor.
+
+The station is an **illustrative proposed future transit module**, not surveyed existing infrastructure, an actual station location, an approved rail route or an engineering/accessibility specification. It has a 60 m by 6 m platform at local Z55 cm, 47 m canopy, 70 m track, 108 sleepers, 143.5 cm between inner railhead edges, 11 m long end ramps at 5%, benches, windbreaks, blank information panels and a ticket cabinet. Track center is local Y-150 cm and rail top Z28 cm. A hypothetical 280 cm carriage centered on that track would leave a nominal 10 cm body-to-platform gap; no carriage, dynamic envelope or boarding interface has been validated. Tactile ribs and safety paint are artistic geometry, not compliance certification.
+
+Root must select/audit any station position outside the inferred Mount and protected Kotel/plaza polygons plus buffers, and check terrain, roads, buildings, walking connections, platform edge, rail clearance and future vehicle boarding before placement. Preserve cobblestone pedestrian approaches separately from paved bus lanes and retain a smooth pedestrian strip. No station-placement, road-demolition, widening or rail-alignment decision is made here. Retained OSM context keeps existing project ODbL attribution; no new geography claim is introduced.
+
+Next bounded asset task: original low-floor future tram/carriage exterior and cabin compatible with this illustrative platform, with wheel/door assemblies separated for rigging; native movement and route integration remain root-owned. A seated driver/passenger pose should be a separate character-worker task once the rig is frozen.

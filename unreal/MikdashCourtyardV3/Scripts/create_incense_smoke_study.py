@@ -10,9 +10,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 import unreal as ue
 
-ROOT = '/Game/MikdashV3/MaterialReview/IncenseSmokeV2'
-REPORT = Path(ue.Paths.project_dir()) / 'SourceAssets/vessels-review/incense-smoke-study-spec.json'
+ROOT = '/Game/MikdashV3/MaterialReview/IncenseSmokeV4'
+REPORT = Path(ue.Paths.project_dir()) / 'SourceAssets/vessels-review/IncenseRepairV4/native-authoring.json'
 MODULES = {
+    'shape': '/Niagara/Modules/Spawn/Location/V2/ShapeLocation.ShapeLocation',
     'velocity': '/Niagara/Modules/Spawn/Velocity/AddVelocity.AddVelocity',
     'state': '/Niagara/Modules/Emitter/EmitterState.EmitterState',
     'spawn': '/Niagara/Modules/Emitter/SpawnRate.SpawnRate',
@@ -24,8 +25,10 @@ MODULES = {
 # Exact versions used by the installed UE converter examples. ParticleState
 # uses 1.1, while SolveForcesAndVelocity deliberately uses the exposed version.
 MODULE_VERSIONS = {'state': [1, 0], 'spawn': [1, 0], 'init': [1, 0],
-                   'velocity': [1, 2], 'life': [1, 1], 'solve': None, 'position': None}
+                   'shape': None, 'velocity': [1, 2], 'life': [1, 1], 'solve': None, 'position': None}
 ENUMS = {
+    'shape': '/Niagara/Enums/Location/ENiagara_LocationShapes.ENiagara_LocationShapes',
+    'offset': '/Niagara/Enums/Transforms/ENiagara_OffsetMode.ENiagara_OffsetMode',
     'size': '/Niagara/Enums/ENiagara_SizeScaleMode.ENiagara_SizeScaleMode',
     'positionmode': '/Niagara/Enums/ENiagara_PositionInitializationMode.ENiagara_PositionInitializationMode',
     'space': '/Niagara/Enums/ENiagaraCoordinateSpace.ENiagaraCoordinateSpace',
@@ -71,14 +74,11 @@ def build(emission_seconds=6.0, rise_seconds=3.0, ceiling_height_cm=900.0,
                     'Future runtime binding must use one scheduler event and matching lifetime parameters'])
     REPORT.parent.mkdir(parents=True, exist_ok=True)
 
-    source_spec = json.loads(REPORT.read_text(encoding="utf-8"))
-    # Archive the previous execution once, before this attempt creates assets.
-    # Keep the original design/source metadata and root's execution nesting.
-    if 'execution' in source_spec:
-        source_spec.setdefault('priorExecutions', []).append(source_spec.pop('execution'))
+    # Never mutate the historical V1/V2/V3 shared spec or overwrite V4 evidence.
+    if REPORT.exists():
+        raise RuntimeError('Existing V4 receipt preserved: ' + str(REPORT))
     def receipt():
-        source_spec["execution"] = report
-        REPORT.write_text(json.dumps(source_spec, indent=2)+"\n", encoding="utf-8")
+        REPORT.write_text(json.dumps(report, indent=2)+"\n", encoding="utf-8")
     receipt()
 
     context = None
@@ -151,9 +151,21 @@ def build(emission_seconds=6.0, rise_seconds=3.0, ceiling_height_cm=900.0,
             setp(init, 'Sprite Size Mode', fx.create_script_input_enum(ENUMS['size'], 'Non-Uniform'))
             setp(init, 'Sprite Size', fx.create_script_input_vec2(ue.Vector2D(size, size)), True)
             setp(init, 'Position Mode', fx.create_script_input_enum(ENUMS['positionmode'], 'Simulation Position'))
-            setp(init, 'UsePositionOffset', fx.create_script_input_bool(True))
-            setp(init, 'Position Offset', fx.create_script_input_vector(ue.Vector(*offset)))
-            setp(init, 'Position Offset Coordinate Space', fx.create_script_input_enum(ENUMS['space'], 'Local'))
+            # Keep the proven initializer version, but remove its ineffective
+            # position-offset path. Installed converter finalization inserts
+            # direct assignments BEFORE modules, so assigning Particles.Position
+            # directly at spawn would still be overwritten by initialization.
+            setp(init, 'UsePositionOffset', fx.create_script_input_bool(False))
+            if any(offset):
+                # Dedicated position-writing module ordered AFTER initialization.
+                # A 0.01cm sphere avoids zero-radius degeneracy; practically a
+                # point source. Local offset is explicit and SimCache-tested later.
+                shape = module(e, 'CeilingOriginV4', 'shape', ue.ScriptExecutionCategory.PARTICLE_SPAWN)
+                setp(shape, 'Shape Primitive', fx.create_script_input_enum(ENUMS['shape'], 'Sphere'))
+                setp(shape, 'Sphere Radius', fx.create_script_input_float(0.01))
+                setp(shape, 'Offset Mode', fx.create_script_input_enum(ENUMS['offset'], 'Default'))
+                setp(shape, 'Offset', fx.create_script_input_vector(ue.Vector(*offset)))
+                setp(shape, 'Offset Coordinate Space', fx.create_script_input_enum(ENUMS['space'], 'Local'))
             velocity_script = module(e, 'AddVelocity', 'velocity', ue.ScriptExecutionCategory.PARTICLE_SPAWN)
             setp(velocity_script, 'Velocity', fx.create_script_input_vector(ue.Vector(*velocity)))
             life_script = module(e, 'ParticleState', 'life', ue.ScriptExecutionCategory.PARTICLE_UPDATE)

@@ -1,0 +1,315 @@
+{
+  "status": "captured_restored_requires_visual_review",
+  "maps": {
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "priorWideImage": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\atmosphere-comparison-3b69314abc\\gold_heikhal_west.png",
+  "priorWideImageSha256": "030d553ebac0dc4469d0f2bb43be7e3ffc09b0217b51cc0c6e3decc7c6d82925",
+  "comparisonScope": "Wide camera matches prior Gold image, but candidate may add menorah and other objects; scene inventory is recorded. Not a controlled materials-only A/B. New close vessel view has no prior matched baseline.",
+  "fovDegrees": 75,
+  "warmupSecondsPerView": 45,
+  "minimumSlateTicksPerView": 120,
+  "readinessPolicy": "After camera placement finish_loading_before_screenshot, then start rendered warmup; wide A, close, exact wide B. No material/light changes.",
+  "viewTiming": [
+    {
+      "view": "heikhal_west_A",
+      "barrierStartedSeconds": 0.344,
+      "barrierElapsedSeconds": 20.75,
+      "warmupStartedSeconds": 21.094,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3629,
+      "screenshotCallElapsedSeconds": 0.859
+    },
+    {
+      "view": "altar_close",
+      "barrierStartedSeconds": 67.875,
+      "barrierElapsedSeconds": 0.016,
+      "warmupStartedSeconds": 67.891,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 4596,
+      "screenshotCallElapsedSeconds": 0.031
+    },
+    {
+      "view": "heikhal_west_B",
+      "barrierStartedSeconds": 113.891,
+      "barrierElapsedSeconds": 0.031,
+      "warmupStartedSeconds": 113.922,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3490,
+      "screenshotCallElapsedSeconds": 0.031
+    }
+  ],
+  "watchdogSeconds": 600,
+  "sourceManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "interiorFloorBounds": {
+    "min": [
+      -5600.0,
+      -500.0,
+      904.9999237060547
+    ],
+    "max": [
+      -3600.0,
+      500.0,
+      925.0
+    ]
+  },
+  "views": [
+    {
+      "id": "heikhal_west_A",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "yaw": 180.0,
+      "pitch": 0.0,
+      "basis": "Exact prior Gold baseline camera; source Heichal floor top925cm plus168cm eyeheight."
+    },
+    {
+      "id": "altar_close",
+      "position": [
+        -4280.0,
+        -130.0,
+        1093.0
+      ],
+      "target": [
+        -4500.0,
+        0.0,
+        980.0
+      ],
+      "yaw": 149.42077312751098,
+      "pitch": -23.855166272985333,
+      "basis": "Verified actual altar at[-4500,0,925];220cm east/130cm north offset;168cm above measured floor."
+    },
+    {
+      "id": "heikhal_west_B",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "yaw": 180.0,
+      "pitch": 0.0,
+      "basis": "Exact prior Gold baseline camera; source Heichal floor top925cm plus168cm eyeheight."
+    }
+  ],
+  "events": [
+    {
+      "event": "readiness_polish_heikhal_west_A",
+      "elapsedSeconds": 0.34
+    },
+    {
+      "event": "warming_polish_heikhal_west_A",
+      "elapsedSeconds": 21.09
+    },
+    {
+      "event": "requested_polish_heikhal_west_A",
+      "elapsedSeconds": 66.97
+    },
+    {
+      "event": "captured_polish_heikhal_west_A",
+      "elapsedSeconds": 67.74
+    },
+    {
+      "event": "readiness_polish_altar_close",
+      "elapsedSeconds": 67.88
+    },
+    {
+      "event": "warming_polish_altar_close",
+      "elapsedSeconds": 67.89
+    },
+    {
+      "event": "requested_polish_altar_close",
+      "elapsedSeconds": 112.92
+    },
+    {
+      "event": "captured_polish_altar_close",
+      "elapsedSeconds": 113.78
+    },
+    {
+      "event": "readiness_polish_heikhal_west_B",
+      "elapsedSeconds": 113.89
+    },
+    {
+      "event": "warming_polish_heikhal_west_B",
+      "elapsedSeconds": 113.92
+    },
+    {
+      "event": "requested_polish_heikhal_west_B",
+      "elapsedSeconds": 158.95
+    },
+    {
+      "event": "captured_polish_heikhal_west_B",
+      "elapsedSeconds": 159.45
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 162.39
+    }
+  ],
+  "captures": [
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+      "view": "heikhal_west_A",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-8a38633655\\polish_heikhal_west_A.png",
+      "bytes": 3238351,
+      "sha256": "7232c30b2861e888c389382b064ba2a532bfa05ede4aa9bbcb6fd406689afafe",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true,
+      "camera": {
+        "id": "heikhal_west_A",
+        "position": [
+          -4000.0,
+          0.0,
+          1093.0
+        ],
+        "yaw": 180.0,
+        "pitch": 0.0,
+        "basis": "Exact prior Gold baseline camera; source Heichal floor top925cm plus168cm eyeheight."
+      },
+      "timing": {
+        "view": "heikhal_west_A",
+        "barrierStartedSeconds": 0.344,
+        "barrierElapsedSeconds": 20.75,
+        "warmupStartedSeconds": 21.094,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3629,
+        "screenshotCallElapsedSeconds": 0.859
+      }
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+      "view": "altar_close",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-8a38633655\\polish_altar_close.png",
+      "bytes": 3362821,
+      "sha256": "e43e6b55d4f2ec5c0d81e2d71f1732d143dd2566d53a2761765526e3f088eb1f",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true,
+      "camera": {
+        "id": "altar_close",
+        "position": [
+          -4280.0,
+          -130.0,
+          1093.0
+        ],
+        "target": [
+          -4500.0,
+          0.0,
+          980.0
+        ],
+        "yaw": 149.42077312751098,
+        "pitch": -23.855166272985333,
+        "basis": "Verified actual altar at[-4500,0,925];220cm east/130cm north offset;168cm above measured floor."
+      },
+      "timing": {
+        "view": "altar_close",
+        "barrierStartedSeconds": 67.875,
+        "barrierElapsedSeconds": 0.016,
+        "warmupStartedSeconds": 67.891,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 4596,
+        "screenshotCallElapsedSeconds": 0.031
+      }
+    },
+    {
+      "map": "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish",
+      "view": "heikhal_west_B",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-8a38633655\\polish_heikhal_west_B.png",
+      "bytes": 3244179,
+      "sha256": "4349dc923c1164d9e23b8a549cb7bef73eea516db51b2545d327838971397afe",
+      "nativeTaskDone": true,
+      "cameraClearanceChecked": true,
+      "camera": {
+        "id": "heikhal_west_B",
+        "position": [
+          -4000.0,
+          0.0,
+          1093.0
+        ],
+        "yaw": 180.0,
+        "pitch": 0.0,
+        "basis": "Exact prior Gold baseline camera; source Heichal floor top925cm plus168cm eyeheight."
+      },
+      "timing": {
+        "view": "heikhal_west_B",
+        "barrierStartedSeconds": 113.891,
+        "barrierElapsedSeconds": 0.031,
+        "warmupStartedSeconds": 113.922,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3490,
+        "screenshotCallElapsedSeconds": 0.031
+      }
+    }
+  ],
+  "mapSaved": false,
+  "adopted": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical comparison stills. No access authorization, automatic image quality approval, transition/motion acceptance or packaged proof. Screenshots retain native renderer pixels.",
+  "reviewObjectInventory": [
+    {
+      "actor": "Review_HeichalSide-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F29FF0) {x: -4600.000000, y: -500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalSide1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F2A130) {x: -4600.000000, y: 500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshSide-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F2A3B0) {x: -6200.000000, y: -500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshSide1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F2A360) {x: -6200.000000, y: 500.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_KodeshRear",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F2A310) {x: -6700.000000, y: 0.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalEntranceJamb-1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F29F00) {x: -3600.000000, y: -375.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "Review_HeichalEntranceJamb1",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "position": "<Struct 'Vector' (0x0000024964F2A2C0) {x: -3600.000000, y: 375.000000, z: 1925.000000}>"
+    },
+    {
+      "actor": "REVIEW_HeikhalKeilim_SM_GoldenIncenseAltarStudy",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_GoldenIncenseAltarStudy",
+      "position": "<Struct 'Vector' (0x0000024964F2A2C0) {x: -4500.000000, y: 0.000000, z: 925.000000}>"
+    },
+    {
+      "actor": "REVIEW_HeikhalKeilim_SM_ShulchanStudy",
+      "mesh": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/Meshes/SM_ShulchanStudy",
+      "position": "<Struct 'Vector' (0x0000024964F2A2C0) {x: -4900.000000, y: -300.000000, z: 925.000000}>"
+    },
+    {
+      "actor": "REVIEW_TempleInstituteMenorahStudyV1",
+      "mesh": "/Game/MikdashV3/MaterialReview/TempleInstituteMenorahStudyV1/Meshes/SM_MenorahStudyV1",
+      "position": "<Struct 'Vector' (0x0000024964F2A2C0) {x: -4900.000000, y: 300.000000, z: 925.000000}>"
+    }
+  ],
+  "repeatedWide": {
+    "first": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-8a38633655\\polish_heikhal_west_A.png",
+    "last": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\sanctuary-polish-capture-8a38633655\\polish_heikhal_west_B.png",
+    "sameSavedMap": true,
+    "sameCamera": true,
+    "byteIdentical": false,
+    "visualStability": "PENDING image comparison; byte inequality alone is not instability."
+  },
+  "originalMapAndCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapsUnchanged": true
+}

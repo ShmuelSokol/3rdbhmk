@@ -1,0 +1,25 @@
+{
+  "utc": "2026-09-07T15:08:57.402238+00:00",
+  "status": "FAILED",
+  "vcvars": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
+  "scope": "Standalone actual C++14 module only; no Unreal/runtime/visual acceptance",
+  "inputs": {
+    "Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Public\\ResidentCrowdRuntime.h": "186531423ba63b8733ea07386e225c7ec926fec8e5a5618b984e0b0af63c11be",
+    "SourceAssets\\runtime-review\\resident-crowd\\ResidentCrowdRuntimeTest.cpp": "90568aff819cb11607a30ff2b4696b92cae384ae66cbf7e504421737256062c0"
+  },
+  "runs": [
+    {
+      "configuration": "debug",
+      "compiler_flags": [
+        "/Od",
+        "/std:c++14",
+        "/W4",
+        "/WX"
+      ],
+      "compile_exit": 0,
+      "compile_output": "ResidentCrowdRuntimeTest.cpp\n",
+      "test_exit": 1,
+      "test_output": "FAIL line 125: !R.Load(Corrupt)\n"
+    }
+  ]
+}

@@ -107,7 +107,14 @@ public:
     virtual bool SupportsKeyboardFocus() const override { return true; }
     virtual FReply OnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override
     {
-        if (Event.GetKey() == EKeys::Escape) { if (!Event.IsRepeat()) Back.ExecuteIfBound(); return FReply::Handled(); }
+        // Escape and P both return to the walkthrough menu. Handling P here keeps
+        // it from falling through to the controller's paused P binding, which
+        // would resume play and capture the mouse straight from the lesson.
+        if (Event.GetKey() == EKeys::Escape || Event.GetKey() == EKeys::P)
+        {
+            if (!Event.IsRepeat()) Back.ExecuteIfBound();
+            return FReply::Handled();
+        }
         return SCompoundWidget::OnKeyDown(Geometry, Event);
     }
 private:

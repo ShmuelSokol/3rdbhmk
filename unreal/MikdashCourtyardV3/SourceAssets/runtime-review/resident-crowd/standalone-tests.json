@@ -1,0 +1,39 @@
+{
+  "utc": "2026-09-07T15:09:29.181450+00:00",
+  "status": "PASS",
+  "vcvars": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
+  "scope": "Standalone actual C++14 module only; no Unreal/runtime/visual acceptance",
+  "inputs": {
+    "Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Public\\ResidentCrowdRuntime.h": "a2becfda9ecd39d9ddf59da89891d0a7f405ec6001e7c3e4f17260d85455c7c9",
+    "SourceAssets\\runtime-review\\resident-crowd\\ResidentCrowdRuntimeTest.cpp": "90568aff819cb11607a30ff2b4696b92cae384ae66cbf7e504421737256062c0"
+  },
+  "runs": [
+    {
+      "configuration": "debug",
+      "compiler_flags": [
+        "/Od",
+        "/std:c++14",
+        "/W4",
+        "/WX"
+      ],
+      "compile_exit": 0,
+      "compile_output": "ResidentCrowdRuntimeTest.cpp\n",
+      "test_exit": 0,
+      "test_output": "PASS 520 checks: schedules, variation, pause, routes, access, memory, disk roundtrip, corruption, capacity\n"
+    },
+    {
+      "configuration": "release",
+      "compiler_flags": [
+        "/O2",
+        "/DNDEBUG",
+        "/std:c++14",
+        "/W4",
+        "/WX"
+      ],
+      "compile_exit": 0,
+      "compile_output": "ResidentCrowdRuntimeTest.cpp\n",
+      "test_exit": 0,
+      "test_output": "PASS 520 checks: schedules, variation, pause, routes, access, memory, disk roundtrip, corruption, capacity\n"
+    }
+  ]
+}

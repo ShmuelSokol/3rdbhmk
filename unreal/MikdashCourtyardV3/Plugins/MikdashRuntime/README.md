@@ -31,3 +31,4 @@ Startup Escape correction: the welcome screen consumes Escape without starting o
 
 ## Current verified build, 2026-09-07
 Full BuildPlugin succeeded for Editor Development, Game Development and Game Shipping in RuntimeBuild-Full-01. MSVC14.44.35228, WindowsSDK26100, NetFxSDK4.8 installed. Fixed C4458 local-variable shadowing without disabling warnings. Scripts/activate_compiled_runtime.py saved and reopened the copied game mode assignment; SourceAssets/runtime-review/runtime-activation.json records exact classes and checkpoint. BuildCookRun for the actual Windows walkthrough is in progress. Earlier uncompiled/disabled statements above describe prior history; physical input, audio, packaged runtime and sharing remain pending.
+

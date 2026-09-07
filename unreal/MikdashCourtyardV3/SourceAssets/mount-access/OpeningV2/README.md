@@ -1,0 +1,13 @@
+# OpeningV2 — above-wall access portal
+
+The requested crossing does **not** need a cut in the retained enclosure. The wall body at source mesh4 triangles9156–9167 tops out at Z-1135.96cm. Nearby battlements top out at Z-1000.96cm. The proposed walking landing is Z0. Preserve the original wall.
+
+Exact relevant native asset paths, expected labels, source triangle/vertex indices and frozen expected bounds appear in `opening-v2-spec.json`. They belong to Streets CityWalls Grid_N002_P001 and Grid_N002_P002. These are distinct from the protected **Buildings** Grid_N002_P001 containing the Kotel. Live actor instance IDs are intentionally unresolved: root must obtain them by exact mesh-path lookup and verify the transform/bounds before integration.
+
+The new V2 elevated deck and guards replace only the owned V1 staircase/landings and parapets. They retain all82 risers, six resting landings and original walking levels.45cm slabs replace the deep solid stair fill that would otherwise intersect the preserved wall. The top landing extends to X-12500 at Z0. A new original stone portal provides300cm clear width and320cm headroom, with270cm level approach before its outer face and740cm after it. It is an illustrative future gateway, not existing infrastructure, a measured sacred doorway or a certified structural design.
+
+All1,952 retained source wall boxes were checked against every new solid using rotated footprints and vertical intervals: zero intersections. Both protected200cm buffers also have zero new overlap. The conservative deck underside-to-wall gap in the crossing region is868.61cm. Source buildings, live terrain/platform skirts and other scene obstacles are not covered by this wall-specific check. Structural support/span treatment remains an artistic and engineering limitation; inspect below the bridge before visual acceptance.
+
+Generate: `python Scripts/create_kotel_opening.py` using Python3.12 and the existing read-only Shapely2.1.2 dependency directory. Validate: `python SourceAssets/mount-access/OpeningV2/check_opening_v2.py`. Three OBJ meshes and `opening-v2.mesh.json` are concrete editable output. JSON uses baked native centimetres with identity actor transforms; OBJ uses metres east/north/up. Normals/UVs are explicit. Preserve frozen V1 files.
+
+Native plan: retain every original wall actor/triangle; replace only the two owned V1 generated stair/guard meshes; add portal; preserve separate V1 plaza/apron review holds. Verify import conversion, live collision/headroom, platform seam, continuous walking, saved reopen and rendered views before adoption. No native execution, map edit, Content write, original source edit or git operation is part of this package.

@@ -112,3 +112,4 @@ try: levels.editor_request_begin_play()
 except Exception:
     finish('failed_start')
     raise
+

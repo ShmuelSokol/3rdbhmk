@@ -79,3 +79,4 @@ def prepare_gameplay(template_character_path, template_game_mode_path,
     }
     unreal.log(str(report))
     return report
+

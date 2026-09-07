@@ -137,3 +137,4 @@ def setup_lighting(actors):
     volume.set_editor_property('unbound',True);volume.set_editor_property('priority',1000.0)
     volume.set_editor_property('settings',physical_exposure())
     return dict(sunLux=20000,sunRotation={'roll':0,'pitch':-51,'yaw':153},iso=100,shutterSpeedReciprocalSeconds=125,aperture=8,EV100=math.log2(8*8*125),compensation=0,bloom=0,autoExposure=False,lightingStatus='technical setup; visual QA required')
+

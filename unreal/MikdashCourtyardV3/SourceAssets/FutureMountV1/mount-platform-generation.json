@@ -1,0 +1,82 @@
+{
+  "status": "offline_mesh_generated_geometrically_verified_native_review_pending",
+  "designSha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+  "generatorSha256": "b3c04b0e80658f5c419e42bb891b8161e10d62b566e67c3482851aef620b5b44",
+  "retainedTerrainSourceSha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+  "tools": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "shapely": "2.1.2",
+    "geos": "3.13.1",
+    "installation": "Isolated .tools directory; do not commit installed packages"
+  },
+  "apiReferences": [
+    "https://shapely.readthedocs.io/en/stable/reference/shapely.constrained_delaunay_triangles.html",
+    "https://shapely.readthedocs.io/en/stable/reference/shapely.buffer.html"
+  ],
+  "futureSceneRules": {
+    "mountTrees": "User requires no trees on the Mount itself. Classification uses the full original enclosure ring, not just the inset platform polygon.",
+    "treeClassification": "Classify each retained trunk ground-anchor in native XY against the closed enclosure polygon; inside or boundary anchors are scenario removal candidates. Remove matching crown instances by retained source-tree identity, never nearest-neighbor guesses.",
+    "outsideVegetation": "Preserve every outside-tree identity, transform and color. Never hide/delete an entire shared trunk/crown ISM actor or spatial chunk. Outside vegetation upgrades require actual mapped/satellite evidence, not invented placements.",
+    "execution": "This generator does not edit any tree instance or generate roads, bus stops, railway stations or other transit. Those are separate scoped integration tasks."
+  },
+  "enclosureAreaM2": 142386.921625,
+  "platformAreaM2": 139716.1659906525,
+  "wallCentrelineInsetCm": 110.0,
+  "guardBufferCm": 201.0,
+  "minimumDistanceToProtectedPolygonsCm": [
+    200.75338769067585,
+    229.88715137804263
+  ],
+  "polygonComponents": 1,
+  "interiorHoleCount": 0,
+  "surfaceVertices": 185,
+  "surfaceTriangles": 183,
+  "skirtVertices": 3648,
+  "skirtTriangles": 1824,
+  "skirtMaxDepthCm": 4000.0,
+  "skirtDepthCappedSamples": [],
+  "checks": {
+    "outsideAreaCm2": 0.0,
+    "uncoveredAreaCm2": 0.0,
+    "overlapAreaCm2": 0.0,
+    "triangleCount": 183,
+    "protectedOverlapAreaCm2": 0,
+    "boundaryHausdorffErrorCm": 0.0,
+    "concaveAndInternalHoleAndMultipolygonSelfTests": "passed"
+  },
+  "files": {
+    "mount-platform.mesh.json": {
+      "sha256": "693d76b5bae73e4ed70f80e4fb48e19c3834ec4f505c873c622465c57b41c524",
+      "bytes": 232763
+    },
+    "mount-platform-surface.obj": {
+      "sha256": "063e92d92dbc99a34a51b4cd9a9e3cea596081ac7110abc7ead103a2ea963e1c",
+      "bytes": 10788
+    },
+    "mount-platform-skirt.obj": {
+      "sha256": "f06a711f0a8e0cc2e4bdab37a204a7e26450746902146c29edb9d0c32e00cf14",
+      "bytes": 192903
+    },
+    "mount-platform.mtl": {
+      "sha256": "a3f72b60fef775e8b2e562f7cae1e5fd4e59da6021bdf0139dc60c1a9dc40411",
+      "bytes": 191
+    },
+    "requirements.txt": {
+      "sha256": "d4da0c403db9c91b4f305cbe67e3c3ae8848fbdf87cbbb1a9eb659872528c286",
+      "bytes": 30
+    },
+    ".gitignore": {
+      "sha256": "6eb8e5c0430caab023929c856898fea088df2bd72275991c3cea9c68da95bfdc",
+      "bytes": 23
+    }
+  },
+  "limits": [
+    "Offline source mesh only: no Unreal import, map placement, collision, package or visual acceptance.",
+    "Native editor overlay must review the inferred wall-chain boundary and protected offsets before adoption.",
+    "Measured Temple geometry is untouched. Deck below elevated floors is intentional; no slab replaces gateway treads.",
+    "Skirt splits at original terrain triangle boundaries and follows retained terrain with20cm overlap, safety-bounded40m. It is an edge surface, not engineered retaining-wall design.",
+    "Existing interior terrain aboveZ0 and old road ribbons/instances remain unchanged; clipping/regrounding is a separate task. Do not adopt this overlay as a finished platform.",
+    "Kotel approach stairs and gateway openings are NOT generated here. Protected2m engineering buffers remain empty.",
+    "Neutral MTL is for mesh inspection only. PBR Jerusalem-stone material assignment and texel-scale visual review remain pending."
+  ]
+}

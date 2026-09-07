@@ -97,3 +97,7 @@ User confirmed ShmuelSokol/3rdbhmk as native destination. Clone C:\Mikdash\GitHu
 - Walkthrough02 mute persistence now verified in a fresh process (Sound off at welcome, Game.ini bSoundMuted=True), receipt mute-restart-v2.json. Actual sound audition still pending.
 
 - Walkthrough03 BuildCookRun PASSED215.63seconds, exit0, cook0errors0warnings. Adds readable buttons and preparation lesson UI; runtime launched but system Windows Security PickerHost network prompt blocks test and is absent from targetable windows/apps. Requested user Cancel; do not alter firewall or bypass input tool. StoneV2 native commandlet is compiling in parallel with paused game; no map assignment or visual acceptance.
+
+- StoneV2 first commandlet failed before save: MP_PixelDepthOffset is UMETA(Hidden) in UE5.8 SceneTypes.h and absent from Python. Destination directory absent on disk after process exit, so rerun does not overwrite an asset. Script retains WPO assertion and uses explicit BaseColor/Roughness/Normal/Metallic connection allowlist; no PDO call. Preserve first failure in spec.priorNativeRuns.
+
+- Corrected StoneV2 native commandlet02 PASSED exit0, zeroerrors/warnings; wall/paving uassets saved under MaterialReview/JerusalemStoneV2, UNASSIGNED. Never rerun creator into existing namespace. Bounded review script prepared but not run; visible sample/motion/performance acceptance pending. Exact manufactured TI menorah dimension audit added to Research: schematic1.80m is not a measured object height.

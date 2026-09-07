@@ -47,3 +47,7 @@ not persist, and the instruction text was too small.
 
 Walkthrough-02 built successfully after an exact configuration save-section allowlist
 and larger body font. A subsequent fresh-process test verified Sound: off survived restart (runtime receipt mute-restart-v2.json). Actual audio audition remains pending. Walkthrough-03 packaged successfully with larger buttons and the preparation lesson. A Windows system network prompt currently blocks its interface test; UI acceptance remains pending.
+
+## Manufactured menorah reference follow-up
+
+See [the official-reference audit](temple-institute-menorah-reference-audit.md) for actual-object construction, detail photographs, and unresolved physical measurements. The schematic 1.80 m conversion is not accepted as a measured height of the manufactured object.

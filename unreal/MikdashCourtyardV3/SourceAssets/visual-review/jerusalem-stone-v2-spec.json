@@ -11,7 +11,11 @@
   "profiles": [
     {
       "assetName": "M_JerusalemStoneV2_WallReview",
-      "baseLinearRgb": [0.65, 0.635, 0.605],
+      "baseLinearRgb": [
+        0.65,
+        0.635,
+        0.605
+      ],
       "parameters": {
         "BlockWidthCm": 100.0,
         "BlockHeightCm": 50.0,
@@ -23,13 +27,17 @@
     },
     {
       "assetName": "M_JerusalemStoneV2_PavingReview",
-      "baseLinearRgb": [0.64, 0.63, 0.605],
+      "baseLinearRgb": [
+        0.64,
+        0.63,
+        0.605
+      ],
       "parameters": {
         "BlockWidthCm": 60.0,
         "BlockHeightCm": 60.0,
         "BlockVariation": 0.045,
         "GrainPeriodCm": 0.45,
-        "RoughnessBase": 0.70,
+        "RoughnessBase": 0.7,
         "NormalSlope": 0.015
       }
     }
@@ -49,8 +57,42 @@
     "motionAliasingReview": "PENDING",
     "packagedRuntimeReview": "PENDING",
     "performanceComparison": "PENDING",
-    "reviewDistancesMeters": [0.5, 2, 10],
-    "requiredViews": ["sunlit wall", "shaded wall", "paving", "whole courtyard"],
+    "reviewDistancesMeters": [
+      0.5,
+      2,
+      10
+    ],
+    "requiredViews": [
+      "sunlit wall",
+      "shaded wall",
+      "paving",
+      "whole courtyard"
+    ],
     "passCriteria": "Matched fixed exposure, readable relief without clipping, no visible repeat pattern or seams, no crawling grain during walking/turning, no new streaming or frame-time regression. Artistic palette must visibly improve the current scene before adoption."
+  },
+  "priorNativeRuns": [
+    {
+      "status": "failed_partial_assets_require_inspection",
+      "created": [
+        "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview.M_JerusalemStoneV2_WallReview"
+      ],
+      "assigned": false,
+      "shaderCompileAcceptance": "PENDING",
+      "visualAcceptance": "PENDING",
+      "error": "type object 'MaterialProperty' has no attribute 'MP_PIXEL_DEPTH_OFFSET'",
+      "inspection": "Process exited1 before save. Destination Content directory absent on disk; no saved asset to overwrite. Fixed hidden Python enum check using explicit connection allowlist; WPO native assertion retained."
+    }
+  ],
+  "nativeRun": {
+    "status": "unassigned_assets_saved_commandlet_passed",
+    "created": [
+      "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview.M_JerusalemStoneV2_WallReview",
+      "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview.M_JerusalemStoneV2_PavingReview"
+    ],
+    "assigned": false,
+    "shaderCompileAcceptance": "Commandlet with rendering completed exit0, zero errors/warnings; visual and packaged shader acceptance pending",
+    "visualAcceptance": "PENDING",
+    "log": "C:/Mikdash/Working-5.8/Stone-V2-Native-02.log",
+    "logSha256": "508113b04b71063c6c708aaf599720553ec2fe3abc8420e47d3491af4df48a58"
   }
 }

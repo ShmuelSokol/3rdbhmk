@@ -130,8 +130,9 @@ def run():
             assert edit.connect_material_property(metallic, "", unreal.MaterialProperty.MP_METALLIC)
             assert edit.get_material_property_input_node(
                 material, unreal.MaterialProperty.MP_WORLD_POSITION_OFFSET) is None
-            assert edit.get_material_property_input_node(
-                material, unreal.MaterialProperty.MP_PIXEL_DEPTH_OFFSET) is None
+            # UE 5.8 SceneTypes.h marks MP_PixelDepthOffset Hidden, so it is
+            # absent from Python. This fresh material only connects the explicit
+            # BaseColor/Roughness/Normal/Metallic allowlist above; never PDO.
             edit.recompile_material(material)
             assert assets.save_loaded_asset(material, only_if_is_dirty=False)
         result["status"] = "unassigned_material_assets_saved_native_shader_review_pending"

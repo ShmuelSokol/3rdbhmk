@@ -51,3 +51,10 @@ Acceptance: listen to uninterrupted samples and movementtransitions, no objectio
 ## Release gate
 
 Fresh intended-map cook and package with editorclosed, then launch packagedexe and verify movement, mousecapture/release, stairs/walls/routes, lightingtransitions, populatedscenes, audio, save/load and performance. Provide a user-authorized shareablebuild with dependencies/credits and an actual download/launch check. GitHub sourcepush alone is not a sharedplayable release. Do not claim studioquality from tests or thisplan.
+
+## Added atmosphere and transport requirements
+
+User requests clouds, variable wind, and an immersive environmental atmosphere inspired by Breath of the Wild. Remove trees only within the mapped Mount scenario boundary; retain/improve surrounding vegetation using traceable satellite or mapped evidence, with source dates and confidence rather than claiming generic trees are satellite-derived. Provide cobblestone pedestrian approaches and paved transit roads outside the sacred precinct, appropriately modeled modern buses, and a proposed future train/station with coherent route, crossings, boarding and motion. Proposed rail/transit layout is an authored future design, not existing surveyed infrastructure. Integrate wind with vegetation/cloud motion and localized audio; verify variable intensity and performance without repetitive loops. These extend the existing scene plan, not replace unfinished interiors, people or platform.
+
+
+Art-direction correction: user selects cinematic realism and Lord of the Rings film production as primary references: believablematerials/scale, shapedlight/shadow, atmosphericdepth andrichsetdetail. BreathoftheWild is secondary environmental-motion/discovery inspiration, not stylizedrendering. No claimofmatchingstudioqualitywithoutactualvisualacceptance.

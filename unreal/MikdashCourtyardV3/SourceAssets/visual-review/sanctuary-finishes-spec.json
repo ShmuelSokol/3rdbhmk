@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "status": "IMPLEMENTED_OFFLINE_VERIFIED_NATIVE_PENDING",
+  "sourceManifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "scope": "Seven noncolliding veneer actors and optional six component gold overrides in separate saved review-map copy only. No main map or shared House material modification.",
+  "reviewNamespace": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1",
+  "entryPoint": "import build_sanctuary_finishes as s; s.build('/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold','gold')",
+  "requirements": [
+    "Root creates and opens saved review copy under namespace/Maps; no PIE or dirty maps",
+    "Load module through Scripts sys.path, explicit build call only",
+    "Root inspects and saves review map explicitly; script saves only new material/cube assets",
+    "Use gold first; separate wood review map and material name available",
+    "On failure discard review-map changes; created native assets may remain for audit, never silently overwritten"
+  ],
+  "nativeAudit": [
+    {
+      "assetName": "SM_0142_architecture_Kodesh_partition_shoulder",
+      "sourceName": "Kodesh partition shoulder",
+      "sourceMaterialKeys": [
+        "gold"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_0143_architecture_Kodesh_partition_shoulder",
+      "sourceName": "Kodesh partition shoulder",
+      "sourceMaterialKeys": [
+        "gold"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_0144_architecture_Kodesh_partition_lintel",
+      "sourceName": "Kodesh partition lintel",
+      "sourceMaterialKeys": [
+        "gold"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_0146_floor_Heichal_clear_floor",
+      "sourceName": "Heichal clear floor",
+      "sourceMaterialKeys": [
+        "goldPaving"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_0147_floor_Kodesh_clear_floor",
+      "sourceName": "Kodesh clear floor",
+      "sourceMaterialKeys": [
+        "goldPaving"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_0148_roof_Sanctuary_ceiling",
+      "sourceName": "Sanctuary ceiling",
+      "sourceMaterialKeys": [
+        "gold"
+      ],
+      "nativeFileExists": true
+    },
+    {
+      "assetName": "SM_2630_union_Derived_union_of_source_House_walls_and_",
+      "sourceName": "Derived union of source House walls and roofs",
+      "sourceMaterialKeys": [
+        "blue"
+      ],
+      "nativeFileExists": true
+    }
+  ],
+  "findings": [
+    "House walls/roof union has one blue source material, includes exterior and interior; blanket gold override is incorrect. Live overrides are not established by this offline audit.",
+    "Six separate native floor/ceiling/partition meshes already source gold or goldPaving. This is a finish-response review, not proof these meshes were missing.",
+    "Native manifest contains no sanctuary relief/panel/lining entries matching newer web architecture.ts additions. Newer source has Palm and two-faced cherub gold relief and Heichal lining moulding; original frozen native architecture differs. Figurative carvings remain missing in this pilot."
+  ],
+  "surfaces": [
+    {
+      "name": "HeichalSide-1",
+      "center": [
+        -4600.0,
+        -500,
+        1925.0
+      ],
+      "size": [
+        2000.0,
+        0.2,
+        2000.0
+      ],
+      "sourceFace": "House inner side +/-500cm"
+    },
+    {
+      "name": "HeichalSide1",
+      "center": [
+        -4600.0,
+        500,
+        1925.0
+      ],
+      "size": [
+        2000.0,
+        0.2,
+        2000.0
+      ],
+      "sourceFace": "House inner side +/-500cm"
+    },
+    {
+      "name": "KodeshSide-1",
+      "center": [
+        -6200.0,
+        -500,
+        1925.0
+      ],
+      "size": [
+        1000.0,
+        0.2,
+        2000.0
+      ],
+      "sourceFace": "House inner side +/-500cm"
+    },
+    {
+      "name": "KodeshSide1",
+      "center": [
+        -6200.0,
+        500,
+        1925.0
+      ],
+      "size": [
+        1000.0,
+        0.2,
+        2000.0
+      ],
+      "sourceFace": "House inner side +/-500cm"
+    },
+    {
+      "name": "KodeshRear",
+      "center": [
+        -6700.0,
+        0,
+        1925.0
+      ],
+      "size": [
+        0.2,
+        1000,
+        2000.0
+      ],
+      "sourceFace": "House rear inner face -6700cm"
+    },
+    {
+      "name": "HeichalEntranceJamb-1",
+      "center": [
+        -3600,
+        -375,
+        1925
+      ],
+      "size": [
+        0.2,
+        250,
+        2000
+      ],
+      "sourceFace": "Heichal doorway western face; y outside +/-250cm"
+    },
+    {
+      "name": "HeichalEntranceJamb1",
+      "center": [
+        -3600,
+        375,
+        1925
+      ],
+      "size": [
+        0.2,
+        250,
+        2000
+      ],
+      "sourceFace": "Heichal doorway western face; y outside +/-250cm"
+    }
+  ],
+  "sourceGeometry": "Room lengths and side faces derived from preserved floor bounds and House source_elements_json. Room clear floors Z925cm and ceiling underside2925cm. Seven veneers are thin original cube instances, duplicated cube asset editable per-actor dimensions; no boolean change to architecture.",
+  "veneerThicknessCm": 0.2,
+  "offsetNote": "Veneer straddles original face, protrudes0.1cm. This artistic render separation is not a historical cladding thickness. Existing collision and openings unchanged.",
+  "originalMaterialProfiles": {
+    "gold": {
+      "linearRGB": [
+        1,
+        0.766,
+        0.336
+      ],
+      "metallic": 1,
+      "roughness": 0.34
+    },
+    "wood": {
+      "linearRGB": [
+        0.22,
+        0.085,
+        0.028
+      ],
+      "metallic": 0,
+      "roughness": 0.62
+    }
+  },
+  "materialLimitations": "Original constant physically based response pilot, not finished photoreal carving or wood-grain treatment. Requires lighting/exposure review; no emissive gold.",
+  "sourceInterpretation": [
+    {
+      "url": "https://www.chabad.org/library/bible_cdo/aid/16139/jewish/Chapter-41.htm",
+      "passage": "Yechezkel41:16-20,25-26",
+      "claim": "Wood paneling and palm/two-faced keruv designs described; exact carving geometry and surface finish uncertain. This source alone is not a mandate to gild every future wall."
+    },
+    {
+      "url": "https://www.chabad.org/library/bible_cdo/aid/15890/jewish/Chapter-6.htm",
+      "passage": "I Kings6:15,20-22,29-30",
+      "claim": "Earlier Temple wood lining, gold overlay and carvings support an explicitly labeled artistic analogy. Do not present this as measured future Temple coating specification."
+    }
+  ],
+  "acceptancePending": [
+    "Native build/readback of seven actors, material bounds/UV/lighting review",
+    "Eye-height and grazing-angle interior screenshots, shadow readability and no black mirror areas",
+    "Original portals remain open and measured floor/collision unchanged",
+    "No exterior gold: inspect House exterior at same lighting",
+    "Complete two-faced wall reliefs, doors/joinery and all requested keilim in separate owned lanes",
+    "Reopen and package only after native visual acceptance"
+  ],
+  "verification": "Offline Python AST, frozen hash, seven positive veneer bounds, exact floor/ceiling limits and500cm entrance clearance passed; seven required native source asset files exist. No Unreal execution."
+}

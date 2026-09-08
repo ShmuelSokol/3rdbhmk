@@ -5,17 +5,22 @@ from datetime import datetime,timezone
 import unreal as u
 ROOT=Path(__file__).resolve().parents[1]
 MAP='/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+selected48='-candidate48' in u.SystemLibrary.get_command_line().lower()
+if selected48:MAP='/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
 ed=u.get_editor_subsystem(u.UnrealEditorSubsystem)
 levels=u.get_editor_subsystem(u.LevelEditorSubsystem)
 assert ed.get_game_world() is None
 assert not u.EditorLoadingAndSavingUtils.get_dirty_map_packages()
 assert not u.EditorLoadingAndSavingUtils.get_dirty_content_packages()
 assert ed.get_editor_world().get_outermost().get_name()==MAP
-file=ROOT/'Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap'
+file=ROOT/'Content'/(MAP[6:]+'.umap')
+main_file=ROOT/'Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap'
+main_before=hashlib.sha256(main_file.read_bytes()).hexdigest()
 sha=lambda:hashlib.sha256(file.read_bytes()).hexdigest()
 out=ROOT/'SourceAssets/runtime-review/frontend-flight'/('native-frontend-flight-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')+'.json')
 out.parent.mkdir(parents=True,exist_ok=True)
 report=dict(status='starting',mapShaBefore=sha(),errors=[],samples=[],scope='Native frontend transitions and dove movement/pause/return; visual, physical keyboard and resident behavior are separate')
+report['map']=MAP
 direct_intro='-directintroflight' in u.SystemLibrary.get_command_line().lower()
 report['flightEntry']='direct_toggle_during_intro' if direct_intro else 'menu_request_during_intro'
 state=dict(start=time.monotonic(),phase='world',at=time.monotonic(),stopping=False)
@@ -23,8 +28,9 @@ settings=u.get_default_object(u.load_class(None,'/Script/UnrealEd.LevelEditorPla
 old_mouse=settings.get_editor_property('GameGetsMouseControl')
 old_throttle=u.SystemLibrary.get_console_variable_int_value('Slate.bAllowThrottling')
 command_line=u.SystemLibrary.get_command_line()
-comparison_flags=[f for f in ('-comparepaving','-comparejerusalempaving','-comparefloors','-comparedaylight') if f in command_line.lower()]
+comparison_flags=[f for f in ('-comparepaving','-comparejerusalempaving','-comparefloors','-comparedaylight','-comparecooldaylight') if f in command_line.lower()]
 assert len(comparison_flags)<=1,'Run one isolated comparison at a time'
+assert not (selected48 and comparison_flags),'Material/light comparisons are for main only'
 prefix_match=re.search(r'-TestSavePrefix=(AstraProbe_[A-Za-z0-9_]+)',command_line)
 assert prefix_match,'Require a unique -TestSavePrefix=AstraProbe_<stamp> and Game ini overrides'
 test_prefix=prefix_match.group(1)
@@ -37,6 +43,27 @@ def user_save_hashes():
 original_saves=user_save_hashes()
 report['saveIsolation']=dict(testPrefix=test_prefix,originalSaveFileCount=len(original_saves))
 def xyz(v):return [v.x,v.y,v.z]
+
+def exposure_snapshot(world):
+ # Settings only: actual adapted exposure can respond to changed scene luminance.
+ keys=('auto_exposure_method','auto_exposure_min_brightness','auto_exposure_max_brightness','auto_exposure_bias',
+       'override_auto_exposure_method','override_auto_exposure_min_brightness','override_auto_exposure_max_brightness','override_auto_exposure_bias')
+ def fields(settings):
+  result={}
+  for key in keys:
+   value=settings.get_editor_property(key)
+   result[key]=value if isinstance(value,(float,int,bool,str)) else str(value)
+  return result
+ volumes={}
+ for volume in u.GameplayStatics.get_all_actors_of_class(world,u.PostProcessVolume):
+  volumes[volume.get_name()]={'settings':fields(volume.get_editor_property('settings')),
+    'blendWeight':volume.get_editor_property('blend_weight'),'priority':volume.get_editor_property('priority')}
+ assert volumes,'Need actual postprocess exposure settings'
+ target=u.GameplayStatics.get_player_controller(world,0).get_view_target()
+ camera=target.get_component_by_class(u.CameraComponent)
+ assert camera,'Need diagnostic camera exposure state'
+ return {'volumes':volumes,'camera':{'blendWeight':camera.get_editor_property('post_process_blend_weight'),
+   'settings':fields(camera.get_editor_property('post_process_settings'))}}
 def write():out.write_text(json.dumps(report,indent=2)+'\n')
 def phase(name):
  world=ed.get_game_world()
@@ -53,6 +80,8 @@ def tick(dt):
    if world and now-state['at']<10:return
    if world:report['errors'].append('PIE teardown timeout')
    report['pieEnded']=world is None;report['mapBytesUnchanged']=sha()==report['mapShaBefore']
+   report['mainBytesUnchanged']=hashlib.sha256(main_file.read_bytes()).hexdigest()==main_before
+   if not report['mainBytesUnchanged']:report['errors'].append('Main map bytes changed')
    report['saveIsolation']['originalSavesUnchanged']=user_save_hashes()==original_saves
    if not report['saveIsolation']['originalSavesUnchanged']:report['errors'].append('Original save files changed')
    for restore in (lambda:settings.set_editor_property('GameGetsMouseControl',old_mouse),lambda:u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling '+str(old_throttle))):
@@ -146,9 +175,21 @@ def tick(dt):
    assert report['returnErrorCm']<3,'Return position changed'
    report['walkerCollisionEnabled']=u.GameplayStatics.get_player_pawn(world,0).get_actor_enable_collision();assert report['walkerCollisionEnabled']
    phase('final_state');return
+  if state['phase']=='group_observe':
+   if game_elapsed-state.get('lastGroupSample',-1)>=1:
+    state['lastGroupSample']=game_elapsed
+    report['groupSamples'].append({'seconds':game_elapsed,'state':state['groupProbe'].snapshot(state['groupCrowd'])})
+   if game_elapsed<10:return
+   report['groupAssessment']=state['groupProbe'].assess(report['groupSamples'])
+   state['groupsObserved']=True;phase('final_state');return
   if state['phase']=='final_state':
    assert not c.is_walkthrough_menu_open() and not u.GameplayStatics.is_game_paused(world)
    assert not state['front'].is_front_end_visible()
+   if '-testvisitorgroups' in command_line.lower() and not state.get('groupsObserved'):
+    import release_crowd_group_probe as group_probe
+    crowds=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCrowdField));assert len(crowds)==1
+    state['groupProbe']=group_probe;state['groupCrowd']=crowds[0]
+    report['groupSamples']=[];phase('group_observe');return
    if '-testtour' in u.SystemLibrary.get_command_line().lower():
     guides=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashTourGuide))
     books=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCodex))
@@ -178,8 +219,47 @@ def tick(dt):
       groundTraceMisses=crowd.get_ground_trace_miss_count(),zones=list(crowd.get_zone_instance_counts()),
       liveFxCards=fx.get_live_card_count(),fxStatus=fx.get_status(),
       scope='Live presence and activity; appearance, paths and performance not accepted')
-    assert report['integratedSystems']['crowdSeeded']==240,'Configured crowd did not seed fully'
+    if '-testvisitorgroups' in command_line.lower():
+     # Cohorts refuse unsafe placement atomically; never split them just to meet a count.
+     assert report['integratedSystems']['crowdInstances']==240,'Requested crowd allocation changed'
+     assert report['integratedSystems']['crowdSeeded']+report['integratedSystems']['crowdRefused']==240,'Unaccounted visitor allocation'
+     report['integratedSystems']['coverage']='partial_safe_refusal' if report['integratedSystems']['crowdRefused'] else 'all_requested_seeded'
+     report['integratedSystems']['scope']+='; explicit cohort refusals are reported, not full-population acceptance'
+    else:assert report['integratedSystems']['crowdSeeded']==240,'Configured crowd did not seed fully'
     assert report['integratedSystems']['liveFxCards']>0,'No active FX cards'
+   if selected48:
+    descriptors=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashSceneUnits))
+    assert len(descriptors)==1 and str(descriptors[0].get_editor_property('scene_revision'))=='Selected48.v1','Wrong scene frame'
+    assert abs(state['walkPos'].x-2016)<3 and abs(state['walkPos'].z-576)<5,'Unexpected selected48 starting support'
+    crowd=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCrowdField))[0]
+    assert crowd.get_coordinate_status().startswith('Selected48'),'Crowd did not select48 frame'
+    report['selected48']={'descriptor':str(descriptors[0].validate_descriptor()),'crowdStatus':crowd.get_coordinate_status(),'zones':[]}
+    for source in crowd.get_editor_property('zones'):
+     name=source.get_editor_property('name');runtime=crowd.get_runtime_zone(name)
+     if isinstance(runtime,tuple):
+      assert len(runtime)==2 and runtime[0] is True,'Runtime zone getter refused'
+      runtime=runtime[1]
+     assert runtime is not None,'Missing runtime zone'
+     legacy_z=source.get_editor_property('ground_z_base');actual_z=runtime.get_editor_property('ground_z_base')
+     ratio=.96 if name in ('OuterCourtEast','OuterCourtWestTerrace') else 1.0
+     assert abs(actual_z-legacy_z*ratio)<.001,'Wrong runtime crowd support'
+     old_poly=source.get_editor_property('polygon_cm');new_poly=runtime.get_editor_property('polygon_cm')
+     assert len(old_poly)==len(new_poly)
+     assert all(abs(n.x-o.x*ratio)<.001 and abs(n.y-o.y*ratio)<.001 for o,n in zip(old_poly,new_poly)),'Wrong spatial scope conversion'
+     report['selected48']['zones'].append({'name':name,'legacyZ':legacy_z,'runtimeZ':actual_z,'ratio':ratio})
+    populations=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashResidentPopulation))
+    report['selected48']['residents']=[{'living':p.get_living_resident_count(),'status':p.get_directory_status()} for p in populations]
+   if '-testsaveroundtrip' in command_line.lower():
+    saves=u.MikdashSaveSystem.get(world);pawn=u.GameplayStatics.get_player_pawn(world,0);saved_pos=pawn.get_actor_location()
+    assert saves.save_to_slot(0,'Isolated Astra runtime verification'),'Native save write failed'
+    pawn.set_actor_location(saved_pos+u.Vector(50,0,0),False,True)
+    moved=(pawn.get_actor_location()-saved_pos).length()
+    assert moved>45,'Deliberate save-test displacement did not occur'
+    assert saves.load_from_slot(0),'Native save load failed'
+    error=(pawn.get_actor_location()-saved_pos).length()
+    report['saveRoundTrip']={'displacementBeforeLoadCm':moved,'positionErrorCm':error,'outcome':str(saves.get_last_location_restore_outcome()),'message':saves.get_last_location_restore_message(),'scope':'Same-layout native save/load in unique test slot; cross-layout test separate'}
+    assert saves.get_last_location_restore_outcome()==u.MikdashLocationRestoreOutcome.SAVED_POSITION_RESTORED,'Saved location was not accepted for restoration'
+    assert error<3,'Save did not restore verified location'
    if '-takediagnosticstill' in u.SystemLibrary.get_command_line().lower():
     if '-diagnosticneutralsun' in u.SystemLibrary.get_command_line().lower():
      suns=list(u.GameplayStatics.get_all_actors_of_class(world,u.DirectionalLight))
@@ -220,6 +300,9 @@ def tick(dt):
      if floors:
       position=u.Vector(6000,3500,468)
       component.set_field_of_view(80.0)
+     if selected48 and not (mount or kotel or paving):
+      support=300 if floors else 925
+      position=u.Vector(position.x*.96,position.y*.96,support*.96+(position.z-support))
      camera.set_actor_location(position,False,True)
      camera.set_actor_rotation(u.Rotator(pitch=-15 if paving or floors else (-25 if kotel else (-90 if mount else 0)),yaw=-135 if paving else (-9.79 if kotel else (0 if mount else 180)),roll=0),True)
      c.set_view_target_with_blend(camera,0.0)
@@ -302,7 +385,7 @@ def tick(dt):
      report['floorMaterialCandidate']=material.get_path_name()
      report['floorAssetHashes']={str(slabs.assetfile(p)):slabs.sha(slabs.assetfile(p)) for p in (slabs.MATERIAL,slabs.TEXTURE)}
      phase('diagnostic_warm');return
-   if '-comparedaylight' in u.SystemLibrary.get_command_line().lower():
+   if any(f in command_line.lower() for f in ('-comparedaylight','-comparecooldaylight')):
     report.setdefault('daylightComparison',[]).append(dict(report['diagnosticStill']))
     if len(report['daylightComparison'])==1:
      suns=list(u.GameplayStatics.get_all_actors_of_class(world,u.DirectionalLight))
@@ -311,12 +394,20 @@ def tick(dt):
      sun=suns[0];light=sun.get_component_by_class(u.DirectionalLightComponent);sky=skies[0].get_component_by_class(u.SkyLightComponent)
      rot=sun.get_actor_rotation()
      report['daylightBefore']={'sunIntensity':light.get_editor_property('intensity'),'temperature':light.get_editor_property('temperature'),'useTemperature':light.get_editor_property('use_temperature'),'rotation':[rot.pitch,rot.yaw,rot.roll],'skyIntensity':sky.get_editor_property('intensity')}
-     light.set_editor_property('use_temperature',True);light.set_temperature(6500.0);light.set_intensity(45000.0)
-     sun.set_actor_rotation(u.Rotator(pitch=-50,yaw=rot.yaw,roll=rot.roll),True);sky.set_intensity(1.3)
+     report['daylightExposureBefore']=exposure_snapshot(world)
+     cool_only='-comparecooldaylight' in command_line.lower()
+     light.set_editor_property('use_temperature',True);light.set_temperature(6500.0)
+     if not cool_only:
+      light.set_intensity(45000.0)
+      sun.set_actor_rotation(u.Rotator(pitch=-50,yaw=rot.yaw,roll=rot.roll),True)
+     sky.set_intensity(1.3)
+     report['daylightPreset']='cool_source_more_fill' if cool_only else 'higher_sun_brighter_source'
      rot=sun.get_actor_rotation()
      report['daylightCandidate']={'sunIntensity':light.get_editor_property('intensity'),'temperature':light.get_editor_property('temperature'),'useTemperature':light.get_editor_property('use_temperature'),'rotation':[rot.pitch,rot.yaw,rot.roll],'skyIntensity':sky.get_editor_property('intensity')}
      report['daylightScope']='PIE-only daylight study, not an ephemeris or a saved preset'
      phase('diagnostic_warm');return
+    report['daylightExposureAfter']=exposure_snapshot(world)
+    assert report['daylightExposureAfter']==report['daylightExposureBefore'],'Exposure settings changed during comparison'
    finish('passed_intro_flight_ascent_pause_exact_return_visual_pending')
  except Exception as exc:
   report['errors'].append(repr(exc))

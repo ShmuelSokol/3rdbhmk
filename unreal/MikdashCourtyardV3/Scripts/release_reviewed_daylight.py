@@ -25,8 +25,44 @@ def close(a, b):
     if isinstance(a, dict):
         return a.keys() == b.keys() and all(close(a[k], b[k]) for k in a)
     if isinstance(a, list):
-        return len(a) == len(b) and all(close(x, y) for x, y in zip(a, b))
+        return isinstance(b, list) and len(a) == len(b) and all(close(x, y) for x, y in zip(a, b))
     return abs(a-b) < .0001 if isinstance(a, (int, float)) else a == b
+
+
+def validate_preset(decision, receipts):
+    """Offline-testable review policy; missing legacy tags never authorize cool preset."""
+    preset = decision.get('daylightPreset', 'higher_sun_brighter_source')
+    if preset not in ('cool_source_more_fill', 'higher_sun_brighter_source'):
+        raise RuntimeError('Unknown daylight preset')
+    if len(receipts) != 3 or {r['diagnosticSubject'] for r in receipts} != {'mount-paving', 'heikhal', 'kotel-platform-join'}:
+        raise RuntimeError('Require exactly three distinct subject comparisons')
+    baseline, proposed = receipts[0]['daylightBefore'], receipts[0]['daylightCandidate']
+    if any(not close(r['daylightBefore'], baseline) or not close(r['daylightCandidate'], proposed) for r in receipts):
+        raise RuntimeError('Compared lighting presets differ')
+    if len({r['mapShaBefore'] for r in receipts}) != 1:
+        raise RuntimeError('Comparisons must use the same unchanged main')
+    if any(r.get('daylightPreset', 'higher_sun_brighter_source') != preset for r in receipts):
+        raise RuntimeError('Different preset or old images supplied')
+    expected_baseline = dict(sunIntensity=30000.0, temperature=5000.0, useTemperature=True,
+                             rotation=[-30.0,-160.0,0.0], skyIntensity=1.0)
+    if preset == 'cool_source_more_fill':
+        expected = dict(sunIntensity=30000.0, temperature=6500.0, useTemperature=True,
+                        rotation=[-30.0,-160.0,0.0], skyIntensity=1.3)
+        if not close(baseline, expected_baseline) or not close(proposed, expected):
+            raise RuntimeError('Cool-source preset requires exact reviewed baseline and proposed values')
+        exposure = receipts[0].get('daylightExposureBefore')
+        if not isinstance(exposure, dict) or not exposure:
+            raise RuntimeError('Cool-source comparison needs actual exposure snapshots')
+        for r in receipts:
+            if r.get('daylightExposureBefore') != exposure or r.get('daylightExposureAfter') != exposure:
+                raise RuntimeError('Exposure changed or missing during cool-source comparison')
+    else:
+        # Historical recipe is distinct; its image hashes/main equality are still required.
+        expected = dict(sunIntensity=45000.0, temperature=6500.0, useTemperature=True,
+                        rotation=[-50.0,-160.0,0.0], skyIntensity=1.3)
+        if not close(baseline, expected_baseline) or not close(proposed, expected):
+            raise RuntimeError('Brighter-source recipe differs from its named preset')
+    return preset, baseline, proposed
 
 
 def run(visual_decision):
@@ -45,11 +81,7 @@ def run(visual_decision):
             if sha(still['file']) != still['sha256']:
                 raise RuntimeError('Compared image changed')
         receipts.append(r)
-    if {r['diagnosticSubject'] for r in receipts} != {'mount-paving', 'heikhal', 'kotel-platform-join'}:
-        raise RuntimeError('Require exterior paving, Heikhal and Kotel reviews')
-    baseline, proposed = receipts[0]['daylightBefore'], receipts[0]['daylightCandidate']
-    if any(not close(r['daylightBefore'], baseline) or not close(r['daylightCandidate'], proposed) for r in receipts):
-        raise RuntimeError('Compared lighting presets differ')
+    preset, baseline, proposed = validate_preset(decision, receipts)
     if Path(u.SystemLibrary.get_project_directory()).resolve() != ROOT:
         raise RuntimeError('Wrong project')
     ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
@@ -95,7 +127,8 @@ def run(visual_decision):
         raise RuntimeError('Checkpoint mismatch')
     out = ROOT/'SourceAssets/lighting-review'/('native-reviewed-daylight-'+stamp+'.json')
     report = dict(status='STARTED', beforeMapSha256=sha(mapfile), checkpoint=str(checkpoint),
-                  before=baseline, expected=proposed, visualDecisionSha256=sha(visual_decision))
+                  before=baseline, expected=proposed, daylightPreset=preset,
+                  exposurePolicy='unchanged', visualDecisionSha256=sha(visual_decision))
     def write():
         out.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
     write()

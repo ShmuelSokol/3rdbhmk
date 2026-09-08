@@ -6,6 +6,8 @@
 
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "CollisionQueryParams.h"
+#include "CollisionShape.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -100,9 +102,34 @@ int32 AMikdashCrowdField::GetFramesPerSweep() const
 
 FString AMikdashCrowdField::GetCrowdSummary() const
 {
-    return FString::Printf(TEXT("%d instances in %d zones across %d pose meshes; %d seeded, %d refused, %d ground-trace misses, %d re-seed fallbacks; %d updates a frame = one sweep every %d frames"),
+    return FString::Printf(TEXT("%d instances in %d zones across %d pose meshes; %d seeded, %d refused, %d ground-trace misses, %d re-seed fallbacks; %d updates a frame = one sweep every %d frames; %d visitors in %d groups, %d individuals; last frame %d obstacle sweeps, %d rejected moves, %d waiting visits"),
                            GetTotalInstanceCount(), RuntimeZones.Num(), ActivePoseCount, SeededAgents, RefusedSeeds, GroundTraceMisses,
-                           ReseedFallbacks, FMath::Max(1, UpdateBudgetPerFrame), GetFramesPerSweep());
+                           ReseedFallbacks, FMath::Max(1, UpdateBudgetPerFrame), GetFramesPerSweep(),GroupedVisitors,VisitorGroups.Num(),
+                           IndividualVisitors,GroupSweepsLastFrame,GroupRejectedMovesLastFrame,GroupWaitVisitsLastFrame);
+}
+
+bool AMikdashCrowdField::GetVisitorSocialState(int32 AgentIndex,int32& GroupIdentity,int32& MemberIndex,FVector& Location,bool& Standing) const
+{
+    GroupIdentity=INDEX_NONE;MemberIndex=0;Location=FVector::ZeroVector;Standing=false;
+    if(!Agents.IsValidIndex(AgentIndex)||!Agents[AgentIndex].bValid) return false;
+    const auto& Agent=Agents[AgentIndex];MemberIndex=Agent.GroupMember;Standing=Agent.bStanding!=0;
+    Location=FVector(Agent.Position.X,Agent.Position.Y,Agent.GroundZCm);
+    if(VisitorGroups.IsValidIndex(Agent.GroupIndex)) GroupIdentity=static_cast<int32>(VisitorGroups[Agent.GroupIndex].Cohort.Identity);
+    return true;
+}
+
+FString AMikdashCrowdField::GetVisitorGroupState(int32 GroupIdentity) const
+{
+    if(!Agents.IsValidIndex(GroupIdentity)) return TEXT("Unavailable");
+    const int32 Index=Agents[GroupIdentity].GroupIndex;
+    if(!VisitorGroups.IsValidIndex(Index)||VisitorGroups[Index].Cohort.Identity!=static_cast<uint32>(GroupIdentity)) return TEXT("Unavailable");
+    switch(VisitorGroups[Index].Travel.Mode)
+    {
+        case MikdashCrowdGroups::TravelMode::Forward:return TEXT("Forward");
+        case MikdashCrowdGroups::TravelMode::Returning:return TEXT("Returning");
+        case MikdashCrowdGroups::TravelMode::Paused:return TEXT("Paused");
+    }
+    return TEXT("Unavailable");
 }
 
 bool AMikdashCrowdField::GetRuntimeZone(const FString& Name, FMikdashCrowdZone& Zone) const
@@ -400,6 +427,10 @@ void AMikdashCrowdField::ClearCrowd()
         }
     }
     Agents.Reset();
+    VisitorGroups.Reset();VisitorSpacing.Clear();
+    bSocialRuntime=false;
+    GroupedVisitors=0;IndividualVisitors=0;RefusedGroups=0;PausedVisitorGroups=0;
+    GroupSweepsLastFrame=0;GroupRejectedMovesLastFrame=0;GroupWaitVisitsLastFrame=0;
     RuntimeZones.Reset(); RuntimeProtectedPolygons.Reset();
     ZoneCounts.Reset();
     SeededAgents = 0;
@@ -420,11 +451,195 @@ void AMikdashCrowdField::BuildEditorPreview()
     BuildCrowd(FMath::Clamp(EditorPreviewCount, 0, 20000));
 }
 
+bool AMikdashCrowdField::SocialSegmentAllowed(int32 ZoneIndex,const Vec2& From,const Vec2& To) const
+{
+    using namespace MikdashCrowd;
+    if(!RuntimeZones.IsValidIndex(ZoneIndex)||!Finite(From)||!Finite(To)
+        ||Length(To-From)>MikdashCrowdGroups::MaxStepCm+.001) return false;
+    MikdashCrowdGroups::Geometry Geometry;
+    Geometry.Zone=ZonePointCache.GetData()+ZoneStartCache[ZoneIndex];Geometry.ZoneCount=ZoneVertexCountCache[ZoneIndex];
+    Geometry.Protected=KeepOutPointCache.GetData();Geometry.Starts=KeepOutStartCache.GetData();Geometry.Counts=KeepOutCountCache.GetData();
+    Geometry.ProtectedCount=KeepOutCountCache.Num();Geometry.EdgeMargin=RuntimeZones[ZoneIndex].EdgeMarginCm;
+    Geometry.ProtectedMargin=ProtectedMarginCm;
+    return MikdashCrowdGroups::SegmentAllowed(Geometry,From,To);
+}
+
+void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex)
+{
+    using namespace MikdashCrowd;
+    const auto& Zone=RuntimeZones[ZoneIndex];
+    const Vec2* Polygon=ZonePointCache.GetData()+ZoneStartCache[ZoneIndex];
+    const int32 Vertices=ZoneVertexCountCache[ZoneIndex];
+    const uint32 Seed=static_cast<uint32>(RandomSeed);
+    int32 Singles=MikdashCrowdGroups::SingleBudget(ZoneTotal,IndividualVisitorRatio);
+    const double MinSpeed=FMath::Max(0.f,MinWalkSpeedCmPerSecond);
+    const double MaxSpeed=FMath::Max(MinSpeed,static_cast<double>(MaxWalkSpeedCmPerSecond));
+    for(int32 Local=0;Local<ZoneTotal;)
+    {
+        const int32 First=GlobalIndex;
+        const int32 Size=MikdashCrowdGroups::NextSize(ZoneTotal-Local,Singles,Seed,static_cast<uint32>(First));
+        const bool Standing=IsStanding(Seed,static_cast<uint32>(First),Zone.StandingRatio);
+        Vec2 Points[MikdashCrowdGroups::MaxMembers];float Grounds[MikdashCrowdGroups::MaxMembers]{};
+        double Heading=0;bool Placed=false;
+        for(int32 Attempt=0;Attempt<SeedAttempts&&!Placed;++Attempt)
+        {
+            const uint32 Trial=static_cast<uint32>(First)+static_cast<uint32>(Attempt)*65537u;
+            if(!SeedPointInZone(Polygon,Vertices,KeepOutPointCache.GetData(),KeepOutStartCache.GetData(),
+                KeepOutCountCache.GetData(),KeepOutCountCache.Num(),FMath::Max(ProtectedMarginCm,44.f),
+                FMath::Max(Zone.EdgeMarginCm,34.f),Seed,Trial,1,Points[0])) continue;
+            Heading=YawDegrees(SampleFlow(ZoneFlowCache[ZoneIndex],Points[0],0,Seed,static_cast<uint32>(First)));
+            bool Okay=true;
+            for(int32 Member=0;Member<Size&&Okay;++Member)
+            {
+                if(Member>0) Points[Member]=Points[0]+MikdashCrowdGroups::WorldOffset(
+                    MikdashCrowdGroups::Offset(Member,Seed,static_cast<uint32>(First),GroupSpacingCm),Heading);
+                if(!SocialSegmentAllowed(ZoneIndex,Points[Member],Points[Member])
+                    ||!VisitorSpacing.SegmentClear(Points[Member],Points[Member],-1)) { Okay=false;break; }
+                for(int32 Other=0;Other<Member;++Other)
+                    if(Length(Points[Other]-Points[Member])<MikdashCrowdGroups::MinSeparationCm) Okay=false;
+                // Do not seed companions on opposite sides of a protected wall.
+                const int32 Pieces=FMath::Max(1,FMath::CeilToInt(Length(Points[Member]-Points[0])/80.0));
+                for(int32 Piece=0;Piece<Pieces&&Okay;++Piece)
+                {
+                    const Vec2 A=Points[0]+(Points[Member]-Points[0])*(static_cast<double>(Piece)/Pieces);
+                    const Vec2 B=Points[0]+(Points[Member]-Points[0])*(static_cast<double>(Piece+1)/Pieces);
+                    if(!SocialSegmentAllowed(ZoneIndex,A,B)) Okay=false;
+                }
+            }
+            if(!Okay) continue;
+            double LeaderResidual=0;
+            for(int32 Member=0;Member<Size&&Okay;++Member)
+            {
+                const FVector2D P=ToFVector2D(Points[Member]);
+                Grounds[Member]=ResolveGroundZ(Zone,P);
+                const double Residual=Grounds[Member]-ZoneGroundZ(Zone,P);
+                if(Member==0) LeaderResidual=Residual;
+                if(FMath::Abs(Residual)>55.0 || FMath::Abs(Residual-LeaderResidual)>20.0) { Okay=false;break; }
+                if(bSweepGroupObstacles && GetWorld())
+                {
+                    FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupSeed),false,this);
+                    const FCollisionObjectQueryParams Objects(ECC_WorldStatic);
+                    const FVector End(P.X,P.Y,Grounds[Member]+99.f);
+                    const bool Blocked=Member==0
+                        ?GetWorld()->OverlapAnyTestByObjectType(End,FQuat::Identity,Objects,FCollisionShape::MakeCapsule(34.f,96.f),Query)
+                        :GetWorld()->SweepTestByObjectType(FVector(Points[0].X,Points[0].Y,Grounds[0]+99.f),End,
+                            FQuat::Identity,Objects,FCollisionShape::MakeCapsule(34.f,96.f),Query);
+                    if(Blocked) Okay=false;
+                }
+            }
+            if(!Okay) continue;
+            int32 Inserted=0;
+            for(;Inserted<Size;++Inserted) if(!VisitorSpacing.Insert(First+Inserted,Points[Inserted])) break;
+            if(Inserted!=Size)
+            { for(int32 I=0;I<Inserted;++I) VisitorSpacing.Remove(First+I,Points[I]);continue; }
+            Placed=true;
+        }
+        int32 GroupIndex=INDEX_NONE;
+        const float Speed=Standing?0.f:static_cast<float>(WalkSpeedFor(Seed,static_cast<uint32>(First),MinSpeed,MaxSpeed));
+        if(Placed&&Size>1)
+        {
+            FVisitorGroup Group;Group.ZoneIndex=ZoneIndex;Group.SeedAnchor=ToFVector2D(Points[0]);
+            Group.Travel.FormationHeading=Heading;
+            Group.Cohort.Count=Size;Group.Cohort.Identity=static_cast<uint32>(First);Group.Cohort.Speed=Speed;
+            for(int32 Member=0;Member<Size;++Member) Group.Cohort.Members[Member]=First+Member;
+            GroupIndex=VisitorGroups.Add(Group);GroupedVisitors+=Size;
+        }
+        else if(Placed) ++IndividualVisitors;
+        else if(Size>1) ++RefusedGroups;
+        for(int32 Member=0;Member<Size;++Member,++GlobalIndex,++Local)
+        {
+            auto& Agent=Agents[GlobalIndex];Agent.ZoneIndex=ZoneIndex;
+            Agent.ScaleFactor=static_cast<float>(HeightScaleFor(Seed,static_cast<uint32>(GlobalIndex),FigureScaleMin,FigureScaleMax));
+            if(!Placed)
+            { Agent.bValid=0;Agent.Position=Zone.PolygonCm.Num()?Zone.PolygonCm[0]:FVector2D::ZeroVector;
+              Agent.GroundZCm=ZoneGroundZ(Zone,Agent.Position);++RefusedSeeds;continue; }
+            Agent.bValid=1;Agent.bStanding=Standing?1:0;Agent.Position=ToFVector2D(Points[Member]);
+            Agent.ReseedPoint=Agent.Position;Agent.GroundZCm=Grounds[Member];Agent.HeadingDegrees=static_cast<float>(Heading);
+            Agent.SpeedCmPerSecond=Speed;Agent.Phase=static_cast<float>(HashUnit(Seed,static_cast<uint32>(GlobalIndex),5u));
+            Agent.GroupIndex=GroupIndex;Agent.GroupMember=Member;++SeededAgents;
+        }
+    }
+}
+
+void AMikdashCrowdField::StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow)
+{
+    using namespace MikdashCrowd;
+    auto& Agent=Agents[Index];
+    if(Agent.bStanding)
+    { Agent.Phase=static_cast<float>(AdvancePhase(Agent.Phase,0,Dt,true));return; }
+    Vec2 Direction=SampleFlow(Flow,ToVec2(Agent.Position),ElapsedSeconds,static_cast<uint32>(RandomSeed),static_cast<uint32>(Index));
+    double Speed=Agent.SpeedCmPerSecond;
+    FVisitorGroup* Group=VisitorGroups.IsValidIndex(Agent.GroupIndex)?&VisitorGroups[Agent.GroupIndex]:nullptr;
+    if(Group)
+    {
+        Vec2 Positions[MikdashCrowdGroups::MaxMembers];
+        for(int32 Member=0;Member<Group->Cohort.Count;++Member)
+        {
+            const int32 Id=Group->Cohort.Members[Member];
+            // No leader substitution/reseed/teleport when a member disappears.
+            if(!Agents.IsValidIndex(Id)||!Agents[Id].bValid||Agents[Id].ZoneIndex!=Group->ZoneIndex)
+            { ++GroupWaitVisitsLastFrame;return; }
+            Positions[Member]=ToVec2(Agents[Id].Position);
+        }
+        FlowZone SharedFlow=Flow;
+        if(Group->Travel.Mode==MikdashCrowdGroups::TravelMode::Returning)
+        { SharedFlow.Goal=ToVec2(Group->SeedAnchor);SharedFlow.GoalWeight=1;SharedFlow.SwirlDegrees=0; }
+        const Vec2 SharedDirection=SampleFlow(SharedFlow,Positions[0],ElapsedSeconds,static_cast<uint32>(RandomSeed),Group->Cohort.Identity);
+        MikdashCrowdGroups::Settings Config;Config.SpacingCm=GroupSpacingCm;Config.SlowLagCm=GroupSlowLagCm;Config.WaitLagCm=GroupWaitLagCm;
+        const auto Command=MikdashCrowdGroups::Steering(Group->Cohort,Agent.GroupMember,Positions,
+            Group->Travel.FormationHeading,SharedDirection,Config,static_cast<uint32>(RandomSeed),
+            Group->Travel.Mode==MikdashCrowdGroups::TravelMode::Paused);
+        if(!Command.Valid) { ++GroupWaitVisitsLastFrame;return; }
+        Direction=Command.Direction;Speed=Command.Speed;
+        if(Command.Waiting) ++GroupWaitVisitsLastFrame;
+    }
+    const double SafeDt=Clamp(Dt,0.0,.5);
+    const double Heading=SteerHeading(Agent.HeadingDegrees,YawDegrees(Direction),SafeDt,MaxTurnDegreesPerSecond);
+    if(Speed<=.01) return;
+    Agent.HeadingDegrees=static_cast<float>(Heading);
+    const Vec2 From=ToVec2(Agent.Position);
+    const Vec2 To=From+FromDegrees(Heading)*std::min(MikdashCrowdGroups::MaxStepCm,std::max(0.0,Speed)*SafeDt);
+    bool Allowed=SocialSegmentAllowed(Agent.ZoneIndex,From,To)&&VisitorSpacing.SegmentClear(From,To,Index);
+    const auto& Zone=RuntimeZones[Agent.ZoneIndex];
+    double NextGround=Agent.GroundZCm;
+    if(!FMath::IsFinite(NextGround)||(Zone.GroundMode==EMikdashCrowdGround::Plane
+        &&!MikdashCrowdGroups::FollowPlane(Agent.GroundZCm,ZoneGroundZ(Zone,Agent.Position),
+            ZoneGroundZ(Zone,ToFVector2D(To)),NextGround))) Allowed=false;
+    if(!FMath::IsFinite(static_cast<float>(NextGround))) Allowed=false;
+    if(Allowed&&bSweepGroupObstacles&&GetWorld())
+    {
+        ++GroupSweepsLastFrame;
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupMove),false,this);
+        const FCollisionObjectQueryParams Objects(ECC_WorldStatic);
+        Allowed=!GetWorld()->SweepTestByObjectType(FVector(From.X,From.Y,Agent.GroundZCm+99.f),
+            FVector(To.X,To.Y,NextGround+99.f),FQuat::Identity,Objects,FCollisionShape::MakeCapsule(34.f,96.f),Query);
+    }
+    if(Allowed) Allowed=VisitorSpacing.Move(Index,From,To);
+    if(!Allowed)
+    {
+        ++GroupRejectedMovesLastFrame;
+        // Turn at an edge; never use the old far-edge teleport to regroup visitors.
+        if(Group&&Agent.GroupMember==0)
+        {
+            const bool WasPaused=Group->Travel.Mode==MikdashCrowdGroups::TravelMode::Paused;
+            MikdashCrowdGroups::RejectedLeaderMove(Group->Travel,Length(From-ToVec2(Group->SeedAnchor)));
+            if(!WasPaused&&Group->Travel.Mode==MikdashCrowdGroups::TravelMode::Paused) ++PausedVisitorGroups;
+        }
+        else if(!Group) Agent.HeadingDegrees=static_cast<float>(WrapDegrees(Heading+90));
+        return;
+    }
+    Agent.Position=ToFVector2D(To);Agent.GroundZCm=static_cast<float>(NextGround);
+    if(Group&&Agent.GroupMember==0)
+        MikdashCrowdGroups::SuccessfulLeaderMove(Group->Travel,Length(To-ToVec2(Group->SeedAnchor)),Heading);
+    Agent.Phase=static_cast<float>(AdvancePhase(Agent.Phase,Speed,SafeDt,false));
+}
+
 void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
 {
     using namespace MikdashCrowd;
 
     ClearCrowd();
+    bSocialRuntime=bEnableVisitorGroups;
     if(!PrepareRuntimeGeometry())
     {
         UE_LOG(LogTemp,Warning,TEXT("%s: %s"),*GetName(),*CoordinateStatus);
@@ -471,6 +686,7 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
         const int32 ZoneVertices = ZoneVertexCountCache[ZoneIndex];
         const FlowZone& Flow = ZoneFlowCache[ZoneIndex];
         const int32 ZoneTotal = ZoneCounts[ZoneIndex];
+        if(bEnableVisitorGroups) { SeedSocialZone(ZoneIndex,ZoneTotal,GlobalIndex);continue; }
         for (int32 Local = 0; Local < ZoneTotal && GlobalIndex < Total; ++Local, ++GlobalIndex)
         {
             FMikdashCrowdAgent& Agent = Agents[GlobalIndex];
@@ -579,6 +795,7 @@ void AMikdashCrowdField::EndPlay(const EEndPlayReason::Type Reason)
 void AMikdashCrowdField::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    GroupSweepsLastFrame=0;GroupRejectedMovesLastFrame=0;GroupWaitVisitsLastFrame=0;
 
     using namespace MikdashCrowd;
     const int32 Total = Agents.Num();
@@ -633,7 +850,13 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
             // polygon tests and the re-seed trace, which is where the time goes. The unchanged
             // transform is still written as part of the contiguous batch below, which costs a
             // memcpy and keeps the batch to one call per pose block.
-            const double Distance = FMath::Sqrt(DistanceSquared2D(ToVec2(Agent.Position), ViewXY));
+            FVector2D LodPosition=Agent.Position;
+            if(bSocialRuntime&&VisitorGroups.IsValidIndex(Agent.GroupIndex))
+            {
+                const int32 Leader=VisitorGroups[Agent.GroupIndex].Cohort.Members[0];
+                if(Agents.IsValidIndex(Leader)) LodPosition=Agents[Leader].Position;
+            }
+            const double Distance = FMath::Sqrt(DistanceSquared2D(ToVec2(LodPosition), ViewXY));
             const InstanceWork Work = ClassifyByDistance(Distance, FreezeDistanceCm, CullDistanceCm);
             if (Work == InstanceWork::Cull)
             {
@@ -650,6 +873,8 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
             const Vec2* ZonePolygon = ZonePointCache.GetData() + ZoneStartCache[Agent.ZoneIndex];
             const int32 ZoneVertices = ZoneVertexCountCache[Agent.ZoneIndex];
             const FlowZone& Flow = ZoneFlowCache[Agent.ZoneIndex];
+
+            if(bSocialRuntime) { StepSocialAgent(Index,Step_,Flow);continue; }
 
             AgentState State;
             State.Position = ToVec2(Agent.Position);

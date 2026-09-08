@@ -1,0 +1,34 @@
+{
+  "status": "SOURCE_FROZEN_COMPILE_API_REPAIR_AND_SAFETY_FIXES_NATIVE_PENDING",
+  "supersedes": "group-behavior-source-20260908T171234111652Z.json",
+  "priorReceiptPreserved": true,
+  "authoredBehavior": true,
+  "nativeOrUBTRunByWorker": false,
+  "coordinatorPriorGate": "FAILED: nonexistent UWorld::OverlapBlockingTestByObjectType",
+  "repair": "installed World.h declares OverlapAnyTestByObjectType; conservative seed overlap refusal",
+  "standalone": {
+    "compiler": "MSVC /std:c++17 /W4 /WX /O2",
+    "checks": 44707,
+    "failures": 0
+  },
+  "fixes": [
+    "trace residual retained through plane height delta; finite/overflow guard",
+    "Forward/Returning/Paused transitions; clear return only after successful arrival",
+    "formation heading changes only after successful leader motion",
+    "paused-party count and state exposed"
+  ],
+  "budget": "unchanged budgeted visit window; maximum one static sweep per permitted moving visit",
+  "pending": [
+    "UHT/UBT rerun",
+    "240-visitor native movement/identity/separation/sweep counters",
+    "real frame-time measurement",
+    "native paused/return behavior and sloped-support review"
+  ],
+  "files": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCrowdField.h": "ba2555642fc3af7461243c970f2817ec6e978c85bdd8992645c1e143e13d0372",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "fc1d7d7b84b1d8cbce405230f9b5acecbdb744afd17b8d82de49a613f882892e",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "4e3d87019fde73f9c82cf70b5bf050439cdc20c48e630f652f9abbc63bcebd5d",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "09d95d571ad2420fe40c3d72e028fe13db20165f423b16b0524ee16b4b60281d",
+    "SourceAssets/runtime-review/crowd-field/GROUP-BEHAVIOR.md": "f430917623cf37652cdcf541ab9fe2ac4e3eafcffcf5416f096d5bac7cc6a8bb"
+  }
+}

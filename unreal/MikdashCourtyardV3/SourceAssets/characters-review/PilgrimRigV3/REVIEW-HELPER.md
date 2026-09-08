@@ -1,0 +1,11 @@
+# Guarded V3 review import preparation
+
+`Scripts/release_pilgrim_v3_review.py` plus its frozen spec prepare nine variants in the separate `/Game/MikdashV3/CharacterReview/PilgrimRigV3ReviewV1` namespace. Offline `run()` passed all existing generator/spec/source/distinctness checks on2026-09-08. No native execution occurred.
+
+Root may explicitly call `run(import_assets=True, variants=['V3_Pilgrim_Man_Standard'])` for the first small batch in a clean editor with the current main already loaded. Omit variants to request all nine; small batches are preferable. Each requested variant directory must be absent, including partial imports. Existing V2 and any separate V3 assets remain untouched. The existing import implementation provides map checkpoint, per-batch receipts and numeric readback; this wrapper adds exact frozen source hashes, protected architecture/main/donor checks and an unchanged whole-scene snapshot.
+
+The importer must create a new Skeleton inside that variant's folder and four positive-length animation clips sharing that exact Skeleton. The helper refuses a foreign/V2 skeleton and requires native bone-name/rest-position proof before saving that skeletal batch. A missing bone inspection API is a genuine blocked native step, not permission to assume compatibility. It never retargets V2 animation. Native importer side effects may create partial unsaved/saved assets before refusal; preserve them and inspect receipts rather than rerunning over that folder.
+
+Scale values are returned as recommended skeletal-component visual scales: standard1,heavy1.04,elder.97,woman young.93,woman elder.90,youth.84,kohen1.01,camera1.02,phone.96. They are not automatically applied: this helper places no actors or population references. Whole Character scaling would alter physical capsules. The next independently reviewed placement must use measured sole alignment, matching clip identities/material slots, and verified contact/clearance. No48cm architecture factor belongs on human size.
+
+Still blocked from acceptance: native import/API/rest-pose readback, exact returned animation names and visible deformation, clip-role assignment, material/skin appearance, foot contact, scaled visual review, per-profile runtime integration, static crowd/VAT integration and performance. A successful import alone is not believable-human acceptance.

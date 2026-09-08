@@ -84,6 +84,69 @@ inline bool TryLook(const MikdashSceneUnits::Frame& Frame,const MikdashUnits::Po
         return MikdashSceneUnits::TryLegacyTemplePoint(Frame,Legacy,Out);
     return false;
 }
+// Authored selected48.v1 route repair, not a sourced Temple dimension or a general
+// stretch. The exact reviewed 62 m source rectangles become 59.52 m at 48 cm.
+// Moving only their outward edge by 25 physical cm yields 60.02 m, retaining the
+// 60 m physical brief and staying inside the original 150 cm route corridor.
+inline bool TryAuthoredRouteExtension(const MikdashSceneUnits::Frame& Frame,
+    const MikdashPeople::Person& Legacy,MikdashPeople::Person& Candidate,std::string& Error)
+{
+    if(Frame.CoordinateRevision!=MikdashSceneUnits::Revision::Selected48V1) return true;
+    Rect Expected;std::string Role;double DeltaY=25.0;std::size_t First=2;
+    if(Legacy.Id=="chananel-ben-mattisyahu") { Expected={5600,1650,6800,3550};Role="levite"; }
+    else if(Legacy.Id=="rivka-bas-yoezer") { Expected={1550,-3500,2850,-1700};Role="host";DeltaY=-25.0;First=0; }
+    else if(Legacy.Id=="nechemya-ben-tzuriel") { Expected={1650,3700,2950,5500};Role="guide"; }
+    else return true; // Unknown routes get no extension and still face the full validator.
+    auto Fail=[&Error](const char* Why){Error=Why;return false;};
+    if(!MikdashSceneUnits::Valid(Frame) || Frame.FixedOrigin.X!=0 || Frame.FixedOrigin.Y!=0 || Frame.FixedOrigin.Z!=0)
+        return Fail("authored route extension requires reviewed selected48 origin zero");
+    if(Legacy.Where!=MikdashPeople::Zone::OuterCourt || Legacy.Role!=Role
+        || Legacy.Route.size()!=4 || Candidate.Route.size()!=4)
+        return Fail("authored route extension source identity or shape changed");
+    const MikdashRoute::Point2 SourcePoints[]={{Expected.MinX,Expected.MinY},{Expected.MaxX,Expected.MinY},
+        {Expected.MaxX,Expected.MaxY},{Expected.MinX,Expected.MaxY}};
+    const double Pauses[]={4,3,5,4};
+    std::vector<MikdashRoute::Point2> Original;
+    for(std::size_t I=0;I<4;++I)
+    {
+        const auto& S=Legacy.Route[I];const auto& C=Candidate.Route[I];
+        const double LookX=(I==3 || (First==0 && I==1))?7800.0:0.0;
+        // Exact immutable spatial signature. Narrative text remains the user's data.
+        if(S.X!=SourcePoints[I].X || S.Y!=SourcePoints[I].Y || S.Z!=300
+            || S.PauseSeconds!=Pauses[I] || S.LookX!=LookX || S.LookY!=0 || S.LookZ!=300)
+            return Fail("authored route extension legacy spatial signature changed");
+        MikdashUnits::PointCm Converted;
+        if(!MikdashSceneUnits::TryLegacyTemplePoint(Frame,{S.X,S.Y,S.Z},Converted)
+            || C.X!=Converted.X || C.Y!=Converted.Y || C.Z!=Converted.Z)
+            return Fail("authored route extension input already adjusted or not freshly decoded");
+        Original.push_back({C.X,C.Y});
+    }
+    if(std::abs(MikdashRoute::LoopLengthCm(Original)-5952.0)>1e-8)
+        return Fail("authored route extension original physical length changed");
+    auto Revised=Candidate;
+    Revised.Route[First].Y+=DeltaY;Revised.Route[First+1].Y+=DeltaY;
+    std::vector<MikdashRoute::Point2> Points;
+    std::vector<double> Waits;std::vector<std::string> Labels;
+    for(const auto& W:Revised.Route) { Points.push_back({W.X,W.Y});Waits.push_back(W.PauseSeconds);Labels.push_back(W.Label); }
+    for(std::size_t I=0;I<Points.size();++I)
+    {
+        const auto& A=Points[I];const auto& B=Points[(I+1)%Points.size()];
+        if(!PointInZone(Frame,Legacy.Where,A) || !MikdashRoute::SegmentWithinCorridor(A,B,Original))
+            return Fail("authored route extension escaped original region or corridor");
+        // Check the segment's region as well as its endpoints; no cross-gate shortcut.
+        const int Samples=std::max(1,static_cast<int>(std::ceil(MikdashRoute::Distance(A,B)/25.0)));
+        for(int Sample=0;Sample<=Samples;++Sample)
+        {
+            const double T=static_cast<double>(Sample)/Samples;
+            if(!PointInZone(Frame,Legacy.Where,{A.X+(B.X-A.X)*T,A.Y+(B.Y-A.Y)*T}))
+                return Fail("authored route extension segment left reviewed region");
+        }
+    }
+    if(std::abs(MikdashRoute::LoopLengthCm(Points)-6002.0)>1e-8)
+        return Fail("authored route extension final physical length changed");
+    if(!MikdashRoute::ValidateLoopGeometry(Points,Waits,Labels,&Error)) return false;
+    Candidate=std::move(Revised);return true;
+}
 inline bool TryPerson(const MikdashSceneUnits::Frame& Frame,const MikdashPeople::Person& Legacy,
                       MikdashPeople::Person& Out,std::string& Error)
 {
@@ -111,8 +174,10 @@ inline bool TryPerson(const MikdashSceneUnits::Frame& Frame,const MikdashPeople:
         { Error="converted feet outside current authored zone/floor"; return false; }
         Target.X=Feet.X;Target.Y=Feet.Y;Target.Z=Feet.Z;
         Target.LookX=Look.X;Target.LookY=Look.Y;Target.LookZ=Look.Z;
-        Points.push_back({Feet.X,Feet.Y});Pauses.push_back(Source.PauseSeconds);Labels.push_back(Source.Label);
     }
+    if(!TryAuthoredRouteExtension(Frame,Legacy,Candidate,Error)) return false;
+    for(const auto& Target:Candidate.Route)
+    { Points.push_back({Target.X,Target.Y});Pauses.push_back(Target.PauseSeconds);Labels.push_back(Target.Label); }
     // Physical route length, waypoint spacing and pauses do not shrink with amot.
     if(!MikdashRoute::ValidateLoopGeometry(Points,Pauses,Labels,&Error)) return false;
     Out=std::move(Candidate);Error.clear();return true;

@@ -1,5 +1,25 @@
 # Astra takeover after Claude finished
 
+## Latest candidate runtime/render check
+
+Selected48 native180131188281 passes sampled group behavior and frontend/flight/tour tests:201people in51parties+35individuals,4unsafeplacements refused,19partiespaused,98membersmoved>50cm,minsamplegap80.03cm. Main/candidate/save bytes unchanged.15/24skeletal residents stillspawn; candidate notpromoted. Root inspected180225; no missing/auto-set Nanite usage messages remain in the real scene log. Bright surfaces/simplecharacters/longnavigation/performance/fullcollision/freshcook stillopen. This supersedes earlier group-test-pending statements only.
+
+## Latest material compatibility repair
+
+Nine exact PBR instance assets now have saved explicit Nanite usage flags. Apply173857999122 and different-process verification175937249147 pass with protected maps/config/parent/other PBR asset hashes unchanged. Actual resource compilation/readback passed; texture parameters and other usage overrides preserved. Source note NANITE-INSTANCE-USAGE-REVIEW.md explains UE5.8 per-instance flags. New real scene render/cook review remains separate. Main and48candidate map hashes remain8e78923f... and8dc55f79... respectively.
+
+## Latest17:33 UTC — groups built and sampled natively
+
+Full8/8gate,30mathsuites,UBT54.92sec. Main native173130367390:200grouped in54stableparties+36individuals,4unsafeplacements refused,13partiespaused after10sec;92groupmembers moved>50cm,minimumgap80.04cm,maxsweeps123/budget500. Scene/savebytesunchanged. Actual courtyard image173221 inspected; bodies/materials/lighting still need substantial polish. See GROUP-NATIVE-20260908.md for exact limits and preserved failure receipts.48cm group tests and freshcook remain pending. Nanite per-instance usage warnings found in the main render are being investigated separately.
+
+## Latest17:13 UTC — group behavior source and candidate completion steps
+
+New group runtime is source-frozen and awaiting full build/native acceptance: mostly stable2–6 parties, occasional individuals, shared pace, leader waiting, bounded spatial-hash separation and static capsule sweeps. Standalone44,693checks passed; no claim of native behavior yet. V3 body variants remain unimported; read-only audit and guarded fresh-namespace review helper prepared. Existing24resident profiles still share the V2body.
+
+Main8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5 has reviewed cooler6500K/sky1.3 lighting, fixed sun30000lux/angle/exposure settings, native saved/reopened protectedtrue171157734314. All three current A/B pairs inspected. Paving less orange; interior highlights/deep shadows not solved. Candidate48 descriptor,physical-offset-preserving PlayerStart,18tourmarkers and58paving overrides saved/reopened; SHA8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89. Candidate has baseline lighting and still needs actual collision/population/system review, no promotion/package.
+
+Three short resident48routes extended50cm within original corridors;238standalonechecks now24geometricaccepts, prior full8/8gate and actualUBT21.23sec. Physical spawn/route results remain separate. Main isolated native same-layout save/load tested twice with deliberate50cm movement and0cmrestoreerror; original saves unchanged. No cross-layout acceptance.
+
 ## Latest courtyard floor checkpoint — 8 September, 16:44 UTC
 
 Main SHA480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0: platform plus57 reviewed courtyard/gateway slabs now carry the user-directed Jerusalem paving. Slab shader keeps the pattern on tops and plain limestone on thin edges. Exact actor/material allowlist, source/geometry/collision/gold-floor preservation, saved/reopened native receipt164354150280. Actual PIE164034569694 rendered both views after targeted shader compilation; no errors,57matches, scene and user saves unchanged. Root inspected164130/164151. Fine relief remains albedo-only, mirror repetition and amber/clipped lighting remain, and crowd quality is not accepted. No fresh package yet.

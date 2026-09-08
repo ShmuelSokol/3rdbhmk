@@ -1,0 +1,40 @@
+{
+  "status": "SOURCE_FROZEN_STANDALONE_PASSED_NATIVE_PENDING",
+  "authoredBehavior": true,
+  "nativeOrUBTRunByWorker": false,
+  "standalone": {
+    "compiler": "MSVC /std:c++17 /W4 /WX /O2",
+    "checks": 44693,
+    "failures": 0
+  },
+  "defaults": {
+    "individualPeopleRatio": 0.15,
+    "cohortMembers": [
+      2,
+      6
+    ],
+    "spacingCm": 120,
+    "slowLagCm": 100,
+    "waitLagCm": 250,
+    "minimumSeparationCm": 80,
+    "capsuleRadiusCm": 34,
+    "capsuleHalfHeightCm": 96,
+    "floorClearanceCm": 3
+  },
+  "scope": "instanced background crowd; skeletal resident roles and routes untouched",
+  "pending": [
+    "UHT/UBT",
+    "240-visitor native motion and trace counters",
+    "legacy50/selected48 comparison",
+    "gate/edge obstacle review",
+    "real frame-time measurement",
+    "long-running bottleneck and deadlock review"
+  ],
+  "files": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCrowdField.h": "9f3b159c5278c8297b274094104962fca7847bc9fad87549eb56bd3ba12a61a6",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "179148e4f03f4c8f4d3b5ac6892dbf55347d3867971fbe594393e93618e187ba",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "ba374296ed51ac2fa65ce33aaab1da71a32bf5076f6661d11af792ce1d93d473",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "e7d3c85943a0d0099f884ef60cb11bf9c4758cb80b789dccba1cb59507570a91",
+    "SourceAssets/runtime-review/crowd-field/GROUP-BEHAVIOR.md": "a71bb6e1ed4f9a3527ffa0c912eafb68ec347c8529cd890d363477e047ff9fbb"
+  }
+}

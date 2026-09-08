@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "CrowdFieldMath.h"
+#include "CrowdGroupMath.h"
 #include "GameFramework/Actor.h"
 #include "MikdashCrowdField.generated.h"
 
@@ -99,6 +100,8 @@ struct FMikdashCrowdAgent
     float ScaleFactor = 1.f;
     float GroundZCm = 0.f;
     int32 ZoneIndex = 0;
+    int32 GroupIndex = INDEX_NONE;
+    int32 GroupMember = 0;
     uint8 bStanding : 1;
     uint8 bValid : 1;
 
@@ -117,11 +120,13 @@ struct FMikdashCrowdAgent
  * authored gate corridors or the Kotel wall slab.
  *
  * WHAT IT IS NOT. These are instanced background figures. They have no collision, no
- * navigation, no avoidance of one another or of the player, no dialog and no articulated
+ * navigation, no dialog and no articulated
  * limbs: each instance holds one frozen stride pose and the motion you see is its translation
  * across the ground plus a gait bob and lean written into its transform. Anyone who needs to
  * be talked to, walked around or looked in the eye is a MikdashResidentCharacter, and there
  * are still only 24 of those.
+ * Group mode adds deterministic social steering, spatial separation and static-world
+ * capsule queries; it is not navmesh pathfinding or collision with the visitor/player.
  *
  * COST. See the class defaults below and Scripts/release_crowd_field.py. On the target
  * hardware (RTX 2070, 16 GB) the intended budget is one HISM draw per pose per LOD with
@@ -208,6 +213,24 @@ public:
     float MinWalkSpeedCmPerSecond = 60.f;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Motion", meta = (ClampMin = "0.0"))
     float MaxWalkSpeedCmPerSecond = 110.f;
+
+    /** Authored social motion for background visitors; not family/ritual identities.
+     * Turning this off preserves the historical independent-flow preview. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups")
+    bool bEnableVisitorGroups = true;
+    /** Target share of people walking/standing independently, not share of groups. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="0.0",ClampMax="1.0"))
+    float IndividualVisitorRatio = 0.15f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="110.0",ClampMax="180.0"))
+    float GroupSpacingCm = 120.f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="25.0"))
+    float GroupSlowLagCm = 100.f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="50.0"))
+    float GroupWaitLagCm = 250.f;
+    /** One physical capsule sweep per proposed budgeted move; never all agents per frame.
+     * Disabling is a diagnostic mode and cannot establish obstacle acceptance. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups")
+    bool bSweepGroupObstacles = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Motion", meta = (ClampMin = "0.0"))
     float MaxTurnDegreesPerSecond = 90.f;
@@ -332,6 +355,18 @@ public:
     UFUNCTION(BlueprintPure, Category = "Crowd")
     int32 GetFramesPerSweep() const;
 
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetVisitorGroupCount() const { return VisitorGroups.Num(); }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetGroupedVisitorCount() const { return GroupedVisitors; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetIndividualVisitorCount() const { return IndividualVisitors; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetGroupSweepsLastFrame() const { return GroupSweepsLastFrame; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetGroupRejectedMovesLastFrame() const { return GroupRejectedMovesLastFrame; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetGroupWaitVisitsLastFrame() const { return GroupWaitVisitsLastFrame; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetRefusedGroupCount() const { return RefusedGroups; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") int32 GetPausedVisitorGroupCount() const { return PausedVisitorGroups; }
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups") FString GetVisitorGroupState(int32 GroupIdentity) const;
+    UFUNCTION(BlueprintPure, Category="Crowd|Groups")
+    bool GetVisitorSocialState(int32 AgentIndex,int32& GroupIdentity,int32& MemberIndex,FVector& Location,bool& Standing) const;
+
     /** A one-line summary a receipt or a log can quote. */
     UFUNCTION(BlueprintPure, Category = "Crowd")
     FString GetCrowdSummary() const;
@@ -364,6 +399,21 @@ private:
 
     /** Live agent state, index-aligned with the global instance index. */
     TArray<FMikdashCrowdAgent> Agents;
+    struct FVisitorGroup
+    {
+        MikdashCrowdGroups::Cohort Cohort;
+        int32 ZoneIndex=0;
+        FVector2D SeedAnchor=FVector2D::ZeroVector;
+        MikdashCrowdGroups::Travel Travel;
+    };
+    TArray<FVisitorGroup> VisitorGroups;
+    MikdashCrowdGroups::SpatialIndex VisitorSpacing;
+    int32 GroupedVisitors=0,IndividualVisitors=0,RefusedGroups=0,PausedVisitorGroups=0;
+    int32 GroupSweepsLastFrame=0,GroupRejectedMovesLastFrame=0,GroupWaitVisitsLastFrame=0;
+    bool bSocialRuntime=false;
+    void SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex);
+    void StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow);
+    bool SocialSegmentAllowed(int32 ZoneIndex,const MikdashCrowd::Vec2& From,const MikdashCrowd::Vec2& To) const;
 
     /** Reusable scratch for one batched transform run; never freed between frames. */
     TArray<FTransform> TransformScratch;

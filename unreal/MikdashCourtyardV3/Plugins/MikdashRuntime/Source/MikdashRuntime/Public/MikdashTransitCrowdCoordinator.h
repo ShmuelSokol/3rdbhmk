@@ -15,7 +15,7 @@ struct FMikdashTransferFigure
     FString StableId;
     FVector Position = FVector::ZeroVector, Destination = FVector::ZeroVector;
     double StartAt = 0, Deadline = 0, LastUpdate = 0;
-    bool bActive = false, bVisible = false, bAlighting = false, bPhotographer = false;
+    bool bActive = false, bVisible = false, bAlighting = false, bPhotographer = false, bPhotoStanding = false;
 };
 UCLASS(BlueprintType)
 class MIKDASHRUNTIME_API AMikdashTransitCrowdCoordinator : public AActor

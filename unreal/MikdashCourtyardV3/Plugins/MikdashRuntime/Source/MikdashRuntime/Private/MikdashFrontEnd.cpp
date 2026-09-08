@@ -1,4 +1,3 @@
-#include "MikdashPlayerController.h"
 // MikdashFrontEnd.cpp -- implementation of the walkthrough's front end.
 //
 // Written by the coordinator after the authoring agent was cut off mid-task by a
@@ -8,6 +7,7 @@
 // a choice open the reasoning is in a comment at the point of the decision.
 
 #include "MikdashFrontEnd.h"
+#include "MikdashPlayerController.h"
 
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -771,8 +771,8 @@ void UMikdashFrontEnd::StartMenuCamera()
     if (MenuCamera)
     {
         MenuTickController = Controller;
-        bPreviousFullTickWhenPaused = Controller->bShouldPerformFullTickWhenPaused;
-        Controller->bShouldPerformFullTickWhenPaused = true;
+        bPreviousFullTickWhenPaused = Controller->PrimaryActorTick.bTickEvenWhenPaused;
+        Controller->PrimaryActorTick.bTickEvenWhenPaused = true;
         Controller->SetViewTargetWithBlend(MenuCamera, MenuCameraBlendSeconds);
     }
 }
@@ -799,7 +799,7 @@ bool UMikdashFrontEnd::TickMenuCamera(float DeltaTime)
 void UMikdashFrontEnd::RestoreMenuCameraTick()
 {
     if (APlayerController* Controller = MenuTickController.Get())
-        Controller->bShouldPerformFullTickWhenPaused = bPreviousFullTickWhenPaused;
+        Controller->PrimaryActorTick.bTickEvenWhenPaused = bPreviousFullTickWhenPaused;
     MenuTickController.Reset();
 }
 

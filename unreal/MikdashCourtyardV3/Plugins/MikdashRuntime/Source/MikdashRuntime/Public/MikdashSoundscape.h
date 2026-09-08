@@ -779,7 +779,6 @@ inline bool ShouldBeAudible(double Gain, bool bCurrentlyPlaying)
 // -----------------------------------------------------------------------------
 // PART 2 -- the actor. Skipped when the standalone test compiles this header.
 // -----------------------------------------------------------------------------
-#ifndef MIKDASH_SOUNDSCAPE_MATH_ONLY
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -1231,4 +1230,3 @@ protected:
     bool   bTimeOfDayBound = false;
 };
 
-#endif   // MIKDASH_SOUNDSCAPE_MATH_ONLY

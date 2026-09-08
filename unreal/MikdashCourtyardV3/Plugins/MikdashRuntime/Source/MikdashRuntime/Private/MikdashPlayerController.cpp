@@ -1,5 +1,5 @@
-#include "MikdashFrontEnd.h"
 #include "MikdashPlayerController.h"
+#include "MikdashFrontEnd.h"
 #include "MikdashDovePawn.h"
 #include "MikdashResidentCharacter.h"
 #include "SMikdashPreparation.h"

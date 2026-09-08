@@ -411,8 +411,8 @@ bool UMikdashPhotoMode::Enter()
     {
         UGameplayStatics::SetGamePaused(World, true);
     }
-    bRestoreFullTickWhenPaused = Controller->bShouldPerformFullTickWhenPaused;
-    Controller->bShouldPerformFullTickWhenPaused = true;
+    bRestoreFullTickWhenPaused = Controller->PrimaryActorTick.bTickEvenWhenPaused;
+    Controller->PrimaryActorTick.bTickEvenWhenPaused = true;
 
     // Photo mode's own input, pushed on top so movement keys mean camera movement here
     // without disturbing anything the walkthrough has bound.
@@ -481,7 +481,7 @@ void UMikdashPhotoMode::Exit()
         {
             Controller->SetViewTargetWithBlend(Pawn, 0.25f);
         }
-        Controller->bShouldPerformFullTickWhenPaused = bRestoreFullTickWhenPaused;
+        Controller->PrimaryActorTick.bTickEvenWhenPaused = bRestoreFullTickWhenPaused;
     }
     PhotoInput = nullptr;
     PreviousViewTarget = nullptr;

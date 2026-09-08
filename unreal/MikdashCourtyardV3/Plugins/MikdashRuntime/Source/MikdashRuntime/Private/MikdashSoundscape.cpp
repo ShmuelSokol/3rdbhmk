@@ -846,10 +846,10 @@ int32 AMikdashSoundscape::GetActiveEmitterCount() const
 
 FString AMikdashSoundscape::DescribeState() const
 {
-    FString Layers;
+    FString LayerText;
     for (int32 I = 0; I < MikdashSoundscape::LayerCount; ++I)
     {
-        Layers += FString::Printf(TEXT("%s%s=%.3f"), I == 0 ? TEXT("") : TEXT(" "),
+        LayerText += FString::Printf(TEXT("%s%s=%.3f"), I == 0 ? TEXT("") : TEXT(" "),
                                   ANSI_TO_TCHAR(MikdashSoundscape::LayerName(
                                       static_cast<MikdashSoundscape::ELayer>(I))),
                                   LayerGains[I]);
@@ -860,5 +860,5 @@ FString AMikdashSoundscape::DescribeState() const
         FMath::Floor(CurrentHours()), FMath::Fmod(CurrentHours(), 1.0) * 60.0,
         *CurrentZoneLabel.ToString(), Acoustics.DryGain, Acoustics.LpfHz, Acoustics.ReverbSend,
         Acoustics.Exposure, GetActiveEmitterCount(), Emitters.Num(), OneShots.Num(),
-        CrowdHeadCount, SpeakingResidentCount, *Layers);
+        CrowdHeadCount, SpeakingResidentCount, *LayerText);
 }

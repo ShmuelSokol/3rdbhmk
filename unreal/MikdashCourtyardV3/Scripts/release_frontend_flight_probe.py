@@ -86,18 +86,18 @@ def tick(dt):
    if elapsed>=1:
     report['riseCm']=bird.get_actor_location().z-state['riseStart'].z
     assert report['riseCm']>100,'Ascent failed'
-    u.GameplayStatics.set_game_paused(world,True);state['pausePos']=bird.get_actor_location();phase('paused')
+    state['front'].show_pause_menu();assert state['front'].get_screen()==u.MikdashScreen.PAUSE_MENU and c.is_walkthrough_menu_open();state['pausePos']=bird.get_actor_location();phase('paused')
    return
   if state['phase']=='paused':
    if elapsed<1:return
    report['pauseDriftCm']=(bird.get_actor_location()-state['pausePos']).length();assert report['pauseDriftCm']<.1
-   u.GameplayStatics.set_game_paused(world,False);c.toggle_dove_flight()
+   state['front'].resume_walkthrough();assert not c.is_walkthrough_menu_open();c.toggle_dove_flight()
    assert not c.is_dove_flight_active() and u.GameplayStatics.get_player_pawn(world,0)==state['walker'],'Walking pawn not restored'
    report['returnErrorCm']=(u.GameplayStatics.get_player_pawn(world,0).get_actor_location()-state['walkPos']).length()
    assert report['returnErrorCm']<3,'Return position changed'
    report['walkerCollisionEnabled']=u.GameplayStatics.get_player_pawn(world,0).get_actor_enable_collision();assert report['walkerCollisionEnabled']
-   phase('residents');return
-  if state['phase']=='residents':
+   phase('final_state');return
+  if state['phase']=='final_state':
    assert not c.is_walkthrough_menu_open() and not u.GameplayStatics.is_game_paused(world)
    assert not state['front'].is_front_end_visible()
    finish('passed_frontend_flight_ascent_pause_exact_return_visual_pending')
@@ -108,6 +108,20 @@ def tick(dt):
    try:write()
    finally:u.unregister_slate_post_tick_callback(handle);u.SystemLibrary.quit_editor()
   else:finish('failed_exception')
-settings.set_editor_property('GameGetsMouseControl',False)
-u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling 0')
-write();handle=u.register_slate_post_tick_callback(tick);levels.editor_request_begin_play()
+handle=None
+try:
+ settings.set_editor_property('GameGetsMouseControl',False)
+ u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling 0')
+ write();handle=u.register_slate_post_tick_callback(tick);levels.editor_request_begin_play()
+except Exception as exc:
+ report['status']='failed_setup';report['errors'].append(repr(exc))
+ if handle is not None:
+  try:u.unregister_slate_post_tick_callback(handle)
+  except Exception as cleanup:report['errors'].append('Callback cleanup: '+repr(cleanup))
+ for restore in (lambda:levels.editor_request_end_play(),lambda:settings.set_editor_property('GameGetsMouseControl',old_mouse),lambda:u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling '+str(old_throttle))):
+  try:restore()
+  except Exception as cleanup:report['errors'].append('Setup cleanup: '+repr(cleanup))
+ report['mapBytesUnchanged']=sha()==report['mapShaBefore']
+ try:write()
+ finally:u.SystemLibrary.quit_editor()
+ raise

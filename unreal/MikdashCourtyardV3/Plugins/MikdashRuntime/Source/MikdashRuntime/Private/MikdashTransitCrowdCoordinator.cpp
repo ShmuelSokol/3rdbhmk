@@ -104,7 +104,7 @@ void AMikdashTransitCrowdCoordinator::HandleExchange(const FMikdashPassengerExch
         int32 AtStop=0; for(const auto& Figure:Figures) if(Figure.bActive && Figure.Request.GlobalStopIndex==Request.GlobalStopIndex) ++AtStop;
         const int32 Count=MikdashTransitCrowd::Admission(Request.Count,GetActiveTransferCount(),Figures.Num(),AtStop,FMath::Clamp(MaxFiguresPerStop,1,64));
         Refused+=Request.Count-Count;
-        const int32 DesiredPhotos=Direction==1 ? Transit->SuggestPhotographerCount(Request.GlobalStopIndex,Count,Request.RunIndex) : 0;
+        const int32 DesiredPhotos=Direction==0 ? Transit->SuggestPhotographerCount(Request.GlobalStopIndex,Count,Request.RunIndex) : 0;
         PhotoRequests+=DesiredPhotos;
         for(int32 Person=0;Person<Count;++Person)
         {
@@ -121,7 +121,7 @@ void AMikdashTransitCrowdCoordinator::HandleExchange(const FMikdashPassengerExch
                 || !CorridorClear(From,To)) { ++Refused; continue; }
             auto& Figure=Figures[Slot]; Figure=FMikdashTransferFigure(); Figure.Request=Request;
             Figure.StableId=FString(UTF8_TO_TCHAR(Key.c_str()))+FString::Printf(TEXT(":%d:%d"),Direction,Person);
-            Figure.Position=From; Figure.Destination=Photo?Gather:To; Figure.StartAt=Start; Figure.Deadline=Deadline;
+            Figure.Position=From; Figure.Destination=To; Figure.StartAt=Start; Figure.Deadline=Deadline;
             Figure.LastUpdate=Start; Figure.bAlighting=Direction==0; Figure.bPhotographer=Photo; Figure.bActive=true;
         }
     }
@@ -136,12 +136,12 @@ void AMikdashTransitCrowdCoordinator::Render(int32 Slot)
     FTransform Transform(FQuat::Identity,FVector(0,0,-200000),FVector::ZeroVector);
     if(Figure.bVisible && Figure.bActive)
     {
-        FVector Facing=(Figure.bPhotographer?PhotographerLookAt:Figure.Destination)-Figure.Position; Facing.Z=0;
+        FVector Facing=(Figure.bPhotoStanding?PhotographerLookAt:Figure.Destination)-Figure.Position; Facing.Z=0;
         Transform=FTransform(FRotator(0,Facing.Rotation().Yaw,0),Figure.Position,FVector::OneVector);
     }
     const FTransform Hidden(FQuat::Identity,FVector(0,0,-200000),FVector::ZeroVector);
-    WalkInstances->UpdateInstanceTransform(Slot,Figure.bPhotographer?Hidden:Transform,true,false,true);
-    PhotoInstances->UpdateInstanceTransform(Slot,Figure.bPhotographer?Transform:Hidden,true,false,true);
+    WalkInstances->UpdateInstanceTransform(Slot,Figure.bPhotoStanding?Hidden:Transform,true,false,true);
+    PhotoInstances->UpdateInstanceTransform(Slot,Figure.bPhotoStanding?Transform:Hidden,true,false,true);
 }
 void AMikdashTransitCrowdCoordinator::Tick(float DeltaSeconds)
 {
@@ -150,7 +150,9 @@ void AMikdashTransitCrowdCoordinator::Tick(float DeltaSeconds)
     const double Now=Transit->GetTransitSeconds();
     // Deadlines are checked for ALL reserved slots even when movement is budgeted.
     for(int32 Index=0;Index<Figures.Num();++Index)
-        if(Figures[Index].bActive && (Now>=Figures[Index].Deadline || !Transit->IsPassengerExchangeOpen(Figures[Index].Request)))
+        if(Figures[Index].bActive && (Now>=Figures[Index].Deadline || !Transit->IsTransitActive()
+            || Now<Figures[Index].LastUpdate
+            || (!Figures[Index].bPhotoStanding && !Transit->IsPassengerExchangeOpen(Figures[Index].Request))))
         { ++Expired; Retire(Index); }
     for(int32 Visited=0;Visited<FMath::Min(Figures.Num(),FMath::Clamp(UpdateBudget,1,128));++Visited)
     {
@@ -162,13 +164,27 @@ void AMikdashTransitCrowdCoordinator::Tick(float DeltaSeconds)
             if(!CorridorClear(Figure.Position,Figure.Position,Slot)) continue;
             Figure.bVisible=true;
         }
-        if(Figure.bPhotographer) { Render(Slot); continue; }
+        if(Figure.bPhotoStanding)
+        {
+            if(!CorridorClear(Figure.Position,Figure.Position,Slot)) { ++Expired; Retire(Slot); }
+            else Render(Slot);
+            continue;
+        }
         const FVector Difference=Figure.Destination-Figure.Position;
         const FVector Next=Figure.Position+Difference.GetSafeNormal()*FMath::Min(Difference.Size(),Dt*WalkSpeedCmPerSecond);
         if(!CorridorClear(Figure.Position,Next,Slot)) { Render(Slot); continue; }
         Figure.Position=Next;
         if(FVector::DistSquared(Figure.Position,Figure.Destination)<=25.0)
-        { if(Figure.bAlighting) ++Alighted; else ++Boarded; Retire(Slot); }
+        {
+            if(Figure.bAlighting) ++Alighted; else ++Boarded;
+            if(Figure.bAlighting && Figure.bPhotographer)
+            {
+                // Real door-to-gather travel completed first. Bounded photography can
+                // continue after doors close, still consuming its concurrency slot.
+                Figure.bPhotoStanding=true; Figure.Deadline=Now+12.0; Render(Slot);
+            }
+            else Retire(Slot);
+        }
         else Render(Slot);
     }
     WalkInstances->MarkRenderStateDirty(); PhotoInstances->MarkRenderStateDirty();

@@ -203,7 +203,7 @@ SPECIES = [
         barkColour=(126, 118, 100), evergreen=True,
         band=dict(minZ=-9000.0, maxZ=14000.0, featherZ=2500.0, minSlope=2.0, maxSlope=32.0, slopeFeather=5.0),
         spacingCm=520.0, crownRadiusCm=320.0, densityPer100SqM=0.2,
-        terraced=True, clusterRadiusCm=9000.0, clusterStrength=0.72, clusters=90,
+        terraced=True, clusterRadiusCm=9000.0, clusterStrength=0.62, clusters=200,
         gnarledFraction=0.35,
         scaleRange=[0.72, 1.28], tiltDegrees=7.0, downhillTilt=0.30,
     ),
@@ -219,7 +219,7 @@ SPECIES = [
         barkColour=(118, 92, 74), evergreen=True,
         band=dict(minZ=-4000.0, maxZ=16000.0, featherZ=3000.0, minSlope=0.0, maxSlope=34.0, slopeFeather=6.0),
         spacingCm=700.0, crownRadiusCm=400.0, densityPer100SqM=0.12,
-        terraced=False, clusterRadiusCm=14000.0, clusterStrength=0.80, clusters=48,
+        terraced=False, clusterRadiusCm=14000.0, clusterStrength=0.68, clusters=120,
         gnarledFraction=0.0,
         scaleRange=[0.78, 1.30], tiltDegrees=5.0, downhillTilt=0.20,
     ),
@@ -237,7 +237,7 @@ SPECIES = [
         barkColour=(122, 100, 82), evergreen=True,
         band=dict(minZ=-6000.0, maxZ=15000.0, featherZ=2500.0, minSlope=0.0, maxSlope=30.0, slopeFeather=5.0),
         spacingCm=560.0, crownRadiusCm=220.0, densityPer100SqM=0.05,
-        terraced=False, clusterRadiusCm=6000.0, clusterStrength=0.85, clusters=40,
+        terraced=False, clusterRadiusCm=6000.0, clusterStrength=0.7, clusters=110,
         gnarledFraction=0.0,
         scaleRange=[0.80, 1.25], tiltDegrees=3.0, downhillTilt=0.10,
     ),
@@ -253,7 +253,7 @@ SPECIES = [
         barkColour=(104, 92, 82), evergreen=False,
         band=dict(minZ=-8000.0, maxZ=12000.0, featherZ=2000.0, minSlope=2.0, maxSlope=28.0, slopeFeather=4.0),
         spacingCm=460.0, crownRadiusCm=260.0, densityPer100SqM=0.07,
-        terraced=True, clusterRadiusCm=7000.0, clusterStrength=0.78, clusters=44,
+        terraced=True, clusterRadiusCm=7000.0, clusterStrength=0.66, clusters=110,
         gnarledFraction=0.10,
         scaleRange=[0.75, 1.25], tiltDegrees=6.0, downhillTilt=0.25,
     ),
@@ -270,7 +270,7 @@ SPECIES = [
         barkColour=(148, 142, 128), evergreen=False,
         band=dict(minZ=-11000.0, maxZ=9000.0, featherZ=2000.0, minSlope=0.0, maxSlope=26.0, slopeFeather=4.0),
         spacingCm=520.0, crownRadiusCm=340.0, densityPer100SqM=0.05,
-        terraced=True, clusterRadiusCm=5000.0, clusterStrength=0.82, clusters=52,
+        terraced=True, clusterRadiusCm=5000.0, clusterStrength=0.7, clusters=130,
         gnarledFraction=0.20,
         scaleRange=[0.75, 1.25], tiltDegrees=8.0, downhillTilt=0.30,
         wadiPreference=0.55,
@@ -288,7 +288,7 @@ SPECIES = [
         barkColour=(140, 118, 96), evergreen=False,
         band=dict(minZ=-10000.0, maxZ=8000.0, featherZ=2000.0, minSlope=0.0, maxSlope=25.0, slopeFeather=4.0),
         spacingCm=380.0, crownRadiusCm=190.0, densityPer100SqM=0.05,
-        terraced=True, clusterRadiusCm=4500.0, clusterStrength=0.84, clusters=48,
+        terraced=True, clusterRadiusCm=4500.0, clusterStrength=0.72, clusters=120,
         gnarledFraction=0.0,
         scaleRange=[0.75, 1.30], tiltDegrees=8.0, downhillTilt=0.25,
         wadiPreference=0.45,
@@ -316,7 +316,7 @@ SPECIES = [
         band=dict(minZ=-30000.0, maxZ=1000.0, featherZ=2000.0, minSlope=0.0, maxSlope=12.0, slopeFeather=3.0),
         regionOverrideCm=[-20000.0, -60000.0, 90000.0, 70000.0],
         spacingCm=760.0, crownRadiusCm=420.0, densityPer100SqM=0.35,
-        terraced=False, clusterRadiusCm=5000.0, clusterStrength=0.86, clusters=26,
+        terraced=False, clusterRadiusCm=5000.0, clusterStrength=0.7, clusters=40,
         gnarledFraction=0.0,
         scaleRange=[0.82, 1.20], tiltDegrees=5.0, downhillTilt=0.15,
         wadiPreference=0.85,
@@ -336,7 +336,7 @@ SPECIES = [
         band=dict(minZ=-14000.0, maxZ=9000.0, featherZ=2500.0, minSlope=3.0, maxSlope=34.0, slopeFeather=5.0,
                   preferredAspect=90.0, aspectWeight=0.65),
         spacingCm=640.0, crownRadiusCm=380.0, densityPer100SqM=0.07,
-        terraced=False, clusterRadiusCm=8000.0, clusterStrength=0.80, clusters=40,
+        terraced=False, clusterRadiusCm=8000.0, clusterStrength=0.68, clusters=100,
         gnarledFraction=0.25,
         scaleRange=[0.78, 1.28], tiltDegrees=7.0, downhillTilt=0.30,
     ),
@@ -356,7 +356,7 @@ SPECIES = [
         band=dict(minZ=-16000.0, maxZ=12000.0, featherZ=3000.0, minSlope=2.0, maxSlope=36.0, slopeFeather=6.0,
                   preferredAspect=270.0, aspectWeight=0.45),
         spacingCm=680.0, crownRadiusCm=380.0, densityPer100SqM=0.09,
-        terraced=False, clusterRadiusCm=10000.0, clusterStrength=0.76, clusters=44,
+        terraced=False, clusterRadiusCm=10000.0, clusterStrength=0.64, clusters=110,
         gnarledFraction=0.30,
         scaleRange=[0.70, 1.35], tiltDegrees=9.0, downhillTilt=0.35,
         wadiPreference=0.60,
@@ -374,7 +374,7 @@ SPECIES = [
         barkColour=(120, 110, 92), evergreen=True,
         band=dict(minZ=-18000.0, maxZ=17000.0, featherZ=3000.0, minSlope=2.0, maxSlope=42.0, slopeFeather=6.0),
         spacingCm=180.0, crownRadiusCm=70.0, densityPer100SqM=0.3,
-        terraced=False, clusterRadiusCm=4000.0, clusterStrength=0.55, clusters=160,
+        terraced=False, clusterRadiusCm=4000.0, clusterStrength=0.5, clusters=220,
         gnarledFraction=0.0,
         scaleRange=[0.70, 1.35], tiltDegrees=12.0, downhillTilt=0.20,
     ),
@@ -393,7 +393,7 @@ SPECIES = [
         barkColour=(122, 112, 94), evergreen=True,
         band=dict(minZ=-18000.0, maxZ=17000.0, featherZ=3000.0, minSlope=4.0, maxSlope=48.0, slopeFeather=6.0),
         spacingCm=150.0, crownRadiusCm=50.0, densityPer100SqM=0.18,
-        terraced=False, clusterRadiusCm=3000.0, clusterStrength=0.60, clusters=180,
+        terraced=False, clusterRadiusCm=3000.0, clusterStrength=0.52, clusters=240,
         gnarledFraction=0.0,
         scaleRange=[0.70, 1.35], tiltDegrees=14.0, downhillTilt=0.20,
     ),
@@ -409,7 +409,7 @@ SPECIES = [
         barkColour=(116, 100, 84), evergreen=True,
         band=dict(minZ=-18000.0, maxZ=17000.0, featherZ=3000.0, minSlope=3.0, maxSlope=44.0, slopeFeather=6.0),
         spacingCm=190.0, crownRadiusCm=75.0, densityPer100SqM=0.22,
-        terraced=False, clusterRadiusCm=5000.0, clusterStrength=0.62, clusters=140,
+        terraced=False, clusterRadiusCm=5000.0, clusterStrength=0.55, clusters=200,
         gnarledFraction=0.0,
         scaleRange=[0.70, 1.35], tiltDegrees=12.0, downhillTilt=0.20,
     ),
@@ -426,7 +426,7 @@ SPECIES = [
         barkColour=(128, 116, 96), evergreen=True,
         band=dict(minZ=-18000.0, maxZ=18000.0, featherZ=3000.0, minSlope=0.0, maxSlope=50.0, slopeFeather=6.0),
         spacingCm=160.0, crownRadiusCm=60.0, densityPer100SqM=0.55,
-        terraced=False, clusterRadiusCm=6000.0, clusterStrength=0.40, clusters=200,
+        terraced=False, clusterRadiusCm=6000.0, clusterStrength=0.38, clusters=240,
         gnarledFraction=0.0,
         scaleRange=[0.70, 1.35], tiltDegrees=10.0, downhillTilt=0.15,
     ),
@@ -445,7 +445,7 @@ SPECIES = [
         barkColour=(170, 158, 116), evergreen=False,
         band=dict(minZ=-20000.0, maxZ=18000.0, featherZ=3000.0, minSlope=0.0, maxSlope=40.0, slopeFeather=8.0),
         spacingCm=110.0, crownRadiusCm=35.0, densityPer100SqM=1.8,
-        terraced=False, clusterRadiusCm=9000.0, clusterStrength=0.35, clusters=240,
+        terraced=False, clusterRadiusCm=9000.0, clusterStrength=0.32, clusters=260,
         gnarledFraction=0.0,
         scaleRange=[0.65, 1.40], tiltDegrees=16.0, downhillTilt=0.10,
     ),
@@ -1725,7 +1725,8 @@ POISSON_K_SATURATION = 0.512        # measured for k = 12 the same way the test 
 
 
 MIN_HEADROOM = 1.5
-MAX_HEADROOM = 6.0
+MAX_HEADROOM = 8.0   # 6 left the hills visibly bare; 8 is where the offline run still
+                     # finishes in under an hour on this machine
 ACCEPTANCE_PROBE_SAMPLES = 3000
 
 
@@ -1845,12 +1846,22 @@ def cluster_weight(field, x, y):
     """Port of ClusterWeight(). 1 at a cluster centre, 1 - strength between clusters."""
     if field['count'] <= 0 or field['strength'] <= 0.0 or field['radius'] <= 0.0:
         return 1.0
+    centres = field.get('centres')
+    if centres is None:
+        # Cached: ClusterCentre() is a pure hash of (seed, index), so recomputing 200 of them for
+        # every one of a hundred thousand candidates is 40 million hash calls for no new
+        # information. The C++ recomputes them because it has no convenient place to cache; the
+        # values are identical either way.
+        seed = field['seed']
+        centres = [(hash_range(seed, index, 11, field['minx'], field['maxx']),
+                    hash_range(seed, index, 12, field['miny'], field['maxy']))
+                   for index in range(field['count'])]
+        field['centres'] = centres
     best = float('inf')
-    seed = field['seed']
-    for index in range(field['count']):
-        cx = hash_range(seed, index, 11, field['minx'], field['maxx'])
-        cy = hash_range(seed, index, 12, field['miny'], field['maxy'])
-        best = min(best, (x - cx) ** 2 + (y - cy) ** 2)
+    for cx, cy in centres:
+        d = (x - cx) ** 2 + (y - cy) ** 2
+        if d < best:
+            best = d
     t = clamp(math.sqrt(best) / field['radius'], 0.0, 1.0)
     falloff = 1.0 - t * t * (3.0 - 2.0 * t)
     return clamp((1.0 - field['strength']) + field['strength'] * falloff, 0.0, 1.0)

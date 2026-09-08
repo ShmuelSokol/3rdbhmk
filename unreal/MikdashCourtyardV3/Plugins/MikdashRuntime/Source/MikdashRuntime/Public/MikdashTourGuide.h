@@ -240,7 +240,7 @@ public:
      * Blueprint or from the menu. */
     UPROPERTY(Config, EditAnywhere, Category = "Mikdash|Tour") bool bBindKeys = true;
     /** Below UMikdashFrontEnd's pause key (1000) on purpose: the pause screen wins. */
-    UPROPERTY(Config, EditAnywhere, Category = "Mikdash|Tour") int32 InputPriority = 900;
+    UPROPERTY(Config, EditAnywhere, Category = "Mikdash|Tour") int32 TourInputPriority = 900;
 
     UPROPERTY(Config, EditAnywhere, Category = "Mikdash|Tour") FKey TogglePanelKey = EKeys::T;
     UPROPERTY(Config, EditAnywhere, Category = "Mikdash|Tour") FKey NextStopKey = EKeys::N;

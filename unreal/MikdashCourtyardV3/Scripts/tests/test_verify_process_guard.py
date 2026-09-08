@@ -41,5 +41,15 @@ class ProcessGuardTests(unittest.TestCase):
             gate.check_no_stray_editor()
         self.assertFalse(gate.results[-1][1])
 
+    def test_failed_precheck_never_launches_build(self):
+        gate.results.clear()
+        with patch.object(gate.sys, 'argv', ['verify.py', '--quick', '--build']), \
+             patch.object(gate, 'check_no_stray_editor', lambda: gate.check('editor precondition', False)), \
+             patch.object(gate, 'check_security_token'), patch.object(gate, 'check_map'), \
+             patch.object(gate, 'check_python_scripts'), patch.object(gate, 'check_specs'), \
+             patch.object(gate, 'check_receipts'), patch.object(gate, 'run_build') as build:
+            self.assertEqual(gate.main(), 1)
+            build.assert_not_called()
+
 if __name__ == '__main__':
     unittest.main()

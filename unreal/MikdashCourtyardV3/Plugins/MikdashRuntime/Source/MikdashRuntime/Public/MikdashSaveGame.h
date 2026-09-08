@@ -160,7 +160,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FMikdashLoadCompleted, int32, Slo
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMikdashStateRestored);
 /** Fired when an entry is unlocked for the first time. Not fired during a load. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMikdashCodexUnlocked, FName, EntryId);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMikdashSaveCodexUnlocked, FName, EntryId);
 
 /**
  * The save system.
@@ -317,7 +317,7 @@ public:
     UPROPERTY(BlueprintAssignable, Category = "Mikdash|Save") FMikdashSaveCompleted OnSaveCompleted;
     UPROPERTY(BlueprintAssignable, Category = "Mikdash|Save") FMikdashLoadCompleted OnLoadCompleted;
     UPROPERTY(BlueprintAssignable, Category = "Mikdash|Save") FMikdashStateRestored OnStateRestored;
-    UPROPERTY(BlueprintAssignable, Category = "Mikdash|Save") FMikdashCodexUnlocked OnCodexEntryUnlocked;
+    UPROPERTY(BlueprintAssignable, Category = "Mikdash|Save") FMikdashSaveCodexUnlocked OnCodexEntryUnlocked;
 
     // -- configuration ([/Script/MikdashRuntime.MikdashSaveSystem] in DefaultGame.ini) --
 

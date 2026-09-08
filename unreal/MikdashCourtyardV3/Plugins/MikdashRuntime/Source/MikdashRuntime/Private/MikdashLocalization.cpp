@@ -587,7 +587,7 @@ float UMikdashLocalization::MirrorLeft(float Left, float ChildWidth, float Paren
 void UMikdashLocalization::ProgressFill(float Fraction, float TrackWidth, float& OutLeft, float& OutWidth) const
 {
     const MikdashRtl::FFillSpan Span = MikdashRtl::ProgressFill(Fraction, TrackWidth, Flow());
-    OutLeft = static_cast<float>(Span.Left);
+    OutLeft = static_cast<float>(Span.Offset);
     OutWidth = static_cast<float>(Span.Width);
 }
 

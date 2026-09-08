@@ -514,7 +514,7 @@ bool AMikdashTourGuide::ReloadRoute()
         {
             NewKeys[Row].Add(static_cast<ANSICHAR>(Key[Char]));
         }
-        NewKeys[Row].Add(' ');
+        NewKeys[Row].Add('\0');
         Geometry.Key = NewKeys[Row].GetData();
         Geometry.Stand = ToTourPoint(Stand);
         Geometry.Look = ToTourPoint(Look);
@@ -1031,7 +1031,7 @@ void AMikdashTourGuide::BindKeys(APlayerController* Controller)
     if (Controller == nullptr) return;
     ReleaseKeys();
     TourInput = NewObject<UInputComponent>(this, UInputComponent::StaticClass(), TEXT("MikdashTourInput"));
-    TourInput->Priority = InputPriority;
+    TourInput->Priority = TourInputPriority;
     // Consumed, so a key the tour owns does not also reach a handler below it. Every key
     // is config precisely so a collision with another system is a settings edit.
     TourInput->BindKey(TogglePanelKey, IE_Pressed, this, &AMikdashTourGuide::HandleTogglePanelKey).bConsumeInput = true;

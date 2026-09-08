@@ -1,0 +1,72 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Candidate-only data fix for resident spawn refusals on the isolated 48 cm map, grounded in the real-RHI PIE receipt named in evidenceReceipt. It stages a candidate copy of the people-v3 directory with four authored routes moved clear of the actual blocking components, repoints ONLY the candidate map's RELEASE_PeopleV3Population actor at that copy, and moves the five pre-placed pilot bodies to their converted selected48 supports so the pilot population can start. Main map, shared people.json, C++ and held artwork are untouched. Physical capsule, floor tolerance and route-length rules are unchanged.",
+ "candidateMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "mainMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "expectedCandidateMapSha256Before": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "SpawnFix48-",
+ "receiptFolder": "SourceAssets/scale-review",
+ "receiptPrefix": "candidate-spawn-fix-",
+ "evidenceReceipt": "SourceAssets/scale-review/spawn-diagnosis-20260908T184544564223Z.json",
+ "directory": {
+  "sourceStaged": "Content/Distribution/People/people.json",
+  "sourceSha256": "88d6de2284a79f1a5940c046ac03f0b37fe42042ecdb71dd55d8928fc87419b2",
+  "candidateStaged": "Content/Distribution/People/people-candidate48.json",
+  "candidateRelativeToContent": "Distribution/People/people-candidate48.json",
+  "versionMustStay": "people-v3",
+  "noteSuffix": " Candidate48 spatial revision: four outer-court loops moved clear of the inner-court cell plinth, west terrace steps and north cell plinth measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; coordinates remain legacy50 source input decoded by the selected48 adapter."
+ },
+ "populationActor": {"label": "RELEASE_PeopleV3Population", "property": "people_directory_file", "expectedBefore": "Distribution/People/people.json"},
+ "pilotPopulationLabel": "RELEASE_ResidentPopulation",
+ "pilotBodies": {
+  "labels": ["RELEASE_Resident_authored-outer-visitor-01", "RELEASE_Resident_authored-outer-visitor-02", "RELEASE_Resident_authored-outer-visitor-03", "RELEASE_Resident_authored-outer-visitor-04", "RELEASE_Resident_authored-outer-visitor-05"],
+  "legacyFeetCm": [[4900, 1000, 300], [5120, 1120, 300], [4980, 1260, 300], [5240, 1330, 300], [4760, 1180, 300]],
+  "capsuleHalfHeightCm": 96,
+  "ratio": 0.96,
+  "note": "Actor location = converted feet + 96 cm capsule half height. Bodies stay physical (scale 1, capsule 34 x 96). Refuses if a body is not still at its legacy support (possible double conversion)."
+ },
+ "routeEdits": {
+  "note": "Legacy50 source centimetres (Z 300). Labels, actions, pauses, gaze anchors, laps, roles and dialogue unchanged. Only 'at' X/Y move.",
+  "miryam-bas-elyakim": {
+   "blocker": "Inner E cell supporting plinth (hollow complex-collision shell X 2688..3456, |Y| 360..2184, top 479.04 at 48 cm) - capsule top 480 penetrates its top face by 0.96 cm; whole west edge of the loop lies inside the shell",
+   "at": [[3700, 1050, 300], [5150, 1050, 300], [5150, 2750, 300], [3700, 2750, 300]]
+  },
+  "techiya-bas-nadav": {
+   "blocker": "West terrace bottom step tread (western paving/transition union, up-facing face at Z 312, X <= 1608 at 48 cm) and Inner N cell supporting plinth overhang (X 360..2184, Y -3456..-2688, underside 408)",
+   "at": [[1775, -5250, 300], [3375, -5250, 300], [3375, -3700, 300], [1775, -3700, 300]]
+  },
+  "pinchas-ben-achituv": {
+   "blocker": "Inner court clear floor underside (Z 460.8, X 1608..2400) and Inner court supporting platform top (479.04): waypoint 0 stands inside the platform shell with 170.8 cm headroom; west edge also crosses the E cell plinth",
+   "at": [[4000, 2100, 300], [6050, 2100, 300], [6050, 4300, 300], [4000, 4300, 300]]
+  },
+  "uriel-ben-shemaya": {
+   "blocker": "Inner court clear floor underside (460.8), Inner court supporting platform top (479.04) and Inner eastern gate wall jamb 1 underside (480): waypoint 0 is under the inner east gate jamb inside the platform shell",
+   "at": [[4000, 1750, 300], [5700, 1750, 300], [5700, 4350, 300], [4000, 4350, 300]]
+  }
+ },
+ "clearanceCheckAt48": {
+  "capsuleRadiusCm": 34,
+  "minimumMarginBeyondRadiusCm": 60,
+  "measuredBlockerBoxes": {
+   "innerCourtSupportingPlatform": {"min": [-2688, -2688, 288], "max": [2688, 2688, 479.04]},
+   "innerECellSupportingPlinthNorth": {"min": [2688, 360, 288], "max": [3456, 2184, 479.04]},
+   "innerECellSupportingPlinthSouth": {"min": [2688, -2184, 288], "max": [3456, -360, 479.04]},
+   "innerNCellSupportingPlinth": {"min": [360, -3456, 408], "max": [2184, -2688, 599]},
+   "innerSCellSupportingPlinth": {"min": [360, 2688, 408], "max": [2184, 3456, 599]},
+   "westTerraceStepsAndPaving": {"min": [-7488, -7488, 288], "max": [1608, 7488, 408]}
+  }
+ },
+ "notApplied": {
+  "yoav-ben-shimi": "Entire loop (1608..3000 x 1008..2640 at 48) lies inside the Inner court supporting platform shell and E cell plinth; needs a relocated route (design decision)",
+  "gad-ben-peleth": "Entire loop (1608..3000 x -2640..-1008 at 48) lies inside the Inner court supporting platform shell and E cell plinth; needs a relocated route (design decision)",
+  "rivka-bas-yoezer": "Waypoint 0 sits in the west terrace step riser (foundation face X 1512, paving face X 1488) under the N cell plinth; whole loop inside terrace/plinth/platform; route is also signature-locked by PopulationSceneMath.h::TryAuthoredRouteExtension, so any data change needs C++",
+  "nechemya-ben-tzuriel": "Stands on the bottom terrace step (floor 312 vs feet 288) at X 1584; a +150 cm X shift would clear it but the route is signature-locked by TryAuthoredRouteExtension, so any data change needs C++",
+  "pilotExtendedRoute": "Look target (5000,1180,300) is not in PopulationSceneMath.h::TryLook allowlist; classification is a C++ change (or an authored gaze change) - not applied"
+ },
+ "pieTest": {
+  "requiredFlags": ["-Candidate48", "-TestSavePrefix=FableProbe_<unique>", "Game ini SlotNamePrefix/SaveSlot overrides", "-unattended", "-NoSplash", "-abslog=<unique>"],
+  "expectation": "Observed spawn counts are recorded, never assumed; every moved resident is re-probed with the spawner's capsule and its legs are swept"
+ }
+}

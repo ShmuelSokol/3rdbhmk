@@ -1,0 +1,215 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_paroches_v15.py: import the user-APPROVED V15 paroches artwork (SHA-256 f48ccf05...2df89) as a fresh ParochesV15 namespace (texture, authored fabric normal, two-sided fabric material, hanging cloth panel with a whole-panel UV chart, gold fixings), spawn RELEASE_ParochesV15_Cloth / _Fixings on the Heichal face of the Kodesh partition and HIDE (never delete) the old red curtain actors. Two targets, one per run: -Main50 (current 50 cm main map, 350 x 300 cm) and -Candidate48 (isolated 48 cm candidate, 336 x 288 cm). Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "approval": {
+    "approvedPngSha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+    "approvedSource": "C:\\Users\\shmue\\Documents\\Codex\\2026-09-08\\what-color-is-the-paroches-of\\output\\paroches\\third-temple-handwoven-v15.png",
+    "frozenCopy": "SourceAssets/sanctuary-detail/ParochesV15/third-temple-handwoven-v15.png",
+    "basis": "HANDOFF-FOR-FABLE-20260908.md, section 'Approved paroches - do not lose this asset': explicit user approval of V15; PRIVATE-REVIEW-v15.md preapproval wording superseded. V1/V7/V9 remain held (SourceAssets/sanctuary-detail/ParochesFabricV1/V7/V8/V9, Scripts/release_paroches_fabric.py) and are never read by this script."
+  },
+  "source": {
+    "folder": "SourceAssets/sanctuary-detail/ParochesV15",
+    "manifest": "SourceAssets/sanctuary-detail/ParochesV15/geometry-manifest.json",
+    "frozenManifestSha256": "38f83b088c41a51f920d1725f382c1f33398cf20d088624ec1c988a47048900a",
+    "creator": "Scripts/create_paroches_v15.py",
+    "normalPng": "SourceAssets/sanctuary-detail/ParochesV15/third-temple-handwoven-v15_normal.png",
+    "sourcesNote": "SourceAssets/sanctuary-detail/ParochesV15/sources.md"
+  },
+  "namespace": "/Game/MikdashV3/MaterialReview/ParochesV15",
+  "folders": {
+    "meshes": "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes",
+    "textures": "/Game/MikdashV3/MaterialReview/ParochesV15/Textures",
+    "materials": "/Game/MikdashV3/MaterialReview/ParochesV15/Materials"
+  },
+  "sharedAssetRule": "Textures and the fabric material are shared by both targets: the first run creates them, a later run for the other target verifies them by readback (texture path, sRGB, two-sided, wiring) and reuses them. Per-target meshes (SM_ParochesV15_Cloth_50/_48, SM_ParochesV15_Fixings_50/_48) are imported once each; an existing mesh asset refuses re-import unless -ParochesV15PlaceOnly.",
+  "size": {
+    "amot": [7, 6],
+    "rule": "width = 7 amot, height = 6 amot: the Kodesh HaKodashim entrance is 7 wide x 6 high (Yechezkel 41:3; book pp. 184-186, Mishkenei Elyon 159-166) and the paroches is exactly the size of the gate (same pages; Lishchno Tidreshu pp. 59-60: on the Heichal side). 48 cm amah -> 336 x 288 cm (handoff figure, agrees); 50 cm amah (current main architecture) -> 350 x 300 cm.",
+    "researchFile": "SourceAssets/research/book-scene-requirements-20260907.md"
+  },
+  "targets": {
+    "Main50": {
+      "flag": "-Main50",
+      "amahCm": 50.0,
+      "widthCm": 350.0,
+      "heightCm": 300.0,
+      "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+      "lastKnownMapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+      "meshSuffix": "50",
+      "expectedOpening": {
+        "xMin": -5700.0,
+        "xMax": -5600.0,
+        "yMin": -175.0,
+        "yMax": 175.0,
+        "floorZ": 925.0,
+        "lintelZ": 1225.0,
+        "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json openingGeometry.openings.Kodesh (live float32 readback -175.00015/174.99953/925.00006 within tolerance)"
+      },
+      "location": [-5588.0, 0.0, 928.0],
+      "rotation": [0.0, -90.0, 0.0],
+      "derivation": "X = Heichal face of the partition (xMax -5600) + standoffCm 12 = -5588; Y = 0 (opening centre); Z = floorZ 925 + hemClearanceCm 3 = 928 (same hem clearance as the old cloth at 928). Cloth world Y +-175 = jamb planes, Z 928..1228 (3 cm above the 1225 lintel underside, on the Heichal face, like the old cloth top at 1234).",
+      "neighbours": "Kodesh leaves RELEASE_Doors_25..36 at X -5824.5..-5648 (inside the Kodesh HaKodashim, opened inward); old curtain RELEASE_Doors_37..39 at [-5585, 0, 928] yaw -90, cloth X -5593.4..-5576.5, Y +-180, Z 928..1234.",
+      "offlineOpeningEvidence": {
+        "type": "doorsReceipt",
+        "path": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json"
+      }
+    },
+    "Candidate48": {
+      "flag": "-Candidate48",
+      "amahCm": 48.0,
+      "widthCm": 336.0,
+      "heightCm": 288.0,
+      "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+      "lastKnownMapSha256": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+      "meshSuffix": "48",
+      "expectedOpening": {
+        "xMin": -5472.0,
+        "xMax": -5376.0,
+        "yMin": -168.0,
+        "yMax": 168.0,
+        "floorZ": 888.0,
+        "lintelZ": 1176.0,
+        "source": "Main50 opening x 0.96 about the fixed origin [0,0,0] (SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json ratio 0.96; the partition shoulders/lintel StaticMeshActor_142/143/144 are among the 2,633 scaled architecture actors). Agrees with SourceAssets/scale-review/Doors48V1/spec.json fit: opening 336 x 288, leaves at Z 890 = floor 888 + 2."
+      },
+      "location": [-5364.0, 0.0, 891.0],
+      "rotation": [0.0, -90.0, 0.0],
+      "derivation": "X = scaled Heichal face (xMax -5376) + standoffCm 12 = -5364; Y = 0; Z = floorZ 888 + hemClearanceCm 3 = 891. Cloth world Y +-168 = scaled jamb planes, Z 891..1179 (3 cm above the 1176 lintel underside).",
+      "neighbours": "Doors48V1 Kodesh leaves RELEASE_Doors_25..36 re-placed at X -5591.5..-5422 (Z 890..1174). The old curtain actors RELEASE_Doors_37..39 were NOT converted by the candidate (receipt: 0 door/paroches changes) and still sit at X -5593.4..-5573.4 / Y +-191 / Z 928..1243, i.e. INSIDE the scaled Kodesh HaKodashim and through the second leaves; hiding them removes a stale 50 cm object.",
+      "offlineOpeningEvidence": {
+        "type": "candidateReceipt",
+        "path": "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json",
+        "actorNames": {
+          "shoulderNorth": "StaticMeshActor_142",
+          "shoulderSouth": "StaticMeshActor_143",
+          "lintel": "StaticMeshActor_144"
+        }
+      }
+    }
+  },
+  "openingActors": {
+    "shoulderNorth": "SM_0142_architecture_Kodesh_partition_shoulder",
+    "shoulderSouth": "SM_0143_architecture_Kodesh_partition_shoulder",
+    "lintel": "SM_0144_architecture_Kodesh_partition_lintel",
+    "rule": "Found live by static-mesh asset NAME (both maps carry the same architecture assets; the candidate scales the actors). xMax of the shoulders = Heichal face; yMax of the north shoulder / yMin of the south shoulder = jamb planes; min Z of the shoulders = floor; min Z of the lintel = lintel underside. Each must agree with expectedOpening within openingToleranceCm or the run refuses before any mutation.",
+    "openingToleranceCm": 0.5
+  },
+  "standoffCm": 12.0,
+  "hemClearanceCm": 3.0,
+  "hideActors": {
+    "labels": ["RELEASE_Doors_37_Paroches_Cloth", "RELEASE_Doors_38_Paroches_Hem", "RELEASE_Doors_39_Paroches_Fixings"],
+    "meshNameMustContain": "Paroches",
+    "method": "actor.modify(True); actor.set_editor_property('hidden', True) (bHidden, serialized) and set_visibility(False, True) on every StaticMeshComponent (serialized); tag ParochesV15HiddenOldCurtain added. Nothing is destroyed, moved or re-materialed.",
+    "restoreRule": "For each label: set_editor_property('hidden', False), set_visibility(True, True) on the components, remove the tag; or restore the checkpoint .umap.",
+    "note": "All three old actors are hidden, not only the cloth: the old hem (360 cm wide, red) and the old rod/rings would otherwise frame a narrower V15 panel at a different height."
+  },
+  "labelPrefix": "RELEASE_ParochesV15_",
+  "folder": "Release/ParochesV15",
+  "actorTag": "ReleaseParochesV15",
+  "collisionProfile": "NoCollision",
+  "collisionNote": "Same as the old curtain (NoCollision): the curtain is a visual veil; access to the Kodesh HaKodashim is governed by the service/access rules, not by cloth collision.",
+  "textures": {
+    "baseColor": {
+      "name": "T_ParochesV15_BaseColor",
+      "sourceKey": "frozenCopy",
+      "srgb": true,
+      "compression": "TC_DEFAULT",
+      "samplerType": "SAMPLERTYPE_COLOR"
+    },
+    "normal": {
+      "name": "T_ParochesV15_FabricNormal",
+      "sourceKey": "normalPng",
+      "srgb": false,
+      "compression": "TC_NORMALMAP",
+      "flipGreenChannel": false,
+      "samplerType": "SAMPLERTYPE_NORMAL",
+      "authored": "Derived offline by create_paroches_v15.fabric_normal from the artwork's high-passed luminance at low amplitude (slopeScale 2.5, tilt clamp 0.35, DirectX green). It is an authored shading aid, not measured textile data."
+    },
+    "addressMode": "TA_CLAMP",
+    "powerOfTwoMode": "STRETCH_TO_POWER_OF_TWO",
+    "powerOfTwoNote": "Source PNGs are 1355 x 1161 (not a power of two). Imported as-is the engine keeps the pixels but forces no mip maps and no streaming, so the weave would alias at distance. Default: power_of_two_mode STRETCH_TO_POWER_OF_TWO (both axes -> 2048, whole image, UV 0..1 unchanged, mips generated). -ParochesV15KeepNPOT leaves the mode at None; the receipt records the resulting size either way.",
+    "mipGenSettings": "TMGS_FROM_TEXTURE_GROUP"
+  },
+  "material": {
+    "name": "M_ParochesV15_Fabric",
+    "twoSided": true,
+    "roughness": 0.85,
+    "metallic": 0.0,
+    "normalStrengthDefault": 1.0,
+    "flipVDefault": 0.0,
+    "naniteUsage": true,
+    "graph": "TextureCoordinate(0) -> Custom(HLSL float2(UV.x, lerp(UV.y, 1 - UV.y, saturate(Flip)))) [Flip = ScalarParameter FlipV, default 0] -> 'UVs' of TextureSampleParameter2D 'BaseColor' (sRGB colour) -> MP_BASE_COLOR, and -> 'UVs' of TextureSampleParameter2D 'FabricNormal' (normal sampler) -> Lerp(A = Constant3Vector(0,0,1), B = normal RGB, Alpha = ScalarParameter NormalStrength 1.0) -> MP_NORMAL. Constant 0.85 -> MP_ROUGHNESS; Constant 0 -> MP_METALLIC. two_sided True. Nanite usage set. WorldPositionOffset never wired.",
+    "pinNames": "TextureSample(Parameter2D) UV pin is 'UVs'; Lerp pins 'A', 'B', 'Alpha'; Custom pins are its input_name values. Pin names are resolved case-insensitively from get_material_expression_input_names and the run refuses on a missing pin. Setters (set_editor_property, connect_*) are never trusted by return value alone: every property is read back and recorded.",
+    "uvConvention": "Mesh UVs: u 0..1 = image left -> right across the cloth (arc length), v with the OBJ vt v = 1 at the cloth top; the FBX/OBJ importer maps V_ue = 1 - v_obj so image row 0 lands at the top. If the first visual review shows the artwork upside down, set FlipV = 1 on a material instance instead of re-importing; the receipt records this fallback.",
+    "whyMeshUVs": "The old SM_ParochesClothV1 carried per-face UV scraps, which forced world/object-space projections (ParochesPatternV1, ParochesFabricV7). SM_ParochesV15_Cloth_* is authored with one whole-panel chart, so the artwork follows the drape folds and the importer computes a coherent tangent frame for the fabric normal."
+  },
+  "goldMaterialCandidates": [
+    {"path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold", "kind": "gold"},
+    {"path": "/Game/MikdashV3/MaterialReview/AronStudyV1/M_AronStudyV1_Gold", "kind": "gold_fallback"}
+  ],
+  "importSettings": {
+    "note": "Identical to the reviewed OBJ adapter path of Scripts/release_import_doors.spec.json / create_heikhal_keilim.run_native: FbxFactory, import normals, no materials, no collision, no Nanite build. One material slot per OBJ 'g' group; every slot is assigned.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "windingCheck": {
+    "maxRelativeVolumeError": 0.001,
+    "rule": "GeometryScript divergence volume with UE face normals must be positive, agree with the manifest part_volume_sum_cm3 and show zero face-normal/cross disagreements (needs -EnablePlugins=GeometryScripting). Without a passing check nothing is placed unless -ParochesV15AllowUnverifiedWinding (recorded)."
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "meshBoundsToleranceCm": 0.01,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared."
+  },
+  "clearance": {
+    "refuseFolderPrefixes": ["Measured architecture"],
+    "unionAabbVolumeCm3": 1000000000.0,
+    "rule": "Planned cloth/fixings world AABBs are tested against every mesh-bearing actor of the level. An overlap with a Measured architecture actor refuses, EXCEPT hollow unions whose whole-actor AABB exceeds unionAabbVolumeCm3 (1000 m3, e.g. the House walls union SM_2630; whole-part AABBs of hollow unions are false-blocker traps per AGENTS.md) - those are recorded as unionAabbNotEvaluated. Other overlaps (veneers, friezes, release actors) are recorded, not refused. The fixings' brackets are meant to end 0.25 cm inside the partition face, so the partition shoulders/lintel are excluded by name; the hidden old curtain actors are excluded by label. Main50 evidence: the planned cloth box lies strictly inside the old cloth box (X -5593.4..-5576.5, Y +-180, Z 928..1234) that the doors receipt proved clear of all 43 wall boxes."
+  },
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ParochesV15-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/ParochesV15",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "sourceReference": "Shemot 26:31 (techelet, argaman, tolaat shani, shesh; keruvim woven in); Shemot 26:32 (hung on pillars with hooks - Mishkan); Yechezkel 41:3 with book pp. 184-186 (gate 7 x 6, paroches exactly the gate size); Lishchno Tidreshu pp. 59-60 (Heichal side). The composition itself - one central keruv, lion/human shared head, two palms, drape, blood detail - is AUTHORED (see sources.md).",
+  "limitations": [
+    "The artwork's composition (single central keruv, lion-and-human shared head, two palms, border, blood detail) is an approved artistic choice, not a certified reconstruction.",
+    "Drape folds, rod, rings, brackets and finials are authored; the sources give no fixing design for the Third Temple paroches.",
+    "The fabric normal is derived from image luminance at low amplitude; it is a shading aid, not textile data.",
+    "Exact gate-size cloth hung 12 cm before the wall face: oblique views from the Heichal can see slivers beside the panel edges; the old 5 cm side overlap is deliberately not reproduced (book: exactly the size of the gate).",
+    "Material graph level only; shader compile, colour, orientation (FlipV fallback) and look are unverified in the -nullrhi commandlet until a real editor/PIE review.",
+    "The candidate run does not touch the other unconverted 48 cm dependencies; the old curtain actors are hidden, not converted."
+  ]
+}

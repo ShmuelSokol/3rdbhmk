@@ -1,0 +1,1414 @@
+{
+  "status": "READ_ONLY_INVENTORY_COMPLETE",
+  "stamp": "20260908T183719554035Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256Before": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+  "errors": [],
+  "cvars": {
+    "r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange": 0,
+    "r.Shadow.Virtual.Enable": 1,
+    "r.DynamicGlobalIlluminationMethod": 1,
+    "r.ReflectionMethod": 1,
+    "r.Streaming.PoolSize": 1000,
+    "r.TextureStreaming": 0,
+    "r.Nanite": 1,
+    "r.Lumen.ScreenProbeGather.RadianceCache": 1,
+    "r.AntiAliasingMethod": 4,
+    "r.EyeAdaptation.CachedLightingPreExposure": 8,
+    "r.Lumen.HardwareRayTracing": 1,
+    "r.SkylightIntensityMultiplier": 1,
+    "r.EyeAdaptation.LensAttenuation": 0.7799999713897705,
+    "r.Streaming.MipBias": 0.0,
+    "r.EyeAdaptation.ExponentialTransitionDistance": 1.5,
+    "r.Lumen.DiffuseIndirect.MinReflectionConeAngle": 0.0
+  },
+  "actorCount": 7789,
+  "postProcessVolumes": [
+    {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "enabled": true,
+      "unbound": true,
+      "blend_weight": 1.0,
+      "priority": 1000.0,
+      "settings": {
+        "auto_exposure_method": "<AutoExposureMethod.AEM_HISTOGRAM: 0>",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "auto_exposure_speed_up": 3.0,
+        "auto_exposure_speed_down": 1.0,
+        "auto_exposure_apply_physical_camera_exposure": true,
+        "histogram_log_min": -4.0,
+        "histogram_log_max": 20.0,
+        "auto_exposure_bias_curve": null,
+        "auto_exposure_meter_mask": null,
+        "local_exposure_method": "<LocalExposureMethod.BILATERAL: 0>",
+        "local_exposure_highlight_contrast_scale": 1.0,
+        "local_exposure_shadow_contrast_scale": 1.0,
+        "local_exposure_detail_strength": 1.0,
+        "local_exposure_blurred_luminance_blend": 0.6000000238418579,
+        "local_exposure_blurred_luminance_kernel_size_percent": 50.0,
+        "local_exposure_middle_grey_bias": 0.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_black_clip": 0.0,
+        "film_white_clip": 0.019999999552965164,
+        "white_temp": 6500.0,
+        "white_tint": 0.0,
+        "color_saturation": "<Struct 'Vector4' (0x000002A92D150510) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_contrast": "<Struct 'Vector4' (0x000002A92D150530) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_gamma": "<Struct 'Vector4' (0x000002A92D150550) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_gain": "<Struct 'Vector4' (0x000002A92D150570) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_offset": "<Struct 'Vector4' (0x000002A92D150590) {x: 0.000000, y: 0.000000, z: 0.000000, w: 0.000000}>",
+        "color_saturation_highlights": "<Struct 'Vector4' (0x000002A92D1506F0) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_contrast_highlights": "<Struct 'Vector4' (0x000002A92D150710) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_gain_highlights": "<Struct 'Vector4' (0x000002A92D150750) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_correction_highlights_min": 0.5,
+        "color_saturation_shadows": "<Struct 'Vector4' (0x000002A92D1505B0) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_contrast_shadows": "<Struct 'Vector4' (0x000002A92D1505D0) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_gamma_shadows": "<Struct 'Vector4' (0x000002A92D1505F0) {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}>",
+        "color_correction_shadows_max": 0.09000000357627869,
+        "bloom_intensity": 0.30000001192092896,
+        "bloom_threshold": -1.0,
+        "bloom_method": "<BloomMethod.BM_SOG: 0>",
+        "vignette_intensity": 0.30000001192092896,
+        "scene_fringe_intensity": 0.0,
+        "film_grain_intensity": 0.0,
+        "dynamic_global_illumination_method": "<DynamicGlobalIlluminationMethod.LUMEN: 1>",
+        "reflection_method": "<ReflectionMethod.LUMEN: 1>",
+        "lumen_scene_lighting_quality": 1.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5,
+        "lumen_max_trace_distance": 20000.0,
+        "lumen_diffuse_color_boost": 1.0,
+        "lumen_skylight_leaking": 0.0,
+        "lumen_full_skylight_leaking_distance": 1000.0,
+        "lumen_ray_lighting_mode": "<LumenRayLightingModeOverride.DEFAULT: 0>",
+        "ambient_occlusion_intensity": 0.5,
+        "ambient_occlusion_radius": 200.0,
+        "ambient_occlusion_static_fraction": 1.0,
+        "indirect_lighting_color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "camera_iso": 100.0,
+        "camera_shutter_speed": 125.0,
+        "depth_of_field_fstop": 8.0,
+        "sceneColorTint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scene_color_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "motion_blur_amount": 0.0
+      },
+      "overrides": {
+        "override_auto_exposure_method": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true,
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_low_percent": true,
+        "override_auto_exposure_high_percent": true,
+        "override_auto_exposure_speed_up": true,
+        "override_auto_exposure_speed_down": true,
+        "override_auto_exposure_apply_physical_camera_exposure": true,
+        "override_histogram_log_min": true,
+        "override_histogram_log_max": true,
+        "override_film_slope": true,
+        "override_film_toe": true,
+        "override_film_shoulder": true,
+        "override_film_white_clip": true,
+        "override_bloom_intensity": true,
+        "override_vignette_intensity": true,
+        "override_scene_fringe_intensity": true,
+        "override_film_grain_intensity": true,
+        "override_dynamic_global_illumination_method": true,
+        "override_reflection_method": true,
+        "override_lumen_scene_detail": true,
+        "override_lumen_final_gather_quality": true,
+        "override_lumen_reflection_quality": true,
+        "override_camera_iso": true,
+        "override_camera_shutter_speed": true,
+        "override_depth_of_field_fstop": true,
+        "override_motion_blur_amount": true
+      }
+    }
+  ],
+  "lights": [
+    {
+      "class": "DirectionalLight",
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "rotation": [
+        -30.000000000000004,
+        -160.0,
+        -0.0
+      ],
+      "forward": [
+        -0.8138,
+        -0.2962,
+        -0.5
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 6500.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "contact_shadow_length": 0.019999999552965164,
+        "contact_shadow_length_in_ws": false,
+        "shadow_amount": 1.0,
+        "cast_shadows": true,
+        "atmosphere_sun_light": true,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "specular_scale": 1.0,
+        "dynamic_shadow_distance_movable_light": 25000.0,
+        "shadow_cascade_bias_distribution": 1.0,
+        "enable_light_shaft_bloom": true,
+        "bloom_scale": 0.10000000149011612,
+        "enable_light_shaft_occlusion": true,
+        "occlusion_mask_darkness": 0.5,
+        "cast_shadows_on_atmosphere": true,
+        "cast_shadows_on_clouds": true,
+        "shadow_source_angle_factor": 1.0
+      }
+    },
+    {
+      "class": "PointLight",
+      "name": "PointLight_0",
+      "label": "RELEASE_KodeshInteriorLight",
+      "location": [
+        -6200.0,
+        0.0,
+        1750.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "props": {
+        "intensity": 1200.0,
+        "intensity_units": "<LightUnits.CANDELAS: 1>",
+        "use_temperature": false,
+        "temperature": 6500.0,
+        "light_color": [
+          255,
+          239,
+          206,
+          255
+        ],
+        "attenuation_radius": 1000.0,
+        "cast_shadows": true,
+        "specular_scale": 1.0,
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "source_width": {
+          "unavailable": "PointLightComponent: Failed to find property 'source_width' for attribute 'source_width' on 'PointLightComponent'"
+        },
+        "source_height": {
+          "unavailable": "PointLightComponent: Failed to find property 'source_height' for attribute 'source_height' on 'PointLightComponent'"
+        },
+        "source_radius": 60.0
+      }
+    },
+    {
+      "class": "RectLight",
+      "name": "RectLight_0",
+      "label": "RELEASE_HeikhalEntranceFill",
+      "location": [
+        -3750.0,
+        0.0,
+        2800.0
+      ],
+      "rotation": [
+        -0.0,
+        -20.0,
+        180.0
+      ],
+      "props": {
+        "intensity": 15000.0,
+        "intensity_units": "<LightUnits.CANDELAS: 1>",
+        "use_temperature": true,
+        "temperature": 4300.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "attenuation_radius": 3500.0,
+        "cast_shadows": true,
+        "specular_scale": 0.25,
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 0.0,
+        "source_width": 400.0,
+        "source_height": 200.0,
+        "source_radius": {
+          "unavailable": "RectLightComponent: Failed to find property 'source_radius' for attribute 'source_radius' on 'RectLightComponent'"
+        }
+      }
+    }
+  ],
+  "skyLights": [
+    {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "props": {
+        "intensity": 1.2999999523162842,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "<SkyLightSourceType.SLS_CAPTURED_SCENE: 0>",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cast_shadows": true,
+        "occlusion_max_distance": 1000.0,
+        "contrast": 0.0,
+        "occlusion_exponent": 1.0,
+        "min_occlusion": 0.0,
+        "cubemap_resolution": 128,
+        "sky_distance_threshold": 150000.0,
+        "cast_raytraced_shadow": "<CastRayTracedShadow.USE_PROJECT_SETTING: 1>",
+        "specular_scale": {
+          "unavailable": "SkyLightComponent: Failed to find property 'specular_scale' for attribute 'specular_scale' on 'SkyLightComponent'"
+        }
+      }
+    }
+  ],
+  "fog": [
+    {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.94,
+          0.82,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0,
+        "volumetric_fog_start_distance": 0.0,
+        "volumetric_fog_albedo": [
+          255,
+          255,
+          255,
+          255
+        ]
+      }
+    }
+  ],
+  "skyAtmosphere": [
+    {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "ground_albedo": [
+          170,
+          170,
+          170,
+          255
+        ],
+        "transform_mode": "<SkyAtmosphereTransformMode.PLANET_TOP_AT_ABSOLUTE_WORLD_ORIGIN: 0>"
+      }
+    }
+  ],
+  "volumetricClouds": [
+    {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "shadow_view_sample_count_scale": 1.0
+      }
+    }
+  ],
+  "cameras": [
+    {
+      "name": "CameraActor_0",
+      "label": "01 Courtyard arrival",
+      "location": [
+        2100.0,
+        0.0,
+        785.0
+      ],
+      "blendWeight": 1.0
+    },
+    {
+      "name": "CameraActor_1",
+      "label": "02 Altar and southern ramp",
+      "location": [
+        1300.0,
+        2100.0,
+        800.0
+      ],
+      "blendWeight": 1.0
+    },
+    {
+      "name": "CameraActor_2",
+      "label": "03 Ulam facade",
+      "location": [
+        -1400.0,
+        1250.0,
+        800.0
+      ],
+      "blendWeight": 1.0
+    },
+    {
+      "name": "CameraActor_3",
+      "label": "04 Entire Temple",
+      "location": [
+        15500.0,
+        14500.0,
+        11500.0
+      ],
+      "blendWeight": 1.0
+    }
+  ],
+  "staticMeshComponentCount": 7767,
+  "naniteEnabledMeshComponents": 7632,
+  "materialSlotCounts": {
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Asphalt": 1667,
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": 1600,
+    "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold": 1259,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar": 1155,
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_StonePath": 1141,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered": 587,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Rubber": 404,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim": 335,
+    "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold": 303,
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain": 256,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_TealPaint": 244,
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": 211,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_DarkTrim": 157,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_dark_3e5e63b444": 130,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs": 127,
+    "/Game/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdRobeV1": 90,
+    "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster": 88,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Aluminium": 87,
+    "/Game/MikdashV3/MaterialReview/ShulchanV2/M_ShulchanV2_Bread": 84,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster": 59,
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": 58,
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm": 57,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks": 52,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_SeatFabric": 42,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_edge_9a3a3bf220": 40,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble": 40,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_cedar_6e144262d4": 36,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone": 25,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Glass": 22,
+    "/Engine/EngineMaterials/DefaultMaterial": 18,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_AmberLens": 14,
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": 13,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_mouth_1d279cabc1": 12,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_SafetyYellow": 10,
+    "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_Landmark_dd3b1b60": 9,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64": 8,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_IvoryPaint": 8,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_CabinLining": 8,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Headlamp": 5,
+    "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2": 4,
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor": 3,
+    "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview": 3,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_body_bc1f806a62": 2,
+    "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_Landmark_0cb4c58a": 2,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_RedLens": 2,
+    "/Game/MikdashV3/Materials/M_Water_e67b7dbe9a": 1,
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_ash_58ecbf1f0b": 1,
+    "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue": 1,
+    "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Rooftop_tanks_ISM": 1,
+    "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Rooftop_panels_ISM": 1,
+    "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Tree_crowns_ISM": 1,
+    "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Tree_trunks_ISM": 1,
+    "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Cemetery_markers_ISM": 1,
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_0": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_1": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_2": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_3": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_4": 1,
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_5": 1,
+    "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_CabinFloor": 1,
+    "/Game/MikdashV3/MaterialReview/ParochesPatternV1/Materials/M_ParochesPattern": 1,
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_24": 1,
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_25": 1,
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_0": 1,
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_1": 1,
+    "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview": 1
+  },
+  "materialSlotCountsByTopFolder": {
+    "Measured architecture": {
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar": 1155,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered": 587,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim": 332,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_dark_3e5e63b444": 130,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs": 127,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster": 59,
+      "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm": 57,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks": 52,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_edge_9a3a3bf220": 40,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble": 40,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone": 25,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_mouth_1d279cabc1": 12,
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": 6,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64": 4,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor": 3,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_copper_body_bc1f806a62": 2,
+      "/Game/MikdashV3/Materials/M_Water_e67b7dbe9a": 1,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_ash_58ecbf1f0b": 1,
+      "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue": 1
+    },
+    "Jerusalem context": {
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Asphalt": 1667,
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": 1498,
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_StonePath": 1141,
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain": 256,
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": 58,
+      "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_Landmark_dd3b1b60": 9,
+      "/Game/MikdashV3/JerusalemContext/StreetMaterials/M_Jerusalem_Landmark_0cb4c58a": 2,
+      "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Rooftop_tanks_ISM": 1,
+      "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Rooftop_panels_ISM": 1,
+      "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Tree_crowns_ISM": 1,
+      "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Tree_trunks_ISM": 1,
+      "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Materials/M_JerusalemInstance_Cemetery_markers_ISM": 1
+    },
+    "FutureMountV1": {
+      "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm": 1,
+      "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview": 1
+    },
+    "Integrated review": {
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": 7
+    },
+    "Release": {
+      "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold": 1259,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Rubber": 404,
+      "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold": 303,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_TealPaint": 244,
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": 211,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_DarkTrim": 157,
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": 102,
+      "/Game/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdRobeV1": 90,
+      "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster": 88,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Aluminium": 87,
+      "/Game/MikdashV3/MaterialReview/ShulchanV2/M_ShulchanV2_Bread": 84,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_SeatFabric": 42,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_cedar_6e144262d4": 36,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Glass": 22,
+      "/Engine/EngineMaterials/DefaultMaterial": 18,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_AmberLens": 14,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_SafetyYellow": 10,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_IvoryPaint": 8,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_CabinLining": 8,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Headlamp": 5,
+      "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_red_3bfe5dee64": 4,
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2": 4,
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim": 3,
+      "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_RedLens": 2,
+      "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview": 2
+    },
+    "None": {
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_24": 1,
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_25": 1,
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_0": 1,
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_1": 1
+    }
+  },
+  "instances": {
+    "CedarPlanks": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+      "diskSha256": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 113.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/CedarPlanks/T_CedarPlanks_Albedo.T_CedarPlanks_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/CedarPlanks/T_CedarPlanks_Normal.T_CedarPlanks_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/CedarPlanks/T_CedarPlanks_ARM.T_CedarPlanks_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 113.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "GoldFloor": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+      "diskSha256": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 250.0,
+        "NormalStrength": 0.4000000059604645,
+        "RoughnessScale": 1.7549999952316284,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "Tint": [
+        1.0,
+        0.71,
+        0.29,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Albedo.T_ScratchedMetal_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Normal.T_ScratchedMetal_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_ARM.T_ScratchedMetal_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 250.0,
+        "NormalStrength": 0.4000000059604645,
+        "RoughnessScale": 1.7549999952316284,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "GoldHammered": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "diskSha256": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 250.0,
+        "NormalStrength": 0.6000000238418579,
+        "RoughnessScale": 1.0,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "Tint": [
+        0.6105,
+        0.39157,
+        0.0865,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Albedo.T_ScratchedMetal_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Normal.T_ScratchedMetal_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_ARM.T_ScratchedMetal_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 250.0,
+        "NormalStrength": 0.6000000238418579,
+        "RoughnessScale": 1.0,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "LimestoneAshlar": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "diskSha256": "8749ccad3504e086ee646a5eb45d6029a1c523d54c5795f3b57b1c883586b386",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "LimestoneTrim": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "diskSha256": "6c949b6606862abbaa86c895f4cd7cba6f3253629f6578f95e94916db01e342a",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 0.800000011920929,
+        "RoughnessScale": 0.949999988079071,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.08,
+        1.06,
+        1.02,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 0.800000011920929,
+        "RoughnessScale": 0.949999988079071
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "Marble": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+      "diskSha256": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 150.0,
+        "NormalStrength": 0.6000000238418579,
+        "RoughnessScale": 0.8999999761581421,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/Marble/T_Marble_Albedo.T_Marble_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/Marble/T_Marble_Normal.T_Marble_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/Marble/T_Marble_ARM.T_Marble_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 150.0,
+        "NormalStrength": 0.6000000238418579,
+        "RoughnessScale": 0.8999999761581421
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "PavingInner": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+      "diskSha256": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.12,
+        1.1,
+        1.05,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Albedo.T_PavingSlabs_Albedo",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Normal.T_PavingSlabs_Normal",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_ARM.T_PavingSlabs_ARM",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "PavingSlabs": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+      "diskSha256": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Albedo.T_PavingSlabs_Albedo",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Normal.T_PavingSlabs_Normal",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_ARM.T_PavingSlabs_ARM",
+          "sizeX": 4096,
+          "sizeY": 4096,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "Plaster": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+      "diskSha256": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 100.0,
+        "NormalStrength": 0.800000011920929,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        0.97,
+        0.88,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_Albedo.T_Plaster_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_Normal.T_Plaster_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_ARM.T_Plaster_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 100.0,
+        "NormalStrength": 0.800000011920929,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    },
+    "RoughStone": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+      "diskSha256": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 250.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/Materials/PBR/RoughStone/T_RoughStone_Albedo.T_RoughStone_Albedo",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": true,
+          "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/Materials/PBR/RoughStone/T_RoughStone_Normal.T_RoughStone_Normal",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/Materials/PBR/RoughStone/T_RoughStone_ARM.T_RoughStone_ARM",
+          "sizeX": 2048,
+          "sizeY": 2048,
+          "srgb": false,
+          "compression_settings": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lod_bias": 0,
+          "max_texture_size": 0,
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+          "never_stream": false,
+          "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "virtual_texture_streaming": false,
+          "filter": "<TextureFilter.TF_DEFAULT: 3>",
+          "address_x": "<TextureAddress.TA_WRAP: 0>",
+          "address_y": "<TextureAddress.TA_WRAP: 0>"
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 250.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0
+      },
+      "basePropertyOverrides": {
+        "override_two_sided": false,
+        "override_blend_mode": false,
+        "override_shading_model": false,
+        "override_opacity_mask_clip_value": false
+      }
+    }
+  },
+  "master": {
+    "path": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+    "diskSha256": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "tangentSpaceNormal": false,
+    "twoSided": false,
+    "shadingModel": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+    "expressions": [
+      {
+        "unavailable": "Material: Property 'Expressions' for attribute 'expressions' on 'Material' is protected and cannot be read"
+      }
+    ]
+  },
+  "otherMaterialHashes": {
+    "MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": "14b62b4a9fa0946c681b2efb7c9e1ba5093ce682b3bde5e1c8d7a362bc62e730",
+    "MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2": "8d81b1823dc9add21fce4846044ad34890999cccbd194ec4f1c99688eff2458c",
+    "MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+    "MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50"
+  },
+  "dirtyMapPackages": [],
+  "dirtyContentPackages": [],
+  "mapSha256After": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+  "mapBytesUnchanged": true
+}

@@ -1,0 +1,2818 @@
+{
+  "utc": "2026-09-08T18:55:11.177789+00:00",
+  "status": "REST_POSE_PROVEN_FROM_GLB",
+  "reference": {
+    "file": "SourceAssets/characters-review/PilgrimRigV2/PilgrimRigV2.glb",
+    "sha256": "260eca67a60dcebd09dd0173fec66c41a927bfc298e92f33bbcd6c1779b83b5a",
+    "joints": 27,
+    "jointNames": [
+      "root",
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "chest",
+      "neck_01",
+      "head",
+      "clavicle_r",
+      "upperarm_r",
+      "lowerarm_r",
+      "hand_r",
+      "thigh_r",
+      "calf_r",
+      "foot_r",
+      "ball_r",
+      "skirt_r",
+      "clavicle_l",
+      "upperarm_l",
+      "lowerarm_l",
+      "hand_l",
+      "thigh_l",
+      "calf_l",
+      "foot_l",
+      "ball_l",
+      "skirt_l",
+      "mantle_front",
+      "mantle_back"
+    ],
+    "v2GlbVsRigDefinitionMaxErrorCm": 0.0,
+    "nonIdentityRestRotations": [],
+    "clips": [
+      {
+        "name": "A_Pilgrim_Original_Idle",
+        "durationS": 3.2,
+        "keys": 97,
+        "channels": 9,
+        "rotationTargets": [
+          "head",
+          "lowerarm_l",
+          "lowerarm_r",
+          "mantle_back",
+          "mantle_front",
+          "neck_01",
+          "spine_02",
+          "upperarm_l",
+          "upperarm_r"
+        ],
+        "translationTargets": [],
+        "scaleTargets": [],
+        "maxQuatNormError": 2.9616087582340356e-08,
+        "translationRanges": {}
+      },
+      {
+        "name": "A_Pilgrim_Original_Walk",
+        "durationS": 1.2,
+        "keys": 37,
+        "channels": 18,
+        "rotationTargets": [
+          "calf_l",
+          "calf_r",
+          "foot_l",
+          "foot_r",
+          "head",
+          "lowerarm_l",
+          "lowerarm_r",
+          "mantle_back",
+          "mantle_front",
+          "neck_01",
+          "skirt_l",
+          "skirt_r",
+          "spine_02",
+          "thigh_l",
+          "thigh_r",
+          "upperarm_l",
+          "upperarm_r"
+        ],
+        "translationTargets": [
+          "pelvis"
+        ],
+        "scaleTargets": [],
+        "maxQuatNormError": 2.9448932847842002e-08,
+        "translationRanges": {
+          "pelvis": {
+            "keys": 37,
+            "minAuthorCm": [
+              0.0,
+              -0.0,
+              95.55
+            ],
+            "maxAuthorCm": [
+              0.0,
+              -0.0,
+              96.05
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "limits": {
+    "reference": "SourceAssets/characters-review/PilgrimRigV2/PilgrimRigV2.glb (the file the V2 residents were imported from), cross-checked against rig-definition.json",
+    "declaredMovedJoints": [
+      "clavicle_r",
+      "clavicle_l",
+      "upperarm_r",
+      "upperarm_l",
+      "lowerarm_r",
+      "lowerarm_l",
+      "hand_r",
+      "hand_l",
+      "ball_r",
+      "ball_l"
+    ],
+    "maxWholeArmDriftDeg": 0.13,
+    "recordedWholeArmDriftDeg": 0.12174,
+    "expectedClips": [
+      "A_Pilgrim_Original_Idle",
+      "A_Pilgrim_Original_Walk",
+      "A_Pilgrim_V3_PhotoCamera",
+      "A_Pilgrim_V3_PhotoPhone"
+    ],
+    "nativeGate": "Before the skeletal batch is saved: bone names in authored order, rest positions within 0.05 cm of the Interchange frame (x, -y, z), skeleton created inside the variant folder, four clips on that skeleton, each clip rotation-only except pelvis (AnimationLibrary.get_bone_poses_for_frame vs AnimPose reference). Any unavailable API blocks the save; it never assumes.",
+    "honestCeiling": "Whole-arm A-pose direction drifts 0.12 deg; the individual elbow/wrist/toe rest directions move 4.96/4.32/3.81 deg because the segments were lengthened. Rotation curves ride on those rest offsets, so V3 poses differ from V2 exactly by the proportion change. Hand and foot contact still need PIE eyes."
+  },
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "file": "V3_Pilgrim_Man_Standard.glb",
+      "sha256": "decf5cfebe49e6fce24f8e4d5f74dce8c8c1dd801f7f3aac84d9983ca0fb7002",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Man_Standard",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "file": "V3_Pilgrim_Man_Heavy.glb",
+      "sha256": "3114a1eed02f17aede1d3252fe83830dd5082113aafe7080b725c701f84d347e",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Man_Heavy",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "file": "V3_Pilgrim_Man_Elder.glb",
+      "sha256": "bdba5440feacbb5e2702443272063dd0016e7927b2c421be4bcb61508938a1f7",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Man_Elder",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "file": "V3_Pilgrim_Woman_Young.glb",
+      "sha256": "2860a95c681e33542700ed0fce02a3cb31dc2f9707e7a9bd756df60771dfca73",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Woman_Young",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "file": "V3_Pilgrim_Woman_Elder.glb",
+      "sha256": "cb697508e8ef5251e9a70b784f3154bb4336ef75f256c3d0eb65bac366152771",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Woman_Elder",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "file": "V3_Pilgrim_Youth.glb",
+      "sha256": "d4d1a5039b48c3b3151ed76d036705c5e9738151b801a12f7a33bd5851343b45",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Pilgrim_Youth",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Kohen_White",
+      "file": "V3_Kohen_White.glb",
+      "sha256": "f8afc7d6d6a6da81317a1cf6c048805149cf17535661072fb7f6e8cc92aaace8",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Headcloth",
+        "Sash",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Kohen_White",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Visitor_Camera",
+      "file": "V3_Visitor_Camera.glb",
+      "sha256": "64e3c84085894968c4d77a50229384fae8286ccb18b672de1bf38a6bf68836d5",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Headcloth",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Prop",
+        "PropGlass",
+        "Denim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Visitor_Camera",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    },
+    {
+      "id": "V3_Visitor_Phone",
+      "file": "V3_Visitor_Phone.glb",
+      "sha256": "632399a074e2c734aaa3146246540ec307cad0a19e71e81933d3b4f76b3eff91",
+      "joints": 27,
+      "jointNamesIdentical": true,
+      "hierarchyIdentical": true,
+      "orderIdentical": true,
+      "nonIdentityRestRotations": [],
+      "nonUnitRestScales": [],
+      "materials": [
+        "Skin",
+        "Linen",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Prop",
+        "PropGlass",
+        "Denim",
+        "Iris"
+      ],
+      "meshName": "SK_V3_Visitor_Phone",
+      "movedJoints": {
+        "clavicle_r": {
+          "v2Cm": [
+            -10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_r": {
+          "v2Cm": [
+            -20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            -20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_r": {
+          "v2Cm": [
+            -33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            -35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_r": {
+          "v2Cm": [
+            -44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            -47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_r": {
+          "v2Cm": [
+            -8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            -8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        },
+        "clavicle_l": {
+          "v2Cm": [
+            10.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            11.0,
+            -0.0,
+            145.0
+          ],
+          "deltaCm": 2.0
+        },
+        "upperarm_l": {
+          "v2Cm": [
+            20.0,
+            -0.0,
+            143.0
+          ],
+          "v3Cm": [
+            20.5,
+            -0.0,
+            143.0
+          ],
+          "deltaCm": 0.5
+        },
+        "lowerarm_l": {
+          "v2Cm": [
+            33.0,
+            -0.5,
+            123.0
+          ],
+          "v3Cm": [
+            35.559,
+            -0.5,
+            114.765
+          ],
+          "deltaCm": 8.235
+        },
+        "hand_l": {
+          "v2Cm": [
+            44.0,
+            -1.0,
+            98.0
+          ],
+          "v3Cm": [
+            47.418,
+            -1.0,
+            92.529
+          ],
+          "deltaCm": 5.471
+        },
+        "ball_l": {
+          "v2Cm": [
+            8.0,
+            -9.0,
+            3.0
+          ],
+          "v3Cm": [
+            8.0,
+            -11.5,
+            3.0
+          ],
+          "deltaCm": 2.5
+        }
+      },
+      "movedJointCount": 10,
+      "pelvisMovedCm": 0.0,
+      "restDirectionDriftDeg": {
+        "upperarm_r->hand_r": 0.1217,
+        "upperarm_r->lowerarm_r": 4.9594,
+        "lowerarm_r->hand_r": 4.3227,
+        "foot_r->ball_r": 3.8141,
+        "thigh_r->calf_r": 0.0,
+        "calf_r->foot_r": 0.0,
+        "upperarm_l->hand_l": 0.1217,
+        "upperarm_l->lowerarm_l": 4.9594,
+        "lowerarm_l->hand_l": 4.3227,
+        "foot_l->ball_l": 3.8141,
+        "thigh_l->calf_l": 0.0,
+        "calf_l->foot_l": 0.0
+      },
+      "wholeArmAPoseDriftDeg": 0.1217,
+      "maxSegmentDriftDeg": 4.9594,
+      "clips": [
+        {
+          "name": "A_Pilgrim_Original_Idle",
+          "durationS": 3.2,
+          "keys": 97,
+          "channels": 9,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9616087582340356e-08,
+          "translationRanges": {},
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_Original_Walk",
+          "durationS": 1.2,
+          "keys": 37,
+          "channels": 18,
+          "rotationTargets": [
+            "calf_l",
+            "calf_r",
+            "foot_l",
+            "foot_r",
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "skirt_l",
+            "skirt_r",
+            "spine_02",
+            "thigh_l",
+            "thigh_r",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [
+            "pelvis"
+          ],
+          "scaleTargets": [],
+          "maxQuatNormError": 2.9448932847842002e-08,
+          "translationRanges": {
+            "pelvis": {
+              "keys": 37,
+              "minAuthorCm": [
+                0.0,
+                -0.0,
+                95.55
+              ],
+              "maxAuthorCm": [
+                0.0,
+                -0.0,
+                96.05
+              ]
+            }
+          },
+          "identicalTargetsAndTimingToV2": true
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoCamera",
+          "durationS": 4.0,
+          "keys": 121,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.8726639672859164e-08,
+          "translationRanges": {}
+        },
+        {
+          "name": "A_Pilgrim_V3_PhotoPhone",
+          "durationS": 3.6,
+          "keys": 109,
+          "channels": 10,
+          "rotationTargets": [
+            "head",
+            "lowerarm_l",
+            "lowerarm_r",
+            "mantle_back",
+            "mantle_front",
+            "neck_01",
+            "spine_01",
+            "spine_02",
+            "upperarm_l",
+            "upperarm_r"
+          ],
+          "translationTargets": [],
+          "scaleTargets": [],
+          "maxQuatNormError": 3.804704806764647e-08,
+          "translationRanges": {}
+        }
+      ],
+      "clipNames": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "translatedBonesAcrossAllClips": [
+        "pelvis"
+      ],
+      "problems": []
+    }
+  ],
+  "problems": [],
+  "scope": "Byte-level proof on the delivered GLBs against the delivered V2 GLB. It proves the V2 motion (rotation curves plus pelvis translation) is well-defined on every V3 skeleton. It is not the native Skeleton identity: Interchange creates one Skeleton per variant and the base readback re-proves names/rest pose/clips natively before save.",
+  "honestCeiling": "Segment-level rest directions did move (elbow ~4.96 deg, wrist ~4.32 deg, toe ~3.81 deg) because arm and foot were lengthened; the whole-arm A-pose direction moved 0.12 deg. Rotation curves apply on top of these rest offsets, so poses differ from V2 by exactly the proportion change and by nothing else. Visible hand/foot contact still needs PIE eyes."
+}

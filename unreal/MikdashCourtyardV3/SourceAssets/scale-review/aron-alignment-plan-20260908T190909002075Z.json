@@ -1,0 +1,1669 @@
+{
+  "status": "analysis_complete_nothing_applied",
+  "stamp": "20260908T190909002075Z",
+  "scriptSha256": "dadcfaeb10787904c51178314162169f66c8a6a16f864deebefca09abd98199a",
+  "inputs": {
+    "osm": {
+      "path": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+      "sha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+      "provenance": {
+        "osmDate": "2026-05-06T03:25:00Z",
+        "osm": "https://www.openstreetmap.org/copyright",
+        "terrain": "https://registry.opendata.aws/terrain-tiles/",
+        "latitude": 31.77802,
+        "longitude": 35.2354,
+        "metresPerAmah": 0.5,
+        "referenceElevationMetres": 748.0,
+        "note": "Hypothetical temple alignment; OSM footprints, DEM ground; untagged building heights estimated."
+      },
+      "featureCount": 17911,
+      "unitsFinding": "feature points and terrain heights are in AMOT at 0.5 m (metresPerAmah 0.5), not metres; see alignment proof"
+    },
+    "alignmentConstants": {
+      "SOURCE_ALIGN_X_AMOT": 17.509700315687695,
+      "SOURCE_ALIGN_Z_AMOT": 0.5513496449385334,
+      "GRID_ORIGIN_AMOT": -6400.0,
+      "GRID_STEP_AMOT": 50.0
+    },
+    "alignmentRule": "UE_cm = ((x_amot + SOURCE_ALIGN_X_AMOT) * 50, (y_amot - SOURCE_ALIGN_Z_AMOT) * 50); source axes east/south; UE X east, Y south",
+    "alignmentProof": {
+      "osmWesternWallVertexCm": [
+        -15127.5,
+        11907.9
+      ],
+      "kotelE0MeshMinXYcm": [
+        -15138.669119080492,
+        11908.102466670387
+      ],
+      "errorCm": 11.16,
+      "kotelManifestSha256": "e527412c38132fafd2f37a37040ca41999c0a60233f6dcd3548cf82f9cef03f4"
+    },
+    "enclosureScript": {
+      "path": "Scripts\\create_mount_enclosure.py",
+      "sha256": "52c9560ce914ce078efde237552cf6692a74ffb2a7543ae4b9d19fe5d1e4945a"
+    }
+  },
+  "domeOfTheRock": {
+    "osmId": 4709536,
+    "tags": {
+      "name": "\u05db\u05d9\u05e4\u05ea \u05d4\u05e1\u05dc\u05e2",
+      "name:en": "Dome of the Rock",
+      "building": "religious",
+      "height": "17",
+      "roof:shape": "pyramidal",
+      "roof:height": "6"
+    },
+    "vertexCountIncludingClosure": 9,
+    "centroidAmot": [
+      -143.51,
+      0.551
+    ],
+    "centroidCm": [
+      -6300.0,
+      0.0
+    ],
+    "centroidM": [
+      -63.0,
+      0.0
+    ],
+    "polygonAreaM2": 2004.6,
+    "octagonDiagonalsM": [
+      52.76,
+      53.17,
+      53.17,
+      53.89
+    ],
+    "domeOfTheChainCentroidCm": [
+      -2141.8,
+      -684.7
+    ],
+    "note": "The exporter's \"hypothetical temple alignment\" evidently placed this centroid at exactly X -6300, Y 0: the Kodesh HaKodashim was aligned on the Dome when the city was exported."
+  },
+  "rock": {
+    "lengthM": 18.0,
+    "widthM": 13.0,
+    "aboveFloorM": 1.5,
+    "domeInnerDiameterM": 20.4,
+    "offsetFromDomeCentre": {
+      "value": "UNVERIFIED: no plan with the rock's centre coordinates could be fetched offline (ritmeyer.com and madainproject.com refused automated fetches)",
+      "boundM": 3.7,
+      "reasoning": "the rock (~13 m across its short axis) lies inside the ~20.4 m drum circle, so its centre cannot be more than (20.4 - 13)/2 = 3.7 m from the drum centre"
+    },
+    "targetCentreCm": [
+      -6300.0,
+      0.0
+    ],
+    "uncertaintyRadiusM": 4.24,
+    "uncertaintyBudgetM": {
+      "osmOutline": 2.0,
+      "domeCentreVsOctagonCentroid": 0.5,
+      "rockCentreVsDomeCentreMax": 3.7
+    },
+    "ritmeyerArkDepression": "Ritmeyer reports a rectangular cutting on the rock of about 2.5 x 1.5 cubits (4 ft 4 in x 2 ft 7 in) which he places at the centre of his Holy of Holies; its position on the rock was not retrievable here and is NOT used numerically."
+  },
+  "elevation": {
+    "referenceElevationM_atZ0": 748.0,
+    "rockSummitElevationM": 743.7,
+    "rockSummitUncertaintyM": 1.0,
+    "rockSummitZcm": -430.0,
+    "demGroundAtDomeCentroidZcm": -84.8,
+    "demGroundAtDomeCentroidElevationM": 747.15,
+    "demGroundAtOriginZcm": -228.9,
+    "demNote": "The DEM is a surface model: over the Dome it returns roof/drum-biased heights, not the rock. It cannot locate the rock summit; the published 743.7 m figure is used instead.",
+    "aronFloorTopZcm": {
+      "main50": 925.0000610351562,
+      "candidate48": 888.00005859375
+    },
+    "aronFloorAboveRockSummitM": {
+      "main50": 13.55,
+      "candidate48": 13.18
+    },
+    "mountDeckZ0AboveRockSummitM": 4.3,
+    "kodeshFloorIfAronRestsOnRock": {
+      "rule": "Mishnah Yoma 5:2 / Rambam Beit HaBechirah 4:1: the stone stood three etzbaot above the Kodesh HaKodashim floor; the Aron rested on the stone",
+      "floorZcm_main50": -436.2,
+      "floorZcm_candidate48": -436.0,
+      "requiredVerticalShiftM_main50": -13.61,
+      "requiredVerticalShiftM_candidate48": -13.24,
+      "status": "NOT part of the XY alignment; a separate vertical-datum decision. Lowering the Temple ~13.5 m would put the court platform (Z 300 top) at about 734-735 m, below the present esplanade (~740 m per Wikipedia Temple Mount), and would invalidate the Mount deck / terrain cut / Kotel joins."
+    }
+  },
+  "aron": {
+    "main50": {
+      "receipt": "SourceAssets\\third-party\\aron-poles-centre-20260908T022034Z.json",
+      "receiptSha256": "3b15af9fcad86675959d347f176b60d0cfe99a05f8cb91bd0b184f3232524253",
+      "status": "aron_poles_centred_respawned_saved_reopened",
+      "bodyBoundsCm": {
+        "min": [
+          -6239.805074037552,
+          -62.54505768203736,
+          925.0000610351562
+        ],
+        "max": [
+          -6160.194925962448,
+          62.41065856933594,
+          997.336075279236
+        ]
+      },
+      "footprintCentreCm": [
+        -6200.0,
+        -0.067
+      ],
+      "floorTopZcm": 925.0000610351562,
+      "poleActorX": -6200.0
+    },
+    "candidate48": {
+      "receipt": "SourceAssets\\scale-review\\amah48-aron-menorah-20260908T163553936830Z.json",
+      "receiptSha256": "0c41d4d2c153f77b9cb618e770e574a46fc3dd15016fa3d426e0edf51f64cee1",
+      "bodyLocation48Cm": [
+        -5952.0,
+        0.0,
+        888.00005859375
+      ],
+      "bodyOldPoseCm": [
+        -6200.0,
+        0.0,
+        925.0000610351562
+      ],
+      "conversionRatio": 0.96,
+      "conversionFixedOriginCm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conversionReceipt": "SourceAssets\\scale-review\\amah48-candidate-20260908T144034771385Z.json",
+      "floorTopZcm": 888.00005859375
+    }
+  },
+  "translation": {
+    "main50": {
+      "deltaCm": [
+        -100.0,
+        0.1
+      ],
+      "deltaM": [
+        -1.0,
+        0.001
+      ],
+      "uncertaintyRadiusCm": 424,
+      "withinUncertainty": true,
+      "aronAfterCm": [
+        -6300.0,
+        0.0
+      ]
+    },
+    "candidate48": {
+      "deltaCm": [
+        -348.0,
+        0.0
+      ],
+      "deltaM": [
+        -3.48,
+        0.0
+      ],
+      "uncertaintyRadiusCm": 424,
+      "withinUncertainty": true,
+      "aronAfterCm": [
+        -6300.0,
+        0.0
+      ],
+      "causeOfDrift": "the .96 conversion was pivoted at the outer altar (fixedOriginCm [0,0,0]); the Aron at -6200 therefore slid 248 cm east to -5952",
+      "repivotAlternative": {
+        "pivotCm": [
+          -6200.0,
+          0.0,
+          0.0
+        ],
+        "deltaCm": [
+          -248.0,
+          0.0
+        ],
+        "aronAfterCm": [
+          -6200.0,
+          0.0
+        ],
+        "residualToDomeCentroidCm": [
+          -100.0,
+          0.0
+        ],
+        "frameRepresentable": true,
+        "descriptorChange": "MikdashSceneUnits.FixedArchitectureOriginCm [0,0,0] -> [-6200,0,0] so every runtime adapter (TryLegacyTemplePoint) follows without C++ edits"
+      }
+    }
+  },
+  "consequences": {
+    "main50_fullDelta": {
+      "label": "main 50 cm, translate by full delta",
+      "deltaCm": [
+        -100.0,
+        0.067
+      ],
+      "platformRectCm": [
+        -8200.0,
+        -8099.9,
+        8000.0,
+        8100.1
+      ],
+      "kotel": {
+        "faceXcmAtPlatformLatitude": null,
+        "kotelFaceSegmentCm": [
+          [
+            -15127.5,
+            11907.9
+          ],
+          [
+            -14450.0,
+            15836.4
+          ]
+        ],
+        "kotelFaceMinXcm": -15127.5,
+        "platformWestEdgeXcm": -8200.0,
+        "westEdgeMinusKotelFaceCm": 6927.5,
+        "nearestWestEdgeToKotelFaceM": 79.05,
+        "platformYRangeOverlapsKotelFace": false,
+        "note": "positive westEdgeMinusKotelFaceCm = the platform edge stays EAST of the Kotel face"
+      },
+      "osmFeaturesUnderPlatformCounts": {
+        "building": 7,
+        "road": 17,
+        "wall": 0,
+        "green": 8
+      },
+      "terrainEastEdge": {
+        "xCm": 8000.0,
+        "profile": [
+          {
+            "yCm": -8099.9,
+            "groundZcm": -930.8,
+            "elevationM": 738.69
+          },
+          {
+            "yCm": -5599.9,
+            "groundZcm": -947.1,
+            "elevationM": 738.53
+          },
+          {
+            "yCm": -3099.9,
+            "groundZcm": -1032.0,
+            "elevationM": 737.68
+          },
+          {
+            "yCm": -599.9,
+            "groundZcm": -1054.9,
+            "elevationM": 737.45
+          },
+          {
+            "yCm": 1900.1,
+            "groundZcm": -838.6,
+            "elevationM": 739.61
+          },
+          {
+            "yCm": 4400.1,
+            "groundZcm": -630.8,
+            "elevationM": 741.69
+          },
+          {
+            "yCm": 6900.1,
+            "groundZcm": -647.1,
+            "elevationM": 741.53
+          }
+        ],
+        "minGroundZcm": -1054.9,
+        "maxGroundZcm": -630.8,
+        "note": "ground below Z 0 means the Mount deck (Z 0) already stands above natural ground here; the court platform sits on the deck, not on terrain"
+      },
+      "terrainWestEdge": {
+        "xCm": -8200.0,
+        "profile": [
+          {
+            "yCm": -8099.9,
+            "groundZcm": -374.0,
+            "elevationM": 744.26
+          },
+          {
+            "yCm": -5599.9,
+            "groundZcm": -282.8,
+            "elevationM": 745.17
+          },
+          {
+            "yCm": -3099.9,
+            "groundZcm": -222.9,
+            "elevationM": 745.77
+          },
+          {
+            "yCm": -599.9,
+            "groundZcm": -59.9,
+            "elevationM": 747.4
+          },
+          {
+            "yCm": 1900.1,
+            "groundZcm": -134.8,
+            "elevationM": 746.65
+          },
+          {
+            "yCm": 4400.1,
+            "groundZcm": -103.1,
+            "elevationM": 746.97
+          },
+          {
+            "yCm": 6900.1,
+            "groundZcm": -322.5,
+            "elevationM": 744.77
+          }
+        ]
+      },
+      "precinct3000": {
+        "cmPerAmah": 50.0,
+        "outerFacesCm": {
+          "xWest": -33200.0,
+          "xEast": 116800.0,
+          "yNorth": -33149.9,
+          "ySouth": 116850.1
+        },
+        "before": {
+          "manifest": "SourceAssets\\enclosure-review\\geometry-manifest.json",
+          "manifestSha256": "b39fe73497cefca923a913565dfc894ae711743a9a2a9cffdc8ef2d349e6a386",
+          "manifestStatus": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+          "outerFacesCm": {
+            "xWest": -33100.0,
+            "xEast": 116900.0,
+            "yNorth": -33150.0,
+            "ySouth": 116850.0
+          },
+          "clearancesAmot": {
+            "west": 500.0,
+            "north": 501.0,
+            "east": 2176.0,
+            "south": 2175.0
+          },
+          "osmBuildingsInsideByCentroid": 1914
+        },
+        "osmBuildingsInsideByCentroid": 1917,
+        "namedInside": [
+          "7 Arches Hotel",
+          "7 Arches hotel",
+          "Ablution Gate",
+          "Aceldama monastery",
+          "Al Zakah Committee of Jerusalem",
+          "Al-Aqsa Mosque",
+          "Chapel of the Ascension",
+          "Church of All Nations",
+          "Church of Mary Magdalene",
+          "Church of Saint Mary of the Germans",
+          "Church of the Condemnation",
+          "Church of the Flagellation",
+          "Cotton Merchant's Gate",
+          "Council Gate",
+          "Davidson Center",
+          "Dome of Musa",
+          "Dome of Solomon",
+          "Dome of Suleiman Pasha",
+          "Dome of Yusuf",
+          "Dome of al-Khalili",
+          "Dome of the Ascension",
+          "Dome of the Chain",
+          "Dome of the Prophet",
+          "Dome of the Rock",
+          "Dome of the Tablets",
+          "Dominus Flevit Church",
+          "Eastern Arcade",
+          "Ecce Homo Basilica",
+          "Ecce Homo Pilgrim House",
+          "Gate of Bani Ghanem",
+          "Gate of Darkness",
+          "Gate of Remission",
+          "Gate of the Chain",
+          "Gate of the East",
+          "Gate of the Tribes",
+          "Gate of the Watchman",
+          "Golden Gate",
+          "Iron Gate",
+          "Lions' Gate",
+          "Madrassa al-Ashrafiyya",
+          "Monolith of Silwan",
+          "Mughrabi Gate",
+          "Museum of Islamic Art",
+          "North East Arcade",
+          "North West Arcade",
+          "Northern Arcade",
+          "Ohel Yitzchak Synagogue",
+          "Praitorion (Prison of Christ)",
+          "Saint Stephen's Church",
+          "Shuvu Banim Yeshiva",
+          "South Arcade",
+          "South East Arcade",
+          "South West Arcade",
+          "St. Anne Seminary",
+          "Terra Sancta Museum",
+          "The New Church of the Theotokos",
+          "Throne of Solomon",
+          "Tomb of Absalom",
+          "Tomb of Mujir al-Din",
+          "Tomb of Zacharias"
+        ]
+      },
+      "osmFeaturesUnderPlatformNamed": [
+        "Dome of the Chain",
+        "Dome of the Rock",
+        "Eastern Arcade",
+        "South Arcade",
+        "South East Arcade"
+      ],
+      "osmFeaturesUnderPlatformIds": {
+        "building": [
+          4709536,
+          45099263,
+          291836728,
+          291841772,
+          291841778,
+          748953252,
+          748953265
+        ],
+        "road": [
+          44172744,
+          137729558,
+          137729562,
+          137729564,
+          291836740,
+          291836743,
+          291836749,
+          291836759,
+          748953251,
+          748953259,
+          748953263,
+          1330354057,
+          1330354058,
+          1330354062,
+          1330354064,
+          1395470072,
+          1395470073
+        ],
+        "wall": [],
+        "green": [
+          291836777,
+          291836778,
+          291836819,
+          1330354054,
+          1330354055,
+          1330354059,
+          1330354060,
+          1330354061
+        ]
+      }
+    },
+    "main50_noMove": {
+      "label": "main 50 cm, no move (as built)",
+      "deltaCm": [
+        0.0,
+        0.0
+      ],
+      "platformRectCm": [
+        -8100.0,
+        -8100.0,
+        8100.0,
+        8100.0
+      ],
+      "kotel": {
+        "faceXcmAtPlatformLatitude": null,
+        "kotelFaceSegmentCm": [
+          [
+            -15127.5,
+            11907.9
+          ],
+          [
+            -14450.0,
+            15836.4
+          ]
+        ],
+        "kotelFaceMinXcm": -15127.5,
+        "platformWestEdgeXcm": -8100.0,
+        "westEdgeMinusKotelFaceCm": 7027.5,
+        "nearestWestEdgeToKotelFaceM": 79.93,
+        "platformYRangeOverlapsKotelFace": false,
+        "note": "positive westEdgeMinusKotelFaceCm = the platform edge stays EAST of the Kotel face"
+      },
+      "osmFeaturesUnderPlatformCounts": {
+        "building": 7,
+        "road": 17,
+        "wall": 0,
+        "green": 8
+      },
+      "terrainEastEdge": {
+        "xCm": 8100.0,
+        "profile": [
+          {
+            "yCm": -8100.0,
+            "groundZcm": -934.8,
+            "elevationM": 738.65
+          },
+          {
+            "yCm": -5600.0,
+            "groundZcm": -955.1,
+            "elevationM": 738.45
+          },
+          {
+            "yCm": -3100.0,
+            "groundZcm": -1044.0,
+            "elevationM": 737.56
+          },
+          {
+            "yCm": -600.0,
+            "groundZcm": -1066.9,
+            "elevationM": 737.33
+          },
+          {
+            "yCm": 1900.0,
+            "groundZcm": -846.7,
+            "elevationM": 739.53
+          },
+          {
+            "yCm": 4400.0,
+            "groundZcm": -634.8,
+            "elevationM": 741.65
+          },
+          {
+            "yCm": 6900.0,
+            "groundZcm": -655.1,
+            "elevationM": 741.45
+          }
+        ],
+        "minGroundZcm": -1066.9,
+        "maxGroundZcm": -634.8,
+        "note": "ground below Z 0 means the Mount deck (Z 0) already stands above natural ground here; the court platform sits on the deck, not on terrain"
+      },
+      "terrainWestEdge": {
+        "xCm": -8100.0,
+        "profile": [
+          {
+            "yCm": -8100.0,
+            "groundZcm": -382.0,
+            "elevationM": 744.18
+          },
+          {
+            "yCm": -5600.0,
+            "groundZcm": -286.8,
+            "elevationM": 745.13
+          },
+          {
+            "yCm": -3100.0,
+            "groundZcm": -222.9,
+            "elevationM": 745.77
+          },
+          {
+            "yCm": -600.0,
+            "groundZcm": -63.9,
+            "elevationM": 747.36
+          },
+          {
+            "yCm": 1900.0,
+            "groundZcm": -122.9,
+            "elevationM": 746.77
+          },
+          {
+            "yCm": 4400.0,
+            "groundZcm": -95.1,
+            "elevationM": 747.05
+          },
+          {
+            "yCm": 6900.0,
+            "groundZcm": -326.5,
+            "elevationM": 744.74
+          }
+        ]
+      },
+      "precinct3000": {
+        "cmPerAmah": 50.0,
+        "outerFacesCm": {
+          "xWest": -33100.0,
+          "xEast": 116900.0,
+          "yNorth": -33150.0,
+          "ySouth": 116850.0
+        },
+        "before": {
+          "manifest": "SourceAssets\\enclosure-review\\geometry-manifest.json",
+          "manifestSha256": "b39fe73497cefca923a913565dfc894ae711743a9a2a9cffdc8ef2d349e6a386",
+          "manifestStatus": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+          "outerFacesCm": {
+            "xWest": -33100.0,
+            "xEast": 116900.0,
+            "yNorth": -33150.0,
+            "ySouth": 116850.0
+          },
+          "clearancesAmot": {
+            "west": 500.0,
+            "north": 501.0,
+            "east": 2176.0,
+            "south": 2175.0
+          },
+          "osmBuildingsInsideByCentroid": 1914
+        },
+        "osmBuildingsInsideByCentroid": 1914,
+        "namedInside": [
+          "7 Arches Hotel",
+          "7 Arches hotel",
+          "Ablution Gate",
+          "Aceldama monastery",
+          "Al Zakah Committee of Jerusalem",
+          "Al-Aqsa Mosque",
+          "Chapel of the Ascension",
+          "Church of All Nations",
+          "Church of Mary Magdalene",
+          "Church of Saint Mary of the Germans",
+          "Church of the Condemnation",
+          "Church of the Flagellation",
+          "Cotton Merchant's Gate",
+          "Council Gate",
+          "Davidson Center",
+          "Dome of Musa",
+          "Dome of Solomon",
+          "Dome of Suleiman Pasha",
+          "Dome of Yusuf",
+          "Dome of al-Khalili",
+          "Dome of the Ascension",
+          "Dome of the Chain",
+          "Dome of the Prophet",
+          "Dome of the Rock",
+          "Dome of the Tablets",
+          "Dominus Flevit Church",
+          "Eastern Arcade",
+          "Ecce Homo Basilica",
+          "Ecce Homo Pilgrim House",
+          "Gate of Bani Ghanem",
+          "Gate of Darkness",
+          "Gate of Remission",
+          "Gate of the Chain",
+          "Gate of the East",
+          "Gate of the Tribes",
+          "Gate of the Watchman",
+          "Golden Gate",
+          "Iron Gate",
+          "Lions' Gate",
+          "Madrassa al-Ashrafiyya",
+          "Monolith of Silwan",
+          "Mughrabi Gate",
+          "Museum of Islamic Art",
+          "North East Arcade",
+          "North West Arcade",
+          "Northern Arcade",
+          "Ohel Yitzchak Synagogue",
+          "Praitorion (Prison of Christ)",
+          "Saint Stephen's Church",
+          "Shuvu Banim Yeshiva",
+          "South Arcade",
+          "South East Arcade",
+          "South West Arcade",
+          "St. Anne Seminary",
+          "Terra Sancta Museum",
+          "The New Church of the Theotokos",
+          "Throne of Solomon",
+          "Tomb of Absalom",
+          "Tomb of Mujir al-Din",
+          "Tomb of Zacharias"
+        ]
+      },
+      "osmFeaturesUnderPlatformNamed": [
+        "Dome of the Chain",
+        "Dome of the Rock",
+        "Eastern Arcade",
+        "South Arcade",
+        "South East Arcade"
+      ],
+      "osmFeaturesUnderPlatformIds": {
+        "building": [
+          4709536,
+          45099263,
+          291836728,
+          291841772,
+          291841778,
+          748953252,
+          748953265
+        ],
+        "road": [
+          44172744,
+          137729558,
+          137729562,
+          137729564,
+          291836740,
+          291836743,
+          291836749,
+          291836759,
+          748953251,
+          748953259,
+          748953263,
+          1330354057,
+          1330354058,
+          1330354062,
+          1330354064,
+          1395470072,
+          1395470073
+        ],
+        "wall": [],
+        "green": [
+          291836777,
+          291836778,
+          291836819,
+          1330354054,
+          1330354055,
+          1330354059,
+          1330354060,
+          1330354061
+        ]
+      }
+    },
+    "candidate48_fullDelta": {
+      "label": "candidate 48 cm, translate by full delta",
+      "deltaCm": [
+        -348.0,
+        0.0
+      ],
+      "platformRectCm": [
+        -8124.0,
+        -7776.0,
+        7428.0,
+        7776.0
+      ],
+      "kotel": {
+        "faceXcmAtPlatformLatitude": null,
+        "kotelFaceSegmentCm": [
+          [
+            -15127.5,
+            11907.9
+          ],
+          [
+            -14450.0,
+            15836.4
+          ]
+        ],
+        "kotelFaceMinXcm": -15127.5,
+        "platformWestEdgeXcm": -8124.0,
+        "westEdgeMinusKotelFaceCm": 7003.5,
+        "nearestWestEdgeToKotelFaceM": 81.32,
+        "platformYRangeOverlapsKotelFace": false,
+        "note": "positive westEdgeMinusKotelFaceCm = the platform edge stays EAST of the Kotel face"
+      },
+      "osmFeaturesUnderPlatformCounts": {
+        "building": 7,
+        "road": 14,
+        "wall": 0,
+        "green": 7
+      },
+      "terrainEastEdge": {
+        "xCm": 7428.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -882.0,
+            "elevationM": 739.18
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -914.3,
+            "elevationM": 738.86
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -976.4,
+            "elevationM": 738.24
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -986.3,
+            "elevationM": 738.14
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -754.0,
+            "elevationM": 740.46
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -582.0,
+            "elevationM": 742.18
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -614.3,
+            "elevationM": 741.86
+          }
+        ],
+        "minGroundZcm": -986.3,
+        "maxGroundZcm": -582.0,
+        "note": "ground below Z 0 means the Mount deck (Z 0) already stands above natural ground here; the court platform sits on the deck, not on terrain"
+      },
+      "terrainWestEdge": {
+        "xCm": -8124.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -380.0,
+            "elevationM": 744.2
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -259.9,
+            "elevationM": 745.4
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -209.9,
+            "elevationM": 745.9
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -50.0,
+            "elevationM": 747.5
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -99.8,
+            "elevationM": 747.0
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -110.0,
+            "elevationM": 746.9
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -390.3,
+            "elevationM": 744.1
+          }
+        ]
+      },
+      "precinct3000": {
+        "cmPerAmah": 48.0,
+        "outerFacesCm": {
+          "xWest": -32124.0,
+          "xEast": 111876.0,
+          "yNorth": -31824.0,
+          "ySouth": 112176.0
+        },
+        "before": {
+          "manifest": "SourceAssets\\enclosure-review\\geometry-manifest.json",
+          "manifestSha256": "b39fe73497cefca923a913565dfc894ae711743a9a2a9cffdc8ef2d349e6a386",
+          "manifestStatus": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+          "outerFacesCm": {
+            "xWest": -33100.0,
+            "xEast": 116900.0,
+            "yNorth": -33150.0,
+            "ySouth": 116850.0
+          },
+          "clearancesAmot": {
+            "west": 500.0,
+            "north": 501.0,
+            "east": 2176.0,
+            "south": 2175.0
+          },
+          "osmBuildingsInsideByCentroid": 1914
+        },
+        "osmBuildingsInsideByCentroid": 1701,
+        "namedInside": [
+          "7 Arches Hotel",
+          "7 Arches hotel",
+          "Ablution Gate",
+          "Aceldama monastery",
+          "Al Zakah Committee of Jerusalem",
+          "Al-Aqsa Mosque",
+          "Chapel of the Ascension",
+          "Church of All Nations",
+          "Church of Mary Magdalene",
+          "Church of Saint Mary of the Germans",
+          "Church of the Condemnation",
+          "Church of the Flagellation",
+          "Cotton Merchant's Gate",
+          "Council Gate",
+          "Davidson Center",
+          "Dome of Musa",
+          "Dome of Solomon",
+          "Dome of Suleiman Pasha",
+          "Dome of Yusuf",
+          "Dome of al-Khalili",
+          "Dome of the Ascension",
+          "Dome of the Chain",
+          "Dome of the Prophet",
+          "Dome of the Rock",
+          "Dome of the Tablets",
+          "Dominus Flevit Church",
+          "Eastern Arcade",
+          "Ecce Homo Basilica",
+          "Ecce Homo Pilgrim House",
+          "Gate of Bani Ghanem",
+          "Gate of Darkness",
+          "Gate of Remission",
+          "Gate of the Chain",
+          "Gate of the East",
+          "Gate of the Tribes",
+          "Gate of the Watchman",
+          "Golden Gate",
+          "Iron Gate",
+          "Lions' Gate",
+          "Madrassa al-Ashrafiyya",
+          "Monolith of Silwan",
+          "Mughrabi Gate",
+          "Museum of Islamic Art",
+          "North East Arcade",
+          "North West Arcade",
+          "Northern Arcade",
+          "Ohel Yitzchak Synagogue",
+          "Praitorion (Prison of Christ)",
+          "Saint Stephen's Church",
+          "Shuvu Banim Yeshiva",
+          "South Arcade",
+          "South East Arcade",
+          "South West Arcade",
+          "Terra Sancta Museum",
+          "Throne of Solomon",
+          "Tomb of Absalom",
+          "Tomb of Mujir al-Din",
+          "Tomb of Zacharias",
+          "Tomb of the Sons of Hezir",
+          "Tomb of the Virgin Mary"
+        ]
+      },
+      "osmFeaturesUnderPlatformNamed": [
+        "Dome of the Chain",
+        "Dome of the Rock",
+        "Eastern Arcade",
+        "South Arcade",
+        "South East Arcade"
+      ],
+      "osmFeaturesUnderPlatformIds": {
+        "building": [
+          4709536,
+          45099263,
+          291836728,
+          291841772,
+          291841778,
+          748953252,
+          748953265
+        ],
+        "road": [
+          44172744,
+          137729558,
+          137729562,
+          291836740,
+          291836743,
+          291836749,
+          748953251,
+          748953259,
+          748953263,
+          1330354057,
+          1330354058,
+          1330354062,
+          1395470072,
+          1395470073
+        ],
+        "wall": [],
+        "green": [
+          291836777,
+          291836819,
+          1330354054,
+          1330354055,
+          1330354059,
+          1330354060,
+          1330354061
+        ]
+      }
+    },
+    "candidate48_repivot": {
+      "label": "candidate 48 cm, re-pivot the .96 conversion about the legacy Aron",
+      "deltaCm": [
+        -248.00000000000023,
+        0.0
+      ],
+      "platformRectCm": [
+        -8024.0,
+        -7776.0,
+        7528.0,
+        7776.0
+      ],
+      "kotel": {
+        "faceXcmAtPlatformLatitude": null,
+        "kotelFaceSegmentCm": [
+          [
+            -15127.5,
+            11907.9
+          ],
+          [
+            -14450.0,
+            15836.4
+          ]
+        ],
+        "kotelFaceMinXcm": -15127.5,
+        "platformWestEdgeXcm": -8024.0,
+        "westEdgeMinusKotelFaceCm": 7103.5,
+        "nearestWestEdgeToKotelFaceM": 82.18,
+        "platformYRangeOverlapsKotelFace": false,
+        "note": "positive westEdgeMinusKotelFaceCm = the platform edge stays EAST of the Kotel face"
+      },
+      "osmFeaturesUnderPlatformCounts": {
+        "building": 7,
+        "road": 15,
+        "wall": 0,
+        "green": 7
+      },
+      "terrainEastEdge": {
+        "xCm": 7528.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -886.0,
+            "elevationM": 739.14
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -922.3,
+            "elevationM": 738.78
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -988.4,
+            "elevationM": 738.12
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -998.3,
+            "elevationM": 738.02
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -762.0,
+            "elevationM": 740.38
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -586.0,
+            "elevationM": 742.14
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -622.3,
+            "elevationM": 741.78
+          }
+        ],
+        "minGroundZcm": -998.3,
+        "maxGroundZcm": -586.0,
+        "note": "ground below Z 0 means the Mount deck (Z 0) already stands above natural ground here; the court platform sits on the deck, not on terrain"
+      },
+      "terrainWestEdge": {
+        "xCm": -8024.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -388.0,
+            "elevationM": 744.12
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -263.9,
+            "elevationM": 745.36
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -209.9,
+            "elevationM": 745.9
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -54.0,
+            "elevationM": 747.46
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -87.8,
+            "elevationM": 747.12
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -102.0,
+            "elevationM": 746.98
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -394.3,
+            "elevationM": 744.06
+          }
+        ]
+      },
+      "precinct3000": {
+        "cmPerAmah": 48.0,
+        "outerFacesCm": {
+          "xWest": -32024.0,
+          "xEast": 111976.0,
+          "yNorth": -31824.0,
+          "ySouth": 112176.0
+        },
+        "before": {
+          "manifest": "SourceAssets\\enclosure-review\\geometry-manifest.json",
+          "manifestSha256": "b39fe73497cefca923a913565dfc894ae711743a9a2a9cffdc8ef2d349e6a386",
+          "manifestStatus": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+          "outerFacesCm": {
+            "xWest": -33100.0,
+            "xEast": 116900.0,
+            "yNorth": -33150.0,
+            "ySouth": 116850.0
+          },
+          "clearancesAmot": {
+            "west": 500.0,
+            "north": 501.0,
+            "east": 2176.0,
+            "south": 2175.0
+          },
+          "osmBuildingsInsideByCentroid": 1914
+        },
+        "osmBuildingsInsideByCentroid": 1701,
+        "namedInside": [
+          "7 Arches Hotel",
+          "7 Arches hotel",
+          "Ablution Gate",
+          "Aceldama monastery",
+          "Al Zakah Committee of Jerusalem",
+          "Al-Aqsa Mosque",
+          "Chapel of the Ascension",
+          "Church of All Nations",
+          "Church of Mary Magdalene",
+          "Church of Saint Mary of the Germans",
+          "Church of the Condemnation",
+          "Church of the Flagellation",
+          "Cotton Merchant's Gate",
+          "Council Gate",
+          "Davidson Center",
+          "Dome of Musa",
+          "Dome of Solomon",
+          "Dome of Suleiman Pasha",
+          "Dome of Yusuf",
+          "Dome of al-Khalili",
+          "Dome of the Ascension",
+          "Dome of the Chain",
+          "Dome of the Prophet",
+          "Dome of the Rock",
+          "Dome of the Tablets",
+          "Dominus Flevit Church",
+          "Eastern Arcade",
+          "Ecce Homo Basilica",
+          "Ecce Homo Pilgrim House",
+          "Gate of Bani Ghanem",
+          "Gate of Darkness",
+          "Gate of Remission",
+          "Gate of the Chain",
+          "Gate of the East",
+          "Gate of the Tribes",
+          "Gate of the Watchman",
+          "Golden Gate",
+          "Iron Gate",
+          "Lions' Gate",
+          "Madrassa al-Ashrafiyya",
+          "Monolith of Silwan",
+          "Mughrabi Gate",
+          "Museum of Islamic Art",
+          "North East Arcade",
+          "North West Arcade",
+          "Northern Arcade",
+          "Ohel Yitzchak Synagogue",
+          "Praitorion (Prison of Christ)",
+          "Saint Stephen's Church",
+          "Shuvu Banim Yeshiva",
+          "South Arcade",
+          "South East Arcade",
+          "South West Arcade",
+          "Terra Sancta Museum",
+          "Throne of Solomon",
+          "Tomb of Absalom",
+          "Tomb of Mujir al-Din",
+          "Tomb of Zacharias",
+          "Tomb of the Sons of Hezir",
+          "Tomb of the Virgin Mary"
+        ]
+      },
+      "osmFeaturesUnderPlatformNamed": [
+        "Dome of the Chain",
+        "Dome of the Rock",
+        "Eastern Arcade",
+        "South Arcade",
+        "South East Arcade"
+      ],
+      "osmFeaturesUnderPlatformIds": {
+        "building": [
+          4709536,
+          45099263,
+          291836728,
+          291841772,
+          291841778,
+          748953252,
+          748953265
+        ],
+        "road": [
+          44172744,
+          137729558,
+          137729562,
+          137729564,
+          291836740,
+          291836743,
+          291836749,
+          748953251,
+          748953259,
+          748953263,
+          1330354057,
+          1330354058,
+          1330354062,
+          1395470072,
+          1395470073
+        ],
+        "wall": [],
+        "green": [
+          291836777,
+          291836819,
+          1330354054,
+          1330354055,
+          1330354059,
+          1330354060,
+          1330354061
+        ]
+      }
+    },
+    "candidate48_asBuilt": {
+      "label": "candidate 48 cm, as built (pivot at origin)",
+      "deltaCm": [
+        0.0,
+        0.0
+      ],
+      "platformRectCm": [
+        -7776.0,
+        -7776.0,
+        7776.0,
+        7776.0
+      ],
+      "kotel": {
+        "faceXcmAtPlatformLatitude": null,
+        "kotelFaceSegmentCm": [
+          [
+            -15127.5,
+            11907.9
+          ],
+          [
+            -14450.0,
+            15836.4
+          ]
+        ],
+        "kotelFaceMinXcm": -15127.5,
+        "platformWestEdgeXcm": -7776.0,
+        "westEdgeMinusKotelFaceCm": 7351.5,
+        "nearestWestEdgeToKotelFaceM": 84.33,
+        "platformYRangeOverlapsKotelFace": false,
+        "note": "positive westEdgeMinusKotelFaceCm = the platform edge stays EAST of the Kotel face"
+      },
+      "osmFeaturesUnderPlatformCounts": {
+        "building": 7,
+        "road": 15,
+        "wall": 0,
+        "green": 7
+      },
+      "terrainEastEdge": {
+        "xCm": 7776.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -895.9,
+            "elevationM": 739.04
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -942.1,
+            "elevationM": 738.58
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -1018.1,
+            "elevationM": 737.82
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -1028.1,
+            "elevationM": 737.72
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -781.9,
+            "elevationM": 740.18
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -595.9,
+            "elevationM": 742.04
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -642.1,
+            "elevationM": 741.58
+          }
+        ],
+        "minGroundZcm": -1028.1,
+        "maxGroundZcm": -595.9,
+        "note": "ground below Z 0 means the Mount deck (Z 0) already stands above natural ground here; the court platform sits on the deck, not on terrain"
+      },
+      "terrainWestEdge": {
+        "xCm": -7776.0,
+        "profile": [
+          {
+            "yCm": -7776.0,
+            "groundZcm": -407.9,
+            "elevationM": 743.92
+          },
+          {
+            "yCm": -5276.0,
+            "groundZcm": -273.8,
+            "elevationM": 745.26
+          },
+          {
+            "yCm": -2776.0,
+            "groundZcm": -209.9,
+            "elevationM": 745.9
+          },
+          {
+            "yCm": -276.0,
+            "groundZcm": -63.9,
+            "elevationM": 747.36
+          },
+          {
+            "yCm": 2224.0,
+            "groundZcm": -58.1,
+            "elevationM": 747.42
+          },
+          {
+            "yCm": 4724.0,
+            "groundZcm": -82.2,
+            "elevationM": 747.18
+          },
+          {
+            "yCm": 7224.0,
+            "groundZcm": -404.3,
+            "elevationM": 743.96
+          }
+        ]
+      },
+      "precinct3000": {
+        "cmPerAmah": 48.0,
+        "outerFacesCm": {
+          "xWest": -31776.0,
+          "xEast": 112224.0,
+          "yNorth": -31824.0,
+          "ySouth": 112176.0
+        },
+        "before": {
+          "manifest": "SourceAssets\\enclosure-review\\geometry-manifest.json",
+          "manifestSha256": "b39fe73497cefca923a913565dfc894ae711743a9a2a9cffdc8ef2d349e6a386",
+          "manifestStatus": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+          "outerFacesCm": {
+            "xWest": -33100.0,
+            "xEast": 116900.0,
+            "yNorth": -33150.0,
+            "ySouth": 116850.0
+          },
+          "clearancesAmot": {
+            "west": 500.0,
+            "north": 501.0,
+            "east": 2176.0,
+            "south": 2175.0
+          },
+          "osmBuildingsInsideByCentroid": 1914
+        },
+        "osmBuildingsInsideByCentroid": 1700,
+        "namedInside": [
+          "7 Arches Hotel",
+          "7 Arches hotel",
+          "Ablution Gate",
+          "Aceldama monastery",
+          "Al Zakah Committee of Jerusalem",
+          "Al-Aqsa Mosque",
+          "Chapel of the Ascension",
+          "Church of All Nations",
+          "Church of Mary Magdalene",
+          "Church of Saint Mary of the Germans",
+          "Church of the Condemnation",
+          "Church of the Flagellation",
+          "Cotton Merchant's Gate",
+          "Council Gate",
+          "Davidson Center",
+          "Dome of Musa",
+          "Dome of Solomon",
+          "Dome of Suleiman Pasha",
+          "Dome of Yusuf",
+          "Dome of al-Khalili",
+          "Dome of the Ascension",
+          "Dome of the Chain",
+          "Dome of the Prophet",
+          "Dome of the Rock",
+          "Dome of the Tablets",
+          "Dominus Flevit Church",
+          "Eastern Arcade",
+          "Ecce Homo Basilica",
+          "Ecce Homo Pilgrim House",
+          "Gate of Bani Ghanem",
+          "Gate of Darkness",
+          "Gate of Remission",
+          "Gate of the Chain",
+          "Gate of the East",
+          "Gate of the Tribes",
+          "Gate of the Watchman",
+          "Golden Gate",
+          "Iron Gate",
+          "Lions' Gate",
+          "Madrassa al-Ashrafiyya",
+          "Monolith of Silwan",
+          "Mughrabi Gate",
+          "Museum of Islamic Art",
+          "North East Arcade",
+          "North West Arcade",
+          "Northern Arcade",
+          "Ohel Yitzchak Synagogue",
+          "Praitorion (Prison of Christ)",
+          "Saint Stephen's Church",
+          "Shuvu Banim Yeshiva",
+          "South Arcade",
+          "South East Arcade",
+          "South West Arcade",
+          "Terra Sancta Museum",
+          "Throne of Solomon",
+          "Tomb of Absalom",
+          "Tomb of Mujir al-Din",
+          "Tomb of Zacharias",
+          "Tomb of the Sons of Hezir",
+          "Tomb of the Virgin Mary"
+        ]
+      },
+      "osmFeaturesUnderPlatformNamed": [
+        "Dome of the Chain",
+        "Dome of the Rock",
+        "Eastern Arcade",
+        "South Arcade",
+        "South East Arcade"
+      ],
+      "osmFeaturesUnderPlatformIds": {
+        "building": [
+          4709536,
+          45099263,
+          291836728,
+          291841772,
+          291841778,
+          748953252,
+          748953265
+        ],
+        "road": [
+          44172744,
+          137729558,
+          137729562,
+          137729564,
+          291836740,
+          291836743,
+          291836749,
+          748953251,
+          748953259,
+          748953263,
+          1330354057,
+          1330354058,
+          1330354062,
+          1395470072,
+          1395470073
+        ],
+        "wall": [],
+        "green": [
+          291836777,
+          291836819,
+          1330354054,
+          1330354055,
+          1330354059,
+          1330354060,
+          1330354061
+        ]
+      }
+    }
+  },
+  "routes": {
+    "A_translateTemple": {
+      "actorSets": {
+        "inventory": "SourceAssets\\scale-review\\native-scale-inventory-20260908T133142315573Z.json",
+        "inventorySha256": "fdf72fdddbf26134f7437c518128521b253ce2962176b6c3c3818740ae057f0b",
+        "actorCount": 7767,
+        "temple": {
+          "Architecture": 2633,
+          "RELEASE_Frieze": 211,
+          "RELEASE_Doors": 15,
+          "RELEASE_MenorahV4": 7,
+          "RELEASE_Shulchan": 7,
+          "MikdashResidentCharacter": 5,
+          "CameraActor": 4,
+          "RELEASE_Aron": 4,
+          "PlayerStart": 1,
+          "AmbientSound": 1,
+          "Review_HeichalSide-1": 1,
+          "Review_HeichalSide1": 1,
+          "Review_KodeshSide-1": 1,
+          "Review_KodeshSide1": 1,
+          "Review_KodeshRear": 1,
+          "Review_HeichalEntranceJamb-1": 1,
+          "Review_HeichalEntranceJamb1": 1,
+          "PointLight": 1,
+          "RectLight": 1,
+          "RELEASE_IncenseAltar": 1
+        },
+        "templeTotal": 2898,
+        "context": {
+          "SM_Jerusalem": 2877,
+          "SM_JerusalemBuildings": 1498,
+          "SM_JerusalemTerrain": 256,
+          "RELEASE_OldCityFacades": 102,
+          "RELEASE_OldCityInfill": 88,
+          "RELEASE_Bus": 13,
+          "RELEASE_Kotel": 6,
+          "JCTX_ISM": 5,
+          "REVIEW_KotelPhoto": 4,
+          "RELEASE_KotelStoneV2": 4,
+          "RELEASE_MountAccess": 3,
+          "SM_MountPlatform": 2
+        },
+        "contextTotal": 4858,
+        "sceneGlobals": {
+          "DirectionalLight": 1,
+          "SkyAtmosphere": 1,
+          "SkyLight": 1,
+          "PostProcessVolume": 1,
+          "VolumetricCloud": 1,
+          "WindDirectionalSource": 1,
+          "ExponentialHeightFog": 1,
+          "MikdashResidentPopulation": 2,
+          "MikdashDoveAppearance": 1,
+          "LevelSequenceActor": 1
+        },
+        "unclassified": [],
+        "note": "Main-map inventory of 2026-09-08T13:31Z; later work added actors (paroches, tour markers, crowd field, service, transit). The release script classifies live and refuses unknown actors."
+      },
+      "hardcodedTempleCoordinates": {
+        "scripts": [
+          "capture_atmosphere_review.py",
+          "capture_interior_exposure_comparison.py",
+          "create_fx_materials.py",
+          "create_incense_altar_v2.py",
+          "create_menorah_study.py",
+          "create_menorah_v3.py",
+          "create_water_geometry.py",
+          "perf_probe.py",
+          "release_capture_views.py",
+          "release_import_incense_altar.py",
+          "release_import_keilim_ti.py",
+          "release_import_menorah_v3.py",
+          "release_import_menorah_v4.py",
+          "release_import_reliefs.py",
+          "release_kohen_service.py",
+          "release_sanctuary_balance.py",
+          "release_sanctuary_walk_probe.py"
+        ],
+        "specs": [
+          "release_aron_poles.spec.json",
+          "release_frieze_v2.spec.json",
+          "release_fx.spec.json",
+          "release_import_doors.spec.json",
+          "release_import_incense_altar.spec.json",
+          "release_import_keilim_ti.spec.json",
+          "release_import_menorah_v3.spec.json",
+          "release_import_menorah_v4.spec.json",
+          "release_import_reliefs.spec.json",
+          "release_import_shulchan.spec.json",
+          "release_import_thirdparty_vessels.spec.json",
+          "release_intro_sequence.spec.json",
+          "release_keruv_frieze.spec.json",
+          "release_kohen_service.spec.json",
+          "release_lighting_polish.spec.json",
+          "release_lighting_v3.spec.json",
+          "release_paroches_v15.spec.json",
+          "release_photo_mode.spec.json",
+          "release_place_assets.spec.json",
+          "release_sanctuary_balance.spec.json",
+          "release_scale_keilim.spec.json",
+          "release_soundscape_v2.spec.json"
+        ],
+        "cpp": [
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashFXDirector.h",
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashServiceActor.h",
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ServiceScheduleMath.h",
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCinematics.cpp",
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashFXDirector.cpp",
+          "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashServiceActor.cpp",
+          "Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp",
+          "Plugins/MikdashRuntime/Tests/SaveMigrationMathTest.cpp",
+          "Plugins/MikdashRuntime/Tests/ServiceScheduleMathTest.cpp",
+          "Plugins/MikdashRuntime/Tests/SurfaceWearMathTest.cpp",
+          "Plugins/MikdashRuntime/Tests/TourMathTest.cpp"
+        ],
+        "data": [
+          "SourceAssets/tour-review/tour-stops.json",
+          "SourceAssets/tour-review/codex-entries.json",
+          "SourceAssets/vessels-review/aron-placement-spec.json",
+          "SourceAssets/vessels-review/heikhal-keilim-spec.json",
+          "SourceAssets/visual-review/sanctuary-finishes-spec.json",
+          "SourceAssets/fx-review/fx-materials.json",
+          "SourceAssets/surface-review/surface-detail.json"
+        ],
+        "counts": {
+          "scripts": 17,
+          "specs": 22,
+          "cpp": 11,
+          "data": 7
+        }
+      },
+      "cost": "moves the whole Temple actor set (about 2898 static-mesh actors in the main inventory plus PlayerStart, cameras, lights, residents, sound, tour markers, crowd-field/service/FX actors added later); every file in hardcodedTempleCoordinates must change or route through the scene-units frame",
+      "breaksTerrainCut": false,
+      "why": "the terrain was cut for the Mount deck ring (X -213..150 m, Y -252..260 m), not for the +-81 m court platform; a few metres of court-platform translation stays on the deck"
+    },
+    "B_translateCityAndTerrain": {
+      "cost": "moves about 4858 context actors (streets, buildings, 256 terrain tiles, Old City facades/infill, Kotel families, mount access, bus, platform, ISM actors), plus 4 metric crowd zones, transit stops, bird perches, and re-origins SOURCE_ALIGN_X_AMOT in create_mount_enclosure.py / mount-platform-design.json (\"alignment already baked in native meshes; NEVER apply twice\") and every Kotel manifest/receipt that records world bounds",
+      "breaksIdentityGuards": "release_kotel_stone_v2.py, release_kotel_surface_polish.py and release_place_assets.py refuse a Kotel base wall that is not at identity; context meshes carry world coordinates baked at identity",
+      "breaksTerrainCut": "no (deck and terrain move together) but the FutureMountV1 map L_FutureMount and its receipts go stale",
+      "preserves": "all Temple hardcodes (C++ and specs) and every Temple receipt"
+    },
+    "recommendation": {
+      "main50": "DO NOT MOVE. The Aron footprint centre (-6200, 0) is 100 cm from the Dome of the Rock centroid (-6300, 0); the rock's own centre is not known better than about 4.2 m from OSM data, so the requested alignment is already satisfied within the evidence. A 1 m translation would touch ~2898 actors, 11 C++ files (6 runtime + 5 tests) and 39 scripts/specs for a change no source can confirm.",
+      "candidate48": "Route A as a RE-PIVOT, when the candidate is next touched: translate the converted Temple set by (-248, 0, 0) cm and set the Selected48 descriptor FixedArchitectureOriginCm to (-6200, 0, 0). This undoes the systematic 248 cm eastward drift the origin pivot introduced and puts the candidate Aron back at X -6200 (the same 100 cm residual as main), while keeping the runtime frame representable. Do NOT chase the remaining 100 cm on either map. Route B is rejected: more actors, breaks the baked-alignment invariant and the Kotel identity guards, and stales the terrain/Kotel receipts.",
+      "vertical": "Separate decision: the Aron floor is ~13.5 m above the published rock summit; see elevation.kodeshFloorIfAronRestsOnRock. Not applied by any script here."
+    }
+  }
+}

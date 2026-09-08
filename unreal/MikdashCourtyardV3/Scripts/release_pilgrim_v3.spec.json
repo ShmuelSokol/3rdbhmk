@@ -390,6 +390,8 @@
       }
     ]
   },
+  "scalePolicy": "recommendedActorScale is the manifest key name inherited from the generator; the VALUE is a skeletal-mesh COMPONENT visual scale (recommendedVisualComponentScale repeats it under the right name). It is never applied to the Character actor, its capsule (34/96) or the amah scale, and never multiplied by 0.96.",
+  "restPoseReadbackFrame": "Interchange glTF->UE is (X, Z, Y) of glTF; the generator writes glTF (x, z, -y)/100 of authored cm; an authored bone (x, y, z) therefore reads back at (x, -y, z) UE cm and is compared in that frame.",
   "materials": {
     "policy": "The OBJ carries an MTL with one named material per garment part and the GLB carries baseColorFactor plus COLOR_0, so the palette arrives with the mesh. This script does NOT flatten the slots onto a shared master - that would erase the per-variant palette. It asserts every slot on every saved mesh resolves to a non-null MaterialInterface, by readback, and records the paths.",
     "expectedSlotNames": [
@@ -428,6 +430,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Man_Standard.mtl",
       "staticVertexFingerprint": "7f0c87eaa9cbae03e4edffbd464f73cf60fcc7b027af485d5ac85a50127ddb0c",
       "recommendedActorScale": 1.0,
+      "recommendedVisualComponentScale": 1.0,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -468,6 +471,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Man_Heavy.mtl",
       "staticVertexFingerprint": "1d6b09b99119b7f57bdfb6dd036d41090abdcfd90f28884297afa95a190b1e4e",
       "recommendedActorScale": 1.04,
+      "recommendedVisualComponentScale": 1.04,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -508,6 +512,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Man_Elder.mtl",
       "staticVertexFingerprint": "00d9e2bf1fadfd516c7bf2d16d193c01e58689d362252d3b72bffb288acd00fe",
       "recommendedActorScale": 0.97,
+      "recommendedVisualComponentScale": 0.97,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -548,6 +553,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Woman_Young.mtl",
       "staticVertexFingerprint": "3452b0f4a1de9ac007b9ea5ce3c4670114b4860858aaee178e22e5fbe6a1b3eb",
       "recommendedActorScale": 0.93,
+      "recommendedVisualComponentScale": 0.93,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -588,6 +594,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Woman_Elder.mtl",
       "staticVertexFingerprint": "1b19fd74ad94527306d015d78306b40c4cf7ef60476195d896a4795e90c253f5",
       "recommendedActorScale": 0.9,
+      "recommendedVisualComponentScale": 0.9,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -628,6 +635,7 @@
       "staticMaterialFile": "SM_V3_Pilgrim_Youth.mtl",
       "staticVertexFingerprint": "ee51296668a00a8a25863cabf5c6bb1dc2e4279907b1ba494b6b8d7a2d510253",
       "recommendedActorScale": 0.84,
+      "recommendedVisualComponentScale": 0.84,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -668,6 +676,7 @@
       "staticMaterialFile": "SM_V3_Kohen_White.mtl",
       "staticVertexFingerprint": "abde82f174613a57f19e208c9b17b6cfb8d9fc16550fd1c647c814314eb7c937",
       "recommendedActorScale": 1.01,
+      "recommendedVisualComponentScale": 1.01,
       "recommendedIdleClip": "A_Pilgrim_Original_Idle",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -708,6 +717,7 @@
       "staticMaterialFile": "SM_V3_Visitor_Camera.mtl",
       "staticVertexFingerprint": "cb221ad36033ab706d18c4cf619e255c70af3c6d1d1e260796976d1edd16c9ef",
       "recommendedActorScale": 1.02,
+      "recommendedVisualComponentScale": 1.02,
       "recommendedIdleClip": "A_Pilgrim_V3_PhotoCamera",
       "animations": [
         "A_Pilgrim_Original_Idle",
@@ -748,6 +758,7 @@
       "staticMaterialFile": "SM_V3_Visitor_Phone.mtl",
       "staticVertexFingerprint": "f5f770c2511c485dfa26946f6267b2e544d7fbd0b8d5729f10f9d3030dd0c5c2",
       "recommendedActorScale": 0.96,
+      "recommendedVisualComponentScale": 0.96,
       "recommendedIdleClip": "A_Pilgrim_V3_PhotoPhone",
       "animations": [
         "A_Pilgrim_Original_Idle",

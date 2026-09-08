@@ -1,0 +1,143 @@
+{
+  "status": "SAVED_REOPENED_VISUAL_PENDING",
+  "sources": {
+    "third-temple-aron-wings-v7.png": "d41c62c4dc9eb6845a497ef77d6edad335b4136422d818f5dcd03a613a791cfb"
+  },
+  "integrationState": "READY_FOR_NATIVE_REVIEW",
+  "sourceReceiptSha256": "cb56bee5369638d41d8585350bca239ba521cc73f858941d5990db6b49d03104",
+  "namespace": "/Game/MikdashV3/MaterialReview/ParochesFabricV7",
+  "exactMeshes": [
+    "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesClothV1",
+    "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesHemV1"
+  ],
+  "uv": "float2((P.x+180)/360,1-P.z/306)",
+  "interpretation": "User-selected artistic synthesis: two keruvim, Aron-like wings, palms and shared-head two faces; not exact Yechezkel",
+  "main": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mainSha256Before": "841993842baeea0958a3a969165c1a002b2726c0ae407fd14f855b5fe0d1ee58",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ParochesFabric-20260908T150901590269Z",
+  "protectedAssets": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\DoorsParochesV1\\Meshes\\SM_ParochesClothV1.uasset": "2c7f3eaee1f14c6ea9a0c37628d92c915aaf8dac67f5747d756f2a36b000f974",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\ParochesPatternV1\\Materials\\M_ParochesPattern.uasset": "0fad6482f6d304d21404c049d6f0ad747bc0f03039101ea9b02f6a58f7217a85",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\DoorsParochesV1\\Meshes\\SM_ParochesHemV1.uasset": "eb04a4fd76e0d0959e44f285b800314ce05c2dbeab0499d52f447e45e700cd99",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\Canonical\\Materials\\M_Canonical_red_3bfe5dee64.uasset": "5a9c496991128f091937993d7e17a3ee1541473a5bfcff866586f82f2f8c72b2"
+  },
+  "savedGraphBeforeReopen": {
+    "expressions": {
+      "MaterialExpressionWorldPosition_0": {
+        "class": "MaterialExpressionWorldPosition",
+        "inputs": []
+      },
+      "MaterialExpressionTransformPosition_0": {
+        "class": "MaterialExpressionTransformPosition",
+        "inputs": [
+          "MaterialExpressionWorldPosition_0"
+        ],
+        "transform_source_type": "<MaterialPositionTransformSource.TRANSFORMPOSSOURCE_WORLD: 1>",
+        "transform_type": "<MaterialPositionTransformSource.TRANSFORMPOSSOURCE_LOCAL: 0>"
+      },
+      "MaterialExpressionCustom_0": {
+        "class": "MaterialExpressionCustom",
+        "inputs": [
+          "MaterialExpressionTransformPosition_0"
+        ],
+        "code": "return float2((P.x+180.0)/360.0,1.0-P.z/306.0);",
+        "output_type": "<CustomMaterialOutputType.CMOT_FLOAT2: 1>"
+      },
+      "MaterialExpressionTextureSample_0": {
+        "class": "MaterialExpressionTextureSample",
+        "inputs": [
+          "MaterialExpressionCustom_0",
+          null,
+          null
+        ],
+        "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_COLOR: 0>",
+        "texture": {
+          "path": "/Game/MikdashV3/MaterialReview/ParochesFabricV7/T_BaseColor.T_BaseColor",
+          "srgb": true,
+          "address_x": "<TextureAddress.TA_CLAMP: 1>",
+          "address_y": "<TextureAddress.TA_CLAMP: 1>"
+        }
+      },
+      "MaterialExpressionConstant_0": {
+        "class": "MaterialExpressionConstant",
+        "inputs": [],
+        "r": 0.8999999761581421
+      },
+      "MaterialExpressionConstant_1": {
+        "class": "MaterialExpressionConstant",
+        "inputs": [],
+        "r": 0.0
+      }
+    },
+    "outputs": {
+      "MP_BASE_COLOR": "MaterialExpressionTextureSample_0",
+      "MP_ROUGHNESS": "MaterialExpressionConstant_0",
+      "MP_METALLIC": "MaterialExpressionConstant_1"
+    },
+    "two_sided": true,
+    "nanite": true
+  },
+  "savedGraphAfterReopen": {
+    "expressions": {
+      "MaterialExpressionWorldPosition_0": {
+        "class": "MaterialExpressionWorldPosition",
+        "inputs": []
+      },
+      "MaterialExpressionTransformPosition_0": {
+        "class": "MaterialExpressionTransformPosition",
+        "inputs": [
+          "MaterialExpressionWorldPosition_0"
+        ],
+        "transform_source_type": "<MaterialPositionTransformSource.TRANSFORMPOSSOURCE_WORLD: 1>",
+        "transform_type": "<MaterialPositionTransformSource.TRANSFORMPOSSOURCE_LOCAL: 0>"
+      },
+      "MaterialExpressionCustom_0": {
+        "class": "MaterialExpressionCustom",
+        "inputs": [
+          "MaterialExpressionTransformPosition_0"
+        ],
+        "code": "return float2((P.x+180.0)/360.0,1.0-P.z/306.0);",
+        "output_type": "<CustomMaterialOutputType.CMOT_FLOAT2: 1>"
+      },
+      "MaterialExpressionTextureSample_0": {
+        "class": "MaterialExpressionTextureSample",
+        "inputs": [
+          "MaterialExpressionCustom_0",
+          null,
+          null
+        ],
+        "sampler_type": "<MaterialSamplerType.SAMPLERTYPE_COLOR: 0>",
+        "texture": {
+          "path": "/Game/MikdashV3/MaterialReview/ParochesFabricV7/T_BaseColor.T_BaseColor",
+          "srgb": true,
+          "address_x": "<TextureAddress.TA_CLAMP: 1>",
+          "address_y": "<TextureAddress.TA_CLAMP: 1>"
+        }
+      },
+      "MaterialExpressionConstant_0": {
+        "class": "MaterialExpressionConstant",
+        "inputs": [],
+        "r": 0.8999999761581421
+      },
+      "MaterialExpressionConstant_1": {
+        "class": "MaterialExpressionConstant",
+        "inputs": [],
+        "r": 0.0
+      }
+    },
+    "outputs": {
+      "MP_BASE_COLOR": "MaterialExpressionTextureSample_0",
+      "MP_ROUGHNESS": "MaterialExpressionConstant_0",
+      "MP_METALLIC": "MaterialExpressionConstant_1"
+    },
+    "two_sided": true,
+    "nanite": true
+  },
+  "material": "/Game/MikdashV3/MaterialReview/ParochesFabricV7/M_ParochesFabric",
+  "selected": [
+    "StaticMeshActor_7356",
+    "StaticMeshActor_7357"
+  ],
+  "protectedUnchanged": true,
+  "mainSha256After": "8a7346a0c8c4521c79ded13d020d3727eca1dca46f643123703e2ed833fda681"
+}

@@ -1,10 +1,22 @@
 {
-  "namespace": "/Game/MikdashV3/CharacterReview/PilgrimRigV3ReviewV1",
+  "specVersion": 2,
+  "purpose": "Frozen inputs, namespace, proof limits, batch/resume policy and the resident swap PLAN for Scripts/release_pilgrim_v3_review.py. Nothing here places an actor, edits a map, repoints the population or touches PilgrimRigV2.",
+  "namespace": "/Game/MikdashV3/Characters/PilgrimRigV3",
+  "namespaceLayout": {
+    "perVariant": "<namespace>/<variant>/",
+    "interchangeSubfolders": "SkeletalMeshes/ (SkeletalMesh, Skeleton, PhysicsAsset, four AnimSequences), Materials/ (one MaterialInstance per garment part)",
+    "staticCrowdCopy": "<namespace>/<variant>/StaticMeshes/SM_<variant>",
+    "note": "Exact asset names come from native readback (Interchange named the V2 mesh after the file and prefixed clips with the file stem). The marker records the real names."
+  },
+  "previousReviewNamespaceRetired": "/Game/MikdashV3/CharacterReview/PilgrimRigV3ReviewV1 (never created; superseded by the coordinator's /Characters/PilgrimRigV3 instruction on 2026-09-08)",
+  "frozen": "2026-09-08T18:47:17.225564+00:00",
   "frozenFiles": {
-    "Scripts/release_pilgrim_v3.py": "ad673f44fd6079a7ea79cee2f4c5a44fab3c9666a47e60eb99a6bf393b06700f",
-    "Scripts/release_pilgrim_v3.spec.json": "3ba9e609bda4c5dcdf40cda57a66b69cd2f820de416c8bf2df8bdbb9dddcf55c",
+    "Scripts/release_pilgrim_v3.py": "e34cfd3e233a18f1e6a0e26ec6474e05c206d13c906c56cd29b35e15aeddae98",
+    "Scripts/release_pilgrim_v3.spec.json": "dd7c27225381e4451bca15afde72826d8571c6abb8669320e70eca7cffff75bc",
     "Scripts/create_pilgrim_v3.py": "bce9c825172e87ce24541dcc6614d670404b51c5e29cbae51650844f84987f14",
     "SourceAssets/characters-review/PilgrimRigV3/geometry-manifest.json": "91a3aaf389b3355752e4033e45d520b08e381de80cf0b2895e7fdd218f1a0ff2",
+    "SourceAssets/characters-review/PilgrimRigV2/PilgrimRigV2.glb": "260eca67a60dcebd09dd0173fec66c41a927bfc298e92f33bbcd6c1779b83b5a",
+    "SourceAssets/characters-review/PilgrimRigV2/rig-definition.json": "dcd19effe52bcbfa175df167810424f66f096276011c3dbf3f0f4a858caabe9e",
     "SourceAssets/characters-review/PilgrimRigV3/meshes/SM_V3_Kohen_White.mtl": "bbf24486f668d5bfbc578bf1ddfba7a097f6daba7a32eb7892e51bb2723d2202",
     "SourceAssets/characters-review/PilgrimRigV3/meshes/SM_V3_Kohen_White.obj": "755a5217bb321b7ab2de8e6b15a0db4319228100d87f67078be99e3f8c3593cb",
     "SourceAssets/characters-review/PilgrimRigV3/meshes/SM_V3_Pilgrim_Man_Elder.mtl": "9aeb7ddae5b37d27b80122d032822a21e7b38e2e648d378ec9d17b9a90451565",
@@ -33,6 +45,21 @@
     "SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Visitor_Camera.glb": "64e3c84085894968c4d77a50229384fae8286ccb18b672de1bf38a6bf68836d5",
     "SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Visitor_Phone.glb": "632399a074e2c734aaa3146246540ec307cad0a19e71e81933d3b4f76b3eff91"
   },
+  "protectedV2Assets": [
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2_Skeleton.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2_PhysicsAsset.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Skin.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Linen.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Mantle.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Headwrap.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Leather.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Hair.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Eyes.uasset",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Trim.uasset"
+  ],
   "visualScales": {
     "V3_Pilgrim_Man_Standard": 1.0,
     "V3_Pilgrim_Man_Heavy": 1.04,
@@ -44,5 +71,205 @@
     "V3_Visitor_Camera": 1.02,
     "V3_Visitor_Phone": 0.96
   },
-  "policy": "Visual component scale only, not capsule/whole actor/amah. No placement in this helper; no V2 animation retarget."
+  "policy": "Visual scale goes on the skeletal mesh COMPONENT only (SetRelativeScale3D, pivot at the feet, relative location stays (0,0,-96)). Never on the Character actor, its 34/96 capsule, or the amah scale; never multiplied by 0.96. No placement in this helper; no V2 animation retarget; V2 assets are hashed before and after and must not change.",
+  "batching": {
+    "defaultBatch": 3,
+    "recommended": "1 (V3_Pilgrim_Man_Standard) then 4 then 4; each batch is one serial native job in a fresh editor with main loaded",
+    "resumeMarker": "SourceAssets/characters-review/PilgrimRigV3/review-native-progress.json",
+    "baseBatchMarker": "SourceAssets/characters-review/PilgrimRigV3/review-native-batch-progress.json",
+    "receipts": "SourceAssets/characters-review/PilgrimRigV3/review-native-<stamp>.json plus the base importer's native-import-<stamp>.json",
+    "completionRule": "A variant is complete only when its folder exists on disk AND the marker lists its read-back SkeletalMesh/Skeleton/clip/StaticMesh names. A folder without a marker entry is a preserved partial import: inspect its receipt, never rerun over it.",
+    "zombieRule": "Refuse when tasklist shows more than one UnrealEditor.exe; a zombie makes save_loaded_asset return False with no other symptom."
+  },
+  "restPoseProof": {
+    "reference": "SourceAssets/characters-review/PilgrimRigV2/PilgrimRigV2.glb (the file the V2 residents were imported from), cross-checked against rig-definition.json",
+    "declaredMovedJoints": [
+      "clavicle_r",
+      "clavicle_l",
+      "upperarm_r",
+      "upperarm_l",
+      "lowerarm_r",
+      "lowerarm_l",
+      "hand_r",
+      "hand_l",
+      "ball_r",
+      "ball_l"
+    ],
+    "maxWholeArmDriftDeg": 0.13,
+    "recordedWholeArmDriftDeg": 0.12174,
+    "expectedClips": [
+      "A_Pilgrim_Original_Idle",
+      "A_Pilgrim_Original_Walk",
+      "A_Pilgrim_V3_PhotoCamera",
+      "A_Pilgrim_V3_PhotoPhone"
+    ],
+    "nativeGate": "Before the skeletal batch is saved: bone names in authored order, rest positions within 0.05 cm of the Interchange frame (x, -y, z), skeleton created inside the variant folder, four clips on that skeleton, each clip rotation-only except pelvis (AnimationLibrary.get_bone_poses_for_frame vs AnimPose reference). Any unavailable API blocks the save; it never assumes.",
+    "honestCeiling": "Whole-arm A-pose direction drifts 0.12 deg; the individual elbow/wrist/toe rest directions move 4.96/4.32/3.81 deg because the segments were lengthened. Rotation curves ride on those rest offsets, so V3 poses differ from V2 exactly by the proportion change. Hand and foot contact still need PIE eyes."
+  },
+  "pitfalls58": [
+    "StaticMesh.get_num_uv_channels does not exist: read StaticMeshDescription, record unavailable rather than guess.",
+    "Property/material setters return False even on success: trust only readback off the reloaded asset.",
+    "Nanite makes get_num_triangles(0) report the fallback mesh: record the Nanite flag beside the count.",
+    "An unregistered transient SkeletalMeshComponent returns identity bone transforms: use AnimPoseExtensions.get_reference_pose.",
+    "Interchange maps glTF (X,Y,Z) to UE (X,Z,Y): authored (x,y,z) cm reads back at (x,-y,z); expect the imported mesh to face UE +Y (toes +Y), which would make the current mesh yaw +90 face AWAY from travel. The receipt records the facing; confirm in PIE.",
+    "save_loaded_asset False with no other symptom: check for a zombie UnrealEditor.exe first.",
+    "Optional-success wrappers may return the struct or None rather than a bool; receipts are read with utf-8-sig."
+  ],
+  "residentSwap": {
+    "neighbourRadiusCm": 2600,
+    "minScaleGapSameVariant": 0.02,
+    "rules": [
+      "Neighbours (start points within neighbourRadiusCm) never share a visual scale.",
+      "Neighbours that must share a variant (the NE cluster has five mutually adjacent men and only four male variants) differ in scale by at least 0.02 (about 3.6 cm).",
+      "Scales inside one variant are all distinct and stay inside 0.84-1.04.",
+      "Kohanim in the directory are off duty in ordinary garments (Yechezkel 42:14 per people.json); V3_Kohen_White is service dress and is NOT cast on them.",
+      "V3_Visitor_Camera/_Phone carry baked photo stances and modern dress; the named residents are authored ancient-dress fiction and the population plays only an idle/walk pair, so they are not cast here. They belong to the instanced crowd field (own owner) or a later reviewed photo-visitor population.",
+      "Casting is authored characterisation, not a sourced or halachic statement."
+    ],
+    "casting": {
+      "yoav-ben-shimi": {
+        "variant": "V3_Pilgrim_Man_Standard",
+        "scale": 1.0,
+        "why": "pilgrim, northern valleys; baseline stature"
+      },
+      "miryam-bas-elyakim": {
+        "variant": "V3_Pilgrim_Woman_Young",
+        "scale": 0.93,
+        "why": "pilgrim woman, long shawl"
+      },
+      "naftali-ben-chagai": {
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "scale": 1.04,
+        "why": "pilgrim, eastern plain; tallest figure"
+      },
+      "tzipporah-bas-menachem": {
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "scale": 0.9,
+        "why": "pilgrim woman, coastal lowland"
+      },
+      "elchanan-ben-uriya": {
+        "variant": "V3_Pilgrim_Man_Elder",
+        "scale": 0.97,
+        "why": "pilgrim, river districts; stooped elder"
+      },
+      "shulamis-bas-yechiel": {
+        "variant": "V3_Pilgrim_Woman_Young",
+        "scale": 0.95,
+        "why": "pilgrim woman, lake shore"
+      },
+      "gad-ben-peleth": {
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "scale": 1.02,
+        "why": "pilgrim, high pastures"
+      },
+      "devorah-bas-amram": {
+        "variant": "V3_Pilgrim_Woman_Young",
+        "scale": 0.92,
+        "why": "pilgrim woman, western foothills"
+      },
+      "yigal-ben-zerach": {
+        "variant": "V3_Pilgrim_Man_Standard",
+        "scale": 0.99,
+        "why": "pilgrim, desert edge"
+      },
+      "techiya-bas-nadav": {
+        "variant": "V3_Pilgrim_Woman_Young",
+        "scale": 0.9,
+        "why": "pilgrim woman, terraced slopes; shortest adult woman"
+      },
+      "amitai-ben-kalev": {
+        "variant": "V3_Pilgrim_Youth",
+        "scale": 0.84,
+        "why": "pilgrim youth, knee-length tunic; no mantle so garment goes on Linen"
+      },
+      "yehudis-bas-ovadya": {
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "scale": 0.91,
+        "why": "pilgrim woman, northern ridges"
+      },
+      "pinchas-ben-achituv": {
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "scale": 1.03,
+        "why": "kohen crossing off duty in ordinary linen; NOT Kohen_White"
+      },
+      "yedidya-ben-chilkiya": {
+        "variant": "V3_Pilgrim_Man_Elder",
+        "scale": 0.96,
+        "why": "kohen off duty, changed out of service garments; NOT Kohen_White"
+      },
+      "uriel-ben-shemaya": {
+        "variant": "V3_Pilgrim_Man_Standard",
+        "scale": 1.02,
+        "why": "newly assigned kohen learning the approaches; ordinary dress"
+      },
+      "assaf-ben-berachya": {
+        "variant": "V3_Pilgrim_Man_Standard",
+        "scale": 1.01,
+        "why": "levite waiting for an assignment"
+      },
+      "chananel-ben-mattisyahu": {
+        "variant": "V3_Pilgrim_Man_Standard",
+        "scale": 0.98,
+        "why": "levite between duties"
+      },
+      "rivka-bas-yoezer": {
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "scale": 0.89,
+        "why": "host scanning arriving faces"
+      },
+      "nechemya-ben-tzuriel": {
+        "variant": "V3_Pilgrim_Man_Elder",
+        "scale": 0.94,
+        "why": "guide who sends rulings to a teacher; elder"
+      },
+      "shmaya-ben-nachshon": {
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "scale": 1.01,
+        "why": "host on the Mount deck"
+      },
+      "aviela-bas-refael": {
+        "variant": "V3_Pilgrim_Woman_Young",
+        "scale": 0.94,
+        "why": "guide on the Mount deck"
+      },
+      "ovadya-ben-ephrayim": {
+        "variant": "V3_Pilgrim_Man_Elder",
+        "scale": 0.95,
+        "why": "vendor outside the precinct"
+      },
+      "machla-bas-yiftach": {
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "scale": 0.86,
+        "why": "vendor outside the precinct"
+      },
+      "elad-ben-yishai": {
+        "variant": "V3_Pilgrim_Youth",
+        "scale": 0.87,
+        "why": "vendor's youth on the deck; no mantle so garment goes on Linen"
+      }
+    },
+    "whyUnused": {
+      "V3_Kohen_White": "White ketonet/avnet/migbaat is service dress; the directory's kohanim are explicitly off duty in ordinary garments. Reserve for a reviewed inner-court/service scene.",
+      "V3_Visitor_Camera": "Baked photo stance, modern dress, needs the PhotoCamera clip role the population cannot select; for the instanced crowd field or a later photo-visitor population.",
+      "V3_Visitor_Phone": "Same as Visitor_Camera."
+    },
+    "populationOwnerMustChange": [
+      "people.json (staged via release_people_v3): add per-person body = {variant, visualScale} from resident-swap-plan.json; MikdashPeople parser reads it.",
+      "MikdashResidentPopulation: replace the single ResidentMesh/IdleAnimation/WalkAnimation with an EditInstanceOnly array of body variants {Id, SkeletalMesh, Idle, Walk, GarmentSlots, MeshRelativeYaw}; the skeleton-equality guards (currently lines ~231-235 and ~415-416) become per variant.",
+      "SpawnAuthoredBody: SetSkeletalMeshAsset(variant mesh); SetRelativeScale3D(FVector(visualScale)); keep SetRelativeLocation(0,0,-96); relative yaw from the import receipt's facing (expected -90 if the mesh faces +Y, the current +90 assumes -Y); PlayAnimation with the variant's own idle; Tick's walk/idle switch uses the body's variant clips, not the shared pair.",
+      "Garment override: slot 'Mantle' for robe variants, 'Linen' for V3_Pilgrim_Youth (it has no Mantle slot); keep the existing MI_Garment_* instances.",
+      "Do not touch capsule 34/96, spawn offset +96, actor scale, MaxWalkSpeed, the pilot bridge, the player pawn or any eye-height/hardware offset."
+    ],
+    "verifyAfter": [
+      "Every spawned body: capsule radius 34 and half-height 96 (GetScaledCapsuleRadius/HalfHeight), actor scale (1,1,1).",
+      "Mesh component: relative location (0,0,-96), relative scale == planned visualScale, relative yaw == receipt facing value.",
+      "Feet on floor: ball_r/ball_l world Z within 3 cm of the floor (300 outer court, 0 Mount deck) in idle and at walk contact frames, for the smallest (0.84) and largest (1.04) bodies.",
+      "Height: head bone world Z ~ floor + 166*scale; crown ~ floor + stature*scale from the spec's measuredCm.",
+      "Facing: ball_r is ahead of pelvis along actor forward; walking bodies move toward their toes.",
+      "Garment: the intended slot reads back the MI_Garment_* instance; no 'no named slot matched' note.",
+      "Spawn accounting unchanged: same residents spawn/refuse as before the swap (the nine capsule refusals are a separate open issue).",
+      "Player eye height and hardware offsets unchanged (config and pawn untouched; compare a PIE screenshot at the walking start).",
+      "Frame time before/after with 24 skeletal bodies of 13k-20k triangles; record it, do not assume."
+    ]
+  }
 }

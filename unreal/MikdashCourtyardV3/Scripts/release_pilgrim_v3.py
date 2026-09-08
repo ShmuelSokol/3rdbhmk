@@ -34,7 +34,17 @@ Two halves, both refusable:
     tolerance on the triangle readback is stated and the Nanite flag is recorded
     beside it instead of the check silently passing on the wrong number;
   * a zombie UnrealEditor process makes save_loaded_asset return False with no
-    other symptom, so a save failure prints that as the first thing to check.
+    other symptom, so a save failure prints that as the first thing to check;
+  * an unregistered transient SkeletalMeshComponent has no component-space
+    transforms, so get_bone_transform() returns identity for every bone. The
+    rest pose is therefore read through AnimPoseExtensions.get_reference_pose
+    (AnimationBlueprintLibrary, editor-only) and the component route is only a
+    fallback that is rejected when every bone reads the same position;
+  * Interchange converts glTF (X, Y, Z) to UE (X, Z, Y) (GLTFCore
+    ConversionUtilities.h). The generator writes glTF (x, z, -y)/100 of its
+    authored cm, so an authored bone at (x, y, z) reads back at (x, -y, z) in
+    UE. The readback is compared in THAT frame and the frame is recorded; the
+    authored-frame error is recorded beside it for diagnosis, never accepted.
 
 Large imports on this project have had to run in groups to survive memory
 limits, so `run` takes a batch size and keeps a resume marker: rerun the same
@@ -126,6 +136,13 @@ def write_spec():
                             'retarget in the editor and is NOT attempted by this script.'),
             'jointCount': manifest['rigCompatibility'].get('joints'),
             'movedJoints': manifest['rigCompatibility'].get('movedJoints')},
+        'scalePolicy': ('recommendedActorScale is the manifest key name inherited from the generator; '
+                        'the VALUE is a skeletal-mesh COMPONENT visual scale (recommendedVisualComponentScale '
+                        'repeats it under the right name). It is never applied to the Character actor, '
+                        'its capsule (34/96) or the amah scale, and never multiplied by 0.96.'),
+        'restPoseReadbackFrame': ('Interchange glTF->UE is (X, Z, Y) of glTF; the generator writes glTF '
+                                  '(x, z, -y)/100 of authored cm; an authored bone (x, y, z) therefore '
+                                  'reads back at (x, -y, z) UE cm and is compared in that frame.'),
         'materials': {
             'policy': ('The OBJ carries an MTL with one named material per garment part and the GLB '
                        'carries baseColorFactor plus COLOR_0, so the palette arrives with the mesh. '
@@ -151,6 +168,7 @@ def write_spec():
                       'staticMaterialFile': v['staticMaterialFile'],
                       'staticVertexFingerprint': v['staticVertexFingerprint'],
                       'recommendedActorScale': v['recommendedActorScale'],
+                      'recommendedVisualComponentScale': v['recommendedActorScale'],
                       'recommendedIdleClip': v['recommendedIdleClip'],
                       'animations': v['animations'],
                       'measuredCm': v['measuredCm'],
@@ -246,12 +264,30 @@ def disk_path(asset_path, extension='uasset'):
 
 
 def _bone_readout(ue, mesh):
-    """Bone names and component-space rest positions, via whichever API exists.
+    """Bone names and component-space rest positions (UE cm), via whichever API exists.
 
-    UE's Python surface for skeleton rest poses moves between versions. If no
-    strategy returns bones the caller must treat compatibility as UNPROVEN
+    Order of trust:
+      1. AnimPoseExtensions.get_reference_pose(skeleton) + get_bone_pose(WORLD):
+         the Skeleton's reference pose, evaluated by the animation runtime.
+      2. A transient SkeletalMeshComponent, accepted only if the positions are
+         not all identical (an unregistered component returns identity).
+    If neither returns bones the caller must treat compatibility as UNPROVEN
     rather than assume it; nothing here guesses.
     """
+    try:
+        skeleton = mesh.get_editor_property('skeleton')
+        pose = ue.AnimPoseExtensions.get_reference_pose(skeleton)
+        names = [str(n) for n in ue.AnimPoseExtensions.get_bone_names(pose)]
+        if names:
+            rows = []
+            for name in names:
+                t = ue.AnimPoseExtensions.get_bone_pose(pose, name, ue.AnimPoseSpaces.WORLD).translation
+                rows.append((name, (float(t.x), float(t.y), float(t.z))))
+            return rows, 'AnimPoseExtensions.get_reference_pose(skeleton) world/component space'
+    except Exception as error:                                       # noqa: BLE001
+        first = 'AnimPoseExtensions failed: ' + str(error)[:160]
+    else:
+        first = 'AnimPoseExtensions returned no bones'
     try:
         component = ue.new_object(ue.SkeletalMeshComponent)
         component.set_skeletal_mesh_asset(mesh)
@@ -260,17 +296,62 @@ def _bone_readout(ue, mesh):
             rows = []
             for i in range(count):
                 t = component.get_bone_transform(i).translation
-                rows.append((str(component.get_bone_name(i)), (t.x, t.y, t.z)))
-            return rows, 'transient SkeletalMeshComponent'
-    except Exception:                                                # noqa: BLE001
-        pass
-    try:
-        tree = mesh.get_editor_property('skeleton').get_editor_property('bone_tree')
-        if tree:
-            return [(None, None)] * len(tree), 'bone_tree length only'
-    except Exception:                                                # noqa: BLE001
-        pass
-    return [], 'unavailable'
+                rows.append((str(component.get_bone_name(i)), (float(t.x), float(t.y), float(t.z))))
+            if len({p for _, p in rows}) > 1:
+                return rows, 'transient SkeletalMeshComponent (' + first + ')'
+            return [], 'transient SkeletalMeshComponent returned identity for every bone; ' + first
+    except Exception as error:                                       # noqa: BLE001
+        return [], first + '; component route failed: ' + str(error)[:160]
+    return [], first + '; component route returned no bones'
+
+
+def _local_ref_translations(ue, mesh):
+    """Bone-local reference translations (UE cm) by name, for the clip proof."""
+    skeleton = mesh.get_editor_property('skeleton')
+    pose = ue.AnimPoseExtensions.get_reference_pose(skeleton)
+    out = {}
+    for name in ue.AnimPoseExtensions.get_bone_names(pose):
+        t = ue.AnimPoseExtensions.get_bone_pose(pose, name, ue.AnimPoseSpaces.LOCAL).translation
+        out[str(name)] = (float(t.x), float(t.y), float(t.z))
+    return out
+
+
+def _clip_translation_proof(ue, clip, mesh, ref_local, tolerance_cm=0.01):
+    """Which bones carry a translation that differs from the reference pose.
+
+    Interchange stores a full local transform per bone per key, so 'rotation
+    only' cannot be read as 'no translation key'. It is read as: every bone's
+    local translation equals its reference-pose translation on every sampled
+    frame, except the bones listed. Expected result: {} for Idle/Photo clips
+    and {'pelvis'} for Walk.
+    """
+    names = list(ref_local)
+    frames = int(ue.AnimationLibrary.get_num_frames(clip))
+    length = float(ue.AnimationLibrary.get_sequence_length(clip))
+    sample = sorted({0, frames // 4, frames // 2, (3 * frames) // 4, max(frames - 1, 0)})
+    translated = {}
+    strategy = None
+    for frame in sample:
+        poses = None
+        try:
+            poses = list(ue.AnimationLibrary.get_bone_poses_for_frame(clip, names, frame, False, mesh))
+            strategy = 'AnimationLibrary.get_bone_poses_for_frame(preview_mesh)'
+        except Exception:                                            # noqa: BLE001
+            try:
+                poses = [ue.AnimationLibrary.get_bone_pose_for_frame(clip, n, frame, False) for n in names]
+                strategy = 'AnimationLibrary.get_bone_pose_for_frame per bone'
+            except Exception as error:                               # noqa: BLE001
+                return {'proven': False, 'reason': 'No clip pose API answered: ' + str(error)[:160],
+                        'numFrames': frames, 'sequenceLength': length}
+        for name, transform in zip(names, poses):
+            t = transform.translation
+            dev = max(abs(float(t.x) - ref_local[name][0]), abs(float(t.y) - ref_local[name][1]),
+                      abs(float(t.z) - ref_local[name][2]))
+            if dev > tolerance_cm:
+                translated[name] = round(max(dev, translated.get(name, 0.0)), 4)
+    return {'proven': True, 'strategy': strategy, 'numFrames': frames, 'sequenceLength': length,
+            'sampledFrames': sample, 'toleranceCm': tolerance_cm,
+            'translatedBones': translated, 'rotationOnlyExcept': sorted(translated)}
 
 
 def _uv_channels(ue, mesh):
@@ -329,31 +410,84 @@ def _static_readback(ue, mesh, entry, spec):
     return row, problems
 
 
+def authored_to_ue(position_cm):
+    """Where an authored bone lands after Interchange: glTF (x, z, -y)/100 -> UE (X, Z, Y)*100."""
+    x, y, z = position_cm
+    return (float(x), -float(y), float(z))
+
+
 def _skeletal_readback(ue, mesh, animations, entry, bones):
     rows, strategy = _bone_readout(ue, mesh)
     row = {'asset': _path(mesh), 'skeleton': _path(mesh.get_editor_property('skeleton')),
            'boneReadoutStrategy': strategy, 'boneCount': len(rows),
            'expectedBoneCount': len(bones),
            'boneNamesMatchAuthoredRig': None, 'maxRestPositionErrorCm': None,
+           'expectedFrame': 'Interchange glTF->UE: authored (x, y, z) cm reads back as (x, -y, z)',
+           'maxRestPositionErrorCmAuthorFrame': None, 'frameMatched': None,
+           'restPositionsUeCm': None, 'facing': None,
            'animations': sorted(_path(a) for a in animations),
-           'animationCount': len(animations)}
+           'animationCount': len(animations), 'clipProof': {}}
     problems = []
     if rows and rows[0][0] is not None:
-        row['boneNamesMatchAuthoredRig'] = [n for n, _ in rows] == [b['name'] for b in bones]
-        row['maxRestPositionErrorCm'] = max(
-            max(abs(a - b) for a, b in zip(p, tuple(q['position_cm'])))
-            for (_, p), q in zip(rows, bones))
-        if not row['boneNamesMatchAuthoredRig']:
-            problems.append(entry['id'] + ': imported bone names differ from the authored rig')
-        if row['maxRestPositionErrorCm'] > 0.05:
-            problems.append('%s: rest pose readback off by %.4f cm'
-                            % (entry['id'], row['maxRestPositionErrorCm']))
+        names = [n for n, _ in rows]
+        row['boneNamesMatchAuthoredRig'] = names == [b['name'] for b in bones]
+        row['restPositionsUeCm'] = {n: [round(v, 4) for v in p] for n, p in rows}
+        if row['boneNamesMatchAuthoredRig']:
+            expected = [authored_to_ue(b['position_cm']) for b in bones]
+            row['maxRestPositionErrorCm'] = max(
+                max(abs(a - b) for a, b in zip(p, q)) for (_, p), q in zip(rows, expected))
+            row['maxRestPositionErrorCmAuthorFrame'] = max(
+                max(abs(a - b) for a, b in zip(p, tuple(float(v) for v in q['position_cm'])))
+                for (_, p), q in zip(rows, bones))
+            row['perBoneErrorCm'] = {n: round(max(abs(a - b) for a, b in zip(p, q)), 4)
+                                     for (n, p), q in zip(rows, expected)}
+            if row['maxRestPositionErrorCm'] <= 0.05:
+                row['frameMatched'] = 'interchange'
+            elif row['maxRestPositionErrorCmAuthorFrame'] <= 0.05:
+                row['frameMatched'] = 'author'
+                problems.append(entry['id'] + ': rest pose matches the AUTHORED frame, not the Interchange '
+                                'frame; the importer conversion differs from GLTFCore (X,Z,Y). Stop and inspect.')
+            else:
+                problems.append('%s: rest pose readback off by %.4f cm (Interchange frame), %.4f cm (author frame)'
+                                % (entry['id'], row['maxRestPositionErrorCm'],
+                                   row['maxRestPositionErrorCmAuthorFrame']))
+            ball = dict(rows).get('ball_r')
+            if ball:
+                toes_y = ball[1] - dict(rows)['foot_r'][1]
+                row['facing'] = {'toesDeltaYcm': round(toes_y, 3),
+                                 'meshFacesUE': '+Y' if toes_y > 0 else '-Y',
+                                 'relativeYawForActorForwardX': -90.0 if toes_y > 0 else 90.0,
+                                 'note': 'Derived from ball_r minus foot_r in component space. The population '
+                                         'currently applies mesh yaw +90 assuming -Y; if this says +Y the body '
+                                         'would face away from travel. Confirm in PIE before the swap.'}
+        else:
+            problems.append(entry['id'] + ': imported bone names differ from the authored rig: ' + repr(names[:6]))
     else:
         row['proven'] = False
-        row['reason'] = 'No Python API on this build returned bone names; treat as unproven.'
+        row['reason'] = 'No Python API on this build returned bone positions (' + strategy + '); treat as unproven.'
+        problems.append(entry['id'] + ': rest pose UNPROVEN - ' + row['reason'])
     if row['animationCount'] != len(entry['animations']):
         problems.append('%s: %d clips imported, %d authored'
                         % (entry['id'], row['animationCount'], len(entry['animations'])))
+    try:
+        ref_local = _local_ref_translations(ue, mesh)
+    except Exception as error:                                       # noqa: BLE001
+        ref_local = None
+        row['clipProof'] = {'proven': False, 'reason': 'reference local pose unavailable: ' + str(error)[:160]}
+        problems.append(entry['id'] + ': clip translation proof unavailable (reference pose)')
+    if ref_local:
+        for clip in animations:
+            proof = _clip_translation_proof(ue, clip, mesh, ref_local)
+            name = _path(clip).rsplit('/', 1)[-1]
+            row['clipProof'][name] = proof
+            if not proof.get('proven'):
+                problems.append('%s: clip %s translation proof unavailable: %s'
+                                % (entry['id'], name, proof.get('reason')))
+            elif not set(proof['rotationOnlyExcept']) <= {'pelvis'}:
+                problems.append('%s: clip %s translates bones other than pelvis: %s'
+                                % (entry['id'], name, proof['rotationOnlyExcept']))
+            elif proof['sequenceLength'] <= 0:
+                problems.append('%s: clip %s has no length' % (entry['id'], name))
     return row, problems
 
 
@@ -544,10 +678,14 @@ def run(apply=False, batch=DEFAULT_BATCH, variants=None, fresh=False):
                 'together with the four clips imported beside it. The existing '
                 'A_Pilgrim_Original_Idle/_Walk assets are valid motion for this rig but live on '
                 'the PilgrimRigV2 Skeleton; retarget them in the editor or use the GLB copies.',
-                '4. Apply recommendedActorScale per variant from the spec (0.84 - 1.04): they are '
-                'authored at one stature and a crowd of identical heights is the next thing that '
-                'will read as wrong.'],
-            'variantScales': {v['id']: v['recommendedActorScale'] for v in spec['variants']},
+                '4. Apply the recommended visual scale per variant (0.84 - 1.04) on the skeletal '
+                'mesh COMPONENT only (SetRelativeScale3D on the mesh, pivot at the feet), never on '
+                'the Character actor, its capsule or the amah scale: they are authored at one '
+                'stature and a crowd of identical heights is the next thing that will read as wrong. '
+                'Vary the scale inside a variant so neighbours differ.'],
+            'variantVisualComponentScales': {v['id']: v['recommendedActorScale'] for v in spec['variants']},
+            'scalePolicy': 'Skeletal mesh component relative scale only; actor scale stays 1; '
+                           'capsule 34/96 unchanged; not multiplied by any amah factor.',
             'photoPoseVariants': [v['id'] for v in spec['variants'] if v['prop']]}
     except Exception as error:                                       # noqa: BLE001
         receipt['status'] = ('failed_partial_assets_saved_resume_marker_written' if saved_any

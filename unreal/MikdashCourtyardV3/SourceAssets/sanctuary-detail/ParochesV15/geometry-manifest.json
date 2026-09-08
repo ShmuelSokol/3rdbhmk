@@ -1,0 +1,341 @@
+{
+  "status": "OFFLINE_SOURCE_SET_WRITTEN_NATIVE_PENDING",
+  "creator": "Scripts/create_paroches_v15.py",
+  "creatorSha256": "d32a049f09ec26e65fa0c25a6a4ae9adcb5075498789cdb8598d57b038ff0e2b",
+  "approval": {
+    "approvedPngSha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+    "approvedSource": "C:\\Users\\shmue\\Documents\\Codex\\2026-09-08\\what-color-is-the-paroches-of\\output\\paroches\\third-temple-handwoven-v15.png",
+    "basis": "HANDOFF-FOR-FABLE-20260908.md \"Approved paroches\"; explicit user approval of V15; V1/V7/V9 held"
+  },
+  "image": {
+    "file": "third-temple-handwoven-v15.png",
+    "sha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+    "approvedSource": "C:\\Users\\shmue\\Documents\\Codex\\2026-09-08\\what-color-is-the-paroches-of\\output\\paroches\\third-temple-handwoven-v15.png",
+    "sizePx": [
+      1355,
+      1161
+    ],
+    "channels": 3,
+    "aspect": 1.167097,
+    "targetAspect": 1.166667,
+    "aspectErrorPercent": 0.037,
+    "powerOfTwo": false,
+    "importNote": "1355 x 1161 is not a power of two: Unreal keeps the source pixels but disables mip maps and streaming unless power_of_two_mode is set. release_paroches_v15 sets STRETCH_TO_POWER_OF_TWO (-> 2048 x 2048, whole image, UV 0..1 unchanged) so the weave has mips; -ParochesV15KeepNPOT keeps it as-is."
+  },
+  "normal": {
+    "file": "third-temple-handwoven-v15_normal.png",
+    "sha256": "a95c2f377cce409864f620eb0003c8cb3850a908f017faecca88f8496cb33ce8",
+    "sizePx": [
+      1355,
+      1161
+    ],
+    "authored": true,
+    "parameters": {
+      "highPassRadiusPx": 3,
+      "slopeScale": 2.5,
+      "maxTilt": 0.35,
+      "convention": "DirectX (green = -V, image down); import with flip_green_channel False"
+    },
+    "stats": {
+      "maxAbsHighPass": 0.6490157663065179,
+      "meanAbsTiltX": 0.0801257714830231,
+      "meanAbsTiltY": 0.11332499459739105
+    },
+    "rule": "normal = normalize(-k * d(hp)/dcol, -k * d(hp)/drow, 1), hp = luma - box7(luma); tilt clamped; DirectX green"
+  },
+  "targets": {
+    "50": {
+      "amahCm": 50.0,
+      "note": "current main map (legacy 50 cm architecture)",
+      "widthCm": 350.0,
+      "heightCm": 300.0,
+      "arithmetic": "7 amot x 50 cm = 350 cm wide; 6 amot x 50 cm = 300 cm high",
+      "cloth": "SM_ParochesV15_Cloth_50",
+      "fixings": "SM_ParochesV15_Fixings_50"
+    },
+    "48": {
+      "amahCm": 48.0,
+      "note": "approved 48 cm amah (isolated candidate map)",
+      "widthCm": 336.0,
+      "heightCm": 288.0,
+      "arithmetic": "7 amot x 48 cm = 336 cm wide; 6 amot x 48 cm = 288 cm high",
+      "cloth": "SM_ParochesV15_Cloth_48",
+      "fixings": "SM_ParochesV15_Fixings_48"
+    }
+  },
+  "meshes": [
+    {
+      "name": "SM_ParochesV15_Cloth_50",
+      "file": "SM_ParochesV15_Cloth_50.obj",
+      "sha256": "ce153f7051b11c8989cd760b5e60b5dd67078c69f8a4d29ebd09a13276859697",
+      "triangles": 10000,
+      "parts": 1,
+      "material_role": "paroches_v15_fabric",
+      "bounds_cm": {
+        "min": [
+          -175.0,
+          -4.95649004626649,
+          0.0
+        ],
+        "max": [
+          175.0,
+          5.001310699078614,
+          300.0
+        ]
+      },
+      "uv_range": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "part_volume_sum_cm3": 84000.0,
+      "expected_volume_cm3": 84000.0,
+      "closed": true,
+      "vertices": 5002,
+      "drape": {
+        "folds": 6,
+        "amplitudeTopCm": 4.0,
+        "amplitudeBottomCm": 2.0,
+        "irregularityCm": 0.8,
+        "irregularityCycles": 2.5,
+        "irregularityPhase": 0.7,
+        "thicknessCm": 0.8,
+        "gridX": 60,
+        "gridZ": 40,
+        "ringXcm": [
+          -175.0,
+          -116.666667,
+          -58.333333,
+          0.0,
+          58.333333,
+          116.666667,
+          175.0
+        ],
+        "midPlaneYRangeCm": [
+          -4.9565,
+          5.0013
+        ]
+      }
+    },
+    {
+      "name": "SM_ParochesV15_Fixings_50",
+      "file": "SM_ParochesV15_Fixings_50.obj",
+      "sha256": "f09cdf8e1655661615c06a75156b496b9067f528ebda2f4e08034cbb9713cedc",
+      "triangles": 2528,
+      "parts": 12,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -188.0,
+          -12.25,
+          299.9
+        ],
+        "max": [
+          188.0,
+          5.6,
+          311.1
+        ]
+      },
+      "part_volume_sum_cm3": 4143.9594,
+      "closed": true,
+      "fixings": {
+        "rodRadiusCm": 1.75,
+        "rodOverhangCm": 10.0,
+        "rodAboveClothCm": 5.5,
+        "ringMajorCm": 5.0,
+        "ringMinorCm": 0.6,
+        "ringSegments": [
+          20,
+          8
+        ],
+        "bracketSizeCm": [
+          3.0,
+          12.25,
+          3.5
+        ],
+        "standoffCm": 12.0,
+        "finialRadiusCm": 3.0,
+        "material_role": "gold",
+        "ringXcm": [
+          -175.0,
+          -116.666667,
+          -58.333333,
+          0.0,
+          58.333333,
+          116.666667,
+          175.0
+        ],
+        "rodZcm": 305.5
+      }
+    },
+    {
+      "name": "SM_ParochesV15_Cloth_48",
+      "file": "SM_ParochesV15_Cloth_48.obj",
+      "sha256": "fcddfb6159f384b76b67a1ecb70e1131d8bdeca9d6b8676211b0cc37f0a631ca",
+      "triangles": 10000,
+      "parts": 1,
+      "material_role": "paroches_v15_fabric",
+      "bounds_cm": {
+        "min": [
+          -168.0,
+          -4.95649004626649,
+          0.0
+        ],
+        "max": [
+          168.0,
+          5.001310699078612,
+          288.0
+        ]
+      },
+      "uv_range": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "part_volume_sum_cm3": 77414.4,
+      "expected_volume_cm3": 77414.4,
+      "closed": true,
+      "vertices": 5002,
+      "drape": {
+        "folds": 6,
+        "amplitudeTopCm": 4.0,
+        "amplitudeBottomCm": 2.0,
+        "irregularityCm": 0.8,
+        "irregularityCycles": 2.5,
+        "irregularityPhase": 0.7,
+        "thicknessCm": 0.8,
+        "gridX": 60,
+        "gridZ": 40,
+        "ringXcm": [
+          -168.0,
+          -112.0,
+          -56.0,
+          0.0,
+          56.0,
+          112.0,
+          168.0
+        ],
+        "midPlaneYRangeCm": [
+          -4.9565,
+          5.0013
+        ]
+      }
+    },
+    {
+      "name": "SM_ParochesV15_Fixings_48",
+      "file": "SM_ParochesV15_Fixings_48.obj",
+      "sha256": "88b97ac78599ac7ed2e9cf12c9fd76cbe5b6121cf8610b77c80d234900077f04",
+      "triangles": 2528,
+      "parts": 12,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -181.0,
+          -12.25,
+          287.9
+        ],
+        "max": [
+          181.0,
+          5.6,
+          299.1
+        ]
+      },
+      "part_volume_sum_cm3": 4012.699,
+      "closed": true,
+      "fixings": {
+        "rodRadiusCm": 1.75,
+        "rodOverhangCm": 10.0,
+        "rodAboveClothCm": 5.5,
+        "ringMajorCm": 5.0,
+        "ringMinorCm": 0.6,
+        "ringSegments": [
+          20,
+          8
+        ],
+        "bracketSizeCm": [
+          3.0,
+          12.25,
+          3.5
+        ],
+        "standoffCm": 12.0,
+        "finialRadiusCm": 3.0,
+        "material_role": "gold",
+        "ringXcm": [
+          -168.0,
+          -112.0,
+          -56.0,
+          0.0,
+          56.0,
+          112.0,
+          168.0
+        ],
+        "rodZcm": 293.5
+      }
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_ParochesV15_Cloth_50",
+      "triangles": 10000,
+      "bounds_error_cm": 3.01e-07,
+      "worst_normal_deviation": 0.009373,
+      "file_space_signed_volume_cm3": 84000.0,
+      "normals_and_winding": "PASS"
+    },
+    {
+      "mesh": "SM_ParochesV15_Fixings_50",
+      "triangles": 2528,
+      "bounds_error_cm": 0.0,
+      "worst_normal_deviation": 0.0,
+      "file_space_signed_volume_cm3": 4143.959,
+      "normals_and_winding": "PASS"
+    },
+    {
+      "mesh": "SM_ParochesV15_Cloth_48",
+      "triangles": 10000,
+      "bounds_error_cm": 3.01e-07,
+      "worst_normal_deviation": 0.010161,
+      "file_space_signed_volume_cm3": 77414.4,
+      "normals_and_winding": "PASS"
+    },
+    {
+      "mesh": "SM_ParochesV15_Fixings_48",
+      "triangles": 2528,
+      "bounds_error_cm": 0.0,
+      "worst_normal_deviation": 0.0,
+      "file_space_signed_volume_cm3": 4012.699,
+      "normals_and_winding": "PASS"
+    }
+  ],
+  "sizeSource": {
+    "amot": [
+      7,
+      6
+    ],
+    "citation": "SourceAssets/research/book-scene-requirements-20260907.md pp. 184-186: KhK entrance 7 wide x 6 high, paroches exactly the size of the gate (Yechezkel 41:3; Mishkenei Elyon 159-166); Lishchno Tidreshu pp. 59-60 (paroches the size of the gate on the Heichal side). 48 cm amah -> 336 x 288 (handoff figure agrees); 50 cm -> 350 x 300."
+  },
+  "conventions": {
+    "axes": "mesh-local +X across width (image right), +Y toward the viewer (front), +Z up; pivot bottom centre of the rod plane",
+    "placement": "yaw -90: local +X -> world -Y (north = east-facing viewer's right), local +Y -> world +X (east, Heichal side)",
+    "obj": "Y reflected and triangle winding reversed for the legacy importer; importer reflects Y back; imported bounds must equal bounds_cm",
+    "uv": "one chart over the whole panel: u = arc length across the cloth 0..1 (image left -> right), v = z/H with v = 1 at the top; the FBX/OBJ importer maps V_ue = 1 - v_obj so image row 0 lands at the cloth top. Both sheets share the chart (the back reads mirrored, as a woven back does).",
+    "backFace": "closed 0.8 cm slab: the back sheet faces -Y so the panel reads from inside the Kodesh HaKodashim; material is also two-sided"
+  },
+  "authored": [
+    "drape folds and amplitudes",
+    "ring count/positions, rod, brackets, finials",
+    "cloth thickness",
+    "fabric normal map",
+    "hanging standoff from the wall (release spec)"
+  ]
+}

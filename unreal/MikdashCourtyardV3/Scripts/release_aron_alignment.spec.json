@@ -1,0 +1,129 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_aron_alignment.py: rigid XY translation of the TEMPLE actor set (route A) so that the Aron footprint centre sits over the Dome of the Rock centroid (Even HaShetiyah / es-Sakhra) within the stated uncertainty. Numbers come from SourceAssets/scale-review/aron-alignment-plan-*.json written by Scripts/plan_aron_alignment.py. Nothing here claims the rock's centre is known better than about 4 m, and nothing here changes the vertical datum.",
+  "analysis": "SourceAssets/scale-review/ARON-ON-EVEN-HASHETIYAH-20260908.md",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "AronAlignment-",
+  "receiptFolder": "SourceAssets/scale-review",
+  "receiptPrefix": "aron-alignment-release-",
+  "domeOfTheRockCentroidCm": [-6300.0, 0.0],
+  "rockCentreUncertaintyRadiusCm": 424.0,
+  "targets": {
+    "Main50": {
+      "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+      "lastKnownMapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+      "cmPerAmah": 50.0,
+      "courtHalfCm": 8100.0,
+      "deltaCm": [-100.0, 0.0, 0.0],
+      "recommended": false,
+      "reason": "The Aron centre (-6200, 0) is 100 cm from the Dome centroid (-6300, 0); the rock centre is uncertain by about 424 cm. Applying requires -AronAlignAllowNotRecommended in addition to -AronAlignApply.",
+      "aron": {"label": "RELEASE_Aron_Body", "expectedLocationBeforeCm": [-6200.0, 0.0, 925.0000610351562]},
+      "descriptor": null,
+      "protectedMaps": [
+        "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+        "/Game/MikdashV3/Maps/Courtyard",
+        "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+        "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+      ]
+    },
+    "Candidate48": {
+      "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+      "lastKnownMapSha256": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+      "cmPerAmah": 48.0,
+      "courtHalfCm": 7776.0,
+      "deltaCm": [-248.0, 0.0, 0.0],
+      "recommended": true,
+      "reason": "Re-pivot: the .96 conversion was pivoted at the outer altar (origin), sliding the Aron 248 cm east to -5952. Translating the converted Temple by -248 and moving the Selected48 descriptor pivot to the legacy Aron (-6200, 0, 0) is the same as having scaled about the Aron; the runtime adapters follow the descriptor. Residual to the Dome centroid: 100 cm, same as main; not chased.",
+      "aron": {"label": "RELEASE_Aron_Body", "expectedLocationBeforeCm": [-5952.0, 0.0, 888.00005859375]},
+      "descriptor": {
+        "className": "MikdashSceneUnits",
+        "expectedCount": 1,
+        "property": "fixed_architecture_origin_cm",
+        "before": [0.0, 0.0, 0.0],
+        "after": [-6200.0, 0.0, 0.0],
+        "consistencyRule": "Scaling a legacy point P about pivot Q by r gives Q + (P - Q) r = r P + Q (1 - r): the same as scaling about the origin and translating by Q (1 - r). With r = .96 and Q = (-6200, 0, 0) the translation is (-248, 0, 0) = deltaCm; equivalently after = deltaCm / (1 - r)."
+      },
+      "protectedMaps": [
+        "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+        "/Game/MikdashV3/Maps/Courtyard",
+        "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+        "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+      ]
+    }
+  },
+  "classification": {
+    "note": "Every level actor must fall into exactly one bucket or the run refuses (dry run: reports). Temple actors move; context, globals and frame-adapted actors do not.",
+    "templeMeshPrefixes": [
+      "/Game/MikdashV3/Architecture/",
+      "/Game/MikdashV3/ThirdParty/Vessels/",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/",
+      "/Game/MikdashV3/MaterialReview/DoorsParochesV1/",
+      "/Game/MikdashV3/MaterialReview/MenorahV4/",
+      "/Game/MikdashV3/MaterialReview/KeilimTIV1/",
+      "/Game/MikdashV3/MaterialReview/AronStudyV3/",
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/",
+      "/Game/MikdashV3/MaterialReview/ParochesV15/",
+      "/Game/MikdashV3/MaterialReview/ParochesFabricV1/",
+      "/Game/MikdashV3/Doors48V1/",
+      "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/"
+    ],
+    "templeLabelPrefixes": [
+      "RELEASE_Frieze", "RELEASE_Doors", "RELEASE_MenorahV4", "RELEASE_Shulchan", "RELEASE_Aron", "RELEASE_IncenseAltar",
+      "Review_Heichal", "Review_Kodesh", "RELEASE_TOUR_", "RELEASE_Paroches", "RELEASE_KodeshInteriorLight", "RELEASE_HeikhalEntranceFill",
+      "RELEASE_Resident_", "Mikdash_PlayerStart", "PlayerStart"
+    ],
+    "templeMovableClasses": [
+      "PlayerStart", "CameraActor", "PointLight", "RectLight", "SpotLight", "AmbientSound", "MikdashResidentCharacter"
+    ],
+    "templeMovableClassesRequireInsideHalfCm": 9000.0,
+    "contextMeshPrefixes": [
+      "/Game/MikdashV3/JerusalemContext/",
+      "/Game/MikdashV3/FutureMountV1/",
+      "/Game/MikdashV3/ArrivalReview/",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV1/",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2/",
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurface",
+      "/Game/MikdashV3/MaterialReview/KotelSurfacePolish",
+      "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/",
+      "/Game/MikdashV3/MaterialReview/OldCityFacadesV1/",
+      "/Engine/BasicShapes/"
+    ],
+    "contextLabelPrefixes": [
+      "SM_Jerusalem", "RELEASE_OldCity", "RELEASE_Kotel", "REVIEW_KotelPhoto", "RELEASE_KotelStoneV2", "RELEASE_Bus", "RELEASE_MountAccess",
+      "SM_MountPlatform", "JCTX_ISM", "RELEASE_Transit", "RELEASE_Enclosure", "RELEASE_Vegetation", "RELEASE_Water"
+    ],
+    "contextClasses": ["MikdashTransit", "MikdashTransitCrowdCoordinator", "MikdashEnclosure", "MikdashWater"],
+    "globalClasses": [
+      "DirectionalLight", "SkyAtmosphere", "SkyLight", "PostProcessVolume", "VolumetricCloud", "WindDirectionalSource",
+      "ExponentialHeightFog", "LevelSequenceActor", "MikdashDoveAppearance", "MikdashTimeOfDay", "MikdashSoundscape", "MikdashSettings"
+    ],
+    "frameAdaptedClasses": {
+      "note": "Actors whose Temple coordinates live in properties (polygons, station points, control points) and are converted at run time through the Selected48 descriptor. They are NOT moved by this script; the descriptor pivot change carries them on Candidate48. On Main50 they would need their properties/specs rewritten (see hardcoded list in the plan receipt) - another reason Main50 is not recommended.",
+      "classes": ["MikdashCrowdField", "MikdashServiceActor", "MikdashFXDirector", "MikdashTourGuide", "MikdashCodex", "MikdashResidentPopulation",
+                  "MikdashBirdFlock", "MikdashCinematics", "MikdashPhotoMode", "MikdashSceneUnits", "MikdashGateSecurity", "MikdashPeopleDirectory"]
+    }
+  },
+  "moveMethod": {
+    "StaticMeshActor": "respawn",
+    "respawnCopies": ["static_mesh", "per-slot material overrides", "collision profile", "collision enabled", "mobility", "visible", "hidden_in_game", "cast_shadow", "folder", "tags", "label", "rotation", "scale"],
+    "other": "actor.modify(True); root_component.modify(True); set_actor_location(new, sweep=False, teleport=True) - the pattern release_amah48_frame.py used for PlayerStart_0 and verified after reopen",
+    "why": "static-mobility StaticMeshActors do not reliably dirty their package on a transform change; a re-spawned actor is a new export and always saves"
+  },
+  "verification": {
+    "transformToleranceCm": 0.01,
+    "boundsToleranceCm": 0.05,
+    "aronToDomeCentroidMaxCm": 424.0,
+    "unrelatedActorsMustBeNumericallyUnchanged": true,
+    "reopenAndReadBack": true
+  },
+  "limitations": [
+    "The rock centre is modelled as the OSM Dome of the Rock polygon centroid with a 424 cm uncertainty radius; no plan giving the Sakhra's offset inside the dome could be verified offline.",
+    "XY only. The Aron floor stays about 13.2-13.6 m above the published 743.7 m rock summit; the vertical datum is a separate decision.",
+    "Component-level material overrides on re-spawned actors are copied per slot; any other per-component customisation not listed in moveMethod.respawnCopies is NOT copied and the pre-move snapshot in the receipt is the evidence for restoring it.",
+    "Runtime acceptance (PIE walking, tour route legality, crowd zones, service stations, save/load identity) is not established by this script; it verifies numeric placement only."
+  ]
+}

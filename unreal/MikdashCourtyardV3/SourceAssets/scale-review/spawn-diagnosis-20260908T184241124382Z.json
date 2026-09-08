@@ -1,0 +1,455 @@
+{
+  "status": "failed_cleanup_or_verification",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapShaBefore": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+  "mainShaBefore": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+  "errors": [
+    "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/diagnose_candidate_spawns.py\", line 362, in tick\n    run_diagnosis(world)\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/diagnose_candidate_spawns.py\", line 306, in run_diagnosis\n    legs.append(leg_sweep(world, V(pts[i]), V(pts[(i + 1) % len(pts)]), ignore))\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/diagnose_candidate_spawns.py\", line 250, in leg_sweep\n    if not ok: floor_fail.append(dict(feet=xyz(feet), trace=None if h is None else dict(impactZ=h['impactPoint'][2], normalZ=h['impactNormal'][2], mesh=(h.get('mesh') or {}).get('path'))))\n                                                                                                ~~~~~~~~~~~~~~~~^^^\nTypeError: 'NoneType' object is not subscriptable\n"
+  ],
+  "scope": "Real-RHI PIE capsule/floor queries at decoded waypoint 0 and along route legs; no map writes; not a navmesh or visual acceptance",
+  "commandLine": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/diagnose_candidate_spawns.py\" -Candidate48 -TestSavePrefix=FableProbe_SpawnDiag_02 -ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableProbe_SpawnDiag_02,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableProbe_SpawnDiag_02_Settings -unattended -NoSplash -abslog=C:\\Mikdash\\Working-5.8\\Fable-SpawnDiag-02-20260908.log",
+  "saveIsolation": {
+    "testPrefix": "FableProbe_SpawnDiag_02",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "editorPopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "label": "RELEASE_ResidentPopulation",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_authored_people_on_begin_play": "False",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "True",
+      "extended_route_body_index": "3",
+      "extended_route_laps": "3",
+      "extendedRouteWaypoints": [
+        [
+          5240.0,
+          1330.0,
+          300.0
+        ],
+        [
+          6300.0,
+          1000.0,
+          300.0
+        ],
+        [
+          6900.0,
+          1000.0,
+          300.0
+        ],
+        [
+          6700.0,
+          3200.0,
+          300.0
+        ],
+        [
+          5400.0,
+          3000.0,
+          300.0
+        ]
+      ],
+      "extendedRouteLookTargets": [
+        [
+          5000.0,
+          1180.0,
+          300.0
+        ],
+        [
+          7800.0,
+          0.0,
+          300.0
+        ],
+        [
+          7800.0,
+          0.0,
+          300.0
+        ],
+        [
+          0.0,
+          0.0,
+          300.0
+        ],
+        [
+          5000.0,
+          1180.0,
+          300.0
+        ]
+      ],
+      "extendedRouteLabels": [
+        "Rejoin the visiting group and wait",
+        "Walk toward the outer eastern gate",
+        "Pause at the court's edge and look at the gate",
+        "Walk along the northern side of the court",
+        "Turn back toward the visiting group"
+      ],
+      "bodies": [
+        {
+          "index": 0,
+          "label": "RELEASE_Resident_authored-outer-visitor-01",
+          "actorLocation": [
+            4900.0,
+            1000.0,
+            396.001
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "capsuleRadius": 34.0,
+          "capsuleHalfHeight": 96.0,
+          "feet": [
+            4900.0,
+            1000.0,
+            300.001
+          ],
+          "legacyPilotFeet": [
+            4900,
+            1000,
+            300
+          ],
+          "selected48PilotFeet": [
+            4704.0,
+            960.0,
+            288.0
+          ],
+          "distanceToSelected48FeetCm": 200.4,
+          "distanceToLegacyFeetCm": 0.001
+        },
+        {
+          "index": 1,
+          "label": "RELEASE_Resident_authored-outer-visitor-02",
+          "actorLocation": [
+            5120.0,
+            1120.0,
+            396.001
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "capsuleRadius": 34.0,
+          "capsuleHalfHeight": 96.0,
+          "feet": [
+            5120.0,
+            1120.0,
+            300.001
+          ],
+          "legacyPilotFeet": [
+            5120,
+            1120,
+            300
+          ],
+          "selected48PilotFeet": [
+            4915.2,
+            1075.2,
+            288.0
+          ],
+          "distanceToSelected48FeetCm": 209.986,
+          "distanceToLegacyFeetCm": 0.001
+        },
+        {
+          "index": 2,
+          "label": "RELEASE_Resident_authored-outer-visitor-03",
+          "actorLocation": [
+            4980.0,
+            1260.0,
+            396.001
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "capsuleRadius": 34.0,
+          "capsuleHalfHeight": 96.0,
+          "feet": [
+            4980.0,
+            1260.0,
+            300.001
+          ],
+          "legacyPilotFeet": [
+            4980,
+            1260,
+            300
+          ],
+          "selected48PilotFeet": [
+            4780.8,
+            1209.6,
+            288.0
+          ],
+          "distanceToSelected48FeetCm": 205.827,
+          "distanceToLegacyFeetCm": 0.001
+        },
+        {
+          "index": 3,
+          "label": "RELEASE_Resident_authored-outer-visitor-04",
+          "actorLocation": [
+            5240.0,
+            1330.0,
+            396.001
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "capsuleRadius": 34.0,
+          "capsuleHalfHeight": 96.0,
+          "feet": [
+            5240.0,
+            1330.0,
+            300.001
+          ],
+          "legacyPilotFeet": [
+            5240,
+            1330,
+            300
+          ],
+          "selected48PilotFeet": [
+            5030.4,
+            1276.8,
+            288.0
+          ],
+          "distanceToSelected48FeetCm": 216.579,
+          "distanceToLegacyFeetCm": 0.001
+        },
+        {
+          "index": 4,
+          "label": "RELEASE_Resident_authored-outer-visitor-05",
+          "actorLocation": [
+            4760.0,
+            1180.0,
+            396.001
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "capsuleRadius": 34.0,
+          "capsuleHalfHeight": 96.0,
+          "feet": [
+            4760.0,
+            1180.0,
+            300.001
+          ],
+          "legacyPilotFeet": [
+            4760,
+            1180,
+            300
+          ],
+          "selected48PilotFeet": [
+            4569.599999999999,
+            1132.8,
+            288.0
+          ],
+          "distanceToSelected48FeetCm": 196.53,
+          "distanceToLegacyFeetCm": 0.001
+        }
+      ],
+      "extendedRouteLookClassification": [
+        {
+          "look": [
+            5000.0,
+            1180.0,
+            300.0
+          ],
+          "classification": null
+        },
+        {
+          "look": [
+            7800.0,
+            0.0,
+            300.0
+          ],
+          "classification": "temple"
+        },
+        {
+          "look": [
+            7800.0,
+            0.0,
+            300.0
+          ],
+          "classification": "temple"
+        },
+        {
+          "look": [
+            0.0,
+            0.0,
+            300.0
+          ],
+          "classification": "temple"
+        },
+        {
+          "look": [
+            5000.0,
+            1180.0,
+            300.0
+          ],
+          "classification": null
+        }
+      ]
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "label": "RELEASE_PeopleV3Population",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spawn_authored_people_on_begin_play": "True",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "False",
+      "extended_route_body_index": "-1",
+      "extended_route_laps": "3",
+      "extendedRouteWaypoints": [],
+      "extendedRouteLookTargets": [],
+      "extendedRouteLabels": [],
+      "bodies": [],
+      "extendedRouteLookClassification": []
+    }
+  ],
+  "sceneDescriptors": [
+    {
+      "name": "MikdashSceneUnits_0",
+      "revision": "Selected48.v1"
+    }
+  ],
+  "populationReadyWaitSeconds": 24.03,
+  "rhi": "see -abslog LogRHI/LogD3D12RHI lines; -nullrhi refused at startup",
+  "piePopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "living": 0,
+      "directoryStatus": "Authored people directory not requested",
+      "get_extended_route_status": "Extended route ignored: Extended route contains unclassified or invalid converted points",
+      "is_extended_route_active": false,
+      "is_population_active": false
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "living": 15,
+      "directoryStatus": "Directory 'people-v3': 24 authored, 15 walking, 9 skipped, 0 notes; file C:/Mikdash/Working-5.8/MikdashCourtyardV3/Content/Distribution/People/people.json",
+      "get_extended_route_status": "No extended route configured",
+      "is_extended_route_active": false,
+      "is_population_active": true
+    }
+  ],
+  "spawnedResidentActors": {
+    "RELEASE_Resident_authored-outer-visitor-01": [
+      4900.0,
+      1000.0,
+      386.15
+    ],
+    "RELEASE_Resident_authored-outer-visitor-02": [
+      5120.0,
+      1120.0,
+      386.15
+    ],
+    "RELEASE_Resident_authored-outer-visitor-03": [
+      4980.0,
+      1260.0,
+      386.15
+    ],
+    "RELEASE_Resident_authored-outer-visitor-04": [
+      5240.0,
+      1330.0,
+      386.15
+    ],
+    "RELEASE_Resident_authored-outer-visitor-05": [
+      4760.0,
+      1180.0,
+      386.15
+    ],
+    "Resident_naftali-ben-chagai": [
+      5160.0,
+      1008.0,
+      386.15
+    ],
+    "Resident_elchanan-ben-uriya": [
+      3384.0,
+      3408.0,
+      386.15
+    ],
+    "Resident_shulamis-bas-yechiel": [
+      5160.0,
+      3408.0,
+      386.15
+    ],
+    "Resident_devorah-bas-amram": [
+      3384.0,
+      -2640.0,
+      386.15
+    ],
+    "Resident_yigal-ben-zerach": [
+      5160.0,
+      -2640.0,
+      386.15
+    ],
+    "Resident_amitai-ben-kalev": [
+      3384.0,
+      -5040.0,
+      386.149
+    ],
+    "Resident_yehudis-bas-ovadya": [
+      5160.0,
+      -5040.0,
+      386.149
+    ],
+    "Resident_yedidya-ben-chilkiya": [
+      2688.0,
+      -4224.0,
+      386.149
+    ],
+    "Resident_assaf-ben-berachya": [
+      2448.0,
+      -4176.0,
+      386.149
+    ],
+    "Resident_chananel-ben-mattisyahu": [
+      5376.0,
+      1584.0,
+      386.15
+    ],
+    "Resident_shmaya-ben-nachshon": [
+      9360.0,
+      -2600.0,
+      98.4
+    ],
+    "Resident_aviela-bas-refael": [
+      9400.0,
+      2700.0,
+      98.4
+    ],
+    "Resident_ovadya-ben-ephrayim": [
+      9350.0,
+      -1250.0,
+      98.4
+    ],
+    "Resident_machla-bas-yiftach": [
+      9360.0,
+      100.0,
+      98.4
+    ],
+    "Resident_elad-ben-yishai": [
+      9330.0,
+      -2300.0,
+      98.4
+    ]
+  },
+  "pieEnded": true,
+  "mapShaAfter": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+  "mapBytesUnchanged": true,
+  "mainBytesUnchanged": true
+}

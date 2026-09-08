@@ -1,0 +1,349 @@
+{
+  "status": "pie_starting",
+  "stamp": "20260908T185128Z",
+  "tag": "before",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapShaBefore": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+  "specSha256": "57b1eaeee80b719c22cc649c24d31ee04c94bfb630ba00ff8c6a010859e6eebd",
+  "variantsRequested": [
+    "baseline",
+    "A_relief_local_exposure",
+    "B_relief_sun_south"
+  ],
+  "viewsRequested": [
+    "v0_astra_floors_anchor",
+    "v1_inner_court_ulam_facade",
+    "v2_outer_court_west_gate",
+    "v3_heikhal_menorah",
+    "v4_platform_edge_city",
+    "v5_kotel_plaza",
+    "v6_outer_east_gate_shade"
+  ],
+  "instanceShaBefore": {
+    "MI_PBR_LimestoneAshlar": "8749ccad3504e086ee646a5eb45d6029a1c523d54c5795f3b57b1c883586b386",
+    "MI_PBR_LimestoneTrim": "6c949b6606862abbaa86c895f4cd7cba6f3253629f6578f95e94916db01e342a"
+  },
+  "errors": [],
+  "failures": [
+    {
+      "where": "v4_platform_edge_city",
+      "error": "no candidate with a clear city sightline; first candidate captured anyway",
+      "elapsedSeconds": 42.66
+    }
+  ],
+  "events": [
+    {
+      "event": "setup_complete",
+      "elapsedSeconds": 42.66,
+      "variant": "baseline"
+    }
+  ],
+  "captures": [],
+  "liveLighting": {
+    "pie_start": {
+      "counts": {
+        "DirectionalLight": 1,
+        "SkyLight": 1,
+        "PostProcessVolume": 1,
+        "ExponentialHeightFog": 1
+      },
+      "sun": {
+        "rotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ],
+        "forward": [
+          -0.8137976813493739,
+          -0.296198132726024,
+          -0.5000000000000001
+        ],
+        "intensity": 30000.0,
+        "temperature": 6500.0,
+        "useTemperature": true
+      },
+      "sky": {
+        "intensity": 1.2999999523162842,
+        "lowerHemisphereIsBlack": false
+      },
+      "fog": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "enable_volumetric_fog": false
+      },
+      "postProcess": {
+        "auto_exposure_method": "<AutoExposureMethod.AEM_HISTOGRAM: 0>",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "local_exposure_method": "<LocalExposureMethod.BILATERAL: 0>",
+        "local_exposure_highlight_contrast_scale": 1.0,
+        "local_exposure_shadow_contrast_scale": 1.0,
+        "local_exposure_detail_strength": 1.0,
+        "override_local_exposure_highlight_contrast_scale": false,
+        "override_local_exposure_shadow_contrast_scale": false,
+        "priority": 1000.0,
+        "unbound": true
+      },
+      "timeOfDayActors": 0
+    },
+    "baseline": {
+      "counts": {
+        "DirectionalLight": 1,
+        "SkyLight": 1,
+        "PostProcessVolume": 1,
+        "ExponentialHeightFog": 1
+      },
+      "sun": {
+        "rotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ],
+        "forward": [
+          -0.8137976813493739,
+          -0.296198132726024,
+          -0.5000000000000001
+        ],
+        "intensity": 30000.0,
+        "temperature": 6500.0,
+        "useTemperature": true
+      },
+      "sky": {
+        "intensity": 1.2999999523162842,
+        "lowerHemisphereIsBlack": false
+      },
+      "fog": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "enable_volumetric_fog": false
+      },
+      "postProcess": {
+        "auto_exposure_method": "<AutoExposureMethod.AEM_HISTOGRAM: 0>",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "local_exposure_method": "<LocalExposureMethod.BILATERAL: 0>",
+        "local_exposure_highlight_contrast_scale": 1.0,
+        "local_exposure_shadow_contrast_scale": 1.0,
+        "local_exposure_detail_strength": 1.0,
+        "override_local_exposure_highlight_contrast_scale": false,
+        "override_local_exposure_shadow_contrast_scale": false,
+        "priority": 1000.0,
+        "unbound": true
+      },
+      "timeOfDayActors": 0
+    }
+  },
+  "scope": "Actual PIE walking-height stills; variants applied in the PIE world only; nothing saved. Visual acceptance is a separate human decision.",
+  "introSkipped": true,
+  "cameraActor": {
+    "name": "CameraActor_0",
+    "label": "01 Courtyard arrival",
+    "postProcessBlendWeight": 0.0
+  },
+  "pawnHidden": true,
+  "pawnLocation": [
+    2100.0,
+    0.0,
+    598.0001907348633
+  ],
+  "views": [
+    {
+      "id": "v0_astra_floors_anchor",
+      "basis": "Exact camera of runtime-diagnostic-20260908T173221Z.png (release_frontend_flight_probe.py -DiagnosticFloors) so the coordinator's frame has a direct before/after.",
+      "fov": 80.0,
+      "position": [
+        6000.0,
+        3500.0,
+        468.0
+      ],
+      "pitch": -15.0,
+      "yaw": 180.0,
+      "groundTrace": "fixed camera (anchor)"
+    },
+    {
+      "id": "v1_inner_court_ulam_facade",
+      "basis": "Mikdash_PlayerStart [2100,0], inner court floor top 500 + 168 eye; looking west at the altar and the Ulam facade (release_capture_views view b).",
+      "fov": 75.0,
+      "position": [
+        2100.0,
+        0.0,
+        862.0001907348633
+      ],
+      "pitch": 2.0,
+      "yaw": 180.0,
+      "groundTrace": {
+        "point": [
+          2100.0,
+          0.0,
+          694.0001907348633
+        ],
+        "actor": "BP_MikdashWalker0"
+      }
+    },
+    {
+      "id": "v2_outer_court_west_gate",
+      "basis": "Outer court [4974,0], floor top 300 + 168; looking west at the inner eastern gate wall with the Ulam facade above (release_capture_views view c position).",
+      "fov": 75.0,
+      "position": [
+        4974.0,
+        0.0,
+        468.0
+      ],
+      "pitch": 3.0,
+      "yaw": 180.0,
+      "groundTrace": {
+        "point": [
+          4974.0,
+          0.0,
+          300.0
+        ],
+        "actor": "Outer court floor"
+      }
+    },
+    {
+      "id": "v3_heikhal_menorah",
+      "basis": "Proven Heikhal camera: floor top 925 + 168, 400 cm inside the doorway; menorah [-4900,300], Kodesh partition X -5600.",
+      "fov": 75.0,
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0000000000186
+      ],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "groundTrace": {
+        "point": [
+          -4000.0,
+          0.0,
+          925.0000000000186
+        ],
+        "actor": "Heichal clear floor"
+      }
+    },
+    {
+      "id": "v4_platform_edge_city",
+      "basis": "Mount platform deck Z 0 (mount-platform-design.json). First candidate whose eye-to-city sightline is not blocked is used: south edge looking south, else north edge looking north; the receipt records which and any blocker.",
+      "fov": 75.0,
+      "position": [
+        -5000.0,
+        21000.0,
+        168.0
+      ],
+      "pitch": -6.0,
+      "yaw": 90.0,
+      "candidateProbes": [
+        {
+          "xy": [
+            -5000.0,
+            21000.0
+          ],
+          "groundTrace": {
+            "point": [
+              -5000.0,
+              21000.0,
+              0.0
+            ],
+            "actor": "SM_MountPlatform_Surface"
+          },
+          "blocker": {
+            "point": [
+              -5000.0,
+              23417.266187050358,
+              0.0
+            ],
+            "actor": "SM_MountPlatform_Surface",
+            "distanceCm": 2423.1
+          }
+        },
+        {
+          "xy": [
+            3000.0,
+            -23500.0
+          ],
+          "groundTrace": {
+            "point": [
+              3000.0,
+              -23500.0,
+              0.0
+            ],
+            "actor": "SM_MountPlatform_Surface"
+          },
+          "blocker": {
+            "point": [
+              3000.0,
+              -24065.29500381779,
+              127.87608228220942
+            ],
+            "actor": "SM_JerusalemBuildings_Grid_P000_N003",
+            "distanceCm": 566.7
+          }
+        }
+      ],
+      "chosenXY": [
+        -5000.0,
+        21000.0
+      ]
+    },
+    {
+      "id": "v5_kotel_plaza",
+      "basis": "release_capture_views view f: kotel-detail manifest edge-0 midpoint + outward normal x 1000 cm, eye = traced plaza ground + 168, looking slightly up at the face.",
+      "fov": 75.0,
+      "position": [
+        -15774.21785752015,
+        14042.131435066,
+        -631.5959170904775
+      ],
+      "pitch": 14.103968944083105,
+      "yaw": -9.784849015691565,
+      "target": [
+        -14793.692248582138,
+        13873.032262339639,
+        -381.59591709047754
+      ],
+      "groundTrace": {
+        "point": [
+          -15774.21785752015,
+          14042.131435066,
+          -799.5959170904775
+        ],
+        "actor": "SM_JerusalemTerrain_07_08"
+      }
+    },
+    {
+      "id": "v6_outer_east_gate_shade",
+      "basis": "Inside the Outer E gate vestibule (threshold max X 8100, floor 300): shaded jambs framing the sunlit outer court to the west.",
+      "fov": 75.0,
+      "position": [
+        7800.0,
+        0.0,
+        468.000000000009
+      ],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "groundTrace": {
+        "point": [
+          7800.0,
+          0.0,
+          300.000000000009
+        ],
+        "actor": "Outer E vestibule floor"
+      }
+    }
+  ]
+}

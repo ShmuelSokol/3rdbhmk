@@ -1,0 +1,19 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Read-only real-RHI PIE diagnosis of the nine resident capsule spawn refusals on the isolated 48 cm candidate map. Recomputes the selected48 decoded waypoint 0 for all 24 people-v3 profiles, performs the spawner's own 34 x 96 Pawn capsule query, records the actual blocking component/mesh/penetration, floor/ceiling/wall probes, sweeps every route leg and searches the nearest clear spot. Never saves, never touches main. NullRHI or commandlet traces are refused.",
+ "candidateMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "mainMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "previouslyRefused": [
+  "yoav-ben-shimi", "miryam-bas-elyakim", "tzipporah-bas-menachem", "gad-ben-peleth", "techiya-bas-nadav",
+  "pinchas-ben-achituv", "uriel-ben-shemaya", "rivka-bas-yoezer", "nechemya-ben-tzuriel"
+ ],
+ "physical": {"capsuleRadiusCm": 34, "capsuleHalfHeightCm": 96, "spawnLiftCm": 96, "floorToleranceCm": 3, "floorNormalMinZ": 0.95, "profile": "Pawn"},
+ "conversion": {"ratio": 0.96, "originCm": [0, 0, 0], "outerCourtFloorZ": {"legacy": 300, "selected48": 288}, "mountDeck": "metric"},
+ "launch": {
+  "shell": "PowerShell foreground, one UnrealEditor.exe at a time",
+  "requiredFlags": ["-Candidate48", "-TestSavePrefix=FableProbe_<unique>", "-ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=<prefix>,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=<prefix>_Settings", "-unattended", "-NoSplash", "-abslog=<unique log>"],
+  "receiptFolder": "SourceAssets/scale-review",
+  "receiptPrefix": "spawn-diagnosis-"
+ }
+}

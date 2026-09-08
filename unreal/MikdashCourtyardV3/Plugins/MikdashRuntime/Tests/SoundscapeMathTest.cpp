@@ -24,7 +24,7 @@
 //      a different seed does not.
 
 #define MIKDASH_SOUNDSCAPE_MATH_ONLY 1
-#include "MikdashSoundscape.h"
+#include "SoundscapeMath.h"
 
 #include <cmath>
 #include <cstdint>

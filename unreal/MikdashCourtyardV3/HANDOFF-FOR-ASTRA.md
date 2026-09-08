@@ -196,3 +196,42 @@ enclosure wall is a **single Boolean union whose bounding box is the entire cour
 surface pass was putting lichen in mid-air until it decomposed the union into its 116
 source boxes. The water pass eliminated 14 false blockers the same way. Assume any
 "blocker" from a whole-part bounding box is wrong until decomposed.
+
+---
+
+# FINAL STATE AT HANDOFF — commit f4a29ea9
+
+**The "never been through a compiler" section above is now OUT OF DATE.** The editor
+target builds green with all thirteen new classes in it. Six real defects were found and
+fixed on that first build, listed in the f4a29ea9 commit message; the pattern worth
+carrying is that none of them were logic errors — they were UHT and engine-API rules
+that only a compiler can enforce, which is why agents forbidden to run UBT could not
+have caught them.
+
+## Where Astra picks up
+
+1. **Nothing is placed in the map.** It is still Walkthrough-11 content. The whole point
+   of the build being green is that `INTEGRATION-QUEUE.md` stage 4 can now run: the
+   release scripts, strictly serial, one commandlet at a time, verifying each receipt
+   before starting the next. That is the critical path and it has not started.
+2. **The vegetation agent may still be running** when you read this. Check for
+   `ScatterMath.h`, `MikdashFoliageWind.*`, `create_vegetation.py` and
+   `SourceAssets/vegetation-review/` before redoing its work.
+3. **The Nanite pass needs its derived-data rebuild to finish** before any frame time
+   means anything — roughly 1,100 of 7,200 done at about 0.5/s. Until then the editor
+   reads 24-31 ms and that number is not the steady state.
+4. **Nobody has looked at the sanctuary since the Nanite pass.** The probe captured the
+   editor viewport rather than the PIE camera, so there is no before/after. This project
+   flattened a frieze relief once already. Look before accepting.
+5. The six coordinator wiring jobs in the UPDATE section above are still owed.
+
+## Run this first
+
+```
+python scripts/verify.py          # green at handoff: 7/7 checks, 24/24 math tests
+Build.bat MikdashCourtyardV3Editor Win64 Development -Project=<uproject> -WaitMutex
+```
+
+Then place, then capture, then walk-probe, then cook. Commit as each lands — a session
+limit killed fourteen agents mid-write this morning and the only reason that cost us
+little is that everything since has been pushed as it landed.

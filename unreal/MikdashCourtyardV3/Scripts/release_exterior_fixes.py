@@ -18,7 +18,7 @@ Fixes (default set: access, tiling, trees; sky is opt-in):
           macro, city-wall block scale, building tint spread). UE 5.8 Python has NO default-parameter setter
           on MaterialEditingLibrary (the 2026-09-08 first run failed on it), so two methods are tried in order
           and the one used is recorded per material: (1) `expression_default` edits the parameter expressions'
-          `default_value` (get_material_expressions / editor_only_data.expression_collection), recompiles and
+          `default_value` (MaterialEditingLibrary.get_material_expressions, BlueprintPure in 5.8), recompiles and
           verifies with the exposed default getters, restoring the nodes on any mismatch; (2) `instance_override`
           creates MI_<Parent>_ExteriorV1 children with the new values (setters return False in 5.8: readback plus
           struct-array fallback) and overrides slot 0 on every StaticMeshComponent of this map carrying the parent.
@@ -27,7 +27,23 @@ Fixes (default set: access, tiling, trees; sky is opt-in):
           and remove them (expected 0 after the L_FutureMount removal). Removed transforms and custom
           data are recorded so revert can re-add them.
   sky     (opt-in, -ExteriorFixes=...,sky) Lower Cloud_GlobalCoverage on MI_Cloud_Scattered so the
-          cloud deck stops reading as a black wall along the horizon in every exterior view.
+          cloud deck stops reading as a black wall along the horizon in every exterior view. Goes through the
+          same readback-verified instance setter as the tiling fallback.
+
+UE 5.8 API facts, checked against the installed engine source (not remembered):
+  * Editor/MaterialEditor/Public/MaterialEditingLibrary.h has NO SetMaterialDefault*ParameterValue of any kind
+    (that AttributeError killed the 2026-09-08 first run); the BlueprintPure getters
+    GetMaterialDefault{Scalar,Vector}ParameterValue and BlueprintPure GetMaterialExpressions DO exist, which is
+    exactly what method 1 below needs.
+  * SetMaterialInstance{Scalar,Vector}ParameterValue writes through SetXParameterValueEditorOnly and returns a
+    bResult that is never assigned: ALWAYS false. Every instance write here is judged by readback only.
+  * UMaterial's nodes live in UMaterialEditorOnlyData::ExpressionCollection, a plain UPROPERTY(), so
+    get_editor_property('expressions') / ('editor_only_data') is not a usable Python route in 5.8.
+  * FMaterialParameterInfo defaults matter: a global parameter is (Name, GlobalParameter, Index -1); a
+    Python-default struct is (Name, LayerParameter, 0) and would never be found.
+  * StaticMesh.get_num_uv_channels does not exist in 5.8 and is not used here. This script never authors
+    material graph nodes, so tonight's pin-name traps (texture sample UVs, Desaturation/Clamp first input
+    'None', Noise 'World Position') do not apply to it.
 
 Commandlet invocation (serial; editor closed; never while another native job runs):
 
@@ -382,6 +398,14 @@ def _instance_transform(component, index):
     return result
 
 
+def _mark_modified(component):
+    """UObject::Modify on the component and its owning actor: set_material / remove_instance do not always mark
+    the package dirty by themselves, and an undirtied map is never offered to save_current_level."""
+    for obj in (component, component.get_owner() if hasattr(component, 'get_owner') else None):
+        if obj is not None:
+            obj.modify(True)
+
+
 def _transform_dict(transform):
     rotation = transform.rotation
     rotator = rotation.rotator() if hasattr(rotation, 'rotator') else rotation
@@ -479,10 +503,11 @@ class Engine:
     #
     # UE 5.8 Python exposes NO default-parameter setter on MaterialEditingLibrary (only the getters
     # get_material_default_{scalar,vector}_parameter_value). Two methods, chosen at run time:
-    #   expression_default  find the MaterialExpression{Scalar,Vector}Parameter nodes (get_material_expressions is
-    #                       UFUNCTION(BlueprintPure) in the installed header; editor_only_data.expression_collection
-    #                       is the reflected fallback), set their `default_value`, recompile, verify by the default
-    #                       getters; any failure restores the node and falls through to
+    #   expression_default  find every MaterialExpression{Scalar,Vector}Parameter node carrying the name
+    #                       (MaterialEditingLibrary.get_material_expressions, UFUNCTION(BlueprintPure) in the
+    #                       installed 5.8 header; the editor-only ExpressionCollection is NOT a reflected editor
+    #                       property, so there is no second route), set their `default_value`, recompile, verify by
+    #                       the default getters; any failure restores the nodes and falls through to
     #   instance_override   a MaterialInstanceConstant child per parent with the new values (setters return False in
     #                       5.8, so readback decides, with the *_parameter_values struct fallback), applied as slot-0
     #                       component overrides on every StaticMeshComponent of THIS map that carries the parent.
@@ -497,26 +522,43 @@ class Engine:
         return values
 
     def material_expressions(self, material):
-        """(expressions, access route). Raises if neither reflection route is exposed."""
+        """(expressions, access route). Raises (-> instance_override fallback) if the route is not exposed.
+
+        UE 5.8 fact: UMaterialEditingLibrary::GetMaterialExpressions is UFUNCTION(BlueprintPure) and is the only
+        Python route. UMaterial keeps its nodes in UMaterialEditorOnlyData::ExpressionCollection, declared plain
+        UPROPERTY() (no EditAnywhere/BlueprintReadWrite), so get_editor_property('editor_only_data') /
+        ('expressions') is NOT reachable from Python; it is attempted only as a last resort and its failure is
+        reported as such rather than as a stray AttributeError.
+        """
         if hasattr(self.ml, 'get_material_expressions'):
             return list(self.ml.get_material_expressions(material)), 'MaterialEditingLibrary.get_material_expressions'
-        editor_only = material.get_editor_property('editor_only_data')
-        collection = editor_only.get_editor_property('expression_collection')
-        return list(collection.get_editor_property('expressions')), 'editor_only_data.expression_collection.expressions'
+        try:
+            editor_only = material.get_editor_property('editor_only_data')
+            collection = editor_only.get_editor_property('expression_collection')
+            return list(collection.get_editor_property('expressions')), 'editor_only_data.expression_collection.expressions'
+        except Exception as error:  # noqa: BLE001 - reported so fix_tiling can take the instance_override route
+            raise RuntimeError('No Python route to the material expressions (get_material_expressions absent; '
+                               'editor-only ExpressionCollection is not a reflected editor property): %r' % (error,))
 
     def parameter_expressions(self, material, scalar_names, vector_names):
+        """{'scalar': {name: [expression, ...]}, 'vector': {...}}, route, expression count.
+
+        Every node carrying a wanted parameter name is collected: a name may legitimately appear on more than one
+        node, and all of them have to move together or the default getters read back the stale one.
+        """
         ue = self.ue
         expressions, route = self.material_expressions(material)
         found = {'scalar': {}, 'vector': {}}
         for expression in expressions:
-            if isinstance(expression, ue.MaterialExpressionScalarParameter):
-                name = str(expression.get_editor_property('parameter_name'))
-                if name in scalar_names:
-                    found['scalar'][name] = expression
-            elif isinstance(expression, ue.MaterialExpressionVectorParameter):
-                name = str(expression.get_editor_property('parameter_name'))
-                if name in vector_names:
-                    found['vector'][name] = expression
+            if isinstance(expression, ue.MaterialExpressionVectorParameter):
+                kind, wanted = 'vector', vector_names
+            elif isinstance(expression, ue.MaterialExpressionScalarParameter):
+                kind, wanted = 'scalar', scalar_names
+            else:
+                continue
+            name = str(expression.get_editor_property('parameter_name'))
+            if name in wanted:
+                found[kind].setdefault(name, []).append(expression)
         missing = [n for n in scalar_names if n not in found['scalar']] + [n for n in vector_names if n not in found['vector']]
         if missing:
             raise RuntimeError('Parameter expressions not found: %s' % missing)
@@ -527,15 +569,23 @@ class Engine:
         ue = self.ue
         found, route, count = self.parameter_expressions(material, list(pending_scalar), list(pending_vector))
         row['expressionCount'] = count
+        row['parameterNodeCount'] = {n: len(found['scalar'][n]) for n in pending_scalar}
+        row['parameterNodeCount'].update({n: len(found['vector'][n]) for n in pending_vector})
         touched = []
+        material.modify(True)
         try:
             for name, entry in pending_scalar.items():
-                found['scalar'][name].set_editor_property('default_value', float(entry['after']))
-                touched.append(('scalar', name))
+                touched.append(('scalar', name))  # recorded before the write: a mid-list failure still restores
+                for expression in found['scalar'][name]:
+                    expression.set_editor_property('default_value', float(entry['after']))
             for name, entry in pending_vector.items():
-                found['vector'][name].set_editor_property('default_value', ue.LinearColor(*entry['after']))
                 touched.append(('vector', name))
-            self.ml.recompile_material(material)
+                for expression in found['vector'][name]:
+                    expression.set_editor_property('default_value', ue.LinearColor(*entry['after']))
+            # RecompileMaterial does PreEditChange/PostEditChange (which rebuilds the cached expression data the
+            # default getters read) and returns the material resource's compile errors; recorded, never trusted
+            # as the acceptance test - the readback below is.
+            row['recompileErrors'] = [str(e) for e in (self.ml.recompile_material(material) or [])][:20]
             readback = self.read_material_values(material, cfg)
             for name, entry in pending_scalar.items():
                 if abs(readback['scalar'][name] - entry['after']) > tol_r:
@@ -548,13 +598,21 @@ class Engine:
             for kind, name in touched:
                 entry = row[kind][name]
                 value = float(entry['before']) if kind == 'scalar' else ue.LinearColor(*entry['before'])
-                found[kind][name].set_editor_property('default_value', value)
+                for expression in found[kind][name]:
+                    expression.set_editor_property('default_value', value)
             if touched:
                 self.ml.recompile_material(material)
             raise
 
     def set_instance_parameter(self, instance, kind, name, value):
-        """MIC setter verified by readback; struct-array fallback (release_sanctuary_balance.py idiom)."""
+        """MIC setter verified by readback; struct-array fallback (release_sanctuary_balance.py idiom).
+
+        UE 5.8 fact: UMaterialEditingLibrary::SetMaterialInstance{Scalar,Vector}ParameterValue writes the value
+        through SetXParameterValueEditorOnly and then returns a bResult that was never assigned - it is ALWAYS
+        false, success or not. Only the readback decides here. The fallback writes the parameter struct directly
+        and must stamp Association=GlobalParameter, Index=-1 (INDEX_NONE); a Python-default struct would carry
+        Association=LayerParameter, Index=0 and the global lookup would never find it.
+        """
         ue, ml = self.ue, self.ml
         getters = {'scalar': ml.get_material_instance_scalar_parameter_value, 'vector': ml.get_material_instance_vector_parameter_value}
         setters = {'scalar': ml.set_material_instance_scalar_parameter_value, 'vector': ml.set_material_instance_vector_parameter_value}
@@ -568,10 +626,11 @@ class Engine:
                 return abs(got - float(value)) <= 1e-4
             return max(abs(a - b) for a, b in zip(got[:3], _linear(value)[:3])) <= 1e-4
 
+        instance.modify(True)
         returned = setters[kind](instance, name, value)
         ml.update_material_instance(instance)
         got = read()
-        path = 'MaterialEditingLibrary.set_material_instance_%s_parameter_value (return %s ignored)' % (kind, returned)
+        path = 'MaterialEditingLibrary.set_material_instance_%s_parameter_value (return %s always false, ignored)' % (kind, returned)
         if not matches(got):
             prop = {'scalar': 'scalar_parameter_values', 'vector': 'vector_parameter_values'}[kind]
             struct_cls = {'scalar': ue.ScalarParameterValue, 'vector': ue.VectorParameterValue}[kind]
@@ -579,6 +638,8 @@ class Engine:
             entry = struct_cls()
             info = ue.MaterialParameterInfo()
             info.set_editor_property('name', name)
+            info.set_editor_property('association', ue.MaterialParameterAssociation.GLOBAL_PARAMETER)
+            info.set_editor_property('index', -1)
             entry.set_editor_property('parameter_info', info)
             entry.set_editor_property('parameter_value', value)
             values.append(entry)
@@ -648,6 +709,7 @@ class Engine:
         for actor_name, component in rows:
             overrides = list(component.get_editor_property('override_materials'))
             previous = _asset_path(overrides[0]) if overrides and overrides[0] is not None else None
+            _mark_modified(component)
             component.set_material(0, instance)
             if _asset_path(component.get_material(0)) != new_path:
                 raise RuntimeError('Component override readback differs on %s/%s' % (actor_name, component.get_name()))
@@ -728,6 +790,8 @@ class Engine:
             self.write()
             row['components'] = self.override_components(component_index[path], instance, path)
             row['componentCount'] = len(row['components'])
+            if row['components'] and not ue.EditorLoadingAndSavingUtils.get_dirty_map_packages():
+                raise RuntimeError('%s slot-0 overrides were set but no map package is dirty; the save would drop them' % path)
             row.update(method='instance_override', action='overrides_set_pending_map_save', uassetSha256After=sha256_of(disk_path(path)))
             self.write()
         return out
@@ -771,13 +835,17 @@ class Engine:
                 pending_scalar = {n: v for n, v in row.get('scalar', {}).items() if v['state'] == 'matches_expected_before'}
                 pending_vector = {n: v for n, v in row.get('vector', {}).items() if v['state'] == 'matches_expected_before'}
                 found, route, _ = self.parameter_expressions(material, list(pending_scalar), list(pending_vector))
+                entry['expressionRoute'] = route
+                material.modify(True)
                 for name, values in pending_scalar.items():
-                    found['scalar'][name].set_editor_property('default_value', float(values['before']))
+                    for expression in found['scalar'][name]:
+                        expression.set_editor_property('default_value', float(values['before']))
                     entry['scalar'][name] = values['before']
                 for name, values in pending_vector.items():
-                    found['vector'][name].set_editor_property('default_value', ue.LinearColor(*values['before']))
+                    for expression in found['vector'][name]:
+                        expression.set_editor_property('default_value', ue.LinearColor(*values['before']))
                     entry['vector'][name] = values['before']
-                self.ml.recompile_material(material)
+                entry['recompileErrors'] = [str(e) for e in (self.ml.recompile_material(material) or [])][:20]
                 readback = self.read_material_values(material, cfg)
                 for name, value in entry['scalar'].items():
                     if abs(readback['scalar'][name] - value) > tol:
@@ -806,6 +874,7 @@ class Engine:
                     if _asset_path(component.get_material(0)) != instance_path:
                         continue  # already cleared or changed by someone else; never touch
                     previous = ue.load_asset(record['previousOverride']) if record.get('previousOverride') else None
+                    _mark_modified(component)
                     component.set_material(0, previous)
                     if _asset_path(component.get_material(0)) not in (record.get('previousOverride'), path):
                         raise RuntimeError('Override clear readback differs on %s/%s' % (record['actor'], record['component']))
@@ -840,12 +909,15 @@ class Engine:
             return out
         out['action'] = 'set_started'
         self.write()
+        # Same 5.8 issue as the tiling instance route: the setter always returns false, so readback decides
+        # (set_instance_parameter raises unless the value reads back, struct fallback included).
         for name, entry in out['scalar'].items():
             if entry['state'] == 'matches_expected_before':
-                self.ml.set_material_instance_scalar_parameter_value(instance, name, float(entry['after']))
+                entry['set'] = self.set_instance_parameter(instance, 'scalar', name, float(entry['after']))
         self.ml.update_material_instance(instance)
         for name, entry in out['scalar'].items():
             readback = float(self.ml.get_material_instance_scalar_parameter_value(instance, name))
+            entry['readback'] = readback
             if abs(readback - entry['after']) > 1e-4:
                 raise RuntimeError('%s %s readback %.4f differs from %.4f' % (path, name, readback, entry['after']))
         if not self.assets.save_loaded_asset(instance, only_if_is_dirty=False):
@@ -869,9 +941,13 @@ class Engine:
         self.write()
         for name, entry in prior['scalar'].items():
             if entry['state'] == 'matches_expected_before':
-                self.ml.set_material_instance_scalar_parameter_value(instance, name, float(entry['before']))
+                self.set_instance_parameter(instance, 'scalar', name, float(entry['before']))
                 out['scalar'][name] = entry['before']
         self.ml.update_material_instance(instance)
+        for name, value in out['scalar'].items():
+            readback = float(self.ml.get_material_instance_scalar_parameter_value(instance, name))
+            if abs(readback - float(value)) > 1e-4:
+                raise RuntimeError('%s %s revert readback %.4f differs from %.4f' % (prior['materialInstance'], name, readback, value))
         if not self.assets.save_loaded_asset(instance, only_if_is_dirty=False):
             raise RuntimeError('save_loaded_asset failed for ' + prior['materialInstance'])
         out['action'] = 'reverted_saved'
@@ -939,12 +1015,17 @@ class Engine:
             row['numCustomDataFloats'] = floats
             row['action'] = 'removal_started'
             self.write()
+            _mark_modified(component)
+            # Descending index order: InstancedStaticMeshComponent::RemoveInstance compacts the array, so any
+            # lower index recorded above stays valid.
             for record in sorted(row['inside'], key=lambda r: r['index'], reverse=True):
                 if not component.remove_instance(record['index']):
                     raise RuntimeError('remove_instance(%d) returned False on %s' % (record['index'], entry['label']))
             row['instancesAfter'] = int(component.get_instance_count())
             if row['instancesAfter'] != count - len(row['inside']):
                 raise RuntimeError('Instance count after removal differs on ' + entry['label'])
+            if not self.ue.EditorLoadingAndSavingUtils.get_dirty_map_packages():
+                raise RuntimeError('%s instances were removed but no map package is dirty; the save would drop them' % entry['label'])
             row['action'] = 'removed'
             out['removedTotal'] += len(row['inside'])
             self.write()
@@ -965,6 +1046,7 @@ class Engine:
             result['readded'] = []
             self.write()
             floats = int(row.get('numCustomDataFloats') or 0)
+            _mark_modified(component)
             for record in row['inside']:
                 t = record['transform']
                 transform = ue.Transform(location=ue.Vector(*t['location']), rotation=ue.Rotator(pitch=t['rotation'][0], yaw=t['rotation'][1], roll=t['rotation'][2]), scale=ue.Vector(*t['scale']))

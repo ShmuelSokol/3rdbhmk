@@ -1,0 +1,2369 @@
+{
+  "status": "menorah_v4_saved_reopened_menorah_v3_actors_removed_visual_acceptance_pending",
+  "stamp": "20260908T030534818522Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "1d63d27c1cb3e2154cc6a2b4bc5b86567e95f5c592692cf5c17c3bc435244b17",
+  "mapMatchesLastKnown": false,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_import_menorah_v4.spec.json",
+  "specSha256": "10dfb52e37f83ae68a8f05b938578bf643af607626db43a1c6fad2b551712cb3",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "sourceFiles": [
+      {
+        "name": "SM_MenorahV4_Base",
+        "part": "Base",
+        "role": "gold",
+        "collisionProfile": "BlockAll",
+        "sha256": "a5fbd9321ecfd15410166ecf3ef901cdfc65e1f330ac05a64a2146cafeae85ea",
+        "triangles": 2000,
+        "fileRightHandedSignedVolumeCm3": 81365.9115515796
+      },
+      {
+        "name": "SM_MenorahV4_Shaft",
+        "part": "Shaft",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "sha256": "9f4ca2b18d23c1bf0ec0befd6f5c9fc798620aa3a14a04090f4a3b767cfb51c5",
+        "triangles": 608,
+        "fileRightHandedSignedVolumeCm3": 1824.599823112114
+      },
+      {
+        "name": "SM_MenorahV4_BranchesL",
+        "part": "BranchesL",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "sha256": "432ff16f4ed5c79068de9c136ce336fa763abdce196d08ae05934c2b5d7f93d6",
+        "triangles": 11424,
+        "fileRightHandedSignedVolumeCm3": 1900.782402724187
+      },
+      {
+        "name": "SM_MenorahV4_BranchesR",
+        "part": "BranchesR",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "sha256": "e336f5b20e56bb74dc6e8d2e8b0a8ab34924a24e8b443c4c489a9399104a8b71",
+        "triangles": 11424,
+        "fileRightHandedSignedVolumeCm3": 1900.7824027233867
+      },
+      {
+        "name": "SM_MenorahV4_Ornaments",
+        "part": "Ornaments",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "sha256": "97fcc09407f33b37d2c0a1280874829733e6e55d6517105d29f7342d9b5024a1",
+        "triangles": 56200,
+        "fileRightHandedSignedVolumeCm3": 4809.036596680466
+      },
+      {
+        "name": "SM_MenorahV4_Lamps",
+        "part": "Lamps",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "sha256": "f1f74cdc85f76604d7f9ac14314e82a7f529fce0b938e039b628daaa0cf26d18",
+        "triangles": 11536,
+        "fileRightHandedSignedVolumeCm3": 1363.0542566114193
+      },
+      {
+        "name": "SM_MenorahV4_StepStone",
+        "part": "StepStone",
+        "role": "stone",
+        "collisionProfile": "BlockAll",
+        "sha256": "e09582b8751a9d27bfb69dd43442b8c47c7dc9d2745df6097047abaea25dae16",
+        "triangles": 192,
+        "fileRightHandedSignedVolumeCm3": 266780.98271940445
+      }
+    ],
+    "materialsOnDisk": {
+      "gold": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold (same as the vessels release / RELEASE_Menorah)",
+          "onDisk": true
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold_fallback (keilim studies, shulchan)",
+          "onDisk": true
+        }
+      ],
+      "stone": [
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+          "kind": "limestone instance (PBR architecture set)",
+          "onDisk": true
+        },
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+          "kind": "limestone_fallback",
+          "onDisk": true
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "kind": "stone_fallback",
+          "onDisk": true
+        }
+      ]
+    },
+    "ornamentCounts": {
+      "base": 5,
+      "base_foot": 6,
+      "base_panel": 18,
+      "shaft": 1,
+      "branch": 6,
+      "knop": 11,
+      "knop_boss": 132,
+      "flower": 9,
+      "flower_petal": 54,
+      "goblet": 22,
+      "stem": 7,
+      "lamp": 7,
+      "lamp_lid": 7,
+      "lamp_finial": 7,
+      "wick_nozzle": 7,
+      "stone_step": 3
+    },
+    "namespaceFolderExistsOnDisk": false,
+    "savedMeshFilesOnDisk": {
+      "SM_MenorahV4_Base": false,
+      "SM_MenorahV4_Shaft": false,
+      "SM_MenorahV4_BranchesL": false,
+      "SM_MenorahV4_BranchesR": false,
+      "SM_MenorahV4_Ornaments": false,
+      "SM_MenorahV4_Lamps": false,
+      "SM_MenorahV4_StepStone": false
+    },
+    "stoneMaterialPlan": "reuse existing candidate",
+    "mapSha256OnDisk": "1d63d27c1cb3e2154cc6a2b4bc5b86567e95f5c592692cf5c17c3bc435244b17",
+    "mapMatchesLastKnown": false,
+    "plan": {
+      "origin": [
+        -5330.0,
+        315.17599868774414,
+        925.0
+      ],
+      "yaw": -90.0,
+      "halfSpanCm": 50.762385,
+      "parts": {
+        "SM_MenorahV4_Base": {
+          "label": "RELEASE_MenorahV4_Base",
+          "part": "Base",
+          "role": "gold",
+          "collisionProfile": "BlockAll",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5366.81,
+              283.28052643784497,
+              925.0
+            ],
+            "max": [
+              -5293.19,
+              347.0714709376433,
+              959.47
+            ]
+          },
+          "southWallClearanceCm": 152.9285290623567
+        },
+        "SM_MenorahV4_Shaft": {
+          "label": "RELEASE_MenorahV4_Shaft",
+          "part": "Shaft",
+          "role": "gold",
+          "collisionProfile": "NoCollision",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5333.63075,
+              311.54524868774416,
+              956.07
+            ],
+            "max": [
+              -5326.36925,
+              318.8067486877441,
+              1043.345
+            ]
+          },
+          "southWallClearanceCm": 181.19325131225588
+        },
+        "SM_MenorahV4_BranchesL": {
+          "label": "RELEASE_MenorahV4_BranchesL",
+          "part": "BranchesL",
+          "role": "gold",
+          "collisionProfile": "NoCollision",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5331.77129225,
+              315.15087271310415,
+              992.2226541729843
+            ],
+            "max": [
+              -5328.22870775,
+              362.12599868774413,
+              1042.345
+            ]
+          },
+          "southWallClearanceCm": 137.87400131225587
+        },
+        "SM_MenorahV4_BranchesR": {
+          "label": "RELEASE_MenorahV4_BranchesR",
+          "part": "BranchesR",
+          "role": "gold",
+          "collisionProfile": "NoCollision",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5331.77129225,
+              268.22599868774415,
+              992.2226541729843
+            ],
+            "max": [
+              -5328.22870775,
+              315.20112466238413,
+              1042.345
+            ]
+          },
+          "southWallClearanceCm": 184.79887533761587
+        },
+        "SM_MenorahV4_Ornaments": {
+          "label": "RELEASE_MenorahV4_Ornaments",
+          "part": "Ornaments",
+          "role": "gold",
+          "collisionProfile": "NoCollision",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5335.67120975,
+              264.4597889377441,
+              965.6167560129572
+            ],
+            "max": [
+              -5324.32879025,
+              365.89220843774416,
+              1067.17
+            ]
+          },
+          "southWallClearanceCm": 134.10779156225584
+        },
+        "SM_MenorahV4_Lamps": {
+          "label": "RELEASE_MenorahV4_Lamps",
+          "part": "Lamps",
+          "role": "gold",
+          "collisionProfile": "NoCollision",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5340.49775,
+              264.41361368774415,
+              1066.8791766272477
+            ],
+            "max": [
+              -5324.282615,
+              365.93838368774414,
+              1075.0
+            ]
+          },
+          "southWallClearanceCm": 134.06161631225586
+        },
+        "SM_MenorahV4_StepStone": {
+          "label": "RELEASE_MenorahV4_StepStone",
+          "part": "StepStone",
+          "role": "stone",
+          "collisionProfile": "BlockAll",
+          "location": [
+            -5330.0,
+            315.17599868774414,
+            925.0
+          ],
+          "rotation": [
+            0.0,
+            -90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5284.09,
+              270.17599868774414,
+              925.0
+            ],
+            "max": [
+              -5194.09,
+              360.17599868774414,
+              975.0
+            ]
+          },
+          "southWallClearanceCm": 139.82400131225586
+        }
+      },
+      "placedParts": [
+        "SM_MenorahV4_Base",
+        "SM_MenorahV4_Shaft",
+        "SM_MenorahV4_BranchesL",
+        "SM_MenorahV4_BranchesR",
+        "SM_MenorahV4_Ornaments",
+        "SM_MenorahV4_Lamps",
+        "SM_MenorahV4_StepStone"
+      ],
+      "originSource": "fixed at the MenorahV3 release pose (spec placement.fixedOrigin); Z re-derived from the measured Heikhal floor top",
+      "bookRuleYIfMoved": 324.237615,
+      "bookRuleYNotApplied": "V4 is narrower than V3, so the book rule would shift the vessel; the brief keeps the V3 position",
+      "menorahWorldBoundsCm": {
+        "min": [
+          -5366.81,
+          264.41361368774415,
+          925.0
+        ],
+        "max": [
+          -5293.19,
+          365.93838368774414,
+          1075.0
+        ]
+      },
+      "nearestTipToSouthWallCm": 134.06161631225586,
+      "menorahHeightCm": 150.0,
+      "menorahRowSpanCm": 101.52476999999999,
+      "stoneEastGapFromPlinthCm": 9.099999999999454,
+      "assemblyWorldBoundsCm": {
+        "min": [
+          -5366.81,
+          264.41361368774415,
+          925.0
+        ],
+        "max": [
+          -5194.09,
+          365.93838368774414,
+          1075.0
+        ]
+      },
+      "orientation": "lamp row north-south (Rambam 3:12), tending stone east (Rambam 3:11)"
+    },
+    "status": "offline_spec_consistent"
+  },
+  "switches": {
+    "importOnly": false,
+    "placeOnly": false,
+    "allowUnverifiedWinding": false
+  },
+  "mode": "import_and_place",
+  "materials": {
+    "gold": {
+      "assigned": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "kind": "gold (same as the vessels release / RELEASE_Menorah)",
+      "tried": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold (same as the vessels release / RELEASE_Menorah)",
+          "exists": true,
+          "loaded": true
+        }
+      ],
+      "created": false
+    },
+    "stone": {
+      "assigned": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "kind": "limestone instance (PBR architecture set)",
+      "tried": [
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+          "kind": "limestone instance (PBR architecture set)",
+          "exists": true,
+          "loaded": true
+        }
+      ],
+      "created": false
+    }
+  },
+  "created": [],
+  "meshes": {
+    "SM_MenorahV4_Base": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Base",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_Base.obj",
+      "triangles": 2000,
+      "vertices": 6000,
+      "localBoundsCm": {
+        "min": [
+          -31.895471572875977,
+          -36.810001373291016,
+          0.0
+        ],
+        "max": [
+          31.895471572875977,
+          36.810001373291016,
+          34.470001220703125
+        ]
+      },
+      "materialSlots": 29,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "BlockAll",
+      "autoGenerateCollision": true,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 1
+      },
+      "importSeconds": 0.119436,
+      "buildNanite": false,
+      "uassetSha256": "a2cf13de677b8e4bdbcaa25a07339d2b8329046f48903caa9fbe19aa068ae073",
+      "boundsErrorCm": 1.3732910133512632e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 1.3732910133512632e-06,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": true
+    },
+    "SM_MenorahV4_Shaft": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Shaft",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_Shaft.obj",
+      "triangles": 608,
+      "vertices": 1824,
+      "localBoundsCm": {
+        "min": [
+          -3.6307499408721924,
+          -3.6307499408721924,
+          31.06999969482422
+        ],
+        "max": [
+          3.6307499408721924,
+          3.6307499408721924,
+          118.34500122070312
+        ]
+      },
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "NoCollision",
+      "autoGenerateCollision": false,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 0
+      },
+      "importSeconds": 0.040003,
+      "buildNanite": false,
+      "uassetSha256": "7826a42e2ac3eedf69f4a7b8e863a2be3e98e995ee3db120a563eaf3e7b50f00",
+      "boundsErrorCm": 1.2207031261368684e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 1.2207031261368684e-06,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": true
+    },
+    "SM_MenorahV4_BranchesL": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesL",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_BranchesL.obj",
+      "triangles": 11424,
+      "vertices": 34272,
+      "localBoundsCm": {
+        "min": [
+          -46.95000076293945,
+          -1.7712923288345337,
+          67.22265625
+        ],
+        "max": [
+          0.025126000866293907,
+          1.7712923288345337,
+          117.34500122070312
+        ]
+      },
+      "materialSlots": 3,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "NoCollision",
+      "autoGenerateCollision": false,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 0
+      },
+      "importSeconds": 0.371539,
+      "buildNanite": false,
+      "uassetSha256": "90f910b07a76dffa1b2b65662cf96bb94fcd08ae4195a8e36147f252f5eea5a3",
+      "boundsErrorCm": 2.077015651025249e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 2.077015651025249e-06,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": true
+    },
+    "SM_MenorahV4_BranchesR": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesR",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_BranchesR.obj",
+      "triangles": 11424,
+      "vertices": 34272,
+      "localBoundsCm": {
+        "min": [
+          -0.025126000866293907,
+          -1.7712923288345337,
+          67.22265625
+        ],
+        "max": [
+          46.95000076293945,
+          1.7712923288345337,
+          117.34500122070312
+        ]
+      },
+      "materialSlots": 3,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "NoCollision",
+      "autoGenerateCollision": false,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 0
+      },
+      "importSeconds": 0.373434,
+      "buildNanite": false,
+      "uassetSha256": "cb03784c24c882d75b9e67deb2874d1025f4fa7776333678aae1048996ecfbb9",
+      "boundsErrorCm": 2.077015651025249e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 2.077015651025249e-06,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": true
+    },
+    "SM_MenorahV4_Ornaments": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Ornaments",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_Ornaments.obj",
+      "triangles": 56200,
+      "vertices": 168600,
+      "localBoundsCm": {
+        "min": [
+          -50.716209411621094,
+          -5.671209812164307,
+          40.616756439208984
+        ],
+        "max": [
+          50.716209411621094,
+          5.671209812164307,
+          142.1699981689453
+        ]
+      },
+      "materialSlots": 235,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "NoCollision",
+      "autoGenerateCollision": false,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 0
+      },
+      "importSeconds": 1.996281,
+      "buildNanite": false,
+      "uassetSha256": "9e320a4299a2034f752f8f21db1445d6441a5ce85dbfdd9e3e6a32bd82f48f30",
+      "boundsErrorCm": 1.8310546749944479e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 1.8310546749944479e-06,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": true
+    },
+    "SM_MenorahV4_Lamps": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Lamps",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_Lamps.obj",
+      "triangles": 11536,
+      "vertices": 34608,
+      "localBoundsCm": {
+        "min": [
+          -50.762386322021484,
+          -10.497750282287598,
+          141.87918090820312
+        ],
+        "max": [
+          50.762386322021484,
+          5.7173848152160645,
+          150.0
+        ]
+      },
+      "materialSlots": 28,
+      "material": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "role": "gold",
+      "collisionProfile": "NoCollision",
+      "autoGenerateCollision": false,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 0
+      },
+      "importSeconds": 0.403401,
+      "buildNanite": false,
+      "uassetSha256": "b89f65be06f360696d05c023417f261b914a2057ea2e61a6c7d5d24491765692",
+      "boundsErrorCm": 4.280955380409068e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 4.780365282287597,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false
+    },
+    "SM_MenorahV4_StepStone": {
+      "asset": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_StepStone",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\vessels-review\\MenorahV4\\SM_MenorahV4_StepStone.obj",
+      "triangles": 192,
+      "vertices": 576,
+      "localBoundsCm": {
+        "min": [
+          -45.0,
+          45.90999984741211,
+          0.0
+        ],
+        "max": [
+          45.0,
+          135.91000366210938,
+          50.0
+        ]
+      },
+      "materialSlots": 3,
+      "material": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "role": "stone",
+      "collisionProfile": "BlockAll",
+      "autoGenerateCollision": true,
+      "simpleCollision": {
+        "available": true,
+        "box_elems": 0,
+        "sphere_elems": 0,
+        "sphyl_elems": 0,
+        "convex_elems": 1
+      },
+      "importSeconds": 0.040069,
+      "buildNanite": false,
+      "uassetSha256": "9371d749e461c0015cc75aa469988643c54f31b92b9420238412a4c3f8b5ab21",
+      "boundsErrorCm": 3.662109378410605e-06,
+      "boundsErrorIfImporterHadNotReflectedY": 181.82000366210937,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false
+    }
+  },
+  "windingCheck": {
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Base": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 2000,
+      "signedVolumeUEcm3": 81365.91318318946,
+      "faceNormalSamples": 2000,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Shaft": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 608,
+      "signedVolumeUEcm3": 1824.5998402949456,
+      "faceNormalSamples": 608,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesL": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 11424,
+      "signedVolumeUEcm3": 1900.782448781649,
+      "faceNormalSamples": 11424,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesR": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 11424,
+      "signedVolumeUEcm3": 1900.7824487808514,
+      "faceNormalSamples": 11424,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Ornaments": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 56200,
+      "signedVolumeUEcm3": 4809.036540479989,
+      "faceNormalSamples": 56200,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Lamps": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 11536,
+      "signedVolumeUEcm3": 1363.0569213238489,
+      "faceNormalSamples": 11536,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    },
+    "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_StepStone": {
+      "status": "checked",
+      "passed": true,
+      "method": "per_triangle_loop",
+      "triangles": 192,
+      "signedVolumeUEcm3": 266780.99145889183,
+      "faceNormalSamples": 192,
+      "faceNormalVsCrossDisagreements": 0,
+      "passCriterion": "signedVolumeUEcm3 > 0 and faceNormalVsCrossDisagreements == 0",
+      "convention": "UE left-handed face normal cross(C-A, B-A); divergence-theorem volume in asset cm"
+    }
+  },
+  "windingFlips": {},
+  "removed": [
+    {
+      "label": "RELEASE_MenorahV3_Base",
+      "name": "StaticMeshActor_7281",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_Base"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5355.980762481689,
+          285.17599868774414,
+          925.0000610351562
+        ],
+        "max": [
+          -5304.019237518311,
+          345.17599868774414,
+          947.5000610351562
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_Shaft",
+      "name": "StaticMeshActor_7282",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_Shaft"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5333.400000095367,
+          311.7759985923767,
+          945.0000610351562
+        ],
+        "max": [
+          -5326.599999904633,
+          318.5759987831116,
+          1047.800064086914
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_BranchesL",
+      "name": "StaticMeshActor_7283",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_BranchesL"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5333.0,
+          315.03258438408375,
+          992.8337097167969
+        ],
+        "max": [
+          -5327.0,
+          371.37572860717773,
+          1047.8982162475586
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_BranchesR",
+      "name": "StaticMeshActor_7284",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_BranchesR"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5333.0,
+          258.97626876831055,
+          992.8337097167969
+        ],
+        "max": [
+          -5327.0,
+          315.31941299140453,
+          1047.8982162475586
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_Ornaments",
+      "name": "StaticMeshActor_7285",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_Ornaments"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5337.715819835663,
+          255.35199737548828,
+          947.0000610351562
+        ],
+        "max": [
+          -5322.284180164337,
+          375.0,
+          1070.9000549316406
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_Lamps",
+      "name": "StaticMeshActor_7286",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_Lamps"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5337.426371097565,
+          255.57600021362305,
+          1069.7000579833984
+        ],
+        "max": [
+          -5324.400000095367,
+          374.77599716186523,
+          1075.0000610351562
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    },
+    {
+      "label": "RELEASE_MenorahV3_StepStone",
+      "name": "StaticMeshActor_7287",
+      "folder": "Release/MenorahV3",
+      "meshes": [
+        "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes/SM_MenorahV3_StepStone"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5294.019237518311,
+          270.17599868774414,
+          925.0000610351562
+        ],
+        "max": [
+          -5204.019241333008,
+          360.17599868774414,
+          975.0000610351562
+        ]
+      },
+      "note": "/Game/MikdashV3/MaterialReview/MenorahV3 (meshes and manifest) stays on disk; only the placed actors are removed. Nothing third-party is touched: the CC BY Titus-style menorah was already removed by the V3 release and its attribution is unaffected."
+    }
+  ],
+  "placed": [
+    {
+      "label": "RELEASE_MenorahV4_Base",
+      "kind": "StaticMeshActor",
+      "part": "Base",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Base",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5366.810001373291,
+          283.28052711486816,
+          925.0000610351562
+        ],
+        "max": [
+          -5293.189998626709,
+          347.0714702606201,
+          959.4700622558594
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5366.810001373291,
+          283.28052711486816,
+          925.0000610351562
+        ],
+        "max": [
+          -5293.189998626709,
+          347.0714702606201,
+          959.4700622558594
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 152.92852973937988
+    },
+    {
+      "label": "RELEASE_MenorahV4_Shaft",
+      "kind": "StaticMeshActor",
+      "part": "Shaft",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Shaft",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "NoCollision",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5333.630749940872,
+          311.54524874687195,
+          956.0700607299805
+        ],
+        "max": [
+          -5326.369250059128,
+          318.80674862861633,
+          1043.3450622558594
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5333.630749940872,
+          311.54524874687195,
+          956.0700607299805
+        ],
+        "max": [
+          -5326.369250059128,
+          318.80674862861633,
+          1043.3450622558594
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 181.19325137138367
+    },
+    {
+      "label": "RELEASE_MenorahV4_BranchesL",
+      "kind": "StaticMeshActor",
+      "part": "BranchesL",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesL",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "NoCollision",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          315.15087268687785,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          362.1259994506836,
+          1042.3450622558594
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          315.15087268687785,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          362.1259994506836,
+          1042.3450622558594
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 137.8740005493164
+    },
+    {
+      "label": "RELEASE_MenorahV4_BranchesR",
+      "kind": "StaticMeshActor",
+      "part": "BranchesR",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesR",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "NoCollision",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          268.2259979248047,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          315.20112468861043,
+          1042.3450622558594
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          268.2259979248047,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          315.20112468861043,
+          1042.3450622558594
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 184.79887531138957
+    },
+    {
+      "label": "RELEASE_MenorahV4_Ornaments",
+      "kind": "StaticMeshActor",
+      "part": "Ornaments",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Ornaments",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "NoCollision",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5335.671209812164,
+          264.45978927612305,
+          965.6168174743652
+        ],
+        "max": [
+          -5324.328790187836,
+          365.89220809936523,
+          1067.1700592041016
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5335.671209812164,
+          264.45978927612305,
+          965.6168174743652
+        ],
+        "max": [
+          -5324.328790187836,
+          365.89220809936523,
+          1067.1700592041016
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 134.10779190063477
+    },
+    {
+      "label": "RELEASE_MenorahV4_Lamps",
+      "kind": "StaticMeshActor",
+      "part": "Lamps",
+      "role": "gold",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Lamps",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "NoCollision",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5340.497750282288,
+          264.41361236572266,
+          1066.8792419433594
+        ],
+        "max": [
+          -5324.282615184784,
+          365.9383850097656,
+          1075.0000610351562
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5340.497750282288,
+          264.41361236572266,
+          1066.8792419433594
+        ],
+        "max": [
+          -5324.282615184784,
+          365.9383850097656,
+          1075.0000610351562
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 134.06161499023438
+    },
+    {
+      "label": "RELEASE_MenorahV4_StepStone",
+      "kind": "StaticMeshActor",
+      "part": "StepStone",
+      "role": "stone",
+      "mesh": "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_StepStone",
+      "location": [
+        -5330.0,
+        315.17599868774414,
+        925.0000610351562
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "collisionProfile": "BlockAll",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5284.090000152588,
+          270.17599868774414,
+          925.0000610351562
+        ],
+        "max": [
+          -5194.089996337891,
+          360.17599868774414,
+          975.0000610351562
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5284.090000152588,
+          270.17599868774414,
+          925.0000610351562
+        ],
+        "max": [
+          -5194.089996337891,
+          360.17599868774414,
+          975.0000610351562
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 139.82400131225586
+    }
+  ],
+  "errors": [],
+  "mapSaved": true,
+  "collisionNote": "Base and StepStone are BlockAll with importer-generated simple collision (auto_generate_collision True on those two imports; the tending stone is a walkable prop and the plinth must not be walked through). Shaft, branches, ornaments and lamps are NoCollision (thin ornament, not on the visitor route).",
+  "limitations": [
+    "The geometry is calibrated to ONE Temple Institute photograph. calibration.json records the pixel anchors, the method and the residuals; it is photograph-derived proportion, not a measured survey of the vessel, and it is not a rabbinically certified vessel.",
+    "The branch junction heights follow the photograph (68.8 / 83.3 / 97.8 cm), not the Menachos 28b tefachim (75.0 / 91.7 / 108.3 cm). The manifest records the deviation.",
+    "Relief motifs, the depth of every part and the rear of the object are authored, not measured.",
+    "This script has NOT been run: the authoring pass was forbidden to launch Unreal. Only its offline_check() has been exercised. Native import, winding, placement and visual acceptance are all still pending.",
+    "lastKnownMapSha256 is the hash the V3 receipt recorded. Re-read the map before running."
+  ],
+  "windingVerifiedOutward": true,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\MenorahV4-20260908T030534818522Z",
+  "actorCountBefore": 7602,
+  "plan": {
+    "origin": [
+      -5330.0,
+      315.17599868774414,
+      925.0000610351562
+    ],
+    "yaw": -90.0,
+    "halfSpanCm": 50.762386322021484,
+    "parts": {
+      "SM_MenorahV4_Base": {
+        "label": "RELEASE_MenorahV4_Base",
+        "part": "Base",
+        "role": "gold",
+        "collisionProfile": "BlockAll",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5366.810001373291,
+            283.28052711486816,
+            925.0000610351562
+          ],
+          "max": [
+            -5293.189998626709,
+            347.0714702606201,
+            959.4700622558594
+          ]
+        },
+        "southWallClearanceCm": 152.92852973937988
+      },
+      "SM_MenorahV4_Shaft": {
+        "label": "RELEASE_MenorahV4_Shaft",
+        "part": "Shaft",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5333.630749940872,
+            311.54524874687195,
+            956.0700607299805
+          ],
+          "max": [
+            -5326.369250059128,
+            318.80674862861633,
+            1043.3450622558594
+          ]
+        },
+        "southWallClearanceCm": 181.19325137138367
+      },
+      "SM_MenorahV4_BranchesL": {
+        "label": "RELEASE_MenorahV4_BranchesL",
+        "part": "BranchesL",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5331.7712923288345,
+            315.15087268687785,
+            992.2227172851562
+          ],
+          "max": [
+            -5328.2287076711655,
+            362.1259994506836,
+            1042.3450622558594
+          ]
+        },
+        "southWallClearanceCm": 137.8740005493164
+      },
+      "SM_MenorahV4_BranchesR": {
+        "label": "RELEASE_MenorahV4_BranchesR",
+        "part": "BranchesR",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5331.7712923288345,
+            268.2259979248047,
+            992.2227172851562
+          ],
+          "max": [
+            -5328.2287076711655,
+            315.20112468861043,
+            1042.3450622558594
+          ]
+        },
+        "southWallClearanceCm": 184.79887531138957
+      },
+      "SM_MenorahV4_Ornaments": {
+        "label": "RELEASE_MenorahV4_Ornaments",
+        "part": "Ornaments",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5335.671209812164,
+            264.45978927612305,
+            965.6168174743652
+          ],
+          "max": [
+            -5324.328790187836,
+            365.89220809936523,
+            1067.1700592041016
+          ]
+        },
+        "southWallClearanceCm": 134.10779190063477
+      },
+      "SM_MenorahV4_Lamps": {
+        "label": "RELEASE_MenorahV4_Lamps",
+        "part": "Lamps",
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5340.497750282288,
+            264.41361236572266,
+            1066.8792419433594
+          ],
+          "max": [
+            -5324.282615184784,
+            365.9383850097656,
+            1075.0000610351562
+          ]
+        },
+        "southWallClearanceCm": 134.06161499023438
+      },
+      "SM_MenorahV4_StepStone": {
+        "label": "RELEASE_MenorahV4_StepStone",
+        "part": "StepStone",
+        "role": "stone",
+        "collisionProfile": "BlockAll",
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "plannedWorldBoundsCm": {
+          "min": [
+            -5284.090000152588,
+            270.17599868774414,
+            925.0000610351562
+          ],
+          "max": [
+            -5194.089996337891,
+            360.17599868774414,
+            975.0000610351562
+          ]
+        },
+        "southWallClearanceCm": 139.82400131225586
+      }
+    },
+    "placedParts": [
+      "SM_MenorahV4_Base",
+      "SM_MenorahV4_Shaft",
+      "SM_MenorahV4_BranchesL",
+      "SM_MenorahV4_BranchesR",
+      "SM_MenorahV4_Ornaments",
+      "SM_MenorahV4_Lamps",
+      "SM_MenorahV4_StepStone"
+    ],
+    "originSource": "fixed at the MenorahV3 release pose (spec placement.fixedOrigin); Z re-derived from the measured Heikhal floor top",
+    "bookRuleYIfMoved": 324.2376136779785,
+    "bookRuleYNotApplied": "V4 is narrower than V3, so the book rule would shift the vessel; the brief keeps the V3 position",
+    "menorahWorldBoundsCm": {
+      "min": [
+        -5366.810001373291,
+        264.41361236572266,
+        925.0000610351562
+      ],
+      "max": [
+        -5293.189998626709,
+        365.9383850097656,
+        1075.0000610351562
+      ]
+    },
+    "nearestTipToSouthWallCm": 134.06161499023438,
+    "menorahHeightCm": 150.0,
+    "menorahRowSpanCm": 101.52477264404297,
+    "stoneEastGapFromPlinthCm": 9.099998474121094,
+    "assemblyWorldBoundsCm": {
+      "min": [
+        -5366.810001373291,
+        264.41361236572266,
+        925.0000610351562
+      ],
+      "max": [
+        -5194.089996337891,
+        365.9383850097656,
+        1075.0000610351562
+      ]
+    },
+    "orientation": "lamp row north-south (Rambam 3:12), tending stone east (Rambam 3:11)"
+  },
+  "southWallGuard": {
+    "southWallFaceY": 500.0,
+    "nearestTipClearanceCm": 134.06161499023438,
+    "perPart": {
+      "SM_MenorahV4_Base": 152.92852973937988,
+      "SM_MenorahV4_Shaft": 181.19325137138367,
+      "SM_MenorahV4_BranchesL": 137.8740005493164,
+      "SM_MenorahV4_BranchesR": 184.79887531138957,
+      "SM_MenorahV4_Ornaments": 134.10779190063477,
+      "SM_MenorahV4_Lamps": 134.06161499023438,
+      "SM_MenorahV4_StepStone": 139.82400131225586
+    }
+  },
+  "clearance": {
+    "actorsConsidered": 7319,
+    "excludedActors": [
+      "Heichal clear floor",
+      "RELEASE_MenorahV3_Base",
+      "RELEASE_MenorahV3_BranchesL",
+      "RELEASE_MenorahV3_BranchesR",
+      "RELEASE_MenorahV3_Lamps",
+      "RELEASE_MenorahV3_Ornaments",
+      "RELEASE_MenorahV3_Shaft",
+      "RELEASE_MenorahV3_StepStone"
+    ],
+    "excludedTerrainTileCount": 256,
+    "unionsDecomposed": {
+      "SM_1676_union_Derived_union_of_House_and_Ulam_foundati": 2,
+      "SM_2629_union_Derived_union_of_source_outer_envelope_w": 116,
+      "SM_2630_union_Derived_union_of_source_House_walls_and_": 27,
+      "SM_2631_union_Derived_union_of_source_raised_gallery_s": 6,
+      "SM_2632_union_Derived_union_of_source_western_paving_a": 11
+    },
+    "blockers": {}
+  },
+  "removedCount": 7,
+  "mapSha256AfterSave": "76dfb87e83be2dab7bff18dac5dfe41aea7261aef36c53cca60b9a5292b2fc81",
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_MenorahV4_Base",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Base"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5366.810001373291,
+          283.28052711486816,
+          925.0000610351562
+        ],
+        "max": [
+          -5293.189998626709,
+          347.0714702606201,
+          959.4700622558594
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 152.92852973937988,
+      "collisionProfile": "BlockAll",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_Shaft",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Shaft"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5333.630749940872,
+          311.54524874687195,
+          956.0700607299805
+        ],
+        "max": [
+          -5326.369250059128,
+          318.80674862861633,
+          1043.3450622558594
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 181.19325137138367,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_BranchesL",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesL"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          315.15087268687785,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          362.1259994506836,
+          1042.3450622558594
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 137.8740005493164,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_BranchesR",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_BranchesR"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5331.7712923288345,
+          268.2259979248047,
+          992.2227172851562
+        ],
+        "max": [
+          -5328.2287076711655,
+          315.20112468861043,
+          1042.3450622558594
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 184.79887531138957,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_Ornaments",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Ornaments"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5335.671209812164,
+          264.45978927612305,
+          965.6168174743652
+        ],
+        "max": [
+          -5324.328790187836,
+          365.89220809936523,
+          1067.1700592041016
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 134.10779190063477,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_Lamps",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_Lamps"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5340.497750282288,
+          264.41361236572266,
+          1066.8792419433594
+        ],
+        "max": [
+          -5324.282615184784,
+          365.9383850097656,
+          1075.0000610351562
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 134.06161499023438,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+        "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold"
+      ]
+    },
+    {
+      "label": "RELEASE_MenorahV4_StepStone",
+      "folder": "Release/MenorahV4",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MenorahV4/Meshes/SM_MenorahV4_StepStone"
+      ],
+      "pose": {
+        "location": [
+          -5330.0,
+          315.17599868774414,
+          925.0000610351562
+        ],
+        "rotation": [
+          0.0,
+          -90.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5284.090000152588,
+          270.17599868774414,
+          925.0000610351562
+        ],
+        "max": [
+          -5194.089996337891,
+          360.17599868774414,
+          975.0000610351562
+        ]
+      },
+      "poseErrorCm": 1.4210854715202004e-14,
+      "boundsErrorCm": 0.0,
+      "southWallClearanceCm": 139.82400131225586,
+      "collisionProfile": "BlockAll",
+      "materials": [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim"
+      ]
+    }
+  ],
+  "actorCountAfter": 7602,
+  "mapSha256After": "76dfb87e83be2dab7bff18dac5dfe41aea7261aef36c53cca60b9a5292b2fc81",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 7,
+  "removedActorCount": 7
+}

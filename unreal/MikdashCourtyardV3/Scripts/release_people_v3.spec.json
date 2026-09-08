@@ -1,0 +1,139 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-07",
+ "purpose": "Human-reviewable plan consumed by Scripts/release_people_v3.py: stage the authored people directory into Content/Distribution/People, create one garment material instance per authored variant, and place ONE new MikdashResidentPopulation actor pointed at that file. Nothing here is visual, runtime, PIE, cook or packaged acceptance, and nothing here is a halachic ruling.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "PeopleV3-",
+ "receiptFolder": "SourceAssets/runtime-review/people-v3",
+ "receiptPrefix": "native-apply-",
+ "compiledClassesRequired": {
+  "population": "/Script/MikdashRuntime.MikdashResidentPopulation",
+  "character": "/Script/MikdashRuntime.MikdashResidentCharacter",
+  "controller": "/Script/MikdashRuntime.MikdashPlayerController",
+  "populationPropertiesProvingFreshBinary": [
+   "spawn_authored_people_on_begin_play",
+   "people_directory_file",
+   "resident_mesh",
+   "garment_material_slots",
+   "garment_variant_keys",
+   "garment_materials"
+  ],
+  "characterMethodProvingFreshBinary": "get_resident_dialog_line_count"
+ },
+ "directory": {
+  "source": "SourceAssets/runtime-review/people-v3/people.json",
+  "stagedRelativeToContent": "Distribution/People/people.json",
+  "sha256": "88d6de2284a79f1a5940c046ac03f0b37fe42042ecdb71dd55d8928fc87419b2",
+  "expectedPeople": 24,
+  "expectedVersion": "people-v3",
+  "stagingNote": "Config/DefaultGame.ini already carries +DirectoriesToAlwaysStageAsNonUFS=(Path=\"Distribution\"), so this path resolves identically in the editor and in a packaged build."
+ },
+ "rig": {
+  "skeletalMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2",
+  "idleAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle",
+  "walkAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk",
+  "garmentMaterialSlots": [
+   "Mantle"
+  ],
+  "existingPilgrimMaterial": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Mantle"
+ },
+ "garments": {
+  "namespace": "/Game/MikdashV3/Runtime/PeopleV3",
+  "masterAsset": "M_ResidentGarmentV3",
+  "colorParameter": "GarmentColor",
+  "roughnessParameter": "GarmentRoughness",
+  "parentPolicy": "Prefer the existing pilgrim garment material as the instance parent. UE 5.8 setters return False, so the parent is accepted only when a written colour reads back from the instance. When it does not, a flat master matching the rig shading is created instead and the receipt records which parent was actually used.",
+  "readbackToleranceRgb": 0.002,
+  "variants": {
+   "linen-bleached": {
+    "asset": "MI_Garment_LinenBleached",
+    "baseColor": [
+     0.86,
+     0.85,
+     0.8
+    ],
+    "roughness": 0.8
+   },
+   "linen-undyed": {
+    "asset": "MI_Garment_LinenUndyed",
+    "baseColor": [
+     0.72,
+     0.68,
+     0.58
+    ],
+    "roughness": 0.85
+   },
+   "mantle-olive": {
+    "asset": "MI_Garment_MantleOlive",
+    "baseColor": [
+     0.3,
+     0.32,
+     0.18
+    ],
+    "roughness": 0.88
+   },
+   "mantle-saffron": {
+    "asset": "MI_Garment_MantleSaffron",
+    "baseColor": [
+     0.62,
+     0.48,
+     0.16
+    ],
+    "roughness": 0.85
+   },
+   "traveller-dust": {
+    "asset": "MI_Garment_TravellerDust",
+    "baseColor": [
+     0.55,
+     0.48,
+     0.38
+    ],
+    "roughness": 0.92
+   },
+   "wool-indigo": {
+    "asset": "MI_Garment_WoolIndigo",
+    "baseColor": [
+     0.16,
+     0.2,
+     0.34
+    ],
+    "roughness": 0.9
+   },
+   "wool-madder": {
+    "asset": "MI_Garment_WoolMadder",
+    "baseColor": [
+     0.45,
+     0.2,
+     0.16
+    ],
+    "roughness": 0.9
+   },
+   "wool-umber": {
+    "asset": "MI_Garment_WoolUmber",
+    "baseColor": [
+     0.32,
+     0.24,
+     0.16
+    ],
+    "roughness": 0.9
+   }
+  }
+ },
+ "population": {
+  "newActorLabel": "RELEASE_PeopleV3Population",
+  "folder": "Runtime/People",
+  "tag": "MikdashPeopleV3",
+  "location": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "existingPilotLabel": "RELEASE_ResidentPopulation",
+  "existingPilotUntouched": true,
+  "startupOptIn": true
+ },
+ "scope": "Native asset creation, one file staged under Content/Distribution, and one new map actor with save, reopen and full readback. No PIE, no render, no cook, no packaged acceptance, and no claim that any resident is anything other than a scripted loop with authored lines."
+}

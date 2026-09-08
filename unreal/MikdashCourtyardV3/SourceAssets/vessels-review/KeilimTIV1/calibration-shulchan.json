@@ -1,0 +1,363 @@
+{
+  "vessel": "shulchan lechem hapanim with its snifim, kanim and loaves",
+  "photograph": "shulchan/original-showbread-table-gallery.jpg",
+  "photograph_size": [
+    1500,
+    1000
+  ],
+  "method": "Pixel positions read from the object mask (chroma >= 22 within x 250..840, y 0..900) of the named file plus ruled crops of the same file. Vertical features are normalised by the overall photographed height (860 px); horizontal features and the ornament band heights by the photographed table length (488 px), which the book fixes at 2 amot. PHOTOGRAPH-DERIVED PROPORTION, NOT A SURVEY: the studio view is slightly above and to the left of the front face, so the table top is foreshortened and the two posts of each stack separate in x; the front-face readings above are taken near the centre of the front face where that error is smallest.",
+  "normalisers": {
+    "assembly_height_px": 860,
+    "table_height_px": 376,
+    "table_length_px": 488,
+    "photographed_table_height_over_length": 0.7705
+  },
+  "pixel_readings": {
+    "image": "shulchan/original-showbread-table-gallery.jpg",
+    "image_size": [
+      1500,
+      1000
+    ],
+    "mask_rule": "chroma >= 22 within x 250..840, y 0..900",
+    "mask_bbox": {
+      "x": [
+        296,
+        779
+      ],
+      "y": [
+        22,
+        884
+      ]
+    },
+    "mask_area_px": 195535,
+    "post_top_y": 24,
+    "floor_y": 884,
+    "table_top_y": 508,
+    "slab_bottom_y": 517,
+    "zer_bottom_y": 535,
+    "misgeret_bottom_y": 563,
+    "apron_bottom_y": 567,
+    "leg_top_y": 570,
+    "table_left_x": 295,
+    "table_right_x": 783,
+    "leg_outer_x": 293,
+    "leg_inner_top_x": 355,
+    "leg_inner_bottom_x": 345,
+    "foot_band_top_y": 840,
+    "bracket_tier_center_y": [
+      56,
+      136,
+      226,
+      313,
+      396,
+      470
+    ],
+    "bracket_span_x": 185,
+    "post_shaft_w": 20,
+    "post_center_x": [
+      422,
+      655
+    ],
+    "stretcher_plate_y": [
+      735,
+      780
+    ],
+    "base_plate_y": [
+      828,
+      884
+    ],
+    "censer_x": [
+      430,
+      460
+    ],
+    "censer_y": [
+      452,
+      500
+    ]
+  },
+  "proportions": [
+    {
+      "feature": "overall assembly height (post tip to floor)",
+      "normalised": 1.0,
+      "note": "normaliser: 860 px"
+    },
+    {
+      "feature": "table top surface",
+      "normalised": 0.56279,
+      "note": "table height / table length = 0.770"
+    },
+    {
+      "feature": "slab fascia bottom",
+      "normalised": 0.57326,
+      "note": "visible slab edge 0.0184 of the table length"
+    },
+    {
+      "feature": "bead zer (crown) bottom",
+      "normalised": 0.59419,
+      "note": "doubled bead moulding, 0.0369 of the table length"
+    },
+    {
+      "feature": "misgeret (vine/grape frame band) bottom",
+      "normalised": 0.62674,
+      "note": "0.0574 of the table length"
+    },
+    {
+      "feature": "apron bottom / legs begin",
+      "normalised": 0.63488,
+      "note": ""
+    },
+    {
+      "feature": "snif stretcher plate, centre",
+      "normalised": 0.85291,
+      "note": ""
+    },
+    {
+      "feature": "snif base plate, top",
+      "normalised": 0.93488,
+      "note": ""
+    },
+    {
+      "feature": "floor",
+      "normalised": 1.0,
+      "note": ""
+    },
+    {
+      "feature": "table length (front face)",
+      "normalised": 1.0,
+      "note": "normaliser: 488 px"
+    },
+    {
+      "feature": "leg width at the top",
+      "normalised": 0.12705,
+      "note": "of the table length"
+    },
+    {
+      "feature": "leg width at the foot",
+      "normalised": 0.10656,
+      "note": "of the table length; the taper is slight and the inner edge is slightly concave"
+    },
+    {
+      "feature": "snif post shaft width",
+      "normalised": 0.04098,
+      "note": "square shaft with turned knops"
+    },
+    {
+      "feature": "bracket tier pitch",
+      "normalised": 0.16967,
+      "note": "82.8 px; six tiers, the lowest at the table surface"
+    },
+    {
+      "feature": "bracket tier full span",
+      "normalised": 0.3791,
+      "note": "scroll wings reach 0.1895 of the table length each side of the post"
+    }
+  ],
+  "book_vs_photograph": [
+    "Book p. 241 (Yechezkel 41:22): the table is 2 x 1 amot and THREE amot high = 100 x 50 x 150 cm. The photographed table is height / length = 0.770, i.e. the Institute built the 1.5-amah Mishkan height of Shemos 25:23. The BOOK wins: the model is 150 cm high, so its legs are about twice as long relative to the top as in the photograph. This is the single largest deliberate departure from the photograph.",
+    "Because of that, the photographed ornament band heights (slab fascia, bead zer, vine misgeret) are normalised by the TABLE LENGTH, which both sources agree is 2 amot, not by the table height.",
+    "Misgeret height: Shemos 25:25 gives one tefach (8.333 cm); the photograph gives 5.74 cm at a 100 cm top. The book/Torah figure is used and the photograph's vine ornament is fitted into it.",
+    "Six bracket tiers at the photographed pitch (0.1697 of the table length = 16.97 cm) is within 2% of two tefachim (16.667 cm), which is also the loaf wall height of Menachos 96a; two tefachim is used, and the sixth tier then lands exactly on the book's 5-amot (250 cm) support height of p. 250.",
+    "Loaf walls: the brief quotes \"walls 7 tefachim\". Book p. 241 diagram 22:6 labels 7 ETZBAOS for the gap between the karnos tabs, not a wall height; Menachos 96a (R' Meir) folds the 10-tefach loaf as 2 + 6 + 2, so the walls are 2 tefachim. That reading (already taken by ShulchanV2) is kept."
+  ],
+  "silhouette_overlap": {
+    "method": "Both silhouettes are reduced to binary masks, each stretched to its own bounding box on a common 200-column grid (the photograph fixes the grid aspect), then intersection over union. This scores SHAPE AND PROPORTION only. It is not a fidelity measure of ornament, and the photograph is a slightly oblique studio view, so a perfectly frontal model cannot reach 1.0.",
+    "photograph": "shulchan/original-showbread-table-gallery.jpg",
+    "photograph_mask": {
+      "bbox": [
+        296,
+        22,
+        779,
+        884
+      ],
+      "area_px": 195535,
+      "rule": "chroma >= 22 within x 250..840, y 0..900"
+    },
+    "meshes_scored": [
+      "SM_KeilimTIV1_Shulchan_Table",
+      "SM_KeilimTIV1_Shulchan_Rings",
+      "SM_KeilimTIV1_Shulchan_Snifim",
+      "SM_KeilimTIV1_Shulchan_Kanim",
+      "SM_KeilimTIV1_Shulchan_Bazichin"
+    ],
+    "meshes_scored_note": "The Institute photographs the table WITHOUT bread on it, so the score compares the GOLD METALWORK only (table, rings, snifim, kanim, bazichin). The twelve loaves are excluded from the silhouette; scoring them against an empty frame would measure the absence of bread, not the shape of the vessel. The full-assembly score is reported separately as a diagnostic.",
+    "shape_variant_note": "Diagnostic only, never exported: the same model rebuilt at the height the Institute actually built (1.5 amot, Shemos 25:23) with the supports scaled to match. It separates SHAPE fidelity from the deliberate dimensional departure of the three-amah table of the book, and it is the score the refinement iterations were driven by.",
+    "refinement_stopped_because": "The sweep continued past iter4. Further IoU was available only by widening the snif posts to about 9 cm and the bracket wings to about 24 cm - roughly twice and 1.25 times the values measured off the photograph. Those gains come from filling the vertical gaps between the modelled bracket tiers, which in the photograph are filled by the SECOND post of each pair seen in perspective, not by wider parts. Fitting them would be fitting a viewpoint artefact, so the refinement was stopped at the calibrated widths.",
+    "iterations": [
+      {
+        "iteration": "iter0-raw-calibration",
+        "tuning": {
+          "zer_h": 1.0,
+          "leg_top_w": 1.0,
+          "post_w": 1.0,
+          "bracket_reach": 1.0,
+          "bracket_h": 0.95,
+          "bracket_z": 0.0
+        },
+        "triangles": 27860,
+        "as_built": {
+          "iou": 0.3794,
+          "intersection_px": 17424,
+          "union_px": 45922,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 12442,
+          "photo_only_px": 16056
+        },
+        "shape_variant": {
+          "iou": 0.414,
+          "intersection_px": 19477,
+          "union_px": 47046,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 13566,
+          "photo_only_px": 14003
+        }
+      },
+      {
+        "iteration": "iter1-wider-legs-and-brackets",
+        "tuning": {
+          "zer_h": 1.0,
+          "leg_top_w": 1.15,
+          "post_w": 1.0,
+          "bracket_reach": 1.1,
+          "bracket_h": 0.95,
+          "bracket_z": 0.0
+        },
+        "triangles": 27860,
+        "as_built": {
+          "iou": 0.3932,
+          "intersection_px": 18486,
+          "union_px": 47019,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 13539,
+          "photo_only_px": 14994
+        },
+        "shape_variant": {
+          "iou": 0.4181,
+          "intersection_px": 20225,
+          "union_px": 48378,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 14898,
+          "photo_only_px": 13255
+        }
+      },
+      {
+        "iteration": "iter2-heavier-posts",
+        "tuning": {
+          "zer_h": 1.1,
+          "leg_top_w": 1.15,
+          "post_w": 1.25,
+          "bracket_reach": 1.1,
+          "bracket_h": 0.95,
+          "bracket_z": 0.0
+        },
+        "triangles": 27860,
+        "as_built": {
+          "iou": 0.4016,
+          "intersection_px": 19083,
+          "union_px": 47513,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 14033,
+          "photo_only_px": 14397
+        },
+        "shape_variant": {
+          "iou": 0.4252,
+          "intersection_px": 20733,
+          "union_px": 48761,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 15281,
+          "photo_only_px": 12747
+        }
+      },
+      {
+        "iteration": "iter3-thin-bracket-band-and-lift",
+        "tuning": {
+          "zer_h": 1.1,
+          "leg_top_w": 1.15,
+          "post_w": 1.25,
+          "bracket_reach": 1.1,
+          "bracket_h": 0.6,
+          "bracket_z": 0.45
+        },
+        "triangles": 27860,
+        "as_built": {
+          "iou": 0.3869,
+          "intersection_px": 17852,
+          "union_px": 46138,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 12658,
+          "photo_only_px": 15628
+        },
+        "shape_variant": {
+          "iou": 0.4837,
+          "intersection_px": 21421,
+          "union_px": 44282,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 10802,
+          "photo_only_px": 12059
+        }
+      },
+      {
+        "iteration": "iter4-calibrated-band-with-lift",
+        "tuning": {
+          "zer_h": 1.1,
+          "leg_top_w": 1.15,
+          "post_w": 1.3,
+          "bracket_reach": 1.1,
+          "bracket_h": 0.95,
+          "bracket_z": 0.42
+        },
+        "triangles": 27860,
+        "as_built": {
+          "iou": 0.4102,
+          "intersection_px": 19689,
+          "union_px": 47997,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 14517,
+          "photo_only_px": 13791
+        },
+        "shape_variant": {
+          "iou": 0.5198,
+          "intersection_px": 24319,
+          "union_px": 46784,
+          "grid": [
+            200,
+            357
+          ],
+          "model_only_px": 13304,
+          "photo_only_px": 9161
+        }
+      }
+    ],
+    "best": "iter4-calibrated-band-with-lift",
+    "best_as_built_iou": 0.4102,
+    "best_shape_variant_iou": 0.5198,
+    "overlay": "keilim-ti-shulchan-silhouette.png",
+    "overlay_shape_variant": "keilim-ti-shulchan-silhouette-tiheight.png"
+  }
+}

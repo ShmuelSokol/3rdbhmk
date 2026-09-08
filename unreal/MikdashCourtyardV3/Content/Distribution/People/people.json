@@ -1,0 +1,1982 @@
+{
+ "version": "people-v3",
+ "note": "Twenty-four fictional inhabitants for the walkthrough. Names, households, origins, missions and dialogue are authored fiction and are not source facts. No character issues a halachic ruling, quotes a measurement as settled, names a Second Temple court on the Yechezkel reconstruction, or states a future attendance number. Each route is a closed 4 to 6 point loop with authored pauses; this is scripted waypoint behaviour with written lines, not a mind.",
+ "placementBasis": {
+  "pilgrim": {
+   "decision": "Pilgrims stand and walk on the outer court floor (Z 300, x 1500..7000, 900 <= |y| < 6000), off the y=0 east gate corridor. This repeats the envelope already reviewed for the five-figure pilot rather than opening new ground.",
+   "evidence": [
+    "Chagigah 1:1 and Devarim 16:11 via Research/people-and-city.md:44",
+    "Bikkurim 3:2-3 district gathering and travel distance via Research/people-and-city.md:48",
+    "Reviewed outer-court placement envelope, Scripts/release_place_assets.spec.json"
+   ],
+   "notClaimed": [
+    "No court on this reconstruction is labelled with a Second Temple name",
+    "No pilgrim is placed in the inner court or in any gate corridor"
+   ],
+   "reviewFlag": "R: court naming and boundary mapping still require a reviewer (halacha-and-service.md:26)"
+  },
+  "kohen": {
+   "decision": "Kohanim appear on the public outer court floor only in transit to a watch or off duty in ordinary garments, never stationed, never serving, and never inside a chamber. Yechezkel describes kohanim changing out of service garments before going out to the people, which is the specific hook used here; the twenty-four watches supply the arrival and departure movement.",
+   "evidence": [
+    "Yechezkel 42:13-14, changing before going out to the people, via Research/halacha-and-service.md:50",
+    "Taanit 4:2 twenty-four watches going up when their turn arrives, via Research/people-and-city.md:36",
+    "Arrival, preparation, task and return arc via Research/people-and-city.md:38"
+   ],
+   "notClaimed": [
+    "Not stationed in an outer-court chamber",
+    "No teaching post or chamber occupancy is claimed",
+    "No priestly vestments are depicted; these are ordinary garments",
+    "No kohen here performs or narrates any service"
+   ],
+   "reviewFlag": "R: nothing in this project sources kohanim posted in the outer court, so only transit and off-duty states are used"
+  },
+  "levite": {
+   "decision": "Leviim appear on the outer court floor waiting for a gate or music assignment that has not yet been given. No psalm, instrument or duty is named, because the project has no reviewed source for the daily song or its assignment procedure.",
+   "evidence": [
+    "Twenty-four watches and representative maamadot via Research/people-and-city.md:36",
+    "Cast intention: a Levi waiting for a musical or gate assignment, Research/experience-production-plan.md:118"
+   ],
+   "notClaimed": [
+    "No psalm of the day is named",
+    "No instrument other than travel context is depicted",
+    "No assignment procedure is asserted"
+   ],
+   "reviewFlag": "D: design-class cast intention, not a sourced posting"
+  },
+  "host": {
+   "decision": "Hosts meet arriving households, one on the outer court floor and one on the Mount platform approach. Lodging is offered, never priced: the sources preserve differing views on charging for accommodation and the project does not settle them.",
+   "evidence": [
+    "Yoma 12a and R. Elazar bar Tzadok on charging for houses and beds, via Research/people-and-city.md:46",
+    "Cast intention: a host preparing a meeting place, Research/people-and-city.md:50"
+   ],
+   "notClaimed": [
+    "No price, rent or payment is quoted",
+    "No paid lodging quest exists"
+   ],
+   "reviewFlag": "R: the lodging economy premise is unresolved and is left unresolved in the dialogue"
+  },
+  "guide": {
+   "decision": "Guides answer where things are and explicitly refuse to answer what a visitor may do, sending that question to a teacher. Dialogue may carry personality; it may not become the authority that changes eligibility or teaches an unreviewed halachah.",
+   "evidence": [
+    "Ask the guide as the correct action for missing status, Research/halacha-and-service.md:60",
+    "Dialogue must not invent a halachic ruling, Research/people-and-city.md:84"
+   ],
+   "notClaimed": [
+    "No guide states a rule, a permission or a prohibition"
+   ],
+   "reviewFlag": "D: authored characterisation only"
+  },
+  "vendor": {
+   "decision": "Vendors are placed only on the Mount platform deck near the east gate approach (x 9300..10000, Z 0), outside the walled precinct, and each one says so. Commerce is kept out of the sacred precinct: the sources do not support ordinary stalls in the court, and the acceptance test is that no retail marker appears inside it.",
+   "evidence": [
+    "Libation seals are not evidence for ordinary stalls in the courtyard, Research/people-and-city.md:64",
+    "Do not repurpose the kitchens as cafes, taverns or retail counters, Research/people-and-city.md:68",
+    "Interpretive provisioning area outside the Temple precinct, Research/people-and-city.md:70",
+    "Acceptance test: no retail marker in the Azarah without a reviewed basis, Research/people-and-city.md:72"
+   ],
+   "notClaimed": [
+    "No vendor is placed inside the precinct",
+    "No price is quoted and no economy is modelled",
+    "No vendor grants purity, eligibility or access"
+   ],
+   "reviewFlag": "R: the provisioning economy premise itself is not yet approved; these are presence and dialogue only"
+  }
+ },
+ "people": [
+  {
+   "id": "yoav-ben-shimi",
+   "name": "Yoav ben Shimi",
+   "role": "pilgrim",
+   "garment": "linen-undyed",
+   "zone": "outer-court",
+   "mission": "Keep his household together on the walk up and deliver the first fruits basket he carried from home.",
+   "dialog": [
+    "I came up from the northern valleys; the walk took our household the better part of a week.",
+    "This basket has been on my shoulder since the vineyard; I would rather carry it than set it down.",
+    "We gathered in our district's city first, and travelled in one company from there.",
+    "My father made this walk before me. I am glad my sons can see the place with their own eyes."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1675.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1675.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the northern valleys"
+  },
+  {
+   "id": "miryam-bas-elyakim",
+   "name": "Miryam bas Elyakim",
+   "role": "pilgrim",
+   "garment": "wool-madder",
+   "zone": "outer-court",
+   "mission": "Find the shaded edge of the court where her household agreed to gather after the offering.",
+   "dialog": [
+    "We are from the southern hill country, and my brother is somewhere in this crowd.",
+    "I have never seen this many people stand quietly in one place.",
+    "We agreed to meet at the edge of the court; I am walking the line until I find them.",
+    "I brought nothing heavy this time, only what we could carry and still keep the children rested."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      3525.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3525.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the southern hill country"
+  },
+  {
+   "id": "naftali-ben-chagai",
+   "name": "Naftali ben Chagai",
+   "role": "pilgrim",
+   "garment": "traveller-dust",
+   "zone": "outer-court",
+   "mission": "Walk the whole length of the outer court once, slowly, because it is his first ascent.",
+   "dialog": [
+    "I crossed the eastern plain to be here, and I am still shaking the dust out of my cloak.",
+    "It is my first time. I am walking the court once, slowly, before I do anything else.",
+    "I brought an offering with me and I am told to wait until my group is called.",
+    "Someone should tell me where to stand. I would rather ask than guess."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      5375.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      1050.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5375.0,
+      2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the eastern plain"
+  },
+  {
+   "id": "tzipporah-bas-menachem",
+   "name": "Tzipporah bas Menachem",
+   "role": "pilgrim",
+   "garment": "wool-indigo",
+   "zone": "outer-court",
+   "mission": "Keep a small child in sight while the rest of her household waits with their offering.",
+   "dialog": [
+    "We came up from the coastal lowland; the sea air is a long way behind us now.",
+    "My youngest has not stopped asking questions since we came through the gate.",
+    "I am not going far. I only need to keep her where I can see her.",
+    "We brought what our fields gave this year, and we are grateful it was enough to bring."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1675.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1675.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the coastal lowland"
+  },
+  {
+   "id": "elchanan-ben-uriya",
+   "name": "Elchanan ben Uriya",
+   "role": "pilgrim",
+   "garment": "mantle-olive",
+   "zone": "outer-court",
+   "mission": "Carry his household's offering to the appointed place and then wait with the group.",
+   "dialog": [
+    "We travelled from the river districts. Four days of walking, and two of waiting for the ferry.",
+    "I am carrying my household's offering; the rest of them are resting near the wall.",
+    "The elders in my group know the order of things. I follow where they lead.",
+    "I keep looking up at the building and forgetting to keep walking."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      3525.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3525.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the river districts"
+  },
+  {
+   "id": "shulamis-bas-yechiel",
+   "name": "Shulamis bas Yechiel",
+   "role": "pilgrim",
+   "garment": "linen-bleached",
+   "zone": "outer-court",
+   "mission": "Walk the northern side of the court and count her group back together before evening.",
+   "dialog": [
+    "We came from the northern lake shore, nine of us, and I have counted eight twice now.",
+    "I brought dried fruit for the road and almost nothing of it is left.",
+    "We immersed before we came up, as our household always does before ascending.",
+    "I am not going to sit down until I have all nine."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      5375.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5375.0,
+      5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the northern lake shore"
+  },
+  {
+   "id": "gad-ben-peleth",
+   "name": "Gad ben Peleth",
+   "role": "pilgrim",
+   "garment": "wool-umber",
+   "zone": "outer-court",
+   "mission": "Bring the animal his household set aside as far as the place his group was told to wait.",
+   "dialog": [
+    "I came down out of the high pastures. My flock is with my brothers; only this one came up.",
+    "It is a long way to carry anything, and a longer way to carry it carefully.",
+    "I have been told where my group waits, and I am walking there now.",
+    "My grandfather described this court to me. He did not exaggerate."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1675.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1675.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the high pastures"
+  },
+  {
+   "id": "devorah-bas-amram",
+   "name": "Devorah bas Amram",
+   "role": "pilgrim",
+   "garment": "mantle-saffron",
+   "zone": "outer-court",
+   "mission": "Stay near the group leader who carries their district's basket, and help the older women keep pace.",
+   "dialog": [
+    "Our company came from the western foothills and we walked in behind the leading ox.",
+    "There was a flute ahead of us for part of the way; I can still hear it when it is quiet.",
+    "I walk beside the older women in our group so nobody is left behind at the turns.",
+    "I have no idea where I am, only who I am following."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      3525.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3525.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the western foothills"
+  },
+  {
+   "id": "yigal-ben-zerach",
+   "name": "Yigal ben Zerach",
+   "role": "pilgrim",
+   "garment": "traveller-dust",
+   "zone": "outer-court",
+   "mission": "Reach the eastern side of the court and wait there for the rest of his travelling company.",
+   "dialog": [
+    "I came up along the desert edge. The road is quiet and the water is scarce.",
+    "My company is behind me by half a day; I am holding a place for them.",
+    "I brought what a man can carry alone, which is not much, but it is mine to bring.",
+    "I would rather stand here and wait than lose them in this crowd."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      5375.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      -2750.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5375.0,
+      -1050.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the desert edge"
+  },
+  {
+   "id": "techiya-bas-nadav",
+   "name": "Techiya bas Nadav",
+   "role": "pilgrim",
+   "garment": "wool-indigo",
+   "zone": "outer-court",
+   "mission": "Walk the quiet western side of the court while her household rests, and return before they move.",
+   "dialog": [
+    "We came from the terraced slopes; our fruit ripens late, so we came late.",
+    "My household is resting. I wanted to walk while there was still light.",
+    "I did not expect it to be this large, or this quiet in the corners.",
+    "I will be back before they move; I have walked this side twice already."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1675.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3125.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1675.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the terraced slopes"
+  },
+  {
+   "id": "amitai-ben-kalev",
+   "name": "Amitai ben Kalev",
+   "role": "pilgrim",
+   "garment": "linen-undyed",
+   "zone": "outer-court",
+   "mission": "Deliver his district's basket to the group leader and stay with the basket until he does.",
+   "dialog": [
+    "I am from the southern grain country; the harvest was good and we said so with this basket.",
+    "Our district gathered in one town and came up together, as the group always does.",
+    "I am carrying it to our leader. Until then it does not leave my hands.",
+    "Ask me again in an hour and I will still be holding it."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      3525.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      4975.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      3525.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the southern grain country"
+  },
+  {
+   "id": "yehudis-bas-ovadya",
+   "name": "Yehudis bas Ovadya",
+   "role": "pilgrim",
+   "garment": "wool-madder",
+   "zone": "outer-court",
+   "mission": "Find the group of women from her district and walk the court with them before evening.",
+   "dialog": [
+    "We came down off the northern ridges, and the last part of the road is all uphill again.",
+    "I am looking for the women of my district; we said we would walk the court together.",
+    "We brought what we had. It was a hard year, but we did not come empty.",
+    "If you see a company with a red-bordered cloth, that is us."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      5375.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk along the court toward the meeting place",
+     "action": "Stand and look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      -5250.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Follow the edge of the court",
+     "action": "Look back the way the group came",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6825.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Cross toward the quieter side",
+     "action": "Wait and scan the crowd",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5375.0,
+      -3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Turn back along the court",
+     "action": "Rest a moment and look up",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "origin": "the northern ridges"
+  },
+  {
+   "id": "pinchas-ben-achituv",
+   "name": "Pinchas ben Achituv",
+   "role": "kohen",
+   "garment": "linen-undyed",
+   "zone": "outer-court",
+   "mission": "Cross the outer court to reach the place his watch assembles before his turn begins.",
+   "dialog": [
+    "My watch is called up this week, so I am crossing to where we assemble.",
+    "I am not serving at this moment; I am only walking to my turn.",
+    "The order of who does what is settled by lot, not by asking, and I would not want it otherwise.",
+    "If you need an answer about what you may do, ask one of the teachers, not a man in a hurry."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      2450.0,
+      2100.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Cross the court on the way to the watch",
+     "action": "Pause and check the way ahead",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6050.0,
+      2100.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6050.0,
+      4300.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Take the turn toward the assembly place",
+     "action": "Stand a moment and let a group pass",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2450.0,
+      4300.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the return stretch",
+     "action": "Look back across the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "presence": "Crossing the public court on his way to his watch; not serving and not stationed here."
+  },
+  {
+   "id": "yedidya-ben-chilkiya",
+   "name": "Yedidya ben Chilkiya",
+   "role": "kohen",
+   "garment": "linen-bleached",
+   "zone": "outer-court",
+   "mission": "Walk out among the people after his watch, in ordinary clothes, and answer what he can.",
+   "dialog": [
+    "My watch finished its turn. I changed before coming out here, as we do.",
+    "What I am wearing now is ordinary cloth. Service garments do not leave their place.",
+    "People ask me things all day. Half of them I answer, and half of them I send to a teacher.",
+    "It is a strange thing to walk slowly in a place where you usually walk quickly."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      2800.0,
+      -4400.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Cross the court on the way to the watch",
+     "action": "Pause and check the way ahead",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6000.0,
+      -4400.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6000.0,
+      -1800.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Take the turn toward the assembly place",
+     "action": "Stand a moment and let a group pass",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2800.0,
+      -1800.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the return stretch",
+     "action": "Look back across the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "presence": "Off duty and changed out of service garments before coming out among the people."
+  },
+  {
+   "id": "uriel-ben-shemaya",
+   "name": "Uriel ben Shemaya",
+   "role": "kohen",
+   "garment": "linen-undyed",
+   "zone": "outer-court",
+   "mission": "Learn the approaches of the court on foot before his watch is called up for its turn.",
+   "dialog": [
+    "I am newly assigned, so I am walking the approaches until I know them without thinking.",
+    "My watch has not been called yet. When it is, I would rather not be counting doorways.",
+    "An older kohen told me to walk it twice before I ask anyone anything. I am on my second.",
+    "I check my assignment more often than I need to. That is probably obvious."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      2500.0,
+      1750.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Cross the court on the way to the watch",
+     "action": "Pause and check the way ahead",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5700.0,
+      1750.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5700.0,
+      4350.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Take the turn toward the assembly place",
+     "action": "Stand a moment and let a group pass",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2500.0,
+      4350.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the return stretch",
+     "action": "Look back across the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "presence": "Newly assigned; walking the public court to learn its approaches before his watch is called."
+  },
+  {
+   "id": "assaf-ben-berachya",
+   "name": "Assaf ben Berachya",
+   "role": "levite",
+   "garment": "wool-indigo",
+   "zone": "outer-court",
+   "mission": "Wait where assignments are passed on, and keep himself ready for whichever one comes.",
+   "dialog": [
+    "I am waiting to hear what I am assigned to today. It has not come down yet.",
+    "It might be a gate. It might be with the singers. I get ready for both.",
+    "Waiting is most of it, honestly. Then all at once it is not.",
+    "I would rather stand here ready than be found somewhere else when the word comes."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      2550.0,
+      -4350.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk toward where assignments are given",
+     "action": "Stand ready and listen",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6150.0,
+      -4350.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6150.0,
+      -2150.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Turn along the far side",
+     "action": "Wait at the corner",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2550.0,
+      -2150.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back across the court",
+     "action": "Look back along the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "presence": "Waiting in the public court for a gate or music assignment; no assignment yet given."
+  },
+  {
+   "id": "chananel-ben-mattisyahu",
+   "name": "Chananel ben Mattisyahu",
+   "role": "levite",
+   "garment": "wool-umber",
+   "zone": "outer-court",
+   "mission": "Walk to the place where the day's assignments are given and take whatever he is handed.",
+   "dialog": [
+    "I am between duties, so I am walking over to where the day's assignments are given.",
+    "Some days it is the gate, some days it is standing with the others and keeping time.",
+    "You learn to hear the start of a thing from a long way off.",
+    "Ask me tomorrow and I may be standing somewhere else entirely."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      5600.0,
+      1650.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk toward where assignments are given",
+     "action": "Stand ready and listen",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6800.0,
+      1650.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      6800.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Turn along the far side",
+     "action": "Wait at the corner",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      5600.0,
+      3550.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back across the court",
+     "action": "Look back along the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ],
+   "presence": "Between duties in the public court; walking to where the day's assignments are given out."
+  },
+  {
+   "id": "rivka-bas-yoezer",
+   "name": "Rivka bas Yoezer",
+   "role": "host",
+   "garment": "mantle-saffron",
+   "zone": "outer-court",
+   "mission": "Find the family she agreed to lodge and walk them back to the room she has prepared.",
+   "dialog": [
+    "I keep a room in the city and I said I would meet a family here today.",
+    "They are from far off and they have never come up before, so I said I would find them.",
+    "The room is ready. It is small, but it is swept and there is water.",
+    "I have described them to myself so many times I will probably walk past them."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1550.0,
+      -3500.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the meeting line looking for the family",
+     "action": "Stop and scan the arriving faces",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2850.0,
+      -3500.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the gate",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2850.0,
+      -1700.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Turn and search the far side",
+     "action": "Wait and watch the path",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1550.0,
+      -1700.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back toward the arrival side",
+     "action": "Look back across the court",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nechemya-ben-tzuriel",
+   "name": "Nechemya ben Tzuriel",
+   "role": "guide",
+   "garment": "mantle-olive",
+   "zone": "outer-court",
+   "mission": "Walk the court answering questions about where things are, and send harder questions on.",
+   "dialog": [
+    "I walk this court and answer what I can about where things are and how to get there.",
+    "If the question is about what you may do, I take you to someone who teaches. I do not rule.",
+    "Most people only want to know where their group went. I can usually help with that.",
+    "I have been asked the same three questions since morning, and I do not mind at all."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      1650.0,
+      3700.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the court where questions are asked",
+     "action": "Stand where visitors can find you",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2950.0,
+      3700.0,
+      300.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the edge of the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      2950.0,
+      5500.0,
+      300.0
+     ],
+     "pause": 5.0,
+     "label": "Turn toward the busier side",
+     "action": "Wait for someone to ask",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      1650.0,
+      5500.0,
+      300.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back along the court",
+     "action": "Look back along the path",
+     "look": [
+      7800.0,
+      0.0,
+      300.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "shmaya-ben-nachshon",
+   "name": "Shmaya ben Nachshon",
+   "role": "host",
+   "garment": "wool-umber",
+   "zone": "mount-deck",
+   "mission": "Meet arriving households on the platform approach and walk them to lodging in the city.",
+   "dialog": [
+    "I meet people out here on the approach, before the crowd swallows them.",
+    "I keep rooms in the city for households coming up; there is a long argument about what may be charged, and I do not settle it.",
+    "You look like you have walked a long way. Most people out here have.",
+    "Rest here first. Nothing you need to do is helped by arriving out of breath."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      9360.0,
+      -2600.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the meeting line looking for the family",
+     "action": "Stop and scan the arriving faces",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9940.0,
+      -1500.0,
+      0.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the court",
+     "action": "Look toward the gate",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9360.0,
+      -400.0,
+      0.0
+     ],
+     "pause": 5.0,
+     "label": "Turn and search the far side",
+     "action": "Wait and watch the path",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9940.0,
+      700.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back toward the arrival side",
+     "action": "Look back across the court",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9360.0,
+      1800.0,
+      0.0
+     ],
+     "pause": 3.5,
+     "label": "Carry on around the circuit",
+     "action": "Stand and wait a moment",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aviela-bas-refael",
+   "name": "Aviela bas Refael",
+   "role": "guide",
+   "garment": "linen-bleached",
+   "zone": "mount-deck",
+   "mission": "Stand on the approach and orient first-time arrivals before they walk up to the gate.",
+   "dialog": [
+    "I stand out here so first-time visitors have someone to ask before they go up.",
+    "I can tell you which way to walk. What you may do when you get there is not mine to say.",
+    "People arrive and stop right in the middle of the path. It happens all day.",
+    "Take a moment out here. It is a better place to gather your household than the gateway."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      9400.0,
+      2700.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the court where questions are asked",
+     "action": "Stand where visitors can find you",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9900.0,
+      1600.0,
+      0.0
+     ],
+     "pause": 3.0,
+     "label": "Continue along the edge of the court",
+     "action": "Look toward the sanctuary",
+     "look": [
+      0.0,
+      0.0,
+      300.0
+     ]
+    },
+    {
+     "at": [
+      9400.0,
+      500.0,
+      0.0
+     ],
+     "pause": 5.0,
+     "label": "Turn toward the busier side",
+     "action": "Wait for someone to ask",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9900.0,
+      -600.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk back along the court",
+     "action": "Look back along the path",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9400.0,
+      -1700.0,
+      0.0
+     ],
+     "pause": 3.5,
+     "label": "Carry on around the circuit",
+     "action": "Stand and watch the crowd",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ovadya-ben-ephrayim",
+   "name": "Ovadya ben Ephrayim",
+   "role": "vendor",
+   "garment": "traveller-dust",
+   "zone": "mount-deck",
+   "mission": "Sell mats and carrying baskets to arriving travellers, out here and never inside the precinct.",
+   "dialog": [
+    "I sell mats and carrying baskets, and I sell them out here, not in there.",
+    "Nothing of mine goes past the approach. That is not where my work belongs.",
+    "A traveller who has slept on stone for four nights buys a mat without much persuasion.",
+    "I have been set up on this stretch since before dawn."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      9350.0,
+      -1250.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the approach beside the stall",
+     "action": "Set the load down and rest",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9950.0,
+      -1250.0,
+      0.0
+     ],
+     "pause": 3.0,
+     "label": "Carry goods along the platform",
+     "action": "Look out along the arrival road",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9950.0,
+      1250.0,
+      0.0
+     ],
+     "pause": 5.0,
+     "label": "Turn back along the approach",
+     "action": "Wait for travellers to come up",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9350.0,
+      1250.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the far end of the pitch",
+     "action": "Look back toward the gate approach",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "machla-bas-yiftach",
+   "name": "Machla bas Yiftach",
+   "role": "vendor",
+   "garment": "wool-madder",
+   "zone": "mount-deck",
+   "mission": "Provision arriving households with dried food for the road, keeping her stall off the precinct.",
+   "dialog": [
+    "Dried figs, dates, hard bread. Road food, for people who are still on the road.",
+    "My stall stays out here on the approach. It does not go up with you.",
+    "Most of what I sell is bought by someone who is about to give it to somebody else.",
+    "I close early. Everyone I am here for has already walked past by then."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      9360.0,
+      100.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the approach beside the stall",
+     "action": "Set the load down and rest",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9920.0,
+      100.0,
+      0.0
+     ],
+     "pause": 3.0,
+     "label": "Carry goods along the platform",
+     "action": "Look out along the arrival road",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9920.0,
+      2700.0,
+      0.0
+     ],
+     "pause": 5.0,
+     "label": "Turn back along the approach",
+     "action": "Wait for travellers to come up",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9360.0,
+      2700.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the far end of the pitch",
+     "action": "Look back toward the gate approach",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "elad-ben-yishai",
+   "name": "Elad ben Yishai",
+   "role": "vendor",
+   "garment": "mantle-olive",
+   "zone": "mount-deck",
+   "mission": "Repair sandals and refill water skins for travellers before they walk up from the approach.",
+   "dialog": [
+    "Sandals and water skins. Both fail on the last day of a long walk, every time.",
+    "I work out here on the approach. That is the right side of the line for a trade like mine.",
+    "Sit down, give me the sandal, and tell me where you walked from.",
+    "I have mended more straps this week than in the whole month before it."
+   ],
+   "laps": 12,
+   "route": [
+    {
+     "at": [
+      9330.0,
+      -2300.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the approach beside the stall",
+     "action": "Set the load down and rest",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9990.0,
+      -2300.0,
+      0.0
+     ],
+     "pause": 3.0,
+     "label": "Carry goods along the platform",
+     "action": "Look out along the arrival road",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9990.0,
+      100.0,
+      0.0
+     ],
+     "pause": 5.0,
+     "label": "Turn back along the approach",
+     "action": "Wait for travellers to come up",
+     "look": [
+      11500.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      9330.0,
+      100.0,
+      0.0
+     ],
+     "pause": 4.0,
+     "label": "Walk the far end of the pitch",
+     "action": "Look back toward the gate approach",
+     "look": [
+      8600.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  }
+ ]
+}

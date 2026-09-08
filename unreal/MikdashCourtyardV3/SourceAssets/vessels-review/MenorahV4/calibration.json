@@ -1,0 +1,447 @@
+{
+  "status": "PHOTOGRAPH_DERIVED_PROPORTION_NOT_A_MEASURED_SURVEY",
+  "honesty_statement": "Every number below was obtained by measuring PIXEL POSITIONS in one photograph of the Temple Institute's manufactured golden menorah and dividing them by the object's pixel height in that same photograph. It is photograph-derived proportion, NOT a measured survey of the object. Nobody put a tape on the vessel. The Temple Institute publishes no measured drawings (reference-ti/dossier.md, menorah-model-spec.json: 'No exact measured schedule located'). Absolute centimetres appear only because this project multiplies the ratios by its own halachic height of 150 cm (18 tefachim at the 50 cm amah, book 'Lishchno Tidreshu' p. 252); the Institute's own schematic figure is about 180 cm. Perspective, lens distortion, glass-case refraction and JPEG blur are all present and uncorrected except where stated.",
+  "prepared": "2026-09-07",
+  "prepared_by": "Scripts/create_menorah_v4.py workflow; measurement code embedded in that script (pure-Python baseline-JPEG luma decoder, no third-party modules)",
+  "photograph": {
+    "file": "SourceAssets/reference-ti/menorah/wiki-מנורה.jpg",
+    "ascii_name": "wiki-menorah.jpg (Wikimikdash, wiki.temple.org.il; Hebrew filename is the wiki caption)",
+    "pixels": [
+      587,
+      821
+    ],
+    "encoding": "baseline JPEG (SOF0), 4:2:0 chroma; decoded to a full-resolution luma plane in pure Python",
+    "why_this_one": "Of the seven menorah photographs in reference-ti/menorah/ this is the only near-frontal elevation in which the WHOLE object is visible, base and feet included, against a dark background. In the two Temple Institute gallery photographs (original-menorah-gallery.jpg 1500x1000 and menora-classic-720.jpg, which are the same shot) the interpretive sign hides the bottom of the plinth, the background is bright sky and foliage, and menora-classic is a progressive JPEG. original-menorah-gallery.jpg was used only as a cross-check of the general form.",
+    "rights": "Temple Institute image used under the owners' personal permission to Shmuel Sokol as modelling reference only (reference-ti/README.md). Not redistributed, not traced, not textured from. Nothing of the photograph enters the model except the ratios in this file.",
+    "known_distortions": [
+      "The seven lamp tops rise steadily to the right (finial tops at y 59,47,39,35,27,19,19), about 4.3-4.9 degrees of apparent roll, while the base's two front bottom edges imply only about 1.6 degrees. Roll and off-axis perspective are therefore mixed and were NOT separated.",
+      "The object is yawed slightly away from the camera: the right-hand branch tips project 14.9% further from the shaft axis than the left-hand ones (248.4 px vs 214.6 px). Corrected by the symmetrisation below.",
+      "The camera is above the plinth top (the hexagonal top faces are visible; implied elevation about 7-8 degrees at base level) and roughly at lamp level.",
+      "Glass case, reflections, watermark text and JPEG blocking. Silhouette edges are +-2 px."
+    ]
+  },
+  "method": {
+    "segmentation": "Luma threshold 95 on the decoded plane, 4-connected components; the two largest components (the upper structure y 19-524 and the plinth y 526-814) are the menorah, interior holes filled. Verified by eye against the photograph (objmask preview).",
+    "vertical_measurements": "Taken ONLY on the shaft axis (image column x = 265.1, the mean centre of the plain-shaft runs at y 385-410, 455-485 and 587-631). On-axis heights are first-order immune to image roll.",
+    "horizontal_measurements": "Taken as the left and right distances from that axis and then perspective-symmetrised: with dl and dr the measured left/right distances of a symmetric pair, s = (dr-dl)/(dr+dl) and the corrected half-reach P = dl*(1+s) = dr*(1-s). This removes the near-side magnification of a small yaw. The three pairs give s = 0.073, 0.047, 0.030, decreasing with radius as a yaw requires, and the two independent solutions agree to 0.1 px.",
+    "normalisation": "H = 767 px = y 800 (silhouette bottom on the shaft axis, i.e. the plinth's contact plane under the axis) minus y 33 (top of the central lamp's finial). All heights below are h = (800 - y)/767, so h=0 is the contact plane and h=1 the top of the central finial. Widths and radii are divided by the same 767.",
+    "assumed_image_scale": "0.19557 cm/px if H is the project's 150 cm (18 tefachim at 50 cm/amah); 0.23468 cm/px if H is the Institute's schematic 'about 180 cm'. Neither is a measurement of the object; the model uses 150 cm.",
+    "cross_check": "The three branch semicircles were fitted twice, independently: (a) horizontally from the symmetrised tip half-reaches, (b) vertically from the on-axis rows at which each arc rejoins the shaft. Both give the same three radii and put all three semicircle centres within 2.3 px of one common height (y 215.5), which is what a concentric-semicircle construction predicts. That agreement is the main evidence that these ratios describe the object and not the lens."
+  },
+  "pixel_anchors": {
+    "comment": "The raw pixel rows/columns every ratio was derived from. Rows are image y (down-positive); columns are image x.",
+    "shaft_axis_column": 265.1,
+    "silhouette_bbox": {
+      "x": [
+        27,
+        551
+      ],
+      "y": [
+        19,
+        814
+      ]
+    },
+    "top_of_central_finial_y": 33,
+    "contact_plane_on_axis_y": 800,
+    "lowest_visible_foot_y": 814,
+    "lamp_finial_tops_left_to_right": [
+      [
+        55,
+        59
+      ],
+      [
+        114,
+        47
+      ],
+      [
+        187,
+        39
+      ],
+      [
+        271,
+        35
+      ],
+      [
+        350,
+        27
+      ],
+      [
+        432,
+        19
+      ],
+      [
+        518,
+        19
+      ]
+    ],
+    "vertical_tube_runs_at_y_219": [
+      [
+        42,
+        59
+      ],
+      [
+        104,
+        119
+      ],
+      [
+        176,
+        192
+      ],
+      [
+        256,
+        278
+      ],
+      [
+        342,
+        364
+      ],
+      [
+        425,
+        443
+      ],
+      [
+        502,
+        525
+      ]
+    ],
+    "arc_rejoins_shaft_y": {
+      "inner": 300,
+      "middle": 374,
+      "outer": 448
+    },
+    "junction_knop_row_spans_y": {
+      "inner": [
+        271,
+        300
+      ],
+      "middle": [
+        346,
+        374
+      ],
+      "outer": [
+        421,
+        448
+      ]
+    },
+    "axis_width_transitions_y": [
+      33,
+      45,
+      52,
+      64,
+      72,
+      88,
+      110,
+      137,
+      138,
+      154,
+      170,
+      188,
+      200,
+      271,
+      300,
+      346,
+      374,
+      421,
+      448,
+      487,
+      524,
+      527,
+      551,
+      585,
+      636,
+      677,
+      712,
+      727,
+      736,
+      795,
+      800
+    ],
+    "base_widest_run": {
+      "y": 729,
+      "x": [
+        109,
+        434
+      ]
+    },
+    "base_tier1_run": {
+      "y": 679,
+      "x": [
+        142,
+        393
+      ]
+    },
+    "base_lower_body_run": {
+      "y": 745,
+      "x": [
+        115,
+        433
+      ]
+    }
+  },
+  "normalised_to_H": {
+    "overall": {
+      "H_px": 767.0,
+      "width_over_H_lamp_centres": 0.6006,
+      "width_over_H_including_lamp_bowls": 0.6749,
+      "note": "menorah-model-spec guessed 0.73-0.83 W/H from the same family of photographs; the measurement says 0.67. The raw silhouette box gives 525/796 = 0.660, the perspective-corrected figure 0.675."
+    },
+    "lamp_row": {
+      "lamp_bowl_bottom_h": 0.9478,
+      "lamp_rim_h": 0.9596,
+      "lid_top_h": 0.9778,
+      "finial_top_h": 1.0,
+      "lamp_bowl_diameter_over_H": 0.0743,
+      "lamp_bowl_height_over_H": 0.0118,
+      "lid_height_over_H": 0.0195,
+      "finial_height_over_H": 0.0222,
+      "lid_radius_fractions_of_rim": {
+        "y_68": 0.9,
+        "y_60": 0.86,
+        "y_57": 0.7,
+        "y_55": 0.54,
+        "y_53": 0.35,
+        "y_50": 0.19
+      },
+      "revision": "ITERATION 3. The first pass read the lamp as a deep bowl with its rim at the top (rim h 0.9752, lid 0.9752-0.9843, finial 0.9843-1.0). The on-axis width profile contradicts that: the widest row is y 64 and the silhouette narrows BOTH above it (51 px at y 68 down to 11 px at y 50) and below it (26 px at y 73). So the lamp is a very shallow saucer, about 9 px deep, whose rim is overhung by a tall domed lid carrying the finial. The revised split is the one tabulated here. Correcting it raised the bounding-box silhouette score from 0.4252 to 0.4335.",
+      "all_seven_at_one_level": "assumed by construction (Rambam Beit HaBechirah 3:9-10); in the photograph the apparent lamp tops differ by up to 40 px, which is the roll described above, not a real step"
+    },
+    "branch_semicircles": {
+      "form": "three CONCENTRIC semicircles about one point on the shaft axis; each branch is the quarter from the bottom of its semicircle (on the axis) round to the side, where the tangent is vertical, then a straight vertical run up into the ornament stack",
+      "common_centre_h": 0.7621,
+      "centre_scatter_px": 2.3,
+      "radii_over_H": [
+        0.11,
+        0.2098,
+        0.3003
+      ],
+      "radii_px": [
+        84.4,
+        160.9,
+        230.3
+      ],
+      "radius_ratios": [
+        1.0,
+        1.906,
+        2.729
+      ],
+      "ratio_note": "NOT 1:2:3. The outer arcs are relatively tighter than an equal-pitch construction; the vertical fit (arc feet 74 px apart) and the horizontal fit agree on this, so it is read as the object's design, not lens distortion.",
+      "spring_points_on_shaft_h": [
+        0.6519,
+        0.5554,
+        0.4589
+      ],
+      "spring_point_note": "measured as the row where each arc's silhouette rejoins the plain shaft. Menachos 28b would put the three junctions at tefachim 9, 11 and 13 = h 0.500, 0.611, 0.722; the TI object as photographed sits lower and wider. The model follows the photograph and records the Talmudic alternative as a deviation."
+    },
+    "branch_tube": {
+      "diameter_over_H_at_h_0.78_vertical_run": 0.0254,
+      "diameter_over_H_at_h_0.72_vertical_run": 0.0248,
+      "diameter_over_H_at_h_0.62_arc_shoulder": 0.0261,
+      "diameter_over_H_near_the_shaft_foot": 0.0273,
+      "measurement_basis": "widths of the seven vertical tube runs at y 203, 219, 251 and 299, symmetrised across the axis (outer pair 18/24 px, middle 16/19, inner 17/23 at y 219)",
+      "section": "NOT a circular tube. The photographs show a broad flat reflective front band with narrow rounded edge highlights (dossier: 'rectangular-ish section with a flat decorated front band'). The depth/width ratio cannot be recovered from a frontal view; the model uses 0.82 and says so."
+    },
+    "central_shaft": {
+      "radius_over_H_below_the_stack": 0.0143,
+      "radius_over_H_between_junctions": 0.015,
+      "radius_over_H_above_the_base": 0.0235,
+      "faceted": "the shaft reads as faceted (octagonal) in the photographs; facet count not resolvable"
+    },
+    "ornament_groups": {
+      "comment": "Vertical extents in h. The seven upper groups are identical except that the central one has four goblets and each branch three (Shemos 25:33-34); the goblet tier height is the same in both, which the photograph supports (central goblet band 60 px for four, outer-branch band 50 px for three).",
+      "upper_group_goblets": {
+        "h": [
+          0.7823,
+          0.8631
+        ],
+        "tier_boundaries_h": [
+          0.7823,
+          0.7979,
+          0.8214,
+          0.8422,
+          0.8631
+        ],
+        "max_diameter_over_H": 0.0456
+      },
+      "upper_group_knop": {
+        "h": [
+          0.8644,
+          0.8983
+        ],
+        "max_diameter_over_H": 0.0691
+      },
+      "upper_group_flower": {
+        "h": [
+          0.8996,
+          0.9283
+        ],
+        "max_diameter_over_H": 0.0378
+      },
+      "lamp_stem": {
+        "h": [
+          0.9283,
+          0.9478
+        ],
+        "diameter_over_H": 0.0157
+      },
+      "lamp": {
+        "h": [
+          0.9478,
+          1.0
+        ]
+      },
+      "junction_knops": {
+        "h_spans": [
+          [
+            0.6519,
+            0.6897
+          ],
+          [
+            0.5554,
+            0.592
+          ],
+          [
+            0.4589,
+            0.4941
+          ]
+        ],
+        "max_diameter_over_H": 0.0626
+      },
+      "lower_central_flower_upper": {
+        "h": [
+          0.3598,
+          0.4081
+        ],
+        "max_diameter_over_H": 0.0704
+      },
+      "lower_central_knop": {
+        "h": [
+          0.3246,
+          0.3559
+        ],
+        "max_diameter_over_H": 0.0587
+      },
+      "lower_central_flower_lower": {
+        "h": [
+          0.2803,
+          0.3233
+        ],
+        "max_diameter_over_H": 0.0365
+      },
+      "counts": {
+        "goblets": 22,
+        "knops": 11,
+        "flowers": 9,
+        "lamps": 7,
+        "branches": 6,
+        "source": "Shemos 25:31-40; menorah-model-spec count_contract; the Institute states 42 ornaments = 22 cups, 11 knops, 9 flowers"
+      }
+    },
+    "base": {
+      "plan": "hexagonal, a VERTEX toward the viewer (the two front faces meet on a vertical edge at image x about 290); the silhouette half-width is therefore about 0.866 of the circumradius, and the circumradii below are the measured half-widths divided by 0.866",
+      "tiers_bottom_to_top": [
+        {
+          "id": "feet",
+          "h": [
+            0.0,
+            0.0183
+          ],
+          "note": "six small feet at the hexagon vertices; the nearest one reaches 14 px below the on-axis contact row"
+        },
+        {
+          "id": "lower_plinth",
+          "h": [
+            0.0183,
+            0.1253
+          ],
+          "circumradius_over_H": 0.2394,
+          "bottom_chamfer_fraction": 0.93
+        },
+        {
+          "id": "lower_plinth_cap_moulding",
+          "h": [
+            0.1253,
+            0.1343
+          ],
+          "circumradius_over_H": 0.2454
+        },
+        {
+          "id": "upper_tier",
+          "h": [
+            0.1343,
+            0.1825
+          ],
+          "circumradius_over_H": 0.1942
+        },
+        {
+          "id": "ogee_cap",
+          "h": [
+            0.1825,
+            0.2138
+          ],
+          "circumradius_over_H": 0.1942,
+          "top_radius_over_H": 0.0235,
+          "note": "concave-then-convex moulding carrying a scroll frieze, running up to the round stem collar"
+        }
+      ],
+      "panel_divisions": {
+        "faces": 6,
+        "panels_per_face": {
+          "lower_plinth": 1,
+          "upper_tier": 1,
+          "ogee_cap": 1
+        },
+        "total_raised_panels": 18,
+        "lower_plinth_panel": {
+          "width_fraction_of_face": 0.84,
+          "height_fraction_of_tier": 0.66,
+          "relief_depth_over_H": 0.0045,
+          "motif_seen": "large acanthus / vine scroll with a pomegranate or bud at the centre, inside a raised bead border"
+        },
+        "upper_tier_panel": {
+          "width_fraction_of_face": 0.88,
+          "height_fraction_of_tier": 0.55,
+          "relief_depth_over_H": 0.0035,
+          "motif_seen": "a running scroll band, shallower than the lower panel"
+        },
+        "ogee_cap_panel": {
+          "width_fraction_of_face": 0.9,
+          "height_fraction_of_tier": 0.4,
+          "relief_depth_over_H": 0.0025,
+          "motif_seen": "leaf frieze over the chamfer"
+        },
+        "motif_limit": "The motifs are legible as families (acanthus, vine, scroll, bead border) but not reproducible at 587 px. The model builds the PANEL DIVISIONS - a raised rectangular field with a border on each face of each tier - and leaves the ornament inside them plain. No motif is traced."
+      },
+      "tier_height_rule": "ITERATION 2, the MID-PLANE rule. The camera is above the plinth, so a horizontal plane of the hexagon does not project as a line but as a band: its far edge appears high in the image and its near vertex low. The first pass read each tier top at its NEAR-VERTEX row, which is the lowest row that plane can occupy, and so made every tier too short (tops at h 0.1057 / 0.1604 / 0.2138). The tiers above take the MIDDLE of each band instead, which is where the plane really is: contact plane y 786 (band 775-797), lower-plinth top y 697 (band 683-712), upper-tier top y 660 (band 643-677). h is still measured from y 800, the on-axis silhouette bottom, so the feet hang below h 0.0183. This correction raised the bounding-box silhouette score from 0.4134 to 0.4252."
+    }
+  },
+  "residuals_and_limits": [
+    "Roll and yaw were not separated, so a systematic error of order 1-2% remains in any width taken far from the axis.",
+    "The lamp cup's plan shape (the wick spout direction and the boat-like elongation seen in wiki-הגביעים_במנורה.jpg) cannot be measured from a frontal elevation; only its height and rim diameter are calibrated.",
+    "The depth (front-to-back) of every part is uncalibrated: one photograph gives no depth. Branch section depth, plinth depth and lamp depth are authored.",
+    "Base relief motifs, knop cartouche motifs, goblet flute counts and petal counts are authored; only their bounding proportions are measured.",
+    "The rear of the object was never seen.",
+    "The goblet/knop/flower sub-proportions inside each upper group were cross-read from the two Institute detail photographs wiki-הגביעים_במנורה.jpg (657x1500) and wiki-הפרח_העליון_במנורה.jpg (650x808), which show the stack close up; those two readings are qualitative (order of elements, cup/knop/flower silhouette families) and are not tabulated as ratios.",
+    "A parameter sensitivity sweep (nine global scales at 0.88/0.94/1.06/1.12) confirmed the calibrated arc radii sit at a local optimum of the silhouette score - 1.00 scored 0.4252 against 0.402 at 0.94 and 0.393 at 1.06 - which is independent support for the measured radii. Thickening the tubes and ornaments by 12% also raises the score slightly, but only because it papers over the photograph's roll; those scales were NOT adopted."
+  ],
+  "iterations": [
+    {
+      "run": 1,
+      "change": "first build directly from the pixel table above",
+      "iou_bbox": 0.41341,
+      "iou_roll_refined": 0.59222
+    },
+    {
+      "run": 2,
+      "change": "base tier planes moved to the MID-PLANE rule (see base.tier_height_rule); a bottom chamfer added to the lower plinth for its receding bottom edge",
+      "iou_bbox": 0.4252,
+      "iou_roll_refined": 0.62611
+    },
+    {
+      "run": 3,
+      "change": "lamp / lid / finial split re-read from the on-axis width profile (see lamp_row.revision); flower petals rebuilt so their tips reach the calibrated half-diameter and rise through the calibrated height band instead of sitting in a 2 cm collar at its foot",
+      "iou_bbox": 0.43354,
+      "iou_roll_refined": 0.6379
+    }
+  ],
+  "iteration_note": "The score is an intersection-over-union of the model's software front elevation against the thresholded photograph after a bounding-box alignment, as specified. It cannot approach 1.0: the photograph is rolled about 4 degrees, which spreads the seven lamp tops over 40 px and inflates the bounding-box height to 796 px against the 767 px the object actually occupies on its axis, and the yaw puts the object's shaft 24 px left of its own bounding-box centre. The second column adds ONLY a rigid rotation and shift on top of the same alignment and shows how much of the residual is the photograph rather than the model. Full record: silhouette-iterations.json."
+}

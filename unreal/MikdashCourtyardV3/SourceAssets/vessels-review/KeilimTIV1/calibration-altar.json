@@ -1,0 +1,245 @@
+{
+  "vessel": "golden incense altar (mizbach haketores)",
+  "photograph": "incense-altar/original-golden-incense-altar-gallery.jpg",
+  "photograph_size": [
+    1500,
+    1000
+  ],
+  "method": "Pixel positions read from the object mask (chroma >= 22 within x 430..930, y 0..900) of the named file plus ruled crops of the same file. Normalised by the overall photographed height (866 px) unless a row says otherwise. PHOTOGRAPH-DERIVED PROPORTION, NOT A SURVEY: one studio viewpoint, residual perspective on the corner horns (their side faces are partly visible), no scale bar, no measured drawing.",
+  "normalisers": {
+    "overall_height_px": 866,
+    "base_to_top_surface_px": 792,
+    "body_width_px": 363,
+    "photographed_height_over_width": 2.1818
+  },
+  "pixel_readings": {
+    "image": "incense-altar/original-golden-incense-altar-gallery.jpg",
+    "image_size": [
+      1500,
+      1000
+    ],
+    "mask_rule": "chroma >= 22 within x 430..930, y 0..900",
+    "mask_bbox": {
+      "x": [
+        494,
+        876
+      ],
+      "y": [
+        24,
+        887
+      ]
+    },
+    "mask_area_px": 299744,
+    "horn_top_y": 22,
+    "horn_cap_bottom_y": 48,
+    "crown_teeth_top_y": 76,
+    "crown_base_y": 96,
+    "cornice_bottom_y": 176,
+    "base_band_top_y": 847,
+    "base_y": 888,
+    "body_left_x": 503,
+    "body_right_x": 866,
+    "cornice_left_x": 494,
+    "cornice_right_x": 876,
+    "horn_shaft_x": [
+      505,
+      570
+    ],
+    "horn_cap_x": [
+      500,
+      583
+    ],
+    "pilaster_left_x": [
+      503,
+      576
+    ],
+    "panel_outer_x": [
+      576,
+      789
+    ],
+    "panel_field_x": [
+      581,
+      784
+    ],
+    "flute_pitch_x": 14.3,
+    "flute_count": 4,
+    "crown_tooth_pitch_x": 11.2,
+    "crown_tooth_width_x": 4.5,
+    "arch_count_per_face": 7,
+    "arch_pitch_x": 52.8,
+    "arch_motifs": "alternating grape cluster / lily, grape at both ends (7 arches, so the pattern is symmetric)"
+  },
+  "proportions": [
+    {
+      "feature": "overall height (horn tip to base)",
+      "normalised": 1.0,
+      "note": "normaliser: 866 px"
+    },
+    {
+      "feature": "body width (below the cornice)",
+      "normalised": 0.41917,
+      "note": "363 px; body height / body width = 2.182"
+    },
+    {
+      "feature": "cornice (arcade frieze) width",
+      "normalised": 0.44111,
+      "note": "projects 9.5 px each side"
+    },
+    {
+      "feature": "horn tip",
+      "normalised": 0.0,
+      "note": "top of the image object"
+    },
+    {
+      "feature": "horn cap underside / fluted shaft top",
+      "normalised": 0.03002,
+      "note": "two-step abacus above a fluted shaft"
+    },
+    {
+      "feature": "pierced zer: top of the crenellation teeth",
+      "normalised": 0.06236,
+      "note": ""
+    },
+    {
+      "feature": "pierced zer base = top surface = cornice top",
+      "normalised": 0.08545,
+      "note": "the 2-amot book height is taken TO HERE"
+    },
+    {
+      "feature": "cornice (arcade frieze) bottom",
+      "normalised": 0.17783,
+      "note": "band height 0.0924 of overall height"
+    },
+    {
+      "feature": "panel field bottom / base band top",
+      "normalised": 0.95266,
+      "note": ""
+    },
+    {
+      "feature": "base",
+      "normalised": 1.0,
+      "note": ""
+    },
+    {
+      "feature": "horn fluted shaft width",
+      "normalised": 0.07506,
+      "note": "0.179 of the body width"
+    },
+    {
+      "feature": "horn cap width",
+      "normalised": 0.09584,
+      "note": "0.229 of the body width"
+    },
+    {
+      "feature": "pilaster strip width",
+      "normalised": 0.0843,
+      "note": "0.201 of the body width; 4 flutes at 14.3 px pitch"
+    },
+    {
+      "feature": "recessed panel field width",
+      "normalised": 0.23441,
+      "note": "0.559 of the body width"
+    },
+    {
+      "feature": "pierced zer height",
+      "normalised": 0.02309,
+      "note": "32 teeth per face at 11.2 px pitch"
+    }
+  ],
+  "book_vs_photograph": [
+    "Book p. 255: 1 x 1 x 2 amot at the five-tefach amah = 41.667 x 41.667 x 83.333 cm. The photographed altar is base-to-top-surface / width = 2.182, i.e. about 9% slimmer than the book's 2.000. The BOOK wins: the modelled box is 41.667 wide and 83.333 high to the burning surface, so the model is slightly squatter than the photograph.",
+    "The pierced zer and the four horns stand ABOVE the burning surface in the photograph and are modelled that way, so the model is 83.333 + 7.79 cm tall overall. Reading the 2 amot to the horn tips instead would make the body 1.66:1, further from the photograph; that reading is not used.",
+    "Rings and poles: the Temple's golden altar has none (dossier section 3; the Institute's object has none). IncenseAltarV2 modelled poles; they are dropped here."
+  ],
+  "silhouette_overlap": {
+    "method": "Both silhouettes are reduced to binary masks, each stretched to its own bounding box on a common 200-column grid (the photograph fixes the grid aspect), then intersection over union. This scores SHAPE AND PROPORTION only. It is not a fidelity measure of ornament, and the photograph is a slightly oblique studio view, so a perfectly frontal model cannot reach 1.0.",
+    "photograph": "incense-altar/original-golden-incense-altar-gallery.jpg",
+    "photograph_mask": {
+      "bbox": [
+        494,
+        24,
+        876,
+        887
+      ],
+      "area_px": 299744,
+      "rule": "chroma >= 22 within x 430..930, y 0..900"
+    },
+    "meshes_scored": "all",
+    "meshes_scored_note": "",
+    "shape_variant_note": "not used for this vessel",
+    "refinement_stopped_because": "The altar reached 0.9525 at iteration 0 from the raw calibration; the two later iterations moved it by less than 0.001, so the raw calibration is kept unless a later iteration wins outright.",
+    "iterations": [
+      {
+        "iteration": "iter0-raw-calibration",
+        "tuning": {
+          "cornice_projection": 1.0,
+          "pilaster_w": 1.0,
+          "crown_h": 1.0,
+          "horn_shaft_w": 1.0,
+          "horn_cap_w": 1.0
+        },
+        "triangles": 23656,
+        "as_built": {
+          "iou": 0.9525,
+          "intersection_px": 80111,
+          "union_px": 84102,
+          "grid": [
+            200,
+            451
+          ],
+          "model_only_px": 2503,
+          "photo_only_px": 1488
+        }
+      },
+      {
+        "iteration": "iter1-wider-horns-and-cornice",
+        "tuning": {
+          "cornice_projection": 1.25,
+          "pilaster_w": 1.0,
+          "crown_h": 1.0,
+          "horn_shaft_w": 1.06,
+          "horn_cap_w": 1.1
+        },
+        "triangles": 23656,
+        "as_built": {
+          "iou": 0.953,
+          "intersection_px": 80253,
+          "union_px": 84207,
+          "grid": [
+            200,
+            451
+          ],
+          "model_only_px": 2608,
+          "photo_only_px": 1346
+        }
+      },
+      {
+        "iteration": "iter2-tall-crown",
+        "tuning": {
+          "cornice_projection": 1.25,
+          "pilaster_w": 1.0,
+          "crown_h": 1.2,
+          "horn_shaft_w": 1.06,
+          "horn_cap_w": 1.1
+        },
+        "triangles": 23656,
+        "as_built": {
+          "iou": 0.9523,
+          "intersection_px": 80296,
+          "union_px": 84319,
+          "grid": [
+            200,
+            451
+          ],
+          "model_only_px": 2720,
+          "photo_only_px": 1303
+        }
+      }
+    ],
+    "best": "iter1-wider-horns-and-cornice",
+    "best_as_built_iou": 0.953,
+    "best_shape_variant_iou": null,
+    "overlay": "keilim-ti-altar-silhouette.png",
+    "overlay_shape_variant": null
+  }
+}

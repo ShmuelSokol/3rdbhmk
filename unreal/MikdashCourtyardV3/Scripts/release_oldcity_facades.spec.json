@@ -1,0 +1,182 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Guarded, resumable import and placement of the OldCityFacadesV1 detail shells and AUTHORED_INFILL massing into the combined Walkthrough map. Every number a human should review before the run lives here; the per-cell geometry facts live in the generator's facades-manifest.json, which is hash-pinned below.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "targetMapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+ "lastKnownMapSha256": "1ec4a3fe48194dac4ebc81fcd63526cfb3f363e1f0c7847691507f3c60326ce9",
+ "lastKnownMapSha256Note": "Informational only. The map legitimately changes between runs of a resumable job, so a mismatch is recorded in the receipt and never used as a refusal.",
+ "protectedMaps": [
+  "/Game/MikdashV3/Maps/Courtyard",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+ ],
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "OldCityFacades-",
+ "receiptFolder": "SourceAssets/context-review/OldCityFacadesV1",
+ "receiptPrefix": "native-import-",
+ "actorTag": "ReleaseOldCityFacadesV1",
+ "infillActorTag": "AUTHORED_INFILL",
+ "labelPrefix": "RELEASE_",
+ "folder": "Release/OldCityFacades",
+ "source": {
+  "folder": "SourceAssets/context-review/OldCityFacadesV1",
+  "objFolder": "SourceAssets/context-review/OldCityFacadesV1/obj",
+  "manifest": "SourceAssets/context-review/OldCityFacadesV1/facades-manifest.json",
+  "manifestSha256": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+  "manifestSha256Note": "Pinned so a silently re-authored geometry set cannot be imported under a reviewed spec. Re-running the generator means re-reviewing and updating this hash.",
+  "manifestStatusRequired": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+  "authoringScript": "Scripts/create_oldcity_facades.py",
+  "authoringScriptSha256": "31d779582708348359e092cb5b0d9d7f217c7d366678595a3e1ad0bda2447dc6",
+  "objAdapter": "Canonical vertices are UE cm; every OBJ is written with Y reflected and triangle winding reversed (create_sanctuary_doors.export adapter, same as the keilim/keruvim/Aron/relief imports). The importer reflects Y back, so the imported StaticMesh must reproduce the manifest canonicalBoundsCm. Old City content sits many tens of metres off origin and is strongly asymmetric in Y, so a failed reflection cannot pass the bounds check.",
+  "boundsToleranceCm": 1.0,
+  "boundsToleranceNote": "The OBJ stores centimetres to 2 dp and the engine keeps float32 positions; at world coordinates near 1e5 cm that is a few thousandths of a centimetre, so 1 cm is generous but still catches any reflection, scale or unit error."
+ },
+ "namespace": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1",
+ "meshFolder": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes",
+ "materialFolder": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials",
+ "namespaceRule": "Only this namespace may be written. Re-running the import over an already-imported cell is refused unless -FacadesResume (skip finished cells) or -FacadesPlaceOnly (place actors for assets that already exist) is given. Nothing outside the namespace is created, renamed or deleted.",
+ "importSettings": {
+  "note": "The reviewed OBJ adapter path (release_import_doors.spec.json importSettings), with build_nanite ON because these shells are dense decoration seen at every distance, and computed normals because the OBJ carries hard-edged per-face normals and no smoothing groups.",
+  "factory": "FbxFactory",
+  "fbxImportUI": {
+   "automated_import_should_detect_type": false,
+   "mesh_type_to_import": "FBXIT_STATIC_MESH",
+   "import_as_skeletal": false,
+   "import_mesh": true,
+   "import_animations": false,
+   "import_materials": false,
+   "import_textures": false,
+   "create_physics_asset": false
+  },
+  "staticMeshImportData": {
+   "combine_meshes": true,
+   "transform_vertex_to_absolute": true,
+   "bake_pivot_in_vertex": false,
+   "convert_scene": false,
+   "convert_scene_unit": false,
+   "force_front_x_axis": false,
+   "import_uniform_scale": 1.0,
+   "auto_generate_collision": false,
+   "build_nanite": true,
+   "generate_lightmap_u_vs": false,
+   "remove_degenerates": true,
+   "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+  },
+  "naniteReadbackRequired": true,
+  "naniteFallbackNote": "build_nanite on FbxStaticMeshImportData is the primary path. If the readback of static_mesh.nanite_settings.enabled is False the script sets the property directly and reads it back again; a mesh that still reports Nanite off is recorded per-cell, never silently accepted."
+ },
+ "materials": {
+  "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot (one slot per OBJ, because the OBJs carry a single object and no g groups). Nothing outside this spec's own namespace is created.",
+  "facades": {
+   "candidates": [
+    {
+     "path": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+     "kind": "context_triplanar_limestone"
+    },
+    {
+     "path": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+     "kind": "context_old_stone_fallback"
+    }
+   ]
+  },
+  "infill": {
+   "createIfMissing": {
+    "path": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+    "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+    "kind": "MaterialInstanceConstant",
+    "why": "The authored infill should read as newer rendered plaster beside the ashlar of the mapped buildings, and it carries no vertex colours, so the parent's vertex-colour term is switched off rather than left reading white.",
+    "vectorParameters": {
+     "Tint0": [
+      1.06,
+      1.03,
+      0.97
+     ],
+     "Tint1": [
+      1.03,
+      0.99,
+      0.92
+     ],
+     "Tint2": [
+      1.0,
+      0.96,
+      0.9
+     ],
+     "Tint3": [
+      1.08,
+      1.04,
+      0.97
+     ],
+     "RoofTint": [
+      0.72,
+      0.7,
+      0.66
+     ]
+    },
+    "scalarParameters": {
+     "TileCm": 300.0,
+     "RoughVar": 0.08,
+     "VCInfluence": 0.0,
+     "HashVertexColorWeight": 0.0
+    },
+    "verifyByReadback": "MaterialEditingLibrary setters return False even on success in UE 5.8; every parameter is read back with get_material_instance_*_parameter_value and any mismatch fails the run."
+   }
+  }
+ },
+ "collision": {
+  "facades": {
+   "profile": "NoCollision",
+   "why": "The shells are decoration standing 6 cm proud of boxes that already collide; giving them collision would only add narrow ledges a walker could catch on."
+  },
+  "infill": {
+   "profile": "BlockAll",
+   "collisionTraceFlag": "CTF_UseComplexAsSimple",
+   "why": "Authored infill is new solid massing with no simple primitives, so the render mesh is the collision. Complex-as-simple keeps the walker out of the buildings without generating convex hulls for 1500 plans."
+  }
+ },
+ "placement": {
+  "location": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rotation": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "scale": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "why": "Every vertex is already world centimetres in the level's own frame; the alignment was baked once by the original export and must never be applied twice."
+ },
+ "resume": {
+  "switch": "-FacadesGroups=0,1,2",
+  "resumeSwitch": "-FacadesResume",
+  "placeOnlySwitch": "-FacadesPlaceOnly",
+  "groupsInManifest": 8,
+  "why": "About 3.4 M triangles across 190 meshes is more than a 16 GB machine wants to import, build Nanite for and save in one editor lifetime. Groups are balanced by triangle count by the generator; each run checkpoints, saves, reopens and writes its own receipt, and -FacadesResume picks up the cells that are not finished."
+ },
+ "verification": {
+  "transformToleranceCm": 0.001,
+  "staticBoundsToleranceCm": 5.0,
+  "compareRule": "Numeric location/rotation/scale fields and AABB corners only; str(Transform) is never compared (it contains memory addresses).",
+  "requireTriangleMatch": false,
+  "requireReopenReadback": true,
+  "staticBoundsToleranceNote": "The strong Y-reflection / scale test is the 1 cm source.boundsToleranceCm check on the StaticMesh AABB itself. This looser value only guards the actor's component bounds after reopen, which UE derives from the mesh bounds and may pad.",
+  "notes": [
+   "requireTriangleMatch disabled 2026-09-08: with build_nanite on, StaticMesh.get_num_triangles(0) returns the Nanite FALLBACK mesh count (about 11 percent here), not the source triangle count. Bounds round-trip and the source OBJ hash remain the acceptance checks; the fallback count is recorded per cell."
+  ]
+ },
+ "limitations": [
+  "Import and placement are geometric only. No visual, lighting, walking, packaged or cook acceptance is established by this script.",
+  "Every facade detail and every infill building is authored massing in the style of the modern Old City, not survey, not photogrammetry and not a claim about any particular building. Infill is tagged AUTHORED_INFILL on the actor and in the receipt.",
+  "The detail shells carry no vertex colours, so M_Context_Building's vertex-colour term reads white on them and its per-building hash tint is uniform within a batch.",
+  "The OBJs carry placeholder planar UVs only; the context materials are triplanar and do not read them, and no lightmap UVs are generated.",
+  "Nanite is requested at import and verified by readback. A Nanite build failure on a particular cell is recorded, not hidden.",
+  "Actor count rises by up to 190. That is deliberate batching by 100 m cell; it is not a per-building actor explosion."
+ ]
+}

@@ -164,6 +164,17 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
     if (GetMesh() && bPaused != bWasPaused) GetMesh()->bPauseAnims = bPaused;
     bWasPaused = bPaused;
     if (bPaused) { StopBody(); return; }
+    // A conversation freezes the body where it stands and turns it to the walker. The route
+    // reservation, goal index and access are all left exactly as they were, so the resident
+    // simply carries on from here when the panel closes. The two-second block recovery is
+    // held off as well: standing still on purpose is not being blocked.
+    if (bConversationHold)
+    {
+        StopBody();
+        Recovery.Reset(); bHasLastFeet = false;
+        UpdateConversationFacing(DeltaSeconds);
+        return;
+    }
     if (RouteToken == 0) { UpdateStandingFacing(DeltaSeconds); return; }
     if (Person->Token != RouteToken || Person->State != MikdashCrowd::Phase::Traveling || !Person->Access)
     {
@@ -234,8 +245,36 @@ void AMikdashResidentCharacter::UpdateStandingFacing(float DeltaSeconds)
     SetActorRotation(FRotator(0.0, Yaw, 0.0));
 }
 
+void AMikdashResidentCharacter::SetResidentProfile(const FString& InName, const FString& InRole,
+    const FString& InMission, const FString& InOrigin, const FString& InPresence,
+    const FString& InGarmentVariant, const TArray<FString>& InDialogLines)
+{
+    DisplayName = InName; RoleTitle = InRole; Mission = InMission;
+    Origin = InOrigin; PresenceNote = InPresence; GarmentVariant = InGarmentVariant;
+    DialogLines = InDialogLines;
+}
+
+void AMikdashResidentCharacter::SetConversationHold(bool bHold, FVector FaceWorldTarget)
+{
+    bConversationHold = bHold && !FaceWorldTarget.ContainsNaN();
+    ConversationFacing = FaceWorldTarget;
+    if (bConversationHold) StopBody();
+    else { Recovery.Reset(); bHasLastFeet = false; }
+}
+
+void AMikdashResidentCharacter::UpdateConversationFacing(float DeltaSeconds)
+{
+    if (!GetCharacterMovement()->IsMovingOnGround()) return;
+    const FVector Feet = GetCharacterMovement()->GetActorFeetLocation();
+    if (FVector::DistSquared2D(Feet, ConversationFacing) < FMath::Square(30.0)) return;
+    const double TargetYaw = MikdashRoute::YawTowardDegrees({Feet.X, Feet.Y}, {ConversationFacing.X, ConversationFacing.Y});
+    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds);
+    SetActorRotation(FRotator(0.0, Yaw, 0.0));
+}
+
 FString AMikdashResidentCharacter::GetResidentName() const
 {
+    if (!DisplayName.IsEmpty()) return DisplayName;
     const MikdashCrowd::Identity* Identity = Plan();
     return Identity ? FString(UTF8_TO_TCHAR(Identity->Name.c_str())) : FString();
 }

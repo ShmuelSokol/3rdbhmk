@@ -1,0 +1,29 @@
+{
+  "status": "fog_tuned_saved_reopened",
+  "stamp": "20260908T024650Z",
+  "changes": {
+    "RELEASE_HeightFog": {
+      "before": {
+        "fog_density": 0.004999999888241291,
+        "fog_height_falloff": 0.05000000074505806,
+        "start_distance": 3000.0,
+        "volumetric_fog_extinction_scale": 1.0
+      },
+      "volumetricFogDisabled": true,
+      "after": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0
+      }
+    },
+    "skyLight_lower_hemisphere_is_black": {
+      "before": true,
+      "after": false
+    }
+  },
+  "fogActors": [
+    "RELEASE_HeightFog"
+  ],
+  "mapSha256After": "2799163ebdd34c0f7f0e0125b980d9a1ab5f12c79af540f5d6a8bd0e6df36c21",
+  "mapBytesChanged": true
+}

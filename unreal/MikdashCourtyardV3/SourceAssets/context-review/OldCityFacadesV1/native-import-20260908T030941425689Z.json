@@ -1,0 +1,1734 @@
+{
+  "status": "oldcity_facades_partial_slice_saved_reopened_resume_pending",
+  "stamp": "20260908T030941425689Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "d285511dcafd1bb3cd64f648c0e07df64553401a2ccb643dc3f7cc761abeb214",
+  "mapMatchesLastKnownSha256": false,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\OldCityFacades-20260908T030941425689Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_oldcity_facades.spec.json",
+  "specSha256": "a3956ce4589ef04a0b637b4c85b7bf0e3cc342ff7823ed3a863525fbbc44542f",
+  "scriptSha256": "92eefe9b70ef5844d3be8559a052a5c4c7556fbe0849638c64731fec1cc07aaa",
+  "manifestSha256": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "status": "offline_spec_and_source_consistent",
+    "specSha256": "a3956ce4589ef04a0b637b4c85b7bf0e3cc342ff7823ed3a863525fbbc44542f",
+    "manifestSha256": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+    "authoringScriptSha256": "31d779582708348359e092cb5b0d9d7f217c7d366678595a3e1ad0bda2447dc6",
+    "authoringScriptMatchesSpec": true,
+    "jobs": 190,
+    "facadeJobs": 102,
+    "infillJobs": 88,
+    "triangles": 3416580,
+    "objBytes": 235543027,
+    "groups": {
+      "0": {
+        "cells": 13,
+        "triangles": 426922
+      },
+      "1": {
+        "cells": 13,
+        "triangles": 427724
+      },
+      "2": {
+        "cells": 13,
+        "triangles": 427780
+      },
+      "3": {
+        "cells": 13,
+        "triangles": 426838
+      },
+      "4": {
+        "cells": 13,
+        "triangles": 427042
+      },
+      "5": {
+        "cells": 13,
+        "triangles": 426458
+      },
+      "6": {
+        "cells": 13,
+        "triangles": 427396
+      },
+      "7": {
+        "cells": 13,
+        "triangles": 426420
+      }
+    },
+    "targetMapSha256": "d285511dcafd1bb3cd64f648c0e07df64553401a2ccb643dc3f7cc761abeb214",
+    "targetMapMatchesLastKnown": false,
+    "namespaceOnDisk": true,
+    "coverageBefore": 0.359,
+    "coverageAfter": 0.4985,
+    "infillBuildings": 1514,
+    "buildingsInScope": 2106
+  },
+  "mode": {
+    "groupsRequested": [
+      2
+    ],
+    "resume": false,
+    "placeOnly": false,
+    "maxCells": null
+  },
+  "jobsInSelectedGroups": 23,
+  "alreadyCompleteBefore": [],
+  "alreadyCompleteCountBefore": 0,
+  "plannedThisRun": [
+    "SM_OldCityFacades_Grid_N001_N004",
+    "SM_OldCityInfill_Grid_N001_N004",
+    "SM_OldCityFacades_Grid_N002_N002",
+    "SM_OldCityFacades_Grid_N002_N006",
+    "SM_OldCityInfill_Grid_N002_N006",
+    "SM_OldCityFacades_Grid_N004_P001",
+    "SM_OldCityInfill_Grid_N004_P001",
+    "SM_OldCityFacades_Grid_N005_N002",
+    "SM_OldCityInfill_Grid_N005_N002",
+    "SM_OldCityFacades_Grid_N005_P002",
+    "SM_OldCityInfill_Grid_N005_P002",
+    "SM_OldCityFacades_Grid_N006_N001",
+    "SM_OldCityFacades_Grid_N006_N005",
+    "SM_OldCityInfill_Grid_N006_N005",
+    "SM_OldCityFacades_Grid_N006_P003",
+    "SM_OldCityInfill_Grid_N006_P003",
+    "SM_OldCityFacades_Grid_N006_P005",
+    "SM_OldCityInfill_Grid_N006_P005",
+    "SM_OldCityFacades_Grid_N010_N002",
+    "SM_OldCityFacades_Grid_P000_N006",
+    "SM_OldCityInfill_Grid_P000_N006",
+    "SM_OldCityFacades_Grid_P000_N007",
+    "SM_OldCityInfill_Grid_P000_N007"
+  ],
+  "plannedCountThisRun": 23,
+  "materials": {
+    "facades": {
+      "assigned": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "tried": [
+        {
+          "path": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+          "kind": "context_triplanar_limestone",
+          "exists": true,
+          "loaded": true
+        }
+      ]
+    },
+    "infill": {
+      "assigned": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "created": false,
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "readback": {
+        "vector": {
+          "Tint0": [
+            1.06,
+            1.03,
+            0.97
+          ],
+          "Tint1": [
+            1.03,
+            0.99,
+            0.92
+          ],
+          "Tint2": [
+            1.0,
+            0.96,
+            0.9
+          ],
+          "Tint3": [
+            1.08,
+            1.04,
+            0.97
+          ],
+          "RoofTint": [
+            0.72,
+            0.7,
+            0.66
+          ]
+        },
+        "scalar": {
+          "TileCm": 300.0,
+          "RoughVar": 0.08,
+          "VCInfluence": 0.0,
+          "HashVertexColorWeight": 0.0
+        }
+      },
+      "note": "Setters are not trusted; every value above was read back from the instance."
+    }
+  },
+  "cells": [
+    {
+      "cell": "Grid_N001_N004",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N001_N004",
+      "label": "RELEASE_OldCityFacades_Grid_N001_N004",
+      "buildings": 34,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 4334,
+      "renderVertices": 7426,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0007812500007275958,
+      "localBoundsCm": {
+        "min": [
+          -10383.3203125,
+          -40378.76953125,
+          -606.5
+        ],
+        "max": [
+          1103.199951171875,
+          -29287.30078125,
+          1386.699951171875
+        ]
+      },
+      "uassetSha256": "e7c329a9cfddd794d19306bfee003f4b9db8aceb8ac56551f3e815fe4b7740be",
+      "placed": true,
+      "name": "StaticMeshActor_7411",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N001_N004",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -10383.32,
+          -40378.77,
+          -606.5
+        ],
+        "max": [
+          1103.2,
+          -29287.3,
+          1386.7
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N001_N004",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N001_N004",
+      "label": "RELEASE_OldCityInfill_Grid_N001_N004",
+      "buildings": 24,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2138,
+      "renderVertices": 3792,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0009375000008731149,
+      "localBoundsCm": {
+        "min": [
+          -9811.0595703125,
+          -39627.7109375,
+          -606.5
+        ],
+        "max": [
+          1389.5400390625,
+          -29274.240234375,
+          1349.7099609375
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "d1eeaeffaad954e15221c93542e7fd33356091e4ad228c051197f7b9dbbc7c2c",
+      "placed": true,
+      "name": "StaticMeshActor_7412",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N001_N004",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -9811.06,
+          -39627.71,
+          -606.5
+        ],
+        "max": [
+          1389.54,
+          -29274.24,
+          1349.71
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N002_N002",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N002",
+      "label": "RELEASE_OldCityFacades_Grid_N002_N002",
+      "buildings": 4,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2134,
+      "renderVertices": 3684,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.00046875000043655746,
+      "localBoundsCm": {
+        "min": [
+          -20162.669921875,
+          -19679.23046875,
+          -570.510009765625
+        ],
+        "max": [
+          -10654.349609375,
+          -11971.0595703125,
+          1573.1300048828125
+        ]
+      },
+      "uassetSha256": "9e00a0e633d7341117157f0e692ede67e4b43b75e70c1144fffe7b33eee4cc46",
+      "placed": true,
+      "name": "StaticMeshActor_7413",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N002",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -20162.67,
+          -19679.23,
+          -570.51
+        ],
+        "max": [
+          -10654.35,
+          -11971.06,
+          1573.13
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N002_N006",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N006",
+      "label": "RELEASE_OldCityFacades_Grid_N002_N006",
+      "buildings": 16,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 4882,
+      "renderVertices": 9569,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0009375000008731149,
+      "localBoundsCm": {
+        "min": [
+          -21267.890625,
+          -56836.48046875,
+          340.67999267578125
+        ],
+        "max": [
+          -10535.3203125,
+          -50165.4609375,
+          2677.159912109375
+        ]
+      },
+      "uassetSha256": "9a129035fc9c2084a2e3275f8938ca2fea04865725cfef67e59b99872af0fec5",
+      "placed": true,
+      "name": "StaticMeshActor_7414",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N006",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -21267.89,
+          -56836.48,
+          340.68
+        ],
+        "max": [
+          -10535.32,
+          -50165.46,
+          2677.16
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N002_N006",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N002_N006",
+      "label": "RELEASE_OldCityInfill_Grid_N002_N006",
+      "buildings": 11,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 894,
+      "renderVertices": 1628,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0015625000014551915,
+      "localBoundsCm": {
+        "min": [
+          -19808.3203125,
+          -57108.30859375,
+          635.3599853515625
+        ],
+        "max": [
+          -9086.2900390625,
+          -49039.6484375,
+          2976.050048828125
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "16c5dc250a2a7aabe159d8ca3c38cadc01b95d7371bfa8a590dd853c10989ebe",
+      "placed": true,
+      "name": "StaticMeshActor_7415",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N002_N006",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -19808.32,
+          -57108.31,
+          635.36
+        ],
+        "max": [
+          -9086.29,
+          -49039.65,
+          2976.05
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N004_P001",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N004_P001",
+      "label": "RELEASE_OldCityFacades_Grid_N004_P001",
+      "buildings": 44,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 4596,
+      "renderVertices": 7824,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0008593749989813659,
+      "localBoundsCm": {
+        "min": [
+          -40342.25,
+          9424.419921875,
+          635.9000244140625
+        ],
+        "max": [
+          -29689.900390625,
+          20255.119140625,
+          2726.02001953125
+        ]
+      },
+      "uassetSha256": "2ea3adf13b4c5db735efbf73aa8d7ceb6acef00c6db9e5b394a3348e5b903880",
+      "placed": true,
+      "name": "StaticMeshActor_7416",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N004_P001",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -40342.25,
+          9424.42,
+          635.9
+        ],
+        "max": [
+          -29689.9,
+          20255.12,
+          2726.02
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N004_P001",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N004_P001",
+      "label": "RELEASE_OldCityInfill_Grid_N004_P001",
+      "buildings": 22,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1646,
+      "renderVertices": 2928,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.00046874999679857865,
+      "localBoundsCm": {
+        "min": [
+          -40010.76953125,
+          9880.6201171875,
+          554.9199829101562
+        ],
+        "max": [
+          -28836.990234375,
+          20959.580078125,
+          2768.580078125
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "1b3e4b0bf7e37eee9f7ac922a654bdb77c7c9067f2004d42424ee7529f70578c",
+      "placed": true,
+      "name": "StaticMeshActor_7417",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N004_P001",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -40010.77,
+          9880.62,
+          554.92
+        ],
+        "max": [
+          -28836.99,
+          20959.58,
+          2768.58
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N005_N002",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_N002",
+      "label": "RELEASE_OldCityFacades_Grid_N005_N002",
+      "buildings": 54,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 5266,
+      "renderVertices": 8874,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0014062499976716936,
+      "localBoundsCm": {
+        "min": [
+          -50230.69140625,
+          -20345.029296875,
+          66.4000015258789
+        ],
+        "max": [
+          -39344.19140625,
+          -9371.66015625,
+          2802.340087890625
+        ]
+      },
+      "uassetSha256": "69a9d91b1be67979de89525803234b9a4aebc40e69c0dcede5159d33fc6a7254",
+      "placed": true,
+      "name": "StaticMeshActor_7418",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_N002",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -50230.69,
+          -20345.03,
+          66.4
+        ],
+        "max": [
+          -39344.19,
+          -9371.66,
+          2802.34
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N005_N002",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_N002",
+      "label": "RELEASE_OldCityInfill_Grid_N005_N002",
+      "buildings": 29,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2124,
+      "renderVertices": 3734,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0015625000014551915,
+      "localBoundsCm": {
+        "min": [
+          -50018.9296875,
+          -19929.580078125,
+          154.0
+        ],
+        "max": [
+          -39366.1484375,
+          -9644.650390625,
+          2481.39990234375
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "e070beb8d288f96090a319bbec51da4df6aadc958946f7bd9e90d2e2addfaa50",
+      "placed": true,
+      "name": "StaticMeshActor_7419",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_N002",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -50018.93,
+          -19929.58,
+          154.0
+        ],
+        "max": [
+          -39366.15,
+          -9644.65,
+          2481.4
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N005_P002",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_P002",
+      "label": "RELEASE_OldCityFacades_Grid_N005_P002",
+      "buildings": 31,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 3638,
+      "renderVertices": 6114,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0018750000017462298,
+      "localBoundsCm": {
+        "min": [
+          -50407.609375,
+          19207.669921875,
+          1504.8199462890625
+        ],
+        "max": [
+          -40093.828125,
+          31060.810546875,
+          3139.39990234375
+        ]
+      },
+      "uassetSha256": "f53f261c36d858b59df00c8d4eeb011e96356020ccf2d50ec212ec67ae9b014a",
+      "placed": true,
+      "name": "StaticMeshActor_7420",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_P002",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -50407.61,
+          19207.67,
+          1504.82
+        ],
+        "max": [
+          -40093.83,
+          31060.81,
+          3139.4
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N005_P002",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_P002",
+      "label": "RELEASE_OldCityInfill_Grid_N005_P002",
+      "buildings": 13,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1010,
+      "renderVertices": 1770,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0018750000017462298,
+      "localBoundsCm": {
+        "min": [
+          -50012.5,
+          20018.41015625,
+          1560.77001953125
+        ],
+        "max": [
+          -39373.828125,
+          31088.599609375,
+          3339.300048828125
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "0f19891683de05814264cab563a980d4e63019d7ecca0a17706f48daffedd68b",
+      "placed": true,
+      "name": "StaticMeshActor_7421",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_P002",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -50012.5,
+          20018.41,
+          1560.77
+        ],
+        "max": [
+          -39373.83,
+          31088.6,
+          3339.3
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_N001",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N001",
+      "label": "RELEASE_OldCityFacades_Grid_N006_N001",
+      "buildings": 14,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2662,
+      "renderVertices": 4395,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0015625000014551915,
+      "localBoundsCm": {
+        "min": [
+          -63651.8984375,
+          -10478.7001953125,
+          1315.9000244140625
+        ],
+        "max": [
+          -50251.87109375,
+          304.2799987792969,
+          3038.659912109375
+        ]
+      },
+      "uassetSha256": "7aebf71c4272fb1d0f60e7a43debd1cb0564d9786e2e69037d574537709fa8bc",
+      "placed": true,
+      "name": "StaticMeshActor_7422",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N001",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -63651.9,
+          -10478.7,
+          1315.9
+        ],
+        "max": [
+          -50251.87,
+          304.28,
+          3038.66
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_N005",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N005",
+      "label": "RELEASE_OldCityFacades_Grid_N006_N005",
+      "buildings": 1,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2016,
+      "renderVertices": 3406,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.000781249997089617,
+      "localBoundsCm": {
+        "min": [
+          -55201.58984375,
+          -42553.08984375,
+          805.7999877929688
+        ],
+        "max": [
+          -51115.44921875,
+          -38803.05078125,
+          1785.800048828125
+        ]
+      },
+      "uassetSha256": "56cb2d58da3214cd29282f7f9d95071e7870fcc45358c14891122513046b7895",
+      "placed": true,
+      "name": "StaticMeshActor_7423",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N005",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -55201.59,
+          -42553.09,
+          805.8
+        ],
+        "max": [
+          -51115.45,
+          -38803.05,
+          1785.8
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_N005",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_N005",
+      "label": "RELEASE_OldCityInfill_Grid_N006_N005",
+      "buildings": 1,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 566,
+      "renderVertices": 958,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0009375000008731149,
+      "localBoundsCm": {
+        "min": [
+          -50885.9296875,
+          -40316.05078125,
+          977.8300170898438
+        ],
+        "max": [
+          -50200.5390625,
+          -39630.66015625,
+          2017.8299560546875
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "f12309a6123af1362354251cf6001b1f5688647832baccfabb890de3db7dad24",
+      "placed": true,
+      "name": "StaticMeshActor_7424",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_N005",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -50885.93,
+          -40316.05,
+          977.83
+        ],
+        "max": [
+          -50200.54,
+          -39630.66,
+          2017.83
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_P003",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P003",
+      "label": "RELEASE_OldCityFacades_Grid_N006_P003",
+      "buildings": 40,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 4668,
+      "renderVertices": 7898,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0018750000017462298,
+      "localBoundsCm": {
+        "min": [
+          -61261.578125,
+          29591.55078125,
+          2205.340087890625
+        ],
+        "max": [
+          -49314.390625,
+          40693.41015625,
+          4427.580078125
+        ]
+      },
+      "uassetSha256": "814008c2252e63a38d910345ffa5ab7d69f7c68c502c96ea691c7519267abf07",
+      "placed": true,
+      "name": "StaticMeshActor_7425",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P003",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -61261.58,
+          29591.55,
+          2205.34
+        ],
+        "max": [
+          -49314.39,
+          40693.41,
+          4427.58
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_P003",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P003",
+      "label": "RELEASE_OldCityInfill_Grid_N006_P003",
+      "buildings": 12,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1496,
+      "renderVertices": 2808,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0015625000014551915,
+      "localBoundsCm": {
+        "min": [
+          -60971.46875,
+          34780.6484375,
+          2236.97998046875
+        ],
+        "max": [
+          -49884.51953125,
+          40614.140625,
+          4474.25
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "a5256b106331cc5ec551f32facc288cec66013f84d321f14a269420b6f388822",
+      "placed": true,
+      "name": "StaticMeshActor_7426",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P003",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -60971.47,
+          34780.65,
+          2236.98
+        ],
+        "max": [
+          -49884.52,
+          40614.14,
+          4474.25
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_P005",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P005",
+      "label": "RELEASE_OldCityFacades_Grid_N006_P005",
+      "buildings": 7,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1568,
+      "renderVertices": 2610,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0018750000017462298,
+      "localBoundsCm": {
+        "min": [
+          -60324.28125,
+          48765.578125,
+          1839.5799560546875
+        ],
+        "max": [
+          -50008.01171875,
+          57769.66015625,
+          3658.3798828125
+        ]
+      },
+      "uassetSha256": "1b7993922eb8b21c8f36c58a2ec84135daa8d6c1fe8b379b09df40db5b51f6a0",
+      "placed": true,
+      "name": "StaticMeshActor_7427",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P005",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -60324.28,
+          48765.58,
+          1839.58
+        ],
+        "max": [
+          -50008.01,
+          57769.66,
+          3658.38
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N006_P005",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P005",
+      "label": "RELEASE_OldCityInfill_Grid_N006_P005",
+      "buildings": 18,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2866,
+      "renderVertices": 6278,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0017187499979627319,
+      "localBoundsCm": {
+        "min": [
+          -59694.1484375,
+          49679.48828125,
+          2119.090087890625
+        ],
+        "max": [
+          -51035.390625,
+          55576.4296875,
+          3500.110107421875
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "d10845a8be5f67ae561c22d20002f0a99be87a9048e974aa91088e869b0dc46e",
+      "placed": true,
+      "name": "StaticMeshActor_7428",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P005",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -59694.15,
+          49679.49,
+          2119.09
+        ],
+        "max": [
+          -51035.39,
+          55576.43,
+          3500.11
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_N010_N002",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N010_N002",
+      "label": "RELEASE_OldCityFacades_Grid_N010_N002",
+      "buildings": 12,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1874,
+      "renderVertices": 3355,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.003125000002910383,
+      "localBoundsCm": {
+        "min": [
+          -102478.5625,
+          -19935.919921875,
+          4093.239990234375
+        ],
+        "max": [
+          -89516.296875,
+          -10074.0498046875,
+          5923.5
+        ]
+      },
+      "uassetSha256": "ef3fcee8399175e381a61a6964f765012f6a28d53c3b0e5d8e70ce2eb4656f5d",
+      "placed": true,
+      "name": "StaticMeshActor_7429",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N010_N002",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -102478.56,
+          -19935.92,
+          4093.24
+        ],
+        "max": [
+          -89516.3,
+          -10074.05,
+          5923.5
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_P000_N006",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N006",
+      "label": "RELEASE_OldCityFacades_Grid_P000_N006",
+      "buildings": 17,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 3132,
+      "renderVertices": 6096,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0014062499976716936,
+      "localBoundsCm": {
+        "min": [
+          -540.3900146484375,
+          -59494.48046875,
+          341.44000244140625
+        ],
+        "max": [
+          7235.830078125,
+          -49536.94140625,
+          2090.4599609375
+        ]
+      },
+      "uassetSha256": "4ef36a8dc3500913639c3f90ed525978ae67e4543b680b6631e2e922b89e2db5",
+      "placed": true,
+      "name": "StaticMeshActor_7430",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N006",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -540.39,
+          -59494.48,
+          341.44
+        ],
+        "max": [
+          7235.83,
+          -49536.94,
+          2090.46
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_P000_N006",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N006",
+      "label": "RELEASE_OldCityInfill_Grid_P000_N006",
+      "buildings": 19,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 2200,
+      "renderVertices": 4500,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0006250000005820766,
+      "localBoundsCm": {
+        "min": [
+          388.7799987792969,
+          -59369.26953125,
+          553.9000244140625
+        ],
+        "max": [
+          7448.52978515625,
+          -49185.140625,
+          1941.1800537109375
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "f83d141afeb1459d157a6bd742d18db317678e8a1676c4b916a4f197669f2e95",
+      "placed": true,
+      "name": "StaticMeshActor_7431",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N006",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          388.78,
+          -59369.27,
+          553.9
+        ],
+        "max": [
+          7448.53,
+          -49185.14,
+          1941.18
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_P000_N007",
+      "role": "facades",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N007",
+      "label": "RELEASE_OldCityFacades_Grid_P000_N007",
+      "buildings": 1,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 1146,
+      "renderVertices": 1822,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "boundsErrorCm": 0.0017187499979627319,
+      "localBoundsCm": {
+        "min": [
+          764.8300170898438,
+          -60747.76171875,
+          839.6199951171875
+        ],
+        "max": [
+          1411.6400146484375,
+          -59498.87109375,
+          2119.6201171875
+        ]
+      },
+      "uassetSha256": "f129489dc2ff28d5728c5bea5f04530c6c1d2323afdab7ba8863b90da4222177",
+      "placed": true,
+      "name": "StaticMeshActor_7432",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N007",
+      "collisionProfile": "NoCollision",
+      "tags": [
+        "ReleaseOldCityFacadesV1"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          764.83,
+          -60747.76,
+          839.62
+        ],
+        "max": [
+          1411.64,
+          -59498.87,
+          2119.62
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "cell": "Grid_P000_N007",
+      "role": "infill",
+      "group": 2,
+      "asset": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N007",
+      "label": "RELEASE_OldCityInfill_Grid_P000_N007",
+      "buildings": 5,
+      "imported": true,
+      "nanite": {
+        "requestedAtImport": true,
+        "enabledAfterImport": true,
+        "enabledAfterSet": true
+      },
+      "triangles": 4432,
+      "renderVertices": 8148,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "boundsErrorCm": 0.0014062499976716936,
+      "localBoundsCm": {
+        "min": [
+          1224.3499755859375,
+          -61776.30859375,
+          706.469970703125
+        ],
+        "max": [
+          6294.2998046875,
+          -58850.83984375,
+          1980.9100341796875
+        ]
+      },
+      "collisionTraceFlag": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "uassetSha256": "eec97ac867fce0f54c22586b20b1782033004a77e3e136935bae6573942757a5",
+      "placed": true,
+      "name": "StaticMeshActor_7433",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N007",
+      "collisionProfile": "BlockAll",
+      "tags": [
+        "ReleaseOldCityFacadesV1",
+        "AUTHORED_INFILL"
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          1224.35,
+          -61776.31,
+          706.47
+        ],
+        "max": [
+          6294.3,
+          -58850.84,
+          1980.91
+        ]
+      },
+      "status": "ok"
+    }
+  ],
+  "errors": [],
+  "mapSaved": true,
+  "limitations": [
+    "Import and placement are geometric only. No visual, lighting, walking, packaged or cook acceptance is established by this script.",
+    "Every facade detail and every infill building is authored massing in the style of the modern Old City, not survey, not photogrammetry and not a claim about any particular building. Infill is tagged AUTHORED_INFILL on the actor and in the receipt.",
+    "The detail shells carry no vertex colours, so M_Context_Building's vertex-colour term reads white on them and its per-building hash tint is uniform within a batch.",
+    "The OBJs carry placeholder planar UVs only; the context materials are triplanar and do not read them, and no lightmap UVs are generated.",
+    "Nanite is requested at import and verified by readback. A Nanite build failure on a particular cell is recorded, not hidden.",
+    "Actor count rises by up to 190. That is deliberate batching by 100 m cell; it is not a per-building actor explosion."
+  ],
+  "actorCountBefore": 7626,
+  "cellsOk": 23,
+  "cellsFailed": 0,
+  "mapSha256AfterSave": "566c0df3e5c7208a9f7faab9ecf5c997bd75b2250436b93c6cbf402713c1c3c4",
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N001_N004",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N001_N004",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0007812500007275958,
+      "collisionProfile": "NoCollision",
+      "triangles": 4334
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N001_N004",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N001_N004",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0009375000008731149,
+      "collisionProfile": "BlockAll",
+      "triangles": 2138
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N002_N002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N002",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.00046875000043655746,
+      "collisionProfile": "NoCollision",
+      "triangles": 2134
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N002_N006",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N002_N006",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0009375000008731149,
+      "collisionProfile": "NoCollision",
+      "triangles": 4882
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N002_N006",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N002_N006",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0015625000014551915,
+      "collisionProfile": "BlockAll",
+      "triangles": 894
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N004_P001",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N004_P001",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0008593749989813659,
+      "collisionProfile": "NoCollision",
+      "triangles": 4596
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N004_P001",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N004_P001",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.00046874999679857865,
+      "collisionProfile": "BlockAll",
+      "triangles": 1646
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N005_N002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_N002",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0014062499976716936,
+      "collisionProfile": "NoCollision",
+      "triangles": 5266
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N005_N002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_N002",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0015625000014551915,
+      "collisionProfile": "BlockAll",
+      "triangles": 2124
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N005_P002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N005_P002",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0018750000017462298,
+      "collisionProfile": "NoCollision",
+      "triangles": 3638
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N005_P002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N005_P002",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0018750000017462298,
+      "collisionProfile": "BlockAll",
+      "triangles": 1010
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N006_N001",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N001",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0015625000014551915,
+      "collisionProfile": "NoCollision",
+      "triangles": 2662
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N006_N005",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_N005",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.000781249997089617,
+      "collisionProfile": "NoCollision",
+      "triangles": 2016
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N006_N005",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_N005",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0009375000008731149,
+      "collisionProfile": "BlockAll",
+      "triangles": 566
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N006_P003",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P003",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0018750000017462298,
+      "collisionProfile": "NoCollision",
+      "triangles": 4668
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N006_P003",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P003",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0015625000014551915,
+      "collisionProfile": "BlockAll",
+      "triangles": 1496
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N006_P005",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N006_P005",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0018750000017462298,
+      "collisionProfile": "NoCollision",
+      "triangles": 1568
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_N006_P005",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N006_P005",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0017187499979627319,
+      "collisionProfile": "BlockAll",
+      "triangles": 2866
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_N010_N002",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_N010_N002",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.003125000002910383,
+      "collisionProfile": "NoCollision",
+      "triangles": 1874
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_P000_N006",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N006",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0014062499976716936,
+      "collisionProfile": "NoCollision",
+      "triangles": 3132
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_P000_N006",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N006",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0006250000005820766,
+      "collisionProfile": "BlockAll",
+      "triangles": 2200
+    },
+    {
+      "label": "RELEASE_OldCityFacades_Grid_P000_N007",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityFacades_Grid_P000_N007",
+      "role": "facades",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0017187499979627319,
+      "collisionProfile": "NoCollision",
+      "triangles": 1146
+    },
+    {
+      "label": "RELEASE_OldCityInfill_Grid_P000_N007",
+      "mesh": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_P000_N007",
+      "role": "infill",
+      "poseErrorCm": 0.0,
+      "boundsErrorCm": 0.0014062499976716936,
+      "collisionProfile": "BlockAll",
+      "triangles": 4432
+    }
+  ],
+  "reopenedReadbackCount": 23,
+  "totalOldCityActorsAfter": 71,
+  "actorCountAfter": 7649,
+  "remainingCells": [
+    "SM_OldCityFacades_Grid_N001_N002",
+    "SM_OldCityFacades_Grid_N001_N003",
+    "SM_OldCityInfill_Grid_N001_N003",
+    "SM_OldCityFacades_Grid_N003_N002",
+    "SM_OldCityInfill_Grid_N003_N002",
+    "SM_OldCityFacades_Grid_N003_N003",
+    "SM_OldCityInfill_Grid_N003_N003",
+    "SM_OldCityFacades_Grid_N003_P005",
+    "SM_OldCityFacades_Grid_N004_N006",
+    "SM_OldCityInfill_Grid_N004_N006",
+    "SM_OldCityFacades_Grid_N004_P004",
+    "SM_OldCityInfill_Grid_N004_P004",
+    "SM_OldCityFacades_Grid_N005_P001",
+    "SM_OldCityInfill_Grid_N005_P001",
+    "SM_OldCityFacades_Grid_N006_N004",
+    "SM_OldCityInfill_Grid_N006_N004",
+    "SM_OldCityFacades_Grid_N006_P001",
+    "SM_OldCityInfill_Grid_N006_P001",
+    "SM_OldCityFacades_Grid_N007_N002",
+    "SM_OldCityInfill_Grid_N007_N002",
+    "SM_OldCityFacades_Grid_N008_P004",
+    "SM_OldCityInfill_Grid_N008_P004",
+    "SM_OldCityFacades_Grid_N009_N002",
+    "SM_OldCityInfill_Grid_N009_N002",
+    "SM_OldCityFacades_Grid_N001_N006",
+    "SM_OldCityInfill_Grid_N001_N006",
+    "SM_OldCityFacades_Grid_N002_N004",
+    "SM_OldCityInfill_Grid_N002_N004",
+    "SM_OldCityFacades_Grid_N003_N005",
+    "SM_OldCityInfill_Grid_N003_N005",
+    "SM_OldCityFacades_Grid_N005_P003",
+    "SM_OldCityInfill_Grid_N005_P003",
+    "SM_OldCityInfill_Grid_N005_P005",
+    "SM_OldCityFacades_Grid_N006_N003",
+    "SM_OldCityInfill_Grid_N006_N003",
+    "SM_OldCityFacades_Grid_N007_N001",
+    "SM_OldCityInfill_Grid_N007_N001",
+    "SM_OldCityFacades_Grid_N007_P003",
+    "SM_OldCityInfill_Grid_N007_P003",
+    "SM_OldCityFacades_Grid_N007_P005",
+    "SM_OldCityInfill_Grid_N007_P005",
+    "SM_OldCityFacades_Grid_N008_P001",
+    "SM_OldCityInfill_Grid_N008_P001",
+    "SM_OldCityFacades_Grid_N009_P001",
+    "SM_OldCityInfill_Grid_N009_P001",
+    "SM_OldCityFacades_Grid_P000_P001",
+    "SM_OldCityFacades_Grid_P001_P002",
+    "SM_OldCityFacades_Grid_N001_N007",
+    "SM_OldCityInfill_Grid_N001_N007",
+    "SM_OldCityFacades_Grid_N002_P001",
+    "SM_OldCityInfill_Grid_N002_P001",
+    "SM_OldCityFacades_Grid_N002_P004",
+    "SM_OldCityFacades_Grid_N003_P001",
+    "SM_OldCityInfill_Grid_N003_P001",
+    "SM_OldCityFacades_Grid_N003_P002",
+    "SM_OldCityInfill_Grid_N003_P002",
+    "SM_OldCityFacades_Grid_N003_P004",
+    "SM_OldCityFacades_Grid_N004_N001",
+    "SM_OldCityInfill_Grid_N004_N001",
+    "SM_OldCityFacades_Grid_N005_P004",
+    "SM_OldCityInfill_Grid_N005_P004",
+    "SM_OldCityFacades_Grid_N006_N002",
+    "SM_OldCityInfill_Grid_N006_N002",
+    "SM_OldCityFacades_Grid_N006_P002",
+    "SM_OldCityInfill_Grid_N006_P002",
+    "SM_OldCityFacades_Grid_N006_P004",
+    "SM_OldCityInfill_Grid_N006_P004",
+    "SM_OldCityFacades_Grid_N007_P000",
+    "SM_OldCityInfill_Grid_N007_P000",
+    "SM_OldCityFacades_Grid_N007_P001",
+    "SM_OldCityInfill_Grid_N007_P001",
+    "SM_OldCityFacades_Grid_N001_P002",
+    "SM_OldCityInfill_Grid_N001_P002",
+    "SM_OldCityFacades_Grid_N002_N001",
+    "SM_OldCityInfill_Grid_N002_N001",
+    "SM_OldCityFacades_Grid_N002_N005",
+    "SM_OldCityInfill_Grid_N002_N005",
+    "SM_OldCityFacades_Grid_N003_N001",
+    "SM_OldCityInfill_Grid_N003_N001",
+    "SM_OldCityFacades_Grid_N003_P000",
+    "SM_OldCityInfill_Grid_N003_P000",
+    "SM_OldCityFacades_Grid_N004_N004",
+    "SM_OldCityInfill_Grid_N004_N004",
+    "SM_OldCityFacades_Grid_N004_P002",
+    "SM_OldCityInfill_Grid_N004_P002",
+    "SM_OldCityFacades_Grid_N006_P000",
+    "SM_OldCityInfill_Grid_N006_P000",
+    "SM_OldCityFacades_Grid_N007_N004",
+    "SM_OldCityInfill_Grid_N007_N004",
+    "SM_OldCityFacades_Grid_N008_P000",
+    "SM_OldCityInfill_Grid_N008_P000",
+    "SM_OldCityFacades_Grid_N008_P003",
+    "SM_OldCityInfill_Grid_N008_P003",
+    "SM_OldCityFacades_Grid_N009_N003",
+    "SM_OldCityFacades_Grid_P001_N003",
+    "SM_OldCityFacades_Grid_N002_P000",
+    "SM_OldCityInfill_Grid_N002_P000",
+    "SM_OldCityFacades_Grid_N003_N004",
+    "SM_OldCityInfill_Grid_N003_N004",
+    "SM_OldCityFacades_Grid_N004_N005",
+    "SM_OldCityInfill_Grid_N004_N005",
+    "SM_OldCityFacades_Grid_N004_P003",
+    "SM_OldCityInfill_Grid_N004_P003",
+    "SM_OldCityFacades_Grid_N004_P005",
+    "SM_OldCityInfill_Grid_N004_P005",
+    "SM_OldCityFacades_Grid_N005_P000",
+    "SM_OldCityInfill_Grid_N005_P000",
+    "SM_OldCityFacades_Grid_N007_N003",
+    "SM_OldCityInfill_Grid_N007_N003",
+    "SM_OldCityFacades_Grid_N007_P006",
+    "SM_OldCityFacades_Grid_N008_N002",
+    "SM_OldCityInfill_Grid_N008_N002",
+    "SM_OldCityFacades_Grid_N008_N003",
+    "SM_OldCityInfill_Grid_N008_N003",
+    "SM_OldCityFacades_Grid_N008_P002",
+    "SM_OldCityInfill_Grid_N008_P002",
+    "SM_OldCityInfill_Grid_N010_P000",
+    "SM_OldCityFacades_Grid_P000_N004",
+    "SM_OldCityInfill_Grid_P000_N004"
+  ],
+  "remainingCellCount": 119,
+  "resumeCommand": "Re-run with -FacadesResume until remainingCellCount is 0",
+  "mapSha256After": "566c0df3e5c7208a9f7faab9ecf5c997bd75b2250436b93c6cbf402713c1c3c4",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true
+}

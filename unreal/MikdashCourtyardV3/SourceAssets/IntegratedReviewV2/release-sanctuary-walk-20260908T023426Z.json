@@ -1,0 +1,1249 @@
+{
+  "status": "completed_sanctuary_round_trip_architectural_review_only",
+  "scope": "Synthetic continuous CharacterMovement in bounded PIE on the combined map; one initial pawn placement; then no teleport, no flying, no map save. Not physical keyboard, mouse-release, rendering or packaged acceptance.",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256Before": "1ec4a3fe48194dac4ebc81fcd63526cfb3f363e1f0c7847691507f3c60326ce9",
+  "mapLoadedByProbe": false,
+  "config": {
+    "limitSeconds": 90,
+    "sampleSeconds": 0.25,
+    "pawnTimeoutSeconds": 45.0,
+    "routes": [
+      "sanctuary_round_trip"
+    ],
+    "quitEditor": true,
+    "oldThrottle": 1,
+    "oldGameGetsMouseControl": false
+  },
+  "routes": [
+    {
+      "name": "sanctuary_round_trip",
+      "source": "Measured Heikhal floor X[-5600,-3600], Y+-500, Z925; Kodesh threshold X[-5700,-5600], opening Y+-175. IncenseAltarV2 at[-4650,0,925]; 120cm side detour. Endpoint -5900 stays east of Ark at-6200.",
+      "envelope": {
+        "x": [
+          -5960,
+          -3350
+        ],
+        "y": [
+          -180,
+          200
+        ],
+        "z": [
+          900,
+          1150
+        ]
+      },
+      "legs": [
+        {
+          "label": "enter Heikhal",
+          "targetCm": [
+            -4100.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "altar east detour",
+          "targetCm": [
+            -4350.0,
+            120.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "altar west detour",
+          "targetCm": [
+            -5000.0,
+            120.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return to doorway axis",
+          "targetCm": [
+            -5300.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "Kodesh east landing",
+          "targetCm": [
+            -5900.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return through Kodesh doorway",
+          "targetCm": [
+            -5300.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return altar west detour",
+          "targetCm": [
+            -5000.0,
+            120.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return altar east detour",
+          "targetCm": [
+            -4350.0,
+            120.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "return Heikhal east",
+          "targetCm": [
+            -4100.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        },
+        {
+          "label": "exit Heikhal doorway",
+          "targetCm": [
+            -3450.0,
+            0.0
+          ],
+          "expectedFloorCm": 925.0,
+          "checkpoint": true
+        }
+      ]
+    }
+  ],
+  "protectedBefore": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "altarBounds": [
+    {
+      "label": "RELEASE_IncenseAltar_Body",
+      "boundsMin": [
+        -4672.083333969116,
+        -27.133333206176758,
+        925.0000610351562
+      ],
+      "boundsMax": [
+        -4627.916666030884,
+        27.133333206176758,
+        1008.3333969116211
+      ]
+    },
+    {
+      "label": "RELEASE_IncenseAltar_Poles",
+      "boundsMin": [
+        -4702.400001525879,
+        -26.383333206176758,
+        993.4333953857422
+      ],
+      "boundsMax": [
+        -4597.599998474121,
+        26.383333206176758,
+        998.2333908081055
+      ]
+    }
+  ],
+  "initialPlacement": [
+    -3450.0,
+    0.0,
+    1023.0
+  ],
+  "pawn": {
+    "path": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_0",
+    "pawnClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+    "controllerClass": "/Script/MikdashRuntime.MikdashPlayerController",
+    "maxStepHeightCm": 55.0,
+    "maxWalkSpeedCmPerSecond": 600.0,
+    "capsuleHalfHeightCm": 96.0,
+    "capsuleRadiusCm": 33.99907684326172,
+    "pieStartSeconds": 18.188
+  },
+  "resumeCalls": 1,
+  "events": [
+    {
+      "path": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_0",
+      "pawnClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+      "controllerClass": "/Script/MikdashRuntime.MikdashPlayerController",
+      "maxStepHeightCm": 55.0,
+      "maxWalkSpeedCmPerSecond": 600.0,
+      "capsuleHalfHeightCm": 96.0,
+      "capsuleRadiusCm": 33.99907684326172,
+      "pieStartSeconds": 18.188,
+      "kind": "pawn_found",
+      "seconds": 18.219
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "kind": "route_started",
+      "seconds": 18.219
+    },
+    {
+      "paused": true,
+      "menuOpen": true,
+      "count": 1,
+      "kind": "resume_walkthrough_called",
+      "seconds": 18.235
+    },
+    {
+      "gameTimeSeconds": 0.4000000059604645,
+      "kind": "walking_input_begins",
+      "seconds": 21.141
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "kind": "route_completed",
+      "seconds": 30.281
+    }
+  ],
+  "reached": [
+    {
+      "route": "sanctuary_round_trip",
+      "label": "enter Heikhal",
+      "positionCm": [
+        -4088.943204720807,
+        0.0,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.150005340576172,
+      "walking": true,
+      "seconds": 22.797
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "altar east detour",
+      "positionCm": [
+        -4338.4601921403,
+        112.18318632150832,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.150005340576172,
+      "walking": true,
+      "seconds": 23.25
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "altar west detour",
+      "positionCm": [
+        -4989.777428206194,
+        120.36515565336707,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.150005340576172,
+      "walking": true,
+      "seconds": 24.344
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "return to doorway axis",
+      "positionCm": [
+        -5289.909117451297,
+        5.088281788411031,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.150005340576172,
+      "walking": true,
+      "seconds": 24.875
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "Kodesh east landing",
+      "positionCm": [
+        -5887.857290798204,
+        -0.4137402191150893,
+        1023.148898601532
+      ],
+      "footHeightCm": 927.148898601532,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.1488986015319824,
+      "walking": true,
+      "seconds": 25.875
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "return through Kodesh doorway",
+      "positionCm": [
+        -5306.6899289671865,
+        0.02162774725982176,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.1225547790527344,
+      "walking": true,
+      "seconds": 27.11
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "return altar west detour",
+      "positionCm": [
+        -5014.0544412335885,
+        112.71427019759834,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.1225547790527344,
+      "walking": true,
+      "seconds": 27.641
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "return altar east detour",
+      "positionCm": [
+        -4360.600201976895,
+        120.3026882505271,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.1225547790527344,
+      "walking": true,
+      "seconds": 28.735
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "return Heikhal east",
+      "positionCm": [
+        -4110.772269966144,
+        7.241038999883389,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 2.1225547790527344,
+      "walking": true,
+      "seconds": 29.188
+    },
+    {
+      "route": "sanctuary_round_trip",
+      "label": "exit Heikhal doorway",
+      "positionCm": [
+        -3464.7689946088235,
+        -0.5412381410695952,
+        1022.1499719619751
+      ],
+      "footHeightCm": 926.1499719619751,
+      "expectedFloorCm": 925.0,
+      "floorErrorCm": 1.1499719619750977,
+      "walking": true,
+      "seconds": 30.281
+    }
+  ],
+  "passThrough": [],
+  "samples": [
+    {
+      "seconds": 18.188,
+      "gameTimeSeconds": 0.0,
+      "positionCm": [
+        -3450.0,
+        0.0,
+        1023.0
+      ],
+      "footHeightCm": 927.0,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": true,
+      "menuOpen": true,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": true
+    },
+    {
+      "seconds": 21.141,
+      "gameTimeSeconds": 0.4000000059604645,
+      "positionCm": [
+        -3450.0,
+        0.0,
+        1022.1499862670898
+      ],
+      "footHeightCm": 926.1499862670898,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.438,
+      "gameTimeSeconds": 0.9563644081354141,
+      "positionCm": [
+        -3450.0,
+        0.0,
+        1022.1499862670898
+      ],
+      "footHeightCm": 926.1499862670898,
+      "velocityCmPerSecond": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 21.735,
+      "gameTimeSeconds": 1.2611511051654816,
+      "positionCm": [
+        -3456.789471477764,
+        0.0,
+        1022.1499862670898
+      ],
+      "footHeightCm": 926.1499862670898,
+      "velocityCmPerSecond": [
+        -136.16087341308423,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.0,
+      "gameTimeSeconds": 1.5845050141215324,
+      "positionCm": [
+        -3607.264946093154,
+        0.0,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.25,
+      "gameTimeSeconds": 1.839944813400507,
+      "positionCm": [
+        -3760.5288256605386,
+        0.0,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.5,
+      "gameTimeSeconds": 2.0968801118433475,
+      "positionCm": [
+        -3914.690004726243,
+        0.0,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 22.75,
+      "gameTimeSeconds": 2.344228111207485,
+      "positionCm": [
+        -4063.0988043447255,
+        0.0,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -600.0,
+        0.0,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 0,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.0,
+      "gameTimeSeconds": 2.598190613090992,
+      "positionCm": [
+        -4208.563684904878,
+        38.37627356766626,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -538.114140755809,
+        265.39248579908997,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.25,
+      "gameTimeSeconds": 2.8472709134221077,
+      "positionCm": [
+        -4338.4601921403,
+        112.18318632150832,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -510.2277288356563,
+        315.70186050644617,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 1,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.5,
+      "gameTimeSeconds": 3.0950547121465206,
+      "positionCm": [
+        -4483.72671792747,
+        135.93312180179532,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -599.9798617484391,
+        4.915841366339796,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 23.75,
+      "gameTimeSeconds": 3.349634114652872,
+      "positionCm": [
+        -4636.432697775761,
+        132.73989069997043,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -599.6884553537802,
+        -19.3327834350897,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.0,
+      "gameTimeSeconds": 3.5984066128730774,
+      "positionCm": [
+        -4785.608089982517,
+        127.61342115660932,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -599.6274904413744,
+        -21.139363920501673,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.25,
+      "gameTimeSeconds": 3.8455553129315376,
+      "positionCm": [
+        -4933.80413979005,
+        122.35761990835951,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -599.620797722451,
+        -21.3283599623245,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 2,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.5,
+      "gameTimeSeconds": 4.096053812652826,
+      "positionCm": [
+        -5081.069382844136,
+        98.11866294777366,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -564.2806091759011,
+        -203.92987546709935,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 3,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 24.75,
+      "gameTimeSeconds": 4.344078313559294,
+      "positionCm": [
+        -5217.715342073125,
+        39.281876997228444,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -544.2058014739656,
+        -252.6658774787557,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 3,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.0,
+      "gameTimeSeconds": 4.58891911432147,
+      "positionCm": [
+        -5354.87993906265,
+        -10.27324033257881,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -595.998399036156,
+        -69.18025980275975,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 4,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.25,
+      "gameTimeSeconds": 4.851107612252235,
+      "positionCm": [
+        -5512.078143188649,
+        -12.55468843224514,
+        1023.1500053405762
+      ],
+      "footHeightCm": 927.1500053405762,
+      "velocityCmPerSecond": [
+        -599.832786888021,
+        14.164313401133434,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 4,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.5,
+      "gameTimeSeconds": 5.092075813561678,
+      "positionCm": [
+        -5656.592609996505,
+        -8.184930584274799,
+        1022.1499795913696
+      ],
+      "footHeightCm": 926.1499795913696,
+      "velocityCmPerSecond": [
+        -599.6769288506094,
+        19.687077088051957,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 4,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 25.75,
+      "gameTimeSeconds": 5.345013912767172,
+      "positionCm": [
+        -5808.270495354222,
+        -3.1072172990376337,
+        1023.148898601532
+      ],
+      "footHeightCm": 927.148898601532,
+      "velocityCmPerSecond": [
+        -599.658191611171,
+        20.24977119892384,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 4,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.0,
+      "gameTimeSeconds": 5.592192713171244,
+      "positionCm": [
+        -5905.46046027655,
+        1.010300614026927,
+        1023.148898601532
+      ],
+      "footHeightCm": 927.148898601532,
+      "velocityCmPerSecond": [
+        34.45460800911476,
+        7.6522012616230635,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 5,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.25,
+      "gameTimeSeconds": 5.843995913863182,
+      "positionCm": [
+        -5828.846037869256,
+        1.592804204414596,
+        1023.148898601532
+      ],
+      "footHeightCm": 927.148898601532,
+      "velocityCmPerSecond": [
+        550.3226545497859,
+        -0.5910454069020058,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 5,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.5,
+      "gameTimeSeconds": 6.101501014083624,
+      "positionCm": [
+        -5674.664800500088,
+        1.2000412309981454,
+        1022.149965763092
+      ],
+      "footHeightCm": 926.149965763092,
+      "velocityCmPerSecond": [
+        599.9971607722974,
+        -1.8458237106267192,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 5,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 26.75,
+      "gameTimeSeconds": 6.34988971427083,
+      "positionCm": [
+        -5525.632330348296,
+        0.7272727951788419,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.996905182214,
+        -1.927114886682423,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 5,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.0,
+      "gameTimeSeconds": 6.600657012313604,
+      "positionCm": [
+        -5375.172732105357,
+        0.24261555768290335,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.996878611948,
+        -1.9353697066715403,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 5,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.25,
+      "gameTimeSeconds": 6.845726914703846,
+      "positionCm": [
+        -5230.0339789268055,
+        15.80614447558036,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        569.89987867056,
+        187.65427863837687,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 6,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.5,
+      "gameTimeSeconds": 7.100332211703062,
+      "positionCm": [
+        -5089.666304265984,
+        75.87568709675668,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        541.9387447002878,
+        257.49251832361784,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 6,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 27.75,
+      "gameTimeSeconds": 7.343357112258673,
+      "positionCm": [
+        -4954.573142751218,
+        128.22142218793135,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        594.3576838558527,
+        82.09106919462239,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 7,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.0,
+      "gameTimeSeconds": 7.59703941270709,
+      "positionCm": [
+        -4802.536168931643,
+        132.19903259352134,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.9168105732987,
+        -9.991015542299644,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 7,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.25,
+      "gameTimeSeconds": 7.8474224135279655,
+      "positionCm": [
+        -4652.351465471283,
+        128.5423037469891,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.7743482639405,
+        -16.453910312102096,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 7,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.5,
+      "gameTimeSeconds": 8.097773913294077,
+      "positionCm": [
+        -4502.199716990531,
+        124.32737792048754,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.75910098457,
+        -17.000611347522288,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 7,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 28.75,
+      "gameTimeSeconds": 8.343940611928701,
+      "positionCm": [
+        -4354.572769822178,
+        119.86478182751449,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        598.4227370509495,
+        -43.47674988366753,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 8,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.0,
+      "gameTimeSeconds": 8.603081613779068,
+      "positionCm": [
+        -4210.1773163228145,
+        64.78514722401782,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        528.8454631231489,
+        -283.4122018086554,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 8,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.25,
+      "gameTimeSeconds": 8.84657621383667,
+      "positionCm": [
+        -4081.9896487664105,
+        -4.681321205143131,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        572.4018613488918,
+        -179.87803958331742,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 9,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.5,
+      "gameTimeSeconds": 9.093481212854385,
+      "positionCm": [
+        -3934.792857378553,
+        -16.245511435368535,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.9655589244995,
+        6.428693832486997,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 9,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 29.75,
+      "gameTimeSeconds": 9.34748401120305,
+      "positionCm": [
+        -3782.452553409481,
+        -12.02364940086549,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.6440084779572,
+        20.66550499019989,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 9,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.0,
+      "gameTimeSeconds": 9.595006711781025,
+      "positionCm": [
+        -3634.033831074091,
+        -6.715819699622325,
+        1023.1225547790527
+      ],
+      "footHeightCm": 927.1225547790527,
+      "velocityCmPerSecond": [
+        599.6046060259024,
+        21.778806958501498,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 9,
+      "cursorFlag": false
+    },
+    {
+      "seconds": 30.25,
+      "gameTimeSeconds": 9.845283813774586,
+      "positionCm": [
+        -3483.9673259395113,
+        -1.2431643784760291,
+        1022.1499719619751
+      ],
+      "footHeightCm": 926.1499719619751,
+      "velocityCmPerSecond": [
+        599.5996435314843,
+        21.915005747848227,
+        0.0
+      ],
+      "mode": "<MovementMode.MOVE_WALKING: 1>",
+      "capsuleCollision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "capsuleProfile": "Pawn",
+      "paused": false,
+      "menuOpen": false,
+      "route": "sanctuary_round_trip",
+      "leg": 9,
+      "cursorFlag": false
+    }
+  ],
+  "errors": [],
+  "elapsedSeconds": 30.281,
+  "stopPie": "requested",
+  "restoreMouseSetting": "completed",
+  "restoreThrottle": "completed",
+  "mapBytesUnchanged": true,
+  "protectedAfter": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "protectedUnchanged": true,
+  "stopRequested": true,
+  "pieTeardownConfirmed": true,
+  "unregister": "completed"
+}

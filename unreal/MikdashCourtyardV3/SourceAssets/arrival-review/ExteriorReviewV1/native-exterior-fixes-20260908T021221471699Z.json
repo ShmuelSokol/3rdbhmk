@@ -1,0 +1,657 @@
+{
+  "status": "dry_run_planned_nothing_written",
+  "mode": "dry_run",
+  "stamp": "20260908T021221471699Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "0a34a20d05187c19bb6754fe46606ce863adf1aab35177d067d6eb3082a0f368",
+  "mapMatchesLastKnownSha256": false,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_exterior_fixes.spec.json",
+  "specSha256": "626914bb9b5edde7690d8a220d455a6fd7ec61c9671de0d09314605ca12268e9",
+  "scriptSha256": "e11a2e74726f0dc8b6339edceab2d8d9d9c9819333274d8ce605ccec2a1b4ddd",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "fixesRequested": [
+    "access",
+    "tiling",
+    "trees",
+    "sky"
+  ],
+  "offlineCheck": {
+    "fixes": [
+      "access",
+      "tiling",
+      "trees",
+      "sky"
+    ],
+    "targetMapSha256": "0a34a20d05187c19bb6754fe46606ce863adf1aab35177d067d6eb3082a0f368",
+    "targetMapMatchesLastKnown": false,
+    "protectedMapsOnDisk": {
+      "/Game/MikdashV3/Maps/Courtyard": true,
+      "/Game/MikdashV3/FutureMountV1/L_FutureMount": true,
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": true
+    },
+    "enclosurePolygonPoints": 66,
+    "access": {
+      "meshes": [
+        {
+          "name": "KotelApproach_ElevatedDeck_V2",
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\arrival-review\\ExteriorReviewV1\\adapter\\KotelApproach_ElevatedDeck_V2.obj",
+          "sha256": "68e69f283e3c141db1f77b1b4447104a31ac84d7a33fec4bce08858e49d8e073",
+          "triangles": 1080,
+          "boundsUEcm": {
+            "min": [
+              -18400.0,
+              19822.432518,
+              -1477.5
+            ],
+            "max": [
+              -12500,
+              20122.432518,
+              0.0
+            ]
+          },
+          "signedVolumeM3": 79.65000000000687,
+          "topFacesUp": 4,
+          "label": "RELEASE_MountAccess_Deck",
+          "materialKey": "paving",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "plannedLocation": [
+            0.0,
+            0.0,
+            2.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -18400.0,
+              19822.432518,
+              -1475.5
+            ],
+            "max": [
+              -12500,
+              20122.432518,
+              2.0
+            ]
+          },
+          "protectedViolationSamples": 0,
+          "protectedViolationExamples": []
+        },
+        {
+          "name": "KotelApproach_ElevatedGuards_V2",
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\arrival-review\\ExteriorReviewV1\\adapter\\KotelApproach_ElevatedGuards_V2.obj",
+          "sha256": "fe2f3e8bc64fa9a05aa94e04e4adaf6dab7822b3dedce4349dcd58dc7e3fe9d3",
+          "triangles": 2160,
+          "boundsUEcm": {
+            "min": [
+              -18400.0,
+              19792.432518,
+              -1477.5
+            ],
+            "max": [
+              -12500,
+              20152.432518,
+              110.0
+            ]
+          },
+          "signedVolumeM3": 54.869999999869826,
+          "topFacesUp": 8,
+          "label": "RELEASE_MountAccess_Guards",
+          "materialKey": "wall",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+          "plannedLocation": [
+            0.0,
+            0.0,
+            2.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -18400.0,
+              19792.432518,
+              -1475.5
+            ],
+            "max": [
+              -12500,
+              20152.432518,
+              112.0
+            ]
+          },
+          "protectedViolationSamples": 0,
+          "protectedViolationExamples": []
+        },
+        {
+          "name": "KotelApproach_AboveWallPortal_V2",
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\arrival-review\\ExteriorReviewV1\\adapter\\KotelApproach_AboveWallPortal_V2.obj",
+          "sha256": "ab5f4d1266e1ba9d11fe10f7f041b1da9b22ee0074cf1a0c0aea77356fed38cf",
+          "triangles": 60,
+          "boundsUEcm": {
+            "min": [
+              -13460,
+              19722.432518,
+              -45
+            ],
+            "max": [
+              -13240,
+              20222.432518,
+              400
+            ]
+          },
+          "signedVolumeM3": 22.385999999990062,
+          "topFacesUp": 2,
+          "label": "RELEASE_MountAccess_Portal",
+          "materialKey": "wall",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+          "plannedLocation": [
+            0.0,
+            0.0,
+            2.0
+          ],
+          "plannedWorldBoundsCm": {
+            "min": [
+              -13460,
+              19722.432518,
+              -43.0
+            ],
+            "max": [
+              -13240,
+              20222.432518,
+              402.0
+            ]
+          },
+          "protectedViolationSamples": 0,
+          "protectedViolationExamples": []
+        }
+      ],
+      "namespace": "/Game/MikdashV3/ArrivalReview/MountAccessV2",
+      "namespaceFolderOnDisk": true,
+      "materialsOnDisk": {
+        "paving": true,
+        "wall": true
+      },
+      "corridorYcm": 19972.432518,
+      "platformWestEdgeXAtCorridorCm": -13597.376581667451,
+      "deckEastEndXcm": -12500,
+      "coplanarOverlapWithPlatformDeckCm": 1097.3765816674513,
+      "zLiftCm": 2.0,
+      "openingV2Checks": {
+        "allRetainedWallBoxesTested": 1952,
+        "protectedBufferOverlapCm2": 0.0,
+        "minimumCrossingDeckToWallGapCm": 868.6124390243901,
+        "portalClearWidthCm": 300,
+        "portalMinimumHeadroomCm": 320,
+        "originalWallTrianglesRemoved": 0
+      },
+      "interpretation": "Authored illustrative future access from the Kotel plaza level (Z -1432.5) up to the Mount platform deck (Z 0) along the OpeningV2 corridor. Not an existing bridge, not a surveyed or halachic access, not a structural design."
+    },
+    "tiling": {
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain": {
+        "onDisk": true,
+        "scalar": {
+          "TileCm": [
+            400.0,
+            650.0
+          ],
+          "ScrubTileCm": [
+            250.0,
+            380.0
+          ],
+          "MacroCm": [
+            6000.0,
+            2700.0
+          ],
+          "MacroAmp": [
+            0.12,
+            0.28
+          ]
+        },
+        "vector": {}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Asphalt": {
+        "onDisk": true,
+        "scalar": {
+          "MacroCm": [
+            2500.0,
+            1400.0
+          ],
+          "MacroAmp": [
+            0.08,
+            0.18
+          ]
+        },
+        "vector": {}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_StonePath": {
+        "onDisk": true,
+        "scalar": {
+          "MacroAmp": [
+            0.08,
+            0.16
+          ]
+        },
+        "vector": {}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": {
+        "onDisk": true,
+        "scalar": {
+          "TileCm": [
+            350.0,
+            240.0
+          ]
+        },
+        "vector": {}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": {
+        "onDisk": true,
+        "scalar": {
+          "RoughVar": [
+            0.12,
+            0.2
+          ]
+        },
+        "vector": {
+          "Tint1": [
+            [
+              0.97,
+              0.9,
+              0.8,
+              1.0
+            ],
+            [
+              0.9,
+              0.82,
+              0.7,
+              1.0
+            ]
+          ],
+          "Tint2": [
+            [
+              0.92,
+              0.86,
+              0.75,
+              1.0
+            ],
+            [
+              0.82,
+              0.78,
+              0.7,
+              1.0
+            ]
+          ],
+          "Tint3": [
+            [
+              1.0,
+              0.94,
+              0.86,
+              1.0
+            ],
+            [
+              1.0,
+              0.93,
+              0.84,
+              1.0
+            ]
+          ]
+        }
+      }
+    },
+    "trees": {
+      "components": [
+        {
+          "label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+          "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks",
+          "expectedInstances": 4265
+        },
+        {
+          "label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+          "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns",
+          "expectedInstances": 12795
+        }
+      ],
+      "meshesOnDisk": {
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks": true,
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns": true
+      },
+      "expectedInsideCount": 0
+    },
+    "sky": {
+      "materialInstance": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered",
+      "onDisk": true,
+      "scalar": {
+        "Cloud_GlobalCoverage": [
+          0.35,
+          0.15
+        ]
+      }
+    },
+    "existingReceipts": [
+      "native-exterior-fixes-20260908T003715238869Z.json"
+    ],
+    "status": "offline_spec_consistent"
+  },
+  "revertSource": null,
+  "fixes": {
+    "access": {
+      "interpretation": "Authored illustrative future access from the Kotel plaza level (Z -1432.5) up to the Mount platform deck (Z 0) along the OpeningV2 corridor. Not an existing bridge, not a surveyed or halachic access, not a structural design.",
+      "namespace": "/Game/MikdashV3/ArrivalReview/MountAccessV2",
+      "zLiftCm": 2.0,
+      "meshes": [
+        {
+          "name": "KotelApproach_ElevatedDeck_V2",
+          "label": "RELEASE_MountAccess_Deck",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "triangles": 1080,
+          "plannedWorldBoundsCm": {
+            "min": [
+              -18400.0,
+              19822.432518,
+              -1475.5
+            ],
+            "max": [
+              -12500,
+              20122.432518,
+              2.0
+            ]
+          },
+          "action": "planned"
+        },
+        {
+          "name": "KotelApproach_ElevatedGuards_V2",
+          "label": "RELEASE_MountAccess_Guards",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+          "triangles": 2160,
+          "plannedWorldBoundsCm": {
+            "min": [
+              -18400.0,
+              19792.432518,
+              -1475.5
+            ],
+            "max": [
+              -12500,
+              20152.432518,
+              112.0
+            ]
+          },
+          "action": "planned"
+        },
+        {
+          "name": "KotelApproach_AboveWallPortal_V2",
+          "label": "RELEASE_MountAccess_Portal",
+          "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview",
+          "triangles": 60,
+          "plannedWorldBoundsCm": {
+            "min": [
+              -13460,
+              19722.432518,
+              -43.0
+            ],
+            "max": [
+              -13240,
+              20222.432518,
+              402.0
+            ]
+          },
+          "action": "planned"
+        }
+      ],
+      "action": "planned",
+      "offlinePlan": {
+        "corridorYcm": 19972.432518,
+        "platformWestEdgeXAtCorridorCm": -13597.376581667451,
+        "coplanarOverlapWithPlatformDeckCm": 1097.3765816674513,
+        "openingV2Checks": {
+          "allRetainedWallBoxesTested": 1952,
+          "protectedBufferOverlapCm2": 0.0,
+          "minimumCrossingDeckToWallGapCm": 868.6124390243901,
+          "portalClearWidthCm": 300,
+          "portalMinimumHeadroomCm": 320,
+          "originalWallTrianglesRemoved": 0
+        }
+      },
+      "existingAccessActors": [],
+      "namespaceExists": true,
+      "reusedExistingAssets": [
+        "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_AboveWallPortal_V2",
+        "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedDeck_V2",
+        "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedGuards_V2"
+      ]
+    },
+    "tiling": {
+      "materials": {
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain": {
+          "uassetSha256Before": "d0e07d00bf9b4ea3f6f19b6054cb4a910d86481fddb67a29e0c778d91fa16f95",
+          "scalar": {
+            "TileCm": {
+              "before": 400.0,
+              "expectedBefore": 400.0,
+              "after": 650.0,
+              "state": "matches_expected_before"
+            },
+            "ScrubTileCm": {
+              "before": 250.0,
+              "expectedBefore": 250.0,
+              "after": 380.0,
+              "state": "matches_expected_before"
+            },
+            "MacroCm": {
+              "before": 6000.0,
+              "expectedBefore": 6000.0,
+              "after": 2700.0,
+              "state": "matches_expected_before"
+            },
+            "MacroAmp": {
+              "before": 0.11999999731779099,
+              "expectedBefore": 0.12,
+              "after": 0.28,
+              "state": "matches_expected_before"
+            }
+          },
+          "vector": {},
+          "action": "planned",
+          "method": null,
+          "expressionRoute": "MaterialEditingLibrary.get_material_expressions",
+          "expressionCount": 28,
+          "plannedMethod": "expression_default"
+        },
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Asphalt": {
+          "uassetSha256Before": "e4683d81806219fc7e948787f2457296a4eedfa41557f79ad98b1beb4579faf5",
+          "scalar": {
+            "MacroCm": {
+              "before": 2500.0,
+              "expectedBefore": 2500.0,
+              "after": 1400.0,
+              "state": "matches_expected_before"
+            },
+            "MacroAmp": {
+              "before": 0.07999999821186066,
+              "expectedBefore": 0.08,
+              "after": 0.18,
+              "state": "matches_expected_before"
+            }
+          },
+          "vector": {},
+          "action": "planned",
+          "method": null,
+          "expressionRoute": "MaterialEditingLibrary.get_material_expressions",
+          "expressionCount": 18,
+          "plannedMethod": "expression_default"
+        },
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_StonePath": {
+          "uassetSha256Before": "cfced69bc919b0618e898fcf1777558468a484a9b779f4af322c386c5dd63a5e",
+          "scalar": {
+            "MacroAmp": {
+              "before": 0.07999999821186066,
+              "expectedBefore": 0.08,
+              "after": 0.16,
+              "state": "matches_expected_before"
+            }
+          },
+          "vector": {},
+          "action": "planned",
+          "method": null,
+          "expressionRoute": "MaterialEditingLibrary.get_material_expressions",
+          "expressionCount": 18,
+          "plannedMethod": "expression_default"
+        },
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": {
+          "uassetSha256Before": "75a5241dda5efe39dedfb0b6cdeaecc50b071eb3e3b27ed3b4fff321e2634c2c",
+          "scalar": {
+            "TileCm": {
+              "before": 350.0,
+              "expectedBefore": 350.0,
+              "after": 240.0,
+              "state": "matches_expected_before"
+            }
+          },
+          "vector": {},
+          "action": "planned",
+          "method": null,
+          "expressionRoute": "MaterialEditingLibrary.get_material_expressions",
+          "expressionCount": 31,
+          "plannedMethod": "expression_default"
+        },
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": {
+          "uassetSha256Before": "1635e2e17aa41bbc6ff50f232d94159ee1c48a53d393ae3387837ec3f01c4e46",
+          "scalar": {
+            "RoughVar": {
+              "before": 0.11999999731779099,
+              "expectedBefore": 0.12,
+              "after": 0.2,
+              "state": "matches_expected_before"
+            }
+          },
+          "vector": {
+            "Tint1": {
+              "before": [
+                0.9700000286102295,
+                0.8999999761581421,
+                0.800000011920929,
+                1.0
+              ],
+              "expectedBefore": [
+                0.97,
+                0.9,
+                0.8,
+                1.0
+              ],
+              "after": [
+                0.9,
+                0.82,
+                0.7,
+                1.0
+              ],
+              "state": "matches_expected_before"
+            },
+            "Tint2": {
+              "before": [
+                0.9200000166893005,
+                0.8600000143051147,
+                0.75,
+                1.0
+              ],
+              "expectedBefore": [
+                0.92,
+                0.86,
+                0.75,
+                1.0
+              ],
+              "after": [
+                0.82,
+                0.78,
+                0.7,
+                1.0
+              ],
+              "state": "matches_expected_before"
+            },
+            "Tint3": {
+              "before": [
+                1.0,
+                0.9399999976158142,
+                0.8600000143051147,
+                1.0
+              ],
+              "expectedBefore": [
+                1.0,
+                0.94,
+                0.86,
+                1.0
+              ],
+              "after": [
+                1.0,
+                0.93,
+                0.84,
+                1.0
+              ],
+              "state": "matches_expected_before"
+            }
+          },
+          "action": "planned",
+          "method": null,
+          "expressionRoute": "MaterialEditingLibrary.get_material_expressions",
+          "expressionCount": 31,
+          "plannedMethod": "expression_default"
+        }
+      },
+      "reason": "release-capture-20260908T001321Z a_exterior_wide_arrival.png and release-capture-20260907T220013Z i_overhead_city.png: the dry-ground set repeats as a regular speck grid on every slope east of the platform; city walls in h_bus_street_level.png show 1 m Lego blocks (stone_block_wall real size is 2.1 m, tiled at 3.5 m); buildings read as one uniform beige because the four tints differ by under 10 percent.",
+      "methodPolicy": "expression_default first, instance_override fallback",
+      "getMaterialExpressionsExposed": true
+    },
+    "trees": {
+      "reason": "Handoff rule: no trees on the Mount. The integrated map carries the L_FutureMount removal (trunks 4265, crowns 12795 in native-apply-20260907T215118571170Z.json); this fix verifies the live instances against the inferred enclosure polygon and removes only instances whose trunk/crown XY falls inside it.",
+      "polygonPoints": 66,
+      "components": [
+        {
+          "label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+          "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks",
+          "instancesBefore": 4265,
+          "expectedInstances": 4265,
+          "inside": [],
+          "action": "nothing_inside",
+          "unreadableTransforms": 0,
+          "insideCount": 0
+        },
+        {
+          "label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+          "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns",
+          "instancesBefore": 12795,
+          "expectedInstances": 12795,
+          "inside": [],
+          "action": "nothing_inside",
+          "unreadableTransforms": 0,
+          "insideCount": 0
+        }
+      ],
+      "removedTotal": 0
+    },
+    "sky": {
+      "materialInstance": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered",
+      "reason": "Every exterior view since the lighting apply (release-capture-20260907T220013Z and 20260908T001321Z) shows the horizon band black/dark brown; release-capture-20260907T210550Z (same camera, before the MI_Cloud_Scattered swap) showed a blue horizon. The scattered cloud deck seen edge-on reads as a dark overcast wall. Lighting is owned by the sanctuary-balance task; this fix is opt-in only.",
+      "scalar": {
+        "Cloud_GlobalCoverage": {
+          "before": 0.3499999940395355,
+          "expectedBefore": 0.35,
+          "after": 0.15,
+          "state": "matches_expected_before"
+        }
+      },
+      "action": "planned",
+      "uassetSha256Before": "5699987951ba4b2c980eb0a934c2a862553b941657d52a84d5f3703e0a62a605"
+    }
+  },
+  "errors": [],
+  "checkpoint": null,
+  "mapSaved": false,
+  "interpretation": "AUTHORED_INTERPRETATION_NOT_SOURCE_FACT",
+  "limitations": [
+    "Geometric and asset-level changes only; visual acceptance needs a fresh real-RHI capture and a bounded walk probe along the new stair.",
+    "The access stair is an authored future interpretation over the OpeningV2 corridor; it does not cut, hide or move any retained wall, terrain, plaza or Kotel geometry.",
+    "OpeningV2 obstacle clearance was verified against the 1,952 retained city-wall boxes only; buildings and terrain along the corridor were not clipped or tested.",
+    "Material parameter changes alter shared StaticMesh dependencies: donor maps may look different although their .umap bytes are unchanged."
+  ],
+  "actorCountBefore": 7574,
+  "mapSha256After": "0a34a20d05187c19bb6754fe46606ce863adf1aab35177d067d6eb3082a0f368",
+  "mapBytesChanged": false,
+  "protectedMapsUnchanged": true
+}

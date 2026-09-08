@@ -1,6 +1,8 @@
 #include "MikdashPlayerController.h"
 #include "MikdashDovePawn.h"
+#include "MikdashResidentCharacter.h"
 #include "SMikdashPreparation.h"
+#include "EngineUtils.h"
 #include "AudioDevice.h"
 #include "AudioDeviceHandle.h"
 #include "Components/InputComponent.h"
@@ -24,6 +26,7 @@
 #include "Widgets/Layout/SScrollBox.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
 
 #define LOCTEXT_NAMESPACE "MikdashWalkthrough"
@@ -63,7 +66,7 @@ public:
                         "A measured reconstruction based on Yechezkel.\nSurrounding Jerusalem and vegetation are illustrative.\nDevelopment preview: visuals and runtime are under review."))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
                     [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
-                        "W A S D or arrow keys: walk\nMouse: look around\nF: white dove / return to walking\nDove: Space up, Ctrl down, Shift fast\nAerial exploration is an architectural review mode.\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
+                        "W A S D or arrow keys: walk\nMouse: look around\nE: talk to someone standing near you\nF: white dove / return to walking\nDove: Space up, Ctrl down, Shift fast\nAerial exploration is an architectural review mode.\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
                     + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
                     [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
                         .Text(Args._HasStarted ? LOCTEXT("Resume", "Resume walkthrough") : LOCTEXT("Start", "Start walkthrough"))
@@ -113,6 +116,92 @@ private:
     FTextBlockStyle ButtonText;
     TWeakObjectPtr<AMikdashPlayerController> Controller;
 };
+
+/** One hit-test-invisible overlay for every in-world hint: the dove's flight controls, the
+ * "E: talk" prompt, and the resident dialog panel. It never takes focus, never captures the
+ * mouse and never pauses the game; it sits below the pause menu in the viewport. */
+class SMikdashOverlay : public SCompoundWidget
+{
+    enum class Mode { Dove, Prompt, Dialog };
+    using Getter = FString (AMikdashPlayerController::*)() const;
+
+public:
+    SLATE_BEGIN_ARGS(SMikdashOverlay) {}
+        SLATE_ARGUMENT(TWeakObjectPtr<AMikdashPlayerController>, Controller)
+    SLATE_END_ARGS()
+
+    void Construct(const FArguments& Args)
+    {
+        Controller = Args._Controller;
+        SetVisibility(EVisibility::HitTestInvisible);
+        const FLinearColor Panel(0.025f, 0.035f, 0.05f, 0.86f);
+        const FLinearColor Hint(0.025f, 0.035f, 0.05f, 0.55f);
+        ChildSlot
+        [
+            SNew(SOverlay)
+            // Flight controls, shown only while the dove is being flown.
+            + SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(28, 24)
+            [
+                SNew(SBorder).BorderBackgroundColor(Hint).Padding(FMargin(14, 8))
+                .Visibility_Lambda([this]() { return Visible(Mode::Dove); })
+                [SNew(STextBlock).ColorAndOpacity(FLinearColor(0.86f, 0.88f, 0.92f, 0.85f))
+                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 15))
+                    .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetDoveControlHint); })]
+            ]
+            // "E: talk" prompt, shown only when a resident is close and roughly ahead.
+            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(0, 0, 0, 96)
+            [
+                SNew(SBorder).BorderBackgroundColor(Hint).Padding(FMargin(14, 7))
+                .Visibility_Lambda([this]() { return Visible(Mode::Prompt); })
+                [SNew(STextBlock).ColorAndOpacity(FLinearColor(0.88f, 0.90f, 0.94f, 0.90f))
+                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 16))
+                    .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetTalkPromptText); })]
+            ]
+            // The dialog panel itself.
+            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(0, 0, 0, 64)
+            [
+                SNew(SBox).WidthOverride(720)
+                .Visibility_Lambda([this]() { return Visible(Mode::Dialog); })
+                [
+                    SNew(SBorder).BorderBackgroundColor(Panel).Padding(FMargin(22, 16))
+                    [
+                        SNew(SVerticalBox)
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 6)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Bold", 20)).AutoWrapText(true)
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogHeading); })]
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 10)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Italic", 15)).AutoWrapText(true)
+                            .ColorAndOpacity(FLinearColor(0.72f, 0.76f, 0.82f, 1.f))
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogMission); })]
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 12)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true)
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogLine); })]
+                        + SVerticalBox::Slot().AutoHeight()
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 14))
+                            .ColorAndOpacity(FLinearColor(0.62f, 0.66f, 0.72f, 1.f))
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogFooter); })]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+private:
+    FText Text(Getter Read) const
+    {
+        return Controller.IsValid() ? FText::FromString((Controller.Get()->*Read)()) : FText::GetEmpty();
+    }
+    EVisibility Visible(Mode Which) const
+    {
+        const AMikdashPlayerController* Owner = Controller.Get();
+        if (!Owner || Owner->IsWalkthroughMenuOpen()) return EVisibility::Collapsed;
+        const bool Show = Which == Mode::Dove ? Owner->IsDoveFlightActive()
+            : Which == Mode::Prompt ? Owner->IsTalkPromptVisible()
+            : Owner->IsResidentDialogOpen();
+        return Show ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+    }
+    TWeakObjectPtr<AMikdashPlayerController> Controller;
+};
 }
 
 AMikdashPlayerController::AMikdashPlayerController()
@@ -141,6 +230,13 @@ void AMikdashPlayerController::BeginPlay()
     if (FSlateApplication::IsInitialized())
         ActivationHandle = FSlateApplication::Get().OnApplicationActivationStateChanged()
             .AddUObject(this, &AMikdashPlayerController::ApplicationActivationChanged);
+    // Added once, below the pause menu, and hit-test invisible: the overlay changes nothing
+    // about focus, input mode or mouse capture.
+    if (GetWorld() && GetWorld()->GetGameViewport())
+    {
+        OverlayWidget = SNew(SMikdashOverlay).Controller(this);
+        GetWorld()->GetGameViewport()->AddViewportWidgetContent(OverlayWidget.ToSharedRef(), 10);
+    }
     OpenMenu();
 }
 
@@ -151,7 +247,8 @@ void AMikdashPlayerController::SetupInputComponent()
     // bindings from adding movement/look a second time or enabling jumping.
     InputComponent->bBlockInput = true;
     InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AMikdashPlayerController::ToggleDoveFlight);
-    InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::E, IE_Pressed, this, &AMikdashPlayerController::TalkToNearbyResident);
+    InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::HandleEscapeKey).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::P, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::M, IE_Pressed, this, &AMikdashPlayerController::ToggleSound).bExecuteWhenPaused = true;
     InputComponent->BindAxisKey(EKeys::MouseX, this, &AMikdashPlayerController::Turn);
@@ -182,6 +279,7 @@ void AMikdashPlayerController::PlayerTick(float DeltaTime)
         }
     }
     UpdateFootsteps(DeltaTime);
+    UpdateResidentDialog();
     if (bMenuOpen || !IsLocalController() || !GetPawn() || IsPaused()) return;
     ResidentClockSeconds += FMath::Max(0.0, static_cast<double>(DeltaTime));
     ResidentSimulation.AdvanceTo(static_cast<std::uint64_t>(ResidentClockSeconds));
@@ -258,6 +356,172 @@ void AMikdashPlayerController::ToggleDoveFlight()
     DoveFlightStatus=TEXT("White dove: aerial architectural exploration; F returns to departure point");
 }
 
+// ---------------------------------------------------------------------------------------
+// Talking to a resident.
+//
+// Authored lines only. The panel reads what a person wrote into people.json; it produces no
+// text of its own, states no halachah, and changes nothing about the walkthrough's rules.
+// ---------------------------------------------------------------------------------------
+
+void AMikdashPlayerController::RefreshKnownResidents()
+{
+    KnownResidents.Reset();
+    if (!GetWorld()) return;
+    for (TActorIterator<AMikdashResidentCharacter> It(GetWorld()); It; ++It)
+        if (IsValid(*It) && It->HasResidentProfile()) KnownResidents.Add(*It);
+}
+
+void AMikdashPlayerController::ReleaseTalkTarget()
+{
+    if (AMikdashResidentCharacter* Previous = TalkTarget.Get())
+        Previous->SetConversationHold(false, FVector::ZeroVector);
+    TalkTarget.Reset();
+}
+
+void AMikdashPlayerController::UpdateResidentDialog()
+{
+    APawn* Walker = GetPawn();
+    // No talking from the air, from the menu, or while paused: a conversation is something
+    // the walking visitor does, and the resident is released the moment any of that changes.
+    if (!IsLocalController() || !Walker || bMenuOpen || IsPaused() || bDoveFlight || !GetWorld())
+    {
+        Conversation.Observe(MikdashDialog::Aim());
+        ReleaseTalkTarget();
+        return;
+    }
+    const double Now = GetWorld()->GetRealTimeSeconds();
+    if (Now >= NextResidentScanSeconds)
+    {
+        // Residents are spawned once at startup, so a twice-a-second refresh is plenty and
+        // keeps a full actor iteration off the frame.
+        RefreshKnownResidents();
+        NextResidentScanSeconds = Now + 0.5;
+    }
+    const FVector Eye = Walker->GetActorLocation();
+    const FVector Forward = FRotator(0.f, GetControlRotation().Yaw, 0.f).Vector();
+    auto Measure = [&Eye, &Forward](const AMikdashResidentCharacter* Resident)
+    {
+        MikdashDialog::Aim Candidate;
+        FVector Offset = Resident->GetActorLocation() - Eye;
+        Offset.Z = 0.0;
+        const double Distance = Offset.Size();
+        Candidate.DistanceCm = Distance;
+        Candidate.FacingDot = Distance > 1.0 ? FVector::DotProduct(Forward, Offset / Distance) : 1.0;
+        Candidate.Valid = true;
+        return Candidate;
+    };
+    if (Conversation.IsTalking())
+    {
+        // A conversation never hops to a different person: it watches the one it opened on.
+        AMikdashResidentCharacter* Held = TalkTarget.Get();
+        Conversation.Observe(IsValid(Held) ? Measure(Held) : MikdashDialog::Aim());
+        if (Conversation.IsTalking() && IsValid(Held)) Held->SetConversationHold(true, Eye);
+        else ReleaseTalkTarget();
+        return;
+    }
+    ReleaseTalkTarget();
+    TArray<AMikdashResidentCharacter*> Nearby;
+    std::vector<MikdashDialog::Aim> Measured;
+    for (const TWeakObjectPtr<AMikdashResidentCharacter>& Weak : KnownResidents)
+    {
+        AMikdashResidentCharacter* Resident = Weak.Get();
+        if (!IsValid(Resident)) continue;
+        const MikdashDialog::Aim Candidate = Measure(Resident);
+        if (Candidate.DistanceCm > MikdashDialog::ReleaseRangeCm) continue;
+        Nearby.Add(Resident);
+        Measured.push_back(Candidate);
+    }
+    const int32 Best = MikdashDialog::BestCandidate(Measured);
+    if (Best >= 0 && Nearby.IsValidIndex(Best))
+    {
+        TalkTarget = Nearby[Best];
+        Conversation.Observe(Measured[static_cast<std::size_t>(Best)]);
+    }
+    else Conversation.Observe(MikdashDialog::Aim());
+}
+
+void AMikdashPlayerController::TalkToNearbyResident()
+{
+    if (!IsLocalController() || bMenuOpen || IsPaused() || bDoveFlight) return;
+    UpdateResidentDialog();
+    AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!IsValid(Resident)) return;
+    const int32 Lines = Resident->GetResidentDialogLineCount();
+    if (Lines <= 0) return;
+    if (!Conversation.PressTalk(static_cast<std::size_t>(Lines))) return;
+    Resident->SetConversationHold(true, GetPawn() ? GetPawn()->GetActorLocation() : Resident->GetActorLocation());
+    UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
+        *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
+}
+
+void AMikdashPlayerController::CloseResidentDialog()
+{
+    Conversation.PressCancel();
+    ReleaseTalkTarget();
+}
+
+void AMikdashPlayerController::HandleEscapeKey()
+{
+    if (!bMenuOpen && Conversation.IsTalking()) { CloseResidentDialog(); return; }
+    ToggleWalkthroughMenu();
+}
+
+bool AMikdashPlayerController::IsTalkPromptVisible() const
+{
+    return Conversation.ShouldShowPrompt() && !bMenuOpen && !bDoveFlight && TalkTarget.IsValid();
+}
+
+FString AMikdashPlayerController::GetTalkPromptText() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Resident) return FString();
+    return FString::Printf(TEXT("E: talk to %s"), *Resident->GetResidentDisplayName());
+}
+
+FString AMikdashPlayerController::GetResidentDialogHeading() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    const FString RoleTitle = Resident->GetResidentRole();
+    const FString Origin = Resident->GetResidentOrigin();
+    FString Heading = Resident->GetResidentDisplayName();
+    if (!RoleTitle.IsEmpty()) Heading += TEXT("  —  ") + RoleTitle;
+    if (!Origin.IsEmpty()) Heading += TEXT(", of ") + Origin;
+    return Heading;
+}
+
+FString AMikdashPlayerController::GetResidentDialogMission() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    FString Mission = Resident->GetResidentMission();
+    const FString Presence = Resident->GetResidentPresenceNote();
+    if (!Presence.IsEmpty()) Mission += TEXT("\n") + Presence;
+    return Mission;
+}
+
+FString AMikdashPlayerController::GetResidentDialogLine() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    return TEXT("“") + Resident->GetResidentDialogLine(static_cast<int32>(Conversation.LineIndex())) + TEXT("”");
+}
+
+FString AMikdashPlayerController::GetResidentDialogFooter() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    return FString::Printf(TEXT("E: next  (%d of %d)     Escape: close     Authored fiction, not a source text."),
+        static_cast<int32>(Conversation.LineIndex()) + 1, Resident->GetResidentDialogLineCount());
+}
+
+FString AMikdashPlayerController::GetDoveControlHint() const
+{
+    return bDoveFlight
+        ? FString(TEXT("Space: up   Ctrl: down   Shift: fast   Mouse: look   F: return to walking"))
+        : FString();
+}
+
 void AMikdashPlayerController::Turn(float Value) { if (!bMenuOpen) AddYawInput(Value); }
 void AMikdashPlayerController::LookUp(float Value) { if (!bMenuOpen) AddPitchInput(-Value); }
 
@@ -307,6 +571,9 @@ void AMikdashPlayerController::OpenMenu()
 {
     if (bMenuOpen || !IsLocalController() || !GetWorld() || !GetWorld()->GetGameViewport()) return;
     bMenuOpen = true;
+    // A conversation is a walking-world thing: opening the menu ends it and lets the
+    // resident resume its authored route.
+    CloseResidentDialog();
     SetPause(true);
     if (PlayerInput) PlayerInput->FlushPressedKeys();
     if (ACharacter* WalkingCharacter = Cast<ACharacter>(GetPawn())) WalkingCharacter->GetCharacterMovement()->StopMovementImmediately();
@@ -389,6 +656,11 @@ void AMikdashPlayerController::QuitWalkthrough()
 
 void AMikdashPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 {
+    CloseResidentDialog();
+    KnownResidents.Reset();
+    if (GetWorld() && GetWorld()->GetGameViewport() && OverlayWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(OverlayWidget.ToSharedRef());
+    OverlayWidget.Reset();
     if (IsValid(ParkedWalker)) ParkedWalker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);
     if (IsValid(DovePawn)) DovePawn->Destroy();
     DovePawn=nullptr;ParkedWalker=nullptr;bDoveFlight=false;

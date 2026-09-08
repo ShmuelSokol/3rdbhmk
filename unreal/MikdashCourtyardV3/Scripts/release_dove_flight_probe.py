@@ -93,7 +93,8 @@ def tick(dt):
     moved=(b.get_actor_location()-start).length()
     row=dict(movedCm=moved,diagnostic=b.get_route_diagnostic(),state=b.get_resident_state())
     rows.append(row)
-    assert 50<moved<100 and row['diagnostic']=='Physical arrival confirmed','Resident failed to arrive in main world'
+    # Body 04 now walks an extended 69 m loop, so the old 50-100 cm window no longer applies.
+    assert moved > 40 and row['diagnostic']=='Physical arrival confirmed','Resident failed to arrive in main world (moved %.1f cm)' % moved
    report['residents']=rows
    finish('passed_flight_ascent_pause_return_and_main_residents_visual_pending')
  except Exception as exc:

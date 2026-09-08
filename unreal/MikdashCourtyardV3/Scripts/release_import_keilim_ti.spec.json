@@ -1,0 +1,437 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_keilim_ti.py: native OBJ import of the KeilimTIV1 shulchan and golden incense altar, gold on every metal slot and a warm matte bread material on the loaves, winding check, removal of the previous RELEASE_Shulchan_* and RELEASE_IncenseAltar_* actors at their recorded poses and placement of the new parts at exactly those poses, save, reopen, numeric readback, receipt.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "566c0df3e5c7208a9f7faab9ecf5c997bd75b2250436b93c6cbf402713c1c3c4",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk when this spec was written. Recorded as matched/not matched only, never used as a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KeilimTI-",
+  "receiptFolder": "SourceAssets/vessels-review/KeilimTIV1",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "placementHelperSpec": "Scripts/release_place_assets.spec.json",
+  "actorTag": "ReleaseKeilimTIV1",
+  "folder": "Release/KeilimTI",
+  "source": {
+    "folder": "SourceAssets/vessels-review/KeilimTIV1",
+    "manifest": "SourceAssets/vessels-review/KeilimTIV1/geometry-manifest.json",
+    "manifestSha256": "30e3e860a3e079cc1a16ff0b54f2202b022d83b318e9f9bd44fba0e8dee36e99",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "authoringScript": "Scripts/create_keilim_ti_v1.py",
+    "authoringScriptSha256": "9f94be48a28485ecb11ad6d226f03328ad4742250561a6880ea0524dbad7183e",
+    "namespace": "/Game/MikdashV3/MaterialReview/KeilimTIV1",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/KeilimTIV1/Meshes",
+    "maxTotalTriangles": 250000,
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Canonical Unreal cm: X east, +Y south (room side), Z up; one bottom-centre pivot on the floor for every part of a vessel. OBJ carries Y reflected and triangle winding reversed for the legacy OBJ importer (same adapter as create_shulchan_v2 / create_sanctuary_doors and as recorded in SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json); the importer reflects Y back, so imported bounds must equal bounds_cm and UE signed volumes must be positive."
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/reliefs/doors/vessels OBJ adapter path (FbxFactory). Single-mesh OBJ: destination_name is the exact mesh name.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation.",
+    "gold": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold (same as the keilim studies)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold_fallback (vessels release)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/M_KeruvimStudyGold",
+          "kind": "gold_fallback"
+        }
+      ]
+    },
+    "bread": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/ShulchanV2/M_ShulchanV2_Bread",
+          "kind": "warm matte bread constant created for ShulchanV2 (reused if present)"
+        }
+      ],
+      "candidatesNote": "If the ShulchanV2 bread material is on disk it is reused unchanged; otherwise a new one is created in the KeilimTIV1 namespace by duplicating the gold material.",
+      "createPath": "/Game/MikdashV3/MaterialReview/KeilimTIV1/M_KeilimTIV1_Bread",
+      "duplicateFrom": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+      "method": "EditorAssetSubsystem.duplicate_asset(duplicateFrom -> createPath), then Constant3Vector and Constant expressions connected to BaseColor / Metallic / Roughness. UE 5.8 can return False from connect_material_property on a connection that took, so the returned flag is only RECORDED: the pass/fail decision is the readback of every constant and of the material inputs on the saved asset.",
+      "constants": {
+        "baseColor": [
+          0.55,
+          0.36,
+          0.17
+        ],
+        "metallic": 0.0,
+        "roughness": 0.85,
+        "note": "warm matte crust tone; artistic real-time choice"
+      },
+      "verifyByReadback": true
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting): bulk vertex/triangle lists, signed volume by the divergence theorem with UE left-handed face normal cross(C-A, B-A), a sample cross-checked against get_triangle_face_normal (disagreements must be 0). Falls back to the per-triangle loop. Negative volume -> triangle order reversed with append_buffers_to_mesh and written back with copy_mesh_to_static_mesh, re-saved, re-checked, recorded.",
+    "requireForPlacement": true,
+    "flipIfNegative": true,
+    "faceNormalSampleTriangles": 2000,
+    "passCriteria": [
+      "signedVolumeUEcm3 > 0 after any flip",
+      "faceNormalVsCrossDisagreements == 0 on the sample"
+    ],
+    "expectedOfflineRightHandedVolumeSign": "positive for every KeilimTIV1 file (create_keilim_ti_v1.readback asserts it), so no flip is expected",
+    "rewriteOptions": {
+      "enable_recompute_normals": true,
+      "enable_recompute_tangents": true,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": true,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only."
+  },
+  "floor": {
+    "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+    "worldBoundsCm": {
+      "min": [
+        -5600.0,
+        -500.0,
+        904.9999237060547
+      ],
+      "max": [
+        -3600.0,
+        500.0,
+        925.0
+      ]
+    },
+    "topZ": 925.0,
+    "boundsToleranceCm": 1.0,
+    "topToleranceCm": 0.05,
+    "groundSource": "floor component bounds read from the loaded level (traces return nothing in commandlets)"
+  },
+  "roomEnvelope": {
+    "min": [
+      -5600.0,
+      -500.0,
+      925.0
+    ],
+    "max": [
+      -3600.0,
+      500.0,
+      2925.0
+    ],
+    "rule": "Every placed AABB must lie inside the Heikhal envelope."
+  },
+  "clearance": {
+    "rule": "Each planned world AABB must not have strictly positive overlap volume with any mesh-bearing actor of the level other than the removed study, the floor, terrain tiles and hollow architecture unions whose verified constituent boxes are not hit (release_place_assets.py rules). A blocker refuses the run BEFORE anything is saved.",
+    "architectureManifest": "SourceAssets/architecture-manifest.json",
+    "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+    "unionFolder": "Measured architecture/union",
+    "unionBoundsToleranceCm": 1.0,
+    "terrainFolders": [
+      "Jerusalem context/Terrain",
+      "FutureMountV1/Terrain",
+      "Future Mount/Terrain"
+    ]
+  },
+  "groups": {
+    "shulchan": {
+      "vessel": "shulchan lechem hapanim",
+      "actorTag": "ReleaseKeilimTIShulchan",
+      "folder": "Release/KeilimTI/Shulchan",
+      "collisionProfile": "NoCollision",
+      "collisionNote": "NoCollision, as the ShulchanV2 actors it replaces (the Heikhal is not on the visitor route).",
+      "placement": {
+        "origin": [
+          -5300.0,
+          -350.0
+        ],
+        "yaw": 0.0,
+        "labelPrefix": "RELEASE_Shulchan_",
+        "basis": "Book pp. 241, 250 (book-keilim-review-20260907.md); the pose is READ OFF the RELEASE_Shulchan_* actors already in the map (native-import-20260907T203842904337Z.json) and reused unchanged.",
+        "northWall": {
+          "faceY": -500.0,
+          "minClearanceCm": 100.0,
+          "rule": "Every placed AABB must keep min Y >= faceY + minClearanceCm (2 amot; the book's 2.5-amot passage of Rashi Shemos 26:35 measured to the table edge)."
+        }
+      },
+      "removal": {
+        "labelPrefix": "RELEASE_Shulchan_",
+        "expectedLabels": [
+          "RELEASE_Shulchan_Table",
+          "RELEASE_Shulchan_Rings",
+          "RELEASE_Shulchan_Snifim",
+          "RELEASE_Shulchan_Kanim",
+          "RELEASE_Shulchan_LoavesWest",
+          "RELEASE_Shulchan_LoavesEast",
+          "RELEASE_Shulchan_Bazichin"
+        ],
+        "expectedMeshPrefix": "/Game/MikdashV3/MaterialReview/ShulchanV2/Meshes/",
+        "expectedLocation": [
+          -5300.0,
+          -350.0,
+          925.0000610351562
+        ],
+        "expectedYaw": 0.0,
+        "poseToleranceCm": 0.05,
+        "note": "These actors are destroyed in memory AFTER the .umap checkpoint and only persist as removed when the level is saved at the end. Their poses are recorded in the receipt before anything is destroyed. The previous meshes and materials stay on disk."
+      },
+      "silhouetteScore": {
+        "best_iteration": "iter4-calibrated-band-with-lift",
+        "as_built_iou": 0.4102,
+        "shape_variant_iou": 0.5198,
+        "calibration": "calibration-shulchan.json"
+      },
+      "meshes": [
+        {
+          "name": "SM_KeilimTIV1_Shulchan_Bazichin",
+          "part": "Bazichin",
+          "file": "SM_KeilimTIV1_Shulchan_Bazichin.obj",
+          "sha256": "1a2f356ecf5dbba037794251e75279da01ad06880b4b72f9a5cf74a10233cf06",
+          "triangles": 1360,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -6.5,
+              -18.5,
+              150.0
+            ],
+            "max": [
+              6.5,
+              18.5,
+              172.5
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_Kanim",
+          "part": "Kanim",
+          "file": "SM_KeilimTIV1_Shulchan_Kanim.obj",
+          "sha256": "8c9983438ffd2e52d223c23a45f37f03c1480e82f5ab863cd6b99cebdaf2a83c",
+          "triangles": 1904,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -44.56666666666667,
+              -35.049180327868854,
+              166.66666666666666
+            ],
+            "max": [
+              44.56666666666667,
+              35.049180327868854,
+              234.83333333333334
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_LoavesEast",
+          "part": "LoavesEast",
+          "file": "SM_KeilimTIV1_Shulchan_LoavesEast.obj",
+          "sha256": "a871c3c978fea959ee09ba376215bc6aa764a35305c44b34e232751d95bb8c49",
+          "triangles": 648,
+          "role": "bread",
+          "canonicalBoundsCm": {
+            "min": [
+              8.333333333333336,
+              -25.0,
+              150.0
+            ],
+            "max": [
+              50.00000000000001,
+              25.0,
+              254.16666666666669
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_LoavesWest",
+          "part": "LoavesWest",
+          "file": "SM_KeilimTIV1_Shulchan_LoavesWest.obj",
+          "sha256": "dc12e88f2003c3638a9023f7fa6555ade6dd3b1d49ab7ddddb08f774bba2e08e",
+          "triangles": 648,
+          "role": "bread",
+          "canonicalBoundsCm": {
+            "min": [
+              -50.00000000000001,
+              -25.0,
+              150.0
+            ],
+            "max": [
+              -8.333333333333336,
+              25.0,
+              254.16666666666669
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_Rings",
+          "part": "Rings",
+          "file": "SM_KeilimTIV1_Shulchan_Rings.obj",
+          "sha256": "85f4c417574a81cb4f3fe323bb497b07d0575410afc0e689579c5bff052b1ef9",
+          "triangles": 1280,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -44.44754098360656,
+              -33.0,
+              134.15054644808743
+            ],
+            "max": [
+              44.44754098360656,
+              33.0,
+              142.75054644808745
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_Snifim",
+          "part": "Snifim",
+          "file": "SM_KeilimTIV1_Shulchan_Snifim.obj",
+          "sha256": "f66a28392f3d3e7558418d0134bbec2d4b8a74175b3d33739fefb6b78964bf3f",
+          "triangles": 10976,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -50.01707650273225,
+              -40.1,
+              0.0
+            ],
+            "max": [
+              50.01707650273225,
+              40.1,
+              250.0
+            ]
+          }
+        },
+        {
+          "name": "SM_KeilimTIV1_Shulchan_Table",
+          "part": "Table",
+          "file": "SM_KeilimTIV1_Shulchan_Table.obj",
+          "sha256": "df460865b25336ac8e8b9983bb758d136a7e4bb4235e437f86fd655495f5aba2",
+          "triangles": 11044,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -51.230000000000004,
+              -26.102724133595217,
+              0.0
+            ],
+            "max": [
+              51.230000000000004,
+              26.102724133595217,
+              150.0
+            ]
+          }
+        }
+      ]
+    },
+    "altar": {
+      "vessel": "golden incense altar",
+      "actorTag": "ReleaseKeilimTIAltar",
+      "folder": "Release/KeilimTI/IncenseAltar",
+      "collisionProfile": "BlockAll",
+      "collisionNote": "BlockAll with complex-as-simple collision, as the IncenseAltarV2 body it replaces.",
+      "placement": {
+        "origin": [
+          -4650.0,
+          0.0
+        ],
+        "yaw": 0.0,
+        "labelPrefix": "RELEASE_IncenseAltar_",
+        "basis": "Book p. 255 (1 x 1 x 2 amot at the five-tefach amah); the pose is READ OFF the RELEASE_IncenseAltar_* actors already in the map (native-import-20260907T203152827687Z.json) and reused unchanged. RELEASE_IncenseAltar_Poles is removed WITHOUT a replacement: the Temple's golden altar has no rings and no poles (reference-ti/dossier.md section 3), and the Institute's object has none."
+      },
+      "removal": {
+        "labelPrefix": "RELEASE_IncenseAltar_",
+        "expectedLabels": [
+          "RELEASE_IncenseAltar_Body",
+          "RELEASE_IncenseAltar_Poles"
+        ],
+        "expectedMeshPrefix": "/Game/MikdashV3/MaterialReview/IncenseAltarV2/Meshes/",
+        "expectedLocation": [
+          -4650.0,
+          0.0,
+          925.0000610351562
+        ],
+        "expectedYaw": 0.0,
+        "poseToleranceCm": 0.05,
+        "note": "These actors are destroyed in memory AFTER the .umap checkpoint and only persist as removed when the level is saved at the end. Their poses are recorded in the receipt before anything is destroyed. The previous meshes and materials stay on disk."
+      },
+      "silhouetteScore": {
+        "best_iteration": "iter1-wider-horns-and-cornice",
+        "as_built_iou": 0.953,
+        "shape_variant_iou": null,
+        "calibration": "calibration-altar.json"
+      },
+      "meshes": [
+        {
+          "name": "SM_KeilimTIV1_IncenseAltar",
+          "part": "Body",
+          "file": "SM_KeilimTIV1_IncenseAltar.obj",
+          "sha256": "faedcf8396b1e675b2a743dfa24c4b44219696d24a66f4bc5443b5c612dd503e",
+          "triangles": 23656,
+          "role": "gold",
+          "canonicalBoundsCm": {
+            "min": [
+              -22.904007346189168,
+              -22.881631451022404,
+              0.0
+            ],
+            "max": [
+              22.904007346189168,
+              22.881631451022404,
+              91.11952861952862
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Photograph-derived proportion, not a survey: the shapes follow pixel measurements off two Temple Institute studio photographs (SourceAssets/vessels-review/KeilimTIV1/calibration-*.json). No claim is made that the Institute's vessels are themselves the Temple vessels, and the ornament is drawn fresh in their vocabulary, not traced from the photographs.",
+    "Silhouette overlap is a bounding-box aligned shape score, not a fidelity measure: shulchan 0.4102 as built (0.5198 with the table rebuilt at the height the Institute actually used), incense altar 0.9530.",
+    "The shulchan is 3 amot high per the book (p. 241, Yechezkel 41:22); the Institute built the 1.5-amah table of Shemos 25:23. The legs are therefore about twice as long relative to the top as in the photograph.",
+    "The incense altar body is exactly 2:1 per the book (p. 255); the photographed object is 2.18:1, so the model is about 9 per cent squatter. Its pierced zer and four horns stand above the 2-amot burning surface, as in the photograph.",
+    "RELEASE_IncenseAltar_Poles is removed without a replacement (no rings or poles on the Temple's golden altar).",
+    "Loaf walls are 2 tefachim with a 7-etzbaos karnos gap (Menachos 96a; book p. 241 diagram 22:6), not the 7 tefachim of the brief.",
+    "Materials are flat constants: gold on the metalwork, a warm matte constant on the loaves. No textures, no relief maps, no lighting or visual acceptance - that is a separate native review."
+  ]
+}

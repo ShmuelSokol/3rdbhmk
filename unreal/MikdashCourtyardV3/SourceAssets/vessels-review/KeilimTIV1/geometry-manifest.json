@@ -1,0 +1,902 @@
+{
+  "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/KeilimTIV1",
+  "script": "Scripts/create_keilim_ti_v1.py",
+  "script_sha256": "9f94be48a28485ecb11ad6d226f03328ad4742250561a6880ea0524dbad7183e",
+  "amah_cm": 50.0,
+  "tefach_cm": 8.333333333333334,
+  "etzba_cm": 2.0833333333333335,
+  "five_tefach_amah_cm": 41.66666666666667,
+  "convention": "Canonical Unreal cm: X east, +Y south (room side), Z up; one bottom-centre pivot on the floor for every part of a vessel. OBJ carries Y reflected and triangle winding reversed for the legacy OBJ importer (same adapter as create_shulchan_v2 / create_sanctuary_doors and as recorded in SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json); the importer reflects Y back, so imported bounds must equal bounds_cm and UE signed volumes must be positive.",
+  "reference": {
+    "folder": "SourceAssets/reference-ti (gitignored; owners' permission for project use, not for redistribution)",
+    "note": "Nothing derived from the photographs is written into the repository: the silhouette overlays are binary masks of the thresholded outline only, produced at export time from a temporary BMP that is left in the system temp folder, never in SourceAssets."
+  },
+  "shulchan_dimensions_cm": {
+    "length": 100.0,
+    "width": 50.0,
+    "height": 150.0,
+    "slab_h": 3.3443,
+    "zer_h": 3.6885,
+    "misgeret_h": 8.3333,
+    "misgeret_photo_h": 5.7377,
+    "leg_top_w": 12.7049,
+    "leg_foot_w": 10.6557,
+    "post_w": 4.0984,
+    "post_top_z": 250.0,
+    "tier_pitch": 16.6667,
+    "tier_pitch_photo": 16.9672,
+    "bracket_reach": 18.9549,
+    "stretcher_z": 50.4654,
+    "base_plate_h": 11.4754,
+    "loaf_x": 41.6667,
+    "loaf_base_y": 50.0,
+    "loaf_wall_h": 16.6667,
+    "loaf_dough": 4.1667,
+    "karnos_gap": 14.5833,
+    "stack_gap": 16.6667,
+    "rod_outer": 1.5,
+    "rod_inner": 1.0,
+    "ring_major": 3.5,
+    "ring_minor": 0.8,
+    "censer_r": 6.5,
+    "censer_h": 22.5
+  },
+  "altar_dimensions_cm": {
+    "width": 41.6667,
+    "height_to_surface": 83.3333,
+    "base_band_h": 4.314,
+    "cornice_bottom_z": 74.9158,
+    "cornice_h": 8.4175,
+    "cornice_projection": 1.0904,
+    "crown_h": 2.1044,
+    "crown_teeth_per_face": 32,
+    "horn_total_h": 7.7862,
+    "horn_cap_h": 2.7357,
+    "horn_shaft_w": 7.461,
+    "horn_cap_w": 9.5271,
+    "pilaster_w": 8.3792,
+    "panel_outer_w": 24.449,
+    "panel_field_w": 23.3012,
+    "flutes": 4,
+    "arches": 7
+  },
+  "book_dimensions_kept": [
+    "shulchan 2 x 1 amot, 3 amot high (p. 241, Yechezkel 41:22) = 100 x 50 x 150 cm at 50 cm/amah",
+    "twelve loaves in two stacks of six; 28 kanim as 3,3,3,3,2,0 per stack; four snifim; supports 5 amot (250 cm) above the floor; bazichin between the stacks with a 2-tefach gap (p. 250)",
+    "incense altar 1 x 1 x 2 amot at the five-tefach amah (p. 255, Eruvin 4a) = 41.667 x 41.667 x 83.333 cm to the burning surface",
+    "misgeret one tefach (Shemos 25:25); four rings at the legs against the misgeret (Shemos 25:26-27)"
+  ],
+  "departures": [
+    "The Institute built the 1.5-amah table of Shemos 25:23; the book takes Yechezkel 41:22 as three amot. The model is 150 cm high, so its legs are roughly twice as long relative to the top as in the photograph. This is the largest single difference and it is deliberate.",
+    "The photographed altar is 2.18 : 1 base-to-surface over width; the book gives exactly 2 : 1. The model follows the book and is therefore about 9 per cent squatter than the photograph.",
+    "The incense altar carries no rings and no poles (dossier section 3; the Institute's object has none). IncenseAltarV2 modelled poles and they are dropped.",
+    "Ornament is drawn fresh in the Institute's vocabulary (vine and grape misgeret band, wheat-ear legs, acanthus scroll brackets, arcaded frieze of alternating grape clusters and lilies, lily-and-tendril panel stem, pierced crenellated zer). It is NOT traced, scanned or photogrammetrically copied from the photographs, and it is an interpretation, not a claim about the Temple vessels.",
+    "The loaf walls are two tefachim with a seven-ETZBA karnos gap (book p. 241 diagram 22:6; Menachos 96a folds the 10-tefach loaf as 2 + 6 + 2). The brief's \"walls 7 tefachim\" reads the diagram label as tefachim; it is etzbaos.",
+    "Six bracket tiers are modelled as photographed. The lowest tier is level with the table surface and carries no kaneh, because the first loaf of each stack lies on the table itself (p. 250)."
+  ],
+  "vessels": {
+    "shulchan": {
+      "label": "shulchan lechem hapanim",
+      "tuning": {
+        "zer_h": 1.1,
+        "leg_top_w": 1.15,
+        "post_w": 1.3,
+        "bracket_reach": 1.1,
+        "bracket_h": 0.95,
+        "bracket_z": 0.42
+      },
+      "best_iteration": "iter4-calibrated-band-with-lift",
+      "as_built_iou": 0.4102,
+      "shape_variant_iou": 0.5198,
+      "iterations": [
+        {
+          "iteration": "iter0-raw-calibration",
+          "tuning": {
+            "zer_h": 1.0,
+            "leg_top_w": 1.0,
+            "post_w": 1.0,
+            "bracket_reach": 1.0,
+            "bracket_h": 0.95,
+            "bracket_z": 0.0
+          },
+          "triangles": 27860,
+          "as_built": {
+            "iou": 0.3794,
+            "intersection_px": 17424,
+            "union_px": 45922,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 12442,
+            "photo_only_px": 16056
+          },
+          "shape_variant": {
+            "iou": 0.414,
+            "intersection_px": 19477,
+            "union_px": 47046,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 13566,
+            "photo_only_px": 14003
+          }
+        },
+        {
+          "iteration": "iter1-wider-legs-and-brackets",
+          "tuning": {
+            "zer_h": 1.0,
+            "leg_top_w": 1.15,
+            "post_w": 1.0,
+            "bracket_reach": 1.1,
+            "bracket_h": 0.95,
+            "bracket_z": 0.0
+          },
+          "triangles": 27860,
+          "as_built": {
+            "iou": 0.3932,
+            "intersection_px": 18486,
+            "union_px": 47019,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 13539,
+            "photo_only_px": 14994
+          },
+          "shape_variant": {
+            "iou": 0.4181,
+            "intersection_px": 20225,
+            "union_px": 48378,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 14898,
+            "photo_only_px": 13255
+          }
+        },
+        {
+          "iteration": "iter2-heavier-posts",
+          "tuning": {
+            "zer_h": 1.1,
+            "leg_top_w": 1.15,
+            "post_w": 1.25,
+            "bracket_reach": 1.1,
+            "bracket_h": 0.95,
+            "bracket_z": 0.0
+          },
+          "triangles": 27860,
+          "as_built": {
+            "iou": 0.4016,
+            "intersection_px": 19083,
+            "union_px": 47513,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 14033,
+            "photo_only_px": 14397
+          },
+          "shape_variant": {
+            "iou": 0.4252,
+            "intersection_px": 20733,
+            "union_px": 48761,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 15281,
+            "photo_only_px": 12747
+          }
+        },
+        {
+          "iteration": "iter3-thin-bracket-band-and-lift",
+          "tuning": {
+            "zer_h": 1.1,
+            "leg_top_w": 1.15,
+            "post_w": 1.25,
+            "bracket_reach": 1.1,
+            "bracket_h": 0.6,
+            "bracket_z": 0.45
+          },
+          "triangles": 27860,
+          "as_built": {
+            "iou": 0.3869,
+            "intersection_px": 17852,
+            "union_px": 46138,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 12658,
+            "photo_only_px": 15628
+          },
+          "shape_variant": {
+            "iou": 0.4837,
+            "intersection_px": 21421,
+            "union_px": 44282,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 10802,
+            "photo_only_px": 12059
+          }
+        },
+        {
+          "iteration": "iter4-calibrated-band-with-lift",
+          "tuning": {
+            "zer_h": 1.1,
+            "leg_top_w": 1.15,
+            "post_w": 1.3,
+            "bracket_reach": 1.1,
+            "bracket_h": 0.95,
+            "bracket_z": 0.42
+          },
+          "triangles": 27860,
+          "as_built": {
+            "iou": 0.4102,
+            "intersection_px": 19689,
+            "union_px": 47997,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 14517,
+            "photo_only_px": 13791
+          },
+          "shape_variant": {
+            "iou": 0.5198,
+            "intersection_px": 24319,
+            "union_px": 46784,
+            "grid": [
+              200,
+              357
+            ],
+            "model_only_px": 13304,
+            "photo_only_px": 9161
+          }
+        }
+      ],
+      "calibration_file": "calibration-shulchan.json",
+      "preview": "keilim-ti-shulchan-preview.png",
+      "preview_views": [
+        "front (south elevation, looking north; east to the right)",
+        "side (east elevation, looking west; north to the right)",
+        "oblique from the south-east above"
+      ],
+      "overlay": "keilim-ti-shulchan-silhouette.png",
+      "overlay_shape_variant": "keilim-ti-shulchan-silhouette-tiheight.png",
+      "meshes": [
+        "SM_KeilimTIV1_Shulchan_Table",
+        "SM_KeilimTIV1_Shulchan_Rings",
+        "SM_KeilimTIV1_Shulchan_Snifim",
+        "SM_KeilimTIV1_Shulchan_Kanim",
+        "SM_KeilimTIV1_Shulchan_LoavesWest",
+        "SM_KeilimTIV1_Shulchan_LoavesEast",
+        "SM_KeilimTIV1_Shulchan_Bazichin"
+      ],
+      "triangles": 27860
+    },
+    "altar": {
+      "label": "golden incense altar",
+      "tuning": {
+        "cornice_projection": 1.25,
+        "pilaster_w": 1.0,
+        "crown_h": 1.0,
+        "horn_shaft_w": 1.06,
+        "horn_cap_w": 1.1
+      },
+      "best_iteration": "iter1-wider-horns-and-cornice",
+      "as_built_iou": 0.953,
+      "shape_variant_iou": null,
+      "iterations": [
+        {
+          "iteration": "iter0-raw-calibration",
+          "tuning": {
+            "cornice_projection": 1.0,
+            "pilaster_w": 1.0,
+            "crown_h": 1.0,
+            "horn_shaft_w": 1.0,
+            "horn_cap_w": 1.0
+          },
+          "triangles": 23656,
+          "as_built": {
+            "iou": 0.9525,
+            "intersection_px": 80111,
+            "union_px": 84102,
+            "grid": [
+              200,
+              451
+            ],
+            "model_only_px": 2503,
+            "photo_only_px": 1488
+          }
+        },
+        {
+          "iteration": "iter1-wider-horns-and-cornice",
+          "tuning": {
+            "cornice_projection": 1.25,
+            "pilaster_w": 1.0,
+            "crown_h": 1.0,
+            "horn_shaft_w": 1.06,
+            "horn_cap_w": 1.1
+          },
+          "triangles": 23656,
+          "as_built": {
+            "iou": 0.953,
+            "intersection_px": 80253,
+            "union_px": 84207,
+            "grid": [
+              200,
+              451
+            ],
+            "model_only_px": 2608,
+            "photo_only_px": 1346
+          }
+        },
+        {
+          "iteration": "iter2-tall-crown",
+          "tuning": {
+            "cornice_projection": 1.25,
+            "pilaster_w": 1.0,
+            "crown_h": 1.2,
+            "horn_shaft_w": 1.06,
+            "horn_cap_w": 1.1
+          },
+          "triangles": 23656,
+          "as_built": {
+            "iou": 0.9523,
+            "intersection_px": 80296,
+            "union_px": 84319,
+            "grid": [
+              200,
+              451
+            ],
+            "model_only_px": 2720,
+            "photo_only_px": 1303
+          }
+        }
+      ],
+      "calibration_file": "calibration-altar.json",
+      "preview": "keilim-ti-altar-preview.png",
+      "preview_views": [
+        "front (south elevation, looking north)",
+        "side (east elevation, looking west)",
+        "oblique from the south-east above"
+      ],
+      "overlay": "keilim-ti-altar-silhouette.png",
+      "overlay_shape_variant": null,
+      "meshes": [
+        "SM_KeilimTIV1_IncenseAltar"
+      ],
+      "triangles": 23656
+    }
+  },
+  "total_triangles": 51516,
+  "triangle_budget": 250000,
+  "meshes": [
+    {
+      "name": "SM_KeilimTIV1_Shulchan_Table",
+      "file": "SM_KeilimTIV1_Shulchan_Table.obj",
+      "sha256": "df460865b25336ac8e8b9983bb758d136a7e4bb4235e437f86fd655495f5aba2",
+      "triangles": 11044,
+      "parts": 224,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -51.230000000000004,
+          -26.102724133595217,
+          0.0
+        ],
+        "max": [
+          51.230000000000004,
+          26.102724133595217,
+          150.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 0.2998,
+      "part_checks_sample": [
+        {
+          "name": "TopSlab",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 16721.3115
+        },
+        {
+          "name": "ZerProfile",
+          "triangles": 152,
+          "closed": true,
+          "volume_cm3": 857.9942
+        },
+        {
+          "name": "Misgeret",
+          "triangles": 32,
+          "closed": true,
+          "volume_cm3": 2089.02
+        },
+        {
+          "name": "MisgeretRail",
+          "triangles": 32,
+          "closed": true,
+          "volume_cm3": 326.9603
+        },
+        {
+          "name": "Vine_00",
+          "triangles": 392,
+          "closed": true,
+          "volume_cm3": 14.8839
+        },
+        {
+          "name": "Grape_00_0_0",
+          "triangles": 42,
+          "closed": true,
+          "volume_cm3": 0.2998
+        }
+      ],
+      "part_count": 224,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_Rings",
+      "file": "SM_KeilimTIV1_Shulchan_Rings.obj",
+      "sha256": "85f4c417574a81cb4f3fe323bb497b07d0575410afc0e689579c5bff052b1ef9",
+      "triangles": 1280,
+      "parts": 4,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -44.44754098360656,
+          -33.0,
+          134.15054644808743
+        ],
+        "max": [
+          44.44754098360656,
+          33.0,
+          142.75054644808745
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 39.1566,
+      "part_checks_sample": [
+        {
+          "name": "Ring_00",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 39.1566
+        },
+        {
+          "name": "Ring_01",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 39.1566
+        },
+        {
+          "name": "Ring_10",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 39.1566
+        },
+        {
+          "name": "Ring_11",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 39.1566
+        }
+      ],
+      "part_count": 4,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_Snifim",
+      "file": "SM_KeilimTIV1_Shulchan_Snifim.obj",
+      "sha256": "f66a28392f3d3e7558418d0134bbec2d4b8a74175b3d33739fefb6b78964bf3f",
+      "triangles": 10976,
+      "parts": 248,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -50.01707650273225,
+          -40.1,
+          0.0
+        ],
+        "max": [
+          50.01707650273225,
+          40.1,
+          250.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 3.465,
+      "part_checks_sample": [
+        {
+          "name": "SnifBase_00",
+          "triangles": 32,
+          "closed": true,
+          "volume_cm3": 779.5239
+        },
+        {
+          "name": "SnifBaseTop_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 437.8586
+        },
+        {
+          "name": "SnifBaseScroll_00_0",
+          "triangles": 168,
+          "closed": true,
+          "volume_cm3": 41.0324
+        },
+        {
+          "name": "SnifBaseScroll_00_1",
+          "triangles": 168,
+          "closed": true,
+          "volume_cm3": 41.0324
+        },
+        {
+          "name": "SnifStretcher_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 297.7439
+        },
+        {
+          "name": "SnifStretcherRail_00",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 143.8678
+        }
+      ],
+      "part_count": 248,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_Kanim",
+      "file": "SM_KeilimTIV1_Shulchan_Kanim.obj",
+      "sha256": "8c9983438ffd2e52d223c23a45f37f03c1480e82f5ab863cd6b99cebdaf2a83c",
+      "triangles": 1904,
+      "parts": 28,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -44.56666666666667,
+          -35.049180327868854,
+          166.66666666666666
+        ],
+        "max": [
+          44.56666666666667,
+          35.049180327868854,
+          234.83333333333334
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 44.7091,
+      "part_checks_sample": [
+        {
+          "name": "Kaneh_0_00",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        },
+        {
+          "name": "Kaneh_0_01",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        },
+        {
+          "name": "Kaneh_0_02",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        },
+        {
+          "name": "Kaneh_0_03",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        },
+        {
+          "name": "Kaneh_0_04",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        },
+        {
+          "name": "Kaneh_0_05",
+          "triangles": 68,
+          "closed": true,
+          "volume_cm3": 44.7091
+        }
+      ],
+      "part_count": 28,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_LoavesWest",
+      "file": "SM_KeilimTIV1_Shulchan_LoavesWest.obj",
+      "sha256": "dc12e88f2003c3638a9023f7fa6555ade6dd3b1d49ab7ddddb08f774bba2e08e",
+      "triangles": 648,
+      "parts": 42,
+      "material_role": "bread",
+      "bounds_cm": {
+        "min": [
+          -50.00000000000001,
+          -25.0,
+          150.0
+        ],
+        "max": [
+          -8.333333333333336,
+          25.0,
+          254.16666666666669
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 940.3935,
+      "part_checks_sample": [
+        {
+          "name": "Loaf1_Base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 19285.3186
+        },
+        {
+          "name": "Loaf1_Karn_0_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Karn_0_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Wall_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 978.287
+        },
+        {
+          "name": "Loaf1_Karn_1_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Karn_1_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        }
+      ],
+      "part_count": 42,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_LoavesEast",
+      "file": "SM_KeilimTIV1_Shulchan_LoavesEast.obj",
+      "sha256": "a871c3c978fea959ee09ba376215bc6aa764a35305c44b34e232751d95bb8c49",
+      "triangles": 648,
+      "parts": 42,
+      "material_role": "bread",
+      "bounds_cm": {
+        "min": [
+          8.333333333333336,
+          -25.0,
+          150.0
+        ],
+        "max": [
+          50.00000000000001,
+          25.0,
+          254.16666666666669
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 940.3935,
+      "part_checks_sample": [
+        {
+          "name": "Loaf1_Base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 19285.3186
+        },
+        {
+          "name": "Loaf1_Karn_0_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Karn_0_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Wall_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 978.287
+        },
+        {
+          "name": "Loaf1_Karn_1_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        },
+        {
+          "name": "Loaf1_Karn_1_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 940.3935
+        }
+      ],
+      "part_count": 42,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_Shulchan_Bazichin",
+      "file": "SM_KeilimTIV1_Shulchan_Bazichin.obj",
+      "sha256": "1a2f356ecf5dbba037794251e75279da01ad06880b4b72f9a5cf74a10233cf06",
+      "triangles": 1360,
+      "parts": 2,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -6.5,
+          -18.5,
+          150.0
+        ],
+        "max": [
+          6.5,
+          18.5,
+          172.5
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 1387.4791,
+      "part_checks_sample": [
+        {
+          "name": "Bazich_0",
+          "triangles": 680,
+          "closed": true,
+          "volume_cm3": 1387.4791
+        },
+        {
+          "name": "Bazich_1",
+          "triangles": 680,
+          "closed": true,
+          "volume_cm3": 1387.4791
+        }
+      ],
+      "part_count": 2,
+      "vessel": "shulchan"
+    },
+    {
+      "name": "SM_KeilimTIV1_IncenseAltar",
+      "file": "SM_KeilimTIV1_IncenseAltar.obj",
+      "sha256": "faedcf8396b1e675b2a743dfa24c4b44219696d24a66f4bc5443b5c612dd503e",
+      "triangles": 23656,
+      "parts": 607,
+      "material_role": "gold",
+      "bounds_cm": {
+        "min": [
+          -22.904007346189168,
+          -22.881631451022404,
+          0.0
+        ],
+        "max": [
+          22.904007346189168,
+          22.881631451022404,
+          91.11952861952862
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 0.0475,
+      "part_checks_sample": [
+        {
+          "name": "Body",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 130062.196
+        },
+        {
+          "name": "BasePlinth",
+          "triangles": 32,
+          "closed": true,
+          "volume_cm3": 304.2183
+        },
+        {
+          "name": "Pilaster_000",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 354.9542
+        },
+        {
+          "name": "Flute_000_0",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 20.4617
+        },
+        {
+          "name": "Flute_000_1",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 20.4617
+        },
+        {
+          "name": "Flute_000_2",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 20.4617
+        }
+      ],
+      "part_count": 607,
+      "vessel": "altar"
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_Table",
+      "triangles": 11044,
+      "bounds_error_cm": 1.34e-07,
+      "worst_normal_error": 5.92e-07,
+      "file_space_signed_volume_cm3": 36475.937,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_Rings",
+      "triangles": 1280,
+      "bounds_error_cm": 4.48e-07,
+      "worst_normal_error": 3.63e-07,
+      "file_space_signed_volume_cm3": 156.626,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_Snifim",
+      "triangles": 10976,
+      "bounds_error_cm": 4.97e-07,
+      "worst_normal_error": 5.73e-07,
+      "file_space_signed_volume_cm3": 50475.51,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_Kanim",
+      "triangles": 1904,
+      "bounds_error_cm": 3.33e-07,
+      "worst_normal_error": 3.38e-07,
+      "file_space_signed_volume_cm3": 1251.856,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_LoavesWest",
+      "triangles": 648,
+      "bounds_error_cm": 3.33e-07,
+      "worst_normal_error": 4.98e-07,
+      "file_space_signed_volume_cm3": 176980.804,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_LoavesEast",
+      "triangles": 648,
+      "bounds_error_cm": 3.33e-07,
+      "worst_normal_error": 4.98e-07,
+      "file_space_signed_volume_cm3": 176980.804,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_Shulchan_Bazichin",
+      "triangles": 1360,
+      "bounds_error_cm": 0.0,
+      "worst_normal_error": 7.6e-07,
+      "file_space_signed_volume_cm3": 2774.958,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_KeilimTIV1_IncenseAltar",
+      "triangles": 23656,
+      "bounds_error_cm": 4.51e-07,
+      "worst_normal_error": 7.16e-07,
+      "file_space_signed_volume_cm3": 143719.696,
+      "normals_and_uvs": "PASS"
+    }
+  ],
+  "preview_limit": "Software orthographic previews with two illustrative flat colours (gold / bread). Not a native render, not a material or lighting acceptance."
+}

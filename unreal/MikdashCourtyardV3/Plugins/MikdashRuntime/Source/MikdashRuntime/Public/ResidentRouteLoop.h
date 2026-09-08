@@ -46,9 +46,12 @@ inline double LoopLengthCm(const std::vector<Point2>& Points)
     return Total;
 }
 
-// A closed loop of 4..6 authored points, 60..120 m around, every point inside the region,
-// with a 3..5 s pause and a readable label per point. Labels must be non-empty single lines.
-inline bool ValidateLoop(const std::vector<Point2>& Points, const std::vector<double>& PauseSeconds,
+// The shape rules alone: a closed loop of 4..6 authored points, 60..120 m around, with a
+// 3..5 s pause and a readable single-line label at each point, and no two consecutive points
+// closer than 2 m. The CALLER is responsible for having already checked that every point
+// lies in whatever region it authored, which is why the extended-route pilot uses
+// ValidateLoop below and the people directory checks its own zone first.
+inline bool ValidateLoopGeometry(const std::vector<Point2>& Points, const std::vector<double>& PauseSeconds,
     const std::vector<std::string>& Labels, std::string* Reason = nullptr)
 {
     auto Fail = [Reason](const char* Why) { if (Reason) *Reason = Why; return false; };
@@ -56,7 +59,7 @@ inline bool ValidateLoop(const std::vector<Point2>& Points, const std::vector<do
     if (PauseSeconds.size() != Points.size() || Labels.size() != Points.size()) return Fail("pauses/labels must match waypoints");
     for (std::size_t I = 0; I < Points.size(); ++I)
     {
-        if (!PointInRegion(Points[I])) return Fail("waypoint outside authored outer-court region");
+        if (!Finite(Points[I])) return Fail("waypoint is not finite");
         if (!std::isfinite(PauseSeconds[I]) || PauseSeconds[I] < MinPauseSeconds || PauseSeconds[I] > MaxPauseSeconds) return Fail("pause must be 3 to 5 seconds");
         if (Labels[I].empty() || Labels[I].size() > 120 || Labels[I].find_first_of("\r\n") != std::string::npos) return Fail("label must be one short line");
         if (Distance(Points[I], Points[(I + 1) % Points.size()]) < 200.0) return Fail("consecutive waypoints too close");
@@ -65,6 +68,19 @@ inline bool ValidateLoop(const std::vector<Point2>& Points, const std::vector<do
     if (Length < MinLoopCm || Length > MaxLoopCm) return Fail("loop length must be 60 to 120 m");
     if (Reason) Reason->clear();
     return true;
+}
+
+// The same shape rules with every point additionally inside the authored outer-court region.
+inline bool ValidateLoop(const std::vector<Point2>& Points, const std::vector<double>& PauseSeconds,
+    const std::vector<std::string>& Labels, std::string* Reason = nullptr)
+{
+    for (std::size_t I = 0; I < Points.size(); ++I)
+        if (!PointInRegion(Points[I]))
+        {
+            if (Reason) *Reason = "waypoint outside authored outer-court region";
+            return false;
+        }
+    return ValidateLoopGeometry(Points, PauseSeconds, Labels, Reason);
 }
 
 inline double DistanceToSegment(const Point2& P, const Point2& A, const Point2& B)

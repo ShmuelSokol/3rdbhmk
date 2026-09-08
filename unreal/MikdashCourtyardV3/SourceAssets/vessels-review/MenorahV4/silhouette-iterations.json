@@ -1,0 +1,63 @@
+[
+  {
+    "run": 1,
+    "iou_bbox": 0.41341,
+    "iou_roll_refined": 0.59222,
+    "roll_deg": 0.0,
+    "change": "first build from the calibration pixel table"
+  },
+  {
+    "run": 2,
+    "iou_bbox": 0.4252,
+    "iou_roll_refined": 0.62611,
+    "roll_deg": 1.0,
+    "change": "base tier planes moved to the MID-PLANE rule; bottom chamfer on the lower plinth"
+  },
+  {
+    "run": 3,
+    "iou_bbox": 0.43354,
+    "iou_roll_refined": 0.6379,
+    "roll_deg": 1.0,
+    "change": "lamp/lid/finial split re-read from the on-axis width profile; flower petals rebuilt to reach the calibrated diameter across the calibrated band"
+  },
+  {
+    "run": 4,
+    "iou_bbox": 0.43354,
+    "iou_roll_refined": 0.6379,
+    "roll_deg": 1.0,
+    "photo_only_px": 46235,
+    "model_only_px": 50062,
+    "triangles": 93384,
+    "parameters": {
+      "arc_radii": [
+        16.5,
+        31.47,
+        45.045
+      ],
+      "arc_centre_z": 114.315,
+      "branch_diameter": [
+        4.095000000000001,
+        3.81
+      ],
+      "branch_depth_ratio": 0.82,
+      "lamp_dia": 11.145000000000001,
+      "knop_dia": 10.364999999999998,
+      "goblet_dia": 6.84,
+      "flower_dia": 5.67,
+      "junction_dia": 9.39,
+      "shaft_r": [
+        3.525,
+        2.25,
+        2.145
+      ],
+      "tier_lower_R": 35.910000000000004,
+      "tier_upper_R": 29.130000000000003,
+      "goblet_band": [
+        117.345,
+        129.465
+      ]
+    },
+    "change": "tending stone gap re-measured from the plinth circumradius (a vertex faces the stone, not a face), 4.3 -> 9.1 cm clear; menorah geometry unchanged, so the silhouette score is identical to run 3",
+    "note": "the stone is excluded from the silhouette comparison"
+  }
+]

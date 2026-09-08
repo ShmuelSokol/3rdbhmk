@@ -1,0 +1,5318 @@
+{
+  "status": "OFFLINE_VALIDATED_PHOTO_CALIBRATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/MenorahV4",
+  "amah_cm": 50.0,
+  "tefach_cm": 8.333333333333334,
+  "script": "Scripts/create_menorah_v4.py",
+  "script_sha256": "c732eee66d259089920326037321c89bf907bcb3f700aa2179dc1c2676aed839",
+  "calibration": "SourceAssets/vessels-review/MenorahV4/calibration.json",
+  "calibration_sha256": "b688008e0c23e1e313951db9ea09a5c5586cd62f3496f3a3ff63d01531514ee5",
+  "reference_spec": "SourceAssets/vessels-review/menorah-model-spec.json",
+  "reference_spec_sha256": "889db7f501d8051e188def9c6060e60b33ae6f4d37c338a7630ac38fed2d30c8",
+  "supersedes": "SourceAssets/vessels-review/MenorahV3 (generic proportions; quarter-ellipse branches, circular tubes)",
+  "convention": "Canonical XYZ Unreal cm: local X = lamp row (fan axis; +X = north after the placement yaw -90), local +Y = front (east; the tending stone side), Z up, origin at the centre of the base contact plane on the floor; every part shares this pivot. OBJ files carry Y reflected and winding reversed for the legacy OBJ importer (ShulchanV2 / DoorsParochesV1 / MenorahV3 adapter); the importer reflects Y back, so imported bounds must equal bounds_cm and UE signed volumes must be positive. Per-triangle normals and non-degenerate planar UV charts; no images, no scanned or traced geometry.",
+  "claims": "Original parametric model whose PROPORTIONS were measured from one Temple Institute photograph (calibration.json). Photograph-derived proportion, not a measured survey of the vessel, not a rabbinically certified vessel, and not a verified appearance of the future Temple menorah.",
+  "parameters": {
+    "total_height": 150.0,
+    "arc_centre_z": 114.315,
+    "arc_radii": [
+      16.5,
+      31.47,
+      45.045
+    ],
+    "stack_bottom_z": 117.345,
+    "branch_diameter": [
+      4.095000000000001,
+      3.81
+    ],
+    "branch_depth_ratio": 0.82,
+    "branch_band": 0.34,
+    "branch_band_rise": 1.055,
+    "shaft_r": [
+      3.525,
+      2.25,
+      2.145
+    ],
+    "shaft_facets": 16,
+    "shaft_facet_amp": 0.03,
+    "goblet_band": [
+      117.345,
+      129.465
+    ],
+    "goblet_tiers_h": [
+      117.345,
+      119.685,
+      123.21000000000001,
+      126.33,
+      129.465
+    ],
+    "goblet_dia": 6.84,
+    "knop_span": [
+      129.66,
+      134.745
+    ],
+    "knop_dia": 10.364999999999998,
+    "flower_span": [
+      134.94,
+      139.245
+    ],
+    "flower_dia": 5.67,
+    "stem_span": [
+      139.245,
+      142.17
+    ],
+    "stem_dia": 2.355,
+    "lamp_span": [
+      142.17,
+      143.94
+    ],
+    "lamp_dia": 11.145000000000001,
+    "lid_span": [
+      143.745,
+      146.67
+    ],
+    "finial_span": [
+      146.67,
+      150.0
+    ],
+    "finial_dia_ratio": 0.3,
+    "junction_span": [
+      [
+        68.835,
+        74.115
+      ],
+      [
+        83.31,
+        88.8
+      ],
+      [
+        97.78500000000001,
+        103.455
+      ]
+    ],
+    "junction_dia": 9.39,
+    "lower_flower_up": [
+      53.97,
+      61.215
+    ],
+    "lower_flower_up_dia": 10.56,
+    "lower_knop": [
+      48.69,
+      53.385
+    ],
+    "lower_knop_dia": 8.805,
+    "lower_flower_low": [
+      42.045,
+      48.495
+    ],
+    "lower_flower_low_dia": 5.475,
+    "foot_span": [
+      0.0,
+      2.745
+    ],
+    "tier_lower": [
+      2.745,
+      18.794999999999998
+    ],
+    "tier_lower_R": 35.910000000000004,
+    "tier_lower_chamfer": 0.93,
+    "tier_lower_cap": [
+      18.794999999999998,
+      20.145
+    ],
+    "tier_lower_cap_R": 36.81,
+    "tier_upper": [
+      20.145,
+      27.375
+    ],
+    "tier_upper_R": 29.130000000000003,
+    "ogee": [
+      27.375,
+      32.07
+    ],
+    "ogee_top_R": 3.525,
+    "panel_lower": [
+      0.84,
+      0.66,
+      0.6749999999999999
+    ],
+    "panel_upper": [
+      0.88,
+      0.55,
+      0.525
+    ],
+    "panel_cap": [
+      0.9,
+      0.4,
+      0.375
+    ],
+    "knop_bosses": 12,
+    "knop_boss_r": 0.155,
+    "flower_petals": 6,
+    "goblet_flutes": 14,
+    "nozzle_len": 4.5,
+    "nozzle_r": 1.125,
+    "stone": {
+      "gap": 10.0,
+      "width": 90.0,
+      "tread": 30.0,
+      "rise": 16.666666666666668,
+      "steps": 3,
+      "corner": 12.0
+    }
+  },
+  "lamp_x_cm": [
+    -45.045,
+    -31.47,
+    -16.5,
+    0.0,
+    16.5,
+    31.47,
+    45.045
+  ],
+  "menorah_bounds_cm": {
+    "min": [
+      -50.762385,
+      -36.81,
+      0.0
+    ],
+    "max": [
+      50.762385,
+      36.81,
+      150.0
+    ]
+  },
+  "half_span_x_cm": 50.762385,
+  "counts": {
+    "base": 5,
+    "base_foot": 6,
+    "base_panel": 18,
+    "shaft": 1,
+    "branch": 6,
+    "knop": 11,
+    "knop_boss": 132,
+    "flower": 9,
+    "flower_petal": 54,
+    "goblet": 22,
+    "stem": 7,
+    "lamp": 7,
+    "lamp_lid": 7,
+    "lamp_finial": 7,
+    "wick_nozzle": 7,
+    "stone_step": 3
+  },
+  "count_contract": {
+    "lamps": 7,
+    "side_branches": 6,
+    "goblets_total": 22,
+    "goblets_each_side_branch": 3,
+    "goblets_central_shaft": 4,
+    "knops_total": 11,
+    "knops_upper_groups": 7,
+    "knops_branch_junctions": 3,
+    "knops_lower_central": 1,
+    "flowers_total": 9,
+    "flowers_upper_groups": 7,
+    "flowers_lower_central": 2,
+    "source": "Shemos 25:31-40; menorah-model-spec count_contract; TI states 42 ornaments"
+  },
+  "ornaments": [
+    {
+      "id": "BasePlinthLower",
+      "kind": "base",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 48,
+      "circumradius_cm": 35.910000000000004,
+      "z_cm": [
+        2.745,
+        18.794999999999998
+      ]
+    },
+    {
+      "id": "BasePlinthCap",
+      "kind": "base",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 36,
+      "circumradius_cm": 36.81,
+      "z_cm": [
+        18.794999999999998,
+        20.145
+      ]
+    },
+    {
+      "id": "BaseTierUpper",
+      "kind": "base",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 36,
+      "circumradius_cm": 29.130000000000003,
+      "z_cm": [
+        20.145,
+        27.375
+      ]
+    },
+    {
+      "id": "BaseOgeeCap",
+      "kind": "base",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 432,
+      "z_cm": [
+        27.375,
+        32.07
+      ],
+      "top_radius_cm": 3.525
+    },
+    {
+      "id": "BaseStemCollar",
+      "kind": "base",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 320,
+      "z_cm": [
+        31.67,
+        34.47
+      ]
+    },
+    {
+      "id": "BaseFoot_01",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BaseFoot_02",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BaseFoot_03",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BaseFoot_04",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BaseFoot_05",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BaseFoot_06",
+      "kind": "base_foot",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 128,
+      "z_cm": [
+        0.0,
+        2.745
+      ]
+    },
+    {
+      "id": "BasePanel_Lower_01",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 1,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Lower_02",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 2,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Lower_03",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 3,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Lower_04",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 4,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Lower_05",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 5,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Lower_06",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 6,
+      "tier": "Lower",
+      "relief_depth_cm": 0.6749999999999999
+    },
+    {
+      "id": "BasePanel_Upper_01",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 1,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Upper_02",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 2,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Upper_03",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 3,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Upper_04",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 4,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Upper_05",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 5,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Upper_06",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 6,
+      "tier": "Upper",
+      "relief_depth_cm": 0.525
+    },
+    {
+      "id": "BasePanel_Cap_01",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 1,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "BasePanel_Cap_02",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 2,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "BasePanel_Cap_03",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 3,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "BasePanel_Cap_04",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 4,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "BasePanel_Cap_05",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 5,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "BasePanel_Cap_06",
+      "kind": "base_panel",
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 20,
+      "face": 6,
+      "tier": "Cap",
+      "relief_depth_cm": 0.375
+    },
+    {
+      "id": "Shaft",
+      "kind": "shaft",
+      "mesh": "SM_MenorahV4_Shaft",
+      "triangles": 608,
+      "z_cm": [
+        31.07,
+        118.345
+      ],
+      "radius_cm": [
+        3.525,
+        2.25,
+        2.145
+      ]
+    },
+    {
+      "id": "Branch_L1",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesL",
+      "triangles": 3808,
+      "arc_radius_cm": 16.5,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 97.815,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R1",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesR",
+      "triangles": 3808,
+      "arc_radius_cm": 16.5,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 97.815,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_L2",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesL",
+      "triangles": 3808,
+      "arc_radius_cm": 31.47,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 82.845,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R2",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesR",
+      "triangles": 3808,
+      "arc_radius_cm": 31.47,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 82.845,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_L3",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesL",
+      "triangles": 3808,
+      "arc_radius_cm": 45.045,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 69.27,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R3",
+      "kind": "branch",
+      "mesh": "SM_MenorahV4_BranchesR",
+      "triangles": 3808,
+      "arc_radius_cm": 45.045,
+      "arc_centre_z_cm": 114.315,
+      "spring_z_cm": 69.27,
+      "section": "rounded rectangle, broad flat front band, depth/width 0.82",
+      "curve": "quarter of a circle concentric with the other two; vertical tangent at the stack"
+    },
+    {
+      "id": "Knop_Junction_01",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 0.0,
+      "z_cm": [
+        68.835,
+        74.115
+      ],
+      "diameter_cm": 9.39,
+      "note": "knop from which a pair of branches springs (Shemos 25:35); span from the photograph"
+    },
+    {
+      "id": "Boss_Knop_Junction_01_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_01_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Knop_Junction_02",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 0.0,
+      "z_cm": [
+        83.31,
+        88.8
+      ],
+      "diameter_cm": 9.39,
+      "note": "knop from which a pair of branches springs (Shemos 25:35); span from the photograph"
+    },
+    {
+      "id": "Boss_Knop_Junction_02_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_02_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Knop_Junction_03",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 0.0,
+      "z_cm": [
+        97.78500000000001,
+        103.455
+      ],
+      "diameter_cm": 9.39,
+      "note": "knop from which a pair of branches springs (Shemos 25:35); span from the photograph"
+    },
+    {
+      "id": "Boss_Knop_Junction_03_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Junction_03_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_Shaft_Lower",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 0.0,
+      "z_cm": [
+        42.045,
+        48.495
+      ],
+      "diameter_cm": 5.475,
+      "note": "lower central flower, petals turned down (photograph)"
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Lower_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Knop_Shaft_Lower",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 0.0,
+      "z_cm": [
+        48.69,
+        53.385
+      ],
+      "diameter_cm": 8.805,
+      "note": "the single lower central knop"
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_Shaft_Lower_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_Shaft_Upper",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 0.0,
+      "z_cm": [
+        53.97,
+        61.215
+      ],
+      "diameter_cm": 10.56,
+      "note": "upper central flower of the lower group"
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_Shaft_Upper_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Goblet_L3_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -45.045,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_L3_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -45.045,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_L3_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -45.045,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_L3",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": -45.045,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_L3_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L3_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_L3",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": -45.045,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_L3_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L3_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L3_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L3_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L3_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L3_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_L3",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": -45.045,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_L3",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": -45.045,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_L3",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": -45.045,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_L3",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": -45.045,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_L3",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": -45.045,
+      "direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_L2_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -31.47,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_L2_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -31.47,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_L2_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -31.47,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_L2",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": -31.47,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_L2_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L2_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_L2",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": -31.47,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_L2_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L2_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L2_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L2_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L2_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L2_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_L2",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": -31.47,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_L2",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": -31.47,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_L2",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": -31.47,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_L2",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": -31.47,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_L2",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": -31.47,
+      "direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_L1_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -16.5,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_L1_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -16.5,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_L1_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": -16.5,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_L1",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": -16.5,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_L1_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_L1_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_L1",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": -16.5,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_L1_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L1_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L1_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L1_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L1_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_L1_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_L1",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": -16.5,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_L1",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": -16.5,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_L1",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": -16.5,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_L1",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": -16.5,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_L1",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": -16.5,
+      "direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_C_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 0.0,
+      "z_cm": [
+        117.345,
+        119.685
+      ],
+      "diameter_cm": 5.472
+    },
+    {
+      "id": "Goblet_C_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 0.0,
+      "z_cm": [
+        119.685,
+        123.21000000000001
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_C_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 0.0,
+      "z_cm": [
+        123.21000000000001,
+        126.33
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_C_04",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 0.0,
+      "z_cm": [
+        126.33,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_C",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 0.0,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_C_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_C_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_C",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 0.0,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_C_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_C_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_C_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_C_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_C_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_C_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_C",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": 0.0,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_C",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": 0.0,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_C",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": 0.0,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_C",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": 0.0,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_C",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": 0.0,
+      "direction_local": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_R1_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 16.5,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_R1_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 16.5,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_R1_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 16.5,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_R1",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 16.5,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_R1_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R1_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_R1",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 16.5,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_R1_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R1_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R1_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R1_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R1_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R1_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_R1",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": 16.5,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_R1",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": 16.5,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_R1",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": 16.5,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_R1",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": 16.5,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_R1",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": 16.5,
+      "direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_R2_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 31.47,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_R2_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 31.47,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_R2_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 31.47,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_R2",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 31.47,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_R2_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R2_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_R2",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 31.47,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_R2_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R2_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R2_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R2_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R2_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R2_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_R2",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": 31.47,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_R2",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": 31.47,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_R2",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": 31.47,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_R2",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": 31.47,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_R2",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": 31.47,
+      "direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Goblet_R3_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 45.045,
+      "z_cm": [
+        117.345,
+        121.385
+      ],
+      "diameter_cm": 6.0192
+    },
+    {
+      "id": "Goblet_R3_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 45.045,
+      "z_cm": [
+        121.385,
+        125.425
+      ],
+      "diameter_cm": 6.5664
+    },
+    {
+      "id": "Goblet_R3_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 960,
+      "x_cm": 45.045,
+      "z_cm": [
+        125.425,
+        129.465
+      ],
+      "diameter_cm": 6.84
+    },
+    {
+      "id": "Knop_R3",
+      "kind": "knop",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 880,
+      "x_cm": 45.045,
+      "z_cm": [
+        129.66,
+        134.745
+      ],
+      "diameter_cm": 10.364999999999998
+    },
+    {
+      "id": "Boss_Knop_R3_01",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_02",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_03",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_04",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_05",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_06",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_07",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_08",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_09",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_10",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_11",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Boss_Knop_R3_12",
+      "kind": "knop_boss",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 80
+    },
+    {
+      "id": "Flower_R3",
+      "kind": "flower",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 560,
+      "x_cm": 45.045,
+      "z_cm": [
+        134.94,
+        139.245
+      ],
+      "diameter_cm": 5.67
+    },
+    {
+      "id": "Petal_Flower_R3_01",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R3_02",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R3_03",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R3_04",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R3_05",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "Petal_Flower_R3_06",
+      "kind": "flower_petal",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 140
+    },
+    {
+      "id": "LampStem_R3",
+      "kind": "stem",
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 320,
+      "x_cm": 45.045,
+      "z_cm": [
+        139.245,
+        142.17
+      ]
+    },
+    {
+      "id": "Lamp_R3",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 800,
+      "x_cm": 45.045,
+      "z_cm": [
+        142.17,
+        143.94
+      ],
+      "rim_diameter_cm": 11.145000000000001
+    },
+    {
+      "id": "LampLid_R3",
+      "kind": "lamp_lid",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 560,
+      "x_cm": 45.045,
+      "z_cm": [
+        143.745,
+        146.67
+      ]
+    },
+    {
+      "id": "LampFinial_R3",
+      "kind": "lamp_finial",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 240,
+      "x_cm": 45.045,
+      "z_cm": [
+        146.67,
+        150.0
+      ]
+    },
+    {
+      "id": "WickNozzle_R3",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 48,
+      "x_cm": 45.045,
+      "direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "Step_01",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV4_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        0.0,
+        16.666666666666668
+      ],
+      "y_cm": [
+        45.910000000000004,
+        135.91
+      ],
+      "width_cm": 90.0
+    },
+    {
+      "id": "Step_02",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV4_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        16.666666666666668,
+        33.333333333333336
+      ],
+      "y_cm": [
+        45.910000000000004,
+        105.91
+      ],
+      "width_cm": 90.0
+    },
+    {
+      "id": "Step_03",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV4_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        33.333333333333336,
+        50.0
+      ],
+      "y_cm": [
+        45.910000000000004,
+        75.91
+      ],
+      "width_cm": 90.0
+    }
+  ],
+  "dimensions": [
+    {
+      "item": "overall height, floor to the top of the central finial",
+      "value_cm": 150.0,
+      "halachic": "18 tefachim",
+      "kind": "halachic",
+      "source": "Rambam Beit HaBechirah 3:10; book \"Lishchno Tidreshu\" p. 252; 8.333 cm tefach at the 50 cm amah"
+    },
+    {
+      "item": "overall width across the outer lamp rims",
+      "value_cm": 101.52477,
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration.json normalised_to_H.overall.width_over_H_including_lamp_bowls = 0.6749"
+    },
+    {
+      "item": "branch semicircle radii (inner, middle, outer)",
+      "value_cm": [
+        16.5,
+        31.47,
+        45.045
+      ],
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration radii_over_H 0.1100 / 0.2098 / 0.3003; ratio 1 : 1.906 : 2.729, NOT 1:2:3"
+    },
+    {
+      "item": "branch semicircle common centre height",
+      "value_cm": 114.315,
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration common_centre_h 0.7621; the three fitted centres scatter 2.3 px"
+    },
+    {
+      "item": "branch spring points on the shaft (outer, middle, inner)",
+      "value_cm": [
+        69.27,
+        82.845,
+        97.815
+      ],
+      "halachic": "Menachos 28b would say tefachim 9, 11, 13",
+      "kind": "photo-calibrated, deviates from the Talmudic breakdown",
+      "source": "photograph: h 0.4589 / 0.5554 / 0.6519 = 68.8 / 83.3 / 97.8 cm; Menachos 28b: 75.0 / 91.7 / 108.3 cm"
+    },
+    {
+      "item": "branch tube width, foot -> tip",
+      "value_cm": [
+        4.095000000000001,
+        3.81
+      ],
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration branch_tube diameters 0.0273 -> 0.0254 H"
+    },
+    {
+      "item": "branch section",
+      "value_cm": "rounded rectangle, depth/width 0.82, broad flat front band",
+      "halachic": null,
+      "kind": "form photo-calibrated, depth authored",
+      "source": "dossier: \"rectangular-ish section with a flat decorated front band\"; depth is not recoverable from a frontal photograph"
+    },
+    {
+      "item": "central shaft radius (above base / between junctions / under the stack)",
+      "value_cm": [
+        3.525,
+        2.25,
+        2.145
+      ],
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration central_shaft 0.0235 / 0.0150 / 0.0143 H"
+    },
+    {
+      "item": "goblets (gevi'im)",
+      "value_cm": 22,
+      "halachic": "22 = 6 x 3 + 4",
+      "kind": "halachic count, photo-calibrated band",
+      "source": "Shemos 25:33-34; goblet band h 0.7823-0.8631, four tiers on the shaft and three on each branch, same tier height"
+    },
+    {
+      "item": "knops (kaftorim)",
+      "value_cm": 11,
+      "halachic": "11 = 7 upper + 3 junction + 1 lower",
+      "kind": "halachic count, photo-calibrated spans",
+      "source": "Shemos 25:33-35; upper knop h 0.8644-0.8983, junctions h 0.4589-0.4941 / 0.5554-0.5920 / 0.6519-0.6897"
+    },
+    {
+      "item": "flowers (perachim)",
+      "value_cm": 9,
+      "halachic": "9 = 7 upper + 2 lower central",
+      "kind": "halachic count, photo-calibrated spans",
+      "source": "Shemos 25:31-34; upper flower h 0.8996-0.9283; lower central flowers h 0.3598-0.4081 and 0.2803-0.3233"
+    },
+    {
+      "item": "lamps",
+      "value_cm": 7,
+      "halachic": "7 in one line",
+      "kind": "halachic count, photo-calibrated size",
+      "source": "Shemos 25:37; Rambam 3:12 (row north-south); bowl h 0.9478-0.9752, rim diameter 0.0743 H"
+    },
+    {
+      "item": "lamp lid, finial, wick nozzle",
+      "value_cm": [
+        [
+          143.745,
+          146.67
+        ],
+        [
+          146.67,
+          150.0
+        ],
+        4.5
+      ],
+      "halachic": null,
+      "kind": "photo-calibrated heights, authored nozzle",
+      "source": "the TI lamps are covered bowls with a finial; the nozzle direction follows Rambam 3:8, its size is authored"
+    },
+    {
+      "item": "base: stepped hexagon, vertex to the front; tiers bottom -> top",
+      "value_cm": [
+        [
+          0.0,
+          2.745
+        ],
+        [
+          2.745,
+          18.794999999999998
+        ],
+        [
+          18.794999999999998,
+          20.145
+        ],
+        [
+          20.145,
+          27.375
+        ],
+        [
+          27.375,
+          32.07
+        ]
+      ],
+      "halachic": null,
+      "kind": "photo-calibrated",
+      "source": "calibration base.tiers_bottom_to_top; circumradii 0.2394 / 0.2454 / 0.1889 H"
+    },
+    {
+      "item": "base raised relief panels",
+      "value_cm": 18,
+      "halachic": "6 faces x 3 tiers",
+      "kind": "photo-calibrated divisions, authored motif",
+      "source": "calibration base.panel_divisions; the panel FIELDS are modelled, the acanthus/vine motifs inside them are not traced"
+    },
+    {
+      "item": "wick directions",
+      "value_cm": "six toward the middle lamp, the middle lamp toward the west (local -Y)",
+      "halachic": null,
+      "kind": "halachic",
+      "source": "Rambam Beit HaBechirah 3:8"
+    },
+    {
+      "item": "tending stone: three steps in front (east)",
+      "value_cm": [
+        3,
+        16.666666666666668,
+        30.0,
+        90.0
+      ],
+      "halachic": "3 steps",
+      "kind": "halachic count/position, authored sizes",
+      "source": "Rambam 3:11; book p. 252 (2); diagram 22:23b"
+    },
+    {
+      "item": "orientation",
+      "value_cm": "lamp row north-south (placement yaw -90)",
+      "halachic": null,
+      "kind": "halachic",
+      "source": "Rambam Beit HaBechirah 3:12; book diagram 22:23b"
+    }
+  ],
+  "silhouette_check": {
+    "status": "computed",
+    "photograph": "SourceAssets/reference-ti/menorah/wiki-\u05de\u05e0\u05d5\u05e8\u05d4.jpg",
+    "photo_pixels": [
+      587,
+      821
+    ],
+    "photo_threshold": 95,
+    "alignment": "bounding box of the model front elevation scaled and translated onto the bounding box of the thresholded photograph",
+    "intersection_over_union": 0.43354,
+    "intersection_px": 73702,
+    "union_px": 169999,
+    "photo_only_px": 46235,
+    "model_only_px": 50062,
+    "fit": {
+      "model_box_cm": [
+        -50.762385,
+        50.762385,
+        0.0,
+        150.0
+      ],
+      "photo_box_px": [
+        27,
+        551,
+        19,
+        814
+      ],
+      "roll_deg": 0.0,
+      "shift_px": [
+        0.0,
+        0.0
+      ],
+      "px_per_cm": [
+        5.171151828268116,
+        5.306666666666667
+      ],
+      "aspect_model": 0.6768318,
+      "aspect_photo": 0.6595477386934674
+    },
+    "roll_refined": {
+      "note": "The photograph is rolled by about 4 degrees (calibration.json known_distortions), so a bounding-box-only overlap penalises a perfectly level model. This second score adds ONLY a rigid in-plane rotation and translation found by a coarse search on quarter-resolution masks - no scaling and no per-part fitting. The headline number above stays the bounding-box-aligned one.",
+      "roll_deg": 1.0,
+      "shift_px": [
+        -20,
+        -4
+      ],
+      "coarse_iou": 0.70079,
+      "intersection_over_union": 0.6379,
+      "intersection_px": 94981,
+      "union_px": 148897,
+      "photo_only_px": 24956,
+      "model_only_px": 28960
+    },
+    "images": {
+      "photo_mask": "photo-silhouette.png",
+      "model_mask": "menorah-v4-silhouette.png",
+      "side_by_side": "menorah-v4-photo-overlay.png (roll-refined model)",
+      "side_by_side_bbox": "menorah-v4-photo-overlay-bbox.png (bounding-box alignment only)"
+    },
+    "limit": "IoU over one uncorrected photograph that carries roll, a small yaw and glass-case blur. A perfect model cannot score 1.0 here.",
+    "iterations": [
+      {
+        "run": 1,
+        "iou_bbox": 0.41341,
+        "iou_roll_refined": 0.59222,
+        "roll_deg": 0.0,
+        "change": "first build from the calibration pixel table"
+      },
+      {
+        "run": 2,
+        "iou_bbox": 0.4252,
+        "iou_roll_refined": 0.62611,
+        "roll_deg": 1.0,
+        "change": "base tier planes moved to the MID-PLANE rule; bottom chamfer on the lower plinth"
+      },
+      {
+        "run": 3,
+        "iou_bbox": 0.43354,
+        "iou_roll_refined": 0.6379,
+        "roll_deg": 1.0,
+        "change": "lamp/lid/finial split re-read from the on-axis width profile; flower petals rebuilt to reach the calibrated diameter across the calibrated band"
+      },
+      {
+        "run": 4,
+        "iou_bbox": 0.43354,
+        "iou_roll_refined": 0.6379,
+        "roll_deg": 1.0,
+        "photo_only_px": 46235,
+        "model_only_px": 50062,
+        "triangles": 93384,
+        "parameters": {
+          "arc_radii": [
+            16.5,
+            31.47,
+            45.045
+          ],
+          "arc_centre_z": 114.315,
+          "branch_diameter": [
+            4.095000000000001,
+            3.81
+          ],
+          "branch_depth_ratio": 0.82,
+          "lamp_dia": 11.145000000000001,
+          "knop_dia": 10.364999999999998,
+          "goblet_dia": 6.84,
+          "flower_dia": 5.67,
+          "junction_dia": 9.39,
+          "shaft_r": [
+            3.525,
+            2.25,
+            2.145
+          ],
+          "tier_lower_R": 35.910000000000004,
+          "tier_upper_R": 29.130000000000003,
+          "goblet_band": [
+            117.345,
+            129.465
+          ]
+        },
+        "change": "tending stone gap re-measured from the plinth circumradius (a vertex faces the stone, not a face), 4.3 -> 9.1 cm clear; menorah geometry unchanged, so the silhouette score is identical to run 3",
+        "note": "the stone is excluded from the silhouette comparison"
+      }
+    ]
+  },
+  "differences_from_v3": [
+    "Branches are quarters of three CONCENTRIC CIRCLES (radii 16.50 / 31.47 / 45.05 cm about one point at z 114.3), not quarter ellipses. The radii are measured, and their ratio 1 : 1.906 : 2.729 is not 1:2:3.",
+    "Branch and shaft sections are rounded rectangles with a broad slightly proud flat front band, not circular tubes.",
+    "Junction heights come from the photograph (68.8 / 83.3 / 97.8 cm), not from the Menachos 28b tefachim (75.0 / 91.7 / 108.3 cm). The Talmudic values are recorded as the deviation.",
+    "Goblets are almond/cup profiles with a defined outward lip and a stem foot; knops are flattened spheres with a foot collar and twelve raised cartouche bosses; flowers have separately modelled flared petals.",
+    "The base is a stepped hexagonal plinth with a vertex to the front, six feet, an ogee cap, a round stem collar and eighteen raised rectangular relief panels (one per face per tier).",
+    "The lamps are broad shallow covered bowls with a distinct outward rim, a domed lid and a finial; the wick nozzle is a flattened spout turned toward the centre.",
+    "Overall width/height is 0.675 (measured) instead of V3's hand-chosen 18 cm lamp pitch."
+  ],
+  "not_modelled": [
+    "Relief MOTIFS: the acanthus/vine of the plinth panels, the cartouche and bead ornament of the knops, the leaf ornament of the goblets and the lamp lids. Only their fields and bounding proportions exist.",
+    "Depth (front to back) of every part: one photograph gives no depth. Authored.",
+    "The rear of the object, which no available photograph shows.",
+    "Flames, oil, wicks, service tools; there is no shamash.",
+    "The straight-branch Rambam-sketch variant (dossier records it as kosher and as an authored switch)."
+  ],
+  "total_triangles": 93384,
+  "meshes": [
+    {
+      "name": "SM_MenorahV4_Base",
+      "file": "SM_MenorahV4_Base.obj",
+      "sha256": "a5fbd9321ecfd15410166ecf3ef901cdfc65e1f330ac05a64a2146cafeae85ea",
+      "triangles": 2000,
+      "parts": 29,
+      "bounds_cm": {
+        "min": [
+          -31.895472249899196,
+          -36.81,
+          0.0
+        ],
+        "max": [
+          31.8954722498992,
+          36.81,
+          34.47
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 17.139446654707474,
+      "part_checks": [
+        {
+          "name": "BasePlinthLower",
+          "kind": "base",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 53406.52065886694
+        },
+        {
+          "name": "BasePlinthCap",
+          "kind": "base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 4736.842422693081
+        },
+        {
+          "name": "BaseTierUpper",
+          "kind": "base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 15909.75653748977
+        },
+        {
+          "name": "BaseOgeeCap",
+          "kind": "base",
+          "triangles": 432,
+          "closed": true,
+          "volume_cm3": 5052.030777205557
+        },
+        {
+          "name": "BaseStemCollar",
+          "kind": "base",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 215.42533842773153
+        },
+        {
+          "name": "BaseFoot_01",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.9016871239405
+        },
+        {
+          "name": "BaseFoot_02",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.90168712394085
+        },
+        {
+          "name": "BaseFoot_03",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.90168712394029
+        },
+        {
+          "name": "BaseFoot_04",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.9016871239405
+        },
+        {
+          "name": "BaseFoot_05",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.90168712394064
+        },
+        {
+          "name": "BaseFoot_06",
+          "kind": "base_foot",
+          "triangles": 128,
+          "closed": true,
+          "volume_cm3": 57.90168712394071
+        },
+        {
+          "name": "BasePanel_Lower_01",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.99849245763622
+        },
+        {
+          "name": "BasePanel_Lower_02",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.9984924576353
+        },
+        {
+          "name": "BasePanel_Lower_03",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.99849245763713
+        },
+        {
+          "name": "BasePanel_Lower_04",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.99849245763502
+        },
+        {
+          "name": "BasePanel_Lower_05",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.99849245763411
+        },
+        {
+          "name": "BasePanel_Lower_06",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 212.9984924576353
+        },
+        {
+          "name": "BasePanel_Upper_01",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.84970169390461
+        },
+        {
+          "name": "BasePanel_Upper_02",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.849701693905295
+        },
+        {
+          "name": "BasePanel_Upper_03",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.84970169390416
+        },
+        {
+          "name": "BasePanel_Upper_04",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.84970169390552
+        },
+        {
+          "name": "BasePanel_Upper_05",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.849701693903626
+        },
+        {
+          "name": "BasePanel_Upper_06",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 52.849701693905594
+        },
+        {
+          "name": "BasePanel_Cap_01",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.139446654707474
+        },
+        {
+          "name": "BasePanel_Cap_02",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.139446654708347
+        },
+        {
+          "name": "BasePanel_Cap_03",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.13944665470869
+        },
+        {
+          "name": "BasePanel_Cap_04",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.139446654707665
+        },
+        {
+          "name": "BasePanel_Cap_05",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.13944665470903
+        },
+        {
+          "name": "BasePanel_Cap_06",
+          "kind": "base_panel",
+          "triangles": 20,
+          "closed": true,
+          "volume_cm3": 17.139446654709293
+        }
+      ],
+      "material_role": "gold",
+      "collision": "BlockAll"
+    },
+    {
+      "name": "SM_MenorahV4_Shaft",
+      "file": "SM_MenorahV4_Shaft.obj",
+      "sha256": "9f4ca2b18d23c1bf0ec0befd6f5c9fc798620aa3a14a04090f4a3b767cfb51c5",
+      "triangles": 608,
+      "parts": 1,
+      "bounds_cm": {
+        "min": [
+          -3.63075,
+          -3.63075,
+          31.07
+        ],
+        "max": [
+          3.63075,
+          3.63075,
+          118.345
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 1824.5998221840043,
+      "part_checks": [
+        {
+          "name": "Shaft",
+          "kind": "shaft",
+          "triangles": 608,
+          "closed": true,
+          "volume_cm3": 1824.5998221840043
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV4_BranchesL",
+      "file": "SM_MenorahV4_BranchesL.obj",
+      "sha256": "432ff16f4ed5c79068de9c136ce336fa763abdce196d08ae05934c2b5d7f93d6",
+      "triangles": 11424,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -46.95,
+          -1.7712922500000001,
+          67.22265417298435
+        ],
+        "max": [
+          0.025125974640016032,
+          1.7712922500000001,
+          117.345
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 353.37502085393197,
+      "part_checks": [
+        {
+          "name": "Branch_L1",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 353.37502085393197
+        },
+        {
+          "name": "Branch_L2",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 642.5773663879999
+        },
+        {
+          "name": "Branch_L3",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 904.8300135529826
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV4_BranchesR",
+      "file": "SM_MenorahV4_BranchesR.obj",
+      "sha256": "e336f5b20e56bb74dc6e8d2e8b0a8ab34924a24e8b443c4c489a9399104a8b71",
+      "triangles": 11424,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -0.025125974640016032,
+          -1.7712922500000001,
+          67.22265417298435
+        ],
+        "max": [
+          46.95,
+          1.7712922500000001,
+          117.345
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 353.375020853697,
+      "part_checks": [
+        {
+          "name": "Branch_R1",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 353.375020853697
+        },
+        {
+          "name": "Branch_R2",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 642.5773663877686
+        },
+        {
+          "name": "Branch_R3",
+          "kind": "branch",
+          "triangles": 3808,
+          "closed": true,
+          "volume_cm3": 904.8300135527594
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV4_Ornaments",
+      "file": "SM_MenorahV4_Ornaments.obj",
+      "sha256": "97fcc09407f33b37d2c0a1280874829733e6e55d6517105d29f7342d9b5024a1",
+      "triangles": 56200,
+      "parts": 235,
+      "bounds_cm": {
+        "min": [
+          -50.71620975,
+          -5.671209749999999,
+          40.61675601295724
+        ],
+        "max": [
+          50.71620975,
+          5.671209749999999,
+          142.17
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 1.5132783012165565,
+      "part_checks": [
+        {
+          "name": "Knop_Junction_01",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 256.54910925318774
+        },
+        {
+          "name": "Boss_Knop_Junction_01_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281106
+        },
+        {
+          "name": "Boss_Knop_Junction_01_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281923
+        },
+        {
+          "name": "Boss_Knop_Junction_01_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.765257903328312
+        },
+        {
+          "name": "Boss_Knop_Junction_01_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033280773
+        },
+        {
+          "name": "Boss_Knop_Junction_01_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281532
+        },
+        {
+          "name": "Boss_Knop_Junction_01_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.76525790332812
+        },
+        {
+          "name": "Boss_Knop_Junction_01_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281213
+        },
+        {
+          "name": "Boss_Knop_Junction_01_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281435
+        },
+        {
+          "name": "Boss_Knop_Junction_01_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.765257903328081
+        },
+        {
+          "name": "Boss_Knop_Junction_01_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033281435
+        },
+        {
+          "name": "Boss_Knop_Junction_01_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033279268
+        },
+        {
+          "name": "Boss_Knop_Junction_01_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.7652579033280027
+        },
+        {
+          "name": "Knop_Junction_02",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 266.7527670075662
+        },
+        {
+          "name": "Boss_Knop_Junction_02_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559367
+        },
+        {
+          "name": "Boss_Knop_Junction_02_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559225
+        },
+        {
+          "name": "Boss_Knop_Junction_02_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517558883
+        },
+        {
+          "name": "Boss_Knop_Junction_02_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559523
+        },
+        {
+          "name": "Boss_Knop_Junction_02_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559793
+        },
+        {
+          "name": "Boss_Knop_Junction_02_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559616
+        },
+        {
+          "name": "Boss_Knop_Junction_02_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.875239751755823
+        },
+        {
+          "name": "Boss_Knop_Junction_02_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.875239751756068
+        },
+        {
+          "name": "Boss_Knop_Junction_02_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517558443
+        },
+        {
+          "name": "Boss_Knop_Junction_02_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517559936
+        },
+        {
+          "name": "Boss_Knop_Junction_02_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.875239751755957
+        },
+        {
+          "name": "Boss_Knop_Junction_02_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.8752397517556703
+        },
+        {
+          "name": "Knop_Junction_03",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 275.4987593684626
+        },
+        {
+          "name": "Boss_Knop_Junction_03_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.969509907551206
+        },
+        {
+          "name": "Boss_Knop_Junction_03_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.96950990755132
+        },
+        {
+          "name": "Boss_Knop_Junction_03_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.96950990755132
+        },
+        {
+          "name": "Boss_Knop_Junction_03_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.96950990755132
+        },
+        {
+          "name": "Boss_Knop_Junction_03_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.9695099075512417
+        },
+        {
+          "name": "Boss_Knop_Junction_03_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.9695099075509575
+        },
+        {
+          "name": "Boss_Knop_Junction_03_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.969509907551142
+        },
+        {
+          "name": "Boss_Knop_Junction_03_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.96950990755114
+        },
+        {
+          "name": "Boss_Knop_Junction_03_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.969509907551206
+        },
+        {
+          "name": "Boss_Knop_Junction_03_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.969509907551194
+        },
+        {
+          "name": "Boss_Knop_Junction_03_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.9695099075512608
+        },
+        {
+          "name": "Boss_Knop_Junction_03_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.9695099075510876
+        },
+        {
+          "name": "Flower_Shaft_Lower",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 15.891938653624676
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012165645
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012165565
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012165685
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012165867
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012165927
+        },
+        {
+          "name": "Petal_Flower_Shaft_Lower_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.5132783012166036
+        },
+        {
+          "name": "Knop_Shaft_Lower",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 200.58558584959428
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144982723
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.16204561449822
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.162045614498384
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.162045614498295
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144982185
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.162045614498398
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144982856
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144984512
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.162045614498283
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.162045614498307
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144983886
+        },
+        {
+          "name": "Boss_Knop_Shaft_Lower_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 2.1620456144983966
+        },
+        {
+          "name": "Flower_Shaft_Upper",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 66.4071962491427
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849127
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849113
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849072
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849187
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849105
+        },
+        {
+          "name": "Petal_Flower_Shaft_Upper_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 11.020650150849017
+        },
+        {
+          "name": "Goblet_L3_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.65673988928729
+        },
+        {
+          "name": "Goblet_L3_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.62454995089669
+        },
+        {
+          "name": "Goblet_L3_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.335666179361674
+        },
+        {
+          "name": "Knop_L3",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.0474647387561
+        },
+        {
+          "name": "Boss_Knop_L3_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433713595
+        },
+        {
+          "name": "Boss_Knop_L3_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433704594
+        },
+        {
+          "name": "Boss_Knop_L3_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943378157
+        },
+        {
+          "name": "Boss_Knop_L3_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433757316
+        },
+        {
+          "name": "Boss_Knop_L3_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943372662
+        },
+        {
+          "name": "Boss_Knop_L3_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433729987
+        },
+        {
+          "name": "Boss_Knop_L3_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371028
+        },
+        {
+          "name": "Boss_Knop_L3_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371985
+        },
+        {
+          "name": "Boss_Knop_L3_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433659168
+        },
+        {
+          "name": "Boss_Knop_L3_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433681545
+        },
+        {
+          "name": "Boss_Knop_L3_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433683237
+        },
+        {
+          "name": "Boss_Knop_L3_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433731408
+        },
+        {
+          "name": "Flower_L3",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549368654
+        },
+        {
+          "name": "Petal_Flower_L3_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557224047
+        },
+        {
+          "name": "Petal_Flower_L3_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557212654
+        },
+        {
+          "name": "Petal_Flower_L3_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455717471
+        },
+        {
+          "name": "Petal_Flower_L3_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557208866
+        },
+        {
+          "name": "Petal_Flower_L3_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557212725
+        },
+        {
+          "name": "Petal_Flower_L3_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557213175
+        },
+        {
+          "name": "LampStem_L3",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053539721
+        },
+        {
+          "name": "Goblet_L2_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.65673988929473
+        },
+        {
+          "name": "Goblet_L2_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.62454995089479
+        },
+        {
+          "name": "Goblet_L2_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.33566617935554
+        },
+        {
+          "name": "Knop_L2",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.04746473876577
+        },
+        {
+          "name": "Boss_Knop_L2_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371587
+        },
+        {
+          "name": "Boss_Knop_L2_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943369801
+        },
+        {
+          "name": "Boss_Knop_L2_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433701516
+        },
+        {
+          "name": "Boss_Knop_L2_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943370135
+        },
+        {
+          "name": "Boss_Knop_L2_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371795
+        },
+        {
+          "name": "Boss_Knop_L2_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943372288
+        },
+        {
+          "name": "Boss_Knop_L2_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371862
+        },
+        {
+          "name": "Boss_Knop_L2_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943374211
+        },
+        {
+          "name": "Boss_Knop_L2_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433713546
+        },
+        {
+          "name": "Boss_Knop_L2_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433719755
+        },
+        {
+          "name": "Boss_Knop_L2_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433716895
+        },
+        {
+          "name": "Boss_Knop_L2_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433720936
+        },
+        {
+          "name": "Flower_L2",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549367063
+        },
+        {
+          "name": "Petal_Flower_L2_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455720543
+        },
+        {
+          "name": "Petal_Flower_L2_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557215545
+        },
+        {
+          "name": "Petal_Flower_L2_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455721988
+        },
+        {
+          "name": "Petal_Flower_L2_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557224569
+        },
+        {
+          "name": "Petal_Flower_L2_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557221131
+        },
+        {
+          "name": "Petal_Flower_L2_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557209114
+        },
+        {
+          "name": "LampStem_L2",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053540176
+        },
+        {
+          "name": "Goblet_L1_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.65673988929307
+        },
+        {
+          "name": "Goblet_L1_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.62454995089191
+        },
+        {
+          "name": "Goblet_L1_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.335666179353694
+        },
+        {
+          "name": "Knop_L1",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.04746473877077
+        },
+        {
+          "name": "Boss_Knop_L1_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371727
+        },
+        {
+          "name": "Boss_Knop_L1_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433717907
+        },
+        {
+          "name": "Boss_Knop_L1_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433733615
+        },
+        {
+          "name": "Boss_Knop_L1_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943369853
+        },
+        {
+          "name": "Boss_Knop_L1_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943369986
+        },
+        {
+          "name": "Boss_Knop_L1_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433715634
+        },
+        {
+          "name": "Boss_Knop_L1_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371909
+        },
+        {
+          "name": "Boss_Knop_L1_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373131
+        },
+        {
+          "name": "Boss_Knop_L1_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433725723
+        },
+        {
+          "name": "Boss_Knop_L1_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943374957
+        },
+        {
+          "name": "Boss_Knop_L1_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943368817
+        },
+        {
+          "name": "Boss_Knop_L1_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433722335
+        },
+        {
+          "name": "Flower_L1",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549367919
+        },
+        {
+          "name": "Petal_Flower_L1_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557213946
+        },
+        {
+          "name": "Petal_Flower_L1_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557213324
+        },
+        {
+          "name": "Petal_Flower_L1_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557200208
+        },
+        {
+          "name": "Petal_Flower_L1_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557207633
+        },
+        {
+          "name": "Petal_Flower_L1_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557211876
+        },
+        {
+          "name": "Petal_Flower_L1_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557206958
+        },
+        {
+          "name": "LampStem_L1",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053540611
+        },
+        {
+          "name": "Goblet_C_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 17.54700338371383
+        },
+        {
+          "name": "Goblet_C_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 31.98391289845394
+        },
+        {
+          "name": "Goblet_C_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 33.69024649672767
+        },
+        {
+          "name": "Goblet_C_04",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.73200828521809
+        },
+        {
+          "name": "Knop_C",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.0474647387679
+        },
+        {
+          "name": "Boss_Knop_C_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.24489094337189
+        },
+        {
+          "name": "Boss_Knop_C_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943372205
+        },
+        {
+          "name": "Boss_Knop_C_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433714377
+        },
+        {
+          "name": "Boss_Knop_C_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433718285
+        },
+        {
+          "name": "Boss_Knop_C_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433718853
+        },
+        {
+          "name": "Boss_Knop_C_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.24489094337139
+        },
+        {
+          "name": "Boss_Knop_C_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433719444
+        },
+        {
+          "name": "Boss_Knop_C_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433720865
+        },
+        {
+          "name": "Boss_Knop_C_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433714377
+        },
+        {
+          "name": "Boss_Knop_C_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371852
+        },
+        {
+          "name": "Boss_Knop_C_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943372191
+        },
+        {
+          "name": "Boss_Knop_C_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433718307
+        },
+        {
+          "name": "Flower_C",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549367663
+        },
+        {
+          "name": "Petal_Flower_C_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557210289
+        },
+        {
+          "name": "Petal_Flower_C_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557210378
+        },
+        {
+          "name": "Petal_Flower_C_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557209074
+        },
+        {
+          "name": "Petal_Flower_C_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557210662
+        },
+        {
+          "name": "Petal_Flower_C_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455720967
+        },
+        {
+          "name": "Petal_Flower_C_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557210433
+        },
+        {
+          "name": "LampStem_C",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053540812
+        },
+        {
+          "name": "Goblet_R1_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.65673988929252
+        },
+        {
+          "name": "Goblet_R1_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.624549950895506
+        },
+        {
+          "name": "Goblet_R1_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.33566617935653
+        },
+        {
+          "name": "Knop_R1",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.0474647387659
+        },
+        {
+          "name": "Boss_Knop_R1_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433718236
+        },
+        {
+          "name": "Boss_Knop_R1_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373482
+        },
+        {
+          "name": "Boss_Knop_R1_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433725723
+        },
+        {
+          "name": "Boss_Knop_R1_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943374957
+        },
+        {
+          "name": "Boss_Knop_R1_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433715323
+        },
+        {
+          "name": "Boss_Knop_R1_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433720865
+        },
+        {
+          "name": "Boss_Knop_R1_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433718947
+        },
+        {
+          "name": "Boss_Knop_R1_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943370718
+        },
+        {
+          "name": "Boss_Knop_R1_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433733326
+        },
+        {
+          "name": "Boss_Knop_R1_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943369853
+        },
+        {
+          "name": "Boss_Knop_R1_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433714213
+        },
+        {
+          "name": "Boss_Knop_R1_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433711797
+        },
+        {
+          "name": "Flower_R1",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549368507
+        },
+        {
+          "name": "Petal_Flower_R1_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557211588
+        },
+        {
+          "name": "Petal_Flower_R1_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557213913
+        },
+        {
+          "name": "Petal_Flower_R1_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455721597
+        },
+        {
+          "name": "Petal_Flower_R1_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455720299
+        },
+        {
+          "name": "Petal_Flower_R1_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.857710455721729
+        },
+        {
+          "name": "Petal_Flower_R1_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557203465
+        },
+        {
+          "name": "LampStem_R1",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053539929
+        },
+        {
+          "name": "Goblet_R2_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.65673988929473
+        },
+        {
+          "name": "Goblet_R2_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.624549950892266
+        },
+        {
+          "name": "Goblet_R2_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.33566617935711
+        },
+        {
+          "name": "Knop_R2",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.0474647387751
+        },
+        {
+          "name": "Boss_Knop_R2_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371928
+        },
+        {
+          "name": "Boss_Knop_R2_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373491
+        },
+        {
+          "name": "Boss_Knop_R2_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371061
+        },
+        {
+          "name": "Boss_Knop_R2_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433719755
+        },
+        {
+          "name": "Boss_Knop_R2_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943372789
+        },
+        {
+          "name": "Boss_Knop_R2_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373908
+        },
+        {
+          "name": "Boss_Knop_R2_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433713786
+        },
+        {
+          "name": "Boss_Knop_R2_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433696067
+        },
+        {
+          "name": "Boss_Knop_R2_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373551
+        },
+        {
+          "name": "Boss_Knop_R2_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943370135
+        },
+        {
+          "name": "Boss_Knop_R2_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943375367
+        },
+        {
+          "name": "Boss_Knop_R2_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371748
+        },
+        {
+          "name": "Flower_R2",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.37596354936781
+        },
+        {
+          "name": "Petal_Flower_R2_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557219666
+        },
+        {
+          "name": "Petal_Flower_R2_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557223307
+        },
+        {
+          "name": "Petal_Flower_R2_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557211161
+        },
+        {
+          "name": "Petal_Flower_R2_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557208202
+        },
+        {
+          "name": "Petal_Flower_R2_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557223063
+        },
+        {
+          "name": "Petal_Flower_R2_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557217556
+        },
+        {
+          "name": "LampStem_R2",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053540709
+        },
+        {
+          "name": "Goblet_R3_01",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 36.656739889291714
+        },
+        {
+          "name": "Goblet_R3_02",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 43.624549950899755
+        },
+        {
+          "name": "Goblet_R3_03",
+          "kind": "goblet",
+          "triangles": 960,
+          "closed": true,
+          "volume_cm3": 47.33566617935403
+        },
+        {
+          "name": "Knop_R3",
+          "kind": "knop",
+          "triangles": 880,
+          "closed": true,
+          "volume_cm3": 301.04746473876946
+        },
+        {
+          "name": "Boss_Knop_R3_01",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433712934
+        },
+        {
+          "name": "Boss_Knop_R3_02",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943371369
+        },
+        {
+          "name": "Boss_Knop_R3_03",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433693274
+        },
+        {
+          "name": "Boss_Knop_R3_04",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433681545
+        },
+        {
+          "name": "Boss_Knop_R3_05",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433710207
+        },
+        {
+          "name": "Boss_Knop_R3_06",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433733775
+        },
+        {
+          "name": "Boss_Knop_R3_07",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433703457
+        },
+        {
+          "name": "Boss_Knop_R3_08",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943368356
+        },
+        {
+          "name": "Boss_Knop_R3_09",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433764803
+        },
+        {
+          "name": "Boss_Knop_R3_10",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433757316
+        },
+        {
+          "name": "Boss_Knop_R3_11",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.2448909433737376
+        },
+        {
+          "name": "Boss_Knop_R3_12",
+          "kind": "knop_boss",
+          "triangles": 80,
+          "closed": true,
+          "volume_cm3": 3.244890943373131
+        },
+        {
+          "name": "Flower_R3",
+          "kind": "flower",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 11.375963549368633
+        },
+        {
+          "name": "Petal_Flower_R3_01",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557206827
+        },
+        {
+          "name": "Petal_Flower_R3_02",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557222188
+        },
+        {
+          "name": "Petal_Flower_R3_03",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557249389
+        },
+        {
+          "name": "Petal_Flower_R3_04",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557187738
+        },
+        {
+          "name": "Petal_Flower_R3_05",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557213684
+        },
+        {
+          "name": "Petal_Flower_R3_06",
+          "kind": "flower_petal",
+          "triangles": 140,
+          "closed": true,
+          "volume_cm3": 1.8577104557230395
+        },
+        {
+          "name": "LampStem_R3",
+          "kind": "stem",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 14.238492053538431
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV4_Lamps",
+      "file": "SM_MenorahV4_Lamps.obj",
+      "sha256": "f1f74cdc85f76604d7f9ac14314e82a7f529fce0b938e039b628daaa0cf26d18",
+      "triangles": 11536,
+      "parts": 28,
+      "bounds_cm": {
+        "min": [
+          -50.762385,
+          -10.497750000000002,
+          141.87917662724774
+        ],
+        "max": [
+          50.762385,
+          5.717385000000001,
+          150.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 1.419365889728186,
+      "part_checks": [
+        {
+          "name": "Lamp_L3",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.11225239542685
+        },
+        {
+          "name": "LampLid_L3",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069051606
+        },
+        {
+          "name": "LampFinial_L3",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900235
+        },
+        {
+          "name": "WickNozzle_L3",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.597119630809647
+        },
+        {
+          "name": "Lamp_L2",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.11225239543507
+        },
+        {
+          "name": "LampLid_L2",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069050895
+        },
+        {
+          "name": "LampFinial_L2",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900067
+        },
+        {
+          "name": "WickNozzle_L2",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.597119630809157
+        },
+        {
+          "name": "Lamp_L1",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.112252395432584
+        },
+        {
+          "name": "LampLid_L1",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069051714
+        },
+        {
+          "name": "LampFinial_L1",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900825
+        },
+        {
+          "name": "WickNozzle_L1",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.597119630809292
+        },
+        {
+          "name": "Lamp_C",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.11225239543455
+        },
+        {
+          "name": "LampLid_C",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.3965706905123
+        },
+        {
+          "name": "LampFinial_C",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900428
+        },
+        {
+          "name": "WickNozzle_C",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 1.419365889728186
+        },
+        {
+          "name": "Lamp_R1",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.112252395428534
+        },
+        {
+          "name": "LampLid_R1",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069051812
+        },
+        {
+          "name": "LampFinial_R1",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900749
+        },
+        {
+          "name": "WickNozzle_R1",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.597119630809306
+        },
+        {
+          "name": "Lamp_R2",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.112252395439185
+        },
+        {
+          "name": "LampLid_R2",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069050683
+        },
+        {
+          "name": "LampFinial_R2",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900725
+        },
+        {
+          "name": "WickNozzle_R2",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.59711963080891
+        },
+        {
+          "name": "Lamp_R3",
+          "kind": "lamp",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 51.112252395414735
+        },
+        {
+          "name": "LampLid_R3",
+          "kind": "lamp_lid",
+          "triangles": 560,
+          "closed": true,
+          "volume_cm3": 121.39657069050229
+        },
+        {
+          "name": "LampFinial_R3",
+          "kind": "lamp_finial",
+          "triangles": 240,
+          "closed": true,
+          "volume_cm3": 4.355773638900321
+        },
+        {
+          "name": "WickNozzle_R3",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 20.597119630809008
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV4_StepStone",
+      "file": "SM_MenorahV4_StepStone.obj",
+      "sha256": "e09582b8751a9d27bfb69dd43442b8c47c7dc9d2745df6097047abaea25dae16",
+      "triangles": 192,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -45.0,
+          45.910000000000004,
+          0.0
+        ],
+        "max": [
+          45.0,
+          135.91,
+          50.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 43926.994249476316,
+      "part_checks": [
+        {
+          "name": "Step_01",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 133926.99424947635
+        },
+        {
+          "name": "Step_02",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 88926.99424947628
+        },
+        {
+          "name": "Step_03",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 43926.994249476316
+        }
+      ],
+      "material_role": "stone",
+      "collision": "BlockAll"
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_MenorahV4_Base",
+      "triangles": 2000,
+      "bounds_error_cm": 4.9899199439096265e-08,
+      "file_space_signed_volume_cm3": 81365.91155157956,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_Shaft",
+      "triangles": 608,
+      "bounds_error_cm": 0.0,
+      "file_space_signed_volume_cm3": 1824.5998231121148,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_BranchesL",
+      "triangles": 11424,
+      "bounds_error_cm": 4.9999999918171056e-08,
+      "file_space_signed_volume_cm3": 1900.782402724196,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_BranchesR",
+      "triangles": 11424,
+      "bounds_error_cm": 4.9999999918171056e-08,
+      "file_space_signed_volume_cm3": 1900.782402723393,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_Ornaments",
+      "triangles": 56200,
+      "bounds_error_cm": 4.999999880794803e-08,
+      "file_space_signed_volume_cm3": 4809.0365966804575,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_Lamps",
+      "triangles": 11536,
+      "bounds_error_cm": 2.724775072238117e-08,
+      "file_space_signed_volume_cm3": 1363.0542566114325,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV4_StepStone",
+      "triangles": 192,
+      "bounds_error_cm": 7.105427357601002e-15,
+      "file_space_signed_volume_cm3": 266780.98271940445,
+      "normals_and_uvs": "PASS"
+    }
+  ],
+  "previews": {
+    "menorah-v4-preview.png": [
+      "front elevation: looking west from the east (north on the right); tending stone hidden",
+      "side elevation: looking north from the south (east and the tending stone on the right)",
+      "oblique from the south-east above"
+    ]
+  },
+  "preview_limit": "Software orthographic source preview with illustrative gold/stone colours; not a native render and not material acceptance."
+}

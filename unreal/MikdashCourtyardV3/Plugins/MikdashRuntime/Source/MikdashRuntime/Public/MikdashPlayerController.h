@@ -4,12 +4,14 @@
 #include "GameFramework/PlayerController.h"
 #include "FootstepCadence.h"
 #include "PreparationJourney.h"
+#include "ResidentDialogState.h"
 #include "ResidentSimulation.h"
 #include "MikdashPlayerController.generated.h"
 
 class SWidget;
 class USoundBase;
 class AMikdashDovePawn;
+class AMikdashResidentCharacter;
 class ACharacter;
 
 /** Uses the existing measured-walkthrough Character and its collision. */
@@ -47,6 +49,24 @@ public:
     void ShowPreparationLesson();
     void BackToWalkthroughMenu();
 
+    // --- Talking to a resident. The panel never pauses the game and never captures the
+    // mouse: it is a hit-test-invisible overlay under the pause menu, driven from the same
+    // key bindings the walkthrough already uses.
+    UFUNCTION(BlueprintCallable, Category="Residents") void TalkToNearbyResident();
+    UFUNCTION(BlueprintCallable, Category="Residents") void CloseResidentDialog();
+    UFUNCTION(BlueprintPure, Category="Residents") bool IsResidentDialogOpen() const { return Conversation.IsTalking(); }
+    UFUNCTION(BlueprintPure, Category="Residents") bool IsTalkPromptVisible() const;
+    UFUNCTION(BlueprintPure, Category="Residents") FString GetTalkPromptText() const;
+    /** "Name — role", empty when no panel is open. */
+    UFUNCTION(BlueprintPure, Category="Residents") FString GetResidentDialogHeading() const;
+    UFUNCTION(BlueprintPure, Category="Residents") FString GetResidentDialogMission() const;
+    UFUNCTION(BlueprintPure, Category="Residents") FString GetResidentDialogLine() const;
+    UFUNCTION(BlueprintPure, Category="Residents") FString GetResidentDialogFooter() const;
+    /** The in-flight control reminder, shown only while the dove is being flown. */
+    UFUNCTION(BlueprintPure, Category="Walkthrough") FString GetDoveControlHint() const;
+    /** Escape: close an open dialog panel first, otherwise reach the pause menu. */
+    void HandleEscapeKey();
+
 private:
     UPROPERTY() TObjectPtr<AMikdashDovePawn> DovePawn;
     UPROPERTY() TObjectPtr<ACharacter> ParkedWalker;
@@ -76,6 +96,16 @@ private:
     MikdashPreparation::Journey PreparationJourney;
     MikdashResidents::Simulation ResidentSimulation;
     double ResidentClockSeconds = 0.0;
+
+    MikdashDialog::Conversation Conversation;
+    TWeakObjectPtr<AMikdashResidentCharacter> TalkTarget;
+    TArray<TWeakObjectPtr<AMikdashResidentCharacter>> KnownResidents;
+    double NextResidentScanSeconds = 0.0;
+    void UpdateResidentDialog();
+    void ReleaseTalkTarget();
+    void RefreshKnownResidents();
+
+    TSharedPtr<SWidget> OverlayWidget;
     TSharedPtr<SWidget> MenuWidget;
     FDelegateHandle ActivationHandle;
     bool bMenuOpen = false;

@@ -1,0 +1,117 @@
+{
+  "stamp": "20260908T023837Z",
+  "toolchain": "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35228 for x64",
+  "flags": "/nologo /std:c++17 /EHsc /W4 /WX /O2",
+  "note": "Asserts stay enabled: NDEBUG is deliberately not defined so every assert is executed under /O2.",
+  "sources": "Plugins\\MikdashRuntime\\Tests/*.cpp against Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Public",
+  "headers": {
+    "DoveFlightMath.h": "76cab5b78bebca6a1385edb4a59272399ae174f82ff0d9f8494f046ab41ae59e",
+    "FootstepCadence.h": "97b95580d7de5045d89ab54a55aca902ec6847dd76b444d82d82704ba5239c34",
+    "IncenseServiceSchedule.h": "e5ae0f51fb14a3a9028ad602ae35fe65abb2ac092c584e1fba8a6bdd2dd37107",
+    "MikdashDoveAppearance.h": "ade99298d88f4db6ec31499a999770adf02b177784af002c5955c838c30ed94e",
+    "MikdashDovePawn.h": "b5ebeaf7da3a7744a8594e5f2cef71b54eac02062851d50ad918cc9d5591a8b1",
+    "MikdashPeopleDirectory.h": "a29062327e08041ea81985ab0551f362a4ed9b4dbd8ebd5c57279bbd423c0b51",
+    "MikdashPlayerController.h": "b7cf6a8a7bb78765008d724e1f7e39fa6bb8251ae1277126c788bd6df2a05359",
+    "MikdashResidentCharacter.h": "245ff3efdf3d059d5a4a6329e55554df897793fcfa25ae1f1b534ac83ca2a37b",
+    "MikdashResidentPopulation.h": "e4f48c7f867f77ba9d15604f001715fe7016d95405fe9ec521aad006bf3d0f8f",
+    "MikdashSurfaceAudioRouting.h": "d4d0e64edcf51fbd44a32a8f1e76292df52d38c18411d006ecb826dd25860b43",
+    "PreparationJourney.h": "ef7e1369436f62539bf60bd2054c81433dda61e9f8e05fa839df7b520bf4e749",
+    "ResidentCrowdRuntime.h": "a2becfda9ecd39d9ddf59da89891d0a7f405ec6001e7c3e4f17260d85455c7c9",
+    "ResidentDialogState.h": "95f2510a2da146483f2f0ce443df4b4234a945e97335c6003653d209dc5d7956",
+    "ResidentRouteLoop.h": "527f126ab27dc078b84cc8be663fbbe4ec9612053c65fdf240399a64d1587bc6",
+    "ResidentSimulation.h": "dcb9e62cf4d7f952e695efff16f5900eaa96767030c871fc8d3e901cf8edbea8"
+  },
+  "authoredDirectory": "SourceAssets\\runtime-review\\people-v3\\people.json",
+  "authoredDirectorySha256": "88d6de2284a79f1a5940c046ac03f0b37fe42042ecdb71dd55d8928fc87419b2",
+  "results": [
+    {
+      "test": "DoveFlightMathTest.exe",
+      "source": "DoveFlightMathTest.cpp",
+      "sourceSha256": "c90595815e806919b2b160a02e7e0e249f78be5bf98b21fd6ec590df65d50f91",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Dove flight math: wing beat (4/6 Hz, 35 deg, glide), lagged camera, look-ahead, bank, obstacle slide and altitude clamp checks passed",
+      "stderr": "",
+      "exeSha256": "00b150667dc733c93dadd22d9f756924a1d64635b3e2f09d9b4ec687a1262105",
+      "passed": true
+    },
+    {
+      "test": "FootstepCadenceTest.exe",
+      "source": "FootstepCadenceTest.cpp",
+      "sourceSha256": "7c63b276eaf86315315d976a8f1d0653fabdfa3edf01f265cd724ef5e59bdc0b",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "speed=100 steps/10s=15,15,15\nspeed=240 steps/10s=26,26,26\nspeed=600 steps/10s=37,37,37\nPASS: standing, wall, pause, air, relocation, reset and frame-rate cadence",
+      "stderr": "",
+      "exeSha256": "8178dd5237f1ef9b89e107d9e2364b8109b6580fcf4e51f046e01f56513cc7c1",
+      "passed": true
+    },
+    {
+      "test": "IncenseServiceScheduleTest.exe",
+      "source": "IncenseServiceScheduleTest.cpp",
+      "sourceSha256": "ca6d044f88174cde81298db4816f850c0358c189fb05485ae008a2d24422ce39",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Incense schedule: ritual phases, prerequisites, pause, distinct services, smoke lifetime and reload checks passed",
+      "stderr": "",
+      "exeSha256": "4d8d1c471f7752e9ef2b99d71ae53256ca0b03e1fef41d4bb394f53ef7baee27",
+      "passed": true
+    },
+    {
+      "test": "PeopleDirectoryTest.exe",
+      "source": "PeopleDirectoryTest.cpp",
+      "sourceSha256": "8dea29a9639fd9bb24e551ec48bf89941d07a4f4dc5689c1cadf7b049361a976",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "JSON reader: literals, numbers, escapes, surrogates, BOM, strictness and depth checked\nSchema: identity, roles, zones, presence, placement basis, dialog, laps and loop rules checked\nAuthored people.json: 24 individuals, 6 roles, 8 garment variants, 5 on the deck, all bases cited\nPASS: people directory JSON reader and authored schema",
+      "stderr": "",
+      "exeSha256": "0151ab11d5b6f4205c4d21530d72ba6dc1899b8650ee3813caac288e9986f151",
+      "passed": true
+    },
+    {
+      "test": "PreparationJourneyTest.exe",
+      "source": "PreparationJourneyTest.cpp",
+      "sourceSha256": "0e05587fd8a05744547733f40423eb11c56c585efacc1093e4dd458ae6c75173",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "PreparationJourney: all semantic checks passed",
+      "stderr": "",
+      "exeSha256": "b78f86b6480386082167bdeb950aeb43b215065cd6e7bf453bc71fb94bb1cd2c",
+      "passed": true
+    },
+    {
+      "test": "ResidentDialogStateTest.exe",
+      "source": "ResidentDialogStateTest.cpp",
+      "sourceSha256": "69262c0a06a255fbc5781c72ad66e87e9570eef4e5bf1d9ab17661d1dd541564",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Range and selection: 250 cm / 60 degree gate, hysteresis and nearest-in-front pick checked\nConversation: prompt, open, step, wrap, cancel, hysteresis, walk-away and reset checked\nRoute cooperation: leg cycling, zone loops, corridor, facing turn and block recovery checked\nPASS: resident dialog state machine and its route cooperation",
+      "stderr": "",
+      "exeSha256": "576564ab7212a804a4a5073de85f22b58e8cb76bc3bc9dce3a0a00d8461d189f",
+      "passed": true
+    },
+    {
+      "test": "ResidentRouteLoopTest.exe",
+      "source": "ResidentRouteLoopTest.cpp",
+      "sourceSha256": "e912dc1b52eafe3c9d6943f1c37f1e2e19eb81a54a17d7761398f28514053bc7",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "authored loop length cm=6912.19\nResident route loop: region/length validation, corridor, leg mapping, two-second block recovery with alternating sidestep, and pause turning checks passed",
+      "stderr": "",
+      "exeSha256": "2b379d552460829724c94f70e0d41625e23956bb3bcfd3513f34dac5882fa406",
+      "passed": true
+    },
+    {
+      "test": "ResidentSimulationTest.exe",
+      "source": "ResidentSimulationTest.cpp",
+      "sourceSha256": "60ca1475bc34885d34cd47358c2a8a94655636e1a0d9d2f91cd130ef9d51a981",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Resident simulation: continuity, clock, travel, authorization and memory checks passed",
+      "stderr": "",
+      "exeSha256": "521d926c7d4a5278c5c7f6d3bf709099ab2a11a2e042691d2fe29c601e793461",
+      "passed": true
+    }
+  ],
+  "allPassed": true
+}

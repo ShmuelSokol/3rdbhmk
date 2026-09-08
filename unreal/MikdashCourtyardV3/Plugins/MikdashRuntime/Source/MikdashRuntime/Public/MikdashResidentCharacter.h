@@ -40,6 +40,52 @@ public:
     // pause at a goal. Purely presentational; never moves the feet.
     void SetStandingFacingTarget(const FVector& WorldTarget, bool bEnabled);
 
+    /** Authored identity, mission and lines for this body. Written once at startup from the
+     * staged people directory. Fiction: none of it is a source fact and none of it rules. */
+    void SetResidentProfile(const FString& InName, const FString& InRole, const FString& InMission,
+        const FString& InOrigin, const FString& InPresence, const FString& InGarmentVariant,
+        const TArray<FString>& InDialogLines);
+
+    /** Hold still and turn to face the walker for the length of a conversation, then resume
+     * the authored route where it stopped. Never moves the feet and never changes access. */
+    UFUNCTION(BlueprintCallable, Category="Residents|Dialog")
+    void SetConversationHold(bool bHold, FVector FaceWorldTarget);
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    bool IsInConversation() const { return bConversationHold; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentDisplayName() const { return DisplayName; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentRole() const { return RoleTitle; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentMission() const { return Mission; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentOrigin() const { return Origin; }
+
+    /** Why a kohen or Levite is walking here at all, when the directory had to state it. */
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentPresenceNote() const { return PresenceNote; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetGarmentVariant() const { return GarmentVariant; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    int32 GetResidentDialogLineCount() const { return DialogLines.Num(); }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    FString GetResidentDialogLine(int32 Index) const { return DialogLines.IsValidIndex(Index) ? DialogLines[Index] : FString(); }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    TArray<FString> GetResidentDialogLines() const { return DialogLines; }
+
+    /** True once an authored profile with at least one line has been written. */
+    UFUNCTION(BlueprintPure, Category="Residents|Dialog")
+    bool HasResidentProfile() const { return !DisplayName.IsEmpty() && DialogLines.Num() > 0; }
+
     // Call only after externally confirming body stopped AND passage resource clear.
     // A stopped body inside a doorway is not clear. This adapter never auto-releases.
     bool ConfirmPassageCleared(uint64 ExpectedToken);
@@ -90,6 +136,17 @@ private:
     int32 SidestepCount = 0;
     FVector FacingTarget = FVector::ZeroVector;
     bool bFacingEnabled = false;
+
+    UPROPERTY() FString DisplayName;
+    UPROPERTY() FString RoleTitle;   // "Role" is reserved on AActor
+    UPROPERTY() FString Mission;
+    UPROPERTY() FString Origin;
+    UPROPERTY() FString PresenceNote;
+    UPROPERTY() FString GarmentVariant;
+    UPROPERTY() TArray<FString> DialogLines;
+    bool bConversationHold = false;
+    FVector ConversationFacing = FVector::ZeroVector;
+
     static constexpr double HorizontalTolerance = 18.0;
     static constexpr double VerticalTolerance = 12.0;
 
@@ -99,5 +156,6 @@ private:
     void FailRoute();
     bool TrySidestep(const FVector& Feet, const FVector& Target);
     void UpdateStandingFacing(float DeltaSeconds);
+    void UpdateConversationFacing(float DeltaSeconds);
     static bool NearFeet(const FVector& A, const FVector& B);
 };

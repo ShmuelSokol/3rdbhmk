@@ -1,0 +1,298 @@
+{
+  "status": "passed_intro_flight_ascent_pause_exact_return_visual_pending",
+  "mapShaBefore": "ad80fd54f31eea15a05618d5bc64fcb44b0c37c5e10a13059bdb8481429a2a0e",
+  "errors": [],
+  "samples": [
+    {
+      "phase": "forward",
+      "wallSeconds": 0.0629999999946449,
+      "gameSeconds": 0.02776169776916504,
+      "ticks": 1,
+      "position": [
+        2100.0,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.07800000000861473,
+      "gameSeconds": 0.0859730988740921,
+      "ticks": 2,
+      "position": [
+        2115.2485524836943,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        261.9513049721743,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.10899999999674037,
+      "gameSeconds": 0.10643249750137329,
+      "ticks": 3,
+      "position": [
+        2122.4915601179114,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        354.01859879493315,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.32800000000861473,
+      "gameSeconds": 0.32570329681038857,
+      "ticks": 10,
+      "position": [
+        2324.0012089952625,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1340.7371956854997,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.6410000000032596,
+      "gameSeconds": 0.630799200385809,
+      "ticks": 20,
+      "position": [
+        2855.7419252408913,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.9219999999913853,
+      "gameSeconds": 0.9182430990040302,
+      "ticks": 30,
+      "position": [
+        3373.1409427536896,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 1.187999999994645,
+      "gameSeconds": 1.1858796998858452,
+      "ticks": 40,
+      "position": [
+        3854.8868243409565,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 1.4219999999913853,
+      "gameSeconds": 1.4296767003834248,
+      "ticks": 50,
+      "position": [
+        4293.7214252366,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    }
+  ],
+  "scope": "Native frontend transitions and dove movement/pause/return; visual, physical keyboard and resident behavior are separate",
+  "flightEntry": "direct_toggle_during_intro",
+  "saveIsolation": {
+    "testPrefix": "AstraProbe_Daylight1550",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "frontendTransitions": [
+    "main",
+    "settings",
+    "main",
+    "preparation",
+    "main",
+    "resume"
+  ],
+  "introPlaybackRoute": "native",
+  "introMoveInputInitiallyIgnored": true,
+  "flightRequestSkippedIntro": true,
+  "walkerClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+  "walkingStart": [
+    2100.0,
+    0.0,
+    598.0001907348633
+  ],
+  "flightOwnsView": true,
+  "birdClass": "/Script/MikdashRuntime.MikdashDovePawn",
+  "forwardDisplacement": [
+    2326.9683991385873,
+    0.0,
+    0.0
+  ],
+  "riseCm": 1620.6583382194658,
+  "pauseDriftCm": 0.0,
+  "returnErrorCm": 0.0,
+  "walkerCollisionEnabled": true,
+  "tour": {
+    "stops": 18,
+    "codexEntries": 76,
+    "transitions": [
+      "menu request",
+      "pause",
+      "resume",
+      "open codex",
+      "close codex",
+      "leave"
+    ],
+    "scope": "Live API interaction and staged content paths; route walking, narration and packaged readback remain unverified"
+  },
+  "integratedSystems": {
+    "crowdSeeded": 240,
+    "crowdInstances": 240,
+    "crowdRefused": 0,
+    "groundTraceMisses": 0,
+    "zones": [
+      70,
+      51,
+      101,
+      6,
+      5,
+      7
+    ],
+    "liveFxCards": 201,
+    "fxStatus": "293 cards planned, 42 built on the first frame, 7 lamp lights, 3 shafts. Outer altar fire continuous; ketores is an event.",
+    "scope": "Live presence and activity; appearance, paths and performance not accepted"
+  },
+  "diagnosticSubject": "mount-paving",
+  "diagnosticCameraPostProcessBlendWeight": 0.0,
+  "diagnosticSkylights": [
+    {
+      "label": "V2 skylight",
+      "intensity": "1.0",
+      "light_color": "<Struct 'Color' (0x000001D34D810CB8) {b: 255, g: 255, r: 255, a: 255}>",
+      "source_type": "<SkyLightSourceType.SLS_CAPTURED_SCENE: 0>",
+      "cubemap": "None",
+      "real_time_capture": "True",
+      "visible": "True",
+      "cast_shadows": "True"
+    }
+  ],
+  "diagnosticStill": {
+    "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T155026Z.png",
+    "cameraCm": [
+      10500.0,
+      12000.0,
+      180.0
+    ],
+    "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+    "bytes": 1318151,
+    "sha256": "5165539b8d0dd67298cedcab145fbb260da07457fef18472f6249e07e13e593a"
+  },
+  "daylightComparison": [
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T155004Z.png",
+      "cameraCm": [
+        10500.0,
+        12000.0,
+        180.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1278919,
+      "sha256": "7e9ecf3fb56abd4fc5d71c06b6359c6bbc63245fe0e08446848ff4ecbbaab67e"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T155026Z.png",
+      "cameraCm": [
+        10500.0,
+        12000.0,
+        180.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1318151,
+      "sha256": "5165539b8d0dd67298cedcab145fbb260da07457fef18472f6249e07e13e593a"
+    }
+  ],
+  "daylightBefore": {
+    "sunIntensity": 30000.0,
+    "temperature": 5000.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.0
+  },
+  "daylightCandidate": {
+    "sunIntensity": 45000.0,
+    "temperature": 6500.0,
+    "useTemperature": true,
+    "rotation": [
+      -49.99999999999998,
+      -159.99999999999997,
+      -0.0
+    ],
+    "skyIntensity": 1.2999999523162842
+  },
+  "daylightScope": "PIE-only daylight study, not an ephemeris or a saved preset",
+  "pieEnded": true,
+  "mapBytesUnchanged": true
+}

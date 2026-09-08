@@ -2,6 +2,7 @@
 
 #include "CameraPathMath.h"
 #include "MikdashFrontEnd.h"
+#include "MikdashSceneUnits.h"
 
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -28,33 +29,35 @@ Vec3 ToMath(const FVector& V) { return Vec3{V.X, V.Y, V.Z}; }
 FVector ToVec(const Vec3& V) { return FVector(V.X, V.Y, V.Z); }
 FRotator ToRotator(const Orientation& O) { return FRotator(O.Pitch, O.Yaw, O.Roll); }
 
-/** Builds the shipped spline once and keeps it; the control points never change at run time. */
-const SplinePath& IntroSpline()
+/** Resolve immutable legacy inputs into a local world snapshot before playback. */
+bool BuildIntroForWorld(const UWorld* World, MikdashSceneUnits::Frame& Frame,
+                       SplinePath& Path, TArray<FVector>& AimPoints, FString& Error)
 {
-    static SplinePath Path;
-    static bool bBuilt = false;
-    if (!bBuilt)
+    MikdashSceneUnits::Frame CandidateFrame;
+    if (!AMikdashSceneUnits::Resolve(World, CandidateFrame, Error)) return false;
+    MikdashSceneUnits::IntroPoints Controls;
+    MikdashSceneUnits::AimPoints Targets;
+    if (!MikdashSceneUnits::TryIntroPoints(CandidateFrame, Controls)
+        || !MikdashSceneUnits::TryAimPoints(CandidateFrame, Targets))
     {
-        std::vector<Vec3> Points;
-        for (const FVector& P : UMikdashCinematics::IntroControlPoints())
-        {
-            Points.push_back(ToMath(P));
-        }
-        // 96 samples per segment matches the standalone test, so the distance table here
-        // is the one the even-speed checks were run against.
-        bBuilt = Path.Build(Points, 0.5, 96);
-        if (!bBuilt)
-        {
-            UE_LOG(LogMikdashCinematics, Error, TEXT("The intro control points did not build a spline."));
-        }
+        Error = TEXT("Invalid scene-unit intro conversion."); return false;
     }
-    return Path;
+    std::vector<Vec3> Points;
+    for (const auto& P : Controls) Points.push_back(Vec3{P.X,P.Y,P.Z});
+    SplinePath CandidatePath;
+    if (!CandidatePath.Build(Points, 0.5, 96))
+    { Error = TEXT("The scene-unit intro control points did not build a spline."); return false; }
+    TArray<FVector> CandidateAim;
+    for (const auto& P : Targets) CandidateAim.Add(FVector(P.X,P.Y,P.Z));
+    Frame = CandidateFrame;
+    Path = MoveTemp(CandidatePath);
+    AimPoints = MoveTemp(CandidateAim);
+    return true;
 }
 
 /** Where the camera looks at this fraction of the shot, before damping. */
-FVector AimAt(float Alpha)
+FVector AimAt(float Alpha, const TArray<FVector>& Points)
 {
-    const TArray<FVector> Points = UMikdashCinematics::IntroAimPoints();
     const TArray<float> Alphas = UMikdashCinematics::IntroAimAlphas();
     if (Points.Num() == 0)
     {
@@ -91,31 +94,18 @@ TArray<FVector> UMikdashCinematics::IntroControlPoints()
     // top, the inner eastern gate opening, and Mikdash_PlayerStart with its 168 cm eye
     // height. Every one of them comes out of a receipt under SourceAssets/ or out of
     // SourceAssets/architecture-manifest.json.
-    return {
-        FVector(-38600.0, 48200.0, 4200.0),  // over the street beside the placed bus
-        FVector(-31200.0, 39800.0, 5100.0),  // climbing across the Old City roofs
-        FVector(-23800.0, 30200.0, 5900.0),  // apex
-        FVector(-16600.0, 16200.0, 5400.0),  // over the Kotel plaza
-        FVector(-10200.0, 10600.0, 4900.0),  // crossing onto the Mount, deck top 0
-        FVector( -3800.0,  9200.0, 4400.0),  // abeam the House from the south
-        FVector(  2600.0,  7200.0, 3900.0),  // over the outer perimeter wall, top 3425
-        FVector(  6400.0,  4200.0, 2900.0),  // descending over the outer court, floor top 300
-        FVector(  7000.0,  1200.0, 1900.0),  // turning onto the eastern axis
-        FVector(  5200.0,   200.0, 1300.0),  // settling onto the axis of the gates
-        FVector(  3600.0,     0.0,  950.0),  // level at the inner eastern vestibule
-        FVector(  2100.0,     0.0,  668.0),  // the visitor's eye at Mikdash_PlayerStart
-    };
+    // Public legacy source inspection API remains stable. Live/baked world paths
+    // use BuildIntroForWorld and never call this as if it were candidate data.
+    TArray<FVector> Points;
+    for (const auto& P : MikdashSceneUnits::LegacyIntroPoints()) Points.Add(FVector(P.X,P.Y,P.Z));
+    return Points;
 }
 
 TArray<FVector> UMikdashCinematics::IntroAimPoints()
 {
-    return {
-        FVector(-14800.0, 13900.0,   400.0),  // the Kotel face, so the city reads as Jerusalem
-        FVector( -6000.0,  4000.0,  2000.0),  // the Mount as a whole, coming over the plaza
-        FVector( -2000.0,     0.0,  2600.0),  // the House, once inside the enclosure
-        FVector( -2450.0,     0.0,  2200.0),  // the Ulam facade, on the run up the axis
-        FVector( -2450.0,     0.0,  1400.0),  // the Ulam doorway, where the visitor is left
-    };
+    TArray<FVector> Points;
+    for (const auto& P : MikdashSceneUnits::LegacyAimPoints()) Points.Add(FVector(P.X,P.Y,P.Z));
+    return Points;
 }
 
 TArray<float> UMikdashCinematics::IntroAimAlphas()
@@ -229,9 +219,8 @@ bool UMikdashCinematics::PlayIntro()
         LastRefusal = TEXT("No world or player controller.");
         return false;
     }
-    if (!IntroSpline().IsValid())
+    if (!BuildIntroForWorld(GetWorld(), ActiveSceneFrame, ActiveIntroPath, ActiveIntroAimPoints, LastRefusal))
     {
-        LastRefusal = TEXT("The intro spline did not build.");
         return false;
     }
 
@@ -258,12 +247,20 @@ bool UMikdashCinematics::PlayIntro()
             FTickerDelegate::CreateUObject(this, &UMikdashCinematics::Tick), 0.0f);
     }
     UE_LOG(LogMikdashCinematics, Log, TEXT("Intro playing over %.1f s by the %s route, path %.0f cm."),
-           ActiveDuration, *PlaybackRoute, IntroSpline().TotalLength());
+           ActiveDuration, *PlaybackRoute, ActiveIntroPath.TotalLength());
     return true;
 }
 
 bool UMikdashCinematics::StartSequencePlayback(APlayerController* Controller)
 {
+    // Existing sequences contain legacy world-space keys. Until a sequence has
+    // explicit matching coordinate metadata, candidate48 uses its converted native path.
+    if (ActiveSceneFrame.CoordinateRevision != MikdashSceneUnits::Revision::Legacy50V1)
+    {
+        if (!IntroSequence.IsNull())
+            UE_LOG(LogMikdashCinematics, Log, TEXT("Selected48 scene uses native intro; configured sequence has no selected48 coordinate receipt."));
+        return false;
+    }
     // No asset configured: the native fallback is the intended route, not a failure.
     if (IntroSequence.IsNull())
     {
@@ -310,9 +307,9 @@ bool UMikdashCinematics::StartNativePlayback(APlayerController* Controller)
     {
         return false;
     }
-    const SplinePath& Path = IntroSpline();
+    const SplinePath& Path = ActiveIntroPath;
     const FVector Start = ToVec(Path.PointAtDistance(0.0));
-    const Orientation Aim = MikdashCamera::LookAt(ToMath(Start), ToMath(AimAt(0.0f)));
+    const Orientation Aim = MikdashCamera::LookAt(ToMath(Start), ToMath(AimAt(0.0f, ActiveIntroAimPoints)));
 
     FActorSpawnParameters Params;
     Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -402,7 +399,7 @@ void UMikdashCinematics::EvaluateNative(float Alpha, float DeltaSeconds)
     {
         return;
     }
-    const SplinePath& Path = IntroSpline();
+    const SplinePath& Path = ActiveIntroPath;
 
     // Trapezoidal speed: ramp up, hold a genuinely constant speed through the middle of
     // the flight, ramp down into the arrival. EaseInOutCubic would give one velocity peak
@@ -414,7 +411,7 @@ void UMikdashCinematics::EvaluateNative(float Alpha, float DeltaSeconds)
     // Look-at, damped. The target itself is smoothstepped between the aim points, and the
     // rotator is then damped toward it, so neither the target nor the pointing has a
     // corner in it.
-    const Orientation Target = MikdashCamera::LookAt(ToMath(Location), ToMath(AimAt(Alpha)));
+    const Orientation Target = MikdashCamera::LookAt(ToMath(Location), ToMath(AimAt(Alpha, ActiveIntroAimPoints)));
     Orientation Current;
     Current.Pitch = AimPitch;
     Current.Yaw = AimYaw;
@@ -506,9 +503,13 @@ void UMikdashCinematics::Finish()
 TArray<FMikdashCameraKey> UMikdashCinematics::BuildIntroKeys(int32 SamplesPerSecond) const
 {
     TArray<FMikdashCameraKey> Keys;
-    const SplinePath& Path = IntroSpline();
-    if (!Path.IsValid())
+    MikdashSceneUnits::Frame Frame;
+    SplinePath Path;
+    TArray<FVector> AimPoints;
+    FString Error;
+    if (!BuildIntroForWorld(GetWorld(), Frame, Path, AimPoints, Error))
     {
+        UE_LOG(LogMikdashCinematics, Warning, TEXT("Intro key build refused: %s"), *Error);
         return Keys;
     }
     const float Duration = GetDurationSeconds();
@@ -529,7 +530,7 @@ TArray<FMikdashCameraKey> UMikdashCinematics::BuildIntroKeys(int32 SamplesPerSec
         const float Alpha = FMath::Clamp(Time / FMath::Max(Duration, 0.01f), 0.0f, 1.0f);
         const double Eased = MikdashCamera::EaseTrapezoid(Alpha, EaseInFraction, EaseOutFraction);
         const FVector Location = ToVec(Path.PointAtEasedAlpha(Eased));
-        const Orientation Target = MikdashCamera::LookAt(ToMath(Location), ToMath(AimAt(Alpha)));
+        const Orientation Target = MikdashCamera::LookAt(ToMath(Location), ToMath(AimAt(Alpha, AimPoints)));
         if (bFirst)
         {
             Current = Target;

@@ -240,12 +240,22 @@ def run_build() -> None:
         f'"{UBT_BUILD}" MikdashCourtyardV3Editor Win64 Development '
         f'-Project="{ROOT / "MikdashCourtyardV3.uproject"}" -WaitMutex -NoHotReload'
     )
-    proc = subprocess.run(["cmd", "/c", cmd], capture_output=True, text=True)
+    # Build.bat requires cmd's batch parsing. Passing an already quoted command
+    # as a list element adds literal backslash-quote escapes before Program Files.
+    # shell=True supplies the outer cmd /c quoting for this fixed local command.
+    proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    output = (proc.stdout or "") + "\n" + (proc.stderr or "")
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", prefix="verify-ubt-",
+                                     suffix=".log", dir=ROOT.parent, delete=False) as log:
+        log.write(output)
+        build_log = log.name
+    print(f"  BUILD LOG  {build_log}")
     ok = proc.returncode == 0 and "Result: Succeeded" in (proc.stdout or "")
     detail = ""
     if not ok:
-        errs = [l for l in (proc.stdout or "").splitlines() if re.search(r"error [A-Z]+\d+", l)]
-        detail = errs[0][:200] if errs else f"exit {proc.returncode}"
+        errs = [l for l in output.splitlines() if re.search(r"error [A-Z]+\d+", l)]
+        lines = [l.strip() for l in output.splitlines() if l.strip()]
+        detail = errs[0][:200] if errs else f"exit {proc.returncode}: " + (lines[-1][:180] if lines else "no build output")
     check("plugin C++ compiles", ok, detail)
 
 

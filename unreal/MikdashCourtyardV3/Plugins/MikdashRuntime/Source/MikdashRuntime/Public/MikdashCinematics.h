@@ -15,7 +15,12 @@
 //  2. A native fallback that flies the same path directly, using the arc-length
 //     reparameterised spline and the ease curves in CameraPathMath.h.
 //
-// Both fly the SAME control points, which live in one place: IntroControlPoints() below
+// Legacy sequences fly the SAME legacy control points exposed by IntroControlPoints().
+// MikdashSceneUnitsMath.h owns these immutable inputs. A world explicitly marked
+// Selected48V1 converts the native intro's Temple supports while keeping the city
+// and human eye height metric; unversioned authored sequences are bypassed there.
+// IntroControlPoints() remains a legacy inspection API, not the active world's path.
+// The legacy path
 // mirrors what the release script writes and what
 // Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp proves clears the geometry. Route 2
 // exists so the intro is never missing merely because the asset has not been cooked into
@@ -32,6 +37,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CameraPathMath.h"
+#include "MikdashSceneUnitsMath.h"
 #include "Containers/Ticker.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "UObject/SoftObjectPath.h"
@@ -111,11 +118,12 @@ public:
     // -- the path ----------------------------------------------------------
 
     /**
-     * The intro control points, in world centimetres, in order.
+     * Immutable legacy50 intro control points, in world centimetres, in order.
      *
      * These are the numbers the release script writes into the Level Sequence and the
      * numbers CameraPathMathTest.cpp proves clear the 18 blocking volumes by 150 cm. Any
-     * change here has to be made in all three places and re-verified.
+     * change here has to be made in all three places and re-verified. BuildIntroKeys
+     * resolves the current world's descriptor; this static source API does not.
      */
     UFUNCTION(BlueprintPure, Category = "Mikdash|Cinematics")
     static MIKDASHRUNTIME_API TArray<FVector> IntroControlPoints();
@@ -191,6 +199,12 @@ protected:
     UPROPERTY(Config) float SkipArmDelaySeconds = 1.0f;
 
 private:
+    // Built per playback/world; never a process-global legacy spline. A descriptor
+    // change requires the next playback, so a running shot has an immutable frame.
+    MikdashCamera::SplinePath ActiveIntroPath;
+    TArray<FVector> ActiveIntroAimPoints;
+    MikdashSceneUnits::Frame ActiveSceneFrame;
+
     UFUNCTION() void HandleWalkthroughStarted();
 
     bool Tick(float DeltaSeconds);

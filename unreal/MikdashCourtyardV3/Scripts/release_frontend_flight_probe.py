@@ -190,7 +190,7 @@ def tick(dt):
      assert report['diagnosticSunTemperatureAfter']==6500.0
      report['diagnosticSunScope']='PIE-only color comparison; no map or lighting adoption'
     c.set_control_rotation(u.Rotator(pitch=0,yaw=180,roll=0))
-    if any(flag in u.SystemLibrary.get_command_line().lower() for flag in ('-diagnosticheikhal','-diagnosticparoches','-diagnosticmount','-diagnostickotel')):
+    if any(flag in u.SystemLibrary.get_command_line().lower() for flag in ('-diagnosticheikhal','-diagnosticparoches','-diagnosticmount','-diagnostickotel','-diagnosticpaving')):
      cameras=list(u.GameplayStatics.get_all_actors_of_class(world,u.CameraActor))
      assert cameras,'No PIE camera actor for sanctuary diagnostic'
      camera=cameras[0]
@@ -202,6 +202,7 @@ def tick(dt):
      paroches='-diagnosticparoches' in u.SystemLibrary.get_command_line().lower()
      mount='-diagnosticmount' in u.SystemLibrary.get_command_line().lower()
      kotel='-diagnostickotel' in u.SystemLibrary.get_command_line().lower()
+     paving='-diagnosticpaving' in u.SystemLibrary.get_command_line().lower()
      position=u.Vector(-5100,0,1081) if paroches else u.Vector(-4000,0,1093)
      if paroches:component.set_field_of_view(55.0)
      if mount:
@@ -210,12 +211,23 @@ def tick(dt):
      if kotel:
       position=u.Vector(-17000,14254,1800)
       component.set_field_of_view(70.0)
+     if paving:
+      position=u.Vector(10500,12000,180)
+      component.set_field_of_view(80.0)
      camera.set_actor_location(position,False,True)
-     camera.set_actor_rotation(u.Rotator(pitch=-25 if kotel else (-90 if mount else 0),yaw=-9.79 if kotel else (0 if mount else 180),roll=0),True)
+     camera.set_actor_rotation(u.Rotator(pitch=-15 if paving else (-25 if kotel else (-90 if mount else 0)),yaw=-135 if paving else (-9.79 if kotel else (0 if mount else 180)),roll=0),True)
      c.set_view_target_with_blend(camera,0.0)
      state['diagnosticExpectedCamera']=position
      report['diagnosticSubject']='kotel-platform-join' if kotel else ('mount' if mount else ('paroches' if paroches else 'heikhal'))
+     if paving:report['diagnosticSubject']='mount-paving'
      report['diagnosticCameraPostProcessBlendWeight']=0.0
+     report['diagnosticSkylights']=[]
+     for sky in u.GameplayStatics.get_all_actors_of_class(world,u.SkyLight):
+      skyc=sky.get_component_by_class(u.SkyLightComponent);row={'label':sky.get_actor_label()}
+      for key in ('intensity','light_color','source_type','cubemap','real_time_capture','visible','cast_shadows'):
+       try:row[key]=str(skyc.get_editor_property(key))
+       except Exception:row[key]='unavailable'
+      report['diagnosticSkylights'].append(row)
     phase('diagnostic_warm');return
    finish('passed_intro_flight_ascent_pause_exact_return_visual_pending')
   if state['phase']=='diagnostic_warm':
@@ -237,6 +249,39 @@ def tick(dt):
    data=path.read_bytes()
    assert data[:8]==b'\x89PNG\r\n\x1a\n','Screenshot is not PNG'
    report['diagnosticStill'].update(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
+   if '-comparepaving' in u.SystemLibrary.get_command_line().lower():
+    report.setdefault('pavingComparison',[]).append(dict(report['diagnosticStill']))
+    if len(report['pavingComparison'])==1:
+     matches=[]
+     for actor in u.GameplayStatics.get_all_actors_of_class(world,u.StaticMeshActor):
+      comp=actor.get_component_by_class(u.StaticMeshComponent)
+      mesh=comp.get_editor_property('static_mesh')
+      if mesh and mesh.get_path_name()=='/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface':matches.append(comp)
+     assert len(matches)==1,'Need exactly one PIE platform'
+     comp=matches[0];assert comp.get_num_materials()==1
+     material=u.load_asset('/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs')
+     assert material is not None,'Missing photographic paving material'
+     report['pavingMaterialBefore']=comp.get_material(0).get_path_name()
+     comp.set_material(0,material)
+     assert comp.get_material(0)==material
+     report['pavingMaterialCandidate']=material.get_path_name()
+     report['pavingComparisonScope']='PIE-only component override; no shared asset or saved map change'
+     phase('diagnostic_warm');return
+   if '-comparedaylight' in u.SystemLibrary.get_command_line().lower():
+    report.setdefault('daylightComparison',[]).append(dict(report['diagnosticStill']))
+    if len(report['daylightComparison'])==1:
+     suns=list(u.GameplayStatics.get_all_actors_of_class(world,u.DirectionalLight))
+     skies=list(u.GameplayStatics.get_all_actors_of_class(world,u.SkyLight))
+     assert len(suns)==1 and len(skies)==1,'Daylight comparison requires exactly one sun and sky'
+     sun=suns[0];light=sun.get_component_by_class(u.DirectionalLightComponent);sky=skies[0].get_component_by_class(u.SkyLightComponent)
+     rot=sun.get_actor_rotation()
+     report['daylightBefore']={'sunIntensity':light.get_editor_property('intensity'),'temperature':light.get_editor_property('temperature'),'useTemperature':light.get_editor_property('use_temperature'),'rotation':[rot.pitch,rot.yaw,rot.roll],'skyIntensity':sky.get_editor_property('intensity')}
+     light.set_editor_property('use_temperature',True);light.set_temperature(6500.0);light.set_intensity(45000.0)
+     sun.set_actor_rotation(u.Rotator(pitch=-50,yaw=rot.yaw,roll=rot.roll),True);sky.set_intensity(1.3)
+     rot=sun.get_actor_rotation()
+     report['daylightCandidate']={'sunIntensity':light.get_editor_property('intensity'),'temperature':light.get_editor_property('temperature'),'useTemperature':light.get_editor_property('use_temperature'),'rotation':[rot.pitch,rot.yaw,rot.roll],'skyIntensity':sky.get_editor_property('intensity')}
+     report['daylightScope']='PIE-only daylight study, not an ephemeris or a saved preset'
+     phase('diagnostic_warm');return
    finish('passed_intro_flight_ascent_pause_exact_return_visual_pending')
  except Exception as exc:
   report['errors'].append(repr(exc))

@@ -40,12 +40,20 @@ What is actually measured, and what is not:
     the symptom: five unrelated stations all landing within 24.07-24.58 ms, a spread of
     2% across an enclosed sanctuary and an open city view, plus 553 ms, 244 ms and
     233 ms single-frame spikes. That is a background job, not a scene.
-  * Optional reference screenshots at each station, for proving that an optimisation
-    changed how the frame is DRAWN and not how it LOOKS.
+  * Optional screenshots at each station. DO NOT TRUST THESE AS A LOOK COMPARISON YET.
+    They were added to prove that an optimisation changes how a frame is DRAWN and not
+    how it LOOKS, and they do not currently do that: under -unattended the HighResShot
+    command captures the EDITOR viewport, which sits wherever the map was saved, not the
+    PIE pawn's camera. The before/after pairs from 2026-09-08 are aerials from unrelated
+    angles at different times of day. Fixing this means either driving the editor
+    viewport camera to the station as well, or capturing through the PIE viewport
+    explicitly. Until then the files are a record that a frame rendered, nothing more.
 
 Configuration by environment variable, so the same file works from the editor console,
 the `py` command, or -ExecCmds:
-  MIKDASH_PERF_LIMIT_SECONDS   hard wall-clock limit, 30..600 (default 300)
+  MIKDASH_PERF_LIMIT_SECONDS   hard wall-clock limit, 30..3600 (default 300).
+                               It clamps: a warm-up longer than the limit means the
+                               run ends in warm-up with zero stations measured.
   MIKDASH_PERF_WARMUP_SECONDS  discarded settle after PIE starts, before station 0
                                (default 30.0). Shader and DDC work lands here.
   MIKDASH_PERF_SETTLE_SECONDS  discarded warm-up at each station (default 2.0)
@@ -76,7 +84,7 @@ ROOT = Path(r"C:\Mikdash\Working-5.8\MikdashCourtyardV3")
 TARGET_MAP = "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough"
 OUTPUT_DIR = ROOT / "SourceAssets/perf-review"
 
-LIMIT_SECONDS = max(30.0, min(600.0, float(os.environ.get("MIKDASH_PERF_LIMIT_SECONDS", "300"))))
+LIMIT_SECONDS = max(30.0, min(3600.0, float(os.environ.get("MIKDASH_PERF_LIMIT_SECONDS", "300"))))
 WARMUP_SECONDS = float(os.environ.get("MIKDASH_PERF_WARMUP_SECONDS", "30.0"))
 SETTLE_SECONDS = float(os.environ.get("MIKDASH_PERF_SETTLE_SECONDS", "2.0"))
 HOLD_SECONDS = float(os.environ.get("MIKDASH_PERF_HOLD_SECONDS", "4.0"))
@@ -423,6 +431,10 @@ class Probe:
         """A reference frame per station. An optimisation that changes what these look
         like is a regression, however good its numbers are.
 
+        KNOWN LIMITATION: under -unattended this captures the EDITOR viewport, not the
+        PIE pawn's view, so the images are not station-matched and cannot be used to
+        compare how the scene looks before and after a change. See the module docstring.
+
         This goes through the console command, NOT AutomationLibrary. The Python
         take_high_res_screenshot call flushes rendering and pumps Slate synchronously,
         which re-enters this very post-tick callback: the first run of this probe with
@@ -457,10 +469,12 @@ class Probe:
                 "requested": len(self.shot_order),
                 "written": len(written),
                 "files": paired,
-                "note": "Matched to stations by write order. Fewer files than stations "
-                        "means some shots did not land; the pairing is then unreliable "
-                        "and should not be used for a look comparison.",
-                "reliable": len(written) == len(self.shot_order),
+                "note": "NOT a look comparison. Under -unattended HighResShot captures "
+                        "the editor viewport, not the PIE camera, so these frames are "
+                        "not station-matched. Fewer files than stations also means the "
+                        "write-order pairing itself is off.",
+                "stationMatched": False,
+                "countsMatch": len(written) == len(self.shot_order),
             }
         except Exception as exc:  # noqa: BLE001
             self.receipt["screenshots"] = {"error": repr(exc)}

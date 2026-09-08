@@ -135,7 +135,12 @@ bool AMikdashBirdFlock::ResolvePerches()
                     if (!Actor || Actor == this || !Actor->ActorHasTag(Tag)) continue;
                     ++Found;
                     FVector Origin, Extent;
-                    Actor->GetActorBounds(true, Origin, Extent);
+                    // bOnlyCollidingComponents MUST be false. The obvious ledges in this level -
+                    // the Kotel face, the outer envelope walls, the Old City shells - are placed
+                    // NoCollision, and asking for colliding components only returns zero bounds
+                    // for them, so every one would be silently skipped by the IsNearlyZero test
+                    // below and the tag would resolve nothing with no error anywhere.
+                    Actor->GetActorBounds(false, Origin, Extent);
                     if (Extent.IsNearlyZero()) continue;
                     // Spread points along the longer horizontal axis of the actor's bounds,
                     // just above its top: a wall top or a parapet reads as a line of ledges.

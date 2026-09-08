@@ -1,5 +1,5 @@
 {
-  "stamp": "20260908T112445Z",
+  "stamp": "20260908T113707Z",
   "status": "transit_v3_offline_authored_native_placement_pending",
   "scope": "Offline authoring only: vehicle geometry, route and stop derivation from the retained OSM context roads and the source street triangles, and the release plan. Nothing in Content/ was touched, no map was opened and no actor was placed. The native half is Scripts/release_transit_v3.py.",
   "artefacts": {
@@ -17,7 +17,7 @@
     },
     "releaseScript": {
       "file": "Scripts/release_transit_v3.py",
-      "sha256": "118eb0d7d8ddf21002c1cfa4a0e6bf067ee8a0ca5b6784307cce23fbde56768e"
+      "sha256": "6e9de76ac9517dfeb482efde2b5bb5463f276265bec5a528b2a1447a6cab04ef"
     },
     "releaseSpec": {
       "file": "Scripts/release_transit_v3.spec.json",
@@ -40,7 +40,7 @@
       "routeDeriver": "SourceAssets/transit-review/TransitV3/derive_routes_v3.py",
       "specBuilder": "SourceAssets/transit-review/TransitV3/build_spec.py",
       "receiptWriter": "SourceAssets/transit-review/TransitV3/write_summary.py",
-      "receiptWriterSha256": "8ac4022bde4eaf9c72017e938d4f292fcd2a5f8a08c9fc953651192a48cb55c0",
+      "receiptWriterSha256": "60a06e2c27feeec6d20e4940e7b925dc7fec44a55c5d685085bef0ab61ef5fd7",
       "note": "Kept beside their output so every number in this receipt can be reproduced offline."
     }
   },
@@ -829,6 +829,23 @@
     "spreadDeparture": "The hero bus rejects a spread over 60 cm because it fits a plane through four wheel contacts and places a rigid actor on it. AMikdashTransit poses vehicles yaw-only on the route centreline and never applies pitch or roll, so spread costs nothing there: it is measured and reported and only rejected past 150 cm. Crossfall and gradient are the hero bus limits unchanged.",
     "reproducesHeroBusFinding": "road_batei_mahase: 138 of 193 probe positions were rejected for crossfall over 8 degrees, all in the eastern half. That is the same finding release_place_bus.spec.json records (\"the whole eastern half of the road exceeds 8 deg crossfall\"), reached independently from the same source triangles. The one accepted stop is at the west end, 2.8 m from the placed hero bus.",
     "stillToProve": "These are OFFLINE numbers from the source triangles, not engine ground contact. release_transit_v3.py trace_stops re-measures every stop with a PIE line trace and drops any that disagrees."
+  },
+  "railService": {
+    "circuitLengthCm": 283756.31,
+    "lineSpeedCmPerSecond": 1500.0,
+    "stations": 5,
+    "runningSecondsPerLap": 189.2,
+    "dwellSecondsPerLap": [
+      100.0,
+      200.0
+    ],
+    "headwaySeconds": [
+      120.0,
+      300.0
+    ],
+    "consistSlots": 3,
+    "arithmetic": "A lap is about 189 s of running plus 100-200 s of station dwell, so about 290-390 s. Three slots therefore sustain a departure every 97-130 s at worst, which is inside the 120 s minimum headway: the 2-to-5-minute promise holds and is never limited by the slot count. If the route is lengthened or the line speed dropped, check this again -- when a lap exceeds three times the minimum headway the dispatcher simply waits and the service silently thins out.",
+    "outAndBackCaveat": "Every route is a CLOSED out-and-back circuit and each stop is a single world position projected onto it, so a stop is served ONCE per lap, on whichever half of the circuit its projection landed. A platform is therefore served in one direction only. Serving both would need the stop authored twice, once per half."
   },
   "budget": {
     "target": "RTX 2070 (8 GB VRAM, TU106) in a 16 GB system",

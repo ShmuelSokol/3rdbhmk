@@ -391,6 +391,7 @@ void AMikdashTransit::PlaceStopFurniture()
 
 bool AMikdashTransit::InitializeTransit()
 {
+    ++ExchangeGeneration;
     ShutdownTransit();
     if (!BuildRouteRuntimes())
     {
@@ -665,13 +666,16 @@ void AMikdashTransit::AdvanceVehicle(FVehicle& Vehicle, int32 VehicleId, double 
     {
         const StopEvents Events = AdvanceStopState(Vehicle.Stop, Dt, Vehicle.SpeedCmPerSecond, DistanceToStop,
                                                    Vehicle.Follow, Vehicle.Dwell, static_cast<uint32>(Seed), VehicleId);
-        if ((Events.bDoorsOpened || Events.bDoorsClosed) && Runtime.StopDistances.IsValidIndex(Vehicle.Stop.ServedStopIndex))
+        if (Events.bDoorsOpened && Runtime.StopDistances.IsValidIndex(Vehicle.Stop.ServedStopIndex))
         {
-            const Vec3 Door = ApplyLaneOffset(Position, Tangent,
-                                              Route.LaneOffsetCm + Route.Stops[Vehicle.Stop.ServedStopIndex].FurnitureOffsetCm * 0.35,
-                                              Route.RideHeightCm);
-            BroadcastBoarding(Vehicle.RouteIndex, Vehicle.Stop.ServedStopIndex, VehicleId, Vehicle.Stop.RunIndex,
-                              ToVector(Door), static_cast<float>(Vehicle.Stop.DwellSeconds), Events.bDoorsClosed);
+            if (BodyComponents.IsValidIndex(Vehicle.BodyIndex) && !BodyComponents[Vehicle.BodyIndex].DoorLocalOffsets.IsEmpty())
+            {
+                // Ground-level doorway threshold from the actual body transform, not a fraction of shelter offset.
+                FVector LocalDoor = BodyComponents[Vehicle.BodyIndex].DoorLocalOffsets[0]; LocalDoor.Z = 0;
+                const FVector Door = FTransform(FRotator(0,Yaw,0),Location).TransformPosition(LocalDoor);
+                BroadcastBoarding(Vehicle.RouteIndex, Vehicle.Stop.ServedStopIndex, VehicleId, Vehicle.Stop.RunIndex,
+                                  Door, static_cast<float>(Vehicle.Stop.DwellSeconds));
+            }
         }
     }
 
@@ -766,17 +770,26 @@ void AMikdashTransit::AdvanceTrains(double Dt, const FVector& ViewLocation)
         const StopEvents Events = AdvanceStopState(Train.Stop, Dt, Train.SpeedCmPerSecond, DistanceToStop,
                                                    Train.Follow, Train.Dwell, static_cast<uint32>(Seed),
                                                    1000 + Train.Id);
-        if ((Events.bDoorsOpened || Events.bDoorsClosed) && Runtime.StopDistances.IsValidIndex(Train.Stop.ServedStopIndex))
+        if (Events.bDoorsOpened && Runtime.StopDistances.IsValidIndex(Train.Stop.ServedStopIndex))
         {
-            Vec3 Position{}, Tangent{};
-            if (SampleRoute(Runtime.Points.GetData(), Runtime.Cumulative.GetData(), Count, true,
-                            Train.DistanceCm - ConsistLengthCm * 0.5, Position, Tangent))
+            Vec3 CarPosition{}; double DoorYaw=0, DoorPitch=0;
+            if (BodyComponents.IsValidIndex(FirstTrainBodyIndex) && !BodyComponents[FirstTrainBodyIndex].DoorLocalOffsets.IsEmpty()
+                && SampleCarPose(Runtime.Points.GetData(),Runtime.Cumulative.GetData(),Count,true,
+                                 Train.DistanceCm,0,TrainCarLengthCm,TrainCouplingGapCm,TrainBogieInsetCm,
+                                 Route.LaneOffsetCm,Route.RideHeightCm,CarPosition,DoorYaw,DoorPitch))
             {
-                const Vec3 Door = ApplyLaneOffset(Position, Tangent,
-                                                  Route.LaneOffsetCm + Route.Stops[Train.Stop.ServedStopIndex].FurnitureOffsetCm * 0.30,
-                                                  Route.RideHeightCm);
-                BroadcastBoarding(RailRouteIndex, Train.Stop.ServedStopIndex, 1000 + Train.Id, Train.Stop.RunIndex,
-                                  ToVector(Door), static_cast<float>(Train.Stop.DwellSeconds), Events.bDoorsClosed);
+                const FTransform CarTransform(FRotator(DoorPitch,DoorYaw,0),ToVector(CarPosition));
+                const int32 GlobalStop=Runtime.GlobalStopIndices[Train.Stop.ServedStopIndex];
+                const FVector Furniture=GetStopFurniturePoint(GlobalStop);
+                FVector Door=FVector::ZeroVector; double Best=TNumericLimits<double>::Max();
+                for (FVector Local : BodyComponents[FirstTrainBodyIndex].DoorLocalOffsets)
+                {
+                    Local.Z=0; const FVector Candidate=CarTransform.TransformPosition(Local);
+                    const double Distance=FVector::DistSquared2D(Candidate,Furniture);
+                    if (Distance<Best) { Best=Distance; Door=Candidate; }
+                }
+                BroadcastBoarding(RailRouteIndex,Train.Stop.ServedStopIndex,1000+Train.Id,Train.Stop.RunIndex,
+                                  Door,static_cast<float>(Train.Stop.DwellSeconds));
             }
         }
 
@@ -882,7 +895,7 @@ void AMikdashTransit::AdvanceTrains(double Dt, const FVector& ViewLocation)
 // ---------------------------------------------------------------------------
 
 void AMikdashTransit::BroadcastBoarding(int32 RouteIdx, int32 LocalStopIdx, int32 VehicleId, int32 RunIndex,
-                                        const FVector& DoorPoint, float SecondsAvailable, bool bAlighting)
+                                        const FVector& DoorPoint, float SecondsAvailable)
 {
     if (!RouteRuntimes.IsValidIndex(RouteIdx) || !RouteRuntimes[RouteIdx].GlobalStopIndices.IsValidIndex(LocalStopIdx))
     {
@@ -896,18 +909,36 @@ void AMikdashTransit::BroadcastBoarding(int32 RouteIdx, int32 LocalStopIdx, int3
     {
         return;
     }
-    // The actor never touches the crowd. It states what it needs and lets whatever is
-    // bound decide how to do it; nothing here fails if nothing is bound.
-    if (bAlighting)
+    if (!FMath::IsFinite(SecondsAvailable) || SecondsAvailable <= 0) return;
+    FMikdashPassengerExchange Request;
+    Request.RouteId = Routes[RouteIdx].Id; Request.Generation = ExchangeGeneration;
+    Request.VehicleId = VehicleId; Request.RunIndex = RunIndex; Request.GlobalStopIndex = GlobalStop;
+    Request.Count = Count; Request.BoardingPoint = DoorPoint;
+    Request.StartSimulationSeconds = WorldSeconds; Request.SecondsAvailable = SecondsAvailable;
+    OnPassengerExchange.Broadcast(Request);
+    // Compatibility notifications happen while doors are OPEN, never after departure.
+    RequestAlighting(GlobalStop, Count, DoorPoint, SecondsAvailable);
+    OnRequestAlighting.Broadcast(GlobalStop, Count, DoorPoint, SecondsAvailable, Request.RouteId);
+    RequestBoarding(GlobalStop, Count, DoorPoint, SecondsAvailable);
+    OnRequestBoarding.Broadcast(GlobalStop, Count, DoorPoint, SecondsAvailable, Request.RouteId);
+
+}
+
+bool AMikdashTransit::IsPassengerExchangeOpen(const FMikdashPassengerExchange& Request) const
+{
+    if (!bActive || Request.Generation != ExchangeGeneration) return false;
+    const MikdashTransit::StopState* State = nullptr;
+    int32 RouteIdx = INDEX_NONE;
+    if (Request.VehicleId < 1000 && Vehicles.IsValidIndex(Request.VehicleId))
     {
-        RequestAlighting(GlobalStop, Count, DoorPoint, SecondsAvailable);
-        OnRequestAlighting.Broadcast(GlobalStop, Count, DoorPoint, SecondsAvailable, Routes[RouteIdx].Id);
+        State = &Vehicles[Request.VehicleId].Stop; RouteIdx = Vehicles[Request.VehicleId].RouteIndex;
     }
-    else
-    {
-        RequestBoarding(GlobalStop, Count, DoorPoint, SecondsAvailable);
-        OnRequestBoarding.Broadcast(GlobalStop, Count, DoorPoint, SecondsAvailable, Routes[RouteIdx].Id);
-    }
+    else for (const FTrain& Train : Trains)
+        if (Train.bActive && 1000 + Train.Id == Request.VehicleId) { State = &Train.Stop; RouteIdx = RailRouteIndex; break; }
+    if (!State || State->RunIndex != Request.RunIndex || State->Phase != MikdashTransit::StopPhase::Dwelling
+        || !Routes.IsValidIndex(RouteIdx) || Routes[RouteIdx].Id != Request.RouteId
+        || !RouteRuntimes[RouteIdx].GlobalStopIndices.IsValidIndex(State->ServedStopIndex)) return false;
+    return RouteRuntimes[RouteIdx].GlobalStopIndices[State->ServedStopIndex] == Request.GlobalStopIndex;
 }
 
 int32 AMikdashTransit::SuggestPhotographerCount(int32 GlobalStopIndex, int32 Count, int32 RunIndex) const

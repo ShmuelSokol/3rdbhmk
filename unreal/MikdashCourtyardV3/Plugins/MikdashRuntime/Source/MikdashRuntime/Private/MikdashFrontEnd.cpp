@@ -1,3 +1,4 @@
+#include "MikdashPlayerController.h"
 // MikdashFrontEnd.cpp -- implementation of the walkthrough's front end.
 //
 // Written by the coordinator after the authoring agent was cut off mid-task by a
@@ -144,6 +145,7 @@ void UMikdashFrontEnd::OnMapLoaded(UWorld* LoadedWorld)
         return;
     }
 
+    RestoreMenuCameraTick();
     // Anything the previous world owned is gone with it.
     MainMenu = nullptr;
     PauseMenu = nullptr;
@@ -200,6 +202,7 @@ WidgetType* UMikdashFrontEnd::MakeScreen(TObjectPtr<WidgetType>& Slot, int32 ZOr
 {
     if (Slot)
     {
+        Slot->Rebuild(); // Re-evaluate dove/mute labels and refusal status on each opening.
         if (!Slot->IsInViewport())
         {
             Slot->AddToViewport(ZOrder);
@@ -223,6 +226,7 @@ WidgetType* UMikdashFrontEnd::MakeScreen(TObjectPtr<WidgetType>& Slot, int32 ZOr
     // The widget navigates by calling back into this subsystem, so this must be set
     // before it is constructed: NativeConstruct builds the body and reads FrontEnd.
     Widget->FrontEnd = this;
+    Widget->Rebuild();
     Widget->AddToViewport(ZOrder);
     Slot = Widget;
     return Widget;
@@ -272,14 +276,10 @@ void UMikdashFrontEnd::SetScreen(EMikdashScreen NewScreen)
     DropIfNot(SettingsScreen, EMikdashScreen::Settings);
     DropIfNot(CreditsScreen, EMikdashScreen::Credits);
 
-    const bool bWasVisible = Screen != EMikdashScreen::None;
     Screen = NewScreen;
     const bool bIsVisible = Screen != EMikdashScreen::None;
 
-    if (bWasVisible != bIsVisible)
-    {
-        ApplyMenuInputMode(bIsVisible);
-    }
+    ApplyMenuInputMode(bIsVisible);
 
     OnScreenChanged.Broadcast(Screen);
 }
@@ -343,6 +343,16 @@ void UMikdashFrontEnd::RequestGuidedTour()
     OnGuidedTourRequested.Broadcast();
 }
 
+void UMikdashFrontEnd::ShowPreparationLesson()
+{
+    if (!bEnabled) return;
+    if (AMikdashPlayerController* Controller = Cast<AMikdashPlayerController>(GetOwningController()))
+    {
+        SetScreen(EMikdashScreen::Preparation);
+        Controller->ShowPreparationLesson();
+    }
+}
+
 void UMikdashFrontEnd::ShowSettings()
 {
     ReturnScreen = (Screen == EMikdashScreen::PauseMenu) ? EMikdashScreen::PauseMenu : EMikdashScreen::MainMenu;
@@ -379,6 +389,21 @@ void UMikdashFrontEnd::ShowPauseMenu()
 
 void UMikdashFrontEnd::ResumeWalkthrough()
 {
+    // This API also explicitly starts a walk from the title screen, including probes.
+    bPendingBeginAfterLoading = false;
+    if (LoadingTickHandle.IsValid())
+    {
+        FTSTicker::GetCoreTicker().RemoveTicker(LoadingTickHandle);
+        LoadingTickHandle.Reset();
+    }
+    if (LoadingScreen) LoadingScreen->RemoveFromParent();
+    StopMenuCamera();
+    if (!bWalkthroughStarted)
+    {
+        bWalkthroughStarted = true;
+        OnWalkthroughStarted.Broadcast();
+    }
+
     if (bPausedByFrontEnd)
     {
         if (UWorld* World = GetWorld())
@@ -611,7 +636,7 @@ FText UMikdashFrontEnd::GetGuidedTourUnavailableReason() const
 
 void UMikdashFrontEnd::EnsurePauseKeyBound(APlayerController* Controller)
 {
-    if (!bOwnPauseKey || !Controller)
+    if (!bOwnPauseKey || !Controller || Cast<AMikdashPlayerController>(Controller))
     {
         return;
     }
@@ -657,9 +682,12 @@ void UMikdashFrontEnd::ApplyMenuInputMode(bool bMenuUp)
         return;
     }
 
+    if (AMikdashPlayerController* WalkController = Cast<AMikdashPlayerController>(Controller))
+        WalkController->SynchronizeFrontEndMenu(bMenuUp);
+
     if (bMenuUp)
     {
-        FInputModeUIOnly Mode;
+        FInputModeGameAndUI Mode;
         Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
         Controller->SetInputMode(Mode);
         Controller->bShowMouseCursor = true;
@@ -742,6 +770,9 @@ void UMikdashFrontEnd::StartMenuCamera()
 
     if (MenuCamera)
     {
+        MenuTickController = Controller;
+        bPreviousFullTickWhenPaused = Controller->bShouldPerformFullTickWhenPaused;
+        Controller->bShouldPerformFullTickWhenPaused = true;
         Controller->SetViewTargetWithBlend(MenuCamera, MenuCameraBlendSeconds);
     }
 }
@@ -765,8 +796,16 @@ bool UMikdashFrontEnd::TickMenuCamera(float DeltaTime)
     return true;
 }
 
+void UMikdashFrontEnd::RestoreMenuCameraTick()
+{
+    if (APlayerController* Controller = MenuTickController.Get())
+        Controller->bShouldPerformFullTickWhenPaused = bPreviousFullTickWhenPaused;
+    MenuTickController.Reset();
+}
+
 void UMikdashFrontEnd::StopMenuCamera()
 {
+    RestoreMenuCameraTick();
     if (CameraTickHandle.IsValid())
     {
         FTSTicker::GetCoreTicker().RemoveTicker(CameraTickHandle);

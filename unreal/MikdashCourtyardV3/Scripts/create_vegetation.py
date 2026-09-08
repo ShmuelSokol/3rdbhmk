@@ -1042,7 +1042,63 @@ def leaf_alpha(shape, u, v):
     return 0.0
 
 
-def write_leaf_atlas(species, size=512):
+# How many leaves go into one atlas cell. A card carries a SPRAY of leaves, not one leaf: a
+# single 6 cm olive leaf blown up to fill a 2 m card reads as a green paddle, and no amount of
+# canopy density hides it. Big compound or lobed leaves need fewer per cell than small simple
+# ones, because one fig leaf already fills the frame.
+LEAVES_PER_CELL = {'palmate': 3, 'pinnate': 3, 'blade': 6, 'needle': 9, 'scale': 8,
+                   'lanceolate': 7, 'ovate': 7}
+# Leaves are drawn at this fraction of the cell so a rotated leaf cannot run off the edge and
+# get sliced by the atlas boundary.
+LEAF_FIT = 0.62
+
+
+def build_leaf_masks(species, cell):
+    """Coverage mask for each of the four atlas cells, at cell x cell resolution.
+
+    Built ONCE per species and then shared by the atlas writer and the billboard renderer, so
+    the impostor's silhouette is by construction the same silhouette the runtime alpha test
+    will cut. Two independent implementations of "where is there a leaf" would drift.
+    """
+    shape = species['leafShape']
+    count = LEAVES_PER_CELL.get(shape, 7)
+    seed = hash_int(sum(ord(c) for c in species['key']) * 22695477) & MASK32
+    masks = []
+    for index in range(4):
+        leaves = []
+        for k in range(count):
+            lane = index * 32 + k
+            angle = hash_range(seed, lane, 201, -math.pi, math.pi)
+            scale = hash_range(seed, lane, 202, 0.72, 1.15) * LEAF_FIT
+            cx = hash_range(seed, lane, 203, 0.22, 0.78)
+            cy = hash_range(seed, lane, 204, 0.22, 0.78)
+            leaves.append((angle, scale, cx, cy))
+        mask = bytearray(cell * cell)
+        for py in range(cell):
+            v = (py + 0.5) / cell
+            for px in range(cell):
+                u = (px + 0.5) / cell
+                for angle, scale, cx, cy in leaves:
+                    du = (u - cx) / scale
+                    dv = (v - cy) / scale
+                    lu = du * math.cos(angle) - dv * math.sin(angle) + 0.5
+                    lv = du * math.sin(angle) + dv * math.cos(angle) + 0.5
+                    if 0.0 <= lu <= 1.0 and 0.0 <= lv <= 1.0 and leaf_alpha(shape, lu, lv) > 0.0:
+                        mask[py * cell + px] = 1
+                        break
+        masks.append(mask)
+    return masks
+
+
+def sample_leaf_mask(masks, cell, u, v):
+    """Coverage at an atlas UV. Cell layout is the same 2x2 the atlas is written in."""
+    index = (1 if u >= 0.5 else 0) + (2 if v >= 0.5 else 0)
+    px = int(min(cell - 1, max(0, (u % 0.5) * 2.0 * cell)))
+    py = int(min(cell - 1, max(0, (v % 0.5) * 2.0 * cell)))
+    return masks[index][py * cell + px]
+
+
+def write_leaf_atlas(species, masks, size=512):
     """2x2 atlas of one species' leaf silhouette, RGBA with a hard alpha edge for alpha test."""
     seed = hash_int(sum(ord(c) for c in species['key']) * 2654435761) & MASK32
     front = species['leafColour']
@@ -1052,25 +1108,16 @@ def write_leaf_atlas(species, size=512):
     for py in range(size):
         for px in range(size):
             cell = (px // half) + 2 * (py // half)
-            u = (px % half) / float(half - 1)
-            v = (py % half) / float(half - 1)
-            # each cell is a slightly different leaf: rotate the sample a little
-            angle = math.radians(-14.0 + 9.0 * cell)
-            cu = (u - 0.5) * math.cos(angle) - (v - 0.5) * math.sin(angle) + 0.5
-            cv = (u - 0.5) * math.sin(angle) + (v - 0.5) * math.cos(angle) + 0.5
-            alpha = leaf_alpha(species['leafShape'], cu, cv)
             index = (py * size + px) * 4
-            if alpha <= 0.0:
+            if not masks[cell][(py % half) * half + (px % half)]:
                 data[index:index + 4] = bytes((0, 0, 0, 0))
                 continue
-            shade = 0.80 + 0.40 * fbm(seed + cell, px, py, 0.035, 3)
-            vein = 1.0
-            if abs((cu - 0.5) * 2.0) < 0.02 and species['leafShape'] not in ('needle', 'scale'):
-                vein = 1.22
-            tint = 0.75 + 0.5 * ((cell % 2) * 0.5)
-            colour = [front[i] + (back[i] - front[i]) * (0.25 * (cell // 2)) for i in range(3)]
+            shade = 0.78 + 0.44 * fbm(seed + cell, px, py, 0.045, 3)
+            # Cells 2 and 3 lean toward the pale underside colour, so a canopy built from all
+            # four cells shows the two-tone flicker a real olive or terebinth has in wind.
+            colour = [front[i] + (back[i] - front[i]) * (0.35 * (cell // 2)) for i in range(3)]
             data[index:index + 4] = bytes(
-                [min(255, max(0, int(colour[i] * shade * vein * tint))) for i in range(3)] + [255])
+                [min(255, max(0, int(colour[i] * shade))) for i in range(3)] + [255])
     path = TEX_DIR / ('T_%s_Leaf_BCA.png' % species['key'])
     png_rgba(path, data, size, size)
     return path
@@ -1113,11 +1160,14 @@ def write_bark_textures(species, size=512):
     return colour_path, normal_path
 
 
-def render_billboard_texture(species, bark_parts, leaf_parts, size=256):
+def render_billboard_texture(species, bark_parts, leaf_parts, masks, mask_cell, size=256):
     """Orthographic front render of the LOD1 mesh: the impostor is a picture of the tree.
 
-    Painter's algorithm with a depth buffer, exactly like create_keilim_ti_v1.render_views,
-    but writing RGBA so the background stays transparent for the alpha-tested impostor.
+    Painter's algorithm with a depth buffer, exactly like create_keilim_ti_v1.render_views, but
+    writing RGBA so the background stays transparent, AND applying the leaf atlas's own alpha
+    per pixel through the interpolated UV. Without that last part every leaf card renders as a
+    solid rectangle and the impostor is a blocky green slab instead of a tree - which is exactly
+    what the first version of this produced.
     """
     data = bytearray(size * size * 4)
     depth = [-1e18] * (size * size)
@@ -1126,10 +1176,12 @@ def render_billboard_texture(species, bark_parts, leaf_parts, size=256):
     scale = (size - 8) / max(height, width)
     ox, oz = size * 0.5, size - 4
     light = norm((-0.35, -0.62, 0.70))
-    for parts, colour in ((bark_parts, species['barkColour']), (leaf_parts, species['leafColour'])):
+    for parts, colour, masked in ((bark_parts, species['barkColour'], False),
+                                  (leaf_parts, species['leafColour'], True)):
         for part in parts:
             for a, b, c in part.faces:
                 pa, pb, pc = part.vertices[a], part.vertices[b], part.vertices[c]
+                ua, ub, uc = part.uvs[a], part.uvs[b], part.uvs[c]
                 n = cross(tuple(pb[i] - pa[i] for i in range(3)),
                           tuple(pc[i] - pa[i] for i in range(3)))
                 length = math.sqrt(dot(n, n))
@@ -1154,7 +1206,15 @@ def render_billboard_texture(species, bark_parts, leaf_parts, size=256):
                         w1 = ((cy - ay) * (px + 0.5 - cx) + (ax - cx) * (py + 0.5 - cy)) / det
                         if w1 < 0.0 or w0 + w1 > 1.0:
                             continue
-                        z = w0 * ad + w1 * bd + (1.0 - w0 - w1) * cd
+                        w2 = 1.0 - w0 - w1
+                        if masked:
+                            # The same coverage mask the atlas was written from, so the impostor
+                            # cuts exactly the silhouette the runtime alpha test will cut.
+                            u = w0 * ua[0] + w1 * ub[0] + w2 * uc[0]
+                            v = w0 * ua[1] + w1 * ub[1] + w2 * uc[1]
+                            if not sample_leaf_mask(masks, mask_cell, u, v):
+                                continue
+                        z = w0 * ad + w1 * bd + w2 * cd
                         index = py * size + px
                         if z > depth[index]:
                             depth[index] = z
@@ -1892,7 +1952,14 @@ def plan_species(species, terrain, exclusions, seed, report):
 
     instances = []
     rejected_band = rejected_cluster = rejected_exclusion = rejected_cap = 0
+    rejected_respacing = 0
     gnarled = 0
+    # Accepted-point grid for the re-spacing pass. Terracing MOVES a point along the fall line,
+    # so two points either side of a bench line can be pulled onto the same bench and end up
+    # closer than the disc radius; measured here on the real terrain, an olive scatter asked for
+    # 702 cm came back with a closest pair of 312 cm. Scatter() in ScatterMath.h now carries the
+    # same pass, so the C++ and this stay in step.
+    accepted_grid = {}
     for index in order:
         if len(instances) >= target:
             rejected_cap += 1
@@ -1914,6 +1981,23 @@ def plan_species(species, terrain, exclusions, seed, report):
         if exclusions.excluded(x, y, species['crownRadiusCm']):
             rejected_exclusion += 1
             continue
+        if bench > 0.0:
+            key = (int(math.floor(x / radius)), int(math.floor(y / radius)))
+            too_close = False
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    for ox, oy in accepted_grid.get((key[0] + dx, key[1] + dy), ()):
+                        if (ox - x) ** 2 + (oy - y) ** 2 < radius * radius:
+                            too_close = True
+                            break
+                    if too_close:
+                        break
+                if too_close:
+                    break
+            if too_close:
+                rejected_respacing += 1
+                continue
+            accepted_grid.setdefault(key, []).append((x, y))
         height, slope, aspect, dzdx, dzdy = terrain.sample(x, y)      # re-sample after the snap
         record = make_instance(x, y, height + GROUND_OFFSET_CM, dzdx, dzdy, jitter,
                                species_seed, index)
@@ -1934,6 +2018,7 @@ def plan_species(species, terrain, exclusions, seed, report):
         'gnarledVariants': gnarled,
         'rejectedByBand': rejected_band, 'rejectedByCluster': rejected_cluster,
         'rejectedByExclusion': rejected_exclusion, 'rejectedByCap': rejected_cap,
+        'rejectedByRespacing': rejected_respacing,
         'realisedDensityPer100SqM': round(len(instances) * 1.0e6 / area, 5),
         'saturationLimited': len(instances) < target,
         'terraced': species['terraced'],
@@ -1942,10 +2027,23 @@ def plan_species(species, terrain, exclusions, seed, report):
     return instances, stats
 
 
-def minimum_spacing(instances, cell_cm):
-    """Grid-accelerated closest pair, so the spacing invariant is measured, not assumed."""
-    if len(instances) < 2:
-        return -1.0
+def closest_pair_within(instances, cell_cm):
+    """Closest pair, or None if no pair is closer than `cell_cm`.
+
+    A uniform grid with cell size c plus a 3x3 neighbourhood scan finds EVERY pair closer than
+    c, and no guarantee at all about pairs further apart than that. So the cell size has to be
+    at least the distance being tested for, and "nothing found" is a proof that the minimum
+    spacing is at least c rather than a failure to measure.
+
+    This is worth spelling out because getting it wrong is silent: a first version passed the
+    species' ecological spacing (560 cm for a cypress) as the cell size while the actual Poisson
+    radius was 1404 cm, so no pair ever fell inside the 3x3 block, the scan returned "no pairs",
+    and the caller read that as "one instance placed". The C++ MinimumSpacingFast avoids the
+    same trap by falling back to the quadratic form; here the answer is expressed as a bound
+    instead, because the quadratic form on 35 000 grass clumps is 600 million comparisons.
+    """
+    if len(instances) < 2 or not (cell_cm > 0.0):
+        return None
     cells = {}
     for index, record in enumerate(instances):
         key = (int(math.floor(record['x'] / cell_cm)), int(math.floor(record['y'] / cell_cm)))
@@ -1965,7 +2063,7 @@ def minimum_spacing(instances, cell_cm):
                 d = (ra['x'] - rb['x']) ** 2 + (ra['y'] - rb['y']) ** 2
                 if d < best:
                     best = d
-    return math.sqrt(best) if best < float('inf') else -1.0
+    return math.sqrt(best) if best < float('inf') else None
 
 
 # =====================================================================================
@@ -2144,19 +2242,26 @@ def export_meshes(write_previews=True):
             readbacks.append(readback_obj(OBJ_DIR / (name + '.obj'), record))
             triangle_counts['%s_Billboard' % species['key']] = record['triangles']
         # textures
-        leaf_path = write_leaf_atlas(species)
+        mask_cell = 256
+        masks = build_leaf_masks(species, mask_cell)
+        leaf_path = write_leaf_atlas(species, masks)
         bark_path, normal_path = write_bark_textures(species)
         entry = {'species': species['key'],
                  'leafAtlas': leaf_path.name, 'leafAtlasSha256': sha256_of(leaf_path),
                  'barkBaseColour': bark_path.name, 'barkBaseColourSha256': sha256_of(bark_path),
                  'barkNormal': normal_path.name, 'barkNormalSha256': sha256_of(normal_path),
                  'leafShape': species['leafShape'],
+                 'leavesPerAtlasCell': LEAVES_PER_CELL.get(species['leafShape'], 7),
                  'alphaTest': True,
                  'note': ('Generated procedurally with the standard library only - no PIL, no '
-                          'numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard '
-                          'so an alpha-test threshold of 0.5 is unambiguous.')}
+                          'numpy, no photograph. The atlas is 2x2 and each cell holds a SPRAY of '
+                          'leaves rather than one leaf, because a single leaf blown up to fill a '
+                          '2 m card reads as a green paddle. The alpha edge is hard so an '
+                          'alpha-test threshold of 0.5 is unambiguous, and the billboard render '
+                          'cuts its silhouette from the same mask the atlas was written from.')}
         if species['form'] != 'grass' and lod1_parts is not None:
-            billboard_path, coverage = render_billboard_texture(species, lod1_parts[0], lod1_parts[1])
+            billboard_path, coverage = render_billboard_texture(species, lod1_parts[0], lod1_parts[1],
+                                                                masks, mask_cell)
             entry['billboardTexture'] = billboard_path.name
             entry['billboardTextureSha256'] = sha256_of(billboard_path)
             entry['billboardCoverage'] = round(coverage, 4)
@@ -2201,11 +2306,15 @@ def build_plan(write_previews=True):
     for species in SPECIES:
         instances, stats = plan_species(species, terrain, exclusions, SEED, species_stats)
         all_instances[species['key']] = instances
-        stats['minimumSpacingCm'] = round(minimum_spacing(instances, species['spacingCm']), 3)
-        # The invariant the whole scheme rests on, measured rather than assumed.
-        if instances and stats['minimumSpacingCm'] < stats['poissonRadiusCm'] - 1e-3:
+        # The invariant the whole scheme rests on, measured rather than assumed. The grid cell
+        # is the Poisson radius, so a None answer PROVES no pair is closer than that.
+        radius = stats['poissonRadiusCm']
+        closest = closest_pair_within(instances, radius)
+        stats['closestPairCm'] = round(closest, 3) if closest is not None else None
+        stats['minimumSpacingProvenAtLeastCm'] = radius
+        if closest is not None and closest < radius - 1e-3:
             raise AssertionError('%s: closest pair %.3f cm is inside the %.3f cm disc'
-                                 % (species['key'], stats['minimumSpacingCm'], stats['poissonRadiusCm']))
+                                 % (species['key'], closest, radius))
         # And the rule that matters most: nothing inside the precinct.
         inside = sum(1 for r in instances if exclusions.excluded(r['x'], r['y'], 0.0))
         if inside:

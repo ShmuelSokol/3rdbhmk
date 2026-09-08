@@ -16,6 +16,15 @@ actually seen - a pigeon 30 m up, a swift crossing a wall at 60 m - a four-step 
 already past the point where more poses add anything visible. The cost is that a bird held
 still at two metres would read as a flick-book; nothing places one there.
 
+NO TWO POSES OF ONE SPECIES MAY BE THE SAME MESH, and the export FAILS if they are. This is not
+a theoretical guard: the crowd system in this project shipped a naive sine gait that produced two
+byte-identical pose meshes, so the figure froze for a quarter of every cycle and nothing reported
+it, because each individual mesh was perfectly valid. `_assert_poses_distinct` checks both byte
+identity AND geometric separation (symmetric Hausdorff distance of the vertex clouds, which must
+exceed 3 per cent of the species wingspan), because two poses can differ in one vertex by a hair
+- distinct bytes, identical silhouette. The measured separations are written into the manifest as
+`poseDistinctness`, and Scripts/release_birds.py refuses to import geometry that lacks the block.
+
 Pose order is fixed and MUST match MikdashFlock::PoseIndex in FlockMath.h:
     0 up_stroke     wings raised above the back
     1 level         wings extended level; also the glide and the soar pose

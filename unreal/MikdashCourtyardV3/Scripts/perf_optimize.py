@@ -18,8 +18,14 @@ MODES (switch read from the engine command line, default `analyze`)
   -PerfMode=nanite         Enables Nanite on the meshes the rule admits, in a bounded
                            batch, saving as it goes. Resumable: state is read from the
                            assets themselves, never from a side file.
-  -PerfMode=revert_nanite  Reads an `applied` receipt and turns Nanite back off for
-                           exactly the meshes that receipt says this tool turned on.
+  -PerfMode=revert_nanite  Turns Nanite back off. With -PerfReceipt it reverts exactly
+                           the meshes that receipt lists. WITHOUT a receipt it reverts
+                           every currently-Nanite mesh whose category is on
+                           MUTABLE_CATEGORIES, which is the complete undo: the 190
+                           meshes that had Nanite before this tool existed are all
+                           oldcity_facades, and that category is deliberately not on the
+                           allowlist, so a receiptless revert cannot reach them. Use it
+                           when a run was killed and its receipt is incomplete.
   -PerfMode=cull           Sets a max draw distance on the far-city categories only.
   -PerfMode=revert_cull    Restores the recorded previous draw distances.
 
@@ -58,9 +64,12 @@ which clause rejected it, so the rule is auditable from the receipt.
 
   E1  It is referenced by at least one StaticMeshComponent in the combined map, so it
       actually costs a draw today.
-  E2  Nanite is not already enabled on it. Existing Nanite settings are never touched --
-      the frieze panels are Nanite-displaced and a blanket rewrite would flatten them.
-      That exact regression has already happened once in this project.
+  E2  Nanite is not already enabled on it. An existing Nanite configuration is never
+      rewritten, only read: a blanket overwrite of nanite_settings is how displacement
+      and trim settings get flattened, and a flattened frieze wall has already had to be
+      restored from a checkpoint once in this project. The 190 meshes that were already
+      Nanite are all OldCityFacadesV1 -- NOT the friezes, which the handoffs claimed
+      were Nanite-displaced and which the census found baked at 133 k triangles each.
   E3  No material slot resolves to a translucent, additive or modulated blend mode.
       Nanite does not render translucency; enabling it would make those sections
       vanish, which is a LOOK change, not a draw change.
@@ -714,12 +723,26 @@ class Run:
         self.receipt["candidatesRemaining"] = len(eligible_records) - len(applied)
         self.receipt["elapsedSeconds"] = round(time.time() - started, 1)
 
-    def revert_nanite(self):
-        source = Path(RECEIPT_IN)
-        assert source.is_file(), "-PerfReceipt must name an existing applied receipt"
-        previous = json.loads(source.read_text(encoding="utf-8-sig"))
-        paths = previous.get("appliedPaths") or []
-        assert paths, "receipt lists no appliedPaths"
+    def revert_nanite(self, census=None):
+        if RECEIPT_IN:
+            source = Path(RECEIPT_IN)
+            assert source.is_file(), "-PerfReceipt must name an existing applied receipt"
+            previous = json.loads(source.read_text(encoding="utf-8-sig"))
+            paths = previous.get("appliedPaths") or []
+            assert paths, "receipt lists no appliedPaths"
+            self.receipt["revertSource"] = str(source)
+        else:
+            # Receiptless full undo. Safe because the only meshes that were Nanite
+            # before this tool ran are the 190 OldCityFacadesV1 imports, and
+            # oldcity_facades is not on MUTABLE_CATEGORIES.
+            assert census is not None, "receiptless revert needs a census"
+            allowed = set(ONLY_CATEGORIES) & MUTABLE_CATEGORIES if ONLY_CATEGORIES \
+                else MUTABLE_CATEGORIES
+            paths = [r["path"] for r in census.meshes.values()
+                     if r["nanite"] and r["category"] in allowed]
+            self.receipt["revertSource"] = "census; categories %s" % sorted(allowed)
+            self.receipt["revertCandidates"] = len(paths)
+            source = None
         reverted, failed = [], []
         for path in paths:
             if DRY_RUN:
@@ -738,7 +761,7 @@ class Run:
                 reverted.append(path)
             except Exception as error:  # noqa: BLE001
                 failed.append({"path": path, "error": repr(error)})
-        self.receipt["revertedFrom"] = str(source)
+        self.receipt["revertedPaths"] = reverted
         self.receipt["reverted"] = len(reverted)
         self.receipt["revertFailed"] = failed[:50]
 
@@ -790,13 +813,17 @@ class Run:
         self.write()
         try:
             world = self.guard()
-            if MODE == "revert_nanite":
+            if MODE == "revert_nanite" and RECEIPT_IN:
                 self.revert_nanite()
                 self.receipt["status"] = "completed"
                 return
             census = Census().run()
             eligible = self.analyze(census)
             self.world_audit(world)
+            if MODE == "revert_nanite":
+                self.revert_nanite(census)
+                self.receipt["status"] = "completed"
+                return
             if MODE == "analyze":
                 self.receipt["status"] = "completed"
                 return

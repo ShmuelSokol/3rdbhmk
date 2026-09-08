@@ -1,0 +1,42 @@
+{
+  "status": "stopped_at_wall_clock_limit",
+  "stamp": "20260908T113758Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "budgetMs": 16.7,
+  "budgetMsPlaza": 22.0,
+  "stations": [],
+  "label": "after-nanite-ddc-warmed-900s",
+  "warmupSeconds": 900.0,
+  "settleSeconds": 2.0,
+  "holdSeconds": 4.0,
+  "notCollected": [
+    "`stat scenerendering` is not parsed: its log format is not stable enough to gate on. Thread and GPU times come from the CSV profiler instead, and any column the build does not emit is reported as null."
+  ],
+  "geometry": {
+    "actorCount": 7767,
+    "staticMeshComponents": 7742,
+    "instancedComponents": 5,
+    "instanceCount": 44217,
+    "uniqueMeshes": 7520,
+    "naniteMeshes": 7420,
+    "triangleLowerBound": 3441500,
+    "triangleNote": "Lower bound: with Nanite enabled get_num_triangles(0) returns the fallback count."
+  },
+  "memoryAtStart": {
+    "workingSetMb": 4229.1,
+    "privateMb": 7249.6,
+    "peakWorkingSetMb": 5232.5
+  },
+  "csv": {
+    "available": false,
+    "reason": "profiler never started"
+  },
+  "stationsMeasured": 0,
+  "stationsOverBudget": [],
+  "pass": false,
+  "memoryAtEnd": {
+    "workingSetMb": 4496.7,
+    "privateMb": 10901.3,
+    "peakWorkingSetMb": 5239.4
+  }
+}

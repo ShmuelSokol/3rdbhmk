@@ -434,11 +434,18 @@ class TransitJob(object):
         folder = spec['geometry']['materialFolder']
         materials = {}
         connections = {}
-        for group, entry in sorted(spec['geometry']['palette'].items()):
-            material = tools.create_asset('M_VehiclesV3_' + group, folder, ue.Material,
-                                          ue.MaterialFactoryNew())
+        liveries = sorted({record['livery'] for record in spec['geometry']['meshes']
+                           if record['group'] == 'Paint' and record['livery']})
+        # One Paint material per livery, three of them, because a single shared Paint
+        # material would put the car skin on the bus and the tram. Glass, Dark and Lens
+        # are genuinely shared: they carry no livery.
+        wanted = [('Paint', livery) for livery in liveries] +                  [(group, None) for group in sorted(spec['geometry']['palette']) if group != 'Paint']
+        for group, livery in wanted:
+            entry = spec['geometry']['palette'][group]
+            name = 'M_VehiclesV3_' + group + ('_' + livery if livery else '')
+            material = tools.create_asset(name, folder, ue.Material, ue.MaterialFactoryNew())
             if material is None:
-                raise RuntimeError('create_asset returned None for M_VehiclesV3_' + group)
+                raise RuntimeError('create_asset returned None for ' + name)
             base = library.create_material_expression(material, ue.MaterialExpressionConstant3Vector)
             base.set_editor_property('constant', ue.LinearColor(*entry['linearRgb'], 1.0))
             wired = {}
@@ -456,7 +463,7 @@ class TransitJob(object):
                 library.connect_material_expressions(append, '', append2, 'A')
                 library.connect_material_expressions(custom[2], '', append2, 'B')
                 sample = library.create_material_expression(material, ue.MaterialExpressionTextureSample)
-                sample.set_editor_property('texture', textures['car_neutral'])
+                sample.set_editor_property('texture', textures[livery])
                 tint = library.create_material_expression(material, ue.MaterialExpressionMultiply)
                 library.connect_material_expressions(sample, 'RGB', tint, 'A')
                 library.connect_material_expressions(append2, '', tint, 'B')
@@ -492,13 +499,13 @@ class TransitJob(object):
                 raise RuntimeError('Could not save material ' + material.get_path_name())
             # UE 5.8: connect_material_property returns False even when it succeeded, so
             # these booleans are RECORDED, never asserted. Verify structurally instead.
-            connections[group] = {k: bool(v) for k, v in wired.items()}
+            connections[name] = {k: bool(v) for k, v in wired.items()}
             reloaded = self.assets.load_asset(material.get_path_name())
             if reloaded is None:
                 raise RuntimeError('Material did not reload: ' + material.get_path_name())
             if group == 'Glass' and reloaded.get_editor_property('blend_mode') != ue.BlendMode.BLEND_TRANSLUCENT:
                 raise RuntimeError('Glass material did not keep its translucent blend mode')
-            materials[group] = material
+            materials[(group, livery)] = material
             created.append(material.get_path_name())
         self.receipt['materialConnections'] = connections
         return materials
@@ -560,7 +567,10 @@ class TransitJob(object):
             if mesh.get_num_triangles(0) != record['triangles']:
                 raise RuntimeError('%s triangles %d, manifest says %d'
                                    % (record['name'], mesh.get_num_triangles(0), record['triangles']))
-            mesh.set_material(0, materials[record['group']])
+            key = (record['group'], record['livery'] if record['group'] == 'Paint' else None)
+            if key not in materials:
+                raise RuntimeError('No material for %s %s' % key)
+            mesh.set_material(0, materials[key])
             lod_report.append(self.generate_lods(reduction, mesh, lods, record))
             if not self.assets.save_loaded_asset(mesh, only_if_is_dirty=False):
                 raise RuntimeError('Could not save mesh ' + mesh.get_path_name())
@@ -876,9 +886,14 @@ class TransitJob(object):
         ue = self.ue
         spec = self.spec
         settings = spec['transitActor']
-        actor_class = ue.load_object(None, spec['actorClass'])
+        # The plugin exposes AMikdashTransit as unreal.MikdashTransit when the module is
+        # compiled and loaded; the /Script path is the fallback, and its absence is the
+        # symptom of an uncompiled plugin rather than a bad spec.
+        actor_class = getattr(ue, 'MikdashTransit', None)
         if actor_class is None:
-            raise RuntimeError('Transit actor class not loaded; is the plugin compiled? '
+            actor_class = ue.load_object(None, spec['actorClass'])
+        if actor_class is None:
+            raise RuntimeError('Transit actor class not loaded; is MikdashRuntime compiled? '
                                + spec['actorClass'])
         location = ue.Vector(*spec['actorLocationCm'])
         actor = self.actors.spawn_actor_from_class(actor_class, location, ue.Rotator(0, 0, 0),

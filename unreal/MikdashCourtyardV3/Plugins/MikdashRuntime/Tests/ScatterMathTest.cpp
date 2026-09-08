@@ -671,6 +671,61 @@ static void TerraceChecks()
     Off.Enabled = false;
     CHECK(Near(SnapToTerrace(Off, S, OnFlat, 0).X, OnFlat.X));
 
+    // TERRACING VERSUS MINIMUM SPACING, the property that made Scatter() grow a re-spacing
+    // pass. Snapping moves points along the fall line, so two points either side of a bench
+    // line can be pulled onto the same bench and end up far closer than the disc radius. The
+    // first offline run of Scripts/create_vegetation.py hit exactly this: an olive scatter
+    // asked for 702 cm came back with a closest pair of 312 cm. Two things are asserted:
+    // that the raw snap really can violate the spacing (so this is a real hazard and not a
+    // theoretical one), and that Scatter() nonetheless does not.
+    {
+        const int Count = 600;
+        std::vector<InstanceTransform> Raw;
+        const double Spacing = 900.0;
+        for (int I = 0; I < Count; ++I)
+        {
+            const Vec2 P{HashRange(4242u, static_cast<uint32_t>(I), 71u, -40000.0, -20000.0),
+                         HashRange(4242u, static_cast<uint32_t>(I), 72u, -70000.0, -50000.0)};
+            const TerrainSample Local = SampleTerrain(F, P);
+            const Vec2 Q = SnapToTerrace(T, Local, P, static_cast<uint32_t>(I));
+            InstanceTransform Row;
+            Row.XCm = Q.X;
+            Row.YCm = Q.Y;
+            Raw.push_back(Row);
+        }
+        // Not a claim that every snap collides, only that snapping does not preserve spacing.
+        CHECK(MinimumSpacingFast(Raw, Spacing) < Spacing);
+
+        ScatterRequest R;
+        R.MinXCm = -60000.0; R.MinYCm = -70000.0; R.MaxXCm = -10000.0; R.MaxYCm = -20000.0;
+        R.MinSpacingCm = Spacing;
+        R.Seed = 5150u;
+        ScatterFilters Filters;
+        Filters.Terrain = &F;
+        Filters.SpeciesBand.MaxSlopeDegrees = 90.0;
+        Filters.Terraces = T;
+        Filters.Terraces.JitterFraction = 0.15;
+        ScatterStats Terraced;
+        const std::vector<InstanceTransform> Benched = Scatter(R, Filters, &Terraced);
+        CHECK(Benched.size() > 100);
+        CHECK(MinimumSpacingFast(Benched, Spacing) >= Spacing - 1e-6);
+        CHECK(Terraced.RejectedByRespacing > 0);        // the pass really does bite
+        // And with terracing OFF the re-spacing pass is a no-op, because the Poisson set
+        // already guarantees the spacing and every other filter only removes points.
+        ScatterFilters Plain = Filters;
+        Plain.Terraces = TerraceField();
+        ScatterStats Unterraced;
+        const std::vector<InstanceTransform> Loose = Scatter(R, Plain, &Unterraced);
+        CHECK(Unterraced.RejectedByRespacing == 0);
+        CHECK(MinimumSpacingFast(Loose, Spacing) >= Spacing - 1e-6);
+        RecordInt("terrace_rejected_by_respacing", Terraced.RejectedByRespacing);
+        Record("terrace_min_spacing_cm", MinimumSpacingFast(Benched, Spacing));
+        std::printf("terraces: %zu benched instances, closest pair %.2f cm (asked %.0f), "
+                    "%d dropped by the re-spacing pass; unterraced drops 0\n",
+                    Benched.size(), MinimumSpacingFast(Benched, Spacing), Spacing,
+                    Terraced.RejectedByRespacing);
+    }
+
     // Jitter stays inside its declared fraction of the bench width.
     TerraceField Jittered = T;
     Jittered.JitterFraction = 0.15;

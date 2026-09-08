@@ -1,7 +1,7 @@
 # Integration queue — Walkthrough-12
 
 Engine jobs run SERIAL and in the FOREGROUND. RTX 2070 / 16 GB will not take two at once.
-Kill any stray UnrealEditor.exe before each job: a zombie editor holding the map makes
+Inspect any existing UnrealEditor process and establish ownership before each job. Never kill the user's editor or an active colleague job. An abandoned editor holding the map makes
 saves return False with no other symptom.
 
 ## Stage 0 — before any engine job
@@ -11,8 +11,8 @@ saves return False with no other symptom.
 - [ ] Checkpoint the umap.
 
 ## Stage 1 — compile once, not per agent
-The editor target must rebuild: MetaHumanSDK, MetaHumanCharacter and MetaHumanCrowd were
-added to the .uproject and all three carry Source modules, so the editor will not open
+The editor target must rebuild: MetaHumanSDK and MetaHumanCharacter were
+added to the .uproject and carry Source modules (MetaHumanCrowd was removed), so the editor will not open
 until it is rebuilt. MikdashRuntime.Build.cs gained UMG (public) and RenderCore,
 MovieScene, MovieSceneTracks, LevelSequence, AudioMixer, Projects (private).
 - [ ] Rebuild MikdashCourtyardV3Editor Win64 Development.
@@ -20,7 +20,7 @@ MovieScene, MovieSceneTracks, LevelSequence, AudioMixer, Projects (private).
       has bitten this project once already.
 
 ## Stage 2 — standalone math tests (no engine, can run in parallel)
-Discovered under Plugins/MikdashRuntime/Source/MikdashRuntime/Tests/. Each agent compiles
+Discovered under Plugins/MikdashRuntime/Tests/. Each agent compiles
 and runs its own with cl.exe, but the acceptance gate re-runs them all together.
 - [ ] scripts/verify.py green.
 
@@ -33,7 +33,7 @@ Meshes and textures generated outside the engine. Order does not matter.
 Each is a `-run=pythonscript` commandlet with its own -abslog. Verify the receipt before
 starting the next. If a receipt records failure, stop and fix rather than continuing.
 Order chosen so that anything reading positions from the map runs after what it reads.
- 1. [ ] release_enclosure.py        — decides what modern geometry is hidden
+ 1. [ ] release_enclosure.py        — HOLD any changed scenario selection until user decides; preserve current visibility and 50 cm scale
  2. [ ] release_water.py            — the stream cuts through the court
  3. [ ] release_vegetation.py       — needs the water and enclosure settled; batch with resume
  4. [ ] release_gate_security.py    — at the gates
@@ -45,10 +45,9 @@ Order chosen so that anything reading positions from the map runs after what it 
 10. [ ] release_sky_tod.py          — lighting last so it is tuned against the final scene
 11. [ ] release_tour.py             — markers at final positions
 12. [ ] release_intro_sequence.py   — camera path against the final scene
-13. [ ] release_frontend.py         — may change the startup map; record the previous value
+13. [ ] Front-end subsystem/controller integration — automatic GameInstance subsystem; no separate release_frontend.py or startup-map change
 14. [ ] release_localization.py
-15. [ ] release_metahuman_enable.py — BLOCKED until the user installs MetaHuman Creator
-       Core Data from the Epic launcher, and the first cloud auto-rig is triggered in the GUI
+15. [ ] release_metahuman_enable.py — Core Data is installed; first Epic cloud auto-rig still requires the editor GUI.
 
 ## Stage 5 — verify
 - [ ] perf_probe.py against PERFORMANCE-BUDGET.md

@@ -1,3 +1,4 @@
+#include "MikdashPlayerController.h"
 #include "MikdashMenuWidget.h"
 
 #include "Blueprint/WidgetTree.h"
@@ -162,6 +163,7 @@ void UMikdashMenuWidget::Rebuild()
 
     BuildBody(BodyColumn);
     RefreshValues();
+    if (IsInViewport() && FirstEntry) FirstEntry->SetKeyboardFocus();
 }
 
 void UMikdashMenuWidget::BuildChrome()
@@ -489,6 +491,16 @@ void UMikdashMainMenuWidget::BuildBody(UVerticalBox* Body)
         if (Reason) { Reason->SetVisibility(ESlateVisibility::HitTestInvisible); }
     }
 
+    if (AMikdashPlayerController* Walk = FrontEnd ? Cast<AMikdashPlayerController>(FrontEnd->GetOwningController()) : nullptr)
+    {
+        AddMenuEntry(Body, FText::FromString(Walk->IsDoveFlightActive() ? TEXT("Return to walking") : TEXT("Explore as a white dove")),
+            [this]() { if (FrontEnd) if (AMikdashPlayerController* PC = Cast<AMikdashPlayerController>(FrontEnd->GetOwningController())) PC->RequestDoveFlightFromMenu(); });
+        AddText(Body, FText::FromString(Walk->GetDoveFlightStatus()), 14.0f, Palette().TextDim);
+        AddMenuEntry(Body, FText::FromString(TEXT("Preparation lesson (architectural review)")),
+            [this]() { if (FrontEnd) FrontEnd->ShowPreparationLesson(); });
+        AddMenuEntry(Body, FText::FromString(Walk->IsSoundMuted() ? TEXT("Unmute sound") : TEXT("Mute sound")),
+            [this]() { if (FrontEnd) if (AMikdashPlayerController* PC = Cast<AMikdashPlayerController>(FrontEnd->GetOwningController())) { PC->ToggleSound(); Rebuild(); } });
+    }
     AddMenuEntry(Body, L(TEXT("Settings"), TEXT("הגדרות")),
         [this]() { if (FrontEnd) { FrontEnd->ShowSettings(); } });
     AddMenuEntry(Body, L(TEXT("Credits"), TEXT("קרדיטים")),
@@ -522,6 +534,16 @@ void UMikdashPauseMenuWidget::BuildBody(UVerticalBox* Body)
     if (!Body) { return; }
     AddMenuEntry(Body, L(TEXT("Resume"), TEXT("המשך")),
         [this]() { if (FrontEnd) { FrontEnd->ResumeWalkthrough(); } });
+    if (AMikdashPlayerController* Walk = FrontEnd ? Cast<AMikdashPlayerController>(FrontEnd->GetOwningController()) : nullptr)
+    {
+        AddMenuEntry(Body, FText::FromString(Walk->IsDoveFlightActive() ? TEXT("Return to walking") : TEXT("Explore as a white dove")),
+            [this]() { if (FrontEnd) if (AMikdashPlayerController* PC = Cast<AMikdashPlayerController>(FrontEnd->GetOwningController())) PC->RequestDoveFlightFromMenu(); });
+        AddText(Body, FText::FromString(Walk->GetDoveFlightStatus()), 14.0f, Palette().TextDim);
+        AddMenuEntry(Body, FText::FromString(TEXT("Preparation lesson (architectural review)")),
+            [this]() { if (FrontEnd) FrontEnd->ShowPreparationLesson(); });
+        AddMenuEntry(Body, FText::FromString(Walk->IsSoundMuted() ? TEXT("Unmute sound") : TEXT("Mute sound")),
+            [this]() { if (FrontEnd) if (AMikdashPlayerController* PC = Cast<AMikdashPlayerController>(FrontEnd->GetOwningController())) { PC->ToggleSound(); Rebuild(); } });
+    }
     AddMenuEntry(Body, L(TEXT("Settings"), TEXT("הגדרות")),
         [this]() { if (FrontEnd) { FrontEnd->ShowSettings(); } });
     AddMenuEntry(Body, L(TEXT("Return to main menu"), TEXT("חזרה לתפריט הראשי")),

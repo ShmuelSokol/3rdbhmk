@@ -1572,7 +1572,13 @@ def measure(parts):
         out['heads_tall'] = out['stature'] / out['head_height_chin_crown']
     band = [v for v in allv if 138.0 < v[2] < 149.0]
     if band:
-        out['shoulder_breadth'] = max(v[0] for v in band) - min(v[0] for v in band)
+        # Outermost cloth, mantle included - this is the read at distance.
+        out['clothed_shoulder_breadth'] = max(v[0] for v in band) - min(v[0] for v in band)
+    sleeves = [v for name, vs in by.items() if name.startswith('Sleeve')
+               for v in vs if 138.0 < v[2] < 149.0]
+    if sleeves:
+        # Deltoid under the sleeve, comparable to the 0.259 H bideltoid breadth.
+        out['bideltoid_under_sleeve'] = max(v[0] for v in sleeves) - min(v[0] for v in sleeves)
     tips = [v for name, vs in by.items() if name.startswith('Finger') for v in vs]
     if tips:
         out['dactylion_height'] = min(v[2] for v in tips)
@@ -1588,13 +1594,19 @@ def measure(parts):
     neck = by.get('Neck')
     if neck:
         out['neck_diameter'] = max(v[0] for v in neck) - min(v[0] for v in neck)
-        out['neck_visible_height'] = 0.0
-        covered = [v[2] for name, vs in by.items()
-                   if name in ('Collar', 'HeadCloth', 'HeadCap', 'Cap', 'TurbanCrown', 'Beard')
-                   for v in vs]
-        if covered:
-            lowest_cover = min(v for v in covered if v > 140.0) if any(v > 140 for v in covered) else 161.0
-            out['neck_visible_height'] = max(0.0, min(161.0, lowest_cover) - 149.0)
+        # Exposed throat at the FRONT: the vertical gap between the top of the
+        # collar and the bottom of whatever hangs off the head, measured only on
+        # front-facing geometry. V3-a's figures had a correctly sized neck and
+        # zero of it visible, which is why the head sat straight on the robe.
+        front = lambda vs: [v for v in vs if v[1] < -2.0 and 140.0 < v[2] < 170.0]
+        below = [v[2] for name in ('Collar', 'Tunic', 'Mantle', 'Sash')
+                 for v in front(by.get(name, []))]
+        above = [v[2] for name in ('Beard', 'Moustache', 'HeadCloth', 'HeadCap', 'Cap',
+                                   'TurbanCrown', 'Hair')
+                 for v in front(by.get(name, []))]
+        top_of_garment = max(below) if below else 149.0
+        bottom_of_headwear = min(above) if above else 170.0
+        out['neck_visible_height_front'] = round(max(0.0, bottom_of_headwear - top_of_garment), 2)
     hem = [v for v in by.get('Tunic', []) if v[2] < min(x[2] for x in by.get('Tunic', [(0, 0, 0)])) + 4.0]
     if hem:
         a = (max(v[0] for v in hem) - min(v[0] for v in hem)) / 2
@@ -2177,7 +2189,7 @@ def build(previews=True, only=None):
             'partBreakdown': sorted(report, key=lambda r: -r['triangles'])[:12]})
         print('%-30s %6d tris %5d verts  %.2f heads  shoulder %.1f  fingertip %.1f'
               % (variant['id'], triangles, sum(r['vertices'] for r in report),
-                 measured.get('heads_tall', 0), measured.get('shoulder_breadth', 0),
+                 measured.get('heads_tall', 0), measured.get('clothed_shoulder_breadth', 0),
                  measured.get('dactylion_height', 0)), flush=True)
 
     # ---- distinctness gate -------------------------------------------------

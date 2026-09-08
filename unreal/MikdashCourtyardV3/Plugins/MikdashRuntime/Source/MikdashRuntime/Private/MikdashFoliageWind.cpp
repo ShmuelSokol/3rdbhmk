@@ -1,5 +1,6 @@
 #include "MikdashFoliageWind.h"
 
+#include "Components/SceneComponent.h"
 #include "Components/WindDirectionalSourceComponent.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -13,7 +14,7 @@ AMikdashFoliageWind::AMikdashFoliageWind()
 	// The wind must keep gusting while the game is paused for a menu or a photo, or the world
 	// freezes in a way that reads as a bug rather than as a pause.
 	PrimaryActorTick.bTickEvenWhenPaused = true;
-	SetActorTickInterval(0.f);
+	PrimaryActorTick.TickInterval = 0.f;   // every frame; the gust is what sells it
 
 	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
@@ -26,11 +27,27 @@ AMikdashFoliageWind::AMikdashFoliageWind()
 	WindSource->MaxGustAmount = 0.3f;
 }
 
+void AMikdashFoliageWind::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	Initialise();
+}
+
 void AMikdashFoliageWind::BeginPlay()
 {
 	Super::BeginPlay();
+	Initialise();
+}
+
+void AMikdashFoliageWind::Initialise()
+{
+	if (bInitialised)
+	{
+		return;
+	}
+	bInitialised = true;
 	// A stable per-actor phase from the actor's own name, so a reload gusts the same way and
-	// two instances never gust in lockstep.
+	// two wind actors in one level never gust in lockstep and read as one doubled wind.
 	PhaseOffset = static_cast<float>(GetTypeHash(GetFName()) % 1000u) / 1000.f;
 	ResetToDefaultBreeze(/*bImmediate=*/true);
 }
@@ -74,6 +91,7 @@ void AMikdashFoliageWind::Tick(float DeltaSeconds)
 	{
 		return;
 	}
+	Initialise();      // editor viewport ticking never runs BeginPlay
 	ElapsedSeconds += DeltaSeconds;
 
 	// Blend the mean toward whatever the weather last asked for. Exponential rather than

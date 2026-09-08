@@ -45,6 +45,8 @@ public:
     UFUNCTION(BlueprintCallable, Category="Walkthrough") void RequestDoveFlightFromMenu();
     UFUNCTION(BlueprintPure, Category="Walkthrough") bool IsDoveFlightActive() const { return bDoveFlight; }
     UFUNCTION(BlueprintPure, Category="Walkthrough") FString GetDoveFlightStatus() const { return DoveFlightStatus; }
+    // Called only by the authoritative front end; never opens another menu.
+    void SynchronizeFrontEndMenu(bool bVisible);
     void QuitWalkthrough();
     void ShowPreparationLesson();
     void BackToWalkthroughMenu();

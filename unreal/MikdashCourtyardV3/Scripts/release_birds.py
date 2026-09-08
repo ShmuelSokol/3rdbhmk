@@ -22,7 +22,9 @@ WHAT IT DOES, IN ORDER
      replace the authored height and every perch XY is checked to lie inside it; where it is
      not found the authored points are written unchanged and the receipt says which happened.
   6. Spawns one AMikdashBirdFlock per flock, writes every property and READS EACH ONE BACK
-     immediately, saves, reopens the map and reads them all back a second time numerically.
+     immediately; makes the actor build the flock once so its OWN seeding and perch resolver
+     confirm the counts, then CLEARS those instances so nothing transient is serialised into the
+     .umap; saves, reopens the map and reads every value back a second time numerically.
   7. Writes SourceAssets/birds-review/BirdsV1/native-birds-<stamp>.json at start, on failure,
      and in finally.
 
@@ -470,9 +472,29 @@ def _verify_mesh(ue, mesh, record, tolerance):
 
 
 def _actor_bounds(actor):
-    origin, extent = actor.get_actor_bounds(True)
+    """World AABB including NON-COLLIDING components. The ledges this script measures against -
+    the Kotel face, the outer envelope walls, the Old City shells - are all placed NoCollision,
+    so asking for colliding components only would return zero bounds for every one of them and
+    the discovery would silently fall back to the authored numbers with no error anywhere."""
+    origin, extent = actor.get_actor_bounds(False)
     return dict(min=[origin.x - extent.x, origin.y - extent.y, origin.z - extent.z],
                 max=[origin.x + extent.x, origin.y + extent.y, origin.z + extent.z])
+
+
+def _mesh_paths(actor):
+    """Every static mesh asset path on an actor, for matching an actor whose LABEL was never set
+    to anything meaningful. Level actors imported in bulk are often labelled by the engine, so
+    the asset path is the more reliable identifier of the two."""
+    import unreal as ue
+    paths = []
+    try:
+        for component in actor.get_components_by_class(ue.StaticMeshComponent):
+            mesh = component.get_editor_property('static_mesh')
+            if mesh:
+                paths.append(mesh.get_path_name())
+    except Exception:  # noqa: BLE001
+        pass
+    return paths
 
 
 def _union(boxes):
@@ -504,8 +526,13 @@ def _resolve_perches(ue, actors, flock):
             matches.append(actor)
         elif method == 'actor_label_prefix_union' and label.startswith(discovery['labelPrefix']):
             matches.append(actor)
-        elif method == 'actor_label_substring' and discovery['labelSubstring'] in label:
-            matches.append(actor)
+        elif method == 'actor_label_substring':
+            # The outer envelope union was imported in bulk and its actor LABEL may just be the
+            # engine default, so the static mesh asset path is checked too. Mesh path first
+            # would be cheaper still, but the label is the identifier the spec quotes.
+            if discovery['labelSubstring'] in label or \
+                    any(discovery['labelSubstring'] in p for p in _mesh_paths(actor)):
+                matches.append(actor)
     if not matches:
         return authored, dict(source='authored_actor_not_found', method=method,
                               looked_for=discovery.get('label') or discovery.get('labelPrefix')
@@ -743,7 +770,49 @@ def run():
                             compare=lambda got, want: len(list(got)) == len(want))
             _set_and_verify(actor, props['PerchPointsPerTaggedActor'], 8)
             _set_and_verify(actor, props['AnnounceBirdSounds'], bool(flock['announceBirdSounds']))
+
+            # ---- probe: make the actor build the flock ONCE, then clear it -------------
+            # This is the only cross-check that the numbers written above actually produce a
+            # flock: AMikdashBirdFlock::RebuildFlock seeds the birds and runs its OWN
+            # ResolvePerches over the points just written, so the counts it reports back are an
+            # independent confirmation of this script's arithmetic - in particular that no perch
+            # was silently dropped as a duplicate.
+            #
+            # The instances are then CLEARED before saving. A HISM instance added in the editor
+            # is serialised into the .umap, and BeginPlay rebuilds the flock from scratch, so
+            # leaving them would bloat the map with state that is thrown away on the first
+            # frame. Clearing is done by rebuilding with bFlockEnabled false, which is the
+            # actor's own documented path for it.
+            probe = None
+            try:
+                built = bool(actor.call_method('RebuildFlock'))
+                probe = dict(rebuilt=built,
+                             liveBirdCount=int(actor.call_method('GetLiveBirdCount')),
+                             resolvedPerchCount=int(actor.call_method('GetResolvedPerchCount')),
+                             perchSourceStatus=str(actor.call_method('GetPerchSourceStatus')),
+                             flockStatus=str(actor.call_method('GetFlockStatus')))
+            except Exception as exc:  # noqa: BLE001
+                probe = dict(rebuilt=False, unavailable=repr(exc),
+                             note='The editor-side probe could not run. The placement itself is '
+                                  'still written and read back; only this cross-check is missing.')
+            if probe.get('rebuilt'):
+                if probe['liveBirdCount'] != flock['birdCount']:
+                    raise RuntimeError('%s: the actor built %d birds, not the %d written'
+                                       % (flock['key'], probe['liveBirdCount'], flock['birdCount']))
+                if probe['resolvedPerchCount'] != len(perch_points):
+                    raise RuntimeError('%s: the actor resolved %d perches from the %d written - it drops '
+                                       'points closer than the species hard separation, so two ledges '
+                                       'collided. %s'
+                                       % (flock['key'], probe['resolvedPerchCount'], len(perch_points),
+                                          probe['perchSourceStatus']))
+            # Clear the instances the probe created, then write the final enabled state.
+            actor.set_editor_property(props['FlockEnabled'], False)
+            try:
+                actor.call_method('RebuildFlock')
+            except Exception:  # noqa: BLE001
+                pass
             _set_and_verify(actor, props['FlockEnabled'], not disabled)
+            probe['instancesClearedBeforeSave'] = True
 
             actor.modify()
             placed.append((flock, actor, perch_points))
@@ -756,6 +825,7 @@ def run():
                 perchPointsCm=[[round(v, 3) for v in p] for p in perch_points],
                 perchResolution=perch_report,
                 placementBasis=flock['placementBasis'],
+                editorProbe=probe,
                 flockStatus=str(actor.call_method('GetFlockStatus')))
             write()
 

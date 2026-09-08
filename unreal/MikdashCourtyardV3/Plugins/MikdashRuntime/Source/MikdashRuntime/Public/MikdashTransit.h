@@ -81,14 +81,26 @@ struct MIKDASHRUNTIME_API FMikdashTransitBody
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Transit") TArray<FVector> DoorLocalOffsets;
 };
 
-/** Broadcast when a vehicle's doors finish opening (boarding) or begin to shut (alighting).
- *
- * RouteIndex/StopIndex address the authored stop; GlobalStopIndex is a flat index the
- * crowd system can key on directly. BoardingPoint is the world point at the vehicle's
- * door on the kerb side -- the point the pedestrians should converge on -- and
- * SecondsAvailable is how long the doors will remain open. */
+/** Legacy hooks now both fire only after doors open. New coordinators should use
+ * OnPassengerExchange, which supplies stable vehicle/run identity and a phase budget. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FMikdashTransitBoardingSignature,
     int32, GlobalStopIndex, int32, Count, FVector, BoardingPoint, float, SecondsAvailable, FName, RouteId);
+
+USTRUCT(BlueprintType)
+struct MIKDASHRUNTIME_API FMikdashPassengerExchange
+{
+    GENERATED_BODY()
+    UPROPERTY(BlueprintReadOnly) FName RouteId;
+    UPROPERTY(BlueprintReadOnly) int32 Generation = 0;
+    UPROPERTY(BlueprintReadOnly) int32 VehicleId = 0;
+    UPROPERTY(BlueprintReadOnly) int32 RunIndex = 0;
+    UPROPERTY(BlueprintReadOnly) int32 GlobalStopIndex = 0;
+    UPROPERTY(BlueprintReadOnly) int32 Count = 0;
+    UPROPERTY(BlueprintReadOnly) FVector BoardingPoint = FVector::ZeroVector;
+    UPROPERTY(BlueprintReadOnly) double StartSimulationSeconds = 0;
+    UPROPERTY(BlueprintReadOnly) float SecondsAvailable = 0;
+};
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMikdashPassengerExchangeSignature, const FMikdashPassengerExchange&, Request);
 
 // ---------------------------------------------------------------------------
 // Plain C++ runtime state. Rebuilt at every start from the authored properties above,
@@ -201,6 +213,10 @@ public:
     UFUNCTION(BlueprintCallable, Category="Transit") void ShutdownTransit();
     UFUNCTION(BlueprintCallable, Category="Transit") void SetTransitPaused(bool bPaused);
 
+    UFUNCTION(BlueprintPure, Category="Transit") double GetTransitSeconds() const { return WorldSeconds; }
+    UFUNCTION(BlueprintPure, Category="Transit") bool IsTransitPaused() const { return bPaused; }
+    bool IsPassengerExchangeOpen(const FMikdashPassengerExchange& Request) const;
+    UPROPERTY(BlueprintAssignable, Category="Transit|Boarding") FMikdashPassengerExchangeSignature OnPassengerExchange;
     UFUNCTION(BlueprintPure, Category="Transit") bool IsTransitActive() const { return bActive; }
     UFUNCTION(BlueprintPure, Category="Transit") FString GetTransitStatus() const { return Status; }
     UFUNCTION(BlueprintPure, Category="Transit") int32 GetRoadVehicleCount() const { return Vehicles.Num(); }
@@ -338,6 +354,7 @@ private:
     int32 UpdateCursor = 0;
     int32 NextTrainId = 0;
     double WorldSeconds = 0.0;
+    int32 ExchangeGeneration = 0;
     double NextTrainDepartureSeconds = 0.0;
     bool bActive = false;
     bool bPaused = false;
@@ -353,7 +370,7 @@ private:
     void WriteVehicleTransform(const FVehicle& Vehicle, const FVector& Location, const FRotator& Rotation);
     void ApplyPaintColour(int32 BodyIdx, int32 InstanceId, int32 VariationIndex);
     void BroadcastBoarding(int32 RouteIdx, int32 LocalStopIdx, int32 VehicleId, int32 RunIndex,
-                           const FVector& DoorPoint, float SecondsAvailable, bool bAlighting);
+                           const FVector& DoorPoint, float SecondsAvailable);
     void MarkTouchedComponentsDirty();
     FVector CurrentViewLocation() const;
 

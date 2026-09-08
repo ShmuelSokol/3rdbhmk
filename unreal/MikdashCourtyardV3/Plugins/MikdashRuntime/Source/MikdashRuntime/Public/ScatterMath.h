@@ -536,6 +536,9 @@ struct ScatterStats
     int RejectedByExclusion = 0;
     int RejectedByCluster = 0;
     int RejectedByCap = 0;
+    /** Points the terrace snap moved to within MinSpacingCm of an already-accepted point.
+     * Zero whenever terracing is off, because the Poisson set already guarantees the spacing. */
+    int RejectedByRespacing = 0;
     double AreaSqCm = 0.0;
     double RealisedDensityPer100SqM = 0.0;
     bool SaturationLimited = false;
@@ -640,11 +643,21 @@ struct ScatterFilters
 };
 
 /** The whole pipeline: Poisson -> deterministic shuffle -> band, exclusion and cluster
- * acceptance -> terrace snap -> density cap -> per-instance jitter.
+ * acceptance -> terrace snap -> re-spacing -> density cap -> per-instance jitter.
  *
  * Order note: the density cap is applied to points that already passed the filters, so a
  * species whose band covers only part of the rectangle still reaches its requested density
  * inside that part rather than being thinned twice.
+ *
+ * RE-SPACING, and why it is not optional. The Poisson pass guarantees the minimum spacing, and
+ * every later filter only ever REMOVES points, so the guarantee survives all of them - with one
+ * exception. SnapToTerrace MOVES a point along the fall line, and two points on either side of a
+ * bench line can be pulled onto the same bench and end up far closer than MinSpacingCm. Measured
+ * on the real Judean terrain with 500 cm benches, an olive scatter asked for 702 cm spacing came
+ * back with a closest pair of 312 cm. So an accepted point is re-tested against the points
+ * already accepted, on a uniform grid, and dropped if the snap put it too close. Without this,
+ * "minimum spacing holds for every accepted pair" would be true only when terracing is off, and
+ * a conditional invariant is not an invariant.
  */
 inline std::vector<InstanceTransform> Scatter(const ScatterRequest& R, const ScatterFilters& F,
                                               ScatterStats* StatsOut = nullptr)
@@ -685,6 +698,41 @@ inline std::vector<InstanceTransform> Scatter(const ScatterRequest& R, const Sca
         return HA != HB ? HA < HB : A < B;
     });
 
+    // Uniform grid of accepted points, for the re-spacing test. Cell = MinSpacingCm, so a
+    // conflicting point can only be in the 3x3 neighbourhood.
+    const double AcceptCell = R.MinSpacingCm > 0.0 ? R.MinSpacingCm : 1.0;
+    const long long AcceptGX = static_cast<long long>(std::ceil((R.MaxXCm - R.MinXCm) / AcceptCell)) + 3;
+    const long long AcceptGY = static_cast<long long>(std::ceil((R.MaxYCm - R.MinYCm) / AcceptCell)) + 3;
+    const bool bUseAcceptGrid = AcceptGX > 0 && AcceptGY > 0 && AcceptGX * AcceptGY <= 64000000LL;
+    std::vector<std::vector<int>> Accepted;
+    if (bUseAcceptGrid)
+    {
+        Accepted.resize(static_cast<size_t>(AcceptGX * AcceptGY));
+    }
+    auto AcceptCellOf = [&](Vec2 P) {
+        const long long CX = ClampLong(static_cast<long long>((P.X - R.MinXCm) / AcceptCell), 0LL, AcceptGX - 1);
+        const long long CY = ClampLong(static_cast<long long>((P.Y - R.MinYCm) / AcceptCell), 0LL, AcceptGY - 1);
+        return std::pair<long long, long long>(CX, CY);
+    };
+    auto StillFarEnough = [&](Vec2 P) {
+        if (!bUseAcceptGrid) return true;
+        const auto Cell = AcceptCellOf(P);
+        const double RSq = R.MinSpacingCm * R.MinSpacingCm;
+        for (long long Y = std::max(0LL, Cell.second - 1); Y <= std::min(AcceptGY - 1, Cell.second + 1); ++Y)
+        {
+            for (long long X = std::max(0LL, Cell.first - 1); X <= std::min(AcceptGX - 1, Cell.first + 1); ++X)
+            {
+                for (int I : Accepted[static_cast<size_t>(Y * AcceptGX + X)])
+                {
+                    const double DX = Out[static_cast<size_t>(I)].XCm - P.X;
+                    const double DY = Out[static_cast<size_t>(I)].YCm - P.Y;
+                    if (DX * DX + DY * DY < RSq) return false;
+                }
+            }
+        }
+        return true;
+    };
+
     for (uint32_t Index : Order)
     {
         if (static_cast<int>(Out.size()) >= Target)
@@ -720,11 +768,21 @@ inline std::vector<InstanceTransform> Scatter(const ScatterRequest& R, const Sca
             ++Stats.RejectedByExclusion;
             continue;
         }
+        if (!StillFarEnough(P))
+        {
+            ++Stats.RejectedByRespacing;
+            continue;
+        }
         double GroundZ = F.GroundOffsetCm;
         if (F.Terrain != nullptr && F.Terrain->Valid())
         {
             S = SampleTerrain(*F.Terrain, P);            // re-sample after the snap
             GroundZ += S.HeightCm;
+        }
+        if (bUseAcceptGrid)
+        {
+            const auto Cell = AcceptCellOf(P);
+            Accepted[static_cast<size_t>(Cell.second * AcceptGX + Cell.first)].push_back(static_cast<int>(Out.size()));
         }
         Out.push_back(MakeInstance(P, GroundZ, S, F.Jitter, R.Seed, Index));
     }

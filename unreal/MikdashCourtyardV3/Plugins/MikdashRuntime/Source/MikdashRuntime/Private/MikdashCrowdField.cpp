@@ -602,3 +602,34 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
     PushTransforms(Window.FirstStart, Window.FirstCount);
     PushTransforms(Window.SecondStart, Window.SecondCount);
 }
+
+
+bool AMikdashCrowdField::IsTransitSegmentAllowed(const FVector& From, const FVector& To, float RadiusCm) const
+{
+    if (From.ContainsNaN() || To.ContainsNaN() || !FMath::IsFinite(RadiusCm) || RadiusCm < 0 || Zones.IsEmpty()) return false;
+    const double Distance = FVector::Dist2D(From, To);
+    if (Distance > 5000.0) return false; // bounded authored transfer, never city-scale teleportation
+    const int32 Steps = FMath::Max(1, FMath::CeilToInt(Distance / 25.0));
+    const double Margin = RadiusCm + 13.0; // covers <=12.5cm gap to nearest segment sample
+    for (int32 Step = 0; Step <= Steps; ++Step)
+    {
+        const FVector Sample = FMath::Lerp(From, To, static_cast<double>(Step) / Steps);
+        const MikdashCrowd::Vec2 Point{Sample.X, Sample.Y};
+        bool InZone = false;
+        for (const FMikdashCrowdZone& Zone : Zones)
+        {
+            TArray<MikdashCrowd::Vec2> Polygon;
+            for (const FVector2D& Vertex : Zone.PolygonCm) Polygon.Add({Vertex.X, Vertex.Y});
+            if (MikdashCrowd::PointInPolygonWithMargin(Polygon.GetData(), Polygon.Num(), Point, Margin)) { InZone = true; break; }
+        }
+        if (!InZone) return false;
+        for (const FMikdashCrowdKeepOut& KeepOut : ProtectedPolygons)
+        {
+            TArray<MikdashCrowd::Vec2> Polygon;
+            for (const FVector2D& Vertex : KeepOut.PolygonCm) Polygon.Add({Vertex.X, Vertex.Y});
+            if (MikdashCrowd::PointInPolygon(Polygon.GetData(), Polygon.Num(), Point)
+                || MikdashCrowd::DistanceToPolygonEdge(Polygon.GetData(), Polygon.Num(), Point) <= FMath::Max(Margin, static_cast<double>(ProtectedMarginCm))) return false;
+        }
+    }
+    return true;
+}

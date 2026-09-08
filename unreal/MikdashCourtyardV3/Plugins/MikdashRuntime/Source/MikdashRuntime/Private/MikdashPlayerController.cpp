@@ -1,3 +1,4 @@
+#include "MikdashFrontEnd.h"
 #include "MikdashPlayerController.h"
 #include "MikdashDovePawn.h"
 #include "MikdashResidentCharacter.h"
@@ -237,7 +238,8 @@ void AMikdashPlayerController::BeginPlay()
         OverlayWidget = SNew(SMikdashOverlay).Controller(this);
         GetWorld()->GetGameViewport()->AddViewportWidgetContent(OverlayWidget.ToSharedRef(), 10);
     }
-    OpenMenu();
+    const UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this);
+    if (!FrontEnd || !FrontEnd->bEnabled) OpenMenu();
 }
 
 void AMikdashPlayerController::SetupInputComponent()
@@ -567,8 +569,32 @@ void AMikdashPlayerController::UpdateFootsteps(float DeltaTime)
     }
 }
 
+void AMikdashPlayerController::SynchronizeFrontEndMenu(bool bVisible)
+{
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    bMenuOpen = bVisible;
+    if (bVisible)
+    {
+        bPendingMenuDove = false;
+        CloseResidentDialog();
+        if (ACharacter* Walker = Cast<ACharacter>(GetPawn()))
+            Walker->GetCharacterMovement()->StopMovementImmediately();
+    }
+    else bHasStarted = true;
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    SetPause(bVisible);
+}
+
 void AMikdashPlayerController::OpenMenu()
 {
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    {
+        if (FrontEnd->HasWalkthroughStarted()) FrontEnd->ShowPauseMenu();
+        else FrontEnd->ShowMainMenu();
+        return;
+    }
     if (bMenuOpen || !IsLocalController() || !GetWorld() || !GetWorld()->GetGameViewport()) return;
     bMenuOpen = true;
     // A conversation is a walking-world thing: opening the menu ends it and lets the
@@ -588,6 +614,9 @@ void AMikdashPlayerController::OpenMenu()
 
 void AMikdashPlayerController::ShowPreparationLesson()
 {
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled
+        && FrontEnd->GetScreen() != EMikdashScreen::Preparation)
+    { FrontEnd->ShowPreparationLesson(); return; }
     if (!bMenuOpen || !GetWorld() || !GetWorld()->GetGameViewport()) return;
     if (MenuWidget.IsValid()) GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
     MenuWidget = SNew(SMikdashPreparation).Journey(&PreparationJourney)
@@ -610,6 +639,8 @@ void AMikdashPlayerController::BackToWalkthroughMenu()
 
 void AMikdashPlayerController::ResumeWalkthrough()
 {
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    { FrontEnd->ResumeWalkthrough(); return; }
     if (!bMenuOpen) return;
     if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
         GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
@@ -627,6 +658,12 @@ void AMikdashPlayerController::ResumeWalkthrough()
 
 void AMikdashPlayerController::ToggleWalkthroughMenu()
 {
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    {
+        if (FrontEnd->GetScreen() == EMikdashScreen::Preparation) BackToWalkthroughMenu();
+        else FrontEnd->TogglePauseMenu();
+        return;
+    }
     if (bMenuOpen)
     {
         // Escape releases/resumes an existing walk, but never starts one.

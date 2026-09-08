@@ -336,6 +336,9 @@ public:
      * unparseable. Public and static so a test or a release script can reason about it. */
     static int32 ParseCrowdCountSwitch(int32 Fallback);
 
+    // Conservative zone/keep-out review only; coordinator supplies real floor/capsule queries.
+    bool IsTransitSegmentAllowed(const FVector& From, const FVector& To, float RadiusCm = 34.f) const;
+
     virtual void Tick(float DeltaSeconds) override;
 
 protected:

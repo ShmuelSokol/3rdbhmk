@@ -48,6 +48,7 @@ enum class EMikdashScreen : uint8
     Settings    UMETA(DisplayName = "Settings"),
     Credits     UMETA(DisplayName = "Credits"),
     PauseMenu   UMETA(DisplayName = "Pause menu"),
+    Preparation UMETA(DisplayName = "Preparation lesson"),
     Loading     UMETA(DisplayName = "Loading"),
 };
 
@@ -97,6 +98,8 @@ public:
     UFUNCTION(BlueprintPure, Category = "Mikdash|Front end") EMikdashScreen GetScreen() const { return Screen; }
     UFUNCTION(BlueprintPure, Category = "Mikdash|Front end") bool IsFrontEndVisible() const { return Screen != EMikdashScreen::None; }
     UFUNCTION(BlueprintPure, Category = "Mikdash|Front end") bool HasWalkthroughStarted() const { return bWalkthroughStarted; }
+
+    UFUNCTION(BlueprintCallable, Category = "Mikdash|Front end") MIKDASHRUNTIME_API void ShowPreparationLesson();
 
     // -- guided tour -------------------------------------------------------
 
@@ -230,6 +233,9 @@ private:
     void ApplyMenuInputMode(bool bMenuUp);
     void StartMenuCamera();
     void StopMenuCamera();
+    void RestoreMenuCameraTick();
+    TWeakObjectPtr<APlayerController> MenuTickController;
+    bool bPreviousFullTickWhenPaused = false;
     ACameraActor* FindLabelledMenuCamera(UWorld* World) const;
 
     TArray<FMikdashCreditsSection> ReadThirdPartyCredits() const;

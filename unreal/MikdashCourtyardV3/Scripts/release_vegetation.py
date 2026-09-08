@@ -517,10 +517,20 @@ class Release:
                 subsystem.set_lod_from_static_mesh(base_asset, index, source, 0, True)
                 screen_sizes.append(lod_screen_size(radius, record['lodStartDistanceCm'],
                                                     spec['lod']['minimumScreenSize']))
+            # Apply the screen sizes if the engine exposes it. Recorded either way: a silent
+            # fallback to the engine's automatic screen sizes would leave the LOD distances in
+            # the plan looking authoritative when nothing had used them.
+            applied = False
+            try:
+                applied = bool(subsystem.set_lod_screen_sizes(base_asset, screen_sizes))
+            except Exception as error:                       # noqa: BLE001
+                self.receipt.setdefault('lodScreenSizeErrors', []).append(
+                    {'mesh': base['mesh'], 'error': str(error)[:200]})
             assembled.append({'species': species, 'role': role, 'mesh': base['mesh'],
                               'lodCount': len(records),
                               'lodStartDistanceCm': [r['lodStartDistanceCm'] for r in records],
                               'lodScreenSizes': [round(s, 5) for s in screen_sizes],
+                              'lodScreenSizesApplied': applied,
                               'boundsSphereRadiusCm': round(radius, 2),
                               'screenSizeRule': spec['lod']['screenSizeRule']})
         self.receipt['lodLadders'] = assembled
@@ -543,11 +553,11 @@ class Release:
         actor = self.actors.spawn_actor_from_class(ue.Actor, ue.Vector(0.0, 0.0, 0.0))
         actor.set_actor_label(label)
         actor.set_folder_path(spec['folder'])
-        actor.tags = [spec['actorTag']]
+        actor.set_editor_property('tags', [ue.Name(spec['actorTag'])])
         component = actor.add_component_by_class(ue.HierarchicalInstancedStaticMeshComponent,
                                                  False, ue.Transform(), False)
         component.set_editor_property('static_mesh', mesh)
-        component.set_editor_property('mobility', ue.ComponentMobility.STATIC)
+        component.set_mobility(ue.ComponentMobility.STATIC)
         component.set_collision_profile_name('NoCollision')
         form = species_form(self.manifest, species)
         cull = float(spec['lod']['cullDistanceCm'][form])

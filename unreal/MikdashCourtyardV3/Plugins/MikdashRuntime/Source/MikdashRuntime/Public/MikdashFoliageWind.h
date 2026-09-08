@@ -224,6 +224,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Wind", meta = (WorldContext = "WorldContextObject"))
 	static AMikdashFoliageWind* Get(const UObject* WorldContextObject);
 
+	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 #if WITH_EDITOR
@@ -231,9 +232,11 @@ public:
 #endif
 
 private:
+	void Initialise();
 	void Publish();
 
-	UPROPERTY(Transient)
+	/** Not Transient: it is a default subobject and has to serialise with the actor. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Wind", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWindDirectionalSourceComponent> WindSource;
 
 	/** Mean state, and where it is blending to. */
@@ -254,4 +257,7 @@ private:
 	 * not gust in lockstep and read as one doubled wind. */
 	float PhaseOffset = 0.f;
 	bool bWasGusting = false;
+	/** The actor ticks in an editor viewport as well as in play, and BeginPlay does not run
+	 * there, so initialisation is done lazily on the first tick rather than only in BeginPlay. */
+	bool bInitialised = false;
 };

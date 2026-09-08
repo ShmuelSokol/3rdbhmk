@@ -73,7 +73,14 @@ receipt = dict(
                           sha256=sha(ROOT / 'Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashTransit.h')),
         mathTests=dict(file='SourceAssets/runtime-review/transit/tests.json',
                        checksEvaluated=tests['checksEvaluated'],
-                       debugAndReleaseIdentical=tests['debugAndReleaseMeasurementsIdentical'])),
+                       debugAndReleaseIdentical=tests['debugAndReleaseMeasurementsIdentical']),
+        offlineDerivation=dict(
+            routeDeriver='SourceAssets/transit-review/TransitV3/derive_routes_v3.py',
+            specBuilder='SourceAssets/transit-review/TransitV3/build_spec.py',
+            receiptWriter='SourceAssets/transit-review/TransitV3/write_summary.py',
+            receiptWriterSha256=sha(ROOT / 'SourceAssets/transit-review/TransitV3/write_summary.py'),
+            note=('Kept beside their output so every number in this receipt can be '
+                  'reproduced offline.'))),
     vehicles=vehicles,
     consist=geometry['consist'],
     totalTrianglesLod0=geometry['totalTriangles'],
@@ -111,6 +118,29 @@ receipt = dict(
         stillToProve=('These are OFFLINE numbers from the source triangles, not engine ground '
                       'contact. release_transit_v3.py trace_stops re-measures every stop with a '
                       'PIE line trace and drops any that disagrees.')),
+    railService=dict(
+        circuitLengthCm=next(r['lengthCm'] for r in routes['routes'] if r['kind'] == 'rail'),
+        lineSpeedCmPerSecond=next(r['speedLimitCmPerSecond'] for r in routes['routes'] if r['kind'] == 'rail'),
+        stations=sum(len(r['stops']) for r in routes['routes'] if r['kind'] == 'rail'),
+        runningSecondsPerLap=round(next(r['lengthCm'] for r in routes['routes'] if r['kind'] == 'rail')
+                                   / next(r['speedLimitCmPerSecond'] for r in routes['routes']
+                                          if r['kind'] == 'rail'), 1),
+        dwellSecondsPerLap=[5 * 20.0, 5 * 40.0],
+        headwaySeconds=[spec['transitActor']['TrainHeadwayMinSeconds'],
+                        spec['transitActor']['TrainHeadwayMaxSeconds']],
+        consistSlots=spec['transitActor']['MaxActiveTrains'],
+        arithmetic=('A lap is about 189 s of running plus 100-200 s of station dwell, so about '
+                    '290-390 s. Three slots therefore sustain a departure every 97-130 s at '
+                    'worst, which is inside the 120 s minimum headway: the 2-to-5-minute '
+                    'promise holds and is never limited by the slot count. If the route is '
+                    'lengthened or the line speed dropped, check this again -- when a lap '
+                    'exceeds three times the minimum headway the dispatcher simply waits and '
+                    'the service silently thins out.'),
+        outAndBackCaveat=('Every route is a CLOSED out-and-back circuit and each stop is a '
+                          'single world position projected onto it, so a stop is served ONCE '
+                          'per lap, on whichever half of the circuit its projection landed. '
+                          'A platform is therefore served in one direction only. Serving both '
+                          'would need the stop authored twice, once per half.')),
     budget=spec['budget'],
     coordinatorMustWire=spec['coordinatorMustWire'],
     realVsGeneric=dict(realReference=geometry['realReference'] + [

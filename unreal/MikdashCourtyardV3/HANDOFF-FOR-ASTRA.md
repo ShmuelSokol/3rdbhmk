@@ -121,3 +121,78 @@ discipline: where commentaries disagree, name them; where we invented, say so. T
 menorah lamp order is authored and is flagged in the codex as something that must not be
 shown to anyone as the real order of the service. Do not quietly upgrade an authored
 claim to a sourced one.
+
+---
+
+# UPDATE — 8 September 2026, later the same day
+
+Everything above still stands. This section supersedes it where they differ.
+
+## In flight from my end, right now
+
+Two agents, unfinished at handoff. Check for their files and receipts before redoing them.
+
+1. **Vegetation** — `ScatterMath.h`, `MikdashFoliageWind.*`, `create_vegetation.py`,
+   `release_vegetation.py`, `SourceAssets/vegetation-review/`. Judean species, terraced
+   olive groves, instanced placement by slope and altitude band.
+2. **Draw-call optimization** — `Scripts/perf_optimize.py`, `perf_probe.py`,
+   `PERFORMANCE-BUDGET.md`, `SourceAssets/perf-review/`. The most consequential one. It is
+   the only agent permitted to launch Unreal.
+
+## Landed since the first handoff
+
+Surface wear and decals, save and Hebrew localisation, transit, photo mode and cinematic
+intro, birds, pilgrim rig V3. Added to the earlier six (water, enclosure, gate security,
+tour and codex, fire and smoke, soundscape) and the systems before those.
+
+**None of it is placed in the map.** The map is still Walkthrough-11 content.
+
+## Never been through a compiler
+
+Agents were forbidden to run UnrealBuildTool. Unbuilt C++: `MikdashWater`,
+`MikdashEnclosure`, `MikdashTourGuide`, `MikdashCodex`, `MikdashFXDirector`,
+`MikdashSoundscape`, `MikdashSurfaceDetail`, `MikdashSaveGame`, `MikdashLocalization`,
+`MikdashPhotoMode`, `MikdashCinematics`, plus edits to `MikdashTransit` and
+`MikdashBirdFlock`. **One rebuild, fix what UHT complains about, then place.** Several
+release scripts refuse before mutating if their class is absent — trust that.
+
+## Coordinator wiring still owed — nobody's agent owns these
+
+1. Transit `OnRequestBoarding` / `OnRequestAlighting` to the crowd field's converge-and-
+   despawn and spawn-and-disperse. Honour `SecondsAvailable`; use `BoardingPoint`, not
+   `GetStopLocation`. **Cap concurrent boarding groups yourself** — transit does not.
+2. `SuggestPhotographerCount` to a standing photograph pose facing the Mount, about 22% of
+   each alighting group. This is Shmuel's "lots of people taking pictures".
+3. Bird `OnBirdSound` to the soundscape. The soundscape also has its own diffuse bird bed —
+   connect them, do not let both play.
+4. Swap the 24 residents onto PilgrimRigV3 using the per-variant `recommendedActorScale`
+   (0.84–1.04, i.e. 150–187 cm). A crowd of identical heights is the next thing that will
+   read wrong.
+5. `DefaultGame.ini`: add `Content/Localization/Mikdash` to Additional Non-Asset
+   Directories, or `strings.json` will not stage into the cook.
+6. MetaHuman: the first auto-rig is an Epic **cloud** call that must be triggered once from
+   the editor GUI; `Scripts/release_metahuman_enable.py` then batches the rest.
+
+## Gate bug fixed today
+
+`scripts/verify.py` built every test through one shared temp directory, so concurrent runs
+clobbered each other's batch files and reported phantom failures on whichever test lost the
+race. Per-process directories now. Three separate agents were misled by this before the
+fix; if you see "the batch file cannot be found", that was it.
+
+## Still open with Shmuel, unanswered
+
+- **The amah.** His book's own arithmetic gives 48 cm; the level has 50 cm baked in, so
+  book-derived lengths run ~4.2% large. Rescaling touches everything. Do not act unasked.
+- **The enclosure** hides 1,911 of 11,437 buildings in the YECHEZKEL state, in tension with
+  his own `people-and-city.md`. Three states exist so the choice stays his.
+- **24 flagged Hebrew strings** in `needs-author-review.json` need a native speaker. Editing
+  `strings.json` is enough — no recompile, no editor.
+
+## One more trap, learned today
+
+Three separate agents independently hit the AABB false-blocker problem in one session. The
+enclosure wall is a **single Boolean union whose bounding box is the entire court** — the
+surface pass was putting lichen in mid-air until it decomposed the union into its 116
+source boxes. The water pass eliminated 14 false blockers the same way. Assume any
+"blocker" from a whole-part bounding box is wrong until decomposed.

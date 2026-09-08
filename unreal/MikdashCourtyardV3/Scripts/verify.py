@@ -15,6 +15,7 @@ for a reason that hides a real problem.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import py_compile
@@ -54,16 +55,24 @@ def check_no_stray_editor() -> None:
     This has cost this project a full debugging session before, so it is the first check.
     """
     try:
-        out = subprocess.run(
-            ["tasklist", "/FI", "IMAGENAME eq UnrealEditor*.exe", "/NH"],
+        proc = subprocess.run(
+            ["tasklist", "/FO", "CSV", "/NH"],
             capture_output=True, text=True, timeout=30,
-        ).stdout
+        )
+        if proc.returncode != 0:
+            check("no stray UnrealEditor process", False,
+                  f"process inventory failed (exit {proc.returncode}): {(proc.stderr or '').strip()[:200]}")
+            return
+        rows = list(csv.reader(proc.stdout.splitlines()))
+        if not rows or any(len(row) < 2 for row in rows):
+            check("no stray UnrealEditor process", False, "process inventory empty or malformed")
+            return
+        running = [row for row in rows if row[0].lower().startswith("unrealeditor")
+                   and row[0].lower().endswith(".exe")]
+        check("no stray UnrealEditor process", not running,
+              "; ".join(row[0] + " PID " + row[1] for row in running))
     except Exception as exc:  # noqa: BLE001
-        check("no stray UnrealEditor process", False, f"could not run tasklist: {exc}")
-        return
-    running = [l for l in out.splitlines() if "UnrealEditor" in l]
-    check("no stray UnrealEditor process", not running,
-          "; ".join(l.split()[0] for l in running) if running else "")
+        check("no stray UnrealEditor process", False, f"could not inventory processes: {exc}")
 
 
 def check_security_token() -> None:
@@ -176,7 +185,11 @@ def run_math_tests() -> None:
         check("standalone math tests", False, f"vcvars64 not found at {VCVARS}")
         return
 
-    outdir = Path(tempfile.gettempdir()) / "mikdash-verify"
+    # Per-process directory. A single shared one means two concurrent verify runs
+    # clobber each other's generated .bat and .obj files, and the loser reports
+    # "The batch file cannot be found" — a test failure that is really a gate bug.
+    # That happened while several agents were running their own verifications.
+    outdir = Path(tempfile.gettempdir()) / f"mikdash-verify-{os.getpid()}"
     outdir.mkdir(parents=True, exist_ok=True)
 
     failures: list[str] = []
@@ -259,7 +272,10 @@ def main() -> int:
     else:
         run_math_tests()
     if args.build:
-        run_build()
+        if all(ok for _, ok, _ in results):
+            run_build()
+        else:
+            print("  SKIP  plugin C++ compiles (failed pre-build gate; no engine job launched)")
     else:
         print("  SKIP  plugin C++ compiles (pass --build; it is slow and must run serial)")
 

@@ -66,6 +66,9 @@ DEST = '/Game/MikdashV3/BirdsV1'
 
 TRIANGLE_BUDGET = 40000
 POSES = ('up_stroke', 'level', 'down_stroke', 'perched')
+# Every pair of poses of one species must differ, somewhere on the bird, by at least this
+# fraction of that species' wingspan. See _assert_poses_distinct for why this exists.
+MIN_POSE_SEPARATION_FRACTION_OF_SPAN = 0.03
 GROUP_MAIN = 'plumage_main'
 GROUP_HOOD = 'plumage_hood'
 
@@ -661,6 +664,77 @@ def render_species(key, path, cell=280, margin=12):
 # =====================================================================================
 # 6. Export
 # =====================================================================================
+def _pose_points(solids_pairs):
+    """Every canonical vertex of one built pose, in build order (main solids then hood)."""
+    points = []
+    for solids in solids_pairs:
+        for verts, _faces in solids:
+            points.extend(verts)
+    return points
+
+
+def _hausdorff_cm(a, b):
+    """Symmetric max-of-nearest-neighbour distance between two point sets, centimetres.
+
+    Used rather than an index-by-index comparison because the perched pose carries extra
+    solids (the legs) and so has a different vertex count from the three flight poses.
+    A few hundred points per pose makes the O(n*m) loop irrelevant at export time."""
+    def one_way(p, q):
+        worst = 0.0
+        for x, y, z in p:
+            best = float('inf')
+            for u, v, w in q:
+                d = (x - u) ** 2 + (y - v) ** 2 + (z - w) ** 2
+                if d < best:
+                    best = d
+                    if best == 0.0:
+                        break
+            if best > worst:
+                worst = best
+        return math.sqrt(worst)
+    return max(one_way(a, b), one_way(b, a))
+
+
+def _assert_poses_distinct(key, points_by_pose, records_by_pose):
+    """Fail the export if any two poses of one species are the same mesh.
+
+    THIS CHECK EXISTS BECAUSE OF A REAL BUG IN THIS PROJECT. The crowd system's gait was a
+    naive sine of the phase, and at two of the sampled phases it produced byte-identical pose
+    meshes - a figure that appeared to walk but froze for a quarter of every cycle, and nothing
+    reported it because every individual mesh was valid. A flock is far worse: a few hundred
+    birds all skipping the same quarter-beat reads as a stutter across the whole sky.
+
+    Two independent tests, and BOTH must pass:
+      1. Byte identity. Two poses that hash the same are the same file, whatever the intent.
+      2. Geometric separation. The symmetric Hausdorff distance between the two poses' canonical
+         vertex clouds must be at least MIN_POSE_SEPARATION_FRACTION_OF_SPAN of the species
+         wingspan. This is the test that actually catches the sine bug, because two poses can
+         differ in a single vertex by a hair - distinct bytes, identical silhouette.
+    Returns the measured separation for every pair, for the manifest."""
+    span = SPECIES[key]['wingspan_cm']
+    floor_cm = MIN_POSE_SEPARATION_FRACTION_OF_SPAN * span
+    separations = {}
+    poses = list(points_by_pose)
+    for i in range(len(poses)):
+        for j in range(i + 1, len(poses)):
+            a, b = poses[i], poses[j]
+            if records_by_pose[a]['sha256'] == records_by_pose[b]['sha256']:
+                raise AssertionError(
+                    'IDENTICAL POSE MESHES: %s poses %r and %r wrote byte-identical OBJs (sha %s). '
+                    'Two poses that are the same file make the wingbeat skip; fix POSE_SHAPE.'
+                    % (key, a, b, records_by_pose[a]['sha256'][:16]))
+            d = _hausdorff_cm(points_by_pose[a], points_by_pose[b])
+            separations['%s|%s' % (a, b)] = round(d, 4)
+            if d < floor_cm:
+                raise AssertionError(
+                    'POSES TOO SIMILAR: %s poses %r and %r are only %.3f cm apart; at least %.3f cm '
+                    '(%.0f%% of the %.1f cm wingspan) is required for the wingbeat to read. '
+                    'Distinct bytes are not enough - fix POSE_SHAPE.'
+                    % (key, a, b, d, floor_cm, 100.0 * MIN_POSE_SEPARATION_FRACTION_OF_SPAN, span))
+    return dict(minimumRequiredCm=round(floor_cm, 4), pairsCm=separations,
+                worstPairCm=round(min(separations.values()), 4) if separations else None)
+
+
 def mesh_name(key, pose):
     return 'SM_BirdsV1_%s_%s' % (''.join(p.capitalize() for p in key.split('_')),
                                  ''.join(p.capitalize() for p in pose.split('_')))
@@ -677,10 +751,13 @@ def export(force=False, species=None):
 
     meshes, readbacks, previews = [], [], {}
     species_rows = {}
+    pose_separation = {}
     for key in keys:
         spec = SPECIES[key]
+        points_by_pose, records_by_pose = {}, {}
         for pose in POSES:
             main, hood = build_pose(key, pose)
+            points_by_pose[pose] = _pose_points((main, hood))
             name = mesh_name(key, pose)
             record = write_obj(OUT / (name + '.obj'), name,
                                [(GROUP_MAIN, main), (GROUP_HOOD, hood)],
@@ -691,8 +768,11 @@ def export(force=False, species=None):
                                 'photogrammetry, not a claim about an individual bird.'])
             record.update(species=key, pose=pose, poseIndex=POSES.index(pose))
             assert record['materialSlots'] == 2, record['materialSlots']
+            records_by_pose[pose] = record
             meshes.append(record)
             readbacks.append(readback(OUT / record['file'], record))
+        # No two poses of a species may be the same mesh. See _assert_poses_distinct.
+        pose_separation[key] = _assert_poses_distinct(key, points_by_pose, records_by_pose)
         previews[key] = render_species(key, OUT / ('preview-%s.png' % key))
         span = [m['canonicalBoundsCm'] for m in meshes if m['species'] == key]
         species_rows[key] = dict(
@@ -725,6 +805,13 @@ def export(force=False, species=None):
                            'Plugins/MikdashRuntime/Source/MikdashRuntime/Public/FlockMath.h: '
                            '0 up_stroke, 1 level (also glide/soar), 2 down_stroke, 3 perched.'),
         poseShaping={k: dict(v) for k, v in POSE_SHAPE.items()},
+        poseDistinctness=pose_separation,
+        poseDistinctnessContract=(
+            'Export FAILS if any two poses of one species hash the same OR are closer than %.0f%% of '
+            'that species wingspan by symmetric Hausdorff distance. The crowd system in this project '
+            'shipped a naive sine gait that made two poses byte-identical and nothing caught it; a '
+            'flock doing that stutters across the whole sky.'
+            % (100.0 * MIN_POSE_SEPARATION_FRACTION_OF_SPAN)),
         objConvention=OBJ_HEADER_NOTE,
         materialSlotContract=('Exactly two g groups per mesh -> exactly two material slots: %s then %s. '
                               'This module applies no material; plumage colours below are recorded intent.'
@@ -778,6 +865,7 @@ def export(force=False, species=None):
 def _summary(manifest):
     return dict(status=manifest['status'], totalTriangles=manifest['totalTriangles'],
                 meshes=len(manifest['meshes']),
+                worstPoseSeparationCm={k: v['worstPairCm'] for k, v in manifest['poseDistinctness'].items()},
                 species={k: dict(wingspanCm=v['wingspanCm'], meshes=len(v['meshes']))
                          for k, v in manifest['species'].items()},
                 levelPoseSpanErrorCm=manifest['levelPoseSpanErrorCm'])

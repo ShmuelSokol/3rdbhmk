@@ -1,0 +1,247 @@
+{
+  "hosts": [
+    {
+      "mesh": "Duchan rise",
+      "parts": [
+        "Court_Trough_02"
+      ],
+      "deepestEngagementCm": 25.0,
+      "hits": 4
+    },
+    {
+      "mesh": "Ezras Kohanim floor",
+      "parts": [
+        "Court_Conduit_01",
+        "Court_Trough_01",
+        "Court_Trough_02"
+      ],
+      "deepestEngagementCm": 20.0,
+      "hits": 3
+    },
+    {
+      "mesh": "Inner E cell supporting plinth",
+      "parts": [
+        "Court_Conduit_02"
+      ],
+      "deepestEngagementCm": 94.0,
+      "hits": 1
+    },
+    {
+      "mesh": "Inner E continuous cell doorway floor",
+      "parts": [
+        "Court_Conduit_02"
+      ],
+      "deepestEngagementCm": 2.6,
+      "hits": 1
+    },
+    {
+      "mesh": "Inner court clear floor",
+      "parts": [
+        "Court_Trough_02"
+      ],
+      "deepestEngagementCm": 2.0,
+      "hits": 1
+    },
+    {
+      "mesh": "Inner court supporting platform",
+      "parts": [
+        "Court_Conduit_02",
+        "Court_Trough_02"
+      ],
+      "deepestEngagementCm": 49.8,
+      "hits": 2
+    },
+    {
+      "mesh": "Outer E cell access landing",
+      "parts": [
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 2.0,
+      "hits": 1
+    },
+    {
+      "mesh": "Outer E stair",
+      "parts": [
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 50.0,
+      "hits": 12
+    },
+    {
+      "mesh": "Outer E threshold",
+      "parts": [
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 2.0,
+      "hits": 1
+    },
+    {
+      "mesh": "Outer E vestibule floor",
+      "parts": [
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 2.0,
+      "hits": 1
+    },
+    {
+      "mesh": "Outer court floor",
+      "parts": [
+        "Court_Conduit_02",
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 20.0,
+      "hits": 2
+    },
+    {
+      "mesh": "Outer court supporting platform",
+      "parts": [
+        "Court_Conduit_02",
+        "Court_Trough_03"
+      ],
+      "deepestEngagementCm": 48.0,
+      "hits": 2
+    },
+    {
+      "mesh": "Raised priest court foundation",
+      "parts": [
+        "Court_Conduit_01",
+        "Court_Trough_01",
+        "Court_Trough_02"
+      ],
+      "deepestEngagementCm": 82.143,
+      "hits": 3
+    },
+    {
+      "mesh": "Ulam stair",
+      "parts": [
+        "Court_Trough_01"
+      ],
+      "deepestEngagementCm": 100.555,
+      "hits": 8
+    }
+  ],
+  "blockers": [],
+  "hollowUnionsIgnored": [
+    "Derived union of House and Ulam foundations",
+    "Derived union of source House walls and roofs",
+    "Derived union of source outer envelope walls",
+    "Derived union of source raised gallery slabs"
+  ],
+  "subBoxMaxExtentCm": 250.0,
+  "wholePartAabbHits": 56,
+  "subBoxHits": 42,
+  "falsePositivesEliminated": 14,
+  "method": "Broad phase on the whole-part AABB, narrow phase on decomposed sub-boxes. A whole-part test alone reported 56 contacts, of which 14 were false: the AABB of a channel that leaves the House at Y 400 and runs east at Y 1050 covers the altar, its ramp and the chut hasikra, none of which the water comes near. Hollow derived-union envelopes are excluded by name for the same reason.",
+  "namedClearancesCm": [
+    {
+      "feature": "Song chamber",
+      "found": true,
+      "meshCount": 7,
+      "clearanceCm": 839.312,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0042_architecture_Song_chamber_side",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "Ulam entrance pillar",
+      "found": true,
+      "meshCount": 2,
+      "clearanceCm": 18.0,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0172_architecture_Ulam_entrance_pillar",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "altar (yesod, the widest course)",
+      "found": true,
+      "meshCount": 4,
+      "clearanceCm": 203.796,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0156_architecture_Altar_yesod_west",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "altar ramp (kevesh)",
+      "found": true,
+      "meshCount": 1,
+      "clearanceCm": 18.0,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0166_architecture_Southern_kevesh_ascend_north",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "duchan rise",
+      "found": true,
+      "meshCount": 4,
+      "clearanceCm": 0.0,
+      "nearestGeneratedPart": "Court_Trough_02",
+      "nearestArchitectureAsset": "SM_1669_architecture_Duchan_rise_1",
+      "intersects": true,
+      "deepestInterpenetrationCm": 25.0
+    },
+    {
+      "feature": "inner E cell connecting doorway",
+      "found": true,
+      "meshCount": 18,
+      "clearanceCm": 15.8,
+      "nearestGeneratedPart": "Court_Conduit_02",
+      "nearestArchitectureAsset": "SM_0554_architecture_Inner_E_connecting_doorway_back",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "inner eastern gate wall jamb",
+      "found": true,
+      "meshCount": 2,
+      "clearanceCm": 15.0,
+      "nearestGeneratedPart": "Court_Conduit_02",
+      "nearestArchitectureAsset": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "kiyor basin",
+      "found": true,
+      "meshCount": 1,
+      "clearanceCm": 422.331,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0073_vessel_Hollow_basin_with_inner_wall",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "kiyor pedestal",
+      "found": true,
+      "meshCount": 1,
+      "clearanceCm": 480.851,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_0072_vessel_Turned_pedestal",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "outer east gate vestibule wall",
+      "found": true,
+      "meshCount": 2,
+      "clearanceCm": 99.639,
+      "nearestGeneratedPart": "Court_Trough_03",
+      "nearestArchitectureAsset": "SM_0187_architecture_Outer_E_vestibule_wall",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    },
+    {
+      "feature": "stone slaughter tables",
+      "found": true,
+      "meshCount": 8,
+      "clearanceCm": 2419.388,
+      "nearestGeneratedPart": "Court_Trough_01",
+      "nearestArchitectureAsset": "SM_1610_architecture_Stone_slaughter_table",
+      "intersects": false,
+      "deepestInterpenetrationCm": 0.0
+    }
+  ]
+}

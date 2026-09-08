@@ -296,57 +296,18 @@ public:
 
 private:
     // -- plain C++ runtime state: rebuilt at every start, never serialized -------
+    //
+    // The types themselves are declared ABOVE, at file scope, and only aliased here.
+    // Unreal Header Tool parses the whole UCLASS body looking for reflected members; a
+    // nested struct declaration inside it is one more thing for UHT to get wrong for no
+    // benefit, and these types carry MikdashTransit::Vec3 and std::-backed doubles that
+    // must never be reflected. Aliases keep the member declarations and the .cpp
+    // unchanged while the definitions stay where UHT never has to look at them.
 
-    struct FRouteRuntime
-    {
-        TArray<MikdashTransit::Vec3> Points;
-        TArray<double> Cumulative;
-        double LengthCm = 0.0;
-        TArray<double> StopDistances;      // parallel to the route's Stops
-        TArray<double> StopErrorCm;
-        TArray<int32> GlobalStopIndices;
-        TArray<int32> VehicleIndices;      // ordered by start distance; leader is the next one
-    };
-
-    struct FVehicle
-    {
-        int32 RouteIndex = 0;
-        int32 BodyIndex = 0;               // index into Bodies
-        int32 LeaderVehicle = INDEX_NONE;  // fixed for life: no overtaking is possible
-        int32 InstanceIds[4] = {INDEX_NONE, INDEX_NONE, INDEX_NONE, INDEX_NONE};
-        int32 DoorInstanceStart = INDEX_NONE;
-        int32 DoorInstanceCount = 0;
-        double DistanceCm = 0.0;
-        double SpeedCmPerSecond = 0.0;
-        MikdashTransit::StopState Stop;
-        MikdashTransit::FollowParams Follow;
-        MikdashTransit::DwellConfig Dwell;
-        bool bServesStops = false;
-    };
-
-    struct FTrain
-    {
-        bool bActive = false;
-        double DistanceCm = 0.0;
-        double SpeedCmPerSecond = 0.0;
-        double TravelledCm = 0.0;
-        int32 Id = 0;
-        TArray<int32> CarInstanceIds;      // four per car, in body order
-        TArray<int32> DoorInstanceIds;
-        MikdashTransit::StopState Stop;
-        MikdashTransit::FollowParams Follow;
-        MikdashTransit::DwellConfig Dwell;
-    };
-
-    /** One vehicle body's four HISM components plus its door leaves. */
-    struct FBodyComponents
-    {
-        UHierarchicalInstancedStaticMeshComponent* Groups[4] = {nullptr, nullptr, nullptr, nullptr};
-        UHierarchicalInstancedStaticMeshComponent* DoorPaint = nullptr;
-        UHierarchicalInstancedStaticMeshComponent* DoorGlass = nullptr;
-        TArray<FVector> DoorLocalOffsets;
-        double LengthCm = 460.0;
-    };
+    using FRouteRuntime = FMikdashTransitRouteRuntime;
+    using FVehicle = FMikdashTransitVehicle;
+    using FTrain = FMikdashTransitTrain;
+    using FBodyComponents = FMikdashTransitBodyComponents;
 
     UPROPERTY(Transient) TArray<TObjectPtr<UHierarchicalInstancedStaticMeshComponent>> OwnedComponents;
 

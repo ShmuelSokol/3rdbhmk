@@ -2,7 +2,7 @@
   "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
   "namespace": "/Game/MikdashV3/BirdsV1",
   "script": "Scripts/create_birds.py",
-  "scriptSha256": "1c0473c893b7e84fea63180a73095a199b781245c2cb1cdc5888b55a72574d7a",
+  "scriptSha256": "ec915598a7c0925d7602cde60d4329c40bbed0ae67b95fae3fbddc67eff97731",
   "poseOrder": [
     "up_stroke",
     "level",
@@ -44,6 +44,69 @@
       "legs": true
     }
   },
+  "poseDistinctness": {
+    "rock_dove": {
+      "minimumRequiredCm": 2.01,
+      "pairsCm": {
+        "up_stroke|level": 23.0038,
+        "up_stroke|down_stroke": 24.7791,
+        "up_stroke|perched": 23.1134,
+        "level|down_stroke": 21.3287,
+        "level|perched": 21.4959,
+        "down_stroke|perched": 19.5324
+      },
+      "worstPairCm": 19.5324
+    },
+    "common_swift": {
+      "minimumRequiredCm": 1.35,
+      "pairsCm": {
+        "up_stroke|level": 16.3545,
+        "up_stroke|down_stroke": 19.0061,
+        "up_stroke|perched": 16.8473,
+        "level|down_stroke": 15.8206,
+        "level|perched": 12.6022,
+        "down_stroke|perched": 13.2894
+      },
+      "worstPairCm": 12.6022
+    },
+    "hooded_crow": {
+      "minimumRequiredCm": 2.94,
+      "pairsCm": {
+        "up_stroke|level": 34.1359,
+        "up_stroke|down_stroke": 36.237,
+        "up_stroke|perched": 33.8286,
+        "level|down_stroke": 31.1644,
+        "level|perched": 29.442,
+        "down_stroke|perched": 29.6413
+      },
+      "worstPairCm": 29.442
+    },
+    "common_kestrel": {
+      "minimumRequiredCm": 2.25,
+      "pairsCm": {
+        "up_stroke|level": 25.7042,
+        "up_stroke|down_stroke": 29.2551,
+        "up_stroke|perched": 26.7587,
+        "level|down_stroke": 24.5208,
+        "level|perched": 22.4216,
+        "down_stroke|perched": 23.1367
+      },
+      "worstPairCm": 22.4216
+    },
+    "griffon_vulture": {
+      "minimumRequiredCm": 7.8,
+      "pairsCm": {
+        "up_stroke|level": 93.6387,
+        "up_stroke|down_stroke": 99.2558,
+        "up_stroke|perched": 92.2937,
+        "level|down_stroke": 86.1672,
+        "level|perched": 79.4871,
+        "down_stroke|perched": 80.0269
+      },
+      "worstPairCm": 79.4871
+    }
+  },
+  "poseDistinctnessContract": "Export FAILS if any two poses of one species hash the same OR are closer than 3% of that species wingspan by symmetric Hausdorff distance. The crowd system in this project shipped a naive sine gait that made two poses byte-identical and nothing caught it; a flock doing that stutters across the whole sky.",
   "objConvention": "Unreal legacy OBJ adapter: canonical vertices are centimetres in the bird frame (+X forward, +Y right, +Z up, origin at the body centre); this file is written with Y reflected and triangle winding reversed. One object, exactly two g groups (plumage_main, plumage_hood), so the importer creates exactly two material slots.",
   "materialSlotContract": "Exactly two g groups per mesh -> exactly two material slots: plumage_main then plumage_hood. This module applies no material; plumage colours below are recorded intent.",
   "species": {
@@ -204,8 +267,8 @@
     {
       "name": "SM_BirdsV1_RockDove_UpStroke",
       "file": "SM_BirdsV1_RockDove_UpStroke.obj",
-      "sha256": "2594d45e4eedbe10e90c237964eb064c8e43962b95454d3dacbeb642c7a25ff9",
-      "bytes": 24189,
+      "sha256": "fd93ad35589f42b34c553b03231878b2ecd378eb4e0080b75b27402efde530c8",
+      "bytes": 24190,
       "triangles": 312,
       "vertices": 168,
       "normals": 226,
@@ -242,8 +305,8 @@
     {
       "name": "SM_BirdsV1_RockDove_Level",
       "file": "SM_BirdsV1_RockDove_Level.obj",
-      "sha256": "793a0d9986dbcabf3bcc798fca32e40542722b9ad6f0fc27afc2c889a4e3c1d8",
-      "bytes": 24140,
+      "sha256": "cc7e4c735e6bd7d94463d523ca69c0a47411068790bd862ef0c52c87e756fdf6",
+      "bytes": 24141,
       "triangles": 312,
       "vertices": 168,
       "normals": 226,
@@ -280,8 +343,8 @@
     {
       "name": "SM_BirdsV1_RockDove_DownStroke",
       "file": "SM_BirdsV1_RockDove_DownStroke.obj",
-      "sha256": "bcfcac571f54399e9034b27b42e1b4fd62fb2451e0486cbf7a343f83e20779b4",
-      "bytes": 24228,
+      "sha256": "a27b6887670e62f38fd3d225f76548dc26d32c07c212e34ced93dc3576257843",
+      "bytes": 24229,
       "triangles": 312,
       "vertices": 168,
       "normals": 226,
@@ -318,8 +381,8 @@
     {
       "name": "SM_BirdsV1_RockDove_Perched",
       "file": "SM_BirdsV1_RockDove_Perched.obj",
-      "sha256": "6a3b02ff53d6e822f45da2635c6ac69b48d8bc8c99038dee77100c04acb6caf5",
-      "bytes": 26260,
+      "sha256": "d250b3a62290770e37069ba39c8ae46c00ce0c8dc2af5e34b5453bf9ac38d3a2",
+      "bytes": 26261,
       "triangles": 360,
       "vertices": 200,
       "normals": 184,
@@ -812,8 +875,8 @@
     {
       "name": "SM_BirdsV1_GriffonVulture_UpStroke",
       "file": "SM_BirdsV1_GriffonVulture_UpStroke.obj",
-      "sha256": "92a248a38a54f72cf6de56222c7f78c52df6c4f9be2bda56b138d4892532459c",
-      "bytes": 24229,
+      "sha256": "117e8bbc24b2e25afac480a4e3fbad46b808c45c9053c774e48b83b6dab4bc56",
+      "bytes": 24230,
       "triangles": 312,
       "vertices": 168,
       "normals": 226,

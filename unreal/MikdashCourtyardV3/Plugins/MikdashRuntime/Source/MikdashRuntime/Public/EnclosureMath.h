@@ -57,7 +57,7 @@ inline const FAmahOpinion* AmahOpinions()
     static const FAmahOpinion Table[] = {
         {"naeh",        "R' Avraham Chaim Naeh, Shiurei Torah - amah of 6 tefachim x 8 cm", 48.0},
         {"project",     "Project world scale; the round half-metre the level is baked at",  50.0},
-        {"feinstein",   "R' Moshe Feinstein, Igros Moshe OC I:136 - 21 3/8 inch amah",       54.0},
+        {"feinstein",   "R' Moshe Feinstein, Igros Moshe OC I:136 - amah of about 21 1/4 inches", 54.0},
         {"chazon-ish",  "Chazon Ish, Kuntres HaShiurim - amah of 6 tefachim x 9.6 cm",       57.6},
         {"chazon-ish-stringent", "Chazon Ish, stringent rounding used for de'oraisa shiurim", 58.0},
     };
@@ -213,6 +213,193 @@ inline FSquare MakeSquareFromNorthWestClearance(FVec2 CourtNorthWestUnrealCm,
     return Square;
 }
 
+/** Axis-aligned box in level units. Declared here rather than with the containment
+ * helpers because the clearance arithmetic below needs it. */
+struct FAabb2
+{
+    FVec2 Min;
+    FVec2 Max;
+};
+inline FVec2 AabbCentre(const FAabb2& Box) { return {(Box.Min.X + Box.Max.X) * 0.5, (Box.Min.Y + Box.Max.Y) * 0.5}; }
+inline double AabbLongestSide(const FAabb2& Box)
+{
+    return std::max(Box.Max.X - Box.Min.X, Box.Max.Y - Box.Min.Y);
+}
+
+// ---------------------------------------------------------------------------
+// 2b. Clearances - the number the book's diagram actually states
+// ---------------------------------------------------------------------------
+//
+// The book does not place the 3000 by giving a centre. It gives the OPEN GROUND between
+// the court and each of the four walls, and it states an ORDER for those four: largest
+// south, then east, then north, least west. That order is Mishnah Middot 2:1's
+// "rubo min hadarom, sheni lo min hamizrach, shlishi lo min hatzafon, umi'uto min
+// hama'arav", carried to the Mount by Mishkenei Elyon 196 m.1 and by Lishchno Tidreshu
+// fig. 2'2 (p. 113).
+//
+// THAT ORDER IS A CONSTRAINT ON THE COURT ENVELOPE, NOT A FREE CHOICE, and the arithmetic
+// is worth spelling out because getting it wrong is what broke this file's first test:
+//
+//     West  + EnvelopeEastWest   + East  = Side
+//     North + EnvelopeNorthSouth + South = Side
+//   =>  South - East = (West + EnvelopeEastWest) - (North + EnvelopeNorthSouth)
+//
+// So with West < North - which "least west, third north" demands - South > East is
+// possible ONLY IF the court envelope is wider east-west than it is deep north-south, by
+// more than the west/north difference. Middot's own Azarah is exactly that shape, 187 amot
+// east-west by 135 north-south (Middot 5:1), which is why the order comes out for the
+// 500-amah Har HaBayit. The book's fig. 2'2 envelope is likewise wider than deep, about
+// 351 x 346, giving 2149 east and 2153 south.
+//
+// This project's MEASURED court supporting platform is 324 x 324 amot - SQUARE
+// (SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json, inputs.courtPlatformBoundsCm
+// = +-8100 Unreal cm on BOTH axes). On a square envelope the identity collapses to
+// South - East = West - North, so West < North forces South < East, and the book's order
+// cannot hold - it inverts by exactly the west/north difference of one amah. That is a
+// real, small, reportable consequence of anchoring on measured geometry instead of on the
+// diagram, not something to paper over: enclosure-design.json's offsetRule currently claims
+// the order is "preserved" while its own numbers (east 2176, south 2175) show it inverted
+// by 1 amah = 50 cm on a 150,000 cm side. Both anchorings are therefore offered here, and
+// the order is a value that gets CLASSIFIED and reported, never assumed.
+
+/** The measured court supporting platform half-extent, both axes, in level units.
+ * enclosure-design.json inputs.courtPlatformBoundsCm. 8100 cm = 162 amot, so 324 square. */
+constexpr double CourtPlatformHalfExtentUnrealCm = 8100.0;
+/** Middot 5:1: the Azarah is 187 amot east-west by 135 north-south. */
+constexpr double MiddotAzarahEastWestAmot = 187.0;
+constexpr double MiddotAzarahNorthSouthAmot = 135.0;
+/** The envelope Lishchno Tidreshu fig. 2'2 is drawn around, read off the diagram; the
+ * book's own east/south remainders (2149 / 2153) only reproduce at these values. */
+constexpr double BookDiagramEnvelopeEastWestAmot = 351.0;
+constexpr double BookDiagramEnvelopeNorthSouthAmot = 346.0;
+/** The two clearances the diagram states outright; the other two are remainders. */
+constexpr double BookClearWestAmot = 500.0;
+constexpr double BookClearNorthAmot = 501.0;
+
+/** Open ground between the court envelope and each wall, in amot. */
+struct FClearances
+{
+    double WestAmot = 0.0;
+    double NorthAmot = 0.0;
+    double EastAmot = 0.0;
+    double SouthAmot = 0.0;
+};
+
+/** The two remainders, given the two stated clearances and the envelope. Pure arithmetic:
+ * this is the whole of the "east and south fall out of the 3000" step. */
+inline FClearances ClearancesFromStated(double ClearWestAmot, double ClearNorthAmot,
+                                        double EnvelopeEastWestAmot, double EnvelopeNorthSouthAmot,
+                                        double SideAmot)
+{
+    FClearances C;
+    C.WestAmot = ClearWestAmot;
+    C.NorthAmot = ClearNorthAmot;
+    C.EastAmot = SideAmot - ClearWestAmot - EnvelopeEastWestAmot;
+    C.SouthAmot = SideAmot - ClearNorthAmot - EnvelopeNorthSouthAmot;
+    return C;
+}
+
+/** The book's diagram in its own terms: 500 west, 501 north, envelope 351 x 346, so
+ * 2149 east and 2153 south. This is the set that satisfies the stated order. */
+inline FClearances BookDiagramClearances(double SideAmot = PrecinctSideAmot)
+{
+    return ClearancesFromStated(BookClearWestAmot, BookClearNorthAmot,
+                                BookDiagramEnvelopeEastWestAmot, BookDiagramEnvelopeNorthSouthAmot,
+                                SideAmot);
+}
+
+/** Middot 2:1 with Middot 5:1's Azarah: 100 west, 213 east, 115 north, 250 south around a
+ * 187 x 135 Azarah inside 500. These four are a received reckoning (Rambam's commentary to
+ * Middot 2:1, Tiferes Yisrael) and not a derivation - only their two sums are forced. */
+inline FClearances MiddotHarHaBayitClearances()
+{
+    FClearances C;
+    C.WestAmot = 100.0;
+    C.NorthAmot = 115.0;
+    C.EastAmot = 213.0;
+    C.SouthAmot = 250.0;
+    return C;
+}
+
+/** Measured clearances of an actual placed square about an actual court envelope. This is
+ * what the release receipt reports; nothing here is assumed. Only meaningful at yaw 0,
+ * where the square's sides are the cardinal directions. */
+inline FClearances ClearancesOf(const FSquare& Square, const FAabb2& CourtEnvelopeUnrealCm,
+                                double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    const double H = Square.HalfSideUnrealCm;
+    const FVec2& Centre = Square.CentreUnrealCm;
+    FClearances C;
+    C.WestAmot  = UnrealCmToAmot(CourtEnvelopeUnrealCm.Min.X - (Centre.X - H), WorldCmPerAmah);
+    C.EastAmot  = UnrealCmToAmot((Centre.X + H) - CourtEnvelopeUnrealCm.Max.X, WorldCmPerAmah);
+    C.NorthAmot = UnrealCmToAmot(CourtEnvelopeUnrealCm.Min.Y - (Centre.Y - H), WorldCmPerAmah);
+    C.SouthAmot = UnrealCmToAmot((Centre.Y + H) - CourtEnvelopeUnrealCm.Max.Y, WorldCmPerAmah);
+    return C;
+}
+
+/** How a set of four clearances stands to the Middot order. Reported, not asserted. */
+enum class EClearanceOrder : int
+{
+    /** south > east > north > west, exactly as Middot 2:1 states it. */
+    Middot = 0,
+    /** east > south > north > west: the two large ones swapped. This is what anchoring on
+     * a SQUARE court envelope with west < north necessarily produces. */
+    EastSouthSwapped = 1,
+    /** Anything else - the diagram has not been reproduced at all. */
+    Other = 2,
+};
+
+inline EClearanceOrder ClassifyClearanceOrder(const FClearances& C)
+{
+    if (!(C.NorthAmot > C.WestAmot)) return EClearanceOrder::Other;
+    if (!(C.EastAmot > C.NorthAmot) || !(C.SouthAmot > C.NorthAmot)) return EClearanceOrder::Other;
+    if (C.SouthAmot > C.EastAmot) return EClearanceOrder::Middot;
+    if (C.EastAmot > C.SouthAmot) return EClearanceOrder::EastSouthSwapped;
+    return EClearanceOrder::Other;   // an exact tie states no order at all
+}
+
+/** South minus east, in amot. Positive is the Middot order; the magnitude is the honest
+ * size of the departure, which the review document quotes in centimetres. */
+inline double ClearanceOrderMarginAmot(const FClearances& C) { return C.SouthAmot - C.EastAmot; }
+
+/** The identity the two sums must satisfy. Returns the worst residual in amot. */
+inline double ClearanceClosureErrorAmot(const FClearances& C, double EnvelopeEastWestAmot,
+                                        double EnvelopeNorthSouthAmot, double SideAmot)
+{
+    const double EastWest = std::abs(C.WestAmot + EnvelopeEastWestAmot + C.EastAmot - SideAmot);
+    const double NorthSouth = std::abs(C.NorthAmot + EnvelopeNorthSouthAmot + C.SouthAmot - SideAmot);
+    return std::max(EastWest, NorthSouth);
+}
+
+/** Place a square so a measured court envelope sits inside it at the given west/north
+ * clearances. The general form of MakeSquareFromNorthWestClearance, kept separate because
+ * the caller here supplies the envelope it measured rather than a bare corner. */
+inline FSquare MakeSquareFromClearances(const FAabb2& CourtEnvelopeUnrealCm,
+                                        double ClearWestAmot, double ClearNorthAmot,
+                                        double SideAmot,
+                                        double WorldCmPerAmah = ProjectCmPerAmah,
+                                        double YawDegrees = 0.0)
+{
+    return MakeSquareFromNorthWestClearance(CourtEnvelopeUnrealCm.Min, ClearWestAmot, ClearNorthAmot,
+                                            SideAmot, WorldCmPerAmah, YawDegrees);
+}
+
+/** Middot's 500-amah Har HaBayit placed about the Azarah centre at the received
+ * 100/115/213/250 clearances. This is the OTHER side of the dispute, drawn as its own ring
+ * so a viewer sees 500 amot and 3000 amot at once instead of being told which is right. */
+inline FSquare MakeMiddotHarHaBayitSquare(FVec2 AzarahCentreUnrealCm,
+                                          double WorldCmPerAmah = ProjectCmPerAmah,
+                                          double YawDegrees = 0.0)
+{
+    const FClearances C = MiddotHarHaBayitClearances();
+    const double HalfEastWest = AmotToUnrealCm(MiddotAzarahEastWestAmot * 0.5, WorldCmPerAmah);
+    const double HalfNorthSouth = AmotToUnrealCm(MiddotAzarahNorthSouthAmot * 0.5, WorldCmPerAmah);
+    const FAabb2 Azarah = {{AzarahCentreUnrealCm.X - HalfEastWest, AzarahCentreUnrealCm.Y - HalfNorthSouth},
+                           {AzarahCentreUnrealCm.X + HalfEastWest, AzarahCentreUnrealCm.Y + HalfNorthSouth}};
+    return MakeSquareFromClearances(Azarah, C.WestAmot, C.NorthAmot, MiddotHarHaBayitAmot,
+                                    WorldCmPerAmah, YawDegrees);
+}
+
 /** Corner order is fixed and load-bearing: 0 = NW, 1 = NE, 2 = SE, 3 = SW, walking
  * clockwise on screen when +Y is south. Side i runs from corner i to corner (i+1)%4, so
  * side 0 is NORTH, 1 is EAST, 2 is SOUTH, 3 is WEST. Gate placement depends on this. */
@@ -250,6 +437,25 @@ inline double SquareShapeErrorUnrealCm(const FSquare& Square)
     return Worst;
 }
 
+/** Where a world point projects onto one side, as a fraction 0..1 from that side's START
+ * corner (corner i, walking clockwise). The book gives gate positions as world coordinates
+ * on the Temple's own axes - "the east gate is on the east-west axis" - so this is the
+ * function that turns a stated gate position into an FGateOpening fraction. Values outside
+ * 0..1 mean the point does not project onto that side and are returned unclamped, because
+ * silently clamping a mis-specified gate onto a corner is worse than a visible number. */
+inline double FractionAlongSide(const FSquare& Square, int Side, const FVec2& WorldPoint)
+{
+    FVec2 C[4];
+    SquareCorners(Square, C);
+    const int Index = ((Side % 4) + 4) % 4;
+    const FVec2 From = C[Index];
+    const FVec2 To = C[(Index + 1) % 4];
+    const FVec2 Edge = To - From;
+    const double LengthSquared = Dot(Edge, Edge);
+    if (!(LengthSquared > 0.0)) return 0.0;
+    return Dot(WorldPoint - From, Edge) / LengthSquared;
+}
+
 // ---------------------------------------------------------------------------
 // 3. Containment - the test that decides which modern buildings vanish
 // ---------------------------------------------------------------------------
@@ -277,17 +483,6 @@ inline bool PointInside(const FSquare& Square, const FVec2& WorldPoint,
                         double EdgeToleranceUnrealCm = 0.0)
 {
     return ClassifyPoint(Square, WorldPoint, EdgeToleranceUnrealCm) != EContainment::Outside;
-}
-
-struct FAabb2
-{
-    FVec2 Min;
-    FVec2 Max;
-};
-inline FVec2 AabbCentre(const FAabb2& Box) { return {(Box.Min.X + Box.Max.X) * 0.5, (Box.Min.Y + Box.Max.Y) * 0.5}; }
-inline double AabbLongestSide(const FAabb2& Box)
-{
-    return std::max(Box.Max.X - Box.Min.X, Box.Max.Y - Box.Min.Y);
 }
 
 enum class EOverlap : int { Outside = 0, Straddling = 1, Inside = 2 };

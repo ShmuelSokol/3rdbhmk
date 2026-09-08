@@ -659,9 +659,13 @@ BAND_WAY = (26, 106, 84)          # green: wayfinding
 def _band(cv, y0, y1, col, title_he, title_en, title_ar):
     cv.rect(0, y0, cv.w, y1, col)
     h = y1 - y0
-    draw_text(cv, HE, title_he, h * 0.40, cv.w * 0.5, y0 + h * 0.40, WHITE, rtl=True, max_width=cv.w * 0.88)
-    draw_text(cv, EN, title_en, h * 0.30, cv.w * 0.5, y0 + h * 0.70, WHITE, max_width=cv.w * 0.88)
-    draw_text(cv, AR, title_ar, h * 0.34, cv.w * 0.5, y0 + h * 0.96, WHITE, rtl=True, arabic=True, max_width=cv.w * 0.88)
+    # Three scripts stacked in one band collide unless the metrics are budgeted explicitly.
+    # y is the BASELINE. Arial caps rise about 0.72 of the em and Arabic ascenders about 0.85,
+    # while Hebrew final letters and Arabic tails drop about 0.24 below. These three baselines
+    # and sizes are the ones that leave daylight between every pair and still clear the band.
+    draw_text(cv, HE, title_he, h * 0.32, cv.w * 0.5, y0 + h * 0.330, WHITE, rtl=True, max_width=cv.w * 0.88)
+    draw_text(cv, EN, title_en, h * 0.215, cv.w * 0.5, y0 + h * 0.605, WHITE, max_width=cv.w * 0.88)
+    draw_text(cv, AR, title_ar, h * 0.225, cv.w * 0.5, y0 + h * 0.875, WHITE, rtl=True, arabic=True, max_width=cv.w * 0.88)
 
 
 def _rule_row(cv, y, h, pictogram, he, en, ar, mark='prohibit'):
@@ -815,9 +819,23 @@ def verify_glyphs():
 
     # The Arabic shaping test: four known words whose forms are checked letter by letter.
     shaping = []
-    for text, expect in ((u'\u0627\u062e\u0644\u0639', [0xFE8D, 0xFEA7, 0xFEE0, 0xFECA]),
-                         (u'\u0645\u0646\u0637\u0642\u0629', [0xFEE3, 0xFEE8, 0xFEC4, 0xFED8, 0xFE94]),
-                         (u'\u0627\u0644\u0623\u062d\u0630\u064a\u0629', [0xFE8D, 0xFEDF, 0xFEF7, 0xFEA3, 0xFEAC, 0xFEF3, 0xFE94])):
+    for text, expect in (
+            # akhla' -- alef isolated, khah initial, lam MEDIAL, ain final.
+            (u'\u0627\u062e\u0644\u0639', [0xFE8D, 0xFEA7, 0xFEE0, 0xFECA]),
+            # mintaqa -- meem/noon/tah initial-medial chain, qaf medial, teh marbuta final.
+            (u'\u0645\u0646\u0637\u0642\u0629', [0xFEE3, 0xFEE8, 0xFEC4, 0xFED8, 0xFE94]),
+            # al-ahdhiya -- SIX forms, not seven. The lam and the following alef-with-hamza
+            # fuse into the single ligature U+FEF7, so no separate lam glyph is left to emit;
+            # an earlier hand-written expectation here listed both and was wrong. The ligature
+            # is isolated rather than final because the alef before it has no initial form and
+            # so cannot join forward into it.
+            (u'\u0627\u0644\u0623\u062d\u0630\u064a\u0629',
+             [0xFE8D, 0xFEF7, 0xFEA3, 0xFEAC, 0xFEF3, 0xFE94]),
+            # bila -- the other lam-alef branch: beh DOES join forward, so the plain lam-alef
+            # ligature takes its FINAL form U+FEFC rather than the isolated U+FEFB.
+            (u'\u0628\u0644\u0627', [0xFE91, 0xFEFC]),
+            # maktab -- a fully connected four-letter run: initial, medial, medial, final.
+            (u'\u0645\u0643\u062a\u0628', [0xFEE3, 0xFEDC, 0xFE98, 0xFE90])):
         got = shape_arabic(text)
         shaping.append(dict(text_codepoints=['U+%04X' % ord(c) for c in text],
                             shaped=['U+%04X' % c for c in got],
@@ -851,7 +869,7 @@ def verify_glyphs():
                   'logical string is drawn furthest RIGHT on the page.')),
         arabicShaping=dict(
             method=('Arabic is shaped into the Unicode presentation forms of block FE70..FEFF by a '
-                    'joining table in this file, then reversed like Hebrew. Three words are checked '
+                    'joining table in this file, then reversed like Hebrew. Five words are checked '
                     'form by form against hand-verified expected output.'),
             cases=shaping,
             allMatch=all(c['matches'] for c in shaping)),
@@ -1045,6 +1063,48 @@ def chamfered_post(cx, cy, hx, hy, z0, z1, corner=1.6):
         prism([(cx + x, cy + y) for x, y in ring_pts(hx, hy, corner)], z0, z1)
 
 
+def rbox(x0, x1, y0, y1, z0, z1, corner=1.2, seg=3, chamfer=0.0, axis='z'):
+    """A box with filleted edges along `axis` and an optional chamfer at each end.
+
+    This is the workhorse of every mesh below. A security checkpoint is made of extruded
+    aluminium and folded sheet, and neither has a truly sharp arris: the fillet is what catches
+    the light and tells the eye the object is metal rather than a placeholder cube. `seg` sets
+    the fillet tessellation, so it is also the density control for the whole file. Rings are
+    built in the two axes that are not `axis` and stacked along `axis`, using the same axis
+    convention as cylinder(). The result is closed and positively oriented, which write_obj
+    asserts part by part."""
+    lo = dict(x=x0, y=y0, z=z0)
+    hi = dict(x=x1, y=y1, z=z1)
+    ua, va = dict(z=('x', 'y'), y=('x', 'z'), x=('y', 'z'))[axis]
+    u0, u1, v0, v1 = lo[ua], hi[ua], lo[va], hi[va]
+    w0, w1 = lo[axis], hi[axis]
+    hu, hv = (u1 - u0) / 2.0, (v1 - v0) / 2.0
+    cu, cv = (u0 + u1) / 2.0, (v0 + v1) / 2.0
+    lim = min(abs(hu), abs(hv))
+    chamfer = max(0.0, min(chamfer, lim * 0.45, abs(w1 - w0) * 0.45))
+
+    def ring(inset):
+        c = 0.0 if corner <= 0.0 else max(0.02, min(corner, (lim - inset) * 0.9))
+        return [(cu + p, cv + q) for p, q in ring_pts(hu - inset, hv - inset, c, seg)]
+
+    if chamfer <= 1e-9:
+        secs = [(ring(0.0), w0), (ring(0.0), w1)]
+    else:
+        secs = [(ring(chamfer), w0), (ring(0.0), w0 + chamfer),
+                (ring(0.0), w1 - chamfer), (ring(chamfer), w1)]
+    verts, faces = loft(secs)
+    out = []
+    for uu, vv, ww in verts:
+        d = {ua: uu, va: vv, axis: ww}
+        out.append((d['x'], d['y'], d['z']))
+    return orient(out, faces)
+
+
+def bolt(x, y, z, r=1.5, h=1.1, axis='z', seg=10):
+    """A raised fastener head. Small, but there are many, and they read as machined."""
+    return cylinder((x, y, z), r, h, seg, axis=axis)
+
+
 # =====================================================================================
 # 8. The meshes
 # =====================================================================================
@@ -1055,88 +1115,131 @@ ARCH = dict(clear_width=76.0, clear_height=200.0, upright_y=18.0, upright_x=22.0
 
 
 def detector_arch_parts():
-    """Two uprights and a header, plus base plates, a control panel and indicator strips."""
+    """A walk-through metal detector: two pillars, a header, base plates with levelling feet,
+    a control panel with its keypad, and the column of indicator lamps down each inner face."""
     a = ARCH
     inner = a['clear_width'] / 2.0
     outer = inner + a['upright_y']
+    hx = a['upright_x'] / 2.0
     parts = []
     for side in (-1, 1):
+        tag = 'L' if side < 0 else 'R'
         cy = side * (inner + a['upright_y'] / 2.0)
-        parts.append(('Upright%s' % ('L' if side < 0 else 'R'),
-                      chamfered_post(0.0, cy, a['upright_x'] / 2.0, a['upright_y'] / 2.0,
-                                     a['base_z'], a['upright_height'])))
-        parts.append(('BasePlate%s' % ('L' if side < 0 else 'R'),
-                      slab(-a['base_x'] / 2.0, a['base_x'] / 2.0, cy - a['base_y'] / 2.0,
-                           cy + a['base_y'] / 2.0, 0.0, a['base_z'])))
-        # indicator strips down the inner face of each upright
-        for k in range(10):
-            z = 42.0 + k * 15.0
-            parts.append(('Indicator%s%d' % ('L' if side < 0 else 'R', k),
-                          slab(-6.0, 6.0, side * (inner - 0.9), side * (inner + 0.6), z, z + 8.0)))
-    parts.append(('Header', chamfered_post(0.0, 0.0, a['upright_x'] / 2.0, outer,
-                                           a['upright_height'], a['upright_height'] + a['header_height'])))
-    parts.append(('HeaderCap', slab(-a['upright_x'] / 2.0 - 1.5, a['upright_x'] / 2.0 + 1.5,
-                                    -outer - 1.5, outer + 1.5,
+        y0, y1 = cy - a['upright_y'] / 2.0, cy + a['upright_y'] / 2.0
+        parts.append(('Upright%s' % tag,
+                      rbox(-hx, hx, y0, y1, a['base_z'], a['upright_height'],
+                           corner=3.4, seg=6, chamfer=1.2)))
+        parts.append(('BasePlate%s' % tag,
+                      rbox(-a['base_x'] / 2.0, a['base_x'] / 2.0, cy - a['base_y'] / 2.0,
+                           cy + a['base_y'] / 2.0, 0.0, a['base_z'], corner=2.6, seg=4, chamfer=0.9)))
+        for fx in (-1, 1):
+            for fy in (-1, 1):
+                parts.append(('Foot%s%d%d' % (tag, fx > 0, fy > 0),
+                              revolve([(0.0, 0.0), (3.2, 0.0), (3.4, 1.0), (2.0, 2.4), (0.0, 2.6)],
+                                      (fx * (a['base_x'] / 2.0 - 6.0),
+                                       cy + fy * (a['base_y'] / 2.0 - 6.0), 0.0), 14)))
+        # the column of indicator lamps that lights as a person passes through
+        for k in range(11):
+            z = 40.0 + k * 14.5
+            e0, e1 = sorted((side * (inner - 0.9), side * (inner + 0.7)))
+            parts.append(('Indicator%s%02d' % (tag, k),
+                          rbox(-6.0, 6.0, e0, e1, z, z + 8.4, corner=1.4, seg=3, chamfer=0.5)))
+        for k in range(4):
+            parts.append(('PillarBolt%s%d' % (tag, k),
+                          bolt(hx - 0.2, cy - 5.0 + k * 3.4, a['base_z'] + 4.0, 1.5, 1.0, axis='x')))
+    parts.append(('Header', rbox(-hx, hx, -outer, outer, a['upright_height'],
+                                 a['upright_height'] + a['header_height'],
+                                 corner=3.4, seg=6, chamfer=1.4)))
+    parts.append(('HeaderCap', rbox(-hx - 1.6, hx + 1.6, -outer - 1.6, outer + 1.6,
                                     a['upright_height'] + a['header_height'],
-                                    a['upright_height'] + a['header_height'] + 3.0)))
-    parts.append(('ControlPanel', slab(-8.0, 8.0, outer, outer + 13.0, 118.0, 152.0)))
-    parts.append(('ControlFace', slab(-6.5, 6.5, outer + 13.0, outer + 14.2, 122.0, 148.0)))
+                                    a['upright_height'] + a['header_height'] + 3.2,
+                                    corner=2.2, seg=4, chamfer=1.0)))
+    parts.append(('ControlPanel', rbox(-8.5, 8.5, outer, outer + 13.0, 117.0, 153.0,
+                                       corner=2.0, seg=4, chamfer=1.0, axis='y')))
+    parts.append(('ControlFace', rbox(-6.6, 6.6, outer + 12.6, outer + 14.4, 121.0, 149.0,
+                                      corner=1.0, seg=3, axis='y')))
+    for r in range(4):
+        for c in range(3):
+            parts.append(('Key%d%d' % (r, c),
+                          cylinder((-4.2 + c * 4.2, outer + 14.4, 126.0 + r * 6.0),
+                                   1.5, 0.9, 10, axis='y')))
     return parts
 
 
 def bag_scanner_parts():
-    """A table, a conveyor with rollers, a shielded hood and hanging curtain strips."""
+    """A bag scanner: a table on castors, a belt over its rollers, a shielded hood with hanging
+    lead curtain strips at both mouths, and the operator's monitor on its stalk."""
     parts = []
-    top_z, leg = 84.0, 6.0
-    parts.append(('TableTop', slab(-90.0, 90.0, -35.0, 35.0, top_z, top_z + 6.0)))
+    top_z, leg = 84.0, 7.0
+    parts.append(('TableTop', rbox(-90.0, 90.0, -35.0, 35.0, top_z, top_z + 6.0,
+                                   corner=2.4, seg=4, chamfer=1.2)))
+    parts.append(('TableSkirt', rbox(-88.0, 88.0, -32.0, 32.0, top_z - 9.0, top_z,
+                                     corner=1.6, seg=3, chamfer=0.8)))
     for sx in (-1, 1):
         for sy in (-1, 1):
+            cxx, cyy = sx * 82.0, sy * 28.0
             parts.append(('Leg%d%d' % (sx > 0, sy > 0),
-                          slab(sx * 82.0 - leg / 2.0, sx * 82.0 + leg / 2.0,
-                               sy * 28.0 - leg / 2.0, sy * 28.0 + leg / 2.0, 0.0, top_z)))
-    parts.append(('LegRail', slab(-84.0, 84.0, -3.0, 3.0, 16.0, 22.0)))
-    parts.append(('Belt', slab(-85.0, 85.0, -28.0, 28.0, top_z + 6.0, top_z + 10.0)))
+                          rbox(cxx - leg / 2.0, cxx + leg / 2.0, cyy - leg / 2.0, cyy + leg / 2.0,
+                               3.2, top_z - 9.0, corner=1.4, seg=4, chamfer=0.8)))
+            parts.append(('Castor%d%d' % (sx > 0, sy > 0),
+                          revolve([(0.0, 0.0), (4.4, 0.0), (4.6, 1.2), (2.6, 3.0), (0.0, 3.4)],
+                                  (cxx, cyy, 0.0), 14)))
+    parts.append(('LegRail', rbox(-84.0, 84.0, -3.2, 3.2, 16.0, 22.0, corner=1.2, seg=3, chamfer=0.6)))
+    parts.append(('Belt', rbox(-85.0, 85.0, -28.0, 28.0, top_z + 6.0, top_z + 10.2,
+                               corner=1.0, seg=3, chamfer=0.5)))
     for k in range(11):
         x = -80.0 + k * 16.0
-        parts.append(('Roller%d' % k, tube_along_y((x, top_z + 8.0), 2.6, 1.2, -28.5, 28.5, 12)))
-    hood_z0, hood_z1 = top_z + 10.0, top_z + 10.0 + 62.0
+        parts.append(('Roller%02d' % k, tube_along_y((x, top_z + 8.1), 2.8, 1.3, -28.5, 28.5, 18)))
+    hood_z0, hood_z1 = top_z + 10.2, top_z + 10.2 + 62.0
     parts.append(('Hood', frame_prism((-38.0, 38.0, hood_z0, hood_z1),
                                       (-31.0, 31.0, hood_z0 + 3.0, hood_z1 - 16.0), -34.0, 34.0)))
-    for x, sign in ((-34.0, -1.0), (34.0, 1.0)):
+    parts.append(('HoodCap', rbox(-39.5, 39.5, -35.5, 35.5, hood_z1, hood_z1 + 3.4,
+                                  corner=2.2, seg=4, chamfer=1.1)))
+    for xx, sign in ((-34.0, -1.0), (34.0, 1.0)):
         for k in range(9):
             y0 = -30.0 + k * 6.8
+            lo, hi = sorted((xx + sign * 0.4, xx + sign * 1.8))
             parts.append(('Curtain%s%d' % ('A' if sign < 0 else 'B', k),
-                          slab(x + sign * 0.4, x + sign * 1.6, y0, y0 + 5.6,
-                               hood_z0 + 6.0, hood_z1 - 18.0)))
-    parts.append(('MonitorStalk', cylinder((78.0, 30.0, top_z + 6.0), 2.0, 44.0, 10)))
-    parts.append(('Monitor', slab(74.0, 76.5, 8.0, 52.0, top_z + 50.0, top_z + 78.0)))
-    parts.append(('MonitorScreen', slab(72.6, 74.0, 10.0, 50.0, top_z + 53.0, top_z + 75.0)))
+                          rbox(lo, hi, y0, y0 + 5.6, hood_z0 + 6.0, hood_z1 - 18.0,
+                               corner=0.8, seg=2, chamfer=0.4)))
+    for k in range(6):
+        parts.append(('HoodBolt%d' % k,
+                      bolt(-34.6, -26.0 + k * 10.4, hood_z1 - 8.0, 1.4, 1.0, axis='x')))
+    parts.append(('MonitorStalk', cylinder((78.0, 30.0, top_z + 6.0), 2.2, 44.0, 14)))
+    parts.append(('Monitor', rbox(73.6, 76.8, 8.0, 52.0, top_z + 50.0, top_z + 78.0,
+                                  corner=1.8, seg=4, chamfer=0.9, axis='x')))
+    parts.append(('MonitorScreen', rbox(72.4, 73.8, 10.0, 50.0, top_z + 53.0, top_z + 75.0,
+                                        corner=0.8, seg=2, axis='x')))
     return parts
 
 
 def stanchion_parts(span_y=180.0):
-    """A weighted base, a post, a top collar, and a belt that sags across to the next post."""
+    """A belt stanchion: a weighted cast base, a tapered post, the belt cassette at the top,
+    and the belt itself sagging across to the next post in the line."""
     parts = []
-    parts.append(('Base', revolve([(0.0, 0.0), (17.0, 0.0), (17.0, 2.6), (12.0, 4.4), (0.0, 4.6)], (0.0, 0.0, 0.0), 24)))
-    parts.append(('Post', loft([(ring_pts(3.4, 3.4, 1.2, 4), 4.4),
-                                (ring_pts(3.0, 3.0, 1.1, 4), 60.0),
-                                (ring_pts(2.7, 2.7, 1.0, 4), 88.0)])))
-    parts.append(('Collar', revolve([(0.0, 88.0), (5.2, 88.0), (5.2, 95.0), (3.4, 97.4), (0.0, 97.6)], (0.0, 0.0, 0.0), 24)))
-    # the belt: a sagging strap from this post to the next, modelled as a lofted strip
-    sag, seg = 5.5, 10
-    sections = []
-    for k in range(seg + 1):
-        t = k / float(seg)
-        y = t * span_y
-        z = 88.0 - sag * math.sin(math.pi * t)
-        sections.append(([(-0.7, y), (0.7, y), (0.7, y), (-0.7, y)], z))
-    strip = []
+    parts.append(('Base', revolve([(0.0, 0.0), (16.0, 0.0), (17.2, 1.0), (17.2, 2.6),
+                                   (14.0, 4.2), (8.0, 5.0), (0.0, 5.2)], (0.0, 0.0, 0.0), 40)))
+    parts.append(('BaseRing', revolve([(0.0, -0.6), (17.4, -0.6), (17.4, 0.4), (0.0, 0.4)],
+                                      (0.0, 0.0, 0.0), 40)))
+    parts.append(('Post', loft([(ring_pts(3.6, 3.6, 1.30, 6), 5.0),
+                                (ring_pts(3.4, 3.4, 1.25, 6), 26.0),
+                                (ring_pts(3.1, 3.1, 1.15, 6), 54.0),
+                                (ring_pts(2.9, 2.9, 1.10, 6), 78.0),
+                                (ring_pts(2.8, 2.8, 1.05, 6), 88.0)])))
+    parts.append(('Cassette', rbox(-4.6, 4.6, -5.4, 5.4, 84.0, 96.0, corner=2.0, seg=5, chamfer=1.0)))
+    parts.append(('Collar', revolve([(0.0, 96.0), (5.4, 96.0), (5.4, 98.0), (3.6, 100.4), (0.0, 100.8)],
+                                    (0.0, 0.0, 0.0), 32)))
+    for k in range(3):
+        a = k * math.tau / 3.0
+        parts.append(('BaseBolt%d' % k, bolt(11.0 * math.cos(a), 11.0 * math.sin(a), 4.6, 1.5, 0.9)))
+    # the belt: a sagging strap paid out towards the next post in the line
+    seg = 22
     v, f = [], []
     for k in range(seg + 1):
         t = k / float(seg)
         y = 6.0 + t * (span_y - 6.0)
-        z = 88.0 - sag * math.sin(math.pi * t)
-        v += [(-0.7, y, z - 2.6), (0.7, y, z - 2.6), (0.7, y, z + 2.6), (-0.7, y, z + 2.6)]
+        z = 88.0 - 5.5 * math.sin(math.pi * t)
+        v += [(-0.75, y, z - 2.7), (0.75, y, z - 2.7), (0.75, y, z + 2.7), (-0.75, y, z + 2.7)]
     for k in range(seg):
         a0, b0 = k * 4, (k + 1) * 4
         for i in range(4):
@@ -1146,55 +1249,112 @@ def stanchion_parts(span_y=180.0):
     last = seg * 4
     f += [(last, last + 1, last + 2), (last, last + 2, last + 3)]
     parts.append(('Belt', orient(v, f)))
-    del sections, strip
     return parts
 
 
 def booth_parts():
-    """A guard booth: plinth, four walls with a window and a door, a counter and a roof."""
+    """A guard booth: a plinth, four walls, a glazed service window with mullions, a panelled
+    door with hinges and a lever handle, a counter shelf, ventilation louvres and a capped roof."""
     parts = []
     hx, hy, wall, wz = 92.0, 92.0, 7.0, 250.0
-    parts.append(('Plinth', slab(-hx - 4.0, hx + 4.0, -hy - 4.0, hy + 4.0, 0.0, 9.0)))
-    # -X wall carries the service window
+    parts.append(('Plinth', rbox(-hx - 4.0, hx + 4.0, -hy - 4.0, hy + 4.0, 0.0, 9.0,
+                                 corner=3.0, seg=4, chamfer=1.4)))
+    # the -X wall carries the service window, because that is the side the queue reaches first
     wy0, wy1, wz0, wz1 = -56.0, 56.0, 106.0, 186.0
-    parts.append(('WallFrontLow', slab(-hx, -hx + wall, -hy, hy, 9.0, wz0)))
-    parts.append(('WallFrontHigh', slab(-hx, -hx + wall, -hy, hy, wz1, wz)))
-    parts.append(('WallFrontLeft', slab(-hx, -hx + wall, -hy, wy0, wz0, wz1)))
-    parts.append(('WallFrontRight', slab(-hx, -hx + wall, wy1, hy, wz0, wz1)))
-    parts.append(('WindowGlass', slab(-hx + 2.6, -hx + 4.4, wy0, wy1, wz0, wz1)))
-    parts.append(('Counter', slab(-hx - 24.0, -hx + wall, wy0 - 6.0, wy1 + 6.0, wz0 - 6.0, wz0)))
-    # +Y wall carries the door
+    for nm, y0, y1, z0, z1 in (('WallFrontLow', -hy, hy, 9.0, wz0),
+                               ('WallFrontHigh', -hy, hy, wz1, wz),
+                               ('WallFrontLeft', -hy, wy0, wz0, wz1),
+                               ('WallFrontRight', wy1, hy, wz0, wz1)):
+        parts.append((nm, rbox(-hx, -hx + wall, y0, y1, z0, z1, corner=1.0, seg=2, chamfer=0.5)))
+    parts.append(('WindowGlass', rbox(-hx + 2.6, -hx + 4.4, wy0, wy1, wz0, wz1,
+                                      corner=0.8, seg=2, axis='x')))
+    for k in range(3):
+        yy = wy0 + (k + 1) * (wy1 - wy0) / 4.0
+        parts.append(('Mullion%d' % k, rbox(-hx + 1.6, -hx + 5.4, yy - 1.4, yy + 1.4, wz0, wz1,
+                                            corner=0.9, seg=3, chamfer=0.4)))
+    parts.append(('WindowSill', rbox(-hx - 3.0, -hx + wall, wy0 - 3.0, wy1 + 3.0, wz0 - 3.2, wz0,
+                                     corner=1.2, seg=3, chamfer=0.6)))
+    parts.append(('Counter', rbox(-hx - 24.0, -hx + wall, wy0 - 6.0, wy1 + 6.0, wz0 - 9.0, wz0 - 3.2,
+                                  corner=2.0, seg=4, chamfer=1.0)))
+    for k in range(2):
+        yy = -34.0 + k * 68.0
+        parts.append(('CounterBracket%d' % k,
+                      rbox(-hx - 20.0, -hx, yy - 1.6, yy + 1.6, wz0 - 26.0, wz0 - 9.0,
+                           corner=0.8, seg=2, chamfer=0.4)))
+    # the +Y wall carries the door
     dx0, dx1, dz1 = -34.0, 40.0, 208.0
-    parts.append(('WallSideNear', slab(-hx, hx, hy - wall, hy, 9.0, wz)) if False else
-                 ('WallSideNearLeft', slab(-hx, dx0, hy - wall, hy, 9.0, wz)))
-    parts.append(('WallSideNearRight', slab(dx1, hx, hy - wall, hy, 9.0, wz)))
-    parts.append(('WallSideNearHead', slab(dx0, dx1, hy - wall, hy, dz1, wz)))
-    parts.append(('Door', slab(dx0 + 1.0, dx1 - 1.0, hy - wall + 1.2, hy - 1.4, 9.0, dz1 - 1.0)))
-    parts.append(('WallSideFar', slab(-hx, hx, -hy, -hy + wall, 9.0, wz)))
-    parts.append(('WallBack', slab(hx - wall, hx, -hy + wall, hy - wall, 9.0, wz)))
-    parts.append(('Roof', slab(-hx - 12.0, hx + 12.0, -hy - 12.0, hy + 12.0, wz, wz + 9.0)))
-    parts.append(('RoofLip', slab(-hx - 14.0, hx + 14.0, -hy - 14.0, hy + 14.0, wz + 9.0, wz + 12.0)))
-    parts.append(('Lamp', slab(-hx - 10.0, -hx + 6.0, -14.0, 14.0, wz - 4.0, wz)))
-    return [p for p in parts if isinstance(p, tuple) and len(p) == 2]
+    parts.append(('WallSideNearLeft', rbox(-hx, dx0, hy - wall, hy, 9.0, wz,
+                                           corner=1.0, seg=2, chamfer=0.5)))
+    parts.append(('WallSideNearRight', rbox(dx1, hx, hy - wall, hy, 9.0, wz,
+                                            corner=1.0, seg=2, chamfer=0.5)))
+    parts.append(('WallSideNearHead', rbox(dx0, dx1, hy - wall, hy, dz1, wz,
+                                           corner=1.0, seg=2, chamfer=0.5)))
+    parts.append(('Door', rbox(dx0 + 1.0, dx1 - 1.0, hy - wall + 1.2, hy - 1.4, 9.0, dz1 - 1.0,
+                               corner=1.2, seg=3, chamfer=0.6)))
+    for k in range(2):
+        z0 = 24.0 + k * 88.0
+        parts.append(('DoorPanel%d' % k, rbox(dx0 + 8.0, dx1 - 8.0, hy - 1.4, hy - 0.4,
+                                              z0, z0 + 70.0, corner=1.6, seg=3, chamfer=0.5)))
+    for k in range(3):
+        parts.append(('Hinge%d' % k, cylinder((dx0 + 1.0, hy - 3.0, 30.0 + k * 72.0), 1.8, 9.0, 12)))
+    parts.append(('Handle', cylinder((dx1 - 8.0, hy - 1.4, 104.0), 1.6, 6.0, 12, axis='y')))
+    parts.append(('HandleLever', rbox(dx1 - 22.0, dx1 - 6.0, hy + 3.0, hy + 5.4, 102.4, 105.6,
+                                      corner=1.1, seg=3, chamfer=0.5)))
+    parts.append(('WallSideFar', rbox(-hx, hx, -hy, -hy + wall, 9.0, wz, corner=1.0, seg=2, chamfer=0.5)))
+    parts.append(('WallBack', rbox(hx - wall, hx, -hy + wall, hy - wall, 9.0, wz,
+                                   corner=1.0, seg=2, chamfer=0.5)))
+    for k in range(7):
+        z = 168.0 + k * 5.0
+        parts.append(('Louvre%d' % k, rbox(hx - 0.4, hx + 2.2, -30.0, 30.0, z, z + 3.0,
+                                           corner=0.7, seg=2, chamfer=0.3)))
+    parts.append(('Roof', rbox(-hx - 12.0, hx + 12.0, -hy - 12.0, hy + 12.0, wz, wz + 9.0,
+                               corner=4.0, seg=5, chamfer=2.0)))
+    parts.append(('RoofLip', rbox(-hx - 14.0, hx + 14.0, -hy - 14.0, hy + 14.0, wz + 9.0, wz + 12.0,
+                                  corner=4.5, seg=5, chamfer=1.4)))
+    parts.append(('Lamp', rbox(-hx - 10.0, -hx + 6.0, -14.0, 14.0, wz - 5.0, wz,
+                               corner=1.8, seg=4, chamfer=0.9)))
+    parts.append(('LampLens', rbox(-hx - 9.0, -hx + 5.0, -12.0, 12.0, wz - 6.6, wz - 5.0,
+                                   corner=1.4, seg=3, chamfer=0.5)))
+    return parts
 
 
 def shoe_rack_parts():
-    """An open rack of cubbies: five uprights, five shelves, a back panel and a toe kick."""
+    """An open shoe rack: a toe kick on feet, five uprights, five shelves, cubby dividers,
+    a back panel, a top rail and the numbered label plate over each bay."""
     parts = []
     hy, depth, height = 82.0, 38.0, 152.0
-    parts.append(('ToeKick', slab(-depth / 2.0 + 2.0, depth / 2.0 - 2.0, -hy, hy, 0.0, 9.0)))
-    for k in range(5):
-        y = -hy + k * (2.0 * hy - 3.0) / 4.0
-        parts.append(('Upright%d' % k, slab(-depth / 2.0, depth / 2.0, y, y + 3.0, 9.0, height)))
-    for k in range(5):
-        z = 9.0 + k * (height - 9.0 - 3.0) / 4.0
-        parts.append(('Shelf%d' % k, slab(-depth / 2.0, depth / 2.0, -hy, hy, z, z + 3.0)))
-    parts.append(('Back', slab(depth / 2.0 - 2.0, depth / 2.0, -hy, hy, 9.0, height)))
-    parts.append(('TopRail', slab(-depth / 2.0 - 1.5, depth / 2.0 + 1.5, -hy - 1.5, hy + 1.5, height, height + 4.0)))
+    hd = depth / 2.0
+    parts.append(('ToeKick', rbox(-hd + 2.0, hd - 2.0, -hy, hy, 6.0, 15.0,
+                                  corner=1.4, seg=3, chamfer=0.7)))
     for k in range(4):
-        y = -hy + 3.0 + k * (2.0 * hy - 3.0) / 4.0
-        parts.append(('LabelPlate%d' % k, slab(-depth / 2.0 - 0.8, -depth / 2.0, y + 6.0,
-                                               y + (2.0 * hy - 3.0) / 4.0 - 9.0, height - 18.0, height - 8.0)))
+        parts.append(('Foot%d' % k,
+                      cylinder((0.0, -hy + 6.0 + k * (2.0 * hy - 12.0) / 3.0, 0.0), 3.2, 6.0, 12)))
+    pitch = (2.0 * hy - 3.0) / 4.0
+    for k in range(5):
+        y = -hy + k * pitch
+        parts.append(('Upright%d' % k, rbox(-hd, hd, y, y + 3.0, 15.0, height,
+                                            corner=1.2, seg=4, chamfer=0.6)))
+    shelf_pitch = (height - 15.0 - 3.0) / 4.0
+    for k in range(5):
+        z = 15.0 + k * shelf_pitch
+        parts.append(('Shelf%d' % k, rbox(-hd, hd, -hy, hy, z, z + 3.0,
+                                          corner=1.2, seg=4, chamfer=0.6)))
+    # a divider halfway across each bay on the two lower shelves, so cubbies read as cubbies
+    for s in range(2):
+        z = 15.0 + s * shelf_pitch
+        for k in range(4):
+            y = -hy + 3.0 + k * pitch + pitch / 2.0
+            parts.append(('Divider%d%d' % (s, k),
+                          rbox(-hd + 3.0, hd - 2.0, y - 1.1, y + 1.1, z + 3.0, z + shelf_pitch,
+                               corner=0.7, seg=2, chamfer=0.3)))
+    parts.append(('Back', rbox(hd - 2.0, hd, -hy, hy, 15.0, height, corner=0.8, seg=2, chamfer=0.4)))
+    parts.append(('TopRail', rbox(-hd - 1.5, hd + 1.5, -hy - 1.5, hy + 1.5, height, height + 4.0,
+                                  corner=2.0, seg=4, chamfer=1.0)))
+    for k in range(4):
+        y = -hy + 3.0 + k * pitch
+        parts.append(('LabelPlate%d' % k, rbox(-hd - 1.0, -hd, y + 6.0, y + pitch - 9.0,
+                                               height - 18.0, height - 8.0,
+                                               corner=1.0, seg=3, chamfer=0.4, axis='x')))
     return parts
 
 
@@ -1204,23 +1364,43 @@ SIGN_PLATE = dict(face_w=64.0, face_h=40.0, frame_w=70.0, frame_h=46.0,
                   frame_x=3.0, face_x=0.8, centre_z=155.0)
 
 
+def _frame_rails(prefix, fy0, fy1, fz0, fz1, iy0, iy1, iz0, iz1, x0, x1, corner, seg, chamfer):
+    """A picture frame built as four rails rather than one extruded annulus, so the frame has a
+    rounded outer arris and reads as folded section at grazing angles."""
+    return [
+        (prefix + 'RailBottom', rbox(x0, x1, fy0, fy1, fz0, iz0, corner, seg, chamfer, axis='y')),
+        (prefix + 'RailTop', rbox(x0, x1, fy0, fy1, iz1, fz1, corner, seg, chamfer, axis='y')),
+        (prefix + 'RailLeft', rbox(x0, x1, fy0, iy0, iz0, iz1, corner, seg, chamfer, axis='z')),
+        (prefix + 'RailRight', rbox(x0, x1, iy1, fy1, iz0, iz1, corner, seg, chamfer, axis='z')),
+    ]
+
+
 def sign_post_frame_parts():
+    """The post-mounted panel: a tapered post on a bolted base flange, the frame, and the backer
+    the printed face is bonded to."""
     s = SIGN_PANEL
     z1 = s['top_z']
     z0 = z1 - s['frame_h']
-    parts = [('Post', revolve([(0.0, 0.0), (7.5, 0.0), (7.5, 3.0), (s['post_r'], 6.0),
-                               (s['post_r'], s['post_h']), (0.0, s['post_h'] + 2.0)], (0.0, 0.0, 0.0), 16)),
-             ('Frame', frame_prism((-s['frame_w'] / 2.0, s['frame_w'] / 2.0, z0, z1),
-                                   (-s['face_w'] / 2.0, s['face_w'] / 2.0,
-                                    z0 + (s['frame_h'] - s['face_h']) / 2.0,
-                                    z1 - (s['frame_h'] - s['face_h']) / 2.0),
-                                   -s['frame_x'] / 2.0, s['frame_x'] / 2.0)),
-             ('Backer', slab(s['frame_x'] / 2.0 - 0.8, s['frame_x'] / 2.0 + 0.4,
-                             -s['face_w'] / 2.0, s['face_w'] / 2.0,
-                             z0 + (s['frame_h'] - s['face_h']) / 2.0,
-                             z1 - (s['frame_h'] - s['face_h']) / 2.0))]
+    iz0 = z0 + (s['frame_h'] - s['face_h']) / 2.0
+    iz1 = z1 - (s['frame_h'] - s['face_h']) / 2.0
+    iy0, iy1 = -s['face_w'] / 2.0, s['face_w'] / 2.0
+    fy0, fy1 = -s['frame_w'] / 2.0, s['frame_w'] / 2.0
+    fx0, fx1 = -s['frame_x'] / 2.0, s['frame_x'] / 2.0
+    parts = [('Post', revolve([(0.0, 0.0), (6.4, 0.0), (6.4, 4.0), (s['post_r'] + 0.6, 7.0),
+                               (s['post_r'], 40.0), (s['post_r'] - 0.5, s['post_h'] - 6.0),
+                               (s['post_r'] - 0.5, s['post_h']), (0.0, s['post_h'] + 2.6)],
+                              (0.0, 0.0, 0.0), 32)),
+             ('BaseFlange', revolve([(0.0, 0.0), (11.0, 0.0), (11.0, 1.6), (7.5, 3.0), (0.0, 3.2)],
+                                    (0.0, 0.0, 0.0), 28))]
+    for k in range(4):
+        a = k * math.tau / 4.0 + math.pi / 4.0
+        parts.append(('FlangeBolt%d' % k, bolt(8.6 * math.cos(a), 8.6 * math.sin(a), 1.6, 1.5, 1.1)))
+    parts += _frame_rails('Frame', fy0, fy1, z0, z1, iy0, iy1, iz0, iz1, fx0, fx1, 1.4, 4, 0.7)
+    parts.append(('Backer', rbox(fx1 - 0.9, fx1 + 0.4, iy0, iy1, iz0, iz1,
+                                 corner=0.8, seg=2, axis='x')))
     for sy in (-1, 1):
-        parts.append(('Bracket%d' % (sy > 0), slab(-1.6, 1.6, sy * 5.0 - 2.0, sy * 5.0 + 2.0, z0 - 6.0, z0 + 8.0)))
+        parts.append(('Bracket%d' % (sy > 0), rbox(-1.8, 1.8, sy * 5.0 - 2.2, sy * 5.0 + 2.2,
+                                                   z0 - 7.0, z0 + 9.0, corner=0.9, seg=3, chamfer=0.4)))
     return parts
 
 
@@ -1234,20 +1414,26 @@ def sign_post_face_parts():
 
 
 def sign_plate_frame_parts():
+    """The wall-mounted plate: the same frame in miniature, on four standoffs."""
     s = SIGN_PLATE
     z0 = s['centre_z'] - s['frame_h'] / 2.0
     z1 = s['centre_z'] + s['frame_h'] / 2.0
-    parts = [('Frame', frame_prism((-s['frame_w'] / 2.0, s['frame_w'] / 2.0, z0, z1),
-                                   (-s['face_w'] / 2.0, s['face_w'] / 2.0,
-                                    s['centre_z'] - s['face_h'] / 2.0, s['centre_z'] + s['face_h'] / 2.0),
-                                   0.0, s['frame_x'])),
-             ('Backer', slab(s['frame_x'] - 0.6, s['frame_x'], -s['face_w'] / 2.0, s['face_w'] / 2.0,
-                             s['centre_z'] - s['face_h'] / 2.0, s['centre_z'] + s['face_h'] / 2.0))]
+    iz0 = s['centre_z'] - s['face_h'] / 2.0
+    iz1 = s['centre_z'] + s['face_h'] / 2.0
+    iy0, iy1 = -s['face_w'] / 2.0, s['face_w'] / 2.0
+    fy0, fy1 = -s['frame_w'] / 2.0, s['frame_w'] / 2.0
+    parts = _frame_rails('Frame', fy0, fy1, z0, z1, iy0, iy1, iz0, iz1,
+                         0.0, s['frame_x'], 1.0, 4, 0.5)
+    parts.append(('Backer', rbox(s['frame_x'] - 0.7, s['frame_x'], iy0, iy1, iz0, iz1,
+                                 corner=0.6, seg=2, axis='x')))
     for sy in (-1, 1):
         for sz in (-1, 1):
+            yy = sy * (s['frame_w'] / 2.0 - 3.0)
+            zz = s['centre_z'] + sz * (s['frame_h'] / 2.0 - 3.0)
+            parts.append(('Standoff%d%d' % (sy > 0, sz > 0),
+                          cylinder((s['frame_x'], yy, zz), 1.3, 2.6, 14, axis='x')))
             parts.append(('Boss%d%d' % (sy > 0, sz > 0),
-                          cylinder((s['frame_x'], sy * (s['frame_w'] / 2.0 - 3.0),
-                                    s['centre_z'] + sz * (s['frame_h'] / 2.0 - 3.0)), 1.7, 2.2, 10, axis='x')))
+                          cylinder((-0.9, yy, zz), 1.9, 1.2, 16, axis='x')))
     return parts
 
 
@@ -1255,6 +1441,7 @@ def sign_plate_face_parts():
     s = SIGN_PLATE
     return [('Face', slab(-0.6, 0.4, -s['face_w'] / 2.0, s['face_w'] / 2.0,
                           s['centre_z'] - s['face_h'] / 2.0, s['centre_z'] + s['face_h'] / 2.0))]
+
 
 
 def sign_face_uv(kind):
@@ -1420,6 +1607,24 @@ def render_geometry(geo, path, views, size=(1500, 520)):
     role_colour = dict(metal_brushed=(176, 182, 190), metal_dark=(96, 100, 108),
                        painted_steel=(198, 194, 182), timber=(150, 112, 72),
                        sign_face=(232, 228, 218))
+    # Every mesh is authored about its own pivot, so drawing them unshifted piles them all on
+    # one spot and the booth simply hides the rest. Lay them out in a row along Y, in the
+    # order given, each shifted so the meshes stand side by side with a gap between them.
+    spans = {}
+    for _n, (_parts, _role) in geo.items():
+        ys = [q[1] for _pn, (vv, _ff) in _parts for q in vv]
+        spans[_n] = (min(ys), max(ys))
+    gap = 40.0
+    cursor = 0.0
+    offset = {}
+    for _n in geo:
+        lo, hi = spans[_n]
+        offset[_n] = cursor - lo
+        cursor += (hi - lo) + gap
+    span_total = cursor - gap
+    for _n in offset:
+        offset[_n] -= span_total / 2.0
+
     for k, (yaw, pitch, scale, _label) in enumerate(views):
         u = (math.sin(math.radians(yaw)), math.cos(math.radians(yaw)))
         cp, sp = math.cos(math.radians(pitch)), math.sin(math.radians(pitch))
@@ -1433,7 +1638,9 @@ def render_geometry(geo, path, views, size=(1500, 520)):
         light = (-0.42, -0.55, 0.72)
         for name, (parts, role) in geo.items():
             colour = role_colour.get(role, (180, 180, 180))
-            for _pn, (v, f) in parts:
+            dy = offset[name]
+            for _pn, (v0, f) in parts:
+                v = [(q[0], q[1] + dy, q[2]) for q in v0]
                 pr = [(sum(p[i] * right[i] for i in range(3)) * scale + x0,
                        base_y - sum(p[i] * up[i] for i in range(3)) * scale,
                        -sum(p[i] * cam[i] for i in range(3))) for p in v]

@@ -66,6 +66,40 @@ static const double GridStep = 2500.0;
 static const double GridOrigin = -80000.0;
 static std::vector<double> GridHeights;
 
+// The closed form of the synthetic hillside, kept separate from the sampled grid so the
+// tests below can compare SampleTerrain against ground truth instead of against a
+// hand-guessed constant. Every grid node is TerrainZ evaluated exactly, so a central
+// difference taken on TerrainZ at grid spacing is what SampleTerrain must reproduce
+// bit for bit.
+static double TerrainZ(double X, double Y)
+{
+    // Ridge crest 80 000 cm (800 m) at x = 0, falling 1 cm per 4 cm of |x|.
+    double Z = 80000.0 - std::abs(X) * 0.25;
+    // A wadi: a Gaussian notch 4000 cm deep, sigma 12 000 cm, along y = 0, cut into the
+    // eastern flank only. Being a Gaussian it is never exactly zero anywhere, which is a
+    // property the aspect check below depends on knowing.
+    if (X > 10000.0) Z -= 4000.0 * std::exp(-(Y * Y) / (2.0 * 12000.0 * 12000.0));
+    // A flat shelf in the far south-west, for the density test.
+    if (X < -50000.0 && Y > 40000.0) Z = 60000.0;
+    return Z;
+}
+
+/** Central difference on the closed form, at the same spacing SampleTerrain uses. */
+static void AnalyticGradient(double X, double Y, double& DzDx, double& DzDy)
+{
+    DzDx = (TerrainZ(X + GridStep, Y) - TerrainZ(X - GridStep, Y)) / (2.0 * GridStep);
+    DzDy = (TerrainZ(X, Y + GridStep) - TerrainZ(X, Y - GridStep)) / (2.0 * GridStep);
+}
+
+static double AnalyticAspect(double X, double Y)
+{
+    double DzDx = 0.0, DzDy = 0.0;
+    AnalyticGradient(X, Y, DzDx, DzDy);
+    double A = RadToDeg(std::atan2(-DzDy, -DzDx));
+    if (A < 0.0) A += 360.0;
+    return A;
+}
+
 static void BuildTerrain()
 {
     GridHeights.resize(static_cast<size_t>(GridSize) * GridSize);
@@ -73,15 +107,8 @@ static void BuildTerrain()
     {
         for (int I = 0; I < GridSize; ++I)
         {
-            const double X = GridOrigin + I * GridStep;
-            const double Y = GridOrigin + J * GridStep;
-            // Ridge crest 80 000 cm (800 m) at x = 0, falling 1 cm per 4 cm of |x|.
-            double Z = 80000.0 - std::abs(X) * 0.25;
-            // A wadi: a 6000 cm wide notch along y = 0 on the eastern flank only.
-            if (X > 10000.0) Z -= 4000.0 * std::exp(-(Y * Y) / (2.0 * 12000.0 * 12000.0));
-            // A flat shelf in the far south-west, for the density test.
-            if (X < -50000.0 && Y > 40000.0) Z = 60000.0;
-            GridHeights[static_cast<size_t>(J) * GridSize + I] = Z;
+            GridHeights[static_cast<size_t>(J) * GridSize + I] =
+                TerrainZ(GridOrigin + I * GridStep, GridOrigin + J * GridStep);
         }
     }
 }
@@ -109,10 +136,30 @@ static void TerrainChecks()
     // On the western flank the surface rises east at 0.25, i.e. atan(0.25) = 14.036 deg.
     const TerrainSample West = SampleTerrain(F, Vec2{-40000.0, -60000.0});
     CHECK(Near(West.SlopeDegrees, RadToDeg(std::atan(0.25)), 1e-6));
-    // Downhill from the western flank points west (-X), bearing 180.
+    // Downhill from the western flank points west (-X), bearing 180. The western flank
+    // carries no wadi term at all, so this one IS exact.
     CHECK(Near(West.AspectDegrees, 180.0, 1e-6));
+    CHECK(Near(West.AspectDegrees, AnalyticAspect(-40000.0, -60000.0), 1e-9));
+
+    // The eastern flank is the interesting case, and the place an earlier version of this
+    // test was simply wrong: it asserted the aspect there was 0 to within 1e-6 degrees.
+    // It is not, and SampleTerrain is right to say so. The wadi is a Gaussian, so 60 000 cm
+    // off its centreline it still contributes a small but real north-south gradient
+    // (dz/dy = -7.238e-06), which swings the downhill bearing 0.00166 deg off due east.
+    // The honest assertion is against the closed form of the terrain itself.
     const TerrainSample East = SampleTerrain(F, Vec2{40000.0, -60000.0});
-    CHECK(Near(East.AspectDegrees, 0.0, 1e-6));       // downhill toward +X
+    double EastDzDx = 0.0, EastDzDy = 0.0;
+    AnalyticGradient(40000.0, -60000.0, EastDzDx, EastDzDy);
+    CHECK(Near(East.DzDx, EastDzDx, 1e-12));
+    CHECK(Near(East.DzDy, EastDzDy, 1e-12));
+    CHECK(Near(East.AspectDegrees, AnalyticAspect(40000.0, -60000.0), 1e-9));
+    CHECK(East.AspectDegrees < 0.01);                  // still downhill toward +X, as intended
+    CHECK(East.DzDy < 0.0 && East.AspectDegrees > 0.0);// and the wadi tail really does tilt it
+    // On the wadi centreline the Gaussian is even in Y, so dz/dy cancels exactly and the
+    // bearing IS exactly due east. That is the point where an exact test belongs.
+    const TerrainSample Centreline = SampleTerrain(F, Vec2{40000.0, 0.0});
+    CHECK(Near(Centreline.DzDy, 0.0, 1e-15));
+    CHECK(Near(Centreline.AspectDegrees, 0.0, 1e-12));
     // Crest height.
     CHECK(Near(HeightAt(F, Vec2{0.0, -60000.0}), 80000.0, 1e-6));
 
@@ -175,11 +222,33 @@ static void BandChecks()
     CHECK(Facing > 0.9 && Away < 0.15 && Facing > Away * 5.0);
 
     // Concavity preference puts more growth in the wadi than on the shoulder beside it.
+    //
+    // The trap here, which an earlier version of this test fell into: the wadi is cut
+    // 4000 cm deep, so its floor at (40 000, 0) sits at 66 000 cm -- BELOW the olive
+    // band's 68 000 cm floor. Reusing the olive band unchanged made the wadi score 0 on
+    // altitude before concavity was ever consulted, and the comparison measured nothing.
+    // BandWeight was right; the band was wrong. Both facts are now asserted.
+    const TerrainSample WadiFloor = SampleTerrain(F, Vec2{40000.0, 0.0});
+    const TerrainSample Shoulder = SampleTerrain(F, Vec2{40000.0, 22000.0});
+    CHECK(Near(WadiFloor.HeightCm, 66000.0, 1e-6));
+    CHECK(WadiFloor.HeightCm < Olive.MinAltitudeCm);
+    CHECK(Near(BandWeight(Olive, WadiFloor), 0.0));      // altitude vetoes it, as it should
+
+    // A species whose range actually reaches the wadi floor. Everything else is the olive
+    // band, so the only difference between the two points is the concavity term.
     Band Wadi = Olive;
+    Wadi.MinAltitudeCm = 60000.0;
     Wadi.ConcavityWeight = 0.8;
-    const double InWadi = BandWeight(Wadi, SampleTerrain(F, Vec2{40000.0, 0.0}), Concavity(F, Vec2{40000.0, 0.0}));
-    const double OnShoulder = BandWeight(Wadi, SampleTerrain(F, Vec2{40000.0, 22000.0}), Concavity(F, Vec2{40000.0, 22000.0}));
+    CHECK(InBand(Wadi, WadiFloor) && InBand(Wadi, Shoulder));
+    CHECK(Concavity(F, Vec2{40000.0, 0.0}) > 0.0);       // concave floor
+    CHECK(Concavity(F, Vec2{40000.0, 22000.0}) < 0.0);   // convex shoulder
+    const double InWadi = BandWeight(Wadi, WadiFloor, Concavity(F, Vec2{40000.0, 0.0}));
+    const double OnShoulder = BandWeight(Wadi, Shoulder, Concavity(F, Vec2{40000.0, 22000.0}));
     CHECK(InWadi > OnShoulder);
+    // The weighting spans the full declared range: saturated wet ground keeps weight 1,
+    // dry convex ground is cut to 1 - ConcavityWeight.
+    CHECK(Near(InWadi, 1.0, 1e-9));
+    CHECK(Near(OnShoulder, 1.0 - Wadi.ConcavityWeight, 1e-9));
 
     Record("band_feathered_edge_weight", AtEdge);
     Record("band_aspect_facing_weight", Facing);
@@ -283,11 +352,38 @@ static void PoissonChecks()
     Worst = std::sqrt(Worst);
     CHECK(Worst >= R.MinSpacingCm - 1e-6);
 
-    // Bridson saturates: the packing fraction of a maximal Poisson-disc set is well above
-    // half the hexagonal ideal (2 / (sqrt(3) r^2) points per unit area).
+    // Saturation. The reference is the hexagonal ideal, 2 / (sqrt(3) r^2) points per unit
+    // area -- the densest possible packing at this spacing.
+    //
+    // An earlier version of this test demanded more than 0.55 of that ideal and failed at
+    // 0.539. The sampler is not at fault: dart-throwing cannot reach hexagonal packing.
+    // Random sequential adsorption jams at a disc packing fraction of about 0.547 against
+    // hexagonal 0.9069, i.e. 0.60 of the ideal, and Bridson with a finite k stops short of
+    // even that. Measured against an independent reference implementation of the same
+    // algorithm driven by std::mt19937 instead of this header's hash, over five seeds:
+    //     k = 10  ->  0.502 (reference 0.502)
+    //     k = 30  ->  0.539 (reference 0.540)
+    //     k = 64  ->  0.561 (reference 0.562)
+    // The hash stream and a real RNG agree to 0.2%, so the number below is the algorithm's
+    // behaviour and not a defect in the hashing. The window is tight on purpose: a change
+    // that quietly degraded the sampler would fall out of the bottom of it.
     const double Ideal = 2.0 / (std::sqrt(3.0) * R.MinSpacingCm * R.MinSpacingCm) * 40000.0 * 40000.0;
     const double Fraction = Points.size() / Ideal;
-    CHECK(Fraction > 0.55 && Fraction < 1.0);
+    CHECK(Fraction > 0.52 && Fraction < 0.56);
+
+    // More candidates per point means a denser set, monotonically, and k is honoured.
+    ScatterRequest Sparse = R; Sparse.CandidatesPerPoint = 10;
+    ScatterRequest Dense = R;  Dense.CandidatesPerPoint = 64;
+    const size_t SparseCount = PoissonDisc(Sparse).size();
+    const size_t DenseCount = PoissonDisc(Dense).size();
+    CHECK(SparseCount < Points.size() && Points.size() < DenseCount);
+    CHECK(static_cast<double>(SparseCount) / Ideal > 0.48);
+    CHECK(static_cast<double>(DenseCount) / Ideal < 0.60);
+    // k is clamped, not trusted: a hostile value neither hangs nor throws.
+    ScatterRequest Silly = R; Silly.CandidatesPerPoint = -5;
+    CHECK(!PoissonDisc(Silly).empty());
+    Silly.CandidatesPerPoint = 1000000;
+    CHECK(!PoissonDisc(Silly).empty());
 
     // Degenerate requests return nothing rather than looping or allocating wildly.
     ScatterRequest Bad = R;

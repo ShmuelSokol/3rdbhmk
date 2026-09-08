@@ -1,0 +1,1906 @@
+{
+  "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/GateSecurityV1",
+  "script": "Scripts/create_gate_security.py",
+  "script_sha256": "900fff003a960dda05ad86db843bbb77823f04a39e115aea8682b463fc6d65fb",
+  "amah_cm": 50.0,
+  "convention": "Centimetres. Canonical Unreal axes X east, +Y south, Z up. In each mesh LOCAL frame +X is the direction of travel through the checkpoint, +Y is the traveller's right, and the pivot is on the floor at the footprint centre; the placement script rotates the assembly to face each gate. OBJ carries Y reflected and triangle winding reversed for the legacy OBJ importer (the same adapter as create_keilim_ti_v1 / create_oldcity_facades, recorded in SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json); the importer reflects Y back, so imported bounds must equal bounds_cm and the signed volume in Unreal must be positive.",
+  "whatIsAsserted": {
+    "halacha": [
+      "Entering Har HaBayit in shoes is prohibited (Mishnah Berachos 9:5; Rambam, Hilchos Beis HaBechira 7:2). The signage states this as a rule of the place.",
+      "The Mount may not be used as a shortcut, and one may not spit there (same mishnah). Both appear on the reverence panel."
+    ],
+    "modernStaging": [
+      "Metal detector arches, the bag scanner, stanchions, the booth, the guards and the telephone rule. Modelled on the entrance procedure at the Har HaBayit and Kotel plaza approaches TODAY. No classical source, none cited."
+    ],
+    "depictedNotAsserted": [
+      "Every dimension of every object here. There is no measured drawing of a Jerusalem checkpoint in this project and none is claimed; the sizes are ordinary security-equipment sizes chosen for a 175 cm figure.",
+      "The pictograms are drawn fresh in this file. They are not traced from any signage, standard or photograph.",
+      "The trilingual wording is written for this project. It is not a transcription of any sign that exists."
+    ],
+    "fullTable": "SourceAssets/security-review/sources.md"
+  },
+  "signs": {
+    "Entrance": {
+      "file": "T_GateSecurityV1_Sign_Entrance.png",
+      "sha256": "353c55b3867b766d2b91e9bac331736f196f648dfd581e5cc504b9805ad18884",
+      "pixels": [
+        1024,
+        640
+      ],
+      "form": "plate",
+      "claim": "modern-staging",
+      "says": "Entrance this way; detector, bag search, no shoes, no phones, cameras permitted.",
+      "previewOnMesh": "preview-on-mesh-Entrance.png",
+      "previewOnMeshSha256": "3fc4e7325eef3c0f3088a0e04538e75655e1de7f0ac8b43a60df1cf175bfe105",
+      "material_role": "sign_face"
+    },
+    "Reverence": {
+      "file": "T_GateSecurityV1_Sign_Reverence.png",
+      "sha256": "43db9f18f49cfbf00fdd4a45ccc3f17e7ecb70b33c0e3f0d976ffc248c5e95cc",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "form": "panel",
+      "claim": "halacha",
+      "says": "Holy area: no shortcut through the Mount, no spitting, no shoes.",
+      "previewOnMesh": "preview-on-mesh-Reverence.png",
+      "previewOnMeshSha256": "4a9ce273c972d62f07c649d31461e4b67a68f9d3fcfa6fdc946d677b7747d7ad",
+      "material_role": "sign_face"
+    },
+    "Security": {
+      "file": "T_GateSecurityV1_Sign_Security.png",
+      "sha256": "e79357ba1e492bd1c8dc0555f4b0c2b4fd4ead9076828f7316564d105b0498b2",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "form": "panel",
+      "claim": "modern-staging",
+      "says": "No telephone use; all bags are searched; pass through the detector.",
+      "previewOnMesh": "preview-on-mesh-Security.png",
+      "previewOnMeshSha256": "bf13b30bc9f24bf1e65d7076799a169abec5f824e78dd5d185371216482a990e",
+      "material_role": "sign_face"
+    },
+    "Shoes": {
+      "file": "T_GateSecurityV1_Sign_Shoes.png",
+      "sha256": "b7a3fc3eabea03f663102b7d1de5ef71e54dbc6814d86ecbebf7e1e0f8086c71",
+      "pixels": [
+        1024,
+        1536
+      ],
+      "form": "panel",
+      "claim": "halacha",
+      "says": "Entering Har HaBayit in shoes is prohibited; stockinged feet only; holy area.",
+      "previewOnMesh": "preview-on-mesh-Shoes.png",
+      "previewOnMeshSha256": "d33c7fd11dc507bb0c4d4dfec22b007e5b5aedae996d6b4a0beb8743b56214cf",
+      "material_role": "sign_face"
+    }
+  },
+  "signFolder": "SourceAssets/security-review/signs",
+  "glyphCheck": "SourceAssets/security-review/signs/glyph-check.json",
+  "glyphCheckSummary": {
+    "fonts": [
+      "arialbd.ttf",
+      "arial.ttf"
+    ],
+    "codepointsChecked": 150,
+    "missingGlyphs": [],
+    "emptyGlyphs": [],
+    "rightToLeftPass": true,
+    "arabicShapingPass": true
+  },
+  "meshes": [
+    {
+      "name": "SM_GateSecurityV1_DetectorArch",
+      "file": "SM_GateSecurityV1_DetectorArch.obj",
+      "sha256": "3276c0679195f4c410134069e8501566348b62b231c0ecc3c47ffc479d50be41",
+      "triangles": 5544,
+      "parts": 58,
+      "bounds_cm": {
+        "min": [
+          -22.0,
+          -63.0,
+          0.0
+        ],
+        "max": [
+          22.0,
+          71.3,
+          255.2
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 5.9513,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "UprightL",
+          "triangles": 220,
+          "closed": true,
+          "volume_cm3": 40651.7312
+        },
+        {
+          "name": "BasePlateL",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2103.858
+        },
+        {
+          "name": "FootL00",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootL01",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootL10",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootL11",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "IndicatorL00",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL01",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL02",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL03",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL04",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL05",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL06",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL07",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL08",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL09",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorL10",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "PillarBoltL0",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltL1",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltL2",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltL3",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "UprightR",
+          "triangles": 220,
+          "closed": true,
+          "volume_cm3": 40651.7312
+        },
+        {
+          "name": "BasePlateR",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2103.858
+        },
+        {
+          "name": "FootR00",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootR01",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootR10",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "FootR11",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 65.587
+        },
+        {
+          "name": "IndicatorR00",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR01",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR02",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR03",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR04",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR05",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR06",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR07",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR08",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR09",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "IndicatorR10",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 98.9578
+        },
+        {
+          "name": "PillarBoltR0",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltR1",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltR2",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "PillarBoltR3",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 6.6126
+        },
+        {
+          "name": "Header",
+          "triangles": 220,
+          "closed": true,
+          "volume_cm3": 33491.46
+        },
+        {
+          "name": "HeaderCap",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 3404.104
+        },
+        {
+          "name": "ControlPanel",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 3416.3988
+        },
+        {
+          "name": "ControlFace",
+          "triangles": 60,
+          "closed": true,
+          "volume_cm3": 221.16
+        },
+        {
+          "name": "Key00",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key01",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key02",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key10",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key11",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key12",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key20",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key21",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key22",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key30",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key31",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Key32",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        }
+      ],
+      "material_role": "metal_brushed",
+      "what": "Walk-through metal detector arch: two uprights, a header, base plates, a control panel and indicator strips.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_BagScanner",
+      "file": "SM_GateSecurityV1_BagScanner.obj",
+      "sha256": "a6d070a1d16656686b3ff0c5657e8ccadaca4cb6b48251ddbec52e079c248c0c",
+      "triangles": 5412,
+      "parts": 52,
+      "bounds_cm": {
+        "min": [
+          -90.0,
+          -38.0,
+          0.0
+        ],
+        "max": [
+          90.0,
+          52.0,
+          162.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 5.7603,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "TableTop",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 26850.7561
+        },
+        {
+          "name": "TableSkirt",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 35767.1253
+        },
+        {
+          "name": "Leg00",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2061.8274
+        },
+        {
+          "name": "Castor00",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 149.2271
+        },
+        {
+          "name": "Leg01",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2061.8274
+        },
+        {
+          "name": "Castor01",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 149.2271
+        },
+        {
+          "name": "Leg10",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2061.8274
+        },
+        {
+          "name": "Castor10",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 149.2271
+        },
+        {
+          "name": "Leg11",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 2061.8274
+        },
+        {
+          "name": "Castor11",
+          "triangles": 84,
+          "closed": true,
+          "volume_cm3": 149.2271
+        },
+        {
+          "name": "LegRail",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 2853.888
+        },
+        {
+          "name": "Belt",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 13843.9333
+        },
+        {
+          "name": "Roller00",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller01",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller02",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller03",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller04",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller05",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller06",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller07",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller08",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller09",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Roller10",
+          "triangles": 144,
+          "closed": true,
+          "volume_cm3": 359.6855
+        },
+        {
+          "name": "Hood",
+          "triangles": 32,
+          "closed": true,
+          "volume_cm3": 139128.0
+        },
+        {
+          "name": "HoodCap",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6729.2972
+        },
+        {
+          "name": "CurtainA0",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA1",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA2",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA3",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA4",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA5",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA6",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA7",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainA8",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB0",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB1",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB2",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB3",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB4",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB5",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB6",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB7",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "CurtainB8",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 185.6717
+        },
+        {
+          "name": "HoodBolt0",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "HoodBolt1",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "HoodBolt2",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "HoodBolt3",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "HoodBolt4",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "HoodBolt5",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.7603
+        },
+        {
+          "name": "MonitorStalk",
+          "triangles": 56,
+          "closed": true,
+          "volume_cm3": 646.7992
+        },
+        {
+          "name": "Monitor",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 1465.7618
+        },
+        {
+          "name": "MonitorScreen",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 410.3168
+        }
+      ],
+      "material_role": "metal_brushed",
+      "what": "Bag-scanner table with a conveyor, rollers, a shielded hood, hanging curtain strips and an operator monitor.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_Stanchion",
+      "file": "SM_GateSecurityV1_Stanchion.obj",
+      "sha256": "cad12d6e6e5ac045990252cacd97fb1ad161da10e43cf573b441986683995321",
+      "triangles": 1516,
+      "parts": 9,
+      "bounds_cm": {
+        "min": [
+          -17.4,
+          -17.4,
+          -0.6
+        ],
+        "max": [
+          17.4,
+          180.0,
+          100.8
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 5.9513,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "Base",
+          "triangles": 400,
+          "closed": true,
+          "volume_cm3": 3889.6867
+        },
+        {
+          "name": "BaseRing",
+          "triangles": 160,
+          "closed": true,
+          "volume_cm3": 947.242
+        },
+        {
+          "name": "Post",
+          "triangles": 276,
+          "closed": true,
+          "volume_cm3": 1684.0813
+        },
+        {
+          "name": "Cassette",
+          "triangles": 188,
+          "closed": true,
+          "volume_cm3": 633.5494
+        },
+        {
+          "name": "Collar",
+          "triangles": 192,
+          "closed": true,
+          "volume_cm3": 341.1615
+        },
+        {
+          "name": "BaseBolt0",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "BaseBolt1",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "BaseBolt2",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 5.9513
+        },
+        {
+          "name": "Belt",
+          "triangles": 180,
+          "closed": true,
+          "volume_cm3": 1409.4
+        }
+      ],
+      "material_role": "metal_dark",
+      "what": "Belt stanchion: weighted base, post, collar and a sagging belt spanning to the next post.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_Booth",
+      "file": "SM_GateSecurityV1_Booth.obj",
+      "sha256": "25f2f520b333e281df37008e337959018738cab7aab4864b8a3442174f9da26b",
+      "triangles": 3852,
+      "parts": 37,
+      "bounds_cm": {
+        "min": [
+          -116.0,
+          -106.0,
+          0.0
+        ],
+        "max": [
+          106.0,
+          106.0,
+          262.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 46.08,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "Plinth",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 115472.857
+        },
+        {
+          "name": "WallFrontLow",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 53798.9525
+        },
+        {
+          "name": "WallFrontHigh",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 35463.8398
+        },
+        {
+          "name": "WallFrontLeft",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 8907.5914
+        },
+        {
+          "name": "WallFrontRight",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 8907.5914
+        },
+        {
+          "name": "WindowGlass",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 5375.5501
+        },
+        {
+          "name": "Mullion0",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 507.6587
+        },
+        {
+          "name": "Mullion1",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 507.6587
+        },
+        {
+          "name": "Mullion2",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 507.6587
+        },
+        {
+          "name": "WindowSill",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 1490.1547
+        },
+        {
+          "name": "Counter",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 8300.342
+        },
+        {
+          "name": "CounterBracket0",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 554.2578
+        },
+        {
+          "name": "CounterBracket1",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 554.2578
+        },
+        {
+          "name": "WallSideNearLeft",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 42771.717
+        },
+        {
+          "name": "WallSideNearRight",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 38436.717
+        },
+        {
+          "name": "WallSideNearHead",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 9435.4313
+        },
+        {
+          "name": "Door",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 32671.008
+        },
+        {
+          "name": "DoorPanel0",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 2565.6584
+        },
+        {
+          "name": "DoorPanel1",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 2565.6584
+        },
+        {
+          "name": "Hinge0",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 87.48
+        },
+        {
+          "name": "Hinge1",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 87.48
+        },
+        {
+          "name": "Hinge2",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 87.48
+        },
+        {
+          "name": "Handle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 46.08
+        },
+        {
+          "name": "HandleLever",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 66.7461
+        },
+        {
+          "name": "WallSideFar",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 133806.717
+        },
+        {
+          "name": "WallBack",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 123691.717
+        },
+        {
+          "name": "Louvre0",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre1",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre2",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre3",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre4",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre5",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Louvre6",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 218.6299
+        },
+        {
+          "name": "Roof",
+          "triangles": 188,
+          "closed": true,
+          "volume_cm3": 136329.6615
+        },
+        {
+          "name": "RoofLip",
+          "triangles": 188,
+          "closed": true,
+          "volume_cm3": 45661.6769
+        },
+        {
+          "name": "Lamp",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 925.4626
+        },
+        {
+          "name": "LampLens",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 198.9547
+        }
+      ],
+      "material_role": "painted_steel",
+      "what": "Guard booth with a service window, a counter shelf, a door and an overhanging roof.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_ShoeRack",
+      "file": "SM_GateSecurityV1_ShoeRack.obj",
+      "sha256": "ddd5314f2f5f1578299eeb0fc436c5617c5ae2dc613159550624e16b2f9178bd",
+      "triangles": 3356,
+      "parts": 29,
+      "bounds_cm": {
+        "min": [
+          -20.5,
+          -83.5,
+          0.0
+        ],
+        "max": [
+          20.5,
+          83.5,
+          156.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 91.0973,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "ToeKick",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 18180.4347
+        },
+        {
+          "name": "Foot0",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 184.32
+        },
+        {
+          "name": "Foot1",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 184.32
+        },
+        {
+          "name": "Foot2",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 184.32
+        },
+        {
+          "name": "Foot3",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 184.32
+        },
+        {
+          "name": "Upright0",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9410.6927
+        },
+        {
+          "name": "Upright1",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9410.6927
+        },
+        {
+          "name": "Upright2",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9410.6927
+        },
+        {
+          "name": "Upright3",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9410.6927
+        },
+        {
+          "name": "Upright4",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9410.6927
+        },
+        {
+          "name": "Shelf0",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6567.7045
+        },
+        {
+          "name": "Shelf1",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6567.7045
+        },
+        {
+          "name": "Shelf2",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6567.7045
+        },
+        {
+          "name": "Shelf3",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6567.7045
+        },
+        {
+          "name": "Shelf4",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 6567.7045
+        },
+        {
+          "name": "Divider00",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider01",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider02",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider03",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider10",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider11",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider12",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Divider13",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 1148.1196
+        },
+        {
+          "name": "Back",
+          "triangles": 92,
+          "closed": true,
+          "volume_cm3": 26924.9833
+        },
+        {
+          "name": "TopRail",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 9809.6612
+        },
+        {
+          "name": "LabelPlate0",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 91.0973
+        },
+        {
+          "name": "LabelPlate1",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 91.0973
+        },
+        {
+          "name": "LabelPlate2",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 91.0973
+        },
+        {
+          "name": "LabelPlate3",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 91.0973
+        }
+      ],
+      "material_role": "timber",
+      "what": "Open shoe rack: five uprights, four rows of cubbies, a back panel, a toe kick and label plates.",
+      "claim": "modern-staging-serving-a-halachic-rule"
+    },
+    {
+      "name": "SM_GateSecurityV1_SignPostFrame",
+      "file": "SM_GateSecurityV1_SignPostFrame.obj",
+      "sha256": "e4c67b367bef0126bc5b36914de980db32497046ec62b555d626e904b33b60e7",
+      "triangles": 1628,
+      "parts": 13,
+      "bounds_cm": {
+        "min": [
+          -11.0,
+          -46.0,
+          0.0
+        ],
+        "max": [
+          11.0,
+          46.0,
+          252.6
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 7.2738,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "Post",
+          "triangles": 384,
+          "closed": true,
+          "volume_cm3": 13138.0524
+        },
+        {
+          "name": "BaseFlange",
+          "triangles": 168,
+          "closed": true,
+          "volume_cm3": 992.4285
+        },
+        {
+          "name": "FlangeBolt0",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 7.2738
+        },
+        {
+          "name": "FlangeBolt1",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 7.2738
+        },
+        {
+          "name": "FlangeBolt2",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 7.2738
+        },
+        {
+          "name": "FlangeBolt3",
+          "triangles": 40,
+          "closed": true,
+          "volume_cm3": 7.2738
+        },
+        {
+          "name": "FrameRailBottom",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 1375.5302
+        },
+        {
+          "name": "FrameRailTop",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 1375.5302
+        },
+        {
+          "name": "FrameRailLeft",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 1887.0142
+        },
+        {
+          "name": "FrameRailRight",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 1887.0142
+        },
+        {
+          "name": "Backer",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 4586.0751
+        },
+        {
+          "name": "Bracket0",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 139.2107
+        },
+        {
+          "name": "Bracket1",
+          "triangles": 124,
+          "closed": true,
+          "volume_cm3": 139.2107
+        }
+      ],
+      "material_role": "metal_dark",
+      "what": "Tall post-mounted sign: post, panel frame and backer.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_SignPostFace",
+      "file": "SM_GateSecurityV1_SignPostFace.obj",
+      "sha256": "2e9342d1e0b4b251c18d70c6ea2fb53148e66139051a8f5e2081c080b66ca5bd",
+      "triangles": 12,
+      "parts": 1,
+      "bounds_cm": {
+        "min": [
+          -3.6,
+          -42.0,
+          118.0
+        ],
+        "max": [
+          -2.6,
+          42.0,
+          244.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 10584.0,
+      "uv_mapping": "planar panel face",
+      "part_checks": [
+        {
+          "name": "Face",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 10584.0
+        }
+      ],
+      "material_role": "sign_face",
+      "what": "The printed face of the post-mounted panel; its own mesh so the artwork gets its own material.",
+      "claim": "see the sign it carries"
+    },
+    {
+      "name": "SM_GateSecurityV1_SignPlateFrame",
+      "file": "SM_GateSecurityV1_SignPlateFrame.obj",
+      "sha256": "7fc94b83a350691151f9b8aa21a827ee254f2f1ef280308497759e7d9d1cd82e",
+      "triangles": 1148,
+      "parts": 13,
+      "bounds_cm": {
+        "min": [
+          -0.9,
+          -35.0,
+          132.0
+        ],
+        "max": [
+          5.6,
+          35.0,
+          178.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 13.2623,
+      "uv_mapping": "per-triangle local basis",
+      "part_checks": [
+        {
+          "name": "FrameRailBottom",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 410.5366
+        },
+        {
+          "name": "FrameRailTop",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 410.5366
+        },
+        {
+          "name": "FrameRailLeft",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 233.4884
+        },
+        {
+          "name": "FrameRailRight",
+          "triangles": 156,
+          "closed": true,
+          "volume_cm3": 233.4884
+        },
+        {
+          "name": "Backer",
+          "triangles": 44,
+          "closed": true,
+          "volume_cm3": 597.2349
+        },
+        {
+          "name": "Standoff00",
+          "triangles": 56,
+          "closed": true,
+          "volume_cm3": 13.3454
+        },
+        {
+          "name": "Boss00",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 13.2623
+        },
+        {
+          "name": "Standoff01",
+          "triangles": 56,
+          "closed": true,
+          "volume_cm3": 13.3454
+        },
+        {
+          "name": "Boss01",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 13.2623
+        },
+        {
+          "name": "Standoff10",
+          "triangles": 56,
+          "closed": true,
+          "volume_cm3": 13.3454
+        },
+        {
+          "name": "Boss10",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 13.2623
+        },
+        {
+          "name": "Standoff11",
+          "triangles": 56,
+          "closed": true,
+          "volume_cm3": 13.3454
+        },
+        {
+          "name": "Boss11",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 13.2623
+        }
+      ],
+      "material_role": "metal_dark",
+      "what": "Wall-mounted sign plate: frame, backer and four fixing bosses.",
+      "claim": "modern-staging"
+    },
+    {
+      "name": "SM_GateSecurityV1_SignPlateFace",
+      "file": "SM_GateSecurityV1_SignPlateFace.obj",
+      "sha256": "e41aa7fcdf3fa3b976bdabf0289afb4cde8e99e23d3917e7db8b070985f98734",
+      "triangles": 12,
+      "parts": 1,
+      "bounds_cm": {
+        "min": [
+          -0.6,
+          -32.0,
+          135.0
+        ],
+        "max": [
+          0.4,
+          32.0,
+          175.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 2560.0,
+      "uv_mapping": "planar plate face",
+      "part_checks": [
+        {
+          "name": "Face",
+          "triangles": 12,
+          "closed": true,
+          "volume_cm3": 2560.0
+        }
+      ],
+      "material_role": "sign_face",
+      "what": "The printed face of the wall-mounted plate.",
+      "claim": "see the sign it carries"
+    }
+  ],
+  "readback": [
+    {
+      "file": "SM_GateSecurityV1_DetectorArch.obj",
+      "triangles": 5544,
+      "vertices": 16632,
+      "worstStoredNormalError": 1.072e-06,
+      "objSignedVolumeCm3": 128870.3861,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -22.0,
+          -63.0,
+          0.0
+        ],
+        "max": [
+          22.0,
+          71.3,
+          255.2
+        ]
+      },
+      "uvRange": [
+        [
+          -6.22384,
+          0.0
+        ],
+        [
+          21.41401,
+          11.08
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_BagScanner.obj",
+      "triangles": 5412,
+      "vertices": 16236,
+      "worstStoredNormalError": 1.631e-06,
+      "objSignedVolumeCm3": 243873.2864,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -90.0,
+          -38.0,
+          0.0
+        ],
+        "max": [
+          90.0,
+          52.0,
+          162.0
+        ]
+      },
+      "uvRange": [
+        [
+          -9.90733,
+          0.0
+        ],
+        [
+          18.85124,
+          17.52
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_Stanchion.obj",
+      "triangles": 1516,
+      "vertices": 4548,
+      "worstStoredNormalError": 2.017e-06,
+      "objSignedVolumeCm3": 8922.9747,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -17.4,
+          -17.4,
+          -0.6
+        ],
+        "max": [
+          17.4,
+          180.0,
+          100.8
+        ]
+      },
+      "uvRange": [
+        [
+          -0.21939,
+          0.0
+        ],
+        [
+          2.83002,
+          0.79477
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_Booth.obj",
+      "triangles": 3852,
+      "vertices": 11556,
+      "worstStoredNormalError": 1.774e-06,
+      "objSignedVolumeCm3": 811314.4259,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -116.0,
+          -106.0,
+          0.0
+        ],
+        "max": [
+          106.0,
+          106.0,
+          262.0
+        ]
+      },
+      "uvRange": [
+        [
+          -11.48638,
+          0.0
+        ],
+        [
+          30.12043,
+          20.3
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_ShoeRack.obj",
+      "triangles": 3356,
+      "vertices": 10068,
+      "worstStoredNormalError": 1.347e-06,
+      "objSignedVolumeCm3": 145093.6905,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -20.5,
+          -83.5,
+          0.0
+        ],
+        "max": [
+          20.5,
+          83.5,
+          156.0
+        ]
+      },
+      "uvRange": [
+        [
+          -9.2376,
+          0.0
+        ],
+        [
+          21.19533,
+          16.3
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_SignPostFrame.obj",
+      "triangles": 1628,
+      "vertices": 4884,
+      "worstStoredNormalError": 1.27e-06,
+      "objSignedVolumeCm3": 25549.1598,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -11.0,
+          -46.0,
+          0.0
+        ],
+        "max": [
+          11.0,
+          46.0,
+          252.6
+        ]
+      },
+      "uvRange": [
+        [
+          -0.08083,
+          0.0
+        ],
+        [
+          20.40021,
+          12.44
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_SignPostFace.obj",
+      "triangles": 12,
+      "vertices": 36,
+      "worstStoredNormalError": 0.0,
+      "objSignedVolumeCm3": 10584.0,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -3.6,
+          -42.0,
+          118.0
+        ],
+        "max": [
+          -2.6,
+          42.0,
+          244.0
+        ]
+      },
+      "uvRange": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_SignPlateFrame.obj",
+      "triangles": 1148,
+      "vertices": 3444,
+      "worstStoredNormalError": 1.142e-06,
+      "objSignedVolumeCm3": 1991.7159,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -0.9,
+          -35.0,
+          132.0
+        ],
+        "max": [
+          5.6,
+          35.0,
+          178.0
+        ]
+      },
+      "uvRange": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          7.49138,
+          6.9
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    },
+    {
+      "file": "SM_GateSecurityV1_SignPlateFace.obj",
+      "triangles": 12,
+      "vertices": 36,
+      "worstStoredNormalError": 0.0,
+      "objSignedVolumeCm3": 2560.0,
+      "objSignedVolumeIsNegativeAsExpected": false,
+      "boundsAfterUnreflectingY": {
+        "min": [
+          -0.6,
+          -32.0,
+          135.0
+        ],
+        "max": [
+          0.4,
+          32.0,
+          175.0
+        ]
+      },
+      "uvRange": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+    }
+  ],
+  "total_triangles": 22480,
+  "triangle_budget": 60000,
+  "preview": "preview-gate-security.png",
+  "preview_sha256": "fff80497e09d701d868af83d67abb653ae7f331c0baf7dbae3486227c6e7494a",
+  "preview_views": [
+    "front, from the approach",
+    "oblique",
+    "side"
+  ],
+  "preview_limit": "Software orthographic previews with one flat colour per material role, and one textured render of each sign face sampled through its own UVs from the visitor eye. Neither is a native render, a material acceptance or a lighting review.",
+  "limitations": [
+    "Offline only. Nothing here has been imported, placed, lit or seen in the engine.",
+    "Materials are named roles, not assets. release_gate_security.py resolves each role to a material on disk and records which candidate it fell to.",
+    "The sign faces carry planar UVs; the frames and everything else carry the per-triangle local basis of the keilim adapter, which tiles but does not unwrap. No lightmap UVs.",
+    "The belt on a stanchion is a single sagging strip modelled at one fixed span; a different span needs a different mesh or a scale on Y, which will change the sag.",
+    "No collision geometry is authored. The placement script sets a collision profile per group and lets Unreal build simple collision."
+  ]
+}

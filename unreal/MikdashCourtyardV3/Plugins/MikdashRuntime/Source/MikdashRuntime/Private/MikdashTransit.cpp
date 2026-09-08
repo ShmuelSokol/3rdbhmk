@@ -408,6 +408,12 @@ bool AMikdashTransit::InitializeTransit()
     {
         Trains.SetNum(FMath::Clamp(MaxActiveTrains, 0, 8));
         const int32 CarCount = TrainBodies.Num();
+        // Slot ids first: MakeFollowParams draws its speed spread from the id, so
+        // assigning them afterwards would give every consist identical parameters.
+        for (int32 T = 0; T < Trains.Num(); ++T)
+        {
+            Trains[T].Id = T;
+        }
         for (FTrain& Train : Trains)
         {
             Train.bActive = false;
@@ -443,10 +449,6 @@ bool AMikdashTransit::InitializeTransit()
                     }
                 }
             }
-        }
-        for (int32 T = 0; T < Trains.Num(); ++T)
-        {
-            Trains[T].Id = T;
         }
         NextTrainDepartureSeconds = 5.0;
     }
@@ -793,6 +795,27 @@ void AMikdashTransit::AdvanceTrains(double Dt, const FVector& ViewLocation)
                     {
                         Components.Groups[Group]->UpdateInstanceTransform(Id, Parked, true, false, true);
                         TouchedThisFrame.Add(Components.Groups[Group]);
+                    }
+                }
+                // The door leaves are separate instances on separate components. Parking
+                // only the car bodies would leave a row of doors hanging in mid-air at
+                // the end of the line until the slot was dispatched again.
+                for (int32 D = 0; D < Components.DoorLocalOffsets.Num(); ++D)
+                {
+                    const int32 Id = C * Components.DoorLocalOffsets.Num() + D;
+                    if (!Train.DoorInstanceIds.IsValidIndex(Id))
+                    {
+                        continue;
+                    }
+                    if (Components.DoorPaint)
+                    {
+                        Components.DoorPaint->UpdateInstanceTransform(Train.DoorInstanceIds[Id], Parked, true, false, true);
+                        TouchedThisFrame.Add(Components.DoorPaint);
+                    }
+                    if (Components.DoorGlass)
+                    {
+                        Components.DoorGlass->UpdateInstanceTransform(Train.DoorInstanceIds[Id], Parked, true, false, true);
+                        TouchedThisFrame.Add(Components.DoorGlass);
                     }
                 }
             }

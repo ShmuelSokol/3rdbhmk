@@ -9,7 +9,9 @@
 // Shared by AMikdashFXDirector (Private/MikdashFXDirector.cpp), by the material
 // parameter derivation in Scripts/create_fx_materials.py, by the numeric readback in
 // Scripts/release_fx.py and by the standalone test
-// Plugins/MikdashRuntime/Source/MikdashRuntime/Tests/PlumeMathTest.cpp.
+// Plugins/MikdashRuntime/Tests/PlumeMathTest.cpp. Tests deliberately live outside
+// Source/, because UnrealBuildTool globs Source/ and would compile a test program
+// with its own main() into the game module.
 //
 // Units: centimetres, seconds, Hertz, degrees. World frame is Unreal's: +X east,
 // +Y south, +Z up. No Unreal types, no globals, no I/O, no std::rand. Every random
@@ -122,15 +124,22 @@ struct FWind
 
 inline void NormalisedWindDir(const FWind& Wind, double& OutX, double& OutY)
 {
-    const double Length = std::sqrt(Wind.DirX * Wind.DirX + Wind.DirY * Wind.DirY);
-    if (!(Length > 1e-9))
+    // Sanitise before the square. An infinite component squares to an infinity, the
+    // sum is an infinity, and inf/inf is a NaN that would then multiply straight into
+    // a world position. That is the one hole the NaN sweep in the test found, so a
+    // non-finite component becomes 0 here and the degenerate case falls through to
+    // the +X fallback. A pair that underflows to zero length takes the same path.
+    const double X = Finite(Wind.DirX, 0.0);
+    const double Y = Finite(Wind.DirY, 0.0);
+    const double Length = std::sqrt(X * X + Y * Y);
+    if (!(Length > 1e-9) || !std::isfinite(Length))
     {
         OutX = 1.0;
         OutY = 0.0;
         return;
     }
-    OutX = Wind.DirX / Length;
-    OutY = Wind.DirY / Length;
+    OutX = Finite(X / Length, 1.0);
+    OutY = Finite(Y / Length, 0.0);
 }
 
 // ---------------------------------------------------------------------------
@@ -447,10 +456,33 @@ inline double PuffingFrequencyHz(double DiameterCm)
     return Clamp(Finite(1.5 / std::sqrt(Metres), 1.0), 0.05, 60.0);
 }
 
+/** Target root-mean-square of a settled FFlicker stream.
+ *
+ *  0.5 rather than 1.0 on purpose. FlickerMultiplier clamps its input to [-1,1]; at
+ *  an rms of 0.5 a Gaussian-ish stream sits inside that window about 95% of the time,
+ *  so the clamp is a rare soft limit and not the common case. Normalising to 1.0
+ *  instead would park the flame at the depth extreme roughly a third of every second,
+ *  which strobes. */
+constexpr double FlickerTargetRms = 0.5;
+
+/** Hard magnitude guard on a single flicker sample. At the target rms this is six
+ *  sigma and a well-formed stream never reaches it; it exists so that a pathological
+ *  (Dt, Q, FrequencyHz) combination cannot hand a material a huge number. */
+constexpr double FlickerMaxAbs = 3.0;
+
 /** A two-pole resonator driven by hashed white noise. The output is band-limited
  *  around FrequencyHz with bandwidth FrequencyHz/Q, so its spectrum has a clear
  *  peak instead of the flat spectrum of the white noise a naive implementation
- *  would show. State is three doubles; Advance is branch-light and allocation free. */
+ *  would show. State is three doubles; Advance is branch-light and allocation free.
+ *
+ *  Amplitude is normalised exactly, not by a rule of thumb. For the AR(2) recurrence
+ *  y[n] = 2 r cos(w) y[n-1] - r^2 y[n-2] + g x[n] with white x of variance s2, the
+ *  stationary output variance is
+ *      var(y) = g^2 * s2 * (1 + r^2) / ((1 - r^2) * D1 * D2)
+ *  with D1 = |1 - r e^(iw)|^2 and D2 = |1 + r e^(iw)|^2. Both r and w change with the
+ *  frame time and with Q, so the old sqrt(2Q) approximation drifted by a factor of
+ *  more than two between a 0.83 Hz altar and a 19 Hz wick; the closed form does not
+ *  drift, and the test asserts the same rms for both. */
 struct FFlicker
 {
     uint32_t Seed = 1u;
@@ -470,9 +502,11 @@ struct FFlicker
         Y1 = Y2 = Value = 0.0;
     }
 
-    /** Advance by DtS seconds and return the new flicker value, roughly in [-1,1].
-     *  The resonator coefficients are recomputed from Dt each call, so a variable
-     *  frame rate does not change the centre frequency. */
+    /** Advance by DtS seconds and return the new flicker value: zero mean, rms
+     *  FlickerTargetRms, hard-limited to +/-FlickerMaxAbs. The resonator coefficients
+     *  are recomputed from Dt each call, so a variable frame rate does not change the
+     *  centre frequency, and the normalisation is recomputed with them so it does not
+     *  change the amplitude either. */
     double Advance(double DtS)
     {
         const double Dt = Clamp(Finite(DtS, 1.0 / 60.0), 1.0 / 1000.0, 0.25);
@@ -483,13 +517,26 @@ struct FFlicker
         // Pole radius from the requested Q: bandwidth = F/Q, r = exp(-pi*BW*Dt).
         const double R = Clamp(std::exp(-Pi * (F / Q) * Dt), 0.0, 0.9999);
         const double White = HashToSigned(Seed, Step++, 0x464c4b52u);
-        const double Y = 2.0 * R * std::cos(Omega) * Y1 - R * R * Y2 + (1.0 - R) * White;
+        const double G = 1.0 - R;
+        const double Y = 2.0 * R * std::cos(Omega) * Y1 - R * R * Y2 + G * White;
         Y2 = Y1;
         Y1 = Finite(Y);
-        // Normalise: the resonator's gain at the peak is about 1/(1-r), and the
-        // (1-r) input scaling already cancels most of it. The residual scale keeps
-        // the output near unit amplitude across the useful Q range.
-        Value = Clamp(Finite(Y1 * std::sqrt(2.0 * Q)), -4.0, 4.0);
+
+        // Exact stationary standard deviation of this recurrence, then scale to
+        // FlickerTargetRms. D1 and D2 are written in the half-angle form so that
+        // r -> 1 and w -> 0 do not cancel catastrophically: D1 is (1-r)^2 + 4 r
+        // sin^2(w/2), which stays strictly positive because r is clamped below 1,
+        // and D2 is (1+r)^2 - 4 r sin^2(w/2), whose minimum over w is (1-r)^2.
+        const double SinHalf = std::sin(0.5 * Omega);
+        const double D1 = G * G + 4.0 * R * SinHalf * SinHalf;
+        const double D2 = (1.0 + R) * (1.0 + R) - 4.0 * R * SinHalf * SinHalf;
+        const double OneMinusRSq = G * (1.0 + R);
+        // HashToSigned is uniform on (-1,1), so the driving noise has variance 1/3.
+        const double Variance = (G * G / 3.0) * (1.0 + R * R) /
+                                std::max(1e-300, OneMinusRSq * D1 * D2);
+        const double Sigma = std::sqrt(std::max(1e-300, Finite(Variance, 1.0)));
+        const double Norm = Finite(FlickerTargetRms / std::max(1e-12, Sigma), 1.0);
+        Value = Clamp(Finite(Y1 * Norm), -FlickerMaxAbs, FlickerMaxAbs);
         return Value;
     }
 };

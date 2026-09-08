@@ -1,7 +1,7 @@
 // Standalone test for Public/PlumeMath.h. No Unreal, no test framework, no network.
 //
 // Build (VS2022 BuildTools, x64 Native Tools / vcvars64):
-//   cl /std:c++17 /EHsc /W4 /O2 /I"..\Public" PlumeMathTest.cpp /Fe:PlumeMathTest.exe
+//   cl /std:c++17 /EHsc /W4 /O2 /I"..\Source\MikdashRuntime\Public" PlumeMathTest.cpp /Fe:PlumeMathTest.exe
 //
 // Run:
 //   PlumeMathTest.exe "C:\Mikdash\Working-5.8\MikdashCourtyardV3\SourceAssets\fx-review\tests.json"
@@ -112,7 +112,7 @@ FPlumeProfile KetoresProfile()
     P.RiseSpeedCmS = 150.0;
     P.EntrainmentAlpha = 0.06;         // "stafflike", Yoma 53a; a narrow column
     P.MaxRadiusCm = 180.0;
-    P.MaxHeightCm = 1930.0;            // ceiling 2925 minus altar top 1004.17, rounded down
+    P.MaxHeightCm = 1920.0;            // ceiling 2925 minus altar top 1004.1667 = 1920.83, rounded down
     P.bStraightColumnInWind = false;   // indoors; there is no wind term to apply
     P.MinOpacity = 0.08;
     return P;
@@ -412,9 +412,15 @@ void TestFlicker()
 {
     // Diameters come from the modelled geometry, not from taste:
     //   outer altar wood arrangement SM_2061..SM_2067 spans 325 cm in X
-    //   menorah lamp cup diameter 15.48 cm at source scale, 12.9 cm as placed (5/6)
+    // The lamp figure is the burning wick, not the oil cup. Cetegen and Ahmed's
+    // correlation is in the diameter of the burning region, and for an olive-oil lamp
+    // that is the wick; the cup is 12.9 cm as placed but is not what is on fire.
+    // 0.6 cm is a design value (D): no source gives a wick thickness. Using the cup
+    // would put the lamp at 4.2 Hz, slower than a candle looks, and would collapse
+    // the perceptual gap between a 12 m fire arrangement and a wick that this whole
+    // section exists to preserve.
     const double AltarDiameterCm = 325.0;
-    const double LampDiameterCm = 12.9;
+    const double LampDiameterCm = 0.6;
     const double AltarF0 = PuffingFrequencyHz(AltarDiameterCm);
     const double LampF0 = PuffingFrequencyHz(LampDiameterCm);
 
@@ -449,14 +455,18 @@ void TestFlicker()
 
         const bool bPeakNear = std::fabs(S.PeakHz - Case.F0) <= 0.35 * Case.F0;
         const bool bBandLimited = S.FractionAboveFourF0 < 0.20 && S.FractionAboveFourF0 < 0.35 * W.FractionAboveFourF0;
-        const bool bAlive = S.Rms > 0.05 && S.MaxAbs < 4.0 && std::fabs(S.Mean) < 0.25 * std::max(S.Rms, 1e-9) + 0.05;
+        // Amplitude must be the same for both cases, or the normalisation is a
+        // function of frequency and the altar reads as a strobe while the wick reads
+        // as a flat card. The band is FlickerTargetRms +/- 25%.
+        const bool bAlive = S.Rms > 0.75 * FlickerTargetRms && S.Rms < 1.25 * FlickerTargetRms &&
+                            S.MaxAbs < 4.0 && std::fabs(S.Mean) < 0.25 * std::max(S.Rms, 1e-9) + 0.05;
 
         Record((std::string("flicker_") + Case.Label + "_peak_near_puffing_frequency").c_str(), bPeakNear && S.bFinite,
                "target " + Num(Case.F0) + " Hz, measured peak " + Num(S.PeakHz) + " Hz, centroid " + Num(S.Centroid) + " Hz");
         Record((std::string("flicker_") + Case.Label + "_is_band_limited_not_white").c_str(), bBandLimited,
                "energy above 4*f0: filtered " + Num(S.FractionAboveFourF0) + " vs white-noise control " + Num(W.FractionAboveFourF0));
         Record((std::string("flicker_") + Case.Label + "_amplitude_usable").c_str(), bAlive,
-               "rms " + Num(S.Rms) + ", max|v| " + Num(S.MaxAbs) + ", mean " + Num(S.Mean));
+               "rms " + Num(S.Rms) + " (target " + Num(FlickerTargetRms) + " +/- 25%), max|v| " + Num(S.MaxAbs) + ", mean " + Num(S.Mean));
     }
 
     // Frame-rate independence: the same centre frequency at 30 fps and at 240 fps.

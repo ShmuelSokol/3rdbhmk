@@ -115,8 +115,12 @@ ANCHORS = {
     'Inner court clear floor':      dict(min=[1675.0, -2500.0, 480.0], max=[2500.0, 2500.0, 500.0]),
     'Outer court floor':            dict(min=[-7800.0, -7800.0, 280.0], max=[7800.0, 7800.0, 300.0]),
     # the gates
-    'Inner eastern gate wall jamb': dict(min=[2500.0, 250.0, 500.0], max=[2800.0, 2800.0, 3500.0]),
-    'Inner E cell supporting plinth': dict(min=[2800.0, 375.0, 300.0], max=[3600.0, 2275.0, 499.0]),
+    # Both of these are MIRRORED PAIRS in the manifest (a north and a south member with
+    # the same source name). The stream keeps to the right/south side throughout, so the
+    # anchor names the south member; without side= the union of the pair spans the whole
+    # gate and the check fails by the 3050 cm between the two jambs.
+    'Inner eastern gate wall jamb': dict(side='south', min=[2500.0, 250.0, 500.0], max=[2800.0, 2800.0, 3500.0]),
+    'Inner E cell supporting plinth': dict(side='south', min=[2800.0, 375.0, 300.0], max=[3600.0, 2275.0, 499.0]),
     'Outer E vestibule floor':      dict(min=[7300.0, -625.0, 280.0], max=[7800.0, 625.0, 300.0]),
     'Outer E threshold':            dict(min=[7800.0, -250.0, 280.0], max=[8100.0, 250.0, 300.0]),
     'Outer E cell access landing':  dict(min=[8100.0, -625.0, 280.0], max=[8600.0, 625.0, 300.0]),
@@ -212,9 +216,16 @@ COURT_ROUTE = [
     dict(x=1675.0, y=1050.0, top=500.0, note='down the duchan, onto the inner court floor'),
     dict(x=2400.0, y=1050.0, top=500.0, note='inner court floor'),
     # --- beneath the inner court's east range (the jamb stands from Z 500; bed at 445)
-    dict(x=2500.0, y=1050.0, top=500.0, bed=478.0, cover=True, note='enters the conduit under the inner gate wall'),
-    dict(x=3400.0, y=1050.0, top=500.0, bed=460.0, cover=True, note='conduit inside the cell plinth (Z 300-499)'),
-    dict(x=3600.0, y=1050.0, top=500.0, bed=445.0, cover=True, note='spout in the east face of the inner range'),
+    # The bed levels through the east range are set by CLEARANCE, not by taste. The gate
+    # wall jamb, the cell connecting doorways and their lintels all stand from Z 500 up;
+    # the cell plinth occupies Z 300-499. The conduit must therefore live wholly inside
+    # that 300-499 band. A cover slab stands COURT_WATER_DEPTH_CM + 26 cm above its bed,
+    # so a bed of 450 puts the slab top at 485 and leaves 15 cm under the jamb. The
+    # earlier 478/460/445 put the slab top at 513/495/480 and drove the slab straight
+    # through the jamb footing at the entry; clearance.json now measures the gap.
+    dict(x=2500.0, y=1050.0, top=500.0, bed=450.0, cover=True, note='enters the conduit under the inner gate wall (slab top 485, jamb foot 500)'),
+    dict(x=3400.0, y=1050.0, top=500.0, bed=446.0, cover=True, note='conduit inside the cell plinth (Z 300-499)'),
+    dict(x=3600.0, y=1050.0, top=500.0, bed=442.0, cover=True, note='spout in the east face of the inner range'),
     # --- the fall into the outer court, then the long bearing to the gate's south shoulder
     dict(x=3660.0, y=1050.0, top=300.0, note='falls 145 cm to the outer court floor'),
     dict(x=4400.0, y=1040.0, top=300.0, note='outer court'),
@@ -431,11 +442,24 @@ def cover_section(top_width, depth, thickness=BANK_THICKNESS_CM, slab=26.0):
             (-outer, depth + slab)]
 
 
-def water_section(top_width, depth, side_slope=BANK_SIDE_SLOPE):
-    """The wetted cross-section itself: what the water material is drawn on."""
+WATER_MIN_THICKNESS_CM = 0.4
+
+
+def water_section(top_width, depth, side_slope=BANK_SIDE_SLOPE, min_thickness=WATER_MIN_THICKNESS_CM):
+    """The wetted cross-section itself: what the water material is drawn on.
+
+    A closed ribbon whose TOP face is the free surface. It is kept at least
+    min_thickness thick, which matters at exactly one place and matters absolutely
+    there: at Stage::Trickle the design depth is TrickleDepthCm = 0.6 cm, which used to
+    equal the fixed 0.6 cm underside, collapsing all four section points onto one plane.
+    The sweep then emitted zero-area side quads and write_obj rejected the part as a
+    degenerate triangle. The prophet's mefakim IS a film of water; the geometry just has
+    to be a solid, so the underside is dropped instead of the surface being raised."""
+    top = max(depth, min_thickness)
+    bottom = max(0.0, min(0.6, top - min_thickness))
     half_top = top_width / 2.0
-    half_bed = max(1.0, half_top - side_slope * depth)
-    return [(-half_bed, 0.6), (half_bed, 0.6), (half_top, depth), (-half_top, depth)]
+    half_bed = max(1.0, half_top - side_slope * top)
+    return [(-half_bed, bottom), (half_bed, bottom), (half_top, top), (-half_top, top)]
 
 
 # =====================================================================================
@@ -674,9 +698,17 @@ def build_mikveh(spec):
 
     # The stair descends from the rim at the east end, four steps, each a solid block
     # standing on the floor so the water can be seen to shallow toward it.
+    # MIKVEH_STEP_COUNT counts RISERS from the rim to the floor, so there is one fewer
+    # block than risers: the lowest tread a person stands on is the basin floor itself.
+    # Emitting a block for it produced a zero-height solid whose signed volume is 0, and
+    # write_obj's winding check rejects that (it cannot tell a flat box from an inverted
+    # one). mikveh_water_volume_cm3() already accounts for the last step as zero solid,
+    # so the water figure is unchanged by this.
     for i in range(MIKVEH_STEP_COUNT):
         x0 = cx + hl - MIKVEH_STEP_GOING * (i + 1)
         top = rim - MIKVEH_STEP_RISE * (i + 1)
+        if top - floor_top <= 1e-6:
+            continue
         parts.append(('SM_MikdashWaterV1_Mikveh_%s_Step%d' % (key, i + 1),
                       box_min_max([x0, cy - hw, floor_top], [x0 + MIKVEH_STEP_GOING, cy + hw, top])))
 
@@ -702,6 +734,49 @@ def part_bounds(part):
                 max=[max(v[i] for v in verts) for i in range(3)])
 
 
+SUBBOX_MAX_EXTENT_CM = 250.0
+
+
+def part_subboxes(part, max_extent_cm=SUBBOX_MAX_EXTENT_CM):
+    """Decompose one generated solid into tight sub-boxes, for clearance testing.
+
+    THE TRAP THIS EXISTS FOR. A single AABB around a swept, curving channel is a lie: the
+    court reach leaves the House at Y 400 and runs east at Y 1050, so its whole-part box
+    spans Y 400..1050 across every X it visits, including the X band of the altar -- which
+    the water never comes within 250 cm of. Tested that way the altar, its ramp, the chut
+    hasikra and half the east gate all read as intersections. Every one of them is false.
+    This is the same failure release_place_assets.py records for the FutureMountV1 terrain
+    tiles, whose 400-800 m AABBs enclose the entire Temple, and for the hollow derived
+    unions; the fix is the same in all three cases -- never test a raw bound, test the
+    parts it is made of.
+
+    sweep() emits triangles ring by ring along the path, so consecutive triangles are
+    spatially adjacent. Greedily merging them while the running box stays under
+    max_extent_cm therefore yields boxes that follow the channel instead of boxing it.
+    A plain box merges back into exactly itself; a straight prism longer than the cap is
+    split into collinear boxes, which costs nothing and loses no tightness.
+    """
+    verts, faces = part
+    boxes, cur = [], None
+    for face in faces:
+        pts = [verts[i] for i in face]
+        lo = [min(q[i] for q in pts) for i in range(3)]
+        hi = [max(q[i] for q in pts) for i in range(3)]
+        if cur is None:
+            cur = [lo, hi]
+            continue
+        m = [min(cur[0][i], lo[i]) for i in range(3)]
+        x = [max(cur[1][i], hi[i]) for i in range(3)]
+        if max(x[i] - m[i] for i in range(3)) <= max_extent_cm:
+            cur = [m, x]
+        else:
+            boxes.append(cur)
+            cur = [lo, hi]
+    if cur is not None:
+        boxes.append(cur)
+    return [dict(min=b[0], max=b[1]) for b in boxes]
+
+
 def boxes_overlap(a, b, tolerance=1e-6):
     for i in range(3):
         if min(a['max'][i], b['max'][i]) - max(a['min'][i], b['min'][i]) <= tolerance:
@@ -710,8 +785,19 @@ def boxes_overlap(a, b, tolerance=1e-6):
 
 
 def gap_between(a, b):
-    """Smallest separation on any axis; negative means they interpenetrate by that much."""
+    """Smallest overlap on any axis. Positive means the boxes interpenetrate by that much
+    on their tightest axis; negative means they are apart on at least one axis."""
     return min(min(a['max'][i], b['max'][i]) - max(a['min'][i], b['min'][i]) for i in range(3))
+
+
+def separation_cm(a, b):
+    """True Euclidean distance between two AABBs. Zero when they touch or interpenetrate.
+
+    gap_between() alone is not a clearance: it is a per-axis quantity, and MINIMISING it
+    over a set of pairs finds the FARTHEST pair, not the nearest. Reporting a clearance
+    means minimising THIS."""
+    d = [max(0.0, a['min'][i] - b['max'][i], b['min'][i] - a['max'][i]) for i in range(3)]
+    return math.sqrt(sum(v * v for v in d))
 
 
 def base_name(source_name):
@@ -738,6 +824,11 @@ def verify_anchors(rows):
         if key == 'southern kevesh':
             key = 'kevesh'
         matched = [r for r in rows if key in r['name'].lower()]
+        side = expected.get('side')
+        if side == 'south':
+            matched = [r for r in matched if r['bounds']['min'][1] >= 0.0]
+        elif side == 'north':
+            matched = [r for r in matched if r['bounds']['max'][1] <= 0.0]
         if not matched:
             errors.append('anchor mesh not found in the architecture manifest: ' + label)
             continue
@@ -761,16 +852,24 @@ def clearance_report(rows, groups):
     IGNORED  the hollow derived-union envelopes, whose AABB encloses the whole site.
     """
     hosts, blockers, ignored = {}, [], set()
+    naive_hits = 0                     # what a raw whole-part AABB test would have claimed
     tracked = []
     for part_name, part in groups:
-        tracked.append((part_name, part_bounds(part)))
+        tracked.append((part_name, part_bounds(part), part_subboxes(part)))
     for row in rows:
         if row['name'] in HOLLOW_UNION_NAMES:
             ignored.add(row['name'])
             continue
-        for part_name, pb in tracked:
+        for part_name, pb, subs in tracked:
+            # Broad phase on the whole part, then the narrow phase that decides. A hit on
+            # the whole-part box alone is not a finding; see part_subboxes().
             if not boxes_overlap(pb, row['bounds']):
                 continue
+            naive_hits += 1
+            hit = [b for b in subs if boxes_overlap(b, row['bounds'])]
+            if not hit:
+                continue
+            pb = max(hit, key=lambda b: gap_between(b, row['bounds']))
             if row['name'] in HOST_MESH_NAMES:
                 entry = hosts.setdefault(row['name'], dict(mesh=row['name'], parts=set(),
                                                            deepestEngagementCm=0.0, hits=0))
@@ -784,19 +883,38 @@ def clearance_report(rows, groups):
                                      meshBounds=row['bounds']))
     for entry in hosts.values():
         entry['parts'] = sorted(entry['parts'])
+    real_hits = sum(e['hits'] for e in hosts.values()) + len(blockers)
     return dict(hosts=sorted(hosts.values(), key=lambda e: e['mesh']),
-                blockers=blockers, hollowUnionsIgnored=sorted(ignored))
+                blockers=blockers, hollowUnionsIgnored=sorted(ignored),
+                subBoxMaxExtentCm=SUBBOX_MAX_EXTENT_CM,
+                wholePartAabbHits=naive_hits, subBoxHits=real_hits,
+                falsePositivesEliminated=naive_hits - real_hits,
+                method=('Broad phase on the whole-part AABB, narrow phase on decomposed sub-boxes. '
+                        'A whole-part test alone reported %d contacts, of which %d were false: the '
+                        'AABB of a channel that leaves the House at Y 400 and runs east at Y 1050 '
+                        'covers the altar, its ramp and the chut hasikra, none of which the water '
+                        'comes near. Hollow derived-union envelopes are excluded by name for the '
+                        'same reason.' % (naive_hits, naive_hits - real_hits)))
 
 
 def named_clearances(rows, groups):
-    """The distances a reviewer will ask for, measured rather than asserted."""
-    tracked = [(n, part_bounds(p)) for n, p in groups]
+    """The distances a reviewer will ask for, measured rather than asserted.
+
+    Measured sub-box to mesh-bound, and reported as the NEAREST approach over every
+    (sub-box, mesh) pair. An earlier version minimised gap_between() over the same pairs,
+    which silently reported the most DISTANT pair -- every feature came back "clear by
+    99 metres, nearest part Court_Trough_03", which is nonsense for ten different
+    features at once. If a clearance number here is ever identical across unrelated
+    features, that is the bug returning.
+    """
+    tracked = [(n, b) for n, p in groups for b in part_subboxes(p)]
     wanted = {
         'altar (yesod, the widest course)': 'altar yesod',
         'altar ramp (kevesh)': 'kevesh',
         'kiyor basin': 'hollow basin with inner wall',
         'kiyor pedestal': 'turned pedestal',
         'inner eastern gate wall jamb': 'inner eastern gate wall jamb',
+        'inner E cell connecting doorway': 'inner e connecting doorway',
         'outer east gate vestibule wall': 'outer e vestibule wall',
         'Ulam entrance pillar': 'ulam entrance pillar',
         'duchan rise': 'duchan rise',
@@ -804,24 +922,27 @@ def named_clearances(rows, groups):
         'Song chamber': 'song chamber',
     }
     out = []
-    for label, key in wanted.items():
+    for label, key in sorted(wanted.items()):
         matched = [r for r in rows if key in r['name'].lower()]
         if not matched:
             out.append(dict(feature=label, found=False))
             continue
-        best = None
-        for r in matched:
-            for part_name, pb in tracked:
-                gap = gap_between(pb, r['bounds'])
-                if best is None or gap > best[0]:
-                    continue
-            # smallest separation over every (part, mesh) pair
-        smallest = min((gap_between(pb, r['bounds']), part_name, r['asset'])
-                       for r in matched for part_name, pb in tracked)
+        nearest = min((separation_cm(pb, r['bounds']), part_name, r['asset'])
+                      for r in matched for part_name, pb in tracked)
+        touching = [(gap_between(pb, r['bounds']), part_name, r['asset'])
+                    for r in matched for part_name, pb in tracked
+                    if boxes_overlap(pb, r['bounds'])]
+        deepest = max(touching)[0] if touching else 0.0
+        # A HOST feature (paving, a stair, a platform) is one the conduit is by nature cut
+        # into; intersects=True there is the intended reading, not a finding. Everything
+        # else must show intersects=False, and export() fails if it does not.
+        is_host = any(r['name'] in HOST_MESH_NAMES for r in matched)
         out.append(dict(feature=label, found=True, meshCount=len(matched),
-                        minimumSeparationCm=round(smallest[0], 3),
-                        nearestGeneratedPart=smallest[1], nearestArchitectureAsset=smallest[2],
-                        intersects=smallest[0] > 0.0))
+                        isHost=is_host,
+                        clearanceCm=round(nearest[0], 3),
+                        nearestGeneratedPart=nearest[1], nearestArchitectureAsset=nearest[2],
+                        intersects=bool(touching),
+                        deepestInterpenetrationCm=round(deepest, 3) if touching else 0.0))
     return out
 
 
@@ -832,7 +953,7 @@ def verify_against_header():
     """The depths, widths and stage spacing here must equal WaterFlowMath.h's, or the
     generated channel and the actor driving it would describe different rivers."""
     header = (ROOT / 'Plugins/MikdashRuntime/Source/MikdashRuntime/Public/WaterFlowMath.h').read_text(encoding='utf-8')
-    wanted = [('StatureCm = %g;' % STATURE_CM, 'stature'),
+    wanted = [('StatureCm = %.1f;' % STATURE_CM, 'stature'),
               ('AnkleFraction = 0.07;', 'ankle fraction'),
               ('KneeFraction = 0.285;', 'knee fraction'),
               ('LoinFraction = 0.53;', 'loin fraction'),

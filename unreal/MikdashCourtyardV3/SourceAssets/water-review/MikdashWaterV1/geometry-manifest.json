@@ -1,0 +1,2049 @@
+{
+  "version": "MikdashWaterV1",
+  "generated": "2026-09-08T10:25:42.392253+00:00",
+  "script": "Scripts/create_water_geometry.py",
+  "scriptSha256": "96611a57c7e940ba0f87a6ef3faa988e059a4288e933ef3862c7ab6891b8ace7",
+  "scope": "Offline geometry export only. No engine launch, no Content/ change, no map action, no visual, walking or halachic acceptance. Placement is Scripts/release_water.py.",
+  "units": "centimetres; canonical Unreal axes X east, +Y south, Z up",
+  "amahCm": 50.0,
+  "amahNote": "50 cm is this project's modelling amah, used by every other geometry script here. The book itself converts at 48 cm (R' A. C. Naeh) and cites the Chazon Ish at 57.6 cm; both are carried in the forty-se'ah arithmetic below.",
+  "destination": "/Game/MikdashV3/MaterialReview/MikdashWaterV1",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "objAdapter": "Unreal legacy OBJ adapter: canonical vertices are UE cm (X east, +Y south, Z up); this file is written with Y REFLECTED and triangle winding REVERSED. The importer reflects Y back, so imported bounds must equal canonicalBoundsCm and UE signed volumes must be positive. Same adapter as create_keilim_ti_v1.py.",
+  "architectureManifest": {
+    "file": "SourceAssets/architecture-manifest.json",
+    "sha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+    "meshCount": 2633
+  },
+  "anchorChecks": [
+    {
+      "anchor": "Ulam nested stone door frame",
+      "meshes": 6,
+      "maxErrorCm": 0.0001,
+      "bounds": {
+        "min": [
+          -2507.5000762939453,
+          -457.5000286102295,
+          925.0
+        ],
+        "max": [
+          -2457.5000762939453,
+          457.5000286102295,
+          3425.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Ulam clear floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0001,
+      "bounds": {
+        "min": [
+          -3300.0,
+          -500.0,
+          904.9999237060547
+        ],
+        "max": [
+          -2750.0,
+          500.0,
+          925.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Ulam stair",
+      "meshes": 12,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -2500.0,
+          -985.0000381469727,
+          625.0
+        ],
+        "max": [
+          -1400.0,
+          985.0000381469727,
+          925.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Heichal clear floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0001,
+      "bounds": {
+        "min": [
+          -5600.0,
+          -500.0,
+          904.9999237060547
+        ],
+        "max": [
+          -3600.0,
+          500.0,
+          925.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Kodesh clear floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0001,
+      "bounds": {
+        "min": [
+          -6700.0,
+          -500.0,
+          904.9999237060547
+        ],
+        "max": [
+          -5700.0,
+          500.0,
+          925.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Altar yesod",
+      "meshes": 4,
+      "maxErrorCm": 0.0333,
+      "bounds": {
+        "min": [
+          -800.0,
+          -800.0,
+          625.0
+        ],
+        "max": [
+          800.0,
+          800.0,
+          716.6666984558105
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Altar upper tier",
+      "meshes": 1,
+      "maxErrorCm": 0.0333,
+      "bounds": {
+        "min": [
+          -708.3333492279053,
+          -708.3333492279053,
+          916.6666984558105
+        ],
+        "max": [
+          708.3333492279053,
+          708.3333492279053,
+          1066.6666984558105
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Southern kevesh",
+      "meshes": 1,
+      "maxErrorCm": 0.0334,
+      "bounds": {
+        "min": [
+          -400.0,
+          710.0833415985107,
+          625.0
+        ],
+        "max": [
+          400.0,
+          2300.0,
+          1066.666603088379
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Kiyor basin",
+      "meshes": 1,
+      "maxErrorCm": 0.0001,
+      "bounds": {
+        "min": [
+          -2054.0000915527344,
+          1396.0000038146973,
+          690.0000095367432
+        ],
+        "max": [
+          -1845.9999084472656,
+          1604.0000915527344,
+          750.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Ezras Kohanim floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -2500.0,
+          -2500.0,
+          605.0000190734863
+        ],
+        "max": [
+          1575.0,
+          2500.0,
+          625.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Duchan rise",
+      "meshes": 4,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          1575.0,
+          -2500.0,
+          500.0
+        ],
+        "max": [
+          1675.0,
+          2500.0,
+          625.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Inner court clear floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          1675.0,
+          -2500.0,
+          480.0000190734863
+        ],
+        "max": [
+          2500.0,
+          2500.0,
+          500.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer court floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -7800.0,
+          -7800.0,
+          280.0000190734863
+        ],
+        "max": [
+          7800.0,
+          7800.0,
+          300.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Inner eastern gate wall jamb",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          2500.0,
+          250.0,
+          500.0
+        ],
+        "max": [
+          2800.0,
+          2800.0,
+          3500.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Inner E cell supporting plinth",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          2800.0,
+          375.0,
+          300.0
+        ],
+        "max": [
+          3600.0,
+          2275.0,
+          498.9999771118164
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer E vestibule floor",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          7300.0,
+          -625.0,
+          280.0000190734863
+        ],
+        "max": [
+          7800.0,
+          625.0,
+          300.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer E threshold",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          7800.0,
+          -250.0,
+          280.0000190734863
+        ],
+        "max": [
+          8100.0,
+          250.0,
+          300.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer E cell access landing",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          8100.0,
+          -625.0,
+          280.0000190734863
+        ],
+        "max": [
+          8600.0,
+          625.0,
+          300.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer E stair",
+      "meshes": 12,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          8600.0,
+          -250.0,
+          0.0
+        ],
+        "max": [
+          9200.0,
+          250.0,
+          300.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Inner S threshold",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -250.0,
+          2500.0,
+          605.0000190734863
+        ],
+        "max": [
+          250.0,
+          2800.0,
+          625.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Outer S threshold",
+      "meshes": 1,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -250.0,
+          7800.0,
+          405.0000190734863
+        ],
+        "max": [
+          250.0,
+          8100.0,
+          425.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Song chamber",
+      "meshes": 7,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -2225.0,
+          1875.0,
+          605.0000190734863
+        ],
+        "max": [
+          -1675.0,
+          2425.0,
+          1075.0
+        ]
+      },
+      "matches": true
+    },
+    {
+      "anchor": "Priestly chamber precinct",
+      "meshes": 2,
+      "maxErrorCm": 0.0,
+      "bounds": {
+        "min": [
+          -7500.0,
+          -5250.0,
+          405.0000190734863
+        ],
+        "max": [
+          -2500.0,
+          5250.0,
+          425.0
+        ]
+      },
+      "matches": true
+    }
+  ],
+  "anchorErrors": [],
+  "runtimeHeaderCheck": {
+    "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/WaterFlowMath.h",
+    "sha256": "e4f5d7e5b9bc146bd0556efcc8bf11da41cdf6d3ff86fa0e03a337c7d2576d93",
+    "constantsMatched": true,
+    "missing": []
+  },
+  "groups": [
+    "court",
+    "stages",
+    "mikvaot"
+  ],
+  "totalTriangles": 5836,
+  "triangleBudget": 220000,
+  "meshes": [
+    {
+      "name": "SM_MikdashWaterV1_CourtChannel",
+      "file": "SM_MikdashWaterV1_CourtChannel.obj",
+      "sha256": "192d73f7b0a496bb104994e4c6435470976257cb3bb9518c90a99c9174ac6496",
+      "bytes": 647453,
+      "triangles": 2228,
+      "parts": 5,
+      "canonicalBoundsCm": {
+        "min": [
+          -2494.872016727517,
+          133.0,
+          -49.0
+        ],
+        "max": [
+          9200.0,
+          1097.0,
+          907.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 2671480.0,
+      "totalSignedVolumeCm3": 29352240.358,
+      "partChecks": [
+        {
+          "name": "Court_Trough_01",
+          "triangles": 620,
+          "closed": true,
+          "volumeCm3": 6375631.118
+        },
+        {
+          "name": "Court_Conduit_01",
+          "triangles": 60,
+          "closed": true,
+          "volumeCm3": 2671480.0
+        },
+        {
+          "name": "Court_Trough_02",
+          "triangles": 332,
+          "closed": true,
+          "volumeCm3": 3126600.0
+        },
+        {
+          "name": "Court_Conduit_02",
+          "triangles": 116,
+          "closed": true,
+          "volumeCm3": 5342960.0
+        },
+        {
+          "name": "Court_Trough_03",
+          "triangles": 1100,
+          "closed": true,
+          "volumeCm3": 11835569.24
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "The channel of Yechezkel 47:1-2 through the courts: from under the threshold of",
+        "the House, down the right (south) side, SOUTH OF THE ALTAR, and out at the right",
+        "shoulder of the outer east gate. Route certain from the text; every centimetre of",
+        "width, depth and construction is AUTHORED."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_CourtWater",
+      "file": "SM_MikdashWaterV1_CourtWater.obj",
+      "sha256": "342ddc99cac89513c58ae25f335677950cbbe548068507cb0a3c867356688003",
+      "bytes": 296627,
+      "triangles": 1020,
+      "parts": 3,
+      "canonicalBoundsCm": {
+        "min": [
+          -2486.9744769827216,
+          155.0,
+          -34.4
+        ],
+        "max": [
+          9200.0,
+          1075.0,
+          899.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 493920.0,
+      "totalSignedVolumeCm3": 3370831.676,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_CourtWater_01",
+          "triangles": 308,
+          "closed": true,
+          "volumeCm3": 1007205.171
+        },
+        {
+          "name": "SM_MikdashWaterV1_CourtWater_02",
+          "triangles": 164,
+          "closed": true,
+          "volumeCm3": 493920.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_CourtWater_03",
+          "triangles": 548,
+          "closed": true,
+          "volumeCm3": 1869706.505
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "The free surface of the court reach. Depth 9.0 cm, top width 50.0 cm: AUTHORED."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_StageChannel",
+      "file": "SM_MikdashWaterV1_StageChannel.obj",
+      "sha256": "41bc81006c87d2b774ade097bba13666e8b8ae567f2c93efc3c8a661f02d9470",
+      "bytes": 411879,
+      "triangles": 1376,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          8100.0,
+          -1220.0,
+          -5191.0
+        ],
+        "max": [
+          208100.0,
+          1580.0,
+          -6.000000000000002
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 91330296.108,
+      "totalSignedVolumeCm3": 6761665143.403,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_01",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 91330296.108
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_02",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 135421747.27
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_03",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 216978571.84
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_04",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 352684461.56
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_05",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 549043804.742
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_06",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 851573875.209
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_07",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 1592102580.637
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageChannel_08",
+          "triangles": 172,
+          "closed": true,
+          "volumeCm3": 2972529806.037
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "The four thousands of Yechezkel 47:3-5, built as literal distances east of the",
+        "outer east gate at the project amah of 50 cm: 4000 amot = 2.000 km. The depths are",
+        "anthropometric fractions of a 170 cm stature (AUTHORED); the widths are AUTHORED",
+        "outright, no source giving any. Bed grade 2.5%: AUTHORED."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_StageWater",
+      "file": "SM_MikdashWaterV1_StageWater.obj",
+      "sha256": "817e9ee14cdaf66a5317ff7b115264aaa656b1bd371b92945b0219bdba00fcc8",
+      "bytes": 201847,
+      "triangles": 672,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          8100.0,
+          -1070.0,
+          -5170.4
+        ],
+        "max": [
+          208100.0,
+          1430.0,
+          -20.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 4863432.865,
+      "totalSignedVolumeCm3": 13380895979.116,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_StageWater_01",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 4863432.865
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_02",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 26579799.917
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_03",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 115901096.97
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_04",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 349529401.392
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_05",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 741295772.631
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_06",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 1388725440.612
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_07",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 3287193565.716
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageWater_08",
+          "triangles": 84,
+          "closed": true,
+          "volumeCm3": 7466807469.013
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "The free surface through the four stages, widening and deepening monotonically",
+        "and passing exactly through each of the prophet's four measurements."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_StageMarks",
+      "file": "SM_MikdashWaterV1_StageMarks.obj",
+      "sha256": "6e9552122c3eb0e45d58adea611604157e8e1b166b75657a0cb665f102e9421a",
+      "bytes": 28506,
+      "triangles": 96,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          58075.0,
+          227.0,
+          -5151.0
+        ],
+        "max": [
+          208125.0,
+          1530.0,
+          -1210.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 428.4,
+      "totalSignedVolumeCm3": 178508.868,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_StageMark_1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 41666.667
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageGauge_1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 428.4
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageMark_2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 41666.667
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageGauge_2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1744.2
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageMark_3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 41666.667
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageGauge_3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 3243.6
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageMark_4",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 41666.667
+        },
+        {
+          "name": "SM_MikdashWaterV1_StageGauge_4",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 6426.0
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "One flush kerb stone and one slender gauge post at each thousand-amah mark."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily",
+      "file": "SM_MikdashWaterV1_Mikveh_KohanimDaily.obj",
+      "sha256": "12aa21e499e4b5ee0776016652d6d7c1f911fe4bd1f9e5a3a57bb9f354b0aaa4",
+      "bytes": 28299,
+      "triangles": 96,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          -4130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -3870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 62500.0,
+      "totalSignedVolumeCm3": 3575000.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_Floor",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1040000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_WallW",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_WallE",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_WallN",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_WallS",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_Step1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 187500.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_Step2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 125000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily_Step3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 62500.0
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "Mikveh: mikveh for the kohanim, daily before service.",
+        "Source: Tamid 1:2; Rambam Biat HaMikdash 5:4 (no kohen enters the Azarah for service, even when pure, until he immerses). Book p. 325 places it beside Beis HaMoked in the north lower chambers, second floor, marked * for study only.",
+        "Departure: The book's north LOWER CHAMBERS are not built in this map (they are gap 6 of the research review). Placed instead in the built north priestly chamber block (Yechezkel 42), ground storey, so it is reachable on foot.",
+        "Every dimension is AUTHORED; no source gives one."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+      "file": "SM_MikdashWaterV1_MikvehWater_KohanimDaily.obj",
+      "sha256": "3d27640befcd210c7de6959cdce1d204e17064e67fab33480ec029c9fa8a797d",
+      "bytes": 3803,
+      "triangles": 12,
+      "parts": 1,
+      "canonicalBoundsCm": {
+        "min": [
+          -4100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -3925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 1671250.0,
+      "totalSignedVolumeCm3": 1671250.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1671250.0
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "Water surface of mikveh for the kohanim, daily before service"
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+      "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYear.obj",
+      "sha256": "88c7c0cbb7c5586fd0244a72ad29ee8af0ed3149b4857aa32ba526a6031dc516",
+      "bytes": 28134,
+      "triangles": 96,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          -3130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -2870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 62500.0,
+      "totalSignedVolumeCm3": 3575000.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_Floor",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1040000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_WallW",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_WallE",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_WallN",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_WallS",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_Step1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 187500.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_Step2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 125000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear_Step3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 62500.0
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "Mikveh: mikveh for the Kohen Gadol, year-round (outside the holy area).",
+        "Source: Book p. 326: its place is in the chol, in the lower chambers, separate from the other kohanim and next to their beis tevilah, second floor. Marked *.",
+        "Departure: Same block substitution as the daily mikveh; kept adjacent to it, as the book has it.",
+        "Every dimension is AUTHORED; no source gives one."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+      "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear.obj",
+      "sha256": "3a3dc3288234643c244251e710fb31075f87525aad815ad8992db4afe44da0c6",
+      "bytes": 3827,
+      "triangles": 12,
+      "parts": 1,
+      "canonicalBoundsCm": {
+        "min": [
+          -3100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -2925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 1671250.0,
+      "totalSignedVolumeCm3": 1671250.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1671250.0
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "Water surface of mikveh for the Kohen Gadol, year-round (outside the holy area)"
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+      "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur.obj",
+      "sha256": "68fa2801b0dffc7993256f20d173aaa059818bf87276eb8787e082773387829e",
+      "bytes": 32292,
+      "triangles": 108,
+      "parts": 9,
+      "canonicalBoundsCm": {
+        "min": [
+          -1480.0,
+          2058.0,
+          500.0
+        ],
+        "max": [
+          -1220.0,
+          2230.0,
+          875.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 62500.0,
+      "totalSignedVolumeCm3": 4355000.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_Floor",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1040000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_WallW",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_WallE",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_WallN",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_WallS",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_Step1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 187500.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_Step2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 125000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_Step3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 62500.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur_Screen",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 780000.0
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "Mikveh: mikveh for the Kohen Gadol on Yom Kippur (in the kodesh).",
+        "Source: Middos 5:3 (on the roof of Beis HaParvah); Yoma 19a and Rambam Beis HaBechirah 5:17 place the chamber in the SOUTH -- the sources differ. Yoma 30a: five immersions and ten sanctifications, all in the kodesh above Beis HaParvah save the first. Book p. 326 puts it in the western of the six southern halls of the inner court, third floor. Marked *.",
+        "Departure: The six southern halls are not built in this map. Placed on the inner court floor on the SOUTH side, beside the built Song chamber, which keeps the book's side and its \"in the kodesh\" requirement but not its storey.",
+        "Every dimension is AUTHORED; no source gives one."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+      "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur.obj",
+      "sha256": "45302db29be34c34d26c74f6a4f8149b6ec11d7d4c4dcac3463fac4632a97152",
+      "bytes": 3872,
+      "triangles": 12,
+      "parts": 1,
+      "canonicalBoundsCm": {
+        "min": [
+          -1450.0,
+          2100.0,
+          525.5
+        ],
+        "max": [
+          -1275.0,
+          2200.0,
+          621.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 1671250.0,
+      "totalSignedVolumeCm3": 1671250.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1671250.0
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "Water surface of mikveh for the Kohen Gadol on Yom Kippur (in the kodesh)"
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_Mikveh_Metzoraim",
+      "file": "SM_MikdashWaterV1_Mikveh_Metzoraim.obj",
+      "sha256": "2c0ab7b9cbeec52652f6bd473510dc087109a22dfe34733731960a4483f6251f",
+      "bytes": 28185,
+      "triangles": 96,
+      "parts": 8,
+      "canonicalBoundsCm": {
+        "min": [
+          -7130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -6870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 62500.0,
+      "totalSignedVolumeCm3": 3575000.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_Floor",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1040000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_WallW",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_WallE",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 480000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_WallN",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_WallS",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 600000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_Step1",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 187500.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_Step2",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 125000.0
+        },
+        {
+          "name": "SM_MikdashWaterV1_Mikveh_Metzoraim_Step3",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 62500.0
+        }
+      ],
+      "materialRole": "stone",
+      "provenance": [
+        "Mikveh: mikveh in the chamber of the metzora'im.",
+        "Source: Middos 2:5 and Tiferes Yisroel there (the metzora immerses in this chamber before inserting his thumbs on the eighth day). Book p. 333: outer court, north lower chambers, western side, first floor, near the entrance to the Ezras Yisroel. Marked *.",
+        "Departure: Placed in the westernmost room of the built north priestly block; the outer-court lower chambers are not built.",
+        "Every dimension is AUTHORED; no source gives one."
+      ]
+    },
+    {
+      "name": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+      "file": "SM_MikdashWaterV1_MikvehWater_Metzoraim.obj",
+      "sha256": "e37eeab63e85a6bf9b115ff2806a529699666cdccbcd99210e4151bbf1b9d11f",
+      "bytes": 3789,
+      "triangles": 12,
+      "parts": 1,
+      "canonicalBoundsCm": {
+        "min": [
+          -7100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -6925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "minimumPartSignedVolumeCm3": 1671250.0,
+      "totalSignedVolumeCm3": 1671250.0,
+      "partChecks": [
+        {
+          "name": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+          "triangles": 12,
+          "closed": true,
+          "volumeCm3": 1671250.0
+        }
+      ],
+      "materialRole": "water",
+      "provenance": [
+        "Water surface of mikveh in the chamber of the metzora'im"
+      ]
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_MikdashWaterV1_CourtChannel",
+      "triangles": 2228,
+      "boundsErrorCm": 1.7e-05,
+      "worstNormalError": 6.648e-06,
+      "fileSpaceSignedVolumeCm3": 29352240.519,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_CourtWater",
+      "triangles": 1020,
+      "boundsErrorCm": 2.3e-05,
+      "worstNormalError": 6.464e-06,
+      "fileSpaceSignedVolumeCm3": 3370831.306,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_StageChannel",
+      "triangles": 1376,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.503e-06,
+      "fileSpaceSignedVolumeCm3": 6761665427.027,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_StageWater",
+      "triangles": 672,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.808e-06,
+      "fileSpaceSignedVolumeCm3": 13380896360.796,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_StageMarks",
+      "triangles": 96,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 178509.2,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_Mikveh_KohanimDaily",
+      "triangles": 96,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 3575000.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+      "triangles": 12,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 1671250.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+      "triangles": 96,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 3575000.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+      "triangles": 12,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 1671250.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+      "triangles": 108,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 4355000.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+      "triangles": 12,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 1671250.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_Mikveh_Metzoraim",
+      "triangles": 96,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 3575000.0,
+      "normalsAndUvs": "PASS"
+    },
+    {
+      "mesh": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+      "triangles": 12,
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.0,
+      "fileSpaceSignedVolumeCm3": 1671250.0,
+      "normalsAndUvs": "PASS"
+    }
+  ],
+  "clearance": {
+    "hosts": [
+      {
+        "mesh": "Duchan rise",
+        "parts": [
+          "Court_Trough_02"
+        ],
+        "deepestEngagementCm": 25.0,
+        "hits": 4
+      },
+      {
+        "mesh": "Ezras Kohanim floor",
+        "parts": [
+          "Court_Conduit_01",
+          "Court_Trough_01",
+          "Court_Trough_02"
+        ],
+        "deepestEngagementCm": 20.0,
+        "hits": 3
+      },
+      {
+        "mesh": "Inner E cell supporting plinth",
+        "parts": [
+          "Court_Conduit_02"
+        ],
+        "deepestEngagementCm": 94.0,
+        "hits": 1
+      },
+      {
+        "mesh": "Inner E continuous cell doorway floor",
+        "parts": [
+          "Court_Conduit_02"
+        ],
+        "deepestEngagementCm": 2.6,
+        "hits": 1
+      },
+      {
+        "mesh": "Inner court clear floor",
+        "parts": [
+          "Court_Trough_02"
+        ],
+        "deepestEngagementCm": 2.0,
+        "hits": 1
+      },
+      {
+        "mesh": "Inner court supporting platform",
+        "parts": [
+          "Court_Conduit_02",
+          "Court_Trough_02"
+        ],
+        "deepestEngagementCm": 49.8,
+        "hits": 2
+      },
+      {
+        "mesh": "Outer E cell access landing",
+        "parts": [
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 2.0,
+        "hits": 1
+      },
+      {
+        "mesh": "Outer E stair",
+        "parts": [
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 50.0,
+        "hits": 12
+      },
+      {
+        "mesh": "Outer E threshold",
+        "parts": [
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 2.0,
+        "hits": 1
+      },
+      {
+        "mesh": "Outer E vestibule floor",
+        "parts": [
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 2.0,
+        "hits": 1
+      },
+      {
+        "mesh": "Outer court floor",
+        "parts": [
+          "Court_Conduit_02",
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 20.0,
+        "hits": 2
+      },
+      {
+        "mesh": "Outer court supporting platform",
+        "parts": [
+          "Court_Conduit_02",
+          "Court_Trough_03"
+        ],
+        "deepestEngagementCm": 48.0,
+        "hits": 2
+      },
+      {
+        "mesh": "Raised priest court foundation",
+        "parts": [
+          "Court_Conduit_01",
+          "Court_Trough_01",
+          "Court_Trough_02"
+        ],
+        "deepestEngagementCm": 82.143,
+        "hits": 3
+      },
+      {
+        "mesh": "Ulam stair",
+        "parts": [
+          "Court_Trough_01"
+        ],
+        "deepestEngagementCm": 100.555,
+        "hits": 8
+      }
+    ],
+    "blockers": [],
+    "hollowUnionsIgnored": [
+      "Derived union of House and Ulam foundations",
+      "Derived union of source House walls and roofs",
+      "Derived union of source outer envelope walls",
+      "Derived union of source raised gallery slabs"
+    ],
+    "subBoxMaxExtentCm": 250.0,
+    "wholePartAabbHits": 56,
+    "subBoxHits": 42,
+    "falsePositivesEliminated": 14,
+    "method": "Broad phase on the whole-part AABB, narrow phase on decomposed sub-boxes. A whole-part test alone reported 56 contacts, of which 14 were false: the AABB of a channel that leaves the House at Y 400 and runs east at Y 1050 covers the altar, its ramp and the chut hasikra, none of which the water comes near. Hollow derived-union envelopes are excluded by name for the same reason.",
+    "namedClearancesCm": [
+      {
+        "feature": "Song chamber",
+        "found": true,
+        "meshCount": 7,
+        "clearanceCm": 839.312,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0042_architecture_Song_chamber_side",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "Ulam entrance pillar",
+        "found": true,
+        "meshCount": 2,
+        "clearanceCm": 18.0,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0172_architecture_Ulam_entrance_pillar",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "altar (yesod, the widest course)",
+        "found": true,
+        "meshCount": 4,
+        "clearanceCm": 203.796,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0156_architecture_Altar_yesod_west",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "altar ramp (kevesh)",
+        "found": true,
+        "meshCount": 1,
+        "clearanceCm": 18.0,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0166_architecture_Southern_kevesh_ascend_north",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "duchan rise",
+        "found": true,
+        "meshCount": 4,
+        "clearanceCm": 0.0,
+        "nearestGeneratedPart": "Court_Trough_02",
+        "nearestArchitectureAsset": "SM_1669_architecture_Duchan_rise_1",
+        "intersects": true,
+        "deepestInterpenetrationCm": 25.0
+      },
+      {
+        "feature": "inner E cell connecting doorway",
+        "found": true,
+        "meshCount": 18,
+        "clearanceCm": 15.8,
+        "nearestGeneratedPart": "Court_Conduit_02",
+        "nearestArchitectureAsset": "SM_0554_architecture_Inner_E_connecting_doorway_back",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "inner eastern gate wall jamb",
+        "found": true,
+        "meshCount": 2,
+        "clearanceCm": 15.0,
+        "nearestGeneratedPart": "Court_Conduit_02",
+        "nearestArchitectureAsset": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "kiyor basin",
+        "found": true,
+        "meshCount": 1,
+        "clearanceCm": 422.331,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0073_vessel_Hollow_basin_with_inner_wall",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "kiyor pedestal",
+        "found": true,
+        "meshCount": 1,
+        "clearanceCm": 480.851,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_0072_vessel_Turned_pedestal",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "outer east gate vestibule wall",
+        "found": true,
+        "meshCount": 2,
+        "clearanceCm": 99.639,
+        "nearestGeneratedPart": "Court_Trough_03",
+        "nearestArchitectureAsset": "SM_0187_architecture_Outer_E_vestibule_wall",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      },
+      {
+        "feature": "stone slaughter tables",
+        "found": true,
+        "meshCount": 8,
+        "clearanceCm": 2419.388,
+        "nearestGeneratedPart": "Court_Trough_01",
+        "nearestArchitectureAsset": "SM_1610_architecture_Stone_slaughter_table",
+        "intersects": false,
+        "deepestInterpenetrationCm": 0.0
+      }
+    ]
+  },
+  "preview": {
+    "file": "water-plan.png",
+    "width": 1500,
+    "height": 760,
+    "extentCm": {
+      "min": [
+        -8400.0,
+        -8400.0
+      ],
+      "max": [
+        9800.0,
+        8400.0
+      ]
+    },
+    "legend": {
+      "grey": "imported architecture",
+      "slate": "host paving/platform meshes",
+      "ochre": "altar, ramp and kiyor",
+      "blue": "generated channel masonry",
+      "pale blue": "generated water surfaces",
+      "teal": "mikvaot",
+      "yellow": "the four measuring marks"
+    }
+  },
+  "facts": {
+    "groups": [
+      "court",
+      "stages",
+      "mikvaot"
+    ],
+    "court": {
+      "routePoints": 27,
+      "sampledPoints": 148,
+      "plannedLengthCm": 11980.8,
+      "plannedLengthAmot": 239.6,
+      "sourceCm": [
+        -2478.0,
+        400.0,
+        890.0
+      ],
+      "outletCm": [
+        9200.0,
+        180.0,
+        -35.0
+      ],
+      "totalFallCm": 925.0,
+      "meanGrade": 0.07721,
+      "coveredReaches": 2,
+      "topWidthCm": 50.0,
+      "waterDepthCm": 9.0,
+      "waypoints": [
+        {
+          "x": -2478.0,
+          "y": 400.0,
+          "surfaceTopZ": 925.0,
+          "note": "under the threshold of the House (miftan habayis), its right/south end"
+        },
+        {
+          "x": -2400.0,
+          "y": 430.0,
+          "surfaceTopZ": 903.7,
+          "note": "onto the Ulam stair, resting on the tread"
+        },
+        {
+          "x": -2100.0,
+          "y": 560.0,
+          "surfaceTopZ": 821.8,
+          "note": "cascade down the stair, bearing right"
+        },
+        {
+          "x": -1800.0,
+          "y": 760.0,
+          "surfaceTopZ": 740.0,
+          "note": "cascade"
+        },
+        {
+          "x": -1500.0,
+          "y": 940.0,
+          "surfaceTopZ": 658.2,
+          "note": "cascade, last treads"
+        },
+        {
+          "x": -1400.0,
+          "y": 1000.0,
+          "surfaceTopZ": 631.0,
+          "note": "foot of the stair"
+        },
+        {
+          "x": -1000.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "running line across the Ezras Kohanim"
+        },
+        {
+          "x": -600.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "south of the altar; 225 cm clear of the yesod"
+        },
+        {
+          "x": -420.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "enters the covered reach under the kevesh"
+        },
+        {
+          "x": 420.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "conduit beneath the altar ramp, cover flush at Z 625"
+        },
+        {
+          "x": 1000.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "east of the ramp, open again"
+        },
+        {
+          "x": 1575.0,
+          "y": 1050.0,
+          "surfaceTopZ": 625.0,
+          "note": "at the duchan rise"
+        },
+        {
+          "x": 1675.0,
+          "y": 1050.0,
+          "surfaceTopZ": 500.0,
+          "note": "down the duchan, onto the inner court floor"
+        },
+        {
+          "x": 2400.0,
+          "y": 1050.0,
+          "surfaceTopZ": 500.0,
+          "note": "inner court floor"
+        },
+        {
+          "x": 2500.0,
+          "y": 1050.0,
+          "surfaceTopZ": 500.0,
+          "note": "enters the conduit under the inner gate wall (slab top 485, jamb foot 500)"
+        },
+        {
+          "x": 3400.0,
+          "y": 1050.0,
+          "surfaceTopZ": 500.0,
+          "note": "conduit inside the cell plinth (Z 300-499)"
+        },
+        {
+          "x": 3600.0,
+          "y": 1050.0,
+          "surfaceTopZ": 500.0,
+          "note": "spout in the east face of the inner range"
+        },
+        {
+          "x": 3660.0,
+          "y": 1050.0,
+          "surfaceTopZ": 300.0,
+          "note": "falls 145 cm to the outer court floor"
+        },
+        {
+          "x": 4400.0,
+          "y": 1040.0,
+          "surfaceTopZ": 300.0,
+          "note": "outer court"
+        },
+        {
+          "x": 5600.0,
+          "y": 800.0,
+          "surfaceTopZ": 300.0,
+          "note": "bearing north-east toward the gate"
+        },
+        {
+          "x": 6600.0,
+          "y": 430.0,
+          "surfaceTopZ": 300.0,
+          "note": "bearing"
+        },
+        {
+          "x": 7200.0,
+          "y": 180.0,
+          "surfaceTopZ": 300.0,
+          "note": "onto the gate axis, on its right (south) side"
+        },
+        {
+          "x": 7300.0,
+          "y": 180.0,
+          "surfaceTopZ": 300.0,
+          "note": "into the outer east gate vestibule, right shoulder"
+        },
+        {
+          "x": 7800.0,
+          "y": 180.0,
+          "surfaceTopZ": 300.0,
+          "note": "under the outer east threshold (47:2)"
+        },
+        {
+          "x": 8100.0,
+          "y": 180.0,
+          "surfaceTopZ": 300.0,
+          "note": "THE MEASURING DATUM: the outer face of the threshold"
+        },
+        {
+          "x": 8600.0,
+          "y": 180.0,
+          "surfaceTopZ": 300.0,
+          "note": "across the access landing"
+        },
+        {
+          "x": 9200.0,
+          "y": 180.0,
+          "surfaceTopZ": 0.0,
+          "note": "down the outer stair, onto the mount apron"
+        }
+      ]
+    },
+    "stages": {
+      "datumX": 8100.0,
+      "datumNote": "outer face of the outer east gate threshold (47:2-3)",
+      "spacingAmot": 1000.0,
+      "spanAmot": 4000.0,
+      "spanCm": 200000.0,
+      "gradePercent": 2.5,
+      "statureAssumedCm": 170.0,
+      "marks": [
+        {
+          "stage": 0,
+          "label": "trickle at the gate (mefakim, 47:2)",
+          "distanceAmot": 0.0,
+          "worldX": 8100.0,
+          "depthCm": 0.6,
+          "topWidthAmot": 1.0,
+          "topWidthCm": 50.0
+        },
+        {
+          "stage": 1,
+          "label": "to the ankles (afsayim, 47:3)",
+          "distanceAmot": 1000.0,
+          "worldX": 58100.0,
+          "depthCm": 11.9,
+          "topWidthAmot": 4.0,
+          "topWidthCm": 200.0
+        },
+        {
+          "stage": 2,
+          "label": "to the knees (birkayim, 47:4)",
+          "distanceAmot": 2000.0,
+          "worldX": 108100.0,
+          "depthCm": 48.45,
+          "topWidthAmot": 10.0,
+          "topWidthCm": 500.0
+        },
+        {
+          "stage": 3,
+          "label": "to the loins (motnayim, 47:4)",
+          "distanceAmot": 3000.0,
+          "worldX": 158100.0,
+          "depthCm": 90.1,
+          "topWidthAmot": 20.0,
+          "topWidthCm": 1000.0
+        },
+        {
+          "stage": 4,
+          "label": "a river that could not be passed over (47:5)",
+          "distanceAmot": 4000.0,
+          "worldX": 208100.0,
+          "depthCm": 178.5,
+          "topWidthAmot": 50.0,
+          "topWidthCm": 2500.0
+        }
+      ],
+      "interpolation": "Fritsch-Carlson monotone cubic Hermite; identical to MikdashWater::MonotoneSample",
+      "crossCheck": [
+        {
+          "amot": 0,
+          "depthCm": 0.6,
+          "topWidthCm": 50.0
+        },
+        {
+          "amot": 500,
+          "depthCm": 4.6719,
+          "topWidthCm": 115.625
+        },
+        {
+          "amot": 1000,
+          "depthCm": 11.9,
+          "topWidthCm": 200.0
+        },
+        {
+          "amot": 1500,
+          "depthCm": 28.2781,
+          "topWidthCm": 328.125
+        },
+        {
+          "amot": 2000,
+          "depthCm": 48.45,
+          "topWidthCm": 500.0
+        },
+        {
+          "amot": 2500,
+          "depthCm": 66.0344,
+          "topWidthCm": 675.0
+        },
+        {
+          "amot": 3000,
+          "depthCm": 90.1,
+          "topWidthCm": 1000.0
+        },
+        {
+          "amot": 3500,
+          "depthCm": 131.3781,
+          "topWidthCm": 1687.5
+        },
+        {
+          "amot": 4000,
+          "depthCm": 178.5,
+          "topWidthCm": 2500.0
+        }
+      ]
+    },
+    "mikvaot": {
+      "pools": [
+        {
+          "key": "KohanimDaily",
+          "label": "mikveh for the kohanim, daily before service",
+          "centreCm": [
+            -4000.0,
+            -4400.0
+          ],
+          "rimZ": 425.0,
+          "hasScreen": false,
+          "source": "Tamid 1:2; Rambam Biat HaMikdash 5:4 (no kohen enters the Azarah for service, even when pure, until he immerses). Book p. 325 places it beside Beis HaMoked in the north lower chambers, second floor, marked * for study only.",
+          "departure": "The book's north LOWER CHAMBERS are not built in this map (they are gap 6 of the research review). Placed instead in the built north priestly chamber block (Yechezkel 42), ground storey, so it is reachable on foot."
+        },
+        {
+          "key": "KohenGadolYear",
+          "label": "mikveh for the Kohen Gadol, year-round (outside the holy area)",
+          "centreCm": [
+            -3000.0,
+            -4400.0
+          ],
+          "rimZ": 425.0,
+          "hasScreen": false,
+          "source": "Book p. 326: its place is in the chol, in the lower chambers, separate from the other kohanim and next to their beis tevilah, second floor. Marked *.",
+          "departure": "Same block substitution as the daily mikveh; kept adjacent to it, as the book has it."
+        },
+        {
+          "key": "KohenGadolYomKippur",
+          "label": "mikveh for the Kohen Gadol on Yom Kippur (in the kodesh)",
+          "centreCm": [
+            -1350.0,
+            2150.0
+          ],
+          "rimZ": 625.0,
+          "hasScreen": true,
+          "source": "Middos 5:3 (on the roof of Beis HaParvah); Yoma 19a and Rambam Beis HaBechirah 5:17 place the chamber in the SOUTH -- the sources differ. Yoma 30a: five immersions and ten sanctifications, all in the kodesh above Beis HaParvah save the first. Book p. 326 puts it in the western of the six southern halls of the inner court, third floor. Marked *.",
+          "departure": "The six southern halls are not built in this map. Placed on the inner court floor on the SOUTH side, beside the built Song chamber, which keeps the book's side and its \"in the kodesh\" requirement but not its storey."
+        },
+        {
+          "key": "Metzoraim",
+          "label": "mikveh in the chamber of the metzora'im",
+          "centreCm": [
+            -7000.0,
+            -4400.0
+          ],
+          "rimZ": 425.0,
+          "hasScreen": false,
+          "source": "Middos 2:5 and Tiferes Yisroel there (the metzora immerses in this chamber before inserting his thumbs on the eighth day). Book p. 333: outer court, north lower chambers, western side, first floor, near the entrance to the Ezras Yisroel. Marked *.",
+          "departure": "Placed in the westernmost room of the built north priestly block; the outer-court lower chambers are not built."
+        }
+      ],
+      "innerLengthCm": 200.0,
+      "innerWidthCm": 100.0,
+      "waterDepthCm": 100.0,
+      "steps": 4,
+      "stepRiseCm": 25.0,
+      "stepGoingCm": 25.0,
+      "waterVolumeCm3": 1625000.0,
+      "waterVolumeLitres": 1625.0,
+      "fortySeahRule": "forty se'ah = three cubic amot (Eruvin 4b); the amah is the only free variable",
+      "fortySeah": [
+        {
+          "opinion": "Chazon Ish (amah 57.6 cm)",
+          "requiredCm3": 573308.9,
+          "requiredLitres": 573.309,
+          "multipleHeld": 2.834,
+          "sufficient": true
+        },
+        {
+          "opinion": "R' A. C. Naeh (amah 48 cm)",
+          "requiredCm3": 331776.0,
+          "requiredLitres": 331.776,
+          "multipleHeld": 4.898,
+          "sufficient": true
+        },
+        {
+          "opinion": "project modelling amah (50 cm)",
+          "requiredCm3": 375000.0,
+          "requiredLitres": 375.0,
+          "multipleHeld": 4.333,
+          "sufficient": true
+        }
+      ],
+      "screenSource": "Yoma 3:4: a sheet of fine linen spread between the Kohen Gadol and the people.",
+      "screenScope": "Modelled only at the Kohen Gadol's Yom Kippur mikveh, which is the only immersion for which a source calls for a separation. The other three have none.",
+      "halachicScope": "These figures are arithmetic on published shiurim, not a ruling. Whether a pool is a valid mikveh turns on the provenance of its water and its connection to the ground, neither of which is modelled or claimed."
+    }
+  },
+  "kiyor": {
+    "alreadyPresent": true,
+    "evidence": "SourceAssets/architecture-manifest.json carries the kiyor as sourcePart \"vessel\": \"Turned pedestal\", \"Hollow basin with inner wall\", twelve \"Spout\" meshes and a \"Water recessed below rolled rim\" mesh whose semantic is already \"water\".",
+    "worldBoundsCm": {
+      "min": [
+        -2055.3,
+        1394.6,
+        625.0
+      ],
+      "max": [
+        -1844.7,
+        1605.3,
+        750.5
+      ]
+    },
+    "position": "between the Ulam and the altar, on the south, as Shemos 30:18 and the book (p. 173) require",
+    "spouts": 12,
+    "existingWaterMaterial": "/Game/MikdashV3/Materials/M_Water_e67b7dbe9a",
+    "action": "NOT REBUILT. Nothing here touches it.",
+    "notBuilt": "The book (p. 173) adds two fittings this map does not have: the BOR into which the kiyor is lowered at night so its water is not disqualified, and the MUCHNI (the pulley that lowers it), the vessel d'Oraisa and the pulley d'Rabbanan. They are vessel work, not water work, and are left to whoever owns the keilim."
+  },
+  "depicted": [
+    "the stream issuing from under the threshold of the House, eastward (47:1)",
+    "its descent on the right (south) side of the House and its passage SOUTH OF THE ALTAR (47:1)",
+    "its emergence at the right (south) shoulder of the outer east gate (47:2)",
+    "the four measured thousands, as literal distances, with the depth at each (47:3-5)",
+    "four mikvaot with steps down, and a linen screen at the Kohen Gadol's (Yoma 3:4)"
+  ],
+  "assertedNotDepicted": [
+    "the descent to the Aravah and into the sea, and the healing of the sea's waters (47:8)",
+    "the fishermen standing from Ein Gedi to Ein Eglayim (47:10)",
+    "the marshes and swamps that are not healed, being given to salt (47:11)",
+    "the trees on both banks, leaf unwithering and fruit unfailing, new fruit monthly, the fruit for food and the leaf for healing, because the water issues from the Mikdash (47:12)",
+    "reason: all of these lie tens of kilometres east of the map; the built channel stops at the fourth measurement, 2.000 km east of the outer gate."
+  ],
+  "limitations": [
+    "A courtyard channel is a CUT in paving this script does not own and cannot boolean. The generated masonry therefore occupies the paving, platform and stair meshes listed in clearance.hosts; those are intended, and every non-paving contact is a blocker that fails the export.",
+    "No terrain east of the mount is checked here: the architecture manifest ends at X 9200. The far-field segments are checked against the live level by Scripts/release_water.py.",
+    "Widths, depths, grades and every mikveh dimension are authored. The prophet gives four depths in body parts and no widths at all.",
+    "The forty-se'ah figures are arithmetic, not a ruling.",
+    "The route is disputed: the book takes the stream out by the inner court's SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is built; the south is available as group \"southgate\". Neither is asserted over the other."
+  ]
+}

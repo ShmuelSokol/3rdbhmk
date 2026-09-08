@@ -53,6 +53,7 @@ VIEWS = [v for v in CAP['views'] if not VIEW_FILTER or v['id'] in VIEW_FILTER.sp
 OUT_DIR = ROOT / SPEC['captureFolder']
 RECEIPT = ROOT / SPEC['receiptFolder'] / ('lighting-v3-capture-' + STAMP + '.json')
 INSTANCE_FOLDER = SPEC['instanceFolder']
+NO_BARRIER_SETTLE_SECONDS = 30.0
 
 
 def sha(path):
@@ -468,10 +469,19 @@ def arm_view(world, view):
     c.set_view_target_with_blend(camera, 0.0)
     variant = VARIANTS[state['variant_index']]
     if state['barrier_done_for_variant'] != variant:
-        started = time.monotonic()
-        u.AutomationLibrary.finish_loading_before_screenshot()
+        if '-lightingv3nobarrier' in CMD.lower():
+            # 2026-09-08 run 2: the barrier rebuilt distance fields for the whole city for 27 min under memory
+            # pressure and the editor was killed. With this switch the first view of each variant settles
+            # NO_BARRIER_SETTLE_SECONDS instead (Astra's probe used a plain 20 s wait); the receipt says so.
+            state['extra_settle'] = NO_BARRIER_SETTLE_SECONDS
+            report['loadingBarrier'] = 'skipped (-LightingV3NoBarrier); first view per variant settles %.0f s' % NO_BARRIER_SETTLE_SECONDS
+        else:
+            started = time.monotonic()
+            u.AutomationLibrary.finish_loading_before_screenshot()
+            event('loading_barrier', variant=variant, view=view['id'], seconds=round(time.monotonic() - started, 2))
         state['barrier_done_for_variant'] = variant
-        event('loading_barrier', variant=variant, view=view['id'], seconds=round(time.monotonic() - started, 2))
+    else:
+        state['extra_settle'] = 0.0
     phase('warming')
 
 
@@ -577,7 +587,7 @@ def tick(dt):
             next_view(world)
             return
         if state['phase'] == 'warming':
-            if elapsed >= CAP['warmupSeconds'] and state['ticks'] >= CAP['minimumSlateTicks']:
+            if elapsed >= CAP['warmupSeconds'] + state.get('extra_settle', 0.0) and state['ticks'] >= CAP['minimumSlateTicks']:
                 request_shot(world, state['current'])
             return
         if state['phase'] == 'shot_wait':

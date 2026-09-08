@@ -163,7 +163,7 @@ def run(*, apply=False):
         staged = ROOT / SPEC['directory']['candidateStaged']
         if staged.exists():
             shutil.copy2(staged, checkpoint / 'people-candidate48.previous.json')
-        staged.write_text(planned['candidateDirectoryText'], encoding='utf-8')
+        staged.write_bytes(planned['candidateDirectoryText'].encode('utf-8'))  # bytes: no CRLF translation, hash must match plan
         if sha(staged) != planned['candidateDirectorySha256']: raise RuntimeError('Staged candidate directory hash mismatch')
         receipt['candidateDirectory'] = dict(path=str(staged), sha256=planned['candidateDirectorySha256'])
         # ---- repoint the candidate population actor ----------------------------------

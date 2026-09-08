@@ -1,5 +1,5 @@
 {
-  "status": "pie_starting",
+  "status": "failed_editor_terminated_low_memory_during_loading_barrier",
   "stamp": "20260908T185128Z",
   "tag": "before",
   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
@@ -345,5 +345,6 @@
         "actor": "Outer E vestibule floor"
       }
     }
-  ]
+  ],
+  "note": "PIE began, views planned (v4 sightline note), then AutomationLibrary.finish_loading_before_screenshot() triggered mesh distance-field builds for the whole Jerusalem city grid (LogMeshUtilities, 14:52-15:19 local, log C:/Mikdash/Working-5.8/Fable-LightingV3-Capture-02-20260908.log) under memory pressure (AssetCompile memory estimate greater than available). The harness killed the launching shell for low system memory and the editor (PID 28160, started by this pass) ended with it. No screenshot was requested; map, instances and user saves were never touched (PIE-only design). Distance fields built so far are in the DDC."
 }

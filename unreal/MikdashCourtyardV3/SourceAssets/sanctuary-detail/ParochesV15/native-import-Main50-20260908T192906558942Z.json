@@ -1,0 +1,1198 @@
+{
+  "status": "paroches_v15_saved_reopened_visual_acceptance_pending",
+  "stamp": "20260908T192906558942Z",
+  "target": "Main50",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+  "mapMatchesLastKnownSha256": true,
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_paroches_v15.spec.json",
+  "specSha256": "dd5e047446ca8cbaa43d8eb61b9f61a519f0fbbcf1bde8281d41c10b0c6eb8ca",
+  "manifestSha256": "38f83b088c41a51f920d1725f382c1f33398cf20d088624ec1c988a47048900a",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "approvedPngSha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+  "offlineCheck": {
+    "status": "offline_spec_consistent",
+    "approvedHash": {
+      "expected": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+      "frozenCopy": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sanctuary-detail\\ParochesV15\\third-temple-handwoven-v15.png",
+      "frozenCopySha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89",
+      "approvedSourceSha256": "f48ccf055c8f051ccf9bc2702c003d84d1b74eeda54231d2be9ced157232df89"
+    },
+    "sourceFiles": {
+      "SM_ParochesV15_Cloth_50.obj": {
+        "sha256": "ce153f7051b11c8989cd760b5e60b5dd67078c69f8a4d29ebd09a13276859697",
+        "frozen": true
+      },
+      "SM_ParochesV15_Fixings_50.obj": {
+        "sha256": "f09cdf8e1655661615c06a75156b496b9067f528ebda2f4e08034cbb9713cedc",
+        "frozen": true
+      },
+      "SM_ParochesV15_Cloth_48.obj": {
+        "sha256": "fcddfb6159f384b76b67a1ecb70e1131d8bdeca9d6b8676211b0cc37f0a631ca",
+        "frozen": true
+      },
+      "SM_ParochesV15_Fixings_48.obj": {
+        "sha256": "88b97ac78599ac7ed2e9cf12c9fd76cbe5b6121cf8610b77c80d234900077f04",
+        "frozen": true
+      },
+      "third-temple-handwoven-v15_normal.png": {
+        "sha256": "a95c2f377cce409864f620eb0003c8cb3850a908f017faecca88f8496cb33ce8",
+        "frozen": true
+      }
+    },
+    "image": {
+      "sizePx": [
+        1355,
+        1161
+      ],
+      "powerOfTwo": false,
+      "aspectErrorPercent": 0.037,
+      "importNote": "1355 x 1161 is not a power of two: Unreal keeps the source pixels but disables mip maps and streaming unless power_of_two_mode is set. release_paroches_v15 sets STRETCH_TO_POWER_OF_TWO (-> 2048 x 2048, whole image, UV 0..1 unchanged) so the weave has mips; -ParochesV15KeepNPOT keeps it as-is."
+    },
+    "namespaceFolderExistsOnDisk": true,
+    "assetsOnDisk": {
+      "baseColor": true,
+      "normal": true,
+      "material": true
+    },
+    "goldMaterialsOnDisk": [
+      {
+        "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+        "exists": true
+      },
+      {
+        "path": "/Game/MikdashV3/MaterialReview/AronStudyV1/M_AronStudyV1_Gold",
+        "exists": true
+      }
+    ],
+    "targets": {
+      "Main50": {
+        "target": "Main50",
+        "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+        "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+        "amahCm": 50.0,
+        "clothCm": [
+          350.0,
+          300.0
+        ],
+        "arithmetic": "7 amot x 50 cm = 350 cm wide; 6 amot x 50 cm = 300 cm high",
+        "expectedOpening": {
+          "xMin": -5700.0,
+          "xMax": -5600.0,
+          "yMin": -175.0,
+          "yMax": 175.0,
+          "floorZ": 925.0,
+          "lintelZ": 1225.0,
+          "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json openingGeometry.openings.Kodesh (live float32 readback -175.00015/174.99953/925.00006 within tolerance)"
+        },
+        "location": [
+          -5588.0,
+          0.0,
+          928.0
+        ],
+        "rotation": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "derivation": "X = Heichal face of the partition (xMax -5600) + standoffCm 12 = -5588; Y = 0 (opening centre); Z = floorZ 925 + hemClearanceCm 3 = 928 (same hem clearance as the old cloth at 928). Cloth world Y +-175 = jamb planes, Z 928..1228 (3 cm above the 1225 lintel underside, on the Heichal face, like the old cloth top at 1234).",
+        "cloth": {
+          "mesh": "SM_ParochesV15_Cloth_50",
+          "file": "SM_ParochesV15_Cloth_50.obj",
+          "sha256": "ce153f7051b11c8989cd760b5e60b5dd67078c69f8a4d29ebd09a13276859697",
+          "triangles": 10000,
+          "localBoundsCm": {
+            "min": [
+              -175.0,
+              -4.95649004626649,
+              0.0
+            ],
+            "max": [
+              175.0,
+              5.001310699078614,
+              300.0
+            ]
+          },
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5592.9564900462665,
+              -175.0,
+              928.0
+            ],
+            "max": [
+              -5582.998689300922,
+              175.0,
+              1228.0
+            ]
+          },
+          "partVolumeSumCm3": 84000.0
+        },
+        "fixings": {
+          "mesh": "SM_ParochesV15_Fixings_50",
+          "file": "SM_ParochesV15_Fixings_50.obj",
+          "sha256": "f09cdf8e1655661615c06a75156b496b9067f528ebda2f4e08034cbb9713cedc",
+          "triangles": 2528,
+          "localBoundsCm": {
+            "min": [
+              -188.0,
+              -12.25,
+              299.9
+            ],
+            "max": [
+              188.0,
+              5.6,
+              311.1
+            ]
+          },
+          "plannedWorldBoundsCm": {
+            "min": [
+              -5600.25,
+              -188.0,
+              1227.9
+            ],
+            "max": [
+              -5582.4,
+              188.0,
+              1239.1
+            ]
+          },
+          "partVolumeSumCm3": 4143.9594
+        },
+        "clearanceToWallFaceCm": 7.043509953733519,
+        "hideActors": [
+          "RELEASE_Doors_37_Paroches_Cloth",
+          "RELEASE_Doors_38_Paroches_Hem",
+          "RELEASE_Doors_39_Paroches_Fixings"
+        ],
+        "mapFileExists": true,
+        "mapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+        "mapMatchesLastKnownSha256": true,
+        "meshAssetsOnDisk": {
+          "SM_ParochesV15_Cloth_50": true,
+          "SM_ParochesV15_Fixings_50": true
+        },
+        "offlineOpeningEvidence": {
+          "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sanctuary-detail\\DoorsParochesV1\\native-import-20260907T184828Z.json",
+          "type": "doorsReceipt",
+          "live": {
+            "xMin": -5700.0,
+            "xMax": -5600.0,
+            "yMin": -175.00015258789062,
+            "yMax": 174.99952697753906,
+            "floorZ": 925.0000610351562,
+            "lintelZ": 1225.0,
+            "widthCm": 349.9996795654297,
+            "heightCm": 299.99993896484375,
+            "depthCm": 100.0
+          },
+          "errorsCm": {
+            "xMin": 0.0,
+            "xMax": 0.0,
+            "yMin": 0.000152587890625,
+            "yMax": 0.0004730224609375,
+            "floorZ": 6.103515625e-05,
+            "lintelZ": 0.0
+          },
+          "worstErrorCm": 0.0004730224609375,
+          "status": "agrees"
+        }
+      }
+    },
+    "heldWorkUntouched": [
+      "Scripts/release_paroches_fabric.py",
+      "SourceAssets/sanctuary-detail/ParochesFabricV1/",
+      "ParochesFabricV7/V8/V9",
+      "ParochesPatternV1"
+    ]
+  },
+  "plan": {
+    "target": "Main50",
+    "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+    "amahCm": 50.0,
+    "clothCm": [
+      350.0,
+      300.0
+    ],
+    "arithmetic": "7 amot x 50 cm = 350 cm wide; 6 amot x 50 cm = 300 cm high",
+    "expectedOpening": {
+      "xMin": -5700.0,
+      "xMax": -5600.0,
+      "yMin": -175.0,
+      "yMax": 175.0,
+      "floorZ": 925.0,
+      "lintelZ": 1225.0,
+      "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json openingGeometry.openings.Kodesh (live float32 readback -175.00015/174.99953/925.00006 within tolerance)"
+    },
+    "location": [
+      -5588.0,
+      0.0,
+      928.0
+    ],
+    "rotation": [
+      0.0,
+      -90.0,
+      0.0
+    ],
+    "derivation": "X = Heichal face of the partition (xMax -5600) + standoffCm 12 = -5588; Y = 0 (opening centre); Z = floorZ 925 + hemClearanceCm 3 = 928 (same hem clearance as the old cloth at 928). Cloth world Y +-175 = jamb planes, Z 928..1228 (3 cm above the 1225 lintel underside, on the Heichal face, like the old cloth top at 1234).",
+    "cloth": {
+      "mesh": "SM_ParochesV15_Cloth_50",
+      "file": "SM_ParochesV15_Cloth_50.obj",
+      "sha256": "ce153f7051b11c8989cd760b5e60b5dd67078c69f8a4d29ebd09a13276859697",
+      "triangles": 10000,
+      "localBoundsCm": {
+        "min": [
+          -175.0,
+          -4.95649004626649,
+          0.0
+        ],
+        "max": [
+          175.0,
+          5.001310699078614,
+          300.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5592.9564900462665,
+          -175.0,
+          928.0
+        ],
+        "max": [
+          -5582.998689300922,
+          175.0,
+          1228.0
+        ]
+      },
+      "partVolumeSumCm3": 84000.0
+    },
+    "fixings": {
+      "mesh": "SM_ParochesV15_Fixings_50",
+      "file": "SM_ParochesV15_Fixings_50.obj",
+      "sha256": "f09cdf8e1655661615c06a75156b496b9067f528ebda2f4e08034cbb9713cedc",
+      "triangles": 2528,
+      "localBoundsCm": {
+        "min": [
+          -188.0,
+          -12.25,
+          299.9
+        ],
+        "max": [
+          188.0,
+          5.6,
+          311.1
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5600.25,
+          -188.0,
+          1227.9
+        ],
+        "max": [
+          -5582.4,
+          188.0,
+          1239.1
+        ]
+      },
+      "partVolumeSumCm3": 4143.9594
+    },
+    "clearanceToWallFaceCm": 7.043509953733519,
+    "hideActors": [
+      "RELEASE_Doors_37_Paroches_Cloth",
+      "RELEASE_Doors_38_Paroches_Hem",
+      "RELEASE_Doors_39_Paroches_Fixings"
+    ],
+    "mapFileExists": true,
+    "mapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+    "mapMatchesLastKnownSha256": true,
+    "meshAssetsOnDisk": {
+      "SM_ParochesV15_Cloth_50": true,
+      "SM_ParochesV15_Fixings_50": true
+    },
+    "offlineOpeningEvidence": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sanctuary-detail\\DoorsParochesV1\\native-import-20260907T184828Z.json",
+      "type": "doorsReceipt",
+      "live": {
+        "xMin": -5700.0,
+        "xMax": -5600.0,
+        "yMin": -175.00015258789062,
+        "yMax": 174.99952697753906,
+        "floorZ": 925.0000610351562,
+        "lintelZ": 1225.0,
+        "widthCm": 349.9996795654297,
+        "heightCm": 299.99993896484375,
+        "depthCm": 100.0
+      },
+      "errorsCm": {
+        "xMin": 0.0,
+        "xMax": 0.0,
+        "yMin": 0.000152587890625,
+        "yMax": 0.0004730224609375,
+        "floorZ": 6.103515625e-05,
+        "lintelZ": 0.0
+      },
+      "worstErrorCm": 0.0004730224609375,
+      "status": "agrees"
+    }
+  },
+  "switches": {
+    "importOnly": false,
+    "placeOnly": true,
+    "allowUnverifiedWinding": false,
+    "keepNPOT": false
+  },
+  "sourceReference": "Shemot 26:31 (techelet, argaman, tolaat shani, shesh; keruvim woven in); Shemot 26:32 (hung on pillars with hooks - Mishkan); Yechezkel 41:3 with book pp. 184-186 (gate 7 x 6, paroches exactly the gate size); Lishchno Tidreshu pp. 59-60 (Heichal side). The composition itself - one central keruv, lion/human shared head, two palms, drape, blood detail - is AUTHORED (see sources.md).",
+  "textures": {
+    "baseColor": {
+      "asset": "/Game/MikdashV3/MaterialReview/ParochesV15/Textures/T_ParochesV15_BaseColor",
+      "reused": true,
+      "srgb": true,
+      "addressX": "<TextureAddress.TA_CLAMP: 1>",
+      "addressY": "<TextureAddress.TA_CLAMP: 1>",
+      "uassetSha256": "c351e3cd6c41cb80b39d2cec3df80007ff5b27e6fc89e4f0e7f08625080ecdeb"
+    },
+    "normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/ParochesV15/Textures/T_ParochesV15_FabricNormal",
+      "reused": true,
+      "srgb": false,
+      "addressX": "<TextureAddress.TA_CLAMP: 1>",
+      "addressY": "<TextureAddress.TA_CLAMP: 1>",
+      "uassetSha256": "029bc685f9b2c120eaaaab6d3e74f1a674d0ad14822f37322c56bd23f5cee552"
+    }
+  },
+  "material": {
+    "asset": "/Game/MikdashV3/MaterialReview/ParochesV15/Materials/M_ParochesV15_Fabric",
+    "reused": true,
+    "readback": {
+      "twoSided": true,
+      "inputs": {
+        "MP_BASE_COLOR": "MaterialExpressionTextureSampleParameter2D",
+        "MP_METALLIC": "MaterialExpressionConstant",
+        "MP_ROUGHNESS": "MaterialExpressionConstant",
+        "MP_NORMAL": "MaterialExpressionLinearInterpolate",
+        "MP_WORLD_POSITION_OFFSET": null
+      },
+      "baseColorTexture": "/Game/MikdashV3/MaterialReview/ParochesV15/Textures/T_ParochesV15_BaseColor",
+      "baseColorTextureSrgb": true,
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "textures": [
+        "/Game/MikdashV3/MaterialReview/ParochesV15/Textures/T_ParochesV15_BaseColor",
+        "/Game/MikdashV3/MaterialReview/ParochesV15/Textures/T_ParochesV15_FabricNormal"
+      ],
+      "naniteUsage": true
+    },
+    "uassetSha256": "caacc8b1ebb49487d2206daf90fb95238225b8575146a5109de71fbcab0c4f32"
+  },
+  "goldMaterial": {
+    "assigned": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+    "kind": "gold",
+    "tried": [
+      {
+        "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+        "kind": "gold",
+        "exists": true,
+        "loaded": true
+      }
+    ]
+  },
+  "meshes": {
+    "cloth": {
+      "asset": "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Cloth_50",
+      "file": "SM_ParochesV15_Cloth_50.obj",
+      "triangles": 10000,
+      "localBoundsCm": {
+        "min": [
+          -175.0,
+          -4.9564900398254395,
+          0.0
+        ],
+        "max": [
+          175.0,
+          5.0013108253479,
+          300.0
+        ]
+      },
+      "boundsErrorCm": 1.262692865822146e-07,
+      "uvChannels": "unverified_in_5_8_python",
+      "slotMaterials": [
+        "/Game/MikdashV3/MaterialReview/ParochesV15/Materials/M_ParochesV15_Fabric"
+      ],
+      "reused": true
+    },
+    "fixings": {
+      "asset": "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Fixings_50",
+      "file": "SM_ParochesV15_Fixings_50.obj",
+      "triangles": 2528,
+      "localBoundsCm": {
+        "min": [
+          -188.0,
+          -12.25,
+          299.8999938964844
+        ],
+        "max": [
+          188.0,
+          5.599999904632568,
+          311.1000061035156
+        ]
+      },
+      "boundsErrorCm": 6.1035156022626325e-06,
+      "uvChannels": "unverified_in_5_8_python",
+      "slotMaterials": [
+        "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold"
+      ],
+      "reused": true
+    }
+  },
+  "windingCheck": {
+    "cloth": {
+      "status": "checked",
+      "passed": true,
+      "triangles": 10000,
+      "signedVolumeUEcm3": 84000.00009193043,
+      "manifestPartVolumeSumCm3": 84000.0,
+      "relativeVolumeError": 1.094409873032765e-09,
+      "faceNormalVsCrossDisagreements": 0,
+      "convention": "UE left-handed face normal cross(C-A, B-A); positive volume means front faces point outward"
+    },
+    "fixings": {
+      "status": "checked",
+      "passed": true,
+      "triangles": 2528,
+      "signedVolumeUEcm3": 4143.960421725921,
+      "manifestPartVolumeSumCm3": 4143.9594,
+      "relativeVolumeError": 2.4655789856886447e-07,
+      "faceNormalVsCrossDisagreements": 0,
+      "convention": "UE left-handed face normal cross(C-A, B-A); positive volume means front faces point outward"
+    }
+  },
+  "openingGeometry": {
+    "live": {
+      "xMin": -5700.0,
+      "xMax": -5600.0,
+      "yMin": -175.00013732910156,
+      "yMax": 174.99954223632812,
+      "floorZ": 925.0,
+      "lintelZ": 1225.0
+    },
+    "expected": {
+      "xMin": -5700.0,
+      "xMax": -5600.0,
+      "yMin": -175.0,
+      "yMax": 175.0,
+      "floorZ": 925.0,
+      "lintelZ": 1225.0,
+      "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json openingGeometry.openings.Kodesh (live float32 readback -175.00015/174.99953/925.00006 within tolerance)"
+    },
+    "errorsCm": {
+      "xMin": 0.0,
+      "xMax": 0.0,
+      "yMin": 0.0001373291015625,
+      "yMax": 0.000457763671875,
+      "floorZ": 0.0,
+      "lintelZ": 0.0
+    },
+    "actors": {
+      "shoulderNorth": {
+        "label": "Kodesh partition shoulder",
+        "name": "StaticMeshActor_142",
+        "worldBoundsCm": {
+          "min": [
+            -5700.0,
+            -500.00047302246094,
+            925.0
+          ],
+          "max": [
+            -5600.0,
+            -175.00013732910156,
+            2925.0
+          ]
+        },
+        "pose": {
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "shoulderSouth": {
+        "label": "Kodesh partition shoulder",
+        "name": "StaticMeshActor_143",
+        "worldBoundsCm": {
+          "min": [
+            -5700.0,
+            174.99954223632812,
+            925.0
+          ],
+          "max": [
+            -5600.0,
+            499.9998474121094,
+            2925.0
+          ]
+        },
+        "pose": {
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "lintel": {
+        "label": "Kodesh partition lintel",
+        "name": "StaticMeshActor_144",
+        "worldBoundsCm": {
+          "min": [
+            -5700.0,
+            -175.00047302246094,
+            1225.0
+          ],
+          "max": [
+            -5600.0,
+            174.9998016357422,
+            2925.0
+          ]
+        },
+        "pose": {
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    }
+  },
+  "clearance": {
+    "overlaps": [
+      {
+        "with": "cloth",
+        "label": "Derived union of source outer envelope walls",
+        "folder": "Measured architecture/union",
+        "bounds": {
+          "min": [
+            -8100.000244140625,
+            -8100.000244140625,
+            299.998779296875
+          ],
+          "max": [
+            8100.021240234375,
+            8100.056396484375,
+            3425.001220703125
+          ]
+        },
+        "aabbVolumeCm3": 820129595807.674,
+        "measuredArchitecture": true,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "cloth",
+        "label": "Derived union of source House walls and roofs",
+        "folder": "Measured architecture/union",
+        "bounds": {
+          "min": [
+            -7000.0,
+            -2500.0008544921875,
+            907.99658203125
+          ],
+          "max": [
+            -2500.0,
+            2542.5001220703125,
+            6075.0
+          ]
+        },
+        "aabbVolumeCm3": 117245789014.54138,
+        "measuredArchitecture": true,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "cloth",
+        "label": "SM_JerusalemTerrain_07_07",
+        "folder": "Jerusalem context/Terrain",
+        "bounds": {
+          "min": [
+            -39125.359375,
+            -40029.51171875,
+            -945.31494140625
+          ],
+          "max": [
+            875.484375,
+            -27.56640625,
+            2712.4091796875
+          ]
+        },
+        "aabbVolumeCm3": 5852766664600.893,
+        "measuredArchitecture": false,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "cloth",
+        "label": "SM_JerusalemTerrain_07_08",
+        "folder": "Jerusalem context/Terrain",
+        "bounds": {
+          "min": [
+            -39124.9296875,
+            -29.8515625,
+            -4833.84375
+          ],
+          "max": [
+            876.0,
+            39981.87109375,
+            1807.17578125
+          ]
+        },
+        "aabbVolumeCm3": 10628992300854.928,
+        "measuredArchitecture": false,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "fixings",
+        "label": "Derived union of source outer envelope walls",
+        "folder": "Measured architecture/union",
+        "bounds": {
+          "min": [
+            -8100.000244140625,
+            -8100.000244140625,
+            299.998779296875
+          ],
+          "max": [
+            8100.021240234375,
+            8100.056396484375,
+            3425.001220703125
+          ]
+        },
+        "aabbVolumeCm3": 820129595807.674,
+        "measuredArchitecture": true,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "fixings",
+        "label": "Derived union of source House walls and roofs",
+        "folder": "Measured architecture/union",
+        "bounds": {
+          "min": [
+            -7000.0,
+            -2500.0008544921875,
+            907.99658203125
+          ],
+          "max": [
+            -2500.0,
+            2542.5001220703125,
+            6075.0
+          ]
+        },
+        "aabbVolumeCm3": 117245789014.54138,
+        "measuredArchitecture": true,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "fixings",
+        "label": "SM_JerusalemTerrain_07_07",
+        "folder": "Jerusalem context/Terrain",
+        "bounds": {
+          "min": [
+            -39125.359375,
+            -40029.51171875,
+            -945.31494140625
+          ],
+          "max": [
+            875.484375,
+            -27.56640625,
+            2712.4091796875
+          ]
+        },
+        "aabbVolumeCm3": 5852766664600.893,
+        "measuredArchitecture": false,
+        "unionAabbNotEvaluated": true
+      },
+      {
+        "with": "fixings",
+        "label": "SM_JerusalemTerrain_07_08",
+        "folder": "Jerusalem context/Terrain",
+        "bounds": {
+          "min": [
+            -39124.9296875,
+            -29.8515625,
+            -4833.84375
+          ],
+          "max": [
+            876.0,
+            39981.87109375,
+            1807.17578125
+          ]
+        },
+        "aabbVolumeCm3": 10628992300854.928,
+        "measuredArchitecture": false,
+        "unionAabbNotEvaluated": true
+      }
+    ],
+    "refused": [],
+    "excludedByName": [
+      "StaticMeshActor_142",
+      "StaticMeshActor_143",
+      "StaticMeshActor_144"
+    ],
+    "excludedLabels": [
+      "RELEASE_Doors_37_Paroches_Cloth",
+      "RELEASE_Doors_38_Paroches_Hem",
+      "RELEASE_Doors_39_Paroches_Fixings"
+    ],
+    "rule": "Planned cloth/fixings world AABBs are tested against every mesh-bearing actor of the level. An overlap with a Measured architecture actor refuses, EXCEPT hollow unions whose whole-actor AABB exceeds unionAabbVolumeCm3 (1000 m3, e.g. the House walls union SM_2630; whole-part AABBs of hollow unions are false-blocker traps per AGENTS.md) - those are recorded as unionAabbNotEvaluated. Other overlaps (veneers, friezes, release actors) are recorded, not refused. The fixings' brackets are meant to end 0.25 cm inside the partition face, so the partition shoulders/lintel are excluded by name; the hidden old curtain actors are excluded by label. Main50 evidence: the planned cloth box lies strictly inside the old cloth box (X -5593.4..-5576.5, Y +-180, Z 928..1234) that the doors receipt proved clear of all 43 wall boxes."
+  },
+  "hiddenOldCurtain": {
+    "actors": {
+      "RELEASE_Doors_37_Paroches_Cloth": {
+        "name": "StaticMeshActor_7356",
+        "meshes": [
+          "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesClothV1"
+        ],
+        "pose": {
+          "location": [
+            -5585.0,
+            0.0,
+            928.0
+          ],
+          "rotation": [
+            0.0,
+            -90.00000000000001,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "worldBoundsCm": {
+          "min": [
+            -5593.423319816589,
+            -180.00000000000003,
+            928.0
+          ],
+          "max": [
+            -5576.500044822693,
+            180.00000000000003,
+            1234.0
+          ]
+        },
+        "before": {
+          "hidden": false,
+          "componentsVisible": [
+            true
+          ],
+          "componentsHiddenInGame": [
+            false
+          ]
+        },
+        "after": {
+          "hidden": true,
+          "componentsVisible": [
+            false
+          ],
+          "componentsHiddenInGame": [
+            true
+          ]
+        }
+      },
+      "RELEASE_Doors_38_Paroches_Hem": {
+        "name": "StaticMeshActor_7357",
+        "meshes": [
+          "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesHemV1"
+        ],
+        "pose": {
+          "location": [
+            -5585.0,
+            0.0,
+            928.0
+          ],
+          "rotation": [
+            0.0,
+            -90.00000000000001,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "worldBoundsCm": {
+          "min": [
+            -5591.723711967468,
+            -180.00000000000003,
+            928.0
+          ],
+          "max": [
+            -5576.210587501526,
+            180.00000000000003,
+            1234.0
+          ]
+        },
+        "before": {
+          "hidden": false,
+          "componentsVisible": [
+            true
+          ],
+          "componentsHiddenInGame": [
+            false
+          ]
+        },
+        "after": {
+          "hidden": true,
+          "componentsVisible": [
+            false
+          ],
+          "componentsHiddenInGame": [
+            true
+          ]
+        }
+      },
+      "RELEASE_Doors_39_Paroches_Fixings": {
+        "name": "StaticMeshActor_7358",
+        "meshes": [
+          "/Game/MikdashV3/MaterialReview/DoorsParochesV1/Meshes/SM_ParochesFixingsV1"
+        ],
+        "pose": {
+          "location": [
+            -5585.0,
+            0.0,
+            928.0
+          ],
+          "rotation": [
+            0.0,
+            -90.00000000000001,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "worldBoundsCm": {
+          "min": [
+            -5582.599999904633,
+            -191.00000000000003,
+            1233.3999938964844
+          ],
+          "max": [
+            -5573.39999961853,
+            191.00000000000003,
+            1242.7999877929688
+          ]
+        },
+        "before": {
+          "hidden": false,
+          "componentsVisible": [
+            true
+          ],
+          "componentsHiddenInGame": [
+            false
+          ]
+        },
+        "after": {
+          "hidden": true,
+          "componentsVisible": [
+            false
+          ],
+          "componentsHiddenInGame": [
+            true
+          ]
+        }
+      }
+    },
+    "method": "actor.modify(True); actor.set_editor_property('hidden', True) (bHidden, serialized) and set_visibility(False, True) on every StaticMeshComponent (serialized); tag ParochesV15HiddenOldCurtain added. Nothing is destroyed, moved or re-materialed.",
+    "restoreRule": "For each label: set_editor_property('hidden', False), set_visibility(True, True) on the components, remove the tag; or restore the checkpoint .umap."
+  },
+  "placed": [
+    {
+      "label": "RELEASE_ParochesV15_Cloth",
+      "mesh": "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Cloth_50",
+      "location": [
+        -5588.0,
+        0.0,
+        928.0
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5592.9564900462665,
+          -175.0,
+          928.0
+        ],
+        "max": [
+          -5582.998689300922,
+          175.0,
+          1228.0
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5592.956490039825,
+          -175.00000000000003,
+          928.0
+        ],
+        "max": [
+          -5582.998689174652,
+          175.00000000000003,
+          1228.0
+        ]
+      },
+      "boundsErrorCm": 1.262696969206445e-07,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/ParochesV15/Materials/M_ParochesV15_Fabric"
+      ]
+    },
+    {
+      "label": "RELEASE_ParochesV15_Fixings",
+      "mesh": "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Fixings_50",
+      "location": [
+        -5588.0,
+        0.0,
+        928.0
+      ],
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "plannedWorldBoundsCm": {
+        "min": [
+          -5600.25,
+          -188.0,
+          1227.9
+        ],
+        "max": [
+          -5582.4,
+          188.0,
+          1239.1
+        ]
+      },
+      "placedWorldBoundsCm": {
+        "min": [
+          -5600.25,
+          -188.00000000000003,
+          1227.8999938964844
+        ],
+        "max": [
+          -5582.400000095367,
+          188.00000000000003,
+          1239.1000061035156
+        ]
+      },
+      "boundsErrorCm": 6.10351571594947e-06,
+      "collisionProfile": "NoCollision",
+      "materials": [
+        "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold"
+      ]
+    }
+  ],
+  "errors": [],
+  "mapSaved": true,
+  "limitations": [
+    "The artwork's composition (single central keruv, lion-and-human shared head, two palms, border, blood detail) is an approved artistic choice, not a certified reconstruction.",
+    "Drape folds, rod, rings, brackets and finials are authored; the sources give no fixing design for the Third Temple paroches.",
+    "The fabric normal is derived from image luminance at low amplitude; it is a shading aid, not textile data.",
+    "Exact gate-size cloth hung 12 cm before the wall face: oblique views from the Heichal can see slivers beside the panel edges; the old 5 cm side overlap is deliberately not reproduced (book: exactly the size of the gate).",
+    "Material graph level only; shader compile, colour, orientation (FlipV fallback) and look are unverified in the -nullrhi commandlet until a real editor/PIE review.",
+    "The candidate run does not touch the other unconverted 48 cm dependencies; the old curtain actors are hidden, not converted."
+  ],
+  "windingVerified": true,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ParochesV15-Main50-20260908T192906558942Z",
+  "oneFilePerActorFoldersCopied": [],
+  "actorCountBefore": 7789,
+  "mapSha256AfterSave": "a538b255ed5c3a3da16bfd6fde97f013a0cefbfaa3c0b0df7ff4cd75b6c9d68e",
+  "reopenedReadback": {
+    "placed": [
+      {
+        "label": "RELEASE_ParochesV15_Cloth",
+        "folder": "Release/ParochesV15",
+        "meshPath": [
+          "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Cloth_50"
+        ],
+        "pose": {
+          "location": [
+            -5588.0,
+            0.0,
+            928.0
+          ],
+          "rotation": [
+            0.0,
+            -90.00000000000001,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "worldBoundsCm": {
+          "min": [
+            -5592.956490039825,
+            -175.00000000000003,
+            928.0
+          ],
+          "max": [
+            -5582.998689174652,
+            175.00000000000003,
+            1228.0
+          ]
+        },
+        "poseErrorCm": 1.4210854715202004e-14,
+        "boundsErrorCm": 1.262696969206445e-07,
+        "collisionProfile": "NoCollision",
+        "materials": [
+          "/Game/MikdashV3/MaterialReview/ParochesV15/Materials/M_ParochesV15_Fabric"
+        ],
+        "hiddenState": {
+          "hidden": false,
+          "componentsVisible": [
+            true
+          ],
+          "componentsHiddenInGame": [
+            false
+          ]
+        }
+      },
+      {
+        "label": "RELEASE_ParochesV15_Fixings",
+        "folder": "Release/ParochesV15",
+        "meshPath": [
+          "/Game/MikdashV3/MaterialReview/ParochesV15/Meshes/SM_ParochesV15_Fixings_50"
+        ],
+        "pose": {
+          "location": [
+            -5588.0,
+            0.0,
+            928.0
+          ],
+          "rotation": [
+            0.0,
+            -90.00000000000001,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "worldBoundsCm": {
+          "min": [
+            -5600.25,
+            -188.00000000000003,
+            1227.8999938964844
+          ],
+          "max": [
+            -5582.400000095367,
+            188.00000000000003,
+            1239.1000061035156
+          ]
+        },
+        "poseErrorCm": 1.4210854715202004e-14,
+        "boundsErrorCm": 6.10351571594947e-06,
+        "collisionProfile": "NoCollision",
+        "materials": [
+          "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold"
+        ],
+        "hiddenState": {
+          "hidden": false,
+          "componentsVisible": [
+            true
+          ],
+          "componentsHiddenInGame": [
+            false
+          ]
+        }
+      }
+    ],
+    "hiddenOldCurtain": {
+      "RELEASE_Doors_37_Paroches_Cloth": {
+        "hidden": true,
+        "componentsVisible": [
+          false
+        ],
+        "componentsHiddenInGame": [
+          true
+        ]
+      },
+      "RELEASE_Doors_38_Paroches_Hem": {
+        "hidden": true,
+        "componentsVisible": [
+          false
+        ],
+        "componentsHiddenInGame": [
+          true
+        ]
+      },
+      "RELEASE_Doors_39_Paroches_Fixings": {
+        "hidden": true,
+        "componentsVisible": [
+          false
+        ],
+        "componentsHiddenInGame": [
+          true
+        ]
+      }
+    }
+  },
+  "actorCountAfter": 7791,
+  "mapSha256After": "a538b255ed5c3a3da16bfd6fde97f013a0cefbfaa3c0b0df7ff4cd75b6c9d68e",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 2
+}

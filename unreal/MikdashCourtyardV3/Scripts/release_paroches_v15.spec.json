@@ -64,7 +64,7 @@
       "heightCm": 288.0,
       "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
       "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
-      "lastKnownMapSha256": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+      "lastKnownMapSha256": "20e8903694e5d61c8b47c8303f37fe0825b359d94b5ba73543c5c6700c4d0a1a",
       "meshSuffix": "48",
       "expectedOpening": {
         "xMin": -5472.0,
@@ -91,9 +91,9 @@
     }
   },
   "openingActors": {
-    "shoulderNorth": "SM_0142_architecture_Kodesh_partition_shoulder",
-    "shoulderSouth": "SM_0143_architecture_Kodesh_partition_shoulder",
-    "lintel": "SM_0144_architecture_Kodesh_partition_lintel",
+    "shoulderNorth": "architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+    "shoulderSouth": "architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+    "lintel": "architecture_SM_0144_architecture_Kodesh_partition_lintel",
     "rule": "Found live by static-mesh asset NAME (both maps carry the same architecture assets; the candidate scales the actors). xMax of the shoulders = Heichal face; yMax of the north shoulder / yMin of the south shoulder = jamb planes; min Z of the shoulders = floor; min Z of the lintel = lintel underside. Each must agree with expectedOpening within openingToleranceCm or the run refuses before any mutation.",
     "openingToleranceCm": 0.5
   },

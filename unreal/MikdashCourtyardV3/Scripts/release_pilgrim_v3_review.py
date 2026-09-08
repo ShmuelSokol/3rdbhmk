@@ -440,7 +440,7 @@ def _proof_summary(proof):
 # ---------------------------------------------------------------------------
 
 
-def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH):
+def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH, clean_partial=False):
     sp, offline, proof, swap = offline_check()
     plan = next_batch(batch)
     commands = {
@@ -469,6 +469,7 @@ def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH):
         raise RuntimeError('More than one UnrealEditor.exe alive (%s): a zombie makes saves fail silently. '
                            'Close it before importing.' % procs['pids'])
 
+    v2_before = {p: sha(ROOT / 'Content' / p) for p in sp['protectedV2Assets']}
     marker = _load_marker(sp)
     for done, info in marker['completed'].items():
         if not u.EditorAssetLibrary.does_directory_exist(sp['namespace'] + '/' + done):
@@ -484,11 +485,24 @@ def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH):
         chosen = plan['next']
     if not chosen:
         return dict(status='ALL_NINE_ALREADY_IMPORTED', marker=marker, namespace=sp['namespace'])
+    cleaned = {}
     for v in chosen:
         path = sp['namespace'] + '/' + v
-        if u.EditorAssetLibrary.does_directory_exist(path) or (ROOT / 'Content' / path[6:]).exists():
-            raise RuntimeError('Fresh variant folder required for %s; a partial import is preserved there, '
-                               'inspect its receipt instead of rerunning over it' % v)
+        on_disk = ROOT / 'Content' / path[6:]
+        if u.EditorAssetLibrary.does_directory_exist(path) or on_disk.exists():
+            if not clean_partial:
+                raise RuntimeError('Fresh variant folder required for %s; a partial import is preserved there. '
+                                   'Inspect its receipt, then rerun with clean_partial=True to delete ONLY that '
+                                   'variant folder (refused if the marker lists it complete).' % v)
+            if v in marker['completed']:
+                raise RuntimeError('Refusing to clean %s: the marker lists it complete' % v)
+            listed = list(u.EditorAssetLibrary.list_assets(path, recursive=True, include_folder=False))
+            deleted = bool(u.EditorAssetLibrary.delete_directory(path)) if u.EditorAssetLibrary.does_directory_exist(path) else None
+            leftover = [str(f.relative_to(ROOT)) for f in on_disk.rglob('*') if f.is_file()] if on_disk.exists() else []
+            if leftover:
+                raise RuntimeError('Partial files remain on disk after delete_directory for %s: %s' % (v, leftover))
+            cleaned[v] = {'assetsListedBeforeDelete': listed, 'deleteDirectoryReturned': deleted,
+                          'v2Untouched': all(sha(ROOT / 'Content' / q) == v2_hash for q, v2_hash in v2_before.items())}
 
     base = helper('release_pilgrim_v3')
     base.DEST = sp['namespace']
@@ -498,7 +512,6 @@ def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH):
     crowd = helper('release_resident_crowd')
     actors = u.get_editor_subsystem(u.EditorActorSubsystem)
     snapshot = crowd._scene_snapshot(u, actors)
-    v2_before = {p: sha(ROOT / 'Content' / p) for p in sp['protectedV2Assets']}
     bones = base.author().skeleton()
     base_spec = json.loads(base.SPEC.read_text(encoding='utf-8-sig'))
     original_import = base._import
@@ -534,7 +547,7 @@ def run(*, import_assets=False, variants=None, batch=DEFAULT_BATCH):
 
     receipt = {'utc': utc(), 'stamp': stamp(), 'status': 'started', 'namespace': sp['namespace'],
                'batch': chosen, 'editorProcesses': procs, 'restPoseProofOffline': _rel(PROOF),
-               'nativeProofs': native_proofs, 'protectedV2Before': v2_before}
+               'nativeProofs': native_proofs, 'protectedV2Before': v2_before, 'cleanedPartial': cleaned}
     receipt_path = OUT / ('review-native-' + receipt['stamp'] + '.json')
 
     def flush():

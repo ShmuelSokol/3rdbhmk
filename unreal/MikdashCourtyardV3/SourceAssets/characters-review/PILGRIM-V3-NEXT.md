@@ -33,6 +33,15 @@ This proves the V2 motion is well-defined on every V3 skeleton. It is not native
 Interchange creates one Skeleton per variant, and the native gate re-proves names, rest pose (within
 0.05 cm, Interchange frame) and rotation-only clips before saving.
 
+## Batch 1 attempt 04 result (21:16 UTC)
+
+Import itself succeeded in memory and every native number was right (27 bones, Interchange-frame rest
+pose exact, clips rotation-only except pelvis 2.45 cm in Walk); the gate refused because it required the
+generator's bone ORDER while UE lists the Skeleton depth-first. Fixed to name-keyed identity. Nothing was
+saved; no folder exists on disk, so the rerun needs no cleanup (`clean_partial=True` exists if a later
+attempt saves a partial folder). Confirmed natively: the mesh faces UE **+Y** (ball_r y +11.5), so the
+swap must use mesh relative yaw **−90**, not the current +90.
+
 ## Exact commands (coordinator, one serial native job each, fresh editor, main loaded, no PIE, no dirty packages)
 
 ```python
@@ -75,7 +84,7 @@ later reviewed photo-visitor population. Casting is authored characterisation.
 | techiya-bas-nadav | pilgrim | V3_Pilgrim_Woman_Young | 0.90 | 161.5 | Mantle |
 | amitai-ben-kalev | pilgrim | V3_Pilgrim_Youth | 0.84 | 150.3 | Linen (no Mantle slot) |
 | yehudis-bas-ovadya | pilgrim | V3_Pilgrim_Woman_Elder | 0.91 | 163.1 | Mantle |
-| pinchas-ben-achituv | kohen (off duty) | V3_Pilgrim_Man_Heavy | 1.03 | 187.4 | Mantle |
+| pinchas-ben-achituv | kohen (off duty) | V3_Pilgrim_Man_Heavy | 0.96 | 174.7 | Mantle |
 | yedidya-ben-chilkiya | kohen (off duty) | V3_Pilgrim_Man_Elder | 0.96 | 171.9 | Mantle |
 | uriel-ben-shemaya | kohen (off duty) | V3_Pilgrim_Man_Standard | 1.02 | 183.0 | Mantle |
 | assaf-ben-berachya | levite | V3_Pilgrim_Man_Standard | 1.01 | 181.2 | Mantle |
@@ -100,7 +109,7 @@ pairs checked; the only same-variant neighbours are Yoav/Uriel (gap 0.02) and El
    the skeleton-equality guards (≈ lines 231–235 and 415–416) become per variant.
 3. `SpawnAuthoredBody`: `SetSkeletalMeshAsset(variant mesh)`, `SetRelativeScale3D(FVector(visualScale))`,
    keep `SetRelativeLocation(0,0,-96)`; relative yaw from the import receipt's `facing`
-   (expected −90 if the mesh faces +Y; the current +90 assumes −Y); `PlayAnimation` with the variant's
+   (natively confirmed: the mesh faces +Y, so −90; the current +90 assumes −Y); `PlayAnimation` with the variant's
    own idle; the Tick walk/idle switch (≈ line 610) uses the body's variant clips, not the shared pair.
 4. Garment override on `Mantle` for robe variants and `Linen` for Youth; keep the `MI_Garment_*` instances.
 5. Untouched: capsule 34/96, spawn offset +96, actor scale, MaxWalkSpeed, the pilot bridge, the player

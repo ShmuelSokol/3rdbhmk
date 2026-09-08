@@ -42,6 +42,20 @@ frame (Y-asymmetric bones read back sign-flipped, ~23 cm) and the unregistered-c
 offline reasoning predicts it faces UE **+Y**, which would mean the population's current mesh yaw +90
 points bodies away from travel; the readback decides, PIE confirms.
 
+## Batch 1 attempt 04 (2026-09-08 21:16 UTC, log Fable-PilgrimV3-Batch1-04.log) — what the native run proved
+
+Receipt `review-native-20260908T211627704980Z.json` (status `FAILED_PRESERVE_PARTIAL_INSPECT_RECEIPT`,
+base `failed_before_any_save`, nothing on disk, guards clean). Interchange imported **27 bones**, every
+rest position within rounding of the Interchange-frame expectation (lowerarm_r (−35.559, +0.5, 114.765),
+mantle_front y +9, ball_r y **+11.5** → the mesh faces UE **+Y**; the population's mesh yaw must be −90,
+not +90), four clips on the variant's own Skeleton, native clip proof passed (Idle/PhotoCamera/PhotoPhone
+translate nothing; Walk translates pelvis 2.45 cm only; 96/36/120/108 frames). The refusal was my compare:
+the Skeleton lists bones depth-first (arms, mantles, then legs), the generator lists arms/legs per side
+with mantles last, and I demanded the generator's order. Fixed: identity = same 27 names (set + count) and
+name-keyed positions; native order is recorded as `nativeBoneOrder`. Also learned: Interchange adds a
+folder level named after the file — assets land at `<variant>/<variant>/SkeletalMeshes/...` and clips are
+prefixed with the file stem (`V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle`).
+
 ## Batches, resume, zombie
 
 `run(import_assets=True, variants=[...])` imports exactly those; `run(import_assets=True, batch=N)`
@@ -50,6 +64,9 @@ folder is on disk **and** the marker lists its read-back names. A folder without
 preserved partial import: read its `review-native-<stamp>.json` and the base `native-import-<stamp>.json`,
 never rerun over it. More than one `UnrealEditor.exe` alive → refuse (zombie makes saves fail silently).
 Recommended split: 1 (Man_Standard) + 4 + 4, each a serial native job in a fresh editor with main loaded.
+Cleaning a preserved partial folder: `run(import_assets=True, variants=[v], clean_partial=True)` deletes
+ONLY that variant folder through `EditorAssetLibrary.delete_directory`, refuses if the marker lists the
+variant complete, checks nothing remains on disk, and records what it deleted in the receipt.
 
 ## Scale policy
 

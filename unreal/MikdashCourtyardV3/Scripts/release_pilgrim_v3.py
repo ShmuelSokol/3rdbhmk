@@ -430,17 +430,25 @@ def _skeletal_readback(ue, mesh, animations, entry, bones):
     problems = []
     if rows and rows[0][0] is not None:
         names = [n for n, _ in rows]
-        row['boneNamesMatchAuthoredRig'] = names == [b['name'] for b in bones]
+        authored = [b['name'] for b in bones]
+        # UE stores the reference skeleton depth-first, so the ORDER legitimately
+        # differs from the generator's order (arms/legs per side, mantles last).
+        # Clips bind by bone NAME, so identity is the same set of names with the
+        # same count; the native order is recorded, never required.
+        row['boneNamesMatchAuthoredRig'] = sorted(names) == sorted(authored) and len(names) == len(authored)
+        row['boneOrderMatchesAuthored'] = names == authored
+        row['nativeBoneOrder'] = names
+        row['missingBones'] = sorted(set(authored) - set(names))
+        row['unexpectedBones'] = sorted(set(names) - set(authored))
         row['restPositionsUeCm'] = {n: [round(v, 4) for v in p] for n, p in rows}
         if row['boneNamesMatchAuthoredRig']:
-            expected = [authored_to_ue(b['position_cm']) for b in bones]
-            row['maxRestPositionErrorCm'] = max(
-                max(abs(a - b) for a, b in zip(p, q)) for (_, p), q in zip(rows, expected))
+            got = dict(rows)
+            expected = {b['name']: authored_to_ue(b['position_cm']) for b in bones}
+            author_frame = {b['name']: tuple(float(v) for v in b['position_cm']) for b in bones}
+            row['perBoneErrorCm'] = {n: round(max(abs(a - b) for a, b in zip(got[n], expected[n])), 4) for n in authored}
+            row['maxRestPositionErrorCm'] = max(row['perBoneErrorCm'].values())
             row['maxRestPositionErrorCmAuthorFrame'] = max(
-                max(abs(a - b) for a, b in zip(p, tuple(float(v) for v in q['position_cm'])))
-                for (_, p), q in zip(rows, bones))
-            row['perBoneErrorCm'] = {n: round(max(abs(a - b) for a, b in zip(p, q)), 4)
-                                     for (n, p), q in zip(rows, expected)}
+                max(abs(a - b) for a, b in zip(got[n], author_frame[n])) for n in authored)
             if row['maxRestPositionErrorCm'] <= 0.05:
                 row['frameMatched'] = 'interchange'
             elif row['maxRestPositionErrorCmAuthorFrame'] <= 0.05:
@@ -451,9 +459,8 @@ def _skeletal_readback(ue, mesh, animations, entry, bones):
                 problems.append('%s: rest pose readback off by %.4f cm (Interchange frame), %.4f cm (author frame)'
                                 % (entry['id'], row['maxRestPositionErrorCm'],
                                    row['maxRestPositionErrorCmAuthorFrame']))
-            ball = dict(rows).get('ball_r')
-            if ball:
-                toes_y = ball[1] - dict(rows)['foot_r'][1]
+            if 'ball_r' in got and 'foot_r' in got:
+                toes_y = got['ball_r'][1] - got['foot_r'][1]
                 row['facing'] = {'toesDeltaYcm': round(toes_y, 3),
                                  'meshFacesUE': '+Y' if toes_y > 0 else '-Y',
                                  'relativeYawForActorForwardX': -90.0 if toes_y > 0 else 90.0,
@@ -461,7 +468,8 @@ def _skeletal_readback(ue, mesh, animations, entry, bones):
                                          'currently applies mesh yaw +90 assuming -Y; if this says +Y the body '
                                          'would face away from travel. Confirm in PIE before the swap.'}
         else:
-            problems.append(entry['id'] + ': imported bone names differ from the authored rig: ' + repr(names[:6]))
+            problems.append('%s: imported bone names differ from the authored rig: missing %s, unexpected %s'
+                            % (entry['id'], row['missingBones'], row['unexpectedBones']))
     else:
         row['proven'] = False
         row['reason'] = 'No Python API on this build returned bone positions (' + strategy + '); treat as unproven.'

@@ -1,5 +1,8 @@
 # Buildout status and next implementation gates
 
+> Current-state override after Walkthrough-09 publication: read HANDOFF-FOR-CLAUDE-FABLE-OVERNIGHT.md and RELEASE-NOTE-Walkthrough-09.md first. The older bullets below preserve the research backlog and historical state. Kodesh readability was restored (Heikhal highlights still defective); context materials were assigned; bus materials and Kotel photo surfaces were adopted; five resident bodies and white-dove movement/return passed current-map PIE; sanctuary round-trip walking passed; all were fresh-cooked into 09. Two-ZIP public download/extraction checks passed. Standalone packaged controls/visual/audio remain pending. Do not repeat the old unapplied-step claims as current status.
+
+
 Snapshot: 7 September 2026, after Walkthrough-08 takeover verification and Kotel repair. This is an evidence backlog, not a completion claim. Root is concurrently reviewing a Kodesh lighting regression and context materials; those remain pending acceptance. No Unreal execution was performed for this audit.
 
 Working map: `/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough`. Earlier `CourtyardGold` studies and isolated VFX rooms are not proof of current-map integration. The older scene-state paragraphs in PRODUCTION_PLAN.md and Research/README.md predate several integrations; their acceptance criteria remain useful, but their missing-vessel/population statements require the qualifications below.

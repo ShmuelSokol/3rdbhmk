@@ -21,13 +21,13 @@ The current exterior/platform probe and sanctuary round trip passed without erro
 
 Finished chambers/source-faithful keilim, individual purposeful people, complete preparation/halacha, scheduled ketores, environmental motion, city/transit and an auditioned soundscape remain incomplete. See BUILDOUT-STATUS.md. Passing an import, compile or cook does not close those requirements.
 
-## Release evidence - root to complete
+## Release evidence - updated after publication
 
 - Fresh Walkthrough-09 cook/archive: **PASS**, `SourceAssets/runtime-review/walkthrough-09/build-receipt.json`.
 - Packaged map: `/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough`; unchanged SHA-256 `2edb00afb822cb44e1f528fc03f5783d15d0e7a4faf043456b0060b7d96fc9bd`.
 - Actual child executable: `C:\Mikdash\Builds\Walkthrough-09\Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe`; SHA-256 `b20685fc7021cab1cb2728576db025d03404f7515880016f5fa862729de87c11`. Start with `C:\Mikdash\Builds\Walkthrough-09\Windows\MikdashCourtyardV3.exe`; keep the whole Windows directory together.
 - Packaged launch/menu/mouse, interior/exterior walking, lighting, audio and performance checks: **PENDING**.
-- Final source commit and push: **PENDING**.
-- Authorized downloadable build and download/launch verification: **PENDING**.
+- Source committed and pushed: **PASS**; game work `9038e673`, distribution `bcc8e53d`, public download evidence `0438eb3b`. Later handoff/documentation commits may follow.
+- Authorized downloadable preview and full public download/extraction verification: **PASS**, https://github.com/ShmuelSokol/3rdbhmk/releases/tag/walkthrough-09-preview . Both ZIPs downloaded without authentication; all 49 original runtime files matched the original package. Evidence: publishing clone `distribution/windows/public-download-receipt.json`. Packaged interactive controls/visual/audio verification remains **PENDING**; download integrity is a separate check.
 
 Retain failed/intermediate evidence and the accepted limitations when finalizing this note. No studio-quality or full reconstruction claim is made.

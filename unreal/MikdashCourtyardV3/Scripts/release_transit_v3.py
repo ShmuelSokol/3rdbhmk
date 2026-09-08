@@ -10,8 +10,8 @@ SourceAssets/transit-review/TransitV3/routes-v3.json.
       imports the 31 OBJ meshes and 4 textures under /Game/MikdashV3/TransitV3/Vehicles,
       builds the LOD ladder in-engine, saves them. The map is never opened or mutated.
 
-  MIKDASH_TRANSIT_MODE=trace_stops         PIE ONLY. A dedicated editor started ON the
-      combined map with -ExecCmds="py <this file>", a Slate post-tick callback,
+  MIKDASH_TRANSIT_MODE=trace_stops         PIE ONLY, REAL RHI (no -nullrhi). A dedicated
+      editor started ON the combined map with -ExecCmds="py <this file>", a Slate post-tick callback,
       editor_request_begin_play, downward line traces at every stop's four probe points,
       editor_request_end_play. Writes a trace receipt. The map is never dirtied.
 
@@ -164,6 +164,13 @@ def offline_check(spec=None):
     if report['missing']:
         raise RuntimeError('Missing files on disk: ' + ', '.join(report['missing'][:6]))
     report['meshTriangles'] = triangles
+    no_livery = [r['name'] for r in spec['geometry']['meshes'] if r['group'] == 'Paint' and not r.get('livery')]
+    if no_livery:
+        raise RuntimeError('Spec Paint meshes without a livery key: %s' % no_livery)
+    unknown = sorted({r.get('livery') for r in spec['geometry']['meshes']
+                      if r['group'] == 'Paint'} - set(spec['geometry']['textures']))
+    if unknown:
+        raise RuntimeError('Spec liveries with no texture record: %s' % unknown)
 
     routes = load_routes(spec)
     if len(routes['routes']) != spec['routes']['routeCount']:
@@ -385,14 +392,20 @@ class TransitJob(object):
         ue = self.ue
         spec = self.spec
         destination = spec['geometry']['destination']
-        if self.assets.does_directory_exist(destination):
-            raise RuntimeError('Preserve previous assets: %s already exists' % destination)
+        # Refuse to build on top of anything but the one known partial state: a previous
+        # run that saved its textures and then failed before creating a material. Those
+        # textures are reused (and recorded as reused); any material or mesh folder means
+        # a different partial state that must be inspected, not papered over.
+        for sub in ['Materials'] + sorted({m['assembly'] for m in spec['geometry']['meshes']}):
+            if self.assets.does_directory_exist(destination + '/' + sub):
+                raise RuntimeError('Preserve previous assets: %s/%s already exists; inspect and '
+                                   'clear it before re-importing' % (destination, sub))
         tools = ue.AssetToolsHelpers.get_asset_tools()
-        created = []
+        created = self.receipt['imported']          # appended to as each asset is SAVED
+        self.receipt['texturesReused'] = []
         textures = self.import_textures(tools, created)
         materials = self.build_materials(tools, textures, created)
         self.import_meshes(tools, materials, created)
-        self.receipt['imported'] = created
         self.receipt['importedCount'] = len(created)
 
     def import_textures(self, tools, created):
@@ -406,6 +419,15 @@ class TransitJob(object):
             path = folder / record['file']
             if sha256_of(path) != record['sha256']:
                 raise RuntimeError('Texture SHA-256 differs: ' + record['file'])
+            existing_path = destination + '/T_VehiclesV3_' + key
+            if self.assets.does_asset_exist(existing_path):
+                existing = self.assets.load_asset(existing_path)
+                if not isinstance(existing, ue.Texture2D):
+                    raise RuntimeError('Existing asset is not a Texture2D: ' + existing_path)
+                imported[key] = existing
+                self.receipt['texturesReused'].append(existing_path)
+                self.write_receipt()
+                continue
             task = ue.AssetImportTask()
             for name, value in dict(filename=str(path), destination_path=destination,
                                     destination_name='T_VehiclesV3_' + key, automated=True,
@@ -422,6 +444,7 @@ class TransitJob(object):
                 raise RuntimeError('Could not save texture ' + texture.get_path_name())
             imported[key] = texture
             created.append(texture.get_path_name())
+            self.write_receipt()
         return imported
 
     def build_materials(self, tools, textures, created):
@@ -434,8 +457,16 @@ class TransitJob(object):
         folder = spec['geometry']['materialFolder']
         materials = {}
         connections = {}
-        liveries = sorted({record['livery'] for record in spec['geometry']['meshes']
-                           if record['group'] == 'Paint' and record['livery']})
+        liveries = sorted({record.get('livery') for record in spec['geometry']['meshes']
+                           if record['group'] == 'Paint' and record.get('livery')})
+        missing = [record['name'] for record in spec['geometry']['meshes']
+                   if record['group'] == 'Paint' and not record.get('livery')]
+        if missing:
+            raise RuntimeError('Paint meshes with no livery key in the spec (re-emit the spec '
+                               'from the geometry manifest): %s' % missing)
+        for livery in liveries:
+            if livery not in textures:
+                raise RuntimeError('Livery %s has no imported texture' % livery)
         # One Paint material per livery, three of them, because a single shared Paint
         # material would put the car skin on the bus and the tram. Glass, Dark and Lens
         # are genuinely shared: they carry no livery.
@@ -507,6 +538,7 @@ class TransitJob(object):
                 raise RuntimeError('Glass material did not keep its translucent blend mode')
             materials[(group, livery)] = material
             created.append(material.get_path_name())
+            self.write_receipt()
         self.receipt['materialConnections'] = connections
         return materials
 
@@ -567,7 +599,7 @@ class TransitJob(object):
             if mesh.get_num_triangles(0) != record['triangles']:
                 raise RuntimeError('%s triangles %d, manifest says %d'
                                    % (record['name'], mesh.get_num_triangles(0), record['triangles']))
-            key = (record['group'], record['livery'] if record['group'] == 'Paint' else None)
+            key = (record['group'], record.get('livery') if record['group'] == 'Paint' else None)
             if key not in materials:
                 raise RuntimeError('No material for %s %s' % key)
             mesh.set_material(0, materials[key])
@@ -575,6 +607,8 @@ class TransitJob(object):
             if not self.assets.save_loaded_asset(mesh, only_if_is_dirty=False):
                 raise RuntimeError('Could not save mesh ' + mesh.get_path_name())
             created.append(mesh.get_path_name())
+            self.receipt['lods'] = lod_report
+            self.write_receipt()
         self.receipt['lods'] = lod_report
         if warnings:
             self.receipt['importOptionWarnings'] = warnings

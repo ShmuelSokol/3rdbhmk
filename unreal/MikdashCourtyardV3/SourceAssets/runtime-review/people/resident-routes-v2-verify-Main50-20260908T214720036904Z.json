@@ -1,0 +1,3239 @@
+{
+  "status": "verify_complete_pie_evidence_24_of_24_spawned_0_moved",
+  "mode": "verify",
+  "target": "Main50",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "frame": "Legacy50.v1",
+  "ratio": 1.0,
+  "mapShaBefore": "a46066dfe2382785eb092d2648e2678ee6c9a5205173a92016315e5f5970bdf2",
+  "otherMapsBefore": {
+    "Candidate48": "fc1643c4ae48f93efede04930b17aca147db3cff4f0bc70b1571b79ab095278d"
+  },
+  "stagedDirectory": {
+    "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\Distribution\\People\\people.json",
+    "sha256": "d434e9e1f0f4f2505ddeb1b43c6be48b8c378016c28783fbb30028f9e50b0e0d",
+    "unchanged": true
+  },
+  "errors": [],
+  "scope": "Real-RHI PIE: spawner-equivalent capsule/floor queries per resident, leg sweeps, motion samples, log skip reasons; no map writes; not navmesh or visual acceptance",
+  "commandLine": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_resident_routes_v2.py\" -RoutesV2Verify -RoutesV2Target=Main50 -TestSavePrefix=FableProbe_174646 -ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableProbe_174646,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableProbe_174646_Settings -unattended -NoSplash -abslog=C:/Mikdash/Working-5.8/Fable-RoutesV2-Verify-Main50-174646.log",
+  "abslog": "C:/Mikdash/Working-5.8/Fable-RoutesV2-Verify-Main50-174646.log",
+  "saveIsolation": {
+    "testPrefix": "FableProbe_174646",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "editorPopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "label": "RELEASE_ResidentPopulation",
+      "spawn_authored_people_on_begin_play": "False",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "True",
+      "extended_route_body_index": "3"
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "label": "RELEASE_PeopleV3Population",
+      "spawn_authored_people_on_begin_play": "True",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "False",
+      "extended_route_body_index": "-1"
+    }
+  ],
+  "populationPointedAtTarget": false,
+  "populationReadyWaitSeconds": 20.05,
+  "piePopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "living": 5,
+      "directoryStatus": "Authored people directory not requested",
+      "extendedRouteStatus": "Extended loop: body 3, 5 waypoints, 69.1 m, 3 laps",
+      "extendedRouteActive": true,
+      "active": true,
+      "status": "Pilot bound; collision/nav review may hold residents idle"
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "living": 24,
+      "directoryStatus": "Directory 'people-v3': 24 authored, 24 walking, 0 skipped, 0 notes; file C:/Mikdash/Working-5.8/MikdashCourtyardV3/Content/Distribution/People/people.json",
+      "extendedRouteStatus": "No extended route configured",
+      "extendedRouteActive": false,
+      "active": true,
+      "status": "Authored people bound; collision/nav review may hold residents idle"
+    }
+  ],
+  "pilotExtendedRoute": {
+    "active": true,
+    "status": [
+      "Extended loop: body 3, 5 waypoints, 69.1 m, 3 laps"
+    ],
+    "expectation": "TryLook now classifies (5000,1180,300); an \"unclassified converted points\" refusal means the compiled binary predates this change"
+  },
+  "logExtensionNotes": [],
+  "residents": [
+    {
+      "id": "yoav-ben-shimi",
+      "name": "Yoav ben Shimi",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        2400.0,
+        2900.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          2400.0,
+          2900.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            2400.0,
+            2900.0,
+            300.0
+          ],
+          "toFeet": [
+            5050.0,
+            2900.0,
+            300.0
+          ],
+          "lengthCm": 2650.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 28,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5050.0,
+            2900.0,
+            300.0
+          ],
+          "toFeet": [
+            5050.0,
+            3400.0,
+            300.0
+          ],
+          "lengthCm": 500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5050.0,
+            3400.0,
+            300.0
+          ],
+          "toFeet": [
+            2400.0,
+            3400.0,
+            300.0
+          ],
+          "lengthCm": 2650.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 28,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            2400.0,
+            3400.0,
+            300.0
+          ],
+          "toFeet": [
+            2400.0,
+            2900.0,
+            300.0
+          ],
+          "lengthCm": 500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          2400.0,
+          2900.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          2400.0,
+          2900.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "miryam-bas-elyakim",
+      "name": "Miryam bas Elyakim",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        3700.0,
+        1050.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          3700.0,
+          1050.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            3700.0,
+            1050.0,
+            300.0
+          ],
+          "toFeet": [
+            5150.0,
+            1050.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5150.0,
+            1050.0,
+            300.0
+          ],
+          "toFeet": [
+            5150.0,
+            2750.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5150.0,
+            2750.0,
+            300.0
+          ],
+          "toFeet": [
+            3700.0,
+            2750.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3700.0,
+            2750.0,
+            300.0
+          ],
+          "toFeet": [
+            3700.0,
+            1050.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3700.0,
+          1050.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          3700.0,
+          1050.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "naftali-ben-chagai",
+      "name": "Naftali ben Chagai",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        5375.0,
+        1050.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          5375.0,
+          1050.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            5375.0,
+            1050.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            1050.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            1050.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            2750.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            2750.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            2750.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5375.0,
+            2750.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            1050.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          5375.0,
+          1050.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          5375.0,
+          1050.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "tzipporah-bas-menachem",
+      "name": "Tzipporah bas Menachem",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        1950.0,
+        3850.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 29.999,
+        "impactPoint": [
+          1950.0,
+          3850.0,
+          300.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            1950.0,
+            3850.0,
+            300.0
+          ],
+          "toFeet": [
+            3200.0,
+            3850.0,
+            300.0
+          ],
+          "lengthCm": 1250.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3200.0,
+            3850.0,
+            300.0
+          ],
+          "toFeet": [
+            3200.0,
+            5800.0,
+            300.0
+          ],
+          "lengthCm": 1950.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 21,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3200.0,
+            5800.0,
+            300.0
+          ],
+          "toFeet": [
+            1950.0,
+            5800.0,
+            300.0
+          ],
+          "lengthCm": 1250.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            1950.0,
+            5800.0,
+            300.0
+          ],
+          "toFeet": [
+            1950.0,
+            3850.0,
+            300.0
+          ],
+          "lengthCm": 1950.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 21,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1950.0,
+          3850.0,
+          398.151
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          1950.0,
+          3850.0,
+          398.151
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "elchanan-ben-uriya",
+      "name": "Elchanan ben Uriya",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        3525.0,
+        3550.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 29.999,
+        "impactPoint": [
+          3525.0,
+          3550.0,
+          300.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            3525.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            4975.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4975.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            4975.0,
+            5250.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4975.0,
+            5250.0,
+            300.0
+          ],
+          "toFeet": [
+            3525.0,
+            5250.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3525.0,
+            5250.0,
+            300.0
+          ],
+          "toFeet": [
+            3525.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3525.0,
+          3550.0,
+          398.151
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          3525.0,
+          3550.0,
+          398.151
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "shulamis-bas-yechiel",
+      "name": "Shulamis bas Yechiel",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        5375.0,
+        3550.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 29.999,
+        "impactPoint": [
+          5375.0,
+          3550.0,
+          300.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            5375.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            5250.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            5250.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            5250.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5375.0,
+            5250.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          5375.0,
+          3550.0,
+          398.151
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          5375.0,
+          3550.0,
+          398.151
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "gad-ben-peleth",
+      "name": "Gad ben Peleth",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        4150.0,
+        -2600.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          4150.0,
+          -2600.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            4150.0,
+            -2600.0,
+            300.0
+          ],
+          "toFeet": [
+            5900.0,
+            -2600.0,
+            300.0
+          ],
+          "lengthCm": 1750.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 19,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5900.0,
+            -2600.0,
+            300.0
+          ],
+          "toFeet": [
+            5900.0,
+            -1200.0,
+            300.0
+          ],
+          "lengthCm": 1400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5900.0,
+            -1200.0,
+            300.0
+          ],
+          "toFeet": [
+            4150.0,
+            -1200.0,
+            300.0
+          ],
+          "lengthCm": 1750.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 19,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4150.0,
+            -1200.0,
+            300.0
+          ],
+          "toFeet": [
+            4150.0,
+            -2600.0,
+            300.0
+          ],
+          "lengthCm": 1400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4150.0,
+          -2600.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          4150.0,
+          -2600.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "devorah-bas-amram",
+      "name": "Devorah bas Amram",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        3700.0,
+        -2750.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          3700.0,
+          -2750.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            3700.0,
+            -2750.0,
+            300.0
+          ],
+          "toFeet": [
+            5150.0,
+            -2750.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5150.0,
+            -2750.0,
+            300.0
+          ],
+          "toFeet": [
+            5150.0,
+            -1050.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5150.0,
+            -1050.0,
+            300.0
+          ],
+          "toFeet": [
+            3700.0,
+            -1050.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3700.0,
+            -1050.0,
+            300.0
+          ],
+          "toFeet": [
+            3700.0,
+            -2750.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3700.0,
+          -2750.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          3700.0,
+          -2750.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yigal-ben-zerach",
+      "name": "Yigal ben Zerach",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        5375.0,
+        -2750.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          5375.0,
+          -2750.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            5375.0,
+            -2750.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            -2750.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            -2750.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            -1050.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            -1050.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            -1050.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5375.0,
+            -1050.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            -2750.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          5375.0,
+          -2750.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          5375.0,
+          -2750.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "techiya-bas-nadav",
+      "name": "Techiya bas Nadav",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        1775.0,
+        -5250.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          1775.0,
+          -5250.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            1775.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            3375.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3375.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            3375.0,
+            -3700.0,
+            300.0
+          ],
+          "lengthCm": 1550.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3375.0,
+            -3700.0,
+            300.0
+          ],
+          "toFeet": [
+            1775.0,
+            -3700.0,
+            300.0
+          ],
+          "lengthCm": 1600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            1775.0,
+            -3700.0,
+            300.0
+          ],
+          "toFeet": [
+            1775.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1550.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1775.0,
+          -5250.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          1775.0,
+          -5250.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "amitai-ben-kalev",
+      "name": "Amitai ben Kalev",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        3525.0,
+        -5250.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          3525.0,
+          -5250.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            3525.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            4975.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4975.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            4975.0,
+            -3550.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4975.0,
+            -3550.0,
+            300.0
+          ],
+          "toFeet": [
+            3525.0,
+            -3550.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3525.0,
+            -3550.0,
+            300.0
+          ],
+          "toFeet": [
+            3525.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3525.0,
+          -5250.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          3525.0,
+          -5250.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yehudis-bas-ovadya",
+      "name": "Yehudis bas Ovadya",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        5375.0,
+        -5250.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          5375.0,
+          -5250.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            5375.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            -5250.0,
+            300.0
+          ],
+          "toFeet": [
+            6825.0,
+            -3550.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6825.0,
+            -3550.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            -3550.0,
+            300.0
+          ],
+          "lengthCm": 1450.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5375.0,
+            -3550.0,
+            300.0
+          ],
+          "toFeet": [
+            5375.0,
+            -5250.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          5375.0,
+          -5250.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          5375.0,
+          -5250.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "pinchas-ben-achituv",
+      "name": "Pinchas ben Achituv",
+      "role": "kohen",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        4000.0,
+        2100.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          4000.0,
+          2100.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            4000.0,
+            2100.0,
+            300.0
+          ],
+          "toFeet": [
+            6050.0,
+            2100.0,
+            300.0
+          ],
+          "lengthCm": 2050.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6050.0,
+            2100.0,
+            300.0
+          ],
+          "toFeet": [
+            6050.0,
+            4300.0,
+            300.0
+          ],
+          "lengthCm": 2200.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6050.0,
+            4300.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            4300.0,
+            300.0
+          ],
+          "lengthCm": 2050.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4000.0,
+            4300.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            2100.0,
+            300.0
+          ],
+          "lengthCm": 2200.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4000.0,
+          2100.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          4000.0,
+          2100.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yedidya-ben-chilkiya",
+      "name": "Yedidya ben Chilkiya",
+      "role": "kohen",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        3850.0,
+        -4400.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          3850.0,
+          -4400.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            3850.0,
+            -4400.0,
+            300.0
+          ],
+          "toFeet": [
+            6000.0,
+            -4400.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6000.0,
+            -4400.0,
+            300.0
+          ],
+          "toFeet": [
+            6000.0,
+            -1800.0,
+            300.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6000.0,
+            -1800.0,
+            300.0
+          ],
+          "toFeet": [
+            3850.0,
+            -1800.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3850.0,
+            -1800.0,
+            300.0
+          ],
+          "toFeet": [
+            3850.0,
+            -4400.0,
+            300.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3850.0,
+          -4400.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          3850.0,
+          -4400.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "uriel-ben-shemaya",
+      "name": "Uriel ben Shemaya",
+      "role": "kohen",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        4000.0,
+        1750.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          4000.0,
+          1750.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            4000.0,
+            1750.0,
+            300.0
+          ],
+          "toFeet": [
+            5700.0,
+            1750.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5700.0,
+            1750.0,
+            300.0
+          ],
+          "toFeet": [
+            5700.0,
+            4350.0,
+            300.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5700.0,
+            4350.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            4350.0,
+            300.0
+          ],
+          "lengthCm": 1700.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4000.0,
+            4350.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            1750.0,
+            300.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4000.0,
+          1750.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          4000.0,
+          1750.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "assaf-ben-berachya",
+      "name": "Assaf ben Berachya",
+      "role": "levite",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        4000.0,
+        -4300.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          4000.0,
+          -4300.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            4000.0,
+            -4300.0,
+            300.0
+          ],
+          "toFeet": [
+            6150.0,
+            -4300.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6150.0,
+            -4300.0,
+            300.0
+          ],
+          "toFeet": [
+            6150.0,
+            -2150.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6150.0,
+            -2150.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            -2150.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            4000.0,
+            -2150.0,
+            300.0
+          ],
+          "toFeet": [
+            4000.0,
+            -4300.0,
+            300.0
+          ],
+          "lengthCm": 2150.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4000.0,
+          -4300.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          4000.0,
+          -4300.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "chananel-ben-mattisyahu",
+      "name": "Chananel ben Mattisyahu",
+      "role": "levite",
+      "zone": "outer-court",
+      "edited": false,
+      "decodedWaypoint0": [
+        5600.0,
+        1650.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          5600.0,
+          1650.0,
+          300.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            5600.0,
+            1650.0,
+            300.0
+          ],
+          "toFeet": [
+            6800.0,
+            1650.0,
+            300.0
+          ],
+          "lengthCm": 1200.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 13,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6800.0,
+            1650.0,
+            300.0
+          ],
+          "toFeet": [
+            6800.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1900.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 20,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            6800.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            5600.0,
+            3550.0,
+            300.0
+          ],
+          "lengthCm": 1200.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 13,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5600.0,
+            3550.0,
+            300.0
+          ],
+          "toFeet": [
+            5600.0,
+            1650.0,
+            300.0
+          ],
+          "lengthCm": 1900.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 20,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          5600.0,
+          1650.0,
+          398.15
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          5600.0,
+          1650.0,
+          398.15
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "rivka-bas-yoezer",
+      "name": "Rivka bas Yoezer",
+      "role": "host",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        2400.0,
+        -3400.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.001,
+        "impactPoint": [
+          2400.0,
+          -3400.0,
+          299.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            2400.0,
+            -3400.0,
+            300.0
+          ],
+          "toFeet": [
+            5050.0,
+            -3400.0,
+            300.0
+          ],
+          "lengthCm": 2650.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 28,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5050.0,
+            -3400.0,
+            300.0
+          ],
+          "toFeet": [
+            5050.0,
+            -2900.0,
+            300.0
+          ],
+          "lengthCm": 500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            5050.0,
+            -2900.0,
+            300.0
+          ],
+          "toFeet": [
+            2400.0,
+            -2900.0,
+            300.0
+          ],
+          "lengthCm": 2650.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 28,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            2400.0,
+            -2900.0,
+            300.0
+          ],
+          "toFeet": [
+            2400.0,
+            -3400.0,
+            300.0
+          ],
+          "lengthCm": 500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          2400.0,
+          -3400.0,
+          398.149
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          2400.0,
+          -3400.0,
+          398.149
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "nechemya-ben-tzuriel",
+      "name": "Nechemya ben Tzuriel",
+      "role": "guide",
+      "zone": "outer-court",
+      "edited": true,
+      "decodedWaypoint0": [
+        1800.0,
+        3700.0,
+        300.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 29.999,
+        "impactPoint": [
+          1800.0,
+          3700.0,
+          300.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor",
+        "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor.architecture_SM_0129_floor_Outer_court_floor"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            1800.0,
+            3700.0,
+            300.0
+          ],
+          "toFeet": [
+            3350.0,
+            3700.0,
+            300.0
+          ],
+          "lengthCm": 1550.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3350.0,
+            3700.0,
+            300.0
+          ],
+          "toFeet": [
+            3350.0,
+            5950.0,
+            300.0
+          ],
+          "lengthCm": 2250.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 24,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            3350.0,
+            5950.0,
+            300.0
+          ],
+          "toFeet": [
+            1800.0,
+            5950.0,
+            300.0
+          ],
+          "lengthCm": 1550.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            1800.0,
+            5950.0,
+            300.0
+          ],
+          "toFeet": [
+            1800.0,
+            3700.0,
+            300.0
+          ],
+          "lengthCm": 2250.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 24,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1800.0,
+          3700.0,
+          398.151
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          1800.0,
+          3700.0,
+          398.151
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "shmaya-ben-nachshon",
+      "name": "Shmaya ben Nachshon",
+      "role": "host",
+      "zone": "mount-deck",
+      "edited": false,
+      "decodedWaypoint0": [
+        9360.0,
+        -2600.0,
+        0.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          9360.0,
+          -2600.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface",
+        "mesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            9360.0,
+            -2600.0,
+            0.0
+          ],
+          "toFeet": [
+            9940.0,
+            -1500.0,
+            0.0
+          ],
+          "lengthCm": 1243.5,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9940.0,
+            -1500.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            -400.0,
+            0.0
+          ],
+          "lengthCm": 1243.5,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            -400.0,
+            0.0
+          ],
+          "toFeet": [
+            9940.0,
+            700.0,
+            0.0
+          ],
+          "lengthCm": 1243.5,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9940.0,
+            700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            1800.0,
+            0.0
+          ],
+          "lengthCm": 1243.5,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            1800.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            -2600.0,
+            0.0
+          ],
+          "lengthCm": 4400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 45,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9360.0,
+          -2600.0,
+          98.4
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          9360.0,
+          -2600.0,
+          98.4
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "aviela-bas-refael",
+      "name": "Aviela bas Refael",
+      "role": "guide",
+      "zone": "mount-deck",
+      "edited": false,
+      "decodedWaypoint0": [
+        9400.0,
+        2700.0,
+        0.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          9400.0,
+          2700.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface",
+        "mesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            9400.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9900.0,
+            1600.0,
+            0.0
+          ],
+          "lengthCm": 1208.3,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9900.0,
+            1600.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            500.0,
+            0.0
+          ],
+          "lengthCm": 1208.3,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9400.0,
+            500.0,
+            0.0
+          ],
+          "toFeet": [
+            9900.0,
+            -600.0,
+            0.0
+          ],
+          "lengthCm": 1208.3,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9900.0,
+            -600.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            -1700.0,
+            0.0
+          ],
+          "lengthCm": 1208.3,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9400.0,
+            -1700.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            2700.0,
+            0.0
+          ],
+          "lengthCm": 4400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 45,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9400.0,
+          2700.0,
+          98.4
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          9400.0,
+          2700.0,
+          98.4
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "ovadya-ben-ephrayim",
+      "name": "Ovadya ben Ephrayim",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "edited": false,
+      "decodedWaypoint0": [
+        9350.0,
+        -1250.0,
+        0.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          9350.0,
+          -1250.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface",
+        "mesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            9350.0,
+            -1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9950.0,
+            -1250.0,
+            0.0
+          ],
+          "lengthCm": 600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9950.0,
+            -1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9950.0,
+            1250.0,
+            0.0
+          ],
+          "lengthCm": 2500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9950.0,
+            1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9350.0,
+            1250.0,
+            0.0
+          ],
+          "lengthCm": 600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9350.0,
+            1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9350.0,
+            -1250.0,
+            0.0
+          ],
+          "lengthCm": 2500.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9350.0,
+          -1250.0,
+          98.4
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          9350.0,
+          -1250.0,
+          98.4
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "machla-bas-yiftach",
+      "name": "Machla bas Yiftach",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "edited": false,
+      "decodedWaypoint0": [
+        9360.0,
+        100.0,
+        0.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          9360.0,
+          100.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface",
+        "mesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            9360.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9920.0,
+            100.0,
+            0.0
+          ],
+          "lengthCm": 560.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9920.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9920.0,
+            2700.0,
+            0.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9920.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            2700.0,
+            0.0
+          ],
+          "lengthCm": 560.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            100.0,
+            0.0
+          ],
+          "lengthCm": 2600.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9360.0,
+          100.0,
+          98.4
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          9360.0,
+          100.0,
+          98.4
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "elad-ben-yishai",
+      "name": "Elad ben Yishai",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "edited": false,
+      "decodedWaypoint0": [
+        9330.0,
+        -2300.0,
+        0.0
+      ],
+      "extensionApplied": false,
+      "spawned": true,
+      "logReasons": [],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "initialOverlap": false,
+        "distance": 30.0,
+        "impactPoint": [
+          9330.0,
+          -2300.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface",
+        "mesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface"
+      },
+      "ceilingAbove": null,
+      "legs": [
+        {
+          "fromFeet": [
+            9330.0,
+            -2300.0,
+            0.0
+          ],
+          "toFeet": [
+            9990.0,
+            -2300.0,
+            0.0
+          ],
+          "lengthCm": 660.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 8,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9990.0,
+            -2300.0,
+            0.0
+          ],
+          "toFeet": [
+            9990.0,
+            100.0,
+            0.0
+          ],
+          "lengthCm": 2400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 25,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9990.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9330.0,
+            100.0,
+            0.0
+          ],
+          "lengthCm": 660.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 8,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        },
+        {
+          "fromFeet": [
+            9330.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9330.0,
+            -2300.0,
+            0.0
+          ],
+          "lengthCm": 2400.0,
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 25,
+          "floorFailureCount": 0,
+          "floorFailures": []
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9330.0,
+          -2300.0,
+          98.4
+        ],
+        "firstAtSeconds": 28.05,
+        "second": [
+          9330.0,
+          -2300.0,
+          98.4
+        ],
+        "secondAtSeconds": 44.05,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    }
+  ],
+  "summary": {
+    "authored": 24,
+    "spawned": 24,
+    "skipped": [],
+    "spawnedWithAllLegsClear": [
+      "yoav-ben-shimi",
+      "miryam-bas-elyakim",
+      "naftali-ben-chagai",
+      "tzipporah-bas-menachem",
+      "elchanan-ben-uriya",
+      "shulamis-bas-yechiel",
+      "gad-ben-peleth",
+      "devorah-bas-amram",
+      "yigal-ben-zerach",
+      "techiya-bas-nadav",
+      "amitai-ben-kalev",
+      "yehudis-bas-ovadya",
+      "pinchas-ben-achituv",
+      "yedidya-ben-chilkiya",
+      "uriel-ben-shemaya",
+      "assaf-ben-berachya",
+      "chananel-ben-mattisyahu",
+      "rivka-bas-yoezer",
+      "nechemya-ben-tzuriel",
+      "shmaya-ben-nachshon",
+      "aviela-bas-refael",
+      "ovadya-ben-ephrayim",
+      "machla-bas-yiftach",
+      "elad-ben-yishai"
+    ],
+    "spawnedWithBlockedLegs": {},
+    "movedMoreThanThreshold": [],
+    "capsuleAgreementWithSpawner": true,
+    "editedSpawned": [
+      "yoav-ben-shimi",
+      "miryam-bas-elyakim",
+      "tzipporah-bas-menachem",
+      "gad-ben-peleth",
+      "devorah-bas-amram",
+      "techiya-bas-nadav",
+      "pinchas-ben-achituv",
+      "yedidya-ben-chilkiya",
+      "uriel-ben-shemaya",
+      "assaf-ben-berachya",
+      "rivka-bas-yoezer",
+      "nechemya-ben-tzuriel"
+    ],
+    "editedSkipped": []
+  },
+  "pieEnded": true,
+  "mapShaAfter": "a46066dfe2382785eb092d2648e2678ee6c9a5205173a92016315e5f5970bdf2",
+  "mapBytesUnchanged": true,
+  "otherMapsUnchanged": true
+}

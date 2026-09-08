@@ -72,6 +72,22 @@
       "elapsedSeconds": 143.5,
       "variant": "baseline",
       "view": "v5_kotel_plaza"
+    },
+    {
+      "event": "captured",
+      "elapsedSeconds": 158.34,
+      "variant": "baseline",
+      "view": "v6_outer_east_gate_shade"
+    },
+    {
+      "event": "variant_applied_A_relief_local_exposure",
+      "elapsedSeconds": 158.62
+    },
+    {
+      "event": "captured",
+      "elapsedSeconds": 203.0,
+      "variant": "A_relief_local_exposure",
+      "view": "v0_astra_floors_anchor"
     }
   ],
   "captures": [
@@ -338,6 +354,94 @@
         ],
         "decodeSeconds": 1.95
       }
+    },
+    {
+      "variant": "baseline",
+      "view": "v6_outer_east_gate_shade",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\lighting-v3-20260908T213613Z-before__baseline__v6_outer_east_gate_shade.png",
+      "camera": {
+        "position": [
+          7800.0,
+          0.0,
+          468.000000000009
+        ],
+        "pitch": 0.0,
+        "yaw": 180.0,
+        "fov": 75.0
+      },
+      "liveCameraCm": [
+        7800.0,
+        0.0,
+        468.0000000000091
+      ],
+      "warmupSeconds": 12.0,
+      "warmupTicks": 547,
+      "gameSeconds": 120.24941154941916,
+      "bytes": 3426302,
+      "sha256": "3504da11d6c0bf2e5f9041c1fa1def9fd691011f85795e5695f38b620327985a",
+      "metrics": {
+        "width": 1920,
+        "height": 1080,
+        "gridSamples": 5184,
+        "lumaMean": 112.3,
+        "lumaStdev": 53.34,
+        "lumaMin": 0.6,
+        "lumaMax": 239.9,
+        "clippedFraction250": 0.0,
+        "brightFraction235": 0.0083,
+        "darkFraction20": 0.0214,
+        "localContrastMeanAbsDiff": 15.645,
+        "bandMeansTopMidBottom": [
+          146.6,
+          87.5,
+          102.9
+        ],
+        "decodeSeconds": 2.3
+      }
+    },
+    {
+      "variant": "A_relief_local_exposure",
+      "view": "v0_astra_floors_anchor",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\lighting-v3-20260908T213613Z-before__A_relief_local_exposure__v0_astra_floors_anchor.png",
+      "camera": {
+        "position": [
+          6000.0,
+          3500.0,
+          468.0
+        ],
+        "pitch": -15.0,
+        "yaw": 180.0,
+        "fov": 80.0
+      },
+      "liveCameraCm": [
+        6000.0,
+        3500.0,
+        468.0
+      ],
+      "warmupSeconds": 42.0,
+      "warmupTicks": 2155,
+      "gameSeconds": 162.64883355796337,
+      "bytes": 3697688,
+      "sha256": "6f27191d5c8e3a017cffd82092f9b435601e4e4e452950cac07d60d107ee6eb1",
+      "metrics": {
+        "width": 1920,
+        "height": 1080,
+        "gridSamples": 5184,
+        "lumaMean": 105.18,
+        "lumaStdev": 43.22,
+        "lumaMin": 4.6,
+        "lumaMax": 226.1,
+        "clippedFraction250": 0.0,
+        "brightFraction235": 0.0,
+        "darkFraction20": 0.0123,
+        "localContrastMeanAbsDiff": 15.237,
+        "bandMeansTopMidBottom": [
+          113.2,
+          108.4,
+          94.0
+        ],
+        "decodeSeconds": 1.91
+      }
     }
   ],
   "liveLighting": {
@@ -444,6 +548,60 @@
         "local_exposure_detail_strength": 1.0,
         "override_local_exposure_highlight_contrast_scale": false,
         "override_local_exposure_shadow_contrast_scale": false,
+        "priority": 1000.0,
+        "unbound": true
+      },
+      "timeOfDayActors": 0
+    },
+    "A_relief_local_exposure": {
+      "counts": {
+        "DirectionalLight": 1,
+        "SkyLight": 1,
+        "PostProcessVolume": 1,
+        "ExponentialHeightFog": 1
+      },
+      "sun": {
+        "rotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ],
+        "forward": [
+          -0.8137976813493739,
+          -0.296198132726024,
+          -0.5000000000000001
+        ],
+        "intensity": 30000.0,
+        "temperature": 6500.0,
+        "useTemperature": true
+      },
+      "sky": {
+        "intensity": 1.2999999523162842,
+        "lowerHemisphereIsBlack": false
+      },
+      "fog": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "enable_volumetric_fog": false
+      },
+      "postProcess": {
+        "auto_exposure_method": "<AutoExposureMethod.AEM_HISTOGRAM: 0>",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "local_exposure_method": "<LocalExposureMethod.BILATERAL: 0>",
+        "local_exposure_highlight_contrast_scale": 0.699999988079071,
+        "local_exposure_shadow_contrast_scale": 0.8500000238418579,
+        "local_exposure_detail_strength": 1.0,
+        "override_local_exposure_highlight_contrast_scale": true,
+        "override_local_exposure_shadow_contrast_scale": true,
         "priority": 1000.0,
         "unbound": true
       },
@@ -647,5 +805,34 @@
       }
     }
   ],
-  "loadingBarrier": "skipped (-LightingV3NoBarrier); first view per variant settles 30 s"
+  "loadingBarrier": "skipped (-LightingV3NoBarrier); first view per variant settles 30 s",
+  "variantsApplied": [
+    {
+      "variant": "A_relief_local_exposure",
+      "dynamicInstancesCreated": {},
+      "instanceParameters": {
+        "MI_PBR_LimestoneAshlar": {
+          "scalars": {
+            "NormalStrength": 2.5,
+            "RoughnessScale": 1.6
+          }
+        },
+        "MI_PBR_LimestoneTrim": {
+          "scalars": {
+            "NormalStrength": 2.0,
+            "RoughnessScale": 1.5
+          }
+        }
+      },
+      "postProcessReadback": {
+        "local_exposure_method": "<LocalExposureMethod.BILATERAL: 0>",
+        "local_exposure_highlight_contrast_scale": 0.699999988079071,
+        "local_exposure_shadow_contrast_scale": 0.8500000238418579,
+        "local_exposure_detail_strength": 1.0,
+        "local_exposure_blurred_luminance_blend": 0.6000000238418579,
+        "local_exposure_blurred_luminance_kernel_size_percent": 50.0,
+        "local_exposure_middle_grey_bias": 0.0
+      }
+    }
+  ]
 }

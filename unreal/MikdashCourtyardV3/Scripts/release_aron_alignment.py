@@ -98,6 +98,7 @@ def offline_check(spec, target_name):
     dome = spec['domeOfTheRockCentroidCm']
     before = target['aron']['expectedLocationBeforeCm']
     after = [before[0] + target['deltaCm'][0], before[1] + target['deltaCm'][1]]
+    result['classifierSelfTest'] = classifier_self_test(spec)
     result['aronBeforeCm'] = before
     result['aronAfterCm'] = after + [before[2]]
     result['aronAfterToDomeCentroidCm'] = round(math.hypot(after[0] - dome[0], after[1] - dome[1]), 3)
@@ -122,6 +123,29 @@ class Classifier:
         self.context_classes = set(c['contextClasses'])
         self.global_classes = set(c['globalClasses'])
         self.frame_classes = set(c['frameAdaptedClasses']['classes'])
+        self.engine_primitive_prefix = c['enginePrimitiveRule']['prefix']
+
+
+def classifier_self_test(spec):
+    """Pure check that the engine-primitive rule works in BOTH directions; run offline and before every live classification."""
+    k = Classifier(spec)
+    cases = [
+        ('RELEASE_TOUR_Marker_15_menorah', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [-4752.0, 302.4, 892.0], 'temple_respawn'),
+        ('RELEASE_TOUR_Marker_01_mount-and-house', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [11520.0, 0.0, 4.0], 'temple_respawn'),
+        ('REVIEW_KotelPhoto_24', 'StaticMeshActor', ['/Engine/BasicShapes/Plane'], [-15000.0, 9000.0, -400.0], 'context'),
+        ('Unlabelled primitive', 'StaticMeshActor', ['/Engine/BasicShapes/Cube'], [0.0, 0.0, 0.0], 'context'),
+        ('RELEASE_Kotel_1', 'StaticMeshActor', ['/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint0'], [0.0, 0.0, 0.0], 'context'),
+        ('Ulam stair 6', 'StaticMeshActor', ['/Game/MikdashV3/Architecture/architecture_SM_0000_architecture_Ulam_stair_6'], [0.0, 0.0, 0.0], 'temple_respawn'),
+        ('04 Entire Temple', 'CameraActor', [], [15500.0, 14500.0, 11500.0], 'global'),
+        ('Mikdash_PlayerStart', 'PlayerStart', [], [2016.0, 0.0, 578.0], 'temple_move'),
+    ]
+    results = []
+    for label, cls, meshes, loc, expected in cases:
+        got = k.bucket(label, cls, meshes, loc)
+        results.append({'label': label, 'expected': expected, 'got': got, 'ok': got == expected})
+    if not all(r['ok'] for r in results):
+        raise RuntimeError('Classifier self-test failed: %s' % [r for r in results if not r['ok']])
+    return results
 
     def bucket(self, label, class_name, meshes, location):
         """Returns one of temple_respawn / temple_move / context / global / frame / UNKNOWN / AMBIGUOUS."""
@@ -131,9 +155,15 @@ class Classifier:
             votes.add('global')
         if class_name in self.frame_classes:
             votes.add('frame')
-        if class_name in self.context_classes or label.startswith(self.context_label) or any(m.startswith(self.context_mesh) for m in meshes):
+        temple_label_hit = label.startswith(self.temple_label)
+        # Engine primitives (/Engine/BasicShapes/*) are used by BOTH sides: tour markers (Temple) and Kotel photo
+        # panels (context).  A primitive therefore counts as a context mesh only when no Temple LABEL prefix
+        # matched; a primitive alone never makes an actor Temple (spec classification.enginePrimitiveRule).
+        primitive_only_context = [m for m in meshes if m.startswith(self.engine_primitive_prefix)]
+        context_mesh_hit = any(m.startswith(self.context_mesh) and not (temple_label_hit and m in primitive_only_context) for m in meshes)
+        if class_name in self.context_classes or label.startswith(self.context_label) or context_mesh_hit:
             votes.add('context')
-        is_temple_geometry = any(m.startswith(self.temple_mesh) for m in meshes) or label.startswith(self.temple_label)
+        is_temple_geometry = any(m.startswith(self.temple_mesh) for m in meshes) or temple_label_hit
         if class_name == 'StaticMeshActor':
             if is_temple_geometry:
                 votes.add('temple_respawn')

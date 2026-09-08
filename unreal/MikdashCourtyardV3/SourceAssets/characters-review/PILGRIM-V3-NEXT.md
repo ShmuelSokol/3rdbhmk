@@ -42,6 +42,13 @@ saved; no folder exists on disk, so the rerun needs no cleanup (`clean_partial=T
 attempt saves a partial folder). Confirmed natively: the mesh faces UE **+Y** (ball_r y +11.5), so the
 swap must use mesh relative yaw **−90**, not the current +90.
 
+## Batch 1 attempt 05 result (21:41 UTC)
+
+Native rest-pose and clip proofs passed; the OBJ crowd copy came in as 62 StaticMeshes (default Interchange
+OBJ pipeline: one per `o` group). Nothing saved, nothing on disk. Fixed by an Interchange pipeline override
+(CombineStaticMeshesBehavior=All, Nanite off) plus a pre-save assertion of one mesh with the authored
+triangle count. See `PilgrimRigV3/REVIEW-HELPER.md`.
+
 ## Exact commands (coordinator, one serial native job each, fresh editor, main loaded, no PIE, no dirty packages)
 
 ```python

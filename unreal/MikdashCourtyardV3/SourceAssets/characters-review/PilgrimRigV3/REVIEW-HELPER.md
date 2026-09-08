@@ -56,6 +56,19 @@ name-keyed positions; native order is recorded as `nativeBoneOrder`. Also learne
 folder level named after the file — assets land at `<variant>/<variant>/SkeletalMeshes/...` and clips are
 prefixed with the file stem (`V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle`).
 
+## Batch 1 attempt 05 (21:41 UTC, log Fable-PilgrimV3-Batch1-05.log)
+
+Rest-pose and clip proof passed natively. The OBJ crowd copy then imported as **62 StaticMeshes** (one
+per `o` shell) through the default Interchange OBJ pipeline; base status `failed_before_any_save`, nothing
+on disk, guards clean. Fix: the OBJ import now passes an `InterchangePipelineStackOverride` carrying a
+transient `InterchangeGenericAssetsPipeline` with `mesh_pipeline.combine_static_meshes_behavior = All`,
+`import_skeletal_meshes = False`, `build_nanite = False` (values read back; refused if All does not read
+back). Slot names stay the usemtl garment names and the MTL materials are created per garment. The legacy
+`FbxFactory` route other project OBJ imports use also combines, but the crowd-field receipt shows it
+collapses every slot to the first material name (CrowdRobe x15), so it was not adopted. Before anything is
+saved the batch now asserts exactly one StaticMesh, Nanite off, and triangles == authored (19600 for
+Man_Standard); readback reloads the actual saved path rather than an assumed one.
+
 ## Batches, resume, zombie
 
 `run(import_assets=True, variants=[...])` imports exactly those; `run(import_assets=True, batch=N)`

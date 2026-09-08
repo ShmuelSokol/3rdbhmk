@@ -94,7 +94,10 @@ spec = {
         'meshes': [
             {'name': record['name'], 'file': record['file'], 'sha256': record['sha256'],
              'assembly': record['assembly'], 'group': record['group'],
-             'triangles': record['triangles'], 'localBoundsCm': record['bounds_cm']}
+             'triangles': record['triangles'], 'localBoundsCm': record['bounds_cm'],
+             # Paint records carry the livery key that picks their material; the other
+             # groups carry None. Dropping this key is what broke import_assets once.
+             'livery': record.get('livery')}
             for record in geometry['imports']
         ],
         'textures': geometry['textures'],
@@ -310,9 +313,12 @@ spec = {
         'traceStops': ('"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\'
                        'UnrealEditor.exe" "%s\\MikdashCourtyardV3.uproject" %s '
                        '-ExecCmds="py %s/Scripts/release_transit_v3.py" -unattended -NoSplash '
-                       '-nullrhi -abslog="C:/Mikdash/Working-5.8/Release-TransitV3-02.log"'
+                       '-abslog="C:/Mikdash/Working-5.8/Release-TransitV3-02.log"'
                        % (ROOT, MAP, ROOT.as_posix())),
         'traceStopsEnv': {'MIKDASH_TRANSIT_MODE': 'trace_stops', 'MIKDASH_TRANSIT_QUIT_EDITOR': '1'},
+        'traceStopsRhiNote': ('trace_stops runs WITHOUT -nullrhi. Line traces return nothing in a '
+                              'NullRHI world; only a real-RHI PIE world answers. The two commandlet '
+                              'modes keep -nullrhi because they trace nothing.'),
         'placeFromReceipt': ('"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\'
                              'UnrealEditor-Cmd.exe" "%s\\MikdashCourtyardV3.uproject" '
                              '-run=pythonscript -script="%s/Scripts/release_transit_v3.py" '

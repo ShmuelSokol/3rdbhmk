@@ -32,7 +32,8 @@
     "Candidate48": {
       "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
       "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
-      "lastKnownMapSha256": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+      "lastKnownMapSha256": "fc1643c4ae48f93efede04930b17aca147db3cff4f0bc70b1571b79ab095278d",
+      "lastKnownMapSha256Provenance": "Observed by dry run aron-alignment-release-Candidate48-20260908T214539156783Z.json and on disk 2026-09-08 21:5x UTC, after the candidate-spawn-fix receipts of 19:21-19:23 UTC changed the map. Previous handoff value 8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89. Apply refuses if the map changes again.",
       "cmPerAmah": 48.0,
       "courtHalfCm": 7776.0,
       "deltaCm": [-248.0, 0.0, 0.0],
@@ -57,6 +58,17 @@
   },
   "classification": {
     "note": "Every level actor must fall into exactly one bucket or the run refuses (dry run: reports). Temple actors move; context, globals and frame-adapted actors do not.",
+    "enginePrimitiveRule": {
+      "prefix": "/Engine/BasicShapes/",
+      "rule": "An engine primitive is used by both sides (tour markers = Cylinder, Kotel photo panels = Plane). It counts as a context mesh only when NO templeLabelPrefixes entry matches the label; a Temple label prefix on a primitive classifies as Temple. A primitive alone (no label match) never classifies as Temple. Proven by classifier_self_test() in the script, run offline and before every live classification.",
+      "originatingDryRun": "aron-alignment-release-Candidate48-20260908T214539156783Z.json: 18 RELEASE_TOUR_Marker_* actors AMBIGUOUS (the log shows 36 lines because UE echoes each LogPython warning twice; one marker actor per stop)."
+    },
+    "tourMarkers": {
+      "rule": "ALL 18 RELEASE_TOUR_Marker_<nn>_<key> StaticMeshActors move with the Temple (temple_respawn), including the three deck stops mount-and-house (legacy X 12000), immersion (11000) and soreg-and-cheil (10000).",
+      "why": "AMikdashTourGuide converts EVERY stop's stand/look through MikdashSceneUnits::TryLegacyTemplePoint(TourFrame, ...) (MikdashTourGuide.cpp lines 374 and 548); there is no per-stop frame flag in tour-stops.json. Scripts/release_amah48_tour.py placed the candidate markers at stand x .96 for all 18 stops (12000 -> 11520, 11000 -> 10560, 10000 -> 9600). Marker and runtime stand therefore share one frame; when the descriptor pivot moves to (-6200,0,0) the runtime stands shift by -248 cm and the markers must shift identically or the discs no longer sit under the arrival radius.",
+      "finding": "The deck stops were scaled about the origin as if they were Temple frame. On the flat Z 0 Mount deck (X to +149 m) that is a harmless 4.4-4.8 m westward slide (soreg-and-cheil is genuinely Temple architecture, the outer envelope reaching X 92 m), but mount-and-house and immersion are conceptually metric context. Making them metric needs a per-stop frame flag in tour-stops.json and TourGuide/TourMath - a tour-placement rule outside this script's ownership, not something a translation should paper over.",
+      "afterRepivotDeckMarkersCm": {"mount-and-house": [11272.0, 0.0, 4.0], "immersion": [10312.0, 864.0, 4.0], "soreg-and-cheil": [9352.0, 0.0, 4.0]}
+    },
     "templeMeshPrefixes": [
       "/Game/MikdashV3/Architecture/",
       "/Game/MikdashV3/ThirdParty/Vessels/",

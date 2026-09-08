@@ -53,7 +53,9 @@ VIEWS = [v for v in CAP['views'] if not VIEW_FILTER or v['id'] in VIEW_FILTER.sp
 OUT_DIR = ROOT / SPEC['captureFolder']
 RECEIPT = ROOT / SPEC['receiptFolder'] / ('lighting-v3-capture-' + STAMP + '.json')
 INSTANCE_FOLDER = SPEC['instanceFolder']
-NO_BARRIER_SETTLE_SECONDS = 30.0
+NO_BARRIER_SETTLE_SECONDS = float(switch('LightingV3Settle', '30'))
+WARMUP_SECONDS = float(switch('LightingV3Warmup', str(CAP['warmupSeconds'])))
+REUSE_BASELINE = switch('LightingV3ReuseBaseline')
 
 
 def sha(path):
@@ -248,6 +250,7 @@ def lighting_snapshot(world):
 
 # ----------------------------------------------------------------------------- traces
 def trace_ground(world, x, y, z_top, z_bottom, ignore=()):
+    ignore = list(ignore) + [a for a in (state.get('pawn'),) if a]   # the pawn capsule top (Z 694 at spawn) is not a floor
     hit = u.SystemLibrary.line_trace_single_by_profile(
         world_context_object=world, start=u.Vector(x, y, z_top), end=u.Vector(x, y, z_bottom), profile_name='Pawn',
         trace_complex=True, actors_to_ignore=list(ignore), draw_debug_type=u.DrawDebugTrace.NONE, ignore_self=False)
@@ -283,11 +286,25 @@ def sightline_blocker(world, start, end, ignore=()):
 def plan_views(world):
     eye = CAP['eyeHeightCm']
     planned = []
+    reuse = {}
+    if REUSE_BASELINE:
+        prior = json.loads(Path(REUSE_BASELINE).read_text(encoding='utf-8-sig'))
+        reuse = {v['id']: v for v in prior.get('views', []) if not v.get('skipped')}
+        report['reusedBaseline'] = {'receipt': REUSE_BASELINE, 'sha256': sha(REUSE_BASELINE), 'stamp': prior.get('stamp'), 'tag': prior.get('tag'),
+                                   'baselineFiles': {c['view']: c['file'] for c in prior.get('captures', []) if c.get('variant') == 'baseline'},
+                                   'viewsReused': [v['id'] for v in VIEWS if v['id'] in reuse],
+                                   'viewsPlannedFresh': [v['id'] for v in VIEWS if v['id'] not in reuse]}
     overlay_tag = CAP['kotel']['overlayTag']
     ignore = [a for a in u.GameplayStatics.get_all_actors_of_class(world, u.Actor) if overlay_tag in [str(t) for t in a.tags]]
     for v in VIEWS:
         row = {'id': v['id'], 'basis': v.get('basis'), 'fov': v.get('fov', CAP['fovDegrees'])}
         try:
+            if v['id'] in reuse:
+                r0 = reuse[v['id']]
+                row.update(position=list(r0['position']), pitch=r0['pitch'], yaw=r0['yaw'], fov=r0.get('fov', row['fov']),
+                           groundTrace='reused from baseline receipt (identical camera for a pixel-comparable pair)')
+                planned.append(row)
+                continue
             if 'fixedZ' in v:
                 row.update(position=[v['xy'][0], v['xy'][1], v['fixedZ']], pitch=v['pitch'], yaw=v['yaw'], groundTrace='fixed camera (anchor)')
             elif v.get('kotelFace'):
@@ -572,6 +589,7 @@ def tick(dt):
             state['camera'] = camera
             report['cameraActor'] = {'name': camera.get_name(), 'label': camera.get_actor_label(), 'postProcessBlendWeight': 0.0}
             pawn = u.GameplayStatics.get_player_pawn(world, 0)
+            state['pawn'] = pawn
             if pawn:
                 pawn.set_actor_hidden_in_game(True)
                 report['pawnHidden'] = True
@@ -587,7 +605,7 @@ def tick(dt):
             next_view(world)
             return
         if state['phase'] == 'warming':
-            if elapsed >= CAP['warmupSeconds'] + state.get('extra_settle', 0.0) and state['ticks'] >= CAP['minimumSlateTicks']:
+            if elapsed >= WARMUP_SECONDS + state.get('extra_settle', 0.0) and state['ticks'] >= CAP['minimumSlateTicks']:
                 request_shot(world, state['current'])
             return
         if state['phase'] == 'shot_wait':

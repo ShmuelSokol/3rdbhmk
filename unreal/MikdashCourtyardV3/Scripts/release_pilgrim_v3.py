@@ -499,12 +499,52 @@ def _skeletal_readback(ue, mesh, animations, entry, bones):
     return row, problems
 
 
+LAST_PIPELINE_READBACK = {}
+
+
+def _obj_pipeline_override(ue):
+    """Interchange stack override for the OBJ crowd copy.
+
+    The OBJ carries one `o` group per closed shell (62 on Man_Standard) and the
+    default OBJ pipeline imports one StaticMesh per group. The combined mesh is
+    requested through UInterchangePipelineStackOverride.AddPipeline with a
+    transient InterchangeGenericAssetsPipeline whose mesh pipeline is set to
+    CombineStaticMeshesBehavior=All. Slot names stay the usemtl names (the
+    translator names polygon groups after the material) and the MTL materials
+    are created per garment. The legacy FbxFactory route the crowd field uses
+    combines too, but collapses every slot to the first material name (see
+    crowd-field receipt slots CrowdRobe x15), so it is not used here.
+    5.8 setters return False even on success: every value is read back.
+    """
+    pipeline = ue.InterchangeGenericAssetsPipeline()
+    mesh = pipeline.get_editor_property('mesh_pipeline')
+    wanted = {'combine_static_meshes_behavior': ue.InterchangeCombineStaticMeshesBehavior.ALL,
+              'import_static_meshes': True, 'import_skeletal_meshes': False, 'build_nanite': False}
+    readback = {}
+    for key, value in wanted.items():
+        try:
+            mesh.set_editor_property(key, value)
+            readback[key] = str(mesh.get_editor_property(key))
+        except Exception as error:                                   # noqa: BLE001
+            readback[key] = 'unavailable: ' + str(error)[:120]
+    if 'ALL' not in readback['combine_static_meshes_behavior'].upper():
+        raise RuntimeError('Could not set CombineStaticMeshesBehavior=All on the Interchange mesh '
+                           'pipeline; readback ' + repr(readback))
+    override = ue.InterchangePipelineStackOverride()
+    override.add_pipeline(pipeline)
+    LAST_PIPELINE_READBACK.clear()
+    LAST_PIPELINE_READBACK.update(readback)
+    return override
+
+
 def _import(ue, tools, assets, filename, folder, name=None):
     task = ue.AssetImportTask()
     options = dict(filename=str(filename), destination_path=folder, automated=True,
                    async_=False, replace_existing=False, save=False)
     if name:
         options['destination_name'] = name
+    if str(filename).lower().endswith('.obj'):
+        options['options'] = _obj_pipeline_override(ue)
     for key, value in options.items():
         task.set_editor_property(key, value)
     tools.import_asset_tasks([task])
@@ -631,9 +671,24 @@ def run(apply=False, batch=DEFAULT_BATCH, variants=None, fresh=False):
                               folder + '/StaticMeshes', 'SM_' + entry['id'])
             static = [a for a in statics if isinstance(a, ue.StaticMesh)]
             if len(static) != 1:
-                raise RuntimeError('Static OBJ import for %s yielded %d StaticMeshes'
-                                   % (entry['id'], len(static)))
+                raise RuntimeError('Static OBJ import for %s yielded %d StaticMeshes (combine override '
+                                   'readback %r); nothing saved'
+                                   % (entry['id'], len(static), dict(LAST_PIPELINE_READBACK)))
+            triangles = static[0].get_num_triangles(0)
+            nanite = False
+            try:
+                nanite = bool(static[0].get_editor_property('nanite_settings').get_editor_property('enabled'))
+            except Exception:                                        # noqa: BLE001
+                pass
+            if nanite:
+                raise RuntimeError('Combined StaticMesh for %s came back with Nanite enabled, so the triangle '
+                                   'count would be the fallback; refusing before save' % entry['id'])
+            if triangles != entry['triangles']:
+                raise RuntimeError('Combined StaticMesh for %s has %d triangles, authored %d; nothing saved'
+                                   % (entry['id'], triangles, entry['triangles']))
             row['staticMesh'] = _path(static[0])
+            row['staticTriangles'] = triangles
+            row['staticPipelineReadback'] = dict(LAST_PIPELINE_READBACK)
 
             for asset in objects + statics:
                 if not assets.save_loaded_asset(asset, only_if_is_dirty=False):
@@ -649,13 +704,13 @@ def run(apply=False, batch=DEFAULT_BATCH, variants=None, fresh=False):
 
         # ---- readback: reload from disk, trust nothing that was only set -----
         for entry in this_run:
-            static = ue.load_asset(DEST + '/' + entry['id'] + '/StaticMeshes/SM_' + entry['id'])
+            imported = next(r for r in receipt['imported'] if r['id'] == entry['id'])
+            static = ue.load_asset(imported['staticMesh'])
             if not isinstance(static, ue.StaticMesh):
                 raise RuntimeError('Saved StaticMesh missing on reload for ' + entry['id'])
             static_row, problems = _static_readback(ue, static, entry, spec)
             receipt['problems'].extend(problems)
 
-            imported = next(r for r in receipt['imported'] if r['id'] == entry['id'])
             skeletal = ue.load_asset(imported['skeletalMesh'])
             if not isinstance(skeletal, ue.SkeletalMesh):
                 raise RuntimeError('Saved SkeletalMesh missing on reload for ' + entry['id'])

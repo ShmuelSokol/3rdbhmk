@@ -8,7 +8,10 @@
   "checkpointPrefix": "AronAlignment-",
   "receiptFolder": "SourceAssets/scale-review",
   "receiptPrefix": "aron-alignment-release-",
-  "domeOfTheRockCentroidCm": [-6300.0, 0.0],
+  "domeOfTheRockCentroidCm": [
+    -6300.0,
+    0.0
+  ],
   "rockCentreUncertaintyRadiusCm": 424.0,
   "targets": {
     "Main50": {
@@ -17,10 +20,21 @@
       "lastKnownMapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
       "cmPerAmah": 50.0,
       "courtHalfCm": 8100.0,
-      "deltaCm": [-100.0, 0.0, 0.0],
+      "deltaCm": [
+        -100.0,
+        0.0,
+        0.0
+      ],
       "recommended": false,
       "reason": "The Aron centre (-6200, 0) is 100 cm from the Dome centroid (-6300, 0); the rock centre is uncertain by about 424 cm. Applying requires -AronAlignAllowNotRecommended in addition to -AronAlignApply.",
-      "aron": {"label": "RELEASE_Aron_Body", "expectedLocationBeforeCm": [-6200.0, 0.0, 925.0000610351562]},
+      "aron": {
+        "label": "RELEASE_Aron_Body",
+        "expectedLocationBeforeCm": [
+          -6200.0,
+          0.0,
+          925.0000610351562
+        ]
+      },
       "descriptor": null,
       "protectedMaps": [
         "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
@@ -32,20 +46,39 @@
     "Candidate48": {
       "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
       "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
-      "lastKnownMapSha256": "fc1643c4ae48f93efede04930b17aca147db3cff4f0bc70b1571b79ab095278d",
+      "lastKnownMapSha256": "06f6bd48fcb6f4fe1ed7631d7571aba2f117a01310b10eb89954df5b260230c1",
       "lastKnownMapSha256Provenance": "Observed by dry run aron-alignment-release-Candidate48-20260908T214539156783Z.json and on disk 2026-09-08 21:5x UTC, after the candidate-spawn-fix receipts of 19:21-19:23 UTC changed the map. Previous handoff value 8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89. Apply refuses if the map changes again.",
       "cmPerAmah": 48.0,
       "courtHalfCm": 7776.0,
-      "deltaCm": [-248.0, 0.0, 0.0],
+      "deltaCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
       "recommended": true,
       "reason": "Re-pivot: the .96 conversion was pivoted at the outer altar (origin), sliding the Aron 248 cm east to -5952. Translating the converted Temple by -248 and moving the Selected48 descriptor pivot to the legacy Aron (-6200, 0, 0) is the same as having scaled about the Aron; the runtime adapters follow the descriptor. Residual to the Dome centroid: 100 cm, same as main; not chased.",
-      "aron": {"label": "RELEASE_Aron_Body", "expectedLocationBeforeCm": [-5952.0, 0.0, 888.00005859375]},
+      "aron": {
+        "label": "RELEASE_Aron_Body",
+        "expectedLocationBeforeCm": [
+          -5952.0,
+          0.0,
+          888.00005859375
+        ]
+      },
       "descriptor": {
         "className": "MikdashSceneUnits",
         "expectedCount": 1,
         "property": "fixed_architecture_origin_cm",
-        "before": [0.0, 0.0, 0.0],
-        "after": [-6200.0, 0.0, 0.0],
+        "before": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "after": [
+          -6200.0,
+          0.0,
+          0.0
+        ],
         "consistencyRule": "Scaling a legacy point P about pivot Q by r gives Q + (P - Q) r = r P + Q (1 - r): the same as scaling about the origin and translating by Q (1 - r). With r = .96 and Q = (-6200, 0, 0) the translation is (-248, 0, 0) = deltaCm; equivalently after = deltaCm / (1 - r)."
       },
       "protectedMaps": [
@@ -53,6 +86,13 @@
         "/Game/MikdashV3/Maps/Courtyard",
         "/Game/MikdashV3/FutureMountV1/L_FutureMount",
         "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+      ],
+      "lastKnownMapSha256History": [
+        {
+          "previous": "fc1643c4ae48f93efede04930b17aca147db3cff4f0bc70b1571b79ab095278d",
+          "replacedBy": "06f6bd48fcb6f4fe1ed7631d7571aba2f117a01310b10eb89954df5b260230c1",
+          "reason": "release_enclosure.py -EnclosureTarget=Candidate48 saved the candidate (receipt native-enclosure-Candidate48-20260908T215500489017Z.json); reviewed by the coordinator, not a blind bump"
+        }
       ]
     }
   },
@@ -67,7 +107,23 @@
       "rule": "ALL 18 RELEASE_TOUR_Marker_<nn>_<key> StaticMeshActors move with the Temple (temple_respawn), including the three deck stops mount-and-house (legacy X 12000), immersion (11000) and soreg-and-cheil (10000).",
       "why": "AMikdashTourGuide converts EVERY stop's stand/look through MikdashSceneUnits::TryLegacyTemplePoint(TourFrame, ...) (MikdashTourGuide.cpp lines 374 and 548); there is no per-stop frame flag in tour-stops.json. Scripts/release_amah48_tour.py placed the candidate markers at stand x .96 for all 18 stops (12000 -> 11520, 11000 -> 10560, 10000 -> 9600). Marker and runtime stand therefore share one frame; when the descriptor pivot moves to (-6200,0,0) the runtime stands shift by -248 cm and the markers must shift identically or the discs no longer sit under the arrival radius.",
       "finding": "The deck stops were scaled about the origin as if they were Temple frame. On the flat Z 0 Mount deck (X to +149 m) that is a harmless 4.4-4.8 m westward slide (soreg-and-cheil is genuinely Temple architecture, the outer envelope reaching X 92 m), but mount-and-house and immersion are conceptually metric context. Making them metric needs a per-stop frame flag in tour-stops.json and TourGuide/TourMath - a tour-placement rule outside this script's ownership, not something a translation should paper over.",
-      "afterRepivotDeckMarkersCm": {"mount-and-house": [11272.0, 0.0, 4.0], "immersion": [10312.0, 864.0, 4.0], "soreg-and-cheil": [9352.0, 0.0, 4.0]}
+      "afterRepivotDeckMarkersCm": {
+        "mount-and-house": [
+          11272.0,
+          0.0,
+          4.0
+        ],
+        "immersion": [
+          10312.0,
+          864.0,
+          4.0
+        ],
+        "soreg-and-cheil": [
+          9352.0,
+          0.0,
+          4.0
+        ]
+      }
     },
     "templeMeshPrefixes": [
       "/Game/MikdashV3/Architecture/",
@@ -84,12 +140,30 @@
       "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/"
     ],
     "templeLabelPrefixes": [
-      "RELEASE_Frieze", "RELEASE_Doors", "RELEASE_MenorahV4", "RELEASE_Shulchan", "RELEASE_Aron", "RELEASE_IncenseAltar",
-      "Review_Heichal", "Review_Kodesh", "RELEASE_TOUR_", "RELEASE_Paroches", "RELEASE_KodeshInteriorLight", "RELEASE_HeikhalEntranceFill",
-      "RELEASE_Resident_", "Mikdash_PlayerStart", "PlayerStart"
+      "RELEASE_Frieze",
+      "RELEASE_Doors",
+      "RELEASE_MenorahV4",
+      "RELEASE_Shulchan",
+      "RELEASE_Aron",
+      "RELEASE_IncenseAltar",
+      "Review_Heichal",
+      "Review_Kodesh",
+      "RELEASE_TOUR_",
+      "RELEASE_Paroches",
+      "RELEASE_KodeshInteriorLight",
+      "RELEASE_HeikhalEntranceFill",
+      "RELEASE_Resident_",
+      "Mikdash_PlayerStart",
+      "PlayerStart"
     ],
     "templeMovableClasses": [
-      "PlayerStart", "CameraActor", "PointLight", "RectLight", "SpotLight", "AmbientSound", "MikdashResidentCharacter"
+      "PlayerStart",
+      "CameraActor",
+      "PointLight",
+      "RectLight",
+      "SpotLight",
+      "AmbientSound",
+      "MikdashResidentCharacter"
     ],
     "templeMovableClassesRequireInsideHalfCm": 9000.0,
     "contextMeshPrefixes": [
@@ -105,23 +179,75 @@
       "/Engine/BasicShapes/"
     ],
     "contextLabelPrefixes": [
-      "SM_Jerusalem", "RELEASE_OldCity", "RELEASE_Kotel", "REVIEW_KotelPhoto", "RELEASE_KotelStoneV2", "RELEASE_Bus", "RELEASE_MountAccess",
-      "SM_MountPlatform", "JCTX_ISM", "RELEASE_Transit", "RELEASE_Enclosure", "RELEASE_Vegetation", "RELEASE_Water"
+      "SM_Jerusalem",
+      "RELEASE_OldCity",
+      "RELEASE_Kotel",
+      "REVIEW_KotelPhoto",
+      "RELEASE_KotelStoneV2",
+      "RELEASE_Bus",
+      "RELEASE_MountAccess",
+      "SM_MountPlatform",
+      "JCTX_ISM",
+      "RELEASE_Transit",
+      "RELEASE_Enclosure",
+      "RELEASE_Vegetation",
+      "RELEASE_Water"
     ],
-    "contextClasses": ["MikdashTransit", "MikdashTransitCrowdCoordinator", "MikdashEnclosure", "MikdashWater"],
+    "contextClasses": [
+      "MikdashTransit",
+      "MikdashTransitCrowdCoordinator",
+      "MikdashEnclosure",
+      "MikdashWater"
+    ],
     "globalClasses": [
-      "DirectionalLight", "SkyAtmosphere", "SkyLight", "PostProcessVolume", "VolumetricCloud", "WindDirectionalSource",
-      "ExponentialHeightFog", "LevelSequenceActor", "MikdashDoveAppearance", "MikdashTimeOfDay", "MikdashSoundscape", "MikdashSettings"
+      "DirectionalLight",
+      "SkyAtmosphere",
+      "SkyLight",
+      "PostProcessVolume",
+      "VolumetricCloud",
+      "WindDirectionalSource",
+      "ExponentialHeightFog",
+      "LevelSequenceActor",
+      "MikdashDoveAppearance",
+      "MikdashTimeOfDay",
+      "MikdashSoundscape",
+      "MikdashSettings"
     ],
     "frameAdaptedClasses": {
       "note": "Actors whose Temple coordinates live in properties (polygons, station points, control points) and are converted at run time through the Selected48 descriptor. They are NOT moved by this script; the descriptor pivot change carries them on Candidate48. On Main50 they would need their properties/specs rewritten (see hardcoded list in the plan receipt) - another reason Main50 is not recommended.",
-      "classes": ["MikdashCrowdField", "MikdashServiceActor", "MikdashFXDirector", "MikdashTourGuide", "MikdashCodex", "MikdashResidentPopulation",
-                  "MikdashBirdFlock", "MikdashCinematics", "MikdashPhotoMode", "MikdashSceneUnits", "MikdashGateSecurity", "MikdashPeopleDirectory"]
+      "classes": [
+        "MikdashCrowdField",
+        "MikdashServiceActor",
+        "MikdashFXDirector",
+        "MikdashTourGuide",
+        "MikdashCodex",
+        "MikdashResidentPopulation",
+        "MikdashBirdFlock",
+        "MikdashCinematics",
+        "MikdashPhotoMode",
+        "MikdashSceneUnits",
+        "MikdashGateSecurity",
+        "MikdashPeopleDirectory"
+      ]
     }
   },
   "moveMethod": {
     "StaticMeshActor": "respawn",
-    "respawnCopies": ["static_mesh", "per-slot material overrides", "collision profile", "collision enabled", "mobility", "visible", "hidden_in_game", "cast_shadow", "folder", "tags", "label", "rotation", "scale"],
+    "respawnCopies": [
+      "static_mesh",
+      "per-slot material overrides",
+      "collision profile",
+      "collision enabled",
+      "mobility",
+      "visible",
+      "hidden_in_game",
+      "cast_shadow",
+      "folder",
+      "tags",
+      "label",
+      "rotation",
+      "scale"
+    ],
     "other": "actor.modify(True); root_component.modify(True); set_actor_location(new, sweep=False, teleport=True) - the pattern release_amah48_frame.py used for PlayerStart_0 and verified after reopen",
     "why": "static-mobility StaticMeshActors do not reliably dirty their package on a transform change; a re-spawned actor is a new export and always saves"
   },

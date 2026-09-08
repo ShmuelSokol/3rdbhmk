@@ -824,6 +824,47 @@ class TransitJob(object):
             return 'label_prefix_fallback'
         return None
 
+    def is_context_terrain(self, hit):
+        """A JerusalemContext DEM tile. Only these may be looked through; a FutureMountV1
+        tile or anything else is not in the list and stays a hard reject."""
+        probes = self.spec['groundProbes']
+        if hit['mesh'] and any(hit['mesh'].startswith(p) for p in probes.get('terrainMeshPrefixes', [])):
+            return True
+        if hit['mesh'] is None and hit['actorLabel'] and any(hit['actorLabel'].startswith(p)
+                                                             for p in probes.get('terrainLabelPrefixes', [])):
+            return True
+        return False
+
+    def probe_surface(self, world, x, y, top, bottom):
+        """One probe: the first blocking hit, and if that is a context terrain tile, the
+        street surface directly beneath it. Returns (row_fields, wheel_z_or_None)."""
+        probes = self.spec['groundProbes']
+        hit = self.trace_down(world, [x, y, top], [x, y, bottom])
+        row = {'hit': hit}
+        if hit is None:
+            return row, None, 'no hit'
+        row['support'] = self.is_support(hit)
+        if row['support'] is not None:
+            return row, hit['pointCm'][2], None
+        if not self.is_context_terrain(hit):
+            return row, None, 'non-support hit: mesh %s label %s' % (hit['mesh'], hit['actorLabel'])
+        # Terrain first: look for the road immediately beneath it.
+        below = self.trace_down(world, [x, y, hit['pointCm'][2] - 2.0], [x, y, bottom])
+        row['terrainFirstHit'] = hit
+        row['hit'] = below
+        if below is None:
+            return row, None, 'terrain %s with nothing beneath' % hit['actorLabel']
+        row['support'] = self.is_support(below)
+        if row['support'] is None:
+            return row, None, 'terrain %s over non-street %s' % (hit['actorLabel'], below['mesh'])
+        intrusion = hit['pointCm'][2] - below['pointCm'][2]
+        row['terrainIntrusionCm'] = intrusion
+        row['support'] = row['support'] + '_under_terrain'
+        limit = float(probes.get('maxTerrainIntrusionCm', 0.0))
+        if intrusion > limit:
+            return row, None, 'road buried %.1f cm under %s (limit %.0f)' % (intrusion, hit['actorLabel'], limit)
+        return row, below['pointCm'][2], None
+
     def evaluate_stop(self, world, route, stop, global_index):
         probes = self.spec['groundProbes']
         footprint = probes['probeFootprintCm']
@@ -840,20 +881,21 @@ class TransitJob(object):
         bottom = stop['worldCm'][2] - probes['traceBelowOfflineZCm']
         rejects = []
         wheel_z = {}
+        offline_wheels = stop['surface'].get('wheelZ') or {}
         for key, (x, y) in probe_points(stop, footprint, route['kind']).items():
-            hit = self.trace_down(world, [x, y, top], [x, y, bottom])
-            row = {'xy': [x, y], 'traceStartZ': top, 'traceEndZ': bottom, 'hit': hit}
-            if hit is None:
-                rejects.append('no hit at ' + key)
+            fields, z, reason = self.probe_surface(world, x, y, top, bottom)
+            row = {'xy': [x, y], 'traceStartZ': top, 'traceEndZ': bottom}
+            row.update(fields)
+            if reason is not None:
+                rejects.append('%s at %s' % (reason, key))
             else:
-                row['support'] = self.is_support(hit)
-                row['offlineDeltaCm'] = hit['pointCm'][2] - stop['surface']['planeCCm']
+                wheel_z[key] = z
+                # Compared per wheel against the offline barycentric Z of the SAME probe,
+                # not against the footprint mean, so a sloped stop does not read as error.
+                reference = offline_wheels.get(key, stop['surface']['planeCCm'])
+                row['offlineZ'] = reference
+                row['offlineDeltaCm'] = z - reference
                 row['offlineAgreement'] = abs(row['offlineDeltaCm']) <= probes['offlineAgreementToleranceCm']
-                if row['support'] is None:
-                    rejects.append('non-support hit at %s: mesh %s label %s'
-                                   % (key, hit['mesh'], hit['actorLabel']))
-                else:
-                    wheel_z[key] = hit['pointCm'][2]
             result['probes'][key] = row
         if len(wheel_z) == 4:
             check = support_check(wheel_z, along, across)
@@ -889,6 +931,11 @@ class TransitJob(object):
             'worstOfflineDeltaCm': max((abs(p.get('offlineDeltaCm', 0.0))
                                         for r in self.receipt['stops']
                                         for p in r['probes'].values()), default=None),
+            'probesAcceptedUnderTerrain': sum(1 for r in self.receipt['stops'] for p in r['probes'].values()
+                                              if str(p.get('support', '')).endswith('_under_terrain')),
+            'worstTerrainIntrusionCm': max((p.get('terrainIntrusionCm', 0.0)
+                                            for r in self.receipt['stops'] for p in r['probes'].values()),
+                                           default=None),
             'mapSha256Before': self.map_sha_before,
         }
         if len(rejected) > spec['groundProbes']['maxFailedStops']:

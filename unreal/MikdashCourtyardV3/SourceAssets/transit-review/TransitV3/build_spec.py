@@ -141,6 +141,20 @@ spec = {
         'maxGradientDegrees': routes['limits']['maxGradientDegrees'],
         'supportMeshPrefixes': ['/Game/MikdashV3/JerusalemContext/Streets/'],
         'supportLabelPrefixes': ['SM_Jerusalem_Asphalt_', 'SM_Jerusalem_StonePaths_'],
+        'terrainMeshPrefixes': ['/Game/MikdashV3/JerusalemContext/Terrain/'],
+        'terrainLabelPrefixes': ['SM_JerusalemTerrain_', 'terrain_'],
+        'maxTerrainIntrusionCm': 60.0,
+        'terrainNote': ('release-transit-v3-trace_stops-20260908T215104484353Z.json (preserved) '
+                        'rejected 5 of 16 stops for one reason: the first blocking hit was a '
+                        'JerusalemContext terrain tile sitting 1-46 cm ABOVE the street ribbon, '
+                        'i.e. the DEM pokes through the road there, while the road mesh is '
+                        'present underneath (the source triangles have it and neighbouring probes '
+                        'on the same footprint hit it). When the first hit is one of these tiles '
+                        'the probe traces again from just below it; a street mesh within '
+                        'maxTerrainIntrusionCm (a kerb height) is accepted and its Z is the wheel '
+                        'Z, and the intrusion is recorded per probe. A buried road beyond that '
+                        'stays rejected. FutureMountV1 tiles are NOT in this list and remain a '
+                        'hard reject, as does any other non-street surface.'),
         'supportNote': ('A stop must stand on a real street mesh. Both street families count: '
                         'SM_Jerusalem_Asphalt_ is the carriageway and SM_Jerusalem_StonePaths_ '
                         'is the paved street. Jaffa Road is paved rather than asphalted in the '

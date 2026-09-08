@@ -121,6 +121,7 @@ def support_check(wheel_z, wheelbase, track):
         failures.append('crossfall %.2f > %.1f deg' % (crossfall, MAX_CROSSFALL_DEG))
     return dict(spreadCm=round(spread, 3), gradientDegrees=round(gradient, 3),
                 crossfallDegrees=round(crossfall, 3), planeCCm=round(c, 3),
+                wheelZ={k: round(v, 3) for k, v in wheel_z.items()},
                 pitchDegrees=round(pitch, 3), rollDegrees=round(roll, 3),
                 failures=failures, passed=not failures)
 

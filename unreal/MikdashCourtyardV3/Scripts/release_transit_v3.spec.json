@@ -853,7 +853,7 @@
   },
   "routes": {
     "file": "SourceAssets/transit-review/TransitV3/routes-v3.json",
-    "sha256": "1ab1255bc3a02d8f05eb07bcbfb08255015905cbc8fb65d8639e38bc514a0dd8",
+    "sha256": "f9a5f55832eb3906b159a494cf6d97b37b01be6a62a3e8535d9d50294cdde430",
     "schemaRequired": "MikdashTransitRoutesV3",
     "alignment": "UEcm = ((x + 17.5097003156877) * 50, (z - 0.5513496449385) * 50, barycentric_asphalt_z * 50)",
     "source": {
@@ -1432,6 +1432,15 @@
       "SM_Jerusalem_Asphalt_",
       "SM_Jerusalem_StonePaths_"
     ],
+    "terrainMeshPrefixes": [
+      "/Game/MikdashV3/JerusalemContext/Terrain/"
+    ],
+    "terrainLabelPrefixes": [
+      "SM_JerusalemTerrain_",
+      "terrain_"
+    ],
+    "maxTerrainIntrusionCm": 60.0,
+    "terrainNote": "release-transit-v3-trace_stops-20260908T215104484353Z.json (preserved) rejected 5 of 16 stops for one reason: the first blocking hit was a JerusalemContext terrain tile sitting 1-46 cm ABOVE the street ribbon, i.e. the DEM pokes through the road there, while the road mesh is present underneath (the source triangles have it and neighbouring probes on the same footprint hit it). When the first hit is one of these tiles the probe traces again from just below it; a street mesh within maxTerrainIntrusionCm (a kerb height) is accepted and its Z is the wheel Z, and the intrusion is recorded per probe. A buried road beyond that stays rejected. FutureMountV1 tiles are NOT in this list and remain a hard reject, as does any other non-street surface.",
     "supportNote": "A stop must stand on a real street mesh. Both street families count: SM_Jerusalem_Asphalt_ is the carriageway and SM_Jerusalem_StonePaths_ is the paved street. Jaffa Road is paved rather than asphalted in the source data, which is why the tram stations sample the stone family. release_place_bus.spec.json accepts the same two prefixes; the hero bus additionally required asphalt under the painted body corners, which is a hero-placement rule and is not applied here.",
     "probeFootprintCm": {
       "road": {

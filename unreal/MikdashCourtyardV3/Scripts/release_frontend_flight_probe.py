@@ -179,8 +179,18 @@ def tick(dt):
     assert report['integratedSystems']['crowdSeeded']==240,'Configured crowd did not seed fully'
     assert report['integratedSystems']['liveFxCards']>0,'No active FX cards'
    if '-takediagnosticstill' in u.SystemLibrary.get_command_line().lower():
+    if '-diagnosticneutralsun' in u.SystemLibrary.get_command_line().lower():
+     suns=list(u.GameplayStatics.get_all_actors_of_class(world,u.DirectionalLight))
+     assert len(suns)==1,'Neutral-sun comparison requires one directional light'
+     light=suns[0].get_component_by_class(u.DirectionalLightComponent)
+     report['diagnosticSunTemperatureBefore']=light.get_editor_property('temperature')
+     light.set_editor_property('use_temperature',True)
+     light.set_temperature(6500.0)
+     report['diagnosticSunTemperatureAfter']=light.get_editor_property('temperature')
+     assert report['diagnosticSunTemperatureAfter']==6500.0
+     report['diagnosticSunScope']='PIE-only color comparison; no map or lighting adoption'
     c.set_control_rotation(u.Rotator(pitch=0,yaw=180,roll=0))
-    if '-diagnosticheikhal' in u.SystemLibrary.get_command_line().lower():
+    if any(flag in u.SystemLibrary.get_command_line().lower() for flag in ('-diagnosticheikhal','-diagnosticparoches','-diagnosticmount','-diagnostickotel')):
      cameras=list(u.GameplayStatics.get_all_actors_of_class(world,u.CameraActor))
      assert cameras,'No PIE camera actor for sanctuary diagnostic'
      camera=cameras[0]
@@ -189,10 +199,22 @@ def tick(dt):
      component=camera.get_component_by_class(u.CameraComponent)
      component.set_editor_property('post_process_blend_weight',0.0)
      assert component.get_editor_property('post_process_blend_weight')==0.0
-     camera.set_actor_location(u.Vector(-4000,0,1093),False,True)
-     camera.set_actor_rotation(u.Rotator(pitch=0,yaw=180,roll=0),True)
+     paroches='-diagnosticparoches' in u.SystemLibrary.get_command_line().lower()
+     mount='-diagnosticmount' in u.SystemLibrary.get_command_line().lower()
+     kotel='-diagnostickotel' in u.SystemLibrary.get_command_line().lower()
+     position=u.Vector(-5100,0,1081) if paroches else u.Vector(-4000,0,1093)
+     if paroches:component.set_field_of_view(55.0)
+     if mount:
+      position=u.Vector(0,0,75000)
+      component.set_field_of_view(60.0)
+     if kotel:
+      position=u.Vector(-17000,14254,1800)
+      component.set_field_of_view(70.0)
+     camera.set_actor_location(position,False,True)
+     camera.set_actor_rotation(u.Rotator(pitch=-25 if kotel else (-90 if mount else 0),yaw=-9.79 if kotel else (0 if mount else 180),roll=0),True)
      c.set_view_target_with_blend(camera,0.0)
-     state['diagnosticExpectedCamera']=u.Vector(-4000,0,1093)
+     state['diagnosticExpectedCamera']=position
+     report['diagnosticSubject']='kotel-platform-join' if kotel else ('mount' if mount else ('paroches' if paroches else 'heikhal'))
      report['diagnosticCameraPostProcessBlendWeight']=0.0
     phase('diagnostic_warm');return
    finish('passed_intro_flight_ascent_pause_exact_return_visual_pending')

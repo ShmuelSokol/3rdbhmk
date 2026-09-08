@@ -1,0 +1,2268 @@
+{
+  "status": "fx_materials_and_director_saved_reopened_visual_acceptance_pending",
+  "stamp": "20260908T135105298734Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "dae24e5e6005cfb87662bb8cf9bc074057c6c6bd655f1b02e9d8e815b4b624d8",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints\\FX-20260908T135105298734Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_fx.spec.json",
+  "specSha256": "5c4d7dc262b2309fa56603c02a968d43da6820f0aa6a079aba538df42c59b05f",
+  "manifestSha256": "d0929b8d7ce6d4c31ee9130a039954c0f41ebfbb36b55b3fe100126ae72d3c2f",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "status": "offline_fx_plan_verified",
+    "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_fx.spec.json",
+    "specSha256": "5c4d7dc262b2309fa56603c02a968d43da6820f0aa6a079aba538df42c59b05f",
+    "manifestFile": "SourceAssets/fx-review/fx-materials.json",
+    "manifestSha256": "d0929b8d7ce6d4c31ee9130a039954c0f41ebfbb36b55b3fe100126ae72d3c2f",
+    "generatorSha256Recorded": "4f63f5747d81743f5e7bfee0f2d9ff5bf98797db0c38aa771aa457dcc4ea6e99",
+    "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "targetMapExists": true,
+    "textures": [
+      {
+        "name": "T_FX_Noise_fBm_512",
+        "file": "SourceAssets/fx-review/textures/T_FX_Noise_fBm_512.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 679363
+      },
+      {
+        "name": "T_FX_Smoke_Puff_512",
+        "file": "SourceAssets/fx-review/textures/T_FX_Smoke_Puff_512.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 508185
+      },
+      {
+        "name": "T_FX_Flame_Card_512",
+        "file": "SourceAssets/fx-review/textures/T_FX_Flame_Card_512.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 290536
+      },
+      {
+        "name": "T_FX_Ember_64",
+        "file": "SourceAssets/fx-review/textures/T_FX_Ember_64.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 1997
+      },
+      {
+        "name": "T_FX_DustMote_64",
+        "file": "SourceAssets/fx-review/textures/T_FX_DustMote_64.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 1882
+      },
+      {
+        "name": "T_FX_LightShaft_256",
+        "file": "SourceAssets/fx-review/textures/T_FX_LightShaft_256.png",
+        "exists": true,
+        "sha256Matches": true,
+        "bytes": 170162
+      }
+    ],
+    "materials": [
+      "M_FX_Flame",
+      "M_FX_Smoke",
+      "M_FX_Point",
+      "M_FX_Shaft",
+      "M_FX_HeatHaze"
+    ],
+    "instances": [
+      "MI_FX_Flame_Altar",
+      "MI_FX_Flame_Lamp",
+      "MI_FX_Smoke_Column",
+      "MI_FX_Smoke_Ketores",
+      "MI_FX_Smoke_Ceiling",
+      "MI_FX_Haze_Smoke",
+      "MI_FX_Ember",
+      "MI_FX_DustMote",
+      "MI_FX_LightShaft",
+      "MI_FX_HeatHaze"
+    ],
+    "effects": [
+      {
+        "id": "OuterAltarFire",
+        "location": [
+          0.0,
+          0.0,
+          1091.1667
+        ],
+        "material": "MI_FX_Flame_Altar",
+        "continuous": true,
+        "sourceClaims": [
+          "FX-SRC-ESH-TAMID"
+        ],
+        "needsReview": null
+      },
+      {
+        "id": "OuterAltarColumn",
+        "location": [
+          0.0,
+          0.0,
+          1091.1667
+        ],
+        "material": "MI_FX_Smoke_Column",
+        "continuous": true,
+        "sourceClaims": [
+          "FX-SRC-STRAIGHT"
+        ],
+        "needsReview": null
+      },
+      {
+        "id": "OuterAltarEmbers",
+        "location": [
+          0.0,
+          0.0,
+          1091.1667
+        ],
+        "material": "MI_FX_Ember",
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": null
+      },
+      {
+        "id": "OuterAltarLight",
+        "location": [
+          0.0,
+          0.0,
+          1151.1667
+        ],
+        "material": null,
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": null
+      },
+      {
+        "id": "AltarSmokeHaze",
+        "location": [
+          0.0,
+          0.0,
+          1341.1667
+        ],
+        "material": "MI_FX_Haze_Smoke",
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": null
+      },
+      {
+        "id": "KetoresPlume",
+        "location": [
+          -4650.0,
+          0.0,
+          1004.1667
+        ],
+        "material": "MI_FX_Smoke_Ketores",
+        "continuous": false,
+        "sourceClaims": [
+          "FX-SRC-KETORES",
+          "FX-SRC-TAMID"
+        ],
+        "needsReview": null
+      },
+      {
+        "id": "KetoresCeilingLayer",
+        "location": [
+          -4650.0,
+          0.0,
+          2885.0
+        ],
+        "material": "MI_FX_Smoke_Ceiling",
+        "continuous": false,
+        "sourceClaims": [
+          "FX-SRC-KETORES"
+        ],
+        "needsReview": null
+      },
+      {
+        "id": "MenorahFlames",
+        "location": [
+          [
+            -5330.0,
+            360.221,
+            1071.67
+          ],
+          [
+            -5330.0,
+            346.646,
+            1071.67
+          ],
+          [
+            -5330.0,
+            331.676,
+            1071.67
+          ],
+          [
+            -5330.0,
+            315.176,
+            1071.67
+          ],
+          [
+            -5330.0,
+            298.676,
+            1071.67
+          ],
+          [
+            -5330.0,
+            283.706,
+            1071.67
+          ],
+          [
+            -5330.0,
+            270.131,
+            1071.67
+          ]
+        ],
+        "material": "MI_FX_Flame_Lamp",
+        "continuous": true,
+        "sourceClaims": [
+          "FX-SRC-MENORAH"
+        ],
+        "needsReview": null
+      },
+      {
+        "id": "HeikhalShafts",
+        "location": [
+          -4400.0,
+          0.0,
+          2100.0
+        ],
+        "material": "MI_FX_LightShaft",
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": "Heikhal window positions are not settled in this build; the shaft origins are authored, not derived from a window mesh."
+      },
+      {
+        "id": "HeikhalMotes",
+        "location": [
+          -4400.0,
+          0.0,
+          1700.0
+        ],
+        "material": "MI_FX_DustMote",
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": null
+      },
+      {
+        "id": "CourtHeatHaze",
+        "location": [
+          [
+            0.0,
+            0.0,
+            1420.0
+          ],
+          [
+            900.0,
+            0.0,
+            1030.0
+          ],
+          [
+            -600.0,
+            700.0,
+            1030.0
+          ],
+          [
+            -600.0,
+            -700.0,
+            1030.0
+          ],
+          [
+            1800.0,
+            0.0,
+            1060.0
+          ]
+        ],
+        "material": "MI_FX_HeatHaze",
+        "continuous": true,
+        "sourceClaims": [],
+        "needsReview": null
+      }
+    ],
+    "sourceClaims": [
+      "FX-SRC-STRAIGHT",
+      "FX-SRC-ESH-TAMID",
+      "FX-SRC-KETORES",
+      "FX-SRC-TAMID",
+      "FX-SRC-MENORAH",
+      "FX-SRC-NEGATIVE"
+    ],
+    "problems": [],
+    "notEstablished": [
+      "This places and wires the effects. It does not prove they look right: colour, opacity, density, flicker depth and duration are artistic and need a human on a screenshot.",
+      "The MenorahV4 model is the Temple Institute display vessel, whose lamp bowls carry lids and finials and have no exposed wick. The flame is authored at the lid crown so it reads as a lit lamp. Recorded as a modelling compromise, not a claim about the vessel.",
+      "The light shafts, the dust motes and the heat haze are camera-facing translucent cards, not volumetrics. They read correctly from the reviewed visitor viewpoints and will not survive an arbitrary flythrough.",
+      "The Heikhal window positions are not settled, so the shaft anchors are authored design data marked needs_review.",
+      "The GPU figures in the manifest are overdraw arithmetic, not a capture on the target card.",
+      "Nothing here is rabbinic approval. The straight smoke column over the outer altar is a depiction of a cited claim (Avos 5:5), not a physical result. No part of this depicts the incense formula or maaleh ashan's botanical identity."
+    ],
+    "sharedDynamicParameters": [
+      "FXFade",
+      "FXErosion",
+      "FXSeed",
+      "FXAge",
+      "FXFlicker",
+      "VFlip"
+    ]
+  },
+  "mathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/PlumeMath.h",
+  "mathTest": "Plugins/MikdashRuntime/Tests/PlumeMathTest.cpp",
+  "sourceClaims": [
+    {
+      "id": "FX-SRC-STRAIGHT",
+      "class": "H",
+      "claim": "The column of smoke from the arrangement was not dispersed by the wind.",
+      "source": "Avos 5:5 (among the miracles of the Mikdash)",
+      "depiction": "OuterAltarColumn is authored vertical at every wind speed. This is a depiction of a cited claim, not a physical result; the physical bent-plume path stays in PlumeMath.h and is separately tested."
+    },
+    {
+      "id": "FX-SRC-ESH-TAMID",
+      "class": "Torah text",
+      "claim": "A perpetual fire shall burn on the altar; it shall not go out.",
+      "source": "Vayikra 6:6",
+      "depiction": "The outer altar fire is the only continuous effect in the set."
+    },
+    {
+      "id": "FX-SRC-KETORES",
+      "class": "H",
+      "claim": "A stafflike column rose to the ceiling, and the smoke then spread and descended until the chamber was filled.",
+      "source": "Yoma 53a:4-5, 11",
+      "depiction": "Narrow indoor column (entrainment 0.06), ceiling impingement, radial ceiling jet, descending layer. Velocities, depths and durations are design values; the sugya gives none."
+    },
+    {
+      "id": "FX-SRC-TAMID",
+      "class": "H",
+      "claim": "Incense twice daily on the Golden Altar in the Heikhal, tied to tending the lamps.",
+      "source": "Shemos 30:7-8; Rambam, Temidin uMusafin 3:1",
+      "depiction": "The ketores plume is an event with a start and an end, driven by AMikdashServiceActor through AMikdashFXDirector, not a permanent emitter. Research dossier Research/ketores-service-and-smoke.md is explicit that 'regular service' is not evidence for a continuous emitter."
+    },
+    {
+      "id": "FX-SRC-MENORAH",
+      "class": "Torah text",
+      "claim": "Beaten olive oil for the light, to kindle a lamp continually.",
+      "source": "Shemos 27:20; Vayikra 24:2",
+      "depiction": "Wick-scale flames, warm and small, one small light each. Not torch scale."
+    },
+    {
+      "id": "FX-SRC-NEGATIVE",
+      "class": "R",
+      "claim": "The texts give qualitative behaviour and no measured colour, opacity, rise velocity, particle size or persistence.",
+      "source": "Research/ketores-service-and-smoke.md",
+      "depiction": "Every colour, opacity, speed and duration in this manifest is labelled a design value and none is presented as measured."
+    }
+  ],
+  "effectTable": [
+    {
+      "id": "OuterAltarFire",
+      "label": "Outer altar fire",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Flame_Altar",
+      "cards": {
+        "min": 6,
+        "max": 18
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-ESH-TAMID"
+      ],
+      "notes": "Additive flame cards sitting on the wood arrangement, 325.0 cm across, flicker 0.83205 Hz."
+    },
+    {
+      "id": "OuterAltarColumn",
+      "label": "Outer altar smoke column",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Smoke_Column",
+      "cards": {
+        "min": 4,
+        "max": 14
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-STRAIGHT"
+      ],
+      "columnTopZCm": 5291.1667,
+      "notes": "Vertical at every wind speed. Source claim, not physics."
+    },
+    {
+      "id": "OuterAltarEmbers",
+      "label": "Outer altar embers",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Ember",
+      "cards": {
+        "min": 0,
+        "max": 96
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Log-normal burnout, median 1.6 s, 95th percentile 3.9538 s."
+    },
+    {
+      "id": "OuterAltarLight",
+      "label": "Fire light on the surrounding stone",
+      "actorClass": "PointLight",
+      "location": [
+        0.0,
+        0.0,
+        1151.1667
+      ],
+      "material": null,
+      "cards": {
+        "min": 1,
+        "max": 1
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "One movable point light, 2100 K, flickered by the same FFlicker stream as the flame cards so light and flame agree."
+    },
+    {
+      "id": "AltarSmokeHaze",
+      "label": "Faint smoke haze near the altar",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1341.1667
+      ],
+      "material": "MI_FX_Haze_Smoke",
+      "cards": {
+        "min": 2,
+        "max": 6
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Low-contrast depth-faded cards, opacity under 0.06."
+    },
+    {
+      "id": "KetoresPlume",
+      "label": "Ketores plume on the golden altar",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4650.0,
+        0.0,
+        1004.1667
+      ],
+      "material": "MI_FX_Smoke_Ketores",
+      "cards": {
+        "min": 4,
+        "max": 16
+      },
+      "continuous": false,
+      "sourceClaims": [
+        "FX-SRC-KETORES",
+        "FX-SRC-TAMID"
+      ],
+      "columnTopZCm": 2924.1667,
+      "notes": "Event, not an emitter. Rises then spreads. Reaches the ceiling in 43.799885 s."
+    },
+    {
+      "id": "KetoresCeilingLayer",
+      "label": "Ketores ceiling layer",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4650.0,
+        0.0,
+        2885.0
+      ],
+      "material": "MI_FX_Smoke_Ceiling",
+      "cards": {
+        "min": 2,
+        "max": 8
+      },
+      "continuous": false,
+      "sourceClaims": [
+        "FX-SRC-KETORES"
+      ],
+      "notes": "Spreads to 1050.0 cm and descends to 949.9992 cm. Stops at the ceiling; it never leaves the roof."
+    },
+    {
+      "id": "MenorahFlames",
+      "label": "Menorah seven lamps",
+      "actorClass": "MikdashFXDirector-owned card group + 7 PointLights",
+      "location": [
+        [
+          -5330.0,
+          360.221,
+          1071.67
+        ],
+        [
+          -5330.0,
+          346.646,
+          1071.67
+        ],
+        [
+          -5330.0,
+          331.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          315.176,
+          1071.67
+        ],
+        [
+          -5330.0,
+          298.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          283.706,
+          1071.67
+        ],
+        [
+          -5330.0,
+          270.131,
+          1071.67
+        ]
+      ],
+      "material": "MI_FX_Flame_Lamp",
+      "cards": {
+        "min": 7,
+        "max": 7
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-MENORAH"
+      ],
+      "notes": "Wick 0.6 cm, flicker 19.364917 Hz, 7.0 cm tall, one 1.4 cd light each."
+    },
+    {
+      "id": "HeikhalShafts",
+      "label": "Light shafts in the Heikhal",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4400.0,
+        0.0,
+        2100.0
+      ],
+      "material": "MI_FX_LightShaft",
+      "cards": {
+        "min": 3,
+        "max": 6
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Card beams from the Heikhal doorway wall toward the floor. Design: the window arrangement is not settled, so the shaft anchors are spec data and marked needs_review.",
+      "needsReview": "Heikhal window positions are not settled in this build; the shaft origins are authored, not derived from a window mesh."
+    },
+    {
+      "id": "HeikhalMotes",
+      "label": "Dust motes in the shafts",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4400.0,
+        0.0,
+        1700.0
+      ],
+      "material": "MI_FX_DustMote",
+      "cards": {
+        "min": 0,
+        "max": 120
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Motes drift only inside the shaft volumes; outside them they are invisible, which is what makes a shaft read as light."
+    },
+    {
+      "id": "CourtHeatHaze",
+      "label": "Heat shimmer over the fire and haze over the courts at midday",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        [
+          0.0,
+          0.0,
+          1420.0
+        ],
+        [
+          900.0,
+          0.0,
+          1030.0
+        ],
+        [
+          -600.0,
+          700.0,
+          1030.0
+        ],
+        [
+          -600.0,
+          -700.0,
+          1030.0
+        ],
+        [
+          1800.0,
+          0.0,
+          1060.0
+        ]
+      ],
+      "material": "MI_FX_HeatHaze",
+      "cards": {
+        "min": 2,
+        "max": 5
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Refraction-only cards. The first sits directly over the fire and is the altar's own heat shimmer; it is always on, because a fire is hot at any hour. The rest are the court haze and are scaled by HeatHazeStrength, which the time-of-day system drives through AMikdashFXDirector::SetHeatHazeStrength so this actor never reads the clock itself."
+    }
+  ],
+  "gpuBudget": {
+    "targetResolution": [
+      1920,
+      1080
+    ],
+    "targetFps": 60,
+    "fullDetailCm": 3000.0,
+    "cutoffCm": 24000.0,
+    "overdrawBudgetScreenAreas": 3.0,
+    "rtx2070Estimate": {
+      "status": "ARITHMETIC_NOT_A_CAPTURE",
+      "translucentMs": "1.0 to 1.8",
+      "translucentBasis": "The director holds total translucent overdraw to 3 screen areas and lowers EffectsQuality when it does not. 3 x 1920 x 1080 is 6.2 Mpixel of translucent shading; these materials are two texture fetches and about 30 ALU each, which a 2070 covers comfortably inside 2 ms.",
+      "dynamicLightsMs": "0.2 to 0.4",
+      "dynamicLightsBasis": "Eight movable point lights, all shadowless: the altar fire plus one per lamp. The lamp lights reach 260 cm, so each covers a small screen footprint. A shadow-casting flickering fire light would cost more than this whole set and is deliberately not used.",
+      "realRisk": "Draw calls, not fill. 295 cards is the arithmetic worst case; the altar group and the Heikhal group are 30 m apart and the per-anchor distance quality means both are never at full detail at once, so the practical range is 40 to 90 cards. That is CPU-side and is what to watch on a capture.",
+      "notMeasured": "Nobody has run this on a 2070. These are budgets to check a capture against."
+    },
+    "cards": {
+      "outerAltarFire": {
+        "min": 6,
+        "max": 18
+      },
+      "outerAltarColumn": {
+        "min": 4,
+        "max": 14
+      },
+      "outerAltarEmbers": {
+        "min": 0,
+        "max": 96
+      },
+      "ketoresPlume": {
+        "min": 4,
+        "max": 16
+      },
+      "ketoresCeilingLayer": {
+        "min": 2,
+        "max": 8
+      },
+      "menorahFlames": {
+        "min": 7,
+        "max": 7
+      },
+      "heikhalShafts": {
+        "min": 3,
+        "max": 6
+      },
+      "heikhalMotes": {
+        "min": 0,
+        "max": 120
+      },
+      "courtHeatHaze": {
+        "min": 2,
+        "max": 5
+      },
+      "altarSmokeHaze": {
+        "min": 2,
+        "max": 6
+      }
+    }
+  },
+  "honesty": "Colour, opacity, rise velocity, particle size and duration are artistic choices. The straight smoke column is a depiction of a cited claim (Avos 5:5), not a physical result. Nothing here is rabbinic approval.",
+  "limitations": [
+    "This places and wires the effects. It does not prove they look right: colour, opacity, density, flicker depth and duration are artistic and need a human on a screenshot.",
+    "The MenorahV4 model is the Temple Institute display vessel, whose lamp bowls carry lids and finials and have no exposed wick. The flame is authored at the lid crown so it reads as a lit lamp. Recorded as a modelling compromise, not a claim about the vessel.",
+    "The light shafts, the dust motes and the heat haze are camera-facing translucent cards, not volumetrics. They read correctly from the reviewed visitor viewpoints and will not survive an arbitrary flythrough.",
+    "The Heikhal window positions are not settled, so the shaft anchors are authored design data marked needs_review.",
+    "The GPU figures in the manifest are overdraw arithmetic, not a capture on the target card.",
+    "Nothing here is rabbinic approval. The straight smoke column over the outer altar is a depiction of a cited claim (Avos 5:5), not a physical result. No part of this depicts the incense formula or maaleh ashan's botanical identity.",
+    "The MenorahV4 model is the Temple Institute display vessel: each lamp bowl (local Z 142.17..143.94 cm) carries a decorative lid (143.745..146.67) and a finial (146.67..150). The model has no exposed wick. The flame is therefore authored at the lid crown, local Z 146.67, so that it reads as a lit lamp; lampFlameLocalZCm in the spec moves it back to the bowl rim if the menorah model is ever given open bowls. This is a modelling compromise, recorded, not a claim about the vessel.",
+    "Heat shimmer, the light shafts and the heat haze are camera-facing translucent cards with a refraction/panner treatment, not a volumetric or a screen-space distortion pass. They read correctly from the reviewed visitor viewpoints and will not survive an arbitrary flythrough.",
+    "The GPU numbers in this manifest are overdraw arithmetic, not a measured capture on an RTX 2070.",
+    "Nothing here is rabbinic approval, and no part of this depicts the incense formula, maaleh ashan's botanical identity, or a rule about service."
+  ],
+  "niagaraProbe": {
+    "symbolsPresent": {
+      "NiagaraSystem": true,
+      "NiagaraEmitter": true,
+      "NiagaraComponent": true,
+      "NiagaraActor": true,
+      "NiagaraSystemFactoryNew": true,
+      "NiagaraEmitterFactoryNew": true,
+      "NiagaraFunctionLibrary": true,
+      "NiagaraEditorLibrary": false,
+      "NiagaraScript": true,
+      "NiagaraDataInterface": true,
+      "NiagaraSystemEditorData": false
+    },
+    "authoringSurface": {
+      "NiagaraSystem.addsEmitters": false,
+      "NiagaraEmitter.addsModules": false
+    },
+    "niagaraGraphAuthoringAvailable": false,
+    "decision": "material_driven_cards",
+    "reason": "Niagara exists in the Python surface but exposes no way to add an emitter stage, a module or a renderer, so a system created from script would be empty. The effect set is therefore material-driven translucent cards driven by AMikdashFXDirector, which is the path this project already uses."
+  },
+  "placed": {
+    "label": "RELEASE_MikdashFXDirector",
+    "name": "MikdashFXDirector_0",
+    "class": "MikdashFXDirector",
+    "folder": "Runtime/FX",
+    "tags": [
+      "ReleaseMikdashFXV1"
+    ],
+    "location": [
+      0.0,
+      0.0,
+      1100.0
+    ],
+    "properties": {
+      "card_mesh": "/Engine/BasicShapes/Plane.Plane",
+      "flame_altar_material": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Altar.MI_FX_Flame_Altar",
+      "flame_lamp_material": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Lamp.MI_FX_Flame_Lamp",
+      "smoke_column_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Column.MI_FX_Smoke_Column",
+      "smoke_ketores_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ketores.MI_FX_Smoke_Ketores",
+      "smoke_ceiling_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling.MI_FX_Smoke_Ceiling",
+      "smoke_haze_material": "/Game/MikdashV3/FX/Materials/MI_FX_Haze_Smoke.MI_FX_Haze_Smoke",
+      "ember_material": "/Game/MikdashV3/FX/Materials/MI_FX_Ember.MI_FX_Ember",
+      "dust_mote_material": "/Game/MikdashV3/FX/Materials/MI_FX_DustMote.MI_FX_DustMote",
+      "light_shaft_material": "/Game/MikdashV3/FX/Materials/MI_FX_LightShaft.MI_FX_LightShaft",
+      "heat_haze_material": "/Game/MikdashV3/FX/Materials/MI_FX_HeatHaze.MI_FX_HeatHaze",
+      "outer_altar_fire_cm": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "golden_altar_top_cm": [
+        -4650.0,
+        0.0,
+        1004.1667
+      ],
+      "lamp_flame_cm": [
+        [
+          -5330.0,
+          360.221,
+          1071.67
+        ],
+        [
+          -5330.0,
+          346.646,
+          1071.67
+        ],
+        [
+          -5330.0,
+          331.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          315.176,
+          1071.67
+        ],
+        [
+          -5330.0,
+          298.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          283.706,
+          1071.67
+        ],
+        [
+          -5330.0,
+          270.131,
+          1071.67
+        ]
+      ],
+      "lamp_light_cm": [
+        [
+          -5330.0,
+          360.221,
+          1075.0
+        ],
+        [
+          -5330.0,
+          346.646,
+          1075.0
+        ],
+        [
+          -5330.0,
+          331.676,
+          1075.0
+        ],
+        [
+          -5330.0,
+          315.176,
+          1075.0
+        ],
+        [
+          -5330.0,
+          298.676,
+          1075.0
+        ],
+        [
+          -5330.0,
+          283.706,
+          1075.0
+        ],
+        [
+          -5330.0,
+          270.131,
+          1075.0
+        ]
+      ],
+      "effects_quality": 1.0,
+      "full_detail_cm": 3000.0,
+      "cutoff_cm": 24000.0,
+      "overdraw_budget": 3.0,
+      "cards_built_per_frame": 12,
+      "flip_card_v": false,
+      "heat_haze_strength": 1.0,
+      "wind_speed_cm_s": 140.0,
+      "wind_direction_degrees": 200.0,
+      "follow_service_actor": true,
+      "service_incense_cue": "golden altar for the incense",
+      "ketores_emission_seconds": 20.0,
+      "ketores_accumulate_seconds": 45.0,
+      "ketores_dissipate_seconds": 60.0,
+      "outer_altar_fire_diameter_cm": 325.0,
+      "heikhal_ceiling_z_cm": 2925.0
+    },
+    "numeric": {
+      "outerAltarFireX": 0.0,
+      "outerAltarFireY": 0.0,
+      "outerAltarFireZ": 1091.1667,
+      "outerAltarFireDiameterCm": 325.0,
+      "outerAltarPuffingHz": 0.8321,
+      "outerAltarColumnHeightCm": 4200.0,
+      "outerAltarColumnTopZCm": 5291.1665,
+      "outerAltarStraightColumn": 1.0,
+      "outerAltarAxisOffsetAtTopCm": 0.0,
+      "goldenAltarTopZCm": 1004.1667,
+      "ketoresColumnHeightCm": 1920.0,
+      "ketoresColumnTopZCm": 2924.1667,
+      "heikhalCeilingZCm": 2925.0,
+      "ketoresCeilingClearanceCm": 0.8333,
+      "ketoresImpingementSeconds": 43.7999,
+      "ketoresEventSeconds": 148.7999,
+      "lampCount": 7.0,
+      "lampPuffingHz": 19.3649,
+      "lamp0Y": 360.221,
+      "lamp0Z": 1071.67,
+      "lamp1Y": 346.646,
+      "lamp1Z": 1071.67,
+      "lamp2Y": 331.676,
+      "lamp2Z": 1071.67,
+      "lamp3Y": 315.176,
+      "lamp3Z": 1071.67,
+      "lamp4Y": 298.676,
+      "lamp4Z": 1071.67,
+      "lamp5Y": 283.706,
+      "lamp5Z": 1071.67,
+      "lamp6Y": 270.131,
+      "lamp6Z": 1071.67,
+      "shaftCount": 0.0,
+      "cardsPlanned": 0.0,
+      "cardsBuilt": 0.0,
+      "heatHazeStrength": 1.0,
+      "liveCards": 0.0,
+      "estimatedOverdraw": 0.0,
+      "effectsQuality": 1.0
+    }
+  },
+  "errors": [],
+  "mapSaved": true,
+  "effectPath": "material_driven_cards",
+  "textures": [
+    {
+      "name": "T_FX_Noise_fBm_512",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_Noise_fBm_512",
+      "sourceSha256": "75407c6e15818159a781fbf04b52c596163a2fea34ebb1b6e7883b6522d64e2e",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        512,
+        512
+      ],
+      "channels": "R fine fBm (32 cells), G medium (8), B coarse (4); all three tile exactly"
+    },
+    {
+      "name": "T_FX_Smoke_Puff_512",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_Smoke_Puff_512",
+      "sourceSha256": "d8fdba0d2fb01ae0fe80db1b43b076229d783ef3ad388b2952f89325956416d4",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        512,
+        512
+      ],
+      "channels": "R lumpy density, G erosion threshold, B clean radial falloff; centred, not tileable by design"
+    },
+    {
+      "name": "T_FX_Flame_Card_512",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_Flame_Card_512",
+      "sourceSha256": "9c16ab8e5e4e3efc040cfb29dd95a4e479ac182abc0290971a7d34ef845c7ff3",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        512,
+        512
+      ],
+      "channels": "R flame body, G tip-biased erosion ramp, B hot core; V=0 is the tip and V=1 the base, matching a quad whose V=0 edge is its top edge"
+    },
+    {
+      "name": "T_FX_Ember_64",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_Ember_64",
+      "sourceSha256": "d58e5b5f0ba92fdeac4a6e763d98ca6289b95c881fba495e250053d91374298c",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        64,
+        64
+      ],
+      "channels": "R soft dot, G hard dot, B vertical streak"
+    },
+    {
+      "name": "T_FX_DustMote_64",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_DustMote_64",
+      "sourceSha256": "c7001802e7a158cc1823c3920aa1c9815cbf02de32035a9bd58ea647aa46eaab",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        64,
+        64
+      ],
+      "channels": "R soft Gaussian disc, G tight glint, B blend of both"
+    },
+    {
+      "name": "T_FX_LightShaft_256",
+      "asset": "/Game/MikdashV3/FX/Textures/T_FX_LightShaft_256",
+      "sourceSha256": "c64c6bdc064cde61665902817812a5f87390b7704beb856a0542d3018bf0b183",
+      "srgb": false,
+      "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+      "compressionRequested": "TC_MASKS",
+      "size": [
+        256,
+        256
+      ],
+      "channels": "R beam cross-section, G length fade from the window, B tileable grain"
+    }
+  ],
+  "materials": [
+    {
+      "name": "M_FX_Flame",
+      "asset": "/Game/MikdashV3/FX/Materials/M_FX_Flame",
+      "nodes": [
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionOneMinus",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionTime",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionDivide",
+        "MaterialExpressionConstant",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionClamp",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionMax",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionOneMinus.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionOneMinus.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionAdd.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionDivide.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionDivide.B",
+        "MaterialExpressionDivide.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionClamp.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionClamp.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionConstant.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionMax.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMax.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionMax.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_EMISSIVE_COLOR",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionClamp.out -> MP_OPACITY"
+      ],
+      "resolvedPins": {
+        "MaterialExpressionComponentMask.Input": "None",
+        "MaterialExpressionOneMinus.Input": "None",
+        "MaterialExpressionLinearInterpolate.A": "A",
+        "MaterialExpressionLinearInterpolate.B": "B",
+        "MaterialExpressionLinearInterpolate.Alpha": "Alpha",
+        "MaterialExpressionAppendVector.A": "A",
+        "MaterialExpressionAppendVector.B": "B",
+        "MaterialExpressionMultiply.A": "A",
+        "MaterialExpressionMultiply.B": "B",
+        "MaterialExpressionAdd.A": "A",
+        "MaterialExpressionAdd.B": "B",
+        "MaterialExpressionTextureSampleParameter2D.UVs": "UVs",
+        "MaterialExpressionSubtract.A": "A",
+        "MaterialExpressionSubtract.B": "B",
+        "MaterialExpressionDivide.A": "A",
+        "MaterialExpressionDivide.B": "B",
+        "MaterialExpressionClamp.None": "None",
+        "MaterialExpressionMax.A": "A",
+        "MaterialExpressionMax.B": "B"
+      },
+      "recompileErrors": [],
+      "scalarParameters": [
+        "CoreBoost",
+        "EmissiveScale",
+        "ErosionBias",
+        "ErosionSoftness",
+        "FXAge",
+        "FXErosion",
+        "FXFade",
+        "FXFlicker",
+        "FXSeed",
+        "FlickerDepth",
+        "NoiseTiling",
+        "PanSpeedU",
+        "PanSpeedV",
+        "VFlip"
+      ],
+      "vectorParameters": [
+        "CoreColour",
+        "EdgeColour"
+      ],
+      "blendMode": "BLEND_ADDITIVE",
+      "shadingModel": "MSM_UNLIT",
+      "twoSided": true,
+      "inputsWired": {
+        "MP_EMISSIVE_COLOR": "MaterialExpressionMultiply",
+        "MP_OPACITY": "MaterialExpressionClamp",
+        "MP_REFRACTION": null
+      }
+    },
+    {
+      "name": "M_FX_Smoke",
+      "asset": "/Game/MikdashV3/FX/Materials/M_FX_Smoke",
+      "nodes": [
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionOneMinus",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionTime",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionAdd",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionDivide",
+        "MaterialExpressionConstant",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMax",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionDepthFade",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionOneMinus.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionOneMinus.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionDivide.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionDivide.B",
+        "MaterialExpressionDivide.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionClamp.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MP_EMISSIVE_COLOR",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMax.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMax.B",
+        "MaterialExpressionMax.out -> MaterialExpressionDepthFade.Opacity",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionDepthFade.FadeDistance",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionDepthFade.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionClamp.out -> MP_OPACITY"
+      ],
+      "resolvedPins": {
+        "MaterialExpressionComponentMask.Input": "None",
+        "MaterialExpressionOneMinus.Input": "None",
+        "MaterialExpressionLinearInterpolate.A": "A",
+        "MaterialExpressionLinearInterpolate.B": "B",
+        "MaterialExpressionLinearInterpolate.Alpha": "Alpha",
+        "MaterialExpressionAppendVector.A": "A",
+        "MaterialExpressionAppendVector.B": "B",
+        "MaterialExpressionMultiply.A": "A",
+        "MaterialExpressionMultiply.B": "B",
+        "MaterialExpressionAdd.A": "A",
+        "MaterialExpressionAdd.B": "B",
+        "MaterialExpressionTextureSampleParameter2D.UVs": "UVs",
+        "MaterialExpressionSubtract.A": "A",
+        "MaterialExpressionSubtract.B": "B",
+        "MaterialExpressionDivide.A": "A",
+        "MaterialExpressionDivide.B": "B",
+        "MaterialExpressionClamp.None": "None",
+        "MaterialExpressionMax.A": "A",
+        "MaterialExpressionMax.B": "B",
+        "MaterialExpressionDepthFade.Opacity": "Opacity",
+        "MaterialExpressionDepthFade.FadeDistance": "FadeDistance"
+      },
+      "depthFade": "wired",
+      "recompileErrors": [],
+      "scalarParameters": [
+        "DepthFadeDistance",
+        "DistortStrength",
+        "ErosionBias",
+        "ErosionSoftness",
+        "FXAge",
+        "FXErosion",
+        "FXFade",
+        "FXFlicker",
+        "FXSeed",
+        "NoiseTiling",
+        "OpacityFloor",
+        "OpacityScale",
+        "PanSpeedU",
+        "PanSpeedV",
+        "VFlip"
+      ],
+      "vectorParameters": [
+        "LitColour",
+        "SmokeColour"
+      ],
+      "blendMode": "BLEND_TRANSLUCENT",
+      "shadingModel": "MSM_UNLIT",
+      "twoSided": true,
+      "inputsWired": {
+        "MP_EMISSIVE_COLOR": "MaterialExpressionComponentMask",
+        "MP_OPACITY": "MaterialExpressionClamp",
+        "MP_REFRACTION": null
+      }
+    },
+    {
+      "name": "M_FX_Point",
+      "asset": "/Game/MikdashV3/FX/Materials/M_FX_Point",
+      "nodes": [
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionOneMinus",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionOneMinus.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionOneMinus.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_EMISSIVE_COLOR",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionClamp.out -> MP_OPACITY"
+      ],
+      "resolvedPins": {
+        "MaterialExpressionComponentMask.Input": "None",
+        "MaterialExpressionOneMinus.Input": "None",
+        "MaterialExpressionLinearInterpolate.A": "A",
+        "MaterialExpressionLinearInterpolate.B": "B",
+        "MaterialExpressionLinearInterpolate.Alpha": "Alpha",
+        "MaterialExpressionAppendVector.A": "A",
+        "MaterialExpressionAppendVector.B": "B",
+        "MaterialExpressionTextureSampleParameter2D.UVs": "UVs",
+        "MaterialExpressionMultiply.A": "A",
+        "MaterialExpressionMultiply.B": "B",
+        "MaterialExpressionAdd.A": "A",
+        "MaterialExpressionAdd.B": "B",
+        "MaterialExpressionClamp.None": "None"
+      },
+      "recompileErrors": [],
+      "scalarParameters": [
+        "EmissiveScale",
+        "FXAge",
+        "FXErosion",
+        "FXFade",
+        "FXFlicker",
+        "FXSeed",
+        "Hardness",
+        "VFlip"
+      ],
+      "vectorParameters": [
+        "Colour"
+      ],
+      "blendMode": "BLEND_ADDITIVE",
+      "shadingModel": "MSM_UNLIT",
+      "twoSided": true,
+      "inputsWired": {
+        "MP_EMISSIVE_COLOR": "MaterialExpressionMultiply",
+        "MP_OPACITY": "MaterialExpressionClamp",
+        "MP_REFRACTION": null
+      }
+    },
+    {
+      "name": "M_FX_Shaft",
+      "asset": "/Game/MikdashV3/FX/Materials/M_FX_Shaft",
+      "nodes": [
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionOneMinus",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionTime",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionCameraVectorWS",
+        "MaterialExpressionVertexNormalWS",
+        "MaterialExpressionDotProduct",
+        "MaterialExpressionAbs",
+        "MaterialExpressionPower",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionConstant",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionOneMinus.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionOneMinus.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionAdd.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionCameraVectorWS.out -> MaterialExpressionDotProduct.A",
+        "MaterialExpressionVertexNormalWS.out -> MaterialExpressionDotProduct.B",
+        "MaterialExpressionDotProduct.out -> MaterialExpressionAbs.None",
+        "MaterialExpressionAbs.out -> MaterialExpressionPower.Base",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionPower.Exp",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionConstant.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionPower.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_EMISSIVE_COLOR",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionClamp.out -> MP_OPACITY"
+      ],
+      "resolvedPins": {
+        "MaterialExpressionComponentMask.Input": "None",
+        "MaterialExpressionOneMinus.Input": "None",
+        "MaterialExpressionLinearInterpolate.A": "A",
+        "MaterialExpressionLinearInterpolate.B": "B",
+        "MaterialExpressionLinearInterpolate.Alpha": "Alpha",
+        "MaterialExpressionAppendVector.A": "A",
+        "MaterialExpressionAppendVector.B": "B",
+        "MaterialExpressionMultiply.A": "A",
+        "MaterialExpressionMultiply.B": "B",
+        "MaterialExpressionAdd.A": "A",
+        "MaterialExpressionAdd.B": "B",
+        "MaterialExpressionTextureSampleParameter2D.UVs": "UVs",
+        "MaterialExpressionDotProduct.A": "A",
+        "MaterialExpressionDotProduct.B": "B",
+        "MaterialExpressionAbs.Input": "None",
+        "MaterialExpressionPower.Base": "Base",
+        "MaterialExpressionPower.Exp": "Exp",
+        "MaterialExpressionSubtract.A": "A",
+        "MaterialExpressionSubtract.B": "B",
+        "MaterialExpressionClamp.None": "None"
+      },
+      "viewFalloffPin": "Exp",
+      "recompileErrors": [],
+      "scalarParameters": [
+        "EmissiveScale",
+        "FXAge",
+        "FXErosion",
+        "FXFade",
+        "FXFlicker",
+        "FXSeed",
+        "GrainStrength",
+        "NoiseTiling",
+        "PanSpeedU",
+        "PanSpeedV",
+        "VFlip",
+        "ViewFalloffPower"
+      ],
+      "vectorParameters": [
+        "Colour"
+      ],
+      "blendMode": "BLEND_ADDITIVE",
+      "shadingModel": "MSM_UNLIT",
+      "twoSided": true,
+      "inputsWired": {
+        "MP_EMISSIVE_COLOR": "MaterialExpressionMultiply",
+        "MP_OPACITY": "MaterialExpressionClamp",
+        "MP_REFRACTION": null
+      }
+    },
+    {
+      "name": "M_FX_HeatHaze",
+      "asset": "/Game/MikdashV3/FX/Materials/M_FX_HeatHaze",
+      "refractionMode": "RM_INDEX_OF_REFRACTION",
+      "nodes": [
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionOneMinus",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionTime",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAppendVector",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionConstant",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionAdd",
+        "MaterialExpressionAdd",
+        "MaterialExpressionClamp",
+        "MaterialExpressionConstant3Vector"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionOneMinus.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionOneMinus.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionTime.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAppendVector.B",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAppendVector.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionTextureSampleParameter2D.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionConstant.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionLinearInterpolate.out -> MP_REFRACTION",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionConstant.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionAdd.out -> MaterialExpressionClamp.None",
+        "MaterialExpressionClamp.out -> MP_OPACITY",
+        "MaterialExpressionConstant3Vector.out -> MP_EMISSIVE_COLOR"
+      ],
+      "resolvedPins": {
+        "MaterialExpressionComponentMask.Input": "None",
+        "MaterialExpressionOneMinus.Input": "None",
+        "MaterialExpressionLinearInterpolate.A": "A",
+        "MaterialExpressionLinearInterpolate.B": "B",
+        "MaterialExpressionLinearInterpolate.Alpha": "Alpha",
+        "MaterialExpressionAppendVector.A": "A",
+        "MaterialExpressionAppendVector.B": "B",
+        "MaterialExpressionMultiply.A": "A",
+        "MaterialExpressionMultiply.B": "B",
+        "MaterialExpressionAdd.A": "A",
+        "MaterialExpressionAdd.B": "B",
+        "MaterialExpressionTextureSampleParameter2D.UVs": "UVs",
+        "MaterialExpressionClamp.None": "None"
+      },
+      "refractionWired": true,
+      "recompileErrors": [],
+      "scalarParameters": [
+        "FXAge",
+        "FXErosion",
+        "FXFade",
+        "FXFlicker",
+        "FXSeed",
+        "NoiseTiling",
+        "OpacityScale",
+        "PanSpeedU",
+        "PanSpeedV",
+        "RefractionStrength",
+        "VFlip"
+      ],
+      "vectorParameters": [],
+      "blendMode": "BLEND_TRANSLUCENT",
+      "shadingModel": "MSM_UNLIT",
+      "twoSided": true,
+      "inputsWired": {
+        "MP_EMISSIVE_COLOR": "MaterialExpressionConstant3Vector",
+        "MP_OPACITY": "MaterialExpressionClamp",
+        "MP_REFRACTION": "MaterialExpressionLinearInterpolate"
+      }
+    }
+  ],
+  "instances": [
+    {
+      "name": "MI_FX_Flame_Altar",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Altar",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Flame.M_FX_Flame",
+      "parameters": {
+        "EmissiveScale": {
+          "value": 24.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "PanSpeedV": {
+          "value": 0.550000011920929,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 2.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "FlickerDepth": {
+          "value": 0.2800000011920929,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.41999998688697815,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.18000000715255737,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Flame_Lamp",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Lamp",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Flame.M_FX_Flame",
+      "parameters": {
+        "EmissiveScale": {
+          "value": 9.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "PanSpeedV": {
+          "value": 1.899999976158142,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 6.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "FlickerDepth": {
+          "value": 0.3400000035762787,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.30000001192092896,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.1599999964237213,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "CoreColour": {
+          "value": [
+            1.0,
+            0.8999999761581421,
+            0.6600000262260437,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        },
+        "EdgeColour": {
+          "value": [
+            1.0,
+            0.5199999809265137,
+            0.1599999964237213,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Smoke_Column",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Column",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Smoke.M_FX_Smoke",
+      "parameters": {
+        "PanSpeedV": {
+          "value": 0.03987500071525574,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityScale": {
+          "value": 0.550000011920929,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityFloor": {
+          "value": 0.05000000074505806,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 1.5,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "DistortStrength": {
+          "value": 0.054999999701976776,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.5,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.2199999988079071,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Smoke_Ketores",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ketores",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Smoke.M_FX_Smoke",
+      "parameters": {
+        "PanSpeedV": {
+          "value": 0.022843999788165092,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityScale": {
+          "value": 0.41999998688697815,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 3.5,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "DistortStrength": {
+          "value": 0.02800000086426735,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityFloor": {
+          "value": 0.07999999821186066,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.46000000834465027,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.20000000298023224,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "SmokeColour": {
+          "value": [
+            0.7799999713897705,
+            0.7599999904632568,
+            0.7200000286102295,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        },
+        "LitColour": {
+          "value": [
+            0.9800000190734863,
+            0.9200000166893005,
+            0.800000011920929,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Smoke_Ceiling",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Smoke.M_FX_Smoke",
+      "parameters": {
+        "PanSpeedV": {
+          "value": 0.019999999552965164,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "PanSpeedU": {
+          "value": 0.012000000104308128,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityScale": {
+          "value": 0.30000001192092896,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 1.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityFloor": {
+          "value": 0.05999999865889549,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.44999998807907104,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.30000001192092896,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "SmokeColour": {
+          "value": [
+            0.800000011920929,
+            0.7799999713897705,
+            0.7400000095367432,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Haze_Smoke",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Haze_Smoke",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Smoke.M_FX_Smoke",
+      "parameters": {
+        "PanSpeedV": {
+          "value": 0.012000000104308128,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityScale": {
+          "value": 0.054999999701976776,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 0.6000000238418579,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityFloor": {
+          "value": 0.009999999776482582,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionBias": {
+          "value": 0.20000000298023224,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ErosionSoftness": {
+          "value": 0.3499999940395355,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_Ember",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_Ember",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Point.M_FX_Point",
+      "parameters": {
+        "Hardness": {
+          "value": 0.550000011920929,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "EmissiveScale": {
+          "value": 18.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "Colour": {
+          "value": [
+            1.0,
+            0.46000000834465027,
+            0.11999999731779099,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_DustMote",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_DustMote",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Point.M_FX_Point",
+      "parameters": {
+        "Hardness": {
+          "value": 0.15000000596046448,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "EmissiveScale": {
+          "value": 1.600000023841858,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "Colour": {
+          "value": [
+            1.0,
+            0.9399999976158142,
+            0.8199999928474426,
+            1.0
+          ],
+          "path": "set_material_instance_vector_parameter_value (return False, always False, ignored)"
+        },
+        "PointTex": {
+          "value": "/Game/MikdashV3/FX/Textures/T_FX_DustMote_64.T_FX_DustMote_64",
+          "path": "set_material_instance_texture_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_LightShaft",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_LightShaft",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_Shaft.M_FX_Shaft",
+      "parameters": {
+        "EmissiveScale": {
+          "value": 1.100000023841858,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "GrainStrength": {
+          "value": 0.25,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "ViewFalloffPower": {
+          "value": 2.5,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "PanSpeedV": {
+          "value": 0.019999999552965164,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 0.800000011920929,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        }
+      }
+    },
+    {
+      "name": "MI_FX_HeatHaze",
+      "asset": "/Game/MikdashV3/FX/Materials/MI_FX_HeatHaze",
+      "parent": "/Game/MikdashV3/FX/Materials/M_FX_HeatHaze.M_FX_HeatHaze",
+      "parameters": {
+        "RefractionStrength": {
+          "value": 1.0119999647140503,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "OpacityScale": {
+          "value": 0.019999999552965164,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "NoiseTiling": {
+          "value": 3.0,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        },
+        "PanSpeedV": {
+          "value": 0.09000000357627869,
+          "path": "set_material_instance_scalar_parameter_value (return False, always False, ignored)"
+        }
+      }
+    }
+  ],
+  "shaftTransforms": "left to the actor defaults; needs_review, see anchorProvenance.shaft_transforms",
+  "editorProcessesAtSave": [],
+  "mapSha256AfterSave": "54525f36fcc3918bd6a1eac02ea06af034781f0bf65c2688b6b8c214838d5af1",
+  "reopenedReadback": {
+    "label": "RELEASE_MikdashFXDirector",
+    "name": "MikdashFXDirector_0",
+    "class": "MikdashFXDirector",
+    "folder": "Runtime/FX",
+    "tags": [
+      "ReleaseMikdashFXV1"
+    ],
+    "location": [
+      0.0,
+      0.0,
+      1100.0
+    ],
+    "numeric": {
+      "outerAltarFireX": 0.0,
+      "outerAltarFireY": 0.0,
+      "outerAltarFireZ": 1091.1667,
+      "outerAltarFireDiameterCm": 325.0,
+      "outerAltarPuffingHz": 0.8321,
+      "outerAltarColumnHeightCm": 4200.0,
+      "outerAltarColumnTopZCm": 5291.1665,
+      "outerAltarStraightColumn": 1.0,
+      "outerAltarAxisOffsetAtTopCm": 0.0,
+      "goldenAltarTopZCm": 1004.1667,
+      "ketoresColumnHeightCm": 1920.0,
+      "ketoresColumnTopZCm": 2924.1667,
+      "heikhalCeilingZCm": 2925.0,
+      "ketoresCeilingClearanceCm": 0.8333,
+      "ketoresImpingementSeconds": 43.7999,
+      "ketoresEventSeconds": 148.7999,
+      "lampCount": 7.0,
+      "lampPuffingHz": 19.3649,
+      "lamp0Y": 360.221,
+      "lamp0Z": 1071.67,
+      "lamp1Y": 346.646,
+      "lamp1Z": 1071.67,
+      "lamp2Y": 331.676,
+      "lamp2Z": 1071.67,
+      "lamp3Y": 315.176,
+      "lamp3Z": 1071.67,
+      "lamp4Y": 298.676,
+      "lamp4Z": 1071.67,
+      "lamp5Y": 283.706,
+      "lamp5Z": 1071.67,
+      "lamp6Y": 270.131,
+      "lamp6Z": 1071.67,
+      "shaftCount": 0.0,
+      "cardsPlanned": 0.0,
+      "cardsBuilt": 0.0,
+      "heatHazeStrength": 1.0,
+      "liveCards": 0.0,
+      "estimatedOverdraw": 0.0,
+      "effectsQuality": 1.0
+    },
+    "assets": {
+      "flame_altar_material": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Altar.MI_FX_Flame_Altar",
+      "flame_lamp_material": "/Game/MikdashV3/FX/Materials/MI_FX_Flame_Lamp.MI_FX_Flame_Lamp",
+      "smoke_column_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Column.MI_FX_Smoke_Column",
+      "smoke_ketores_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ketores.MI_FX_Smoke_Ketores",
+      "smoke_ceiling_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling.MI_FX_Smoke_Ceiling",
+      "smoke_haze_material": "/Game/MikdashV3/FX/Materials/MI_FX_Haze_Smoke.MI_FX_Haze_Smoke",
+      "ember_material": "/Game/MikdashV3/FX/Materials/MI_FX_Ember.MI_FX_Ember",
+      "dust_mote_material": "/Game/MikdashV3/FX/Materials/MI_FX_DustMote.MI_FX_DustMote",
+      "light_shaft_material": "/Game/MikdashV3/FX/Materials/MI_FX_LightShaft.MI_FX_LightShaft",
+      "heat_haze_material": "/Game/MikdashV3/FX/Materials/MI_FX_HeatHaze.MI_FX_HeatHaze",
+      "card_mesh": "/Engine/BasicShapes/Plane.Plane"
+    },
+    "lampFlameCm": [
+      [
+        -5330.0,
+        360.221,
+        1071.67
+      ],
+      [
+        -5330.0,
+        346.646,
+        1071.67
+      ],
+      [
+        -5330.0,
+        331.676,
+        1071.67
+      ],
+      [
+        -5330.0,
+        315.176,
+        1071.67
+      ],
+      [
+        -5330.0,
+        298.676,
+        1071.67
+      ],
+      [
+        -5330.0,
+        283.706,
+        1071.67
+      ],
+      [
+        -5330.0,
+        270.131,
+        1071.67
+      ]
+    ],
+    "sourceNote": "The fire on the outer altar is continuous (Vayikra 6:6). Its column of smoke is shown rising straight up whatever the wind does: Avos 5:5 lists that among the miracles of the Mikdash. That is a depiction of a cited claim, not a physical result, and this project keeps the ordinary wind-bent behaviour in the same code so the two are never confused. The incense on the golden altar is an event, not a permanent smoke source: it is offered twice a day in the Heikhal (Shemos 30:7-8; Rambam, Temidin uMusafin 3:1), and its shape - a narrow column to the ceiling, then spreading and settling - follows Yoma 53a. The seven lamps burn olive oil on a wick (Shemos 27:20). Colour, thickness, speed and duration are all artistic choices; the sources give none of them. Nothing here is a ruling.",
+    "status": ""
+  },
+  "mapSha256After": "54525f36fcc3918bd6a1eac02ea06af034781f0bf65c2688b6b8c214838d5af1",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "editorProcessesAtEnd": []
+}

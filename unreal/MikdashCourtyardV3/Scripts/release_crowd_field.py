@@ -370,7 +370,8 @@ def _switch(name):
 
 def _switch_value(name):
     import unreal as ue
-    return ue.SystemLibrary.parse_param_value(ue.SystemLibrary.get_command_line(), name)
+    # FParse::Value matches the literal prefix; omitting '=' returns '=240'.
+    return ue.SystemLibrary.parse_param_value(ue.SystemLibrary.get_command_line(), name + '=')
 
 
 def _python_property_names(type_object):

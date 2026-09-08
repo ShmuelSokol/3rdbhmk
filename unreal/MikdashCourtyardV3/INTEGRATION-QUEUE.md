@@ -33,14 +33,14 @@ Meshes and textures generated outside the engine. Order does not matter.
 Each is a `-run=pythonscript` commandlet with its own -abslog. Verify the receipt before
 starting the next. If a receipt records failure, stop and fix rather than continuing.
 Order chosen so that anything reading positions from the map runs after what it reads.
- 1. [ ] release_enclosure.py        — HOLD any changed scenario selection until user decides; preserve current visibility and 50 cm scale
- 2. [ ] release_water.py            — the stream cuts through the court
+ 1. [ ] release_enclosure.py        — HOLD changed scenario selection; user approved book-selected 48 cm. Keep active legacy geometry coherent until the checkpointed migration and dependent placements pass. See SourceAssets/scale-review/AMAH-MIGRATION-PLAN.md.
+ 2. [ ] release_water.py            — HOLD full adoption until host floor/foundation openings exist; current placement alone leaves water 26 cm below intact paving. See takeover water audit.
  3. [ ] release_vegetation.py       — needs the water and enclosure settled; batch with resume
  4. [ ] release_gate_security.py    — at the gates
- 5. [ ] release_crowd_field.py      — reads keep-outs; run after the above change them
+ 5. [x] release_crowd_field.py      — 240 runtime agents saved/reopened, six zones/keep-outs. Reconcile with future water/48 cm migration; live/visual/performance checks separate.
  6. [ ] release_birds.py
  7. [ ] release_kohen_service.py
- 8. [ ] release_fx.py               — fire, incense, lamps
+ 8. [x] release_fx.py               — director/materials saved/reopened; live/visual review pending. Service cue wiring remains dependent on service adoption.
  9. [ ] release_surface_detail.py   — wear goes on top of everything
 10. [ ] release_sky_tod.py          — lighting last so it is tuned against the final scene
 11. [ ] release_tour.py             — markers at final positions

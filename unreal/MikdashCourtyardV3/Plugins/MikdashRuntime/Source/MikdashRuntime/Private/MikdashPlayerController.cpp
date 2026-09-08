@@ -1,5 +1,6 @@
 #include "MikdashPlayerController.h"
 #include "MikdashFrontEnd.h"
+#include "MikdashCinematics.h"
 #include "MikdashDovePawn.h"
 #include "MikdashResidentCharacter.h"
 #include "SMikdashPreparation.h"
@@ -305,6 +306,10 @@ void AMikdashPlayerController::RequestDoveFlightFromMenu()
 {
     if (!IsLocalController() || !GetWorld()) return;
     ResumeWalkthrough();
+    // Choosing flight is an explicit request for control, including on first entry.
+    // Finish the intro before its saved view target can conflict with possession.
+    if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
     if (bDoveFlight)
     {
         ToggleDoveFlight();
@@ -319,6 +324,10 @@ void AMikdashPlayerController::RequestDoveFlightFromMenu()
 void AMikdashPlayerController::ToggleDoveFlight()
 {
     if (!IsLocalController() || !GetWorld() || bMenuOpen || IsPaused()) return;
+    if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+    if (IsMoveInputIgnored() || IsLookInputIgnored())
+    { DoveFlightStatus=TEXT("Flight is unavailable while another activity controls the view"); return; }
     bPendingMenuDove=false;
     if (bDoveFlight)
     {

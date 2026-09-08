@@ -1,0 +1,158 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Resident routes V2: relocate the people-v3 loops that were authored inside hollow architecture shells (inner-court supporting platform, cell plinths, west terrace steps, corner kitchens) as measured in real-RHI PIE, in BOTH the main 50 cm directory (people.json) and the isolated 48 cm candidate directory (people-candidate48.json). Roles, dialogue, missions, pauses, labels, actions, laps and gaze anchors are unchanged; only waypoint X/Y move, in legacy50 source centimetres. The pilgrim placement envelope is corrected to exclude the shells. Offline plan() checks every waypoint and every 25 cm leg sample against the manifest's constituent boxes (unions decomposed, never a whole-part AABB) at both scales. Native apply stages the files, repoints a population actor only if needed, checkpoints and saves only when the map changed. The PIE verify mode reports walking/skipped, blocked legs and actual motion per resident. Nothing here is a halachic ruling, an access policy or visual acceptance.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "source": {
+  "frozenPeopleV3": "SourceAssets/runtime-review/people-v3/people.json",
+  "sha256": "88d6de2284a79f1a5940c046ac03f0b37fe42042ecdb71dd55d8928fc87419b2",
+  "versionMustStay": "people-v3",
+  "expectedPeople": 24
+ },
+ "targets": {
+  "Main50": {
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "frame": "Legacy50.v1",
+   "ratio": 1.0,
+   "floorZ": 300.0,
+   "staged": "Content/Distribution/People/people.json",
+   "relativeToContent": "Distribution/People/people.json",
+   "populationActorLabel": "RELEASE_PeopleV3Population",
+   "noteSuffix": " Routes V2 (2026-09-08): twelve outer-court loops relocated off the hollow inner-court supporting platform, the inner cell plinths, the west terrace steps and the corner kitchens measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; legacy50 source centimetres, decoded by the scene-units adapter of whichever map loads this file."
+  },
+  "Candidate48": {
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "frame": "Selected48.v1",
+   "ratio": 0.96,
+   "floorZ": 288.0,
+   "staged": "Content/Distribution/People/people-candidate48.json",
+   "relativeToContent": "Distribution/People/people-candidate48.json",
+   "populationActorLabel": "RELEASE_PeopleV3Population",
+   "noteSuffix": " Candidate48 Routes V2 (2026-09-08): twelve outer-court loops relocated off the hollow inner-court supporting platform, the inner cell plinths, the west terrace steps and the corner kitchens measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; coordinates remain legacy50 source input decoded by the selected48 adapter."
+  }
+ },
+ "pilotPopulationLabel": "RELEASE_ResidentPopulation",
+ "pilgrimEnvelope": {
+  "decision": "Pilgrims stand and walk on the outer court floor (Z 300, x 1500..7000, 900 <= |y| < 6000, legacy 50 cm source centimetres), off the y=0 east gate corridor, and OUTSIDE the hollow architecture shells that stand on that floor: the raised inner-court supporting platform (|x| and |y| <= 2800), the inner east cell plinths (x 2800..3600, 375 <= |y| <= 2275), the north and south cell plinth overhangs (x 375..2275, 2800 <= |y| <= 3600), the west terrace steps and foundation (x <= 1675) and the corner kitchen courts (x >= 5300, |y| >= 5400). Every waypoint and leg keeps the 34 cm capsule radius clear of those footprints at either amah scale; the earlier envelope wrongly treated the platform and plinth area as open floor (PIE receipt spawn-diagnosis-20260908T184544564223Z). This repeats the reviewed pilot envelope rather than opening new ground.",
+  "exclusionsLegacyCm": [
+   {"name": "west terrace steps and outer-court foundation", "rect": [-8100, -8100, 1675, 8100], "measuredAt48": "step treads Z 312 for x <= 1608; foundation east face x 1512"},
+   {"name": "inner court supporting platform", "rect": [-2800, -2800, 2800, 2800], "measuredAt48": "closed shell x,y +/-2688, Z 288..479.04"},
+   {"name": "inner E cell supporting plinth, south", "rect": [2800, -2275, 3600, -375], "measuredAt48": "closed shell x 2688..3456, y -2184..-360, Z 288..479.04"},
+   {"name": "inner E cell supporting plinth, north", "rect": [2800, 375, 3600, 2275], "measuredAt48": "closed shell x 2688..3456, y 360..2184, Z 288..479.04"},
+   {"name": "inner N cell supporting plinth overhang", "rect": [375, -3600, 2275, -2800], "measuredAt48": "underside Z 408 over x <= 2184, y -3456..-2688"},
+   {"name": "inner S cell supporting plinth overhang", "rect": [375, 2800, 2275, 3600], "measuredAt48": "underside Z 408 over x <= 2184, y 2688..3456"},
+   {"name": "south corner kitchen court", "rect": [5300, -8100, 8100, -5400], "measuredAt48": "manifest: cooking side wall y -5280..-5184 from x 5088, entrance shoulder x 5088..5184"},
+   {"name": "north corner kitchen court", "rect": [5300, 5400, 8100, 8100], "measuredAt48": "manifest: cooking side wall y 5184..5280 from x 5088, entrance shoulder x 5088..5184"}
+  ],
+  "capsuleRadiusCm": 34,
+  "capsuleHalfHeightCm": 96,
+  "offlineMarginBeyondRadiusCm": 60,
+  "headroomRequiredCm": 190
+ },
+ "lockedRoutes": {
+  "note": "PopulationSceneMath.h::TryAuthoredRouteExtension moves one outward edge 25 physical cm at 48 ONLY while the legacy route still carries this exact signature; a changed signature now falls through to the standard classifier (no extension). Rivka and Nechemya are changed below, so only Chananel keeps the extension.",
+  "chananel-ben-mattisyahu": {"rect": [5600, 1650, 6800, 3550], "role": "levite", "deltaY": 25.0, "first": 2},
+  "rivka-bas-yoezer": {"rect": [1550, -3500, 2850, -1700], "role": "host", "deltaY": -25.0, "first": 0},
+  "nechemya-ben-tzuriel": {"rect": [1650, 3700, 2950, 5500], "role": "guide", "deltaY": 25.0, "first": 2}
+ },
+ "routeEdits": {
+  "note": "Legacy50 source centimetres, Z 300. Only 'at' X/Y move. Counter-clockwise order (east, away from y=0, west, back) is kept for every loop so parallel neighbours walk the same way.",
+  "yoav-ben-shimi": {
+   "was": [[1675, 1050], [3125, 1050], [3125, 2750], [1675, 2750]],
+   "blocker": "Whole loop inside the inner court supporting platform shell and the E cell plinth (4/4 legs blocked at 48; 7 cm inside stone at 50)",
+   "at": [[2400, 2900, 300], [5050, 2900, 300], [5050, 3400, 300], [2400, 3400, 300]],
+   "where": "East-west lane between the platform (y 2800) and the second pilgrim row (y 3550); 144 cm at 48 from Miryam's and Elchanan's parallel legs"
+  },
+  "gad-ben-peleth": {
+   "was": [[1675, -2750], [3125, -2750], [3125, -1050], [1675, -1050]],
+   "blocker": "Whole loop inside the inner court supporting platform shell and the E cell plinth (4/4 legs blocked)",
+   "at": [[4150, -2600, 300], [5900, -2600, 300], [5900, -1200, 300], [4150, -1200, 300]],
+   "where": "Nested inside Devorah's and Yigal's pilgrim area east of the E plinth; west leg 144 cm at 48 east of Assaf's"
+  },
+  "tzipporah-bas-menachem": {
+   "was": [[1675, 3550], [3125, 3550], [3125, 5250], [1675, 5250]],
+   "blocker": "Waypoint 0 on the west terrace step tread (Z 312 at 48); leg 0 under the S cell plinth overhang (ceiling 120 cm); legs 2/3 on the steps",
+   "at": [[1950, 3850, 300], [3200, 3850, 300], [3200, 5800, 300], [1950, 5800, 300]],
+   "where": "Inner rectangle of the north-west strip, 150 cm inside Nechemya's loop; 264 cm at 48 east of the step tread and 240 cm north of the S plinth"
+  },
+  "nechemya-ben-tzuriel": {
+   "was": [[1650, 3700], [2950, 3700], [2950, 5500], [1650, 5500]],
+   "blocker": "Waypoint 0 on the bottom terrace step at x 1584 (48); leg 3 fails 19/19 floor samples; route was signature-locked in C++",
+   "at": [[1800, 3700, 300], [3350, 3700, 300], [3350, 5950, 300], [1800, 5950, 300]],
+   "where": "+150 cm X shift (as diagnosed) with the east and north edges extended so the 48 cm loop is 72.96 m without the C++ extension; outer rectangle of the north-west strip"
+  },
+  "rivka-bas-yoezer": {
+   "was": [[1550, -3500], [2850, -3500], [2850, -1700], [1550, -1700]],
+   "blocker": "Waypoint 0 in the west terrace riser (foundation face x 1512, paving face x 1488 at 48) under the N cell plinth; 4/4 legs blocked; route was signature-locked in C++",
+   "at": [[2400, -3400, 300], [5050, -3400, 300], [5050, -2900, 300], [2400, -2900, 300]],
+   "where": "East-west lane between the platform (y -2800) and the second pilgrim row (y -3550): the host walks the meeting line between the pilgrim rows"
+  },
+  "devorah-bas-amram": {
+   "was": [[3525, -2750], [4975, -2750], [4975, -1050], [3525, -1050]],
+   "blocker": "Legs 2/3 (west edge x 3384 at 48) run through the inner E cell supporting plinth shell",
+   "at": [[3700, -2750, 300], [5150, -2750, 300], [5150, -1050, 300], [3700, -1050, 300]],
+   "where": "Whole loop +175 X, mirror of Miryam's applied fix; 96 cm at 48 from the plinth face"
+  },
+  "yedidya-ben-chilkiya": {
+   "was": [[2800, -4400], [6000, -4400], [6000, -1800], [2800, -1800]],
+   "blocker": "Legs 2/3 (west edge x 2688 at 48, exactly the platform face) run along and through the E cell plinth",
+   "at": [[3850, -4400, 300], [6000, -4400, 300], [6000, -1800, 300], [3850, -1800, 300]],
+   "where": "West edge moved east of the plinth; 144 cm at 48 east of Devorah's west leg"
+  },
+  "assaf-ben-berachya": {
+   "was": [[2550, -4350], [6150, -4350], [6150, -2150], [2550, -2150]],
+   "blocker": "Legs 2/3 (west edge x 2448 at 48) run through the E cell plinth and the platform shell",
+   "at": [[4000, -4300, 300], [6150, -4300, 300], [6150, -2150, 300], [4000, -2150, 300]],
+   "where": "West edge moved east of the plinth; 144 cm at 48 east of Yedidya's west leg; south edge +50 so spawn points stay 173 cm apart"
+  },
+  "miryam-bas-elyakim": {
+   "was": [[3525, 1050], [4975, 1050], [4975, 2750], [3525, 2750]],
+   "blocker": "West edge inside the inner E cell supporting plinth shell (applied in candidate-spawn-fix-20260908T192321112132Z; carried into people.json here)",
+   "at": [[3700, 1050, 300], [5150, 1050, 300], [5150, 2750, 300], [3700, 2750, 300]],
+   "where": "Whole loop +175 X"
+  },
+  "techiya-bas-nadav": {
+   "was": [[1675, -5250], [3125, -5250], [3125, -3550], [1675, -3550]],
+   "blocker": "West terrace step tread and N cell plinth overhang (applied in candidate-spawn-fix-20260908T192321112132Z; carried into people.json here)",
+   "at": [[1775, -5250, 300], [3375, -5250, 300], [3375, -3700, 300], [1775, -3700, 300]],
+   "where": "+100 X, north edge -150"
+  },
+  "pinchas-ben-achituv": {
+   "was": [[2450, 2100], [6050, 2100], [6050, 4300], [2450, 4300]],
+   "blocker": "West edge inside the platform shell under the inner court clear floor (applied in candidate-spawn-fix-20260908T192321112132Z; carried into people.json here)",
+   "at": [[4000, 2100, 300], [6050, 2100, 300], [6050, 4300, 300], [4000, 4300, 300]],
+   "where": "West edge 2450 -> 4000"
+  },
+  "uriel-ben-shemaya": {
+   "was": [[2500, 1750], [5700, 1750], [5700, 4350], [2500, 4350]],
+   "blocker": "West edge under the inner east gate jamb inside the platform shell (applied in candidate-spawn-fix-20260908T192321112132Z; carried into people.json here)",
+   "at": [[4000, 1750, 300], [5700, 1750, 300], [5700, 4350, 300], [4000, 4350, 300]],
+   "where": "West edge 2500 -> 4000"
+  }
+ },
+ "geometry": {
+  "manifest": "SourceAssets/architecture-manifest.json",
+  "manifestSha256": "40c4a0feae391868c6c840f76bc72f0df0bab8c3be9406c6b5dbb6f508f9333d",
+  "sourceAmahCm": 50.0,
+  "sourceToLegacyCm": "manifest source_element position/size are amot in X east, Y up, Z south; legacy Unreal cm = [x*50, z*50, y*50], boxes centred on position",
+  "zoneLegacy": {"x": [1500, 7000], "absY": [900, 6000]},
+  "sweepSlackCm": 100,
+  "floorMeshSourceName": "Outer court floor",
+  "unionsDecomposed": ["western paving and transition", "outer envelope walls", "House and Ulam foundations", "House walls and roofs", "raised gallery slabs"],
+  "diagnosisReceipt": "SourceAssets/scale-review/spawn-diagnosis-20260908T184544564223Z.json",
+  "priorFixReceipt": "SourceAssets/scale-review/candidate-spawn-fix-20260908T192321112132Z.json",
+  "minimumSpawnSeparationCm": 150
+ },
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "ResidentRoutesV2-",
+ "receiptFolder": "SourceAssets/runtime-review/people",
+ "receiptPrefix": "resident-routes-v2-",
+ "verify": {
+  "requiredFlags": ["-RoutesV2Verify", "-RoutesV2Target=Main50|Candidate48", "<map> as the first positional argument", "-TestSavePrefix=FableProbe_<unique>", "-ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=<prefix>,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=<prefix>_Settings", "-unattended", "-NoSplash", "-abslog=<unique log>"],
+  "motionSampleSeconds": [8.0, 24.0],
+  "movedThresholdCm": 50.0,
+  "populationWaitSeconds": 20,
+  "watchdogSeconds": 300,
+  "expectation": "Observed counts are recorded, never assumed. Real RHI only. Map bytes and user saves hashed before/after."
+ }
+}

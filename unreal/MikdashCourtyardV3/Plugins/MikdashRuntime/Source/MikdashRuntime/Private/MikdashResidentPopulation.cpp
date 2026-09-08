@@ -441,11 +441,22 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
     for (std::size_t Which = 0; Which < Directory.People.size(); ++Which)
     {
         MikdashPeople::Person Individual;
-        if(!MikdashPopulationScene::TryPerson(ActiveSceneFrame,Directory.People[Which],Individual,Why))
+        std::string ExtensionNote;
+        if(!MikdashPopulationScene::TryPerson(ActiveSceneFrame,Directory.People[Which],Individual,Why,&ExtensionNote))
         {
             Skipped.Add(FString(UTF8_TO_TCHAR(Directory.People[Which].Id.c_str()))+TEXT(": coordinate/route refusal: ")
                 +FString(UTF8_TO_TCHAR(Why.c_str())));
             continue;
+        }
+        if(!ExtensionNote.empty())
+        {
+            // A signature-locked route whose authored source changed fell through to the standard
+            // classifier. Said once per process per note: it is a data fact, not a per-run fault.
+            static TSet<FString> LoggedExtensionNotes;
+            const FString NoteText(UTF8_TO_TCHAR(ExtensionNote.c_str()));
+            bool bAlreadyLogged=false;
+            LoggedExtensionNotes.Add(NoteText,&bAlreadyLogged);
+            if(!bAlreadyLogged) UE_LOG(LogTemp, Display, TEXT("%s: %s"), *GetName(), *NoteText);
         }
         FString SpawnNote;
         AMikdashResidentCharacter* Body = SpawnAuthoredBody(Individual, SpawnNote);

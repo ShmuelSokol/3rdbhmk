@@ -1,14 +1,50 @@
 {
- "specVersion": 1,
+ "specVersion": 2,
  "prepared": "2026-09-08",
- "purpose": "Import the four EnclosureV2 module meshes and place one AMikdashEnclosure actor into the combined IntegratedReviewV2 map, so the Yechezkel 42:15-20 precinct can be toggled MODERN / YECHEZKEL / OVERLAY over modern Jerusalem without deleting anything.",
+ "purpose": "Import the five EnclosureV2 module meshes and place one AMikdashEnclosure actor into a target map, opening in YECHEZKEL by decision (Shmuel, 8 September 2026): the Yechezkel 42:15-20 precinct built exactly as stated - 500 reeds x 6 amot = 3000 amot a side - following the terrain, with the modern buildings inside it hidden by visibility. MODERN and OVERLAY remain one and two presses of the cycle key away. Nothing is deleted.",
  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
- "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
- "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+
+ "targets": {
+  "Main50": {
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+   "lastKnownMapSha256": "8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5",
+   "cmPerAmah": 50.0,
+   "courtPlatformHalfExtentCm": 8100.0,
+   "precinctReceipt": "SourceAssets/enclosure-review/precinct-Main50.json",
+   "checkAgainstEnclosureV1Design": true,
+   "protectedMaps": [
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+   ]
+  },
+  "Candidate48": {
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+   "lastKnownMapSha256": "8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89",
+   "cmPerAmah": 48.0,
+   "courtPlatformHalfExtentCm": 7776.0,
+   "precinctReceipt": "SourceAssets/enclosure-review/precinct-Candidate48.json",
+   "checkAgainstEnclosureV1Design": false,
+   "protectedMaps": [
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+   ]
+  }
+ },
+ "targetNote": "The city, the terrain and the OSM alignment are metric in both maps and do not move; only the Temple (so the court platform half-extent, 8100 -> 7776) and the precinct scale. lastKnownMapSha256 is a warning, not a guard: the maps are edited by other release scripts.",
+
+ "defaultState": "yechezkel",
+ "stateCycle": "YECHEZKEL -> MODERN -> OVERLAY -> YECHEZKEL (AMikdashEnclosure::CyclePrecinctState; BlueprintCallable, bind in the player controller)",
 
  "geometryManifest": "SourceAssets/enclosure-review/geometry-manifest.json",
  "architectureManifest": "SourceAssets/architecture-manifest.json",
  "existingEnclosureDesign": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json",
+ "generatorScript": "Scripts/create_enclosure.py",
 
  "namespace": "/Game/MikdashV3/FutureMountV1/EnclosureV2",
  "meshFolder": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes",
@@ -18,9 +54,13 @@
  "actorTag": "ReleaseEnclosureV2",
  "folder": "Release/EnclosureV2",
 
+ "wallMaterial": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+ "wallMaterialNote": "The Jerusalem-limestone PBR instance the measured architecture already uses (1155 components; Nanite usage repaired 2026-09-08). It has no DissolveAmount parameter, so the wall cuts in rather than dissolving; that is recorded, not hidden. If the asset is absent the actor is placed with no material and the omission is recorded.",
+ "overlayMaterial": null,
+ "overlayMaterialNote": "No translucent material with Opacity/Emissive scalars exists in the project yet. Null means the OVERLAY band renders with the mesh default; a human with the editor should author one (translucent, two-sided, unlit, scalar Opacity and Emissive) and set it here.",
+
  "courtPlatformAsset": "SM_0127_architecture_Outer_court_supporting_platform",
- "courtPlatformHalfExtentCm": 8100.0,
- "courtPlatformNote": "Read back out of architecture-manifest.json rather than trusted from here; the guard refuses to run if the recorded bounds are no longer +-8100 about the origin on both axes.",
+ "courtPlatformNote": "Read back out of architecture-manifest.json rather than trusted from here; the guard refuses to run if the recorded bounds are no longer +-8100 about the origin on both axes (the candidate's converted geometry is checked against 8100 x .96 through the same manifest, which records the legacy 50 cm meshes).",
  "altarYesodAssets": [
   "SM_0155_architecture_Altar_yesod_north",
   "SM_0156_architecture_Altar_yesod_west",
@@ -34,7 +74,14 @@
   "RELEASE_OldCityFacades_",
   "RELEASE_OldCityInfill_"
  ],
- "modernBuildingNote": "The 1499 imported OSM extrusion actors plus the 190 authored Old City batches (102 facade actors carrying 2106 buildings, 88 infill actors carrying 1514). These are 100 m CELL actors, not one actor per building, so the receipt's counts are actor counts and the per-building figure comes from SourceAssets/enclosure-review/geometry-manifest.json modernCityCoverage.exact.",
+ "hideListMeshNameRule": {
+  "SM_JerusalemBuildings_": "SM_JerusalemBuildings_",
+  "RELEASE_OldCityFacades_": "SM_OldCityFacades_",
+  "RELEASE_OldCityInfill_": "SM_OldCityInfill_"
+ },
+ "hideListNote": "The YECHEZKEL hide set is EXACT per actor and comes from precinct-<Target>.json modernCity.hideSet.labels, computed offline from the frozen OSM partition (buildings-manifest.json components -> cells, fbx 271bc9b4...) and facades-manifest.json under the recorded straddling-cell policy. The script proves every label exists exactly once in the loaded map and that its static mesh is the mapped SM_* name, then bakes both lists on the actor. A missing or duplicated label is a refusal unless -EnclosureAllowMissingHideLabels=1.",
+ "straddlingCellPolicy": "hide_if_any_inside",
+ "straddlingCellPolicyNote": "A 100 m cell the wall line cuts is hidden if ANY of its buildings has its centroid inside the outer faces. Nothing modern stands inside the precinct; buildings just outside the wall in the same cell vanish with it (collateral is listed per cell in the receipt). The long-term fix is to split those cells at the wall line or mask the context materials by world position - a native re-import or a material edit, not done here.",
 
  "excludedLabelPrefixes": [
   "SM_JerusalemTerrain_",
@@ -59,30 +106,27 @@
  "receiptFolder": "SourceAssets/enclosure-review",
  "receiptPrefix": "native-enclosure-",
 
- "protectedMaps": [
-  "/Game/MikdashV3/Maps/Courtyard",
-  "/Game/MikdashV3/FutureMountV1/L_FutureMount",
-  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
- ],
-
  "verification": {
   "boundsToleranceCm": 1.0,
   "transformToleranceCm": 0.01,
   "clearanceAgreementToleranceAmot": 1e-06,
-  "note": "The imported bounds must reproduce the OBJ's CANONICAL bounds, because the legacy importer reflects Y back; a mismatch means the adapter convention changed and every instance would be mirrored. The placed actor's own measured clearances must equal the ones this script computed offline to 1e-6 amot, which is what proves the runtime actor, the generator, the release script and EnclosureMath.h all agree about where the square is."
+  "groundZAgreementToleranceCm": 1.0,
+  "note": "The imported bounds must reproduce the OBJ's CANONICAL bounds, because the legacy importer reflects Y back; a mismatch means the adapter convention changed and every instance would be mirrored. After save and reopen the placed actor is asked to MeasureWithoutHiding() in the editor world and its own numbers are compared to the offline receipt: four outer faces and clearances to 1e-6 amot, per-side plinth Z ranges to 1 cm, instance counts exactly, hide-list resolution (found/missing/duplicated) and the FNV-1a fingerprint of the resolved set. Nothing is hidden in the editor world and nothing is saved after the readback."
  },
 
  "sources": {
   "precinct": "Yechezkel 42:15-20 with 40:5: 500 reeds a side, a reed of six amot, so 3000 amot. Lishchno Tidreshu (Ketz HaYamin) on 42:16 gives the side as about 1440 m, which is a 48 cm amah.",
   "anchoring": "Lishchno Tidreshu fig. 2'2 (p. 113) after Mishkenei Elyon 196 ch.1 m.1: 500 amot clear west, 501 clear north, largest open ground south then east then north then west.",
-  "gates": "Five gates, two south (Mishkenei Elyon 196 m.2); opening 10 amot wide and 50 high, gate as thick as the wall (book pp. 115-117). Positions along each wall are the project's assumption.",
+  "gates": "Five gates, two south, one each east, north, west (Mishkenei Elyon 196 m.2); opening 10 amot wide and 50 high, gate as thick as the wall (book pp. 115-117). Positions along each wall are AUTHORED: E, N, W on the Temple axes (the east gate at world Y 0 is the axis of the court's east gate and of the walking start), the two south gates at thirds from the SW corner.",
+  "terrain": "AUTHORED. The wall follows the ground (OSM terrain grid, level grid, FutureMountV1 tile receipts); each module's plinth sits on the highest ground it crosses and a substructure box fills to a one-amah footing below the lowest. Where the east and south walls drop into the Kidron the substructure is tens of metres; the sources say nothing about it.",
   "disputed": "Mishnah Middot 2:1 gives Har HaBayit as 500 AMOT square. Rashi on 42:20 reconciles the two as 36 squares of 500 within the 3000; other commentaries reconcile differently. Neither is presented as settled - see SourceAssets/enclosure-review/sources.md."
  },
 
  "limitations": [
-  "Actor count rises by one. Asset count rises by four static meshes. The 1.44 km wall is 956 run-time instances across four HierarchicalInstancedStaticMeshComponents on that single actor, not 956 actors.",
-  "The wall is placed on the level plane and is not stepped to the terrain. SourceAssets/FutureMountV1/EnclosureV1 does step, and is left in place unchanged.",
+  "Actor count rises by one. Asset count rises by five static meshes. The 1.44 km wall is 1432 run-time instances across five HierarchicalInstancedStaticMeshComponents on that single actor, not 1432 actors.",
+  "The ground profile is BAKED from the receipt. If the terrain tiles are edited again, re-run create_enclosure.py --export and re-place.",
   "AMikdashEnclosure must be compiled into the editor before the actor can be spawned. If it is not, the meshes still import and the actor is recorded as an OMISSION with evidence rather than the run failing.",
-  "Nothing is ever deleted or hidden by this script. Hiding happens at run time, by visibility, and is reversed on EndPlay."
+  "Nothing is ever deleted or hidden by this script. Hiding happens at run time, by visibility, and is reversed on EndPlay.",
+  "The cycle key is not bound by this script or by MikdashRuntime C++ as of 2026-09-08; CyclePrecinctState is BlueprintCallable and needs a binding in the front end (a human/coordinator decision)."
  ]
 }

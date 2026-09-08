@@ -1,0 +1,148 @@
+{
+  "status": "OFFLINE_GENERATED_NATIVE_IMPORT_PENDING",
+  "generator": "Scripts/create_water_normal.py",
+  "generatorSha256": "4216eb144798d03d716fa9f0e666cca26b0e50e7147c1a5bd7146d6afb4deed0",
+  "seed": 4707,
+  "size": 2048,
+  "seconds": 31.6,
+  "parameters": {
+    "swell": {
+      "count": 3,
+      "cyclesPerTile": [
+        2,
+        4
+      ],
+      "amplitude": 0.0052,
+      "spreadDeg": 20.0,
+      "sharpen": 0.25
+    },
+    "wind": {
+      "count": 5,
+      "cyclesPerTile": [
+        7,
+        13
+      ],
+      "amplitude": 0.0016,
+      "spreadDeg": 50.0,
+      "sharpen": 0.15
+    },
+    "ripple": {
+      "grids": [
+        32,
+        64,
+        128,
+        256,
+        512
+      ],
+      "amplitude": 0.0009,
+      "stretch": 1.6
+    },
+    "flowDirectionDeg": 30.0
+  },
+  "waveTrains": [
+    {
+      "kind": "swell",
+      "kx": 2,
+      "ky": 1,
+      "amp": 0.003758439576762491,
+      "phase": 0.006581380730791946,
+      "sharpen": 0.25
+    },
+    {
+      "kind": "swell",
+      "kx": 4,
+      "ky": 1,
+      "amp": 0.004435967505633188,
+      "phase": 4.905068923637595,
+      "sharpen": 0.25
+    },
+    {
+      "kind": "swell",
+      "kx": 3,
+      "ky": 2,
+      "amp": 0.0032258369126129875,
+      "phase": 1.2402242039760483,
+      "sharpen": 0.25
+    },
+    {
+      "kind": "wind",
+      "kx": 8,
+      "ky": 7,
+      "amp": 0.0015818196922272037,
+      "phase": 2.9224838061857352,
+      "sharpen": 0.15
+    },
+    {
+      "kind": "wind",
+      "kx": 4,
+      "ky": 8,
+      "amp": 0.0010106948704134671,
+      "phase": 0.005001675446631764,
+      "sharpen": 0.15
+    },
+    {
+      "kind": "wind",
+      "kx": 12,
+      "ky": -1,
+      "amp": 0.0012972618410794926,
+      "phase": 0.8907066315191433,
+      "sharpen": 0.15
+    },
+    {
+      "kind": "wind",
+      "kx": 6,
+      "ky": 8,
+      "amp": 0.001076926070972713,
+      "phase": 4.175576489458116,
+      "sharpen": 0.15
+    },
+    {
+      "kind": "wind",
+      "kx": 10,
+      "ky": 6,
+      "amp": 0.0007571864350239046,
+      "phase": 3.8757447031561476,
+      "sharpen": 0.15
+    }
+  ],
+  "file": {
+    "path": "SourceAssets\\water-review\\textures\\T_Water_Normal.png",
+    "sha256": "6e29c0471a143057be1dbc39d8c6deba4706a08274c3fb593daec7a14d4ad54b",
+    "bytes": 6974964
+  },
+  "previews": {
+    "normal": {
+      "path": "SourceAssets\\water-review\\textures\\previews\\T_Water_Normal_1024.png",
+      "sha256": "b4b464eece3ee3cc95f317b0007f2883b36d62bbc1b060d000c578228ec839a7"
+    },
+    "lit": {
+      "path": "SourceAssets\\water-review\\textures\\previews\\Lit_Water_1024.png",
+      "sha256": "1d5efd2548b4c8a4499940ab14a1907e0b044abb2fc74a59aaaa01ca654cf883"
+    }
+  },
+  "statistics": {
+    "xyDeviation": {
+      "mean": 0.1584,
+      "p50": 0.145,
+      "p95": 0.325,
+      "p99": 0.405,
+      "max": 0.786
+    },
+    "absX_p95": 0.294,
+    "absY_p95": 0.184
+  },
+  "convention": "normalize(-dh/du, -dh/dv, 1), u = column, v = row (DirectX / UE default); import flip_green_channel False, TC_Normalmap, sRGB off",
+  "importTarget": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Textures/T_Water_Normal",
+  "specHandOff": {
+    "file": "Scripts/release_water.spec.json",
+    "key": "materials.water.normalCandidates[0]",
+    "currentlyPointsAt": "/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_Normal",
+    "shouldPointAt": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Textures/T_Water_Normal",
+    "edited": false,
+    "note": "Not edited by this script (spec is owned by the water pass). Coordinator: import the PNG, then insert the entry at index 0."
+  },
+  "candidateEntry": {
+    "path": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Textures/T_Water_Normal",
+    "kind": "authored tiling water normal (create_water_normal.py): 3 swell + 5 wind trains + periodic ripple fBm, moderate amplitude; source SourceAssets/water-review/textures/T_Water_Normal.png sha256 6e29c0471a143057be1dbc39d8c6deba4706a08274c3fb593daec7a14d4ad54b"
+  }
+}

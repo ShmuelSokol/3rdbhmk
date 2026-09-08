@@ -1,9 +1,9 @@
 {
  "version": "people-v3",
- "note": "Twenty-four fictional inhabitants for the walkthrough. Names, households, origins, missions and dialogue are authored fiction and are not source facts. No character issues a halachic ruling, quotes a measurement as settled, names a Second Temple court on the Yechezkel reconstruction, or states a future attendance number. Each route is a closed 4 to 6 point loop with authored pauses; this is scripted waypoint behaviour with written lines, not a mind. Candidate48 spatial revision: four outer-court loops moved clear of the inner-court cell plinth, west terrace steps and north cell plinth measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; coordinates remain legacy50 source input decoded by the selected48 adapter.",
+ "note": "Twenty-four fictional inhabitants for the walkthrough. Names, households, origins, missions and dialogue are authored fiction and are not source facts. No character issues a halachic ruling, quotes a measurement as settled, names a Second Temple court on the Yechezkel reconstruction, or states a future attendance number. Each route is a closed 4 to 6 point loop with authored pauses; this is scripted waypoint behaviour with written lines, not a mind. Candidate48 Routes V2 (2026-09-08): twelve outer-court loops relocated off the hollow inner-court supporting platform, the inner cell plinths, the west terrace steps and the corner kitchens measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; coordinates remain legacy50 source input decoded by the selected48 adapter.",
  "placementBasis": {
   "pilgrim": {
-   "decision": "Pilgrims stand and walk on the outer court floor (Z 300, x 1500..7000, 900 <= |y| < 6000), off the y=0 east gate corridor. This repeats the envelope already reviewed for the five-figure pilot rather than opening new ground.",
+   "decision": "Pilgrims stand and walk on the outer court floor (Z 300, x 1500..7000, 900 <= |y| < 6000, legacy 50 cm source centimetres), off the y=0 east gate corridor, and OUTSIDE the hollow architecture shells that stand on that floor: the raised inner-court supporting platform (|x| and |y| <= 2800), the inner east cell plinths (x 2800..3600, 375 <= |y| <= 2275), the north and south cell plinth overhangs (x 375..2275, 2800 <= |y| <= 3600), the west terrace steps and foundation (x <= 1675) and the corner kitchen courts (x >= 5300, |y| >= 5400). Every waypoint and leg keeps the 34 cm capsule radius clear of those footprints at either amah scale; the earlier envelope wrongly treated the platform and plinth area as open floor (PIE receipt spawn-diagnosis-20260908T184544564223Z). This repeats the reviewed pilot envelope rather than opening new ground.",
    "evidence": [
     "Chagigah 1:1 and Devarim 16:11 via Research/people-and-city.md:44",
     "Bikkurim 3:2-3 district gathering and travel distance via Research/people-and-city.md:48",
@@ -13,7 +13,82 @@
     "No court on this reconstruction is labelled with a Second Temple name",
     "No pilgrim is placed in the inner court or in any gate corridor"
    ],
-   "reviewFlag": "R: court naming and boundary mapping still require a reviewer (halacha-and-service.md:26)"
+   "reviewFlag": "R: court naming and boundary mapping still require a reviewer (halacha-and-service.md:26)",
+   "exclusionsLegacyCm": [
+    {
+     "name": "west terrace steps and outer-court foundation",
+     "rect": [
+      -8100,
+      -8100,
+      1675,
+      8100
+     ]
+    },
+    {
+     "name": "inner court supporting platform",
+     "rect": [
+      -2800,
+      -2800,
+      2800,
+      2800
+     ]
+    },
+    {
+     "name": "inner E cell supporting plinth, south",
+     "rect": [
+      2800,
+      -2275,
+      3600,
+      -375
+     ]
+    },
+    {
+     "name": "inner E cell supporting plinth, north",
+     "rect": [
+      2800,
+      375,
+      3600,
+      2275
+     ]
+    },
+    {
+     "name": "inner N cell supporting plinth overhang",
+     "rect": [
+      375,
+      -3600,
+      2275,
+      -2800
+     ]
+    },
+    {
+     "name": "inner S cell supporting plinth overhang",
+     "rect": [
+      375,
+      2800,
+      2275,
+      3600
+     ]
+    },
+    {
+     "name": "south corner kitchen court",
+     "rect": [
+      5300,
+      -8100,
+      8100,
+      -5400
+     ]
+    },
+    {
+     "name": "north corner kitchen court",
+     "rect": [
+      5300,
+      5400,
+      8100,
+      8100
+     ]
+    }
+   ],
+   "capsuleRadiusCm": 34
   },
   "kohen": {
    "decision": "Kohanim appear on the public outer court floor only in transit to a watch or off duty in ordinary garments, never stationed, never serving, and never inside a chamber. Yechezkel describes kohanim changing out of service garments before going out to the people, which is the specific hook used here; the twenty-four watches supply the arrival and departure movement.",
@@ -100,8 +175,8 @@
    "route": [
     {
      "at": [
-      1675.0,
-      1050.0,
+      2400.0,
+      2900.0,
       300.0
      ],
      "pause": 4.0,
@@ -115,8 +190,8 @@
     },
     {
      "at": [
-      3125.0,
-      1050.0,
+      5050.0,
+      2900.0,
       300.0
      ],
      "pause": 3.0,
@@ -130,8 +205,8 @@
     },
     {
      "at": [
-      3125.0,
-      2750.0,
+      5050.0,
+      3400.0,
       300.0
      ],
      "pause": 5.0,
@@ -145,8 +220,8 @@
     },
     {
      "at": [
-      1675.0,
-      2750.0,
+      2400.0,
+      3400.0,
       300.0
      ],
      "pause": 4.0,
@@ -334,8 +409,8 @@
    "route": [
     {
      "at": [
-      1675.0,
-      3550.0,
+      1950.0,
+      3850.0,
       300.0
      ],
      "pause": 4.0,
@@ -349,8 +424,8 @@
     },
     {
      "at": [
-      3125.0,
-      3550.0,
+      3200.0,
+      3850.0,
       300.0
      ],
      "pause": 3.0,
@@ -364,8 +439,8 @@
     },
     {
      "at": [
-      3125.0,
-      5250.0,
+      3200.0,
+      5800.0,
       300.0
      ],
      "pause": 5.0,
@@ -379,8 +454,8 @@
     },
     {
      "at": [
-      1675.0,
-      5250.0,
+      1950.0,
+      5800.0,
       300.0
      ],
      "pause": 4.0,
@@ -568,8 +643,8 @@
    "route": [
     {
      "at": [
-      1675.0,
-      -2750.0,
+      4150.0,
+      -2600.0,
       300.0
      ],
      "pause": 4.0,
@@ -583,8 +658,8 @@
     },
     {
      "at": [
-      3125.0,
-      -2750.0,
+      5900.0,
+      -2600.0,
       300.0
      ],
      "pause": 3.0,
@@ -598,8 +673,8 @@
     },
     {
      "at": [
-      3125.0,
-      -1050.0,
+      5900.0,
+      -1200.0,
       300.0
      ],
      "pause": 5.0,
@@ -613,8 +688,8 @@
     },
     {
      "at": [
-      1675.0,
-      -1050.0,
+      4150.0,
+      -1200.0,
       300.0
      ],
      "pause": 4.0,
@@ -646,7 +721,7 @@
    "route": [
     {
      "at": [
-      3525.0,
+      3700.0,
       -2750.0,
       300.0
      ],
@@ -661,7 +736,7 @@
     },
     {
      "at": [
-      4975.0,
+      5150.0,
       -2750.0,
       300.0
      ],
@@ -676,7 +751,7 @@
     },
     {
      "at": [
-      4975.0,
+      5150.0,
       -1050.0,
       300.0
      ],
@@ -691,7 +766,7 @@
     },
     {
      "at": [
-      3525.0,
+      3700.0,
       -1050.0,
       300.0
      ],
@@ -1114,7 +1189,7 @@
    "route": [
     {
      "at": [
-      2800.0,
+      3850.0,
       -4400.0,
       300.0
      ],
@@ -1159,7 +1234,7 @@
     },
     {
      "at": [
-      2800.0,
+      3850.0,
       -1800.0,
       300.0
      ],
@@ -1270,8 +1345,8 @@
    "route": [
     {
      "at": [
-      2550.0,
-      -4350.0,
+      4000.0,
+      -4300.0,
       300.0
      ],
      "pause": 4.0,
@@ -1286,7 +1361,7 @@
     {
      "at": [
       6150.0,
-      -4350.0,
+      -4300.0,
       300.0
      ],
      "pause": 3.0,
@@ -1315,7 +1390,7 @@
     },
     {
      "at": [
-      2550.0,
+      4000.0,
       -2150.0,
       300.0
      ],
@@ -1426,8 +1501,8 @@
    "route": [
     {
      "at": [
-      1550.0,
-      -3500.0,
+      2400.0,
+      -3400.0,
       300.0
      ],
      "pause": 4.0,
@@ -1441,8 +1516,8 @@
     },
     {
      "at": [
-      2850.0,
-      -3500.0,
+      5050.0,
+      -3400.0,
       300.0
      ],
      "pause": 3.0,
@@ -1456,8 +1531,8 @@
     },
     {
      "at": [
-      2850.0,
-      -1700.0,
+      5050.0,
+      -2900.0,
       300.0
      ],
      "pause": 5.0,
@@ -1471,8 +1546,8 @@
     },
     {
      "at": [
-      1550.0,
-      -1700.0,
+      2400.0,
+      -2900.0,
       300.0
      ],
      "pause": 4.0,
@@ -1503,7 +1578,7 @@
    "route": [
     {
      "at": [
-      1650.0,
+      1800.0,
       3700.0,
       300.0
      ],
@@ -1518,7 +1593,7 @@
     },
     {
      "at": [
-      2950.0,
+      3350.0,
       3700.0,
       300.0
      ],
@@ -1533,8 +1608,8 @@
     },
     {
      "at": [
-      2950.0,
-      5500.0,
+      3350.0,
+      5950.0,
       300.0
      ],
      "pause": 5.0,
@@ -1548,8 +1623,8 @@
     },
     {
      "at": [
-      1650.0,
-      5500.0,
+      1800.0,
+      5950.0,
       300.0
      ],
      "pause": 4.0,

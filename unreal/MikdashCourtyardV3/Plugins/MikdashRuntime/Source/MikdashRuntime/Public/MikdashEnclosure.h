@@ -16,16 +16,16 @@ UENUM(BlueprintType)
 enum class EMikdashPrecinctState : uint8
 {
     /** Jerusalem as it stands today. The Old City is whole, the Temple sits on its platform,
-     *  and no enclosure exists. This is the state the level loads in. */
+     *  and no enclosure exists. Reachable from the default by one press of the cycle key. */
     Modern     UMETA(DisplayName = "Modern (as today)"),
-    /** The Yechezkel 42:15-20 precinct built: 500 reeds a side, wall and five gates. Modern
-     *  buildings that fall inside are HIDDEN BY VISIBILITY and never destroyed, so Modern
-     *  restores every one of them exactly. */
+    /** The Yechezkel 42:15-20 precinct built: 500 reeds a side, wall and five gates, following
+     *  the terrain. Modern buildings that fall inside are HIDDEN BY VISIBILITY and never
+     *  destroyed, so Modern restores every one of them exactly. THIS IS THE DEFAULT STATE the
+     *  level opens in (Shmuel's decision, 8 September 2026). */
     Yechezkel  UMETA(DisplayName = "Yechezkel precinct (3000 amot)"),
     /** The boundary drawn over the standing modern city as a translucent wall and a ground
-     *  line of light. Nothing disappears. This is the state that answers the question the
-     *  toggle exists for - which ground the precinct actually covers - so it is the one
-     *  that gets the visual care. */
+     *  line of light. Nothing disappears. This is the state that shows which ground the
+     *  precinct covers, so it is the one that gets the visual care. */
     Overlay    UMETA(DisplayName = "Overlay (boundary over the modern city)"),
 };
 
@@ -56,44 +56,60 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FMikdashPrecinctStateSignature,
  *
  * WHAT THIS ACTOR IS FOR
  * ----------------------
- * A reader is told the precinct is "five hundred reeds square" and has no idea what that
- * means over the city he knows. Yechezkel's 500 reeds are 3000 amot - roughly 1.44 km a side
- * at the book's own amah - and that square covers most of the Old City. Mishnah Middot's Har
- * HaBayit is 500 AMOT square, one thirty-sixth of the area. The commentaries reconcile the
- * two differently and this project does not choose between them; it draws both and lets a
- * viewer stand inside each.
- *
- * The OVERLAY state is the one that answers the question, because nothing vanishes: the
- * boundary is a translucent wall and a ground line of light laid over the standing city, so
- * the viewer sees exactly which streets and roofs the precinct would cover. YECHEZKEL then
- * shows the same square built, with the modern buildings inside HIDDEN. Hidden, never
- * destroyed - see the visibility contract below.
+ * Yechezkel's 500 reeds are 3000 amot - 1,440 m a side at the book's own 48 cm amah - and
+ * that square covers the eastern two fifths of the Old City, the Kidron, the slope of the
+ * Mount of Olives, the City of David and Silwan. The level opens in YECHEZKEL: the wall
+ * built as the verse states it, following the ground, with the modern buildings inside it
+ * hidden. MODERN shows today's city with nothing added; OVERLAY draws the boundary over the
+ * standing city so a viewer sees exactly which streets and roofs it covers. Mishnah Middot's
+ * 500-AMAH Har HaBayit is offered as the other reading and drawn as its own ring.
  *
  * THE VISIBILITY CONTRACT (the part that must not be got wrong)
  * ------------------------------------------------------------
  * This actor NEVER calls Destroy(), NEVER modifies a package, NEVER touches a component's
  * mobility or transform on a building it did not spawn, and NEVER writes to disk. The only
- * thing it does to a modern building is SetActorHiddenInGame plus, while a dissolve is in
- * flight, a scalar on a dynamic material instance. It records every actor it touched in
- * HiddenBuildings and restores all of them on state change, on EndPlay and on
+ * thing it does to a modern building is SetActorHiddenInGame. It records every actor it
+ * touched in HiddenBuildings and restores all of them on state change, on EndPlay and on
  * RestoreAllModernBuildings(). A crash mid-transition therefore loses nothing: the map on
- * disk is untouched and a reload comes back in Modern with everything visible.
+ * disk is untouched and a reload comes back with everything visible.
+ *
+ * WHICH BUILDINGS - the explicit list
+ * -----------------------------------
+ * The modern city is batched one actor per 100 m cell, so the set to hide is a set of
+ * ACTORS, and it is computed OFFLINE by Scripts/create_enclosure.py from the frozen OSM
+ * partition (buildings-manifest.json components -> cells) and the facade manifest, then baked
+ * here as ExplicitHideLabels by Scripts/release_enclosure.py. Every decision - including what
+ * to do with a cell the wall line cuts - is recorded in
+ * SourceAssets/enclosure-review/precinct-<Target>.json. When the list is empty the actor
+ * falls back to the geometric centroid rule over actor bounds, which is coarser and is
+ * reported as such by GetHideListResolution().
+ *
+ * TERRAIN-FOLLOWING
+ * -----------------
+ * The wall does not sit on the level plane. A ground profile (601 stations a side, highest and
+ * lowest ground under the footprint) is baked onto GroundProfileHighZCm / GroundProfileLowZCm
+ * by the release script, from the OSM terrain grid and the FutureMountV1 tile receipts. Every
+ * wall, gate and corner instance takes its own Z from GroundSpan(): plinth on the highest
+ * ground it crosses, a substructure box (FoundationModuleMesh) filling down to the lowest
+ * ground less a one-amah footing. Where the east and south walls drop into the Kidron the
+ * substructure is tens of metres; the sources say nothing about that, and it is authored.
  *
  * WHY THE WALL IS INSTANCED
  * -------------------------
- * A 1.44 km wall as one static mesh is one 1.44 km bounding box: it is never frustum-culled,
- * never occlusion-culled, carries a single LOD for the whole ring, and needs a re-import to
- * change. As N identical modules on a HierarchicalInstancedStaticMeshComponent the renderer
- * gets one draw call per component with per-instance culling and per-instance LOD. At the
- * planned 1250 cm module the whole enclosure is 467 wall + 5 gate + 4 corner instances and
- * about 122k triangles - roughly four per cent of the 3.4 M triangles of the Old City facade
- * set the YECHEZKEL state hides, and comfortably inside an RTX 2070 at 1080p. The numbers are
- * planned by MikdashEnclosure::PlanWall and asserted in EnclosureMathTest.cpp, not guessed.
+ * A 1.44 km wall as one static mesh is one 1.44 km bounding box: never frustum-culled, never
+ * occlusion-culled, one LOD for the whole ring. As N identical modules on
+ * HierarchicalInstancedStaticMeshComponents the renderer gets one draw call per component
+ * with per-instance culling and LOD. 467 wall + 5 gate + 4 corner + 476 foundation + 480
+ * overlay instances, 118,656 triangles in all - about 3.5% of the 3.4 M triangles of the Old
+ * City facade set the YECHEZKEL state hides. Asserted in EnclosureMathTest.cpp.
+ *
+ * TWO MAPS. The main map is baked at 50 Unreal cm per amah; the isolated candidate at 48.
+ * WorldCmPerAmah and CourtPlatformHalfExtentCm are set per map by the release script; the
+ * modules (baked at 50) scale uniformly by WorldCmPerAmah / 50. The city and terrain are
+ * metric in both and do not move.
  *
  * ALL ARITHMETIC IS IN EnclosureMath.h, engine-free and tested standalone. This actor owns
- * components, timers and materials, and nothing else. Scripts/create_enclosure.py builds the
- * modules offline and Scripts/release_enclosure.py places this actor; all four agree about
- * where the square is because all four read that one header.
+ * components, timers and materials, and nothing else.
  */
 UCLASS(BlueprintType, Blueprintable)
 class MIKDASHRUNTIME_API AMikdashEnclosure : public AActor
@@ -111,21 +127,26 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
     EMikdashPrecinctReading Reading = EMikdashPrecinctReading::Yechezkel3000;
 
-    /** The state the level opens in. Modern, deliberately: the viewer should recognise the
-     *  city before anything is added to it. */
+    /** The state the level opens in. YECHEZKEL by decision: the precinct exactly as 42:15-20
+     *  states it is the default view; MODERN and OVERLAY remain one and two presses away. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|State")
-    EMikdashPrecinctState InitialState = EMikdashPrecinctState::Modern;
+    EMikdashPrecinctState InitialState = EMikdashPrecinctState::Yechezkel;
+
+    /** The level's baked world scale, Unreal cm per amah: 50 on the main map, 48 on the
+     *  candidate. Set by the release script from its target; the modules scale by this / 50. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
+    float WorldCmPerAmah = 50.0f;
 
     /** Centre of the measured court, in world centimetres. The precinct is NOT centred on it:
      *  the square is anchored by the west and north clearances (see EnclosureMath.h). Left at
      *  the origin because architecture-manifest.json bakes world positions into the vertices
      *  and spawns every measured mesh at (0,0,0), so the measured court centre IS the origin.
-     *  release_enclosure.py reads this back from the receipts rather than trusting the
-     *  default, and refuses to place if the two disagree. */
+     *  release_enclosure.py proves this from the receipts and refuses to place otherwise. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
     FVector2D CourtCentreUnrealCm = FVector2D(0.0, 0.0);
 
-    /** Half-extent of the court supporting platform, world cm. SM_0127, +-8100 on both axes. */
+    /** Half-extent of the court supporting platform, world cm. SM_0127: +-8100 on the main
+     *  map, +-7776 on the 48 cm candidate. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
     float CourtPlatformHalfExtentCm = 8100.0f;
 
@@ -137,19 +158,24 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
     float ClearNorthAmot = 501.0f;
 
-    /** Nominal length of one wall module, world cm. Snapped by PlanWall so a side is a whole
-     *  number of modules; a fractional last module shows as a seam from the air. */
+    /** Nominal length of one wall module in AMOT (25). Snapped by PlanWall so a side is a
+     *  whole number of modules; a fractional last module shows as a seam from the air. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Wall")
-    float WallModuleLengthCm = 1250.0f;
+    float WallModuleLengthAmot = 25.0f;
 
     /** Wall height in amot. Yechezkel 40:5 gives the wall a reed - six amot - of thickness and
      *  of height; the book (pp. 115-117) reads that as the outer wall's own section. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Wall")
     float WallHeightAmot = 6.0f;
 
-    /** Spacing of the overlay ribbon quads and of the ground line of light, world cm. */
+    /** How far below the LOWEST ground a module crosses its substructure reaches, in amot.
+     *  AUTHORED; one amah. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Wall")
+    float FoundationFootingAmot = 1.0f;
+
+    /** Spacing of the overlay ribbon quads and of the ground line of light, in amot (25). */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Overlay")
-    float OverlaySpacingCm = 1250.0f;
+    float OverlaySpacingAmot = 25.0f;
 
     /** Seconds a state change takes. Zero is an immediate cut, which is what a load or a
      *  console command wants. */
@@ -164,7 +190,12 @@ public:
     TObjectPtr<UStaticMesh> GateModuleMesh;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Assets")
     TObjectPtr<UStaticMesh> CornerModuleMesh;
-    /** A unit quad standing on its lower edge, used for the translucent boundary band. */
+    /** A plain 1250 x 360 x 100 cm box (at 50 cm/amah), scaled in Z per instance to the
+     *  substructure depth. Null draws no foundations: the wall then floats where the ground
+     *  falls away under a module. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Assets")
+    TObjectPtr<UStaticMesh> FoundationModuleMesh;
+    /** A unit slab standing on its lower edge, used for the translucent boundary band. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Assets")
     TObjectPtr<UStaticMesh> OverlayQuadMesh;
 
@@ -172,21 +203,44 @@ public:
      *  "Emissive"; missing parameters are ignored rather than fatal. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Assets")
     TObjectPtr<UMaterialInterface> OverlayMaterial;
-    /** Opaque stone material for the built wall. Must expose scalar "DissolveAmount". */
+    /** Opaque stone material for the built wall, gates, corners and foundations. A scalar
+     *  "DissolveAmount" is driven if the material has one. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Assets")
     TObjectPtr<UMaterialInterface> WallMaterial;
 
-    /** Actor-label prefixes treated as modern buildings that may be hidden. Matched
-     *  case-sensitively against the actor label, then confirmed against the mesh asset path,
-     *  because labels are duplicable and asset paths are not. */
+    /** Ground profile: StepsPerSide steps per side, so StepsPerSide + 1 stations a side, four
+     *  sides consecutively (north, east, south, west, each from its clockwise start corner).
+     *  Highest and lowest ground under the wall footprint at each station, world cm. Baked by
+     *  the release script from SourceAssets/enclosure-review/precinct-<Target>.json; empty
+     *  means "level plane", which is reported by GetGroundProfileStatus(). */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Ground")
+    int32 GroundProfileStepsPerSide = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Ground")
+    TArray<float> GroundProfileHighZCm;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Ground")
+    TArray<float> GroundProfileLowZCm;
+
+    /** The exact actor labels the YECHEZKEL state hides, computed offline (see the class
+     *  comment). When non-empty this list IS the selection; the geometric rule is not used. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
+    TArray<FString> ExplicitHideLabels;
+
+    /** The same set as static-mesh ASSET NAMES (SM_JerusalemBuildings_Grid_*,
+     *  SM_OldCityFacades_Grid_*, SM_OldCityInfill_Grid_*), one per hidden actor. Actor labels
+     *  are editor data and can be empty in a cooked build; the mesh an actor renders is not.
+     *  An actor is in the hide set when EITHER its label or its mesh name is listed. The
+     *  release script derives these from the labels and proves the mapping against the level. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
+    TArray<FString> ExplicitHideMeshNames;
+
+    /** Actor-label prefixes treated as modern buildings that may be hidden by the FALLBACK
+     *  geometric rule (only when ExplicitHideLabels is empty). */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
     TArray<FString> ModernBuildingLabelPrefixes;
 
     /** Label prefixes that must NEVER be hidden or considered, whatever their bounds say.
      *  This is where the 400 m terrain tiles and the hollow union envelopes are kept out.
-     *  A terrain tile's AABB is two and a half times the whole Temple court, so without this
-     *  list the selection returns a hundred per cent false positives - a failure that has
-     *  already cost this project a day. */
+     *  Applied to the explicit list too, as a last guard. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
     TArray<FString> ExcludedLabelPrefixes;
 
@@ -203,7 +257,8 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Precinct")
     void SetPrecinctStateOver(EMikdashPrecinctState NewState, float Seconds);
 
-    /** Modern -> Overlay -> Yechezkel -> Modern. Bound to a key by the player controller. */
+    /** Yechezkel -> Modern -> Overlay -> Yechezkel. Bind this to a key in the player
+     *  controller; from the default one press shows today's city, two the overlay. */
     UFUNCTION(BlueprintCallable, Category = "Precinct")
     void CyclePrecinctState();
 
@@ -224,9 +279,26 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Precinct")
     void RebuildPrecinct();
 
-    /** How many modern buildings fall inside the boundary right now. Counts, never hides. */
+    /** Gather and build the ring WITHOUT touching any building's visibility. This is what the
+     *  release script calls in the editor world for its numeric readback, so a commandlet never
+     *  leaves an editor actor hidden; nothing it does is saved. */
+    UFUNCTION(BlueprintCallable, Category = "Precinct")
+    void MeasureWithoutHiding();
+
+    /** How many modern building actors the current selection would hide. Counts, never hides. */
     UFUNCTION(BlueprintPure, Category = "Precinct")
     int32 CountModernBuildingsInside() const;
+
+    /** How the explicit hide list resolved against the loaded level: labels found once,
+     *  labels missing, labels found more than once (a duplicate label is ambiguous and is
+     *  refused - all copies are left visible and reported here). Zeros when the list is empty. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    void GetHideListResolution(int32& OutFound, int32& OutMissing, int32& OutDuplicated) const;
+
+    /** FNV-1a over the sorted labels that WILL be hidden, so the release receipt can prove
+     *  the level resolved exactly the recorded set. Hex, 16 characters. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    FString GetHideSetFingerprint() const;
 
     /** Side of the precinct in metres under one opinion about the amah, for a HUD caption.
      *  Keys: "naeh" (48, and the book's own), "project" (50), "feinstein" (54),
@@ -240,6 +312,31 @@ public:
      *  EnclosureMath.h about why the book's ordering cannot hold on this project's envelope. */
     UFUNCTION(BlueprintPure, Category = "Precinct")
     FVector4 GetMeasuredClearancesAmot() const;
+
+    /** The four outer faces in world cm as (West, North, East, South). */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    FVector4 GetOuterFacesCm() const;
+
+    /** Lowest and highest plinth Z of the wall instances on one side (0 north, 1 east, 2 south,
+     *  3 west), world cm, as (Min, Max). Both zero when the ring has not been built. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    FVector2D GetWallBaseZRangeCm(int32 Side) const;
+
+    /** Deepest substructure on one side, world cm. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    float GetDeepestFoundationCm(int32 Side) const;
+
+    /** "profile" when every instance took its Z from the baked profile, "level-plane" when
+     *  the profile was empty or malformed and the ring sits at Z 0. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    FString GetGroundProfileStatus() const;
+
+    /** Number of instances per component after the last build: (Wall, Gate, Corner, Foundation)
+     *  and the overlay count separately, for the receipt. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    FVector4 GetInstanceCounts() const;
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    int32 GetOverlayInstanceCount() const;
 
     UPROPERTY(BlueprintAssignable, Category = "Precinct")
     FMikdashPrecinctStateSignature OnPrecinctStateChanged;
@@ -263,10 +360,15 @@ private:
     void GatherModernBuildings();
     bool IsExcludedLabel(const FString& Label) const;
     bool IsModernBuildingLabel(const FString& Label) const;
+    MikdashEnclosure::FGroundProfile MakeGroundProfile() const;
+    std::vector<MikdashEnclosure::FGateOpening> MakeGates(const MikdashEnclosure::FSquare& Square) const;
+    /** The actors the current rule selects, as indices into BuildingActors. */
+    void SelectedBuildingIndices(TArray<int32>& OutIndices) const;
 
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> WallInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> GateInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> CornerInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> FoundationInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> OverlayInstances;
     UPROPERTY(Transient) TArray<TObjectPtr<UPointLightComponent>> MarkerLights;
     UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> OverlayDynamic;
@@ -277,11 +379,22 @@ private:
     UPROPERTY(Transient) TArray<TWeakObjectPtr<AActor>> HiddenBuildings;
     UPROPERTY(Transient) TArray<bool> HiddenBuildingsPriorHidden;
 
-    /** Candidates found by GatherModernBuildings, in ascending id order. */
+    /** Candidates found by GatherModernBuildings. */
     TArray<TWeakObjectPtr<AActor>> BuildingActors;
     std::vector<MikdashEnclosure::FBuildingRef> BuildingRefs;
+    /** Parallel to BuildingActors: true when the actor's label is in ExplicitHideLabels. */
+    TArray<bool> BuildingInExplicitList;
+    int32 ExplicitFound = 0;
+    int32 ExplicitMissing = 0;
+    int32 ExplicitDuplicated = 0;
 
-    EMikdashPrecinctState CurrentState = EMikdashPrecinctState::Modern;
+    /** Per-side readback from the last BuildRing. */
+    double WallBaseZMin[4] = {0.0, 0.0, 0.0, 0.0};
+    double WallBaseZMax[4] = {0.0, 0.0, 0.0, 0.0};
+    double DeepestFoundation[4] = {0.0, 0.0, 0.0, 0.0};
+    bool bGroundFromProfile = false;
+
+    EMikdashPrecinctState CurrentState = EMikdashPrecinctState::Yechezkel;
     MikdashEnclosure::FDissolve Transition;
     bool bRingBuilt = false;
 };

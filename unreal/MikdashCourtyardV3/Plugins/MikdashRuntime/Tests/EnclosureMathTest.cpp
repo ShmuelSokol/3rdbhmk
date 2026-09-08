@@ -17,7 +17,10 @@
 //      same fingerprint; and the three selection rules nest (FullyInside subset of
 //      CentroidInside-or-not is NOT assumed, but FullyInside subset of AnyOverlap is);
 //   5. boundary sampling hits all four corners exactly and closes;
-//   6. the wall plan stays inside the RTX 2070 budget stated in the review;
+//   6. the wall plan stays inside the RTX 2070 budget stated in the review, at the level's
+//      50 cm and at the candidate's 48 cm;
+//  6b. the ground profile grounds every module with its plinth on the highest ground it
+//      crosses and its substructure below the lowest, so the wall neither floats nor buries;
 //   7. the dissolve is monotone, starts at the From state and ends at the To state.
 #include "EnclosureMath.h"
 
@@ -28,6 +31,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <random>
 #include <string>
 #include <vector>
@@ -645,16 +649,22 @@ static std::vector<FGateOpening> BookGates(const FSquare& Square)
     // Gate positions are the book's only for the count per side; the along-wall placement
     // is the project's assumption and is recorded as such in enclosure-design.json
     // `uncertainties`. Opening 10 amot (certain); piers 10 amot each side (authored).
+    // The south pair is placed at thirds FROM THE CORNERS, exactly as AMikdashEnclosure does,
+    // so the same rule serves the 48 cm square; on the 50 cm square that is world X 16900 and
+    // 66900, the numbers enclosure-design.json ships.
     const FVec2 TempleAxis = {0.0, 0.0};
+    FVec2 C[4];
+    SquareCorners(Square, C);
+    const double Side = SquareSideUnrealCm(Square);
     std::vector<FGateOpening> Gates;
     Gates.push_back({static_cast<int>(ESide::North),
                      FractionAlongSide(Square, static_cast<int>(ESide::North), TempleAxis), 10.0});
     Gates.push_back({static_cast<int>(ESide::East),
                      FractionAlongSide(Square, static_cast<int>(ESide::East), TempleAxis), 10.0});
     Gates.push_back({static_cast<int>(ESide::South),
-                     FractionAlongSide(Square, static_cast<int>(ESide::South), {16900.0, 0.0}), 10.0});
+                     FractionAlongSide(Square, static_cast<int>(ESide::South), {C[3].X + Side / 3.0, C[3].Y}), 10.0});
     Gates.push_back({static_cast<int>(ESide::South),
-                     FractionAlongSide(Square, static_cast<int>(ESide::South), {66900.0, 0.0}), 10.0});
+                     FractionAlongSide(Square, static_cast<int>(ESide::South), {C[3].X + Side * 2.0 / 3.0, C[3].Y}), 10.0});
     Gates.push_back({static_cast<int>(ESide::West),
                      FractionAlongSide(Square, static_cast<int>(ESide::West), TempleAxis), 10.0});
     return Gates;
@@ -699,7 +709,8 @@ static void WallPlanChecks()
     }
     assert(Plan.GateInstances == 5);
     assert(Plan.CornerInstances == 4);
-    assert(Plan.TotalTriangles == Plan.WallTriangles + Plan.GateTriangles + Plan.CornerTriangles + Plan.OverlayTriangles);
+    assert(Plan.TotalTriangles == Plan.WallTriangles + Plan.GateTriangles + Plan.CornerTriangles + Plan.OverlayTriangles
+                                  + Plan.FoundationTriangles);
 
     // The budget claim made in SourceAssets/enclosure-review/sources.md, asserted here so
     // it cannot quietly rot: the whole enclosure stays under a quarter of a million
@@ -713,9 +724,37 @@ static void WallPlanChecks()
     // instead of the day the frame rate drops.
     assert(Plan.WallInstances == 467 && Plan.GateInstances == 5 && Plan.CornerInstances == 4);
     assert(Plan.OverlayInstances == 480);
-    assert(Plan.TotalInstances == 956);
-    assert(Plan.TotalTriangles == 112944);
+    // One authored substructure box under every wall, gate and corner module: 476 of them,
+    // twelve triangles each, so the terrain-following costs 5,712 triangles.
+    assert(Plan.FoundationInstances == 467 + 5 + 4);
+    assert(Plan.FoundationTriangles == 476LL * 12LL);
+    assert(Plan.TotalInstances == 956 + 476);
+    assert(Plan.TotalTriangles == 112944 + 5712);
     assert(Plan.WallTriangles == 467LL * 228LL);
+
+    // The 48 cm candidate: same plan, every module scaled by .96, the side 144,000 cm, and
+    // the faces the Aron alignment review computed for that map (-31776 / -31824 / 112224 /
+    // 112176) reproduced from the same rule with the candidate's platform half-extent.
+    const double Half48 = CourtPlatformHalfExtentUnrealCm * ModuleScaleFor(Candidate48CmPerAmah);
+    assert(Near(Half48, 7776.0, 1e-9));
+    const FAabb2 Platform48 = {{-Half48, -Half48}, {Half48, Half48}};
+    const FSquare Square48 = MakeSquareFromClearances(Platform48, BookClearWestAmot, BookClearNorthAmot,
+                                                      PrecinctSideAmot, Candidate48CmPerAmah);
+    FVec2 Corners48[4];
+    SquareCorners(Square48, Corners48);
+    assert(Near(Corners48[0].X, -31776.0, 1e-9) && Near(Corners48[0].Y, -31824.0, 1e-9));
+    assert(Near(Corners48[2].X, 112224.0, 1e-9) && Near(Corners48[2].Y, 112176.0, 1e-9));
+    assert(Near(SquareSideAmot(Square48, Candidate48CmPerAmah), PrecinctSideAmot, 1e-9));
+    const FWallPlan Plan48 = PlanWall(Square48, 1250.0 * ModuleScaleFor(Candidate48CmPerAmah),
+                                      BookGates(Square48), 10.0, Budget,
+                                      1250.0 * ModuleScaleFor(Candidate48CmPerAmah), Candidate48CmPerAmah);
+    assert(Plan48.SegmentsPerSide == 120 && Near(Plan48.SegmentLengthUnrealCm, 1200.0, 1e-9));
+    assert(Plan48.WallInstances == 467 && Plan48.TotalInstances == Plan.TotalInstances);
+    assert(Plan48.TotalTriangles == Plan.TotalTriangles);
+    Record("candidate48_west_face_cm", Corners48[0].X);
+    Record("candidate48_north_face_cm", Corners48[0].Y);
+    Record("candidate48_east_face_cm", Corners48[2].X);
+    Record("candidate48_south_face_cm", Corners48[2].Y);
 
     // A single-mesh wall would be one 1.5 km bounding box: assert the instanced form
     // actually buys per-instance culling granularity of a segment, not of the ring.
@@ -736,12 +775,132 @@ static void WallPlanChecks()
     RecordInt("gate_instances", Plan.GateInstances);
     RecordInt("corner_instances", Plan.CornerInstances);
     RecordInt("overlay_instances", Plan.OverlayInstances);
+    RecordInt("foundation_instances", Plan.FoundationInstances);
+    RecordInt("foundation_triangles", Plan.FoundationTriangles);
     RecordInt("total_instances", Plan.TotalInstances);
     RecordInt("total_triangles", Plan.TotalTriangles);
     RecordInt("oldcity_facade_triangles_for_comparison", 3416580);
-    std::printf("wall plan: %d segments/side, %d wall + %d gate + %d corner + %d overlay instances, %lld triangles\n",
+    std::printf("wall plan: %d segments/side, %d wall + %d gate + %d corner + %d overlay + %d foundation instances, %lld triangles\n",
                 Plan.SegmentsPerSide, Plan.WallInstances, Plan.GateInstances, Plan.CornerInstances,
-                Plan.OverlayInstances, Plan.TotalTriangles);
+                Plan.OverlayInstances, Plan.FoundationInstances, Plan.TotalTriangles);
+}
+
+// ---------------------------------------------------------------------------
+// 6b. The ground profile - the wall follows the terrain and never shows a gap
+// ---------------------------------------------------------------------------
+static FGroundProfile SyntheticValley(int Steps)
+{
+    // Side 0 flat at Z 0; side 1 (the east wall) drops into a valley 7,000 cm deep and comes
+    // back - the shape of the Kidron under the real east wall; side 2 a steady 3% grade;
+    // side 3 flat at -1,250 cm with a cross-slope so High and Low differ by 180 cm.
+    FGroundProfile P;
+    P.StepsPerSide = Steps;
+    const int Stations = Steps + 1;
+    P.HighZUnrealCm.assign(static_cast<std::size_t>(Stations) * 4u, 0.0);
+    P.LowZUnrealCm.assign(static_cast<std::size_t>(Stations) * 4u, 0.0);
+    for (int K = 0; K < Stations; ++K)
+    {
+        const double F = static_cast<double>(K) / static_cast<double>(Steps);
+        const std::size_t I1 = static_cast<std::size_t>(Stations + K);
+        const std::size_t I2 = static_cast<std::size_t>(2 * Stations + K);
+        const std::size_t I3 = static_cast<std::size_t>(3 * Stations + K);
+        const double Valley = -7000.0 * std::sin(F * Pi);
+        P.HighZUnrealCm[I1] = Valley;            P.LowZUnrealCm[I1] = Valley - 40.0;
+        P.HighZUnrealCm[I2] = F * 4500.0;        P.LowZUnrealCm[I2] = F * 4500.0;
+        P.HighZUnrealCm[I3] = -1250.0;           P.LowZUnrealCm[I3] = -1430.0;
+    }
+    return P;
+}
+
+static void GroundChecks()
+{
+    // An empty or malformed profile is refused, and grounding then falls back to the level
+    // plane with the footing still below it - the old behaviour, reported as such.
+    FGroundProfile Empty;
+    assert(!GroundProfileValid(Empty));
+    const FGrounding Fallback = GroundSpan(Empty, 1, 0.2, 0.3, 50.0);
+    assert(!Fallback.bFromProfile);
+    assert(Near(Fallback.BaseZUnrealCm, 0.0) && Near(Fallback.FoundationBottomZUnrealCm, -50.0));
+    assert(Near(Fallback.FoundationDepthUnrealCm, 50.0));
+    FGroundProfile Short = SyntheticValley(600);
+    Short.LowZUnrealCm.pop_back();
+    assert(!GroundProfileValid(Short));
+    FGroundProfile Inverted = SyntheticValley(600);
+    Inverted.LowZUnrealCm[700] = Inverted.HighZUnrealCm[700] + 1.0;   // low above high is nonsense
+    assert(!GroundProfileValid(Inverted));
+
+    const FGroundProfile P = SyntheticValley(600);
+    assert(GroundProfileValid(P));
+    assert(GroundStationsPerSide(P) == 601);
+
+    // Interpolation is exact at stations and linear between them; the fraction clamps and
+    // the side wraps rather than reading off the end of the array.
+    assert(Near(SampleGroundHighZ(P, 2, 0.0), 0.0) && Near(SampleGroundHighZ(P, 2, 1.0), 4500.0));
+    assert(Near(SampleGroundHighZ(P, 2, 0.5), 2250.0, 1e-9));
+    assert(Near(SampleGroundHighZ(P, 2, 1.0 / 1200.0), 4500.0 / 1200.0, 1e-9));
+    assert(Near(SampleGroundHighZ(P, 2, -3.0), 0.0) && Near(SampleGroundHighZ(P, 2, 7.0), 4500.0));
+    assert(Near(SampleGroundHighZ(P, 6, 0.5), SampleGroundHighZ(P, 2, 0.5)));
+    assert(Near(SampleGroundLowZ(P, 3, 0.37), -1430.0) && Near(SampleGroundHighZ(P, 3, 0.37), -1250.0));
+
+    // Every module on every side: its plinth is never below any ground it crosses, its
+    // substructure reaches below the lowest ground by the footing, so there is no gap and
+    // no burial. Checked against a finer sampling than GroundSpan itself uses.
+    const int Modules = 120;
+    double DeepestFoundation = 0.0, LargestStep = 0.0;
+    for (int Side = 0; Side < 4; ++Side)
+    {
+        double PreviousBase = 0.0;
+        for (int M = 0; M < Modules; ++M)
+        {
+            const double From = static_cast<double>(M) / Modules, To = static_cast<double>(M + 1) / Modules;
+            const FGrounding G = GroundSpan(P, Side, From, To, 50.0);
+            assert(G.bFromProfile);
+            for (int Fine = 0; Fine <= 50; ++Fine)
+            {
+                const double F = From + (To - From) * Fine / 50.0;
+                assert(G.BaseZUnrealCm >= SampleGroundHighZ(P, Side, F) - 1e-6);
+                assert(G.FoundationBottomZUnrealCm <= SampleGroundLowZ(P, Side, F) - 50.0 + 1e-6);
+            }
+            assert(G.FoundationDepthUnrealCm >= 50.0 - 1e-9);
+            assert(Near(G.FoundationDepthUnrealCm, G.BaseZUnrealCm - G.FoundationBottomZUnrealCm, 1e-9));
+            // Argument order does not matter.
+            const FGrounding R = GroundSpan(P, Side, To, From, 50.0);
+            assert(Near(R.BaseZUnrealCm, G.BaseZUnrealCm) && Near(R.FoundationBottomZUnrealCm, G.FoundationBottomZUnrealCm));
+            DeepestFoundation = std::max(DeepestFoundation, G.FoundationDepthUnrealCm);
+            if (M > 0) LargestStep = std::max(LargestStep, std::abs(G.BaseZUnrealCm - PreviousBase));
+            PreviousBase = G.BaseZUnrealCm;
+        }
+    }
+    // Flat ground: the plinth sits exactly on it and the substructure is exactly the footing.
+    const FGrounding Flat = GroundSpan(P, 0, 0.4, 0.45, 50.0);
+    assert(Near(Flat.BaseZUnrealCm, 0.0) && Near(Flat.FoundationDepthUnrealCm, 50.0));
+    // Cross-slope only: the plinth sits on the high edge and the substructure spans the
+    // 180 cm cross-fall plus the footing.
+    const FGrounding Cross = GroundSpan(P, 3, 0.1, 0.11, 50.0);
+    assert(Near(Cross.BaseZUnrealCm, -1250.0) && Near(Cross.FoundationDepthUnrealCm, 180.0 + 50.0, 1e-9));
+    // The valley: the deepest station is at the middle of side 1 and the side range reports it.
+    double Low = 0.0, High = 0.0;
+    assert(GroundProfileSideRange(P, 1, Low, High));
+    assert(Near(Low, -7040.0, 1e-6) && Near(High, 0.0, 1e-9));
+    assert(GroundProfileSideRange(P, 2, Low, High) && Near(Low, 0.0) && Near(High, 4500.0));
+    assert(!GroundProfileSideRange(Empty, 0, Low, High));
+    // On the 3% grade a 1/120 module spans 37.5 cm of rise, so neighbouring plinths step by
+    // exactly that, and the deepest substructure anywhere is the grade plus the footing on
+    // that side and the valley's steepest module on side 1.
+    const FGrounding Grade = GroundSpan(P, 2, 0.5, 0.5 + 1.0 / 120.0, 50.0);
+    assert(Near(Grade.FoundationDepthUnrealCm, 37.5 + 50.0, 1e-9));
+    assert(DeepestFoundation > 90.0 && DeepestFoundation < 400.0);
+
+    // The module scale for the candidate is exactly .96 and a nonsense amah gives 1.
+    assert(Near(ModuleScaleFor(Candidate48CmPerAmah), 0.96, 1e-12));
+    assert(Near(ModuleScaleFor(ProjectCmPerAmah), 1.0, 1e-12));
+    assert(Near(ModuleScaleFor(std::numeric_limits<double>::quiet_NaN()), 1.0, 1e-12));
+
+    Record("ground_synthetic_deepest_foundation_cm", DeepestFoundation);
+    Record("ground_synthetic_largest_plinth_step_cm", LargestStep);
+    RecordInt("ground_profile_stations_per_side", GroundStationsPerSide(P));
+    std::printf("ground: 480 modules over a synthetic Kidron - plinth never below grade, substructure never above it; "
+                "deepest substructure %.1f cm, largest step between plinths %.1f cm\n", DeepestFoundation, LargestStep);
 }
 
 // ---------------------------------------------------------------------------
@@ -837,6 +996,7 @@ int main(int Argc, char** Argv)
     SelectionChecks();
     BoundaryChecks();
     WallPlanChecks();
+    GroundChecks();
     DissolveChecks();
 
     if (Argc > 1)
@@ -851,6 +1011,6 @@ int main(int Argc, char** Argv)
                  "anchorings, amah/reed/metre round-trips over five opinions, "
                  "edge and corner containment, deterministic and order-independent building selection "
                  "with the terrain-tile trap asserted, boundary sampling, the instanced wall budget "
-                 "and the three-state dissolve" << std::endl;
+                 "at 50 and 48 cm, the terrain-following ground profile and the three-state dissolve" << std::endl;
     return 0;
 }

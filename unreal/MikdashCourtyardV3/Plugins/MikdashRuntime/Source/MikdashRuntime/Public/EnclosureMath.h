@@ -109,6 +109,11 @@ constexpr double TerumahSideAmot = 25000.0;
 inline double ReedsToAmot(double Reeds) { return Reeds * AmotPerReed; }
 inline double AmotToReeds(double Amot) { return Amot / AmotPerReed; }
 
+/** The isolated 48 cm candidate map is baked at the book's own amah; its court platform
+ * half-extent is 8100 x .96. Named here so the release script, the actor and the test agree
+ * on the second target without restating the number. */
+constexpr double Candidate48CmPerAmah = 48.0;
+
 /** Amot -> level units. Exact for the values the generators use. */
 inline double AmotToUnrealCm(double Amot, double WorldCmPerAmah = ProjectCmPerAmah)
 {
@@ -692,6 +697,166 @@ inline int SampleBoundary(const FSquare& Square, double TargetSpacingUnrealCm,
 }
 
 // ---------------------------------------------------------------------------
+// 5b. Ground profile - how the wall follows the terrain
+// ---------------------------------------------------------------------------
+//
+// The instanced wall used to sit on the level plane (Z 0), which floats it over the Kidron
+// (the ground there is 60-90 m below the Mount deck) and buries it on the slopes above. The
+// fix is a GROUND PROFILE: the terrain height under the wall footprint, sampled offline by
+// Scripts/create_enclosure.py from the OSM terrain grid (jerusalem.json `terrain.heights`,
+// amot, 257 x 257, step 50 amot, origin -6400 amot, converted with the level's baked
+// alignment) and, where that grid disagrees with the level's own tiles, from the
+// FutureMountV1 tile receipts. The profile is baked onto AMikdashEnclosure by the release
+// script as two float arrays; nothing here traces against collision, so the result is the
+// same in a commandlet, in PIE and in a cooked build.
+//
+// STATIONS. Each side is divided into StepsPerSide equal steps; station k of side s is at
+// fraction k / StepsPerSide from the side's START corner (corner s, see ESide), and there
+// are StepsPerSide + 1 stations per side so both corners are stations. Two values per
+// station: the HIGHEST and the LOWEST ground under the wall's footprint across its
+// thickness at that station. Four sides are stored consecutively.
+//
+// POLICY (authored; the sources say nothing about foundations - see sources.md section 4b).
+// A module stands with its plinth on the HIGHEST ground it crosses, so the full six-amah
+// section is always exposed and never buried; an authored substructure (a plain box, the
+// foundation module) fills from the LOWEST ground the module crosses, less a footing, up to
+// the plinth. That is what "no gap shows" means numerically: FoundationBottomZ <= every
+// ground sample under the module - Footing, and BaseZ >= every ground sample.
+
+struct FGroundProfile
+{
+    int StepsPerSide = 0;
+    /** 4 * (StepsPerSide + 1) values, side-major, station-minor. */
+    std::vector<double> HighZUnrealCm;
+    std::vector<double> LowZUnrealCm;
+};
+
+inline int GroundStationsPerSide(const FGroundProfile& Profile)
+{
+    return Profile.StepsPerSide > 0 ? Profile.StepsPerSide + 1 : 0;
+}
+
+/** A profile is usable only when it is complete and finite. An unusable profile makes every
+ * grounding fall back to the level plane, which is the old behaviour and is reported. */
+inline bool GroundProfileValid(const FGroundProfile& Profile)
+{
+    const int Stations = GroundStationsPerSide(Profile);
+    if (Stations <= 0) return false;
+    const std::size_t Wanted = static_cast<std::size_t>(Stations) * 4u;
+    if (Profile.HighZUnrealCm.size() != Wanted || Profile.LowZUnrealCm.size() != Wanted) return false;
+    for (std::size_t Index = 0; Index < Wanted; ++Index)
+    {
+        if (!std::isfinite(Profile.HighZUnrealCm[Index]) || !std::isfinite(Profile.LowZUnrealCm[Index])) return false;
+        if (Profile.LowZUnrealCm[Index] > Profile.HighZUnrealCm[Index] + 1e-9) return false;
+    }
+    return true;
+}
+
+/** Linear interpolation of one array of a valid profile at a fraction along a side. The
+ * fraction is clamped to 0..1; the side index wraps. */
+inline double SampleProfileArray(const std::vector<double>& Values, int StepsPerSide, int Side, double Fraction)
+{
+    const int Stations = StepsPerSide + 1;
+    const int SideIndex = ((Side % 4) + 4) % 4;
+    const double F = std::max(0.0, std::min(1.0, std::isfinite(Fraction) ? Fraction : 0.0));
+    const double Position = F * static_cast<double>(StepsPerSide);
+    int K = static_cast<int>(std::floor(Position));
+    if (K >= StepsPerSide) K = StepsPerSide - 1;
+    if (K < 0) K = 0;
+    const double T = Position - static_cast<double>(K);
+    const std::size_t Base = static_cast<std::size_t>(SideIndex) * static_cast<std::size_t>(Stations);
+    const double A = Values[Base + static_cast<std::size_t>(K)];
+    const double B = Values[Base + static_cast<std::size_t>(K) + 1u];
+    return A + (B - A) * T;
+}
+
+inline double SampleGroundHighZ(const FGroundProfile& Profile, int Side, double Fraction)
+{
+    if (!GroundProfileValid(Profile)) return 0.0;
+    return SampleProfileArray(Profile.HighZUnrealCm, Profile.StepsPerSide, Side, Fraction);
+}
+inline double SampleGroundLowZ(const FGroundProfile& Profile, int Side, double Fraction)
+{
+    if (!GroundProfileValid(Profile)) return 0.0;
+    return SampleProfileArray(Profile.LowZUnrealCm, Profile.StepsPerSide, Side, Fraction);
+}
+
+/** Where one module (or gate, or corner) meets the ground. */
+struct FGrounding
+{
+    /** Z of the module's own origin: its plinth sits here. */
+    double BaseZUnrealCm = 0.0;
+    /** Bottom of the authored substructure. */
+    double FoundationBottomZUnrealCm = 0.0;
+    /** BaseZ - FoundationBottomZ; never less than the footing. */
+    double FoundationDepthUnrealCm = 0.0;
+    /** Extremes of the ground actually sampled under the module. */
+    double GroundHighZUnrealCm = 0.0;
+    double GroundLowZUnrealCm = 0.0;
+    /** False when the profile was unusable and the module fell back to the level plane. */
+    bool bFromProfile = false;
+};
+
+/** Ground a span of one side, from FromFraction to ToFraction (either order), sampling the
+ * profile at Subsamples points inclusive of both ends. FootingUnrealCm is how far below the
+ * lowest sampled ground the substructure reaches - a whole amah by default in the actor. */
+inline FGrounding GroundSpan(const FGroundProfile& Profile, int Side, double FromFraction, double ToFraction,
+                             double FootingUnrealCm, int Subsamples = 9)
+{
+    FGrounding G;
+    const double Footing = std::max(0.0, std::isfinite(FootingUnrealCm) ? FootingUnrealCm : 0.0);
+    if (!GroundProfileValid(Profile))
+    {
+        G.BaseZUnrealCm = 0.0;
+        G.FoundationBottomZUnrealCm = -Footing;
+        G.FoundationDepthUnrealCm = Footing;
+        G.bFromProfile = false;
+        return G;
+    }
+    if (Subsamples < 2) Subsamples = 2;
+    const double Lo = std::min(FromFraction, ToFraction);
+    const double Hi = std::max(FromFraction, ToFraction);
+    double High = -1e300, Low = 1e300;
+    for (int Index = 0; Index < Subsamples; ++Index)
+    {
+        const double F = Lo + (Hi - Lo) * static_cast<double>(Index) / static_cast<double>(Subsamples - 1);
+        High = std::max(High, SampleProfileArray(Profile.HighZUnrealCm, Profile.StepsPerSide, Side, F));
+        Low = std::min(Low, SampleProfileArray(Profile.LowZUnrealCm, Profile.StepsPerSide, Side, F));
+    }
+    G.GroundHighZUnrealCm = High;
+    G.GroundLowZUnrealCm = Low;
+    G.BaseZUnrealCm = High;
+    G.FoundationBottomZUnrealCm = Low - Footing;
+    G.FoundationDepthUnrealCm = G.BaseZUnrealCm - G.FoundationBottomZUnrealCm;
+    G.bFromProfile = true;
+    return G;
+}
+
+/** Lowest and highest station values of one side, for the report. Returns false on an
+ * unusable profile. */
+inline bool GroundProfileSideRange(const FGroundProfile& Profile, int Side, double& OutLowZ, double& OutHighZ)
+{
+    if (!GroundProfileValid(Profile)) return false;
+    const int Stations = GroundStationsPerSide(Profile);
+    const std::size_t Base = static_cast<std::size_t>(((Side % 4) + 4) % 4) * static_cast<std::size_t>(Stations);
+    OutLowZ = 1e300;
+    OutHighZ = -1e300;
+    for (int Index = 0; Index < Stations; ++Index)
+    {
+        OutLowZ = std::min(OutLowZ, Profile.LowZUnrealCm[Base + static_cast<std::size_t>(Index)]);
+        OutHighZ = std::max(OutHighZ, Profile.HighZUnrealCm[Base + static_cast<std::size_t>(Index)]);
+    }
+    return true;
+}
+
+/** The modules are baked at ProjectCmPerAmah; a level baked at another amah (the 48 cm
+ * candidate) scales every module uniformly by this factor so a 25-amah module stays 25 amot. */
+inline double ModuleScaleFor(double WorldCmPerAmah)
+{
+    return (ProjectCmPerAmah > 0.0 && std::isfinite(WorldCmPerAmah)) ? WorldCmPerAmah / ProjectCmPerAmah : 1.0;
+}
+
+// ---------------------------------------------------------------------------
 // 6. Wall instancing and the draw budget
 // ---------------------------------------------------------------------------
 
@@ -739,10 +904,13 @@ struct FWallPlan
     int GateInstances = 0;
     int CornerInstances = 0;
     int OverlayInstances = 0;
+    /** One authored substructure box under every wall, gate and corner instance. */
+    int FoundationInstances = 0;
     long long WallTriangles = 0;
     long long GateTriangles = 0;
     long long CornerTriangles = 0;
     long long OverlayTriangles = 0;
+    long long FoundationTriangles = 0;
     long long TotalTriangles = 0;
     int TotalInstances = 0;
 };
@@ -763,6 +931,8 @@ struct FModuleBudget
     /** One thin closed slab, so the overlay band is two-sided and never vanishes as the
      * viewer crosses the line - the moment it is most wanted. */
     int OverlayQuadTriangles = 12;
+    /** One plain closed box, scaled per instance to the depth GroundSpan computes. */
+    int FoundationTriangles = 12;
 };
 
 /** Plans the ring: how many segments per side at approximately NominalSegmentLength,
@@ -797,12 +967,16 @@ inline FWallPlan PlanWall(const FSquare& Square, double NominalSegmentLengthUnre
     std::vector<FBoundarySample> Samples;
     SampleBoundary(Square, OverlaySpacingUnrealCm, Samples);
     Plan.OverlayInstances = static_cast<int>(Samples.size());
+    Plan.FoundationInstances = Plan.WallInstances + Plan.GateInstances + Plan.CornerInstances;
     Plan.WallTriangles = static_cast<long long>(Plan.WallInstances) * Budget.WallSegmentTriangles;
     Plan.GateTriangles = static_cast<long long>(Plan.GateInstances) * Budget.GateTriangles;
     Plan.CornerTriangles = static_cast<long long>(Plan.CornerInstances) * Budget.CornerTriangles;
     Plan.OverlayTriangles = static_cast<long long>(Plan.OverlayInstances) * Budget.OverlayQuadTriangles;
-    Plan.TotalTriangles = Plan.WallTriangles + Plan.GateTriangles + Plan.CornerTriangles + Plan.OverlayTriangles;
-    Plan.TotalInstances = Plan.WallInstances + Plan.GateInstances + Plan.CornerInstances + Plan.OverlayInstances;
+    Plan.FoundationTriangles = static_cast<long long>(Plan.FoundationInstances) * Budget.FoundationTriangles;
+    Plan.TotalTriangles = Plan.WallTriangles + Plan.GateTriangles + Plan.CornerTriangles + Plan.OverlayTriangles
+                        + Plan.FoundationTriangles;
+    Plan.TotalInstances = Plan.WallInstances + Plan.GateInstances + Plan.CornerInstances + Plan.OverlayInstances
+                        + Plan.FoundationInstances;
     return Plan;
 }
 

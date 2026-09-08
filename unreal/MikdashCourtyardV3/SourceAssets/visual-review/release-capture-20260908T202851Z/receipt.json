@@ -1,0 +1,32 @@
+{
+  "status": "running",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256": "a538b255ed5c3a3da16bfd6fde97f013a0cefbfaa3c0b0df7ff4cd75b6c9d68e",
+  "startedUtc": "20260908T202851Z",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "process": "dedicated GUI UnrealEditor.exe, real RHI (no -nullrhi), -ExecCmds py runner",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fovDegrees": 75.0,
+  "warmupSecondsPerView": 45.0,
+  "minimumSlateTicksPerView": 120,
+  "captureTimeoutSeconds": 90.0,
+  "watchdogSeconds": 1800.0,
+  "readinessPolicy": "Global finish_loading_before_screenshot after map load; per view: set camera, finish_loading_before_screenshot (loading barrier), then >=45 s and >=120 Slate ticks rendered warmup, then take_high_res_screenshot. Flat frames (luma stdev < 4.0) retried once.",
+  "streamingPoolSizeMB": 1000,
+  "views": [],
+  "viewTiming": [],
+  "captures": [],
+  "failures": [],
+  "events": [
+    {
+      "event": "global_barrier_started",
+      "elapsedSeconds": 0.16
+    }
+  ],
+  "mapSaved": false,
+  "visualAcceptance": "PENDING",
+  "limits": "Native technical stills of the saved combined map. No access authorization, no automatic image-quality approval, no motion/wind/packaged proof. Zero-count inventory entries mean those assets were not yet placed in this map."
+}

@@ -1,0 +1,86 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Consumed by Scripts/release_limestone_textures_v2.py. Imports the authored Jerusalem limestone (meleke) ashlar set V2 (Scripts/create_limestone_textures_v2.py -> SourceAssets/material-review/LimestoneV2/), creates TWO NEW material instances parented on the existing limestone instances, and reassigns every static-mesh material slot whose effective material is MI_PBR_LimestoneAshlar / MI_PBR_LimestoneTrim to the new instances at the COMPONENT OVERRIDE level. Nothing shared is edited: not M_PBR_Tiled, not the nine repaired PBR instances (a previous pass flattened the frieze relief by editing a shared parent). Every number here is read back numerically; nothing claims visual acceptance.",
+  "diagnosisAnswered": "release_lighting_v3.spec.json diagnosis.textureMeasured: sandstone_blocks_08 albedo per-channel std 0.021 (R p5-p95 0.62-0.68), normal xy deviation p95 0.09, roughness 0.50 uniform. The V2 set's measured statistics are in SourceAssets/material-review/LimestoneV2/manifest.json and are copied into the import receipt.",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "LimestoneV2-",
+  "receiptFolder": "SourceAssets/material-review/LimestoneV2",
+  "receiptPrefix": "limestone-v2-",
+  "sourceFolder": "SourceAssets/material-review/LimestoneV2",
+  "sourceManifest": "SourceAssets/material-review/LimestoneV2/manifest.json",
+  "sourceManifestStatusRequired": "OFFLINE_GENERATED_NATIVE_IMPORT_PENDING",
+  "requiredSize": 2048,
+  "namespace": "/Game/MikdashV3/MaterialReview/LimestoneV2",
+  "textureFolder": "/Game/MikdashV3/MaterialReview/LimestoneV2/Textures",
+  "textures": {
+    "Albedo": {"compression": "TC_DEFAULT", "srgb": true, "lodGroup": "TEXTUREGROUP_WORLD", "parameter": "Albedo"},
+    "Normal": {"compression": "TC_NORMALMAP", "srgb": false, "flipGreenChannel": false, "lodGroup": "TEXTUREGROUP_WORLD_NORMAL_MAP", "parameter": "Normal",
+               "why": "The maps encode normalize(-dh/du, -dh/dv, 1) with v = image row; M_PBR_Tiled adds decoded (R,G) along world (u,v) axes, so no green flip (same as the set being replaced, release_pbr_architecture.spec.json textures.normal.flipGreenChannel=false)."},
+    "ARM": {"compression": "TC_MASKS", "srgb": false, "lodGroup": "TEXTUREGROUP_WORLD", "parameter": "ARM", "channels": "R ambient occlusion, G roughness, B metallic (0)"}
+  },
+  "virtualTextureStreaming": false,
+  "variants": {
+    "Ashlar": {
+      "sourcePrefix": "T_LimestoneV2_Ashlar_",
+      "parentInstance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Ashlar",
+      "scalars": {"TilingCm": 300.0, "NormalStrength": 1.0, "RoughnessScale": 1.0, "Metallic": 0.0, "AlbedoFlatness": 0.0},
+      "tint": [1.0, 1.0, 1.0, 1.0],
+      "expectedSlotCount": 1155
+    },
+    "Trim": {
+      "sourcePrefix": "T_LimestoneV2_Trim_",
+      "parentInstance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "newInstance": "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Trim",
+      "scalars": {"TilingCm": 300.0, "NormalStrength": 1.0, "RoughnessScale": 1.0, "Metallic": 0.0, "AlbedoFlatness": 0.0},
+      "tint": [1.0, 1.0, 1.0, 1.0],
+      "expectedSlotCount": 335
+    }
+  },
+  "whyScalarsExplicit": "The new instances override every scalar and the Tint themselves, so a later change on the parent (lighting-v3 variant A proposes NormalStrength 2.5 / RoughnessScale 1.6 on MI_PBR_LimestoneAshlar to compensate for the WEAK old maps) cannot double-apply to maps that already carry physical relief and 0.55-0.85 roughness. TilingCm stays 300 so course lines keep falling on world-Z multiples of 50 cm (Ashlar) / 37.5 cm (Trim). Trim lightness is baked into its albedo, so its Tint is neutral instead of the parent's 1.08/1.06/1.02.",
+  "expectedSlotCountsSource": "SourceAssets/lighting-review/lighting-v3-inventory-20260908T183719554035Z.json materialSlotCounts",
+  "countPolicy": {"refuseOnMismatch": true, "allowSwitch": "-LimestoneV2AllowCountDrift", "why": "A different count means the scene moved since the inventory; look before reassigning."},
+  "nanite": {"requireExplicitUsageOverride": true, "why": "The nine repaired instances persist explicit Nanite usage overrides (release_nanite_instance_usage.py); 7632 of 7767 mesh components are Nanite. The new children set and read back the same override so no runtime 'missing usage flag Nanite' returns."},
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm"
+  ],
+  "protectedGlobs": ["Content/MikdashV3/Materials/PBR/**/*.uasset"],
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough"
+  ],
+  "verification": {"floatRelativeTolerance": 0.0001},
+  "commandlet": {
+    "note": "Strictly serial. Check Get-Process UnrealEditor,UnrealEditor-Cmd first. Unique -abslog per run. -nullrhi is fine for import/apply/revert/verify (no shader evidence is claimed); a real-RHI PIE capture (lighting_capture_v3.py views) is the visual review.",
+    "import": "UnrealEditor-Cmd.exe <uproject> -run=pythonscript -unattended -nullrhi -abslog=<unique> -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_limestone_textures_v2.py\" -LimestoneV2Import",
+    "apply": "... -LimestoneV2Apply=<import receipt path>",
+    "verify": "... -LimestoneV2Verify=<apply receipt path>",
+    "revert": "... -LimestoneV2Revert=<apply receipt path>"
+  },
+  "limitations": [
+    "Procedural authored set, not a photographic scan of meleke; the statistics prove contrast and relief exist, not that it looks right. Visual acceptance is the coordinator's real-RHI capture.",
+    "Course lines are world-aligned by the triplanar master, so every wall shares the same course levels (like real coursed ashlar); block boundaries do not know where a real wall ends.",
+    "Revert restores the map's slot overrides; the imported textures and the two new instances stay on disk (unreferenced) unless removed deliberately."
+  ]
+}

@@ -11,10 +11,18 @@ Every claim below is marked **certain**, **disputed**, or **authored**.
 * **authored** — this project invented it because nothing said. Every such choice is a
   study aid, not a claim about the Temple.
 
-Files: geometry `geometry-manifest.json`; test snapshot `tests.json`; plan
-`enclosure-plan.png`; generator `Scripts/create_enclosure.py`; placer
-`Scripts/release_enclosure.py`; arithmetic
-`Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h`.
+Files: geometry `geometry-manifest.json`; per-map receipts `precinct-Main50.json` and
+`precinct-Candidate48.json` (square, gates, ground profile, per-instance groundings, exact
+hide set); test snapshot `tests.json`; plan `enclosure-plan.png`; generator
+`Scripts/create_enclosure.py`; placer `Scripts/release_enclosure.py` (+ `.spec.json`); arithmetic
+`Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h`; runtime actor
+`AMikdashEnclosure`. Dated summary: `YECHEZKEL-DEFAULT-20260908.md`; codex text:
+`CODEX-NOTE-precinct-20260908.md`.
+
+**Decision, 8 September 2026 (Shmuel):** the precinct is built EXACTLY as Yechezkel 42:15-20
+states it - 500 reeds x 6 amot = 3,000 amot a side - and that is the DEFAULT view. Modern
+buildings inside are hidden by visibility, never deleted. MODERN and OVERLAY remain one and two
+presses of the cycle key away.
 
 ---
 
@@ -111,13 +119,22 @@ That coincides with R' Chaim Naeh. `BookImpliedAmahRealCm = 48.0` and
 `BookStatedPrecinctSideMetres = 1440.0` are both in the header, and `EnclosureMathTest.cpp`
 asserts that the one reproduces the other, so neither can be edited alone.
 
-### Which one is the model built at? — **50 cm, and that is a level fact, not a ruling**
+### Which one is the model built at? — **50 cm on the main map, 48 cm on the candidate**
 
-The Jerusalem OSM context, the measured architecture and the FutureMountV1 platform were all
-baked at **50 Unreal cm per amah**. Changing it would invalidate every actor transform in the
-Walkthrough map. So the geometry is built once at 50, and the metre figure quoted to a viewer
-is computed per opinion at run time by `GetPrecinctSideMetresUnderAmah`. The model is not a
-claim that an amah is half a metre.
+The Jerusalem OSM context, the measured architecture and the FutureMountV1 platform were
+baked at **50 Unreal cm per amah** on the main map. The isolated 48 cm candidate
+(`Amah48Candidate_20260908T144034771385Z`, the approved amah, not promoted) has the Temple
+converted by .96 about the origin; the city, the terrain and the OSM alignment are METRIC in
+both maps and do not move. The precinct is therefore computed per map: side 1,500 m on the
+main map, **1,440 m on the candidate** (the book's own figure). `WorldCmPerAmah` on the actor
+and `precinct-<Target>.json` carry each; the metre figure quoted to a viewer is still computed
+per opinion at run time by `GetPrecinctSideMetresUnderAmah`. Neither map is a claim about the
+shiur.
+
+**Units of the OSM export (a finding that corrected an earlier count).** `jerusalem.json`
+`points` and `terrain.heights` are in AMOT (0.5 m), not metres, and the level carries the
+alignment `UE_cm = ((x + 17.5097) * 50, (y - 0.5513) * 50)`, never applied twice. Heights are
+relative to 748 m (Z 0). Every count and every ground Z below uses that conversion.
 
 **Reported size, in the three the report asks for and two more:**
 at the book's own amah **1440 m** a side; at the project scale **1500 m**; at the Chazon Ish
@@ -194,11 +211,22 @@ edited here.
 one amah. The alternative — reproducing all four of the diagram's numbers by anchoring on an
 envelope the level does not contain — would put the wall in a place nothing measures.
 
-### 3.3 Resulting square — **derived**
+### 3.3 Resulting square — **derived, per map**
 
-Outer faces west −33100, east 116900, north −33150, south 116850 Unreal cm; centre
-(41900, 41850); side 150000 cm. Identical to the four faces already shipped in
-`EnclosureV1/enclosure-design.json`, and `create_enclosure.py` raises if they ever differ.
+| map | amah | court half-extent | west | north | east | south | side |
+|---|---|---|---|---|---|---|---|
+| Main50 | 50 cm | 8100 | −33100 | −33150 | 116900 | 116850 | 150,000 cm = 1,500 m |
+| Candidate48 | 48 cm | 7776 | −31776 | −31824 | 112224 | 112176 | 144,000 cm = 1,440 m |
+
+Main50 is identical to the four faces already shipped in `EnclosureV1/enclosure-design.json`,
+and `create_enclosure.py` raises if they ever differ. Candidate48 reproduces the faces the Aron
+alignment review computed for that map (`scale-review/ARON-ON-EVEN-HASHETIYAH-20260908.md` §4).
+
+**What ground that is.** Kotel prayer face X ≈ −151 m: the west wall stands **~180 m west of
+the Kotel** on the main map, **~167 m** on the candidate, i.e. the precinct covers roughly the
+eastern two fifths of the walled Old City, then east and south of it the Kidron valley, the
+lower slope of the Mount of Olives, the City of David and Silwan. The east wall runs along the
+Olives slope at 784–809 m a.s.l.; the SE corner is in the Kidron gorge at 601 m.
 
 ---
 
@@ -211,20 +239,59 @@ Outer faces west −33100, east 116900, north −33150, south 116850 Unreal cm; 
 | measured from outside | 42:15-20 measures מבחוץ, so the 3000 are the OUTER faces | **certain** |
 | gate count | five: two south, one each east, north, west (Mishkenei Elyon 196 m.2) | **certain** |
 | gate opening | 10 amot wide, 50 amot high; כעביו של כותל כך עביו של פתח — the gate is as thick as the wall | **certain** |
-| gate positions along each wall | E/N/W on the Temple axes; the two south at a third and two thirds | **authored** — the book gives the count, not the position |
+| gate positions along each wall | E/N/W on the Temple axes (world X 0 / world Y 0); the two south at a third and two thirds from the SW corner | **authored** — the book gives the count, not the position. The EAST gate at world Y 0 is the axis of the court's east gate (X 8600) and of the walking start [2016, 0], so the tour approach passes through it. Per map: Main50 N (0, −33150) E (116900, 0) S1 (16900, 116850) S2 (66900, 116850) W (−33100, 0); Candidate48 N (0, −31824) E (112224, 0) S1 (16224, 112176) S2 (64224, 112176) W (−31776, 0). Thresholds follow the ground: Main50 E 783.6 m a.s.l., N 743.5, W 751.3, S1 683.5, S2 694.3 (candidate within 4 m of each) |
 | gate piers 10 amot, overall height 60 amot | | **authored** — and the book marks it so itself: ורוחב החומה של פתח השער לא מוזכר, then two starred (*) conjectures giving 10 and 10, סה״כ גובה השער ששים אמה |
 | doors | omitted; the gates stand open, as in the book's figures | **authored** |
 | wall face articulation, corner blocks, marker pylons | | **authored** — the book gives a section, never an elevation |
 
 ---
 
+## 4b. The wall follows the ground — **authored, and measured**
+
+The verse gives the wall a section (a reed thick, a reed high) and the book a height; neither
+says what carries it down a valley. The ring crosses the Kidron twice (east and south walls),
+the Hinnom head (west wall, south end) and climbs the Mount of Olives (NE corner), so a wall on
+the level plane floated 60–150 m over the Kidron and buried on the Olives. The fix, all of it
+authored:
+
+* A **ground profile**, 601 stations a side, highest and lowest ground under the 3.6 m
+  footprint, sampled offline from `jerusalem.json` `terrain.heights` (the OSM grid, whole amot),
+  from the frozen level grid the 256 terrain tiles were built from (`jerusalem-meshes.json`
+  Terrain 0, sha `cec2748b…`, 0.05 amot) and, where a station lies in one of the four
+  `SM_JerusalemTerrain_0x_0x_FutureMountCut` tiles, from that tile's receipt geometry. The two
+  grids agree to their rounding along the whole ring (max 2 cm); the exporter's Haram edit
+  (up to 42.7 amot, X −891..+184 m, Y −175..+225 m) never reaches the wall line. Where they
+  do disagree the LEVEL value wins, because the wall must meet the tiles that exist.
+* Every wall, gate and corner instance stands with its **plinth on the highest ground it
+  crosses**, so the six-amah section is never buried, and a plain **substructure box**
+  (`SM_EnclosureV2_Foundation`, 12 triangles) fills from the lowest ground it crosses, less a
+  one-amah footing, up to the plinth, so no gap shows. Proved in `EnclosureMathTest.cpp`
+  (`GroundChecks`) over a synthetic Kidron and read back per side by the release script.
+
+Ground Z along each side (Main50; Z 0 = 748 m; candidate in `precinct-Candidate48.json`):
+
+| side | ground Z, cm (m a.s.l.) | plinth Z range, cm | deepest substructure | largest step between plinths |
+|---|---|---|---|---|
+| north | −4933 .. +5680 (698.7–804.8) | −4861 .. +5680 | 6.6 m at module 119 (Olives, NE) | 4.5 m |
+| east | −14668 .. +6061 (601.3–808.6) | −14628 .. +6059 | 6.9 m at module 35 | 6.3 m |
+| south | −14712 .. −2906 (600.9–718.9) | −14670 .. −2906 | **10.4 m at module 85** (Kidron gorge bank, 9.5 m fall in one 12.5 m module) | 9.5 m |
+| west | −8978 .. +1691 (658.2–764.9) | −8852 .. +1691 | 8.5 m at module 20 (Hinnom head) | 7.7 m |
+
+Where the east and south walls cross the Kidron the drop is 100–200 m and the substructure
+under single modules reaches ten metres. **The sources say nothing about foundations there; the
+substructure is this project's construction and is labelled so in every receipt.**
+
 ## 5. The three states, and what happens to the modern city
 
 | state | wall | overlay band | modern buildings inside |
 |---|---|---|---|
+| **YECHEZKEL (default)** | solid, terrain-following, with substructure | — | **hidden by visibility, never deleted** |
 | MODERN | — | — | **all visible** |
-| YECHEZKEL | solid | — | **hidden by visibility, never deleted** |
 | OVERLAY | — | translucent band + ground line of light + markers | **all visible** |
+
+Cycle order `CyclePrecinctState`: YECHEZKEL → MODERN → OVERLAY → YECHEZKEL. (As of 8 September
+no key is bound to it in MikdashRuntime C++ or Config; it is BlueprintCallable and needs a
+binding in the front end — see the dated note.)
 
 OVERLAY is the state that answers the question, so it is the one that gets the care: the band
 is a two-sided slab (a single quad would vanish the moment the viewer crosses the line, which
@@ -239,21 +306,40 @@ package, never writes to disk, and touches nothing on a building but
 already hidden is not "restored" into view, and it restores everything on state change, on
 `EndPlay`, and on `RestoreAllModernBuildings()`. A crash mid-transition loses nothing.
 
-### How much of the city is covered — **measured**
+### How much of the city is covered — **measured, exact, per actor**
 
-Against the OSM source polygons every building is an explicit ring, so the count is exact
-rather than binned. By the centroid rule the runtime actor uses:
+Against the OSM source polygons every building is an explicit ring, so the count is exact.
+By area centroid (the earlier 1,911 used the vertex mean; 1,914 is the corrected figure):
 
-* **1,911 of 11,437** modern buildings city-wide fall inside the precinct;
-* **64 more** have footprints the wall line cuts while their centroid lies outside;
-* of the 2,106 authored Old City facade buildings, **485** are inside.
+* **Main50: 1,914 of 11,437** modern buildings city-wide have their centroid inside; **61 more**
+  have footprints the wall line cuts; **486 of 2,106** authored facade buildings are inside.
+* **Candidate48: 1,700 of 11,437** inside; 54 cut; 424 of 2,106 facade buildings.
 
-The 100 m cell band computed from files inside this repository alone (599 certain, up to 1,359
-counting cells the wall cuts) covers only the 3,620 buildings inside the Old City walls; the
-precinct also reaches ground east and south of those walls. The two figures are different
-populations, not a contradiction.
+**What is actually hidden is a set of ACTORS**, because the modern city is batched one actor
+per 100 m cell (1,498 `SM_JerusalemBuildings_Grid_*`/`Large_*`, 102 `RELEASE_OldCityFacades_*`,
+88 `RELEASE_OldCityInfill_*`). Membership is level-true: the frozen
+`buildings-manifest.json` (11,400 connected components, each with its source box and assigned
+cell; fbx `271bc9b4…`) for the OSM set, `facades-manifest.json` per-building OSM ids for the
+facades, the cell's own decision for the authored infill. A cell the wall line CUTS cannot be
+half hidden, so a policy is needed; three were computed and one recorded:
 
----
+| policy | Main50 actors hidden (OSM / facades / infill) | Candidate48 |
+|---|---|---|
+| **hide_if_any_inside (recorded)** | **279** (207 / 42 / 30); 61 cut cells hidden | **270** (200 / 41 / 29); 53 cut cells |
+| hide_if_majority_inside | 239 (191 / 30 / 18) | 208 (162 / 29 / 17) |
+| keep_straddling | 213 (167 / 29 / 17) | 208 (162 / 29 / 17) |
+
+Recommendation, and why: **hide_if_any_inside**. A modern block standing inside the holy
+precinct contradicts the default view outright; a bare strip just outside the wall does not.
+The price is collateral — buildings OUTSIDE the wall hidden with their cell: Main50 429 OSM
+components + 314 facade buildings; Candidate48 573 + 345 — listed per cell in
+`precinct-<Target>.json` `modernCity.hideSet.straddlingCells`. The correct long-term fix is to
+**split** the cut cells at the wall line (re-batch as inside/outside meshes — a native
+re-import) or to **mask** the context materials by world position (a material edit). Never
+delete. The exact labels are baked on the actor (`ExplicitHideLabels`, plus the mesh asset
+names for cooked builds), and the release script proves every label resolves exactly once and
+that the actor's own resolved set fingerprints to the receipt (`259b9b496efe8f3d` Main50,
+`e21f16f70c7a8dc7` Candidate48).
 
 ## 6. Cost — **measured, RTX 2070**
 
@@ -262,21 +348,18 @@ populations, not a contradiction.
 | wall segments | 467 (13 of 480 removed for gates) | 106,476 |
 | gates | 5 | 420 |
 | corners | 4 | 288 |
+| foundations (substructure) | 476 | 5,712 |
 | overlay slabs | 480 | 5,760 |
-| **total** | **956** | **112,944** |
+| **total** | **1,432** | **118,656** |
 
-Four `HierarchicalInstancedStaticMeshComponent`s, one draw call each before per-instance
-culling. For scale, the Old City facade set that YECHEZKEL hides is **3,416,580** triangles
-across 190 actors — the enclosure is **3.3%** of what it replaces.
+Five `HierarchicalInstancedStaticMeshComponent`s, one draw call each before per-instance
+culling; identical counts at 48 cm (every module scaled by .96). For scale, the Old City facade
+set that YECHEZKEL hides is **3,416,580** triangles across 190 actors — the enclosure is
+**3.5%** of what it replaces. The counts are asserted in `EnclosureMathTest.cpp` and
+cross-checked against the generated geometry by `create_enclosure.py`.
 
-A single-mesh 1.44 km wall would be one 1.44 km bounding box: never frustum-culled, never
-occlusion-culled, one LOD for the whole ring, and a re-import for any change. The counts above
-are asserted in `EnclosureMathTest.cpp` and cross-checked against the generated geometry by
-`create_enclosure.py`, so a module that quietly grows fails the test rather than the frame rate.
-
-**Known limitation:** the instanced wall sits on the level plane. It is not stepped to the
-terrain the way `EnclosureV1` is, so over the Kidron and the Hinnom it will float or bury until
-per-instance ground Z is added. `EnclosureV1` is unchanged and still available for that.
+The former limitation — the wall on the level plane — is closed by §4b. `EnclosureV1` is
+unchanged.
 
 ---
 
@@ -292,11 +375,11 @@ It is also in tension with this project's own written policy,
 > Existing OSM buildings and streets should remain identifiable as modern geographic context.
 > They help a visitor orient themselves.
 
-The YECHEZKEL state hides 1,911 of them. That is exactly why the toggle has three states and
-why OVERLAY — which hides nothing — is the default answer to "what ground does this cover".
-MODERN is the state the level opens in. `BUILDOUT-STATUS.md` still records the
-modern-city / future-boundary question as open; **this work builds both sides of it and does
-not close it.**
+The YECHEZKEL state hides 1,914 of them (279 actors). By Shmuel's decision of 8 September 2026
+it is the state the level opens in; the toggle keeps three states precisely so that MODERN
+(nothing added) and OVERLAY (nothing hidden) stay one and two presses away, and the §6 policy
+text remains the honest counterweight. **This work builds both sides of the question and does
+not close it; it changes which side the viewer meets first.**
 
 ---
 
@@ -305,6 +388,7 @@ not close it.**
 * That the amah is 50 cm, or 48, or any other value.
 * That the 3000-amah reading is correct and the 500-amah reading is refuted, or the reverse.
 * That the terumah of chapter 45/48 is 25,000 amot rather than 25,000 reeds.
-* That the wall's face, the gates' elevation, the corners or the gate spacing look like this.
+* That the wall's face, the gates' elevation, the corners, the gate spacing, or the
+  substructure under the Kidron crossings look like this — all authored.
 * That today's street network is the future city. The modern buildings are modern geographic
   context; they are hidden, never replaced, and never relabelled.

@@ -2,9 +2,10 @@
  "status": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
  "namespace": "/Game/MikdashV3/FutureMountV1/EnclosureV2",
  "meshFolder": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes",
- "generatorSha256": "40fc1880f401cef8555ce22a4c4917f9bbebe5044a922956e9186892c522e607",
- "enclosureMathSha256": "b9805dfd03d150b55a195c0cfe55f594678872b8b423b71fecf6f638187a2d6c",
+ "generatorSha256": "316a225b9e35d55b7f1e3cb899f28cfc685ba394fb627a0ee8208aae14b7f883",
+ "enclosureMathSha256": "98eddd979d6a9c9a14bc33d922ab54c1c5e7f6972f37716db6124538397eaf26",
  "cmPerAmah": 50.0,
+ "defaultState": "yechezkel",
  "coordinateConvention": "UE cm: X east, Y south, Z up; measured court centre at the origin; module origin at the centre of its footprint on the ground with local +X along the wall and +Y outward; OBJ files carry Y negated and reversed winding (legacy adapter)",
  "objConvention": "per-face vertices; file Y = -canonical Y and winding reversed; the importer reflects Y back, so imported bounds must equal canonicalBoundsCm and imported signed volumes must be positive. One `o` object and no `g` groups, so one material slot per mesh.",
  "square": {
@@ -22,6 +23,104 @@
    41850.0
   ],
   "matchesEnclosureV1": "identical to 1e-6 cm on all four outer faces"
+ },
+ "targets": {
+  "Main50": {
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "cmPerAmah": 50.0,
+   "courtPlatformHalfExtentCm": 8100.0,
+   "sideCm": 150000.0,
+   "outerFacesCm": {
+    "xWest": -33100.0,
+    "xEast": 116900.0,
+    "yNorth": -33150.0,
+    "ySouth": 116850.0
+   },
+   "receipt": "precinct-Main50.json",
+   "actorsHidden": {
+    "totalActorsHidden": 279,
+    "SM_JerusalemBuildings_": 207,
+    "RELEASE_OldCityFacades_": 42,
+    "RELEASE_OldCityInfill_": 30,
+    "straddlingCellsHidden": 61,
+    "straddlingCellsKept": 0
+   },
+   "osmBuildingsInsideByCentroid": 1914,
+   "groundPerSide": [
+    {
+     "side": "north",
+     "baseZminCm": -4861.18,
+     "baseZmaxCm": 5679.8,
+     "foundationDepthMaxCm": 655.7
+    },
+    {
+     "side": "east",
+     "baseZminCm": -14627.6,
+     "baseZmaxCm": 6058.76,
+     "foundationDepthMaxCm": 691.12
+    },
+    {
+     "side": "south",
+     "baseZminCm": -14670.4,
+     "baseZmaxCm": -2906.21,
+     "foundationDepthMaxCm": 1043.2
+    },
+    {
+     "side": "west",
+     "baseZminCm": -8851.88,
+     "baseZmaxCm": 1691.16,
+     "foundationDepthMaxCm": 852.15
+    }
+   ]
+  },
+  "Candidate48": {
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "cmPerAmah": 48.0,
+   "courtPlatformHalfExtentCm": 7776.0,
+   "sideCm": 144000.0,
+   "outerFacesCm": {
+    "xWest": -31776.0,
+    "xEast": 112224.0,
+    "yNorth": -31824.0,
+    "ySouth": 112176.0
+   },
+   "receipt": "precinct-Candidate48.json",
+   "actorsHidden": {
+    "totalActorsHidden": 270,
+    "SM_JerusalemBuildings_": 200,
+    "RELEASE_OldCityFacades_": 41,
+    "RELEASE_OldCityInfill_": 29,
+    "straddlingCellsHidden": 53,
+    "straddlingCellsKept": 0
+   },
+   "osmBuildingsInsideByCentroid": 1700,
+   "groundPerSide": [
+    {
+     "side": "north",
+     "baseZminCm": -4832.44,
+     "baseZmaxCm": 5732.56,
+     "foundationDepthMaxCm": 507.65
+    },
+    {
+     "side": "east",
+     "baseZminCm": -13185.39,
+     "baseZmaxCm": 6212.99,
+     "foundationDepthMaxCm": 947.61
+    },
+    {
+     "side": "south",
+     "baseZminCm": -13633.67,
+     "baseZmaxCm": -1950.25,
+     "foundationDepthMaxCm": 766.42
+    },
+    {
+     "side": "west",
+     "baseZminCm": -8763.21,
+     "baseZmaxCm": 1690.88,
+     "foundationDepthMaxCm": 826.41
+    }
+   ]
+  }
  },
  "clearancesAmot": {
   "west": 500.0,
@@ -51,51 +150,106 @@
    "id": "N",
    "side": 0,
    "fraction": 0.22066666666666668,
-   "certainty": "count certain; position assumed (Temple axis)",
+   "source": "count: Mishkenei Elyon 196 m.2 (one north); position AUTHORED - the Temple north-south axis (world X 0)",
+   "certainty": "count certain; position authored",
    "positionCm": [
     0.0,
     -33150.0
-   ]
+   ],
+   "openingAmot": {
+    "width": 10.0,
+    "height": 50.0,
+    "depth": 6.0
+   },
+   "openingCm": {
+    "width": 500.0,
+    "height": 2500.0,
+    "depth": 300.0
+   }
   },
   {
    "id": "E",
    "side": 1,
    "fraction": 0.221,
-   "certainty": "count certain; position assumed (Temple axis, Yechezkel 42:15 measures through it)",
+   "source": "count: Mishkenei Elyon 196 m.2 (one east); Yechezkel 42:15 measures out through the east gate; position AUTHORED - the Temple east-west axis (world Y 0), the axis of the court east gate at X 8600 and of the walking start [2016, 0], so the tour approach passes through it",
+   "certainty": "count certain; position authored",
    "positionCm": [
     116900.0,
     0.0
-   ]
+   ],
+   "openingAmot": {
+    "width": 10.0,
+    "height": 50.0,
+    "depth": 6.0
+   },
+   "openingCm": {
+    "width": 500.0,
+    "height": 2500.0,
+    "depth": 300.0
+   }
   },
   {
    "id": "S1",
    "side": 2,
-   "fraction": 0.6666666666666666,
-   "certainty": "count certain; position assumed (one third along)",
+   "fraction": 0.6666666666666667,
+   "source": "count: Mishkenei Elyon 196 m.2 (two south); position AUTHORED - one third along the south wall from the SW corner",
+   "certainty": "count certain; position authored",
    "positionCm": [
-    16900.0,
+    16899.999999999985,
     116850.0
-   ]
+   ],
+   "openingAmot": {
+    "width": 10.0,
+    "height": 50.0,
+    "depth": 6.0
+   },
+   "openingCm": {
+    "width": 500.0,
+    "height": 2500.0,
+    "depth": 300.0
+   }
   },
   {
    "id": "S2",
    "side": 2,
-   "fraction": 0.3333333333333333,
-   "certainty": "count certain; position assumed (two thirds along)",
+   "fraction": 0.33333333333333337,
+   "source": "count: Mishkenei Elyon 196 m.2 (two south); position AUTHORED - two thirds along the south wall from the SW corner",
+   "certainty": "count certain; position authored",
    "positionCm": [
     66900.0,
     116850.0
-   ]
+   ],
+   "openingAmot": {
+    "width": 10.0,
+    "height": 50.0,
+    "depth": 6.0
+   },
+   "openingCm": {
+    "width": 500.0,
+    "height": 2500.0,
+    "depth": 300.0
+   }
   },
   {
    "id": "W",
    "side": 3,
    "fraction": 0.779,
-   "certainty": "count certain; position assumed (Temple axis)",
+   "source": "count: Mishkenei Elyon 196 m.2 (one west); position AUTHORED - the Temple east-west axis (world Y 0)",
+   "certainty": "count certain; position authored",
    "positionCm": [
     -33100.0,
     0.0
-   ]
+   ],
+   "openingAmot": {
+    "width": 10.0,
+    "height": 50.0,
+    "depth": 6.0
+   },
+   "openingCm": {
+    "width": 500.0,
+    "height": 2500.0,
+    "depth": 300.0
+   }
   }
  ],
  "gateBlockAmot": {
@@ -109,9 +263,15 @@
   "thickness": 6.0,
   "height": 6.0
  },
+ "foundation": {
+  "footingAmot": 1.0,
+  "widthFactor": 1.2,
+  "unitHeightCm": 100.0,
+  "policy": "AUTHORED. A module stands with its plinth on the HIGHEST ground under its footprint (so the six-amah section is never buried) and a substructure box fills from the LOWEST ground under it, less a one-amah footing, up to the plinth (so no gap shows). Yechezkel 40:5 gives the section, the book the height; neither says anything about foundations, and where the wall drops into the Kidron the substructure is this project's invention."
+ },
  "instancing": {
   "componentType": "HierarchicalInstancedStaticMeshComponent",
-  "components": 4,
+  "components": 5,
   "plan": {
    "segmentsPerSide": 120,
    "segmentLengthCm": 1250.0,
@@ -119,65 +279,236 @@
    "droppedForGates": 13,
    "gateInstances": 5,
    "cornerInstances": 4,
-   "overlayInstances": 480
+   "overlayInstances": 480,
+   "foundationInstances": 476
   },
-  "instances": 956,
+  "instances": 1432,
   "triangles": {
    "wall": 106476,
    "gate": 420,
    "corner": 288,
    "overlay": 5760,
-   "total": 112944
+   "foundation": 5712,
+   "total": 118656
   },
-  "budgetNote": "RTX 2070, 8 GB, 1080p. 956 instances across four HISM components and 112944 triangles for the whole 1.44 km ring, against 3,416,580 triangles in the 190-actor Old City facade set the YECHEZKEL state hides - about 3.3% of it. Per-instance frustum culling means the visible cost is a small fraction of that again; a single-mesh wall would be one 1.44 km bounding box and would cull as all-or-nothing."
+  "budgetNote": "RTX 2070, 8 GB, 1080p. 1432 instances across five HISM components and 118656 triangles for the whole 1.44 km ring including the terrain-following substructure, against 3,416,580 triangles in the 190-actor Old City facade set the YECHEZKEL state hides - about 3.5% of it. Per-instance frustum culling means the visible cost is a small fraction of that again."
  },
  "modernCityCoverage": {
-  "unit": "100 m context cell",
-  "cellSizeCm": 10000.0,
-  "sets": [
-   {
-    "set": "OldCityFacadesV1/facades",
-    "actorLabelPrefix": "RELEASE_OldCityFacades_",
-    "buildingsTotal": 2106,
-    "buildingsInCellsWhollyInside": 340,
-    "buildingsInCellsTheWallLineCuts": 465,
-    "buildingsOutside": 1301,
-    "cellsWhollyInside": 29,
-    "cellsStraddling": 14
-   },
-   {
-    "set": "OldCityFacadesV1/infill",
-    "actorLabelPrefix": "RELEASE_OldCityInfill_",
-    "buildingsTotal": 1514,
-    "buildingsInCellsWhollyInside": 259,
-    "buildingsInCellsTheWallLineCuts": 295,
-    "buildingsOutside": 960,
-    "cellsWhollyInside": 17,
-    "cellsStraddling": 12
-   },
-   {
-    "set": "JerusalemContext/Buildings (imported OSM extrusions)",
-    "actorLabelPrefix": "SM_JerusalemBuildings_",
-    "note": "one actor per 100 m cell, so these are CELL counts, not building counts",
-    "cellActorsTotal": 1423,
-    "cellActorsWhollyInside": 156,
-    "cellActorsStraddling": 52,
-    "cellActorsOutside": 1215
-   }
-  ],
-  "authoredBuildingsInsideLow": 599,
-  "authoredBuildingsInsideHigh": 1359,
   "exact": {
    "source": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
-   "rule": "centroid inside (ESelectionRule::CentroidInside)",
-   "population": "EVERY OSM building feature in the exported city, not only the walled Old City. That is why this number is larger than the 100 m cell band below: the band counts only the 2106 + 1514 buildings inside the Old City walls that OldCityFacadesV1 decorates, while the precinct also covers ground east and south of those walls. The two are different populations, not a contradiction.",
+   "rule": "area centroid inside (ESelectionRule::CentroidInside); points are AMOT and carry the baked alignment",
+   "population": "EVERY OSM building feature in the exported city, not only the walled Old City. The precinct also covers ground east and south of those walls.",
    "buildingsTotal": 11437,
-   "buildingsInside": 1911,
-   "footprintsTheWallLineCutsButCentroidOutside": 64,
+   "buildingsInside": 1914,
+   "footprintsTheWallLineCutsButCentroidOutside": 61,
    "buildingsOutside": 9462,
-   "authoredFacadeBuildingsInside": 485,
+   "authoredFacadeBuildingsInside": 486,
    "authoredFacadeBuildingsTotal": 2106,
-   "insideIdFingerprintFnv1a": "cab232acff09b600"
+   "insideIdFingerprintFnv1a": "8f1007253687152d"
+  },
+  "hideSetCountsByPolicy": {
+   "hide_if_any_inside": {
+    "totalActorsHidden": 279,
+    "SM_JerusalemBuildings_": 207,
+    "RELEASE_OldCityFacades_": 42,
+    "RELEASE_OldCityInfill_": 30,
+    "straddlingCellsHidden": 61,
+    "straddlingCellsKept": 0
+   },
+   "hide_if_majority_inside": {
+    "totalActorsHidden": 239,
+    "SM_JerusalemBuildings_": 191,
+    "RELEASE_OldCityFacades_": 30,
+    "RELEASE_OldCityInfill_": 18,
+    "straddlingCellsHidden": 33,
+    "straddlingCellsKept": 28
+   },
+   "keep_straddling": {
+    "totalActorsHidden": 213,
+    "SM_JerusalemBuildings_": 167,
+    "RELEASE_OldCityFacades_": 29,
+    "RELEASE_OldCityInfill_": 17,
+    "straddlingCellsHidden": 8,
+    "straddlingCellsKept": 53
+   }
+  },
+  "recommendedPolicy": "hide_if_any_inside",
+  "note": "Per-actor hide sets and per-cell decisions are in precinct-<Target>.json modernCity.hideSet"
+ },
+ "groundProfileSummary": {
+  "sides": [
+   {
+    "side": 0,
+    "name": "north",
+    "stations": 601,
+    "lowZcm": -4932.64,
+    "highZcm": 5679.8,
+    "lowAt": [
+     38400.0,
+     -33150.0
+    ],
+    "highAt": [
+     95900.0,
+     -33150.0
+    ],
+    "maxDemLevelDisagreementCm": 2.5,
+    "stationsBeyondRounding": 0,
+    "stationsOutsideGrid": 0,
+    "sources": {
+     "tile": 888,
+     "level": 915
+    },
+    "lowMetresAsl": 698.67,
+    "highMetresAsl": 804.8,
+    "dropMetres": 106.12
+   },
+   {
+    "side": 1,
+    "name": "east",
+    "stations": 601,
+    "lowZcm": -14667.6,
+    "highZcm": 6061.26,
+    "lowAt": [
+     116900.0,
+     116600.0
+    ],
+    "highAt": [
+     116900.0,
+     -10900.0
+    ],
+    "maxDemLevelDisagreementCm": 2.5,
+    "stationsBeyondRounding": 0,
+    "stationsOutsideGrid": 0,
+    "sources": {
+     "level": 1803
+    },
+    "lowMetresAsl": 601.32,
+    "highMetresAsl": 808.61,
+    "dropMetres": 207.29
+   },
+   {
+    "side": 2,
+    "name": "south",
+    "stations": 601,
+    "lowZcm": -14712.05,
+    "highZcm": -2906.21,
+    "lowAt": [
+     105900.0,
+     116850.0
+    ],
+    "highAt": [
+     36650.0,
+     116850.0
+    ],
+    "maxDemLevelDisagreementCm": 2.5,
+    "stationsBeyondRounding": 0,
+    "stationsOutsideGrid": 0,
+    "sources": {
+     "level": 1803
+    },
+    "lowMetresAsl": 600.88,
+    "highMetresAsl": 718.94,
+    "dropMetres": 118.06
+   },
+   {
+    "side": 3,
+    "name": "west",
+    "stations": 601,
+    "lowZcm": -8978.01,
+    "highZcm": 1691.26,
+    "lowAt": [
+     -33100.0,
+     104850.0
+    ],
+    "highAt": [
+     -33100.0,
+     17350.0
+    ],
+    "maxDemLevelDisagreementCm": 2.5,
+    "stationsBeyondRounding": 0,
+    "stationsOutsideGrid": 0,
+    "sources": {
+     "level": 924,
+     "tile": 879
+    },
+    "lowMetresAsl": 658.22,
+    "highMetresAsl": 764.91,
+    "dropMetres": 106.69
+   }
+  ],
+  "sourceUse": {
+   "tile:SM_JerusalemTerrain_07_07_FutureMountCut": 807,
+   "tile:SM_JerusalemTerrain_08_07_FutureMountCut": 480,
+   "level": 5445,
+   "tile:SM_JerusalemTerrain_07_08_FutureMountCut": 480
+  },
+  "groundSources": {
+   "dem": {
+    "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+    "sha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+    "unit": "amot (0.5 m), whole numbers",
+    "grid": "257 x 257, step 50 amot, origin -6400 amot",
+    "referenceElevationMetres": 748.0,
+    "conversion": "UE cm = ((x + 17.5097003157) * 50, (z - 0.5513496449) * 50); Z cm = h * 50"
+   },
+   "level": {
+    "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json",
+    "sha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+    "role": "the grid the 256 level terrain tiles were built from (terrain-import manifest chain; terrain-cut-manifest sourceSha256)"
+   },
+   "tiles": {
+    "status": "loaded 4 tiles",
+    "tiles": [
+     {
+      "name": "SM_JerusalemTerrain_07_07_FutureMountCut",
+      "file": "SM_JerusalemTerrain_07_07_FutureMountCut.mesh.json",
+      "sha256": "36ba2a019e8db1cf37a3adb520e1ef1abfa2bbf372d164f3caafcc1e5893e9df",
+      "boundsCm": [
+       -39124.515625,
+       -40027.56640625,
+       875.4850463867188,
+       -27.567481994628906
+      ],
+      "removedTriangles": 83
+     },
+     {
+      "name": "SM_JerusalemTerrain_07_08_FutureMountCut",
+      "file": "SM_JerusalemTerrain_07_08_FutureMountCut.mesh.json",
+      "sha256": "abc6152db1d10b80476870ac843bfde232b30ccac90733994e3ecf743579095a",
+      "boundsCm": [
+       -39124.515625,
+       -27.567481994628906,
+       875.4850463867188,
+       39972.43359375
+      ],
+      "removedTriangles": -54
+     },
+     {
+      "name": "SM_JerusalemTerrain_08_07_FutureMountCut",
+      "file": "SM_JerusalemTerrain_08_07_FutureMountCut.mesh.json",
+      "sha256": "fcc6490ef2ab32049770b7436144f73c9d67ebb680a6342ba7085bdcaabfdc7f",
+      "boundsCm": [
+       875.4850463867188,
+       -40027.56640625,
+       40875.484375,
+       -27.567481994628906
+      ],
+      "removedTriangles": 32
+     },
+     {
+      "name": "SM_JerusalemTerrain_08_08_FutureMountCut",
+      "file": "SM_JerusalemTerrain_08_08_FutureMountCut.mesh.json",
+      "sha256": "57371803389847409b1600bb5c23fa6c7b288f50d03738157a638f1d87a729e3",
+      "boundsCm": [
+       875.4850463867188,
+       -27.567481994628906,
+       40875.484375,
+       39972.43359375
+      ],
+      "removedTriangles": 58
+     }
+    ]
+   }
   }
  },
  "meshes": [
@@ -264,6 +595,27 @@
    "canonicalSignedVolumeCm3": 0.04,
    "materialRole": "overlay",
    "note": "Unit slab for the OVERLAY band, scaled per instance to the sample step and the wall height. Not architecture - a reading aid."
+  },
+  {
+   "name": "SM_EnclosureV2_Foundation",
+   "file": "SM_EnclosureV2_Foundation.obj",
+   "sha256": "528d7e410c4637741e2452574092a4f7c05d954ccc489583758f095aa618d97d",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -180.0,
+     0.0
+    ],
+    "max": [
+     625.0,
+     180.0,
+     100.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 45000000.0,
+   "materialRole": "stone",
+   "note": "Substructure box under every wall, gate and corner module, scaled in Z to the depth between the highest and lowest ground the module crosses plus a one-amah footing. AUTHORED - the sources say nothing about foundations."
   }
  ],
  "readback": [
@@ -298,14 +650,23 @@
    "worstNormalError": 0.0,
    "fileSpaceSignedVolumeCm3": 0.04,
    "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_EnclosureV2_Foundation",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 45000000.0,
+   "normalsAndUvs": "PASS"
   }
  ],
  "preview": "enclosure-plan.png",
  "relationToEnclosureV1": "SourceAssets/FutureMountV1/EnclosureV1 (Scripts/create_mount_enclosure.py) exports the SAME square as 52 chunk meshes stepped to the current-city DEM and is NOT modified by this generator. EnclosureV2 is the instanced, toggleable form; the two share the square through EnclosureMath.h and are asserted equal in `square.matchesEnclosureV1` above.",
  "limitations": [
-  "The wall sits at Z 0 in module space. AMikdashEnclosure places every instance on the level plane; it does NOT step the wall to follow terrain, which EnclosureV1 does. Over the Kidron and the Hinnom the ring will float or bury. Fixing that means per-instance Z from the DEM and is not done here.",
-  "Gate along-wall positions are the project assumption, not the book. Only the count per side and the 10 x 50 amah opening are sourced.",
-  "Building counts are per 100 m cell, because no per-building world position exists in this project. The release script replaces the band with an exact count.",
+  "The wall follows a BAKED ground profile (this generator, from the OSM grid, the level grid and the FutureMountV1 tile receipts), not a run-time trace. If the terrain tiles are edited again the profile must be regenerated and the actor re-placed; the receipt carries the source hashes.",
+  "Foundations/substructure are AUTHORED. The sources give the wall a section and a height and say nothing about what carries it down the Kidron slope.",
+  "Gate along-wall positions are the project assumption, not the book. Only the count per side and the 10 x 50 amah opening are sourced. The east gate is on the Temple east-west axis (world Y 0).",
+  "The hide set is exact per ACTOR (100 m cells). Cells the wall line cuts are hidden whole under the recorded policy; the collateral is listed per cell. Split or mask to recover it. Never delete.",
   "Wall face articulation, corner blocks and gate profiles are AUTHORED. The book gives the wall a section and the gates an opening, and no elevation."
  ]
 }

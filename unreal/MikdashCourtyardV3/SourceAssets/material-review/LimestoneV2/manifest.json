@@ -1,0 +1,735 @@
+{
+  "status": "OFFLINE_GENERATED_NATIVE_IMPORT_PENDING",
+  "iteration": "V3",
+  "generator": "Scripts/create_limestone_textures_v2.py",
+  "generatorSha256": "7dbf228e172d284249a66b974d609abe174d14232bd595250943e0fdbd981537",
+  "startedUtc": "2026-09-08T20:28:22Z",
+  "tileCm": 300.0,
+  "size": 2048,
+  "pxPerCm": 6.8267,
+  "conventions": {
+    "uv": "u = world X|Y / TilingCm, v = world Z / TilingCm; image row 0 = v 0, image down = world up on vertical faces",
+    "normal": "normalize(-dh/du, -dh/dv, 1), u = column, v = row (DirectX / UE default; flip_green_channel False)",
+    "arm": "R ambient occlusion, G roughness, B metallic (0)",
+    "heightsCm": "physical centimetres, slopes unscaled",
+    "litPreview": "rows flipped to world orientation (world up = image up), light from the upper left of that view"
+  },
+  "importSettings": {
+    "Albedo": {
+      "compression": "TC_Default",
+      "srgb": true
+    },
+    "Normal": {
+      "compression": "TC_Normalmap",
+      "srgb": false,
+      "flipGreenChannel": false
+    },
+    "ARM": {
+      "compression": "TC_Masks",
+      "srgb": false
+    },
+    "notImported": [
+      "Roughness",
+      "AO",
+      "Height"
+    ]
+  },
+  "diagnosisBaseline_sandstone_blocks_08": {
+    "albedoMeanSRGB": [
+      0.647,
+      0.574,
+      0.456
+    ],
+    "albedoStdPerChannel": 0.021,
+    "albedoR_p5_p95": [
+      0.62,
+      0.68
+    ],
+    "normalXyDeviationP95": 0.09,
+    "roughness": "0.50 +- 0.02 (uniform)"
+  },
+  "photoReference": {
+    "file": "SourceAssets/kotel-detail/PhotoSurfaceV1/kotel-wall-cleaned.png",
+    "meanSRGB": [
+      0.728,
+      0.635,
+      0.515
+    ],
+    "medianSRGB": [
+      0.761,
+      0.663,
+      0.533
+    ],
+    "chromaGoverR_p5_p50_p95": [
+      0.788,
+      0.875,
+      0.928
+    ],
+    "chromaBoverR_p5_p50_p95": [
+      0.537,
+      0.71,
+      0.82
+    ],
+    "luminance_p25_p50_p75": [
+      0.584,
+      0.671,
+      0.733
+    ],
+    "note": "AI-cleaned photo derivative with lighting partly baked in (PROVENANCE.md); used for warmth and value spread, not copied."
+  },
+  "variants": {
+    "Ashlar": {
+      "iteration": "V3",
+      "seed": 5786,
+      "parameters": {
+        "seed": 5786,
+        "courses": 6,
+        "course_h_cm": [
+          40.0,
+          60.0
+        ],
+        "length_ratio": [
+          1.7,
+          3.3
+        ],
+        "min_joint_stagger_cm": 18.0,
+        "joint_cm": 1.5,
+        "joint_depth_cm": 0.6,
+        "arris_cm": 0.6,
+        "dressing": {
+          "chisel": 0.7,
+          "fine": 0.3
+        },
+        "stroke_dir": {
+          "vertical": 0.6,
+          "horizontal": 0.4
+        },
+        "stroke_wobble_deg": 8.0,
+        "stria_amp_cm": {
+          "chisel": [
+            0.15,
+            0.22
+          ],
+          "fine": [
+            0.06,
+            0.09
+          ]
+        },
+        "stria_across_cm": {
+          "chisel": [
+            0.4,
+            0.6
+          ],
+          "fine": [
+            0.3,
+            0.42
+          ]
+        },
+        "stria_along_cm": [
+          2.5,
+          6.0
+        ],
+        "stria_patch_cm": 8.0,
+        "stroke_angle_var_deg": 9.0,
+        "base_offset_cm": 0.2,
+        "tilt": 0.004,
+        "undulation_cm": 0.08,
+        "chip_chance": 0.45,
+        "chips_per_block": [
+          1,
+          3
+        ],
+        "chip_radius_cm": [
+          1.5,
+          4.0
+        ],
+        "chip_depth_cm": [
+          0.25,
+          0.7
+        ],
+        "pore_density_per_cm2": 0.0006,
+        "pore_radius_cm": [
+          0.15,
+          0.5
+        ],
+        "weathering": [
+          0.3,
+          1.0
+        ],
+        "weather_dark": 0.13,
+        "weather_band": 0.35,
+        "streak": 0.025,
+        "base_srgb": [
+          0.775,
+          0.678,
+          0.551
+        ],
+        "value_jitter": 0.09,
+        "gr_jitter": 0.01,
+        "br_jitter": 0.03,
+        "families": [
+          [
+            "base",
+            0.65,
+            1.0,
+            0.0
+          ],
+          [
+            "cream",
+            0.22,
+            1.09,
+            0.015
+          ],
+          [
+            "ochre",
+            0.13,
+            0.92,
+            -0.045
+          ]
+        ],
+        "mottle": [
+          0.09,
+          0.04,
+          0.015
+        ],
+        "mortar_factor": 0.78,
+        "mortar_grey": 0.15,
+        "rough": {
+          "chisel": 0.66,
+          "fine": 0.59,
+          "mortar": 0.8,
+          "chip": 0.76,
+          "pore": 0.8
+        },
+        "rough_jitter": 0.03,
+        "rough_grain": 0.025,
+        "rough_clamp": [
+          0.55,
+          0.85
+        ],
+        "ao_gain": 0.7,
+        "ao_floor": 0.55
+      },
+      "schedule": {
+        "courseHeightsCm": [
+          47.02,
+          53.63,
+          56.58,
+          41.37,
+          48.51,
+          52.89
+        ],
+        "courses": 6,
+        "blocks": 19,
+        "blockLengthCmMinMax": [
+          71.97,
+          115.54
+        ],
+        "blockLengthCmMean": 94.74,
+        "lengthToHeightMinMax": [
+          1.71,
+          2.3
+        ],
+        "dressingCounts": {
+          "chisel": 16,
+          "fine": 3
+        },
+        "familyCounts": {
+          "base": 13,
+          "ochre": 4,
+          "cream": 2
+        },
+        "chips": 14,
+        "pores": 52,
+        "jointCm": 1.5,
+        "jointDepthCm": 0.6,
+        "arrisCm": 0.6,
+        "heightRangeCm": [
+          -0.653,
+          0.514
+        ],
+        "facePixelFraction": 0.9203
+      },
+      "generationSeconds": 338.9,
+      "files": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_Albedo.png",
+          "sha256": "bd0068b2afa41f256230d8b074aa54969fd7b1a7d06cc2170c7515f762772121",
+          "bytes": 2380047,
+          "imported": true
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_Normal.png",
+          "sha256": "1c93231ebed2d4adc8e7c7788c26b17d0f140e1d4f50c1176812381cb039a463",
+          "bytes": 7672178,
+          "imported": true
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_ARM.png",
+          "sha256": "dbf419967ef7ffb025065683504bd9631712fba6972f2b5a78bb64964bd9c8d6",
+          "bytes": 3749949,
+          "imported": true
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_Roughness.png",
+          "sha256": "6e6be2ab6cc5ccb6ebedd25b0a6443fc231f089627718f62e03103e4e916be69",
+          "bytes": 1748196,
+          "imported": false
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_AO.png",
+          "sha256": "72a34d10477efc74825e5b39c4ee429a51a23de649be7bd5480df49f377e85fa",
+          "bytes": 1977908,
+          "imported": false
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Ashlar_Height.png",
+          "sha256": "13c1c81b4b4a9d354b5d968a96cdee1e60b8a0409b427390be71ec92f0e9fbfb",
+          "bytes": 3110798,
+          "imported": false
+        }
+      },
+      "previews": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_Albedo_1024.png",
+          "sha256": "273250b0e941765ea0f1753609e779fd3b1fd4a3400c05916c7d78f77ac6aebe"
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_Normal_1024.png",
+          "sha256": "340e1db3776213c855e082620eeee767b921f8ea4379c84c0106860d68bcb7dc"
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_ARM_1024.png",
+          "sha256": "c9bc894560c16dfd98d44ae925dc40f48d6e2bafd95a34da2bbad0d79697dd9c"
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_Roughness_1024.png",
+          "sha256": "693d3cdbeec9b1fcc8e33204a343e5ac3ba9d21f4e08fdd633a16ce52c566dc2"
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_AO_1024.png",
+          "sha256": "72ebbca1d84bfe9bf251801fba815356b1f7e0a72c00e60bac90f3b184f3ee38"
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Ashlar_Height_1024.png",
+          "sha256": "d2c958ce07d61b17559d7a23ef3df7e177d1c8b2f9b65ed0e81f748a64a3ccda"
+        },
+        "Lit": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\Lit_Ashlar_1024.png",
+          "sha256": "badeb03fdd5da47af8ba465800dee2cc78baa5d80063ed826bd371674d030b5f",
+          "orientation": "world (rows flipped)"
+        }
+      },
+      "statistics": {
+        "albedoSRGB": {
+          "R": {
+            "mean": 0.7446,
+            "std": 0.0612,
+            "p5": 0.6196,
+            "p50": 0.7451,
+            "p95": 0.8314,
+            "min": 0.5137,
+            "max": 0.9137
+          },
+          "G": {
+            "mean": 0.6491,
+            "std": 0.0545,
+            "p5": 0.549,
+            "p50": 0.651,
+            "p95": 0.7294,
+            "min": 0.4471,
+            "max": 0.8078
+          },
+          "B": {
+            "mean": 0.5259,
+            "std": 0.0489,
+            "p5": 0.4392,
+            "p50": 0.5294,
+            "p95": 0.6,
+            "min": 0.3569,
+            "max": 0.6588
+          }
+        },
+        "albedoStdPerChannelMean": 0.0549,
+        "albedoChroma": {
+          "GoverR_mean": 0.872,
+          "BoverR_mean": 0.706
+        },
+        "normal": {
+          "xyDeviation": {
+            "mean": 0.124,
+            "p50": 0.077,
+            "p95": 0.407,
+            "p99": 0.772,
+            "max": 0.922
+          },
+          "absX_p95": 0.239,
+          "absY_p95": 0.294,
+          "pixels": 4194304
+        },
+        "roughness": {
+          "mean": 0.6579,
+          "std": 0.0465,
+          "p5": 0.5882,
+          "p50": 0.651,
+          "p95": 0.7961,
+          "min": 0.549,
+          "max": 0.8
+        },
+        "ambientOcclusion": {
+          "mean": 0.9676,
+          "std": 0.0793,
+          "p5": 0.7412,
+          "p50": 0.9961,
+          "p95": 1.0,
+          "min": 0.549,
+          "max": 1.0
+        },
+        "normalFaceOnly": {
+          "xyDeviation": {
+            "mean": 0.1087,
+            "p50": 0.077,
+            "p95": 0.318,
+            "p99": 0.476,
+            "max": 0.873
+          },
+          "absX_p95": 0.223,
+          "absY_p95": 0.247,
+          "pixels": 3860137
+        },
+        "normalJointAndArrisOnly": {
+          "xyDeviation": {
+            "mean": 0.3001,
+            "p50": 0.058,
+            "p95": 0.843,
+            "p99": 0.882,
+            "max": 0.922
+          },
+          "absX_p95": 0.749,
+          "absY_p95": 0.819,
+          "pixels": 334167
+        }
+      }
+    },
+    "Trim": {
+      "seed": 5787,
+      "parameters": {
+        "seed": 5787,
+        "courses": 8,
+        "blocks_per_course": [
+          3,
+          4
+        ],
+        "block_len_cm": [
+          60.0,
+          100.0
+        ],
+        "joint_cm": 0.8,
+        "joint_depth_cm": 0.5,
+        "arris_cm": 0.7,
+        "min_joint_stagger_cm": 12.0,
+        "styles": {
+          "combed": 0.65,
+          "smooth": 0.35
+        },
+        "margin_cm": [
+          0.0,
+          0.0
+        ],
+        "boss_cm": [
+          0.0,
+          0.0
+        ],
+        "pitched_amp_cm": 0.0,
+        "comb_amp_cm": [
+          0.03,
+          0.05
+        ],
+        "comb_period_cm": [
+          0.55,
+          0.8
+        ],
+        "base_offset_cm": 0.12,
+        "tilt": 0.003,
+        "undulation_cm": 0.05,
+        "pit_density_per_cm2": 0.0018,
+        "pit_radius_cm": [
+          0.3,
+          1.0
+        ],
+        "pit_cluster_sigma_cm": 10.0,
+        "micro_pit_cm": 0.04,
+        "spall_chance": 0.0,
+        "spall_radius_cm": [
+          0.0,
+          0.0
+        ],
+        "weathering_weights": [
+          [
+            0.1,
+            0.55
+          ],
+          [
+            0.5,
+            0.35
+          ],
+          [
+            1.0,
+            0.1
+          ]
+        ],
+        "runoff_max": 0.05,
+        "runoff_len_cm": 5.0,
+        "tint_jitter": 0.035,
+        "warmth_jitter": [
+          -0.01,
+          0.02
+        ],
+        "mottle": [
+          0.05,
+          0.03,
+          0.02
+        ],
+        "mortar": [
+          0.74,
+          0.7,
+          0.63
+        ],
+        "rough": {
+          "combed": 0.58,
+          "smooth": 0.55,
+          "drafted_margin": 0.58,
+          "drafted_boss": 0.7,
+          "pitched": 0.7,
+          "mortar": 0.82,
+          "pit": 0.8
+        },
+        "rough_jitter": 0.025,
+        "rough_grain": 0.025,
+        "rough_clamp": [
+          0.55,
+          0.85
+        ],
+        "ao_gain": 0.7,
+        "ao_floor": 0.55
+      },
+      "palette": [
+        [
+          [
+            0.83,
+            0.78,
+            0.68
+          ],
+          0.4
+        ],
+        [
+          [
+            0.8,
+            0.73,
+            0.6
+          ],
+          0.35
+        ],
+        [
+          [
+            0.78,
+            0.69,
+            0.54
+          ],
+          0.15
+        ],
+        [
+          [
+            0.79,
+            0.76,
+            0.7
+          ],
+          0.1
+        ]
+      ],
+      "schedule": {
+        "courseHeightCm": 37.5,
+        "courses": 8,
+        "blocks": 32,
+        "blockLengthCmMinMax": [
+          61.57,
+          99.12
+        ],
+        "blockLengthCmMean": 75.0,
+        "styleCounts": {
+          "smooth": 12,
+          "combed": 20
+        },
+        "pits": 42,
+        "jointCm": 0.8,
+        "jointDepthCm": 0.5,
+        "heightRangeCm": [
+          -0.575,
+          0.267
+        ]
+      },
+      "generationSeconds": 46.4,
+      "files": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_Albedo.png",
+          "sha256": "373cd5eb1c3b9677a0281087afd7c5ebe1808ea11e086d24f6c646e8dd2499e4",
+          "bytes": 2501711,
+          "imported": true
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_Normal.png",
+          "sha256": "adfe6897548f6614e52104a7177d38862e5d193a08e4d2d21d6cfefaf41bda02",
+          "bytes": 4676496,
+          "imported": true
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_ARM.png",
+          "sha256": "2b93079960f7b458c601ca631324e7b9e8cb8e1911e39548cde34e3f927cdf3b",
+          "bytes": 2387104,
+          "imported": true
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_Roughness.png",
+          "sha256": "cd8ab7c56982a2f5288ea81cbaf484afbd1b45e950da97f1a89f0eef86f5a908",
+          "bytes": 1243851,
+          "imported": false
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_AO.png",
+          "sha256": "29740b962b711fbde8cb4d54fdc84c687fb9f8ebbada7d2daa73dbe8eafea670",
+          "bytes": 1063175,
+          "imported": false
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\T_LimestoneV2_Trim_Height.png",
+          "sha256": "a1db5bb679a0a7f7c7fa1a8f895f25282253bb3738fda8c2e518e440b4d673c7",
+          "bytes": 2231930,
+          "imported": false
+        }
+      },
+      "previews": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_Albedo_1024.png",
+          "sha256": "cd8ed67352042f8a9f265ace2c4847ef725bf1b8b33f12e47ba763569c921be5"
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_Normal_1024.png",
+          "sha256": "fb49f0a0e8f52b5588cc2655107adea767e490a0f0d0072e5bb861d5a54c9f46"
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_ARM_1024.png",
+          "sha256": "ae537f9628f9343456e29cb380249eab502d27b2fcebc20a54c8ec6cada7d3c5"
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_Roughness_1024.png",
+          "sha256": "48ce88f08447ef1807d0451952d55e36413bdd13c3bd402f6df026c9993eeae7"
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_AO_1024.png",
+          "sha256": "37f9cb1f284f8208e43cbabdd8d8b92d2a7d21f7ccffec0c9796af615d8277ea"
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\T_LimestoneV2_Trim_Height_1024.png",
+          "sha256": "005a5cbc13b9b49f91bfb8a190c93c6cc2704a76afe0e4847ebc462a440cbf40"
+        },
+        "Lit": {
+          "path": "SourceAssets\\material-review\\LimestoneV2\\previews\\Lit_Trim_1024.png",
+          "sha256": "c02647c61141be071e52a3cb94920d60a70d62875786f3d741ee830fe31eb765"
+        }
+      },
+      "statistics": {
+        "albedoSRGB": {
+          "R": {
+            "mean": 0.8052,
+            "std": 0.0505,
+            "p5": 0.702,
+            "p50": 0.8118,
+            "p95": 0.8667,
+            "min": 0.5686,
+            "max": 0.9176
+          },
+          "G": {
+            "mean": 0.7431,
+            "std": 0.0517,
+            "p5": 0.6471,
+            "p50": 0.7529,
+            "p95": 0.8078,
+            "min": 0.5373,
+            "max": 0.851
+          },
+          "B": {
+            "mean": 0.6284,
+            "std": 0.0614,
+            "p5": 0.5216,
+            "p50": 0.6353,
+            "p95": 0.702,
+            "min": 0.4118,
+            "max": 0.7373
+          }
+        },
+        "albedoStdPerChannelMean": 0.0545,
+        "normal": {
+          "xyDeviation": {
+            "mean": 0.0788,
+            "p50": 0.044,
+            "p95": 0.227,
+            "p99": 0.694,
+            "max": 0.835
+          },
+          "absX_p95": 0.113,
+          "absY_p95": 0.137
+        },
+        "roughness": {
+          "mean": 0.5873,
+          "std": 0.0576,
+          "p5": 0.549,
+          "p50": 0.5725,
+          "p95": 0.749,
+          "min": 0.549,
+          "max": 0.8431
+        },
+        "ambientOcclusion": {
+          "mean": 0.9729,
+          "std": 0.0908,
+          "p5": 0.7176,
+          "p50": 1.0,
+          "p95": 1.0,
+          "min": 0.549,
+          "max": 1.0
+        }
+      }
+    }
+  },
+  "measuredBaselineNormal": {
+    "file": "SourceAssets\\materials-pbr\\limestone-ashlar\\sandstone_blocks_08_normal_2k.png",
+    "size": [
+      2048,
+      2048
+    ],
+    "xyDeviation": {
+      "mean": 0.0887,
+      "p50": 0.088,
+      "p95": 0.122,
+      "p99": 0.183,
+      "max": 0.776
+    },
+    "absX_p95": 0.09,
+    "absY_p95": 0.098,
+    "pixels": 4194304,
+    "note": "same statistic code as the V2 maps; compare with diagnosis 0.09",
+    "seconds": 6.3
+  },
+  "previousRuns": [
+    {
+      "startedUtc": "2026-09-08T20:01:40Z",
+      "finishedUtc": "2026-09-08T20:04:32Z",
+      "generatorSha256": "3bb31ed456dcb4463926860c7f38315b9a70ec35f085ae2108668760d334c49a"
+    },
+    {
+      "iteration": "V2",
+      "startedUtc": "2026-09-08T20:07:08Z",
+      "finishedUtc": "2026-09-08T20:08:40Z",
+      "generatorSha256": "3f07d346c5efcceabd92be62bc2741883e63092dae5e2104a36a550cbae1a355"
+    }
+  ]
+}

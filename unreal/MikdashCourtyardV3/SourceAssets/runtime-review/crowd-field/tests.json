@@ -1,0 +1,29 @@
+{
+  "stamp": "20260908T041727Z",
+  "toolchain": "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35228 for x64",
+  "flags": "/nologo /std:c++17 /EHsc /W4 /WX /O2",
+  "note": "Asserts stay enabled: NDEBUG is deliberately not defined, so every assert is executed under /O2.",
+  "sources": "Plugins/MikdashRuntime/Tests/CrowdFieldMathTest.cpp against Plugins/MikdashRuntime/Source/MikdashRuntime/Public",
+  "scope": "Engine-independent crowd math only. This proves the flow field, zone containment, seeding, gait, round-robin budget, distance policy and apportioning; it proves nothing about rendering, instancing cost, frame time or how the crowd looks.",
+  "headers": {
+    "CrowdFieldMath.h": "5b0b0b6405080f6e1e790f20617e8bc76d029b7f3f9658658fb3cf52391d891f",
+    "MikdashCrowdField.h": "6a5d6f14056242f39a470badc8fbc8b49e3f65f2f7716fe3495f580e89479c60"
+  },
+  "results": [
+    {
+      "test": "CrowdFieldMathTest.exe",
+      "source": "CrowdFieldMathTest.cpp",
+      "sourceSha256": "0f82dcd44679cb7c12038e3ebf2583998e8cde467bcd3677692c508772819d39",
+      "compileExitCode": 0,
+      "compileStdout": "CrowdFieldMathTest.cpp",
+      "compileStderr": "",
+      "exitCode": 0,
+      "stdout": "containment: L-shape notch rejected, 150 cm skirt honoured, court area 196000000 cm2\nseeding: 4000/4000 placed, deterministic, enclosed zone refused\nflow: convergence, streaming, on-goal unit heading, meander <= 12.00 deg, turn limit\nspeed/phase: 60.0..110.0 cm/s (mean 84.9), 2924/10000 standing at 0.30, 2 bob rises per cycle\nbudget: 10000/500 -> 20 frames, exactly one visit each, catch-up 0.3333 s, clamp 0.5 s\ndistance: simulate < 12000 <= freeze < 30000 <= cull, bad config simulates\napportion: 5000/2000/2500/500 of 10000, dead zones empty; 6 pose blocks contiguous\nstep: 3 reseeds in 20000 frames, 33328 cm travelled, sanctuary never entered by 2000 agents over 400 frames\nPASS: crowd field containment, seeding, flow, speed/phase, round-robin budget, distance policy, apportioning and stepping",
+      "stderr": "",
+      "exeSha256": "0ac533a53e83cbf92e6412fa9b0f01f1d3a8938ebc911abea1c6b8f1e5d6e09a",
+      "passed": true
+    }
+  ],
+  "allPassed": true,
+  "status": "standalone_math_tests_passed"
+}

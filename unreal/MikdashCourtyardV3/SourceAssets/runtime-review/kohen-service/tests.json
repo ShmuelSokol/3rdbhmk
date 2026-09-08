@@ -1,0 +1,397 @@
+{
+  "title": "ServiceScheduleMath standalone test",
+  "runUtc": "2026-09-08T04:14:02Z",
+  "status": "passed",
+  "exitCode": 0,
+  "checksPassed": 100168,
+  "output": "Service schedule: 100168 checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)",
+  "compiler": {
+    "tool": "cl.exe (VS2022 BuildTools, vcvars64)",
+    "version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35228 for x64",
+    "flags": "/std:c++17 /W4 /WX /EHsc /permissive-",
+    "note": "Warnings-as-errors. No Unreal header, module or engine binary is involved; this is the engine-independent half only."
+  },
+  "sources": {
+    "header": {
+      "path": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ServiceScheduleMath.h",
+      "sha256": "23247c269d294aa9a6cd2c3d156885f59362d6360a45b101e205fe44dffd1498"
+    },
+    "test": {
+      "path": "Plugins/MikdashRuntime/Tests/ServiceScheduleMathTest.cpp",
+      "sha256": "20663e5ff6e4a508ef7a5be76bbe2f67a9c3da7ffaefeb8c855a787272461476"
+    }
+  },
+  "whatIsCovered": [
+    "Zone classification against the measured Ulam, doorway, Heikhal, paroches-gap and Kodesh floors.",
+    "The scenario gate: the ordinary day never permits the paroches gap or the Kodesh HaKodashim; the Yom Kippur scenario does and keeps every daily zone.",
+    "The hard boundary: a leg that reaches or crosses X -5600 on an ordinary day is refused, including reaching it exactly; a corner cut through the doorway wall is refused even when both endpoints are legal.",
+    "Measured menorah anchors: the seven lamps span the branches evenly, the centre lamp is on the menorah axis, the three-step stone is east of the menorah, and every tending stand point stays on the stone footprint at Z 975.",
+    "Sequence shape: all seven lamps tended, five then a withdrawal then two (Rambam, Temidin uMusafin 3:17), incense station after the last lamp.",
+    "Duration: the ordinary-day loop lands inside the commissioned three-to-six-minute window and a plan outside the window is refused rather than accepted.",
+    "The plan is a closed loop, so restarting on the interval cannot teleport the figure.",
+    "Refusals: station moved past the line, floating station, station outside the hall, non-finite dwell, impossible lamp index, one-station plan, negative walk speed, mismatched lamp grouping, negative dwell.",
+    "Runner behaviour: unconfigured fails closed, a paused tick advances nothing, a NaN or negative clock step changes nothing, a blocked leg holds without moving a centimetre and is counted once, holds clear when the leg clears.",
+    "20000-step and single-5000-second sweeps asserting that every position the runner ever reports is inside a permitted zone and east of the paroches line, that all seven lamps are reported, and that the interval repeat is observed.",
+    "The Yom Kippur runner does pass the line, and the identical plan is refused the moment the scenario flag is off."
+  ],
+  "whatIsNotCovered": [
+    "Nothing here touches Unreal. The capsule sweep, the floor traces, the mesh and material lookup and the actual walking in the map are untested until the coordinator compiles MikdashRuntime and runs the release script.",
+    "No visual, animation, collision-in-map, packaged or halachic acceptance is established by this run.",
+    "The lamp tending ORDER among the seven, and which five belong to the first group, are authored placeholders; no test can validate an unsourced choice."
+  ],
+  "authoredPlan": {
+    "walkSpeedCmPerSec": 90.0,
+    "walkSeconds": 94.4819,
+    "dwellSeconds": 196.0,
+    "loopSeconds": 290.4819,
+    "stationCount": 18,
+    "lampsTended": 7,
+    "stations": [
+      {
+        "index": 0,
+        "kind": "UlamApproach",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 8.0,
+        "action": "Standing in the Ulam, facing the doorway of the Heikhal before the lamp service."
+      },
+      {
+        "index": 1,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 4.0,
+        "action": "Passing through the doorway into the Heikhal for the service."
+      },
+      {
+        "index": 2,
+        "kind": "TendingStone",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          315.176,
+          1075.0
+        ],
+        "dwellSeconds": 6.0,
+        "action": "Stepping up onto the three-step stone that stands east of the menorah."
+      },
+      {
+        "index": 3,
+        "kind": "Lamp",
+        "lampIndex": 0,
+        "stand": [
+          -5239.0,
+          270.2,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          268.226,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 4,
+        "kind": "Lamp",
+        "lampIndex": 1,
+        "stand": [
+          -5239.0,
+          283.876,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          283.876,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 5,
+        "kind": "Lamp",
+        "lampIndex": 2,
+        "stand": [
+          -5239.0,
+          299.526,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          299.526,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 6,
+        "kind": "Lamp",
+        "lampIndex": 3,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          315.176,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 7,
+        "kind": "Lamp",
+        "lampIndex": 4,
+        "stand": [
+          -5239.0,
+          330.826,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          330.826,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 8,
+        "kind": "KuzOnSecondStep",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          315.176,
+          1075.0
+        ],
+        "dwellSeconds": 5.0,
+        "action": "Leaving the kuz on the second of the three steps before going out."
+      },
+      {
+        "index": 9,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0,
+        "action": "Leaving the Heikhal after the first five lamps."
+      },
+      {
+        "index": 10,
+        "kind": "WithdrawOutside",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 20.0,
+        "action": "Waiting outside while the service that comes between the two groups of lamps takes place; that service is not depicted here."
+      },
+      {
+        "index": 11,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 4.0,
+        "action": "Entering the Heikhal again for the two remaining lamps."
+      },
+      {
+        "index": 12,
+        "kind": "Lamp",
+        "lampIndex": 5,
+        "stand": [
+          -5239.0,
+          346.476,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          346.476,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 13,
+        "kind": "Lamp",
+        "lampIndex": 6,
+        "stand": [
+          -5239.0,
+          360.2,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          362.126,
+          1075.0
+        ],
+        "dwellSeconds": 14.0,
+        "action": "Tending a lamp: clearing the spent wick and oil, setting a fresh wick and oil, kindling it."
+      },
+      {
+        "index": 14,
+        "kind": "KuzOnSecondStep",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "face": [
+          -5330.0,
+          315.176,
+          1075.0
+        ],
+        "dwellSeconds": 5.0,
+        "action": "Taking up the kuz from the step and stepping down from the stone."
+      },
+      {
+        "index": 15,
+        "kind": "GoldenAltar",
+        "lampIndex": -1,
+        "stand": [
+          -4650.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -4650.0,
+          0.0,
+          1025.0
+        ],
+        "dwellSeconds": 30.0,
+        "action": "Standing at the golden altar for the incense; the smoke itself is not produced here."
+      },
+      {
+        "index": 16,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0,
+        "action": "Leaving the Heikhal at the end of the sequence."
+      },
+      {
+        "index": 17,
+        "kind": "UlamApproach",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "face": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 8.0,
+        "action": "Standing again in the Ulam; the sequence is over until the next one."
+      }
+    ],
+    "yomKippurStationCount": 20,
+    "yomKippurLoopSeconds": 346.7041,
+    "lampWorldPoints": [
+      [
+        -5330.0,
+        268.226,
+        1075.0
+      ],
+      [
+        -5330.0,
+        283.876,
+        1075.0
+      ],
+      [
+        -5330.0,
+        299.526,
+        1075.0
+      ],
+      [
+        -5330.0,
+        315.176,
+        1075.0
+      ],
+      [
+        -5330.0,
+        330.826,
+        1075.0
+      ],
+      [
+        -5330.0,
+        346.476,
+        1075.0
+      ],
+      [
+        -5330.0,
+        362.126,
+        1075.0
+      ]
+    ]
+  }
+}

@@ -1,0 +1,385 @@
+{
+  "purpose": "Human-reviewable plan consumed by Scripts/release_kohen_service.py. Spawns ONE RELEASE_KohenGadolService actor (AMikdashServiceActor) into the combined walkthrough map with the station anchors below, then verifies offline and after reopen that every derived station lies inside the measured Heikhal/doorway/Ulam envelope and that no station reaches the paroches line at X -5600 in the ordinary-day scenario. Spawning is geometric and configuration only: no visual, animation, collision-route, packaged or halachic acceptance is established. Sources and the honest depicted-versus-asserted statement: SourceAssets/runtime-review/kohen-service/sources.md",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints",
+  "checkpointPrefix": "KohenService-",
+  "receiptFolder": "SourceAssets/runtime-review/kohen-service",
+  "receiptPrefix": "release-kohen-service-",
+  "compiledClassesRequired": {
+    "serviceActor": "/Script/MikdashRuntime.MikdashServiceActor",
+    "propertyProvingFreshBinary": "service_scenario",
+    "defaultsThatMustRemainOff": {
+      "sequence_enabled": false,
+      "start_on_begin_play": false
+    }
+  },
+  "actor": {
+    "label": "RELEASE_KohenGadolService",
+    "folder": "Runtime/KohenService",
+    "tag": "ReleaseKohenGadolServiceV1",
+    "spawnLocation": [
+      -3200.0,
+      0.0,
+      925.0
+    ],
+    "refuseIfLabelExists": true
+  },
+  "envelope": {
+    "note": "Read from SourceAssets/architecture-manifest.json floor meshes; centimetres.",
+    "heikhalFloor": {
+      "minX": -5600.0,
+      "maxX": -3600.0,
+      "halfY": 500.0,
+      "topZ": 925.0,
+      "mesh": "SM_0146_floor_Heichal_clear_floor"
+    },
+    "ulamFloor": {
+      "minX": -3300.0,
+      "maxX": -2750.0,
+      "halfY": 500.0,
+      "topZ": 925.0,
+      "mesh": "SM_0145_floor_Ulam_clear_floor"
+    },
+    "kodeshFloor": {
+      "minX": -6700.0,
+      "maxX": -5700.0,
+      "halfY": 500.0,
+      "topZ": 925.0,
+      "mesh": "SM_0147_floor_Kodesh_clear_floor"
+    },
+    "doorwayHalfY": 250.0,
+    "parochesGapHalfY": 175.0,
+    "edgeInsetCm": 5.0,
+    "stoneTopZ": 975.0,
+    "heightToleranceCm": 3.0,
+    "kodeshLineX": -5600.0,
+    "kodeshLineMeaning": "The paroches line. In the ordinary-day scenario no station and no sampled point of any straight leg may reach it (Vayikra 16:2; Rambam, Biat HaMikdash 2:1). The Yom Kippur scenario is a separate, deliberately chosen flag and this script does not enable it."
+  },
+  "actorProperties": {
+    "sequence_enabled": true,
+    "start_on_begin_play": false,
+    "service_scenario": "ORDINARY_DAY",
+    "repeat_interval_seconds": 90.0,
+    "walk_speed_cm_per_sec": 90.0,
+    "per_lamp_seconds": 14.0,
+    "approach_seconds": 8.0,
+    "doorway_seconds": 4.0,
+    "stone_seconds": 6.0,
+    "kuz_seconds": 5.0,
+    "withdraw_seconds": 20.0,
+    "altar_seconds": 30.0,
+    "inner_seconds": 20.0,
+    "min_loop_seconds": 180.0,
+    "max_loop_seconds": 360.0,
+    "ulam_approach_point": [
+      -3200.0,
+      0.0,
+      925.0
+    ],
+    "doorway_point": [
+      -3450.0,
+      0.0,
+      925.0
+    ],
+    "tending_stone_point": [
+      -5239.0,
+      315.176,
+      975.0
+    ],
+    "golden_altar_point": [
+      -4650.0,
+      0.0,
+      925.0
+    ],
+    "menorah_point": [
+      -5330.0,
+      315.176,
+      925.0
+    ],
+    "inner_stand_point": [
+      -6100.0,
+      0.0,
+      925.0
+    ]
+  },
+  "anchorProvenance": {
+    "menorah_point": "release_import_menorah_v4.spec.json placement location (-5330, 315.176, 925), yaw -90.",
+    "tending_stone_point": "SM_MenorahV4_StepStone local Y 45.91..135.91 with yaw -90 gives world X -5284.1..-5194.1, top Z 975; the stand point is its centre.",
+    "golden_altar_point": "release_scale_keilim.spec.json altar cluster (-4650, 0), book diagrams 22:28/22:29 (Heikhal midline).",
+    "doorway_point": "Between the Heikhal door jambs (inner faces |Y| = 250.5), on the centre line, just inside X -3600.",
+    "ulam_approach_point": "SM_0145_floor_Ulam_clear_floor, on the centre line east of the doorway.",
+    "inner_stand_point": "Yom Kippur scenario only; not enabled by this script."
+  },
+  "expectedDerivedPlan": {
+    "note": "What ServiceScheduleMath::BuildMenorahSequence produces from the anchors above, computed offline by this script and asserted to match these numbers before anything is spawned.",
+    "walkSpeedCmPerSec": 90.0,
+    "stationCount": 18,
+    "lampsTended": 7,
+    "walkSeconds": 94.4819,
+    "dwellSeconds": 196.0,
+    "loopSeconds": 290.4819,
+    "loopSecondsWindow": [
+      180.0,
+      360.0
+    ],
+    "lampWorldPoints": [
+      [
+        -5330.0,
+        268.226,
+        1075.0
+      ],
+      [
+        -5330.0,
+        283.876,
+        1075.0
+      ],
+      [
+        -5330.0,
+        299.526,
+        1075.0
+      ],
+      [
+        -5330.0,
+        315.176,
+        1075.0
+      ],
+      [
+        -5330.0,
+        330.826,
+        1075.0
+      ],
+      [
+        -5330.0,
+        346.476,
+        1075.0
+      ],
+      [
+        -5330.0,
+        362.126,
+        1075.0
+      ]
+    ],
+    "stations": [
+      {
+        "index": 0,
+        "kind": "UlamApproach",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 8.0
+      },
+      {
+        "index": 1,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0
+      },
+      {
+        "index": 2,
+        "kind": "TendingStone",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 6.0
+      },
+      {
+        "index": 3,
+        "kind": "Lamp",
+        "lampIndex": 0,
+        "stand": [
+          -5239.0,
+          270.2,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 4,
+        "kind": "Lamp",
+        "lampIndex": 1,
+        "stand": [
+          -5239.0,
+          283.876,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 5,
+        "kind": "Lamp",
+        "lampIndex": 2,
+        "stand": [
+          -5239.0,
+          299.526,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 6,
+        "kind": "Lamp",
+        "lampIndex": 3,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 7,
+        "kind": "Lamp",
+        "lampIndex": 4,
+        "stand": [
+          -5239.0,
+          330.826,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 8,
+        "kind": "KuzOnSecondStep",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 5.0
+      },
+      {
+        "index": 9,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0
+      },
+      {
+        "index": 10,
+        "kind": "WithdrawOutside",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 20.0
+      },
+      {
+        "index": 11,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0
+      },
+      {
+        "index": 12,
+        "kind": "Lamp",
+        "lampIndex": 5,
+        "stand": [
+          -5239.0,
+          346.476,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 13,
+        "kind": "Lamp",
+        "lampIndex": 6,
+        "stand": [
+          -5239.0,
+          360.2,
+          975.0
+        ],
+        "dwellSeconds": 14.0
+      },
+      {
+        "index": 14,
+        "kind": "KuzOnSecondStep",
+        "lampIndex": -1,
+        "stand": [
+          -5239.0,
+          315.176,
+          975.0
+        ],
+        "dwellSeconds": 5.0
+      },
+      {
+        "index": 15,
+        "kind": "GoldenAltar",
+        "lampIndex": -1,
+        "stand": [
+          -4650.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 30.0
+      },
+      {
+        "index": 16,
+        "kind": "Doorway",
+        "lampIndex": -1,
+        "stand": [
+          -3450.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 4.0
+      },
+      {
+        "index": 17,
+        "kind": "UlamApproach",
+        "lampIndex": -1,
+        "stand": [
+          -3200.0,
+          0.0,
+          925.0
+        ],
+        "dwellSeconds": 8.0
+      }
+    ]
+  },
+  "verification": {
+    "transformToleranceCm": 0.5,
+    "scalarTolerance": 0.001,
+    "vectorToleranceCm": 0.001,
+    "requireReadbackOfEveryProperty": true,
+    "readbackNote": "UE 5.8: a setter can report failure on an assignment that actually took, so no setter return value is trusted anywhere in this script. Every property written is read back and compared numerically, before the save and again after the reopen.",
+    "staticMobilityNote": "UE 5.8: a static-mobility actor does not dirty its package on a transform change. This actor's root is Movable by construction, and the script does not rely on a transform edit to mark the map dirty: it checks get_dirty_map_packages() explicitly before saving.",
+    "zombieProcessNote": "Before concluding that a save failed, check for leftover UnrealEditor / UnrealEditor-Cmd processes holding the package. The receipt records the process list it observed."
+  },
+  "limitations": [
+    "Placement and configuration only. The figure is not started: start_on_begin_play stays False so nothing animates before a visual review.",
+    "No visual, animation, collision-route, lighting, packaged or halachic acceptance is established by this script.",
+    "No Kohen Gadol garment asset exists yet; the actor falls back to an existing pilgrim garment material and records that it is a stand-in, not the eight golden garments.",
+    "The tending order among the seven lamps, and which five belong to the first group, are authored placeholders pending review (sources.md, SVC-R-ORDER).",
+    "The Yom Kippur scenario is not enabled and its inner service is not depicted beyond an entry and an exit."
+  ]
+}

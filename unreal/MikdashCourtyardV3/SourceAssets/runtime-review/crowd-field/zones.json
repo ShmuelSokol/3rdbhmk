@@ -1,0 +1,573 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Authored crowd zones for AMikdashCrowdField. Every polygon, ground height and gradient below came from a manifest, a release spec or a native trace receipt already on disk in this project; the 'evidence' string on each zone names the source. Nothing here is a claim of visual or runtime acceptance: no PIE, render, cook or packaged run has looked at this crowd.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "units": "centimetres and degrees; +X east, +Y north, +Z up; yaw 0 faces +X",
+  "figure": {
+    "heightCm": 172.0,
+    "originAtFeet": true,
+    "facesLocalPlusX": true,
+    "source": "SourceAssets/runtime-review/crowd-field/CrowdFigureV1/geometry-manifest.json"
+  },
+  "defaultCrowdCount": 10000,
+  "protectedMarginCm": 150.0,
+  "zoneEdgeMarginDefaultCm": 100.0,
+  "seed": 20260907,
+  "reseedNote": "reseedEdgeXYcm is a segment, not a point: each instance takes a deterministic place along it and, if that place is inside a keep-out, AMikdashCrowdField::ResolveReseedPoint walks the segment until it finds a legal one. Segments that cross a corridor keep-out (OuterCourtEast crosses the east gate corridor at its midpoint, OuterCourtWestTerrace crosses the south lateral corridor) are therefore usable along the stretches that are clear; the offline checker records the legal fraction of each and refuses only a segment with no legal point at all.",
+  "apportionRule": "Instance count per zone = largest-remainder share of apportionWeight, where apportionWeight = areaSqM/100 * densityPer100SqM. Only the ratio matters: MikdashCrowd::ApportionCounts renormalises to whatever CrowdCount the actor is given, so -CrowdCount=2500 thins every zone in proportion rather than emptying the far ones.",
+  "expectedCountsAtDefault": {
+    "OuterCourtEast": 2899,
+    "OuterCourtWestTerrace": 2146,
+    "MountPlatformDeck": 4214,
+    "KotelPlazaStrip": 260,
+    "StreetBateiMahase": 200,
+    "KotelApproachCorridor": 281
+  },
+  "expectedCountsAt2500": {
+    "OuterCourtEast": 725,
+    "OuterCourtWestTerrace": 537,
+    "MountPlatformDeck": 1053,
+    "KotelPlazaStrip": 65,
+    "StreetBateiMahase": 50,
+    "KotelApproachCorridor": 70
+  },
+  "protectedPolygons": [
+    {
+      "name": "SanctuaryBlockAndFoundations",
+      "reason": "House and Ulam foundations, walls and roofs. No instanced figure may stand on or inside the sanctuary. A 100 cm pad on the measured union footprint, on top of the actor protectedMarginCm.",
+      "sourceBoundsCm": "SM_1676_union_Derived_union_of_House_and_Ulam_foundations [-7500,-2500,425]..[-2500,2500,924]; SM_2630_union_Derived_union_of_source_House_walls_and_roofs [-7000,-2500,925]..[-2500,2500,6075]",
+      "pointsXYcm": [
+        [
+          -7600.0,
+          -2600.0
+        ],
+        [
+          -2400.0,
+          -2600.0
+        ],
+        [
+          -2400.0,
+          2600.0
+        ],
+        [
+          -7600.0,
+          2600.0
+        ]
+      ]
+    },
+    {
+      "name": "InnerCourtPlatform",
+      "reason": "Inner court supporting platform, raised priest court and the Ezras Kohanim above it. Priestly ground; the background crowd stays off it.",
+      "sourceBoundsCm": "SM_0128_architecture_Inner_court_supporting_platform [-2800,-2800,300]..[2800,2800,499]",
+      "pointsXYcm": [
+        [
+          -2900.0,
+          -2900.0
+        ],
+        [
+          2900.0,
+          -2900.0
+        ],
+        [
+          2900.0,
+          2900.0
+        ],
+        [
+          -2900.0,
+          2900.0
+        ]
+      ]
+    },
+    {
+      "name": "EastGateCorridor",
+      "reason": "The authored east-gate route corridor that the resident characters and the player walk. Keeping instanced figures out of it stops the crowd from swallowing the walkthrough path.",
+      "sourceBoundsCm": "release_place_assets.spec.json pilgrims.exclusionRectanglesXY 'East gate route corridor' [2500,-700]..[8600,700], padded 100 cm",
+      "pointsXYcm": [
+        [
+          2400.0,
+          -750.0
+        ],
+        [
+          8700.0,
+          -750.0
+        ],
+        [
+          8700.0,
+          750.0
+        ],
+        [
+          2400.0,
+          750.0
+        ]
+      ]
+    },
+    {
+      "name": "NorthLateralGateCorridor",
+      "reason": "North lateral gate corridor; same reason as the east corridor.",
+      "sourceBoundsCm": "release_place_assets.spec.json [-700,2500]..[700,8100], padded 100 cm",
+      "pointsXYcm": [
+        [
+          -750.0,
+          2400.0
+        ],
+        [
+          750.0,
+          2400.0
+        ],
+        [
+          750.0,
+          8200.0
+        ],
+        [
+          -750.0,
+          8200.0
+        ]
+      ]
+    },
+    {
+      "name": "SouthLateralGateCorridor",
+      "reason": "South lateral gate corridor; same reason as the east corridor.",
+      "sourceBoundsCm": "release_place_assets.spec.json [-700,-8100]..[700,-2500], padded 100 cm",
+      "pointsXYcm": [
+        [
+          -750.0,
+          -8200.0
+        ],
+        [
+          750.0,
+          -8200.0
+        ],
+        [
+          750.0,
+          -2400.0
+        ],
+        [
+          -750.0,
+          -2400.0
+        ]
+      ]
+    },
+    {
+      "name": "KotelWallSlab",
+      "reason": "The Kotel wall body itself, as a slab from 130 cm west of the measured face line extruded 2400 cm east. The 130 cm west edge also covers SM_Jerusalem_CityWalls_04_Grid_N002_P001, which stands 99 to 120 cm west of the face up to Z 637..784. No figure may stand in the wall.",
+      "sourceBoundsCm": "release_capture_views.py KOTEL_FACE_A / KOTEL_FACE_B / KOTEL_FACE_NORMAL. The protected polygon osmId 817206833 'Western Wall' bbox [-15678.015,8682.933]..[-13271.515,17750.433] (mount-platform-design.json) is deliberately NOT used as the polygon: it is far too coarse and would swallow the standing strip in front of the wall.",
+      "pointsXYcm": [
+        [
+          -15255.624,
+          11930.026
+        ],
+        [
+          -14578.124,
+          15858.526
+        ],
+        [
+          -12084.928,
+          15428.555
+        ],
+        [
+          -12762.428,
+          11500.055
+        ]
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "name": "OuterCourtEast",
+      "description": "Outer court, east lobe: the measured Z 300 floor east of the paving transition, north and south of the east-gate axis. The main body of pilgrims, streaming west toward the gate.",
+      "polygonXYcm": [
+        [
+          1750.0,
+          -7600.0
+        ],
+        [
+          7600.0,
+          -7600.0
+        ],
+        [
+          7600.0,
+          7600.0
+        ],
+        [
+          1750.0,
+          7600.0
+        ]
+      ],
+      "ground": {
+        "mode": "flat",
+        "z0": 300.0,
+        "dzdx": 0.0,
+        "dzdy": 0.0,
+        "confidence": "high",
+        "evidence": "architecture_SM_0129_floor_Outer_court_floor worldBoundsCm top 300.0 (architecture-manifest.json and release_place_assets.spec.json pilgrims.floor); native downward trace at XY [4974,0] returned Z 300.0, actor 'Outer court floor' (visual-review/release-capture-20260908T033332Z receipt, view c_outer_court_pilgrims)."
+      },
+      "densityPer100SqM": 32.6,
+      "standingRatio": 0.28,
+      "flow": {
+        "directionDegrees": 180.0,
+        "goalXYcm": [
+          1900.0,
+          0.0
+        ],
+        "goalWeight": 0.3,
+        "swirlDegrees": 0.0,
+        "meanderDegrees": 11.0,
+        "meanderHz": 0.1
+      },
+      "reseedEdgeXYcm": [
+        [
+          7300.0,
+          -7000.0
+        ],
+        [
+          7300.0,
+          7000.0
+        ]
+      ],
+      "edgeMarginCm": 120.0,
+      "areaSqM": 8892.0,
+      "apportionWeight": 2898.792
+    },
+    {
+      "name": "OuterCourtWestTerrace",
+      "description": "Outer court, west paving terrace at Z 425: the ring of ground around the inner-court platform and the sanctuary block. Milling and circulating rather than streaming. The sanctuary block and the platform are carved out by protected polygons, not by this outline.",
+      "polygonXYcm": [
+        [
+          -7600.0,
+          -7600.0
+        ],
+        [
+          1450.0,
+          -7600.0
+        ],
+        [
+          1450.0,
+          7600.0
+        ],
+        [
+          -7600.0,
+          7600.0
+        ]
+      ],
+      "ground": {
+        "mode": "flat",
+        "z0": 425.0,
+        "dzdx": 0.0,
+        "dzdy": 0.0,
+        "confidence": "medium",
+        "evidence": "SM_2632_union_Derived_union_of_source_western_paving_and_transition expectedBoundsUnrealCm [-7800,-7800,300]..[1675,7800,425]; decoded source element 0 'Western outer court paving' top Z 425 (architecture-manifest.json). Not confirmed by a native trace in this map; the runtime ground trace corrects it per instance wherever tracing works."
+      },
+      "densityPer100SqM": 15.6,
+      "standingRatio": 0.45,
+      "flow": {
+        "directionDegrees": 90.0,
+        "goalXYcm": [
+          -4000.0,
+          6500.0
+        ],
+        "goalWeight": 0.12,
+        "swirlDegrees": 22.0,
+        "meanderDegrees": 16.0,
+        "meanderHz": 0.09
+      },
+      "reseedEdgeXYcm": [
+        [
+          -7000.0,
+          -7300.0
+        ],
+        [
+          1200.0,
+          -7300.0
+        ]
+      ],
+      "edgeMarginCm": 120.0,
+      "areaSqM": 13756.0,
+      "apportionWeight": 2145.936
+    },
+    {
+      "name": "MountPlatformDeck",
+      "description": "Future Mount platform deck east of the walled precinct: the flat Z 0 surface. The approach crowd arriving at the precinct from the east; the largest and sparsest zone.",
+      "polygonXYcm": [
+        [
+          8600.0,
+          -11000.0
+        ],
+        [
+          14300.0,
+          -11000.0
+        ],
+        [
+          14300.0,
+          11000.0
+        ],
+        [
+          8600.0,
+          11000.0
+        ]
+      ],
+      "ground": {
+        "mode": "flat",
+        "z0": 0.0,
+        "dzdx": 0.0,
+        "dzdy": 0.0,
+        "confidence": "high",
+        "evidence": "mount-platform.mesh.json surface: 185 vertices all at Z exactly 0.0; generate_mount_platform.py TOP_Z = 0.0; native downward trace at XY [11500,-300] returned Z 0.0, actor SM_MountPlatform_Surface (release-capture-20260908T033332Z, view g_mount_platform_approach). Deck XY extent [-21314,-25206]..[14953,25980], so this rectangle sits inside it with 653 cm to spare on the east."
+      },
+      "densityPer100SqM": 33.6,
+      "standingRatio": 0.22,
+      "flow": {
+        "directionDegrees": 180.0,
+        "goalXYcm": [
+          8700.0,
+          0.0
+        ],
+        "goalWeight": 0.28,
+        "swirlDegrees": 0.0,
+        "meanderDegrees": 12.0,
+        "meanderHz": 0.1
+      },
+      "reseedEdgeXYcm": [
+        [
+          14100.0,
+          -10500.0
+        ],
+        [
+          14100.0,
+          10500.0
+        ]
+      ],
+      "edgeMarginCm": 150.0,
+      "areaSqM": 12540.0,
+      "apportionWeight": 4213.44
+    },
+    {
+      "name": "KotelPlazaStrip",
+      "description": "The sloping terrain strip in front of the Kotel face, 320 to 1200 cm west of it. Mostly standing figures facing the wall. This is a hillside, not a level plaza: the ground is a plane through the two native traces in front of the face, and the strip is kept inside the span those traces bracket.",
+      "polygonXYcm": [
+        [
+          -15442.86,
+          11962.316
+        ],
+        [
+          -14765.36,
+          15890.816
+        ],
+        [
+          -15632.558,
+          16040.371
+        ],
+        [
+          -16310.058,
+          12111.871
+        ]
+      ],
+      "ground": {
+        "mode": "plane",
+        "z0": 3513.130347,
+        "dzdx": 0.28056296,
+        "dzdy": 0.00818479,
+        "confidence": "medium",
+        "evidence": "Two native downward traces in front of the edge-0 midpoint (release-capture-20260908T033332Z): XY [-15019.301,14064.154] -> Z -585.617 and XY [-15774.218,14042.131] -> Z -797.599, both on SM_JerusalemTerrain_07_08. The plane reproduces both exactly (a two-point fit constrained to slope along the wall normal), about 15.7 degrees of fall. It is NOT valid further out: the design figure for plazaCentre at [-18874,15972] is -1079.42 where this plane predicts about -1651, which is why the strip stops at 1200 cm.",
+        "fitPointsXYZcm": [
+          [
+            -15019.301,
+            14064.154,
+            -585.617
+          ],
+          [
+            -15774.218,
+            14042.131,
+            -797.599
+          ]
+        ]
+      },
+      "densityPer100SqM": 74.1,
+      "standingRatio": 0.78,
+      "flow": {
+        "directionDegrees": -9.785,
+        "goalXYcm": [
+          -14916.874,
+          13894.276
+        ],
+        "goalWeight": 0.5,
+        "swirlDegrees": 0.0,
+        "meanderDegrees": 8.0,
+        "meanderHz": 0.07
+      },
+      "reseedEdgeXYcm": [
+        [
+          -16201.659,
+          12093.177
+        ],
+        [
+          -15524.159,
+          16021.677
+        ]
+      ],
+      "edgeMarginCm": 60.0,
+      "areaSqM": 350.8,
+      "apportionWeight": 259.951
+    },
+    {
+      "name": "StreetBateiMahase",
+      "description": "The residential street where RELEASE_Bus_1..13 stands: the best-evidenced road surface in the city set. A pavement crowd walking along the road line.",
+      "polygonXYcm": [
+        [
+          -38800.0,
+          46200.0
+        ],
+        [
+          -36600.0,
+          46200.0
+        ],
+        [
+          -36600.0,
+          47500.0
+        ],
+        [
+          -38800.0,
+          47500.0
+        ]
+      ],
+      "ground": {
+        "mode": "plane",
+        "z0": -1750.452915,
+        "dzdx": -0.05250589,
+        "dzdy": 0.01559811,
+        "confidence": "medium",
+        "evidence": "Two probed road points on SM_Jerusalem_Asphalt_02_Grid_N004_P004 (release_place_bus.spec.json candidates): [-37951.473,46854.779] -> 973.069, which is the placed bus pose (AGENTS.md, RELEASE_Bus_1..13 at [-37951,46855,973]), and [-37232.533,46641.201] -> 931.989. The plane reproduces both exactly; over this rectangle it spans about 904 to 1016 cm.",
+        "fitPointsXYZcm": [
+          [
+            -37951.473,
+            46854.779,
+            973.069
+          ],
+          [
+            -37232.533,
+            46641.201,
+            931.989
+          ]
+        ]
+      },
+      "densityPer100SqM": 69.9,
+      "standingRatio": 0.18,
+      "flow": {
+        "directionDegrees": -16.552,
+        "goalXYcm": [
+          -36400.0,
+          46200.0
+        ],
+        "goalWeight": 0.15,
+        "swirlDegrees": 0.0,
+        "meanderDegrees": 9.0,
+        "meanderHz": 0.12
+      },
+      "reseedEdgeXYcm": [
+        [
+          -38700.0,
+          46350.0
+        ],
+        [
+          -38700.0,
+          47400.0
+        ]
+      ],
+      "edgeMarginCm": 80.0,
+      "areaSqM": 286.0,
+      "apportionWeight": 199.914
+    },
+    {
+      "name": "KotelApproachCorridor",
+      "description": "The 700 cm wide walking corridor from the Kotel plaza up toward the Mount approach, centred on the surveyed route line. Narrow on purpose: the plane fit is only trustworthy near the measured centre line.",
+      "polygonXYcm": [
+        [
+          -18754.043,
+          20301.046
+        ],
+        [
+          -13905.543,
+          18523.546
+        ],
+        [
+          -14146.487,
+          17866.32
+        ],
+        [
+          -18994.987,
+          19643.82
+        ]
+      ],
+      "ground": {
+        "mode": "plane",
+        "z0": 2136.434447,
+        "dzdx": -0.09669467,
+        "dzdy": -0.27073004,
+        "confidence": "low",
+        "evidence": "Least-squares plane through the five surveyed waypoints of route 'Kotel plaza to Mount approach' (FutureMountV1/route-review/route-source-plan.json), excluding the final on-deck point at Z 0. Maximum residual against those five points is 39.3 cm ALONG the route; across it the slope is unmeasured, which is why the corridor is only 700 cm wide and why the runtime ground trace matters most here.",
+        "fitPointsXYZcm": [
+          [
+            -18874.515,
+            19972.433,
+            -1432.5
+          ],
+          [
+            -16624.515,
+            19972.433,
+            -1702.5
+          ],
+          [
+            -15374.515,
+            19472.433,
+            -1634.66
+          ],
+          [
+            -14624.515,
+            19072.433,
+            -1580.388
+          ],
+          [
+            -14026.015,
+            18194.933,
+            -1453.669
+          ]
+        ],
+        "maxResidualCm": 39.3
+      },
+      "densityPer100SqM": 77.6,
+      "standingRatio": 0.12,
+      "flow": {
+        "directionDegrees": -20.133,
+        "goalXYcm": [
+          -14026.015,
+          18194.933
+        ],
+        "goalWeight": 0.4,
+        "swirlDegrees": 0.0,
+        "meanderDegrees": 7.0,
+        "meanderHz": 0.11
+      },
+      "reseedEdgeXYcm": [
+        [
+          -18593.8,
+          20157.093
+        ],
+        [
+          -18779.672,
+          19650.09
+        ]
+      ],
+      "edgeMarginCm": 60.0,
+      "areaSqM": 361.5,
+      "apportionWeight": 280.5114
+    }
+  ],
+  "groundNote": "mode 'flat' means Z = z0; mode 'plane' means Z = z0 + dzdx*x + dzdy*y. Both are fallbacks. When AMikdashCrowdField can trace (bTraceGroundOnSeed, the normal case at runtime) each instance is placed on the surface the trace actually hits and these numbers are used only where the trace misses. Commandlet runs with -nullrhi have historically returned no hit for downward traces in this project (release_place_assets.spec.json traceSelfTest), so in an editor preview the fallback is the expected path.",
+  "limitations": [
+    "Zone outlines are authored rectangles and strips, not a navmesh: they know nothing about individual props, steps, kerbs or doorways inside them.",
+    "Ground is a constant or a fitted plane per zone. The Kotel strip and the approach corridor are real hillsides; where the runtime trace misses, figures there can sit tens of centimetres proud of or sunk into the terrain.",
+    "The west terrace Z 425 comes from a manifest bound, not from a native trace in this map.",
+    "These are instanced background figures. They do not collide, do not avoid the player or one another, and have no dialog. The 24 MikdashResidentCharacter actors remain the only individuals."
+  ]
+}

@@ -1,0 +1,1030 @@
+{
+  "status": "offline_checked_native_pending",
+  "namespace": "/Game/MikdashV3/ArrivalReview/TransitSystemV1",
+  "units": "centimetres",
+  "axes": "+X forward, +Y left, Z0 at tyre or railhead contact",
+  "objConvention": "SM_*.obj adapters are reflected-Y with reversed winding; canonical JSON/OBJ is Unreal XYZ. Never apply a second reflection or unit conversion.",
+  "vertexColour": {
+    "paintGroup": "R = paint mask (1 takes the per-instance body colour), G = baked panel shade",
+    "lensGroup": "R = 1 on red lamps, 0 on white lamps",
+    "perInstanceColour": "NOT vertex colour: HISM per-instance custom data floats 0..2, written by the actor from TransitMath::PaintColourFor",
+    "importPreservationVerified": false
+  },
+  "palette": {
+    "Paint": [
+      [
+        0.52,
+        0.53,
+        0.55
+      ],
+      0.3,
+      0.3
+    ],
+    "Glass": [
+      [
+        0.045,
+        0.075,
+        0.09
+      ],
+      0.0,
+      0.08
+    ],
+    "Dark": [
+      [
+        0.03,
+        0.033,
+        0.036
+      ],
+      0.15,
+      0.55
+    ],
+    "Lens": [
+      [
+        0.86,
+        0.87,
+        0.82
+      ],
+      0.1,
+      0.16
+    ],
+    "Concrete": [
+      [
+        0.52,
+        0.51,
+        0.47
+      ],
+      0.0,
+      0.9
+    ],
+    "Steel": [
+      [
+        0.44,
+        0.46,
+        0.48
+      ],
+      0.85,
+      0.32
+    ],
+    "Wood": [
+      [
+        0.29,
+        0.16,
+        0.07
+      ],
+      0.0,
+      0.78
+    ],
+    "Safety": [
+      [
+        0.88,
+        0.62,
+        0.06
+      ],
+      0.0,
+      0.55
+    ]
+  },
+  "assemblies": {
+    "CarHatchback": {
+      "parts": 38,
+      "triangles": 1080,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 573.4692563965313,
+      "bounds_cm": {
+        "min": [
+          -205.92000000000002,
+          -102.0,
+          0.0
+        ],
+        "max": [
+          201.96,
+          102.0,
+          149.0
+        ]
+      }
+    },
+    "CarSedan": {
+      "parts": 39,
+      "triangles": 1108,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 654.5659189172775,
+      "bounds_cm": {
+        "min": [
+          -235.04000000000002,
+          -106.0,
+          0.0
+        ],
+        "max": [
+          230.52,
+          106.0,
+          147.0
+        ]
+      }
+    },
+    "CarCrossover": {
+      "parts": 41,
+      "triangles": 1164,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 640.084372038517,
+      "bounds_cm": {
+        "min": [
+          -229.84,
+          -110.0,
+          0.0
+        ],
+        "max": [
+          225.42000000000002,
+          110.0,
+          177.5
+        ]
+      }
+    },
+    "Bus": {
+      "parts": 63,
+      "triangles": 1828,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 2630.2499999999177,
+      "bounds_cm": {
+        "min": [
+          -603.94,
+          -159.0,
+          0.0
+        ],
+        "max": [
+          603.94,
+          159.0,
+          358.0
+        ]
+      }
+    },
+    "TramCab": {
+      "parts": 31,
+      "triangles": 884,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 1978.1453625050356,
+      "bounds_cm": {
+        "min": [
+          -510.0,
+          -133.0,
+          1.6640784459647762
+        ],
+        "max": [
+          526.74,
+          133.0,
+          376.0
+        ]
+      }
+    },
+    "TramMid": {
+      "parts": 27,
+      "triangles": 788,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 1978.1453625049082,
+      "bounds_cm": {
+        "min": [
+          -458.0,
+          -133.0,
+          1.6640784459647762
+        ],
+        "max": [
+          458.0,
+          133.0,
+          376.0
+        ]
+      }
+    },
+    "BusDoorLeaf": {
+      "parts": 2,
+      "triangles": 56,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 57948.75,
+      "bounds_cm": {
+        "min": [
+          -66.0,
+          -3.5,
+          -98.0
+        ],
+        "max": [
+          66.0,
+          3.5,
+          98.0
+        ]
+      }
+    },
+    "TramDoorLeaf": {
+      "parts": 2,
+      "triangles": 56,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.5625,
+      "min_signed_volume_cm3": 58305.0,
+      "bounds_cm": {
+        "min": [
+          -62.0,
+          -3.5,
+          -105.0
+        ],
+        "max": [
+          62.0,
+          3.5,
+          105.0
+        ]
+      }
+    },
+    "Shelter": {
+      "parts": 15,
+      "triangles": 420,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.25,
+      "min_signed_volume_cm3": 795.0,
+      "bounds_cm": {
+        "min": [
+          -225.0,
+          -88.0,
+          0.0
+        ],
+        "max": [
+          240.0,
+          91.0,
+          264.0
+        ]
+      }
+    },
+    "Platform": {
+      "parts": 32,
+      "triangles": 896,
+      "closed_parts": true,
+      "min_triangle_area_cm2": 0.3394112549695776,
+      "min_signed_volume_cm3": 2495.199999999639,
+      "bounds_cm": {
+        "min": [
+          -1800.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          1800.0,
+          420.0,
+          408.0
+        ]
+      }
+    }
+  },
+  "imports": [
+    {
+      "assembly": "CarHatchback",
+      "name": "SM_TransitSystemV1_CarHatchback_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_CarHatchback_Paint.obj",
+      "sha256": "a1ede2846d0285d258d443e3f497739c7c3ad7d29eb969f77230ff9c528177d3",
+      "triangles": 96,
+      "bounds_cm": {
+        "min": [
+          -186.11999999999998,
+          -86.0,
+          34.0
+        ],
+        "max": [
+          186.12,
+          86.0,
+          149.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarHatchback",
+      "name": "SM_TransitSystemV1_CarHatchback_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_CarHatchback_Glass.obj",
+      "sha256": "f44a954c0c6b3bf48a549f4c686a38b894f660acf5447cc3f23ce8a9996704f8",
+      "triangles": 136,
+      "bounds_cm": {
+        "min": [
+          -158.4,
+          -73.74,
+          82.0
+        ],
+        "max": [
+          102.96000000000001,
+          73.74,
+          146.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarHatchback",
+      "name": "SM_TransitSystemV1_CarHatchback_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_CarHatchback_Dark.obj",
+      "sha256": "7d283d4ce62211798ad542765a166960447b244b16b7ea0c4e249c1b9ce32ce7",
+      "triangles": 736,
+      "bounds_cm": {
+        "min": [
+          -205.92000000000002,
+          -102.0,
+          0.0
+        ],
+        "max": [
+          201.96,
+          102.0,
+          146.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarHatchback",
+      "name": "SM_TransitSystemV1_CarHatchback_Lens",
+      "material": "Lens",
+      "file": "SM_TransitSystemV1_CarHatchback_Lens.obj",
+      "sha256": "01c5786809f535c879ac0e8611f3ee9574bf74e31ba3a7b4657878023e61ad7a",
+      "triangles": 112,
+      "bounds_cm": {
+        "min": [
+          -196.06,
+          -75.68,
+          71.0
+        ],
+        "max": [
+          196.06,
+          75.68,
+          86.5
+        ]
+      }
+    },
+    {
+      "assembly": "CarSedan",
+      "name": "SM_TransitSystemV1_CarSedan_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_CarSedan_Paint.obj",
+      "sha256": "305db3c35f3ff91e031d9479ea57b60e46ce27d5169230f5a0fc76a8b4d1a903",
+      "triangles": 124,
+      "bounds_cm": {
+        "min": [
+          -216.96,
+          -90.0,
+          36.0
+        ],
+        "max": [
+          212.44,
+          90.0,
+          147.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarSedan",
+      "name": "SM_TransitSystemV1_CarSedan_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_CarSedan_Glass.obj",
+      "sha256": "6dd0d18509e1f2d53c91d1ea511b26f5c3f05ef5f5abfac5e281fdbe8723e53f",
+      "triangles": 136,
+      "bounds_cm": {
+        "min": [
+          -180.8,
+          -77.1,
+          84.0
+        ],
+        "max": [
+          117.52000000000001,
+          77.1,
+          144.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarSedan",
+      "name": "SM_TransitSystemV1_CarSedan_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_CarSedan_Dark.obj",
+      "sha256": "0aaaf74238edde8c6f8acfdea475d004ef3caae79c219117c4dd16cac66086e7",
+      "triangles": 736,
+      "bounds_cm": {
+        "min": [
+          -235.04000000000002,
+          -106.0,
+          0.0
+        ],
+        "max": [
+          230.52,
+          106.0,
+          144.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarSedan",
+      "name": "SM_TransitSystemV1_CarSedan_Lens",
+      "material": "Lens",
+      "file": "SM_TransitSystemV1_CarSedan_Lens.obj",
+      "sha256": "6d6f58dbd1766ceb2d01f2fcb5eb971fbab158a10a65a5b11a3b43ecfc9cf0ea",
+      "triangles": 112,
+      "bounds_cm": {
+        "min": [
+          -223.22,
+          -79.2,
+          73.0
+        ],
+        "max": [
+          223.22,
+          79.2,
+          88.5
+        ]
+      }
+    },
+    {
+      "assembly": "CarCrossover",
+      "name": "SM_TransitSystemV1_CarCrossover_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_CarCrossover_Paint.obj",
+      "sha256": "a9bf44fa9d60b8afa11896970b1278d8010e80c2a946994e07b91052a41b6625",
+      "triangles": 124,
+      "bounds_cm": {
+        "min": [
+          -212.16000000000003,
+          -94.0,
+          40.0
+        ],
+        "max": [
+          207.74,
+          94.0,
+          173.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarCrossover",
+      "name": "SM_TransitSystemV1_CarCrossover_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_CarCrossover_Glass.obj",
+      "sha256": "b0df7384fc570df3ef7b7fa4fab3a6fc0f538698bba4590edb4f0f8344d72399",
+      "triangles": 136,
+      "bounds_cm": {
+        "min": [
+          -176.8,
+          -80.46,
+          88.0
+        ],
+        "max": [
+          114.92,
+          80.46,
+          170.0
+        ]
+      }
+    },
+    {
+      "assembly": "CarCrossover",
+      "name": "SM_TransitSystemV1_CarCrossover_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_CarCrossover_Dark.obj",
+      "sha256": "34925b9ae216b4bc0155b3b3a371f8e17ebcc1dfd82ade50582572c84a4d9f74",
+      "triangles": 792,
+      "bounds_cm": {
+        "min": [
+          -229.84,
+          -110.0,
+          0.0
+        ],
+        "max": [
+          225.42000000000002,
+          110.0,
+          177.5
+        ]
+      }
+    },
+    {
+      "assembly": "CarCrossover",
+      "name": "SM_TransitSystemV1_CarCrossover_Lens",
+      "material": "Lens",
+      "file": "SM_TransitSystemV1_CarCrossover_Lens.obj",
+      "sha256": "f70c184040e17d0c0cb6c043d175881ab37ddb3942d1401319745e984bd28e4f",
+      "triangles": 112,
+      "bounds_cm": {
+        "min": [
+          -218.37,
+          -82.72,
+          77.0
+        ],
+        "max": [
+          218.37,
+          82.72,
+          92.5
+        ]
+      }
+    },
+    {
+      "assembly": "Bus",
+      "name": "SM_TransitSystemV1_Bus_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_Bus_Paint.obj",
+      "sha256": "66171f834ae94a16b02ce5ea39cc223f9ea604f254c582ee39de40a7b0c1e721",
+      "triangles": 168,
+      "bounds_cm": {
+        "min": [
+          -591.1,
+          -126.0,
+          34.0
+        ],
+        "max": [
+          591.1,
+          126.0,
+          310.0
+        ]
+      }
+    },
+    {
+      "assembly": "Bus",
+      "name": "SM_TransitSystemV1_Bus_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_Bus_Glass.obj",
+      "sha256": "15584db957a1b894f502db795f32ac043c1d6f0ee3cafffeba85c8708838a899",
+      "triangles": 360,
+      "bounds_cm": {
+        "min": [
+          -590.0,
+          -125.61,
+          168.0
+        ],
+        "max": [
+          590.0,
+          125.61,
+          295.0
+        ]
+      }
+    },
+    {
+      "assembly": "Bus",
+      "name": "SM_TransitSystemV1_Bus_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_Bus_Dark.obj",
+      "sha256": "2d4d70a89b435ed63eeb19e02156d20aaccab01c051db4db20e6cdb6a2999066",
+      "triangles": 1132,
+      "bounds_cm": {
+        "min": [
+          -603.9,
+          -159.0,
+          0.0
+        ],
+        "max": [
+          603.9,
+          159.0,
+          358.0
+        ]
+      }
+    },
+    {
+      "assembly": "Bus",
+      "name": "SM_TransitSystemV1_Bus_Lens",
+      "material": "Lens",
+      "file": "SM_TransitSystemV1_Bus_Lens.obj",
+      "sha256": "8dc14225df3b2d88c7950fc78cfe45f39b332f3638f326a681fb1698621532b9",
+      "triangles": 168,
+      "bounds_cm": {
+        "min": [
+          -603.94,
+          -115.92,
+          93.0
+        ],
+        "max": [
+          603.94,
+          115.92,
+          127.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramCab",
+      "name": "SM_TransitSystemV1_TramCab_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_TramCab_Paint.obj",
+      "sha256": "71d269a2d87725149c5e705c46115f82354ce1d3731d9f42f87a581003559d14",
+      "triangles": 112,
+      "bounds_cm": {
+        "min": [
+          -510.0,
+          -131.0,
+          54.0
+        ],
+        "max": [
+          519.0,
+          131.0,
+          352.5
+        ]
+      }
+    },
+    {
+      "assembly": "TramCab",
+      "name": "SM_TransitSystemV1_TramCab_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_TramCab_Glass.obj",
+      "sha256": "72132d63c20796b665a77f8f6867eec1ab5113566712bd614f44d4cd59e9d72b",
+      "triangles": 236,
+      "bounds_cm": {
+        "min": [
+          -408.0,
+          -130.535,
+          188.0
+        ],
+        "max": [
+          510.0,
+          130.535,
+          334.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramCab",
+      "name": "SM_TransitSystemV1_TramCab_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_TramCab_Dark.obj",
+      "sha256": "55264a5dc37fb07b50dddbae852221e9558ca3a54e91961eeb286360d87b3093",
+      "triangles": 424,
+      "bounds_cm": {
+        "min": [
+          -489.59999999999997,
+          -133.0,
+          1.6640784459647762
+        ],
+        "max": [
+          489.59999999999997,
+          133.0,
+          376.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramCab",
+      "name": "SM_TransitSystemV1_TramCab_Lens",
+      "material": "Lens",
+      "file": "SM_TransitSystemV1_TramCab_Lens.obj",
+      "sha256": "9ecedfaae7e8699631755b5d244782b3e82bb6f04b857291a8952a40d91b006c",
+      "triangles": 112,
+      "bounds_cm": {
+        "min": [
+          517.74,
+          -112.66000000000001,
+          85.0
+        ],
+        "max": [
+          526.74,
+          112.66000000000001,
+          130.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramMid",
+      "name": "SM_TransitSystemV1_TramMid_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_TramMid_Paint.obj",
+      "sha256": "78b0bbf95c2558c83aff2de48bc65e27c900dd0e6288ccdf2f39745b4bfdffea",
+      "triangles": 84,
+      "bounds_cm": {
+        "min": [
+          -450.0,
+          -131.0,
+          54.0
+        ],
+        "max": [
+          450.0,
+          131.0,
+          352.5
+        ]
+      }
+    },
+    {
+      "assembly": "TramMid",
+      "name": "SM_TransitSystemV1_TramMid_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_TramMid_Glass.obj",
+      "sha256": "819f8f3ffc72def9c8256e7cbebb8a6e605eec16be990494764c1b5957e715b2",
+      "triangles": 224,
+      "bounds_cm": {
+        "min": [
+          -360.0,
+          -130.535,
+          236.0
+        ],
+        "max": [
+          180.0,
+          130.535,
+          334.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramMid",
+      "name": "SM_TransitSystemV1_TramMid_Dark",
+      "material": "Dark",
+      "file": "SM_TransitSystemV1_TramMid_Dark.obj",
+      "sha256": "8665589b9e508826fbb1f1ba6991369d633a0ea8e8fbfb0a656bfb465b03c0bd",
+      "triangles": 480,
+      "bounds_cm": {
+        "min": [
+          -458.0,
+          -133.0,
+          1.6640784459647762
+        ],
+        "max": [
+          458.0,
+          133.0,
+          376.0
+        ]
+      }
+    },
+    {
+      "assembly": "BusDoorLeaf",
+      "name": "SM_TransitSystemV1_BusDoorLeaf_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_BusDoorLeaf_Paint.obj",
+      "sha256": "0eb338447a79bc738a76d83f5866697dd0466a939d0a35bce35c0ed4a834d8b9",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          -66.0,
+          -3.5,
+          -98.0
+        ],
+        "max": [
+          66.0,
+          3.5,
+          98.0
+        ]
+      }
+    },
+    {
+      "assembly": "BusDoorLeaf",
+      "name": "SM_TransitSystemV1_BusDoorLeaf_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_BusDoorLeaf_Glass.obj",
+      "sha256": "5f3820c21b45e09fe58a8951642b36343dba67c699cf6827e9726e0eea04f9e8",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          -57.0,
+          0.0,
+          -79.0
+        ],
+        "max": [
+          57.0,
+          3.0,
+          91.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramDoorLeaf",
+      "name": "SM_TransitSystemV1_TramDoorLeaf_Paint",
+      "material": "Paint",
+      "file": "SM_TransitSystemV1_TramDoorLeaf_Paint.obj",
+      "sha256": "ad05f56a8d7538d731cd632c5f23e4d7fda4ffd620e23dea030843e56bbf7783",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          -62.0,
+          -3.5,
+          -105.0
+        ],
+        "max": [
+          62.0,
+          3.5,
+          105.0
+        ]
+      }
+    },
+    {
+      "assembly": "TramDoorLeaf",
+      "name": "SM_TransitSystemV1_TramDoorLeaf_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_TramDoorLeaf_Glass.obj",
+      "sha256": "d7cd0111f80e627c828c85af9c40998d84953a12c7ef6a5a9477c31b5b48244e",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          -53.0,
+          0.0,
+          -86.0
+        ],
+        "max": [
+          53.0,
+          3.0,
+          98.0
+        ]
+      }
+    },
+    {
+      "assembly": "Shelter",
+      "name": "SM_TransitSystemV1_Shelter_Glass",
+      "material": "Glass",
+      "file": "SM_TransitSystemV1_Shelter_Glass.obj",
+      "sha256": "6376d48601de159f82bcddc26fb87689c8dfac6433391751fb0060139aee9657",
+      "triangles": 84,
+      "bounds_cm": {
+        "min": [
+          -202.0,
+          -73.0,
+          30.0
+        ],
+        "max": [
+          202.0,
+          62.0,
+          240.0
+        ]
+      }
+    },
+    {
+      "assembly": "Shelter",
+      "name": "SM_TransitSystemV1_Shelter_Steel",
+      "material": "Steel",
+      "file": "SM_TransitSystemV1_Shelter_Steel.obj",
+      "sha256": "3361fde9164da1327d467e0e8547fe5e5f7aa2192c02eb2debd6105abdc90742",
+      "triangles": 280,
+      "bounds_cm": {
+        "min": [
+          -225.0,
+          -88.0,
+          0.0
+        ],
+        "max": [
+          240.0,
+          91.0,
+          264.0
+        ]
+      }
+    },
+    {
+      "assembly": "Shelter",
+      "name": "SM_TransitSystemV1_Shelter_Wood",
+      "material": "Wood",
+      "file": "SM_TransitSystemV1_Shelter_Wood.obj",
+      "sha256": "3ffc21446a3d056d29598e9d9b2f889253ddc4bfab1ad252403fecb09e183220",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          -165.0,
+          -61.0,
+          42.0
+        ],
+        "max": [
+          165.0,
+          -21.0,
+          50.0
+        ]
+      }
+    },
+    {
+      "assembly": "Shelter",
+      "name": "SM_TransitSystemV1_Shelter_Safety",
+      "material": "Safety",
+      "file": "SM_TransitSystemV1_Shelter_Safety.obj",
+      "sha256": "d2bd11a5baf968b95d0b67fa18dae7c0c39b59e4a53de71cca8ff5c5a6d0375b",
+      "triangles": 28,
+      "bounds_cm": {
+        "min": [
+          231.0,
+          -20.0,
+          213.0
+        ],
+        "max": [
+          233.0,
+          20.0,
+          223.0
+        ]
+      }
+    },
+    {
+      "assembly": "Platform",
+      "name": "SM_TransitSystemV1_Platform_Concrete",
+      "material": "Concrete",
+      "file": "SM_TransitSystemV1_Platform_Concrete.obj",
+      "sha256": "2199e891ca9b08a1cdd35d0b86038bc782685ef643368dbadbdd2c8fe4892c0f",
+      "triangles": 56,
+      "bounds_cm": {
+        "min": [
+          -1800.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          1800.0,
+          420.0,
+          102.0
+        ]
+      }
+    },
+    {
+      "assembly": "Platform",
+      "name": "SM_TransitSystemV1_Platform_Steel",
+      "material": "Steel",
+      "file": "SM_TransitSystemV1_Platform_Steel.obj",
+      "sha256": "5652777c9b8c24ccfa494e46894b2dd8d952d36b0ec2934fd6e3d0fd26c7e2cd",
+      "triangles": 392,
+      "bounds_cm": {
+        "min": [
+          -1656.0,
+          40.0,
+          96.0
+        ],
+        "max": [
+          1685.0,
+          420.0,
+          408.0
+        ]
+      }
+    },
+    {
+      "assembly": "Platform",
+      "name": "SM_TransitSystemV1_Platform_Wood",
+      "material": "Wood",
+      "file": "SM_TransitSystemV1_Platform_Wood.obj",
+      "sha256": "425bb2b93fdb671505ceb1395ee678c57b5b766530fda4f83e27343e59a5a40f",
+      "triangles": 56,
+      "bounds_cm": {
+        "min": [
+          -1020.0,
+          308.0,
+          137.5
+        ],
+        "max": [
+          1020.0,
+          352.0,
+          146.5
+        ]
+      }
+    },
+    {
+      "assembly": "Platform",
+      "name": "SM_TransitSystemV1_Platform_Safety",
+      "material": "Safety",
+      "file": "SM_TransitSystemV1_Platform_Safety.obj",
+      "sha256": "3418b466d803d40d6bf0e94b04aed537334adb1c4ee7eaec3a54b4df5ab5a49d",
+      "triangles": 392,
+      "bounds_cm": {
+        "min": [
+          -1790.0,
+          40.0,
+          101.8
+        ],
+        "max": [
+          1790.0,
+          409.0,
+          326.5
+        ]
+      }
+    }
+  ],
+  "routes": {
+    "file": "routes.json",
+    "sha256": "5702a8e10fe083273f46e41847e256b670f09c2f01d022cb7cf39a5f3a1b5b18",
+    "count": 5,
+    "summary": [
+      {
+        "id": "road_batei_mahase",
+        "kind": "road",
+        "lengthCm": 68972.86,
+        "stops": 4,
+        "points": 34
+      },
+      {
+        "id": "road_maale_hashalom",
+        "kind": "road",
+        "lengthCm": 67114.67,
+        "stops": 3,
+        "points": 36
+      },
+      {
+        "id": "road_ir_david_ophel",
+        "kind": "road",
+        "lengthCm": 244872.06,
+        "stops": 5,
+        "points": 98
+      },
+      {
+        "id": "road_hativat_yerushalayim",
+        "kind": "road",
+        "lengthCm": 75756.39,
+        "stops": 3,
+        "points": 30
+      },
+      {
+        "id": "rail_line_1",
+        "kind": "rail",
+        "lengthCm": 81997.53,
+        "stops": 3,
+        "points": 20
+      }
+    ]
+  },
+  "limitations": [
+    "Offline geometry only. No Unreal import, material, lighting, collision, LOD, Nanite, instancing cost or visual acceptance is established here.",
+    "These are original generic vehicle forms. No manufacturer body, badge, livery or municipal design is reproduced, and no external model or texture was used.",
+    "The rail line and every station is AUTHORED FUTURE INTERPRETATION, not surveyed infrastructure. See routes.json limitations.",
+    "The preview PNG is a stdlib depth-buffer inspection image, not an Unreal render.",
+    "Vertex-colour survival through the UE 5.8 OBJ import path is unverified offline; the native step reads it back and records the result."
+  ]
+}

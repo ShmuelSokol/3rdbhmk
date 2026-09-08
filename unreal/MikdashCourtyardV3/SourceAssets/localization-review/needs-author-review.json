@@ -1,0 +1,152 @@
+{
+  "generated": "2026-09-08T04:20:32Z",
+  "note": "Every line here is waiting on the author. The game shows the English string until the Hebrew is filled in.",
+  "strings": [
+    {
+      "key": "menu.tagline",
+      "en": "Walk the courts as the measurements describe them.",
+      "why": "One-line tagline on the front end. The author has his own phrasing for what the reconstruction claims; this is his sentence to write, not mine.",
+      "suggestion": "הלך בחצרות כפי שהמידות מתארות אותן."
+    },
+    {
+      "key": "save.slot",
+      "en": "Slot {0}",
+      "why": "Numbered save slot label. Israeli usage is split between \"משבצת\" (literal) and \"קובץ שמירה\" (save file); this is the author's call and it appears on every slot card.",
+      "suggestion": "קובץ שמירה {0}"
+    },
+    {
+      "key": "save.newSlot",
+      "en": "New Save",
+      "why": "Button that writes to the first free slot. Wording depends on the choice made for save.slot.",
+      "suggestion": "שמירה חדשה"
+    },
+    {
+      "key": "tour.stopCounter",
+      "en": "Stop {0} of {1}",
+      "why": "Progress readout. \"Stop\" on a walking tour has several Hebrew renderings (תחנה / עמדה / נקודה) and the author has a preferred one.",
+      "suggestion": "תחנה {0} מתוך {1}"
+    },
+    {
+      "key": "tour.allComplete",
+      "en": "You have visited every stop on the tour.",
+      "why": "Completion message. Congratulatory register in Hebrew is a matter of taste and this is the last line of the whole tour.",
+      "suggestion": "ביקרת בכל תחנות הסיור."
+    },
+    {
+      "key": "codex.title",
+      "en": "Codex",
+      "why": "Title of the reference panel. \"Codex\" has no settled Hebrew equivalent; candidates are לקסיקון, מאגר ידע, אנציקלופדיה, ילקוט. The author, who wrote the book this is built from, should name his own reference section.",
+      "suggestion": "לקסיקון"
+    },
+    {
+      "key": "photo.filter",
+      "en": "Look",
+      "why": "Name of the colour-grade preset row. \"Look\" is a photographic term of art; Hebrew photographers say either \"מראה\" or keep the English \"לוק\".",
+      "suggestion": "מראה"
+    },
+    {
+      "key": "photo.grid",
+      "en": "Composition guides",
+      "why": "Rule-of-thirds overlay toggle. Photographic Hebrew here is unsettled.",
+      "suggestion": "קווי הנחיה להרכב"
+    },
+    {
+      "key": "options.presetEpic",
+      "en": "Epic",
+      "why": "Scalability level 3. Unreal's own Hebrew wording for this tier is not established and \"אפית\" reads oddly as a quality level.",
+      "suggestion": "מרבית"
+    },
+    {
+      "key": "options.presetCinematic",
+      "en": "Cinematic",
+      "why": "Scalability level 4. Same problem as Epic; also needs to sort sensibly above it in the dropdown.",
+      "suggestion": "קולנועית"
+    },
+    {
+      "key": "options.postProcessing",
+      "en": "Post processing",
+      "why": "Post-process quality group. \"עיבוד תמונה\" is used but overlaps with image processing generally; some Israeli titles keep \"פוסט-פרוססינג\".",
+      "suggestion": "עיבוד תמונה"
+    },
+    {
+      "key": "options.globalIllumination",
+      "en": "Global illumination",
+      "why": "Lumen GI quality group. The Hebrew rendering of the rendering term is not settled and this project leans heavily on Lumen.",
+      "suggestion": "תאורה גלובלית"
+    },
+    {
+      "key": "options.upscaling",
+      "en": "Upscaling",
+      "why": "TSR / TAAU selector. Israeli players generally say the English word; a Hebrew coinage here risks being unrecognisable.",
+      "suggestion": "הגדלת רזולוציה"
+    },
+    {
+      "key": "options.upscalingQuality",
+      "en": "Upscaling quality",
+      "why": "Quality tier of the upscaler. Depends on the choice made for options.upscaling.",
+      "suggestion": ""
+    },
+    {
+      "key": "options.screenPercentage",
+      "en": "Render scale",
+      "why": "Screen percentage slider. \"אחוז מסך\" is a literal translation that does not convey what the slider does.",
+      "suggestion": "קנה מידה של הרינדור"
+    },
+    {
+      "key": "options.holdOrToggle",
+      "en": "Hold or toggle",
+      "why": "Whether crouch/sprint style actions are held or toggled. \"מתג\" reads as a hardware switch; the natural Hebrew here is a UI-convention question.",
+      "suggestion": "החזקה או מתג"
+    },
+    {
+      "key": "options.snapTurn",
+      "en": "Snap turning",
+      "why": "Comfort turning in fixed increments. Borrowed from VR vocabulary that has no settled Hebrew.",
+      "suggestion": ""
+    },
+    {
+      "key": "options.colourVision",
+      "en": "Colour vision",
+      "why": "Colour-blindness compensation selector.",
+      "suggestion": "ראיית צבעים"
+    },
+    {
+      "key": "options.colourVisionDeuteranope",
+      "en": "Deuteranopia",
+      "why": "Medical term. Hebrew clinical usage is a transliteration (דויטרנופיה) but the accepted spelling varies; wrong spelling of a medical term in an accessibility menu is a bad look.",
+      "suggestion": ""
+    },
+    {
+      "key": "options.colourVisionProtanope",
+      "en": "Protanopia",
+      "why": "Medical term; same problem as deuteranopia.",
+      "suggestion": ""
+    },
+    {
+      "key": "options.colourVisionTritanope",
+      "en": "Tritanopia",
+      "why": "Medical term; same problem as deuteranopia.",
+      "suggestion": ""
+    }
+  ],
+  "glossary": [
+    {
+      "id": "olah",
+      "hebrew": "עולה",
+      "translit": "olah",
+      "why": "The English gloss for each class of korban is a matter of the author's own terminology and he has settled wording in his book. Left for him."
+    },
+    {
+      "id": "korban",
+      "hebrew": "קרבן",
+      "translit": "korban",
+      "why": "Deliberately left without an English gloss. \"sacrifice\" and \"offering\" carry different connotations and the choice belongs to the author."
+    },
+    {
+      "id": "tamid",
+      "hebrew": "תמיד",
+      "translit": "Tamid",
+      "why": "The twice-daily offering. English gloss left to the author for the same reason as korban."
+    }
+  ]
+}

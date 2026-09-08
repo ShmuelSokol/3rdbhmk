@@ -1,0 +1,330 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Everything numeric consumed by Scripts/release_crowd_field.py. Mesh hashes, triangle counts and canonical bounds come from SourceAssets/runtime-review/crowd-field/CrowdFigureV1/geometry-manifest.json; the zone geometry comes from SourceAssets/runtime-review/crowd-field/zones.json, which cites a manifest, a release spec or a native trace receipt for every number in it. Nothing here is a claim of visual or runtime acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "CrowdField-",
+  "receiptFolder": "SourceAssets/runtime-review/crowd-field",
+  "receiptPrefix": "native-apply-",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "compiledClassesRequired": {
+    "crowdField": "/Script/MikdashRuntime.MikdashCrowdField",
+    "crowdZoneStruct": "MikdashCrowdZone",
+    "crowdKeepOutStruct": "MikdashCrowdKeepOut",
+    "propertyProvingFreshBinary": "UpdateBudgetPerFrame",
+    "startupOptInProperty": "ActivateOnBeginPlay"
+  },
+  "figures": {
+    "sourceFolder": "SourceAssets/runtime-review/crowd-field/CrowdFigureV1",
+    "manifest": "SourceAssets/runtime-review/crowd-field/CrowdFigureV1/geometry-manifest.json",
+    "manifestSha256": "b81979aa0f450493eeae8f719aa465f115f7add36b7ff582bc24e8dd51517166",
+    "manifestStatusRequired": "offline_geometry_validated_native_import_pending",
+    "namespace": "/Game/MikdashV3/Runtime/CrowdFieldV1",
+    "boundsToleranceCm": 0.05,
+    "poseCount": 6,
+    "totalTriangles": 7368,
+    "figureHeightCm": {
+      "min": 171.12267363254608,
+      "max": 171.39797845619208,
+      "nominal": 171.0
+    },
+    "vatDecision": "vertex_animation_texture_refused_posed_static_meshes_used",
+    "meshes": [
+      {
+        "name": "SM_CrowdFigure_P0",
+        "file": "SM_CrowdFigure_P0.obj",
+        "sha256": "bd7c80422432621debac2d52d848f4e370cd32dc74d3255c1dfbee0de8024e0f",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -31.05335018400677,
+            -26.391108510598833,
+            -0.11718949292797731
+          ],
+          "max": [
+            26.365089905785403,
+            26.391108510598826,
+            171.0054841396181
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.05833333333333333
+      },
+      {
+        "name": "SM_CrowdFigure_P1",
+        "file": "SM_CrowdFigure_P1.obj",
+        "sha256": "e59bfd0947bf48705250fe1e5b646aea059fdb49b9d754bc9be77d9439dde0e6",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -31.523113330714743,
+            -27.366640314352903,
+            1.0526259356105214
+          ],
+          "max": [
+            41.53800052839719,
+            27.366640314352896,
+            172.36084521303613
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.225
+      },
+      {
+        "name": "SM_CrowdFigure_P2",
+        "file": "SM_CrowdFigure_P2.obj",
+        "sha256": "da4cadecd0583824c8183d2a0d6681213bb64620833745c0dfda51c1c0e9a9e8",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -29.042212167525626,
+            -26.811121476572403,
+            0.03569219115371425
+          ],
+          "max": [
+            32.74126445108867,
+            26.811121476572396,
+            171.4336706473458
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.39166666666666666
+      },
+      {
+        "name": "SM_CrowdFigure_P3",
+        "file": "SM_CrowdFigure_P3.obj",
+        "sha256": "0b92dbd13c3fc7565f44b11ea54618904f6dd70da703ec420061b5e7e1e9d8f5",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -31.053350184006774,
+            -26.391108510598833,
+            -0.11718949292797731
+          ],
+          "max": [
+            26.365089905785407,
+            26.391108510598826,
+            171.0054841396181
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.5583333333333333
+      },
+      {
+        "name": "SM_CrowdFigure_P4",
+        "file": "SM_CrowdFigure_P4.obj",
+        "sha256": "e0115355d2e549aa25521bd78b5fa26895cad3dc1b352222da40656fa03542fc",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -31.523113330714743,
+            -27.366640314352903,
+            1.0526259356105214
+          ],
+          "max": [
+            41.53800052839719,
+            27.366640314352896,
+            172.36084521303613
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.725
+      },
+      {
+        "name": "SM_CrowdFigure_P5",
+        "file": "SM_CrowdFigure_P5.obj",
+        "sha256": "c2bcc52a02f10e915bf34eb60a1791f90c5e3a118976e0ac23749b4758f38dfe",
+        "triangles": 1228,
+        "canonicalBoundsCm": {
+          "min": [
+            -29.042212167525623,
+            -26.811121476572403,
+            0.03569219115371425
+          ],
+          "max": [
+            32.74126445108867,
+            26.811121476572396,
+            171.4336706473458
+          ]
+        },
+        "materialSlots": [
+          "CrowdRobe",
+          "CrowdSkin",
+          "CrowdWrap"
+        ],
+        "phase": 0.8916666666666666
+      }
+    ],
+    "materials": {
+      "CrowdRobe": {
+        "asset": "M_CrowdRobeV1",
+        "baseColor": [
+          0.62,
+          0.58,
+          0.52
+        ],
+        "tintTarget": [
+          0.29,
+          0.26,
+          0.3
+        ],
+        "roughness": 0.82,
+        "metallic": 0.0,
+        "tintedByCustomData": 1,
+        "why": "The garment. Base colour is a lerp from the light linen to a darker wool driven by per-instance custom data 1, so ten thousand figures are not one colour. Gold would be badly wrong on a crowd of pilgrims; nothing here is metallic."
+      },
+      "CrowdSkin": {
+        "asset": "M_CrowdSkinV1",
+        "baseColor": [
+          0.66,
+          0.5,
+          0.4
+        ],
+        "tintTarget": [
+          0.45,
+          0.32,
+          0.25
+        ],
+        "roughness": 0.68,
+        "metallic": 0.0,
+        "tintedByCustomData": 1,
+        "why": "Face, hands and feet. Tinted from the same custom-data channel so complexion varies with the figure rather than at random per body part."
+      },
+      "CrowdWrap": {
+        "asset": "M_CrowdWrapV1",
+        "baseColor": [
+          0.8,
+          0.78,
+          0.72
+        ],
+        "tintTarget": [
+          0.58,
+          0.55,
+          0.5
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "tintedByCustomData": 1,
+        "why": "Head covering and sash, the part of the silhouette that reads at distance."
+      }
+    },
+    "worldPositionOffset": {
+      "amplitudeCm": 2.2,
+      "cyclesPerSecond": 0.9,
+      "phaseCustomDataIndex": 0,
+      "curve": "Amplitude * 0.5 * (1 - cos(4*pi*(Phase + Time*CyclesPerSecond))), applied on world Z only",
+      "why": "The same curve as MikdashCrowd::BobHeightCm, on the GPU. Every material slot carries it, or the head would float off the shoulders. When it verifies, release_crowd_field.py sets the actor's BobAmplitudeCm to 0 so the bob is not applied twice; when it does not, the actor keeps its CPU bob and the receipt says so."
+    },
+    "lods": {
+      "percentTriangles": [
+        1.0,
+        0.45,
+        0.18,
+        0.07
+      ],
+      "screenSizes": [
+        1.0,
+        0.28,
+        0.12,
+        0.045
+      ],
+      "why": "A 1,228-triangle figure at LOD0 falling to about 86 triangles at LOD3. Ten thousand instances at LOD0 would be 12.3 M triangles; with these screen sizes the great majority sit at LOD2/LOD3. Generated at import by StaticMeshEditorSubsystem; if that API is unavailable the meshes keep their single LOD and the receipt records lodsGenerated false, which is a real performance regression, not a cosmetic one."
+    }
+  },
+  "zones": {
+    "file": "SourceAssets/runtime-review/crowd-field/zones.json",
+    "sha256": "b6445cc2460f52d2dbf45158fff86d7e12a4a382c7af03a7f6c03249233d3b24",
+    "specVersionRequired": 1,
+    "zoneCount": 6,
+    "protectedPolygonCount": 6,
+    "defaultCrowdCount": 10000,
+    "expectedCountsAtDefault": {
+      "OuterCourtEast": 2899,
+      "OuterCourtWestTerrace": 2146,
+      "MountPlatformDeck": 4214,
+      "KotelPlazaStrip": 260,
+      "StreetBateiMahase": 200,
+      "KotelApproachCorridor": 281
+    },
+    "protectedMarginCm": 150.0,
+    "seed": 20260907
+  },
+  "actor": {
+    "label": "RELEASE_CrowdField",
+    "folder": "Release/CrowdField",
+    "tag": "MikdashCrowdFieldV1",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "placementWhy": "Identity, like every other authored-in-world-centimetres group in this project: zone polygons are already world coordinates and must not be transformed twice.",
+    "crowdCount": 10000,
+    "editorPreviewCount": 600,
+    "updateBudgetPerFrame": 500,
+    "randomSeed": 20260907,
+    "minWalkSpeedCmPerSecond": 60.0,
+    "maxWalkSpeedCmPerSecond": 110.0,
+    "maxTurnDegreesPerSecond": 90.0,
+    "strideLengthCm": 78.0,
+    "bobAmplitudeCm": 3.5,
+    "leanAmplitudeDegrees": 4.0,
+    "freezeDistanceCm": 12000.0,
+    "cullDistanceCm": 30000.0,
+    "instanceStartCullDistanceCm": 22000,
+    "instanceEndCullDistanceCm": 30000,
+    "castShadows": false,
+    "garmentPaletteSize": 5,
+    "figureScaleMin": 0.92,
+    "figureScaleMax": 1.08,
+    "traceGroundOnSeed": true,
+    "groundTraceStartOffsetCm": 400.0,
+    "groundTraceDepthCm": 1200.0,
+    "groundTraceMaxDeviationCm": 900.0,
+    "activateOnBeginPlay": false,
+    "activateWhy": "Adopted project convention: placing the actor changes nothing at run time until a reviewer or a later adoption script turns the opt-in on. -CrowdFieldActivate flips it in this run."
+  },
+  "verification": {
+    "instanceCountTolerance": 0,
+    "floatToleranceCm": 0.01,
+    "previewCountExpected": 600,
+    "compareRule": "Numeric properties and array lengths only; str(Transform) is never compared. The instance count is read back after save and reopen, from the reopened actor, by rebuilding the editor preview and counting instances on the components."
+  }
+}

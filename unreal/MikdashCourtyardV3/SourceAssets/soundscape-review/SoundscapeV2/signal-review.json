@@ -1,0 +1,384 @@
+{
+  "stamp": "20260908T041719075040Z",
+  "ffmpeg": "C:\\Users\\shmue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.0.1-full_build\\bin\\ffmpeg.EXE",
+  "bedRule": {
+    "appliesToRoles": [
+      "windBed",
+      "cityHum",
+      "murmur",
+      "foliage"
+    ],
+    "maxTransientWindowsPerMinute": 6.0,
+    "maxRmsJumpsPerMinute": 4.0,
+    "maxCrestFactorDb": 30.0,
+    "minAnalysedSeconds": 25.0,
+    "why": "A bed layer must be continuous. Windows whose short-term RMS sits more than 18 dB above the median, or that jump 4x above the previous window, are impulsive events: door bangs, handling noise, close footfalls. The user rejected the previous ambience for \"banging\", so any bed candidate that shows repeated sharp transients is refused here rather than mixed quietly and hoped for."
+  },
+  "files": [
+    {
+      "key": "wind_mild",
+      "role": "windBed",
+      "file": "MildWindBackground_Bashar3A.wav",
+      "durationSeconds": 44.509615,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -20.772,
+      "peakDbfs": -3.3,
+      "crestFactorDb": 17.472,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 1.348,
+      "spectralCentroidHz": 666.5,
+      "energyBelow500HzFraction": 0.8462,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "wind_outdoor",
+      "role": "windBed",
+      "file": "AmbOutdoor1Loop_Kresiek.wav",
+      "durationSeconds": 29.868413,
+      "sampleRate": 44100,
+      "channels": 1,
+      "rmsDbfs": -18.642,
+      "peakDbfs": -0.0,
+      "crestFactorDb": 18.642,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 3450.35,
+      "energyBelow500HzFraction": 0.2005,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "wind_park",
+      "role": "windBed",
+      "file": "ParkAmbienceWind_Thimras.wav",
+      "durationSeconds": 256.803333,
+      "sampleRate": 48000,
+      "channels": 2,
+      "rmsDbfs": -39.327,
+      "peakDbfs": -14.432,
+      "crestFactorDb": 24.895,
+      "transientWindowsPerMinute": 3.272,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 2663.18,
+      "energyBelow500HzFraction": 0.4091,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "wind_short",
+      "role": "windGust",
+      "file": "ShortWind_remaxim.wav",
+      "durationSeconds": 4.235306,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -39.88,
+      "peakDbfs": -20.683,
+      "crestFactorDb": 19.197,
+      "transientWindowsPerMinute": 198.333,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 5186.04,
+      "energyBelow500HzFraction": 0.1214,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "foliage_forest",
+      "role": "foliage",
+      "file": "Foret_JosephSardin.wav",
+      "durationSeconds": 54.354813,
+      "sampleRate": 48000,
+      "channels": 2,
+      "rmsDbfs": -40.091,
+      "peakDbfs": -18.553,
+      "crestFactorDb": 21.538,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 3617.95,
+      "energyBelow500HzFraction": 0.2607,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "cloth_swing",
+      "role": "cloth",
+      "file": "ClothSwing_Vinrax.wav",
+      "durationSeconds": 9.874286,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -23.085,
+      "peakDbfs": -0.126,
+      "crestFactorDb": 22.959,
+      "transientWindowsPerMinute": 12.153,
+      "rmsJumpsPerMinute": 60.764,
+      "spectralCentroidHz": 5489.53,
+      "energyBelow500HzFraction": 0.3263,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "city_alexa",
+      "role": "cityHum",
+      "file": "CityHum_AlexaMallBerlin_thore.ogg",
+      "durationSeconds": 60.05551,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -23.938,
+      "peakDbfs": -1.357,
+      "crestFactorDb": 22.581,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 2011.75,
+      "energyBelow500HzFraction": 0.4051,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "city_restaurant",
+      "role": "cityHum",
+      "file": "CityHum_Restaurant_stephan.ogg",
+      "durationSeconds": 76.251429,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -22.19,
+      "peakDbfs": -1.795,
+      "crestFactorDb": 20.395,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 1871.58,
+      "energyBelow500HzFraction": 0.4775,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "murmur_church",
+      "role": "murmur",
+      "file": "Murmur_ChurchPeopleReverb_stephan.ogg",
+      "durationSeconds": 30.328163,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -23.235,
+      "peakDbfs": -3.672,
+      "crestFactorDb": 19.563,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 1680.92,
+      "energyBelow500HzFraction": 0.5307,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "murmur_festival",
+      "role": "murmur",
+      "file": "Murmur_FestivalCrowd_stephan.ogg",
+      "durationSeconds": 61.152653,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -17.281,
+      "peakDbfs": -3.341,
+      "crestFactorDb": 13.94,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 1246.1,
+      "energyBelow500HzFraction": 0.5656,
+      "bedRule": {
+        "applies": true,
+        "verdict": "accepted",
+        "reasons": []
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_sparrow",
+      "role": "bird",
+      "file": "Bird_HouseSparrowTschilp_JosephSardin.ogg",
+      "durationSeconds": 6.217143,
+      "sampleRate": 44100,
+      "channels": 1,
+      "rmsDbfs": -19.64,
+      "peakDbfs": -0.826,
+      "crestFactorDb": 18.814,
+      "transientWindowsPerMinute": 77.206,
+      "rmsJumpsPerMinute": 135.11,
+      "spectralCentroidHz": 4386.91,
+      "energyBelow500HzFraction": 0.0386,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_woodpigeon_song",
+      "role": "bird",
+      "file": "Bird_WoodPigeonSong_Raisanen.ogg",
+      "durationSeconds": 11.634875,
+      "sampleRate": 22050,
+      "channels": 2,
+      "rmsDbfs": -16.683,
+      "peakDbfs": -0.646,
+      "crestFactorDb": 16.037,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 5.157,
+      "spectralCentroidHz": 2204.97,
+      "energyBelow500HzFraction": 0.1265,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_dove_coo",
+      "role": "bird",
+      "file": "Bird_DoveCooing_mary905.ogg",
+      "durationSeconds": 7.862857,
+      "sampleRate": 22050,
+      "channels": 1,
+      "rmsDbfs": -22.649,
+      "peakDbfs": -7.892,
+      "crestFactorDb": 14.757,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 45.785,
+      "spectralCentroidHz": 1257.91,
+      "energyBelow500HzFraction": 0.075,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_woodpigeon_call",
+      "role": "bird",
+      "file": "Bird_WoodPigeonCall_Crunchysaviour.ogg",
+      "durationSeconds": 3.134694,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -13.898,
+      "peakDbfs": -2.794,
+      "crestFactorDb": 11.104,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 153.125,
+      "spectralCentroidHz": 894.29,
+      "energyBelow500HzFraction": 0.79,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_pigeon",
+      "role": "bird",
+      "file": "Bird_Pigeon_Gasybeaugosse2020.wav",
+      "durationSeconds": 1.873991,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -38.187,
+      "peakDbfs": -25.081,
+      "crestFactorDb": 13.106,
+      "transientWindowsPerMinute": 448.241,
+      "rmsJumpsPerMinute": 64.034,
+      "spectralCentroidHz": 3198.37,
+      "energyBelow500HzFraction": 0.5266,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "this script (RIFF/WAVE parsed and decoded in Python)",
+      "signalNote": null
+    },
+    {
+      "key": "bird_hooded_crow",
+      "role": "bird",
+      "file": "Bird_HoodedCrow_Raisanen.ogg",
+      "durationSeconds": 5.16576,
+      "sampleRate": 22050,
+      "channels": 2,
+      "rmsDbfs": -19.13,
+      "peakDbfs": -0.102,
+      "crestFactorDb": 19.028,
+      "transientWindowsPerMinute": 11.615,
+      "rmsJumpsPerMinute": 23.23,
+      "spectralCentroidHz": 2245.95,
+      "energyBelow500HzFraction": 0.1047,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    },
+    {
+      "key": "bird_swallow",
+      "role": "bird",
+      "file": "Bird_Swallow_natalie.ogg",
+      "durationSeconds": 8.019592,
+      "sampleRate": 44100,
+      "channels": 2,
+      "rmsDbfs": -43.726,
+      "peakDbfs": -18.695,
+      "crestFactorDb": 25.031,
+      "transientWindowsPerMinute": 0.0,
+      "rmsJumpsPerMinute": 0.0,
+      "spectralCentroidHz": 2441.26,
+      "energyBelow500HzFraction": 0.5678,
+      "bedRule": {
+        "applies": false,
+        "verdict": "not a bed layer; transient rule not applied"
+      },
+      "decoder": "ffmpeg -> throwaway 16-bit mono WAV in the system temp directory, then decoded and measured by this script. The shipped Ogg bytes are the publisher original and were not rewritten.",
+      "signalNote": null
+    }
+  ]
+}

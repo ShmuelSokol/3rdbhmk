@@ -1,0 +1,1563 @@
+{
+  "schema": "MikdashTransitRoutesV1",
+  "units": "unreal_centimetres",
+  "alignment": "UEcm = ((x + 17.5097) * 50, (z - 0.55135) * 50, bilinear_terrain(x, z) * 50)",
+  "source": {
+    "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+    "sha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+    "provenance": {
+      "osmDate": "2026-05-06T03:25:00Z",
+      "osm": "https://www.openstreetmap.org/copyright",
+      "terrain": "https://registry.opendata.aws/terrain-tiles/",
+      "latitude": 31.77802,
+      "longitude": 35.2354,
+      "metresPerAmah": 0.5,
+      "referenceElevationMetres": 748.0,
+      "note": "Hypothetical temple alignment; OSM footprints, DEM ground; untagged building heights estimated."
+    },
+    "attribution": "Retained OSM context; existing project ODbL attribution applies. No new geographic claim."
+  },
+  "geometryConvention": [
+    "Every route is a CLOSED out-and-back circuit: centreline, turnaround cap, reversed centreline, turnaround cap.",
+    "Lane offsets are applied to the driver\u2019s right, so the outbound half runs on one side of the road and the return half on the other. That is the two-way traffic; there is no second route.",
+    "Stops are authored as world positions. The runtime projects them onto the arc table it builds itself (TransitMath::ProjectOntoRoute), so nothing depends on the generator and the runtime densifying identically. advisoryDistanceCm is the generator\u2019s own unsmoothed figure, for comparison only."
+  ],
+  "limitations": [
+    "RAIL IS AUTHORED FUTURE INTERPRETATION. The light-rail line, its stations and its platforms are an illustrative proposal laid along an existing road corridor. They are not surveyed infrastructure, not an approved alignment, not a real service and not an engineering or accessibility specification.",
+    "Road centrelines are OSM ways, not lane geometry. Lane counts, one-way restrictions, junction control, kerb lines and road widths are NOT in the source data (only 8 of 5,944 ways carry a width tag), so lane offsets are authored, not surveyed.",
+    "Z comes from the 25 m context terrain grid, not from a trace against the placed landscape. Expect several metres of error on steep ground. release_transit.py records a downward-trace comparison where traces are available; nothing here is a verified ground contact.",
+    "No junction, signal, right of way, pedestrian crossing or collision behaviour is modelled. Vehicles follow the vehicle ahead of them on their own route and nothing else.",
+    "Turnaround caps are a geometric device to close an open road into a circuit. They are not real turning circles and may not lie on drivable ground."
+  ],
+  "routes": [
+    {
+      "id": "road_batei_mahase",
+      "kind": "road",
+      "label": "Batei Mahase",
+      "authored": "derived_from_retained_osm_context_road_centreline",
+      "sourceWays": [
+        {
+          "osmWayId": 496167693,
+          "highway": "residential",
+          "name": "Batei Mahase"
+        }
+      ],
+      "stitchGapsCm": [],
+      "closed": true,
+      "outAndBack": true,
+      "smoothingPerSegment": 4,
+      "laneOffsetCm": 300.0,
+      "rideHeightCm": 6.0,
+      "speedLimitCmPerSecond": 560.0,
+      "vehicleWeight": 1.0,
+      "busShare": 0.3,
+      "controlPointCount": 34,
+      "lengthCm": 68972.86,
+      "points": [
+        [
+          -44140.01,
+          47353.43,
+          1510.11
+        ],
+        [
+          -42287.01,
+          47121.43,
+          1391.4
+        ],
+        [
+          -40608.01,
+          47298.93,
+          1196.02
+        ],
+        [
+          -39169.01,
+          47203.43,
+          1027.05
+        ],
+        [
+          -37838.51,
+          46822.43,
+          949.12
+        ],
+        [
+          -36121.52,
+          46264.43,
+          705.16
+        ],
+        [
+          -34981.51,
+          45651.93,
+          336.3
+        ],
+        [
+          -32619.51,
+          44301.93,
+          -77.57
+        ],
+        [
+          -28077.01,
+          42192.43,
+          -727.49
+        ],
+        [
+          -26223.02,
+          41331.43,
+          -990.16
+        ],
+        [
+          -25011.01,
+          39478.93,
+          -1136.94
+        ],
+        [
+          -24041.01,
+          37817.43,
+          -948.64
+        ],
+        [
+          -22162.51,
+          34553.43,
+          -1320.95
+        ],
+        [
+          -21511.51,
+          32750.93,
+          -1100.08
+        ],
+        [
+          -21586.01,
+          30738.43,
+          -1005.56
+        ],
+        [
+          -20929.51,
+          29643.43,
+          -1083.4
+        ],
+        [
+          -20127.06,
+          29180.12,
+          -1179.69
+        ],
+        [
+          -20065.06,
+          29951.84,
+          -1187.13
+        ],
+        [
+          -21586.01,
+          30738.43,
+          -1005.56
+        ],
+        [
+          -21511.51,
+          32750.93,
+          -1100.08
+        ],
+        [
+          -22162.51,
+          34553.43,
+          -1320.95
+        ],
+        [
+          -24041.01,
+          37817.43,
+          -948.64
+        ],
+        [
+          -25011.01,
+          39478.93,
+          -1136.94
+        ],
+        [
+          -26223.02,
+          41331.43,
+          -990.16
+        ],
+        [
+          -28077.01,
+          42192.43,
+          -727.49
+        ],
+        [
+          -32619.51,
+          44301.93,
+          -77.57
+        ],
+        [
+          -34981.51,
+          45651.93,
+          336.3
+        ],
+        [
+          -36121.52,
+          46264.43,
+          705.16
+        ],
+        [
+          -37838.51,
+          46822.43,
+          949.12
+        ],
+        [
+          -39169.01,
+          47203.43,
+          1027.05
+        ],
+        [
+          -40608.01,
+          47298.93,
+          1196.02
+        ],
+        [
+          -42287.01,
+          47121.43,
+          1391.4
+        ],
+        [
+          -44999.64,
+          47007.55,
+          1565.69
+        ],
+        [
+          -44430.43,
+          46482.77,
+          1586.57
+        ]
+      ],
+      "stops": [
+        {
+          "name": "Batei Mahase stop 1",
+          "worldCm": [
+            -34913.13,
+            45612.84,
+            324.32
+          ],
+          "advisoryDistanceCm": 9656.2,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 560.0
+        },
+        {
+          "name": "Batei Mahase stop 2",
+          "worldCm": [
+            -23426.13,
+            36749.04,
+            -1070.51
+          ],
+          "advisoryDistanceCm": 24830.23,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 560.0
+        },
+        {
+          "name": "Batei Mahase stop 3",
+          "worldCm": [
+            -23889.82,
+            37554.73,
+            -978.6
+          ],
+          "advisoryDistanceCm": 43452.9,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 560.0
+        },
+        {
+          "name": "Batei Mahase stop 4",
+          "worldCm": [
+            -36308.61,
+            46325.23,
+            731.74
+          ],
+          "advisoryDistanceCm": 59316.66,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 560.0
+        }
+      ],
+      "note": "The bus road already carrying the placed RELEASE_Bus_* hero bus."
+    },
+    {
+      "id": "road_maale_hashalom",
+      "kind": "road",
+      "label": "Maale HaShalom",
+      "authored": "derived_from_retained_osm_context_road_centreline",
+      "sourceWays": [
+        {
+          "osmWayId": 771909616,
+          "highway": "tertiary",
+          "name": "Maale HaShalom"
+        }
+      ],
+      "stitchGapsCm": [],
+      "closed": true,
+      "outAndBack": true,
+      "smoothingPerSegment": 4,
+      "laneOffsetCm": 340.0,
+      "rideHeightCm": 6.0,
+      "speedLimitCmPerSecond": 780.0,
+      "vehicleWeight": 1.5,
+      "busShare": 0.2,
+      "controlPointCount": 36,
+      "lengthCm": 67114.67,
+      "points": [
+        [
+          -28757.51,
+          46745.43,
+          -1556.8
+        ],
+        [
+          -29845.51,
+          47650.43,
+          -1385.21
+        ],
+        [
+          -30912.02,
+          49221.93,
+          -1426.42
+        ],
+        [
+          -32029.02,
+          51248.93,
+          -1539.52
+        ],
+        [
+          -33087.01,
+          52685.43,
+          -1613.58
+        ],
+        [
+          -37249.51,
+          54560.43,
+          -1038.48
+        ],
+        [
+          -39179.52,
+          55320.43,
+          -898.52
+        ],
+        [
+          -40397.02,
+          55929.43,
+          -581.98
+        ],
+        [
+          -41521.52,
+          56519.93,
+          -290.74
+        ],
+        [
+          -42681.51,
+          57196.43,
+          -119.84
+        ],
+        [
+          -43697.02,
+          57905.43,
+          31.6
+        ],
+        [
+          -45729.02,
+          59570.43,
+          451.86
+        ],
+        [
+          -46793.51,
+          60743.93,
+          558.56
+        ],
+        [
+          -48066.02,
+          62667.43,
+          569.68
+        ],
+        [
+          -48718.51,
+          64026.93,
+          641.18
+        ],
+        [
+          -49203.52,
+          65395.93,
+          685.62
+        ],
+        [
+          -50077.01,
+          68038.43,
+          766.7
+        ],
+        [
+          -50758.5,
+          68666.27,
+          957.52
+        ],
+        [
+          -50988.03,
+          67926.87,
+          1021.78
+        ],
+        [
+          -49203.52,
+          65395.93,
+          685.62
+        ],
+        [
+          -48718.51,
+          64026.93,
+          641.18
+        ],
+        [
+          -48066.02,
+          62667.43,
+          569.68
+        ],
+        [
+          -46793.51,
+          60743.93,
+          558.56
+        ],
+        [
+          -45729.02,
+          59570.43,
+          451.86
+        ],
+        [
+          -43697.02,
+          57905.43,
+          31.6
+        ],
+        [
+          -42681.51,
+          57196.43,
+          -119.84
+        ],
+        [
+          -41521.52,
+          56519.93,
+          -290.74
+        ],
+        [
+          -40397.02,
+          55929.43,
+          -581.98
+        ],
+        [
+          -39179.52,
+          55320.43,
+          -898.52
+        ],
+        [
+          -37249.51,
+          54560.43,
+          -1038.48
+        ],
+        [
+          -33087.01,
+          52685.43,
+          -1613.58
+        ],
+        [
+          -32029.02,
+          51248.93,
+          -1539.52
+        ],
+        [
+          -30912.02,
+          49221.93,
+          -1426.42
+        ],
+        [
+          -29845.51,
+          47650.43,
+          -1385.21
+        ],
+        [
+          -27847.02,
+          46573.41,
+          -1645.42
+        ],
+        [
+          -28043.59,
+          47322.24,
+          -1711.69
+        ]
+      ],
+      "stops": [
+        {
+          "name": "Maale HaShalom stop 1",
+          "worldCm": [
+            -37297.11,
+            54579.17,
+            -1035.03
+          ],
+          "advisoryDistanceCm": 12080.64,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Maale HaShalom stop 2",
+          "worldCm": [
+            -49082.39,
+            65054.02,
+            674.52
+          ],
+          "advisoryDistanceCm": 36913.07,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Maale HaShalom stop 3",
+          "worldCm": [
+            -35815.42,
+            53914.44,
+            -1236.62
+          ],
+          "advisoryDistanceCm": 55034.03,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        }
+      ],
+      "note": "Tertiary approach climbing north-west from the Dung Gate side."
+    },
+    {
+      "id": "road_ir_david_ophel",
+      "kind": "road",
+      "label": "Ma'alot Ir David and HaOfel",
+      "authored": "derived_from_retained_osm_context_road_centreline",
+      "sourceWays": [
+        {
+          "osmWayId": 157676832,
+          "highway": "tertiary",
+          "name": "Ma'alot Ir David"
+        },
+        {
+          "osmWayId": 34244965,
+          "highway": "tertiary",
+          "name": "HaOfel"
+        }
+      ],
+      "stitchGapsCm": [
+        0.0
+      ],
+      "closed": true,
+      "outAndBack": true,
+      "smoothingPerSegment": 4,
+      "laneOffsetCm": 340.0,
+      "rideHeightCm": 6.0,
+      "speedLimitCmPerSecond": 830.0,
+      "vehicleWeight": 1.8,
+      "busShare": 0.22,
+      "controlPointCount": 98,
+      "lengthCm": 244872.06,
+      "points": [
+        [
+          -16236.51,
+          77617.93,
+          -9444.49
+        ],
+        [
+          -16110.01,
+          73795.43,
+          -8322.57
+        ],
+        [
+          -15591.01,
+          70405.43,
+          -7700.92
+        ],
+        [
+          -12901.52,
+          60253.93,
+          -6344.09
+        ],
+        [
+          -12541.01,
+          58774.43,
+          -6085.31
+        ],
+        [
+          -11350.51,
+          56268.43,
+          -5740.88
+        ],
+        [
+          -10562.51,
+          54563.93,
+          -5592.16
+        ],
+        [
+          -9142.01,
+          51494.43,
+          -5122.19
+        ],
+        [
+          -7177.51,
+          47244.43,
+          -4744.62
+        ],
+        [
+          -6383.52,
+          45527.43,
+          -4722.2
+        ],
+        [
+          -5218.52,
+          42522.43,
+          -4406.0
+        ],
+        [
+          -4689.52,
+          41143.43,
+          -4346.84
+        ],
+        [
+          -4226.02,
+          39258.93,
+          -4212.06
+        ],
+        [
+          -3977.02,
+          37424.93,
+          -4008.11
+        ],
+        [
+          -4017.52,
+          35263.43,
+          -3835.62
+        ],
+        [
+          -2755.02,
+          35163.43,
+          -3975.43
+        ],
+        [
+          63.98,
+          34938.93,
+          -4163.09
+        ],
+        [
+          1396.48,
+          34832.43,
+          -4245.72
+        ],
+        [
+          4804.98,
+          34579.93,
+          -4576.24
+        ],
+        [
+          6668.99,
+          34268.93,
+          -4816.3
+        ],
+        [
+          7904.99,
+          33840.93,
+          -5023.08
+        ],
+        [
+          9763.49,
+          32299.43,
+          -5180.07
+        ],
+        [
+          10643.99,
+          31212.93,
+          -5005.02
+        ],
+        [
+          12874.99,
+          28427.93,
+          -4592.82
+        ],
+        [
+          14252.99,
+          26699.43,
+          -4580.25
+        ],
+        [
+          16478.99,
+          23634.43,
+          -4600.74
+        ],
+        [
+          17407.99,
+          22226.43,
+          -4566.48
+        ],
+        [
+          18095.99,
+          20287.43,
+          -4056.08
+        ],
+        [
+          18276.99,
+          18580.43,
+          -3815.01
+        ],
+        [
+          18058.49,
+          15706.43,
+          -3609.73
+        ],
+        [
+          18306.99,
+          12404.93,
+          -3575.53
+        ],
+        [
+          18708.49,
+          9675.43,
+          -3738.32
+        ],
+        [
+          18941.99,
+          8251.93,
+          -3954.04
+        ],
+        [
+          19126.49,
+          3026.43,
+          -3965.91
+        ],
+        [
+          19157.99,
+          -2191.07,
+          -3821.35
+        ],
+        [
+          19040.49,
+          -3891.57,
+          -3815.94
+        ],
+        [
+          18674.49,
+          -5581.07,
+          -3647.6
+        ],
+        [
+          18383.99,
+          -6770.07,
+          -3545.18
+        ],
+        [
+          18071.49,
+          -8217.07,
+          -3542.46
+        ],
+        [
+          17898.49,
+          -9947.07,
+          -3563.22
+        ],
+        [
+          17974.99,
+          -11326.57,
+          -3700.1
+        ],
+        [
+          18088.49,
+          -12554.57,
+          -3830.04
+        ],
+        [
+          18109.49,
+          -13801.07,
+          -3785.22
+        ],
+        [
+          17852.99,
+          -15760.57,
+          -3615.96
+        ],
+        [
+          17301.99,
+          -19961.07,
+          -3245.02
+        ],
+        [
+          17079.99,
+          -22274.07,
+          -3055.93
+        ],
+        [
+          17434.49,
+          -23946.57,
+          -3019.64
+        ],
+        [
+          18653.49,
+          -24960.07,
+          -3149.88
+        ],
+        [
+          19564.02,
+          -25131.89,
+          -3279.63
+        ],
+        [
+          19367.28,
+          -24383.09,
+          -3310.24
+        ],
+        [
+          17434.49,
+          -23946.57,
+          -3019.64
+        ],
+        [
+          17079.99,
+          -22274.07,
+          -3055.93
+        ],
+        [
+          17301.99,
+          -19961.07,
+          -3245.02
+        ],
+        [
+          17852.99,
+          -15760.57,
+          -3615.96
+        ],
+        [
+          18109.49,
+          -13801.07,
+          -3785.22
+        ],
+        [
+          18088.49,
+          -12554.57,
+          -3830.04
+        ],
+        [
+          17974.99,
+          -11326.57,
+          -3700.1
+        ],
+        [
+          17898.49,
+          -9947.07,
+          -3563.22
+        ],
+        [
+          18071.49,
+          -8217.07,
+          -3542.46
+        ],
+        [
+          18383.99,
+          -6770.07,
+          -3545.18
+        ],
+        [
+          18674.49,
+          -5581.07,
+          -3647.6
+        ],
+        [
+          19040.49,
+          -3891.57,
+          -3815.94
+        ],
+        [
+          19157.99,
+          -2191.07,
+          -3821.35
+        ],
+        [
+          19126.49,
+          3026.43,
+          -3965.91
+        ],
+        [
+          18941.99,
+          8251.93,
+          -3954.04
+        ],
+        [
+          18708.49,
+          9675.43,
+          -3738.32
+        ],
+        [
+          18306.99,
+          12404.93,
+          -3575.53
+        ],
+        [
+          18058.49,
+          15706.43,
+          -3609.73
+        ],
+        [
+          18276.99,
+          18580.43,
+          -3815.01
+        ],
+        [
+          18095.99,
+          20287.43,
+          -4056.08
+        ],
+        [
+          17407.99,
+          22226.43,
+          -4566.48
+        ],
+        [
+          16478.99,
+          23634.43,
+          -4600.74
+        ],
+        [
+          14252.99,
+          26699.43,
+          -4580.25
+        ],
+        [
+          12874.99,
+          28427.93,
+          -4592.82
+        ],
+        [
+          10643.99,
+          31212.93,
+          -5005.02
+        ],
+        [
+          9763.49,
+          32299.43,
+          -5180.07
+        ],
+        [
+          7904.99,
+          33840.93,
+          -5023.08
+        ],
+        [
+          6668.99,
+          34268.93,
+          -4816.3
+        ],
+        [
+          4804.98,
+          34579.93,
+          -4576.24
+        ],
+        [
+          1396.48,
+          34832.43,
+          -4245.72
+        ],
+        [
+          63.98,
+          34938.93,
+          -4163.09
+        ],
+        [
+          -2755.02,
+          35163.43,
+          -3975.43
+        ],
+        [
+          -4017.52,
+          35263.43,
+          -3835.62
+        ],
+        [
+          -3977.02,
+          37424.93,
+          -4008.11
+        ],
+        [
+          -4226.02,
+          39258.93,
+          -4212.06
+        ],
+        [
+          -4689.52,
+          41143.43,
+          -4346.84
+        ],
+        [
+          -5218.52,
+          42522.43,
+          -4406.0
+        ],
+        [
+          -6383.52,
+          45527.43,
+          -4722.2
+        ],
+        [
+          -7177.51,
+          47244.43,
+          -4744.62
+        ],
+        [
+          -9142.01,
+          51494.43,
+          -5122.19
+        ],
+        [
+          -10562.51,
+          54563.93,
+          -5592.16
+        ],
+        [
+          -11350.51,
+          56268.43,
+          -5740.88
+        ],
+        [
+          -12541.01,
+          58774.43,
+          -6085.31
+        ],
+        [
+          -12901.52,
+          60253.93,
+          -6344.09
+        ],
+        [
+          -15591.01,
+          70405.43,
+          -7700.92
+        ],
+        [
+          -16110.01,
+          73795.43,
+          -8322.57
+        ],
+        [
+          -16713.06,
+          78412.61,
+          -9417.21
+        ],
+        [
+          -17141.98,
+          77768.07,
+          -9090.03
+        ]
+      ],
+      "stops": [
+        {
+          "name": "Ma'alot Ir David and HaOfel stop 1",
+          "worldCm": [
+            -10478.06,
+            54381.44,
+            -5564.22
+          ],
+          "advisoryDistanceCm": 24487.21,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Ma'alot Ir David and HaOfel stop 2",
+          "worldCm": [
+            15334.83,
+            25209.83,
+            -4590.21
+          ],
+          "advisoryDistanceCm": 68564.18,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Ma'alot Ir David and HaOfel stop 3",
+          "worldCm": [
+            17208.98,
+            -20930.14,
+            -3165.8
+          ],
+          "advisoryDistanceCm": 127333.47,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Ma'alot Ir David and HaOfel stop 4",
+          "worldCm": [
+            11332.3,
+            30353.7,
+            -4877.85
+          ],
+          "advisoryDistanceCm": 181205.32,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        },
+        {
+          "name": "Ma'alot Ir David and HaOfel stop 5",
+          "worldCm": [
+            -12929.07,
+            60357.92,
+            -6357.99
+          ],
+          "advisoryDistanceCm": 225282.29,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 600.0
+        }
+      ],
+      "note": "Two ways sharing the endpoint [-4017.5, 35263.4]; the main eastern spine."
+    },
+    {
+      "id": "road_hativat_yerushalayim",
+      "kind": "road",
+      "label": "Hativat Yerushalayim",
+      "authored": "derived_from_retained_osm_context_road_centreline",
+      "sourceWays": [
+        {
+          "osmWayId": 984820251,
+          "highway": "trunk",
+          "name": "Hativat Yerushalayim"
+        }
+      ],
+      "stitchGapsCm": [],
+      "closed": true,
+      "outAndBack": true,
+      "smoothingPerSegment": 4,
+      "laneOffsetCm": 380.0,
+      "rideHeightCm": 6.0,
+      "speedLimitCmPerSecond": 1000.0,
+      "vehicleWeight": 1.3,
+      "busShare": 0.18,
+      "controlPointCount": 30,
+      "lengthCm": 75756.39,
+      "points": [
+        [
+          -87261.01,
+          73161.93,
+          -999.72
+        ],
+        [
+          -86927.01,
+          71750.43,
+          -960.5
+        ],
+        [
+          -86813.51,
+          69798.93,
+          -931.91
+        ],
+        [
+          -86667.01,
+          63759.93,
+          -1015.3
+        ],
+        [
+          -86668.01,
+          61724.93,
+          -896.06
+        ],
+        [
+          -86945.01,
+          56948.93,
+          -207.33
+        ],
+        [
+          -86997.01,
+          55658.43,
+          -201.67
+        ],
+        [
+          -86915.51,
+          53014.43,
+          -229.93
+        ],
+        [
+          -86636.51,
+          49962.93,
+          -300.68
+        ],
+        [
+          -86442.51,
+          48552.43,
+          -154.14
+        ],
+        [
+          -85941.01,
+          46316.93,
+          101.8
+        ],
+        [
+          -83965.01,
+          41263.43,
+          715.23
+        ],
+        [
+          -83428.51,
+          38942.93,
+          800.95
+        ],
+        [
+          -83310.01,
+          37910.43,
+          739.68
+        ],
+        [
+          -82770.59,
+          37157.02,
+          872.7
+        ],
+        [
+          -82395.36,
+          37834.23,
+          1071.46
+        ],
+        [
+          -83428.51,
+          38942.93,
+          800.95
+        ],
+        [
+          -83965.01,
+          41263.43,
+          715.23
+        ],
+        [
+          -85941.01,
+          46316.93,
+          101.8
+        ],
+        [
+          -86442.51,
+          48552.43,
+          -154.14
+        ],
+        [
+          -86636.51,
+          49962.93,
+          -300.68
+        ],
+        [
+          -86915.51,
+          53014.43,
+          -229.93
+        ],
+        [
+          -86997.01,
+          55658.43,
+          -201.67
+        ],
+        [
+          -86945.01,
+          56948.93,
+          -207.33
+        ],
+        [
+          -86668.01,
+          61724.93,
+          -896.06
+        ],
+        [
+          -86667.01,
+          63759.93,
+          -1015.3
+        ],
+        [
+          -86813.51,
+          69798.93,
+          -931.91
+        ],
+        [
+          -86927.01,
+          71750.43,
+          -960.5
+        ],
+        [
+          -87885.44,
+          73846.54,
+          -1097.22
+        ],
+        [
+          -88178.28,
+          73129.85,
+          -1184.46
+        ]
+      ],
+      "stops": [
+        {
+          "name": "Hativat Yerushalayim stop 1",
+          "worldCm": [
+            -86878.08,
+            58103.0,
+            -373.75
+          ],
+          "advisoryDistanceCm": 15151.28,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 640.0
+        },
+        {
+          "name": "Hativat Yerushalayim stop 2",
+          "worldCm": [
+            -83440.62,
+            38995.31,
+            799.01
+          ],
+          "advisoryDistanceCm": 34847.94,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 640.0
+        },
+        {
+          "name": "Hativat Yerushalayim stop 3",
+          "worldCm": [
+            -86983.18,
+            55209.76,
+            -206.47
+          ],
+          "advisoryDistanceCm": 56059.73,
+          "dwellMinSeconds": 14.0,
+          "dwellMaxSeconds": 28.0,
+          "boardingMinPeople": 5,
+          "boardingMaxPeople": 20,
+          "shelter": true,
+          "shelterOffsetCm": 640.0
+        }
+      ],
+      "note": "Trunk road west of the Old City; the flattest corridor in range."
+    },
+    {
+      "id": "rail_line_1",
+      "kind": "rail",
+      "label": "Authored future light-rail line 1 (interpretation)",
+      "authored": "AUTHORED_FUTURE_INTERPRETATION_NOT_SURVEYED_INFRASTRUCTURE",
+      "sourceWays": [
+        {
+          "osmWayId": 984820251,
+          "highway": "trunk",
+          "name": "Hativat Yerushalayim"
+        }
+      ],
+      "stitchGapsCm": [],
+      "closed": true,
+      "outAndBack": true,
+      "smoothingPerSegment": 8,
+      "laneOffsetCm": 240.0,
+      "rideHeightCm": 28.0,
+      "speedLimitCmPerSecond": 1400.0,
+      "headwayMinSeconds": 120.0,
+      "headwayMaxSeconds": 300.0,
+      "consist": [
+        {
+          "car": "TramCab",
+          "yawOffsetDegrees": 0.0
+        },
+        {
+          "car": "TramMid",
+          "yawOffsetDegrees": 0.0
+        },
+        {
+          "car": "TramCab",
+          "yawOffsetDegrees": 180.0
+        }
+      ],
+      "carLengthCm": 1020.0,
+      "couplingGapCm": 40.0,
+      "bogieInsetCm": 280.0,
+      "controlPointCount": 20,
+      "lengthCm": 81997.53,
+      "points": [
+        [
+          -87261.01,
+          73161.93,
+          -999.72
+        ],
+        [
+          -86813.51,
+          69798.93,
+          -931.91
+        ],
+        [
+          -86667.01,
+          63759.93,
+          -1015.3
+        ],
+        [
+          -86945.01,
+          56948.93,
+          -207.33
+        ],
+        [
+          -86915.51,
+          53014.43,
+          -229.93
+        ],
+        [
+          -86636.51,
+          49962.93,
+          -300.68
+        ],
+        [
+          -85941.01,
+          46316.93,
+          101.8
+        ],
+        [
+          -83965.01,
+          41263.43,
+          715.23
+        ],
+        [
+          -83310.01,
+          37910.43,
+          739.68
+        ],
+        [
+          -81718.15,
+          36020.57,
+          1100.77
+        ],
+        [
+          -80862.51,
+          37899.47,
+          1454.56
+        ],
+        [
+          -83965.01,
+          41263.43,
+          715.23
+        ],
+        [
+          -85941.01,
+          46316.93,
+          101.8
+        ],
+        [
+          -86636.51,
+          49962.93,
+          -300.68
+        ],
+        [
+          -86915.51,
+          53014.43,
+          -229.93
+        ],
+        [
+          -86945.01,
+          56948.93,
+          -207.33
+        ],
+        [
+          -86667.01,
+          63759.93,
+          -1015.3
+        ],
+        [
+          -86813.51,
+          69798.93,
+          -931.91
+        ],
+        [
+          -88735.44,
+          75144.78,
+          -1234.9
+        ],
+        [
+          -89703.36,
+          73321.17,
+          -1412.79
+        ]
+      ],
+      "stops": [
+        {
+          "name": "Authored station A",
+          "worldCm": [
+            -86683.41,
+            63358.05,
+            -967.63
+          ],
+          "advisoryDistanceCm": 9839.7,
+          "dwellMinSeconds": 20.0,
+          "dwellMaxSeconds": 40.0,
+          "boardingMinPeople": 18,
+          "boardingMaxPeople": 60,
+          "platform": true,
+          "platformOffsetCm": 490.0
+        },
+        {
+          "name": "Authored station B",
+          "worldCm": [
+            -86394.25,
+            48692.93,
+            -160.49
+          ],
+          "advisoryDistanceCm": 24599.26,
+          "dwellMinSeconds": 20.0,
+          "dwellMaxSeconds": 40.0,
+          "boardingMinPeople": 18,
+          "boardingMaxPeople": 60,
+          "platform": true,
+          "platformOffsetCm": 490.0
+        },
+        {
+          "name": "Authored station C",
+          "worldCm": [
+            -83201.95,
+            37782.14,
+            764.19
+          ],
+          "advisoryDistanceCm": 36078.91,
+          "dwellMinSeconds": 20.0,
+          "dwellMaxSeconds": 40.0,
+          "boardingMinPeople": 18,
+          "boardingMaxPeople": 60,
+          "platform": true,
+          "platformOffsetCm": 490.0
+        }
+      ],
+      "note": "Authored future proposal along the Hativat Yerushalayim corridor. Not surveyed."
+    }
+  ]
+}

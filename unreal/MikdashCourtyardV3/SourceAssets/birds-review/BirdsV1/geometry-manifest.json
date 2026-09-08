@@ -1,0 +1,1272 @@
+{
+  "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/BirdsV1",
+  "script": "Scripts/create_birds.py",
+  "scriptSha256": "1c0473c893b7e84fea63180a73095a199b781245c2cb1cdc5888b55a72574d7a",
+  "poseOrder": [
+    "up_stroke",
+    "level",
+    "down_stroke",
+    "perched"
+  ],
+  "poseOrderContract": "Index order MUST match MikdashFlock::PoseIndex in Plugins/MikdashRuntime/Source/MikdashRuntime/Public/FlockMath.h: 0 up_stroke, 1 level (also glide/soar), 2 down_stroke, 3 perched.",
+  "poseShaping": {
+    "up_stroke": {
+      "dihedral": 56.0,
+      "sweep": 6.0,
+      "twist": -8.0,
+      "span": 0.94,
+      "body_pitch": 2.0,
+      "legs": false
+    },
+    "level": {
+      "dihedral": 4.0,
+      "sweep": 0.0,
+      "twist": -3.0,
+      "span": 1.0,
+      "body_pitch": 0.0,
+      "legs": false
+    },
+    "down_stroke": {
+      "dihedral": -46.0,
+      "sweep": -8.0,
+      "twist": 10.0,
+      "span": 0.92,
+      "body_pitch": -2.0,
+      "legs": false
+    },
+    "perched": {
+      "dihedral": -6.0,
+      "sweep": -34.0,
+      "twist": 0.0,
+      "span": 0.34,
+      "body_pitch": -14.0,
+      "legs": true
+    }
+  },
+  "objConvention": "Unreal legacy OBJ adapter: canonical vertices are centimetres in the bird frame (+X forward, +Y right, +Z up, origin at the body centre); this file is written with Y reflected and triangle winding reversed. One object, exactly two g groups (plumage_main, plumage_hood), so the importer creates exactly two material slots.",
+  "materialSlotContract": "Exactly two g groups per mesh -> exactly two material slots: plumage_main then plumage_hood. This module applies no material; plumage colours below are recorded intent.",
+  "species": {
+    "rock_dove": {
+      "english": "Rock dove (feral pigeon)",
+      "latin": "Columba livia",
+      "wingspanCm": 67.0,
+      "bodyLengthCm": 33.0,
+      "sizeSource": "Collins Bird Guide 2nd ed. (Svensson, Mullarney & Zetterstrom, 2009), Columba livia: length 30-35 cm, wingspan 62-72 cm; same range in Cramp (ed.), Birds of the Western Palearctic vol. IV. Mid-points used: 33 cm and 67 cm.",
+      "jerusalem": "Abundant resident. Nests in crevices in stone walls; the classic bird of the plaza and of the Kotel courses and their caper growth. Flocks wheel and settle on ledges.",
+      "plumage": {
+        "main_linear": [
+          0.17,
+          0.196,
+          0.232
+        ],
+        "hood_linear": [
+          0.086,
+          0.098,
+          0.125
+        ],
+        "described": "wild-type blue-bar: mid blue-grey body and wings with two darker bars across the secondaries, a darker slate head and neck, a pale rump. DELIBERATELY NOT WHITE: the player dove (AMikdashDovePawn, F key) is the white bird and must stay unmistakable."
+      },
+      "meshes": [
+        "SM_BirdsV1_RockDove_UpStroke",
+        "SM_BirdsV1_RockDove_Level",
+        "SM_BirdsV1_RockDove_DownStroke",
+        "SM_BirdsV1_RockDove_Perched"
+      ],
+      "levelPoseSpanCm": 66.908,
+      "preview": "preview-rock_dove.png"
+    },
+    "common_swift": {
+      "english": "Common swift",
+      "latin": "Apus apus",
+      "wingspanCm": 45.0,
+      "bodyLengthCm": 16.5,
+      "sizeSource": "Collins Bird Guide 2nd ed., Apus apus: length 16-17 cm, wingspan 42-48 cm. Mid-points used: 16.5 cm and 45 cm. (Older guides quote 38-40 cm; that is a closed-wing measure and is not the figure used.)",
+      "jerusalem": "Spring and early-summer breeding visitor, roughly late February to early July. Nests in crevices of the Old City walls INCLUDING the Western Wall; the screaming low-level parties scything round the walls at dusk are this bird. It never perches on a ledge - a swift on the ground is a swift in trouble - so bPerches is false for this species.",
+      "plumage": {
+        "main_linear": [
+          0.045,
+          0.04,
+          0.036
+        ],
+        "hood_linear": [
+          0.055,
+          0.05,
+          0.046
+        ],
+        "described": "sooty blackish-brown all over with a small pale throat patch; reads as a black anchor shape."
+      },
+      "meshes": [
+        "SM_BirdsV1_CommonSwift_UpStroke",
+        "SM_BirdsV1_CommonSwift_Level",
+        "SM_BirdsV1_CommonSwift_DownStroke",
+        "SM_BirdsV1_CommonSwift_Perched"
+      ],
+      "levelPoseSpanCm": 44.974,
+      "preview": "preview-common_swift.png"
+    },
+    "hooded_crow": {
+      "english": "Hooded crow",
+      "latin": "Corvus cornix",
+      "wingspanCm": 98.0,
+      "bodyLengthCm": 46.0,
+      "sizeSource": "Collins Bird Guide 2nd ed., Corvus cornix: length 45-47 cm, wingspan 93-104 cm. Mid-points used: 46 cm and 98 cm.",
+      "jerusalem": "Abundant urban resident. Seen in ones, twos and threes on parapets, roofs, walls and aerials rather than in wheeling flocks; slower and much bigger than the pigeons.",
+      "plumage": {
+        "main_linear": [
+          0.235,
+          0.228,
+          0.205
+        ],
+        "hood_linear": [
+          0.022,
+          0.022,
+          0.026
+        ],
+        "described": "ash-grey body and belly against a black hood, throat, wings and tail - the two-tone contrast the two material slots exist for."
+      },
+      "meshes": [
+        "SM_BirdsV1_HoodedCrow_UpStroke",
+        "SM_BirdsV1_HoodedCrow_Level",
+        "SM_BirdsV1_HoodedCrow_DownStroke",
+        "SM_BirdsV1_HoodedCrow_Perched"
+      ],
+      "levelPoseSpanCm": 97.888,
+      "preview": "preview-hooded_crow.png"
+    },
+    "common_kestrel": {
+      "english": "Common kestrel",
+      "latin": "Falco tinnunculus",
+      "wingspanCm": 75.0,
+      "bodyLengthCm": 33.0,
+      "sizeSource": "Collins Bird Guide 2nd ed., Falco tinnunculus: length 32-35 cm, wingspan 71-80 cm. Mid-points used: 33 cm and 75 cm.",
+      "jerusalem": "Resident. Breeds on tall buildings and on cliff and wall ledges; hangs, hovers and rides lift over open ground. A single bird high overhead is the scale reference.",
+      "plumage": {
+        "main_linear": [
+          0.29,
+          0.145,
+          0.07
+        ],
+        "hood_linear": [
+          0.15,
+          0.15,
+          0.17
+        ],
+        "described": "rufous back spotted black, blue-grey head and tail with a black terminal band."
+      },
+      "meshes": [
+        "SM_BirdsV1_CommonKestrel_UpStroke",
+        "SM_BirdsV1_CommonKestrel_Level",
+        "SM_BirdsV1_CommonKestrel_DownStroke",
+        "SM_BirdsV1_CommonKestrel_Perched"
+      ],
+      "levelPoseSpanCm": 74.926,
+      "preview": "preview-common_kestrel.png"
+    },
+    "griffon_vulture": {
+      "english": "Griffon vulture",
+      "latin": "Gyps fulvus",
+      "wingspanCm": 260.0,
+      "bodyLengthCm": 102.0,
+      "sizeSource": "Collins Bird Guide 2nd ed., Gyps fulvus: length 95-110 cm, wingspan 240-280 cm. Mid-points used: 102 cm and 260 cm.",
+      "jerusalem": "GENERATED BUT NOT PLACED BY DEFAULT. The Israeli griffon is now a Judean Desert, Negev and Golan bird; it is not a routine sight over the city. A griffon over the Mount would be a scale prop, not a Jerusalem observation, so Scripts/release_birds.py places the kestrel for the lone-raptor role and records this reason in its receipt. The meshes exist so that a reviewer who wants the larger silhouette can switch the species property without another offline run.",
+      "plumage": {
+        "main_linear": [
+          0.2,
+          0.16,
+          0.115
+        ],
+        "hood_linear": [
+          0.4,
+          0.385,
+          0.35
+        ],
+        "described": "sandy-buff body and coverts against dark flight feathers; pale, almost white, head and ruff."
+      },
+      "meshes": [
+        "SM_BirdsV1_GriffonVulture_UpStroke",
+        "SM_BirdsV1_GriffonVulture_Level",
+        "SM_BirdsV1_GriffonVulture_DownStroke",
+        "SM_BirdsV1_GriffonVulture_Perched"
+      ],
+      "levelPoseSpanCm": 259.666,
+      "preview": "preview-griffon_vulture.png"
+    }
+  },
+  "levelPoseSpanErrorCm": {
+    "rock_dove": -0.092,
+    "common_swift": -0.026,
+    "hooded_crow": -0.112,
+    "common_kestrel": -0.074,
+    "griffon_vulture": -0.334
+  },
+  "meshes": [
+    {
+      "name": "SM_BirdsV1_RockDove_UpStroke",
+      "file": "SM_BirdsV1_RockDove_UpStroke.obj",
+      "sha256": "2594d45e4eedbe10e90c237964eb064c8e43962b95454d3dacbeb642c7a25ff9",
+      "bytes": 24189,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -20.127,
+          -19.943,
+          -6.358
+        ],
+        "max": [
+          16.842,
+          19.943,
+          23.931
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1545.5611,
+      "species": "rock_dove",
+      "pose": "up_stroke",
+      "poseIndex": 0
+    },
+    {
+      "name": "SM_BirdsV1_RockDove_Level",
+      "file": "SM_BirdsV1_RockDove_Level.obj",
+      "sha256": "793a0d9986dbcabf3bcc798fca32e40542722b9ad6f0fc27afc2c889a4e3c1d8",
+      "bytes": 24140,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -20.156,
+          -33.454,
+          -6.27
+        ],
+        "max": [
+          16.83,
+          33.454,
+          6.93
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1552.9446,
+      "species": "rock_dove",
+      "pose": "level",
+      "poseIndex": 1
+    },
+    {
+      "name": "SM_BirdsV1_RockDove_DownStroke",
+      "file": "SM_BirdsV1_RockDove_DownStroke.obj",
+      "sha256": "bcfcac571f54399e9034b27b42e1b4fd62fb2451e0486cbf7a343f83e20779b4",
+      "bytes": 24228,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -20.173,
+          -23.235,
+          -16.755
+        ],
+        "max": [
+          16.803,
+          23.235,
+          7.018
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1543.3971,
+      "species": "rock_dove",
+      "pose": "down_stroke",
+      "poseIndex": 2
+    },
+    {
+      "name": "SM_BirdsV1_RockDove_Perched",
+      "file": "SM_BirdsV1_RockDove_Perched.obj",
+      "sha256": "6a3b02ff53d6e822f45da2635c6ac69b48d8bc8c99038dee77100c04acb6caf5",
+      "bytes": 26260,
+      "triangles": 360,
+      "vertices": 200,
+      "normals": 184,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 252,
+          "solids": 8
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -19.757,
+          -12.095,
+          -13.232
+        ],
+        "max": [
+          16.213,
+          12.095,
+          7.488
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1491.4196,
+      "species": "rock_dove",
+      "pose": "perched",
+      "poseIndex": 3
+    },
+    {
+      "name": "SM_BirdsV1_CommonSwift_UpStroke",
+      "file": "SM_BirdsV1_CommonSwift_UpStroke.obj",
+      "sha256": "0692a9bf321c5f6a3b4ef94b7a97589b7bb0cd2f8a8635c2afe4d09aa5ab7319",
+      "bytes": 23544,
+      "triangles": 304,
+      "vertices": 164,
+      "normals": 224,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 196,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -9.897,
+          -13.231,
+          -2.684
+        ],
+        "max": [
+          6.001,
+          13.231,
+          15.922
+        ]
+      },
+      "canonicalSignedVolumeCm3": 146.5633,
+      "species": "common_swift",
+      "pose": "up_stroke",
+      "poseIndex": 0
+    },
+    {
+      "name": "SM_BirdsV1_CommonSwift_Level",
+      "file": "SM_BirdsV1_CommonSwift_Level.obj",
+      "sha256": "105686e12a6c7b89c27419e96de49329d57409ac599071e08ce6a15e6e328800",
+      "bytes": 23521,
+      "triangles": 304,
+      "vertices": 164,
+      "normals": 224,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 196,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -9.9,
+          -22.487,
+          -2.64
+        ],
+        "max": [
+          5.994,
+          22.487,
+          2.97
+        ]
+      },
+      "canonicalSignedVolumeCm3": 147.3011,
+      "species": "common_swift",
+      "pose": "level",
+      "poseIndex": 1
+    },
+    {
+      "name": "SM_BirdsV1_CommonSwift_DownStroke",
+      "file": "SM_BirdsV1_CommonSwift_DownStroke.obj",
+      "sha256": "48e9bca23709a36315480128b1c01f42c05dbd9825811f39cb32f82a3f773ed3",
+      "bytes": 23578,
+      "triangles": 304,
+      "vertices": 164,
+      "normals": 224,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 196,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -9.897,
+          -16.536,
+          -12.413
+        ],
+        "max": [
+          5.981,
+          16.536,
+          3.014
+        ]
+      },
+      "canonicalSignedVolumeCm3": 146.391,
+      "species": "common_swift",
+      "pose": "down_stroke",
+      "poseIndex": 2
+    },
+    {
+      "name": "SM_BirdsV1_CommonSwift_Perched",
+      "file": "SM_BirdsV1_CommonSwift_Perched.obj",
+      "sha256": "f0971ca62bb2342a93c63e8807b9c8594b48380bc6bcd521f76b01e892ddd17c",
+      "bytes": 25617,
+      "triangles": 352,
+      "vertices": 196,
+      "normals": 182,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 244,
+          "solids": 8
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -9.626,
+          -10.548,
+          -6.136
+        ],
+        "max": [
+          5.95,
+          10.548,
+          3.312
+        ]
+      },
+      "canonicalSignedVolumeCm3": 141.8375,
+      "species": "common_swift",
+      "pose": "perched",
+      "poseIndex": 3
+    },
+    {
+      "name": "SM_BirdsV1_HoodedCrow_UpStroke",
+      "file": "SM_BirdsV1_HoodedCrow_UpStroke.obj",
+      "sha256": "ed94da6f6a318847e3a201ce6783071cffb87a438522f59f6ae4a51eacda8e0f",
+      "bytes": 24122,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -29.019,
+          -29.377,
+          -9.323
+        ],
+        "max": [
+          24.788,
+          29.377,
+          34.564
+        ]
+      },
+      "canonicalSignedVolumeCm3": 4747.372,
+      "species": "hooded_crow",
+      "pose": "up_stroke",
+      "poseIndex": 0
+    },
+    {
+      "name": "SM_BirdsV1_HoodedCrow_Level",
+      "file": "SM_BirdsV1_HoodedCrow_Level.obj",
+      "sha256": "5dfca18a73a3942d2a36b10683598c5c0ef074f2875c5924fa85091e81c84dd6",
+      "bytes": 24069,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -29.044,
+          -48.944,
+          -9.2
+        ],
+        "max": [
+          24.771,
+          48.944,
+          10.12
+        ]
+      },
+      "canonicalSignedVolumeCm3": 4771.5235,
+      "species": "hooded_crow",
+      "pose": "level",
+      "poseIndex": 1
+    },
+    {
+      "name": "SM_BirdsV1_HoodedCrow_DownStroke",
+      "file": "SM_BirdsV1_HoodedCrow_DownStroke.obj",
+      "sha256": "4a0f9d7ccc93ddd7f56c386556af42aa7a14daf33e429cad662c60f4b3490dad",
+      "bytes": 24149,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -29.051,
+          -34.847,
+          -24.594
+        ],
+        "max": [
+          24.733,
+          34.847,
+          10.242
+        ]
+      },
+      "canonicalSignedVolumeCm3": 4739.9973,
+      "species": "hooded_crow",
+      "pose": "down_stroke",
+      "poseIndex": 2
+    },
+    {
+      "name": "SM_BirdsV1_HoodedCrow_Perched",
+      "file": "SM_BirdsV1_HoodedCrow_Perched.obj",
+      "sha256": "3de5c1d8a8755fd25ab89e9bfd814580bda3b4eb37a3aa971674129e8ead33af",
+      "bytes": 26196,
+      "triangles": 360,
+      "vertices": 200,
+      "normals": 184,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 252,
+          "solids": 8
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -28.349,
+          -20.21,
+          -18.891
+        ],
+        "max": [
+          23.88,
+          20.21,
+          10.84
+        ]
+      },
+      "canonicalSignedVolumeCm3": 4556.9974,
+      "species": "hooded_crow",
+      "pose": "perched",
+      "poseIndex": 3
+    },
+    {
+      "name": "SM_BirdsV1_CommonKestrel_UpStroke",
+      "file": "SM_BirdsV1_CommonKestrel_UpStroke.obj",
+      "sha256": "bb4f9dc5504857659b2183f85f1cf509d80b3e1c5f9fe84d0c9f9334af976b44",
+      "bytes": 24087,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -21.509,
+          -22.224,
+          -6.029
+        ],
+        "max": [
+          14.369,
+          22.224,
+          26.533
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1399.012,
+      "species": "common_kestrel",
+      "pose": "up_stroke",
+      "poseIndex": 0
+    },
+    {
+      "name": "SM_BirdsV1_CommonKestrel_Level",
+      "file": "SM_BirdsV1_CommonKestrel_Level.obj",
+      "sha256": "1fbbe68b11f9b0f243587578cdbb45c279b80ab0ce3f9417773d512464fa6518",
+      "bytes": 24036,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -21.516,
+          -37.463,
+          -5.94
+        ],
+        "max": [
+          14.355,
+          37.463,
+          6.6
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1405.852,
+      "species": "common_kestrel",
+      "pose": "level",
+      "poseIndex": 1
+    },
+    {
+      "name": "SM_BirdsV1_CommonKestrel_DownStroke",
+      "file": "SM_BirdsV1_CommonKestrel_DownStroke.obj",
+      "sha256": "ed653f4a0a86ea8fe210fc717b6174a6a7b4ec558c03175b0d1c22f675807d93",
+      "bytes": 24119,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -21.509,
+          -26.964,
+          -19.603
+        ],
+        "max": [
+          14.33,
+          26.964,
+          6.688
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1396.9981,
+      "species": "common_kestrel",
+      "pose": "down_stroke",
+      "poseIndex": 2
+    },
+    {
+      "name": "SM_BirdsV1_CommonKestrel_Perched",
+      "file": "SM_BirdsV1_CommonKestrel_Perched.obj",
+      "sha256": "02fb7645b596e33031a091f7d9134fe6ecb74ebd8951c275eaa708cd64ee590b",
+      "bytes": 26160,
+      "triangles": 360,
+      "vertices": 200,
+      "normals": 184,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 252,
+          "solids": 8
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -20.917,
+          -15.545,
+          -12.912
+        ],
+        "max": [
+          13.814,
+          15.545,
+          7.2
+        ]
+      },
+      "canonicalSignedVolumeCm3": 1350.2915,
+      "species": "common_kestrel",
+      "pose": "perched",
+      "poseIndex": 3
+    },
+    {
+      "name": "SM_BirdsV1_GriffonVulture_UpStroke",
+      "file": "SM_BirdsV1_GriffonVulture_UpStroke.obj",
+      "sha256": "92a248a38a54f72cf6de56222c7f78c52df6c4f9be2bda56b138d4892532459c",
+      "bytes": 24229,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -51.782,
+          -76.834,
+          -21.692
+        ],
+        "max": [
+          50.327,
+          76.834,
+          93.267
+        ]
+      },
+      "canonicalSignedVolumeCm3": 55289.6953,
+      "species": "griffon_vulture",
+      "pose": "up_stroke",
+      "poseIndex": 0
+    },
+    {
+      "name": "SM_BirdsV1_GriffonVulture_Level",
+      "file": "SM_BirdsV1_GriffonVulture_Level.obj",
+      "sha256": "25bb043585be37eca193b629937a0950e9302f4151fe267dd7504ff97043748b",
+      "bytes": 24222,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -51.796,
+          -129.833,
+          -21.42
+        ],
+        "max": [
+          50.286,
+          129.833,
+          23.46
+        ]
+      },
+      "canonicalSignedVolumeCm3": 55632.2361,
+      "species": "griffon_vulture",
+      "pose": "level",
+      "poseIndex": 1
+    },
+    {
+      "name": "SM_BirdsV1_GriffonVulture_DownStroke",
+      "file": "SM_BirdsV1_GriffonVulture_DownStroke.obj",
+      "sha256": "d67d9dc2e727f9bc307dca6023d3abf546662d72c26e3ff07781299b389fc976",
+      "bytes": 24276,
+      "triangles": 312,
+      "vertices": 168,
+      "normals": 226,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 204,
+          "solids": 4
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -51.782,
+          -91.879,
+          -67.784
+        ],
+        "max": [
+          50.206,
+          91.879,
+          23.73
+        ]
+      },
+      "canonicalSignedVolumeCm3": 55183.1851,
+      "species": "griffon_vulture",
+      "pose": "down_stroke",
+      "poseIndex": 2
+    },
+    {
+      "name": "SM_BirdsV1_GriffonVulture_Perched",
+      "file": "SM_BirdsV1_GriffonVulture_Perched.obj",
+      "sha256": "a49133fb8f85cad0ad128e17522df291e915a9bee8045fed1c307602309dabbc",
+      "bytes": 26431,
+      "triangles": 360,
+      "vertices": 200,
+      "normals": 184,
+      "groups": [
+        {
+          "group": "plumage_main",
+          "triangles": 252,
+          "solids": 8
+        },
+        {
+          "group": "plumage_hood",
+          "triangles": 108,
+          "solids": 2
+        }
+      ],
+      "materialSlots": 2,
+      "canonicalBoundsCm": {
+        "min": [
+          -50.38,
+          -53.553,
+          -42.878
+        ],
+        "max": [
+          48.453,
+          53.553,
+          24.927
+        ]
+      },
+      "canonicalSignedVolumeCm3": 52385.2115,
+      "species": "griffon_vulture",
+      "pose": "perched",
+      "poseIndex": 3
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_BirdsV1_RockDove_UpStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.0046e-05,
+      "fileSpaceSignedVolumeCm3": 1545.488,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_RockDove_Level",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.6167e-05,
+      "fileSpaceSignedVolumeCm3": 1553.186,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_RockDove_DownStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.4322e-05,
+      "fileSpaceSignedVolumeCm3": 1543.544,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_RockDove_Perched",
+      "triangles": 360,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.9812e-05,
+      "fileSpaceSignedVolumeCm3": 1491.446,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonSwift_UpStroke",
+      "triangles": 304,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.00066071,
+      "fileSpaceSignedVolumeCm3": 146.578,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonSwift_Level",
+      "triangles": 304,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.00057056,
+      "fileSpaceSignedVolumeCm3": 147.286,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonSwift_DownStroke",
+      "triangles": 304,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.00060491,
+      "fileSpaceSignedVolumeCm3": 146.433,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonSwift_Perched",
+      "triangles": 352,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 0.000231295,
+      "fileSpaceSignedVolumeCm3": 141.833,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_HoodedCrow_UpStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.4535e-05,
+      "fileSpaceSignedVolumeCm3": 4747.16,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_HoodedCrow_Level",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.4716e-05,
+      "fileSpaceSignedVolumeCm3": 4772.431,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_HoodedCrow_DownStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.3926e-05,
+      "fileSpaceSignedVolumeCm3": 4739.851,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_HoodedCrow_Perched",
+      "triangles": 360,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.7315e-05,
+      "fileSpaceSignedVolumeCm3": 4556.673,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonKestrel_UpStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.5266e-05,
+      "fileSpaceSignedVolumeCm3": 1399.001,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonKestrel_Level",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.3323e-05,
+      "fileSpaceSignedVolumeCm3": 1406.408,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonKestrel_DownStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 8.447e-05,
+      "fileSpaceSignedVolumeCm3": 1397.002,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_CommonKestrel_Perched",
+      "triangles": 360,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.7247e-05,
+      "fileSpaceSignedVolumeCm3": 1350.226,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_GriffonVulture_UpStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.668e-05,
+      "fileSpaceSignedVolumeCm3": 55289.181,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_GriffonVulture_Level",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.0233e-05,
+      "fileSpaceSignedVolumeCm3": 55621.505,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_GriffonVulture_DownStroke",
+      "triangles": 312,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 6.8964e-05,
+      "fileSpaceSignedVolumeCm3": 55183.76,
+      "status": "PASS"
+    },
+    {
+      "mesh": "SM_BirdsV1_GriffonVulture_Perched",
+      "triangles": 360,
+      "groups": [
+        "plumage_main",
+        "plumage_hood"
+      ],
+      "boundsErrorCm": 0.0,
+      "worstNormalError": 7.3604e-05,
+      "fileSpaceSignedVolumeCm3": 52384.651,
+      "status": "PASS"
+    }
+  ],
+  "previews": {
+    "rock_dove": {
+      "file": "preview-rock_dove.png",
+      "sizePx": [
+        1120,
+        840
+      ],
+      "layout": "rows: side, top, front; columns: up_stroke, level, down_stroke, perched",
+      "limit": "Software orthographic flat shading with the two recorded plumage colours. Not a native render, not a material or lighting acceptance."
+    },
+    "common_swift": {
+      "file": "preview-common_swift.png",
+      "sizePx": [
+        1120,
+        840
+      ],
+      "layout": "rows: side, top, front; columns: up_stroke, level, down_stroke, perched",
+      "limit": "Software orthographic flat shading with the two recorded plumage colours. Not a native render, not a material or lighting acceptance."
+    },
+    "hooded_crow": {
+      "file": "preview-hooded_crow.png",
+      "sizePx": [
+        1120,
+        840
+      ],
+      "layout": "rows: side, top, front; columns: up_stroke, level, down_stroke, perched",
+      "limit": "Software orthographic flat shading with the two recorded plumage colours. Not a native render, not a material or lighting acceptance."
+    },
+    "common_kestrel": {
+      "file": "preview-common_kestrel.png",
+      "sizePx": [
+        1120,
+        840
+      ],
+      "layout": "rows: side, top, front; columns: up_stroke, level, down_stroke, perched",
+      "limit": "Software orthographic flat shading with the two recorded plumage colours. Not a native render, not a material or lighting acceptance."
+    },
+    "griffon_vulture": {
+      "file": "preview-griffon_vulture.png",
+      "sizePx": [
+        1120,
+        840
+      ],
+      "layout": "rows: side, top, front; columns: up_stroke, level, down_stroke, perched",
+      "limit": "Software orthographic flat shading with the two recorded plumage colours. Not a native render, not a material or lighting acceptance."
+    }
+  },
+  "totalTriangles": 6448,
+  "triangleBudget": 40000,
+  "nativePlan": {
+    "namespace": "/Game/MikdashV3/BirdsV1",
+    "collision": "NoCollision on every bird mesh and on every HISM component. Ambient birds must never block, push or be traced against anything - in particular they must never interfere with the player dove pawn spawn (AMikdashDovePawn is spawned at runtime with AdjustIfPossibleButDontSpawnIfColliding, so a colliding flock overhead could have blocked take-off; with NoCollision it cannot).",
+    "nanite": false,
+    "naniteReason": "Sub-500-triangle meshes drawn as HISM instances; Nanite would add cluster overhead for no triangle saving at this size.",
+    "placement": "HISM instance transforms authored at runtime by AMikdashBirdFlock; the actor itself is placed by Scripts/release_birds.py.",
+    "importer": "Scripts/release_birds.py (+ .spec.json)"
+  },
+  "limitations": [
+    "AUTHORED GEOMETRY. Every bird is an invented low-poly silhouette built to published wingspan and body-length figures. Nothing here is scanned, photogrammetric, or a claim about the plumage pattern of an individual bird.",
+    "Sizes are FIELD-GUIDE RANGES quoted at their mid-point (per-species citation in species[].sizeSource). This project measured no bird and took no photograph of one.",
+    "Four poses per species. A bird held still and viewed close would read as a flick-book; the flock actor is configured never to place one there, but that is a placement rule, not a property of the mesh.",
+    "Planar placeholder UVs only. No lightmap UVs are generated; the flock is a movable, dynamically lit HISM.",
+    "Plumage is RECORDED, NOT APPLIED: no material, material instance or texture is created or assigned by this module. Until a material pass runs, the imported meshes carry the importer default and the rock dove is NOT yet visibly distinct from the white player dove.",
+    "No engine work here: no import, no placement, no collision, no cook, no visual acceptance."
+  ]
+}

@@ -1,0 +1,802 @@
+{
+  "kind": "offline_check",
+  "generatedUtc": "20260908T041128769695Z",
+  "scope": "Static file inspection only. No engine, no asset, no map, no visual acceptance.",
+  "uproject": {
+    "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject",
+    "pluginNames": [
+      "PythonScriptPlugin",
+      "EnhancedInput",
+      "MikdashRuntime",
+      "MetaHumanSDK",
+      "MetaHumanCharacter",
+      "MetaHumanCrowd"
+    ],
+    "preservedIntact": true,
+    "allPreservedEnabled": true,
+    "addedPresent": [
+      "MetaHumanSDK",
+      "MetaHumanCharacter",
+      "MetaHumanCrowd"
+    ],
+    "addedMissing": [],
+    "unexpectedExtra": []
+  },
+  "enginePlugins": {
+    "MetaHumanAnimationTools": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanAnimationTools\\MetaHumanAnimationTools.uplugin",
+      "friendlyName": "MetaHuman Animation Tools",
+      "enabledByDefault": false,
+      "beta": false,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanAnimationSerialization",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanAnimationSerializationEditor",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": []
+    },
+    "MetaHuman": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanAnimator\\MetaHuman.uplugin",
+      "friendlyName": "MetaHuman Animator",
+      "enabledByDefault": null,
+      "beta": false,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanCore",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanCoreEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanImageViewerEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanPipeline",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceContourTracker",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceContourTrackerEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanIdentity",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanIdentityEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCaptureDataEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCaptureSource",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanFootageIngest",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanDepthGenerator",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanPerformance",
+          "Editor",
+          "PostEngineInit"
+        ],
+        [
+          "MetaHumanSequencer",
+          "Editor",
+          "PostEngineInit"
+        ],
+        [
+          "MetaHumanCaptureUtils",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCaptureProtocolStack",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanToolkit",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanSpeech2Face",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanBatchProcessor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanConfig",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanConfigEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceAnimationSolver",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceAnimationSolverEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceFittingSolver",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanFaceFittingSolverEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanPlatform",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanControlsConversionTest",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MeshTrackerInterface",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "RigLogic",
+        "NNERuntimeORT",
+        "MeshModelingToolset",
+        "ImgMedia",
+        "CaptureData",
+        "CaptureManagerEditor",
+        "ProceduralMeshComponent",
+        "MediaCompositing",
+        "CameraCalibrationCore",
+        "LensComponent",
+        "MediaIOFramework",
+        "PlatformCrypto",
+        "Interchange",
+        "LiveLinkHub",
+        "DNACalib",
+        "IKRig",
+        "PerformanceCaptureCore",
+        "MetaHumanCoreTech",
+        "MetaHumanSDK"
+      ]
+    },
+    "MetaHumanCalibrationProcessing": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCalibrationProcessing\\MetaHumanCalibrationProcessing.uplugin",
+      "friendlyName": "MetaHuman Animator Calibration Processing",
+      "enabledByDefault": null,
+      "beta": false,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanCalibrationGenerator",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCalibrationLib",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCalibrationCore",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "ImgMedia",
+        "CaptureData",
+        "CameraCalibrationCore",
+        "LensComponent",
+        "CaptureManagerCore",
+        "OpenCV",
+        "RigLogic",
+        "MetaHumanCoreTech"
+      ]
+    },
+    "MetaHumanCharacter": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\MetaHumanCharacter.uplugin",
+      "friendlyName": "MetaHuman Creator",
+      "enabledByDefault": false,
+      "beta": true,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanCharacterEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCharacter",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanCharacterPaletteEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCharacterPalette",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanDefaultPipeline",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanDefaultEditorPipeline",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCharacterMigrationEditor",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "MeshModelingToolset",
+        "EditorScriptingUtilities",
+        "AppleARKit",
+        "AppleARKitFaceSupport",
+        "LiveLink",
+        "LiveLinkControlRig",
+        "RigLogic",
+        "MetaHumanSDK",
+        "HairStrands",
+        "Dataflow",
+        "MetaHuman",
+        "TextureGraph",
+        "ChaosClothAsset",
+        "ChaosClothAssetEditorCore",
+        "ChaosOutfitAsset",
+        "PerformanceCaptureCore",
+        "IKRig",
+        "PluginUtils",
+        "ScriptableToolsFramework",
+        "GeometryScripting"
+      ]
+    },
+    "MetaHumanCoreML": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCoreML\\MetaHumanCoreML.uplugin",
+      "friendlyName": "MetaHuman CoreML",
+      "enabledByDefault": false,
+      "beta": false,
+      "experimental": false,
+      "modules": [],
+      "hasSourceModules": false,
+      "dependencies": [
+        "NNERuntimeCoreML"
+      ]
+    },
+    "MetaHumanCoreTech": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCoreTechLib\\MetaHumanCoreTech.uplugin",
+      "friendlyName": "MetaHuman Core Tech",
+      "enabledByDefault": false,
+      "beta": false,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanCoreTechLib",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanCoreTech",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanImageViewer",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanCaptureData",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanPipelineCore",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanBodyTrackerInterface",
+          "Runtime",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "MeshModelingToolset",
+        "EditorScriptingUtilities",
+        "RigLogic",
+        "MetaHumanSDK",
+        "CaptureData",
+        "StreamingADA",
+        "MetaHumanCoreML"
+      ]
+    },
+    "MetaHumanCrowd": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCrowd\\MetaHumanCrowd.uplugin",
+      "friendlyName": "MetaHuman Crowd",
+      "enabledByDefault": false,
+      "beta": false,
+      "experimental": true,
+      "modules": [
+        [
+          "MetaHumanCrowd",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanCrowdEditor",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "MetaHumanCharacter",
+        "HairStrands",
+        "Dataflow",
+        "ChaosClothAsset",
+        "ChaosOutfitAsset",
+        "MassAI",
+        "MassCrowd",
+        "Mover",
+        "MoverIntegrations",
+        "MassGameplay",
+        "SmartObjects",
+        "SlateIM"
+      ]
+    },
+    "MetaHumanLiveLink": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanLiveLink\\MetaHumanLiveLink.uplugin",
+      "friendlyName": "MetaHuman Live Link",
+      "enabledByDefault": null,
+      "beta": null,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanLiveLinkSource",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanLiveLinkSourceEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "LiveLinkFaceSource",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "LiveLinkFaceSourceEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "LiveLinkFaceDiscovery",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanLocalLiveLinkSource",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "MetaHumanLocalLiveLinkSourceEditor",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "LiveLink",
+        "LiveLinkHub",
+        "MediaFrameworkUtilities",
+        "CaptureManagerCore",
+        "MetaHumanCoreTech",
+        "NNERuntimeORT"
+      ]
+    },
+    "MetaHumanSDK": {
+      "file": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanSDK\\MetaHumanSDK.uplugin",
+      "friendlyName": "MetaHuman SDK",
+      "enabledByDefault": true,
+      "beta": null,
+      "experimental": false,
+      "modules": [
+        [
+          "MetaHumanSDKEditor",
+          "Editor",
+          "Default"
+        ],
+        [
+          "MetaHumanSDKRuntime",
+          "Runtime",
+          "Default"
+        ],
+        [
+          "InterchangeDNA",
+          "Editor",
+          "Default"
+        ]
+      ],
+      "hasSourceModules": true,
+      "dependencies": [
+        "EditorScriptingUtilities",
+        "ControlRig",
+        "HairStrands",
+        "RigLogic",
+        "Interchange",
+        "EOSShared"
+      ]
+    }
+  },
+  "engineAssets": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Body\\IdentityTemplate\\body_model.dna",
+      "exists": true,
+      "bytes": 65123071
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Body\\IdentityTemplate\\SKM_Body.uasset",
+      "exists": true,
+      "bytes": 11545909
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Body\\IdentityTemplate\\skin_model.binary",
+      "exists": true,
+      "bytes": 27795897
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Face\\IdentityTemplate",
+      "exists": true,
+      "bytes": null
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\BuildPipeline\\BP_DefaultPipeline.uasset",
+      "exists": true,
+      "bytes": 8693
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\BuildPipeline\\DefaultWardobePipeline\\DefaultSkeletalMeshPipeline.uasset",
+      "exists": true,
+      "bytes": 9186
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\BuildPipeline\\DefaultWardobePipeline\\DefaultOutfitPipeline.uasset",
+      "exists": true,
+      "bytes": 6946
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\BuildPipeline\\DefaultWardobePipeline\\DefaultGroomPipeline.uasset",
+      "exists": true,
+      "bytes": 23289
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCoreTechLib\\Content\\ArchetypeDNA\\SKM_Face.dna",
+      "exists": true,
+      "bytes": 11200323
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCoreTechLib\\Content\\ArchetypeDNA\\SKM_Body.dna",
+      "exists": true,
+      "bytes": 4192480
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanSDK\\Content\\TemplateAssets\\SM_MH_Head.uasset",
+      "exists": true,
+      "bytes": 1728517
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCrowd\\Content\\SKEL_MetaHumanCrowd_Template.uasset",
+      "exists": true,
+      "bytes": 267784
+    }
+  ],
+  "optionalCoreData": {
+    "root": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional",
+    "rootExists": false,
+    "subdirs": {
+      "TextureSynthesis": false,
+      "BodyTextures": false
+    },
+    "arFiles": 0,
+    "installed": false,
+    "consequencesIfMissing": [
+      "Content/Optional/TextureSynthesis/TS-1.3-F_UE_res-1024_nchr-153 - the skin texture synthesis model. Without it CommitSkinSettings cannot synthesize skin, so every character keeps placeholder skin.",
+      "Content/Optional/BodyTextures - body texture set.",
+      "Content/Optional/Presets - the face/body preset library. Without it the Presets panel is empty and every new character starts on the same archetype face.",
+      "Content/Optional/Grooms/Bindings/{Hair,Beards,Mustaches,Eyebrows,Eyelashes,Peachfuzz} - ALL hair. Two of the five characters here are specified as bearded and there is no shipped beard groom without this pack.",
+      "Content/Optional/Clothing - the WI_* wardrobe items including WI_DefaultGarment.",
+      "Content/Optional/Animation/TemplateAnimations and Optional/Animation/UEFNAnimPreset.",
+      "Content/Optional/DCC - DCC export support.",
+      "Content/Optional/Body/FixedCompatibility - the legacy fixed body types."
+    ],
+    "howToInstall": "Epic Games Launcher -> Unreal Engine -> Library -> the 5.8.2 slot's dropdown arrow -> Options -> tick 'MetaHuman Creator Core Data' -> Apply. It installs into the engine directory, not the project. Multi-GB; the editor prints the missing-content notification and a 'METAHUMAN CREATOR CORE DATA IS MISSING' viewport banner until it is there."
+  },
+  "cloud": {
+    "note": "Two steps in the MetaHuman build are Epic cloud service calls, not local computation. Read from MetaHumanCharacterEditorSubsystem.cpp: RequestAutoRigging -> UE::MetaHuman::FAutoRigServiceRequest, RequestTextureSources -> the same FMetaHumanCharacterEditorCloudRequests holder.",
+    "requiresEpicLogin": true,
+    "loginTrigger": "MetaHuman Character Editor toolbar -> Authentication Menu. Its own tooltip says 'No user logged in, please autorig to trigger log-in flow', i.e. the first auto-rig starts the browser login.",
+    "batchFlags": {
+      "blocking": true,
+      "reportProgress": false
+    },
+    "batchFlagsNote": "Both request structs expose bBlocking/bReportProgress; Epic's own example_auto_rig.py and example_download_textures.py comment them as 'Required for running in batch'.",
+    "memoryWarning": "MetaHumanCharacterEditorToolkit.cpp refuses (with a confirm dialog) to auto-rig with blend shapes below 10 GiB FREE memory. This machine has 16 GB total, so the spec uses JOINTS_ONLY."
+  },
+  "build": {
+    "pipelineType": "OPTIMIZED",
+    "pipelineTypeEnum": "unreal.MetaHumanDefaultPipelineType (CINEMATIC='UE Cine (Complete)', OPTIMIZED='UE Optimized', UEFN='UEFN Export')",
+    "pipelineQuality": "MEDIUM",
+    "pipelineQualityEnum": "unreal.MetaHumanQualityLevel (CINEMATIC/HIGH/MEDIUM/LOW)",
+    "rigType": "JOINTS_ONLY",
+    "rigTypeEnum": "unreal.MetaHumanRigType (JOINTS_ONLY / JOINTS_AND_BLENDSHAPES)",
+    "enableWardrobeItemValidation": true,
+    "reason": "RTX 2070 / 16 GB. OPTIMIZED+MEDIUM is the quality tier Epic's own example_assembly.py uses; CINEMATIC keeps strand grooms and the full material stack and is not viable for a dozen on-screen characters on this GPU. JOINTS_ONLY avoids the 10 GiB blend-shape memory gate and removes the face blend-shape morph target memory, at the cost of facial expression fidelity - acceptable for background pilgrims, NOT acceptable if any character ever needs close-up facial performance."
+  },
+  "plan": [
+    {
+      "name": "MH_Kohen_Man_A",
+      "role": "bearded man, working age",
+      "assetPath": "/Game/MetaHumans/Source/MH_Kohen_Man_A",
+      "constraints": [
+        {
+          "name": "Masculine/Feminine",
+          "mode": "range_fraction",
+          "value": 0.9
+        },
+        {
+          "name": "Muscularity",
+          "mode": "range_fraction",
+          "value": 0.55
+        },
+        {
+          "name": "Fat",
+          "mode": "range_fraction",
+          "value": 0.35
+        },
+        {
+          "name": "Height",
+          "mode": "absolute_cm",
+          "value": 174.0
+        }
+      ],
+      "skin": {
+        "u": 0.62,
+        "v": 0.55,
+        "roughness": 0.8,
+        "faceTextureIndex": 2,
+        "bodyTextureIndex": 2
+      },
+      "faceSeed": 10401,
+      "faceVariation": true
+    },
+    {
+      "name": "MH_Kohen_Man_B",
+      "role": "bearded man, heavier build",
+      "assetPath": "/Game/MetaHumans/Source/MH_Kohen_Man_B",
+      "constraints": [
+        {
+          "name": "Masculine/Feminine",
+          "mode": "range_fraction",
+          "value": 0.85
+        },
+        {
+          "name": "Muscularity",
+          "mode": "range_fraction",
+          "value": 0.4
+        },
+        {
+          "name": "Fat",
+          "mode": "range_fraction",
+          "value": 0.6
+        },
+        {
+          "name": "Height",
+          "mode": "absolute_cm",
+          "value": 168.0
+        }
+      ],
+      "skin": {
+        "u": 0.55,
+        "v": 0.62,
+        "roughness": 0.78,
+        "faceTextureIndex": 1,
+        "bodyTextureIndex": 1
+      },
+      "faceSeed": 20817,
+      "faceVariation": true
+    },
+    {
+      "name": "MH_Woman_A",
+      "role": "woman, slighter build",
+      "assetPath": "/Game/MetaHumans/Source/MH_Woman_A",
+      "constraints": [
+        {
+          "name": "Masculine/Feminine",
+          "mode": "range_fraction",
+          "value": 0.12
+        },
+        {
+          "name": "Muscularity",
+          "mode": "range_fraction",
+          "value": 0.3
+        },
+        {
+          "name": "Fat",
+          "mode": "range_fraction",
+          "value": 0.42
+        },
+        {
+          "name": "Height",
+          "mode": "absolute_cm",
+          "value": 160.0
+        }
+      ],
+      "skin": {
+        "u": 0.58,
+        "v": 0.48,
+        "roughness": 0.72,
+        "faceTextureIndex": 3,
+        "bodyTextureIndex": 3
+      },
+      "faceSeed": 31129,
+      "faceVariation": true
+    },
+    {
+      "name": "MH_Woman_B",
+      "role": "woman, taller",
+      "assetPath": "/Game/MetaHumans/Source/MH_Woman_B",
+      "constraints": [
+        {
+          "name": "Masculine/Feminine",
+          "mode": "range_fraction",
+          "value": 0.18
+        },
+        {
+          "name": "Muscularity",
+          "mode": "range_fraction",
+          "value": 0.38
+        },
+        {
+          "name": "Fat",
+          "mode": "range_fraction",
+          "value": 0.48
+        },
+        {
+          "name": "Height",
+          "mode": "absolute_cm",
+          "value": 167.0
+        }
+      ],
+      "skin": {
+        "u": 0.66,
+        "v": 0.52,
+        "roughness": 0.74,
+        "faceTextureIndex": 0,
+        "bodyTextureIndex": 0
+      },
+      "faceSeed": 40213,
+      "faceVariation": true
+    },
+    {
+      "name": "MH_Elder_Man",
+      "role": "older man",
+      "assetPath": "/Game/MetaHumans/Source/MH_Elder_Man",
+      "constraints": [
+        {
+          "name": "Masculine/Feminine",
+          "mode": "range_fraction",
+          "value": 0.88
+        },
+        {
+          "name": "Muscularity",
+          "mode": "range_fraction",
+          "value": 0.28
+        },
+        {
+          "name": "Fat",
+          "mode": "range_fraction",
+          "value": 0.52
+        },
+        {
+          "name": "Height",
+          "mode": "absolute_cm",
+          "value": 166.0
+        }
+      ],
+      "skin": {
+        "u": 0.5,
+        "v": 0.7,
+        "roughness": 0.9,
+        "faceTextureIndex": 4,
+        "bodyTextureIndex": 4
+      },
+      "faceSeed": 50907,
+      "faceVariation": true
+    }
+  ],
+  "blockers": [
+    "MetaHuman Creator Core Data is NOT installed. Skin synthesis, presets, ALL grooms (including beards) and stock clothing are unavailable. See gui-steps.md step 1."
+  ],
+  "limitations": [
+    "MetaHuman Creator is IsBetaVersion=true and MetaHuman Crowd is IsExperimentalVersion=true in 5.8.2. Neither is a stable API surface.",
+    "MetaHuman Creator Core Data is NOT installed on this machine. Until it is, characters have placeholder skin, no hair and no beards, and the Presets panel is empty - so the two 'bearded men' cannot be delivered bearded by this script.",
+    "Auto-rigging and high-resolution textures are Epic CLOUD calls. They need a signed-in Epic account, they can fail or be rate-limited, and CanBuildMetaHuman returns false until both have succeeded. A build therefore cannot be guaranteed offline or reproducibly.",
+    "The face variation is a blind perturbation of an undocumented coefficient basis. It produces different faces, not designed faces. Visual review is required and is not evidence of likeness to anyone.",
+    "Body 'Masculine/Feminine', 'Muscularity' and 'Fat' units are not documented in the shipped source; the spec uses range fractions and records the resolved absolute values rather than claiming a unit.",
+    "The Old skin normal variant, groom selection and preset application are GUI-only in 5.8 as far as the shipped headers show.",
+    "Nothing here is a visual, lighting, LOD, Nanite, performance or packaged acceptance. AGENTS.md hard rule 7.",
+    "These are fictional demonstration figures. They assert nothing about priestly status, purity, census or permission to serve, in line with the existing resident-integration-plan.md wording."
+  ],
+  "status": "offline_blockers_recorded"
+}

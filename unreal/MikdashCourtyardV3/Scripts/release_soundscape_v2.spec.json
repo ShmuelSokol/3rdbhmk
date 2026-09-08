@@ -1,0 +1,1005 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_soundscape_v2.py: a layered morning soundscape for the combined IntegratedReviewV2 Walkthrough map, built from CC0 / CC-BY / public-domain field recordings held in SourceAssets/soundscape-review/SoundscapeV2/. Two continuously looping wind beds at different lengths and pitches, two randomly gapped wind overlays, a two-take city hum ring outside the Mount, two distant murmur emitters toward the Kotel plaza and the city edge, five bird emitters firing one-shots on unrelated random timers, foliage and cloth detail, one faint wind leak at the Ulam porch, and an AudioVolume that drops the exterior to near silence inside the Heikhal and Kodesh and adds a stone reverb tail. NOTHING HERE HAS BEEN HEARD. Every level, radius and timer is an authored proposal awaiting audition; no listening, walk, PIE or packaged acceptance is claimed. The rejected pilot ambience SW_CourtyardOriginal_Pilot01 stays in the level and stays disabled.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "targetMapNote": "Per SourceAssets/IntegratedReviewV2/release-inventory-20260907T173546Z.json the map carried 7367 actors, exactly one AmbientSound and no AudioVolume. The map has been re-saved by other release jobs since; the recorded hash below is informational only and never a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedAssets": [
+    "/Game/MikdashV3/Runtime/Audio/SW_CourtyardOriginal_Pilot01"
+  ],
+  "protectedAssetsNote": "The rejected 32-second synthetic pilot bed is hashed before and after. It is never re-imported, never re-enabled and never deleted; the run fails if its bytes change.",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "SoundscapeV2-",
+  "revertCheckpointPrefix": "SoundscapeV2Revert-",
+  "receiptFolder": "SourceAssets/soundscape-review/SoundscapeV2",
+  "receiptPrefix": "native-apply-",
+  "revertReceiptPrefix": "native-revert-",
+  "actorTag": "ReleaseSoundscapeV2",
+  "labelPrefix": "RELEASE_",
+  "folder": "Release/SoundscapeV2",
+  "sourceFolder": "SourceAssets/soundscape-review/SoundscapeV2/sources",
+  "budget": {
+    "maxSourceBytes": 262144000,
+    "note": "250 MB ceiling on the shipped source recordings. The set currently occupies about 110 MB."
+  },
+  "namespace": {
+    "root": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2",
+    "waves": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Waves",
+    "cues": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Cues",
+    "support": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support",
+    "wavePrefix": "SW_SSV2_",
+    "cuePrefix": "SC_SSV2_",
+    "rule": "The namespace must not exist when an apply run starts, so an interrupted run is never silently extended. -SoundscapeRevertAssets deletes it; otherwise the assets are left in place because they are inert once no actor references them."
+  },
+  "geometry": {
+    "axes": "UE centimetres, +X east, +Y south, +Z up. Basis: Scripts/release_lighting_polish.spec.json worldFrame, itself derived from capture receipt b_courtyard_spawn_west and the Batei Mahase bus placement at +Y 46855.",
+    "worldBounds": {
+      "min": [
+        -320000.0,
+        -320000.0,
+        -30000.0
+      ],
+      "max": [
+        320000.0,
+        320000.0,
+        20000.0
+      ]
+    },
+    "worldBoundsBasis": "SourceAssets/context-review/terrain-import-20260907T020927Z-2871d8.json expectedBoundsUnrealCm (the Jerusalem terrain tiles). The city buildings occupy roughly +/- 200000 within it.",
+    "measuredMountBounds": {
+      "min": [
+        -8100.0,
+        -9450.0,
+        0.0
+      ],
+      "max": [
+        9200.0,
+        9450.0,
+        6130.0
+      ]
+    },
+    "measuredMountBoundsBasis": "SourceAssets/architecture-manifest.json expectedBoundsUnrealCm.",
+    "sanctuaryInteriorBox": {
+      "min": [
+        -7100.0,
+        -900.0,
+        900.0
+      ],
+      "max": [
+        -3550.0,
+        900.0,
+        3050.0
+      ]
+    },
+    "sanctuaryInteriorBoxBasis": "architecture-manifest sourcePart aggregates: heichal X -7050..-3220, Y +/-825, Z 905..6130; kodesh X -6700..-5600, Z 905..2925. The lighting spec records the Heikhal doorway west face at X -3600 and the clear side walls at |Y| 500. The box is the built sanctuary envelope, widened to the nearest round number.",
+    "sanctuaryKeepOutMarginCm": 0.0,
+    "birdKeepOutMarginCm": 2500.0,
+    "birdKeepOutNote": "Birds obey a box 25 m larger than the sanctuary envelope in every direction, so no bird one-shot can ever appear to come from inside or immediately against the Heikhal or the Kodesh.",
+    "courtFloorZcm": 625.0,
+    "playerStartCm": [
+      2100.0,
+      0.0,
+      598.0
+    ],
+    "ulamPorchBounds": {
+      "min": [
+        -3300.0,
+        -2540.0,
+        625.0
+      ],
+      "max": [
+        -1400.0,
+        2540.0,
+        5915.0
+      ]
+    },
+    "kotelWallXcm": -15000.0,
+    "kotelWallNote": "SM_KotelAshlarV2_E24..E1 occupy X -15690..-14108, Y 8845..17750 (Scripts/release_kotel_stone_v2.spec.json). The plaza therefore lies west of X -15000 in that Y band, which is where the plaza murmur emitter sits."
+  },
+  "soundClass": {
+    "asset": "SoundClass_SoundscapeV2",
+    "properties": {
+      "apply_ambient_volumes": true,
+      "reverb": true,
+      "volume": 1.0
+    },
+    "why": "FInteriorSettings on an AudioVolume only affect sources whose sound class has bApplyAmbientVolumes set (Engine/Classes/Sound/SoundClass.h). Without this class the interior quiet does nothing. bReverb routes these sources to the master reverb submix so the AudioVolume's ReverbEffect is audible on them.",
+    "limitation": "The class is created standalone rather than parented under the engine Master class, because parenting is done through the SoundClass editor graph and is not scriptable. If the mix behaves oddly, re-parent it by hand in the editor."
+  },
+  "reverb": {
+    "asset": "RE_SanctuaryStone",
+    "properties": {
+      "density": 1.0,
+      "diffusion": 0.95,
+      "gain": 0.3,
+      "gain_hf": 0.55,
+      "decay_time": 2.6,
+      "decay_hf_ratio": 0.62,
+      "reflections_gain": 0.22,
+      "reflections_delay": 0.012,
+      "late_gain": 0.45,
+      "late_delay": 0.035,
+      "air_absorption_gain_hf": 0.994,
+      "room_rolloff_factor": 0.0
+    },
+    "why": "A dressed-stone room roughly 31 x 10 x 20 m with a hard floor: long-ish decay, strong diffusion, high frequencies dying faster than lows, and a 12 ms first reflection consistent with the 10 m width. These are illustrative starting values, not measured acoustics of any building."
+  },
+  "audioVolume": {
+    "enabledByDefault": true,
+    "label": "RELEASE_SoundscapeV2_SanctuaryQuiet",
+    "location": [
+      -5150.0,
+      0.0,
+      1975.0
+    ],
+    "halfExtentsCm": [
+      1575.0,
+      900.0,
+      1075.0
+    ],
+    "scaleRule": "AVolume brushes cannot be authored from Python. The script spawns the volume, reads its actual world bounds with get_actor_bounds, then sets actor scale3d = desired half extent / measured half extent, re-reads and requires the result to be within 1 cm on every axis. If it cannot converge the volume is destroyed and the run fails before the map is saved.",
+    "priority": 1.0,
+    "enabled": true,
+    "reverbSettings": {
+      "apply_reverb": true,
+      "volume": 0.35,
+      "fade_time": 1.5
+    },
+    "interiorSettings": {
+      "exterior_volume": 0.1,
+      "exterior_time": 1.4,
+      "exterior_lpf": 650.0,
+      "exterior_lpf_time": 1.4,
+      "interior_volume": 1.0,
+      "interior_time": 0.6,
+      "interior_lpf": 20000.0,
+      "interior_lpf_time": 0.6
+    },
+    "why": "Standing in the Heikhal, everything outside drops to a tenth of its level and is low-passed at 650 Hz over 1.4 s: the wind beds, the city hum and the birds become a muffled presence instead of an outdoor bed playing indoors, which is the 'interior quiet' the brief asks for. The reverb adds the tail. Sounds authored inside the volume keep full level.",
+    "limitations": [
+      "The existing footstep system calls PlaySound2D from MikdashPlayerController.cpp. A 2D sound has no attenuation, no reverb send and no spatialization, so it will NOT pick up this reverb tail. Making footsteps reverberate inside the sanctuary needs a C++ change that this task is not permitted to make.",
+      "The interior settings act on the listener position, not on room geometry. Anything that walks the player through the volume boundary at speed will hear a 1.4 s crossfade, not an instant change."
+    ]
+  },
+  "attenuations": {
+    "windBed": {
+      "asset": "ATT_SSV2_WindBed",
+      "radiusCm": 4200.0,
+      "falloffDistanceCm": 11000.0,
+      "distanceAlgorithm": "Inverse",
+      "dbAttenuationAtMax": -30.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 1500.0,
+      "nonSpatializedRadiusEndCm": 3500.0,
+      "stereoSpread": 1500.0,
+      "attenuateWithLpf": false,
+      "enableOcclusion": false,
+      "enableReverbSend": true,
+      "reverbWetLevelMin": 0.0,
+      "reverbWetLevelMax": 0.4,
+      "reverbDistanceMinCm": 1000.0,
+      "reverbDistanceMaxCm": 9000.0,
+      "why": "A bed must be wide and slow. 42 m of full level then 110 m of inverse falloff to -30 dB means the two beds overlap everywhere in the courts and neither ever becomes a point you can walk up to. The non-spatialized inner radius keeps the bed from collapsing into one ear when the listener passes the emitter. Occlusion is off: walls should not chop the wind, and three traces per frame buy nothing here."
+    },
+    "windOverlay": {
+      "asset": "ATT_SSV2_WindOverlay",
+      "radiusCm": 3000.0,
+      "falloffDistanceCm": 9000.0,
+      "distanceAlgorithm": "Inverse",
+      "dbAttenuationAtMax": -35.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 1200.0,
+      "nonSpatializedRadiusEndCm": 2800.0,
+      "stereoSpread": 1200.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 2000.0,
+      "lpfRadiusMaxCm": 11000.0,
+      "lpfFrequencyAtMin": 20000.0,
+      "lpfFrequencyAtMax": 3500.0,
+      "enableOcclusion": false,
+      "enableReverbSend": true,
+      "reverbWetLevelMin": 0.0,
+      "reverbWetLevelMax": 0.4,
+      "reverbDistanceMinCm": 1000.0,
+      "reverbDistanceMaxCm": 8000.0,
+      "why": "Slightly tighter than the beds and low-passed with distance, so an overlay gust arriving from the north reads as a direction rather than as a level change."
+    },
+    "doorway": {
+      "asset": "ATT_SSV2_Doorway",
+      "radiusCm": 350.0,
+      "falloffDistanceCm": 2400.0,
+      "distanceAlgorithm": "NaturalSound",
+      "dbAttenuationAtMax": -45.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 150.0,
+      "nonSpatializedRadiusEndCm": 400.0,
+      "stereoSpread": 300.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 400.0,
+      "lpfRadiusMaxCm": 2600.0,
+      "lpfFrequencyAtMin": 12000.0,
+      "lpfFrequencyAtMax": 900.0,
+      "enableOcclusion": false,
+      "enableReverbSend": true,
+      "reverbWetLevelMin": 0.2,
+      "reverbWetLevelMax": 0.7,
+      "reverbDistanceMinCm": 200.0,
+      "reverbDistanceMaxCm": 2400.0,
+      "why": "Wind leaking through an opening must be audible AT the opening and gone 25 m away, which is what a 3.5 m radius plus a 24 m natural-sound falloff gives. Its high reverb send means the tail, not the source, is what carries into the room."
+    },
+    "cityHum": {
+      "asset": "ATT_SSV2_CityHum",
+      "radiusCm": 14000.0,
+      "falloffDistanceCm": 45000.0,
+      "distanceAlgorithm": "NaturalSound",
+      "dbAttenuationAtMax": -55.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 6000.0,
+      "nonSpatializedRadiusEndCm": 14000.0,
+      "stereoSpread": 6000.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 8000.0,
+      "lpfRadiusMaxCm": 60000.0,
+      "lpfFrequencyAtMin": 8000.0,
+      "lpfFrequencyAtMax": 700.0,
+      "enableOcclusion": true,
+      "occlusionLowPassFilterFrequency": 450.0,
+      "occlusionVolumeAttenuation": 0.35,
+      "occlusionInterpolationTime": 0.6,
+      "occlusionTraceChannel": "Visibility",
+      "enableReverbSend": false,
+      "why": "Every hum emitter sits 270 to 400 m from the courts, so at the altar the listener is deep in the falloff and hears a distant, heavily low-passed wash; walking down toward the city raises it continuously. Occlusion is ON for this layer only: the court walls and the sanctuary mass then subtract another 9 dB and pull the cutoff to 450 Hz, which is why the hum reads as 'outside the courts' without any trigger volume."
+    },
+    "murmur": {
+      "asset": "ATT_SSV2_Murmur",
+      "radiusCm": 9000.0,
+      "falloffDistanceCm": 28000.0,
+      "distanceAlgorithm": "NaturalSound",
+      "dbAttenuationAtMax": -50.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 3000.0,
+      "nonSpatializedRadiusEndCm": 9000.0,
+      "stereoSpread": 4000.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 5000.0,
+      "lpfRadiusMaxCm": 34000.0,
+      "lpfFrequencyAtMin": 9000.0,
+      "lpfFrequencyAtMax": 900.0,
+      "enableOcclusion": true,
+      "occlusionLowPassFilterFrequency": 700.0,
+      "occlusionVolumeAttenuation": 0.45,
+      "occlusionInterpolationTime": 0.5,
+      "occlusionTraceChannel": "Visibility",
+      "enableReverbSend": false,
+      "why": "The murmur takes are recognisable human recordings at close range and formless washes at distance. The 90 m inner radius plus the 900 Hz far cutoff guarantee the listener never gets close enough to identify a language."
+    },
+    "bird": {
+      "asset": "ATT_SSV2_Bird",
+      "radiusCm": 900.0,
+      "falloffDistanceCm": 7000.0,
+      "distanceAlgorithm": "NaturalSound",
+      "dbAttenuationAtMax": -60.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 0.0,
+      "nonSpatializedRadiusEndCm": 300.0,
+      "stereoSpread": 0.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 1500.0,
+      "lpfRadiusMaxCm": 8000.0,
+      "lpfFrequencyAtMin": 20000.0,
+      "lpfFrequencyAtMax": 4000.0,
+      "enableOcclusion": false,
+      "enableReverbSend": true,
+      "reverbWetLevelMin": 0.0,
+      "reverbWetLevelMax": 0.5,
+      "reverbDistanceMinCm": 500.0,
+      "reverbDistanceMaxCm": 6000.0,
+      "why": "A bird must be a point in space, so the non-spatialized radius is essentially zero and the falloff is steep. Reverb send is on so a call fired near the colonnade picks up the room."
+    },
+    "foliage": {
+      "asset": "ATT_SSV2_Foliage",
+      "radiusCm": 2500.0,
+      "falloffDistanceCm": 9000.0,
+      "distanceAlgorithm": "Inverse",
+      "dbAttenuationAtMax": -40.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 900.0,
+      "nonSpatializedRadiusEndCm": 2500.0,
+      "stereoSpread": 1200.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 3000.0,
+      "lpfRadiusMaxCm": 11000.0,
+      "lpfFrequencyAtMin": 18000.0,
+      "lpfFrequencyAtMax": 2500.0,
+      "enableOcclusion": false,
+      "enableReverbSend": false,
+      "why": "Leaf rustle only exists off the Mount, so it must fade to nothing before the enclosure line."
+    },
+    "cloth": {
+      "asset": "ATT_SSV2_Cloth",
+      "radiusCm": 700.0,
+      "falloffDistanceCm": 3600.0,
+      "distanceAlgorithm": "NaturalSound",
+      "dbAttenuationAtMax": -55.0,
+      "spatialize": true,
+      "nonSpatializedRadiusStartCm": 0.0,
+      "nonSpatializedRadiusEndCm": 250.0,
+      "stereoSpread": 0.0,
+      "attenuateWithLpf": true,
+      "lpfRadiusMinCm": 800.0,
+      "lpfRadiusMaxCm": 4000.0,
+      "lpfFrequencyAtMin": 20000.0,
+      "lpfFrequencyAtMax": 5000.0,
+      "enableOcclusion": false,
+      "enableReverbSend": true,
+      "reverbWetLevelMin": 0.0,
+      "reverbWetLevelMax": 0.45,
+      "reverbDistanceMinCm": 300.0,
+      "reverbDistanceMaxCm": 3000.0,
+      "why": "Close detail: audible within 7 m, gone by 43 m."
+    }
+  },
+  "layers": {
+    "windBedBase": {
+      "mode": "loop",
+      "sources": [
+        "wind_mild"
+      ],
+      "why": "The darkest take in the set (mean spectral centroid 666 Hz, no flagged transient windows, 44.5 s). It is the floor of the mix and the only layer that is never absent."
+    },
+    "windBedAir": {
+      "mode": "loop",
+      "sources": [
+        "wind_park"
+      ],
+      "why": "The 256.8 s Adelaide open-field take. Long, brighter (centroid 2663 Hz), and pitched away from the base bed so the two never realign inside a session."
+    },
+    "windOverlay": {
+      "mode": "randomGap",
+      "sources": [
+        "wind_outdoor",
+        "wind_short"
+      ],
+      "pitchRange": [
+        0.9,
+        1.08
+      ],
+      "volumeRange": [
+        0.55,
+        1.0
+      ],
+      "randomizeWithoutReplacement": true,
+      "why": "Neither of these is long enough to loop without being recognised (29.9 s and 4.2 s). They are fired as isolated events with a long random silence between them, at a new random pitch and level every time, so what returns is never the same object twice."
+    },
+    "doorwayWind": {
+      "mode": "loop",
+      "sources": [
+        "wind_mild"
+      ],
+      "why": "The same dark take, pitched down and very quiet, sitting in the Ulam porch so the sanctuary hears wind arriving through an opening rather than an exterior bed applied indoors."
+    },
+    "cityHum": {
+      "mode": "loopRandom",
+      "sources": [
+        "city_alexa",
+        "city_restaurant"
+      ],
+      "pitchRange": [
+        0.94,
+        1.04
+      ],
+      "volumeRange": [
+        0.8,
+        1.0
+      ],
+      "randomizeWithoutReplacement": true,
+      "why": "Continuous with no gap, but each pass through the loop re-picks which of the two 60 s / 76 s takes plays and at what pitch, so the hum has no fixed period at all."
+    },
+    "murmur": {
+      "mode": "randomGap",
+      "sources": [
+        "murmur_church",
+        "murmur_festival"
+      ],
+      "pitchRange": [
+        0.92,
+        1.05
+      ],
+      "volumeRange": [
+        0.5,
+        1.0
+      ],
+      "randomizeWithoutReplacement": true,
+      "why": "Voices should arrive from the city occasionally, not continuously. Long random gaps keep the precinct feeling separate from the town."
+    },
+    "bird": {
+      "mode": "randomGap",
+      "sources": [
+        "bird_sparrow",
+        "bird_woodpigeon_song",
+        "bird_dove_coo",
+        "bird_woodpigeon_call",
+        "bird_pigeon",
+        "bird_hooded_crow",
+        "bird_swallow"
+      ],
+      "pitchRange": [
+        0.92,
+        1.08
+      ],
+      "volumeRange": [
+        0.5,
+        1.0
+      ],
+      "randomizeWithoutReplacement": true,
+      "why": "Seven one-shots between 1.9 s and 11.6 s, shuffled without replacement so the same call cannot fire twice in a row, each at a new pitch and level, from five separate positions on five unrelated timers."
+    },
+    "foliage": {
+      "mode": "loop",
+      "sources": [
+        "foliage_forest"
+      ],
+      "why": "Wind in leaves, 54.4 s, no flagged transients. Placed only outside the measured Mount, which carries no trees."
+    },
+    "cloth": {
+      "mode": "randomGap",
+      "sources": [
+        "cloth_swing"
+      ],
+      "pitchRange": [
+        0.88,
+        1.1
+      ],
+      "volumeRange": [
+        0.4,
+        0.9
+      ],
+      "why": "One CC-BY file of cloth movement, fired as isolated events. With one source the Random node is omitted and the chain is Looping -> Delay -> Modulator -> Wave Player."
+    }
+  },
+  "cueGraph": {
+    "loop": "Wave Player (looping) attached directly to the AmbientSound as a SoundWave, with no SoundCue at all. The emitter's own volume_multiplier and pitch_multiplier carry the per-emitter offset.",
+    "loopRandom": "Looping(bLoopIndefinitely) -> Random(bRandomizeWithoutReplacement, weights all 1) -> [Modulator(pitch, volume) -> Wave Player(non-looping)] per source.",
+    "randomGap": "Looping(bLoopIndefinitely) -> Delay(DelayMin, DelayMax per emitter) -> Random(bRandomizeWithoutReplacement) -> [Modulator -> Wave Player(non-looping)] per source. With a single source the Random node is omitted.",
+    "construction": "unreal.new_object(cls, outer=cue) for each node, then cue.first_node and node.child_nodes. USoundCue::FirstNode and USoundNode::ChildNodes are BlueprintReadOnly, which the Python property layer permits to be set (PropertyAccessUtil::EditorReadOnlyFlags is CPF_EditConst only).",
+    "knownLimitation": "USoundCue::AllNodes and SoundCueGraph are plain UPROPERTY() with neither CPF_Edit nor CPF_BlueprintVisible, so Python cannot populate them and there is no UFUNCTION on USoundCue that would. The cues therefore PLAY correctly (playback walks FirstNode) but open in the Sound Cue Editor showing only the Output node. DO NOT OPEN AND RE-SAVE THESE CUES IN THE SOUND CUE EDITOR: FSoundCueEditor compiles the graph back over FirstNode and would erase the chain. Re-run this script instead. The receipt states which path was used.",
+    "probe": "Before any map mutation the script creates one throwaway SoundCue in a scratch package and destroys it, because USoundCue::PostInitProperties calls CreateGraph() which dereferences the AudioEditor module's editor interface without a null check. If that module is not loaded the process dies; doing it before the checkpoint means the map is untouched when it does.",
+    "fallback": "-SoundscapeNoCue, or a failed probe, degrades every randomGap / loopRandom layer to a plain looping SoundWave of its first source. That fallback HAS NO RANDOMISATION and would read as a loop; it exists so the run can complete and be inspected, not as the design."
+  },
+  "emitters": [
+    {
+      "label": "RELEASE_SSV2_WindBed_Azarah",
+      "layer": "windBedBase",
+      "attenuation": "windBed",
+      "location": [
+        900.0,
+        -900.0,
+        1300.0
+      ],
+      "volume": 0.55,
+      "pitch": 0.93,
+      "place": "courtyard centre - inner court, north of the altar, about 7 m above the 625 court floor"
+    },
+    {
+      "label": "RELEASE_SSV2_WindBed_OuterCourt",
+      "layer": "windBedAir",
+      "attenuation": "windBed",
+      "location": [
+        3800.0,
+        1400.0,
+        1500.0
+      ],
+      "volume": 0.42,
+      "pitch": 1.04,
+      "place": "outer court - east of the inner court wall, on the approach from the east gate"
+    },
+    {
+      "label": "RELEASE_SSV2_WindOverlay_North",
+      "layer": "windOverlay",
+      "attenuation": "windOverlay",
+      "location": [
+        -1200.0,
+        -5400.0,
+        1500.0
+      ],
+      "volume": 0.4,
+      "pitch": 1.0,
+      "delaySeconds": [
+        34.0,
+        96.0
+      ],
+      "place": "north side of the priests' court, clear of the sanctuary by 45 m in Y"
+    },
+    {
+      "label": "RELEASE_SSV2_WindOverlay_East",
+      "layer": "windOverlay",
+      "attenuation": "windOverlay",
+      "location": [
+        6200.0,
+        800.0,
+        1600.0
+      ],
+      "volume": 0.36,
+      "pitch": 1.0,
+      "delaySeconds": [
+        23.0,
+        71.0
+      ],
+      "place": "outer court east, toward the gate line"
+    },
+    {
+      "label": "RELEASE_SSV2_WindDoorway_Ulam",
+      "layer": "doorwayWind",
+      "attenuation": "doorway",
+      "location": [
+        -3250.0,
+        0.0,
+        1750.0
+      ],
+      "volume": 0.16,
+      "pitch": 0.88,
+      "place": "Ulam porch, 3.5 m east of the Heikhal doorway west face at X -3600 and outside the sanctuary box"
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_West",
+      "layer": "cityHum",
+      "attenuation": "cityHum",
+      "location": [
+        -38000.0,
+        6000.0,
+        3200.0
+      ],
+      "volume": 0.3,
+      "pitch": 0.97,
+      "place": "city edge west, 390 m from the altar, beyond the Kotel plaza"
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_SouthWest",
+      "layer": "cityHum",
+      "attenuation": "cityHum",
+      "location": [
+        -30000.0,
+        30000.0,
+        3200.0
+      ],
+      "volume": 0.3,
+      "pitch": 1.02,
+      "place": "city edge south-west, toward Batei Mahase where the bus stands at +Y 46855"
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_South",
+      "layer": "cityHum",
+      "attenuation": "cityHum",
+      "location": [
+        0.0,
+        40000.0,
+        3200.0
+      ],
+      "volume": 0.28,
+      "pitch": 0.99,
+      "place": "city edge south, 400 m out"
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_North",
+      "layer": "cityHum",
+      "attenuation": "cityHum",
+      "location": [
+        8000.0,
+        -34000.0,
+        3200.0
+      ],
+      "volume": 0.22,
+      "pitch": 1.05,
+      "place": "city edge north, quieter because the ground falls away there"
+    },
+    {
+      "label": "RELEASE_SSV2_Murmur_KotelPlaza",
+      "layer": "murmur",
+      "attenuation": "murmur",
+      "location": [
+        -21000.0,
+        13000.0,
+        1500.0
+      ],
+      "volume": 0.26,
+      "pitch": 1.0,
+      "delaySeconds": [
+        26.0,
+        84.0
+      ],
+      "place": "plaza - west of the Kotel ashlar run (X -15690..-14108, Y 8845..17750), so on the plaza side of the wall"
+    },
+    {
+      "label": "RELEASE_SSV2_Murmur_CityEdge",
+      "layer": "murmur",
+      "attenuation": "murmur",
+      "location": [
+        -6000.0,
+        26000.0,
+        1800.0
+      ],
+      "volume": 0.24,
+      "pitch": 0.96,
+      "delaySeconds": [
+        37.0,
+        110.0
+      ],
+      "place": "city edge south-west, between the Mount and the first streets"
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_NorthCourt",
+      "layer": "bird",
+      "attenuation": "bird",
+      "location": [
+        3400.0,
+        -3800.0,
+        1600.0
+      ],
+      "volume": 0.34,
+      "pitch": 1.0,
+      "delaySeconds": [
+        20.0,
+        62.0
+      ],
+      "place": "north outer court, on the gallery roofline"
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_SouthCourt",
+      "layer": "bird",
+      "attenuation": "bird",
+      "location": [
+        4200.0,
+        4600.0,
+        1500.0
+      ],
+      "volume": 0.32,
+      "pitch": 1.0,
+      "delaySeconds": [
+        27.0,
+        74.0
+      ],
+      "place": "south outer court"
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_NorthChambers",
+      "layer": "bird",
+      "attenuation": "bird",
+      "location": [
+        -5200.0,
+        -6200.0,
+        1500.0
+      ],
+      "volume": 0.3,
+      "pitch": 1.0,
+      "delaySeconds": [
+        33.0,
+        88.0
+      ],
+      "place": "north chambers, 53 m clear of the sanctuary in Y"
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_SouthChambers",
+      "layer": "bird",
+      "attenuation": "bird",
+      "location": [
+        -4800.0,
+        6400.0,
+        1500.0
+      ],
+      "volume": 0.3,
+      "pitch": 1.0,
+      "delaySeconds": [
+        24.0,
+        69.0
+      ],
+      "place": "south chambers, 55 m clear of the sanctuary in Y"
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_EastGate",
+      "layer": "bird",
+      "attenuation": "bird",
+      "location": [
+        7600.0,
+        -600.0,
+        1800.0
+      ],
+      "volume": 0.36,
+      "pitch": 1.0,
+      "delaySeconds": [
+        38.0,
+        90.0
+      ],
+      "place": "east gate, above the arrival stairs"
+    },
+    {
+      "label": "RELEASE_SSV2_Foliage_WestSlope",
+      "layer": "foliage",
+      "attenuation": "foliage",
+      "location": [
+        -13500.0,
+        -4000.0,
+        900.0
+      ],
+      "volume": 0.3,
+      "pitch": 0.97,
+      "place": "west slope, 54 m outside the measured Mount footprint"
+    },
+    {
+      "label": "RELEASE_SSV2_Foliage_SouthSlope",
+      "layer": "foliage",
+      "attenuation": "foliage",
+      "location": [
+        -2000.0,
+        13500.0,
+        900.0
+      ],
+      "volume": 0.26,
+      "pitch": 1.05,
+      "place": "south slope, 41 m outside the measured Mount footprint"
+    },
+    {
+      "label": "RELEASE_SSV2_Cloth_EastGate",
+      "layer": "cloth",
+      "attenuation": "cloth",
+      "location": [
+        7300.0,
+        1200.0,
+        1200.0
+      ],
+      "volume": 0.22,
+      "pitch": 1.0,
+      "delaySeconds": [
+        14.0,
+        46.0
+      ],
+      "place": "east gate, awning height"
+    },
+    {
+      "label": "RELEASE_SSV2_Cloth_UlamPorch",
+      "layer": "cloth",
+      "attenuation": "cloth",
+      "location": [
+        -2600.0,
+        -1500.0,
+        1600.0
+      ],
+      "volume": 0.18,
+      "pitch": 1.0,
+      "delaySeconds": [
+        19.0,
+        58.0
+      ],
+      "place": "Ulam porch north side, outside the sanctuary box"
+    }
+  ],
+  "existingPilot": {
+    "assetPath": "/Game/MikdashV3/Runtime/Audio/SW_CourtyardOriginal_Pilot01",
+    "requiredAutoActivate": false,
+    "rule": "The single existing AmbientSound must be found, must reference this asset, and its AudioComponent auto_activate must be false. If it is true the script sets it false, records the before value and reverts it on -SoundscapeRevert. The actor is never destroyed, moved, relabelled or repointed."
+  },
+  "expectedActorCountsBefore": {
+    "AmbientSound": 1,
+    "AudioVolume": 0
+  },
+  "verification": {
+    "floatRelativeTolerance": 0.0001,
+    "volumeScaleToleranceCm": 1.0,
+    "compareRule": "Numeric fields, enum integers and asset paths only; str(Struct) is never compared."
+  },
+  "limitations": [
+    "NOBODY HAS HEARD ANY OF THIS. Not one of the seventeen recordings has been auditioned, and the script has never been executed against the editor by its author. Every acceptance statement in the receipt is a numeric readback, not a listening verdict.",
+    "The statistics in SoundscapeV2/*.provenance.json come from a decoded signal, not from an ear. A file with no flagged transient windows can still contain a voice, a dog, a car door or a microphone bump that a listener would refuse instantly.",
+    "Only one wind take exceeds 60 s (the 256.8 s Thimras recording). The brief asked for two to four; the other two wind takes are 44.5 s and 29.9 s and are handled as one continuous loop plus randomly gapped overlays precisely because they are short. The rejected-candidate list records why no fourth long take was shipped.",
+    "The four Ogg sources cannot be decoded by the standard library. Their statistics were produced by decoding through ffmpeg into a throwaway WAV; the shipped bytes are the publisher originals. If ffmpeg is absent, those files carry a container check only.",
+    "The city hum and murmur recordings are a Berlin mall, a restaurant, a church interior and a festival crowd. At the distances and cutoffs specified none should be identifiable, but that claim is exactly what an audition has to test.",
+    "Bird species are house sparrow, wood pigeon, dove, pigeon, hooded crow and a swallow standing in for a swift. Only the sparrow, the crow and the pigeons are plausibly Jerusalem residents; no ornithological review was done.",
+    "There is no interior room tone. The Heikhal and the Kodesh are quiet by ducking the exterior, not by adding a recorded floor, because no suitable CC0 room tone was found.",
+    "SoundCue graphs built this way are invisible in the Sound Cue Editor and would be destroyed if a human opens and saves them there.",
+    "The FInteriorSettings ducking only affects sources whose sound class sets bApplyAmbientVolumes; the existing PlaySound2D footsteps are outside it and are unaffected by the interior quiet and the reverb.",
+    "Twenty new emitters is twenty more concurrent voices in the worst case. No voice-count, concurrency or performance measurement has been made; the audition must include a frame-time check.",
+    "SoundBase.VirtualizationMode is left at the engine default (Disabled). An emitter whose listener walks out of its falloff stops entirely and restarts its random delay from zero on return, rather than keeping its timer running. That is cheaper and, for beds and birds, harmless, but it means the bird timers are not a global clock. Setting the randomGap cues to PlayWhenSilent is the knob if that ever matters.",
+    "The city hum is a continuous distance gradient plus occlusion, not a gate. Its emitters are 270 to 400 m from the altar with a 140 m inner radius and a 450 m falloff, so a faint hum is present in the courts by design; what makes it read as 'outside' is the 700 Hz distance cutoff, the extra 9 dB and 450 Hz cutoff from occlusion behind the court walls, and the AudioVolume ducking it to a tenth indoors. Nothing hard-switches it off.",
+    "Source bit depths are 16, 24 and 32-bit (one file is 32-bit float). USoundFactory only accepts 16-bit PCM directly and routes everything else through libsndfile (WITH_SNDFILE_IO) to convert it, so every imported SoundWave ends up 16-bit whatever the source was. That conversion is the engine's, not this script's, and it has not been verified on this machine. If an import fails with 'Only 16 bit WAV source files are supported on this editor platform', that editor build lacks libsndfile and the three non-16-bit WAVs must be converted by hand before re-running."
+  ],
+  "frozen": {
+    "stamp": "20260908T041724644545Z",
+    "sources": {
+      "wind_mild": {
+        "file": "MildWindBackground_Bashar3A.wav",
+        "role": "windBed",
+        "sha256": "9f1fd5c8b37949e6889a7f6acbd822f66e0ab4e918d72bda58d8d8c2c7e85a80",
+        "bytes": 15708766,
+        "durationSeconds": 44.509615,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "accepted"
+      },
+      "wind_outdoor": {
+        "file": "AmbOutdoor1Loop_Kresiek.wav",
+        "role": "windBed",
+        "sha256": "c0a4b0e5b981bd15c3463b75a4fd2067a70a54a917ff9f7a9de6dd984af95883",
+        "bytes": 5268832,
+        "durationSeconds": 29.868413,
+        "sampleRate": 44100,
+        "channels": 1,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "accepted"
+      },
+      "wind_park": {
+        "file": "ParkAmbienceWind_Thimras.wav",
+        "role": "windBed",
+        "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+        "bytes": 73960096,
+        "durationSeconds": 256.803333,
+        "sampleRate": 48000,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "accepted"
+      },
+      "wind_short": {
+        "file": "ShortWind_remaxim.wav",
+        "role": "windGust",
+        "sha256": "4435f5ad1baf171f21f876f778d0a8a7447becea0c4955bb2566e0c63ab20f41",
+        "bytes": 747196,
+        "durationSeconds": 4.235306,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "foliage_forest": {
+        "file": "Foret_JosephSardin.wav",
+        "role": "foliage",
+        "sha256": "93606dc76a254da067cddb567601eed039f76101d705d908dfcd207511a26f03",
+        "bytes": 10437034,
+        "durationSeconds": 54.354813,
+        "sampleRate": 48000,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "accepted"
+      },
+      "cloth_swing": {
+        "file": "ClothSwing_Vinrax.wav",
+        "role": "cloth",
+        "sha256": "fe85c3aef953348afa856d1219e1fb57bbbf0c2df2d23dbbfdf754d9fd03690f",
+        "bytes": 1742006,
+        "durationSeconds": 9.874286,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "city_alexa": {
+        "file": "CityHum_AlexaMallBerlin_thore.ogg",
+        "role": "cityHum",
+        "sha256": "bb066e130e5d665db57cb5f88e820d053c724d8f777b275213998d2074c6529a",
+        "bytes": 1666896,
+        "durationSeconds": 60.05551,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "accepted"
+      },
+      "city_restaurant": {
+        "file": "CityHum_Restaurant_stephan.ogg",
+        "role": "cityHum",
+        "sha256": "0aeb1fa7a3d9647d3284e97d9880b6375b54db2eda6a517c64e3bb02ac8a51cc",
+        "bytes": 1970215,
+        "durationSeconds": 76.251429,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "accepted"
+      },
+      "murmur_church": {
+        "file": "Murmur_ChurchPeopleReverb_stephan.ogg",
+        "role": "murmur",
+        "sha256": "a0b2063236d361b6a69e4e83204ea9df94b89d33c50dfc91091cecfd26275034",
+        "bytes": 858271,
+        "durationSeconds": 30.328163,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "accepted"
+      },
+      "murmur_festival": {
+        "file": "Murmur_FestivalCrowd_stephan.ogg",
+        "role": "murmur",
+        "sha256": "704b68f75b3f6885abfb35173c8b61aa34fc42c6b694b371e848ce47d045c13c",
+        "bytes": 1821225,
+        "durationSeconds": 61.152653,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "accepted"
+      },
+      "bird_sparrow": {
+        "file": "Bird_HouseSparrowTschilp_JosephSardin.ogg",
+        "role": "bird",
+        "sha256": "7f26490caf1febcd3d5143b8bfa4a6b905fc232a9ec55823409578c3106458b0",
+        "bytes": 144049,
+        "durationSeconds": 6.217143,
+        "sampleRate": 44100,
+        "channels": 1,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_woodpigeon_song": {
+        "file": "Bird_WoodPigeonSong_Raisanen.ogg",
+        "role": "bird",
+        "sha256": "aaf7f25693e645d5e9144a118bbd338680393ecd398c5251c436b64d9282efe5",
+        "bytes": 82821,
+        "durationSeconds": 11.634875,
+        "sampleRate": 22050,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_dove_coo": {
+        "file": "Bird_DoveCooing_mary905.ogg",
+        "role": "bird",
+        "sha256": "84d92584f22b0655f78fe59aaff026e792300c4e63d45a69d48c907400bacc23",
+        "bytes": 50644,
+        "durationSeconds": 7.862857,
+        "sampleRate": 22050,
+        "channels": 1,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_woodpigeon_call": {
+        "file": "Bird_WoodPigeonCall_Crunchysaviour.ogg",
+        "role": "bird",
+        "sha256": "b92441933079729d572ba5a0a0f7798452d8d9d22178b0dc0ea36d9724f6988f",
+        "bytes": 45655,
+        "durationSeconds": 3.134694,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_pigeon": {
+        "file": "Bird_Pigeon_Gasybeaugosse2020.wav",
+        "role": "bird",
+        "sha256": "04573706e2ac0828e26d10394ab3adc99326a6561c9dac9b23e4bdb1a66e8f7a",
+        "bytes": 330616,
+        "durationSeconds": 1.873991,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "RIFF/WAVE",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_hooded_crow": {
+        "file": "Bird_HoodedCrow_Raisanen.ogg",
+        "role": "bird",
+        "sha256": "16026c1a65e185bdee21c95f341c306d3687ebf2d4660e7ff2fcaa2538396098",
+        "bytes": 41517,
+        "durationSeconds": 5.16576,
+        "sampleRate": 22050,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      },
+      "bird_swallow": {
+        "file": "Bird_Swallow_natalie.ogg",
+        "role": "bird",
+        "sha256": "663a8a1ef79e26d1cd30e261c801bd73d764dcd4636ce2f43df746826b0981dc",
+        "bytes": 215162,
+        "durationSeconds": 8.019592,
+        "sampleRate": 44100,
+        "channels": 2,
+        "container": "Ogg",
+        "bedRuleVerdict": "not a bed layer; transient rule not applied"
+      }
+    },
+    "totalBytes": 115091001
+  }
+}

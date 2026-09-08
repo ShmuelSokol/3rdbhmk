@@ -1,0 +1,4462 @@
+{
+  "status": "offline_geometry_and_rig_validated_native_import_pending",
+  "namespace": "/Game/MikdashV3/CharacterReview/PilgrimRigV3",
+  "units": "centimetres",
+  "front": "-Y",
+  "up": "Z",
+  "triangleBudgetPerCharacter": 25000,
+  "rigCompatibility": {
+    "compared": true,
+    "joints": 27,
+    "identical_rest_pose": true,
+    "source": "SourceAssets\\characters-review\\PilgrimRigV2\\rig-definition.json"
+  },
+  "clips": [
+    {
+      "name": "A_Pilgrim_Original_Idle",
+      "duration_s": 3.2,
+      "origin": "reproduced from PilgrimRigV2 verbatim"
+    },
+    {
+      "name": "A_Pilgrim_Original_Walk",
+      "duration_s": 1.2,
+      "origin": "reproduced from PilgrimRigV2 verbatim"
+    },
+    {
+      "name": "A_Pilgrim_V3_PhotoCamera",
+      "duration_s": 4.0,
+      "origin": "new original clip authored for the photo request"
+    },
+    {
+      "name": "A_Pilgrim_V3_PhotoPhone",
+      "duration_s": 3.6,
+      "origin": "new original clip authored for the photo request"
+    }
+  ],
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_A",
+      "label": "Pilgrim man, standard build",
+      "triangles": 18364,
+      "vertices": 9294,
+      "parts": 56,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "linen-warm",
+      "skinTone": "olive",
+      "prop": null,
+      "headwear": "cloth",
+      "beard": "short",
+      "mantle": true,
+      "recommendedActorScale": 1.0,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Man_A.glb",
+      "skeletalSha256": "5c48ab1c2fe886e2798ac8f2dace122db9d0f662017ecd3e4377718e13c91615",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_A.obj",
+      "staticSha256": "dd181720629d8228a20a9f8b2b7836f8fea4e586560a61531fe239e446b93497",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_A.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -22.319687998991906,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          21.459284410547653,
+          179.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9294,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -28.415904255910693,
+                    -21.880630004821377,
+                    0.0
+                  ],
+                  "max": [
+                    28.715645405788855,
+                    21.848797557907595,
+                    179.40719797019028
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -28.43444638983947,
+                    -23.015856107804552,
+                    0.0
+                  ],
+                  "max": [
+                    28.723198599232376,
+                    21.07219727706615,
+                    179.40405215673354
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -28.45093148351448,
+                    -21.995959722279476,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.7949100788699,
+                    22.711509120288024,
+                    177.45330171465625
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -28.56192487194876,
+                    -24.1510784892615,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.74683999434928,
+                    20.21373530384149,
+                    177.45195350745047
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    24.758994291794046,
+                    179.46603054421345
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.86997767327939,
+                    -26.35032531713242,
+                    0.0
+                  ],
+                  "max": [
+                    33.58591216298393,
+                    24.59980976836051,
+                    179.45189587640874
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    25.17652767911259,
+                    179.46890659601772
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.450021582433735,
+                    -26.091138503033203,
+                    0.0
+                  ],
+                  "max": [
+                    34.17416310783368,
+                    25.33543085491173,
+                    179.47882245385483
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.758994291794046,
+                    179.46603054421345
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -30.01247704394796,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.59980976836051,
+                    179.45189587640874
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    25.17652767911259,
+                    179.46890659601772
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.71567189150088,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    38.3427781982151,
+                    25.33543085491173,
+                    179.47882245385483
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_A.glb",
+        "bytes": 904028,
+        "decodedTriangles": 18364,
+        "decodedVertices": 9294,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Man_A-front.png",
+        "previews/V3_Pilgrim_Man_A-three-quarter.png",
+        "previews/V3_Pilgrim_Man_A-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.42133309665328117,
+          "signed_volume_cm3": 4014.3090301300163
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3868534897352507,
+          "signed_volume_cm3": 94178.25612753676
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03266151296364865,
+          "signed_volume_cm3": 2686.2282881705128
+        },
+        {
+          "name": "HeadCloth",
+          "material": "Headcloth",
+          "vertices": 504,
+          "triangles": 1004,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.05463598370258157,
+          "signed_volume_cm3": 323.53832322890094
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3601192256873045,
+          "signed_volume_cm3": 438.3160807622229
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.36011922568730415,
+          "signed_volume_cm3": 438.31608076222255
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7963992717459547,
+          "signed_volume_cm3": 7418.859280470034
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "MantleHem",
+          "material": "Trim",
+          "vertices": 206,
+          "triangles": 408,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.16645008260736904,
+          "signed_volume_cm3": 112.38062656351492
+        },
+        {
+          "name": "HeadBand",
+          "material": "Trim",
+          "vertices": 186,
+          "triangles": 368,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.14707821048679867,
+          "signed_volume_cm3": 59.18873538216571
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        }
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_B",
+      "label": "Pilgrim man, heavy build, full beard",
+      "triangles": 18748,
+      "vertices": 9488,
+      "parts": 57,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "wool-umber",
+      "skinTone": "deep",
+      "prop": null,
+      "headwear": "turban",
+      "beard": "full",
+      "mantle": true,
+      "recommendedActorScale": 1.03,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Man_B.glb",
+      "skeletalSha256": "12c97cf5cd5145d5dec362b3ed7c2e2d29e0c3818d90db40a8674d361f043f30",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_B.obj",
+      "staticSha256": "2e239f91832844b0133166ac44a261bbacc0458e4fbb1fee00b47dd68cb684b4",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_B.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -23.12232863256149,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          24.099886844324516,
+          181.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9488,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.893015001125594,
+                    -23.12232863256149,
+                    0.0
+                  ],
+                  "max": [
+                    28.90412594678844,
+                    24.099886844324516,
+                    181.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -28.90521690900153,
+                    -22.734923453698876,
+                    0.0
+                  ],
+                  "max": [
+                    28.916357364474088,
+                    24.487740926444808,
+                    181.3999465309588
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.893015001125594,
+                    -23.12232863256149,
+                    0.0
+                  ],
+                  "max": [
+                    28.90412594678844,
+                    24.099886844324516,
+                    181.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -28.883670728508495,
+                    -23.713509627973334,
+                    0.0
+                  ],
+                  "max": [
+                    28.894751259895322,
+                    23.714386267355806,
+                    181.39826670324996
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.893015001125594,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.90412594678844,
+                    24.414106017141634,
+                    178.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -29.00888027278091,
+                    -24.502744175475556,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.89081996448719,
+                    25.34736491884849,
+                    179.45019587221208
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.893015001125594,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.90412594678844,
+                    23.78770063803497,
+                    178.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -28.87990463330351,
+                    -25.628049903697153,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    29.020154310106413,
+                    22.85853269758791,
+                    179.44947594528415
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -33.357731654992996,
+                    -26.35554713888992,
+                    0.0
+                  ],
+                  "max": [
+                    34.19350034596149,
+                    27.381883474181983,
+                    181.3004137272768
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.05978175829343,
+                    -26.360848702062736,
+                    0.0
+                  ],
+                  "max": [
+                    33.87229134888495,
+                    27.22325229170349,
+                    181.3130317831177
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.357731654992996,
+                    -26.35554713888992,
+                    0.0
+                  ],
+                  "max": [
+                    34.19350034596149,
+                    27.797333227892416,
+                    181.2929615449249
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.61480043766741,
+                    -26.08854599011316,
+                    0.0
+                  ],
+                  "max": [
+                    34.45743678061472,
+                    27.95566292707081,
+                    181.2953286641239
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.6186775541452,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.41977267749031,
+                    27.381883474181983,
+                    181.3004137272768
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -30.363395306987393,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    38.4197726774903,
+                    27.22325229170349,
+                    181.3130317831177
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.6186775541452,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.41977267749031,
+                    27.797333227892416,
+                    181.2929615449249
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -31.07534054398699,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    38.41977267749029,
+                    27.95566292707081,
+                    181.2953286641239
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_B.glb",
+        "bytes": 921056,
+        "decodedTriangles": 18748,
+        "decodedVertices": 9488,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Man_B-front.png",
+        "previews/V3_Pilgrim_Man_B-three-quarter.png",
+        "previews/V3_Pilgrim_Man_B-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.49798619631136914,
+          "signed_volume_cm3": 4538.583556056996
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7171452742570723,
+          "signed_volume_cm3": 122339.27590534065
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03279371473742393,
+          "signed_volume_cm3": 2696.639660571686
+        },
+        {
+          "name": "TurbanCrown",
+          "material": "Headcloth",
+          "vertices": 310,
+          "triangles": 616,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.5292199135848947,
+          "signed_volume_cm3": 1628.6832785675288
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.4068126226801705,
+          "signed_volume_cm3": 495.2971712613112
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.4068126226801705,
+          "signed_volume_cm3": 495.29717126131095
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.9932760874770077,
+          "signed_volume_cm3": 9029.382191101344
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "TurbanBand0",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554188
+        },
+        {
+          "name": "TurbanBand1",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554194
+        },
+        {
+          "name": "TurbanBand2",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554228
+        }
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Woman_A",
+      "label": "Pilgrim woman, long shawl",
+      "triangles": 18212,
+      "vertices": 9212,
+      "parts": 53,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "indigo",
+      "skinTone": "tan",
+      "prop": null,
+      "headwear": "shawl",
+      "beard": "none",
+      "mantle": true,
+      "recommendedActorScale": 0.94,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Woman_A.glb",
+      "skeletalSha256": "69025f631187b2407cd41c31b1975530e67d5076327bbef6f81451d67af2c13b",
+      "staticFile": "meshes/SM_V3_Pilgrim_Woman_A.obj",
+      "staticSha256": "6f56566042b3bc44fe2f5b2568fc79bc5d0e3a2f47153f3b640338a94cbe120c",
+      "staticMaterialFile": "SM_V3_Pilgrim_Woman_A.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -21.34994637885653,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          20.750746951828575,
+          179.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9212,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.122637122903292,
+                    -21.34994637885653,
+                    0.0
+                  ],
+                  "max": [
+                    28.307746413328317,
+                    20.750746951828575,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -28.115639931878405,
+                    -20.963558308206707,
+                    0.0
+                  ],
+                  "max": [
+                    28.30540101745051,
+                    21.140011325978843,
+                    179.4067890993057
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.122637122903292,
+                    -21.34994637885653,
+                    0.0
+                  ],
+                  "max": [
+                    28.307746413328317,
+                    20.750746951828575,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -28.13430337185993,
+                    -22.02453925475909,
+                    0.0
+                  ],
+                  "max": [
+                    28.31298784865973,
+                    20.36392981057915,
+                    179.40437466965514
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 2.842170943040401e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.122637122903292,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.307746413328317,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -28.150722396745945,
+                    -21.881647341148117,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.413506765624145,
+                    22.002333512239304,
+                    177.4531264840878
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.122637122903292,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.307746413328317,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -28.262441924355088,
+                    -22.885236107784884,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.337106913076283,
+                    19.50598887976134,
+                    177.45209172742335
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -32.99654918776065,
+                    -26.009867201250476,
+                    0.0
+                  ],
+                  "max": [
+                    33.70953572265623,
+                    24.048915614264544,
+                    179.4749436465434
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.69078602333569,
+                    -25.990135278309324,
+                    0.0
+                  ],
+                  "max": [
+                    33.37461518670062,
+                    23.88975142528593,
+                    179.45941218798185
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.99654918776065,
+                    -26.009867201250476,
+                    0.0
+                  ],
+                  "max": [
+                    33.70953572265623,
+                    24.466383883891943,
+                    179.47835482266694
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.27800511756929,
+                    -25.72684650839202,
+                    0.0
+                  ],
+                  "max": [
+                    33.980313032531456,
+                    24.6252721788574,
+                    179.48966558414884
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -29.89554094291935,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.00314556956768,
+                    24.048915614264544,
+                    179.4749436465434
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -29.644202364694436,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    38.00314556956768,
+                    23.88975142528593,
+                    179.45941218798185
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -29.89554094291935,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.00314556956768,
+                    24.466383883891943,
+                    179.47835482266694
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.34722728450113,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    38.003145569567664,
+                    24.6252721788574,
+                    179.48966558414884
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Woman_A.glb",
+        "bytes": 896944,
+        "decodedTriangles": 18212,
+        "decodedVertices": 9212,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Woman_A-front.png",
+        "previews/V3_Pilgrim_Woman_A-three-quarter.png",
+        "previews/V3_Pilgrim_Woman_A-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3828667667645806,
+          "signed_volume_cm3": 3653.494990910675
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.1338166352809211,
+          "signed_volume_cm3": 82020.41715202821
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.032590356360439096,
+          "signed_volume_cm3": 2680.6217639277706
+        },
+        {
+          "name": "HeadCloth",
+          "material": "Headcloth",
+          "vertices": 630,
+          "triangles": 1256,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.04802430191198837,
+          "signed_volume_cm3": 567.2604132878441
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.33498324676423413,
+          "signed_volume_cm3": 407.633955108867
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3349832467642342,
+          "signed_volume_cm3": 407.63395510886687
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.6898089619979424,
+          "signed_volume_cm3": 6617.201716721946
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "MantleHem",
+          "material": "Trim",
+          "vertices": 206,
+          "triangles": 408,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.1664500826073682,
+          "signed_volume_cm3": 103.79973399916697
+        },
+        {
+          "name": "HeadBand",
+          "material": "Trim",
+          "vertices": 186,
+          "triangles": 368,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.14707821048679867,
+          "signed_volume_cm3": 59.18873538216571
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        }
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "label": "Youth, short tunic, no mantle",
+      "triangles": 12596,
+      "vertices": 6392,
+      "parts": 47,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "ochre",
+      "skinTone": "tan",
+      "prop": null,
+      "headwear": "cap",
+      "beard": "none",
+      "mantle": false,
+      "recommendedActorScale": 0.86,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Youth.glb",
+      "skeletalSha256": "285c16d0f868dc01dafdd70a77e38089ea0437ca56991b329953f63cf66cc2cc",
+      "staticFile": "meshes/SM_V3_Pilgrim_Youth.obj",
+      "staticSha256": "0da1b0edb9a612370034754b6bae356489f7731fb350375a76cd9252a455fd6d",
+      "staticMaterialFile": "SM_V3_Pilgrim_Youth.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -14.621984952849177,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          13.048940248998466,
+          178.6
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 6392,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -27.47400458252245,
+                    -14.621984952849177,
+                    0.0
+                  ],
+                  "max": [
+                    27.614325260004613,
+                    13.048940248998466,
+                    178.6
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -27.45744000864351,
+                    -14.621984952849177,
+                    0.0
+                  ],
+                  "max": [
+                    27.623268685077164,
+                    13.048940248998466,
+                    178.61166132374774
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -27.47400458252245,
+                    -14.621984952849177,
+                    0.0
+                  ],
+                  "max": [
+                    27.614325260004613,
+                    13.048940248998466,
+                    178.6
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -27.49546224455238,
+                    -14.621984952849177,
+                    0.0
+                  ],
+                  "max": [
+                    27.608343583246082,
+                    13.048940248998466,
+                    178.6090218717997
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -27.47400458252245,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    27.614325260004613,
+                    22.621984952849182,
+                    176.15
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -27.54114110421193,
+                    -20.55349765846639,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    27.72334705953619,
+                    12.286128176743642,
+                    176.65521381422323
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -27.47400458252245,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    27.614325260004613,
+                    22.621984952849182,
+                    176.15
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -27.67292976579912,
+                    -20.553497658466384,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    27.712245461651698,
+                    12.286128176743642,
+                    176.65408261950026
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -32.66950920462433,
+                    -25.42669954444916,
+                    0.0
+                  ],
+                  "max": [
+                    33.46939583079715,
+                    13.048940248998466,
+                    178.80458535953943
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.35496301093555,
+                    -25.35058680131251,
+                    0.0
+                  ],
+                  "max": [
+                    33.1269772814785,
+                    13.048940248998466,
+                    178.76841805171262
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.66950920462433,
+                    -25.42669954444916,
+                    0.0
+                  ],
+                  "max": [
+                    33.46939583079715,
+                    13.048940248998466,
+                    178.815933933821
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.95937734374702,
+                    -25.15459898183402,
+                    0.0
+                  ],
+                  "max": [
+                    33.74386831035211,
+                    13.048940248998466,
+                    178.84801752286842
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -29.317361827863017,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    37.292725920328394,
+                    13.048940248998466,
+                    178.80458535953943
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -29.06830524534287,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    37.29272592032838,
+                    13.048940248998466,
+                    178.76841805171262
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -29.317361827863017,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    37.292725920328394,
+                    13.048940248998466,
+                    178.815933933821
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -29.763254663016276,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    37.29272592032837,
+                    13.048940248998466,
+                    178.84801752286842
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Youth.glb",
+        "bytes": 647860,
+        "decodedTriangles": 12596,
+        "decodedVertices": 6392,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Youth-front.png",
+        "previews/V3_Pilgrim_Youth-three-quarter.png",
+        "previews/V3_Pilgrim_Youth-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.9845276096861213,
+          "signed_volume_cm3": 45866.24481896301
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03249889903204181,
+          "signed_volume_cm3": 2673.4129519184785
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.30267471071649465,
+          "signed_volume_cm3": 368.1855078402667
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3026747107164955,
+          "signed_volume_cm3": 368.1855078402668
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.5521672031100424,
+          "signed_volume_cm3": 5653.918988924905
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        },
+        {
+          "name": "LowerLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.013059369904345874,
+          "signed_volume_cm3": 1.3693008914048792
+        },
+        {
+          "name": "SleeveR",
+          "material": "Linen",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3851986124437279,
+          "signed_volume_cm3": 3440.8723999716526
+        },
+        {
+          "name": "SleeveL",
+          "material": "Linen",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3755850853593672,
+          "signed_volume_cm3": 3441.2415954660087
+        },
+        {
+          "name": "Ear-1",
+          "material": "Skin",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.022981502568812012,
+          "signed_volume_cm3": 14.234624676131082
+        }
+      ]
+    },
+    {
+      "id": "V3_Visitor_Camera",
+      "label": "Visitor with a camera (photo clip)",
+      "triangles": 13304,
+      "vertices": 6760,
+      "parts": 54,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Prop",
+        "PropGlass",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "sand-teal",
+      "skinTone": "fair",
+      "prop": "camera",
+      "headwear": "cap",
+      "beard": "short",
+      "mantle": false,
+      "recommendedActorScale": 1.01,
+      "recommendedIdleClip": "A_Pilgrim_V3_PhotoCamera",
+      "skeletalFile": "meshes/V3_Visitor_Camera.glb",
+      "skeletalSha256": "7206ed40a695e35fc58d4e77877fc5ce25dcbf7bc504cd0675f9746f66e81762",
+      "staticFile": "meshes/SM_V3_Visitor_Camera.obj",
+      "staticSha256": "9dd171063f0cb0d54bc546aa805de2f3cbf2f885ba48ccd99f662cfe11a998f5",
+      "staticMaterialFile": "SM_V3_Visitor_Camera.mtl",
+      "staticBakedPose": "PhotoCamera",
+      "boundsCm": {
+        "min": [
+          -51.9,
+          -14.943977775637922,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          14.38347913789782,
+          178.6
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 6760,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -15.918208830671254,
+                    0.0
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    14.38347913789782,
+                    178.6
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -31.721028719946894,
+                    -14.943977775637922,
+                    0.0
+                  ],
+                  "max": [
+                    28.00428776621182,
+                    14.38347913789782,
+                    178.61139661713653
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -15.918208830671253,
+                    0.0
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    14.38347913789782,
+                    178.6
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -31.854882682765346,
+                    -17.144423544491833,
+                    0.0
+                  ],
+                  "max": [
+                    28.04501601892822,
+                    14.38347913789782,
+                    178.6090720454595
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 2.842170943040401e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    22.621984952849182,
+                    176.15
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -31.508683688453253,
+                    -22.634707353911505,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.228078793411825,
+                    13.732866638282104,
+                    176.65510036841187
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    22.621984952849182,
+                    176.15
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -32.30993477129208,
+                    -22.117972552635763,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.055190583761842,
+                    13.732866638282104,
+                    176.65410412216903
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -32.95356880284483,
+                    -34.64216007999204,
+                    0.0
+                  ],
+                  "max": [
+                    33.92694678462345,
+                    14.38347913789782,
+                    178.8100297678724
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.64654613451836,
+                    -34.36663539374697,
+                    0.0
+                  ],
+                  "max": [
+                    33.59839375795042,
+                    14.38347913789782,
+                    178.773009255521
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.95356880284483,
+                    -34.64216007999204,
+                    0.0
+                  ],
+                  "max": [
+                    33.92694678462345,
+                    14.38347913789782,
+                    178.8217052132248
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.23559776117636,
+                    -34.36198942306066,
+                    0.0
+                  ],
+                  "max": [
+                    34.194535504795375,
+                    14.38347913789782,
+                    178.85464085408833
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.23169481858085,
+                    -33.1050790934118,
+                    0.0
+                  ],
+                  "max": [
+                    37.874314013607375,
+                    14.38347913789782,
+                    178.8100297678724
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -29.976134650383266,
+                    -33.2470296457639,
+                    0.0
+                  ],
+                  "max": [
+                    37.87431401360737,
+                    14.38347913789782,
+                    178.773009255521
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.23169481858085,
+                    -33.1050790934118,
+                    0.0
+                  ],
+                  "max": [
+                    37.874314013607375,
+                    14.38347913789782,
+                    178.8217052132248
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.68786667514568,
+                    -33.076262062902366,
+                    0.0
+                  ],
+                  "max": [
+                    37.87431401360737,
+                    14.38347913789782,
+                    178.85464085408833
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Visitor_Camera.glb",
+        "bytes": 682296,
+        "decodedTriangles": 13304,
+        "decodedVertices": 6760,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Visitor_Camera-front.png",
+        "previews/V3_Visitor_Camera-three-quarter.png",
+        "previews/V3_Visitor_Camera-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3774244479160669,
+          "signed_volume_cm3": 89925.97213335383
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03264118043872715,
+          "signed_volume_cm3": 2684.6264531334855
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.35293697243832783,
+          "signed_volume_cm3": 429.54975914697775
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.35293697243832783,
+          "signed_volume_cm3": 429.54975914697786
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7659863409868772,
+          "signed_volume_cm3": 7185.132327939301
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        },
+        {
+          "name": "LowerLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.013059369904345874,
+          "signed_volume_cm3": 1.3693008914048792
+        },
+        {
+          "name": "SleeveR",
+          "material": "Linen",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.884783443361325,
+          "signed_volume_cm3": 4590.661252787211
+        },
+        {
+          "name": "SleeveL",
+          "material": "Linen",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.88254208759671,
+          "signed_volume_cm3": 4591.45796325978
+        },
+        {
+          "name": "Ear-1",
+          "material": "Skin",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.022981502568812012,
+          "signed_volume_cm3": 14.234624676131082
+        }
+      ]
+    },
+    {
+      "id": "V3_Visitor_Phone",
+      "label": "Visitor with a phone (photo clip)",
+      "triangles": 16520,
+      "vertices": 8364,
+      "parts": 52,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Prop",
+        "PropGlass",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "dusty-blue",
+      "skinTone": "olive",
+      "prop": "phone",
+      "headwear": "none",
+      "beard": "none",
+      "mantle": true,
+      "recommendedActorScale": 0.99,
+      "recommendedIdleClip": "A_Pilgrim_V3_PhotoPhone",
+      "skeletalFile": "meshes/V3_Visitor_Phone.glb",
+      "skeletalSha256": "f64c77b5968a2bdc9b0a9f386b008a0643832c9ec801f7f405578e5b67a1c52d",
+      "staticFile": "meshes/SM_V3_Visitor_Phone.obj",
+      "staticSha256": "fa678dff6bfcc308e7ad3e60ad09d735460f979fca965bef87d88f738cf9ccc6",
+      "staticMaterialFile": "SM_V3_Visitor_Phone.mtl",
+      "staticBakedPose": "PhotoPhone",
+      "boundsCm": {
+        "min": [
+          -50.1,
+          -22.041457664441857,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          22.17033960875741,
+          178.25
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 8364,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.5699376511541,
+                    -22.041457664441857,
+                    0.0
+                  ],
+                  "max": [
+                    28.462336398051313,
+                    22.17033960875741,
+                    178.25
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -31.522140081121787,
+                    -21.65447367325458,
+                    0.0
+                  ],
+                  "max": [
+                    28.473448834938914,
+                    22.559112648188066,
+                    178.24799908370773
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.5699376511541,
+                    -22.041457664441857,
+                    0.0
+                  ],
+                  "max": [
+                    28.462336398051313,
+                    22.17033960875741,
+                    178.25
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -31.62410612106839,
+                    -22.663007957586146,
+                    0.0
+                  ],
+                  "max": [
+                    28.454116684774334,
+                    21.783972531420645,
+                    178.2502388539862
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.5699376511541,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.462336398051313,
+                    22.621984952849182,
+                    175.8
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -31.3792952836483,
+                    -23.57653522248761,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.456483487250374,
+                    23.420477960775514,
+                    176.29935822615147
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.5699376511541,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.462336398051313,
+                    22.621984952849182,
+                    175.8
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -31.989664959672112,
+                    -23.525231964682977,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.572205920317096,
+                    20.926726854629468,
+                    176.300318128722
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -33.10874485619465,
+                    -26.64993411574686,
+                    0.0
+                  ],
+                  "max": [
+                    33.88728341372107,
+                    25.462618913172584,
+                    178.37639989451367
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.80619423320578,
+                    -26.597826227251552,
+                    0.0
+                  ],
+                  "max": [
+                    33.5576036837744,
+                    25.303654755060627,
+                    178.34448987564676
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.10874485619465,
+                    -26.64993411574686,
+                    0.0
+                  ],
+                  "max": [
+                    33.88728341372107,
+                    25.879327345194056,
+                    178.38613325975206
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.388779167076244,
+                    -26.314501221838377,
+                    0.0
+                  ],
+                  "max": [
+                    34.15547247415358,
+                    26.038004755035093,
+                    178.4140477406013
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.017207507982434,
+                    -32.33626035577907,
+                    0.0
+                  ],
+                  "max": [
+                    37.95284990269595,
+                    25.462618913172584,
+                    178.37639989451367
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -29.761535181307842,
+                    -32.516183367170726,
+                    0.0
+                  ],
+                  "max": [
+                    37.95284990269595,
+                    25.303654755060627,
+                    178.34448987564676
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.017207507982434,
+                    -32.33626035577907,
+                    0.0
+                  ],
+                  "max": [
+                    37.95284990269595,
+                    25.879327345194056,
+                    178.38613325975206
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.47296270156192,
+                    -32.400818723809586,
+                    0.0
+                  ],
+                  "max": [
+                    37.952849902695945,
+                    26.038004755035093,
+                    178.4140477406013
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Visitor_Phone.glb",
+        "bytes": 823532,
+        "decodedTriangles": 16520,
+        "decodedVertices": 8364,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Visitor_Phone-front.png",
+        "previews/V3_Visitor_Phone-three-quarter.png",
+        "previews/V3_Visitor_Phone-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.439864768384773,
+          "signed_volume_cm3": 4040.722385332748
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3863026726227625,
+          "signed_volume_cm3": 97301.51721461938
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03268184714312942,
+          "signed_volume_cm3": 2687.8301001816485
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.36730187656126984,
+          "signed_volume_cm3": 447.08240237746656
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3673018765612692,
+          "signed_volume_cm3": 447.08240237746645
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.8267790624874036,
+          "signed_volume_cm3": 7656.331780454376
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "MantleHem",
+          "material": "Trim",
+          "vertices": 206,
+          "triangles": 408,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.16645008260736865,
+          "signed_volume_cm3": 112.74203536529826
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        },
+        {
+          "name": "LowerLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.013059369904345874,
+          "signed_volume_cm3": 1.3693008914048792
+        },
+        {
+          "name": "SleeveR",
+          "material": "Linen",
+          "vertices": 162,
+          "triangles": 320,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 2.086489215474443,
+          "signed_volume_cm3": 5003.551892840698
+        }
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_A_Bleached",
+      "label": "Colour variant of Man A, bleached linen",
+      "triangles": 18364,
+      "vertices": 9294,
+      "parts": 56,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "bleached",
+      "skinTone": "tan",
+      "prop": null,
+      "headwear": "cloth",
+      "beard": "short",
+      "mantle": true,
+      "recommendedActorScale": 0.98,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Man_A_Bleached.glb",
+      "skeletalSha256": "842425ed45c70d684de560b5f514a7301c892fe1746f7971fbc51c70bf99d676",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_A_Bleached.obj",
+      "staticSha256": "48e4f5bbc98b26fa9c2f8cded8bf5dedb73087a04bc86143f0ca7a59fcebd174",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_A_Bleached.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -22.319687998991906,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          21.459284410547653,
+          179.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9294,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -28.415904255910693,
+                    -21.880630004821377,
+                    0.0
+                  ],
+                  "max": [
+                    28.715645405788855,
+                    21.848797557907595,
+                    179.40719797019028
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -28.43444638983947,
+                    -23.015856107804552,
+                    0.0
+                  ],
+                  "max": [
+                    28.723198599232376,
+                    21.07219727706615,
+                    179.40405215673354
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -28.45093148351448,
+                    -21.995959722279476,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.7949100788699,
+                    22.711509120288024,
+                    177.45330171465625
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -28.56192487194876,
+                    -24.1510784892615,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.74683999434928,
+                    20.21373530384149,
+                    177.45195350745047
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    24.758994291794046,
+                    179.46603054421345
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.86997767327939,
+                    -26.35032531713242,
+                    0.0
+                  ],
+                  "max": [
+                    33.58591216298393,
+                    24.59980976836051,
+                    179.45189587640874
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    25.17652767911259,
+                    179.46890659601772
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.450021582433735,
+                    -26.091138503033203,
+                    0.0
+                  ],
+                  "max": [
+                    34.17416310783368,
+                    25.33543085491173,
+                    179.47882245385483
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.758994291794046,
+                    179.46603054421345
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -30.01247704394796,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.59980976836051,
+                    179.45189587640874
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    25.17652767911259,
+                    179.46890659601772
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.71567189150088,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    38.3427781982151,
+                    25.33543085491173,
+                    179.47882245385483
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_A_Bleached.glb",
+        "bytes": 904064,
+        "decodedTriangles": 18364,
+        "decodedVertices": 9294,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Man_A_Bleached-front.png",
+        "previews/V3_Pilgrim_Man_A_Bleached-three-quarter.png",
+        "previews/V3_Pilgrim_Man_A_Bleached-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.42133309665328117,
+          "signed_volume_cm3": 4014.3090301300163
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3868534897352507,
+          "signed_volume_cm3": 94178.25612753676
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03266151296364865,
+          "signed_volume_cm3": 2686.2282881705128
+        },
+        {
+          "name": "HeadCloth",
+          "material": "Headcloth",
+          "vertices": 504,
+          "triangles": 1004,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.05463598370258157,
+          "signed_volume_cm3": 323.53832322890094
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3601192256873045,
+          "signed_volume_cm3": 438.3160807622229
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.36011922568730415,
+          "signed_volume_cm3": 438.31608076222255
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7963992717459547,
+          "signed_volume_cm3": 7418.859280470034
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "MantleHem",
+          "material": "Trim",
+          "vertices": 206,
+          "triangles": 408,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.16645008260736904,
+          "signed_volume_cm3": 112.38062656351492
+        },
+        {
+          "name": "HeadBand",
+          "material": "Trim",
+          "vertices": 186,
+          "triangles": 368,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.14707821048679867,
+          "signed_volume_cm3": 59.18873538216571
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        }
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_A_Ochre",
+      "label": "Colour variant of Man A, ochre",
+      "triangles": 18748,
+      "vertices": 9488,
+      "parts": 57,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "ochre",
+      "skinTone": "deep",
+      "prop": null,
+      "headwear": "turban",
+      "beard": "full",
+      "mantle": true,
+      "recommendedActorScale": 1.02,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "skeletalFile": "meshes/V3_Pilgrim_Man_A_Ochre.glb",
+      "skeletalSha256": "c372eae21e3e6b9f27e423d6187be05485d7ca805e6e83dbe34ffc40b49039ea",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_A_Ochre.obj",
+      "staticSha256": "a33291a9bab6ca742e2d6873ee141074502aa38fc4ea781153ea87a793defd56",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_A_Ochre.mtl",
+      "staticBakedPose": "Idle",
+      "boundsCm": {
+        "min": [
+          -48.22557472822848,
+          -22.319687998991906,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          21.459284410547653,
+          181.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9488,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 8.881784197001252e-16,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    181.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -28.415904255910693,
+                    -21.880630004821377,
+                    0.0
+                  ],
+                  "max": [
+                    28.715645405788855,
+                    21.848797557907595,
+                    181.3999465309588
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -22.319687998991906,
+                    0.0
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    21.459284410547653,
+                    181.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -28.43444638983947,
+                    -23.015856107804552,
+                    0.0
+                  ],
+                  "max": [
+                    28.723198599232376,
+                    21.07219727706615,
+                    181.39826670324996
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    178.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -28.45093148351448,
+                    -21.995959722279476,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.7949100788699,
+                    22.711509120288024,
+                    179.45019587221208
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -28.422851024861412,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.717991007952442,
+                    22.621984952849182,
+                    178.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -28.56192487194876,
+                    -24.1510784892615,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.74683999434928,
+                    20.21373530384149,
+                    179.44947594528415
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    24.758994291794046,
+                    181.3004137272768
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.86997767327939,
+                    -26.35032531713242,
+                    0.0
+                  ],
+                  "max": [
+                    33.58591216298393,
+                    24.59980976836051,
+                    181.3130317831177
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.17078519025183,
+                    -26.37347393131432,
+                    0.0
+                  ],
+                  "max": [
+                    33.91614249925986,
+                    25.17652767911259,
+                    181.2929615449249
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.450021582433735,
+                    -26.091138503033203,
+                    0.0
+                  ],
+                  "max": [
+                    34.17416310783368,
+                    25.33543085491173,
+                    181.2953286641239
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.758994291794046,
+                    181.3004137272768
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -30.01247704394796,
+                    -31.29918802804854,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    24.59980976836051,
+                    181.3130317831177
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.26304694414968,
+                    -31.19118694921095,
+                    0.0
+                  ],
+                  "max": [
+                    38.34277819821511,
+                    25.17652767911259,
+                    181.2929615449249
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.71567189150088,
+                    -31.314698139119677,
+                    0.0
+                  ],
+                  "max": [
+                    38.3427781982151,
+                    25.33543085491173,
+                    181.2953286641239
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_A_Ochre.glb",
+        "bytes": 921076,
+        "decodedTriangles": 18748,
+        "decodedVertices": 9488,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Pilgrim_Man_A_Ochre-front.png",
+        "previews/V3_Pilgrim_Man_A_Ochre-three-quarter.png",
+        "previews/V3_Pilgrim_Man_A_Ochre-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.42133309665328117,
+          "signed_volume_cm3": 4014.3090301300163
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3868534897352507,
+          "signed_volume_cm3": 94178.25612753676
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03266151296364865,
+          "signed_volume_cm3": 2686.2282881705128
+        },
+        {
+          "name": "TurbanCrown",
+          "material": "Headcloth",
+          "vertices": 310,
+          "triangles": 616,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.5292199135848947,
+          "signed_volume_cm3": 1628.6832785675288
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.3601192256873045,
+          "signed_volume_cm3": 438.3160807622229
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.36011922568730415,
+          "signed_volume_cm3": 438.31608076222255
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7963992717459547,
+          "signed_volume_cm3": 7418.859280470034
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "TurbanBand0",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554188
+        },
+        {
+          "name": "TurbanBand1",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554194
+        },
+        {
+          "name": "TurbanBand2",
+          "material": "Headcloth",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.34789653634377155,
+          "signed_volume_cm3": 136.21129032554228
+        }
+      ]
+    },
+    {
+      "id": "V3_Visitor_Camera_Umber",
+      "label": "Colour variant of the camera visitor",
+      "triangles": 18264,
+      "vertices": 9246,
+      "parts": 57,
+      "materials": [
+        "Eyes",
+        "Hair",
+        "Headcloth",
+        "Leather",
+        "Linen",
+        "Mantle",
+        "Prop",
+        "PropGlass",
+        "Sash",
+        "Skin",
+        "Trim"
+      ],
+      "palette": "wool-umber",
+      "skinTone": "tan",
+      "prop": "camera",
+      "headwear": "cloth",
+      "beard": "none",
+      "mantle": true,
+      "recommendedActorScale": 0.97,
+      "recommendedIdleClip": "A_Pilgrim_V3_PhotoCamera",
+      "skeletalFile": "meshes/V3_Visitor_Camera_Umber.glb",
+      "skeletalSha256": "ed95986e0677ef3f447e60a7f41d6e76b45bd7e295aa22ab2cbe073fcde0e599",
+      "staticFile": "meshes/SM_V3_Visitor_Camera_Umber.obj",
+      "staticSha256": "ebe07bc6aad69817b027d25a2035175159d1718aab5751209bbe27696fd17b5d",
+      "staticMaterialFile": "SM_V3_Visitor_Camera_Umber.mtl",
+      "staticBakedPose": "PhotoCamera",
+      "boundsCm": {
+        "min": [
+          -51.9,
+          -21.98968123486785,
+          0
+        ],
+        "max": [
+          48.22557472822848,
+          21.72646920148716,
+          179.4
+        ]
+      },
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "deformation": {
+        "weight_sum_max_error": 2.220446049250313e-16,
+        "bind_pose_error_cm": 2.842170943040401e-14,
+        "weighted_vertices": 9246,
+        "clips": [
+          {
+            "clip": "Idle",
+            "duration_s": 3.2,
+            "loop_vertex_error_cm": 1.4210854715202004e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -21.98968123486785,
+                    0.0
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    21.72646920148716,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.8,
+                "bounds_cm": {
+                  "min": [
+                    -31.721028719946894,
+                    -21.465563318260237,
+                    0.0
+                  ],
+                  "max": [
+                    28.00428776621182,
+                    22.11516496619468,
+                    179.40678595180123
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -21.98968123486785,
+                    0.0
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    21.72646920148716,
+                    179.4
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.4,
+                "bounds_cm": {
+                  "min": [
+                    -31.854882682765346,
+                    -22.608324636275462,
+                    0.0
+                  ],
+                  "max": [
+                    28.04501601892822,
+                    21.340191597434774,
+                    179.40400152534707
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "Walk",
+            "duration_s": 1.2,
+            "loop_vertex_error_cm": 2.842170943040401e-14,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.3,
+                "bounds_cm": {
+                  "min": [
+                    -31.508683688453253,
+                    -22.634707353911505,
+                    1.7763568394002505e-15
+                  ],
+                  "max": [
+                    28.228078793411825,
+                    22.97642424138178,
+                    177.45312513506627
+                  ]
+                },
+                "minimum_sole_z_cm": 1.7763568394002505e-15
+              },
+              {
+                "time_s": 0.6,
+                "bounds_cm": {
+                  "min": [
+                    -31.78448429391104,
+                    -30.621984952849175,
+                    -1.4210854715202004e-14
+                  ],
+                  "max": [
+                    28.022319751042794,
+                    22.621984952849182,
+                    176.95000000000002
+                  ]
+                },
+                "minimum_sole_z_cm": -1.4210854715202004e-14
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -32.30993477129208,
+                    -23.402563614200837,
+                    -7.105427357601002e-15
+                  ],
+                  "max": [
+                    28.055190583761842,
+                    20.483132521231695,
+                    177.45193180817162
+                  ]
+                },
+                "minimum_sole_z_cm": -7.105427357601002e-15
+              }
+            ]
+          },
+          {
+            "clip": "PhotoCamera",
+            "duration_s": 4.0,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -32.95356880284483,
+                    -34.64216007999204,
+                    0.0
+                  ],
+                  "max": [
+                    33.92694678462345,
+                    25.018495647829305,
+                    179.465667483728
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.64654613451836,
+                    -34.36663539374697,
+                    0.0
+                  ],
+                  "max": [
+                    33.59839375795042,
+                    24.859525114936112,
+                    179.45158971188513
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.0,
+                "bounds_cm": {
+                  "min": [
+                    -32.95356880284483,
+                    -34.64216007999204,
+                    0.0
+                  ],
+                  "max": [
+                    33.92694678462345,
+                    25.43523396235516,
+                    179.46852173812795
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 3.0,
+                "bounds_cm": {
+                  "min": [
+                    -33.23559776117636,
+                    -34.36198942306066,
+                    0.0
+                  ],
+                  "max": [
+                    34.194535504795375,
+                    25.593921157708692,
+                    179.47838077687157
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          },
+          {
+            "clip": "PhotoPhone",
+            "duration_s": 3.6,
+            "loop_vertex_error_cm": 0.0,
+            "samples": [
+              {
+                "time_s": 0,
+                "bounds_cm": {
+                  "min": [
+                    -30.23169481858085,
+                    -33.1050790934118,
+                    0.0
+                  ],
+                  "max": [
+                    37.874314013607375,
+                    25.018495647829305,
+                    179.465667483728
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 0.9,
+                "bounds_cm": {
+                  "min": [
+                    -29.976134650383266,
+                    -33.2470296457639,
+                    0.0
+                  ],
+                  "max": [
+                    37.87431401360737,
+                    24.859525114936112,
+                    179.45158971188513
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 1.8,
+                "bounds_cm": {
+                  "min": [
+                    -30.23169481858085,
+                    -33.1050790934118,
+                    0.0
+                  ],
+                  "max": [
+                    37.874314013607375,
+                    25.43523396235516,
+                    179.46852173812795
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              },
+              {
+                "time_s": 2.7,
+                "bounds_cm": {
+                  "min": [
+                    -30.68786667514568,
+                    -33.076262062902366,
+                    0.0
+                  ],
+                  "max": [
+                    37.87431401360737,
+                    25.593921157708692,
+                    179.47838077687157
+                  ]
+                },
+                "minimum_sole_z_cm": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "glbDecodeChecks": {
+        "file": "V3_Visitor_Camera_Umber.glb",
+        "bytes": 902140,
+        "decodedTriangles": 18264,
+        "decodedVertices": 9246,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 18,
+            "samplers": 18
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "previews": [
+        "previews/V3_Visitor_Camera_Umber-front.png",
+        "previews/V3_Visitor_Camera_Umber-three-quarter.png",
+        "previews/V3_Visitor_Camera_Umber-side.png"
+      ],
+      "partBreakdown": [
+        {
+          "name": "Mantle",
+          "material": "Mantle",
+          "vertices": 1496,
+          "triangles": 2988,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.43848233152140154,
+          "signed_volume_cm3": 4003.725751181344
+        },
+        {
+          "name": "Tunic",
+          "material": "Linen",
+          "vertices": 1142,
+          "triangles": 2280,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.3774244479160669,
+          "signed_volume_cm3": 89925.97213335383
+        },
+        {
+          "name": "Head",
+          "material": "Skin",
+          "vertices": 1002,
+          "triangles": 2000,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.03264118043872715,
+          "signed_volume_cm3": 2684.6264531334855
+        },
+        {
+          "name": "HeadCloth",
+          "material": "Headcloth",
+          "vertices": 504,
+          "triangles": 1004,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06483654444931355,
+          "signed_volume_cm3": 321.08776472223246
+        },
+        {
+          "name": "FootR",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.35293697243832783,
+          "signed_volume_cm3": 429.54975914697775
+        },
+        {
+          "name": "FootL",
+          "material": "Skin",
+          "vertices": 222,
+          "triangles": 440,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.35293697243832783,
+          "signed_volume_cm3": 429.54975914697786
+        },
+        {
+          "name": "Sash",
+          "material": "Sash",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 1.7659863409868772,
+          "signed_volume_cm3": 7185.132327939301
+        },
+        {
+          "name": "PalmR",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.3913848527155
+        },
+        {
+          "name": "PalmL",
+          "material": "Skin",
+          "vertices": 218,
+          "triangles": 432,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.06520872920463072,
+          "signed_volume_cm3": 137.39138485271778
+        },
+        {
+          "name": "MantleHem",
+          "material": "Trim",
+          "vertices": 206,
+          "triangles": 408,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.16645008260736727,
+          "signed_volume_cm3": 107.42129746121311
+        },
+        {
+          "name": "HeadBand",
+          "material": "Trim",
+          "vertices": 186,
+          "triangles": 368,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.14707821048679867,
+          "signed_volume_cm3": 59.18873538216571
+        },
+        {
+          "name": "UpperLip",
+          "material": "Skin",
+          "vertices": 164,
+          "triangles": 324,
+          "closed_index_topology": true,
+          "min_triangle_area_cm2": 0.015186727896011458,
+          "signed_volume_cm3": 1.7296432312492134
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Offline authoring only: no Unreal launch, import, render, cook or performance result.",
+    "Vertex colours and flat PBR factors only; no UV unwrap, texture maps or normal maps.",
+    "Cloth folds are static modelled geometry, not simulation; no per-frame cloth solve.",
+    "Separate intersecting closed shells per part; the character is not a watertight union.",
+    "Clothing is an artistic pilgrim/visitor design, not kohanic vestments and not a halachic or historical ruling.",
+    "The photo clips are original authored motion; hand/prop contact was checked numerically, not visually in engine."
+  ],
+  "lineup": "previews/lineup.png",
+  "totalTriangles": 153120,
+  "scriptSha256": "c463b93d1c9f6afcb215228ea9c681a4bf2e630ed056662f7d842c48674bd5ea"
+}

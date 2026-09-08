@@ -1,0 +1,242 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_metahuman_enable.py: enable the UE 5.8 native MetaHuman plugins in MikdashCourtyardV3, verify what the engine actually ships, and author five MetaHuman Character assets (two bearded men, two women, one older man) under /Game/MetaHumans/Source from the shipped body identity template, entirely from Python. Every API name below was read out of the 5.8 plugin headers and the shipped example scripts at C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Python; nothing here claims that a run has happened or that any character has been visually accepted.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "engineDir": "C:\\Program Files\\Epic Games\\UE_5.8",
+
+  "plugins": {
+    "addedToUproject": ["MetaHumanSDK", "MetaHumanCharacter", "MetaHumanCrowd"],
+    "preservedUprojectEntries": ["PythonScriptPlugin", "EnhancedInput", "MikdashRuntime"],
+    "transitiveNote": "UE resolves each .uplugin's own 'Plugins' array, so MeshModelingToolset, EditorScriptingUtilities, RigLogic, HairStrands, Dataflow, ChaosClothAsset, ChaosOutfitAsset, TextureGraph, ScriptableToolsFramework, GeometryScripting, PerformanceCaptureCore, IKRig, PluginUtils, LiveLink, AppleARKit(+FaceSupport, Editor-only), 'MetaHuman' (MetaHuman Animator) and through it MetaHumanCoreTech + MetaHumanCoreML, and for Crowd the Mass* / Mover / SmartObjects / SlateIM set, are all enabled transitively with their own TargetAllowLists intact. They are deliberately NOT listed in the .uproject: writing them out by hand would drop those allowlists and can break the Game target.",
+    "statusInEngine": {
+      "MetaHumanSDK": "EnabledByDefault=true (explicit entry is redundant but makes intent auditable)",
+      "MetaHumanCharacter": "EnabledByDefault=false, IsBetaVersion=true",
+      "MetaHumanCrowd": "EnabledByDefault=false, IsExperimentalVersion=true"
+    },
+    "recompileRequired": true,
+    "recompileNote": "All three carry Source modules (MetaHumanCharacter has 7, MetaHumanSDK 3, MetaHumanCrowd 2) and the project has its own MikdashRuntime module, so the editor target must be rebuilt before the editor will open. The coordinator runs the rebuild; this script never does.",
+    "revertNote": "MetaHumanCrowd is the only entry that pulls Mass/Mover/SmartObjects into the runtime. Removing its three-line .uproject entry and rebuilding restores the previous module set exactly."
+  },
+
+  "engineInventory": {
+    "note": "Probed read-only by offline_check(). These are the assets the engine ships for MetaHumanCharacter; they are what a scripted character is built FROM.",
+    "mountedContentRoots": {
+      "/MetaHumanCharacter/": "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content",
+      "/MetaHumanSDK/": "Engine/Plugins/MetaHuman/MetaHumanSDK/Content",
+      "/MetaHumanCrowd/": "Engine/Plugins/MetaHuman/MetaHumanCrowd/Content"
+    },
+    "requiredEngineFiles": [
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Body/IdentityTemplate/body_model.dna",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Body/IdentityTemplate/SKM_Body.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Body/IdentityTemplate/skin_model.binary",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Face/IdentityTemplate",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/BuildPipeline/BP_DefaultPipeline.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/BuildPipeline/DefaultWardobePipeline/DefaultSkeletalMeshPipeline.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/BuildPipeline/DefaultWardobePipeline/DefaultOutfitPipeline.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/BuildPipeline/DefaultWardobePipeline/DefaultGroomPipeline.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCoreTechLib/Content/ArchetypeDNA/SKM_Face.dna",
+      "Engine/Plugins/MetaHuman/MetaHumanCoreTechLib/Content/ArchetypeDNA/SKM_Body.dna",
+      "Engine/Plugins/MetaHuman/MetaHumanSDK/Content/TemplateAssets/SM_MH_Head.uasset",
+      "Engine/Plugins/MetaHuman/MetaHumanCrowd/Content/SKEL_MetaHumanCrowd_Template.uasset"
+    ],
+    "optionalContentProbe": {
+      "displayName": "MetaHuman Creator Core Data",
+      "root": "Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Optional",
+      "mustContain": ["TextureSynthesis", "BodyTextures"],
+      "textureSynthesisGlob": "TextureSynthesis/**/*.ar",
+      "installedOnThisMachine": false,
+      "installedOnThisMachineCheckedAt": "2026-09-08 (offline directory listing)",
+      "sourceOfCheck": "MetaHumanCharacterEditorModule.cpp FMetaHumanCharacterEditorModule::IsOptionalMetaHumanContentInstalled(): requires Content/Optional, Content/Optional/TextureSynthesis (with at least one *.ar file) and Content/Optional/BodyTextures.",
+      "whatIsMissingWithoutIt": [
+        "Content/Optional/TextureSynthesis/TS-1.3-F_UE_res-1024_nchr-153 - the skin texture synthesis model. Without it CommitSkinSettings cannot synthesize skin, so every character keeps placeholder skin.",
+        "Content/Optional/BodyTextures - body texture set.",
+        "Content/Optional/Presets - the face/body preset library. Without it the Presets panel is empty and every new character starts on the same archetype face.",
+        "Content/Optional/Grooms/Bindings/{Hair,Beards,Mustaches,Eyebrows,Eyelashes,Peachfuzz} - ALL hair. Two of the five characters here are specified as bearded and there is no shipped beard groom without this pack.",
+        "Content/Optional/Clothing - the WI_* wardrobe items including WI_DefaultGarment.",
+        "Content/Optional/Animation/TemplateAnimations and Optional/Animation/UEFNAnimPreset.",
+        "Content/Optional/DCC - DCC export support.",
+        "Content/Optional/Body/FixedCompatibility - the legacy fixed body types."
+      ],
+      "howToInstall": "Epic Games Launcher -> Unreal Engine -> Library -> the 5.8.2 slot's dropdown arrow -> Options -> tick 'MetaHuman Creator Core Data' -> Apply. It installs into the engine directory, not the project. Multi-GB; the editor prints the missing-content notification and a 'METAHUMAN CREATOR CORE DATA IS MISSING' viewport banner until it is there.",
+      "suppressCVar": "mh.Character.SuppressContentWarnings 1 (silences the warning only; it does not restore the features)"
+    }
+  },
+
+  "cloud": {
+    "note": "Two steps in the MetaHuman build are Epic cloud service calls, not local computation. Read from MetaHumanCharacterEditorSubsystem.cpp: RequestAutoRigging -> UE::MetaHuman::FAutoRigServiceRequest, RequestTextureSources -> the same FMetaHumanCharacterEditorCloudRequests holder.",
+    "requiresEpicLogin": true,
+    "loginTrigger": "MetaHuman Character Editor toolbar -> Authentication Menu. Its own tooltip says 'No user logged in, please autorig to trigger log-in flow', i.e. the first auto-rig starts the browser login.",
+    "batchFlags": {"blocking": true, "reportProgress": false},
+    "batchFlagsNote": "Both request structs expose bBlocking/bReportProgress; Epic's own example_auto_rig.py and example_download_textures.py comment them as 'Required for running in batch'.",
+    "memoryWarning": "MetaHumanCharacterEditorToolkit.cpp refuses (with a confirm dialog) to auto-rig with blend shapes below 10 GiB FREE memory. This machine has 16 GB total, so the spec uses JOINTS_ONLY."
+  },
+
+  "targetFolders": {
+    "characterFolder": "/Game/MetaHumans/Source",
+    "buildFolder": "/Game/MetaHumans",
+    "commonFolder": "/Game/MetaHumans/Common",
+    "wardrobeFolder": "/Game/MetaHumans/Wardrobe",
+    "note": "The MetaHuman Character assets (the editable definitions) live in Source/; BuildMetaHuman unpacks the assembled Blueprint + skeletal meshes + materials into buildFolder with shared assets in commonFolder. Nothing is written under any existing /Game/MikdashV3 namespace (AGENTS.md hard rule 4)."
+  },
+
+  "build": {
+    "pipelineType": "OPTIMIZED",
+    "pipelineTypeEnum": "unreal.MetaHumanDefaultPipelineType (CINEMATIC='UE Cine (Complete)', OPTIMIZED='UE Optimized', UEFN='UEFN Export')",
+    "pipelineQuality": "MEDIUM",
+    "pipelineQualityEnum": "unreal.MetaHumanQualityLevel (CINEMATIC/HIGH/MEDIUM/LOW)",
+    "rigType": "JOINTS_ONLY",
+    "rigTypeEnum": "unreal.MetaHumanRigType (JOINTS_ONLY / JOINTS_AND_BLENDSHAPES)",
+    "enableWardrobeItemValidation": true,
+    "reason": "RTX 2070 / 16 GB. OPTIMIZED+MEDIUM is the quality tier Epic's own example_assembly.py uses; CINEMATIC keeps strand grooms and the full material stack and is not viable for a dozen on-screen characters on this GPU. JOINTS_ONLY avoids the 10 GiB blend-shape memory gate and removes the face blend-shape morph target memory, at the cost of facial expression fidelity - acceptable for background pilgrims, NOT acceptable if any character ever needs close-up facial performance."
+  },
+
+  "faceVariation": {
+    "enabled": true,
+    "method": "GetFaceModelCoefficients / SetFaceModelCoefficients (both UFUNCTION(BlueprintCallable) on UMetaHumanCharacterEditorSubsystem), then CommitFaceState",
+    "scale": 0.15,
+    "scaleNote": "Per-coefficient multiplicative jitter drawn from a per-character seeded PRNG in [-scale, +scale] of each coefficient's own magnitude, plus a small absolute floor so zero coefficients still move. The coefficient basis is undocumented, so the magnitude is deliberately small and every before/after vector is written to the receipt. Set enabled=false to leave all five on the identical archetype face.",
+    "absoluteFloor": 0.02,
+    "why": "Without the Optional Core Data there is no preset library, so a newly created MetaHumanCharacter is the archetype face for every character. This is the only shipped, Python-reachable way to make the five faces differ."
+  },
+
+  "characters": [
+    {
+      "name": "MH_Kohen_Man_A",
+      "role": "bearded man, working age",
+      "faceSeed": 10401,
+      "bodyConstraints": [
+        {"name": "Masculine/Feminine", "mode": "range_fraction", "value": 0.90},
+        {"name": "Muscularity", "mode": "range_fraction", "value": 0.55},
+        {"name": "Fat", "mode": "range_fraction", "value": 0.35},
+        {"name": "Height", "mode": "absolute_cm", "value": 174.0}
+      ],
+      "skin": {"u": 0.62, "v": 0.55, "roughness": 0.80, "faceTextureIndex": 2, "bodyTextureIndex": 2},
+      "beard": "REQUIRES a Beard groom wardrobe item. None ships without MetaHuman Creator Core Data; recorded as unsatisfied, see gui-steps.md step 8."
+    },
+    {
+      "name": "MH_Kohen_Man_B",
+      "role": "bearded man, heavier build",
+      "faceSeed": 20817,
+      "bodyConstraints": [
+        {"name": "Masculine/Feminine", "mode": "range_fraction", "value": 0.85},
+        {"name": "Muscularity", "mode": "range_fraction", "value": 0.40},
+        {"name": "Fat", "mode": "range_fraction", "value": 0.60},
+        {"name": "Height", "mode": "absolute_cm", "value": 168.0}
+      ],
+      "skin": {"u": 0.55, "v": 0.62, "roughness": 0.78, "faceTextureIndex": 1, "bodyTextureIndex": 1},
+      "beard": "REQUIRES a Beard groom wardrobe item (as above)."
+    },
+    {
+      "name": "MH_Woman_A",
+      "role": "woman, slighter build",
+      "faceSeed": 31129,
+      "bodyConstraints": [
+        {"name": "Masculine/Feminine", "mode": "range_fraction", "value": 0.12},
+        {"name": "Muscularity", "mode": "range_fraction", "value": 0.30},
+        {"name": "Fat", "mode": "range_fraction", "value": 0.42},
+        {"name": "Height", "mode": "absolute_cm", "value": 160.0}
+      ],
+      "skin": {"u": 0.58, "v": 0.48, "roughness": 0.72, "faceTextureIndex": 3, "bodyTextureIndex": 3}
+    },
+    {
+      "name": "MH_Woman_B",
+      "role": "woman, taller",
+      "faceSeed": 40213,
+      "bodyConstraints": [
+        {"name": "Masculine/Feminine", "mode": "range_fraction", "value": 0.18},
+        {"name": "Muscularity", "mode": "range_fraction", "value": 0.38},
+        {"name": "Fat", "mode": "range_fraction", "value": 0.48},
+        {"name": "Height", "mode": "absolute_cm", "value": 167.0}
+      ],
+      "skin": {"u": 0.66, "v": 0.52, "roughness": 0.74, "faceTextureIndex": 0, "bodyTextureIndex": 0}
+    },
+    {
+      "name": "MH_Elder_Man",
+      "role": "older man",
+      "faceSeed": 50907,
+      "bodyConstraints": [
+        {"name": "Masculine/Feminine", "mode": "range_fraction", "value": 0.88},
+        {"name": "Muscularity", "mode": "range_fraction", "value": 0.28},
+        {"name": "Fat", "mode": "range_fraction", "value": 0.52},
+        {"name": "Height", "mode": "absolute_cm", "value": 166.0}
+      ],
+      "skin": {"u": 0.50, "v": 0.70, "roughness": 0.90, "faceTextureIndex": 4, "bodyTextureIndex": 4},
+      "ageNote": "Age reads mainly from the skin normal set. DefaultMetaHumanCharacter.ini maps ScalableNormalsTypeMaterials Young -> MI_ScalableNormals_ParamsYoung and Old -> MI_ScalableNormals_ParamsOld; both ship with the engine in /MetaHumanCharacter/Materials/ScalableNormalsParametersMaterials. They are chosen by the BUILD PIPELINE, not by the character: UMetaHumanDefaultEditorPipelineBase.bBakeMaterials -> bScalableNormals -> ScalableNormalsType (an FName picked from GetScalableNormalsTypeOptions). That lives on the pipeline object edited in the Assembly tool, so it is a GUI step (gui-steps.md step 7) and it applies per build, not per character - build the elder separately if the other four should stay Young."
+    }
+  ],
+
+  "bodyConstraintNames": {
+    "note": "The exact FName strings the parametric body model uses, read from SMetaHumanCharacterEditorBodyModelToolView.cpp. Only these are valid in characters[].bodyConstraints.",
+    "Global": ["Masculine/Feminine", "Muscularity", "Fat", "Height"],
+    "Upper Torso": ["Across Shoulder", "Shoulder to Apex", "Front Interscye Length", "Chest", "Bust Span", "Underbust", "Neck to Waist"],
+    "Lower Torso": ["Waist", "High Hip", "Hip"],
+    "Neck": ["Neck", "Neck Base", "Neck Length"],
+    "Arms": ["Upper Arm Length", "Lower Arm Length", "Forearm", "Bicep", "Elbow", "Wrist", "Hand Circumference"],
+    "Legs": ["Inseam", "Thigh", "Knee", "Calf"],
+    "Diagnostics": ["Shoulder Height", "Rise"],
+    "modes": {
+      "absolute_cm": "TargetMeasurement is written directly. Correct for the length/circumference constraints, which the tooltips state are in cm (Height 190.0 in Epic's example_sculpt_body.py).",
+      "range_fraction": "TargetMeasurement = Min + value*(Max-Min), read live from GetBodyConstraints. Used for the four Global constraints, whose units are NOT documented anywhere in the shipped source; the fraction is unit-free and the resolved absolute value is written to the receipt."
+    }
+  },
+
+  "wardrobe": {
+    "note": "How a garment reaches a MetaHuman in 5.8. Slots come from MetaHumanCharacter/Config/Editor.ini WardrobeSections.",
+    "slots": {
+      "Outfits": {"assetClass": "ChaosOutfitAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Clothing", "itemPipeline": "UMetaHumanOutfitPipeline (asset /MetaHumanCharacter/BuildPipeline/DefaultWardobePipeline/DefaultOutfitPipeline)"},
+      "SkeletalMesh": {"assetClass": "SkeletalMesh", "monitoredDir": null, "pureVirtual": true, "itemPipeline": "UMetaHumanDefaultSkeletalMeshPipeline (asset .../DefaultSkeletalMeshPipeline)"},
+      "Hair": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair", "itemPipeline": "UMetaHumanDefaultGroomPipeline (asset .../DefaultGroomPipeline)"},
+      "Beard": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards"},
+      "Mustache": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches"},
+      "Eyebrows": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows"},
+      "Eyelashes": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyelashes"},
+      "Peachfuzz": {"assetClass": "GroomBindingAsset", "monitoredDir": "/MetaHumanCharacter/Optional/Grooms/Bindings/Peachfuzz"}
+    },
+    "customGarmentRoutes": {
+      "outfit": "Author the garment as a ChaosOutfitAsset (Chaos Outfit / Cloth Asset editor, from 2D panels or a 3D mesh). UMetaHumanOutfitPipeline then RESIZES the outfit to each character's parametric body (FMetaHumanOutfitGeneratedAssets.AvailableSourceSizes / AutoSelectedSourceSize) and produces HeadHiddenFaceMap + BodyHiddenFaceMap so the skin under the garment is removed. This is the correct route for the kohen white set, the Kohen Gadol eight garments and pilgrim robes: it is the only route that gets automatic per-body fitting and under-cloth geometry removal.",
+      "skeletalMesh": "Skin a garment mesh to the MetaHuman body skeleton and use it directly in the 'SkeletalMesh' slot with UMetaHumanDefaultSkeletalMeshPipeline. No cloth sim, no automatic resize, no geometry removal, but far cheaper at runtime and adequate for background crowd. Its material parameters are driven through UMetaHumanDefaultSkeletalMeshPipelineMaterialParameters (diffuse_color_1 / diffuse_color_2), which is how per-character garment colour variants are produced without duplicating meshes."
+    },
+    "pythonReachability": {
+      "TryAddItemFromWardrobeItem": "UFUNCTION(BlueprintCallable) on UMetaHumanCharacterPalette - reachable. Requires an EXISTING self-contained UMetaHumanWardrobeItem asset.",
+      "TryAddItemFromPrincipalAsset": "NOT a UFUNCTION - unreachable from Python. A raw mesh cannot be added to a collection directly.",
+      "UMetaHumanWardrobeItem.PrincipalAsset": "UPROPERTY(EditAnywhere) - reachable as 'principal_asset' (an FEditorOnlyAssetReference).",
+      "UMetaHumanWardrobeItem.Pipeline": "UPROPERTY(EditAnywhere, Instanced) - exposed by CPF_Edit so 'pipeline' should be settable with a new_object of UMetaHumanDefaultSkeletalMeshPipeline / UMetaHumanOutfitPipeline / UMetaHumanDefaultGroomPipeline. UNVERIFIED - this is the one API in this spec that has no shipped example. The script probes it and falls back to the GUI step.",
+      "SetPipeline": "editor-only C++, not a UFUNCTION - unreachable."
+    },
+    "garments": [],
+    "garmentsNote": "Empty on purpose: no period-garment mesh exists in this project yet. When one does, add {name, principalAsset, slot, pipelineClass, colorParams} entries here and rerun with -MetaHumanWardrobe."
+  },
+
+  "receipts": {
+    "folder": "SourceAssets/characters-review/MetaHumanV1",
+    "prefix": "native-metahuman-",
+    "guiSteps": "SourceAssets/characters-review/MetaHumanV1/gui-steps.md"
+  },
+
+  "guards": {
+    "requireProjectDir": true,
+    "requireNoGameWorld": true,
+    "requireNoDirtyPackages": true,
+    "refuseIfCharacterFolderNonEmpty": true,
+    "refuseIfCharacterFolderNonEmptyNote": "AGENTS.md hard rule 4: never rerun a creator into an existing namespace. Use -MetaHumanForce only after checkpointing.",
+    "neverTouch": [
+      "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "/Game/MikdashV3/Maps/Courtyard",
+      "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+    ],
+    "neverTouchNote": "This job creates assets only. It never opens, spawns into or saves any map."
+  },
+
+  "limitations": [
+    "MetaHuman Creator is IsBetaVersion=true and MetaHuman Crowd is IsExperimentalVersion=true in 5.8.2. Neither is a stable API surface.",
+    "MetaHuman Creator Core Data is NOT installed on this machine. Until it is, characters have placeholder skin, no hair and no beards, and the Presets panel is empty - so the two 'bearded men' cannot be delivered bearded by this script.",
+    "Auto-rigging and high-resolution textures are Epic CLOUD calls. They need a signed-in Epic account, they can fail or be rate-limited, and CanBuildMetaHuman returns false until both have succeeded. A build therefore cannot be guaranteed offline or reproducibly.",
+    "The face variation is a blind perturbation of an undocumented coefficient basis. It produces different faces, not designed faces. Visual review is required and is not evidence of likeness to anyone.",
+    "Body 'Masculine/Feminine', 'Muscularity' and 'Fat' units are not documented in the shipped source; the spec uses range fractions and records the resolved absolute values rather than claiming a unit.",
+    "The Old skin normal variant, groom selection and preset application are GUI-only in 5.8 as far as the shipped headers show.",
+    "Nothing here is a visual, lighting, LOD, Nanite, performance or packaged acceptance. AGENTS.md hard rule 7.",
+    "These are fictional demonstration figures. They assert nothing about priestly status, purity, census or permission to serve, in line with the existing resident-integration-plan.md wording."
+  ]
+}

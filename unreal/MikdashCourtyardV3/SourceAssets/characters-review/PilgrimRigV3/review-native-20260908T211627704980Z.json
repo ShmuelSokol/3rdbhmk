@@ -1,0 +1,306 @@
+{
+  "utc": "2026-09-08T21:16:27.704980+00:00",
+  "stamp": "20260908T211627704980Z",
+  "status": "FAILED_PRESERVE_PARTIAL_INSPECT_RECEIPT",
+  "namespace": "/Game/MikdashV3/Characters/PilgrimRigV3",
+  "batch": [
+    "V3_Pilgrim_Man_Standard"
+  ],
+  "editorProcesses": {
+    "available": true,
+    "pids": [
+      "27984"
+    ]
+  },
+  "restPoseProofOffline": "SourceAssets/characters-review/PilgrimRigV3/rest-pose-proof.json",
+  "nativeProofs": {
+    "V3_Pilgrim_Man_Standard": {
+      "asset": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard",
+      "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton",
+      "boneReadoutStrategy": "AnimPoseExtensions.get_reference_pose(skeleton) world/component space",
+      "boneCount": 27,
+      "expectedBoneCount": 27,
+      "boneNamesMatchAuthoredRig": false,
+      "maxRestPositionErrorCm": null,
+      "expectedFrame": "Interchange glTF->UE: authored (x, y, z) cm reads back as (x, -y, z)",
+      "maxRestPositionErrorCmAuthorFrame": null,
+      "frameMatched": null,
+      "restPositionsUeCm": {
+        "root": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pelvis": [
+          0.0,
+          0.0,
+          98.0
+        ],
+        "spine_01": [
+          0.0,
+          0.0,
+          114.0
+        ],
+        "spine_02": [
+          0.0,
+          0.0,
+          132.0
+        ],
+        "chest": [
+          0.0,
+          0.0,
+          143.0
+        ],
+        "neck_01": [
+          0.0,
+          0.0,
+          153.0
+        ],
+        "head": [
+          0.0,
+          0.0,
+          166.0
+        ],
+        "clavicle_r": [
+          -11.0,
+          0.0,
+          145.0
+        ],
+        "upperarm_r": [
+          -20.5,
+          0.0,
+          143.0
+        ],
+        "lowerarm_r": [
+          -35.559,
+          0.5,
+          114.765
+        ],
+        "hand_r": [
+          -47.418,
+          1.0,
+          92.529
+        ],
+        "clavicle_l": [
+          11.0,
+          0.0,
+          145.0
+        ],
+        "upperarm_l": [
+          20.5,
+          0.0,
+          143.0
+        ],
+        "lowerarm_l": [
+          35.559,
+          0.5,
+          114.765
+        ],
+        "hand_l": [
+          47.418,
+          1.0,
+          92.529
+        ],
+        "mantle_front": [
+          0.0,
+          9.0,
+          143.0
+        ],
+        "mantle_back": [
+          0.0,
+          -11.0,
+          143.0
+        ],
+        "thigh_r": [
+          -8.0,
+          0.0,
+          88.0
+        ],
+        "calf_r": [
+          -8.0,
+          0.0,
+          47.0
+        ],
+        "foot_r": [
+          -8.0,
+          0.0,
+          6.0
+        ],
+        "ball_r": [
+          -8.0,
+          11.5,
+          3.0
+        ],
+        "skirt_r": [
+          -8.0,
+          0.0,
+          88.0
+        ],
+        "thigh_l": [
+          8.0,
+          0.0,
+          88.0
+        ],
+        "calf_l": [
+          8.0,
+          0.0,
+          47.0
+        ],
+        "foot_l": [
+          8.0,
+          0.0,
+          6.0
+        ],
+        "ball_l": [
+          8.0,
+          11.5,
+          3.0
+        ],
+        "skirt_l": [
+          8.0,
+          0.0,
+          88.0
+        ]
+      },
+      "facing": null,
+      "animations": [
+        "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
+        "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+        "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoCamera",
+        "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoPhone"
+      ],
+      "animationCount": 4,
+      "clipProof": {
+        "V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle": {
+          "proven": true,
+          "strategy": "AnimationLibrary.get_bone_poses_for_frame(preview_mesh)",
+          "numFrames": 96,
+          "sequenceLength": 3.200000047683716,
+          "sampledFrames": [
+            0,
+            24,
+            48,
+            72,
+            95
+          ],
+          "toleranceCm": 0.01,
+          "translatedBones": {},
+          "rotationOnlyExcept": []
+        },
+        "V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk": {
+          "proven": true,
+          "strategy": "AnimationLibrary.get_bone_poses_for_frame(preview_mesh)",
+          "numFrames": 36,
+          "sequenceLength": 1.2000000476837158,
+          "sampledFrames": [
+            0,
+            9,
+            18,
+            27,
+            35
+          ],
+          "toleranceCm": 0.01,
+          "translatedBones": {
+            "pelvis": 2.45
+          },
+          "rotationOnlyExcept": [
+            "pelvis"
+          ]
+        },
+        "V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoCamera": {
+          "proven": true,
+          "strategy": "AnimationLibrary.get_bone_poses_for_frame(preview_mesh)",
+          "numFrames": 120,
+          "sequenceLength": 4.0,
+          "sampledFrames": [
+            0,
+            30,
+            60,
+            90,
+            119
+          ],
+          "toleranceCm": 0.01,
+          "translatedBones": {},
+          "rotationOnlyExcept": []
+        },
+        "V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoPhone": {
+          "proven": true,
+          "strategy": "AnimationLibrary.get_bone_poses_for_frame(preview_mesh)",
+          "numFrames": 108,
+          "sequenceLength": 3.5999999046325684,
+          "sampledFrames": [
+            0,
+            27,
+            54,
+            81,
+            107
+          ],
+          "toleranceCm": 0.01,
+          "translatedBones": {},
+          "rotationOnlyExcept": []
+        }
+      },
+      "materialSlots": [
+        {
+          "slot": "Skin",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Skin"
+        },
+        {
+          "slot": "Linen",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Linen"
+        },
+        {
+          "slot": "Mantle",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Mantle"
+        },
+        {
+          "slot": "Headcloth",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Headcloth"
+        },
+        {
+          "slot": "Sash",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Sash"
+        },
+        {
+          "slot": "Leather",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Leather"
+        },
+        {
+          "slot": "Hair",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Hair"
+        },
+        {
+          "slot": "Eyes",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Eyes"
+        },
+        {
+          "slot": "Trim",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Trim"
+        },
+        {
+          "slot": "Iris",
+          "material": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/Materials/Iris"
+        }
+      ]
+    }
+  },
+  "protectedV2Before": {
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.uasset": "1dcd63bda0caa4feea8efffdf00f06cda39723874072ec1259b4de985876d67f",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2_Skeleton.uasset": "c3aa0a346e5f85f984deb74bd62230b070de828458977cd0b4aaa0e3dbb4f001",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2_PhysicsAsset.uasset": "e2e83ceb8c1e075d6b0a14de47e60072e7bfa2be5a7a417543d84b282ef52287",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.uasset": "2c0901a361eb410c9732ff0f9c2728ad16276f3273997baf51afc887e00584f1",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.uasset": "2c2a88c4be80039b8d11d0b1ffeea047497fffbd03ffe15b4a0ac52f8f011603",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Skin.uasset": "b920289643e6448b30187580cc5cd95ef53422fb79bb61e4485e2bd025f37485",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Linen.uasset": "9083ae8e9ba05d33e108d707f688e0c02839fe0d6dc1a0305f0718edb8793bee",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Mantle.uasset": "edcf6abae740d9b5418533b8a8c85ade02d292b48df3085326d9ac27627bf907",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Headwrap.uasset": "33ba960f6095ac86b7d9184d92e5962269e8cb81ed93f8743adf83a98522018d",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Leather.uasset": "f60fe137b552b5962a4d0ffd7851f6b5be34fd065a463acd58e6eb3a45c37487",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Hair.uasset": "c779f6980a3e3bd68983478e9cfe136fdbcd9c94979b49d2fd2b3dcb84278ca7",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Eyes.uasset": "afbb2a22b3ea284d3ee0997fdf308bc3d49a13731daf2fc922be71ee05c95cd5",
+    "MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Trim.uasset": "b9de36eba47db3b9a4c6e7dc42cad1e3e75353101029d98652bc99f0613994c3"
+  },
+  "error": "RuntimeError('Native rest-pose/clip proof failed for V3_Pilgrim_Man_Standard: [\"V3_Pilgrim_Man_Standard: imported bone names differ from the authored rig: [\\'root\\', \\'pelvis\\', \\'spine_01\\', \\'spine_02\\', \\'chest\\', \\'neck_01\\']\"]')",
+  "postGuards": [
+    "clean"
+  ]
+}

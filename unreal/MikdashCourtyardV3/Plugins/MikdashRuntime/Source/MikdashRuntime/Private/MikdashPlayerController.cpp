@@ -2,6 +2,8 @@
 #include "MikdashFrontEnd.h"
 #include "MikdashCinematics.h"
 #include "MikdashDovePawn.h"
+#include "MikdashEnclosure.h"
+#include "EngineUtils.h"
 #include "MikdashResidentCharacter.h"
 #include "SMikdashPreparation.h"
 #include "EngineUtils.h"
@@ -254,6 +256,7 @@ void AMikdashPlayerController::SetupInputComponent()
     InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::HandleEscapeKey).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::P, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
     InputComponent->BindKey(EKeys::M, IE_Pressed, this, &AMikdashPlayerController::ToggleSound).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::V, IE_Pressed, this, &AMikdashPlayerController::CyclePrecinctView);
     InputComponent->BindAxisKey(EKeys::MouseX, this, &AMikdashPlayerController::Turn);
     InputComponent->BindAxisKey(EKeys::MouseY, this, &AMikdashPlayerController::LookUp);
 }
@@ -716,6 +719,32 @@ void AMikdashPlayerController::EndPlay(const EEndPlayReason::Type Reason)
         GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
     MenuWidget.Reset();
     Super::EndPlay(Reason);
+}
+
+void AMikdashPlayerController::CyclePrecinctView()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+    int32 Cycled = 0;
+    for (TActorIterator<AMikdashEnclosure> It(World); It; ++It)
+    {
+        It->CyclePrecinctState();
+        ++Cycled;
+    }
+    if (Cycled == 0)
+    {
+        // The enclosure is placed by Scripts/release_enclosure.py; until that has run on
+        // this map the key does nothing, and saying so once beats a silent no-op.
+        static bool bWarned = false;
+        if (!bWarned)
+        {
+            bWarned = true;
+            UE_LOG(LogTemp, Log, TEXT("V pressed but no AMikdashEnclosure is in the level; run release_enclosure.py."));
+        }
+    }
 }
 
 #undef LOCTEXT_NAMESPACE

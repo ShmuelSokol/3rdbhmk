@@ -42,6 +42,11 @@ public:
     bool IsSoundMuted() const { return bSoundMuted; }
 
     UFUNCTION(BlueprintCallable, Category="Walkthrough") void ToggleDoveFlight();
+
+    /** V: cycle the precinct view on every AMikdashEnclosure in the world —
+     *  Yechezkel (default) → Modern → Overlay. Shmuel's decision of 8 September 2026
+     *  makes Yechezkel the opening state; this key is how a visitor compares it with today. */
+    UFUNCTION(BlueprintCallable, Category="Walkthrough") void CyclePrecinctView();
     UFUNCTION(BlueprintCallable, Category="Walkthrough") void RequestDoveFlightFromMenu();
     UFUNCTION(BlueprintPure, Category="Walkthrough") bool IsDoveFlightActive() const { return bDoveFlight; }
     UFUNCTION(BlueprintPure, Category="Walkthrough") FString GetDoveFlightStatus() const { return DoveFlightStatus; }

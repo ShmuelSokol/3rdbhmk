@@ -84,7 +84,7 @@ VARIANTS = {
         joint_cm=1.5, joint_depth_cm=0.6, arris_cm=0.6,
         # dressing: 'chisel' = directional striations, 'fine' = finely dressed (lower amplitude, denser strokes)
         dressing={'chisel': 0.7, 'fine': 0.3}, stroke_dir={'vertical': 0.6, 'horizontal': 0.4}, stroke_wobble_deg=8.0,
-        stria_amp_cm={'chisel': (0.21, 0.30), 'fine': (0.08, 0.12)}, stria_across_cm={'chisel': (0.4, 0.6), 'fine': (0.3, 0.42)}, stria_along_cm=(2.5, 6.0), stria_patch_cm=8.0, stroke_angle_var_deg=9.0,
+        stria_amp_cm={'chisel': (0.21, 0.30), 'fine': (0.08, 0.12)}, stria_across_cm={'chisel': (0.4, 0.6), 'fine': (0.3, 0.42)}, stria_along_cm=(2.0, 5.0), stria_patch_cm=8.0,
         base_offset_cm=0.20, tilt=0.004, undulation_cm=0.08,
         chip_chance=0.45, chips_per_block=(1, 3), chip_radius_cm=(1.5, 4.0), chip_depth_cm=(0.25, 0.7),
         pore_density_per_cm2=0.0006, pore_radius_cm=(0.15, 0.5),
@@ -99,7 +99,7 @@ VARIANTS = {
         seed=5787, courses=8, course_h_cm=(32.0, 44.0), length_ratio=(2.3, 3.6), min_joint_stagger_cm=20.0,
         joint_cm=1.0, joint_depth_cm=0.45, arris_cm=0.45,
         dressing={'chisel': 0.4, 'fine': 0.6}, stroke_dir={'vertical': 0.35, 'horizontal': 0.65}, stroke_wobble_deg=5.0,
-        stria_amp_cm={'chisel': (0.12, 0.18), 'fine': (0.05, 0.08)}, stria_across_cm={'chisel': (0.35, 0.5), 'fine': (0.28, 0.4)}, stria_along_cm=(3.0, 8.0), stria_patch_cm=10.0, stroke_angle_var_deg=6.0,
+        stria_amp_cm={'chisel': (0.12, 0.18), 'fine': (0.05, 0.08)}, stria_across_cm={'chisel': (0.35, 0.5), 'fine': (0.28, 0.4)}, stria_along_cm=(2.5, 6.0), stria_patch_cm=10.0,
         base_offset_cm=0.10, tilt=0.0025, undulation_cm=0.04,
         chip_chance=0.25, chips_per_block=(1, 2), chip_radius_cm=(1.0, 2.5), chip_depth_cm=(0.15, 0.4),
         pore_density_per_cm2=0.0003, pore_radius_cm=(0.12, 0.35),
@@ -438,10 +438,9 @@ def generate(name, cfg, size, log):
             segs = [(xa, xb, x0)] if xb <= size else [(xa, size, x0), (0, xb - size, x0 - TILE_CM)]
             base = b['base'] + b['tilt_v'] * (v - H / 2)
             tu = b['tilt_u']
-            angle0 = b['angle']
+            ca, sa = math.cos(b['angle']), math.sin(b['angle'])
             amp, across, along, seed = b['stria_amp'], b['stria_across'], b['stria_along'], b['stria_seed']
             patch = cfg['stria_patch_cm']
-            angle_var = math.radians(cfg['stroke_angle_var_deg'])
             bid = b['id']
             for xa, xb, xoff in segs:
                 for x in range(max(0, xa), min(size, xb)):
@@ -452,9 +451,7 @@ def generate(name, cfg, size, log):
                         h_row[x] = -depth + 0.03 * fine[x]
                         continue
                     # chisel dressing: anisotropic hashed noise, fine across the stroke, long along it; a second octave breaks the strokes up
-                    # stroke direction drifts a few degrees across the face (patches of strokes, not one brushed sheet)
-                    ang = angle0 + angle_var * vnoise(u / patch + 11.1, v / patch + 7.3, seed + 3)
-                    ca, sa = math.cos(ang), math.sin(ang)
+                    # strokes are straight and parallel within a block (a drifting angle reads as wood grain, not chisel work)
                     s = u * ca + v * sa
                     t = -u * sa + v * ca
                     stria = vnoise(s / across, t / along, seed) + 0.45 * vnoise(s / (across * 0.55) + 17.3, t / (along * 0.4) + 5.1, seed + 1)

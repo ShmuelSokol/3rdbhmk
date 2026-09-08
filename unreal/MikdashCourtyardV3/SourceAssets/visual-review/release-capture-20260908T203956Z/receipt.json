@@ -1,5 +1,5 @@
 {
-  "status": "running",
+  "status": "partial_captures_requires_review",
   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
   "mapSha256": "a538b255ed5c3a3da16bfd6fde97f013a0cefbfaa3c0b0df7ff4cd75b6c9d68e",
   "startedUtc": "20260908T203956Z",
@@ -16,17 +16,1227 @@
   "watchdogSeconds": 1800.0,
   "readinessPolicy": "Global finish_loading_before_screenshot after map load; per view: set camera, finish_loading_before_screenshot (loading barrier), then >=45 s and >=120 Slate ticks rendered warmup, then take_high_res_screenshot. Flat frames (luma stdev < 4.0) retried once.",
   "streamingPoolSizeMB": 1000,
-  "views": [],
-  "viewTiming": [],
-  "captures": [],
-  "failures": [],
+  "views": [
+    {
+      "id": "a_exterior_wide_arrival",
+      "position": [
+        30000.0,
+        30000.0,
+        20000.0
+      ],
+      "pitch": -25.0,
+      "yaw": -135.0,
+      "basis": "Previously used exterior wide camera [30000,30000,20000] pitch -25 yaw -135 toward the courtyard origin.",
+      "cameraClearance": true
+    },
+    {
+      "id": "b_courtyard_spawn_west",
+      "position": [
+        2100.0,
+        0.0,
+        668.0
+      ],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "basis": "Mikdash_PlayerStart [2100,0] (pawn centre Z 598); inner court floor top 500 + 168 eye height; west is UE -X.",
+      "cameraClearance": true
+    },
+    {
+      "id": "c_outer_court_pilgrims",
+      "position": [
+        4974.0,
+        0.0,
+        468.0
+      ],
+      "groundTrace": {
+        "point": [
+          4974.0,
+          0.0,
+          300.0
+        ],
+        "normalZ": 1.0,
+        "actor": "Outer court floor"
+      },
+      "basis": "Requested outer court point [4974,0] (pawn centre Z 398); outer court floor top 300 + 168 eye height.",
+      "target": [
+        5000.0,
+        1178.0,
+        420.0
+      ],
+      "pitch": -2.3327744878345023,
+      "yaw": 88.73561252901615,
+      "aim": "centroid of 5 pilgrim actors",
+      "cameraClearance": true
+    },
+    {
+      "id": "d_heikhal_west_vessels",
+      "position": [
+        -4000.0,
+        0.0,
+        1093.0
+      ],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "basis": "Proven Gold/Polish baseline: Heichal floor top 925 + 168, 400 cm inside the eastern floor edge; menorah [-4900,300], shulchan [-4900,-300], incense altar [-4500,0].",
+      "cameraClearance": true
+    },
+    {
+      "id": "e_kodesh_aron_keruvim",
+      "position": [
+        -5850.0,
+        -140.0,
+        1093.0
+      ],
+      "target": [
+        -6200.0,
+        0.0,
+        1063.5
+      ],
+      "pitch": -4.474694431135619,
+      "yaw": 158.19859051364818,
+      "basis": "Aron origin [-6200,0,925] yaw 90; camera 350 cm east/140 cm north inside Kodesh floor X[-6700,-5700]; target mid-height of keruvim (cover top +83.3 to +193.7 local).",
+      "sightlineBlocked": false,
+      "cameraClearance": true
+    },
+    {
+      "id": "f_kotel_ground_detail",
+      "position": [
+        -15774.21785752015,
+        14042.131435066,
+        -631.5959170904771
+      ],
+      "target": [
+        -14793.692248582138,
+        13873.032262339639,
+        -381.5959170904771
+      ],
+      "pitch": 14.103968944083105,
+      "yaw": -9.784849015691565,
+      "groundTrace": {
+        "point": [
+          -15774.21785752015,
+          14042.131435066,
+          -799.5959170904771
+        ],
+        "normalZ": 0.9637,
+        "actor": "SM_JerusalemTerrain_07_08"
+      },
+      "faceMidpoint": [
+        -14788.764984215615,
+        13872.182517753074
+      ],
+      "faceNormal": [
+        -0.9854528733045355,
+        0.1699489173129251
+      ],
+      "distanceFromFaceCm": 1000.0,
+      "yawOffNormalDegrees": 0.0,
+      "faceProbe": {
+        "hit": true,
+        "actor": "SM_JerusalemBuildings_Grid_N002_P001",
+        "meshes": [
+          "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001"
+        ],
+        "point": [
+          -14788.765067191376,
+          13872.18253206288,
+          -387.6934986028276
+        ],
+        "distanceFromCameraCm": 1029.3,
+        "westOfFacePlaneCm": 0.0
+      },
+      "basis": "kotel-detail manifest edge 0 (3986 cm, west-facing) midpoint + outward normal x 1000 cm (review-workflow.json basis); eye = traced ground + 168; slight upward pitch to include courses. faceProbe names what the camera actually sees at the face.",
+      "cameraClearance": true
+    },
+    {
+      "id": "f2_kotel_raking_relief",
+      "position": [
+        -15019.300813372905,
+        14064.154472670349,
+        -425.9918399636922
+      ],
+      "target": [
+        -14793.692248582138,
+        13873.032262339639,
+        -325.9918399636922
+      ],
+      "pitch": 18.685688944507664,
+      "yaw": -40.26929484010751,
+      "groundTrace": {
+        "point": [
+          -15019.300813372905,
+          14064.154472670349,
+          -593.9918399636922
+        ],
+        "normalZ": 0.9637,
+        "actor": "SM_JerusalemTerrain_07_08"
+      },
+      "faceMidpoint": [
+        -14788.764984215615,
+        13872.182517753074
+      ],
+      "faceNormal": [
+        -0.9854528733045355,
+        0.1699489173129251
+      ],
+      "distanceFromFaceCm": 300.0,
+      "yawOffNormalDegrees": 30.0,
+      "faceProbe": {
+        "hit": true,
+        "actor": "SM_JerusalemBuildings_Grid_N002_P001",
+        "meshes": [
+          "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001"
+        ],
+        "point": [
+          -14786.5273815822,
+          13885.157821216511,
+          -334.7697254470045
+        ],
+        "distanceFromCameraCm": 307.5,
+        "westOfFacePlaneCm": 0.0
+      },
+      "basis": "Same edge-0 midpoint; camera 300 cm out, rotated 30 degrees toward +tangent so grazing light reveals the 2 cm plate / 1.4 cm boss / 0.35 cm bevel relief; eye = traced ground + 168. faceProbe records any occluder.",
+      "cameraClearance": true
+    },
+    {
+      "id": "g_mount_platform_approach",
+      "position": [
+        11500.0,
+        -300.0,
+        168.0000000000001
+      ],
+      "target": [
+        8100.0,
+        0.0,
+        1100.0
+      ],
+      "pitch": 15.2726890767961,
+      "yaw": 174.9575489308291,
+      "groundTrace": {
+        "point": [
+          11500.0,
+          -300.0,
+          1.1368683772161603e-13
+        ],
+        "normalZ": 1.0,
+        "actor": "SM_MountPlatform_Surface"
+      },
+      "basis": "Future Mount platform deck top Z 0 (mount-platform-design.json); route 'Platform to measured outer eastern gate' begins at [10000,0,0]; camera 34 m east of the Outer E threshold looking west up the 12 gateway stairs.",
+      "cameraClearance": true
+    },
+    {
+      "id": "h_bus_street_level",
+      "busPlacedXY": [
+        -37951.473,
+        46854.779
+      ],
+      "busYaw": -15.979516029357915,
+      "busGroundTrace": {
+        "point": [
+          -37951.473,
+          46854.779,
+          973.0765798107504
+        ],
+        "normalZ": 0.9937,
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_N004_P004"
+      },
+      "cameraGroundTrace": {
+        "point": [
+          -37181.517783772695,
+          48090.5657797498,
+          641.8205214633517
+        ],
+        "normalZ": 0.9349,
+        "actor": "SM_JerusalemTerrain_07_09"
+      },
+      "busActorsFound": 13,
+      "basis": "Saved TransitV2 actor origin and yaw; camera 14 m off the door side, 4 m forward, at traced street level + 168. No historical candidate coordinates used.",
+      "position": [
+        -37181.517783772695,
+        48090.5657797498,
+        809.8205214633517
+      ],
+      "target": [
+        -37951.473,
+        46854.779,
+        1153.0771609905732
+      ],
+      "pitch": 13.265247100547988,
+      "yaw": -121.92491193028087,
+      "cameraClearance": true
+    },
+    {
+      "id": "i_overhead_city",
+      "position": [
+        37550.0,
+        28350.0,
+        34479.999923706055
+      ],
+      "target": [
+        550.0,
+        0.0,
+        3064.9999618530273
+      ],
+      "pitch": -33.978443732079896,
+      "yaw": -142.54007871109832,
+      "basis": "capture_jerusalem_context.py 'overall': architecture bounds max + 1.5/1.0/1.5 spans, looking at the architecture centre.",
+      "cameraClearance": true
+    }
+  ],
+  "viewTiming": [
+    {
+      "view": "a_exterior_wide_arrival",
+      "file": "a_exterior_wide_arrival.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1224.906,
+      "barrierElapsedSeconds": 9.453,
+      "warmupStartedSeconds": 1234.359,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 2950,
+      "screenshotCallElapsedSeconds": 0.203
+    },
+    {
+      "view": "b_courtyard_spawn_west",
+      "file": "b_courtyard_spawn_west.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1282.609,
+      "barrierElapsedSeconds": 0.016,
+      "warmupStartedSeconds": 1282.625,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3317,
+      "screenshotCallElapsedSeconds": 0.047
+    },
+    {
+      "view": "c_outer_court_pilgrims",
+      "file": "c_outer_court_pilgrims.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1330.5,
+      "barrierElapsedSeconds": 0.031,
+      "warmupStartedSeconds": 1330.531,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3438,
+      "screenshotCallElapsedSeconds": 0.031
+    },
+    {
+      "view": "d_heikhal_west_vessels",
+      "file": "d_heikhal_west_vessels.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1379.031,
+      "barrierElapsedSeconds": 0.031,
+      "warmupStartedSeconds": 1379.062,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 2878,
+      "screenshotCallElapsedSeconds": 0.047
+    },
+    {
+      "view": "e_kodesh_aron_keruvim",
+      "file": "e_kodesh_aron_keruvim.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1427.265,
+      "barrierElapsedSeconds": 0.032,
+      "warmupStartedSeconds": 1427.297,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 2964,
+      "screenshotCallElapsedSeconds": 0.047
+    },
+    {
+      "view": "f_kotel_ground_detail",
+      "file": "f_kotel_ground_detail.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1475.969,
+      "barrierElapsedSeconds": 0.015,
+      "warmupStartedSeconds": 1475.984,
+      "warmupElapsedSeconds": 45.016,
+      "warmupSlateTicks": 3346,
+      "screenshotCallElapsedSeconds": 0.031
+    },
+    {
+      "view": "f2_kotel_raking_relief",
+      "file": "f2_kotel_raking_relief.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1524.25,
+      "barrierElapsedSeconds": 0.015,
+      "warmupStartedSeconds": 1524.265,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3395,
+      "screenshotCallElapsedSeconds": 0.032
+    },
+    {
+      "view": "f2_kotel_raking_relief",
+      "file": "f2_kotel_raking_relief_retry1.png",
+      "attempt": 2,
+      "barrierStartedSeconds": 1570.328,
+      "barrierElapsedSeconds": 0.031,
+      "warmupStartedSeconds": 1570.359,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3366,
+      "screenshotCallElapsedSeconds": 0.031
+    },
+    {
+      "view": "g_mount_platform_approach",
+      "file": "g_mount_platform_approach.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1616.375,
+      "barrierElapsedSeconds": 0.031,
+      "warmupStartedSeconds": 1616.406,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3086,
+      "screenshotCallElapsedSeconds": 0.031
+    },
+    {
+      "view": "h_bus_street_level",
+      "file": "h_bus_street_level.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1665.437,
+      "barrierElapsedSeconds": 0.032,
+      "warmupStartedSeconds": 1665.469,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3249,
+      "screenshotCallElapsedSeconds": 0.046
+    },
+    {
+      "view": "i_overhead_city",
+      "file": "i_overhead_city.png",
+      "attempt": 1,
+      "barrierStartedSeconds": 1714.0,
+      "barrierElapsedSeconds": 0.015,
+      "warmupStartedSeconds": 1714.015,
+      "warmupElapsedSeconds": 45.0,
+      "warmupSlateTicks": 3501,
+      "screenshotCallElapsedSeconds": 0.047
+    }
+  ],
+  "captures": [
+    {
+      "view": "a_exterior_wide_arrival",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\a_exterior_wide_arrival.png",
+      "bytes": 3693978,
+      "sha256": "b970357955d0fc48bdd0a5c3bd7bfcb223137943cf655a8abf846a45ea5eea62",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          30000.0,
+          30000.0,
+          20000.0
+        ],
+        "pitch": -25.0,
+        "yaw": -135.0,
+        "target": null
+      },
+      "timing": {
+        "view": "a_exterior_wide_arrival",
+        "file": "a_exterior_wide_arrival.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1224.906,
+        "barrierElapsedSeconds": 9.453,
+        "warmupStartedSeconds": 1234.359,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 2950,
+        "screenshotCallElapsedSeconds": 0.203
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 109.51,
+        "lumaStdev": 34.98,
+        "lumaMin": 6.7,
+        "lumaMax": 205.1,
+        "decodeSeconds": 2.42
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "b_courtyard_spawn_west",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\b_courtyard_spawn_west.png",
+      "bytes": 2520922,
+      "sha256": "cb73881cfac27455b3cb2dba14fb1a3b88d0267b48e540f9b7f8e14c176a4143",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          2100.0,
+          0.0,
+          668.0
+        ],
+        "pitch": 0.0,
+        "yaw": 180.0,
+        "target": null
+      },
+      "timing": {
+        "view": "b_courtyard_spawn_west",
+        "file": "b_courtyard_spawn_west.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1282.609,
+        "barrierElapsedSeconds": 0.016,
+        "warmupStartedSeconds": 1282.625,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3317,
+        "screenshotCallElapsedSeconds": 0.047
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 115.66,
+        "lumaStdev": 60.87,
+        "lumaMin": 0.0,
+        "lumaMax": 240.9,
+        "decodeSeconds": 2.38
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "c_outer_court_pilgrims",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\c_outer_court_pilgrims.png",
+      "bytes": 3200542,
+      "sha256": "5f998ffe2ffea75563d2e6686e09e6ebe897423735963df66d3a484d003323ed",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          4974.0,
+          0.0,
+          468.0
+        ],
+        "pitch": -2.3327744878345023,
+        "yaw": 88.73561252901615,
+        "target": [
+          5000.0,
+          1178.0,
+          420.0
+        ]
+      },
+      "timing": {
+        "view": "c_outer_court_pilgrims",
+        "file": "c_outer_court_pilgrims.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1330.5,
+        "barrierElapsedSeconds": 0.031,
+        "warmupStartedSeconds": 1330.531,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3438,
+        "screenshotCallElapsedSeconds": 0.031
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 110.97,
+        "lumaStdev": 51.92,
+        "lumaMin": 6.0,
+        "lumaMax": 218.1,
+        "decodeSeconds": 2.94
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "d_heikhal_west_vessels",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\d_heikhal_west_vessels.png",
+      "bytes": 3138825,
+      "sha256": "6013cf94826eaafeb79045e2d012cdf775aed0be6d81885f1366238c0d05efc9",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -4000.0,
+          0.0,
+          1093.0
+        ],
+        "pitch": 0.0,
+        "yaw": 180.0,
+        "target": null
+      },
+      "timing": {
+        "view": "d_heikhal_west_vessels",
+        "file": "d_heikhal_west_vessels.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1379.031,
+        "barrierElapsedSeconds": 0.031,
+        "warmupStartedSeconds": 1379.062,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 2878,
+        "screenshotCallElapsedSeconds": 0.047
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 108.68,
+        "lumaStdev": 55.63,
+        "lumaMin": 16.3,
+        "lumaMax": 221.2,
+        "decodeSeconds": 2.61
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "e_kodesh_aron_keruvim",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\e_kodesh_aron_keruvim.png",
+      "bytes": 3207201,
+      "sha256": "783d702cfd968cf42c371842dc1fbe00ffd14139b9755460a3b11d9c167d9c13",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -5850.0,
+          -140.0,
+          1093.0
+        ],
+        "pitch": -4.474694431135619,
+        "yaw": 158.19859051364818,
+        "target": [
+          -6200.0,
+          0.0,
+          1063.5
+        ]
+      },
+      "timing": {
+        "view": "e_kodesh_aron_keruvim",
+        "file": "e_kodesh_aron_keruvim.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1427.265,
+        "barrierElapsedSeconds": 0.032,
+        "warmupStartedSeconds": 1427.297,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 2964,
+        "screenshotCallElapsedSeconds": 0.047
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 109.42,
+        "lumaStdev": 44.31,
+        "lumaMin": 25.0,
+        "lumaMax": 249.4,
+        "decodeSeconds": 3.08
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "f_kotel_ground_detail",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\f_kotel_ground_detail.png",
+      "bytes": 2061484,
+      "sha256": "54cd332fa1ea8123d111e109b93ec24ea3b27c65ae1163f749d5dfc2c230972d",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -15774.21785752015,
+          14042.131435066,
+          -631.5959170904771
+        ],
+        "pitch": 14.103968944083105,
+        "yaw": -9.784849015691565,
+        "target": [
+          -14793.692248582138,
+          13873.032262339639,
+          -381.5959170904771
+        ]
+      },
+      "timing": {
+        "view": "f_kotel_ground_detail",
+        "file": "f_kotel_ground_detail.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1475.969,
+        "barrierElapsedSeconds": 0.015,
+        "warmupStartedSeconds": 1475.984,
+        "warmupElapsedSeconds": 45.016,
+        "warmupSlateTicks": 3346,
+        "screenshotCallElapsedSeconds": 0.031
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 95.56,
+        "lumaStdev": 104.14,
+        "lumaMin": 0.0,
+        "lumaMax": 250.5,
+        "decodeSeconds": 2.62
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "f2_kotel_raking_relief",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\f2_kotel_raking_relief.png",
+      "bytes": 38667,
+      "sha256": "ada9600cfb46be5a2f448599d186f6c6da5b4e1e07dfa958e8c993a15760a1c3",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -15019.300813372905,
+          14064.154472670349,
+          -425.9918399636922
+        ],
+        "pitch": 18.685688944507664,
+        "yaw": -40.26929484010751,
+        "target": [
+          -14793.692248582138,
+          13873.032262339639,
+          -325.9918399636922
+        ]
+      },
+      "timing": {
+        "view": "f2_kotel_raking_relief",
+        "file": "f2_kotel_raking_relief.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1524.25,
+        "barrierElapsedSeconds": 0.015,
+        "warmupStartedSeconds": 1524.265,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3395,
+        "screenshotCallElapsedSeconds": 0.032
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 0.0,
+        "lumaStdev": 0.0,
+        "lumaMin": 0.0,
+        "lumaMax": 0.0,
+        "decodeSeconds": 0.8
+      },
+      "flatFrameSuspect": true
+    },
+    {
+      "view": "f2_kotel_raking_relief",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\f2_kotel_raking_relief_retry1.png",
+      "bytes": 38667,
+      "sha256": "ada9600cfb46be5a2f448599d186f6c6da5b4e1e07dfa958e8c993a15760a1c3",
+      "nativeTaskDone": true,
+      "attempt": 2,
+      "camera": {
+        "position": [
+          -15019.300813372905,
+          14064.154472670349,
+          -425.9918399636922
+        ],
+        "pitch": 18.685688944507664,
+        "yaw": -40.26929484010751,
+        "target": [
+          -14793.692248582138,
+          13873.032262339639,
+          -325.9918399636922
+        ]
+      },
+      "timing": {
+        "view": "f2_kotel_raking_relief",
+        "file": "f2_kotel_raking_relief_retry1.png",
+        "attempt": 2,
+        "barrierStartedSeconds": 1570.328,
+        "barrierElapsedSeconds": 0.031,
+        "warmupStartedSeconds": 1570.359,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3366,
+        "screenshotCallElapsedSeconds": 0.031
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 0.0,
+        "lumaStdev": 0.0,
+        "lumaMin": 0.0,
+        "lumaMax": 0.0,
+        "decodeSeconds": 0.77
+      },
+      "flatFrameSuspect": true
+    },
+    {
+      "view": "g_mount_platform_approach",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\g_mount_platform_approach.png",
+      "bytes": 2481303,
+      "sha256": "bb2e16c7d0451d31bbf2a17f740eb2af6db17078e2009d331493091a090b273b",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          11500.0,
+          -300.0,
+          168.0000000000001
+        ],
+        "pitch": 15.2726890767961,
+        "yaw": 174.9575489308291,
+        "target": [
+          8100.0,
+          0.0,
+          1100.0
+        ]
+      },
+      "timing": {
+        "view": "g_mount_platform_approach",
+        "file": "g_mount_platform_approach.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1616.375,
+        "barrierElapsedSeconds": 0.031,
+        "warmupStartedSeconds": 1616.406,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3086,
+        "screenshotCallElapsedSeconds": 0.031
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 149.68,
+        "lumaStdev": 41.25,
+        "lumaMin": 1.8,
+        "lumaMax": 217.2,
+        "decodeSeconds": 3.08
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "h_bus_street_level",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\h_bus_street_level.png",
+      "bytes": 3529856,
+      "sha256": "bc34feb98cbced835b4917e9a11308144bf2fc70167944773a107c49071d34ab",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          -37181.517783772695,
+          48090.5657797498,
+          809.8205214633517
+        ],
+        "pitch": 13.265247100547988,
+        "yaw": -121.92491193028087,
+        "target": [
+          -37951.473,
+          46854.779,
+          1153.0771609905732
+        ]
+      },
+      "timing": {
+        "view": "h_bus_street_level",
+        "file": "h_bus_street_level.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1665.437,
+        "barrierElapsedSeconds": 0.032,
+        "warmupStartedSeconds": 1665.469,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3249,
+        "screenshotCallElapsedSeconds": 0.046
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 110.2,
+        "lumaStdev": 33.68,
+        "lumaMin": 2.8,
+        "lumaMax": 178.3,
+        "decodeSeconds": 3.02
+      },
+      "flatFrameSuspect": false
+    },
+    {
+      "view": "i_overhead_city",
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\release-capture-20260908T203956Z\\i_overhead_city.png",
+      "bytes": 3784026,
+      "sha256": "2bc34458759cb0be4988d1225480dfd063a95a4498f3909235334f8d8424d207",
+      "nativeTaskDone": true,
+      "attempt": 1,
+      "camera": {
+        "position": [
+          37550.0,
+          28350.0,
+          34479.999923706055
+        ],
+        "pitch": -33.978443732079896,
+        "yaw": -142.54007871109832,
+        "target": [
+          550.0,
+          0.0,
+          3064.9999618530273
+        ]
+      },
+      "timing": {
+        "view": "i_overhead_city",
+        "file": "i_overhead_city.png",
+        "attempt": 1,
+        "barrierStartedSeconds": 1714.0,
+        "barrierElapsedSeconds": 0.015,
+        "warmupStartedSeconds": 1714.015,
+        "warmupElapsedSeconds": 45.0,
+        "warmupSlateTicks": 3501,
+        "screenshotCallElapsedSeconds": 0.047
+      },
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "verifiedFile": true,
+      "lumaSample": {
+        "sampleCount": 2304,
+        "lumaMean": 112.04,
+        "lumaStdev": 30.18,
+        "lumaMin": 10.4,
+        "lumaMax": 199.2,
+        "decodeSeconds": 2.45
+      },
+      "flatFrameSuspect": false
+    }
+  ],
+  "failures": [
+    {
+      "view": "f2_kotel_raking_relief",
+      "stage": "flat_frame",
+      "error": "Luma stdev 0.00 < 4.0 (gray/uniform frame suspected); retrying after another barrier and warmup.",
+      "elapsedSeconds": 1570.33
+    }
+  ],
   "events": [
     {
       "event": "global_barrier_started",
       "elapsedSeconds": 0.11
+    },
+    {
+      "event": "global_barrier_finished",
+      "elapsedSeconds": 1224.2,
+      "seconds": 1224.078
+    },
+    {
+      "event": "readiness_a_exterior_wide_arrival",
+      "elapsedSeconds": 1224.91
+    },
+    {
+      "event": "warming_a_exterior_wide_arrival",
+      "elapsedSeconds": 1234.36
+    },
+    {
+      "event": "requested_a_exterior_wide_arrival",
+      "elapsedSeconds": 1279.56
+    },
+    {
+      "event": "captured_a_exterior_wide_arrival",
+      "elapsedSeconds": 1282.59,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_b_courtyard_spawn_west",
+      "elapsedSeconds": 1282.61
+    },
+    {
+      "event": "warming_b_courtyard_spawn_west",
+      "elapsedSeconds": 1282.62
+    },
+    {
+      "event": "requested_b_courtyard_spawn_west",
+      "elapsedSeconds": 1327.67
+    },
+    {
+      "event": "captured_b_courtyard_spawn_west",
+      "elapsedSeconds": 1330.5,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_c_outer_court_pilgrims",
+      "elapsedSeconds": 1330.5
+    },
+    {
+      "event": "warming_c_outer_court_pilgrims",
+      "elapsedSeconds": 1330.53
+    },
+    {
+      "event": "requested_c_outer_court_pilgrims",
+      "elapsedSeconds": 1375.56
+    },
+    {
+      "event": "captured_c_outer_court_pilgrims",
+      "elapsedSeconds": 1379.03,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_d_heikhal_west_vessels",
+      "elapsedSeconds": 1379.03
+    },
+    {
+      "event": "warming_d_heikhal_west_vessels",
+      "elapsedSeconds": 1379.06
+    },
+    {
+      "event": "requested_d_heikhal_west_vessels",
+      "elapsedSeconds": 1424.11
+    },
+    {
+      "event": "captured_d_heikhal_west_vessels",
+      "elapsedSeconds": 1427.27,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_e_kodesh_aron_keruvim",
+      "elapsedSeconds": 1427.27
+    },
+    {
+      "event": "warming_e_kodesh_aron_keruvim",
+      "elapsedSeconds": 1427.3
+    },
+    {
+      "event": "requested_e_kodesh_aron_keruvim",
+      "elapsedSeconds": 1472.34
+    },
+    {
+      "event": "captured_e_kodesh_aron_keruvim",
+      "elapsedSeconds": 1475.95,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_f_kotel_ground_detail",
+      "elapsedSeconds": 1475.97
+    },
+    {
+      "event": "warming_f_kotel_ground_detail",
+      "elapsedSeconds": 1475.98
+    },
+    {
+      "event": "requested_f_kotel_ground_detail",
+      "elapsedSeconds": 1521.03
+    },
+    {
+      "event": "captured_f_kotel_ground_detail",
+      "elapsedSeconds": 1524.23,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_f2_kotel_raking_relief",
+      "elapsedSeconds": 1524.25
+    },
+    {
+      "event": "warming_f2_kotel_raking_relief",
+      "elapsedSeconds": 1524.27
+    },
+    {
+      "event": "requested_f2_kotel_raking_relief",
+      "elapsedSeconds": 1569.3
+    },
+    {
+      "event": "captured_f2_kotel_raking_relief",
+      "elapsedSeconds": 1570.33,
+      "flatFrameSuspect": true
+    },
+    {
+      "event": "readiness_f2_kotel_raking_relief_retry1",
+      "elapsedSeconds": 1570.33
+    },
+    {
+      "event": "warming_f2_kotel_raking_relief_retry1",
+      "elapsedSeconds": 1570.36
+    },
+    {
+      "event": "requested_f2_kotel_raking_relief_retry1",
+      "elapsedSeconds": 1615.39
+    },
+    {
+      "event": "captured_f2_kotel_raking_relief_retry1",
+      "elapsedSeconds": 1616.36,
+      "flatFrameSuspect": true
+    },
+    {
+      "event": "readiness_g_mount_platform_approach",
+      "elapsedSeconds": 1616.38
+    },
+    {
+      "event": "warming_g_mount_platform_approach",
+      "elapsedSeconds": 1616.41
+    },
+    {
+      "event": "requested_g_mount_platform_approach",
+      "elapsedSeconds": 1661.44
+    },
+    {
+      "event": "captured_g_mount_platform_approach",
+      "elapsedSeconds": 1665.44,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_h_bus_street_level",
+      "elapsedSeconds": 1665.44
+    },
+    {
+      "event": "warming_h_bus_street_level",
+      "elapsedSeconds": 1665.47
+    },
+    {
+      "event": "requested_h_bus_street_level",
+      "elapsedSeconds": 1710.52
+    },
+    {
+      "event": "captured_h_bus_street_level",
+      "elapsedSeconds": 1714.0,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "readiness_i_overhead_city",
+      "elapsedSeconds": 1714.0
+    },
+    {
+      "event": "warming_i_overhead_city",
+      "elapsedSeconds": 1714.02
+    },
+    {
+      "event": "requested_i_overhead_city",
+      "elapsedSeconds": 1759.06
+    },
+    {
+      "event": "captured_i_overhead_city",
+      "elapsedSeconds": 1761.97,
+      "flatFrameSuspect": false
+    },
+    {
+      "event": "finished",
+      "elapsedSeconds": 1762.06
     }
   ],
   "mapSaved": false,
   "visualAcceptance": "PENDING",
-  "limits": "Native technical stills of the saved combined map. No access authorization, no automatic image-quality approval, no motion/wind/packaged proof. Zero-count inventory entries mean those assets were not yet placed in this map."
+  "limits": "Native technical stills of the saved combined map. No access authorization, no automatic image-quality approval, no motion/wind/packaged proof. Zero-count inventory entries mean those assets were not yet placed in this map.",
+  "globalBarrierSeconds": 1224.078,
+  "sceneInventory": {
+    "actorCount": 7791,
+    "aronParts": 0,
+    "keruvimActors": 0,
+    "pilgrimActors": 5,
+    "busActors": 13,
+    "kotelOverlayActors": 6,
+    "pilgrimLocations": [
+      [
+        4900.0,
+        1000.0,
+        396.00128173828125
+      ],
+      [
+        5120.0,
+        1120.0,
+        396.00128173828125
+      ],
+      [
+        4980.0,
+        1260.0,
+        396.00128173828125
+      ],
+      [
+        5240.0,
+        1330.0,
+        396.00128173828125
+      ],
+      [
+        4760.0,
+        1180.0,
+        396.00128173828125
+      ]
+    ],
+    "busLocations": [
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ],
+      [
+        -37951.473,
+        46854.779,
+        973.0771609905731
+      ]
+    ],
+    "note": "Counts are what the saved map contains at capture time. Zero pilgrims/keruvim/bus/overlay means release step 2 placement had not been done in this map; the view is still captured."
+  },
+  "summary": {
+    "viewsPlanned": 10,
+    "viewsSkipped": 0,
+    "filesVerifiedNotFlat": 9,
+    "failureCount": 1
+  },
+  "originalCameraRestored": true,
+  "throttleRestored": true,
+  "savedMapUnchanged": true
 }

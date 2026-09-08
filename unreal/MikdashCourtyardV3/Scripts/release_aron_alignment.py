@@ -126,27 +126,6 @@ class Classifier:
         self.engine_primitive_prefix = c['enginePrimitiveRule']['prefix']
 
 
-def classifier_self_test(spec):
-    """Pure check that the engine-primitive rule works in BOTH directions; run offline and before every live classification."""
-    k = Classifier(spec)
-    cases = [
-        ('RELEASE_TOUR_Marker_15_menorah', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [-4752.0, 302.4, 892.0], 'temple_respawn'),
-        ('RELEASE_TOUR_Marker_01_mount-and-house', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [11520.0, 0.0, 4.0], 'temple_respawn'),
-        ('REVIEW_KotelPhoto_24', 'StaticMeshActor', ['/Engine/BasicShapes/Plane'], [-15000.0, 9000.0, -400.0], 'context'),
-        ('Unlabelled primitive', 'StaticMeshActor', ['/Engine/BasicShapes/Cube'], [0.0, 0.0, 0.0], 'context'),
-        ('RELEASE_Kotel_1', 'StaticMeshActor', ['/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint0'], [0.0, 0.0, 0.0], 'context'),
-        ('Ulam stair 6', 'StaticMeshActor', ['/Game/MikdashV3/Architecture/architecture_SM_0000_architecture_Ulam_stair_6'], [0.0, 0.0, 0.0], 'temple_respawn'),
-        ('04 Entire Temple', 'CameraActor', [], [15500.0, 14500.0, 11500.0], 'global'),
-        ('Mikdash_PlayerStart', 'PlayerStart', [], [2016.0, 0.0, 578.0], 'temple_move'),
-    ]
-    results = []
-    for label, cls, meshes, loc, expected in cases:
-        got = k.bucket(label, cls, meshes, loc)
-        results.append({'label': label, 'expected': expected, 'got': got, 'ok': got == expected})
-    if not all(r['ok'] for r in results):
-        raise RuntimeError('Classifier self-test failed: %s' % [r for r in results if not r['ok']])
-    return results
-
     def bucket(self, label, class_name, meshes, location):
         """Returns one of temple_respawn / temple_move / context / global / frame / UNKNOWN / AMBIGUOUS."""
         votes = set()
@@ -183,6 +162,28 @@ def classifier_self_test(spec):
                 return 'AMBIGUOUS'
             return 'AMBIGUOUS'
         return votes.pop()
+
+
+def classifier_self_test(spec):
+    """Pure check that the engine-primitive rule works in BOTH directions; run offline and before every live classification."""
+    k = Classifier(spec)
+    cases = [
+        ('RELEASE_TOUR_Marker_15_menorah', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [-4752.0, 302.4, 892.0], 'temple_respawn'),
+        ('RELEASE_TOUR_Marker_01_mount-and-house', 'StaticMeshActor', ['/Engine/BasicShapes/Cylinder'], [11520.0, 0.0, 4.0], 'temple_respawn'),
+        ('REVIEW_KotelPhoto_24', 'StaticMeshActor', ['/Engine/BasicShapes/Plane'], [-15000.0, 9000.0, -400.0], 'context'),
+        ('Unlabelled primitive', 'StaticMeshActor', ['/Engine/BasicShapes/Cube'], [0.0, 0.0, 0.0], 'context'),
+        ('RELEASE_Kotel_1', 'StaticMeshActor', ['/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint0'], [0.0, 0.0, 0.0], 'context'),
+        ('Ulam stair 6', 'StaticMeshActor', ['/Game/MikdashV3/Architecture/architecture_SM_0000_architecture_Ulam_stair_6'], [0.0, 0.0, 0.0], 'temple_respawn'),
+        ('04 Entire Temple', 'CameraActor', [], [15500.0, 14500.0, 11500.0], 'global'),
+        ('Mikdash_PlayerStart', 'PlayerStart', [], [2016.0, 0.0, 578.0], 'temple_move'),
+    ]
+    results = []
+    for label, cls, meshes, loc, expected in cases:
+        got = k.bucket(label, cls, meshes, loc)
+        results.append({'label': label, 'expected': expected, 'got': got, 'ok': got == expected})
+    if not all(r['ok'] for r in results):
+        raise RuntimeError('Classifier self-test failed: %s' % [r for r in results if not r['ok']])
+    return results
 
 
 def offline_preview(spec, target_name):

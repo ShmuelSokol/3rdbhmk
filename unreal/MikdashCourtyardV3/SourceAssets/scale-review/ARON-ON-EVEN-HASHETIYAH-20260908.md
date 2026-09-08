@@ -121,6 +121,26 @@ Web sources consulted: Wikipedia "Foundation Stone" (dimensions, Yoma/Rambam/Rad
 biblearchaeology.org "The Ark of the Covenant: Where Has It Been?" (Ritmeyer's depression 4 ft 4 in x 2 ft 7 in);
 lifeintheholyland.com "Dome of the Rock, Exterior" (2,440 ft summit); Wikipedia "Temple Mount" (~740 m).
 
+## 6a. Dry-run 21:45 UTC (coordinator-run) and the classification refinement
+
+Receipt `aron-alignment-release-Candidate48-20260908T214539156783Z.json`: 2887 re-spawn, 12 modify+move, 4858 context,
+10 global, 7 frame, **18 AMBIGUOUS** - the `RELEASE_TOUR_Marker_<nn>_<key>` discs, mesh `/Engine/BasicShapes/Cylinder`
+(the log shows 36 lines because UE echoes each LogPython warning twice; there is one marker actor per stop, 18 stops).
+The candidate map SHA was `fc1643c4...` (changed by the candidate-spawn-fix receipts of 19:21-19:23), so apply would also
+have refused on the lastKnown guard; the spec now carries the new value with provenance.
+
+Rules added to the spec and enforced by `classifier_self_test()`:
+* `enginePrimitiveRule`: a `/Engine/BasicShapes/` mesh counts as context only when no Temple LABEL prefix matches; a Temple
+  label on a primitive is Temple; a primitive alone is never Temple (Kotel photo panels use `/Engine/BasicShapes/Plane`).
+* `tourMarkers`: all 18 move. `MikdashTourGuide.cpp` converts every stop's stand/look through `TryLegacyTemplePoint(TourFrame, ...)`
+  (lines 374, 548) with no per-stop frame flag, and `release_amah48_tour.py` placed all 18 candidate markers at stand x .96 -
+  including the deck stops mount-and-house 12000 -> 11520, immersion 11000 -> 10560, soreg-and-cheil 10000 -> 9600. Marker and
+  runtime stand share one frame, so the descriptor re-pivot shifts both by -248 and the markers must follow. Finding: the two
+  deck stops were scaled as Temple frame although they stand on the metric Mount deck; on the flat Z 0 deck that is a harmless
+  4.4-4.8 m slide, but the proper fix is a per-stop frame flag in tour-stops.json / TourGuide (tour ownership, not this script).
+
+Expected rerun result: **0 unclassified; 2905 actors to move** (2887 + 18 re-spawn, 12 modify+move), descriptor (0,0,0) -> (-6200,0,0).
+
 ## 7. Dry-run command (no mutation; does NOT run while another native job holds the editor)
 
 ```

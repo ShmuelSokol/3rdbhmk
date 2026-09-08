@@ -447,16 +447,95 @@ class TransitJob(object):
             self.write_receipt()
         return imported
 
+    # -- material authoring helpers: every write is read back ------------------
+    #
+    # Property names come from the engine header, not from memory:
+    #   Engine/Source/Runtime/Engine/Public/Materials/MaterialExpressionPerInstanceCustomData.h
+    #   UPROPERTY float  ConstDefaultValue   -> python 'const_default_value'
+    #   UPROPERTY uint32 DataIndex           -> python 'data_index'
+    #   FExpressionInput DefaultValue is a PIN, not a settable property; asking for
+    #   'default_value' is exactly the failure Release-TransitV3-Import-02.log records.
+    # The pattern (set, read back, raise on mismatch; connect with candidate pin names;
+    # raise when a property connection returns False; read per-instance data through a
+    # VertexInterpolator; flag the material for instanced static meshes and verify it)
+    # is the one Scripts/release_crowd_tint_fix.py used to author M_CrowdGarmentPaletteV1,
+    # which is the last material graph this project built that is known to render.
+
+    @staticmethod
+    def _set_verified(target, name, value, tolerance=None):
+        target.set_editor_property(name, value)
+        got = target.get_editor_property(name)
+        ok = (abs(float(got) - float(value)) <= tolerance) if tolerance is not None else (got == value)
+        if not ok:
+            raise RuntimeError('Readback mismatch writing %s.%s: wrote %r, read %r'
+                               % (target.get_class().get_name(), name, value, got))
+        return got
+
+    def _connect(self, source, source_output, target, candidate_inputs):
+        library = self.ue.MaterialEditingLibrary
+        for name in candidate_inputs:
+            if library.connect_material_expressions(source, source_output, target, name):
+                return name
+        raise RuntimeError('No input pin of %s accepted a connection from %s; tried %r'
+                           % (target.get_class().get_name(), source.get_class().get_name(), candidate_inputs))
+
+    def _connect_property(self, source, material_property, label):
+        if not self.ue.MaterialEditingLibrary.connect_material_property(source, '', material_property):
+            raise RuntimeError('Material property connection failed for ' + label)
+        return True
+
+    def _node_factory(self, material):
+        ue = self.ue
+        library = ue.MaterialEditingLibrary
+
+        def make(cls, x=0, y=0):
+            node = library.create_material_expression(material, cls, x, y)
+            if node is None:
+                raise RuntimeError('create_material_expression returned None for ' + cls.__name__)
+            return node
+
+        def constant(value, x=0, y=0):
+            node = make(ue.MaterialExpressionConstant, x, y)
+            self._set_verified(node, 'r', float(value), 1e-6)
+            return node
+
+        def constant3(rgb, x=0, y=0):
+            node = make(ue.MaterialExpressionConstant3Vector, x, y)
+            node.set_editor_property('constant', ue.LinearColor(rgb[0], rgb[1], rgb[2], 1.0))
+            got = node.get_editor_property('constant')
+            if any(abs(float(a) - float(b)) > 1e-4 for a, b in zip((got.r, got.g, got.b), rgb)):
+                raise RuntimeError('Constant3Vector did not take %r (read %r)' % (rgb, (got.r, got.g, got.b)))
+            return node
+
+        def custom_data(index, default, x=0, y=0):
+            node = make(ue.MaterialExpressionPerInstanceCustomData, x, y)
+            self._set_verified(node, 'data_index', int(index))
+            self._set_verified(node, 'const_default_value', float(default), 1e-5)
+            return node
+
+        def texture_sample(texture, x=0, y=0):
+            node = make(ue.MaterialExpressionTextureSample, x, y)
+            node.set_editor_property('texture', texture)
+            got = node.get_editor_property('texture')
+            if got is None or got.get_path_name() != texture.get_path_name():
+                raise RuntimeError('TextureSample did not take ' + texture.get_path_name())
+            return node
+
+        return make, constant, constant3, custom_data, texture_sample
+
     def build_materials(self, tools, textures, created):
-        """Four materials, one per group. The Paint material is the only interesting one:
-        livery texture times the per-instance custom data colour, so one mesh yields many
-        cars. The meshes carry NO vertex colour, so nothing here reads one."""
+        """Six materials: one Paint per livery (bus, car_neutral, tram) and one each of
+        Glass, Dark and Lens.
+
+        Paint = livery texture * per-instance custom data 0..2, read through a
+        VertexInterpolator, so one mesh yields many body colours. The meshes carry NO
+        vertex colour, so nothing here reads one. Every material is flagged for instanced
+        static meshes and the flag is read back: without it the renderer silently swaps
+        the default material in at draw time on every HISM instance."""
         ue = self.ue
         spec = self.spec
         library = ue.MaterialEditingLibrary
         folder = spec['geometry']['materialFolder']
-        materials = {}
-        connections = {}
         liveries = sorted({record.get('livery') for record in spec['geometry']['meshes']
                            if record['group'] == 'Paint' and record.get('livery')})
         missing = [record['name'] for record in spec['geometry']['meshes']
@@ -467,79 +546,84 @@ class TransitJob(object):
         for livery in liveries:
             if livery not in textures:
                 raise RuntimeError('Livery %s has no imported texture' % livery)
-        # One Paint material per livery, three of them, because a single shared Paint
-        # material would put the car skin on the bus and the tram. Glass, Dark and Lens
-        # are genuinely shared: they carry no livery.
-        wanted = [('Paint', livery) for livery in liveries] +                  [(group, None) for group in sorted(spec['geometry']['palette']) if group != 'Paint']
+        wanted = [('Paint', livery) for livery in liveries] + \
+                 [(group, None) for group in sorted(spec['geometry']['palette']) if group != 'Paint']
+
+        materials = {}
+        self.receipt['materialPins'] = {}
         for group, livery in wanted:
             entry = spec['geometry']['palette'][group]
             name = 'M_VehiclesV3_' + group + ('_' + livery if livery else '')
+            path = folder + '/' + name
+            # A material found on disk is REFUSED, not reused: unlike a texture import, a
+            # graph authored by an earlier spec cannot be checked against its source.
+            if self.assets.does_asset_exist(path):
+                raise RuntimeError('Material already exists; inspect and clear it before '
+                                   're-importing: ' + path)
             material = tools.create_asset(name, folder, ue.Material, ue.MaterialFactoryNew())
             if material is None:
                 raise RuntimeError('create_asset returned None for ' + name)
-            base = library.create_material_expression(material, ue.MaterialExpressionConstant3Vector)
-            base.set_editor_property('constant', ue.LinearColor(*entry['linearRgb'], 1.0))
-            wired = {}
+            make, constant, constant3, custom_data, texture_sample = self._node_factory(material)
+            pins = {}
+
             if group == 'Paint':
-                custom = []
-                for index in range(3):
-                    node = library.create_material_expression(material, ue.MaterialExpressionPerInstanceCustomData)
-                    node.set_editor_property('data_index', index)
-                    node.set_editor_property('default_value', 0.72)
-                    custom.append(node)
-                append = library.create_material_expression(material, ue.MaterialExpressionAppendVector)
-                library.connect_material_expressions(custom[0], '', append, 'A')
-                library.connect_material_expressions(custom[1], '', append, 'B')
-                append2 = library.create_material_expression(material, ue.MaterialExpressionAppendVector)
-                library.connect_material_expressions(append, '', append2, 'A')
-                library.connect_material_expressions(custom[2], '', append2, 'B')
-                sample = library.create_material_expression(material, ue.MaterialExpressionTextureSample)
-                sample.set_editor_property('texture', textures[livery])
-                tint = library.create_material_expression(material, ue.MaterialExpressionMultiply)
-                library.connect_material_expressions(sample, 'RGB', tint, 'A')
-                library.connect_material_expressions(append2, '', tint, 'B')
-                wired['base_colour'] = library.connect_material_property(
-                    tint, '', ue.MaterialProperty.MP_BASE_COLOR)
+                sample = texture_sample(textures[livery], -900, 0)
+                r = custom_data(0, 0.72, -900, 300)
+                g = custom_data(1, 0.72, -900, 400)
+                b = custom_data(2, 0.72, -900, 500)
+                rg = make(ue.MaterialExpressionAppendVector, -650, 350)
+                pins['appendRG_A'] = self._connect(r, '', rg, ['A'])
+                pins['appendRG_B'] = self._connect(g, '', rg, ['B'])
+                rgb = make(ue.MaterialExpressionAppendVector, -450, 400)
+                pins['appendRGB_A'] = self._connect(rg, '', rgb, ['A'])
+                pins['appendRGB_B'] = self._connect(b, '', rgb, ['B'])
+                tint = make(ue.MaterialExpressionMultiply, -250, 100)
+                pins['tint_A'] = self._connect(sample, 'RGB', tint, ['A'])
+                pins['tint_B'] = self._connect(rgb, '', tint, ['B'])
+                interp = make(ue.MaterialExpressionVertexInterpolator, -50, 100)
+                pins['vertexInterpolator'] = self._connect(tint, '', interp, ['', 'None', 'Input'])
+                self._connect_property(interp, ue.MaterialProperty.MP_BASE_COLOR, name + ' BaseColor')
             elif group == 'Glass':
-                sample = library.create_material_expression(material, ue.MaterialExpressionTextureSample)
-                sample.set_editor_property('texture', textures['glass'])
-                wired['base_colour'] = library.connect_material_property(
-                    sample, 'RGB', ue.MaterialProperty.MP_BASE_COLOR)
-                material.set_editor_property('blend_mode', ue.BlendMode.BLEND_TRANSLUCENT)
-                material.set_editor_property('translucency_lighting_mode',
-                                             ue.TranslucencyLightingMode.TLM_SURFACE_PER_PIXEL_LIGHTING)
+                sample = texture_sample(textures['glass'], -400, 0)
+                self._connect_property(sample, ue.MaterialProperty.MP_BASE_COLOR, name + ' BaseColor')
+                self._set_verified(material, 'blend_mode', ue.BlendMode.BLEND_TRANSLUCENT)
+                self._set_verified(material, 'translucency_lighting_mode',
+                                   ue.TranslucencyLightingMode.TLM_SURFACE_PER_PIXEL_LIGHTING)
+                self._connect_property(constant(0.24, -400, 400), ue.MaterialProperty.MP_OPACITY, name + ' Opacity')
             else:
-                wired['base_colour'] = library.connect_material_property(
-                    base, '', ue.MaterialProperty.MP_BASE_COLOR)
-            properties = [(entry['metallic'], ue.MaterialProperty.MP_METALLIC),
-                          (entry['roughness'], ue.MaterialProperty.MP_ROUGHNESS)]
-            if group == 'Glass':
-                properties.append((0.24, ue.MaterialProperty.MP_OPACITY))
-            if group == 'Lens':
-                properties.append((0.0, ue.MaterialProperty.MP_METALLIC))
-                emissive = library.create_material_expression(material, ue.MaterialExpressionConstant3Vector)
-                emissive.set_editor_property('constant', ue.LinearColor(0.55, 0.46, 0.24, 1.0))
-                wired['emissive'] = library.connect_material_property(
-                    emissive, '', ue.MaterialProperty.MP_EMISSIVE_COLOR)
-            for value, prop in properties:
-                node = library.create_material_expression(material, ue.MaterialExpressionConstant)
-                node.set_editor_property('r', value)
-                wired[str(prop)] = library.connect_material_property(node, '', prop)
+                base = constant3(entry['linearRgb'], -400, 0)
+                self._connect_property(base, ue.MaterialProperty.MP_BASE_COLOR, name + ' BaseColor')
+                if group == 'Lens':
+                    glow = constant3([0.55, 0.46, 0.24], -400, 500)
+                    self._connect_property(glow, ue.MaterialProperty.MP_EMISSIVE_COLOR, name + ' Emissive')
+
+            self._connect_property(constant(entry['metallic'], -400, 200),
+                                   ue.MaterialProperty.MP_METALLIC, name + ' Metallic')
+            self._connect_property(constant(entry['roughness'], -400, 300),
+                                   ue.MaterialProperty.MP_ROUGHNESS, name + ' Roughness')
+            # Instanced usage: the one flag that decides whether these materials render at
+            # all on a HISM. Set, read back, and additionally requested through the library
+            # where that entry point exists.
+            self._set_verified(material, 'used_with_instanced_static_meshes', True)
+            if hasattr(library, 'set_material_usage') and hasattr(ue, 'MaterialUsage'):
+                try:
+                    library.set_material_usage(material, ue.MaterialUsage.MATUSAGE_INSTANCED_STATIC_MESHES)
+                except Exception as error:  # noqa: BLE001 -- the verified property write above is the contract
+                    pins['setMaterialUsage'] = 'ignored: ' + repr(error)
             library.recompile_material(material)
             if not self.assets.save_loaded_asset(material, only_if_is_dirty=False):
-                raise RuntimeError('Could not save material ' + material.get_path_name())
-            # UE 5.8: connect_material_property returns False even when it succeeded, so
-            # these booleans are RECORDED, never asserted. Verify structurally instead.
-            connections[name] = {k: bool(v) for k, v in wired.items()}
-            reloaded = self.assets.load_asset(material.get_path_name())
+                raise RuntimeError('Could not save material ' + path)
+            reloaded = self.assets.load_asset(path)
             if reloaded is None:
-                raise RuntimeError('Material did not reload: ' + material.get_path_name())
+                raise RuntimeError('Material did not reload: ' + path)
+            if not bool(reloaded.get_editor_property('used_with_instanced_static_meshes')):
+                raise RuntimeError('Reloaded material lost used_with_instanced_static_meshes: ' + path)
             if group == 'Glass' and reloaded.get_editor_property('blend_mode') != ue.BlendMode.BLEND_TRANSLUCENT:
                 raise RuntimeError('Glass material did not keep its translucent blend mode')
-            materials[(group, livery)] = material
-            created.append(material.get_path_name())
+            materials[(group, livery)] = reloaded
+            self.receipt['materialPins'][name] = pins
+            created.append(path)
             self.write_receipt()
-        self.receipt['materialConnections'] = connections
         return materials
 
     def import_meshes(self, tools, materials, created):

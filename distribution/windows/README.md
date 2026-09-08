@@ -13,3 +13,5 @@ python verify_download.py App.zip Data.zip NEW_EMPTY_DESTINATION receipt.json --
 The destination must not exist. ZIP extraction and original-runtime comparison run locally; no registry, firewall or other security settings are modified. GUI/menu controls in the standalone packaged game remain unverified; see the release notes.
 
 A trial custom downloader was blocked by Windows antivirus during its real executable test. It was not allowed or distributed. Only the original packaged game and ordinary ZIP archives are released.
+
+Public download verification also passed: both complete ZIPs were downloaded without authentication, matched the published hashes, then extracted and compared with all original runtime files. See public-download-receipt.json.

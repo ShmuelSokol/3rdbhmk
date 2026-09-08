@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "status": "ok",
+  "generated": "2026-09-08T10:53:43Z",
+  "method": "pure-python sfnt/GPOS parser and scanline rasteriser, standard library only",
+  "limitations": [
+    "The rasteriser here is not Slate's FreeType path. This establishes that the anchors exist and place the marks correctly, not that FreeType at a given hinting setting produces identical pixels.",
+    "Anchor formats 2 and 3 are read as format 1: the contour-point and device-table refinements are ignored, which shifts nothing at these sizes.",
+    "The mixed Latin/Hebrew line uses run-based bidi with the UAX #9 N1/N2 neutral rule only: no bracket pairing, no explicit embedding controls.",
+    "No visual acceptance is claimed. A human still has to look at hebrew-font-specimen.png."
+  ],
+  "specimenImage": "hebrew-font-specimen.png",
+  "specimenVerification": {
+    "file": "hebrew-font-specimen.png",
+    "bytes": 167480,
+    "signatureOk": true,
+    "width": 1800,
+    "height": 1800,
+    "bitDepth": 8,
+    "colourType": 0,
+    "crcOk": true,
+    "decompressedBytes": 3241800,
+    "expectedBytes": 3241800,
+    "ok": true
+  },
+  "specimenStrings": {
+    "plain": "בית המקדש · היכל · קודש הקודשים · מזבח · מנורה · שולחן · פרוכת · כהן · אמה",
+    "nikud": "בֵּית הַמִּקְדָּשׁ  הַהֵיכָל  קֹדֶשׁ הַקָּדָשִׁים  מִזְבֵּחַ  מְנוֹרָה  שֻׁלְחָן  פָּרֹכֶת  כֹּהֵן  אַמָּה",
+    "mixed": "Heikhal — היכל — 1 amah = 0.5 m"
+  },
+  "labelFont": "NotoSansHebrew-Regular.ttf",
+  "recommendation": {
+    "shipForInterface": "NotoSansHebrew-Regular.ttf",
+    "shipForInterfaceBold": "NotoSansHebrew-Bold.ttf",
+    "why": [
+      "Only the two Noto faces cover Hebrew cantillation (31/31); Frank Ruhl Libre and David Libre cover none of it. A codex that quotes a pointed and cantillated verse needs those marks, and a missing te'am is a wrong quotation rather than a styling choice.",
+      "Complete nikud (18/18) and complete base letters (27/27). David Libre is missing U+05BD meteg.",
+      "Complete basic Latin (58/58), so a mixed line such as '1 amah = 0.5 m' never falls through to another face.",
+      "Every mark in the specimen was placed by a real GPOS mark-to-base anchor, and every nikud glyph has advance width 0, which is how a correctly built Hebrew font is constructed.",
+      "No Reserved Font Name, so subsetting to the Hebrew block for size is unrestricted.",
+      "A sans face sits with Roboto, which is Slate's default and what the rest of this interface already draws in."
+    ],
+    "alternative": {
+      "file": "FrankRuhlLibre-Regular.ttf",
+      "when": "Long-form body text in the codex, if a Hebrew serif is wanted. It is the better reading face and is the traditional Israeli text type.",
+      "caveat": "No cantillation coverage at all. Do not use it for a quoted verse with te'amim."
+    },
+    "rejected": {
+      "DavidLibre-Regular.ttf": "Missing U+05BD meteg, no cantillation, and its OFL carries Reserved Font Names ('Hadash', 'Gentium', 'SIL'), which restricts shipping a modified or subset copy under those names."
+    }
+  },
+  "licencePosition": {
+    "family": "SIL Open Font License, Version 1.1 (all candidates)",
+    "redistributionInAPackagedBuild": "Permitted. OFL 1.1 clause 2 allows the font to be bundled and redistributed, with or without modification, provided it is not sold on its own and the copyright notice and this licence travel with it. A game executable is not 'selling the font by itself', so no fee, no notice to the authors and no source release is required.",
+    "whatMustShip": [
+      "The OFL text and the copyright line, alongside the .ttf in the packaged build.",
+      "The same attribution in the in-game credits, which UMikdashFrontEnd::BuildCredits already assembles from disk."
+    ],
+    "whatIsForbidden": [
+      "Selling the font files on their own.",
+      "Shipping a MODIFIED copy under a Reserved Font Name (see the per-file flags below)."
+    ],
+    "files": [
+      {
+        "file": "DavidLibre-OFL.txt",
+        "licence": "SIL Open Font License 1.1",
+        "copyrightLine": "Copyright 2016 The David Libre Project Authors (https://github.com/meirsadan/david-libre), with reserved font name \"Hadash\", \"Gentium\" and 'SIL'.",
+        "hasReservedFontName": true,
+        "subsettingOrRenamingRestricted": true
+      },
+      {
+        "file": "FrankRuhlLibre-OFL.txt",
+        "licence": "SIL Open Font License 1.1",
+        "copyrightLine": "Copyright 2015 The Frank Ruhl Libre Project Authors (https://github.com/fontef/frankruhllibre)",
+        "hasReservedFontName": false,
+        "subsettingOrRenamingRestricted": false
+      },
+      {
+        "file": "NotoSansHebrew-OFL.txt",
+        "licence": "SIL Open Font License 1.1",
+        "copyrightLine": "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/hebrew)",
+        "hasReservedFontName": false,
+        "subsettingOrRenamingRestricted": false
+      },
+      {
+        "file": "NotoSerifHebrew-OFL.txt",
+        "licence": "SIL Open Font License 1.1",
+        "copyrightLine": "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/hebrew)",
+        "hasReservedFontName": false,
+        "subsettingOrRenamingRestricted": false
+      }
+    ]
+  },
+  "fonts": [
+    {
+      "file": "NotoSansHebrew-Regular.ttf",
+      "family": "Noto Sans Hebrew",
+      "subfamily": "Regular",
+      "unitsPerEm": 1000,
+      "numGlyphs": 470,
+      "cmapFormat": 4,
+      "hasGPOS": true,
+      "markFeature": {
+        "present": true,
+        "lookups": 6,
+        "markBaseSubtables": 6,
+        "markClasses": 1
+      },
+      "mkmkFeature": {
+        "present": true,
+        "lookups": 2
+      },
+      "coverage": {
+        "baseLetters": {
+          "present": 27,
+          "of": 27
+        },
+        "nikud": {
+          "present": 18,
+          "of": 18
+        },
+        "punctuation": {
+          "present": 6,
+          "of": 6
+        },
+        "cantillation": {
+          "present": 31,
+          "of": 31
+        },
+        "presentationForms": {
+          "present": 46,
+          "of": 51
+        },
+        "latinBasic": {
+          "present": 58,
+          "of": 58
+        },
+        "missingBaseLetters": [],
+        "missingNikud": []
+      },
+      "nikudAdvanceWidths": {
+        "sheva U+05B0": 0,
+        "patach U+05B7": 0,
+        "kamatz U+05B8": 0,
+        "holam U+05B9": 0,
+        "dagesh U+05BC": 0,
+        "shinDot U+05C1": 0
+      },
+      "specimenMarks": {
+        "total": 43,
+        "byMarkToBase": 43,
+        "byMarkToMark": 0,
+        "unanchored": 0
+      },
+      "verdict": "good",
+      "notes": "every mark in the specimen was placed by a real anchor"
+    },
+    {
+      "file": "NotoSerifHebrew-Regular.ttf",
+      "family": "Noto Serif Hebrew",
+      "subfamily": "Regular",
+      "unitsPerEm": 1000,
+      "numGlyphs": 472,
+      "cmapFormat": 4,
+      "hasGPOS": true,
+      "markFeature": {
+        "present": true,
+        "lookups": 7,
+        "markBaseSubtables": 7,
+        "markClasses": 1
+      },
+      "mkmkFeature": {
+        "present": true,
+        "lookups": 2
+      },
+      "coverage": {
+        "baseLetters": {
+          "present": 27,
+          "of": 27
+        },
+        "nikud": {
+          "present": 18,
+          "of": 18
+        },
+        "punctuation": {
+          "present": 6,
+          "of": 6
+        },
+        "cantillation": {
+          "present": 31,
+          "of": 31
+        },
+        "presentationForms": {
+          "present": 46,
+          "of": 51
+        },
+        "latinBasic": {
+          "present": 58,
+          "of": 58
+        },
+        "missingBaseLetters": [],
+        "missingNikud": []
+      },
+      "nikudAdvanceWidths": {
+        "sheva U+05B0": 0,
+        "patach U+05B7": 0,
+        "kamatz U+05B8": 0,
+        "holam U+05B9": 0,
+        "dagesh U+05BC": 0,
+        "shinDot U+05C1": 0
+      },
+      "specimenMarks": {
+        "total": 43,
+        "byMarkToBase": 43,
+        "byMarkToMark": 0,
+        "unanchored": 0
+      },
+      "verdict": "good",
+      "notes": "every mark in the specimen was placed by a real anchor"
+    },
+    {
+      "file": "FrankRuhlLibre-Regular.ttf",
+      "family": "Frank Ruhl Libre",
+      "subfamily": "Regular",
+      "unitsPerEm": 1000,
+      "numGlyphs": 604,
+      "cmapFormat": 4,
+      "hasGPOS": true,
+      "markFeature": {
+        "present": true,
+        "lookups": 1,
+        "markBaseSubtables": 1,
+        "markClasses": 8
+      },
+      "mkmkFeature": {
+        "present": true,
+        "lookups": 2
+      },
+      "coverage": {
+        "baseLetters": {
+          "present": 27,
+          "of": 27
+        },
+        "nikud": {
+          "present": 18,
+          "of": 18
+        },
+        "punctuation": {
+          "present": 5,
+          "of": 6
+        },
+        "cantillation": {
+          "present": 0,
+          "of": 31
+        },
+        "presentationForms": {
+          "present": 44,
+          "of": 51
+        },
+        "latinBasic": {
+          "present": 58,
+          "of": 58
+        },
+        "missingBaseLetters": [],
+        "missingNikud": []
+      },
+      "nikudAdvanceWidths": {
+        "sheva U+05B0": 0,
+        "patach U+05B7": 0,
+        "kamatz U+05B8": 0,
+        "holam U+05B9": 0,
+        "dagesh U+05BC": 0,
+        "shinDot U+05C1": 0
+      },
+      "specimenMarks": {
+        "total": 43,
+        "byMarkToBase": 43,
+        "byMarkToMark": 0,
+        "unanchored": 0
+      },
+      "verdict": "good",
+      "notes": "every mark in the specimen was placed by a real anchor"
+    },
+    {
+      "file": "FrankRuhlLibre-Bold.ttf",
+      "family": "Frank Ruhl Libre",
+      "subfamily": "Bold",
+      "unitsPerEm": 1000,
+      "numGlyphs": 604,
+      "cmapFormat": 4,
+      "hasGPOS": true,
+      "markFeature": {
+        "present": true,
+        "lookups": 1,
+        "markBaseSubtables": 1,
+        "markClasses": 8
+      },
+      "mkmkFeature": {
+        "present": true,
+        "lookups": 2
+      },
+      "coverage": {
+        "baseLetters": {
+          "present": 27,
+          "of": 27
+        },
+        "nikud": {
+          "present": 18,
+          "of": 18
+        },
+        "punctuation": {
+          "present": 5,
+          "of": 6
+        },
+        "cantillation": {
+          "present": 0,
+          "of": 31
+        },
+        "presentationForms": {
+          "present": 44,
+          "of": 51
+        },
+        "latinBasic": {
+          "present": 58,
+          "of": 58
+        },
+        "missingBaseLetters": [],
+        "missingNikud": []
+      },
+      "nikudAdvanceWidths": {
+        "sheva U+05B0": 0,
+        "patach U+05B7": 0,
+        "kamatz U+05B8": 0,
+        "holam U+05B9": 0,
+        "dagesh U+05BC": 0,
+        "shinDot U+05C1": 0
+      },
+      "specimenMarks": {
+        "total": 43,
+        "byMarkToBase": 43,
+        "byMarkToMark": 0,
+        "unanchored": 0
+      },
+      "verdict": "good",
+      "notes": "every mark in the specimen was placed by a real anchor"
+    },
+    {
+      "file": "DavidLibre-Regular.ttf",
+      "family": "David Libre",
+      "subfamily": "Regular",
+      "unitsPerEm": 2048,
+      "numGlyphs": 851,
+      "cmapFormat": 4,
+      "hasGPOS": true,
+      "markFeature": {
+        "present": true,
+        "lookups": 2,
+        "markBaseSubtables": 1,
+        "markClasses": 10
+      },
+      "mkmkFeature": {
+        "present": true,
+        "lookups": 2
+      },
+      "coverage": {
+        "baseLetters": {
+          "present": 27,
+          "of": 27
+        },
+        "nikud": {
+          "present": 17,
+          "of": 18
+        },
+        "punctuation": {
+          "present": 6,
+          "of": 6
+        },
+        "cantillation": {
+          "present": 0,
+          "of": 31
+        },
+        "presentationForms": {
+          "present": 45,
+          "of": 51
+        },
+        "latinBasic": {
+          "present": 58,
+          "of": 58
+        },
+        "missingBaseLetters": [],
+        "missingNikud": [
+          "U+05BD"
+        ]
+      },
+      "nikudAdvanceWidths": {
+        "sheva U+05B0": 0,
+        "patach U+05B7": 0,
+        "kamatz U+05B8": 0,
+        "holam U+05B9": 0,
+        "dagesh U+05BC": 0,
+        "shinDot U+05C1": 0
+      },
+      "specimenMarks": {
+        "total": 43,
+        "byMarkToBase": 43,
+        "byMarkToMark": 0,
+        "unanchored": 0
+      },
+      "verdict": "weak",
+      "notes": "missing some nikud codepoints"
+    }
+  ],
+  "unreadable": []
+}

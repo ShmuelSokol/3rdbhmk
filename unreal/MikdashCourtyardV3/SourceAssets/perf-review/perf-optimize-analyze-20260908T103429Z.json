@@ -1,0 +1,713 @@
+{
+  "status": "completed",
+  "mode": "analyze",
+  "stamp": "20260908T103429Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "dryRun": false,
+  "limit": 0,
+  "onlyCategories": [],
+  "rule": {
+    "minTriangles": 24,
+    "excludedPathTokens": [
+      "vegetation",
+      "foliage",
+      "tree",
+      "shrub",
+      "grass",
+      "plant",
+      "leaf",
+      "leaves",
+      "water",
+      "stream",
+      "fountain",
+      "pool",
+      "wave",
+      "ripple",
+      "fx",
+      "particle",
+      "niagara",
+      "smoke",
+      "plume",
+      "dust",
+      "fire",
+      "flame",
+      "incense",
+      "decal",
+      "card",
+      "banner",
+      "cloth",
+      "fabric",
+      "curtain",
+      "paroches",
+      "veil",
+      "bird",
+      "crowd",
+      "people",
+      "pilgrim",
+      "resident",
+      "character",
+      "glass",
+      "window_glass",
+      "translucent"
+    ],
+    "excludedNameTokens": [
+      "_card",
+      "_billboard",
+      "_impostor",
+      "_wpo",
+      "_alpha",
+      "_glass",
+      "_translucent",
+      "_foliage",
+      "_veg",
+      "_flag",
+      "_cloth"
+    ],
+    "translucentBlendModes": [
+      "BLEND_Additive",
+      "BLEND_AlphaComposite",
+      "BLEND_AlphaHoldout",
+      "BLEND_Modulate",
+      "BLEND_Translucent"
+    ],
+    "maskedAllowed": true,
+    "existingNaniteSettingsNeverModified": true
+  },
+  "mapSha256Before": "dae24e5e6005cfb87662bb8cf9bc074057c6c6bd655f1b02e9d8e815b4b624d8",
+  "census": {
+    "actorCount": 7767,
+    "staticMeshComponents": 7738,
+    "instancedComponents": 5,
+    "instanceCount": 44217,
+    "uniqueMeshes": 7519,
+    "naniteMeshes": 190,
+    "drawnSectionsLowerBound": 10391,
+    "componentsWithCullDistance": 0
+  },
+  "byCategory": {
+    "city_streets": {
+      "uniqueMeshes": 2875,
+      "components": 2875,
+      "primitives": 2875,
+      "triangles": 305308,
+      "sections": 2875,
+      "naniteAlready": 0,
+      "eligible": 0,
+      "rejected": 2875,
+      "cullDistancesSeen": []
+    },
+    "mikdash_architecture": {
+      "uniqueMeshes": 2633,
+      "components": 2633,
+      "primitives": 2633,
+      "triangles": 86760,
+      "sections": 2634,
+      "naniteAlready": 0,
+      "eligible": 307,
+      "rejected": 2326,
+      "cullDistancesSeen": []
+    },
+    "city_buildings": {
+      "uniqueMeshes": 1498,
+      "components": 1498,
+      "primitives": 1498,
+      "triangles": 242700,
+      "sections": 1498,
+      "naniteAlready": 0,
+      "eligible": 1395,
+      "rejected": 103,
+      "cullDistancesSeen": []
+    },
+    "terrain_tiles": {
+      "uniqueMeshes": 252,
+      "components": 252,
+      "primitives": 252,
+      "triangles": 129024,
+      "sections": 252,
+      "naniteAlready": 0,
+      "eligible": 252,
+      "rejected": 0,
+      "cullDistancesSeen": []
+    },
+    "oldcity_facades": {
+      "uniqueMeshes": 190,
+      "components": 190,
+      "primitives": 190,
+      "triangles": 468918,
+      "sections": 190,
+      "naniteAlready": 190,
+      "eligible": 0,
+      "rejected": 190,
+      "cullDistancesSeen": []
+    },
+    "material_review": {
+      "uniqueMeshes": 39,
+      "components": 260,
+      "primitives": 260,
+      "triangles": 26757452,
+      "sections": 1916,
+      "naniteAlready": 0,
+      "eligible": 32,
+      "rejected": 7,
+      "cullDistancesSeen": []
+    },
+    "arrival_review": {
+      "uniqueMeshes": 16,
+      "components": 16,
+      "primitives": 16,
+      "triangles": 30180,
+      "sections": 1007,
+      "naniteAlready": 0,
+      "eligible": 14,
+      "rejected": 2,
+      "cullDistancesSeen": []
+    },
+    "other": {
+      "uniqueMeshes": 8,
+      "components": 8,
+      "primitives": 8,
+      "triangles": 4464,
+      "sections": 8,
+      "naniteAlready": 0,
+      "eligible": 8,
+      "rejected": 0,
+      "cullDistancesSeen": []
+    },
+    "city_decor": {
+      "uniqueMeshes": 5,
+      "components": 5,
+      "primitives": 44217,
+      "triangles": 1554924,
+      "sections": 5,
+      "naniteAlready": 0,
+      "eligible": 1,
+      "rejected": 4,
+      "cullDistancesSeen": []
+    },
+    "third_party": {
+      "uniqueMeshes": 2,
+      "components": 2,
+      "primitives": 2,
+      "triangles": 916320,
+      "sections": 2,
+      "naniteAlready": 0,
+      "eligible": 2,
+      "rejected": 0,
+      "cullDistancesSeen": []
+    },
+    "engine_content": {
+      "uniqueMeshes": 1,
+      "components": 4,
+      "primitives": 4,
+      "triangles": 8,
+      "sections": 4,
+      "naniteAlready": 0,
+      "eligible": 0,
+      "rejected": 1,
+      "cullDistancesSeen": []
+    }
+  },
+  "eligibleTotal": 2011,
+  "rejectionReasons": {
+    "E4_path_token_tree": 2877,
+    "E6_below_24_triangles": 2037,
+    "E4_path_token_leaf": 277,
+    "E2_already_nanite": 190,
+    "E4_path_token_bird": 70,
+    "E4_path_token_fire": 48,
+    "E4_path_token_paroches": 4,
+    "E4_path_token_water": 1,
+    "E4_path_token_glass": 1,
+    "E4_path_token_fabric": 1,
+    "E4_path_token_cloth": 1,
+    "E4_path_token_incense": 1
+  },
+  "meshIndex": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\perf-optimize-meshindex-20260908T103429Z.json",
+  "possibleInstancingGroups": [
+    {
+      "category": "mikdash_architecture",
+      "triangles": 12,
+      "vertices": 24,
+      "count": 2254,
+      "sample": [
+        "architecture_SM_0000_architecture_Ulam_stair_6",
+        "architecture_SM_0001_architecture_Ulam_stair_7",
+        "architecture_SM_0002_architecture_Ulam_stair_8",
+        "architecture_SM_0003_architecture_Ulam_stair_9"
+      ]
+    },
+    {
+      "category": "terrain_tiles",
+      "triangles": 512,
+      "vertices": 289,
+      "count": 252,
+      "sample": [
+        "SM_JerusalemTerrain_00_00",
+        "SM_JerusalemTerrain_00_01",
+        "SM_JerusalemTerrain_00_02",
+        "SM_JerusalemTerrain_00_03"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 96,
+      "count": 60,
+      "sample": [
+        "architecture_SM_0277_architecture_Outer_N_pillar",
+        "architecture_SM_0278_architecture_Outer_N_pillar_collar",
+        "architecture_SM_0279_architecture_Outer_N_pillar_collar",
+        "architecture_SM_0280_architecture_Outer_N_pillar_collar"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 12,
+      "vertices": 24,
+      "count": 54,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N001_P001",
+        "SM_JerusalemBuildings_Grid_N002_N021",
+        "SM_JerusalemBuildings_Grid_N003_N021",
+        "SM_JerusalemBuildings_Grid_N003_P011"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 137,
+      "count": 23,
+      "sample": [
+        "architecture_SM_2319_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2320_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2321_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2322_roof_Golden_roof_anti_bird_point"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 24,
+      "vertices": 48,
+      "count": 19,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N008_N019",
+        "SM_JerusalemBuildings_Grid_N008_P006",
+        "SM_JerusalemBuildings_Grid_N009_N014",
+        "SM_JerusalemBuildings_Grid_N011_P004"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 108,
+      "count": 18,
+      "sample": [
+        "architecture_SM_0182_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0183_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0189_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0190_architecture_Outer_E_pillar_collar"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 112,
+      "count": 18,
+      "sample": [
+        "architecture_SM_1681_detail_Carved_palm_trunk",
+        "architecture_SM_1690_detail_Carved_palm_trunk",
+        "architecture_SM_2013_detail_Cooking_vessel",
+        "architecture_SM_2014_detail_Cooking_vessel"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 146,
+      "count": 18,
+      "sample": [
+        "architecture_SM_2336_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2337_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2338_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2339_roof_Golden_roof_anti_bird_point"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 145,
+      "count": 18,
+      "sample": [
+        "architecture_SM_2371_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2372_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2373_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2374_roof_Golden_roof_anti_bird_point"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 384,
+      "vertices": 221,
+      "count": 12,
+      "sample": [
+        "architecture_SM_0078_vessel_Spout_1",
+        "architecture_SM_0082_vessel_Spout_2",
+        "architecture_SM_0086_vessel_Spout_3",
+        "architecture_SM_0090_vessel_Spout_4"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 320,
+      "vertices": 189,
+      "count": 12,
+      "sample": [
+        "architecture_SM_0079_vessel_Copper_fitting",
+        "architecture_SM_0083_vessel_Copper_fitting",
+        "architecture_SM_0087_vessel_Copper_fitting",
+        "architecture_SM_0091_vessel_Copper_fitting"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 104,
+      "count": 12,
+      "sample": [
+        "architecture_SM_0168_architecture_Ulam_pillar_collar",
+        "architecture_SM_0169_architecture_Ulam_pillar_collar",
+        "architecture_SM_0173_architecture_Ulam_pillar_collar",
+        "architecture_SM_0174_architecture_Ulam_pillar_collar"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 116,
+      "count": 12,
+      "sample": [
+        "architecture_SM_0185_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0186_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0192_architecture_Outer_E_pillar_collar",
+        "architecture_SM_0193_architecture_Outer_E_pillar_collar"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 138,
+      "count": 11,
+      "sample": [
+        "architecture_SM_2325_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2326_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2327_roof_Golden_roof_anti_bird_point",
+        "architecture_SM_2328_roof_Golden_roof_anti_bird_point"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 48,
+      "vertices": 96,
+      "count": 11,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N005_P006",
+        "SM_JerusalemBuildings_Grid_N008_P011",
+        "SM_JerusalemBuildings_Grid_N012_P000",
+        "SM_JerusalemBuildings_Grid_P002_P016"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 20,
+      "vertices": 36,
+      "count": 11,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N005_P008",
+        "SM_JerusalemBuildings_Grid_N008_N016",
+        "SM_JerusalemBuildings_Grid_N008_P007",
+        "SM_JerusalemBuildings_Grid_N011_P011"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 2,
+      "vertices": 6,
+      "count": 11,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N014_N022",
+        "SM_Jerusalem_Asphalt_02_Grid_N020_N025",
+        "SM_Jerusalem_Asphalt_02_Grid_P003_N007",
+        "SM_Jerusalem_Asphalt_02_Grid_P004_N020"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 4,
+      "vertices": 12,
+      "count": 10,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N011_P004",
+        "SM_Jerusalem_Asphalt_02_Grid_N020_N007",
+        "SM_Jerusalem_Asphalt_02_Grid_N024_N023",
+        "SM_Jerusalem_Asphalt_02_Grid_P015_P013"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 44,
+      "vertices": 84,
+      "count": 9,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N001_N013",
+        "SM_JerusalemBuildings_Grid_N005_N017",
+        "SM_JerusalemBuildings_Grid_N009_N011",
+        "SM_JerusalemBuildings_Grid_N011_P007"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 28,
+      "vertices": 48,
+      "count": 9,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N001_N020",
+        "SM_JerusalemBuildings_Grid_N009_P011",
+        "SM_JerusalemBuildings_Grid_N019_N022",
+        "SM_JerusalemBuildings_Grid_P003_N008"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 16,
+      "vertices": 30,
+      "count": 9,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N004_N022",
+        "SM_JerusalemBuildings_Grid_N009_P001",
+        "SM_JerusalemBuildings_Grid_N012_P002",
+        "SM_JerusalemBuildings_Grid_N012_P007"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 12,
+      "vertices": 26,
+      "count": 9,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N013_P016",
+        "SM_JerusalemBuildings_Grid_N015_N022",
+        "SM_JerusalemBuildings_Grid_N016_P000",
+        "SM_JerusalemBuildings_Grid_N021_N017"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 2,
+      "vertices": 4,
+      "count": 9,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N007_P006",
+        "SM_Jerusalem_Asphalt_02_Grid_N018_P017",
+        "SM_Jerusalem_Asphalt_02_Grid_N023_N005",
+        "SM_Jerusalem_Asphalt_02_Grid_P014_P017"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 6,
+      "vertices": 18,
+      "count": 9,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N021_N014",
+        "SM_Jerusalem_Asphalt_02_Grid_P005_P013",
+        "SM_Jerusalem_Asphalt_02_Grid_P006_N017",
+        "SM_Jerusalem_Asphalt_02_Grid_P007_P020"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 8,
+      "vertices": 18,
+      "count": 8,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_P022_N003",
+        "SM_Jerusalem_StonePaths_03_Grid_N004_N020",
+        "SM_Jerusalem_StonePaths_03_Grid_N005_N012",
+        "SM_Jerusalem_StonePaths_03_Grid_N012_N005"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 92,
+      "vertices": 177,
+      "count": 7,
+      "sample": [
+        "architecture_SM_1682_detail_Carved_palm_frond",
+        "architecture_SM_1688_detail_Carved_palm_frond",
+        "architecture_SM_1693_detail_Carved_palm_frond",
+        "architecture_SM_1704_detail_Carved_palm_frond"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 92,
+      "vertices": 176,
+      "count": 7,
+      "sample": [
+        "architecture_SM_1683_detail_Carved_palm_frond",
+        "architecture_SM_1692_detail_Carved_palm_frond",
+        "architecture_SM_1696_detail_Carved_palm_frond",
+        "architecture_SM_1703_detail_Carved_palm_frond"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 28,
+      "vertices": 54,
+      "count": 7,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N002_N016",
+        "SM_JerusalemBuildings_Grid_N009_P014",
+        "SM_JerusalemBuildings_Grid_N010_P004",
+        "SM_JerusalemBuildings_Grid_N015_N002"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 12,
+      "vertices": 28,
+      "count": 7,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N007_N005",
+        "SM_JerusalemBuildings_Grid_N022_N016",
+        "SM_JerusalemBuildings_Grid_N023_N022",
+        "SM_JerusalemBuildings_Grid_P007_N003"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 28,
+      "vertices": 50,
+      "count": 7,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N008_N012",
+        "SM_JerusalemBuildings_Grid_N010_N022",
+        "SM_JerusalemBuildings_Grid_P007_N006",
+        "SM_JerusalemBuildings_Grid_P008_N010"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 4,
+      "vertices": 8,
+      "count": 7,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N006_N004",
+        "SM_Jerusalem_Asphalt_02_Grid_P004_N011",
+        "SM_Jerusalem_StonePaths_03_Grid_N006_P007",
+        "SM_Jerusalem_StonePaths_03_Grid_N018_P007"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 18,
+      "vertices": 38,
+      "count": 7,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N007_N006",
+        "SM_Jerusalem_Asphalt_02_Grid_N022_N008",
+        "SM_Jerusalem_Asphalt_02_Grid_N026_N011",
+        "SM_Jerusalem_Asphalt_02_Grid_P002_P018"
+      ]
+    },
+    {
+      "category": "city_streets",
+      "triangles": 4,
+      "vertices": 10,
+      "count": 7,
+      "sample": [
+        "SM_Jerusalem_Asphalt_02_Grid_N009_P001",
+        "SM_Jerusalem_Asphalt_02_Grid_P000_P004",
+        "SM_Jerusalem_Asphalt_02_Grid_P005_N005",
+        "SM_Jerusalem_Asphalt_02_Grid_P005_N011"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 60,
+      "vertices": 120,
+      "count": 6,
+      "sample": [
+        "architecture_SM_0181_architecture_Outer_E_pillar",
+        "architecture_SM_0188_architecture_Outer_E_pillar",
+        "architecture_SM_2017_detail_Cooking_vessel",
+        "architecture_SM_2018_detail_Cooking_vessel"
+      ]
+    },
+    {
+      "category": "mikdash_architecture",
+      "triangles": 92,
+      "vertices": 212,
+      "count": 6,
+      "sample": [
+        "architecture_SM_1783_detail_Carved_palm_frond",
+        "architecture_SM_1786_detail_Carved_palm_frond",
+        "architecture_SM_1802_detail_Carved_palm_frond",
+        "architecture_SM_1862_detail_Carved_palm_frond"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 32,
+      "vertices": 60,
+      "count": 6,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N002_N008",
+        "SM_JerusalemBuildings_Grid_N004_P011",
+        "SM_JerusalemBuildings_Grid_N016_N005",
+        "SM_JerusalemBuildings_Grid_P000_N017"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 52,
+      "vertices": 96,
+      "count": 6,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N004_N015",
+        "SM_JerusalemBuildings_Grid_N004_N018",
+        "SM_JerusalemBuildings_Grid_N005_P007",
+        "SM_JerusalemBuildings_Grid_N006_P011"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 60,
+      "vertices": 120,
+      "count": 6,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N006_N013",
+        "SM_JerusalemBuildings_Grid_P000_P006",
+        "SM_JerusalemBuildings_Grid_P001_P014",
+        "SM_JerusalemBuildings_Grid_P002_N008"
+      ]
+    },
+    {
+      "category": "city_buildings",
+      "triangles": 36,
+      "vertices": 74,
+      "count": 6,
+      "sample": [
+        "SM_JerusalemBuildings_Grid_N018_P001",
+        "SM_JerusalemBuildings_Grid_N022_N008",
+        "SM_JerusalemBuildings_Grid_P007_N022",
+        "SM_JerusalemBuildings_Grid_P009_N008"
+      ]
+    }
+  ],
+  "possibleInstancingMeshTotal": 3102,
+  "worldAudit": {
+    "worldPartition": null,
+    "hlodActors": 0
+  }
+}

@@ -730,7 +730,7 @@ int main(int Argc, char** Argv)
         {
             std::fprintf(File, "{\n");
             std::fprintf(File, "  \"status\": \"%s\",\n", Failures == 0 ? "plume_math_standalone_tests_passed" : "plume_math_standalone_tests_failed");
-            std::fprintf(File, "  \"suite\": \"Plugins/MikdashRuntime/Source/MikdashRuntime/Tests/PlumeMathTest.cpp\",\n");
+            std::fprintf(File, "  \"suite\": \"Plugins/MikdashRuntime/Tests/PlumeMathTest.cpp\",\n");
             std::fprintf(File, "  \"header\": \"Plugins/MikdashRuntime/Source/MikdashRuntime/Public/PlumeMath.h\",\n");
             std::fprintf(File, "  \"compiler\": \"MSVC %d, C++%ld\",\n", static_cast<int>(_MSC_VER), static_cast<long>(__cplusplus));
             std::fprintf(File, "  \"checkCount\": %d,\n", static_cast<int>(Checks.size()));

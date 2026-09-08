@@ -1,0 +1,311 @@
+{
+ "status": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+ "namespace": "/Game/MikdashV3/FutureMountV1/EnclosureV2",
+ "meshFolder": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes",
+ "generatorSha256": "40fc1880f401cef8555ce22a4c4917f9bbebe5044a922956e9186892c522e607",
+ "enclosureMathSha256": "b9805dfd03d150b55a195c0cfe55f594678872b8b423b71fecf6f638187a2d6c",
+ "cmPerAmah": 50.0,
+ "coordinateConvention": "UE cm: X east, Y south, Z up; measured court centre at the origin; module origin at the centre of its footprint on the ground with local +X along the wall and +Y outward; OBJ files carry Y negated and reversed winding (legacy adapter)",
+ "objConvention": "per-face vertices; file Y = -canonical Y and winding reversed; the importer reflects Y back, so imported bounds must equal canonicalBoundsCm and imported signed volumes must be positive. One `o` object and no `g` groups, so one material slot per mesh.",
+ "square": {
+  "sideAmot": 3000.0,
+  "sideReeds": 500.0,
+  "sideCm": 150000.0,
+  "outerFacesCm": {
+   "xWest": -33100.0,
+   "xEast": 116900.0,
+   "yNorth": -33150.0,
+   "ySouth": 116850.0
+  },
+  "centreCm": [
+   41900.0,
+   41850.0
+  ],
+  "matchesEnclosureV1": "identical to 1e-6 cm on all four outer faces"
+ },
+ "clearancesAmot": {
+  "west": 500.0,
+  "north": 501.0,
+  "east": 2176.0,
+  "south": 2175.0
+ },
+ "clearanceOrder": {
+  "measured": [
+   "east",
+   "south",
+   "north",
+   "west"
+  ],
+  "middotOrder": [
+   "south",
+   "east",
+   "north",
+   "west"
+  ],
+  "holds": false,
+  "marginAmot": -1.0,
+  "note": "Mishkenei Elyon 196 ch.1 m.1, quoted in full by the book, states the Middot 2:1 order for the 3000-amah Mount: largest south, then east, then north, least west. It cannot hold on this project's measured court envelope, which is SQUARE (324 x 324 amot): with the two stated clearances west 500 and north 501, the remainders satisfy south - east = west - north = -1 amah identically. The book's own fig. 2'2 envelope is about 351 x 346 - wider than deep - which is why its labelled remainders (2149 east, 2153 south) do satisfy the order. The departure here is one amah, 50 cm on a 150,000 cm side. NOTE: SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json currently states \"Order south > east > north > west preserved\" while carrying east 2176 and south 2175; that sentence is wrong and this field is the correction."
+ },
+ "gates": [
+  {
+   "id": "N",
+   "side": 0,
+   "fraction": 0.22066666666666668,
+   "certainty": "count certain; position assumed (Temple axis)",
+   "positionCm": [
+    0.0,
+    -33150.0
+   ]
+  },
+  {
+   "id": "E",
+   "side": 1,
+   "fraction": 0.221,
+   "certainty": "count certain; position assumed (Temple axis, Yechezkel 42:15 measures through it)",
+   "positionCm": [
+    116900.0,
+    0.0
+   ]
+  },
+  {
+   "id": "S1",
+   "side": 2,
+   "fraction": 0.6666666666666666,
+   "certainty": "count certain; position assumed (one third along)",
+   "positionCm": [
+    16900.0,
+    116850.0
+   ]
+  },
+  {
+   "id": "S2",
+   "side": 2,
+   "fraction": 0.3333333333333333,
+   "certainty": "count certain; position assumed (two thirds along)",
+   "positionCm": [
+    66900.0,
+    116850.0
+   ]
+  },
+  {
+   "id": "W",
+   "side": 3,
+   "fraction": 0.779,
+   "certainty": "count certain; position assumed (Temple axis)",
+   "positionCm": [
+    -33100.0,
+    0.0
+   ]
+  }
+ ],
+ "gateBlockAmot": {
+  "openingWidth": 10.0,
+  "openingHeight": 50.0,
+  "pierWidth": 10.0,
+  "totalHeight": 60.0,
+  "depth": 6.0
+ },
+ "wallSectionAmot": {
+  "thickness": 6.0,
+  "height": 6.0
+ },
+ "instancing": {
+  "componentType": "HierarchicalInstancedStaticMeshComponent",
+  "components": 4,
+  "plan": {
+   "segmentsPerSide": 120,
+   "segmentLengthCm": 1250.0,
+   "wallInstances": 467,
+   "droppedForGates": 13,
+   "gateInstances": 5,
+   "cornerInstances": 4,
+   "overlayInstances": 480
+  },
+  "instances": 956,
+  "triangles": {
+   "wall": 106476,
+   "gate": 420,
+   "corner": 288,
+   "overlay": 5760,
+   "total": 112944
+  },
+  "budgetNote": "RTX 2070, 8 GB, 1080p. 956 instances across four HISM components and 112944 triangles for the whole 1.44 km ring, against 3,416,580 triangles in the 190-actor Old City facade set the YECHEZKEL state hides - about 3.3% of it. Per-instance frustum culling means the visible cost is a small fraction of that again; a single-mesh wall would be one 1.44 km bounding box and would cull as all-or-nothing."
+ },
+ "modernCityCoverage": {
+  "unit": "100 m context cell",
+  "cellSizeCm": 10000.0,
+  "sets": [
+   {
+    "set": "OldCityFacadesV1/facades",
+    "actorLabelPrefix": "RELEASE_OldCityFacades_",
+    "buildingsTotal": 2106,
+    "buildingsInCellsWhollyInside": 340,
+    "buildingsInCellsTheWallLineCuts": 465,
+    "buildingsOutside": 1301,
+    "cellsWhollyInside": 29,
+    "cellsStraddling": 14
+   },
+   {
+    "set": "OldCityFacadesV1/infill",
+    "actorLabelPrefix": "RELEASE_OldCityInfill_",
+    "buildingsTotal": 1514,
+    "buildingsInCellsWhollyInside": 259,
+    "buildingsInCellsTheWallLineCuts": 295,
+    "buildingsOutside": 960,
+    "cellsWhollyInside": 17,
+    "cellsStraddling": 12
+   },
+   {
+    "set": "JerusalemContext/Buildings (imported OSM extrusions)",
+    "actorLabelPrefix": "SM_JerusalemBuildings_",
+    "note": "one actor per 100 m cell, so these are CELL counts, not building counts",
+    "cellActorsTotal": 1423,
+    "cellActorsWhollyInside": 156,
+    "cellActorsStraddling": 52,
+    "cellActorsOutside": 1215
+   }
+  ],
+  "authoredBuildingsInsideLow": 599,
+  "authoredBuildingsInsideHigh": 1359,
+  "exact": {
+   "source": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+   "rule": "centroid inside (ESelectionRule::CentroidInside)",
+   "population": "EVERY OSM building feature in the exported city, not only the walled Old City. That is why this number is larger than the 100 m cell band below: the band counts only the 2106 + 1514 buildings inside the Old City walls that OldCityFacadesV1 decorates, while the precinct also covers ground east and south of those walls. The two are different populations, not a contradiction.",
+   "buildingsTotal": 11437,
+   "buildingsInside": 1911,
+   "footprintsTheWallLineCutsButCentroidOutside": 64,
+   "buildingsOutside": 9462,
+   "authoredFacadeBuildingsInside": 485,
+   "authoredFacadeBuildingsTotal": 2106,
+   "insideIdFingerprintFnv1a": "cab232acff09b600"
+  }
+ },
+ "meshes": [
+  {
+   "name": "SM_EnclosureV2_WallSegment",
+   "file": "SM_EnclosureV2_WallSegment.obj",
+   "sha256": "6ccafc031ec69d2eb10feb6b70b6d59c6fd6840ce6b7c91b4b33d55aa97b7d3d",
+   "triangles": 228,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -180.0,
+     0.0
+    ],
+    "max": [
+     625.0,
+     180.0,
+     300.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 120609000.0,
+   "materialRole": "stone",
+   "note": "One 25-amah run of the outer wall. Section certain (a reed thick, a reed high, Yechezkel 40:5); face articulation AUTHORED."
+  },
+  {
+   "name": "SM_EnclosureV2_Gate",
+   "file": "SM_EnclosureV2_Gate.obj",
+   "sha256": "7285bc980a4f908abd32efbf26a462538d81530a87a8a9ea4147dd13107a5901",
+   "triangles": 84,
+   "canonicalBoundsCm": {
+    "min": [
+     -780.0,
+     -170.99999999999997,
+     0.0
+    ],
+    "max": [
+     780.0,
+     180.0,
+     3000.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 1084277400.0,
+   "materialRole": "stone",
+   "note": "Gate block. Opening 10 x 50 amot and depth 6 amot certain (book pp. 115-117); piers, 60-amah height and all profiles AUTHORED. Doors omitted - the gate stands open."
+  },
+  {
+   "name": "SM_EnclosureV2_Corner",
+   "file": "SM_EnclosureV2_Corner.obj",
+   "sha256": "12621f8cc914718ff9a21c64aeccb350b7dc8859190b9d0f7ead9139ab0c258c",
+   "triangles": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -278.4,
+     -278.4,
+     0.0
+    ],
+    "max": [
+     278.4,
+     278.4,
+     522.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 85775708.16,
+   "materialRole": "stone",
+   "note": "Corner block and marker pylon. AUTHORED; Yechezkel measures sides, not corners."
+  },
+  {
+   "name": "SM_EnclosureV2_OverlaySlab",
+   "file": "SM_EnclosureV2_OverlaySlab.obj",
+   "sha256": "1b0a592f303aa7eea09c4335b669eb8edc86c34f5b9d6d123f88f493595db125",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -0.5,
+     -0.02,
+     0.0
+    ],
+    "max": [
+     0.5,
+     0.02,
+     1.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 0.04,
+   "materialRole": "overlay",
+   "note": "Unit slab for the OVERLAY band, scaled per instance to the sample step and the wall height. Not architecture - a reading aid."
+  }
+ ],
+ "readback": [
+  {
+   "mesh": "SM_EnclosureV2_WallSegment",
+   "triangles": 228,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 120609000.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_EnclosureV2_Gate",
+   "triangles": 84,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 1084277400.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_EnclosureV2_Corner",
+   "triangles": 72,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 85775708.16,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_EnclosureV2_OverlaySlab",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.04,
+   "normalsAndUvs": "PASS"
+  }
+ ],
+ "preview": "enclosure-plan.png",
+ "relationToEnclosureV1": "SourceAssets/FutureMountV1/EnclosureV1 (Scripts/create_mount_enclosure.py) exports the SAME square as 52 chunk meshes stepped to the current-city DEM and is NOT modified by this generator. EnclosureV2 is the instanced, toggleable form; the two share the square through EnclosureMath.h and are asserted equal in `square.matchesEnclosureV1` above.",
+ "limitations": [
+  "The wall sits at Z 0 in module space. AMikdashEnclosure places every instance on the level plane; it does NOT step the wall to follow terrain, which EnclosureV1 does. Over the Kidron and the Hinnom the ring will float or bury. Fixing that means per-instance Z from the DEM and is not done here.",
+  "Gate along-wall positions are the project assumption, not the book. Only the count per side and the 10 x 50 amah opening are sourced.",
+  "Building counts are per 100 m cell, because no per-building world position exists in this project. The release script replaces the band with an exact count.",
+  "Wall face articulation, corner blocks and gate profiles are AUTHORED. The book gives the wall a section and the gates an opening, and no elevation."
+ ]
+}

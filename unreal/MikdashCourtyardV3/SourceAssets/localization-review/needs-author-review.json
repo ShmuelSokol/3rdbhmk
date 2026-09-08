@@ -1,6 +1,12 @@
 {
-  "generated": "2026-09-08T04:20:32Z",
-  "note": "Every line here is waiting on the author. The game shows the English string until the Hebrew is filled in.",
+  "generated": "2026-09-08T10:53:43Z",
+  "note": "Every line here is waiting on the author. The game shows the English string until the Hebrew is filled in and its status is set to \"confident\". Edit SourceAssets/localization-review/strings.json, not this file.",
+  "howToClearAnEntry": [
+    "Open strings.json and find the entry by its \"key\".",
+    "Replace \"he\" with your own Hebrew.",
+    "Set \"status\" to \"confident\".",
+    "Re-run Scripts/release_localization.py. No recompile, no editor."
+  ],
   "strings": [
     {
       "key": "menu.tagline",
@@ -148,5 +154,9 @@
       "translit": "Tamid",
       "why": "The twice-daily offering. English gloss left to the author for the same reason as korban."
     }
-  ]
+  ],
+  "counts": {
+    "strings": 21,
+    "glossary": 3
+  }
 }

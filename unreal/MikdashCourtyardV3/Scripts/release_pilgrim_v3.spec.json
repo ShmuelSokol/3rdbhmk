@@ -1,0 +1,786 @@
+{
+  "specVersion": 2,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_pilgrim_v3.py: import the PilgrimRigV3 character set into an isolated review namespace and verify it by numeric readback off the saved assets. This plan places no actor, edits no map and repoints no population. Nothing here is visual, runtime, PIE, cook or packaged acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "destination": "/Game/MikdashV3/CharacterReview/PilgrimRigV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapMustNotChange": true,
+  "sourceFolder": "SourceAssets/characters-review/PilgrimRigV3",
+  "generator": "Scripts/create_pilgrim_v3.py",
+  "generatorSha256": "0eb90650b1fcb20ed720c505ea875b98e4d531e8fdc05130777252d96cabcb2b",
+  "manifestSha256": "aac0b22a1433a2c1765d8edc164409a1ef3051927178ae05485cd2d69994ca5f",
+  "triangleBudgetPerCharacter": 25000,
+  "rigCompatibility": {
+    "compared": true,
+    "joints": 27,
+    "source": "SourceAssets\\characters-review\\PilgrimRigV2\\rig-definition.json",
+    "identical_rest_pose": false,
+    "movedJoints": [
+      {
+        "joint": "clavicle_r",
+        "v2_cm": [
+          -10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_r",
+        "v2_cm": [
+          -20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_r",
+        "v2_cm": [
+          -33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          -35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_r",
+        "v2_cm": [
+          -44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          -47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_r",
+        "v2_cm": [
+          -8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          -8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      },
+      {
+        "joint": "clavicle_l",
+        "v2_cm": [
+          10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_l",
+        "v2_cm": [
+          20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_l",
+        "v2_cm": [
+          33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_l",
+        "v2_cm": [
+          44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_l",
+        "v2_cm": [
+          8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      }
+    ],
+    "jointNamesHierarchyAndOrderIdentical": true,
+    "armAPoseDirectionDriftDeg": 0.12174,
+    "clipsAnimateTranslationOnlyOn": [
+      "pelvis"
+    ],
+    "existingClipsRemainValid": true,
+    "why": "Rotation curves are independent of bone length; the only translated track is pelvis, which did not move; no joint was renamed, reordered or re-aimed. A new Skeleton asset is still created on import because UE stores a reference pose per Skeleton - see the release spec."
+  },
+  "distinctness": {
+    "uniqueVertexFingerprints": true,
+    "minimumSilhouetteDistanceCm": 1.925,
+    "thresholdCm": 0.9,
+    "closestPair": [
+      "V3_Pilgrim_Man_Standard",
+      "V3_Pilgrim_Woman_Young"
+    ],
+    "method": "26 height bands per figure, max |x| and max |y| in each, mean absolute difference between two figures; plus a sha256 of the packed static vertex block. Both must pass or nothing is written.",
+    "pairs": [
+      {
+        "a": "V3_Pilgrim_Man_Standard",
+        "b": "V3_Pilgrim_Woman_Young",
+        "silhouetteDistanceCm": 1.925
+      },
+      {
+        "a": "V3_Pilgrim_Woman_Young",
+        "b": "V3_Pilgrim_Woman_Elder",
+        "silhouetteDistanceCm": 2.834
+      },
+      {
+        "a": "V3_Pilgrim_Man_Standard",
+        "b": "V3_Pilgrim_Man_Elder",
+        "silhouetteDistanceCm": 3.069
+      },
+      {
+        "a": "V3_Pilgrim_Man_Standard",
+        "b": "V3_Kohen_White",
+        "silhouetteDistanceCm": 3.177
+      },
+      {
+        "a": "V3_Pilgrim_Man_Standard",
+        "b": "V3_Pilgrim_Man_Heavy",
+        "silhouetteDistanceCm": 3.433
+      },
+      {
+        "a": "V3_Pilgrim_Man_Heavy",
+        "b": "V3_Pilgrim_Woman_Young",
+        "silhouetteDistanceCm": 3.477
+      },
+      {
+        "a": "V3_Pilgrim_Man_Standard",
+        "b": "V3_Pilgrim_Woman_Elder",
+        "silhouetteDistanceCm": 3.479
+      },
+      {
+        "a": "V3_Pilgrim_Man_Heavy",
+        "b": "V3_Pilgrim_Woman_Elder",
+        "silhouetteDistanceCm": 3.614
+      },
+      {
+        "a": "V3_Pilgrim_Man_Elder",
+        "b": "V3_Pilgrim_Woman_Young",
+        "silhouetteDistanceCm": 3.647
+      },
+      {
+        "a": "V3_Visitor_Camera",
+        "b": "V3_Visitor_Phone",
+        "silhouetteDistanceCm": 3.694
+      },
+      {
+        "a": "V3_Pilgrim_Woman_Young",
+        "b": "V3_Kohen_White",
+        "silhouetteDistanceCm": 3.824
+      },
+      {
+        "a": "V3_Pilgrim_Man_Elder",
+        "b": "V3_Pilgrim_Woman_Elder",
+        "silhouetteDistanceCm": 4.014
+      }
+    ]
+  },
+  "proportionSource": "Drillis & Contini (1966) segment fractions as reproduced in Winter, Biomechanics and Motor Control of Human Movement, 4th ed. 2009, fig. 4.1 p.83; breadths/depths cross-checked against the 50th-percentile male of NASA-STD-3000 Rev.B vol.I sec.3.3; artistic cross-check the 7.5-head canon (Loomis 1943, shoulders = 2 head-heights).",
+  "defaultBatchSize": 3,
+  "progressMarker": "SourceAssets/characters-review/PilgrimRigV3/native-import-progress.json",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "PilgrimV3-",
+  "skeleton": {
+    "existingSearchRoot": "/Game/MikdashV3/CharacterReview/PilgrimRigV2",
+    "expectation": "Each GLB import creates its OWN Skeleton because UE stores a reference pose per Skeleton and V3 lengthened the arm and foot bones. The four clips travel inside each GLB, so no retarget is needed to play them. The already-imported A_Pilgrim_Original_Idle/_Walk assets remain valid MOTION for this rig (rotation curves are length-independent) but they live on the V2 Skeleton; playing them on a V3 mesh needs a one-click retarget in the editor and is NOT attempted by this script.",
+    "jointCount": 27,
+    "movedJoints": [
+      {
+        "joint": "clavicle_r",
+        "v2_cm": [
+          -10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_r",
+        "v2_cm": [
+          -20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_r",
+        "v2_cm": [
+          -33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          -35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_r",
+        "v2_cm": [
+          -44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          -47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_r",
+        "v2_cm": [
+          -8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          -8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      },
+      {
+        "joint": "clavicle_l",
+        "v2_cm": [
+          10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_l",
+        "v2_cm": [
+          20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_l",
+        "v2_cm": [
+          33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_l",
+        "v2_cm": [
+          44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_l",
+        "v2_cm": [
+          8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      }
+    ]
+  },
+  "materials": {
+    "policy": "The OBJ carries an MTL with one named material per garment part and the GLB carries baseColorFactor plus COLOR_0, so the palette arrives with the mesh. This script does NOT flatten the slots onto a shared master - that would erase the per-variant palette. It asserts every slot on every saved mesh resolves to a non-null MaterialInterface, by readback, and records the paths.",
+    "expectedSlotNames": [
+      "Skin",
+      "Linen",
+      "Mantle",
+      "Headcloth",
+      "Sash",
+      "Leather",
+      "Hair",
+      "Eyes",
+      "Iris",
+      "Trim",
+      "Prop",
+      "PropGlass",
+      "Denim"
+    ],
+    "minimumSlotsPerStaticMesh": 6
+  },
+  "population": {
+    "spec": "Scripts/release_people_v3.spec.json",
+    "currentValue": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2",
+    "ownedByThisScript": false,
+    "note": "The twenty-four placed residents and the population actor belong to another system. This script never touches them. See `handoff` in the receipt for the exact command their owner has to run."
+  },
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "label": "Pilgrim man, standard build, short beard",
+      "triangles": 19600,
+      "vertices": 9924,
+      "skeletalFile": "meshes/V3_Pilgrim_Man_Standard.glb",
+      "skeletalSha256": "decf5cfebe49e6fce24f8e4d5f74dce8c8c1dd801f7f3aac84d9983ca0fb7002",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_Standard.obj",
+      "staticSha256": "14cd21e331505ea7bffbcd68e7be09a5a215a590b3ad239cf9b9e5a95cf843f0",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_Standard.mtl",
+      "staticVertexFingerprint": "7f0c87eaa9cbae03e4edffbd464f73cf60fcc7b027af485d5ac85a50127ddb0c",
+      "recommendedActorScale": 1.0,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 179.44,
+        "head_height_chin_crown": 24.0,
+        "head_breadth_x": 15.39,
+        "head_depth_y": 19.14,
+        "heads_tall": 7.48,
+        "shoulder_breadth": 53.08,
+        "dactylion_height": 67.18,
+        "hand_length": 20.0,
+        "hand_breadth": 8.59,
+        "foot_length": 26.73,
+        "foot_breadth": 9.72,
+        "neck_diameter": 13.56,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 60.4,
+        "tunic_hem_circumference": 152.96
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "label": "Pilgrim man, heavy build, full beard, turban",
+      "triangles": 20084,
+      "vertices": 10172,
+      "skeletalFile": "meshes/V3_Pilgrim_Man_Heavy.glb",
+      "skeletalSha256": "3114a1eed02f17aede1d3252fe83830dd5082113aafe7080b725c701f84d347e",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_Heavy.obj",
+      "staticSha256": "f60a7efbc59d8bc27badff6e2c608b76a00fe08b0f61973acf7624b6bb4a162d",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_Heavy.mtl",
+      "staticVertexFingerprint": "1d6b09b99119b7f57bdfb6dd036d41090abdcfd90f28884297afa95a190b1e4e",
+      "recommendedActorScale": 1.04,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 181.97,
+        "head_height_chin_crown": 23.98,
+        "head_breadth_x": 15.48,
+        "head_depth_y": 19.03,
+        "heads_tall": 7.59,
+        "shoulder_breadth": 55.46,
+        "dactylion_height": 67.22,
+        "hand_length": 21.33,
+        "hand_breadth": 10.34,
+        "foot_length": 26.73,
+        "foot_breadth": 11.38,
+        "neck_diameter": 13.61,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 73.38,
+        "tunic_hem_circumference": 188.27
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "label": "Elderly pilgrim man, stooped, long white beard",
+      "triangles": 19804,
+      "vertices": 10030,
+      "skeletalFile": "meshes/V3_Pilgrim_Man_Elder.glb",
+      "skeletalSha256": "bdba5440feacbb5e2702443272063dd0016e7927b2c421be4bcb61508938a1f7",
+      "staticFile": "meshes/SM_V3_Pilgrim_Man_Elder.obj",
+      "staticSha256": "fad4312701a22ba11d2c0d39fec20d94a5ae66784e367dfa13648da187854bb3",
+      "staticMaterialFile": "SM_V3_Pilgrim_Man_Elder.mtl",
+      "staticVertexFingerprint": "00d9e2bf1fadfd516c7bf2d16d193c01e58689d362252d3b72bffb288acd00fe",
+      "recommendedActorScale": 0.97,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 179.07,
+        "head_height_chin_crown": 23.98,
+        "head_breadth_x": 15.36,
+        "head_depth_y": 19.36,
+        "heads_tall": 7.47,
+        "shoulder_breadth": 54.45,
+        "dactylion_height": 67.74,
+        "hand_length": 20.68,
+        "hand_breadth": 8.64,
+        "foot_length": 26.73,
+        "foot_breadth": 8.65,
+        "neck_diameter": 13.43,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 59.33,
+        "tunic_hem_circumference": 151.87
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "label": "Pilgrim woman, long shawl",
+      "triangles": 19396,
+      "vertices": 9816,
+      "skeletalFile": "meshes/V3_Pilgrim_Woman_Young.glb",
+      "skeletalSha256": "2860a95c681e33542700ed0fce02a3cb31dc2f9707e7a9bd756df60771dfca73",
+      "staticFile": "meshes/SM_V3_Pilgrim_Woman_Young.obj",
+      "staticSha256": "5bd5b5b3943fca4f82691bf69b868b3dc23b4f1ca876c2a0f50dcea6b66bff8f",
+      "staticMaterialFile": "SM_V3_Pilgrim_Woman_Young.mtl",
+      "staticVertexFingerprint": "3452b0f4a1de9ac007b9ea5ce3c4670114b4860858aaee178e22e5fbe6a1b3eb",
+      "recommendedActorScale": 0.93,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 179.47,
+        "head_height_chin_crown": 23.98,
+        "head_breadth_x": 15.34,
+        "head_depth_y": 19.1,
+        "heads_tall": 7.49,
+        "shoulder_breadth": 51.25,
+        "dactylion_height": 67.34,
+        "hand_length": 19.9,
+        "hand_breadth": 9.87,
+        "foot_length": 26.73,
+        "foot_breadth": 8.85,
+        "neck_diameter": 13.72,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 58.9,
+        "tunic_hem_circumference": 147.56
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "label": "Elderly pilgrim woman, heavier build, shawl",
+      "triangles": 19444,
+      "vertices": 9844,
+      "skeletalFile": "meshes/V3_Pilgrim_Woman_Elder.glb",
+      "skeletalSha256": "cb697508e8ef5251e9a70b784f3154bb4336ef75f256c3d0eb65bac366152771",
+      "staticFile": "meshes/SM_V3_Pilgrim_Woman_Elder.obj",
+      "staticSha256": "843910a9ca6c3cff5211a90b7102fd61edb13dd220d1aff44e8d1a3c09e6d725",
+      "staticMaterialFile": "SM_V3_Pilgrim_Woman_Elder.mtl",
+      "staticVertexFingerprint": "1b19fd74ad94527306d015d78306b40c4cf7ef60476195d896a4795e90c253f5",
+      "recommendedActorScale": 0.9,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 179.26,
+        "head_height_chin_crown": 23.99,
+        "head_breadth_x": 15.42,
+        "head_depth_y": 19.22,
+        "heads_tall": 7.47,
+        "shoulder_breadth": 53.67,
+        "dactylion_height": 67.06,
+        "hand_length": 23.05,
+        "hand_breadth": 8.9,
+        "foot_length": 26.73,
+        "foot_breadth": 10.21,
+        "neck_diameter": 13.83,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 63.58,
+        "tunic_hem_circumference": 165.78
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "label": "Youth, knee-length tunic, no mantle",
+      "triangles": 13476,
+      "vertices": 6844,
+      "skeletalFile": "meshes/V3_Pilgrim_Youth.glb",
+      "skeletalSha256": "d4d1a5039b48c3b3151ed76d036705c5e9738151b801a12f7a33bd5851343b45",
+      "staticFile": "meshes/SM_V3_Pilgrim_Youth.obj",
+      "staticSha256": "e37bebde486b33bff80a455e25e3ec667449bc23b0b6b2f7579bbd0cd546da84",
+      "staticMaterialFile": "SM_V3_Pilgrim_Youth.mtl",
+      "staticVertexFingerprint": "ee51296668a00a8a25863cabf5c6bb1dc2e4279907b1ba494b6b8d7a2d510253",
+      "recommendedActorScale": 0.84,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 178.93,
+        "head_height_chin_crown": 23.92,
+        "head_breadth_x": 15.31,
+        "head_depth_y": 19.04,
+        "heads_tall": 7.48,
+        "shoulder_breadth": 49.98,
+        "dactylion_height": 68.87,
+        "hand_length": 19.73,
+        "hand_breadth": 10.58,
+        "foot_length": 26.73,
+        "foot_breadth": 7.78,
+        "neck_diameter": 13.53,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 43.67,
+        "tunic_hem_circumference": 109.91
+      },
+      "prop": null,
+      "dress": "robe"
+    },
+    {
+      "id": "V3_Kohen_White",
+      "label": "Ordinary kohen, white ketonet, avnet and migbaat",
+      "triangles": 15796,
+      "vertices": 8006,
+      "skeletalFile": "meshes/V3_Kohen_White.glb",
+      "skeletalSha256": "f8afc7d6d6a6da81317a1cf6c048805149cf17535661072fb7f6e8cc92aaace8",
+      "staticFile": "meshes/SM_V3_Kohen_White.obj",
+      "staticSha256": "755a5217bb321b7ab2de8e6b15a0db4319228100d87f67078be99e3f8c3593cb",
+      "staticMaterialFile": "SM_V3_Kohen_White.mtl",
+      "staticVertexFingerprint": "abde82f174613a57f19e208c9b17b6cfb8d9fc16550fd1c647c814314eb7c937",
+      "recommendedActorScale": 1.01,
+      "recommendedIdleClip": "A_Pilgrim_Original_Idle",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 184.39,
+        "head_height_chin_crown": 23.98,
+        "head_breadth_x": 15.37,
+        "head_depth_y": 19.04,
+        "heads_tall": 7.69,
+        "shoulder_breadth": 56.65,
+        "dactylion_height": 67.24,
+        "hand_length": 20.01,
+        "hand_breadth": 9.2,
+        "foot_length": 26.73,
+        "foot_breadth": 9.72,
+        "neck_diameter": 13.27,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 60.63,
+        "tunic_hem_circumference": 150.41
+      },
+      "prop": null,
+      "dress": "kohen"
+    },
+    {
+      "id": "V3_Visitor_Camera",
+      "label": "Modern visitor with a camera, short sleeves",
+      "triangles": 13440,
+      "vertices": 6832,
+      "skeletalFile": "meshes/V3_Visitor_Camera.glb",
+      "skeletalSha256": "64e3c84085894968c4d77a50229384fae8286ccb18b672de1bf38a6bf68836d5",
+      "staticFile": "meshes/SM_V3_Visitor_Camera.obj",
+      "staticSha256": "8620cd1148d4bbec41a1fd81c8b5ecef1a39f57681bc59ef6d3fdb6acc20f292",
+      "staticMaterialFile": "SM_V3_Visitor_Camera.mtl",
+      "staticVertexFingerprint": "cb221ad36033ab706d18c4cf619e255c70af3c6d1d1e260796976d1edd16c9ef",
+      "recommendedActorScale": 1.02,
+      "recommendedIdleClip": "A_Pilgrim_V3_PhotoCamera",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 178.78,
+        "head_height_chin_crown": 23.94,
+        "head_breadth_x": 15.37,
+        "head_depth_y": 19.01,
+        "heads_tall": 7.47,
+        "shoulder_breadth": 55.89,
+        "dactylion_height": 142.43,
+        "hand_length": 5.73,
+        "hand_breadth": 11.05,
+        "foot_length": 26.13,
+        "foot_breadth": 9.69,
+        "neck_diameter": 13.14,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 36.24,
+        "tunic_hem_circumference": 100.8
+      },
+      "prop": "camera",
+      "dress": "modern"
+    },
+    {
+      "id": "V3_Visitor_Phone",
+      "label": "Modern visitor with a phone, long sleeves",
+      "triangles": 12920,
+      "vertices": 6560,
+      "skeletalFile": "meshes/V3_Visitor_Phone.glb",
+      "skeletalSha256": "632399a074e2c734aaa3146246540ec307cad0a19e71e81933d3b4f76b3eff91",
+      "staticFile": "meshes/SM_V3_Visitor_Phone.obj",
+      "staticSha256": "4bcb275098cd7252cf6c02f1eea32b7d0310a68fd98c25c8b83694e98a2ab8a6",
+      "staticMaterialFile": "SM_V3_Visitor_Phone.mtl",
+      "staticVertexFingerprint": "f5f770c2511c485dfa26946f6267b2e544d7fbd0b8d5729f10f9d3030dd0c5c2",
+      "recommendedActorScale": 0.96,
+      "recommendedIdleClip": "A_Pilgrim_V3_PhotoPhone",
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "measuredCm": {
+        "stature": 178.5,
+        "head_height_chin_crown": 23.93,
+        "head_breadth_x": 15.43,
+        "head_depth_y": 18.94,
+        "heads_tall": 7.46,
+        "shoulder_breadth": 58.1,
+        "dactylion_height": 99.98,
+        "hand_length": 10.73,
+        "hand_breadth": 11.16,
+        "foot_length": 26.13,
+        "foot_breadth": 9.69,
+        "neck_diameter": 14.02,
+        "neck_visible_height": 0.0,
+        "tunic_hem_breadth": 36.11,
+        "tunic_hem_circumference": 102.25
+      },
+      "prop": "phone",
+      "dress": "modern"
+    }
+  ],
+  "limits": [
+    "Offline authoring only: no Unreal launch, import, render, cook or performance result.",
+    "Vertex colours and flat PBR factors only; no UV unwrap, texture maps or normal maps.",
+    "Cloth folds are static modelled geometry, not simulation; no per-frame cloth solve.",
+    "Separate intersecting closed shells per part; the character is not a watertight union.",
+    "Stylised-realistic, not photoreal: no facial animation, no finger rig, no hair strands, no skin shading model. At two metres from camera a MetaHuman will still be obviously better.",
+    "Per-variant stance is baked into the STATIC crowd copy only; the skeletal meshes are unposed and play the shared clips.",
+    "The pilgrim clothing is an artistic design and is not kohanic vestments.",
+    "V3_Kohen_White is an artistic reconstruction of the ordinary kohen white garments (ketonet, avnet, migbaat) following the garment table in SourceAssets/runtime-review/kohen-service/sources.md section 5. The Kohen Gadol garments (me il, ephod, choshen, mitznefet, tzitz) are NOT modelled - that file records live disputes on their reconstruction. Nothing here is a halachic or historical ruling, and no rabbinic review is claimed.",
+    "Bare feet on the kohen variant are an authored design choice flagged for review; sources.md does not cover footwear.",
+    "The photo clips are original authored motion; hand/prop contact was checked numerically, not visually in engine.",
+    "This script never edits release_people_v3.spec.json, the plugin C++, any map, or any other script.",
+    "No actor of any kind is spawned, moved, deleted or repointed.",
+    "Import success is not visual acceptance: nobody has looked at these in the engine."
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "specVersion": "MikdashWaterV1-release-1",
+  "prepared": "2026-09-08T10:50:56.920020+00:00",
+  "purpose": "Import, materialise, place and drive the stream of Yechezkel 47, its channel through the courts and the four mikvaot. Every claim behind the geometry is in SourceAssets/water-review/sources.md, marked certain / disputed / authored.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "lastKnownMapSha256": "dae24e5e6005cfb87662bb8cf9bc074057c6c6bd655f1b02e9d8e815b4b624d8",
+  "lastKnownMapSha256Note": "Recorded, never required: the map legitimately changes between releases. A mismatch is reported, not refused.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Water-",
+  "receiptFolder": "SourceAssets/water-review",
+  "receiptPrefix": "native-release-water-",
+  "sourcesRecord": "SourceAssets/water-review/sources.md",
+  "labelPrefix": "RELEASE_Water_",
+  "folder": "Release/Water",
+  "actorTag": "ReleaseMikdashWaterV1",
+  "collisionProfile": {
+    "stone": "BlockAll",
+    "water": "NoCollision",
+    "note": "The water ribbons must not block a walker: a visitor has to be able to step into the stream. The masonry blocks normally."
+  },
+  "runtime": {
+    "actorHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashWater.h",
+    "actorSource": "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashWater.cpp",
+    "mathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/WaterFlowMath.h",
+    "test": "Plugins/MikdashRuntime/Tests/WaterFlowMathTest.cpp",
+    "classPath": "/Script/MikdashRuntime.MikdashWater",
+    "surfaceTag": "MikdashWaterSurface",
+    "note": "The plugin MUST be rebuilt before the commandlet runs, or AMikdashWater is not a registered class and the driver cannot be spawned. -WaterSkipActor places the geometry without it."
+  },
+  "source": {
+    "folder": "SourceAssets/water-review/MikdashWaterV1",
+    "authoringScript": "Scripts/create_water_geometry.py",
+    "authoringScriptSha256": "1e4f7618718c1d6fcc6936f05bced78a3ae3381ec15ef455e22ce3619f21f53e",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "namespace": "/Game/MikdashV3/MaterialReview/MikdashWaterV1",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes",
+    "maxTotalTriangles": 250000,
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Unreal legacy OBJ adapter: canonical vertices are UE cm (X east, +Y south, Z up); this file is written with Y REFLECTED and triangle winding REVERSED. The importer reflects Y back, so imported bounds must equal canonicalBoundsCm and UE signed volumes must be positive. Same adapter as create_keilim_ti_v1.py."
+  },
+  "importSettings": {
+    "note": "Identical to the proven keilim / doors / reliefs OBJ adapter path (FbxFactory). Single-mesh OBJ with named groups: destination_name is the exact mesh name and combine_meshes merges the groups into one static mesh.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "Nothing trusts a setter or connect_material_property: UE 5.8 returns False on connections that took. Pass or fail is decided by reading the graph back off the SAVED asset, and by the compiled scalar parameter names.",
+    "water": {
+      "path": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "twoSided": true,
+      "enumProperties": [
+        [
+          "translucency_lighting_mode",
+          "TranslucencyLightingMode",
+          "TLM_SURFACE_PER_PIXEL_LIGHTING"
+        ]
+      ],
+      "normalCandidates": [
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_Normal",
+          "kind": "fine isotropic normal used as a STAND-IN ripple map: this project has no water normal. Recorded as a limitation; drop a tiling water normal in and put it first in this list to replace it."
+        },
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/RoughStone/T_RoughStone_Normal",
+          "kind": "coarser stand-in fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Marble/T_Marble_Normal",
+          "kind": "last-resort stand-in fallback"
+        }
+      ],
+      "scalarParameters": [
+        "WaterFlowSpeed",
+        "WaterScrollTiles",
+        "WaterDepth",
+        "WaterOpacity",
+        "WaterFoam",
+        "WaterFroude",
+        "WaterSurfaceRise",
+        "WaterRipple",
+        "WaterStage",
+        "WaterDemoProgress"
+      ],
+      "requiredScalarParameters": [
+        "WaterScrollTiles",
+        "WaterDepth",
+        "WaterFoam",
+        "WaterOpacity",
+        "WaterSurfaceRise",
+        "WaterRipple"
+      ],
+      "scalarParametersNote": "Every name in scalarParameters is declared in MikdashWater.h in the MikdashWaterParameters namespace, and offline_check() greps the header for all of them. The graph CONSUMES the six in requiredScalarParameters and the save is refused if any is missing from the compiled material. WaterFlowSpeed, WaterFroude, WaterStage and WaterDemoProgress are pushed by the actor but read by nothing in this graph: they are there for material instances and for HUD readouts, and pushing them is harmless. That is stated rather than hidden, because a parameter nothing reads looks identical to a misspelt one.",
+      "constants": {
+        "uvTiling": 1.0,
+        "secondLayerTiling": 2.7,
+        "opacityFullDepthCm": 120.0,
+        "shallowColor": [
+          0.42,
+          0.62,
+          0.6
+        ],
+        "deepColor": [
+          0.03,
+          0.13,
+          0.19
+        ],
+        "foamColor": [
+          0.93,
+          0.96,
+          0.97
+        ],
+        "causticTint": [
+          0.35,
+          0.45,
+          0.4
+        ],
+        "causticStrength": 1.0,
+        "bankFoam": 0.55,
+        "minimumOpacity": 0.05,
+        "roughnessGlassy": 0.03,
+        "roughnessFoam": 0.55,
+        "specular": 1.0,
+        "indexOfRefraction": 1.333
+      },
+      "constantsNote": "Colours are AUTHORED. Index of refraction 1.333 is water at 20 C. The opacity full depth of 120 cm matches OpacityFullDepthCm in WaterFlowMath.h.",
+      "verifyProperties": [
+        "MP_BASE_COLOR",
+        "MP_OPACITY",
+        "MP_ROUGHNESS",
+        "MP_NORMAL",
+        "MP_SPECULAR",
+        "MP_METALLIC",
+        "MP_REFRACTION",
+        "MP_EMISSIVE_COLOR",
+        "MP_WORLD_POSITION_OFFSET"
+      ],
+      "requireConnected": [
+        "MP_BASE_COLOR",
+        "MP_OPACITY",
+        "MP_ROUGHNESS",
+        "MP_NORMAL",
+        "MP_WORLD_POSITION_OFFSET"
+      ]
+    },
+    "stone": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "kind": "the reviewed paving stone: the channel is cut into this paving"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_paving_5b05255363",
+          "kind": "canonical paving fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_stone_60db7e17c6",
+          "kind": "canonical stone fallback"
+        }
+      ],
+      "createPath": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Channel",
+      "constants": {
+        "baseColor": [
+          0.62,
+          0.58,
+          0.5
+        ],
+        "metallic": 0.0,
+        "roughness": 0.82
+      },
+      "verifyProperties": [
+        "MP_BASE_COLOR",
+        "MP_METALLIC",
+        "MP_ROUGHNESS"
+      ],
+      "requireConnected": [
+        "MP_BASE_COLOR"
+      ]
+    }
+  },
+  "clearance": {
+    "architectureManifest": "SourceAssets/architecture-manifest.json",
+    "method": "Broad phase on actor bounds, narrow phase on the 2307 published sub-boxes of the generated geometry. Terrain tiles are excluded by mesh-name prefix; hollow derived unions are decomposed into their constituent boxes and are trusted only when the recomposed union reproduces their manifest bounds.",
+    "terrainMeshPrefixes": [
+      "SM_JerusalemTerrain_",
+      "SM_MountPlatform_",
+      "SM_Jerusalem_CityWalls_"
+    ],
+    "terrainNote": "260 FutureMountV1 tiles span 400-800 m each and their AABBs enclose the whole Temple. Tested raw they gave 100 per cent false blockers. A heightfield cannot be decomposed into boxes, so they are excluded and counted; clearance.json against the architecture manifest is the authority for the built Temple.",
+    "hollowUnionSourceNames": [
+      "Derived union of source outer envelope walls",
+      "Derived union of source House walls and roofs",
+      "Derived union of source raised gallery slabs",
+      "Derived union of House and Ulam foundations"
+    ],
+    "hostSourceNames": [
+      "Ulam stair",
+      "Ezras Kohanim floor",
+      "Raised priest court foundation",
+      "Duchan rise",
+      "Inner court clear floor",
+      "Inner court supporting platform",
+      "Inner E cell supporting plinth",
+      "Inner E continuous cell doorway floor",
+      "Outer court floor",
+      "Outer court supporting platform",
+      "Western outer court foundation",
+      "Outer E vestibule floor",
+      "Outer E threshold",
+      "Outer E cell access landing",
+      "Outer E stair",
+      "Outer S threshold",
+      "Inner S threshold",
+      "Inner S vestibule floor",
+      "Inner S stair",
+      "Priestly room floor",
+      "Priestly chamber precinct",
+      "Court string course and cornice",
+      "Derived union of source western paving and transition"
+    ],
+    "namesNote": "Exact manifest sourceName values, copied from HOST_MESH_NAMES and HOLLOW_UNION_NAMES in Scripts/create_water_geometry.py so the live test and the offline export classify the same meshes the same way. Substring matching on editor labels was tried first and is wrong: labels are user-editable and need not match the manifest at all.",
+    "reportNearest": 25
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Every water actor is spawned at the world origin with an identity transform, because the OBJ vertices are already absolute world centimetres. Reopened world bounds must therefore equal canonicalBoundsCm; any offset is a silent re-siting of the stream."
+  },
+  "limitations": [
+    "A courtyard channel is a CUT in paving this script does not own and cannot boolean. The generated masonry therefore occupies the paving, platform and stair meshes listed in clearance.hosts; those are intended, and every non-paving contact is a blocker that fails the export.",
+    "No terrain east of the mount is checked here: the architecture manifest ends at X 9200. The far-field segments are checked against the live level by Scripts/release_water.py.",
+    "Widths, depths, grades and every mikveh dimension are authored. The prophet gives four depths in body parts and no widths at all.",
+    "The forty-se'ah figures are arithmetic, not a ruling.",
+    "The route is disputed: the book takes the stream out by the inner court's SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is built; the south is available as group \"southgate\". Neither is asserted over the other."
+  ]
+}

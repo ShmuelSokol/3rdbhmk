@@ -2,7 +2,7 @@
   "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
   "namespace": "/Game/MikdashV3/MaterialReview/GateSecurityV1",
   "script": "Scripts/create_gate_security.py",
-  "script_sha256": "900fff003a960dda05ad86db843bbb77823f04a39e115aea8682b463fc6d65fb",
+  "script_sha256": "3da74ac15211f78be6dfd907be42c3e4578dafe40e1d9794cd1c2849960c0852",
   "amah_cm": 50.0,
   "convention": "Centimetres. Canonical Unreal axes X east, +Y south, Z up. In each mesh LOCAL frame +X is the direction of travel through the checkpoint, +Y is the traveller's right, and the pivot is on the floor at the footprint centre; the placement script rotates the assembly to face each gate. OBJ carries Y reflected and triangle winding reversed for the legacy OBJ importer (the same adapter as create_keilim_ti_v1 / create_oldcity_facades, recorded in SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json); the importer reflects Y back, so imported bounds must equal bounds_cm and the signed volume in Unreal must be positive.",
   "whatIsAsserted": {
@@ -23,7 +23,7 @@
   "signs": {
     "Entrance": {
       "file": "T_GateSecurityV1_Sign_Entrance.png",
-      "sha256": "353c55b3867b766d2b91e9bac331736f196f648dfd581e5cc504b9805ad18884",
+      "sha256": "f4c5b2df9763b3adfc90adde14e3f220fda91fadcbd59ac88dc67b5e41d72969",
       "pixels": [
         1024,
         640
@@ -32,7 +32,7 @@
       "claim": "modern-staging",
       "says": "Entrance this way; detector, bag search, no shoes, no phones, cameras permitted.",
       "previewOnMesh": "preview-on-mesh-Entrance.png",
-      "previewOnMeshSha256": "3fc4e7325eef3c0f3088a0e04538e75655e1de7f0ac8b43a60df1cf175bfe105",
+      "previewOnMeshSha256": "29b36be38295b45ef65f246d1eff639ab2c58ca33196b6c05fc136068b536d58",
       "material_role": "sign_face"
     },
     "Reverence": {
@@ -95,7 +95,7 @@
     {
       "name": "SM_GateSecurityV1_DetectorArch",
       "file": "SM_GateSecurityV1_DetectorArch.obj",
-      "sha256": "3276c0679195f4c410134069e8501566348b62b231c0ecc3c47ffc479d50be41",
+      "sha256": "8a51a47eadcd7bc31440f0ca0af3cee6d34344eb86fdac8a52292209dd2f6dd1",
       "triangles": 5544,
       "parts": 58,
       "bounds_cm": {
@@ -117,348 +117,406 @@
           "name": "UprightL",
           "triangles": 220,
           "closed": true,
-          "volume_cm3": 40651.7312
+          "consistentlyOriented": true,
+          "volume_cm3": 83192.6976
         },
         {
           "name": "BasePlateL",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2103.858
+          "consistentlyOriented": true,
+          "volume_cm3": 5485.4461
         },
         {
           "name": "FootL00",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootL01",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootL10",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootL11",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "IndicatorL00",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL01",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL02",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL03",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL04",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL05",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL06",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL07",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL08",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL09",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorL10",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "PillarBoltL0",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltL1",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltL2",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltL3",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "UprightR",
           "triangles": 220,
           "closed": true,
-          "volume_cm3": 40651.7312
+          "consistentlyOriented": true,
+          "volume_cm3": 83192.6976
         },
         {
           "name": "BasePlateR",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2103.858
+          "consistentlyOriented": true,
+          "volume_cm3": 5485.4461
         },
         {
           "name": "FootR00",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootR01",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootR10",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "FootR11",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 65.587
         },
         {
           "name": "IndicatorR00",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR01",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR02",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR03",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR04",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR05",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR06",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR07",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR08",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR09",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "IndicatorR10",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 98.9578
+          "consistentlyOriented": true,
+          "volume_cm3": 153.6675
         },
         {
           "name": "PillarBoltR0",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltR1",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltR2",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "PillarBoltR3",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 6.6126
         },
         {
           "name": "Header",
           "triangles": 220,
           "closed": true,
-          "volume_cm3": 33491.46
+          "consistentlyOriented": true,
+          "volume_cm3": 77999.2654
         },
         {
           "name": "HeaderCap",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 3404.104
+          "consistentlyOriented": true,
+          "volume_cm3": 8997.0587
         },
         {
           "name": "ControlPanel",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 3416.3988
+          "consistentlyOriented": true,
+          "volume_cm3": 7803.863
         },
         {
           "name": "ControlFace",
           "triangles": 60,
           "closed": true,
-          "volume_cm3": 221.16
+          "consistentlyOriented": true,
+          "volume_cm3": 663.48
         },
         {
           "name": "Key00",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key01",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key02",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key10",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key11",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key12",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key20",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key21",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key22",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key30",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key31",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Key32",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         }
       ],
@@ -469,7 +527,7 @@
     {
       "name": "SM_GateSecurityV1_BagScanner",
       "file": "SM_GateSecurityV1_BagScanner.obj",
-      "sha256": "a6d070a1d16656686b3ff0c5657e8ccadaca4cb6b48251ddbec52e079c248c0c",
+      "sha256": "6b6cb96c90146ab8e3b7ba5d584e9275b6228b818596a901e711ac6b936a9774",
       "triangles": 5412,
       "parts": 52,
       "bounds_cm": {
@@ -491,313 +549,365 @@
           "name": "TableTop",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 26850.7561
+          "consistentlyOriented": true,
+          "volume_cm3": 74852.1723
         },
         {
           "name": "TableSkirt",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 35767.1253
+          "consistentlyOriented": true,
+          "volume_cm3": 101047.1253
         },
         {
           "name": "Leg00",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2061.8274
+          "consistentlyOriented": true,
+          "volume_cm3": 3369.5675
         },
         {
           "name": "Castor00",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 149.2271
         },
         {
           "name": "Leg01",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2061.8274
+          "consistentlyOriented": true,
+          "volume_cm3": 3369.5675
         },
         {
           "name": "Castor01",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 149.2271
         },
         {
           "name": "Leg10",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2061.8274
+          "consistentlyOriented": true,
+          "volume_cm3": 3369.5675
         },
         {
           "name": "Castor10",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 149.2271
         },
         {
           "name": "Leg11",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 2061.8274
+          "consistentlyOriented": true,
+          "volume_cm3": 3369.5675
         },
         {
           "name": "Castor11",
           "triangles": 84,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 149.2271
         },
         {
           "name": "LegRail",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 2853.888
+          "consistentlyOriented": true,
+          "volume_cm3": 6317.568
         },
         {
           "name": "Belt",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 13843.9333
+          "consistentlyOriented": true,
+          "volume_cm3": 39867.1333
         },
         {
           "name": "Roller00",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller01",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller02",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller03",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller04",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller05",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller06",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller07",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller08",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller09",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Roller10",
           "triangles": 144,
           "closed": true,
-          "volume_cm3": 359.6855
+          "consistentlyOriented": true,
+          "volume_cm3": 1079.0565
         },
         {
           "name": "Hood",
           "triangles": 32,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 139128.0
         },
         {
           "name": "HoodCap",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6729.2972
+          "consistentlyOriented": true,
+          "volume_cm3": 18695.7048
         },
         {
           "name": "CurtainA0",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA1",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA2",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA3",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA4",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA5",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA6",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA7",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainA8",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB0",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB1",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB2",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB3",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB4",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB5",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB6",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB7",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "CurtainB8",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 185.6717
+          "consistentlyOriented": true,
+          "volume_cm3": 279.0564
         },
         {
           "name": "HoodBolt0",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "HoodBolt1",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "HoodBolt2",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "HoodBolt3",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "HoodBolt4",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "HoodBolt5",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.7603
         },
         {
           "name": "MonitorStalk",
           "triangles": 56,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 646.7992
         },
         {
           "name": "Monitor",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 1465.7618
+          "consistentlyOriented": true,
+          "volume_cm3": 3817.9733
         },
         {
           "name": "MonitorScreen",
           "triangles": 44,
           "closed": true,
-          "volume_cm3": 410.3168
+          "consistentlyOriented": true,
+          "volume_cm3": 1230.9503
         }
       ],
       "material_role": "metal_brushed",
@@ -807,7 +917,7 @@
     {
       "name": "SM_GateSecurityV1_Stanchion",
       "file": "SM_GateSecurityV1_Stanchion.obj",
-      "sha256": "cad12d6e6e5ac045990252cacd97fb1ad161da10e43cf573b441986683995321",
+      "sha256": "7837610853f8107fe51b8b6c0ab1236518d6ad7d03427cc9f7d3e6cf5778b8ac",
       "triangles": 1516,
       "parts": 9,
       "bounds_cm": {
@@ -829,54 +939,63 @@
           "name": "Base",
           "triangles": 400,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 3889.6867
         },
         {
           "name": "BaseRing",
           "triangles": 160,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 947.242
         },
         {
           "name": "Post",
           "triangles": 276,
           "closed": true,
-          "volume_cm3": 1684.0813
+          "consistentlyOriented": true,
+          "volume_cm3": 3298.2702
         },
         {
           "name": "Cassette",
           "triangles": 188,
           "closed": true,
-          "volume_cm3": 633.5494
+          "consistentlyOriented": true,
+          "volume_cm3": 1111.3148
         },
         {
           "name": "Collar",
           "triangles": 192,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 341.1615
         },
         {
           "name": "BaseBolt0",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "BaseBolt1",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "BaseBolt2",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 5.9513
         },
         {
           "name": "Belt",
           "triangles": 180,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 1409.4
         }
       ],
@@ -887,7 +1006,7 @@
     {
       "name": "SM_GateSecurityV1_Booth",
       "file": "SM_GateSecurityV1_Booth.obj",
-      "sha256": "25f2f520b333e281df37008e337959018738cab7aab4864b8a3442174f9da26b",
+      "sha256": "ad2c56e6fb21eb7ef2a4975c48e89cfe0c912a37b77501631273847ee4569034",
       "triangles": 3852,
       "parts": 37,
       "bounds_cm": {
@@ -909,223 +1028,260 @@
           "name": "Plinth",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 115472.857
+          "consistentlyOriented": true,
+          "volume_cm3": 330202.0162
         },
         {
           "name": "WallFrontLow",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 53798.9525
+          "consistentlyOriented": true,
+          "volume_cm3": 124727.1908
         },
         {
           "name": "WallFrontHigh",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 35463.8398
+          "consistentlyOriented": true,
+          "volume_cm3": 82261.8527
         },
         {
           "name": "WallFrontLeft",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 8907.5914
+          "consistentlyOriented": true,
+          "volume_cm3": 20045.1075
         },
         {
           "name": "WallFrontRight",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 8907.5914
+          "consistentlyOriented": true,
+          "volume_cm3": 20045.1075
         },
         {
           "name": "WindowGlass",
           "triangles": 44,
           "closed": true,
-          "volume_cm3": 5375.5501
+          "consistentlyOriented": true,
+          "volume_cm3": 16126.6503
         },
         {
           "name": "Mullion0",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 507.6587
+          "consistentlyOriented": true,
+          "volume_cm3": 784.4587
         },
         {
           "name": "Mullion1",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 507.6587
+          "consistentlyOriented": true,
+          "volume_cm3": 784.4587
         },
         {
           "name": "Mullion2",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 507.6587
+          "consistentlyOriented": true,
+          "volume_cm3": 784.4587
         },
         {
           "name": "WindowSill",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 1490.1547
+          "consistentlyOriented": true,
+          "volume_cm3": 3679.808
         },
         {
           "name": "Counter",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 8300.342
+          "consistentlyOriented": true,
+          "volume_cm3": 21966.0927
         },
         {
           "name": "CounterBracket0",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 554.2578
+          "consistentlyOriented": true,
+          "volume_cm3": 1068.0
         },
         {
           "name": "CounterBracket1",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 554.2578
+          "consistentlyOriented": true,
+          "volume_cm3": 1068.0
         },
         {
           "name": "WallSideNearLeft",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 42771.717
+          "consistentlyOriented": true,
+          "volume_cm3": 97531.4843
         },
         {
           "name": "WallSideNearRight",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 38436.717
+          "consistentlyOriented": true,
+          "volume_cm3": 87412.4843
         },
         {
           "name": "WallSideNearHead",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 9435.4313
+          "consistentlyOriented": true,
+          "volume_cm3": 21666.6273
         },
         {
           "name": "Door",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 32671.008
+          "consistentlyOriented": true,
+          "volume_cm3": 62386.848
         },
         {
           "name": "DoorPanel0",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 2565.6584
+          "consistentlyOriented": true,
+          "volume_cm3": 4039.9165
         },
         {
           "name": "DoorPanel1",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 2565.6584
+          "consistentlyOriented": true,
+          "volume_cm3": 4039.9165
         },
         {
           "name": "Hinge0",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 87.48
         },
         {
           "name": "Hinge1",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 87.48
         },
         {
           "name": "Hinge2",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 87.48
         },
         {
           "name": "Handle",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 46.08
         },
         {
           "name": "HandleLever",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 66.7461
+          "consistentlyOriented": true,
+          "volume_cm3": 110.6994
         },
         {
           "name": "WallSideFar",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 133806.717
+          "consistentlyOriented": true,
+          "volume_cm3": 310030.4843
         },
         {
           "name": "WallBack",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 123691.717
+          "consistentlyOriented": true,
+          "volume_cm3": 286419.4843
         },
         {
           "name": "Louvre0",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre1",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre2",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre3",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre4",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre5",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Louvre6",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 218.6299
+          "consistentlyOriented": true,
+          "volume_cm3": 455.0818
         },
         {
           "name": "Roof",
           "triangles": 188,
           "closed": true,
-          "volume_cm3": 136329.6615
+          "consistentlyOriented": true,
+          "volume_cm3": 385938.3178
         },
         {
           "name": "RoofLip",
           "triangles": 188,
           "closed": true,
-          "volume_cm3": 45661.6769
+          "consistentlyOriented": true,
+          "volume_cm3": 133237.8088
         },
         {
           "name": "Lamp",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 925.4626
+          "consistentlyOriented": true,
+          "volume_cm3": 2155.4598
         },
         {
           "name": "LampLens",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 198.9547
+          "consistentlyOriented": true,
+          "volume_cm3": 515.7973
         }
       ],
       "material_role": "painted_steel",
@@ -1135,7 +1291,7 @@
     {
       "name": "SM_GateSecurityV1_ShoeRack",
       "file": "SM_GateSecurityV1_ShoeRack.obj",
-      "sha256": "ddd5314f2f5f1578299eeb0fc436c5617c5ae2dc613159550624e16b2f9178bd",
+      "sha256": "3502b9e55c7b79a037145cc03b0bd2ef9820345769fbb542ad7320f5c21f85b4",
       "triangles": 3356,
       "parts": 29,
       "bounds_cm": {
@@ -1150,182 +1306,211 @@
           156.0
         ]
       },
-      "minimum_part_signed_volume_cm3": 91.0973,
+      "minimum_part_signed_volume_cm3": 184.32,
       "uv_mapping": "per-triangle local basis",
       "part_checks": [
         {
           "name": "ToeKick",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 18180.4347
+          "consistentlyOriented": true,
+          "volume_cm3": 49973.2347
         },
         {
           "name": "Foot0",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 184.32
         },
         {
           "name": "Foot1",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 184.32
         },
         {
           "name": "Foot2",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 184.32
         },
         {
           "name": "Foot3",
           "triangles": 48,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 184.32
         },
         {
           "name": "Upright0",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9410.6927
+          "consistentlyOriented": true,
+          "volume_cm3": 15404.3723
         },
         {
           "name": "Upright1",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9410.6927
+          "consistentlyOriented": true,
+          "volume_cm3": 15404.3723
         },
         {
           "name": "Upright2",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9410.6927
+          "consistentlyOriented": true,
+          "volume_cm3": 15404.3723
         },
         {
           "name": "Upright3",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9410.6927
+          "consistentlyOriented": true,
+          "volume_cm3": 15404.3723
         },
         {
           "name": "Upright4",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9410.6927
+          "consistentlyOriented": true,
+          "volume_cm3": 15404.3723
         },
         {
           "name": "Shelf0",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6567.7045
+          "consistentlyOriented": true,
+          "volume_cm3": 18547.0815
         },
         {
           "name": "Shelf1",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6567.7045
+          "consistentlyOriented": true,
+          "volume_cm3": 18547.0815
         },
         {
           "name": "Shelf2",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6567.7045
+          "consistentlyOriented": true,
+          "volume_cm3": 18547.0815
         },
         {
           "name": "Shelf3",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6567.7045
+          "consistentlyOriented": true,
+          "volume_cm3": 18547.0815
         },
         {
           "name": "Shelf4",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 6567.7045
+          "consistentlyOriented": true,
+          "volume_cm3": 18547.0815
         },
         {
           "name": "Divider00",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider01",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider02",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider03",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider10",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider11",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider12",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Divider13",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 1148.1196
+          "consistentlyOriented": true,
+          "volume_cm3": 2190.5268
         },
         {
           "name": "Back",
           "triangles": 92,
           "closed": true,
-          "volume_cm3": 26924.9833
+          "consistentlyOriented": true,
+          "volume_cm3": 44780.501
         },
         {
           "name": "TopRail",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 9809.6612
+          "consistentlyOriented": true,
+          "volume_cm3": 26959.6501
         },
         {
           "name": "LabelPlate0",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 91.0973
+          "consistentlyOriented": true,
+          "volume_cm3": 240.3907
         },
         {
           "name": "LabelPlate1",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 91.0973
+          "consistentlyOriented": true,
+          "volume_cm3": 240.3907
         },
         {
           "name": "LabelPlate2",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 91.0973
+          "consistentlyOriented": true,
+          "volume_cm3": 240.3907
         },
         {
           "name": "LabelPlate3",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 91.0973
+          "consistentlyOriented": true,
+          "volume_cm3": 240.3907
         }
       ],
       "material_role": "timber",
@@ -1335,7 +1520,7 @@
     {
       "name": "SM_GateSecurityV1_SignPostFrame",
       "file": "SM_GateSecurityV1_SignPostFrame.obj",
-      "sha256": "e4c67b367bef0126bc5b36914de980db32497046ec62b555d626e904b33b60e7",
+      "sha256": "83ab71fd13017f012e6e8f4109951fa8c97e2284ee361d260a2130d06c0abb98",
       "triangles": 1628,
       "parts": 13,
       "bounds_cm": {
@@ -1357,79 +1542,92 @@
           "name": "Post",
           "triangles": 384,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13138.0524
         },
         {
           "name": "BaseFlange",
           "triangles": 168,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 992.4285
         },
         {
           "name": "FlangeBolt0",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 7.2738
         },
         {
           "name": "FlangeBolt1",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 7.2738
         },
         {
           "name": "FlangeBolt2",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 7.2738
         },
         {
           "name": "FlangeBolt3",
           "triangles": 40,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 7.2738
         },
         {
           "name": "FrameRailBottom",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 1375.5302
+          "consistentlyOriented": true,
+          "volume_cm3": 2030.2784
         },
         {
           "name": "FrameRailTop",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 1375.5302
+          "consistentlyOriented": true,
+          "volume_cm3": 2030.2784
         },
         {
           "name": "FrameRailLeft",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 1887.0142
+          "consistentlyOriented": true,
+          "volume_cm3": 2783.7346
         },
         {
           "name": "FrameRailRight",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 1887.0142
+          "consistentlyOriented": true,
+          "volume_cm3": 2783.7346
         },
         {
           "name": "Backer",
           "triangles": 44,
           "closed": true,
-          "volume_cm3": 4586.0751
+          "consistentlyOriented": true,
+          "volume_cm3": 13758.2253
         },
         {
           "name": "Bracket0",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 139.2107
+          "consistentlyOriented": true,
+          "volume_cm3": 238.0907
         },
         {
           "name": "Bracket1",
           "triangles": 124,
           "closed": true,
-          "volume_cm3": 139.2107
+          "consistentlyOriented": true,
+          "volume_cm3": 238.0907
         }
       ],
       "material_role": "metal_dark",
@@ -1461,6 +1659,7 @@
           "name": "Face",
           "triangles": 12,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 10584.0
         }
       ],
@@ -1471,7 +1670,7 @@
     {
       "name": "SM_GateSecurityV1_SignPlateFrame",
       "file": "SM_GateSecurityV1_SignPlateFrame.obj",
-      "sha256": "7fc94b83a350691151f9b8aa21a827ee254f2f1ef280308497759e7d9d1cd82e",
+      "sha256": "c5332823379a3bb79b3617e9ae80e66d8d80931765463b9e46b9b8ce0d03dfc4",
       "triangles": 1148,
       "parts": 13,
       "bounds_cm": {
@@ -1493,78 +1692,91 @@
           "name": "FrameRailBottom",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 410.5366
+          "consistentlyOriented": true,
+          "volume_cm3": 561.7268
         },
         {
           "name": "FrameRailTop",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 410.5366
+          "consistentlyOriented": true,
+          "volume_cm3": 561.7268
         },
         {
           "name": "FrameRailLeft",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 233.4884
+          "consistentlyOriented": true,
+          "volume_cm3": 319.8828
         },
         {
           "name": "FrameRailRight",
           "triangles": 156,
           "closed": true,
-          "volume_cm3": 233.4884
+          "consistentlyOriented": true,
+          "volume_cm3": 319.8828
         },
         {
           "name": "Backer",
           "triangles": 44,
           "closed": true,
-          "volume_cm3": 597.2349
+          "consistentlyOriented": true,
+          "volume_cm3": 1791.7048
         },
         {
           "name": "Standoff00",
           "triangles": 56,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.3454
         },
         {
           "name": "Boss00",
           "triangles": 64,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.2623
         },
         {
           "name": "Standoff01",
           "triangles": 56,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.3454
         },
         {
           "name": "Boss01",
           "triangles": 64,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.2623
         },
         {
           "name": "Standoff10",
           "triangles": 56,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.3454
         },
         {
           "name": "Boss10",
           "triangles": 64,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.2623
         },
         {
           "name": "Standoff11",
           "triangles": 56,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.3454
         },
         {
           "name": "Boss11",
           "triangles": 64,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 13.2623
         }
       ],
@@ -1597,6 +1809,7 @@
           "name": "Face",
           "triangles": 12,
           "closed": true,
+          "consistentlyOriented": true,
           "volume_cm3": 2560.0
         }
       ],
@@ -1611,8 +1824,10 @@
       "triangles": 5544,
       "vertices": 16632,
       "worstStoredNormalError": 1.072e-06,
-      "objSignedVolumeCm3": 128870.3861,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 276849.6519,
+      "authoredSolidVolumeCm3": 276849.6519,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -22.0,
@@ -1635,15 +1850,17 @@
           11.08
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_BagScanner.obj",
       "triangles": 5412,
       "vertices": 16236,
       "worstStoredNormalError": 1.631e-06,
-      "objSignedVolumeCm3": 243873.2864,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 416605.7993,
+      "authoredSolidVolumeCm3": 416605.8034,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -90.0,
@@ -1658,7 +1875,7 @@
       },
       "uvRange": [
         [
-          -9.90733,
+          -12.2188,
           0.0
         ],
         [
@@ -1666,15 +1883,17 @@
           17.52
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_Stanchion.obj",
       "triangles": 1516,
       "vertices": 4548,
       "worstStoredNormalError": 2.017e-06,
-      "objSignedVolumeCm3": 8922.9747,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 11014.929,
+      "authoredSolidVolumeCm3": 11014.9291,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -17.4,
@@ -1689,7 +1908,7 @@
       },
       "uvRange": [
         [
-          -0.21939,
+          -0.24749,
           0.0
         ],
         [
@@ -1697,15 +1916,17 @@
           0.79477
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_Booth.obj",
       "triangles": 3852,
       "vertices": 11556,
       "worstStoredNormalError": 1.774e-06,
-      "objSignedVolumeCm3": 811314.4259,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 2022522.6233,
+      "authoredSolidVolumeCm3": 2022522.623,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -116.0,
@@ -1720,7 +1941,7 @@
       },
       "uvRange": [
         [
-          -11.48638,
+          -14.16335,
           0.0
         ],
         [
@@ -1728,15 +1949,17 @@
           20.3
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_ShoeRack.obj",
       "triangles": 3356,
       "vertices": 10068,
       "worstStoredNormalError": 1.347e-06,
-      "objSignedVolumeCm3": 145093.6905,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 310693.7109,
+      "authoredSolidVolumeCm3": 310693.712,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -20.5,
@@ -1759,15 +1982,17 @@
           16.3
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_SignPostFrame.obj",
       "triangles": 1628,
       "vertices": 4884,
       "worstStoredNormalError": 1.27e-06,
-      "objSignedVolumeCm3": 25549.1598,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 38022.0074,
+      "authoredSolidVolumeCm3": 38022.0088,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -11.0,
@@ -1782,7 +2007,7 @@
       },
       "uvRange": [
         [
-          -0.08083,
+          -5.82656,
           0.0
         ],
         [
@@ -1790,7 +2015,7 @@
           12.44
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_SignPostFace.obj",
@@ -1798,7 +2023,9 @@
       "vertices": 36,
       "worstStoredNormalError": 0.0,
       "objSignedVolumeCm3": 10584.0,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "authoredSolidVolumeCm3": 10584.0,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -3.6,
@@ -1821,15 +2048,17 @@
           1.0
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_SignPlateFrame.obj",
       "triangles": 1148,
       "vertices": 3444,
       "worstStoredNormalError": 1.142e-06,
-      "objSignedVolumeCm3": 1991.7159,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "objSignedVolumeCm3": 3661.3548,
+      "authoredSolidVolumeCm3": 3661.3548,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -0.9,
@@ -1844,7 +2073,7 @@
       },
       "uvRange": [
         [
-          0.0,
+          -4.44063,
           0.0
         ],
         [
@@ -1852,7 +2081,7 @@
           6.9
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     },
     {
       "file": "SM_GateSecurityV1_SignPlateFace.obj",
@@ -1860,7 +2089,9 @@
       "vertices": 36,
       "worstStoredNormalError": 0.0,
       "objSignedVolumeCm3": 2560.0,
-      "objSignedVolumeIsNegativeAsExpected": false,
+      "authoredSolidVolumeCm3": 2560.0,
+      "objSignedVolumeIsPositiveAsExpected": true,
+      "objSignedVolumeMatchesAuthoredCm3": true,
       "boundsAfterUnreflectingY": {
         "min": [
           -0.6,
@@ -1883,13 +2114,13 @@
           1.0
         ]
       ],
-      "note": "The OBJ carries Y reflected and the winding reversed, so its own signed volume is NEGATIVE by construction; the importer reflects Y back and the volume comes out positive in Unreal. The native winding check in release_gate_security.py is what proves that, not this file."
+      "note": "The OBJ carries TWO orientation flips -- Y is reflected and the triangle winding is reversed -- and two flips cancel, so the signed volume of the file itself, computed right-handed, is POSITIVE and equals the authored solid volume exactly. An earlier version of this note claimed it should be NEGATIVE, having counted only the reflection; the equality recorded here is the evidence that it is not. The importer negates Y once more, which leaves the stored triangle order correct for the left-handed face normal cross(C-A, B-A) that Unreal uses. The native winding check in release_gate_security.py is what confirms that in the engine, not this file."
     }
   ],
   "total_triangles": 22480,
   "triangle_budget": 60000,
   "preview": "preview-gate-security.png",
-  "preview_sha256": "fff80497e09d701d868af83d67abb653ae7f331c0baf7dbae3486227c6e7494a",
+  "preview_sha256": "3b9130f5d597d70f482e4cb967f5b85bf95bb47621d540ad4521d005de074f81",
   "preview_views": [
     "front, from the approach",
     "oblique",

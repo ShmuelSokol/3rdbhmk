@@ -26,3 +26,13 @@ The bytes, the publisher page snapshot and the original provenance are kept here
 evidence of the check, not as a source. Nothing in `sources/` references them.
 
 **Nobody listened to this file either.** It was rejected on numbers alone.
+
+---
+
+**Licence status, recorded for completeness (2026-09-08).** The rejection was on signal,
+not on rights. The captured page states the Wikimedia author public-domain release for
+natalie, so this file would have been redistributable; it is simply not good enough. It is
+listed under `notShipped` in
+`SourceAssets/third-party/soundscape-v2-audio-manifest.json` and deliberately NOT under
+`assets`, so the credits screen — which reads that folder at run time — cannot credit a
+recording that is not in the build.

@@ -7,10 +7,15 @@ This is an honest comparison of the three routes that actually exist for this
 project, with what each costs in effort, licence and hardware — and what is
 blocked on **you** because an agent cannot log into your accounts.
 
-**Status right now:** the figures in the outer court are `PilgrimRigV2` — an
-original 27-joint rig, 29,336 triangles, no facial detail, no cloth folds, fat
-cylindrical sleeves. You are right that they read as balloons. Route 3 below has
-already been done tonight and is sitting in this folder for you to look at.
+**Status right now:** the figures in the outer court are still `PilgrimRigV2` —
+an original 27-joint rig, 29,336 triangles, no facial detail, no cloth folds,
+fat cylindrical sleeves. Route 3 below has been built and then rebuilt: the
+first pass fixed the cloth but kept doll proportions, so it still read as
+balloons and you said so again. The second pass measured the figure, found six
+proportions wrong by 20–40%, and fixed them against a cited anthropometric
+target. What is in this folder now is that second pass. **Nothing has been
+imported into the engine yet** — `Scripts/release_pilgrim_v3.py` is the guarded
+importer and it has not been run.
 
 ---
 
@@ -23,11 +28,11 @@ this scale. It needs about twenty minutes of your time to sign in and enable a
 plugin; nothing else in the project changes.
 
 **Fallback, already built: the improved original rig (route 3), `PilgrimRigV3`.**
-Nine variants, 13k–19k triangles each, real shoulders, tapered limbs, a sculpted
-head and cloth folds modelled as geometry — plus a camera visitor and a phone
-visitor with new "taking a picture" clips. No login, no third-party licence, no
-attribution, and it drops straight onto the existing skeleton. Use it for the
-whole crowd now, and for the distant crowd permanently even if you adopt
+Nine genuinely different people — men and women, four ages, a kohen in white and
+two modern visitors in trousers taking pictures — 12k–20k triangles each, built
+to real human measurements rather than to eye. No login, no third-party licence,
+no attribution, and the clips you already imported stay valid motion. Use it for
+the whole crowd now, and for the distant crowd permanently even if you adopt
 MetaHumans for the near dozen.
 
 Route 2 (free CC assets) is a distant third — see below for why.
@@ -166,51 +171,154 @@ logins (MakeHuman/MPFB2 is the exception — no login).
 
 ---
 
-## Route 3 — improve our own rig procedurally  ✅ done tonight
+## Route 3 — improve our own rig procedurally  ✅ built, rebuilt
 
-No login, no third party, no attribution, no licence risk, and it keeps the
-existing skeleton so the Idle and Walk clips you already imported keep working.
+No login, no third party, no attribution, no licence risk, and the Idle and Walk
+clips you already imported stay valid motion.
 
-**Delivered:** `Scripts/create_pilgrim_v3.py` and this folder. Nine variants,
-each well under the 25,000-triangle budget, with:
+### What was actually wrong — the numbers
 
-- 7.5-head proportions, a defined shoulder shelf, a real waist and ribcage,
-  tapered sleeves (V2's were near-cylindrical — that was most of the balloon
-  look), visible hands with fingers and shaped feet in sandals;
-- a sculpted head: brow ridge, eye sockets, cheekbones, cheek hollows, a real
-  nose with nostril wings, ears, jaw taper and chin, with full-beard, short-beard
-  and clean-shaven variants;
-- **layered garments**: tunic with fitted sleeves and a collar, a wound sash
-  whose turns are modelled, an over-mantle draped over both shoulders with a
-  trimmed hem and open front, and a draped head cloth / turban / cap / shawl;
-- **cloth folds carried in the geometry** — vertical creases that gather under
-  the sash and deepen toward the hem, phase-drifting per variant so no two
-  figures fold alike. This is the actual answer to "not balloons": V2 was a
-  smooth shell, V3 has silhouette.
-- **a camera visitor and a phone visitor**, with two new original clips
-  (`A_Pilgrim_V3_PhotoCamera`, `A_Pilgrim_V3_PhotoPhone`) that lift the arms so
-  the figure is genuinely taking a picture, and static copies baked in that pose
-  for the instanced crowd.
+The first V3 pass was measured off its own shipped mesh
+(`SM_V3_Pilgrim_Man_A.obj`). Six things were wrong, and together they are the
+whole "balloon" complaint:
 
-**What it is not.** These are stylised-realistic, not photoreal. There is no UV
-unwrap, no texture or normal maps, no simulated cloth, no facial animation and no
-fingers-level rig. Vertex colours and flat PBR factors only. Next to a MetaHuman
-they will still look like game characters — good ones, but game characters.
+| measure | it shipped | a real 179 cm adult | source |
+|---|---|---|---|
+| head, across x deep | 16.1 x **14.5** cm | 15.5 x **19.4** cm | NASA-STD-3000 50th %ile male |
+| fingertip height standing | **81.4** cm (0.454 H) | **67.5** cm (0.377 H) | Drillis & Contini via Winter fig. 4.1 |
+| upper arm length | **23.9** cm | **33.3** cm (0.186 H) | as above |
+| hand, long x across | **13.0 x 7.4** cm | **19.3 x 8.5** cm | as above |
+| foot length | **19.2** cm | **27.2** cm (0.152 H) | as above |
+| shoulder under cloth | **40.8** cm | **46.4** cm (0.259 H bideltoid) | as above |
+| robe hem circumference | **117** cm | 150+ on a real robe | — |
+| stature in head-heights | 7.50 | 7.5 | Loomis canon — this one was right |
 
-**Effort: already spent. Money: none. Hardware: none** — 13k–19k triangles is
-cheaper than V2's 29k, so the crowd gets *faster*, not slower.
+Read that list as a sentence: a ball for a head, arms that stop at the waist,
+mitten hands, a child's feet, narrow shoulders, and below the sash a smooth cone
+with no legs in it. That is a balloon with a face drawn on it. The head-height
+ratio being correct is exactly why it looked *nearly* right and still felt wrong.
 
----
+And two of the nine "variants" — `Man_A` and `Man_A_Bleached` — had **byte
+identical vertex data**. They were one figure in two colours, which is the same
+mistake the crowd system had already been bitten by.
+
+### What changed
+
+- **Every number above is now built to the anthropometric target and then
+  measured back off the finished mesh**, and written into
+  `geometry-manifest.json` under `measuredCm`. The build asserts them; it does
+  not take the source numbers on trust, which is what let the first pass ship.
+- **The head is 15.5 across and 19.3 deep**, with a flattened face plane, a real
+  occiput, a jaw that tapers in both axes, and eyes that are a light sclera with
+  a small iris set inside the orbit rather than one dark ellipsoid on the cheek.
+- **The arm chain is 32.0 + 25.2 cm** and the hand is 19.3 cm with four fingers
+  and a thumb authored in the arm's own frame, so the fingertips reach mid-thigh
+  and the hand presents its edge to camera the way a hanging hand does.
+- **The robe hem is 150 cm around**, it rides up over the instep at the front and
+  drags at the back instead of being a level circle, and below the hip the cloth
+  is pushed out over each leg and drawn in between them, so there are two
+  columns under it instead of one cone.
+- **The neck is visible.** It was always modelled at the right 12.2 cm diameter;
+  the collar and the head cloth were simply hung over it. Both were raised.
+- **The head cloth sits behind the hairline** rather than across the brow, which
+  is most of why the earlier faces read as masks.
+- **Nine different people, and the export fails if they are not.** Each figure
+  is hashed and each silhouette is signed in 26 height bands; two variants must
+  differ by at least 0.9 cm of mean outline. The closest pair currently differs
+  by 1.9 cm.
+- **Every figure stands differently.** A per-variant stance — lean, side-bend,
+  twist, head direction, and a different hang and elbow angle on each arm — is
+  baked into the static crowd copy. It never touches the pelvis or the leg chain,
+  so the feet stay planted. The skeletal meshes are left unposed and share the
+  clips.
+
+### The nine
+
+| variant | who | dress | triangles |
+|---|---|---|---|
+| `V3_Pilgrim_Man_Standard` | man, standard build, short beard | robe, mantle, head cloth | 19,600 |
+| `V3_Pilgrim_Man_Heavy` | man, heavy build, full beard | robe, mantle, turban | 20,084 |
+| `V3_Pilgrim_Man_Elder` | elderly man, stooped, white beard | robe, mantle, head cloth | 19,804 |
+| `V3_Pilgrim_Woman_Young` | woman, young | robe, mantle, long shawl | 19,396 |
+| `V3_Pilgrim_Woman_Elder` | elderly woman, heavier, grey | robe, mantle, long shawl | 19,444 |
+| `V3_Pilgrim_Youth` | youth | knee-length tunic, cap | 13,476 |
+| `V3_Kohen_White` | ordinary kohen | white ketonet, avnet, migba'at, barefoot | 15,796 |
+| `V3_Visitor_Camera` | modern visitor, camera at eye | shirt, trousers, cap | 13,440 |
+| `V3_Visitor_Phone` | modern visitor, phone raised | shirt, trousers | 12,920 |
+
+Recommended actor scales run 0.84 to 1.04, i.e. roughly 150 cm to 187 cm. **Use
+them** — a crowd of identical heights is the next thing that will read as wrong.
+
+### The kohen variant, and what it does not claim
+
+`V3_Kohen_White` follows the garment table in
+`SourceAssets/runtime-review/kohen-service/sources.md` section 5, which was
+written against the Temple Institute photographs: **ketonet** of white *shesh*,
+full length with long sleeves; **avnet**, a long band wound at the waist;
+**migba'at**, the ordinary kohen's wound white cap, distinct from the Kohen
+Gadol's mitznefet. That file was read, not rewritten.
+
+The Kohen Gadol garments — **me'il, ephod, choshen, mitznefet, tzitz** — are
+deliberately **not** modelled. sources.md records live disputes on the ephod
+reconstruction (Rambam vs Rashi), on the pomegranate form, on the identification
+of several choshen stones, and on whether the Kohen Gadol's avnet is the same as
+an ordinary kohen's. Guessing at those in geometry would present a disputed
+reading as settled. The bare feet are an authored design choice flagged for
+review; sources.md does not cover footwear. **Nothing here is a halachic or
+historical ruling and no rabbinic review is claimed.**
+
+### What it is still not
+
+Stylised-realistic, not photoreal. No UV unwrap, no texture or normal maps, no
+skin shading model, no simulated cloth, no facial animation, no finger rig, no
+hair strands. Vertex colours and flat PBR factors only. **At two metres from
+camera a MetaHuman will still be obviously better and these will still read as
+game characters — good ones, but game characters.**
+
+**Effort: spent. Money: none. Hardware: none** — 12k–20k triangles is cheaper
+than V2's 29,336, so the crowd gets faster, not slower.
 
 ## What I would actually do
 
-1. **Ship route 3 now.** It is done, it costs nothing, and it fixes the balloon
-   complaint immediately for all 29 figures including the photographers.
+1. **Import route 3 now.** The assets are authored and verified offline;
+   `Scripts/release_pilgrim_v3.py` imports them under guards in resumable
+   batches and reads the numbers back. It deliberately places nothing — the
+   twenty-four residents belong to another system, and the receipt prints the
+   exact hand-off for their owner.
 2. **Then spend twenty minutes on the Epic login** and build 6–10 MetaHumans for
    the figures that come within a few metres of the camera, at LOD1–LOD3, using
    the 5.8 Crowd/Collection system. Keep V3 for everyone further out.
 3. **Skip route 2** unless you want MakeHuman/MPFB2 as a body generator — that
    one is genuinely free, CC0, and needs no account.
+
+### What only MetaHuman will fix — the honest ceiling
+
+Proportions, silhouette, stance variety and garment fold geometry are solved
+here, and they are what fails at 5–30 m, which is where nearly every figure in
+this courtyard is. What procedural geometry **cannot** reach, at any triangle
+count:
+
+- **Skin.** No subsurface scattering, no pore or wrinkle normal map, no
+  micro-detail. Faces are flat-shaded colour. Inside about 3 m this is the first
+  thing that reads as fake, and adding triangles does not fix it.
+- **Eyes.** No cornea refraction, no wet specular, no caustic, no eyelash. A
+  sclera-plus-iris pair of ellipsoids is a good distant read and a poor close one.
+- **Hair and beards.** Modelled shells, not strands or cards. They will never
+  catch a rim light correctly.
+- **Facial animation.** Nothing blinks, speaks or changes expression. A face that
+  never moves reads as a mannequin the moment the camera lingers.
+- **Hands in close-up.** The fingers are correctly sized and jointed in
+  silhouette but rigidly skinned to one hand bone — they cannot grip and they do
+  not deform.
+- **Cloth motion.** Folds are modelled once and skinned; there is no solve, so a
+  robe will not swing independently of the leg inside it.
+
+MetaHuman fixes all six and UE 5.8 ships it. It needs **"MetaHuman Creator Core
+Data" installed from the Epic Games Launcher**, which has not been done on this
+machine, and the first auto-rig is a **cloud call that must be triggered from the
+GUI** while signed in to an Epic account. An agent can do neither. Until then
+this is the best that works today, and it is genuinely good in the middle
+distance — which is where the crowd actually lives.
 
 ---
 
@@ -220,7 +328,10 @@ Every fact about MetaHuman, Mixamo and the CC assets above was gathered from the
 vendors' own pages tonight; items that could not be verified by direct fetch are
 marked unverified in place. All PilgrimRigV3 geometry, weights and animation
 curves were authored in this project — no downloaded, purchased or generated
-character was used. The clothing is an artistic pilgrim/visitor design informed
-by the Temple Institute reference set; **it is not kohanic vestments and nothing
-here is a halachic or historical ruling.** No Unreal process was launched, no map
-was edited and nothing was committed while producing this document.
+character was used. The pilgrim and visitor clothing is an artistic design; the
+kohen variant follows the garment table in
+`SourceAssets/runtime-review/kohen-service/sources.md` section 5 and models only
+the ordinary kohen's white garments. **Nothing here is a halachic or historical
+ruling and no rabbinic review is claimed.** No Unreal process was launched, no
+map was edited, no actor was placed and nothing was committed while producing
+this document or the geometry it describes.

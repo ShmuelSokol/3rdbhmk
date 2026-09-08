@@ -1,0 +1,159 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan for the cinematic intro, consumed by Scripts/release_intro_sequence.py. Every coordinate below is traceable to a receipt under SourceAssets/ or to SourceAssets/architecture-manifest.json; nothing here is invented. The same numbers appear in Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCinematics.h (IntroControlPoints) and in Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp, which proves the path clears the geometry.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "Cinematics-",
+  "receiptFolder": "SourceAssets/cinematics-review",
+  "receiptPrefix": "release-intro-sequence-",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount"
+  ],
+
+  "sequencePackagePath": "/Game/MikdashV3/Cinematics",
+  "sequenceAssetName": "SEQ_MikdashIntro",
+  "displayRate": 30,
+  "durationSeconds": 55.0,
+  "samplesPerSecond": 30,
+  "cameraActorLabel": "CINE_MikdashIntro",
+  "cameraCutSectionCoversWholeSequence": true,
+
+  "worldFrame": {
+    "axes": "+X east, +Y south, +Z up",
+    "units": "centimetres, seconds, degrees",
+    "note": "Matches CameraPathMath.h exactly, so a rotator computed there can be keyed here without a sign fix-up."
+  },
+
+  "levelHeights": {
+    "mountPlatformDeckTopCm": 0.0,
+    "outerCourtPlatformTopCm": 299.0,
+    "outerCourtFloorTopCm": 300.0,
+    "outerPerimeterWallTopCm": 3425.0,
+    "innerCourtPodiumTopCm": 499.0,
+    "innerCourtClearFloorTopCm": 500.0,
+    "raisedPriestCourtTopCm": 625.0,
+    "innerCourtWallTopCm": 3625.0,
+    "innerEasternGateThresholdCm": 500.0,
+    "innerEasternGateLintelSoffitCm": 3000.0,
+    "heichalFloorTopCm": 925.0,
+    "houseRoofTopCm": 6130.0,
+    "eyeHeightCm": 168.0,
+    "source": "SourceAssets/architecture-manifest.json, expectedBoundsUnrealCm of the named meshes"
+  },
+
+  "shots": [
+    {
+      "id": "1_modern_city",
+      "startSeconds": 0.0,
+      "endSeconds": 9.0,
+      "beat": "Establish the modern city. The camera holds high over the street beside the placed bus and begins to move, with the Kotel and the Mount already on frame.",
+      "controlPointCm": [-38600.0, 48200.0, 4200.0],
+      "aimCm": [-14800.0, 13900.0, 400.0],
+      "basis": "TransitV2 bus actor origin [-37951.473, 46854.779]; capture view h in SourceAssets/visual-review/release-capture-20260908T023600Z/receipt.json places the eye at traced street level + 168, i.e. street level about 642."
+    },
+    {
+      "id": "2_old_city_roofs",
+      "startSeconds": 9.0,
+      "endSeconds": 20.0,
+      "beat": "Climb north-east across the Old City roofs.",
+      "controlPointsCm": [[-31200.0, 39800.0, 5100.0], [-23800.0, 30200.0, 5900.0]],
+      "aimCm": [-14800.0, 13900.0, 400.0],
+      "basis": "Jerusalem context buildings, /Game/MikdashV3/JerusalemContext/Buildings, imported per SourceAssets/context-review/buildings-import-20260907T023932Z-289628.json."
+    },
+    {
+      "id": "3_kotel_plaza",
+      "startSeconds": 20.0,
+      "endSeconds": 30.0,
+      "beat": "Over the Kotel plaza, the wall passing under the camera.",
+      "controlPointCm": [-16600.0, 16200.0, 5400.0],
+      "aimCm": [-6000.0, 4000.0, 2000.0],
+      "basis": "kotel-detail manifest edge 0 west-facing face midpoint [-14788.765, 13872.183]; traced terrain there about -386 (capture views f and f2 of the same receipt)."
+    },
+    {
+      "id": "4_onto_the_mount",
+      "startSeconds": 30.0,
+      "endSeconds": 38.0,
+      "beat": "Cross onto the Mount and reveal the enclosure whole.",
+      "controlPointsCm": [[-10200.0, 10600.0, 4900.0], [-3800.0, 9200.0, 4400.0]],
+      "aimCm": [-6000.0, 4000.0, 2000.0],
+      "basis": "Future Mount platform deck top Z 0 (capture view g). Both points are outside the outer court footprint, |Y| > 8100."
+    },
+    {
+      "id": "5_over_the_outer_court",
+      "startSeconds": 38.0,
+      "endSeconds": 47.0,
+      "beat": "Come over the southern perimeter wall and descend across the outer court, the House turning through frame.",
+      "controlPointsCm": [[2600.0, 7200.0, 3900.0], [6400.0, 4200.0, 2900.0]],
+      "aimCm": [-2000.0, 0.0, 2600.0],
+      "basis": "Outer perimeter wall top 3425 and outer court floor top 300, both from the architecture manifest. The wall is crossed at about Z 4125, well over the 3575 the 150 cm margin requires."
+    },
+    {
+      "id": "6_the_eastern_axis",
+      "startSeconds": 47.0,
+      "endSeconds": 53.0,
+      "beat": "Turn onto the axis of the gates and level out for the run in.",
+      "controlPointsCm": [[7000.0, 1200.0, 1900.0], [5200.0, 200.0, 1300.0], [3600.0, 0.0, 950.0]],
+      "aimCm": [-2450.0, 0.0, 2200.0],
+      "basis": "Inner eastern vestibule floor, landings and stairs top 500 (Context 527 to 530, 657 to 659)."
+    },
+    {
+      "id": "7_through_the_gate_and_arrive",
+      "startSeconds": 53.0,
+      "endSeconds": 55.0,
+      "beat": "Through the inner eastern gateway on the axis and settle at the visitor's eye, facing the House. Control passes here.",
+      "controlPointCm": [2100.0, 0.0, 668.0],
+      "aimCm": [-2450.0, 0.0, 1400.0],
+      "basis": "Mikdash_PlayerStart [2100, 0], pawn centre Z 598, inner court clear floor top 500 plus 168 cm eye height (capture view b). The gateway is 500 cm wide between the jambs at |Y| >= 250 and runs from the threshold at 500 to the lintel soffit at 3000; the path crosses X = 2500 at about Y -4.5, Z 736."
+    }
+  ],
+
+  "easing": {
+    "profile": "trapezoid",
+    "inFraction": 0.22,
+    "outFraction": 0.32,
+    "note": "Velocity smoothsteps up, holds a genuinely constant speed through the middle, and smoothsteps down. No linear interpolation anywhere: the position track is an arc-length reparameterised centripetal Catmull-Rom and the keys are baked at 30 per second with cubic (auto) tangents.",
+    "aimHalfLifeSeconds": 0.55,
+    "maxBankDegrees": 6.0,
+    "yawRateForFullBankDegPerSecond": 22.0,
+    "bankHalfLifeSeconds": 0.9,
+    "startFieldOfViewDegrees": 62.0,
+    "endFieldOfViewDegrees": 75.0
+  },
+
+  "clearance": {
+    "inflateCm": 150.0,
+    "polylineSegments": 600,
+    "largestClearingInflateCm": 168.0,
+    "bindingConstraint": "The 168 cm eye height at the arrival point: a camera standing at eye height above a floor cannot clear that floor by more than 168 cm.",
+    "verifiedAgainst": "All 2629 non-union meshes of SourceAssets/architecture-manifest.json, and separately against the 18 conservative blocking boxes listed in Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp.",
+    "hollowUnionNote": "The manifest mesh 'Source solid union - outer envelope walls' has an AABB of [-8100,-8100,300]..[8100,8100,3425], which is the whole complex. It is a hollow Boolean union and is excluded from AABB clearance tests; the perimeter it represents is modelled as four 300 cm bands between the floor edge at 7800 and the platform edge at 8100."
+  },
+
+  "orbits": [
+    {"id": "menorah", "subjectCm": [-5330.0, 315.0, 1100.0], "radiusCm": 900.0, "heightCm": 120.0, "startYawDegrees": 20.0, "sweepDegrees": 140.0, "durationSeconds": 14.0, "fieldOfViewDegrees": 42.0, "subjectRadiusCm": 220.0, "basis": "Menorah placed at [-5330, 315, 925], Heichal clear floor top 925."},
+    {"id": "goldenAltar", "subjectCm": [-4650.0, 0.0, 1050.0], "radiusCm": 800.0, "heightCm": 150.0, "startYawDegrees": 0.0, "sweepDegrees": 120.0, "durationSeconds": 12.0, "fieldOfViewDegrees": 45.0, "subjectRadiusCm": 180.0, "basis": "Golden altar near [-4650, 0, 925]."},
+    {"id": "aron", "subjectCm": [-6200.0, 0.0, 1063.0], "radiusCm": 620.0, "heightCm": 90.0, "startYawDegrees": 25.0, "sweepDegrees": 90.0, "durationSeconds": 12.0, "fieldOfViewDegrees": 48.0, "subjectRadiusCm": 160.0, "basis": "Aron origin [-6200, 0, 925], keruvim mid-height 1063.5 (capture view e); Kodesh clear floor X -6700 to -5700."},
+    {"id": "altar", "subjectCm": [0.0, 0.0, 900.0], "radiusCm": 2600.0, "heightCm": 900.0, "startYawDegrees": 30.0, "sweepDegrees": 200.0, "durationSeconds": 18.0, "fieldOfViewDegrees": 55.0, "subjectRadiusCm": 900.0, "basis": "Altar upper tier top 1067, wood 1091, yesod footprint 1600 square (manifest Context 64 to 70)."},
+    {"id": "house", "subjectCm": [-4900.0, 0.0, 3200.0], "radiusCm": 9000.0, "heightCm": 3200.0, "startYawDegrees": 20.0, "sweepDegrees": 150.0, "durationSeconds": 20.0, "fieldOfViewDegrees": 55.0, "subjectRadiusCm": 3000.0, "basis": "House envelope [-7500,-2540,425]..[-2382,2540,6130]."},
+    {"id": "outerCourt", "subjectCm": [0.0, 0.0, 1500.0], "radiusCm": 17000.0, "heightCm": 8000.0, "startYawDegrees": 45.0, "sweepDegrees": 360.0, "durationSeconds": 26.0, "fieldOfViewDegrees": 55.0, "subjectRadiusCm": 9000.0, "basis": "Outer court platform [-8100,-8100,0]..[8100,8100,299]. A full turntable, so it loops."}
+  ],
+
+  "verification": {
+    "transformToleranceCm": 0.5,
+    "rotationToleranceDegrees": 0.5,
+    "fovToleranceDegrees": 0.05,
+    "minKeys": 100,
+    "durationToleranceSeconds": 0.05,
+    "compareRule": "Every keyed location, rotation and field of view is read back out of the reopened Level Sequence and compared with the value the script computed, channel by channel."
+  },
+
+  "limitations": [
+    "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+    "Clearance is geometric, against axis-aligned boxes and against the map's own collision where a trace is available. It says nothing about foliage, decals, translucent volumes or anything without collision.",
+    "The Jerusalem context legs of the flight are checked against the map's collision at run time, not against the architecture manifest, because the city is not in that manifest."
+  ]
+}

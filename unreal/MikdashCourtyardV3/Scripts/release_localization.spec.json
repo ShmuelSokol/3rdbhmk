@@ -1,0 +1,118 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable localization release plan consumed by Scripts/release_localization.py. Every path, hash and threshold below is here so the author can read what the script will do before it does it. Nothing here is a claim of linguistic acceptance: the Hebrew wording is the author's to judge.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+
+  "authoringData": {
+    "stringsJson": "SourceAssets/localization-review/strings.json",
+    "note": "This file is the single source of truth and is meant to be hand-edited by the author. Everything else the script writes is derived from it and may be regenerated at any time.",
+    "expectedSchemaVersion": 1,
+    "expectedNamespace": "Mikdash",
+    "expectedTableId": "MikdashStrings",
+    "expectedSourceLanguage": "en",
+    "expectedLanguages": ["en", "he"],
+    "expectedRtlLanguages": ["he"]
+  },
+
+  "generated": {
+    "englishCsv": "SourceAssets/localization-review/en.csv",
+    "hebrewCsv": "SourceAssets/localization-review/he.csv",
+    "reviewQueue": "SourceAssets/localization-review/needs-author-review.json",
+    "note": "Regenerated from strings.json on every run. Edits made directly to these files are overwritten; edit strings.json instead."
+  },
+
+  "staging": {
+    "stringsDestination": "Content/Localization/Mikdash",
+    "fontDestination": "Content/MikdashV3/Fonts",
+    "note": "The runtime searches SourceAssets first and Content second, so a development tree reads the author's live edits and a packaged build reads the staged copy. Files staged under Content are ALSO imported as assets below, because a loose file under Content is not cooked unless the project lists its folder under Packaging -> Additional Non-Asset Directories to Package, and this script does not edit project settings."
+  },
+
+  "font": {
+    "decision": "NotoSansHebrew-Regular.ttf",
+    "decisionRecordedIn": "SourceAssets/localization-review/font-audit.json",
+    "auditScript": "SourceAssets/localization-review/verify_hebrew_font.py",
+    "specimen": "SourceAssets/localization-review/hebrew-font-specimen.png",
+    "licence": "SIL Open Font License 1.1, no Reserved Font Name",
+    "sourceFolder": "SourceAssets/localization-review/fonts",
+    "files": [
+      {
+        "file": "NotoSansHebrew-Regular.ttf",
+        "role": "regular",
+        "bytes": 47756,
+        "sha256": "8fa046a031a67c38e13052713b9d685cadbd85f35fdfd64dc4e9c8d59b8dcd73",
+        "assetPath": "/Game/MikdashV3/Fonts/NotoSansHebrew_Regular",
+        "configKey": "HebrewFontFaceAsset"
+      },
+      {
+        "file": "NotoSansHebrew-Bold.ttf",
+        "role": "bold",
+        "bytes": 47724,
+        "sha256": "515e9647b17bca8dccc9e5e7a01a2a2c9bea69e82c5e3472b249e3d4628b6f79",
+        "assetPath": "/Game/MikdashV3/Fonts/NotoSansHebrew_Bold",
+        "configKey": "HebrewBoldFontFaceAsset"
+      },
+      {
+        "file": "NotoSansHebrew-OFL.txt",
+        "role": "licence",
+        "bytes": 4382,
+        "sha256": "9b9fe028b5ba74d231659a1bbaf0ed09b11e759d1ca6a070999e16d151616b47",
+        "assetPath": null,
+        "configKey": null
+      }
+    ],
+    "requiredCoverage": {
+      "note": "Re-checked on every run by verify_hebrew_font.py. A shipped face that stopped covering nikud would otherwise reach a build silently.",
+      "baseLetters": 27,
+      "nikud": 18,
+      "latinBasic": 58,
+      "markFeatureRequired": true,
+      "unanchoredMarksAllowed": 0
+    }
+  },
+
+  "guards": {
+    "keyPattern": "^[a-z][A-Za-z0-9]*(\\.[a-zA-Z0-9_]+)+$",
+    "minimumStrings": 150,
+    "minimumGlossaryTerms": 25,
+    "maximumStringBytes": 4096,
+    "flaggedKeysMustStayFlagged": [
+      "menu.tagline",
+      "save.slot",
+      "save.newSlot",
+      "tour.stopCounter",
+      "tour.allComplete",
+      "codex.title",
+      "photo.filter",
+      "photo.grid"
+    ],
+    "flaggedKeysNote": "These are entries the previous pass explicitly reserved for the author. The script REFUSES to run if any of them has been quietly marked confident without its Hebrew changing, because that is how a guess reaches a shipped build wearing the author's approval. Changing the Hebrew and marking it confident is fine and is what the list is for; the guard only catches a status flipped on unchanged text.",
+    "glossaryTermsWithoutEnglishGloss": ["korban", "tamid"],
+    "glossaryNote": "korban and tamid are deliberately left without an English gloss. 'sacrifice' and 'offering' carry different connotations and the choice belongs to the author.",
+    "requiredGlossaryTerms": [
+      "mikdash", "heikhal", "kodeshHakodashim", "mizbeach", "menorah",
+      "shulchan", "paroches", "kohen", "amah"
+    ],
+    "requiredGlossaryNote": "The terms the brief names explicitly. Every one must be present, in Hebrew script, with a transliteration for the English build."
+  },
+
+  "checkpoint": {
+    "root": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+    "prefix": "Localization-",
+    "note": "Everything the script is about to overwrite under Content is copied here first, and the copy is verified by hash before any mutation."
+  },
+
+  "receipt": {
+    "folder": "SourceAssets/localization-review",
+    "prefix": "release-localization-",
+    "successStatus": "localization_staged_saved_reopened_author_review_pending",
+    "successStatusNote": "'author_review_pending' is not a formality. The Hebrew wording has not been approved by a native speaker; only the mechanics have been checked."
+  },
+
+  "packaging": {
+    "note": "Read this before packaging a build.",
+    "fontsAreAssets": "The two .ttf files are imported as UFontFace assets, which cook and package normally. No project-settings change is needed for the font.",
+    "stringsAreLooseFiles": "strings.json is a loose file under Content/Localization/Mikdash. Loose files are NOT staged unless the project lists their folder. Add 'Content/Localization/Mikdash' to Project Settings -> Packaging -> Additional Non-Asset Directories to Package (DirectoriesToAlwaysStageAsUFS in DefaultGame.ini) before packaging, or the packaged build will fall back to raw keys.",
+    "whyThisScriptDoesNotDoIt": "DefaultGame.ini is project configuration owned by the project, not by this module. The script reports the requirement in its receipt and refuses to edit it."
+  }
+}

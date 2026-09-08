@@ -1,0 +1,571 @@
+{
+  "status": "cinematics_and_photo_mode_designed_offline_native_run_pending",
+  "stamp": "20260908T111148Z",
+  "scope": "Offline design evidence for the cinematic intro and photo mode. Computed with no engine: the intro spline, its clearance against the 18 blocking boxes, the baked key count, and the photo mode leash battery. Nothing here establishes visual, packaged or halachic acceptance.",
+  "producedBy": [
+    "Scripts/release_intro_sequence.py offline_check()",
+    "Scripts/release_photo_mode.py offline_check()"
+  ],
+  "sources": {
+    "architectureManifest": "SourceAssets/architecture-manifest.json",
+    "captureReceipt": "SourceAssets/visual-review/release-capture-20260908T023600Z/receipt.json",
+    "cityBuildings": "SourceAssets/context-review/buildings-import-20260907T023932Z-289628.json"
+  },
+  "code": {
+    "cameraMathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CameraPathMath.h",
+    "cameraMathTest": "Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp",
+    "photoMode": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashPhotoMode.h",
+    "cinematics": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCinematics.h"
+  },
+  "introSequence": {
+    "specSha256": "1d7e6afdefc16f9fc6c32b50341c680b648ae87a0d8bd39699360a1f57feff26",
+    "controlPoints": 12,
+    "pathLengthCm": 74799.8939453863,
+    "durationSeconds": 55.0,
+    "durationWithinBrief": true,
+    "averageSpeedCmPerSecond": 1359.9980717342964,
+    "keys": 1651,
+    "firstKey": {
+      "timeSeconds": 0.0,
+      "location": [
+        -38600.0,
+        48200.0,
+        4200.0
+      ],
+      "rotation": [
+        0.0,
+        -5.2008122800882735,
+        -55.24408744645863
+      ],
+      "fieldOfViewDegrees": 62.0
+    },
+    "lastKey": {
+      "timeSeconds": 55.0,
+      "location": [
+        2100.0,
+        0.0,
+        668.0
+      ],
+      "rotation": [
+        0.0017930489076434242,
+        9.395827830605565,
+        179.99898361136314
+      ],
+      "fieldOfViewDegrees": 75.0
+    },
+    "arrivesAtPlayerStartErrorCm": 0.0,
+    "evenSampleChordSpreadFraction": 0.003329484353051627,
+    "clearsBlockersAtInflateCm": true,
+    "clearanceInflateCm": 150.0,
+    "firstOffendingSegment": -1,
+    "firstOffendingBox": "",
+    "largestClearingInflateCm": 168.0,
+    "innerCourtWallLineCrossings": [
+      {
+        "direction": "westward",
+        "atCm": [
+          2500.0,
+          -5.155380926607321,
+          741.9317762920546
+        ]
+      }
+    ],
+    "orbits": [
+      {
+        "id": "menorah",
+        "keys": 421,
+        "durationSeconds": 14.0,
+        "firstLocationCm": [
+          -4484.276641292682,
+          622.8181289931018,
+          1220.0
+        ],
+        "closestApproachCm": 907.9647570252929
+      },
+      {
+        "id": "goldenAltar",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -3850.0,
+          0.0,
+          1200.0
+        ],
+        "closestApproachCm": 813.9410298049851
+      },
+      {
+        "id": "aron",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -5638.089172037277,
+          262.02332227923364,
+          1153.0
+        ],
+        "closestApproachCm": 626.4982043070829
+      },
+      {
+        "id": "altar",
+        "keys": 541,
+        "durationSeconds": 18.0,
+        "firstLocationCm": [
+          2251.666049839541,
+          1299.9999999999998,
+          1800.0
+        ],
+        "closestApproachCm": 2751.3632984395203
+      },
+      {
+        "id": "house",
+        "keys": 601,
+        "durationSeconds": 20.0,
+        "firstLocationCm": [
+          3557.2335870731767,
+          3078.1812899310185,
+          6400.0
+        ],
+        "closestApproachCm": 9551.96314900764
+      },
+      {
+        "id": "outerCourt",
+        "keys": 781,
+        "durationSeconds": 26.0,
+        "firstLocationCm": [
+          12020.81528017131,
+          12020.815280171308,
+          9500.0
+        ],
+        "closestApproachCm": 18788.294228055933
+      }
+    ],
+    "blockerBoxes": 18,
+    "limitations": [
+      "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+      "Clearance is geometric, against axis-aligned boxes and against the map's own collision where a trace is available. It says nothing about foliage, decals, translucent volumes or anything without collision.",
+      "The Jerusalem context legs of the flight are checked against the map's collision at run time, not against the architecture manifest, because the city is not in that manifest."
+    ]
+  },
+  "photoMode": {
+    "specSha256": "3a86006348abc39bb8142c569b81e29890eef8f409ef7851315ca0e1b448afd3",
+    "leashChecks": 45,
+    "leashFailures": [],
+    "leash": [
+      {
+        "name": "insidePointUntouchedCm",
+        "measured": 0.0,
+        "comparison": "<=",
+        "tolerance": 1e-09,
+        "passed": true,
+        "note": "a camera already within the leash is not moved at all"
+      },
+      {
+        "name": "leashHoldsToward_1_0_0",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_1_0_0_axis0",
+        "measured": 8100.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_1_0_0_axis0",
+        "measured": 51900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_1_0_0_axis1",
+        "measured": 0.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_1_0_0_axis1",
+        "measured": 60000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_1_0_0_axis2",
+        "measured": 598.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_1_0_0_axis2",
+        "measured": 39402.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "leashHoldsToward_-1_0_0",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_-1_0_0_axis0",
+        "measured": -3900.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_-1_0_0_axis0",
+        "measured": 63900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_-1_0_0_axis1",
+        "measured": 0.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_-1_0_0_axis1",
+        "measured": 60000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_-1_0_0_axis2",
+        "measured": 598.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_-1_0_0_axis2",
+        "measured": 39402.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "leashHoldsToward_0_1_0",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_0_1_0_axis0",
+        "measured": 2100.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_1_0_axis0",
+        "measured": 57900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_1_0_axis1",
+        "measured": 6000.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_1_0_axis1",
+        "measured": 54000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_1_0_axis2",
+        "measured": 598.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_1_0_axis2",
+        "measured": 39402.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "leashHoldsToward_0_-1_0",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_0_-1_0_axis0",
+        "measured": 2100.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_-1_0_axis0",
+        "measured": 57900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_-1_0_axis1",
+        "measured": -6000.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_-1_0_axis1",
+        "measured": 66000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_-1_0_axis2",
+        "measured": 598.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_-1_0_axis2",
+        "measured": 39402.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "leashHoldsToward_0_0_1",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_0_0_1_axis0",
+        "measured": 2100.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_1_axis0",
+        "measured": 57900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_0_1_axis1",
+        "measured": 0.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_1_axis1",
+        "measured": 60000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_0_1_axis2",
+        "measured": 6598.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_1_axis2",
+        "measured": 33402.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "leashHoldsToward_0_0_-1",
+        "measured": 3598.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": "a camera flown hard in this direction never gets further out than the radius"
+      },
+      {
+        "name": "insideBounds_0_0_-1_axis0",
+        "measured": 2100.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_-1_axis0",
+        "measured": 57900.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_0_-1_axis1",
+        "measured": 0.0,
+        "comparison": ">=",
+        "tolerance": -60000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_-1_axis1",
+        "measured": 60000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBounds_0_0_-1_axis2",
+        "measured": -3000.0,
+        "comparison": ">=",
+        "tolerance": -3000.000001,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "insideBoundsUpper_0_0_-1_axis2",
+        "measured": 43000.0,
+        "comparison": ">=",
+        "tolerance": -1e-06,
+        "passed": true,
+        "note": ""
+      },
+      {
+        "name": "absurdRadiusStillInsideBoundsCm",
+        "measured": 0.0,
+        "comparison": "<=",
+        "tolerance": 1e-06,
+        "passed": true,
+        "note": "the hard bounds are applied after the sphere, so no radius can beat them"
+      },
+      {
+        "name": "cornerRequestClampedToRadiusCm",
+        "measured": 6000.0,
+        "comparison": "<=",
+        "tolerance": 6000.000001,
+        "passed": true,
+        "note": ""
+      }
+    ],
+    "leashAnchorCm": [
+      2100.0,
+      0.0,
+      598.0
+    ],
+    "leashRadiusCm": 6000.0,
+    "boundsMinCm": [
+      -60000.0,
+      -60000.0,
+      -3000.0
+    ],
+    "boundsMaxCm": [
+      60000.0,
+      60000.0,
+      40000.0
+    ],
+    "recommendedConfig": "[/Script/MikdashRuntime.MikdashPhotoMode]\nbEnabled=True\nbOwnToggleKey=True\nLeashRadiusCm=6000\nBoundsMin=(X=-60000,Y=-60000,Z=-3000)\nBoundsMax=(X=60000,Y=60000,Z=40000)\n",
+    "captureMultipliers": [
+      1,
+      2,
+      4
+    ],
+    "expectedResolutions": {
+      "1": [
+        1920,
+        1080
+      ],
+      "2": [
+        3840,
+        2160
+      ],
+      "4": [
+        7680,
+        4320
+      ]
+    },
+    "vantages": [
+      "spawn_west_to_house",
+      "outer_court_pilgrims",
+      "heichal_vessels",
+      "kodesh_aron",
+      "exterior_wide"
+    ],
+    "captureApi": "FViewport::TakeHighResScreenShot with FHighResScreenshotConfig (Engine/Public/UnrealClient.h, Engine/Public/HighResScreenshot.h) at run time in the game; unreal.AutomationLibrary.take_high_res_screenshot in this editor script, which is the editor-side wrapper over the same path.",
+    "packagedSupport": "Yes. Both FViewport::TakeHighResScreenShot and GetHighResScreenshotConfig are plain ENGINE_API in 5.8 with no WITH_EDITOR and no !UE_BUILD_SHIPPING guard, and the file is written through the engine's image write queue, which ships. Setting FilenameOverride to an absolute path makes FScreenshotRequest skip its numbered-suffix logic and write exactly that PNG. What this editor script proves is that the path produces a correct file; it does not itself run in a packaged build.",
+    "limitations": [
+      "Numeric only. A PNG that is the right size and not blank is not a good photograph; nobody has looked at these.",
+      "The editor viewport is not the game viewport. This proves the engine's high resolution path writes a correct file on this machine; it does not prove the packaged Shipping build does, only that the API it uses carries no editor-only or non-shipping guard.",
+      "Depth of field, colour grades and exposure compensation are applied by the C++ on the photo camera's own post process settings and are not exercised here at all.",
+      "The leash battery is arithmetic against the same clamp order the C++ uses. It says nothing about level collision: photo mode deliberately flies through walls, it only refuses to leave the world."
+    ]
+  },
+  "limitations": [
+    "Offline only. No Level Sequence asset has been authored and no photograph has been taken by this document.",
+    "Clearance is geometric against axis-aligned boxes derived from the architecture manifest; the Jerusalem context legs are checked against the map's own collision only when release_intro_sequence.py runs in the editor.",
+    "Nobody has watched the shot."
+  ]
+}

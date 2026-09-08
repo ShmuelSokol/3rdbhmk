@@ -1,0 +1,123 @@
+# Handoff to Astra — 8 September 2026
+
+Written by Claude (Opus 5) mid-session. Read this, then `AGENTS.md`, then
+`INTEGRATION-QUEUE.md`. Last published commit: **558df0b9** on ShmuelSokol/3rdbhmk main.
+
+## The one rule that matters most right now
+
+Shmuel corrected me on pacing today, and it is the difference between shipping and
+losing work: **an account-wide 5-hour usage limit killed about fourteen agents mid-write
+at once.** That left a UCLASS header with no .cpp and five half-fixed math headers, and
+the recovery cost more than the parallelism saved. Run **4 to 6 concurrent agents, not
+14 to 20.** Let a wave finish before launching the next. Do cheap coordinator work
+yourself between waves. He still wants maximum speed — exhausting the window is not speed.
+
+## Run the gate before you believe anything
+
+```
+python scripts/verify.py            # environment, scripts, receipts, 24 math tests
+python scripts/verify.py --build    # also UnrealBuildTool; slow, must run serial
+```
+It was green at handoff: **7/7 checks, 24/24 standalone math tests.** It reports what it
+did NOT check rather than passing quietly. Preserved historical failure receipts show as
+WARN, not FAIL, deliberately — there are 56 of them and they are evidence, not regressions.
+
+## State of the build
+
+**Compiles and links clean.** The module contains crowd field, gate security, bird flock,
+service actor (Kohen Gadol), time of day, weather, transit, settings, menu widgets and the
+front end. `MikdashFrontEnd.cpp` was written by hand after its agent was killed.
+
+**Complete in code, NOT yet placed in the map:** essentially everything above. The map is
+still Walkthrough-11 content. Placement is `INTEGRATION-QUEUE.md` stage 4, strictly serial.
+
+**Never been through a compiler** (their agents were forbidden to run UBT):
+`MikdashTourGuide.cpp`, `MikdashCodex.cpp`, `MikdashWater.cpp`, `MikdashEnclosure.cpp`,
+and whatever the in-flight agents land. **Compile before placing.** `release_tour.py` and
+`release_enclosure.py` both refuse before mutating if their classes are absent — trust that.
+
+**In flight at handoff** (10 agents; check for their files and receipts before redoing
+work): fire and smoke FX, vegetation, photo mode + cinematic intro, surface wear, birds
+assets, transit placement, save + Hebrew localisation, pilgrim rig rebuild, soundscape,
+and a draw-call optimization pass.
+
+## The most important technical finding today
+
+First real frame-time measurement this project has ever had (`Scripts/perf_probe.py`,
+receipt `SourceAssets/perf-review/perf-probe-20260908T102520Z.json`):
+
+- ~24 ms p50, about **40 fps against a 60 fps target**. 8 of 9 stations over budget.
+- **7,767 actors, 44,217 instances, 7,520 UNIQUE static meshes, only 190 Nanite meshes.**
+- Frame time is **flat**: sealed inside the Heikhal costs the same as the plaza over the
+  whole city. A GPU-bound scene never does that. A cost that does not vary with the view
+  is per-draw CPU work, and 7,520 unique meshes cannot batch.
+
+So the bottleneck is draw calls, not pixels. `PERFORMANCE-BUDGET.md` apportions a GPU
+problem the build does not currently have; its estimated rows stay estimated until the
+optimization agent returns before-and-after numbers. Every millisecond freed there is a
+millisecond the crowds, water, fire and vegetation can spend — treat it as the unlock.
+
+## Two decisions that are Shmuel's, not ours
+
+1. **The amah.** Two agents independently found that his book's own arithmetic gives
+   **48 cm** (p. 359: 3000 amot = 1440 m; p. 116: Naeh 48, Chazon Ish 57.6). The level has
+   **50 cm** baked in, so every book-derived length runs ~4.2% large. Rescaling touches
+   everything. Do NOT do it unasked; it is raised with him and unanswered.
+2. **The enclosure.** The Yechezkel 3000-amot precinct hides **1,911 of 11,437** OSM
+   buildings and 485 of the 2,106 Old City facades, which is in tension with his own
+   `people-and-city.md` policy. Three states exist (MODERN / YECHEZKEL / OVERLAY) so the
+   choice stays his. Buildings are hidden by visibility, never deleted.
+
+## MetaHuman is unblocked — correct the record
+
+An earlier agent reported "MetaHuman Creator Core Data" missing. **It is installed**:
+`Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Optional`, 1,816 files, 5.8 GB,
+including Grooms (so beards), Clothing and BodyTextures. Any handoff or note saying that
+is blocked is stale. `MetaHumanSDK` and `MetaHumanCharacter` are enabled in the .uproject;
+`MetaHumanCrowd` was deliberately removed (its defaults render ~530 people and it drags
+Mass/Mover/SmartObjects into the packaged runtime — the instanced crowd owns the crowd).
+`Scripts/release_metahuman_enable.py` is written and runs clean offline. The first
+auto-rig is an Epic **cloud** call that must be triggered once from the editor GUI; after
+that it batches.
+
+## Traps that have each cost this project a day
+
+- A **zombie UnrealEditor.exe** holding the map makes `save_current_level()` return False
+  with no other symptom. Check `Get-Process UnrealEditor,UnrealEditor-Cmd` before every job.
+- **UBT globs `Source/`** — a `Tests/` folder there gets compiled into the game module.
+  Tests now live at `Plugins/MikdashRuntime/Tests/`, outside Source. Keep them there.
+- UE builds treat warnings as errors: a local named `Slot` shadows `UWidget::Slot`;
+  `UImage::SetBrushSize` is deprecated for `SetDesiredSizeOverride`.
+- `FText` has no `operator==`, so `TArray<FText>::AddUnique` will not compile.
+- **AABB clearance checks give false blockers.** The 256 FutureMountV1 terrain tiles have
+  400-800 m boxes enclosing the whole Temple, and hollow union meshes must be decomposed
+  to constituent boxes. The water agent eliminated 14 false blockers this way today.
+- Moving a **static-mobility** actor does not dirty its package. Re-spawn instead.
+- Material parameter setters return **False even when they succeed**. Verify by readback.
+- With Nanite on, `get_num_triangles(0)` returns the **fallback** count.
+- Pin names: Desaturation's and Clamp's first input are both `None`; Noise's position pin
+  is `World Position`; TextureSampleParameter2D's UV pin is `UVs`.
+- Line traces return nothing in commandlets and NullRHI worlds. Only a real PIE traces.
+- Several receipt JSONs carry a **UTF-8 BOM**; read with `utf-8-sig`.
+- Cooks: **foreground** PowerShell, `cmd /c RunUAT.bat`, `-cookprocesscount=1`. Never from
+  Git Bash ("C:\Program" error). Never with a GUI editor open (Live Coding). The packaged
+  archive's root exe is a bootstrap that exits — hash the child in `Binaries\Win64`.
+
+## Publishing
+
+`cd C:\Mikdash\Working-5.8\RuntimeBuild-06 && python publish.py --stage` (needs
+`PYTHONIOENCODING=utf-8`; Hebrew filenames break cp1252), then commit in
+`C:\Mikdash\GitHub\3rdbhmk`. **Never `git add -A`.** Never force-push. Excluded by the
+helper: Temple Institute reference photos, the book export, GPL models, vendored tools.
+Watch for stray `.bak` files reaching the stage.
+
+## What "done" means here
+
+Shmuel wants Warner Brothers production quality and has said not to stop. The honest
+standard we work to: everything present looking deliberate, nothing obviously wrong, and
+every claim about the building traceable to a source with an explicit confidence label.
+The codex now carries 76 entries — 33 certain, 33 disputed, 10 authored. Keep that
+discipline: where commentaries disagree, name them; where we invented, say so. The
+menorah lamp order is authored and is flagged in the codex as something that must not be
+shown to anyone as the real order of the service. Do not quietly upgrade an authored
+claim to a sourced one.

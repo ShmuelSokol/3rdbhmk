@@ -58,19 +58,22 @@ static void FactInt(const std::string& Key, long long Value)
 // The measured routes (world XY centimetres, +X east, +Y south, from the manifest)
 // ---------------------------------------------------------------------------
 
+// Every coordinate below is a measured feature from SourceAssets/architecture-manifest.json;
+// Scripts/create_decals.py re-derives the identical polylines from that file at run time and
+// refuses any vertex it cannot trace back to a threshold, a stair end or a terrace.
 static const FPoint2 EastPilgrimAxis[] = {
-    {9400.0, 0.0},    // foot of the outer east stair, outside the court
+    {9400.0, 0.0},    // on the approach, 200 cm beyond the outer east stair foot at X 9200
     {8600.0, 0.0},    // head of that stair, court level Z 300
-    {7950.0, 0.0},    // outer east gate threshold
-    {3700.0, 0.0},    // foot of the inner east stair
-    {2650.0, 0.0},    // inner east gate threshold
-    {2100.0, 0.0},    // Ezras Yisrael strip
+    {7950.0, 0.0},    // outer east gate threshold (SM bounds X 7800..8100)
+    {3700.0, 0.0},    // foot of the inner east stair (X 3300..3700)
+    {2650.0, 0.0},    // inner east gate threshold (X 2500..2800)
+    {2100.0, 0.0},    // Ezras Yisrael strip, west of the Duchan rises at X 1575..1675
 };
 static const FPoint2 NorthGateRoute[] = {
-    {0.0, -9200.0}, {0.0, -8600.0}, {0.0, -7950.0}, {0.0, -4000.0}, {0.0, -2650.0}, {0.0, -2100.0},
+    {0.0, -9200.0}, {0.0, -8600.0}, {0.0, -7950.0}, {0.0, -3700.0}, {0.0, -2650.0}, {0.0, -2100.0},
 };
 static const FPoint2 SouthGateRoute[] = {
-    {0.0,  9200.0}, {0.0,  8600.0}, {0.0,  7950.0}, {0.0,  4000.0}, {0.0,  2650.0}, {0.0,  2100.0},
+    {0.0,  9200.0}, {0.0,  8600.0}, {0.0,  7950.0}, {0.0,  3700.0}, {0.0,  2650.0}, {0.0,  2100.0},
 };
 static const FPoint2 LaverToRamp[] = {
     {-2300.0, 0.0}, {-1950.0, 1500.0}, {-900.0, 2100.0}, {0.0, 2300.0}, {0.0, 710.0},
@@ -491,6 +494,37 @@ static void BudgetChecks()
     Check(BrokenTotal <= 6);
     Check(BrokenCounts[0] == 0);                    // a negative request allocates nothing
     Check(BrokenCounts[2] <= 4);                    // the minimum cannot exceed the request
+
+    // REGRESSION, 2026-09-08. AllocateBudget used to clip the minimum against the RAW
+    // Requested, so a negative request produced a negative count -- and, far worse,
+    // `Remaining -= Want` with a negative Want handed budget BACK, silently raising the
+    // cap for every category after the malformed one. One bad row could then blow the
+    // decal budget wide open with nothing in the receipt to show it. The check above
+    // catches the negative count; this one catches the cap leak, which is the half that
+    // would actually have cost frame time. Every category after a malformed row must
+    // still be held to the cap.
+    for (int Cap = 0; Cap <= 40; ++Cap)
+    {
+        FBudgetRequest Leaky[4] = {{1.0, -50, -50}, {1.0, 30, 10}, {1.0, 30, 10}, {1.0, 30, 10}};
+        int LeakyCounts[4] = {0};
+        const int LeakyTotal = AllocateBudget(Leaky, 4, Cap, LeakyCounts);
+        Check(LeakyCounts[0] == 0);
+        Check(LeakyTotal <= Cap);
+        int LeakySum = 0;
+        for (int Index = 0; Index < 4; ++Index)
+        {
+            Check(LeakyCounts[Index] >= 0);
+            LeakySum += LeakyCounts[Index];
+        }
+        Check(LeakySum == LeakyTotal);
+        // The malformed row must not have donated anything: three good categories asking
+        // for 30 each can absorb the whole cap, so the total is exactly the cap.
+        Check(LeakyTotal == Cap);
+    }
+    FBudgetRequest AllBroken[2] = {{1.0, -1, -1}, {1.0, -7, 3}};
+    int AllBrokenCounts[2] = {0};
+    Check(AllocateBudget(AllBroken, 2, 25, AllBrokenCounts) == 0);
+    Check(AllBrokenCounts[0] == 0 && AllBrokenCounts[1] == 0);
 
     Check(AllocateBudget(nullptr, 9, 220, Counts) == 0);
     Check(AllocateBudget(Plan, 0, 220, Counts) == 0);

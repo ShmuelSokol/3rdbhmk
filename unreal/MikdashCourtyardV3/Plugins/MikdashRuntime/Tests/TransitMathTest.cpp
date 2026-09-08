@@ -809,6 +809,72 @@ static void ServiceChecks()
 }
 
 // ---------------------------------------------------------------------------
+// PhotographerCount: the crowd hint, and the properties the coordinator relies on.
+// ---------------------------------------------------------------------------
+
+static void PhotographerChecks()
+{
+    // Degenerate input never produces work for the crowd.
+    Check(PhotographerCount(7u, 0, 0, 0, 0.5) == 0);
+    Check(PhotographerCount(7u, 0, 0, -5, 0.5) == 0);
+    Check(PhotographerCount(7u, 0, 0, 20, 0.0) == 0);
+    Check(PhotographerCount(7u, 0, 0, 20, -1.0) == 0);
+    Check(PhotographerCount(7u, 0, 0, 20, NaNValue) == 0);
+
+    // A share of 1 takes the whole group; a share above 1 is clamped, not obeyed.
+    Check(PhotographerCount(7u, 3, 4, 17, 1.0) == 17);
+    Check(PhotographerCount(7u, 3, 4, 17, 9.0) == 17);
+
+    // Never more than the group, whatever the seed, stop, run or share.
+    long long Total = 0;
+    int Samples = 0;
+    int MinSeen = 1 << 30;
+    int MaxSeen = -1;
+    for (uint32_t Seed = 0; Seed < 24; ++Seed)
+    {
+        for (int Stop = 0; Stop < 16; ++Stop)
+        {
+            for (int Run = 0; Run < 12; ++Run)
+            {
+                const int People = 4 + (Stop % 9) * 7;
+                const int Count = PhotographerCount(Seed * 7919u, Stop, Run, People, 0.22);
+                Check(Count >= 0 && Count <= People);
+                // The draw straddles the exact expectation, never leaves the bracket.
+                const double Expected = People * 0.22;
+                Check(static_cast<double>(Count) >= std::floor(Expected) - 1e-9);
+                Check(static_cast<double>(Count) <= std::ceil(Expected) + 1e-9);
+                Total += Count;
+                MinSeen = std::min(MinSeen, Count);
+                MaxSeen = std::max(MaxSeen, Count);
+                ++Samples;
+            }
+        }
+    }
+    // Determinism: the same (seed, stop, run) always answers the same number, which is
+    // what lets a boarding handler ask twice without the crowd changing under it.
+    for (int Stop = 0; Stop < 16; ++Stop)
+    {
+        Check(PhotographerCount(99u, Stop, 5, 30, 0.22) == PhotographerCount(99u, Stop, 5, 30, 0.22));
+    }
+    // ... and different stops do NOT all answer the same number, or the hint would be a
+    // constant dressed up as a draw.
+    int Distinct = 0;
+    for (int Stop = 1; Stop < 16; ++Stop)
+    {
+        if (PhotographerCount(99u, Stop, 5, 30, 0.22) != PhotographerCount(99u, 0, 5, 30, 0.22)) ++Distinct;
+    }
+    Check(Distinct > 0);
+
+    const double Mean = static_cast<double>(Total) / Samples;
+    Fact("photographer_mean_per_group", Mean);
+    FactInt("photographer_min", MinSeen);
+    FactInt("photographer_max", MaxSeen);
+    FactInt("photographer_samples", Samples);
+    std::printf("photographers: %d draws, mean %.2f per group, range %d..%d, bracket respected\n",
+                Samples, Mean, MinSeen, MaxSeen);
+}
+
+// ---------------------------------------------------------------------------
 
 static void WriteJson(const char* Path)
 {
@@ -839,7 +905,8 @@ int main(int argc, char** argv)
     ConsistChecks();
     VariationChecks();
     ServiceChecks();
+    PhotographerChecks();
     if (argc > 1) WriteJson(argv[1]);
-    std::cout << "PASS " << CheckCount << " checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation and service" << std::endl;
+    std::cout << "PASS " << CheckCount << " checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation, service and the photographer hint" << std::endl;
     return 0;
 }

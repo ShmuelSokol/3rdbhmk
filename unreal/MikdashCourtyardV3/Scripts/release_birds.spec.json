@@ -1,0 +1,526 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Human-reviewable import and placement plan for the ambient Jerusalem bird layer, consumed by Scripts/release_birds.py. Every anchor below is either quoted from a receipt already on disk (each one names its source) or is re-derived at run time from the measured bounds of a named level actor, with the authored value kept as the fallback and the choice recorded in the receipt. Nothing here is a claim of visual or runtime acceptance.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+ "protectedMaps": [
+  "/Game/MikdashV3/Maps/Courtyard",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+ ],
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "Birds-",
+ "receiptFolder": "SourceAssets/birds-review/BirdsV1",
+ "receiptPrefix": "native-birds-",
+ "actorTag": "ReleaseBirdsV1",
+ "folder": "Release/Birds",
+ "compiledClassesRequired": {
+  "birdFlock": "/Script/MikdashRuntime.MikdashBirdFlock",
+  "speciesEnum": "MikdashBirdSpecies",
+  "note": "unreal.MikdashBirdFlock and unreal.MikdashBirdSpecies must both exist before anything is placed. A stale MikdashRuntime binary would otherwise spawn nothing, or spawn an actor missing the properties this script writes."
+ },
+ "source": {
+  "folder": "SourceAssets/birds-review/BirdsV1",
+  "manifest": "SourceAssets/birds-review/BirdsV1/geometry-manifest.json",
+  "manifestSha256": "1fbf89c84433bf0137817aa7f45f9619074207b4ef6f403086e6932d97321791",
+  "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "authoringScript": "Scripts/create_birds.py",
+  "authoringScriptSha256": "52d49440436f8bb126feaa4f16a3d7c3ad3e8bc06d13311fe847f985616b94e1",
+  "manifestSha256Note": "Pinned so re-authored geometry cannot be imported under a reviewed spec. Per-mesh names, triangle counts, canonical bounds and OBJ hashes are read from the manifest at run time rather than copied here, so they cannot drift out of step with it.",
+  "objAdapter": "Canonical vertices are centimetres in the bird frame; every OBJ is written with Y reflected and triangle winding reversed (the adapter proven by create_keilim_ti_v1.py and create_oldcity_facades.py). The importer reflects Y back, so the imported StaticMesh must reproduce the manifest canonicalBoundsCm - that comparison is the reflection check.",
+  "boundsToleranceCm": 0.05,
+  "poseOrder": [
+   "up_stroke",
+   "level",
+   "down_stroke",
+   "perched"
+  ],
+  "poseOrderNote": "Index order MUST match MikdashFlock::PoseIndex: 0 up_stroke, 1 level (also glide and soar), 2 down_stroke, 3 perched. PoseMeshes is written in exactly this order and read back in exactly this order after the reopen."
+ },
+ "namespace": "/Game/MikdashV3/BirdsV1",
+ "meshFolder": "/Game/MikdashV3/BirdsV1/Meshes",
+ "namespaceRule": "Only this namespace is written. No material, material instance or texture is created or assigned: plumage is recorded in species.json as intent, not applied. Until a material pass runs the imported birds carry the importer default and the ambient rock dove is NOT yet visibly distinct from the player white dove pawn.",
+ "importSettings": {
+  "note": "The reviewed legacy OBJ adapter path (release_crowd_field.spec.json / release_import_doors.spec.json), with Nanite OFF: these are sub-400-triangle meshes drawn as HISM instances, and Nanite would add cluster overhead for no triangle saving. Nanite off also means get_num_triangles(0) is the real LOD0 count and not a fallback count.",
+  "factory": "FbxFactory",
+  "fbxImportUI": {
+   "automated_import_should_detect_type": false,
+   "mesh_type_to_import": "FBXIT_STATIC_MESH",
+   "import_as_skeletal": false,
+   "import_mesh": true,
+   "import_animations": false,
+   "import_materials": false,
+   "import_textures": false,
+   "create_physics_asset": false
+  },
+  "staticMeshImportData": {
+   "combine_meshes": true,
+   "transform_vertex_to_absolute": true,
+   "bake_pivot_in_vertex": false,
+   "convert_scene": false,
+   "convert_scene_unit": false,
+   "force_front_x_axis": false,
+   "import_uniform_scale": 1.0,
+   "auto_generate_collision": false,
+   "build_nanite": false,
+   "generate_lightmap_u_vs": false,
+   "remove_degenerates": true,
+   "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+  },
+  "collision": "auto_generate_collision False and the mesh body setup left empty. Every HISM component on AMikdashBirdFlock is created NoCollision in the constructor as well. Ambient birds must never block, push or be traced against anything - in particular the player dove pawn (AMikdashDovePawn, F key) is spawned at runtime with AdjustIfPossibleButDontSpawnIfColliding, so a colliding flock overhead could have blocked take-off. This script never references, loads or modifies MikdashDovePawn."
+ },
+ "audioHook": {
+  "owner": "A separate agent owns audio. This script creates, imports and assigns NO audio asset of any kind.",
+  "delegate": "AMikdashBirdFlock::OnBirdSound (BlueprintAssignable, FMikdashBirdSoundSignature)",
+  "namedFunction": "AMikdashBirdFlock::EmitBirdSound(FName EventName, FVector WorldLocationCm, float Intensity)",
+  "events": [
+   "Call",
+   "Wingburst",
+   "Startle",
+   "Land"
+  ],
+  "signature": "EventName, SpeciesName, WorldLocationCm, Intensity",
+  "note": "bAnnounceBirdSounds is written True on every flock so the delegate fires from the first frame; nothing listens until the audio work binds to it."
+ },
+ "flocks": [
+  {
+   "perchPointsCm": [
+    [
+     8000.0,
+     -2400.0,
+     3437.0
+    ],
+    [
+     8000.0,
+     -2030.769,
+     3437.0
+    ],
+    [
+     8000.0,
+     -1661.538,
+     3437.0
+    ],
+    [
+     8000.0,
+     -1292.308,
+     3437.0
+    ],
+    [
+     8000.0,
+     -923.077,
+     3437.0
+    ],
+    [
+     8000.0,
+     -553.846,
+     3437.0
+    ],
+    [
+     8000.0,
+     -184.615,
+     3437.0
+    ],
+    [
+     8000.0,
+     184.615,
+     3437.0
+    ],
+    [
+     8000.0,
+     553.846,
+     3437.0
+    ],
+    [
+     8000.0,
+     923.077,
+     3437.0
+    ],
+    [
+     8000.0,
+     1292.308,
+     3437.0
+    ],
+    [
+     8000.0,
+     1661.538,
+     3437.0
+    ],
+    [
+     8000.0,
+     2030.769,
+     3437.0
+    ],
+    [
+     8000.0,
+     2400.0,
+     3437.0
+    ]
+   ],
+   "perchActorTags": [],
+   "perchDiscovery": {
+    "method": "actor_label_substring",
+    "labelSubstring": "union_Derived_union_of_source_outer_envelope",
+    "expectedBoundsCm": {
+     "min": [
+      -8100.0,
+      -8100.0,
+      300.0
+     ],
+     "max": [
+      8100.0,
+      8100.0,
+      3425.0
+     ]
+    },
+    "expectedTopZCm": 3425.0,
+    "topZToleranceCm": 25.0,
+    "rule": "If the outer envelope union actor is found in the loaded level its measured world bounds top replaces 3425 in every perch Z and each perch XY must lie inside its AABB. If it is not found the authored points below are written unchanged and the receipt records perchSource 'authored_actor_not_found'.",
+    "source": "Scripts/release_place_assets.spec.json pilgrims.clearance.falsePositive20260907 records the measured AABB of architecture_SM_2629_union_Derived_union_of_source_outer_envelope_w as [-8100,-8100,300]..[8100,8100,3425]: the outer court wall top is Z 3425."
+   },
+   "sizeScale": 1.0,
+   "softBandCm": 500.0,
+   "radialSoftBandCm": 800.0,
+   "announceBirdSounds": true,
+   "nearUpdateIntervalSeconds": 0.05,
+   "midUpdateIntervalSeconds": 0.1,
+   "farUpdateIntervalSeconds": 0.25,
+   "nearDistanceCm": 12000.0,
+   "midDistanceCm": 40000.0,
+   "cullRadiusCm": 120000.0,
+   "birdsPerUpdate": 90,
+   "maxBirds": 600,
+   "key": "PlazaPigeons",
+   "label": "RELEASE_BirdFlock_PlazaPigeons",
+   "folder": "Release/Birds",
+   "species": "RockDove",
+   "birdCount": 90,
+   "flockSeed": 20260908,
+   "homePointCm": [
+    4000.0,
+    0.0,
+    2000.0
+   ],
+   "radiusCm": 5000.0,
+   "floorZCm": 600.0,
+   "ceilingZCm": 3900.0,
+   "placementBasis": "Rock doves wheeling over the outer court and settling on the outer wall top. The court floor is Z 300 and the crowd zone OuterCourtEast spans x 1750..7600, y +-7600 (SourceAssets/runtime-review/crowd-field/zones.json), so the flock volume sits over the east half of the plaza with its floor 300 cm clear of the deck and its ceiling 475 cm above the wall top."
+  },
+  {
+   "perchPointsCm": [
+    [
+     -15046.215,
+     12379.352,
+     611.905
+    ],
+    [
+     -15011.888,
+     12578.396,
+     611.905
+    ],
+    [
+     -14977.562,
+     12777.44,
+     611.905
+    ],
+    [
+     -14943.235,
+     12976.484,
+     611.905
+    ],
+    [
+     -14908.908,
+     13175.528,
+     611.905
+    ],
+    [
+     -14874.582,
+     13374.572,
+     611.905
+    ],
+    [
+     -14840.255,
+     13573.616,
+     611.905
+    ],
+    [
+     -14805.928,
+     13772.66,
+     611.905
+    ],
+    [
+     -14771.602,
+     13971.704,
+     611.905
+    ],
+    [
+     -14737.275,
+     14170.748,
+     611.905
+    ],
+    [
+     -14702.948,
+     14369.792,
+     611.905
+    ],
+    [
+     -14668.622,
+     14568.836,
+     611.905
+    ],
+    [
+     -14634.295,
+     14767.88,
+     611.905
+    ],
+    [
+     -14599.968,
+     14966.924,
+     611.905
+    ],
+    [
+     -14565.642,
+     15165.968,
+     611.905
+    ],
+    [
+     -14531.315,
+     15365.012,
+     611.905
+    ]
+   ],
+   "perchActorTags": [],
+   "perchDiscovery": {
+    "method": "actor_label_prefix_union",
+    "labelPrefix": "RELEASE_Kotel_",
+    "expectedActorCount": 6,
+    "expectedBoundsCm": {
+     "min": [
+      -15681.06,
+      8845.85,
+      -1399.3
+     ],
+     "max": [
+      -14107.79,
+      17750.36,
+      599.91
+     ]
+    },
+    "expectedTopZCm": 599.905,
+    "topZToleranceCm": 5.0,
+    "rule": "The union of the six RELEASE_Kotel_* actor bounds gives the measured wall top; it replaces 599.905 in every perch Z and every perch XY must lie inside that union AABB. Not found means the authored points are written unchanged and the receipt says so.",
+    "source": "Kotel face mesh world bounds from Scripts/release_place_assets.spec.json kotel.meshes (geometry baked in world coordinates, identity transform), placed as RELEASE_Kotel_1..6 by SourceAssets/IntegratedReviewV2/release-placement-20260907T161402552292Z.json."
+   },
+   "sizeScale": 1.0,
+   "softBandCm": 500.0,
+   "radialSoftBandCm": 800.0,
+   "announceBirdSounds": true,
+   "nearUpdateIntervalSeconds": 0.05,
+   "midUpdateIntervalSeconds": 0.1,
+   "farUpdateIntervalSeconds": 0.25,
+   "nearDistanceCm": 12000.0,
+   "midDistanceCm": 40000.0,
+   "cullRadiusCm": 120000.0,
+   "birdsPerUpdate": 70,
+   "maxBirds": 600,
+   "key": "KotelPigeons",
+   "label": "RELEASE_BirdFlock_KotelPigeons",
+   "folder": "Release/Birds",
+   "species": "RockDove",
+   "birdCount": 70,
+   "flockSeed": 20260909,
+   "homePointCm": [
+    -15675.673,
+    14025.136,
+    900.0
+   ],
+   "radiusCm": 3200.0,
+   "floorZCm": -400.0,
+   "ceilingZCm": 2600.0,
+   "placementBasis": "The Kotel courses. The perch line is the KotelPlazaStrip inner edge from SourceAssets/runtime-review/crowd-field/zones.json, whose own evidence note states the strip runs 320 to 1200 cm WEST of the face, offset 320 cm east along that edge normal and lifted to the wall top; both endpoints fall inside the Kotel face world AABB, which is the check that the offset went the right way. The flock home sits 900 cm out over the plaza, whose measured ground is Z -585.6 to -797.6 (two native traces recorded in the same zone), so the floor at -400 keeps birds above head height."
+  },
+  {
+   "perchPointsCm": [],
+   "perchActorTags": [],
+   "perchDiscovery": null,
+   "sizeScale": 1.0,
+   "softBandCm": 500.0,
+   "radialSoftBandCm": 800.0,
+   "announceBirdSounds": true,
+   "nearUpdateIntervalSeconds": 0.05,
+   "midUpdateIntervalSeconds": 0.1,
+   "farUpdateIntervalSeconds": 0.25,
+   "nearDistanceCm": 12000.0,
+   "midDistanceCm": 40000.0,
+   "cullRadiusCm": 120000.0,
+   "birdsPerUpdate": 55,
+   "maxBirds": 600,
+   "key": "WallSwifts",
+   "label": "RELEASE_BirdFlock_WallSwifts",
+   "folder": "Release/Birds",
+   "species": "CommonSwift",
+   "birdCount": 55,
+   "flockSeed": 20260910,
+   "homePointCm": [
+    -15033.896,
+    14804.432,
+    1100.0
+   ],
+   "radiusCm": 6000.0,
+   "floorZCm": -700.0,
+   "ceilingZCm": 3200.0,
+   "placementBasis": "Common swifts scything along the Old City wall line. No perch points at all: MikdashFlock::Profile(CommonSwift) sets bPerches false, and FlockMathTest asserts that a swift offered ledges never sits on one. Anchored on the same wall line as the Kotel flock but 72 per cent along it and 400 cm out, with a 6000 cm radius so the birds run the length of the face rather than circling one point. Apus apus is a spring to early July breeding visitor here, nesting in crevices of the Old City walls including the Western Wall (citation in FlockMath.h Profile()); this flock is placed unconditionally and is NOT gated on a season, which is recorded as a limitation."
+  },
+  {
+   "perchPointsCm": [
+    [
+     -16298.615,
+     14400.0,
+     391.89
+    ],
+    [
+     -16298.615,
+     14844.444,
+     391.89
+    ],
+    [
+     -16298.615,
+     15288.889,
+     391.89
+    ],
+    [
+     -16298.615,
+     15733.333,
+     391.89
+    ],
+    [
+     -16298.615,
+     16177.778,
+     391.89
+    ],
+    [
+     -16298.615,
+     16622.222,
+     391.89
+    ],
+    [
+     -16298.615,
+     17066.667,
+     391.89
+    ],
+    [
+     -16298.615,
+     17511.111,
+     391.89
+    ],
+    [
+     -16298.615,
+     17955.556,
+     391.89
+    ],
+    [
+     -16298.615,
+     18400.0,
+     391.89
+    ]
+   ],
+   "perchActorTags": [],
+   "perchDiscovery": {
+    "method": "actor_label_exact",
+    "label": "RELEASE_OldCityInfill_Grid_N002_P001",
+    "expectedBoundsCm": {
+     "min": [
+      -18450.81,
+      11393.46,
+      -1611.05
+     ],
+     "max": [
+      -14146.42,
+      20833.4,
+      379.89
+     ]
+    },
+    "expectedTopZCm": 379.89,
+    "topZToleranceCm": 25.0,
+    "rule": "The measured bounds top of that actor replaces 379.89 in every perch Z and every perch XY must lie inside its AABB. Not found means the authored points are written unchanged.",
+    "source": "SourceAssets/context-review/OldCityFacadesV1/native-import-20260908T031832420071Z.json, cell Grid_N002_P001 role infill, plannedWorldBoundsCm, placed as RELEASE_OldCityInfill_Grid_N002_P001."
+   },
+   "sizeScale": 1.0,
+   "softBandCm": 500.0,
+   "radialSoftBandCm": 800.0,
+   "announceBirdSounds": true,
+   "nearUpdateIntervalSeconds": 0.05,
+   "midUpdateIntervalSeconds": 0.1,
+   "farUpdateIntervalSeconds": 0.25,
+   "nearDistanceCm": 12000.0,
+   "midDistanceCm": 40000.0,
+   "cullRadiusCm": 120000.0,
+   "birdsPerUpdate": 9,
+   "maxBirds": 600,
+   "key": "RooftopCrows",
+   "label": "RELEASE_BirdFlock_RooftopCrows",
+   "folder": "Release/Birds",
+   "species": "HoodedCrow",
+   "birdCount": 9,
+   "flockSeed": 20260911,
+   "homePointCm": [
+    -17400.0,
+    16400.0,
+    1300.0
+   ],
+   "radiusCm": 2600.0,
+   "floorZCm": -800.0,
+   "ceilingZCm": 2400.0,
+   "placementBasis": "Hooded crows in twos and threes on the roofs of the block immediately north-west of the Kotel. Nine birds, not a flock: Profile(HoodedCrow) has the highest PerchFraction (0.55), the largest DesiredSeparationCm and near-zero cohesion, so they sit about in ones and twos rather than wheeling. HONEST LIMIT: the perch Z is the TOP OF THE WHOLE CELL AABB, i.e. the tallest roofline in that block of 7 buildings, held along the block's long axis. A crow on this line may therefore sit above a lower roof. Per-roof ledges would need per-building bounds, which this project does not have as separate actors (one merged mesh per grid cell)."
+  },
+  {
+   "perchPointsCm": [],
+   "perchActorTags": [],
+   "perchDiscovery": null,
+   "sizeScale": 1.0,
+   "softBandCm": 500.0,
+   "radialSoftBandCm": 800.0,
+   "announceBirdSounds": true,
+   "nearUpdateIntervalSeconds": 0.1,
+   "midUpdateIntervalSeconds": 0.1,
+   "farUpdateIntervalSeconds": 0.25,
+   "nearDistanceCm": 12000.0,
+   "midDistanceCm": 40000.0,
+   "cullRadiusCm": 120000.0,
+   "birdsPerUpdate": 1,
+   "maxBirds": 600,
+   "key": "MountKestrel",
+   "label": "RELEASE_BirdFlock_MountKestrel",
+   "folder": "Release/Birds",
+   "species": "CommonKestrel",
+   "birdCount": 1,
+   "flockSeed": 20260912,
+   "homePointCm": [
+    2500.0,
+    0.0,
+    11000.0
+   ],
+   "radiusCm": 9000.0,
+   "floorZCm": 7000.0,
+   "ceilingZCm": 14000.0,
+   "placementBasis": "ONE kestrel riding lift 70 to 140 metres over the Mount, for scale. The Mount platform deck is the flat Z 0 surface spanning XY [-21314,-25206]..[14953,25980] (SourceAssets/runtime-review/crowd-field/zones.json MountPlatformDeck, whose evidence is a native downward trace returning Z 0.0 on SM_MountPlatform_Surface), so this volume is wholly above it. Falco tinnunculus, not Gyps fulvus: the griffon profile and its four meshes are imported and available, but FlockMath.h Profile() records that the Israeli griffon is now a Judean Desert / Golan / Negev bird and not a routine sight over the city, so placing one would be a scale prop presented as a Jerusalem observation. The kestrel is resident, breeds on tall buildings and on cliff and wall ledges, and hangs over open ground."
+  }
+ ],
+ "verification": {
+  "transformToleranceCm": 0.001,
+  "floatToleranceCm": 0.01,
+  "perchInsideVolumeRule": "OFFLINE REFUSAL: every perch point must lie inside its own flock cylinder - inside the radius and between floor and ceiling. MikdashFlock::Update clamps every bird to the volume AFTER the step, so a perch outside it would be pulled off its ledge every update and snapped back the next: a visible jitter with no other symptom.",
+  "speciesSeparationRule": "OFFLINE REFUSAL: two flock volumes of the SAME species may not have their home points within 1500 cm of one another with overlapping Z ranges; two flocks of the same bird sitting on top of each other read as one flock with a doubled density.",
+  "sameSpeciesMinHomeDistanceCm": 1500.0,
+  "readbackRule": "Every property is written with set_editor_property and READ BACK immediately - 5.8 setters return misleading values - then read back a second time off the reopened map. Numeric fields and array lengths only; str(Transform) is never compared."
+ },
+ "limitations": [
+  "IMPORT AND PLACEMENT ONLY. No PIE, no render, no cook, no packaged run, no frame-time measurement on the target GPU.",
+  "NO MATERIALS. The birds import with the default material; the rock dove is not yet visibly distinct from the white player dove pawn until a material pass runs.",
+  "The swift flock is placed unconditionally. Apus apus is a late-February to early-July visitor to Jerusalem; nothing here gates it on a season or a time of day.",
+  "Bird counts are a scenery choice, not a census. Nothing here claims how many birds of any species are over Jerusalem.",
+  "The crow perch line sits at the top of a whole grid-cell AABB (the tallest roofline of the block), not on per-building roofs.",
+  "The griffon vulture meshes are imported but no griffon flock is placed; the reason is recorded per-flock."
+ ]
+}

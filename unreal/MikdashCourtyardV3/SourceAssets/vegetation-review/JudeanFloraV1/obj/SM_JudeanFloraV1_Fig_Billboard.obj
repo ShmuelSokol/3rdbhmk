@@ -1,0 +1,15 @@
+# JudeanFloraV1; canonical UE cm (X east, +Y south, Z up), written with Y reflected and triangle winding reversed for the legacy OBJ importer adapter. One o object, no g groups, so the importer creates exactly one material slot.
+# fig far-distance impostor; ONE open single-sided quad, drawn by a camera-facing material. Deliberately exempt from the closed-shell and signed-volume checks.
+o SM_JudeanFloraV1_Fig_Billboard
+s off
+v -325.00000 -0.00000 0.00000
+v 325.00000 -0.00000 0.00000
+v 325.00000 -0.00000 550.00000
+v -325.00000 -0.00000 550.00000
+vt 0.00000 1.00000
+vt 1.00000 1.00000
+vt 1.00000 0.00000
+vt 0.00000 0.00000
+vn 0.0000 1.0000 0.0000
+f 1/1/1 3/3/1 2/2/1
+f 1/1/1 4/4/1 3/3/1

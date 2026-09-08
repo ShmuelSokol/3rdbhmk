@@ -672,20 +672,32 @@ inline double ResolveOverlaps(std::vector<Bird>& Birds, Grid& Scratch, double Ha
             {
                 if (static_cast<size_t>(J) == I) return;
                 const Bird& Other = Birds[static_cast<size_t>(J)];
-                Vec3 Delta = A.Position - Other.Position;
+                const Vec3 Delta = A.Position - Other.Position;
                 double D = Length(Delta);
                 if (D < Smallest) Smallest = D;
                 if (D >= HardSeparationCm) return;
+                // Work in an explicit unit direction and a scalar overlap. Scaling Delta by
+                // 1/D instead would be identical for a normal pair but catastrophic for a
+                // coincident one: the substituted direction is already unit length, so
+                // dividing it by an epsilon D threw the pair tens of kilometres apart in a
+                // single pass. Two birds land on exactly one point often enough to matter -
+                // two ledges authored at the same place, or two birds clamped to the same
+                // point on the cylinder - and the symptom was a bird teleporting to the rim.
+                Vec3 Direction;
                 if (D < 1e-6)
                 {
                     const double Angle = HashRange(A.Seed, static_cast<uint32_t>(J), 909u, 0.0, 2.0 * Pi);
-                    Delta = Vec3{std::cos(Angle), std::sin(Angle), 0.0};
-                    D = 1e-6;
+                    Direction = Vec3{std::cos(Angle), std::sin(Angle), 0.0};
+                    D = 0.0;
+                }
+                else
+                {
+                    Direction = Delta * (1.0 / D);
                 }
                 // The mover takes the whole correction when the other bird is perched and half
                 // otherwise; the other bird takes its own half on its own pass.
                 const double Share = Other.Perched() ? 1.0 : 0.5;
-                Push += Delta * ((HardSeparationCm - D) * Share / D);
+                Push += Direction * ((HardSeparationCm - D) * Share);
             });
             if (LengthSquared(Push) > 0.0) A.Position += Push;
         }

@@ -1,0 +1,907 @@
+{
+  "stamp": "20260908T112445Z",
+  "status": "transit_v3_offline_authored_native_placement_pending",
+  "scope": "Offline authoring only: vehicle geometry, route and stop derivation from the retained OSM context roads and the source street triangles, and the release plan. Nothing in Content/ was touched, no map was opened and no actor was placed. The native half is Scripts/release_transit_v3.py.",
+  "artefacts": {
+    "generator": {
+      "file": "Scripts/create_vehicles.py",
+      "sha256": "835a2e1dda9d0a72f8529f23ff5c49058c799c9fd0d2565aa610a8569bd410b2"
+    },
+    "geometryManifest": {
+      "file": "SourceAssets/transit-review/VehiclesV3/geometry-manifest.json",
+      "sha256": "53308444df48bf336e26287236ecbf5560279f541d5f2d9314a7e7fc125f2fb6"
+    },
+    "routes": {
+      "file": "SourceAssets/transit-review/TransitV3/routes-v3.json",
+      "sha256": "1ab1255bc3a02d8f05eb07bcbfb08255015905cbc8fb65d8639e38bc514a0dd8"
+    },
+    "releaseScript": {
+      "file": "Scripts/release_transit_v3.py",
+      "sha256": "118eb0d7d8ddf21002c1cfa4a0e6bf067ee8a0ca5b6784307cce23fbde56768e"
+    },
+    "releaseSpec": {
+      "file": "Scripts/release_transit_v3.spec.json",
+      "sha256": "87a64cbcd6d19f5ac29475cb4704560743224fcbe265b38dbf3f96d1c0a66cf4"
+    },
+    "runtimeHeader": {
+      "file": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/TransitMath.h",
+      "sha256": "31eae0284e89ee5c8a44caa4e2aa1f9df94c3a0583226ad749a47bae7450d34f"
+    },
+    "runtimeActor": {
+      "file": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashTransit.h",
+      "sha256": "55b738ed1a2cc0c093054e9c1f156c4b56f0b83eb512b79147999bb1c3917aa5"
+    },
+    "mathTests": {
+      "file": "SourceAssets/runtime-review/transit/tests.json",
+      "checksEvaluated": 941241,
+      "debugAndReleaseIdentical": true
+    },
+    "offlineDerivation": {
+      "routeDeriver": "SourceAssets/transit-review/TransitV3/derive_routes_v3.py",
+      "specBuilder": "SourceAssets/transit-review/TransitV3/build_spec.py",
+      "receiptWriter": "SourceAssets/transit-review/TransitV3/write_summary.py",
+      "receiptWriterSha256": "8ac4022bde4eaf9c72017e938d4f292fcd2a5f8a08c9fc953651192a48cb55c0",
+      "note": "Kept beside their output so every number in this receipt can be reproduced offline."
+    }
+  },
+  "vehicles": [
+    {
+      "body": "CarHatchback",
+      "role": "car",
+      "reference": "B-segment hatchback",
+      "lengthCm": 406.0,
+      "widthCm": 183.0,
+      "heightCm": 151.0,
+      "trianglesLod0": 324,
+      "trianglesByGroup": {
+        "Paint": 64,
+        "Glass": 36,
+        "Dark": 168,
+        "Lens": 56
+      },
+      "servesStops": false,
+      "fromRealReference": "segment dimensions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "CarSedan",
+      "role": "car",
+      "reference": "D-segment saloon",
+      "lengthCm": 471.0,
+      "widthCm": 191.0,
+      "heightCm": 149.9,
+      "trianglesLod0": 324,
+      "trianglesByGroup": {
+        "Paint": 64,
+        "Glass": 36,
+        "Dark": 168,
+        "Lens": 56
+      },
+      "servesStops": false,
+      "fromRealReference": "segment dimensions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "CarCrossover",
+      "role": "car",
+      "reference": "compact crossover",
+      "lengthCm": 436.0,
+      "widthCm": 195.0,
+      "heightCm": 170.8,
+      "trianglesLod0": 324,
+      "trianglesByGroup": {
+        "Paint": 64,
+        "Glass": 36,
+        "Dark": 168,
+        "Lens": 56
+      },
+      "servesStops": false,
+      "fromRealReference": "segment dimensions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "CarVan",
+      "role": "car",
+      "reference": "small panel van",
+      "lengthCm": 491.0,
+      "widthCm": 202.0,
+      "heightCm": 198.9,
+      "trianglesLod0": 324,
+      "trianglesByGroup": {
+        "Paint": 64,
+        "Glass": 36,
+        "Dark": 168,
+        "Lens": 56
+      },
+      "servesStops": false,
+      "fromRealReference": "segment dimensions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "Bus",
+      "role": "bus",
+      "reference": "12.0 m rigid low-floor single-decker",
+      "lengthCm": 1200.5,
+      "widthCm": 256.0,
+      "heightCm": 326.5,
+      "trianglesLod0": 408,
+      "trianglesByGroup": {
+        "Paint": 84,
+        "Glass": 48,
+        "Dark": 220,
+        "Lens": 56
+      },
+      "servesStops": true,
+      "fromRealReference": "dimensions and proportions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "TramCab",
+      "role": "tram_cab",
+      "reference": "articulated low-floor tram, cab module",
+      "lengthCm": 666.5,
+      "widthCm": 243.0,
+      "heightCm": 340.5,
+      "trianglesLod0": 352,
+      "trianglesByGroup": {
+        "Paint": 112,
+        "Glass": 36,
+        "Dark": 176,
+        "Lens": 28
+      },
+      "servesStops": true,
+      "fromRealReference": "dimensions and proportions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    },
+    {
+      "body": "TramMid",
+      "role": "tram_mid",
+      "reference": "articulated low-floor tram, intermediate module",
+      "lengthCm": 640.0,
+      "widthCm": 243.0,
+      "heightCm": 375.0,
+      "trianglesLod0": 300,
+      "trianglesByGroup": {
+        "Paint": 84,
+        "Glass": 24,
+        "Dark": 192
+      },
+      "servesStops": true,
+      "fromRealReference": "dimensions and proportions only",
+      "generic": "silhouette, livery, lamps, trim, interior and all markings"
+    }
+  ],
+  "consist": {
+    "modules": 5,
+    "moduleLengthCm": 640.0,
+    "couplingGapCm": 10.0,
+    "overallLengthCm": 3240.0,
+    "order": [
+      "TramCab",
+      "TramMid",
+      "TramMid",
+      "TramMid",
+      "TramCab"
+    ],
+    "note": "The last module is posed with a 180 degree yaw by AMikdashTransit so its cab faces the direction of travel at the far end."
+  },
+  "totalTrianglesLod0": 2436,
+  "lods": {
+    "percentTriangles": [
+      1.0,
+      0.42,
+      0.16,
+      0.06
+    ],
+    "screenSizes": [
+      1.0,
+      0.3,
+      0.13,
+      0.05
+    ],
+    "note": "Four levels. These bodies are seen from 50 m and beyond; LOD0 exists for the one tram standing at a platform in front of the camera."
+  },
+  "routes": [
+    {
+      "id": "rail_red_line_jaffa",
+      "kind": "rail",
+      "label": "Jaffa Road (red line corridor)",
+      "highway": "pedestrian (tram and pedestrian only)",
+      "osmWayIds": [
+        285718947,
+        463187604,
+        263353093
+      ],
+      "lengthCm": 283756.31,
+      "controlPoints": 342,
+      "laneOffsetCm": 0.0,
+      "speedLimitCmPerSecond": 1500.0,
+      "vehicleWeight": 0.0,
+      "busShare": 0.0,
+      "stops": 5,
+      "offStreetCentrelineSamples": 10,
+      "stopProbeSummary": {
+        "evaluated": 605,
+        "rejected": {
+          "off_street": 1,
+          "spread": 0,
+          "gradient": 0,
+          "crossfall": 0
+        }
+      },
+      "note": "Jaffa Road is tagged highway=pedestrian in OSM over this stretch because it carries the light rail and pedestrians only. The corridor is the real red line; the track, the stations and the platforms are authored."
+    },
+    {
+      "id": "road_hativat_yerushalayim",
+      "kind": "road",
+      "label": "Hativat Yerushalayim",
+      "highway": "trunk",
+      "osmWayIds": [
+        984820251,
+        261439508,
+        1188718143
+      ],
+      "lengthCm": 97628.3,
+      "controlPoints": 140,
+      "laneOffsetCm": 380.0,
+      "speedLimitCmPerSecond": 1000.0,
+      "vehicleWeight": 1.6,
+      "busShare": 0.2,
+      "stops": 1,
+      "offStreetCentrelineSamples": 1,
+      "stopProbeSummary": {
+        "evaluated": 182,
+        "rejected": {
+          "off_street": 32,
+          "spread": 20,
+          "gradient": 0,
+          "crossfall": 113
+        }
+      },
+      "note": "Trunk road along the west wall of the Old City; the flattest corridor in range."
+    },
+    {
+      "id": "road_hatsanhanim",
+      "kind": "road",
+      "label": "HaTsanhanim",
+      "highway": "trunk",
+      "osmWayIds": [
+        184793808,
+        234683403
+      ],
+      "lengthCm": 99117.57,
+      "controlPoints": 144,
+      "laneOffsetCm": 360.0,
+      "speedLimitCmPerSecond": 1000.0,
+      "vehicleWeight": 1.5,
+      "busShare": 0.24,
+      "stops": 3,
+      "offStreetCentrelineSamples": 1,
+      "stopProbeSummary": {
+        "evaluated": 263,
+        "rejected": {
+          "off_street": 65,
+          "spread": 0,
+          "gradient": 16,
+          "crossfall": 0
+        }
+      },
+      "note": "Trunk road past the north wall; a real Egged trunk corridor."
+    },
+    {
+      "id": "road_sultan_suleiman",
+      "kind": "road",
+      "label": "Sultan Suleiman",
+      "highway": "tertiary",
+      "osmWayIds": [
+        1299310533,
+        771909611,
+        1299310546
+      ],
+      "lengthCm": 50047.71,
+      "controlPoints": 84,
+      "laneOffsetCm": 340.0,
+      "speedLimitCmPerSecond": 700.0,
+      "vehicleWeight": 1.4,
+      "busShare": 0.34,
+      "stops": 2,
+      "offStreetCentrelineSamples": 0,
+      "stopProbeSummary": {
+        "evaluated": 122,
+        "rejected": {
+          "off_street": 0,
+          "spread": 0,
+          "gradient": 0,
+          "crossfall": 60
+        }
+      },
+      "note": "The street outside Damascus Gate; in the real city the East Jerusalem bus terminals sit on it, so its bus share is the highest of the set."
+    },
+    {
+      "id": "road_maale_hashalom",
+      "kind": "road",
+      "label": "Maale HaShalom",
+      "highway": "tertiary",
+      "osmWayIds": [
+        771909616
+      ],
+      "lengthCm": 63107.81,
+      "controlPoints": 106,
+      "laneOffsetCm": 340.0,
+      "speedLimitCmPerSecond": 780.0,
+      "vehicleWeight": 1.2,
+      "busShare": 0.2,
+      "stops": 1,
+      "offStreetCentrelineSamples": 4,
+      "stopProbeSummary": {
+        "evaluated": 142,
+        "rejected": {
+          "off_street": 0,
+          "spread": 37,
+          "gradient": 32,
+          "crossfall": 104
+        }
+      },
+      "note": "Tertiary approach climbing north-west from the Dung Gate side."
+    },
+    {
+      "id": "road_ir_david_ophel",
+      "kind": "road",
+      "label": "Ma'alot Ir David and HaOfel",
+      "highway": "tertiary",
+      "osmWayIds": [
+        157676832,
+        34244965
+      ],
+      "lengthCm": 239832.15,
+      "controlPoints": 300,
+      "laneOffsetCm": 340.0,
+      "speedLimitCmPerSecond": 830.0,
+      "vehicleWeight": 1.5,
+      "busShare": 0.22,
+      "stops": 3,
+      "offStreetCentrelineSamples": 0,
+      "stopProbeSummary": {
+        "evaluated": 505,
+        "rejected": {
+          "off_street": 8,
+          "spread": 195,
+          "gradient": 37,
+          "crossfall": 333
+        }
+      },
+      "note": "Two ways sharing an endpoint; the main eastern spine below the Mount."
+    },
+    {
+      "id": "road_batei_mahase",
+      "kind": "road",
+      "label": "Batei Mahase",
+      "highway": "residential",
+      "osmWayIds": [
+        496167693
+      ],
+      "lengthCm": 64871.13,
+      "controlPoints": 136,
+      "laneOffsetCm": 300.0,
+      "speedLimitCmPerSecond": 560.0,
+      "vehicleWeight": 0.9,
+      "busShare": 0.3,
+      "stops": 1,
+      "offStreetCentrelineSamples": 1,
+      "stopProbeSummary": {
+        "evaluated": 193,
+        "rejected": {
+          "off_street": 4,
+          "spread": 66,
+          "gradient": 25,
+          "crossfall": 138
+        }
+      },
+      "note": "The road already carrying the placed RELEASE_Bus_* hero bus. Its east half exceeds 8 deg crossfall and is rejected for stops, exactly as the hero bus placement found."
+    }
+  ],
+  "stops": [
+    {
+      "globalStopIndex": 0,
+      "route": "rail_red_line_jaffa",
+      "kind": "rail",
+      "name": "Jaffa Road (red line corridor) stop 1",
+      "worldCm": [
+        -117118.97,
+        -20541.14,
+        4757.82
+      ],
+      "headingDegrees": -141.359,
+      "crossfallDegrees": 0.36,
+      "gradientDegrees": 3.218,
+      "spreadCm": 34.632,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        22,
+        70
+      ],
+      "dwellSeconds": [
+        20.0,
+        40.0
+      ]
+    },
+    {
+      "globalStopIndex": 1,
+      "route": "rail_red_line_jaffa",
+      "kind": "rail",
+      "name": "Jaffa Road (red line corridor) stop 2",
+      "worldCm": [
+        -136454.92,
+        -30305.31,
+        5117.5
+      ],
+      "headingDegrees": -150.213,
+      "crossfallDegrees": 0.0,
+      "gradientDegrees": 0.0,
+      "spreadCm": 0.0,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        22,
+        70
+      ],
+      "dwellSeconds": [
+        20.0,
+        40.0
+      ]
+    },
+    {
+      "globalStopIndex": 2,
+      "route": "rail_red_line_jaffa",
+      "kind": "rail",
+      "name": "Jaffa Road (red line corridor) stop 3",
+      "worldCm": [
+        -162104.95,
+        -50500.8,
+        4517.5
+      ],
+      "headingDegrees": -143.872,
+      "crossfallDegrees": 0.0,
+      "gradientDegrees": 0.0,
+      "spreadCm": 0.0,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        22,
+        70
+      ],
+      "dwellSeconds": [
+        20.0,
+        40.0
+      ]
+    },
+    {
+      "globalStopIndex": 3,
+      "route": "rail_red_line_jaffa",
+      "kind": "rail",
+      "name": "Jaffa Road (red line corridor) stop 4",
+      "worldCm": [
+        -187008.94,
+        -66091.12,
+        5817.5
+      ],
+      "headingDegrees": -154.341,
+      "crossfallDegrees": 0.0,
+      "gradientDegrees": 0.0,
+      "spreadCm": 0.0,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        22,
+        70
+      ],
+      "dwellSeconds": [
+        20.0,
+        40.0
+      ]
+    },
+    {
+      "globalStopIndex": 4,
+      "route": "rail_red_line_jaffa",
+      "kind": "rail",
+      "name": "Jaffa Road (red line corridor) stop 5",
+      "worldCm": [
+        -209982.0,
+        -82901.68,
+        7217.5
+      ],
+      "headingDegrees": -147.341,
+      "crossfallDegrees": 0.0,
+      "gradientDegrees": 0.0,
+      "spreadCm": 0.0,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        22,
+        70
+      ],
+      "dwellSeconds": [
+        20.0,
+        40.0
+      ]
+    },
+    {
+      "globalStopIndex": 5,
+      "route": "road_hativat_yerushalayim",
+      "kind": "road",
+      "name": "Hativat Yerushalayim stop 1",
+      "worldCm": [
+        -85862.86,
+        46117.06,
+        147.79
+      ],
+      "headingDegrees": -68.643,
+      "crossfallDegrees": 6.837,
+      "gradientDegrees": 7.563,
+      "spreadCm": 118.618,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        8,
+        26
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 6,
+      "route": "road_hatsanhanim",
+      "kind": "road",
+      "name": "HaTsanhanim stop 1",
+      "worldCm": [
+        -100134.25,
+        -7994.3,
+        4293.72
+      ],
+      "headingDegrees": -89.844,
+      "crossfallDegrees": 2.309,
+      "gradientDegrees": 4.807,
+      "spreadCm": 68.278,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        8,
+        26
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 7,
+      "route": "road_hatsanhanim",
+      "kind": "road",
+      "name": "HaTsanhanim stop 2",
+      "worldCm": [
+        -88708.78,
+        -18808.87,
+        3883.74
+      ],
+      "headingDegrees": -33.001,
+      "crossfallDegrees": 1.347,
+      "gradientDegrees": 6.63,
+      "spreadCm": 86.714,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        8,
+        26
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 8,
+      "route": "road_hatsanhanim",
+      "kind": "road",
+      "name": "HaTsanhanim stop 3",
+      "worldCm": [
+        -73377.52,
+        -35085.36,
+        1443.79
+      ],
+      "headingDegrees": -83.208,
+      "crossfallDegrees": 0.814,
+      "gradientDegrees": 1.539,
+      "spreadCm": 21.17,
+      "surfaceFamilies": [
+        "Stone paths"
+      ],
+      "boardingPeople": [
+        8,
+        26
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 9,
+      "route": "road_sultan_suleiman",
+      "kind": "road",
+      "name": "Sultan Suleiman stop 1",
+      "worldCm": [
+        487.58,
+        -62911.39,
+        1224.04
+      ],
+      "headingDegrees": 167.005,
+      "crossfallDegrees": 4.158,
+      "gradientDegrees": 1.922,
+      "spreadCm": 37.946,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        10,
+        34
+      ],
+      "dwellSeconds": [
+        16.0,
+        32.0
+      ]
+    },
+    {
+      "globalStopIndex": 10,
+      "route": "road_sultan_suleiman",
+      "kind": "road",
+      "name": "Sultan Suleiman stop 2",
+      "worldCm": [
+        -11163.92,
+        -61167.88,
+        1044.08
+      ],
+      "headingDegrees": 171.577,
+      "crossfallDegrees": 4.146,
+      "gradientDegrees": 4.659,
+      "spreadCm": 72.188,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        10,
+        34
+      ],
+      "dwellSeconds": [
+        16.0,
+        32.0
+      ]
+    },
+    {
+      "globalStopIndex": 11,
+      "route": "road_maale_hashalom",
+      "kind": "road",
+      "name": "Maale HaShalom stop 1",
+      "worldCm": [
+        -43623.26,
+        57853.94,
+        38.32
+      ],
+      "headingDegrees": 145.078,
+      "crossfallDegrees": 5.524,
+      "gradientDegrees": 7.486,
+      "spreadCm": 112.974,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        7,
+        22
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 12,
+      "route": "road_ir_david_ophel",
+      "kind": "road",
+      "name": "Ma'alot Ir David and HaOfel stop 1",
+      "worldCm": [
+        -15554.93,
+        70269.23,
+        -7646.07
+      ],
+      "headingDegrees": -75.161,
+      "crossfallDegrees": 2.189,
+      "gradientDegrees": 9.68,
+      "spreadCm": 129.977,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        7,
+        22
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 13,
+      "route": "road_ir_david_ophel",
+      "kind": "road",
+      "name": "Ma'alot Ir David and HaOfel stop 2",
+      "worldCm": [
+        -4687.93,
+        41137.01,
+        -4329.08
+      ],
+      "headingDegrees": -76.156,
+      "crossfallDegrees": 0.548,
+      "gradientDegrees": 2.224,
+      "spreadCm": 29.801,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        7,
+        22
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 14,
+      "route": "road_ir_david_ophel",
+      "kind": "road",
+      "name": "Ma'alot Ir David and HaOfel stop 3",
+      "worldCm": [
+        4802.57,
+        34580.11,
+        -4565.28
+      ],
+      "headingDegrees": -4.237,
+      "crossfallDegrees": 4.898,
+      "gradientDegrees": 4.225,
+      "spreadCm": 69.638,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        7,
+        22
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    },
+    {
+      "globalStopIndex": 15,
+      "route": "road_batei_mahase",
+      "kind": "road",
+      "name": "Batei Mahase stop 1",
+      "worldCm": [
+        -40767.18,
+        47266.78,
+        1230.49
+      ],
+      "headingDegrees": 11.42,
+      "crossfallDegrees": 3.907,
+      "gradientDegrees": 8.116,
+      "spreadCm": 114.918,
+      "surfaceFamilies": [
+        "Asphalt roads"
+      ],
+      "boardingPeople": [
+        6,
+        20
+      ],
+      "dwellSeconds": [
+        14.0,
+        28.0
+      ]
+    }
+  ],
+  "surfaceValidation": {
+    "method": "Barycentric interpolation of the highest source street triangle under each of four probes, from jerusalem-meshes.json meshes \"Asphalt roads\" and \"Stone paths\" -- the same source and the same arithmetic release_place_bus.spec.json used for the hero bus. Probe footprint is 720 x 192 cm for road stops (the hero bus wheelbase and track) and 600 x 143.5 cm for rail stops (bogie spacing and standard gauge).",
+    "limitsApplied": {
+      "maxCrossfallDegrees": 8.0,
+      "maxGradientDegrees": 10.0,
+      "maxWheelSpreadCm": 150.0,
+      "note": "Same limits and the same four-probe arithmetic as release_place_bus.spec.json groundProbes."
+    },
+    "spreadDeparture": "The hero bus rejects a spread over 60 cm because it fits a plane through four wheel contacts and places a rigid actor on it. AMikdashTransit poses vehicles yaw-only on the route centreline and never applies pitch or roll, so spread costs nothing there: it is measured and reported and only rejected past 150 cm. Crossfall and gradient are the hero bus limits unchanged.",
+    "reproducesHeroBusFinding": "road_batei_mahase: 138 of 193 probe positions were rejected for crossfall over 8 degrees, all in the eastern half. That is the same finding release_place_bus.spec.json records (\"the whole eastern half of the road exceeds 8 deg crossfall\"), reached independently from the same source triangles. The one accepted stop is at the west end, 2.8 m from the placed hero bus.",
+    "stillToProve": "These are OFFLINE numbers from the source triangles, not engine ground contact. release_transit_v3.py trace_stops re-measures every stop with a PIE line trace and drops any that disagrees."
+  },
+  "budget": {
+    "target": "RTX 2070 (8 GB VRAM, TU106) in a 16 GB system",
+    "roadVehicles": 240,
+    "activeTrains": 3,
+    "trainCarsPerConsist": 5,
+    "updateBudgetPerFrame": 48,
+    "framesPerSweep": 5,
+    "sweepSecondsAt60Fps": 0.0833,
+    "sweepSecondsAt30Fps": 0.1667,
+    "worstCaseTrianglesAllLod0": 102732,
+    "hismComponents": 31,
+    "lod0TrianglesAllBodies": 2436,
+    "basis": [
+      "TRIANGLES are not the constraint. Every body is under 408 triangles at LOD0 and the whole set is 2436. With every road vehicle and all 3 consists resident at LOD0 the layer is 102,732 triangles, which a TU106 draws in a fraction of a millisecond; the declared LOD ladder ([1.0, 0.42, 0.16, 0.06]) and the 2600 m cull take most of that away again.",
+      "VRAM is not the constraint. 31 static meshes totalling 2436 triangles is well under a megabyte of vertex data, and the four textures are 512x256 and 128x128 RGB.",
+      "DRAW CALLS are bounded by the component count, not the instance count: 31 HISM components plus stop furniture, one batch each per LOD per view.",
+      "The real cost is the CPU-side instance transform write and the render-state flush. AMikdashTransit bounds both: it advances 48 vehicles per frame whatever the total, and marks each touched component dirty ONCE per frame rather than once per instance. At 240 vehicles that is a 5-frame sweep, 0.083 s at 60 fps.",
+      "The sweep length is what sets the vehicle count, not the GPU. CatchUpSeconds clamps a vehicle step to 0.35 s, and at 1000 cm/s a 0.083 s step covers 83 cm against the 120 cm arrival tolerance, so the stop line cannot be stepped over at 60 fps. At 30 fps the step is 167 cm and the dwell machine leans on its LOW SPEED condition instead, which is why that condition exists. Raising RoadVehicleCount without raising UpdateBudget lengthens the sweep and eventually breaks that margin: the ceiling for this budget is about 240 road vehicles.",
+      "The binding constraint on this machine is the CROWD, not the traffic. 16 stops can each ask for a boarding group, and AMikdashCrowdField pays per figure. The coordinator should cap concurrent transit-driven crowd instances; see coordinatorMustWire below.",
+      "MaxRoadVehicles 900 and the math's own 8x clamp on DensityMultiplier exist so a mistyped multiplier cannot allocate without bound. They are a fuse, not a target."
+    ]
+  },
+  "coordinatorMustWire": [
+    "Bind the crowd. AMikdashTransit references, includes and edits nothing in AMikdashCrowdField or the 24 residents. Bind OnRequestBoarding to the crowd field's \"converge on point and despawn\" entry point and OnRequestAlighting to its \"spawn at point and disperse\" entry point, or override the RequestBoarding / RequestAlighting BlueprintImplementableEvents in a Blueprint subclass. Both carry (GlobalStopIndex, Count, BoardingPoint, SecondsAvailable, RouteId).",
+    "Honour SecondsAvailable. It is the dwell the doors will actually stay open. A crowd walk that takes longer than it will still be walking when the vehicle leaves.",
+    "Use BoardingPoint, not GetStopLocation. BoardingPoint is the world point at the vehicle door on the kerb side for THIS arrival; GetStopLocation is the authored stop and GetStopFurniturePoint is the shelter or platform face to gather at.",
+    "Call SuggestPhotographerCount(GlobalStopIndex, Count, RunIndex) from the boarding handler and give that many figures a standing photograph pose facing the Mount. The transit actor owns no pedestrian and implements no behaviour; the number is a hint.",
+    "Cap concurrency. Nothing in the transit layer limits how many boarding groups are live at once. With 16 stops the coordinator must impose its own ceiling on transit-driven crowd instances and drop requests over it, rather than letting the crowd grow.",
+    "Set ShelterMeshes and PlatformMeshes if stop furniture is wanted. This release leaves both empty: no shelter or platform geometry is authored in VehiclesV3, and placing the TransitSystemV1 shelter would import a frozen namespace this job does not own.",
+    "Check GetStopProjectionErrorCm after InitializeTransit. It reports how far each authored stop sat from the route the runtime built. A large value means the stop is off its route; it is reported rather than hidden and nothing else will tell you."
+  ],
+  "realVsGeneric": {
+    "realReference": [
+      "Right-hand traffic: Israel drives on the right, so doors, kerbs and boarding points are on the vehicle local +Y.",
+      "Tram proportions: articulated low-floor vehicle of the Jerusalem Light Rail red line -- 32.5 m over five modules, 2.40 m wide, 3.35 m high, 1435 mm standard gauge, doors on both sides. Dimensions only.",
+      "Bus proportions: standard 12.0 m rigid low-floor single-decker, 2.55 m wide, 3.20 m high -- the Egged city-bus envelope. Dimensions only.",
+      "Car dimensions: ordinary European segment sizes (B-segment hatchback 4.05 m, D-segment saloon 4.70 m, compact crossover 4.35 m, small panel van 4.90 m).",
+      "The rail route follows Jaffa Road, which OSM tags highway=pedestrian over this stretch because it carries the light rail and pedestrians only. That is the real Jerusalem Light Rail red line corridor.",
+      "The road routes are real Jerusalem streets by OSM way id: Hativat Yerushalayim (trunk, 984820251 + 261439508 + 1188718143), HaTsanhanim (trunk, 184793808 + 234683403), Sultan Suleiman (tertiary, 1299310533 + 771909611 + 1299310546), Maale HaShalom (tertiary, 771909616), Maalot Ir David and HaOfel (tertiary, 157676832 + 34244965) and Batei Mahase (residential, 496167693).",
+      "Sultan Suleiman carries the highest bus share because the East Jerusalem bus terminals are on it in the real city."
+    ],
+    "generic": [
+      "Every body is a simplified prism silhouette. No manufacturer bodywork, grille, lamp signature, badge, wheel design or trim is reproduced.",
+      "Liveries are flat colour fields plus a stripe. Tram grey and bus white-and-green are used AS COLOUR only. No operator logo, wordmark, route number, destination text or livery artwork is drawn; destination blinds are blank black panels.",
+      "The five tram modules are authored to a uniform length because TransitMath::CarCentreOffsetCm assumes one. The real vehicle alternates motor and suspended modules of differing lengths.",
+      "Interiors, driver, seats, mirrors, pantograph detail and number plates are omitted.",
+      "The light-rail TRACK, its stations, its platforms and its service pattern are authored interpretation laid along the real corridor. They are not surveyed infrastructure, not an approved alignment and not a real timetable.",
+      "Lane offsets, lane counts, one-way restrictions, junction control and kerb lines are authored: only 8 of the 5,944 source ways carry a width tag and none carries lane data.",
+      "Stop positions are chosen by the flattest passing footprint in a spacing window. They are not real bus stops and do not correspond to any real stop location.",
+      "Turnaround caps closing each open road into a circuit are a geometric device, not real turning circles, and may not lie on drivable ground."
+    ]
+  },
+  "limitations": [
+    "Placeholder planar UVs only; no lightmap UVs and no unwrap.",
+    "LOD0 only is authored offline. The reduction ladder below is built in the engine by release_transit_v3.py; nothing is decimated in Python.",
+    "No collision is authored; AMikdashTransit sets NoCollision on every component.",
+    "The preview PNG is a stdlib depth-buffer inspection image, not an Unreal render.",
+    "No junction, signal, right of way, pedestrian crossing or collision behaviour is modelled anywhere. A vehicle follows the vehicle ahead of it on its own route and nothing else, and passes through anything not on its route.",
+    "No crowd is wired or spawned by any of this. The boarding hook is defined and tested; connecting it to AMikdashCrowdField is the coordinator's job.",
+    "The engine shell (AMikdashTransit) has no standalone test: it needs an editor to compile and a world to run. Only TransitMath.h is covered by the 941,241-check gate."
+  ],
+  "notAClaimOf": [
+    "visual acceptance of any body, livery or material",
+    "that the traffic reads as Jerusalem to a person who lives there",
+    "pedestrian boarding: no crowd is wired by this script and none is spawned",
+    "a surveyed or approved light-rail alignment: the track, stations and platforms along the Jaffa Road corridor are authored interpretation",
+    "junction, signal, right-of-way, crossing or collision behaviour, none of which exists",
+    "packaged-build or cook acceptance"
+  ],
+  "runOrder": [
+    "import_assets",
+    "trace_stops",
+    "place_from_receipt"
+  ]
+}

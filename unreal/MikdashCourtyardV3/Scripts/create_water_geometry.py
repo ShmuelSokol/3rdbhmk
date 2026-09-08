@@ -1300,8 +1300,32 @@ def export(groups=DEFAULT_GROUPS, force=False):
 
     preview = write_plan(OUT / 'water-plan.png', arch_rows, flat)
 
+    # The decomposed clearance boxes, published so that Scripts/release_water.py can run the
+    # SAME narrow-phase test against the live level that was run here against the manifest,
+    # instead of re-deriving it from raw actor bounds and reproducing the false-blocker
+    # failure this whole mechanism exists to prevent. Written beside the manifest rather
+    # than inside it: there are thousands of them and the manifest stays readable.
+    box_rows = []
+    for mesh_name, parts, _, _ in meshes:
+        for part_name, solid in parts:
+            for sub in part_subboxes(solid):
+                box_rows.append(dict(mesh=mesh_name, part=part_name,
+                                     min=[round(v, 4) for v in sub['min']],
+                                     max=[round(v, 4) for v in sub['max']]))
+    (OUT / 'clearance-boxes.json').write_text(json.dumps(dict(
+        note=('Tight sub-boxes of every generated solid, canonical Unreal cm, in the same frame as '
+              'canonicalBoundsCm. Narrow phase for any clearance test. A whole-part AABB around a '
+              'curving swept channel is not the channel: see part_subboxes() in the authoring script.'),
+        subBoxMaxExtentCm=SUBBOX_MAX_EXTENT_CM, count=len(box_rows), boxes=box_rows),
+        indent=None) + chr(10), encoding='utf-8')
+
     manifest = dict(
         version='MikdashWaterV1',
+        # Read and required verbatim by Scripts/release_water.py before it imports anything,
+        # so that a manifest written by a --force run can never be released by accident.
+        status=('OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING' if not (force or anchor_errors
+                or clearance['blockers'] or not header_check['constantsMatched'])
+                else 'FORCED_OFFLINE_EXPORT_NOT_RELEASABLE'),
         generated=datetime.now(timezone.utc).isoformat(),
         script='Scripts/create_water_geometry.py',
         scriptSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -1328,6 +1352,8 @@ def export(groups=DEFAULT_GROUPS, force=False):
         readback=readbacks,
         clearance=clearance,
         preview=preview,
+        clearanceBoxesFile='clearance-boxes.json',
+        clearanceBoxesSha256=hashlib.sha256((OUT / 'clearance-boxes.json').read_bytes()).hexdigest(),
         facts=facts,
         kiyor=dict(
             alreadyPresent=True,

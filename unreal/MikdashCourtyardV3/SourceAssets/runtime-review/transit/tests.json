@@ -1,12 +1,12 @@
 {
-  "stamp": "20260908T040921Z",
+  "stamp": "20260908T111222Z",
   "status": "transit_math_standalone_tests_passed_native_integration_pending",
   "toolchain": "VS2022 BuildTools vcvars64, cl /std:c++17 /EHsc /W4 /WX (debug /Od, release /O2 /DNDEBUG)",
   "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/TransitMath.h",
-  "headerSha256": "1f2c6f89a47c3e15556f1a0e71374a6d4a9f21c66c929e2cfed218182afe21e9",
+  "headerSha256": "31eae0284e89ee5c8a44caa4e2aa1f9df94c3a0583226ad749a47bae7450d34f",
   "source": "Plugins/MikdashRuntime/Tests/TransitMathTest.cpp",
-  "sourceSha256": "6b139fec4723cf740094f853292dbd0f9c72ac0bde82967350afeb5d8978f1a2",
-  "checksEvaluated": 927393,
+  "sourceSha256": "86f1447079a7df9d15016d6551363d4779e9bfe2774bbd4ec14486a479e98a04",
+  "checksEvaluated": 941241,
   "debugAndReleaseMeasurementsIdentical": true,
   "coverage": [
     "arc-length densification and sampling, centripetal Catmull-Rom and exact polyline",
@@ -19,7 +19,8 @@
     "round-robin budget coverage and catch-up integration with its clamp",
     "3-car articulated consist posed from bogie chords through a corner",
     "variant blocking, apportioning, density clamping, paint palette coverage",
-    "one simulated hour of bus service: strict cyclic stop order and boarding demand"
+    "one simulated hour of bus service: strict cyclic stop order and boarding demand",
+    "PhotographerCount: the crowd hint is bracketed by floor/ceil of the exact share, never exceeds the group, is deterministic per (seed, stop, run) and is not a constant"
   ],
   "bugsFoundAndFixed": [
     "VariantBlockStart returned 0 instead of TotalInstances for the end sentinel when VariantCount == 1, so the only block read as empty. Guard order corrected.",
@@ -32,104 +33,47 @@
   ],
   "results": [
     {
-      "test": "transit_debug.exe",
-      "compileFlags": "/std:c++17 /EHsc /W4 /WX /Od",
-      "args": [
-        "SourceAssets/runtime-review/transit/measurements-debug.json"
-      ],
-      "exitCode": 0,
-      "stdout": "geometry: dogleg 70000 cm exact, walked 70000.000 cm, square 40000 cm, smoothed 42020 cm, lane offset and wrap correct\nfollowing: free-road terminal 900.0 cm/s, desired gap 1080 cm, equilibrium gap 1115.4 cm at accel 0.00e+00, stop-line residual 0.8 cm\nplatoon: 16 vehicles, 40000 frames, minimum clearance 1727.8 cm, final speed spread 0.00 cm/s, no pass-through\ndwell: one open/close/depart per stop, drawn 30.57 s vs measured 30.60 s, stopped 0.6 cm from the line, window used 20.01..39.99 s\nschedule: headway mean 210.8 s in [120.0, 300.0], 200 departures strictly increasing, boarding 6..22 per stop\nbudget: full coverage at every (count, budget), catch-up travel error 0.00 cm over 10 s, max step 315 cm\nconsist: 3 cars spaced 3260 cm on tangent, articulated at the corner (1 yaw breaks, closest centres 2867 cm)\nvariation: variant blocks contiguous, apportioning exact for 0..199, palette hits 1010/985/1005 of 3000\nservice: 95 stop calls in one simulated hour, strict cyclic order, 1324 boarding requests raised (13.9 per call)\nPASS 927393 checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation and service",
-      "stderr": "",
-      "exeSha256": "cee4b13b18bf71a7a36daa9e63f80aa3d6bef8f8b9edc5bac473cfff76faff85",
-      "measurements": {
-        "test": "TransitMathTest",
-        "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/TransitMath.h",
-        "allPassed": true,
-        "checksEvaluated": 927393,
-        "measurements": {
-          "dogleg_length_cm": 70000.0,
-          "dogleg_walked_cm": 70000.0,
-          "square_perimeter_cm": 40000.0,
-          "square_smoothed_cm": 42019.793453,
-          "free_road_terminal_speed_cm_s": 900.0,
-          "desired_gap_cm": 1080.0,
-          "equilibrium_gap_cm": 1115.419204,
-          "equilibrium_accel_cm_s2": 0.0,
-          "stop_line_residual_cm": 0.768449,
-          "platoon_min_gap_cm": 1727.810003,
-          "platoon_speed_spread_cm_s": 0.0,
-          "platoon_vehicles": 16,
-          "cycle_dwell_drawn_s": 30.568175,
-          "cycle_dwell_measured_s": 30.6,
-          "cycle_stop_error_cm": 0.647512,
-          "dwell_min_drawn_s": 20.009471,
-          "dwell_max_drawn_s": 39.988553,
-          "headway_mean_s": 210.805696,
-          "headway_min_s": 120.002943,
-          "headway_max_s": 299.957133,
-          "timetable_200th_departure_s": 42068.40254,
-          "boarding_mean_per_stop": 14.021333,
-          "boarding_min": 6,
-          "boarding_max": 22,
-          "catchup_travel_error_cm": 0.0,
-          "catchup_max_step_travel_cm": 315.0,
-          "consist_corner_closest_centre_cm": 2867.305342,
-          "consist_corner_distinct_yaws": 1,
-          "service_stops_served": 95,
-          "service_people_moved": 1324,
-          "service_mean_people_per_call": 13.936842
-        }
-      }
+      "build": "debug (/Od)",
+      "passed": true,
+      "checksEvaluated": 941241,
+      "stdout": [
+        "geometry: dogleg 70000 cm exact, walked 70000.000 cm, square 40000 cm, smoothed 42020 cm, lane offset and wrap correct",
+        "following: free-road terminal 900.0 cm/s, desired gap 1080 cm, equilibrium gap 1115.4 cm at accel 0.00e+00, stop-line residual 0.8 cm",
+        "platoon: 16 vehicles, 40000 frames, minimum clearance 1727.8 cm, final speed spread 0.00 cm/s, no pass-through",
+        "dwell: one open/close/depart per stop, drawn 30.57 s vs measured 30.60 s, stopped 0.6 cm from the line, window used 20.01..39.99 s",
+        "schedule: headway mean 210.8 s in [120.0, 300.0], 200 departures strictly increasing, boarding 6..22 per stop",
+        "budget: full coverage at every (count, budget), catch-up travel error 0.00 cm over 10 s, max step 315 cm",
+        "consist: 3 cars spaced 3260 cm on tangent, articulated at the corner (1 yaw breaks, closest centres 2867 cm)",
+        "variation: variant blocks contiguous, apportioning exact for 0..199, palette hits 1010/985/1005 of 3000",
+        "service: 95 stop calls in one simulated hour, strict cyclic order, 1324 boarding requests raised (13.9 per call)",
+        "photographers: 4608 draws, mean 6.38 per group, range 0..14, bracket respected",
+        "PASS 941241 checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation, service and the photographer hint"
+      ]
     },
     {
-      "test": "transit_release.exe",
-      "compileFlags": "/std:c++17 /EHsc /W4 /WX /O2 /DNDEBUG",
-      "args": [
-        "SourceAssets/runtime-review/transit/measurements-release.json"
-      ],
-      "exitCode": 0,
-      "stdout": "geometry: dogleg 70000 cm exact, walked 70000.000 cm, square 40000 cm, smoothed 42020 cm, lane offset and wrap correct\nfollowing: free-road terminal 900.0 cm/s, desired gap 1080 cm, equilibrium gap 1115.4 cm at accel 0.00e+00, stop-line residual 0.8 cm\nplatoon: 16 vehicles, 40000 frames, minimum clearance 1727.8 cm, final speed spread 0.00 cm/s, no pass-through\ndwell: one open/close/depart per stop, drawn 30.57 s vs measured 30.60 s, stopped 0.6 cm from the line, window used 20.01..39.99 s\nschedule: headway mean 210.8 s in [120.0, 300.0], 200 departures strictly increasing, boarding 6..22 per stop\nbudget: full coverage at every (count, budget), catch-up travel error 0.00 cm over 10 s, max step 315 cm\nconsist: 3 cars spaced 3260 cm on tangent, articulated at the corner (1 yaw breaks, closest centres 2867 cm)\nvariation: variant blocks contiguous, apportioning exact for 0..199, palette hits 1010/985/1005 of 3000\nservice: 95 stop calls in one simulated hour, strict cyclic order, 1324 boarding requests raised (13.9 per call)\nPASS 927393 checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation and service",
-      "stderr": "",
-      "exeSha256": "8500f72443171c9adbc82cf9f2ea6c07913e94ad3d3d6824e761b503fce1a127",
-      "measurements": {
-        "test": "TransitMathTest",
-        "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/TransitMath.h",
-        "allPassed": true,
-        "checksEvaluated": 927393,
-        "measurements": {
-          "dogleg_length_cm": 70000.0,
-          "dogleg_walked_cm": 70000.0,
-          "square_perimeter_cm": 40000.0,
-          "square_smoothed_cm": 42019.793453,
-          "free_road_terminal_speed_cm_s": 900.0,
-          "desired_gap_cm": 1080.0,
-          "equilibrium_gap_cm": 1115.419204,
-          "equilibrium_accel_cm_s2": 0.0,
-          "stop_line_residual_cm": 0.768449,
-          "platoon_min_gap_cm": 1727.810003,
-          "platoon_speed_spread_cm_s": 0.0,
-          "platoon_vehicles": 16,
-          "cycle_dwell_drawn_s": 30.568175,
-          "cycle_dwell_measured_s": 30.6,
-          "cycle_stop_error_cm": 0.647512,
-          "dwell_min_drawn_s": 20.009471,
-          "dwell_max_drawn_s": 39.988553,
-          "headway_mean_s": 210.805696,
-          "headway_min_s": 120.002943,
-          "headway_max_s": 299.957133,
-          "timetable_200th_departure_s": 42068.40254,
-          "boarding_mean_per_stop": 14.021333,
-          "boarding_min": 6,
-          "boarding_max": 22,
-          "catchup_travel_error_cm": 0.0,
-          "catchup_max_step_travel_cm": 315.0,
-          "consist_corner_closest_centre_cm": 2867.305342,
-          "consist_corner_distinct_yaws": 1,
-          "service_stops_served": 95,
-          "service_people_moved": 1324,
-          "service_mean_people_per_call": 13.936842
-        }
-      }
+      "build": "release (/O2 /DNDEBUG)",
+      "passed": true,
+      "checksEvaluated": 941241,
+      "stdout": [
+        "geometry: dogleg 70000 cm exact, walked 70000.000 cm, square 40000 cm, smoothed 42020 cm, lane offset and wrap correct",
+        "following: free-road terminal 900.0 cm/s, desired gap 1080 cm, equilibrium gap 1115.4 cm at accel 0.00e+00, stop-line residual 0.8 cm",
+        "platoon: 16 vehicles, 40000 frames, minimum clearance 1727.8 cm, final speed spread 0.00 cm/s, no pass-through",
+        "dwell: one open/close/depart per stop, drawn 30.57 s vs measured 30.60 s, stopped 0.6 cm from the line, window used 20.01..39.99 s",
+        "schedule: headway mean 210.8 s in [120.0, 300.0], 200 departures strictly increasing, boarding 6..22 per stop",
+        "budget: full coverage at every (count, budget), catch-up travel error 0.00 cm over 10 s, max step 315 cm",
+        "consist: 3 cars spaced 3260 cm on tangent, articulated at the corner (1 yaw breaks, closest centres 2867 cm)",
+        "variation: variant blocks contiguous, apportioning exact for 0..199, palette hits 1010/985/1005 of 3000",
+        "service: 95 stop calls in one simulated hour, strict cyclic order, 1324 boarding requests raised (13.9 per call)",
+        "photographers: 4608 draws, mean 6.38 per group, range 0..14, bracket respected",
+        "PASS 941241 checks: transit geometry, following, platoon, dwell machine, schedule, budget, consist, variation, service and the photographer hint"
+      ]
     }
-  ]
+  ],
+  "runtimeShell": {
+    "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashTransit.h",
+    "headerSha256": "55b738ed1a2cc0c093054e9c1f156c4b56f0b83eb512b79147999bb1c3917aa5",
+    "source": "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashTransit.cpp",
+    "sourceSha256": "22d2b1cae6d361c8822b83f5dec391c3a34afe46211127c733574505956d22dd",
+    "note": "The engine shell is NOT covered by this standalone test: it needs an editor to compile and a world to run. It is exercised by Scripts/release_transit_v3.py, whose receipt records the numbers it read back."
+  }
 }

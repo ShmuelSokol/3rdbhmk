@@ -1,0 +1,102 @@
+{
+  "purpose": "Human-reviewable plan consumed by Scripts/release_fx.py: import the six offline-baked FX data textures, author five master materials and their instances with MaterialEditingLibrary, place ONE AMikdashFXDirector in the combined walkthrough map, save, reopen, read every number back, and write a receipt. The textures and every derived number come from SourceAssets/fx-review/fx-materials.json, written offline by Scripts/create_fx_materials.py. Nothing in this file is a halachic claim; the source register lives in the manifest and in Public/MikdashFXDirector.h.",
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints",
+  "checkpointPrefix": "FX-",
+  "receiptFolder": "SourceAssets/fx-review/receipts",
+  "receiptPrefix": "release-fx-",
+  "manifest": "SourceAssets/fx-review/fx-materials.json",
+
+  "compiledClassesRequired": {
+    "fxDirector": "MikdashFXDirector",
+    "propertyProvingFreshBinary": "service_incense_cue",
+    "note": "If the editor binary predates this feature the class or the property is absent, and the run refuses rather than placing an actor that cannot drive anything."
+  },
+
+  "textureFolder": "/Game/MikdashV3/FX/Textures",
+  "materialFolder": "/Game/MikdashV3/FX/Materials",
+  "textureImport": {
+    "samplerTypeMask": "SAMPLERTYPE_MASKS",
+    "samplerTypeMaskFallback": "SAMPLERTYPE_LINEAR_COLOR",
+    "compression": "TC_MASKS",
+    "compressionFallback": "TC_DEFAULT",
+    "srgb": false,
+    "srgbNote": "Every channel of these six PNGs is a mask, not a colour. sRGB on a mask applies a gamma curve to a number that is not a colour, and it is the most common single cause of an effect that is right offline and wrong in engine.",
+    "virtualTextureStreaming": false
+  },
+
+  "actor": {
+    "class": "MikdashFXDirector",
+    "label": "RELEASE_MikdashFXDirector",
+    "folder": "Runtime/FX",
+    "tag": "ReleaseMikdashFXV1",
+    "spawnLocation": [0.0, 0.0, 1100.0],
+    "refuseIfLabelExists": true
+  },
+
+  "cardMesh": "/Engine/BasicShapes/Plane",
+  "cardMeshNote": "A 100 x 100 cm plane whose normal is +Z and whose V axis runs along +Y. The director points each card's +Z at the viewer and its +Y at the floor, so V = 0 is the card's top edge, which is what the flame texture is baked for. If a flame ends up inverted in a screenshot, set flip_card_v on the actor; do not rebake.",
+
+  "materialParameters": {
+    "sharedDynamic": ["FXFade", "FXErosion", "FXSeed", "FXAge", "FXFlicker", "VFlip"],
+    "sharedDynamicNote": "These six are written every frame by AMikdashFXDirector. Every master material must expose all six or the readback fails the run."
+  },
+
+  "actorProperties": {
+    "effects_quality": 1.0,
+    "full_detail_cm": 3000.0,
+    "cutoff_cm": 24000.0,
+    "overdraw_budget": 3.0,
+    "cards_built_per_frame": 12,
+    "flip_card_v": false,
+    "heat_haze_strength": 1.0,
+    "wind_speed_cm_s": 140.0,
+    "wind_direction_degrees": 200.0,
+    "follow_service_actor": true,
+    "service_incense_cue": "golden altar for the incense",
+    "ketores_emission_seconds": 20.0,
+    "ketores_accumulate_seconds": 45.0,
+    "ketores_dissipate_seconds": 60.0,
+    "outer_altar_fire_diameter_cm": 325.0,
+    "heikhal_ceiling_z_cm": 2925.0
+  },
+
+  "anchorProvenance": {
+    "outer_altar_fire_cm": "SourceAssets/architecture-manifest.json, SM_2061..SM_2067 detail_Altar_wood: the arrangement is symmetric about the world origin and its top face is at Z 1091.1667.",
+    "outer_altar_fire_diameter_cm": "Same meshes, 325 cm span in X. Used for the puffing correlation, not for art.",
+    "golden_altar_top_cm": "ServiceScheduleMath.h Anchors::GoldenAltar (-4650, 0) at floor Z 925, plus the 79.1667 cm altar height from release_scale_keilim.",
+    "heikhal_ceiling_z_cm": "SM_0148_roof_Sanctuary_ceiling underside at Z 2925.",
+    "lamp_flame_cm": "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json lamp_x_cm, mapped through the placed yaw -90 so local +X becomes world -Y; native-import receipt location (-5330, 315.176, 925).",
+    "shaft_transforms": "DESIGN, needs_review. The Heikhal window arrangement is not settled in this build, so the three beams are authored anchors, not derived from a window mesh.",
+    "heat_haze_cm": "DESIGN. One card over the fire at (0, 0, 1420) for the altar's own shimmer, four over the courts. Only the court cards are scaled by heat_haze_strength, which the time-of-day system drives; the fire's shimmer is on at any hour because the fire is."
+  },
+
+  "verification": {
+    "transformToleranceCm": 0.5,
+    "scalarTolerance": 0.001,
+    "requireEveryDynamicParameter": true,
+    "poolFillNote": "AMikdashFXDirector plans about 290 cards but builds only the fire, the lamps, the column and the shafts on its first frame; the ember and mote pools fill at cards_built_per_frame per frame afterwards. Registering three hundred scene components in the frame a level opens is one visible hitch at exactly the moment a visitor first looks around.",
+    "requireLampCount": 7,
+    "requireKetoresBelowCeiling": true,
+    "readbackNote": "UE 5.8 MaterialEditingLibrary setters return False on success; only the readback decides. Every material instance parameter and every actor property written here is read back, and the run raises on any mismatch.",
+    "zombieProcessNote": "save_current_level returning False is usually a leftover UnrealEditor holding the package, not a real failure. The process list is recorded in editorProcessesAtSave before the save is believed.",
+    "niagaraNote": "The run first probes the Niagara Python surface and records exactly what it found. Niagara graph authoring is not scriptable in 5.8 beyond creating an empty system, so the effect set is material-driven cards. The probe result is in the receipt so the decision is evidence, not assertion."
+  },
+
+  "limitations": [
+    "This places and wires the effects. It does not prove they look right: colour, opacity, density, flicker depth and duration are artistic and need a human on a screenshot.",
+    "The MenorahV4 model is the Temple Institute display vessel, whose lamp bowls carry lids and finials and have no exposed wick. The flame is authored at the lid crown so it reads as a lit lamp. Recorded as a modelling compromise, not a claim about the vessel.",
+    "The light shafts, the dust motes and the heat haze are camera-facing translucent cards, not volumetrics. They read correctly from the reviewed visitor viewpoints and will not survive an arbitrary flythrough.",
+    "The Heikhal window positions are not settled, so the shaft anchors are authored design data marked needs_review.",
+    "The GPU figures in the manifest are overdraw arithmetic, not a capture on the target card.",
+    "Nothing here is rabbinic approval. The straight smoke column over the outer altar is a depiction of a cited claim (Avos 5:5), not a physical result. No part of this depicts the incense formula or maaleh ashan's botanical identity."
+  ]
+}

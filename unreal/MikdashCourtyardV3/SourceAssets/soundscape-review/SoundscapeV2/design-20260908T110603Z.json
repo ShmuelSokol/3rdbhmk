@@ -1,0 +1,1243 @@
+{
+  "stamp": "20260908T110603Z",
+  "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.spec.json",
+  "hoursSimulated": 9.0,
+  "anchors": {
+    "civil_dawn": 6.03,
+    "sunrise": 6.29,
+    "solar_noon": 12.61,
+    "sunset": 18.93,
+    "civil_dusk": 19.19
+  },
+  "layers": [
+    {
+      "layer": "windBedBase",
+      "runtimeLayer": "WIND_BED",
+      "mode": "loop",
+      "takes": 1,
+      "emitters": 1,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.62,
+      "dayGainMidday": 0.72,
+      "dayGainNight": 0.88,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "why": "The darkest take in the set (mean spectral centroid 666 Hz, no flagged transient windows, 44.5 s). It is the floor of the mix and the only layer that is never absent."
+    },
+    {
+      "layer": "windBedAir",
+      "runtimeLayer": "WIND_BED",
+      "mode": "loop",
+      "takes": 1,
+      "emitters": 1,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.62,
+      "dayGainMidday": 0.72,
+      "dayGainNight": 0.88,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "why": "The 256.8 s Adelaide open-field take. Long, brighter (centroid 2663 Hz), and pitched away from the base bed so the two never realign inside a session."
+    },
+    {
+      "layer": "windOverlay",
+      "runtimeLayer": "WIND_GUST",
+      "mode": "randomGap",
+      "takes": 2,
+      "emitters": 2,
+      "gapWindowsSeconds": [
+        [
+          34.0,
+          96.0
+        ],
+        [
+          23.0,
+          71.0
+        ]
+      ],
+      "dayGainDawn": 0.55,
+      "dayGainMidday": 0.7,
+      "dayGainNight": 0.95,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "why": "Neither of these is long enough to loop without being recognised (29.9 s and 4.2 s). They are fired as isolated events with a long random silence between them, at a new random pitch and level every time, so what returns is never the same object twice."
+    },
+    {
+      "layer": "doorwayWind",
+      "runtimeLayer": "WIND_BED",
+      "mode": "loop",
+      "takes": 1,
+      "emitters": 1,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.62,
+      "dayGainMidday": 0.72,
+      "dayGainNight": 0.88,
+      "heightVarying": false,
+      "occluded": false,
+      "crowdScaled": false,
+      "why": "The same dark take, pitched down and very quiet, sitting in the Ulam porch so the sanctuary hears wind arriving through an opening rather than an exterior bed applied indoors."
+    },
+    {
+      "layer": "cityHum",
+      "runtimeLayer": "CITY",
+      "mode": "loopRandom",
+      "takes": 2,
+      "emitters": 4,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.34,
+      "dayGainMidday": 1.0,
+      "dayGainNight": 0.3,
+      "heightVarying": true,
+      "occluded": true,
+      "crowdScaled": false,
+      "why": "Continuous with no gap, but each pass through the loop re-picks which of the two 60 s / 76 s takes plays and at what pitch, so the hum has no fixed period at all."
+    },
+    {
+      "layer": "murmur",
+      "runtimeLayer": "CROWD_DISTANT",
+      "mode": "randomGap",
+      "takes": 2,
+      "emitters": 2,
+      "gapWindowsSeconds": [
+        [
+          26.0,
+          84.0
+        ],
+        [
+          37.0,
+          110.0
+        ]
+      ],
+      "dayGainDawn": 0.1,
+      "dayGainMidday": 0.9,
+      "dayGainNight": 0.05,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "why": "Voices should arrive from the city occasionally, not continuously. Long random gaps keep the precinct feeling separate from the town."
+    },
+    {
+      "layer": "bird",
+      "runtimeLayer": "BIRD",
+      "mode": "randomGap",
+      "takes": 7,
+      "emitters": 5,
+      "gapWindowsSeconds": [
+        [
+          20.0,
+          62.0
+        ],
+        [
+          27.0,
+          74.0
+        ],
+        [
+          33.0,
+          88.0
+        ],
+        [
+          24.0,
+          69.0
+        ],
+        [
+          38.0,
+          90.0
+        ]
+      ],
+      "dayGainDawn": 0.85,
+      "dayGainMidday": 0.34,
+      "dayGainNight": 0.04,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "why": "Seven one-shots between 1.9 s and 11.6 s, shuffled without replacement so the same call cannot fire twice in a row, each at a new pitch and level, from five separate positions on five unrelated timers."
+    },
+    {
+      "layer": "foliage",
+      "runtimeLayer": "FOLIAGE",
+      "mode": "loop",
+      "takes": 1,
+      "emitters": 2,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.6,
+      "dayGainMidday": 0.75,
+      "dayGainNight": 0.85,
+      "heightVarying": false,
+      "occluded": false,
+      "crowdScaled": false,
+      "why": "Wind in leaves, 54.4 s, no flagged transients. Placed only outside the measured Mount, which carries no trees."
+    },
+    {
+      "layer": "cloth",
+      "runtimeLayer": "CLOTH",
+      "mode": "randomGap",
+      "takes": 1,
+      "emitters": 2,
+      "gapWindowsSeconds": [
+        [
+          14.0,
+          46.0
+        ],
+        [
+          19.0,
+          58.0
+        ]
+      ],
+      "dayGainDawn": 0.55,
+      "dayGainMidday": 1.0,
+      "dayGainNight": 0.7,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "why": "One CC-BY file of cloth movement, fired as isolated events. With one source the Random node is omitted and the chain is Looping -> Delay -> Modulator -> Wave Player."
+    },
+    {
+      "layer": "crowdCourt",
+      "runtimeLayer": "CROWD_COURT",
+      "mode": "loopRandom",
+      "takes": 2,
+      "emitters": 3,
+      "gapWindowsSeconds": [],
+      "dayGainDawn": 0.06,
+      "dayGainMidday": 1.0,
+      "dayGainNight": 0.02,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": true,
+      "why": "The murmur of the crowd standing IN the courts, as distinct from voices carrying up from the city. The project now instances thousands of figures plus 24 speaking residents, and a court full of people that makes no sound is the loudest wrong note there is. Continuous, but the take and its pitch are re-drawn every pass, and at run time the level follows the live head count through MikdashSoundscape::CrowdMurmurGain -- so an empty court at dawn is silent, not quiet. The church take is the primary because its reverberation is masonry rather than a room; the festival take is the busier alternative."
+    }
+  ],
+  "emitters": [
+    {
+      "label": "RELEASE_SSV2_WindBed_Azarah",
+      "layer": "WIND_BED",
+      "mode": "loop",
+      "looping": true,
+      "sources": 1,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.75,
+      "dayGain": 0.5715,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_WindBed_OuterCourt",
+      "layer": "WIND_BED",
+      "mode": "loop",
+      "looping": true,
+      "sources": 1,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.75,
+      "dayGain": 0.5715,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_WindOverlay_North",
+      "layer": "WIND_GUST",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 2,
+      "gapSeconds": [
+        34.0,
+        96.0
+      ],
+      "gapSecondsAtThisHour": [
+        69.99,
+        197.63
+      ],
+      "intervalScale": 2.059,
+      "dayGain": 0.4858,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 28,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 2,
+      "meanGapSeconds": 130.29,
+      "gapStdDevSeconds": 27.13
+    },
+    {
+      "label": "RELEASE_SSV2_WindOverlay_East",
+      "layer": "WIND_GUST",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 2,
+      "gapSeconds": [
+        23.0,
+        71.0
+      ],
+      "gapSecondsAtThisHour": [
+        47.35,
+        146.16
+      ],
+      "intervalScale": 2.059,
+      "dayGain": 0.4858,
+      "heightVarying": true,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 37,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 2,
+      "meanGapSeconds": 98.74,
+      "gapStdDevSeconds": 18.91
+    },
+    {
+      "label": "RELEASE_SSV2_WindDoorway_Ulam",
+      "layer": "WIND_BED",
+      "mode": "loop",
+      "looping": true,
+      "sources": 1,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.75,
+      "dayGain": 0.5715,
+      "heightVarying": false,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_West",
+      "layer": "CITY",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.176,
+      "dayGain": 0.8502,
+      "heightVarying": true,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_SouthWest",
+      "layer": "CITY",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.176,
+      "dayGain": 0.8502,
+      "heightVarying": true,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_South",
+      "layer": "CITY",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.176,
+      "dayGain": 0.8502,
+      "heightVarying": true,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CityHum_North",
+      "layer": "CITY",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.176,
+      "dayGain": 0.8502,
+      "heightVarying": true,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_Murmur_KotelPlaza",
+      "layer": "CROWD_DISTANT",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 2,
+      "gapSeconds": [
+        26.0,
+        84.0
+      ],
+      "gapSecondsAtThisHour": [
+        40.43,
+        130.63
+      ],
+      "intervalScale": 1.555,
+      "dayGain": 0.643,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 41,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 2,
+      "meanGapSeconds": 89.69,
+      "gapStdDevSeconds": 17.21
+    },
+    {
+      "label": "RELEASE_SSV2_Murmur_CityEdge",
+      "layer": "CROWD_DISTANT",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 2,
+      "gapSeconds": [
+        37.0,
+        110.0
+      ],
+      "gapSecondsAtThisHour": [
+        57.54,
+        171.06
+      ],
+      "intervalScale": 1.555,
+      "dayGain": 0.643,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 32,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 2,
+      "meanGapSeconds": 113.46,
+      "gapStdDevSeconds": 22.35
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_NorthCourt",
+      "layer": "BIRD",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 7,
+      "gapSeconds": [
+        20.0,
+        62.0
+      ],
+      "gapSecondsAtThisHour": [
+        26.32,
+        81.59
+      ],
+      "intervalScale": 1.316,
+      "dayGain": 0.7599,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 67,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 7,
+      "meanGapSeconds": 53.79,
+      "gapStdDevSeconds": 9.54
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_SouthCourt",
+      "layer": "BIRD",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 7,
+      "gapSeconds": [
+        27.0,
+        74.0
+      ],
+      "gapSecondsAtThisHour": [
+        35.53,
+        97.38
+      ],
+      "intervalScale": 1.316,
+      "dayGain": 0.7599,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 54,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 7,
+      "meanGapSeconds": 67.48,
+      "gapStdDevSeconds": 13.08
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_NorthChambers",
+      "layer": "BIRD",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 7,
+      "gapSeconds": [
+        33.0,
+        88.0
+      ],
+      "gapSecondsAtThisHour": [
+        43.43,
+        115.81
+      ],
+      "intervalScale": 1.316,
+      "dayGain": 0.7599,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 47,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 7,
+      "meanGapSeconds": 77.33,
+      "gapStdDevSeconds": 13.97
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_SouthChambers",
+      "layer": "BIRD",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 7,
+      "gapSeconds": [
+        24.0,
+        69.0
+      ],
+      "gapSecondsAtThisHour": [
+        31.58,
+        90.8
+      ],
+      "intervalScale": 1.316,
+      "dayGain": 0.7599,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 60,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 7,
+      "meanGapSeconds": 60.28,
+      "gapStdDevSeconds": 10.58
+    },
+    {
+      "label": "RELEASE_SSV2_Bird_EastGate",
+      "layer": "BIRD",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 7,
+      "gapSeconds": [
+        38.0,
+        90.0
+      ],
+      "gapSecondsAtThisHour": [
+        50.01,
+        118.44
+      ],
+      "intervalScale": 1.316,
+      "dayGain": 0.7599,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 44,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 7,
+      "meanGapSeconds": 83.02,
+      "gapStdDevSeconds": 13.58
+    },
+    {
+      "label": "RELEASE_SSV2_Foliage_WestSlope",
+      "layer": "FOLIAGE",
+      "mode": "loop",
+      "looping": true,
+      "sources": 1,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.687,
+      "dayGain": 0.5929,
+      "heightVarying": false,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_Foliage_SouthSlope",
+      "layer": "FOLIAGE",
+      "mode": "loop",
+      "looping": true,
+      "sources": 1,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.687,
+      "dayGain": 0.5929,
+      "heightVarying": false,
+      "occluded": false,
+      "crowdScaled": false,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_Cloth_EastGate",
+      "layer": "CLOTH",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 1,
+      "gapSeconds": [
+        14.0,
+        46.0
+      ],
+      "gapSecondsAtThisHour": [
+        17.19,
+        56.48
+      ],
+      "intervalScale": 1.228,
+      "dayGain": 0.8144,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 101,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1,
+      "meanGapSeconds": 35.84,
+      "gapStdDevSeconds": 8.79
+    },
+    {
+      "label": "RELEASE_SSV2_Cloth_UlamPorch",
+      "layer": "CLOTH",
+      "mode": "randomGap",
+      "looping": false,
+      "sources": 1,
+      "gapSeconds": [
+        19.0,
+        58.0
+      ],
+      "gapSecondsAtThisHour": [
+        23.33,
+        71.22
+      ],
+      "intervalScale": 1.228,
+      "dayGain": 0.8144,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": false,
+      "eventsInAnHour": 78,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1,
+      "meanGapSeconds": 46.67,
+      "gapStdDevSeconds": 10.66
+    },
+    {
+      "label": "RELEASE_SSV2_CrowdCourt_Azarah",
+      "layer": "CROWD_COURT",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.301,
+      "dayGain": 0.7688,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": true,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CrowdCourt_OuterCourt",
+      "layer": "CROWD_COURT",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.301,
+      "dayGain": 0.7688,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": true,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    },
+    {
+      "label": "RELEASE_SSV2_CrowdCourt_EastGateQueue",
+      "layer": "CROWD_COURT",
+      "mode": "loopRandom",
+      "looping": true,
+      "sources": 2,
+      "gapSeconds": [
+        0.0,
+        0.0
+      ],
+      "gapSecondsAtThisHour": [
+        0.0,
+        0.0
+      ],
+      "intervalScale": 1.301,
+      "dayGain": 0.7688,
+      "heightVarying": false,
+      "occluded": true,
+      "crowdScaled": true,
+      "eventsInAnHour": 0,
+      "immediateRepeats": 0,
+      "distinctSourcesUsed": 1
+    }
+  ],
+  "periodicity": {
+    "ok": true,
+    "events": 578,
+    "distinctIntervalBuckets": 173,
+    "largestBucketShare": 0.0225,
+    "rule": "A periodic mix piles its inter-event intervals into one 0.1 s bucket. Under 15 % in the largest bucket, spread over more than 40 buckets, is the numeric form of 'there is no beat'."
+  },
+  "licences": {
+    "files": [
+      {
+        "file": "MildWindBackground_Bashar3A.wav",
+        "role": "windBed",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 15708766,
+        "sha256": "9f1fd5c8b37949e6889a7f6acbd822f66e0ab4e918d72bda58d8d8c2c7e85a80",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "wind_mild.page.html",
+        "evidenceBytes": 20928,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "AmbOutdoor1Loop_Kresiek.wav",
+        "role": "windBed",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 5268832,
+        "sha256": "c0a4b0e5b981bd15c3463b75a4fd2067a70a54a917ff9f7a9de6dd984af95883",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "wind_outdoor.page.html",
+        "evidenceBytes": 20949,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "ParkAmbienceWind_Thimras.wav",
+        "role": "windBed",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 73960096,
+        "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "wind_park.page.html",
+        "evidenceBytes": 23199,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "ShortWind_remaxim.wav",
+        "role": "windGust",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 747196,
+        "sha256": "4435f5ad1baf171f21f876f778d0a8a7447becea0c4955bb2566e0c63ab20f41",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "wind_short.page.html",
+        "evidenceBytes": 31116,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Foret_JosephSardin.wav",
+        "role": "foliage",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 10437034,
+        "sha256": "93606dc76a254da067cddb567601eed039f76101d705d908dfcd207511a26f03",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "foliage_forest.page.html",
+        "evidenceBytes": 88441,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "ClothSwing_Vinrax.wav",
+        "role": "cloth",
+        "licence": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+        "bytes": 1742006,
+        "sha256": "fe85c3aef953348afa856d1219e1fb57bbbf0c2df2d23dbbfdf754d9fd03690f",
+        "provenance": true,
+        "provenanceLicence": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+        "evidence": "cloth_swing.page.html",
+        "evidenceBytes": 25335,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": true
+      },
+      {
+        "file": "Fantozzi-StoneL1-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 32934,
+        "sha256": "f278908aa55d37c79ece444fa90a2e7cc6b12f985a2a835a387586ecc05f6c50",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-StoneL2-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 29294,
+        "sha256": "e5b3ffd146a3f43c59b4001dbc2e431bcdb7198a8f8427be0ce5d6908df45b58",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-StoneL3-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 29232,
+        "sha256": "cce357bf6aacd84835da1116da23ef50b05395d6d72d38b0ced66cfb028c642a",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-StoneR1-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 31502,
+        "sha256": "34b47629e6edd04bd8165ba0a0195e5dfb31c2a77d483ef9c2fead7b4fed895f",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-StoneR2-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 28498,
+        "sha256": "fdc07ae2e5c4d34f0b7e418a802b0917f7a98c34b65ee83fff7fe2fb19a13a63",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-StoneR3-mono.wav",
+        "role": "footstepStone",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 30214,
+        "sha256": "6e4e48e3bf01dd5fa8c8e71c390812c7a0a640f525fd7067afaba62f81368f10",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandL1-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 39076,
+        "sha256": "c74d959991ecec1499d64ae5baf9c3ac11a9c1969a97607d5b076670dbf172f1",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandL2-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 28232,
+        "sha256": "98ee17b903cb0af8924f14239e44990ca12bd715e734ab3ed791e9881ef19bfc",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandL3-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 26462,
+        "sha256": "50ce5eae70a8ea01cb9c5cc8bb4d1a031aa8505d639d2bf6eb9bcc0293666caf",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandR1-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 35832,
+        "sha256": "d5deb78e97a711594edd82ce8fe78ec37f8a749d95962c4447ce29aa681d4cde",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandR2-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 30048,
+        "sha256": "635c0752527f25ead6d818d5fb9d288f843e60587aa83d97b904157645d6fb3e",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Fantozzi-SandR3-mono.wav",
+        "role": "footstepSoft",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 29102,
+        "sha256": "2a8557ff9d49dc87d9b18a630779fc8ce33a331445f8ab9a45e9f6aec3162f78",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "footsteps_fantozzi.page.html",
+        "evidenceBytes": 35281,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "CityHum_AlexaMallBerlin_thore.ogg",
+        "role": "cityHum",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 1666896,
+        "sha256": "bb066e130e5d665db57cb5f88e820d053c724d8f777b275213998d2074c6529a",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "city_alexa.page.html",
+        "evidenceBytes": 91001,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "CityHum_Restaurant_stephan.ogg",
+        "role": "cityHum",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 1970215,
+        "sha256": "0aeb1fa7a3d9647d3284e97d9880b6375b54db2eda6a517c64e3bb02ac8a51cc",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "city_restaurant.page.html",
+        "evidenceBytes": 88755,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Murmur_ChurchPeopleReverb_stephan.ogg",
+        "role": "murmur",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 858271,
+        "sha256": "a0b2063236d361b6a69e4e83204ea9df94b89d33c50dfc91091cecfd26275034",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "murmur_church.page.html",
+        "evidenceBytes": 89844,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Murmur_FestivalCrowd_stephan.ogg",
+        "role": "murmur",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 1821225,
+        "sha256": "704b68f75b3f6885abfb35173c8b61aa34fc42c6b694b371e848ce47d045c13c",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "murmur_festival.page.html",
+        "evidenceBytes": 89035,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_HouseSparrowTschilp_JosephSardin.ogg",
+        "role": "bird",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 144049,
+        "sha256": "7f26490caf1febcd3d5143b8bfa4a6b905fc232a9ec55823409578c3106458b0",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "bird_sparrow.page.html",
+        "evidenceBytes": 85828,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_WoodPigeonSong_Raisanen.ogg",
+        "role": "bird",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 82821,
+        "sha256": "aaf7f25693e645d5e9144a118bbd338680393ecd398c5251c436b64d9282efe5",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "bird_woodpigeon_song.page.html",
+        "evidenceBytes": 99786,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_DoveCooing_mary905.ogg",
+        "role": "bird",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 50644,
+        "sha256": "84d92584f22b0655f78fe59aaff026e792300c4e63d45a69d48c907400bacc23",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "bird_dove_coo.page.html",
+        "evidenceBytes": 89237,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_WoodPigeonCall_Crunchysaviour.ogg",
+        "role": "bird",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 45655,
+        "sha256": "b92441933079729d572ba5a0a0f7798452d8d9d22178b0dc0ea36d9724f6988f",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "bird_woodpigeon_call.page.html",
+        "evidenceBytes": 90118,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_Pigeon_Gasybeaugosse2020.wav",
+        "role": "bird",
+        "licence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "bytes": 330616,
+        "sha256": "04573706e2ac0828e26d10394ab3adc99326a6561c9dac9b23e4bdb1a66e8f7a",
+        "provenance": true,
+        "provenanceLicence": "CC0 1.0 Universal (Public Domain Dedication)",
+        "evidence": "bird_pigeon.page.html",
+        "evidenceBytes": 87194,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_HoodedCrow_Raisanen.ogg",
+        "role": "bird",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 41517,
+        "sha256": "16026c1a65e185bdee21c95f341c306d3687ebf2d4660e7ff2fcaa2538396098",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "bird_hooded_crow.page.html",
+        "evidenceBytes": 92228,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      },
+      {
+        "file": "Bird_Swallow_natalie.ogg",
+        "role": "bird",
+        "licence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "bytes": 215162,
+        "sha256": "663a8a1ef79e26d1cd30e261c801bd73d764dcd4636ce2f43df746826b0981dc",
+        "provenance": true,
+        "provenanceLicence": "Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted)",
+        "evidence": "bird_swallow.page.html",
+        "evidenceBytes": 88003,
+        "inCreditsManifest": true,
+        "verdict": "VERIFIED",
+        "attributionRequired": false
+      }
+    ],
+    "problems": [],
+    "required": [
+      "Cloth Swing Sounds"
+    ],
+    "ok": true
+  },
+  "cppTest": {
+    "returncode": 0,
+    "tail": [
+      "PASS: all 76981 SoundscapeMath checks passed"
+    ]
+  },
+  "goldenVectorComparison": {
+    "ok": true,
+    "compared": 128,
+    "mismatches": []
+  },
+  "mirrorProven": true,
+  "auditioned": false,
+  "auditionStatement": "NOBODY HAS LISTENED TO ANY OF THIS. Every number here is arithmetic on a schedule and a licence check on a file. A recording with a clean licence and a clean transient count can still contain a voice, a vehicle or a handling bump, and no check in this project can hear one.",
+  "checks": [
+    {
+      "name": "every imported recording has provenance, a captured page and a VERIFIED verdict",
+      "ok": true,
+      "detail": "29 files, 1 needing a mandatory credit"
+    },
+    {
+      "name": "no emitter can play the same take twice in a row",
+      "ok": true,
+      "detail": "0 immediate repeats across 23 emitters (2 one-shot emitters have a single take, where the test does not apply: RELEASE_SSV2_Cloth_EastGate, RELEASE_SSV2_Cloth_UlamPorch)"
+    },
+    {
+      "name": "every multi-take emitter actually uses more than one take",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the combined firing pattern has no beat",
+      "ok": true,
+      "detail": "578 events, 173 interval buckets, largest 2.2%"
+    },
+    {
+      "name": "dawn is quiet, midday is busy, night is wind and distant city",
+      "ok": true,
+      "detail": "crowd dawn 0.06 noon 1.00 night 0.02; wind night 0.88; city night 0.30"
+    },
+    {
+      "name": "SoundscapeMathTest.cpp compiles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SoundscapeMathTest passes",
+      "ok": true,
+      "detail": "PASS: all 76981 SoundscapeMath checks passed"
+    },
+    {
+      "name": "the Python mirror in this file is bit-identical to the shipped C++",
+      "ok": true,
+      "detail": "128 values compared; no drift"
+    }
+  ]
+}

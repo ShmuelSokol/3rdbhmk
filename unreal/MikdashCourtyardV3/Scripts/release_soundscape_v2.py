@@ -161,6 +161,169 @@ SOURCE_TABLE = [
          title='Cloth Swing Sounds', author='Vinrax', licence=CCBY3,
          why='Light cloth movement one-shots for the gate awnings and garments; '
              'CC BY, so the credit line is mandatory.'),
+    # ---- footsteps by surface -------------------------------------------
+    # Twelve one-shots, six per surface, three per foot. The SURFACE DECISION IS NOT
+    # MADE HERE and is not duplicated: MikdashSurfaceAudioRouting.h already routes a
+    # floor mesh package path to a Stone / Soft / Silent bank, and AMikdashSoundscape
+    # only holds the banks and plays what it is told. What this pass adds is that the
+    # step is spatialised at the foot, occluded by the court walls and filtered by the
+    # zone the walker is standing in, instead of being a flat 2D sound.
+    dict(role='footstepStone', key='footstep_stone_l1', file='Fantozzi-StoneL1-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - left foot, take 1",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneL1-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepStone', key='footstep_stone_l2', file='Fantozzi-StoneL2-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - left foot, take 2",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneL2-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepStone', key='footstep_stone_l3', file='Fantozzi-StoneL3-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - left foot, take 3",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneL3-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepStone', key='footstep_stone_r1', file='Fantozzi-StoneR1-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - right foot, take 1",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneR1-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepStone', key='footstep_stone_r2', file='Fantozzi-StoneR2-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - right foot, take 2",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneR2-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepStone', key='footstep_stone_r3', file='Fantozzi-StoneR3-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (stone) - right foot, take 3",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-StoneR3-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_l1', file='Fantozzi-SandL1-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - left foot, take 1",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandL1-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_l2', file='Fantozzi-SandL2-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - left foot, take 2",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandL2-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_l3', file='Fantozzi-SandL3-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - left foot, take 3",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandL3-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_r1', file='Fantozzi-SandR1-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - right foot, take 1",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandR1-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_r2', file='Fantozzi-SandR2-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - right foot, take 2",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandR2-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
+    dict(role='footstepSoft', key='footstep_soft_r3', file='Fantozzi-SandR3-mono.wav',
+         url='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         page='https://opengameart.org/content/fantozzis-footsteps-grasssand-stone',
+         title="Fantozzi's Footsteps (sand or grass) - right foot, take 3",
+         author='Fantozzi (recorded), qubodup (edited and uploaded)', licence=CC0,
+         localCopy='SourceAssets/soundscape-review/mono-footsteps/Fantozzi-SandR3-mono.wav',
+         evidenceFile='footsteps_fantozzi.page.html',
+         why='Already in this repository as a verified arithmetic stereo-to-mono '
+             'downmix of the publisher original (SourceAssets/soundscape-review/'
+             'offline-verification.json: 12 originals hash-matched, 12 derivatives '
+             'exactly match the downmix, zero full-scale samples). Copied, never '
+             'refetched. Footsteps are one-shots, so the bed transient rule does not '
+             'apply to them.'),
     # ---- distant city ----------------------------------------------------
     dict(role='cityHum', key='city_alexa', file='CityHum_AlexaMallBerlin_thore.ogg',
          url='https://upload.wikimedia.org/wikipedia/commons/f/fd/1_minute_at_the_alexa_mall_in_berlin.ogg',
@@ -290,6 +453,29 @@ REJECTED_CANDIDATES = [
 # --------------------------------------------------------------------------
 # Pure helpers
 # --------------------------------------------------------------------------
+
+def zombie_editor_processes():
+    """Every UnrealEditor process on this machine, as reported by tasklist.
+
+    A second editor holding the map makes save_current_level() return False with no
+    other symptom whatsoever -- no exception, no log line, nothing. This project has
+    already lost a full session to that once, which is why Scripts/verify.py checks it
+    first and why this is consulted before any save failure is believed.
+    """
+    try:
+        proc = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq UnrealEditor*.exe', '/NH'],
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+        out = proc.stdout.decode('utf-8', 'replace')
+    except Exception as error:
+        return {'checked': False, 'error': repr(error), 'processes': []}
+    rows = [line.split() for line in out.splitlines() if 'UnrealEditor' in line]
+    return {'checked': True,
+            'processes': [{'image': r[0], 'pid': r[1]} for r in rows if len(r) >= 2],
+            'note': ('When this runs inside a commandlet, this process is one of the listed '
+                     'ones, so the expected count is 1 and TWO OR MORE means another editor '
+                     'holds the map -- that, not a bug in this script, is why a save failed. '
+                     'Run offline from a plain Python interpreter the expected count is 0.')}
+
 
 def sha256_of(path):
     digest = hashlib.sha256()
@@ -980,6 +1166,89 @@ def offline_check(spec=None):
             result['problems'].append('bird delay window %s-%s is outside the 20-90 s brief'
                                       % (low, high))
 
+    # -- acoustic zones ----------------------------------------------------
+    # The runtime evaluates these with MikdashSoundscape::EvaluateZones, whose contract is
+    # asserted by Plugins/MikdashRuntime/Tests/SoundscapeMathTest.cpp. What that test
+    # cannot see is whether the numbers in THIS file are sane, so they are checked here.
+    result['zones'] = []
+    seen_zone_labels = set()
+    for zone in spec.get('zones', []):
+        row = {'label': zone['label'], 'priority': zone['priority']}
+        low, high = zone['minCm'], zone['maxCm']
+        row['sizeCm'] = [round(high[i] - low[i], 3) for i in range(3)]
+        if any(high[i] <= low[i] for i in range(3)):
+            result['problems'].append('zone %s has an inverted or degenerate box' % zone['label'])
+        if zone['label'] in seen_zone_labels:
+            result['problems'].append('duplicate zone label ' + zone['label'])
+        seen_zone_labels.add(zone['label'])
+        # BoxMembership clamps the margin to half the box, so a margin wider than that is
+        # not an error - but it means the zone never reaches full strength anywhere, which
+        # is almost always a typo rather than an intention.
+        half = min(0.5 * (high[i] - low[i]) for i in range(3))
+        row['blendMarginCm'] = zone['blendMarginCm']
+        row['reachesFullStrength'] = zone['blendMarginCm'] <= half
+        if not row['reachesFullStrength']:
+            result['problems'].append(
+                'zone %s has a blend margin of %.0f cm against a half-extent of %.0f cm, so it '
+                'never reaches full strength anywhere inside itself'
+                % (zone['label'], zone['blendMarginCm'], half))
+        if not 0.0 <= zone['dryGain'] <= 1.0:
+            result['problems'].append('zone %s dryGain outside 0..1' % zone['label'])
+        if not 0.0 <= zone['reverbSend'] <= 1.0:
+            result['problems'].append('zone %s reverbSend outside 0..1' % zone['label'])
+        if not 0.0 <= zone['exposure'] <= 1.0:
+            result['problems'].append('zone %s exposure outside 0..1' % zone['label'])
+        if zone['lowPassHz'] < 20.0:
+            result['problems'].append('zone %s lowPassHz below 20 Hz' % zone['label'])
+        row['insideWorld'] = (point_in_box(low, world, margin=200000.0)
+                              and point_in_box(high, world, margin=200000.0))
+        if not row['insideWorld']:
+            result['problems'].append('zone %s is outside the world bounds' % zone['label'])
+        result['zones'].append(row)
+    # Two zones at the same priority that overlap are ambiguous: EvaluateZones breaks the
+    # tie on membership weight, which is stable but is not a decision anyone authored.
+    for i, a in enumerate(spec.get('zones', [])):
+        for b in spec.get('zones', [])[i + 1:]:
+            if a['priority'] != b['priority']:
+                continue
+            if all(a['minCm'][k] < b['maxCm'][k] and b['minCm'][k] < a['maxCm'][k]
+                   for k in range(3)):
+                result['problems'].append(
+                    'zones %s and %s overlap at the same priority %d; nothing decides which '
+                    'wins' % (a['label'], b['label'], a['priority']))
+
+    # -- the runtime actor -------------------------------------------------
+    runtime = spec.get('runtimeActor')
+    if not runtime:
+        result['problems'].append('spec has no runtimeActor block')
+    else:
+        result['runtimeActor'] = {'class': runtime['class'], 'label': runtime['label'],
+                                  'banks': {}}
+        for bank in ('birdCallSources', 'birdWingburstSources', 'footstepStoneSources',
+                     'footstepSoftSources', 'serviceSources'):
+            missing = [k for k in runtime[bank] if k not in keys]
+            result['runtimeActor']['banks'][bank] = {'count': len(runtime[bank]),
+                                                     'missing': missing}
+            if missing:
+                result['problems'].append('runtime bank %s references unknown sources %s'
+                                          % (bank, missing))
+            # An empty bank is allowed, but only when the spec says out loud why.
+            if not runtime[bank] and bank not in runtime.get('emptyBanks', {}):
+                result['problems'].append(
+                    'runtime bank %s is empty and no reason is recorded in emptyBanks. An empty '
+                    'bank is a silent layer; it must be a stated decision, not an oversight.'
+                    % bank)
+        for key in ('birdAttenuation', 'footstepAttenuation', 'serviceAttenuation'):
+            if runtime[key] not in spec['attenuations']:
+                result['problems'].append('runtime %s references unknown attenuation %s'
+                                          % (key, runtime[key]))
+        for emitter in spec['emitters']:
+            layer = spec['layers'].get(emitter['layer'], {})
+            if 'runtimeLayer' not in layer:
+                result['problems'].append('layer %s has no runtimeLayer name' % emitter['layer'])
+        if spec.get('submix', {}).get('asset') is None:
+            result['problems'].append('spec has no submix block')
+
     result['repetitionPeriods'] = repetition_report(spec)
     result['ok'] = not result['problems']
     return result
@@ -1123,6 +1392,8 @@ class Soundscape(object):
         self.attenuations = {}
         self.sound_class = None
         self.reverb = None
+        self.submix = None
+        self.runtime_actor = None
         self.use_cues = True
 
     # -- receipt -----------------------------------------------------------
@@ -1624,6 +1895,194 @@ class Soundscape(object):
                 'place': emitter.get('place')})
             self.write_receipt()
 
+    def create_submix(self):
+        """A SoundSubmix carrying one reverb preset built from RE_SanctuaryStone.
+
+        This is what actually gives the Heikhal a tail. It is created whenever the
+        reverb effect is, because the runtime actor sends into it per zone and would
+        otherwise have nowhere to send. Failure here is not fatal: the dry gain and the
+        low-pass still make the hall read as a hall, just without a tail, and the
+        receipt says which.
+        """
+        ue = self.ue
+        cfg = self.spec['submix']
+        record = {'label': cfg['asset'], 'class': 'SoundSubmix', 'preset': None,
+                  'reverbEffect': self.reverb.get_path_name() if self.reverb else None}
+        if self.reverb is None:
+            record['skipped'] = 'no reverb effect was created'
+            self.receipt['submix'] = record
+            return None
+        submix = self._create_asset(cfg['asset'], self.spec['namespace']['support'],
+                                    ue.SoundSubmix, 'SoundSubmixFactory')
+        # The preset is a sub-object of the submix package rather than a separate asset:
+        # USoundEffectSubmixPreset has no scripted factory, and an inner object
+        # referenced by SubmixEffectChain serialises with its owner.
+        preset = ue.new_object(ue.SubmixEffectReverbPreset, submix)
+        try:
+            preset.set_settings_with_reverb_effect(self.reverb, float(cfg['wetLevel']),
+                                                   float(cfg['dryLevel']))
+            record['presetConfigured'] = True
+        except Exception as error:
+            # Older or trimmed builds may not expose the helper. Fall back to leaving the
+            # preset at its defaults and say so rather than pretending it was configured.
+            record['presetConfigured'] = False
+            record['presetError'] = repr(error)[:300]
+        self.set_prop('submix', submix, 'submix_effect_chain', [preset], required=True)
+        if not self.assets.save_loaded_asset(submix, only_if_is_dirty=False):
+            raise RuntimeError('Failed to save the reverb submix')
+        record['path'] = submix.get_path_name()
+        record['preset'] = preset.get_path_name()
+        self.submix = submix
+        self.receipt['submix'] = record
+        self.receipt['assets']['submix'] = record['path']
+        return submix
+
+    def _sound_for(self, key):
+        """The imported SoundWave for a source key, or None with a recorded note."""
+        wave = self.waves.get(key)
+        if wave is None:
+            self.note('runtime actor: source key %r has no imported wave; that slot is empty '
+                      'and the layer is quieter by exactly one take.' % key)
+        return wave
+
+    def spawn_soundscape_actor(self):
+        """Spawn and configure AMikdashSoundscape: the whole layered mix, in one actor.
+
+        Everything the previous pass put into twenty AmbientSounds and twenty Python-built
+        SoundCues lives here instead. The reasons are in MikdashSoundscape.h, but the
+        short one is that a cue built from Python opens empty in the Sound Cue Editor and
+        is destroyed by anyone who saves it there, whereas this actor's randomisation is
+        ordinary C++ that a person can read, test and change.
+        """
+        ue = self.ue
+        cfg = self.spec['runtimeActor']
+        cls = getattr(ue, cfg['class'], None)
+        if cls is None:
+            raise RuntimeError(
+                'unreal.%s is not exposed in this process. The MikdashRuntime plugin must be '
+                'COMPILED before this script runs. Refusing to fall back to the rejected '
+                'AmbientSound path silently; pass -SoundscapeAmbientFallback if a diagnostic '
+                'run without the runtime actor is genuinely wanted.' % cfg['class'])
+
+        actor = self.actors.spawn_actor_from_class(
+            cls, ue.Vector(*[float(v) for v in cfg['location']]))
+        if actor is None:
+            raise RuntimeError('spawn_actor_from_class returned None for ' + cfg['class'])
+        actor.set_actor_label(cfg['label'])
+        actor.set_folder_path(self.spec['folder'])
+        actor.set_editor_property('tags', [ue.Name(self.spec['actorTag'])])
+        self.created_actors.append(actor)
+
+        for prop, value in cfg['properties'].items():
+            self.set_prop(cfg['label'], actor, prop,
+                          value if isinstance(value, bool) else (
+                              int(value) if isinstance(value, int) else float(value)),
+                          required=False)
+
+        emitters = []
+        emitter_records = []
+        for emitter in self.spec['emitters']:
+            layer = self.spec['layers'][emitter['layer']]
+            struct = ue.MikdashSoundEmitter()
+            sources = [w for w in (self._sound_for(k) for k in layer['sources']) if w is not None]
+            if not sources:
+                raise RuntimeError('Emitter %s has no imported sources' % emitter['label'])
+            delay = emitter.get('delaySeconds') or [0.0, 0.0]
+            pitch = layer.get('pitchRange') or [emitter.get('pitch', 1.0),
+                                                emitter.get('pitch', 1.0)]
+            level = layer.get('volumeRange') or [1.0, 1.0]
+            looping = layer['mode'] in ('loop', 'loopRandom')
+            fields = [
+                ('label', ue.Name(emitter['label'])),
+                ('layer', self.enum_value('MikdashSoundLayer', layer['runtimeLayer'])),
+                ('location_cm', ue.Vector(*[float(v) for v in emitter['location']])),
+                ('sources', sources),
+                ('attenuation', self.attenuations[emitter['attenuation']]),
+                ('base_volume', float(emitter['volume'])),
+                ('b_looping', bool(looping)),
+                ('min_gap_seconds', float(delay[0])),
+                ('max_gap_seconds', float(delay[1])),
+                ('min_pitch', float(pitch[0])),
+                ('max_pitch', float(pitch[1])),
+                ('min_level', float(level[0])),
+                ('max_level', float(level[1])),
+                ('b_height_varying', bool(emitter.get('heightVarying', False))),
+                ('b_occlude', bool(emitter.get('occlude', False))),
+                ('b_crowd_scaled', bool(emitter.get('crowdScaled', False))),
+                ('place', str(emitter.get('place', ''))),
+            ]
+            for name, value in fields:
+                self.set_prop(emitter['label'] + ':struct', struct, name, value, required=True)
+            emitters.append(struct)
+            emitter_records.append({
+                'label': emitter['label'], 'layer': layer['runtimeLayer'],
+                'location': [float(v) for v in emitter['location']],
+                'sourceCount': len(sources),
+                'sources': [w.get_path_name() for w in sources],
+                'looping': looping, 'gapSeconds': [float(delay[0]), float(delay[1])],
+                'pitchRange': [float(pitch[0]), float(pitch[1])],
+                'levelRange': [float(level[0]), float(level[1])],
+                'baseVolume': float(emitter['volume']),
+                'heightVarying': bool(emitter.get('heightVarying', False)),
+                'occlude': bool(emitter.get('occlude', False)),
+                'crowdScaled': bool(emitter.get('crowdScaled', False))})
+        self.set_prop(cfg['label'], actor, 'emitters', emitters, required=True)
+
+        zones = []
+        zone_records = []
+        for zone in self.spec['zones']:
+            struct = ue.MikdashAcousticZone()
+            for name, value in (
+                    ('label', ue.Name(zone['label'])),
+                    ('min_cm', ue.Vector(*[float(v) for v in zone['minCm']])),
+                    ('max_cm', ue.Vector(*[float(v) for v in zone['maxCm']])),
+                    ('blend_margin_cm', float(zone['blendMarginCm'])),
+                    ('priority', int(zone['priority'])),
+                    ('dry_gain', float(zone['dryGain'])),
+                    ('low_pass_hz', float(zone['lowPassHz'])),
+                    ('reverb_send', float(zone['reverbSend'])),
+                    ('exposure', float(zone['exposure']))):
+                self.set_prop(zone['label'], struct, name, value, required=True)
+            zones.append(struct)
+            zone_records.append({k: zone[k] for k in
+                                 ('label', 'minCm', 'maxCm', 'blendMarginCm', 'priority',
+                                  'dryGain', 'lowPassHz', 'reverbSend', 'exposure', 'basis')})
+        self.set_prop(cfg['label'], actor, 'zones', zones, required=True)
+
+        banks = {}
+        for prop, spec_key in (('bird_call_sounds', 'birdCallSources'),
+                               ('bird_wingburst_sounds', 'birdWingburstSources'),
+                               ('footstep_stone_sounds', 'footstepStoneSources'),
+                               ('footstep_soft_sounds', 'footstepSoftSources'),
+                               ('service_sounds', 'serviceSources')):
+            waves = [w for w in (self._sound_for(k) for k in cfg[spec_key]) if w is not None]
+            self.set_prop(cfg['label'], actor, prop, waves, required=True)
+            banks[spec_key] = [w.get_path_name() for w in waves]
+            if not waves:
+                self.note('runtime actor bank %s is EMPTY. %s'
+                          % (spec_key, cfg['emptyBanks'].get(spec_key, 'No reason recorded.')))
+        for prop, spec_key in (('bird_attenuation', 'birdAttenuation'),
+                               ('footstep_attenuation', 'footstepAttenuation'),
+                               ('service_attenuation', 'serviceAttenuation')):
+            self.set_prop(cfg['label'], actor, prop, self.attenuations[cfg[spec_key]],
+                          required=True)
+        if getattr(self, 'submix', None) is not None:
+            self.set_prop(cfg['label'], actor, 'reverb_submix', self.submix, required=True)
+        else:
+            self.note('runtime actor: no reverb submix was created, so the interior zones apply '
+                      'their dry-gain drop and low-pass but no reverb tail.')
+
+        record = {'label': cfg['label'], 'name': actor.get_name(), 'class': cfg['class'],
+                  'location': [float(v) for v in cfg['location']],
+                  'emitterCount': len(emitters), 'zoneCount': len(zones),
+                  'emitters': emitter_records, 'zones': zone_records, 'banks': banks,
+                  'submix': self.receipt.get('submix', {}).get('path')}
+        self.runtime_actor = actor
+        self.receipt['created'].append(record)
+        self.receipt['runtimeActor'] = record
+        self.write_receipt()
+        return actor
+
     def create_audio_volume(self):
         ue = self.ue
         cfg = self.spec['audioVolume']
@@ -1652,11 +2111,33 @@ class Soundscape(object):
                 converged = True
                 break
             if any(measured[i] <= 1e-3 for i in range(3)):
+                # THE 5.8 TRAP, caught rather than assumed away. Source chain and failure
+                # modes: SourceAssets/soundscape-review/SoundscapeV2/
+                # FINDING-AudioVolume-brush.md. Short version: spawn_actor_from_class
+                # routes through FLevelEditorViewportClient::TryPlacingActorFromObject,
+                # which finds the auto-registered UActorFactoryBoxVolume for this volume
+                # class and builds a real cube brush. When that lookup fails the fallback
+                # is GEditor->AddActor, which builds NO brush, logs NOTHING, and leaves an
+                # actor that looks fine and encompasses no point. Zero bounds is the only
+                # visible symptom, so it is checked here.
+                record['brushBuilt'] = False
+                record['finding'] = ('No brush. FindActorFactoryForActorClass returned nothing '
+                                     'for this class, so the AddActor fallback ran. The zones '
+                                     'are unaffected: they are carried by AMikdashSoundscape, '
+                                     'not by this volume. Re-run with -SoundscapeNoVolume.')
+                self.receipt['audioVolumeBrushFinding'] = record['finding']
                 raise RuntimeError('The AudioVolume brush has a zero extent; cannot scale it')
             scale = [scale[i] * target[i] / measured[i] for i in range(3)]
             actor.set_actor_scale3d(ue.Vector(*scale))
         if not converged:
             raise RuntimeError('AudioVolume scale did not converge: %r' % record['scaleIterations'])
+        record['brushBuilt'] = True
+        record['finding'] = ('A brush WAS built. spawn_actor_from_class went through '
+                             'UActorFactoryBoxVolume::PostSpawnActor -> CreateBrushForVolumeActor '
+                             'with a UCubeBuilder, exactly as the source reading in '
+                             'FINDING-AudioVolume-brush.md predicted, and in a -nullrhi '
+                             'commandlet. The measured half-extents below are the proof.')
+        self.receipt['audioVolumeBrushFinding'] = record['finding']
         record['finalScale'] = [round(v, 6) for v in scale]
         _origin, extent = actor.get_actor_bounds(False)
         record['finalHalfExtentsCm'] = [round(float(extent.x), 3), round(float(extent.y), 3),
@@ -1699,7 +2180,18 @@ class Soundscape(object):
             raise RuntimeError('Dirty content packages before the map save (assets must be saved '
                                'explicitly): %s' % [p.get_name() for p in dirty])
         if not self.levels.save_current_level():
-            raise RuntimeError('save_current_level returned False')
+            # Never believe a failed save without checking this first.
+            zombies = zombie_editor_processes()
+            self.receipt['zombieEditorCheck'] = zombies
+            self.write_receipt()
+            others = [p for p in zombies.get('processes', [])]
+            raise RuntimeError(
+                'save_current_level returned False. UnrealEditor processes on this machine: %r. '
+                'One of those is this process. If there is more than one, another editor is '
+                'holding the map and THAT is the cause -- close it and re-run; the map is '
+                'unchanged and the checkpoint is in the receipt. If there is exactly one, the '
+                'save failed for another reason and the log is the next place to look.'
+                % (others,))
         self.receipt['mapSaved'] = True
         self.write_receipt()
         if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages():
@@ -1780,6 +2272,95 @@ class Soundscape(object):
                 failures.append('the rejected pilot ambience actor disappeared')
             elif still:
                 failures.append('the rejected pilot ambience is enabled after reopen')
+
+        # -- the runtime actor: every emitter and zone read back off the reopened
+        # -- actor, numerically, not by trusting what was written.
+        record = self.receipt.get('runtimeActor')
+        if record:
+            actor = self.find_actor(record['name'], record['label'])
+            record['presentAfterReopen'] = actor is not None
+            if actor is None:
+                failures.append('runtime soundscape actor missing after reopen')
+            else:
+                emitters = actor.get_editor_property('emitters')
+                zones = actor.get_editor_property('zones')
+                record['emitterCountAfterReopen'] = len(emitters)
+                record['zoneCountAfterReopen'] = len(zones)
+                if len(emitters) != record['emitterCount']:
+                    failures.append('runtime actor emitter count changed after reopen')
+                if len(zones) != record['zoneCount']:
+                    failures.append('runtime actor zone count changed after reopen')
+                readback = []
+                for index, struct in enumerate(emitters):
+                    expected = record['emitters'][index] if index < len(record['emitters']) else {}
+                    location = struct.get_editor_property('location_cm')
+                    row = {'label': str(struct.get_editor_property('label')),
+                           'location': [round(float(location.x), 3), round(float(location.y), 3),
+                                        round(float(location.z), 3)],
+                           'sourceCount': len(struct.get_editor_property('sources')),
+                           'baseVolume': round(float(
+                               struct.get_editor_property('base_volume')), 6),
+                           'looping': bool(struct.get_editor_property('b_looping')),
+                           'minGap': round(float(
+                               struct.get_editor_property('min_gap_seconds')), 6),
+                           'maxGap': round(float(
+                               struct.get_editor_property('max_gap_seconds')), 6),
+                           'occlude': bool(struct.get_editor_property('b_occlude')),
+                           'heightVarying': bool(
+                               struct.get_editor_property('b_height_varying')),
+                           'crowdScaled': bool(struct.get_editor_property('b_crowd_scaled'))}
+                    readback.append(row)
+                    if expected:
+                        if row['sourceCount'] != expected['sourceCount']:
+                            failures.append('emitter %s lost sources' % row['label'])
+                        if abs(row['baseVolume'] - expected['baseVolume']) > 1e-4:
+                            failures.append('emitter %s volume differs' % row['label'])
+                        if any(abs(row['location'][i] - expected['location'][i]) > 0.5
+                               for i in range(3)):
+                            failures.append('emitter %s moved' % row['label'])
+                        if row['looping'] != expected['looping']:
+                            failures.append('emitter %s looping flag differs' % row['label'])
+                record['emittersAfterReopen'] = readback
+                zone_readback = []
+                for index, struct in enumerate(zones):
+                    expected = record['zones'][index] if index < len(record['zones']) else {}
+                    low = struct.get_editor_property('min_cm')
+                    high = struct.get_editor_property('max_cm')
+                    row = {'label': str(struct.get_editor_property('label')),
+                           'minCm': [round(float(low.x), 3), round(float(low.y), 3),
+                                     round(float(low.z), 3)],
+                           'maxCm': [round(float(high.x), 3), round(float(high.y), 3),
+                                     round(float(high.z), 3)],
+                           'priority': int(struct.get_editor_property('priority')),
+                           'dryGain': round(float(struct.get_editor_property('dry_gain')), 6),
+                           'lowPassHz': round(float(
+                               struct.get_editor_property('low_pass_hz')), 3),
+                           'reverbSend': round(float(
+                               struct.get_editor_property('reverb_send')), 6),
+                           'exposure': round(float(struct.get_editor_property('exposure')), 6)}
+                    zone_readback.append(row)
+                    if expected:
+                        for key, field in (('dryGain', 'dryGain'), ('lowPassHz', 'lowPassHz'),
+                                           ('reverbSend', 'reverbSend'), ('exposure', 'exposure')):
+                            if abs(row[key] - float(expected[field])) > 1e-3:
+                                failures.append('zone %s %s differs' % (row['label'], key))
+                        if any(abs(row['minCm'][i] - expected['minCm'][i]) > 0.5
+                               or abs(row['maxCm'][i] - expected['maxCm'][i]) > 0.5
+                               for i in range(3)):
+                            failures.append('zone %s bounds moved' % row['label'])
+                record['zonesAfterReopen'] = zone_readback
+                submix = actor.get_editor_property('reverb_submix')
+                record['submixAfterReopen'] = submix.get_path_name() if submix else None
+                for prop in ('bird_call_sounds', 'bird_wingburst_sounds', 'footstep_stone_sounds',
+                             'footstep_soft_sounds', 'service_sounds'):
+                    record.setdefault('banksAfterReopen', {})[prop] = [
+                        w.get_path_name() for w in actor.get_editor_property(prop) if w]
+                if len(record['banksAfterReopen']['bird_call_sounds']) != len(
+                        record['banks']['birdCallSources']):
+                    failures.append('bird call bank changed after reopen')
+                if len(record['banksAfterReopen']['footstep_stone_sounds']) != len(
+                        record['banks']['footstepStoneSources']):
+                    failures.append('footstep stone bank changed after reopen')
         return failures
 
 
@@ -1847,7 +2428,8 @@ def _credits_lines(spec):
     return lines
 
 
-def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dry_run=False):
+def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dry_run=False,
+        ambient_fallback=False, runtime_actor=True):
     """Import, build, place, save, reopen, read back. Returns the receipt dict."""
     import unreal as ue
     spec = load_spec()
@@ -1870,9 +2452,13 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
         'specFile': str(SPEC_PATH), 'specSha256': sha256_of(SPEC_PATH),
         'engineVersion': ue.SystemLibrary.get_engine_version(),
         'switches': {'importOnly': import_only, 'useCues': use_cues, 'audioVolume': make_volume,
-                     'dryRun': dry_run},
+                     'dryRun': dry_run, 'ambientFallback': ambient_fallback,
+                     'runtimeActor': runtime_actor},
+        'zombieEditorCheckAtStart': zombie_editor_processes(),
         'offlineCheck': offline, 'actorsBefore': {}, 'pilotAmbience': None,
-        'assets': {'waves': [], 'cues': [], 'attenuations': [], 'soundClass': None, 'reverb': None},
+        'assets': {'waves': [], 'cues': [], 'attenuations': [], 'soundClass': None,
+                   'reverb': None, 'submix': None},
+        'runtimeActor': None, 'submix': None, 'audioVolumeBrushFinding': None,
         'created': [], 'changes': [], 'notes': [], 'errors': [], 'mapSaved': False,
         'checkpoint': None, 'soundCueProbe': None, 'audioVolume': None,
         'creditsBlock': _credits_lines(spec),
@@ -1925,8 +2511,9 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
             scape.write_receipt()
 
         scape.create_sound_class()
-        if make_volume:
+        if make_volume or runtime_actor:
             scape.create_reverb()
+            scape.create_submix()
         scape.create_attenuations()
         scape.import_waves()
         scape.write_receipt()
@@ -1938,7 +2525,16 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
                 raise RuntimeError('-SoundscapeImportOnly changed the map on disk')
             return scape.receipt
 
-        scape.spawn_emitters()
+        if ambient_fallback:
+            scape.note('-SoundscapeAmbientFallback: the rejected AmbientSound-plus-SoundCue path '
+                       'was placed as well as, or instead of, the runtime actor. This is a '
+                       'diagnostic mode. Running both at once plays every layer twice.')
+            scape.spawn_emitters()
+        if runtime_actor:
+            scape.spawn_soundscape_actor()
+        if not ambient_fallback and not runtime_actor:
+            raise RuntimeError('Nothing would be placed: the runtime actor is off and the '
+                               'ambient fallback is off.')
         if make_volume:
             scape.create_audio_volume()
         scape.write_receipt()
@@ -2118,6 +2714,8 @@ def parse_switches(tokens):
                 'make_volume': '-soundscapenovolume' not in lowered,
                 'dry_run': '-soundscapedryrun' in lowered,
                 'revert': False, 'revert_receipt': None,
+                'ambient_fallback': '-soundscapeambientfallback' in lowered,
+                'runtime_actor': '-soundscapenoruntimeactor' not in lowered,
                 'delete_assets': '-soundscaperevertassets' in lowered}
     if switches['delete_assets']:
         switches['revert'] = True
@@ -2144,12 +2742,19 @@ def _main():
         else:
             receipt = run(load_target=True, import_only=switches['import_only'],
                           use_cues=switches['use_cues'], make_volume=switches['make_volume'],
-                          dry_run=switches['dry_run'])
-            ue.log('release_soundscape_v2: %s waves %d cues %d emitters %d applied %s skipped %s'
+                          dry_run=switches['dry_run'],
+                          ambient_fallback=switches['ambient_fallback'],
+                          runtime_actor=switches['runtime_actor'])
+            runtime = receipt.get('runtimeActor') or {}
+            ue.log('release_soundscape_v2: %s waves %d emitters %d zones %d submix %s '
+                   'applied %s skipped %s'
                    % (receipt['status'], len(receipt['assets']['waves']),
-                      len(receipt['assets']['cues']),
-                      sum(1 for c in receipt['created'] if c['class'] == 'AmbientSound'),
+                      runtime.get('emitterCount', 0), runtime.get('zoneCount', 0),
+                      receipt.get('assets', {}).get('submix'),
                       receipt.get('appliedChangeCount'), receipt.get('skippedChangeCount')))
+            if receipt.get('audioVolumeBrushFinding'):
+                ue.log('release_soundscape_v2 AudioVolume brush: '
+                       + receipt['audioVolumeBrushFinding'])
             ue.log('release_soundscape_v2: NOBODY HAS LISTENED TO THIS YET.')
     except Exception as error:
         ue.log_error('release_soundscape_v2 failed: ' + repr(error))

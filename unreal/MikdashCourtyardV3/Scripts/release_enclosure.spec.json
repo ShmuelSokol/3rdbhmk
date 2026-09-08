@@ -1,0 +1,88 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Import the four EnclosureV2 module meshes and place one AMikdashEnclosure actor into the combined IntegratedReviewV2 map, so the Yechezkel 42:15-20 precinct can be toggled MODERN / YECHEZKEL / OVERLAY over modern Jerusalem without deleting anything.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+
+ "geometryManifest": "SourceAssets/enclosure-review/geometry-manifest.json",
+ "architectureManifest": "SourceAssets/architecture-manifest.json",
+ "existingEnclosureDesign": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json",
+
+ "namespace": "/Game/MikdashV3/FutureMountV1/EnclosureV2",
+ "meshFolder": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes",
+ "reimportExisting": true,
+
+ "actorLabel": "RELEASE_EnclosureV2_Precinct",
+ "actorTag": "ReleaseEnclosureV2",
+ "folder": "Release/EnclosureV2",
+
+ "courtPlatformAsset": "SM_0127_architecture_Outer_court_supporting_platform",
+ "courtPlatformHalfExtentCm": 8100.0,
+ "courtPlatformNote": "Read back out of architecture-manifest.json rather than trusted from here; the guard refuses to run if the recorded bounds are no longer +-8100 about the origin on both axes.",
+ "altarYesodAssets": [
+  "SM_0155_architecture_Altar_yesod_north",
+  "SM_0156_architecture_Altar_yesod_west",
+  "SM_0157_architecture_Altar_yesod_east_return",
+  "SM_0158_architecture_Altar_yesod_south_return"
+ ],
+ "altarYesodNote": "Second, independent witness that the measured court centre is the world origin: the yesod ring must remain centred on (0, 0). One witness can be edited by accident; two disagreeing is a refusal.",
+
+ "modernBuildingLabelPrefixes": [
+  "SM_JerusalemBuildings_",
+  "RELEASE_OldCityFacades_",
+  "RELEASE_OldCityInfill_"
+ ],
+ "modernBuildingNote": "The 1499 imported OSM extrusion actors plus the 190 authored Old City batches (102 facade actors carrying 2106 buildings, 88 infill actors carrying 1514). These are 100 m CELL actors, not one actor per building, so the receipt's counts are actor counts and the per-building figure comes from SourceAssets/enclosure-review/geometry-manifest.json modernCityCoverage.exact.",
+
+ "excludedLabelPrefixes": [
+  "SM_JerusalemTerrain_",
+  "Derived union of ",
+  "JCTX_ISM_",
+  "RELEASE_EnclosureV2"
+ ],
+ "excludedAssetFolders": [
+  "/Game/MikdashV3/JerusalemContext/Terrain/",
+  "/Game/MikdashV3/FutureMountV1/Terrain/",
+  "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/"
+ ],
+ "exclusionRationale": [
+  "THE TRAP. 256 SM_JerusalemTerrain_<rr>_<cc> tiles plus 4 _FutureMountCut duplicates. Each tile is a 400 m square - 2.5x the whole Temple court - and the four under the Mount enclose the Temple outright. A raw AABB test against the precinct returns 100% false positives on them. They are excluded by asset folder AND by name prefix, before any bounds test runs.",
+  "The five hollow Boolean unions. 'Derived union of source outer envelope walls' is 116 wall boxes whose combined AABB is +-8100 XY, Z 300..3425 - the entire court - so as a solid it makes every point in the court look occupied. Its constituent walls are not separate actors, so it cannot simply be dropped either; the receipt decomposes it from sourceProperties.source_elements_json and proves the decomposition recomposes to the recorded bounds.",
+  "JCTX_ISM_* decorative instance actors hold 44,793 instances across five components, so one actor AABB is the whole city.",
+  "The precinct's own actor, so a re-run never counts the wall as a building."
+ ],
+
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints",
+ "checkpointPrefix": "Enclosure-",
+ "receiptFolder": "SourceAssets/enclosure-review",
+ "receiptPrefix": "native-enclosure-",
+
+ "protectedMaps": [
+  "/Game/MikdashV3/Maps/Courtyard",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+ ],
+
+ "verification": {
+  "boundsToleranceCm": 1.0,
+  "transformToleranceCm": 0.01,
+  "clearanceAgreementToleranceAmot": 1e-06,
+  "note": "The imported bounds must reproduce the OBJ's CANONICAL bounds, because the legacy importer reflects Y back; a mismatch means the adapter convention changed and every instance would be mirrored. The placed actor's own measured clearances must equal the ones this script computed offline to 1e-6 amot, which is what proves the runtime actor, the generator, the release script and EnclosureMath.h all agree about where the square is."
+ },
+
+ "sources": {
+  "precinct": "Yechezkel 42:15-20 with 40:5: 500 reeds a side, a reed of six amot, so 3000 amot. Lishchno Tidreshu (Ketz HaYamin) on 42:16 gives the side as about 1440 m, which is a 48 cm amah.",
+  "anchoring": "Lishchno Tidreshu fig. 2'2 (p. 113) after Mishkenei Elyon 196 ch.1 m.1: 500 amot clear west, 501 clear north, largest open ground south then east then north then west.",
+  "gates": "Five gates, two south (Mishkenei Elyon 196 m.2); opening 10 amot wide and 50 high, gate as thick as the wall (book pp. 115-117). Positions along each wall are the project's assumption.",
+  "disputed": "Mishnah Middot 2:1 gives Har HaBayit as 500 AMOT square. Rashi on 42:20 reconciles the two as 36 squares of 500 within the 3000; other commentaries reconcile differently. Neither is presented as settled - see SourceAssets/enclosure-review/sources.md."
+ },
+
+ "limitations": [
+  "Actor count rises by one. Asset count rises by four static meshes. The 1.44 km wall is 956 run-time instances across four HierarchicalInstancedStaticMeshComponents on that single actor, not 956 actors.",
+  "The wall is placed on the level plane and is not stepped to the terrain. SourceAssets/FutureMountV1/EnclosureV1 does step, and is left in place unchanged.",
+  "AMikdashEnclosure must be compiled into the editor before the actor can be spawned. If it is not, the meshes still import and the actor is recorded as an OMISSION with evidence rather than the run failing.",
+  "Nothing is ever deleted or hidden by this script. Hiding happens at run time, by visibility, and is reversed on EndPlay."
+ ]
+}

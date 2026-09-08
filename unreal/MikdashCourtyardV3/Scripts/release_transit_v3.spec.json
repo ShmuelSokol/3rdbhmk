@@ -1,0 +1,1578 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_transit_v3.py: import the VehiclesV3 meshes and textures, validate every TransitV3 stop against real street surface with a bounded PIE trace, then place and configure ONE AMikdashTransit actor in the combined Walkthrough map. Every number below was computed offline from frozen source data or copied from a receipt on disk; nothing here is a claim of visual or runtime acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ReleaseTransitV3-",
+  "receiptFolder": "SourceAssets/transit-review/TransitV3",
+  "receiptPrefix": "release-transit-v3-",
+  "actorTag": "ReleasePlacementV1",
+  "groupTag": "ReleaseTransitV3",
+  "labelPrefix": "RELEASE_TransitV3_",
+  "folder": "Release/TransitV3",
+  "actorClass": "/Script/MikdashRuntime.MikdashTransit",
+  "actorLabel": "RELEASE_TransitV3_Transit",
+  "actorLocationCm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "actorLocationNote": "AMikdashTransit builds every route from WORLD positions and writes every instance transform in world space, so the actor transform is never applied to anything and is pinned at the origin. Moving the actor moves nothing.",
+  "geometry": {
+    "manifest": "SourceAssets/transit-review/VehiclesV3/geometry-manifest.json",
+    "manifestSha256": "53308444df48bf336e26287236ecbf5560279f541d5f2d9314a7e7fc125f2fb6",
+    "manifestStatusRequired": "offline_checked_native_and_visual_pending",
+    "sourceFolder": "SourceAssets/transit-review/VehiclesV3",
+    "textureFolder": "SourceAssets/transit-review/VehiclesV3/textures",
+    "destination": "/Game/MikdashV3/TransitV3/Vehicles",
+    "materialFolder": "/Game/MikdashV3/TransitV3/Vehicles/Materials",
+    "objConvention": "Unreal legacy OBJ adapter: canonical vertices are UE cm; this file is written with Y reflected and triangle winding reversed, and the importer reflects Y back. Reflection and winding reversal each negate the signed volume, so the two cancel and the file-space signed volume stays POSITIVE; the self-test asserts that on a unit cube rather than asserting a sign from memory. Never apply a second reflection or unit conversion.",
+    "palette": {
+      "Paint": {
+        "linearRgb": [
+          0.72,
+          0.73,
+          0.74
+        ],
+        "metallic": 0.1,
+        "roughness": 0.34
+      },
+      "Glass": {
+        "linearRgb": [
+          0.1,
+          0.13,
+          0.15
+        ],
+        "metallic": 0.0,
+        "roughness": 0.07
+      },
+      "Dark": {
+        "linearRgb": [
+          0.055,
+          0.058,
+          0.062
+        ],
+        "metallic": 0.0,
+        "roughness": 0.72
+      },
+      "Lens": {
+        "linearRgb": [
+          0.85,
+          0.8,
+          0.62
+        ],
+        "metallic": 0.0,
+        "roughness": 0.18
+      }
+    },
+    "lods": {
+      "percentTriangles": [
+        1.0,
+        0.42,
+        0.16,
+        0.06
+      ],
+      "screenSizes": [
+        1.0,
+        0.3,
+        0.13,
+        0.05
+      ],
+      "note": "Four levels. These bodies are seen from 50 m and beyond; LOD0 exists for the one tram standing at a platform in front of the camera."
+    },
+    "importOptions": {
+      "import_uniform_scale": 1.0,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "note": "build_nanite is off: in 5.8 a Nanite mesh reports only fallback triangles at LOD0, so the recorded triangle counts would stop meaning anything. Collision is off because AMikdashTransit sets NoCollision on every component; these instances are never traced against or walked on."
+    },
+    "meshes": [
+      {
+        "name": "SM_VehiclesV3_CarHatchback_Paint",
+        "file": "SM_VehiclesV3_CarHatchback_Paint.obj",
+        "sha256": "b79726739d29765c94c7e051ca6225919eca618fef2f453212f991fe22f521df",
+        "assembly": "CarHatchback",
+        "group": "Paint",
+        "triangles": 64,
+        "localBoundsCm": {
+          "min": [
+            -202.5,
+            -87.5,
+            22.0
+          ],
+          "max": [
+            202.5,
+            87.5,
+            152.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarHatchback_Glass",
+        "file": "SM_VehiclesV3_CarHatchback_Glass.obj",
+        "sha256": "b1cdff0209b1cc9ba3e54eab740f47142e0779b543873810733ba8f930264bc2",
+        "assembly": "CarHatchback",
+        "group": "Glass",
+        "triangles": 36,
+        "localBoundsCm": {
+          "min": [
+            -118.0,
+            -78.75,
+            96.0
+          ],
+          "max": [
+            68.0,
+            78.75,
+            148.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarHatchback_Dark",
+        "file": "SM_VehiclesV3_CarHatchback_Dark.obj",
+        "sha256": "157f42f50576e430f8896f3f378f697edb9e398fbffe8e5663a459dc66f66da1",
+        "assembly": "CarHatchback",
+        "group": "Dark",
+        "triangles": 168,
+        "localBoundsCm": {
+          "min": [
+            -145.8,
+            -91.5,
+            1.468
+          ],
+          "max": [
+            145.8,
+            91.5,
+            58.532
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarHatchback_Lens",
+        "file": "SM_VehiclesV3_CarHatchback_Lens.obj",
+        "sha256": "c0666b3670eda62bd044f93a19a6cba96f5437a5d4da04f3e298e3ebf21734f2",
+        "assembly": "CarHatchback",
+        "group": "Lens",
+        "triangles": 56,
+        "localBoundsCm": {
+          "min": [
+            -203.0,
+            -64.75,
+            74.0
+          ],
+          "max": [
+            203.0,
+            64.75,
+            87.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarSedan_Paint",
+        "file": "SM_VehiclesV3_CarSedan_Paint.obj",
+        "sha256": "6ea0338c3204e0baa3efcdd4d9ded8d9312ef67f5c7989ec10bcb439cc124d73",
+        "assembly": "CarSedan",
+        "group": "Paint",
+        "triangles": 64,
+        "localBoundsCm": {
+          "min": [
+            -235.0,
+            -91.0,
+            20.0
+          ],
+          "max": [
+            235.0,
+            91.0,
+            151.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarSedan_Glass",
+        "file": "SM_VehiclesV3_CarSedan_Glass.obj",
+        "sha256": "bed17e2bc7b9a03e0df6b782ef98fcd76f7c2a478850aa22c71a1ab97e7a24de",
+        "assembly": "CarSedan",
+        "group": "Glass",
+        "triangles": 36,
+        "localBoundsCm": {
+          "min": [
+            -132.0,
+            -80.08,
+            92.0
+          ],
+          "max": [
+            42.0,
+            80.08,
+            147.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarSedan_Dark",
+        "file": "SM_VehiclesV3_CarSedan_Dark.obj",
+        "sha256": "78f1c739103e4da69300cd200961c713239e7f24afcbd960e0fb2435bb440aae",
+        "assembly": "CarSedan",
+        "group": "Dark",
+        "triangles": 168,
+        "localBoundsCm": {
+          "min": [
+            -169.2,
+            -95.5,
+            1.566
+          ],
+          "max": [
+            169.2,
+            95.5,
+            62.434
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarSedan_Lens",
+        "file": "SM_VehiclesV3_CarSedan_Lens.obj",
+        "sha256": "2ae43f28cbf43f0287da9f570bf4605877c0d5dca43a593a731bbb45aafefcc0",
+        "assembly": "CarSedan",
+        "group": "Lens",
+        "triangles": 56,
+        "localBoundsCm": {
+          "min": [
+            -235.5,
+            -67.34,
+            70.0
+          ],
+          "max": [
+            235.5,
+            67.34,
+            83.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarCrossover_Paint",
+        "file": "SM_VehiclesV3_CarCrossover_Paint.obj",
+        "sha256": "589c525f320c802915c4149761014753fd52f4d9c862f413e99ef619134bf97a",
+        "assembly": "CarCrossover",
+        "group": "Paint",
+        "triangles": 64,
+        "localBoundsCm": {
+          "min": [
+            -217.5,
+            -91.0,
+            28.0
+          ],
+          "max": [
+            217.5,
+            91.0,
+            172.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarCrossover_Glass",
+        "file": "SM_VehiclesV3_CarCrossover_Glass.obj",
+        "sha256": "21b11fbd1babf0d96c9095523595800b48e9a8baae96b87a58949d1b9c615a3e",
+        "assembly": "CarCrossover",
+        "group": "Glass",
+        "triangles": 36,
+        "localBoundsCm": {
+          "min": [
+            -136.0,
+            -81.9,
+            110.0
+          ],
+          "max": [
+            58.0,
+            81.9,
+            168.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarCrossover_Dark",
+        "file": "SM_VehiclesV3_CarCrossover_Dark.obj",
+        "sha256": "0a3ed88fb467ab694a16823f6c84184b424141f0ad9aa9d5f68c1e011005f546",
+        "assembly": "CarCrossover",
+        "group": "Dark",
+        "triangles": 168,
+        "localBoundsCm": {
+          "min": [
+            -156.6,
+            -97.5,
+            1.713
+          ],
+          "max": [
+            156.6,
+            97.5,
+            68.287
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarCrossover_Lens",
+        "file": "SM_VehiclesV3_CarCrossover_Lens.obj",
+        "sha256": "a7c32ddad5f246302bdce1c7cea2e2e9365eca5cce63ef7c217f447f07520c34",
+        "assembly": "CarCrossover",
+        "group": "Lens",
+        "triangles": 56,
+        "localBoundsCm": {
+          "min": [
+            -218.0,
+            -67.34,
+            88.0
+          ],
+          "max": [
+            218.0,
+            67.34,
+            101.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarVan_Paint",
+        "file": "SM_VehiclesV3_CarVan_Paint.obj",
+        "sha256": "79e926586a420caa06e6b742dbac3e002b93cf802bdc0d2d5319a853f3552332",
+        "assembly": "CarVan",
+        "group": "Paint",
+        "triangles": 64,
+        "localBoundsCm": {
+          "min": [
+            -245.0,
+            -95.0,
+            24.0
+          ],
+          "max": [
+            245.0,
+            95.0,
+            200.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarVan_Glass",
+        "file": "SM_VehiclesV3_CarVan_Glass.obj",
+        "sha256": "005a5a0380396965013e576e25591168d88bb6f2256f33906079dcd8246d2c97",
+        "assembly": "CarVan",
+        "group": "Glass",
+        "triangles": 36,
+        "localBoundsCm": {
+          "min": [
+            -210.0,
+            -89.3,
+            104.0
+          ],
+          "max": [
+            100.0,
+            89.3,
+            196.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarVan_Dark",
+        "file": "SM_VehiclesV3_CarVan_Dark.obj",
+        "sha256": "bc299a404a126863ddf08a108f5f7c98e11e2152cc142c006f296394633d1541",
+        "assembly": "CarVan",
+        "group": "Dark",
+        "triangles": 168,
+        "localBoundsCm": {
+          "min": [
+            -176.4,
+            -101.0,
+            1.615
+          ],
+          "max": [
+            176.4,
+            101.0,
+            64.385
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_CarVan_Lens",
+        "file": "SM_VehiclesV3_CarVan_Lens.obj",
+        "sha256": "54160911c56d4cfc4b533e0661b60754f34bd3214b2069d65ae6fec95cf2cb57",
+        "assembly": "CarVan",
+        "group": "Lens",
+        "triangles": 56,
+        "localBoundsCm": {
+          "min": [
+            -245.5,
+            -70.3,
+            82.0
+          ],
+          "max": [
+            245.5,
+            70.3,
+            95.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_Bus_Paint",
+        "file": "SM_VehiclesV3_Bus_Paint.obj",
+        "sha256": "adc087a82e4103a5ca3c5b3744ac892812d9bef1b1d0a4e1d68e239cd7a2713d",
+        "assembly": "Bus",
+        "group": "Paint",
+        "triangles": 84,
+        "localBoundsCm": {
+          "min": [
+            -600.0,
+            -127.5,
+            34.0
+          ],
+          "max": [
+            600.0,
+            127.5,
+            328.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_Bus_Glass",
+        "file": "SM_VehiclesV3_Bus_Glass.obj",
+        "sha256": "3156a2a35d00e8fbaa2f609c6d4f8a2ad5d5e58bbc44c55651d65a670c022f5d",
+        "assembly": "Bus",
+        "group": "Glass",
+        "triangles": 48,
+        "localBoundsCm": {
+          "min": [
+            -598.0,
+            -127.5,
+            167.0
+          ],
+          "max": [
+            598.0,
+            127.5,
+            299.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_Bus_Dark",
+        "file": "SM_VehiclesV3_Bus_Dark.obj",
+        "sha256": "e22840b5f830d96db91b427970fb221d2d92f1d7413d2cff5643f24bd33fe4ad",
+        "assembly": "Bus",
+        "group": "Dark",
+        "triangles": 220,
+        "localBoundsCm": {
+          "min": [
+            -585.0,
+            -124.5,
+            2.0
+          ],
+          "max": [
+            600.5,
+            128.5,
+            313.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_Bus_Lens",
+        "file": "SM_VehiclesV3_Bus_Lens.obj",
+        "sha256": "ff159645d3a6eac68d80e45aca2091069cb43574c0a6dadd06c74c040f8fe5dd",
+        "assembly": "Bus",
+        "group": "Lens",
+        "triangles": 56,
+        "localBoundsCm": {
+          "min": [
+            -600.0,
+            -105.5,
+            81.0
+          ],
+          "max": [
+            600.0,
+            105.5,
+            106.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_BusDoorLeaf_Paint",
+        "file": "SM_VehiclesV3_BusDoorLeaf_Paint.obj",
+        "sha256": "ec44dfdb3f85b309ddce5d7285f931d5bc869f57bdaa91c7b817dd82c964b3a0",
+        "assembly": "BusDoorLeaf",
+        "group": "Paint",
+        "triangles": 28,
+        "localBoundsCm": {
+          "min": [
+            -29.0,
+            -3.5,
+            -95.0
+          ],
+          "max": [
+            29.0,
+            3.5,
+            95.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_BusDoorLeaf_Glass",
+        "file": "SM_VehiclesV3_BusDoorLeaf_Glass.obj",
+        "sha256": "084f5149f4c99945b4edf64b46b00693597ff8016e109890c082914c471dc63c",
+        "assembly": "BusDoorLeaf",
+        "group": "Glass",
+        "triangles": 12,
+        "localBoundsCm": {
+          "min": [
+            -21.0,
+            -4.5,
+            -54.0
+          ],
+          "max": [
+            21.0,
+            4.5,
+            92.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramCab_Paint",
+        "file": "SM_VehiclesV3_TramCab_Paint.obj",
+        "sha256": "669cd91aaeebc79cb3fda522fe0d9e2c0407ae3215b5afee288cee31aa8dcd4c",
+        "assembly": "TramCab",
+        "group": "Paint",
+        "triangles": 112,
+        "localBoundsCm": {
+          "min": [
+            -320.0,
+            -120.0,
+            35.0
+          ],
+          "max": [
+            345.0,
+            120.0,
+            341.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramCab_Glass",
+        "file": "SM_VehiclesV3_TramCab_Glass.obj",
+        "sha256": "1090e5ecb4154c566540125f0c50ec6036ff3ef5d17d16ad4860e42ca6da236c",
+        "assembly": "TramCab",
+        "group": "Glass",
+        "triangles": 36,
+        "localBoundsCm": {
+          "min": [
+            -272.0,
+            -120.0,
+            153.0
+          ],
+          "max": [
+            346.0,
+            120.0,
+            314.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramCab_Dark",
+        "file": "SM_VehiclesV3_TramCab_Dark.obj",
+        "sha256": "ea4661b00690fbaadb606ea72277d23eab354eba48532d173cde6b0cbaf8441c",
+        "assembly": "TramCab",
+        "group": "Dark",
+        "triangles": 176,
+        "localBoundsCm": {
+          "min": [
+            -314.0,
+            -121.5,
+            1.0
+          ],
+          "max": [
+            346.5,
+            121.5,
+            329.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramCab_Lens",
+        "file": "SM_VehiclesV3_TramCab_Lens.obj",
+        "sha256": "d60cd95766093bc441c557703cf95a0bd5abeb8157cdc347f293ddb012ccb9af",
+        "assembly": "TramCab",
+        "group": "Lens",
+        "triangles": 28,
+        "localBoundsCm": {
+          "min": [
+            341.5,
+            -90.0,
+            81.0
+          ],
+          "max": [
+            346.5,
+            90.0,
+            95.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramMid_Paint",
+        "file": "SM_VehiclesV3_TramMid_Paint.obj",
+        "sha256": "4e034ddd8f6db0fc07e490e2c4af5aa07cfbe36c69fe7d220c1e97804d61125f",
+        "assembly": "TramMid",
+        "group": "Paint",
+        "triangles": 84,
+        "localBoundsCm": {
+          "min": [
+            -320.0,
+            -120.0,
+            35.0
+          ],
+          "max": [
+            320.0,
+            120.0,
+            341.5
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramMid_Glass",
+        "file": "SM_VehiclesV3_TramMid_Glass.obj",
+        "sha256": "4d36a0bec3217029fe4e3e895e6f2dd951bd74bf0a99815f4ec1ce856f3f7de8",
+        "assembly": "TramMid",
+        "group": "Glass",
+        "triangles": 24,
+        "localBoundsCm": {
+          "min": [
+            -272.0,
+            -120.0,
+            153.0
+          ],
+          "max": [
+            272.0,
+            120.0,
+            308.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramMid_Dark",
+        "file": "SM_VehiclesV3_TramMid_Dark.obj",
+        "sha256": "245475c7aa27f2aac931ba42cc356aa912fd35057a9ff411bb609be7d0a0833b",
+        "assembly": "TramMid",
+        "group": "Dark",
+        "triangles": 192,
+        "localBoundsCm": {
+          "min": [
+            -314.0,
+            -121.5,
+            1.0
+          ],
+          "max": [
+            314.0,
+            121.5,
+            376.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramDoorLeaf_Paint",
+        "file": "SM_VehiclesV3_TramDoorLeaf_Paint.obj",
+        "sha256": "76713b1c1f474034ec88a6c053247678bcedfeddbe108a4ff8807af7d4431b7e",
+        "assembly": "TramDoorLeaf",
+        "group": "Paint",
+        "triangles": 28,
+        "localBoundsCm": {
+          "min": [
+            -30.5,
+            -3.5,
+            -98.0
+          ],
+          "max": [
+            30.5,
+            3.5,
+            98.0
+          ]
+        }
+      },
+      {
+        "name": "SM_VehiclesV3_TramDoorLeaf_Glass",
+        "file": "SM_VehiclesV3_TramDoorLeaf_Glass.obj",
+        "sha256": "bf06972cb56a57bcd5f43b37b2696b58dfedb86012f044a4cb86cf53d2a8a993",
+        "assembly": "TramDoorLeaf",
+        "group": "Glass",
+        "triangles": 12,
+        "localBoundsCm": {
+          "min": [
+            -22.5,
+            -4.5,
+            -56.4
+          ],
+          "max": [
+            22.5,
+            4.5,
+            95.6
+          ]
+        }
+      }
+    ],
+    "textures": {
+      "bus": {
+        "file": "T_VehiclesV3_Livery_bus.png",
+        "sha256": "e0f9e386fcf04e35088a2fd5cfd3e1f4098b839cd231f1d1dca8412cfe097cd1",
+        "pixels": [
+          512,
+          256
+        ],
+        "materialRole": "Paint",
+        "claim": "White body with green banding: the Egged city-bus colours used AS COLOUR. No operator logo, wordmark or route branding is drawn."
+      },
+      "car_neutral": {
+        "file": "T_VehiclesV3_Livery_car_neutral.png",
+        "sha256": "091701851eb9dc89d867b28ce3e3e0f4f035735edddb16351005b63ca1b6190e",
+        "pixels": [
+          256,
+          256
+        ],
+        "materialRole": "Paint",
+        "claim": "A flat neutral field. Per-instance body colour comes from the HISM custom-data floats, not from this texture."
+      },
+      "tram": {
+        "file": "T_VehiclesV3_Livery_tram.png",
+        "sha256": "f8bf2f285a35edf74b13dffa334e9bcb0711cabdccdc8890198e2eb62fb3c45f",
+        "pixels": [
+          512,
+          256
+        ],
+        "materialRole": "Paint",
+        "claim": "Light grey body with a dark waistband and a red accent stripe. The red line is named for the line colour on the network map; the stripe is authored decoration, not a reproduction of any operator livery."
+      },
+      "glass": {
+        "file": "T_VehiclesV3_Glass.png",
+        "sha256": "2005cc9ca4674129b325bc95e3d39ba69dab6e62a75d7759fff47bd07e45575c",
+        "pixels": [
+          128,
+          128
+        ],
+        "materialRole": "Glass",
+        "claim": "A dark tinted field for every glazed group; the material supplies the reflectivity."
+      }
+    },
+    "realReference": [
+      "Right-hand traffic: Israel drives on the right, so doors, kerbs and boarding points are on the vehicle local +Y.",
+      "Tram proportions: articulated low-floor vehicle of the Jerusalem Light Rail red line -- 32.5 m over five modules, 2.40 m wide, 3.35 m high, 1435 mm standard gauge, doors on both sides. Dimensions only.",
+      "Bus proportions: standard 12.0 m rigid low-floor single-decker, 2.55 m wide, 3.20 m high -- the Egged city-bus envelope. Dimensions only.",
+      "Car dimensions: ordinary European segment sizes (B-segment hatchback 4.05 m, D-segment saloon 4.70 m, compact crossover 4.35 m, small panel van 4.90 m)."
+    ],
+    "generic": [
+      "Every body is a simplified prism silhouette. No manufacturer bodywork, grille, lamp signature, badge, wheel design or trim is reproduced.",
+      "Liveries are flat colour fields plus a stripe. Tram grey and bus white-and-green are used AS COLOUR only. No operator logo, wordmark, route number, destination text or livery artwork is drawn; destination blinds are blank black panels.",
+      "The five tram modules are authored to a uniform length because TransitMath::CarCentreOffsetCm assumes one. The real vehicle alternates motor and suspended modules of differing lengths.",
+      "Interiors, driver, seats, mirrors, pantograph detail and number plates are omitted."
+    ],
+    "consist": {
+      "modules": 5,
+      "moduleLengthCm": 640.0,
+      "couplingGapCm": 10.0,
+      "overallLengthCm": 3240.0,
+      "order": [
+        "TramCab",
+        "TramMid",
+        "TramMid",
+        "TramMid",
+        "TramCab"
+      ],
+      "note": "The last module is posed with a 180 degree yaw by AMikdashTransit so its cab faces the direction of travel at the far end."
+    },
+    "doorLocalOffsetsCm": {
+      "Bus": [
+        [
+          410.0,
+          123.5,
+          165.0
+        ],
+        [
+          30.0,
+          123.5,
+          165.0
+        ],
+        [
+          -350.0,
+          123.5,
+          165.0
+        ]
+      ],
+      "Tram": [
+        [
+          0.0,
+          -117.0,
+          171.0
+        ],
+        [
+          0.0,
+          117.0,
+          171.0
+        ]
+      ],
+      "note": "One entry per doorway, in the body local frame. The actor slides each leaf along the body -X by the smoothstepped door offset."
+    }
+  },
+  "routes": {
+    "file": "SourceAssets/transit-review/TransitV3/routes-v3.json",
+    "sha256": "1ab1255bc3a02d8f05eb07bcbfb08255015905cbc8fb65d8639e38bc514a0dd8",
+    "schemaRequired": "MikdashTransitRoutesV3",
+    "alignment": "UEcm = ((x + 17.5097003156877) * 50, (z - 0.5513496449385) * 50, barycentric_asphalt_z * 50)",
+    "source": {
+      "context": {
+        "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+        "sha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463"
+      },
+      "meshes": {
+        "file": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json",
+        "sha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+        "meshes": [
+          "Asphalt roads",
+          "Stone paths"
+        ],
+        "triangles": 277738
+      },
+      "provenance": {
+        "osmDate": "2026-05-06T03:25:00Z",
+        "osm": "https://www.openstreetmap.org/copyright",
+        "terrain": "https://registry.opendata.aws/terrain-tiles/",
+        "latitude": 31.77802,
+        "longitude": 35.2354,
+        "metresPerAmah": 0.5,
+        "referenceElevationMetres": 748.0,
+        "note": "Hypothetical temple alignment; OSM footprints, DEM ground; untagged building heights estimated."
+      },
+      "attribution": "Retained OSM context; the project ODbL attribution applies. No new geographic claim."
+    },
+    "limits": {
+      "maxCrossfallDegrees": 8.0,
+      "maxGradientDegrees": 10.0,
+      "maxWheelSpreadCm": 150.0,
+      "note": "Same limits and the same four-probe arithmetic as release_place_bus.spec.json groundProbes."
+    },
+    "routeCount": 7,
+    "stopCount": 16,
+    "summary": [
+      {
+        "id": "rail_red_line_jaffa",
+        "kind": "rail",
+        "label": "Jaffa Road (red line corridor)",
+        "highway": "pedestrian (tram and pedestrian only)",
+        "sourceWays": [
+          {
+            "osmWayId": 285718947,
+            "name": "Jaffa",
+            "highway": "pedestrian"
+          },
+          {
+            "osmWayId": 463187604,
+            "name": "Jaffa",
+            "highway": "pedestrian"
+          },
+          {
+            "osmWayId": 263353093,
+            "name": "Jaffa",
+            "highway": "pedestrian"
+          }
+        ],
+        "controlPoints": 342,
+        "lengthCm": 283756.31,
+        "laneOffsetCm": 0.0,
+        "speedLimitCmPerSecond": 1500.0,
+        "vehicleWeight": 0.0,
+        "busShare": 0.0,
+        "offStreetCentrelineSamples": 10,
+        "stopProbeSummary": {
+          "evaluated": 605,
+          "rejected": {
+            "off_street": 1,
+            "spread": 0,
+            "gradient": 0,
+            "crossfall": 0
+          }
+        },
+        "stops": [
+          {
+            "name": "Jaffa Road (red line corridor) stop 1",
+            "worldCm": [
+              -117118.97,
+              -20541.14,
+              4757.82
+            ],
+            "crossfallDegrees": 0.36,
+            "gradientDegrees": 3.218,
+            "spreadCm": 34.632,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 22,
+            "boardingMaxPeople": 70,
+            "furnitureOffsetCm": 470.0
+          },
+          {
+            "name": "Jaffa Road (red line corridor) stop 2",
+            "worldCm": [
+              -136454.92,
+              -30305.31,
+              5117.5
+            ],
+            "crossfallDegrees": 0.0,
+            "gradientDegrees": 0.0,
+            "spreadCm": 0.0,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 22,
+            "boardingMaxPeople": 70,
+            "furnitureOffsetCm": 470.0
+          },
+          {
+            "name": "Jaffa Road (red line corridor) stop 3",
+            "worldCm": [
+              -162104.95,
+              -50500.8,
+              4517.5
+            ],
+            "crossfallDegrees": 0.0,
+            "gradientDegrees": 0.0,
+            "spreadCm": 0.0,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 22,
+            "boardingMaxPeople": 70,
+            "furnitureOffsetCm": 470.0
+          },
+          {
+            "name": "Jaffa Road (red line corridor) stop 4",
+            "worldCm": [
+              -187008.94,
+              -66091.12,
+              5817.5
+            ],
+            "crossfallDegrees": 0.0,
+            "gradientDegrees": 0.0,
+            "spreadCm": 0.0,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 22,
+            "boardingMaxPeople": 70,
+            "furnitureOffsetCm": 470.0
+          },
+          {
+            "name": "Jaffa Road (red line corridor) stop 5",
+            "worldCm": [
+              -209982.0,
+              -82901.68,
+              7217.5
+            ],
+            "crossfallDegrees": 0.0,
+            "gradientDegrees": 0.0,
+            "spreadCm": 0.0,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 22,
+            "boardingMaxPeople": 70,
+            "furnitureOffsetCm": 470.0
+          }
+        ]
+      },
+      {
+        "id": "road_hativat_yerushalayim",
+        "kind": "road",
+        "label": "Hativat Yerushalayim",
+        "highway": "trunk",
+        "sourceWays": [
+          {
+            "osmWayId": 984820251,
+            "name": "Hativat Yerushalayim",
+            "highway": "trunk"
+          },
+          {
+            "osmWayId": 261439508,
+            "name": "Hativat Yerushalayim",
+            "highway": "trunk"
+          },
+          {
+            "osmWayId": 1188718143,
+            "name": "Hativat Yerushalayim",
+            "highway": "trunk"
+          }
+        ],
+        "controlPoints": 140,
+        "lengthCm": 97628.3,
+        "laneOffsetCm": 380.0,
+        "speedLimitCmPerSecond": 1000.0,
+        "vehicleWeight": 1.6,
+        "busShare": 0.2,
+        "offStreetCentrelineSamples": 1,
+        "stopProbeSummary": {
+          "evaluated": 182,
+          "rejected": {
+            "off_street": 32,
+            "spread": 20,
+            "gradient": 0,
+            "crossfall": 113
+          }
+        },
+        "stops": [
+          {
+            "name": "Hativat Yerushalayim stop 1",
+            "worldCm": [
+              -85862.86,
+              46117.06,
+              147.79
+            ],
+            "crossfallDegrees": 6.837,
+            "gradientDegrees": 7.563,
+            "spreadCm": 118.618,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 8,
+            "boardingMaxPeople": 26,
+            "furnitureOffsetCm": 640.0
+          }
+        ]
+      },
+      {
+        "id": "road_hatsanhanim",
+        "kind": "road",
+        "label": "HaTsanhanim",
+        "highway": "trunk",
+        "sourceWays": [
+          {
+            "osmWayId": 184793808,
+            "name": "HaTsanhanim",
+            "highway": "trunk"
+          },
+          {
+            "osmWayId": 234683403,
+            "name": "HaTsanhanim",
+            "highway": "trunk"
+          }
+        ],
+        "controlPoints": 144,
+        "lengthCm": 99117.57,
+        "laneOffsetCm": 360.0,
+        "speedLimitCmPerSecond": 1000.0,
+        "vehicleWeight": 1.5,
+        "busShare": 0.24,
+        "offStreetCentrelineSamples": 1,
+        "stopProbeSummary": {
+          "evaluated": 263,
+          "rejected": {
+            "off_street": 65,
+            "spread": 0,
+            "gradient": 16,
+            "crossfall": 0
+          }
+        },
+        "stops": [
+          {
+            "name": "HaTsanhanim stop 1",
+            "worldCm": [
+              -100134.25,
+              -7994.3,
+              4293.72
+            ],
+            "crossfallDegrees": 2.309,
+            "gradientDegrees": 4.807,
+            "spreadCm": 68.278,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 8,
+            "boardingMaxPeople": 26,
+            "furnitureOffsetCm": 620.0
+          },
+          {
+            "name": "HaTsanhanim stop 2",
+            "worldCm": [
+              -88708.78,
+              -18808.87,
+              3883.74
+            ],
+            "crossfallDegrees": 1.347,
+            "gradientDegrees": 6.63,
+            "spreadCm": 86.714,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 8,
+            "boardingMaxPeople": 26,
+            "furnitureOffsetCm": 620.0
+          },
+          {
+            "name": "HaTsanhanim stop 3",
+            "worldCm": [
+              -73377.52,
+              -35085.36,
+              1443.79
+            ],
+            "crossfallDegrees": 0.814,
+            "gradientDegrees": 1.539,
+            "spreadCm": 21.17,
+            "surfaceFamilies": [
+              "Stone paths"
+            ],
+            "boardingMinPeople": 8,
+            "boardingMaxPeople": 26,
+            "furnitureOffsetCm": 620.0
+          }
+        ]
+      },
+      {
+        "id": "road_sultan_suleiman",
+        "kind": "road",
+        "label": "Sultan Suleiman",
+        "highway": "tertiary",
+        "sourceWays": [
+          {
+            "osmWayId": 1299310533,
+            "name": "Sultan Suleiman",
+            "highway": "tertiary"
+          },
+          {
+            "osmWayId": 771909611,
+            "name": "Sultan Suleiman",
+            "highway": "tertiary"
+          },
+          {
+            "osmWayId": 1299310546,
+            "name": "Sultan Suleiman",
+            "highway": "tertiary"
+          }
+        ],
+        "controlPoints": 84,
+        "lengthCm": 50047.71,
+        "laneOffsetCm": 340.0,
+        "speedLimitCmPerSecond": 700.0,
+        "vehicleWeight": 1.4,
+        "busShare": 0.34,
+        "offStreetCentrelineSamples": 0,
+        "stopProbeSummary": {
+          "evaluated": 122,
+          "rejected": {
+            "off_street": 0,
+            "spread": 0,
+            "gradient": 0,
+            "crossfall": 60
+          }
+        },
+        "stops": [
+          {
+            "name": "Sultan Suleiman stop 1",
+            "worldCm": [
+              487.58,
+              -62911.39,
+              1224.04
+            ],
+            "crossfallDegrees": 4.158,
+            "gradientDegrees": 1.922,
+            "spreadCm": 37.946,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 10,
+            "boardingMaxPeople": 34,
+            "furnitureOffsetCm": 600.0
+          },
+          {
+            "name": "Sultan Suleiman stop 2",
+            "worldCm": [
+              -11163.92,
+              -61167.88,
+              1044.08
+            ],
+            "crossfallDegrees": 4.146,
+            "gradientDegrees": 4.659,
+            "spreadCm": 72.188,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 10,
+            "boardingMaxPeople": 34,
+            "furnitureOffsetCm": 600.0
+          }
+        ]
+      },
+      {
+        "id": "road_maale_hashalom",
+        "kind": "road",
+        "label": "Maale HaShalom",
+        "highway": "tertiary",
+        "sourceWays": [
+          {
+            "osmWayId": 771909616,
+            "name": "Maale HaShalom",
+            "highway": "tertiary"
+          }
+        ],
+        "controlPoints": 106,
+        "lengthCm": 63107.81,
+        "laneOffsetCm": 340.0,
+        "speedLimitCmPerSecond": 780.0,
+        "vehicleWeight": 1.2,
+        "busShare": 0.2,
+        "offStreetCentrelineSamples": 4,
+        "stopProbeSummary": {
+          "evaluated": 142,
+          "rejected": {
+            "off_street": 0,
+            "spread": 37,
+            "gradient": 32,
+            "crossfall": 104
+          }
+        },
+        "stops": [
+          {
+            "name": "Maale HaShalom stop 1",
+            "worldCm": [
+              -43623.26,
+              57853.94,
+              38.32
+            ],
+            "crossfallDegrees": 5.524,
+            "gradientDegrees": 7.486,
+            "spreadCm": 112.974,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 7,
+            "boardingMaxPeople": 22,
+            "furnitureOffsetCm": 600.0
+          }
+        ]
+      },
+      {
+        "id": "road_ir_david_ophel",
+        "kind": "road",
+        "label": "Ma'alot Ir David and HaOfel",
+        "highway": "tertiary",
+        "sourceWays": [
+          {
+            "osmWayId": 157676832,
+            "name": "Ma'alot Ir David",
+            "highway": "tertiary"
+          },
+          {
+            "osmWayId": 34244965,
+            "name": "HaOfel",
+            "highway": "tertiary"
+          }
+        ],
+        "controlPoints": 300,
+        "lengthCm": 239832.15,
+        "laneOffsetCm": 340.0,
+        "speedLimitCmPerSecond": 830.0,
+        "vehicleWeight": 1.5,
+        "busShare": 0.22,
+        "offStreetCentrelineSamples": 0,
+        "stopProbeSummary": {
+          "evaluated": 505,
+          "rejected": {
+            "off_street": 8,
+            "spread": 195,
+            "gradient": 37,
+            "crossfall": 333
+          }
+        },
+        "stops": [
+          {
+            "name": "Ma'alot Ir David and HaOfel stop 1",
+            "worldCm": [
+              -15554.93,
+              70269.23,
+              -7646.07
+            ],
+            "crossfallDegrees": 2.189,
+            "gradientDegrees": 9.68,
+            "spreadCm": 129.977,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 7,
+            "boardingMaxPeople": 22,
+            "furnitureOffsetCm": 600.0
+          },
+          {
+            "name": "Ma'alot Ir David and HaOfel stop 2",
+            "worldCm": [
+              -4687.93,
+              41137.01,
+              -4329.08
+            ],
+            "crossfallDegrees": 0.548,
+            "gradientDegrees": 2.224,
+            "spreadCm": 29.801,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 7,
+            "boardingMaxPeople": 22,
+            "furnitureOffsetCm": 600.0
+          },
+          {
+            "name": "Ma'alot Ir David and HaOfel stop 3",
+            "worldCm": [
+              4802.57,
+              34580.11,
+              -4565.28
+            ],
+            "crossfallDegrees": 4.898,
+            "gradientDegrees": 4.225,
+            "spreadCm": 69.638,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 7,
+            "boardingMaxPeople": 22,
+            "furnitureOffsetCm": 600.0
+          }
+        ]
+      },
+      {
+        "id": "road_batei_mahase",
+        "kind": "road",
+        "label": "Batei Mahase",
+        "highway": "residential",
+        "sourceWays": [
+          {
+            "osmWayId": 496167693,
+            "name": "Batei Mahase",
+            "highway": "residential"
+          }
+        ],
+        "controlPoints": 136,
+        "lengthCm": 64871.13,
+        "laneOffsetCm": 300.0,
+        "speedLimitCmPerSecond": 560.0,
+        "vehicleWeight": 0.9,
+        "busShare": 0.3,
+        "offStreetCentrelineSamples": 1,
+        "stopProbeSummary": {
+          "evaluated": 193,
+          "rejected": {
+            "off_street": 4,
+            "spread": 66,
+            "gradient": 25,
+            "crossfall": 138
+          }
+        },
+        "stops": [
+          {
+            "name": "Batei Mahase stop 1",
+            "worldCm": [
+              -40767.18,
+              47266.78,
+              1230.49
+            ],
+            "crossfallDegrees": 3.907,
+            "gradientDegrees": 8.116,
+            "spreadCm": 114.918,
+            "surfaceFamilies": [
+              "Asphalt roads"
+            ],
+            "boardingMinPeople": 6,
+            "boardingMaxPeople": 20,
+            "furnitureOffsetCm": 560.0
+          }
+        ]
+      }
+    ]
+  },
+  "groundProbes": {
+    "maxCrossfallDegrees": 8.0,
+    "maxGradientDegrees": 10.0,
+    "supportMeshPrefixes": [
+      "/Game/MikdashV3/JerusalemContext/Streets/"
+    ],
+    "supportLabelPrefixes": [
+      "SM_Jerusalem_Asphalt_",
+      "SM_Jerusalem_StonePaths_"
+    ],
+    "supportNote": "A stop must stand on a real street mesh. Both street families count: SM_Jerusalem_Asphalt_ is the carriageway and SM_Jerusalem_StonePaths_ is the paved street. Jaffa Road is paved rather than asphalted in the source data, which is why the tram stations sample the stone family. release_place_bus.spec.json accepts the same two prefixes; the hero bus additionally required asphalt under the painted body corners, which is a hero-placement rule and is not applied here.",
+    "probeFootprintCm": {
+      "road": {
+        "wheelbase": 720.0,
+        "track": 192.0
+      },
+      "rail": {
+        "bogieSpacing": 600.0,
+        "gauge": 143.5
+      }
+    },
+    "traceAboveOfflineZCm": 2500.0,
+    "traceBelowOfflineZCm": 2500.0,
+    "offlineAgreementToleranceCm": 30.0,
+    "offlineAgreementNote": "The traced Z is compared with the offline barycentric Z from the same source triangles. A disagreement beyond the tolerance means the trace found a DIFFERENT surface (a building, a path, a terrain tile) and is recorded per probe, not averaged away.",
+    "maxFailedStops": 4,
+    "maxFailedStopsNote": "Up to this many stops may fail their trace and be dropped from the placed configuration; beyond it the run fails and the map is left untouched. Dropping a stop is recorded by name.",
+    "aabbNote": "NO actor bounding box is used anywhere in this script. The 256 FutureMountV1 terrain tiles carry 400-800 m AABBs that enclose the whole Temple, and their union meshes are hollow, so a raw-bounds blocker test on this map returned 100 percent false positives before. Support is decided ONLY by the mesh path of the component the trace actually hit, which is exact and needs no decomposition of any union mesh into constituent boxes.",
+    "traceNote": "Line traces return nothing under -run=pythonscript and in NullRHI editor worlds. That is why this is a two-step job: trace_stops runs in a bounded PIE world in a dedicated editor and writes a pose receipt; place_from_receipt reads that receipt and mutates the map, and runs synchronously so it works as a commandlet."
+  },
+  "transitActor": {
+    "RoadVehicleCount": 240,
+    "DensityMultiplier": 1.0,
+    "MaxRoadVehicles": 900,
+    "MaxActiveTrains": 3,
+    "UpdateBudget": 48,
+    "TransformFreezeDistanceCm": 220000.0,
+    "InstanceCullStartCm": 90000.0,
+    "InstanceCullEndCm": 260000.0,
+    "TrainHeadwayMinSeconds": 120.0,
+    "TrainHeadwayMaxSeconds": 300.0,
+    "TrainDwellMinSeconds": 20.0,
+    "TrainDwellMaxSeconds": 40.0,
+    "TrainCarLengthCm": 640.0,
+    "TrainCouplingGapCm": 10.0,
+    "TrainBogieInsetCm": 150.0,
+    "BusDwellMinSeconds": 14.0,
+    "BusDwellMaxSeconds": 28.0,
+    "DoorOpenSeconds": 1.6,
+    "DoorCloseSeconds": 1.8,
+    "DoorTravelCm": 58.0,
+    "PhotographerShare": 0.22,
+    "Seed": 20260908,
+    "bActivateOnBeginPlay": true,
+    "PaintPalette": [
+      [
+        0.82,
+        0.83,
+        0.84
+      ],
+      [
+        0.05,
+        0.06,
+        0.07
+      ],
+      [
+        0.28,
+        0.3,
+        0.33
+      ],
+      [
+        0.62,
+        0.63,
+        0.64
+      ],
+      [
+        0.33,
+        0.03,
+        0.03
+      ],
+      [
+        0.03,
+        0.1,
+        0.24
+      ],
+      [
+        0.06,
+        0.16,
+        0.11
+      ],
+      [
+        0.55,
+        0.42,
+        0.1
+      ],
+      [
+        0.72,
+        0.71,
+        0.66
+      ],
+      [
+        0.14,
+        0.15,
+        0.17
+      ]
+    ],
+    "paletteNote": "Ten body colours, weighted toward the white/silver/grey that dominate a real Israeli street. Applied per instance through HISM custom data floats 0..2; the Paint material multiplies them into the livery texture."
+  },
+  "budget": {
+    "target": "RTX 2070 (8 GB VRAM, TU106) in a 16 GB system",
+    "roadVehicles": 240,
+    "activeTrains": 3,
+    "trainCarsPerConsist": 5,
+    "updateBudgetPerFrame": 48,
+    "framesPerSweep": 5,
+    "sweepSecondsAt60Fps": 0.0833,
+    "sweepSecondsAt30Fps": 0.1667,
+    "worstCaseTrianglesAllLod0": 102732,
+    "hismComponents": 31,
+    "lod0TrianglesAllBodies": 2436,
+    "basis": [
+      "TRIANGLES are not the constraint. Every body is under 408 triangles at LOD0 and the whole set is 2436. With every road vehicle and all 3 consists resident at LOD0 the layer is 102,732 triangles, which a TU106 draws in a fraction of a millisecond; the declared LOD ladder ([1.0, 0.42, 0.16, 0.06]) and the 2600 m cull take most of that away again.",
+      "VRAM is not the constraint. 31 static meshes totalling 2436 triangles is well under a megabyte of vertex data, and the four textures are 512x256 and 128x128 RGB.",
+      "DRAW CALLS are bounded by the component count, not the instance count: 31 HISM components plus stop furniture, one batch each per LOD per view.",
+      "The real cost is the CPU-side instance transform write and the render-state flush. AMikdashTransit bounds both: it advances 48 vehicles per frame whatever the total, and marks each touched component dirty ONCE per frame rather than once per instance. At 240 vehicles that is a 5-frame sweep, 0.083 s at 60 fps.",
+      "The sweep length is what sets the vehicle count, not the GPU. CatchUpSeconds clamps a vehicle step to 0.35 s, and at 1000 cm/s a 0.083 s step covers 83 cm against the 120 cm arrival tolerance, so the stop line cannot be stepped over at 60 fps. At 30 fps the step is 167 cm and the dwell machine leans on its LOW SPEED condition instead, which is why that condition exists. Raising RoadVehicleCount without raising UpdateBudget lengthens the sweep and eventually breaks that margin: the ceiling for this budget is about 240 road vehicles.",
+      "The binding constraint on this machine is the CROWD, not the traffic. 16 stops can each ask for a boarding group, and AMikdashCrowdField pays per figure. The coordinator should cap concurrent transit-driven crowd instances; see coordinatorMustWire below.",
+      "MaxRoadVehicles 900 and the math's own 8x clamp on DensityMultiplier exist so a mistyped multiplier cannot allocate without bound. They are a fuse, not a target."
+    ]
+  },
+  "coordinatorMustWire": [
+    "Bind the crowd. AMikdashTransit references, includes and edits nothing in AMikdashCrowdField or the 24 residents. Bind OnRequestBoarding to the crowd field's \"converge on point and despawn\" entry point and OnRequestAlighting to its \"spawn at point and disperse\" entry point, or override the RequestBoarding / RequestAlighting BlueprintImplementableEvents in a Blueprint subclass. Both carry (GlobalStopIndex, Count, BoardingPoint, SecondsAvailable, RouteId).",
+    "Honour SecondsAvailable. It is the dwell the doors will actually stay open. A crowd walk that takes longer than it will still be walking when the vehicle leaves.",
+    "Use BoardingPoint, not GetStopLocation. BoardingPoint is the world point at the vehicle door on the kerb side for THIS arrival; GetStopLocation is the authored stop and GetStopFurniturePoint is the shelter or platform face to gather at.",
+    "Call SuggestPhotographerCount(GlobalStopIndex, Count, RunIndex) from the boarding handler and give that many figures a standing photograph pose facing the Mount. The transit actor owns no pedestrian and implements no behaviour; the number is a hint.",
+    "Cap concurrency. Nothing in the transit layer limits how many boarding groups are live at once. With 16 stops the coordinator must impose its own ceiling on transit-driven crowd instances and drop requests over it, rather than letting the crowd grow.",
+    "Set ShelterMeshes and PlatformMeshes if stop furniture is wanted. This release leaves both empty: no shelter or platform geometry is authored in VehiclesV3, and placing the TransitSystemV1 shelter would import a frozen namespace this job does not own.",
+    "Check GetStopProjectionErrorCm after InitializeTransit. It reports how far each authored stop sat from the route the runtime built. A large value means the stop is off its route; it is reported rather than hidden and nothing else will tell you."
+  ],
+  "pie": {
+    "hardLimitSeconds": 300,
+    "pieWorldTimeoutSeconds": 90,
+    "settleSecondsAfterWorld": 1.5,
+    "endPlaySettleSeconds": 2.0,
+    "reopenSettleSeconds": 1.0,
+    "note": "The hard limit aborts before the map is saved; once saved the run completes readback and records limitExceededAfterSave rather than leaving a half-verified save."
+  },
+  "verification": {
+    "staticBoundsToleranceCm": 0.05,
+    "transformToleranceCm": 0.001,
+    "rotationToleranceDegrees": 0.001,
+    "routePointToleranceCm": 0.01,
+    "compareRule": "Numeric location/rotation/scale and per-route point arrays only; str(Transform) is never compared."
+  },
+  "invocation": {
+    "importAssets": "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe\" \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" -run=pythonscript -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_transit_v3.py\" -unattended -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-TransitV3-01.log\"",
+    "importAssetsEnv": {
+      "MIKDASH_TRANSIT_MODE": "import_assets"
+    },
+    "traceStops": "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe\" \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" /Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_transit_v3.py\" -unattended -NoSplash -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-TransitV3-02.log\"",
+    "traceStopsEnv": {
+      "MIKDASH_TRANSIT_MODE": "trace_stops",
+      "MIKDASH_TRANSIT_QUIT_EDITOR": "1"
+    },
+    "placeFromReceipt": "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe\" \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" -run=pythonscript -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_transit_v3.py\" -unattended -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-TransitV3-03.log\"",
+    "placeFromReceiptEnv": {
+      "MIKDASH_TRANSIT_MODE": "place_from_receipt",
+      "MIKDASH_TRANSIT_TRACE_RECEIPT": "<trace_stops receipt path>"
+    },
+    "runOrder": [
+      "import_assets",
+      "trace_stops",
+      "place_from_receipt"
+    ],
+    "serialNote": "One engine at a time on this machine. Every step is a dedicated editor and never the user's GUI editor."
+  },
+  "notAClaimOf": [
+    "visual acceptance of any body, livery or material",
+    "that the traffic reads as Jerusalem to a person who lives there",
+    "pedestrian boarding: no crowd is wired by this script and none is spawned",
+    "a surveyed or approved light-rail alignment: the track, stations and platforms along the Jaffa Road corridor are authored interpretation",
+    "junction, signal, right-of-way, crossing or collision behaviour, none of which exists",
+    "packaged-build or cook acceptance"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan for the photo mode acceptance run, consumed by Scripts/release_photo_mode.py. The leash numbers here are what UMikdashPhotoMode defaults to; the vantages are the poses the reference stills are taken from, each one a coordinate already proven by an earlier capture receipt.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "PhotoMode-",
+  "receiptFolder": "SourceAssets/cinematics-review",
+  "receiptPrefix": "release-photo-mode-",
+  "captureFolder": "SourceAssets/cinematics-review/photo-mode-stills",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount"
+  ],
+
+  "leash": {
+    "anchorCm": [2100.0, 0.0, 598.0],
+    "anchorBasis": "Mikdash_PlayerStart [2100, 0], pawn centre Z 598 (SourceAssets/visual-review/release-capture-20260908T023600Z/receipt.json view b). Photo mode anchors the leash on the pawn wherever it actually is; this is the value used for the offline battery.",
+    "radiusCm": 6000.0,
+    "radiusBasis": "60 m lets a photographer get the whole inner court and the Ulam facade in one frame from the visitor's position without leaving the enclosure. The outer court is 15600 cm across, so this cannot reach outside it from the middle.",
+    "boundsMinCm": [-60000.0, -60000.0, -3000.0],
+    "boundsMaxCm": [60000.0, 60000.0, 40000.0],
+    "boundsBasis": "The whole Mikdash is [-8100,-9450,0]..[9200,9450,6130] per SourceAssets/architecture-manifest.json; the Jerusalem context around it reaches much further, and the Kotel terrain goes down to about -800. These bounds contain the built world with a wide skirt and still refuse to let a camera leave it. release_photo_mode.py measures the loaded level and reports a recommendation if these no longer contain it."
+  },
+
+  "capture": {
+    "api": "FViewport::TakeHighResScreenShot with FHighResScreenshotConfig (Engine/Public/UnrealClient.h, Engine/Public/HighResScreenshot.h) at run time in the game; unreal.AutomationLibrary.take_high_res_screenshot in this editor script, which is the editor-side wrapper over the same path.",
+    "packagedSupport": "Yes. Both FViewport::TakeHighResScreenShot and GetHighResScreenshotConfig are plain ENGINE_API in 5.8 with no WITH_EDITOR and no !UE_BUILD_SHIPPING guard, and the file is written through the engine's image write queue, which ships. Setting FilenameOverride to an absolute path makes FScreenshotRequest skip its numbered-suffix logic and write exactly that PNG. What this editor script proves is that the path produces a correct file; it does not itself run in a packaged build.",
+    "baseResolution": [1920, 1080],
+    "multipliers": [1, 2, 4],
+    "filePrefix": "MikdashPhotoMode",
+    "timeoutSeconds": 180.0,
+    "flatFrameByteFraction": 0.92,
+    "flatFrameNote": "A compressed PNG whose stream is more than 92 percent one byte value is almost certainly a blank frame. This is a cheap presence probe, not a decode."
+  },
+
+  "vantages": [
+    {
+      "id": "spawn_west_to_house",
+      "positionCm": [2100.0, 0.0, 668.0],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "basis": "Capture view b: the visitor's own eye at Mikdash_PlayerStart, looking west up the axis at the House. The first thing anybody photographs."
+    },
+    {
+      "id": "outer_court_pilgrims",
+      "positionCm": [4974.0, 0.0, 468.0],
+      "pitch": -2.33,
+      "yaw": 88.74,
+      "basis": "Capture view c: the requested outer court point [4974, 0] with a native floor trace at Z 300, eye at 468, aimed at the centroid of the five placed pilgrims."
+    },
+    {
+      "id": "heichal_vessels",
+      "positionCm": [-4000.0, 0.0, 1093.0],
+      "pitch": 0.0,
+      "yaw": 180.0,
+      "basis": "Capture view d: Heichal floor top 925 plus 168, 400 cm inside the eastern floor edge, with the menorah, the shulchan and the golden altar in frame. The depth of field and grade controls are worth most here."
+    },
+    {
+      "id": "kodesh_aron",
+      "positionCm": [-5850.0, -140.0, 1093.0],
+      "pitch": -4.47,
+      "yaw": 158.2,
+      "basis": "Capture view e: inside the Kodesh, aimed at the mid-height of the keruvim above the Aron at [-6200, 0, 925]."
+    },
+    {
+      "id": "exterior_wide",
+      "positionCm": [30000.0, 30000.0, 20000.0],
+      "pitch": -25.0,
+      "yaw": -135.0,
+      "basis": "Capture view a: the proven exterior wide camera looking back at the courtyard origin. The shot people share first."
+    }
+  ],
+
+  "limitations": [
+    "Numeric only. A PNG that is the right size and not blank is not a good photograph; nobody has looked at these.",
+    "The editor viewport is not the game viewport. This proves the engine's high resolution path writes a correct file on this machine; it does not prove the packaged Shipping build does, only that the API it uses carries no editor-only or non-shipping guard.",
+    "Depth of field, colour grades and exposure compensation are applied by the C++ on the photo camera's own post process settings and are not exercised here at all.",
+    "The leash battery is arithmetic against the same clamp order the C++ uses. It says nothing about level collision: photo mode deliberately flies through walls, it only refuses to leave the world."
+  ]
+}

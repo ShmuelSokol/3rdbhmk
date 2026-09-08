@@ -1,0 +1,326 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_surface_detail.py: import eleven procedural wear textures, build ONE deferred-decal master material with eleven instances, create the quantised meleke stone-variant instances, place the authored wear decals as ADecalActors in the combined Walkthrough map and spawn one AMikdashSurfaceDetail to budget and fade them. DECALS AND MATERIAL PARAMETERS ONLY: no existing actor is moved, rescaled, retagged or deleted, and no shared material asset is edited. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "SurfaceDetail-",
+  "receiptFolder": "SourceAssets/surface-review",
+  "receiptPrefix": "native-surface-detail-",
+  "plan": "SourceAssets/surface-review/surface-detail.json",
+  "planSha256": "f67545c0037406fa7d8f3c897334e88b3658ba8a64beecb3341cb17986dab202",
+  "planStatusRequired": "surface_wear_plan_generated_no_map_touched",
+  "generator": "Scripts/create_decals.py",
+  "mathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/SurfaceWearMath.h",
+  "namespace": "/Game/MikdashV3/SurfaceDetailV1",
+  "textureFolder": "/Game/MikdashV3/SurfaceDetailV1/Textures",
+  "materialFolder": "/Game/MikdashV3/SurfaceDetailV1/Materials",
+  "stoneVariantFolder": "/Game/MikdashV3/SurfaceDetailV1/StoneVariants",
+  "labelPrefix": "SURFACEWEAR_",
+  "folder": "SurfaceDetail/Wear",
+  "managerFolder": "SurfaceDetail",
+  "actorTag": "MikdashSurfaceWearV1",
+  "categoryTagPrefix": "MikdashWear_",
+  "importanceTagPrefix": "MikdashWearImportance_",
+  "managerClass": "MikdashSurfaceDetail",
+  "managerLabel": "SURFACEWEAR_Manager",
+  "managerLocationCm": [
+    0.0,
+    0.0,
+    300.0
+  ],
+  "decalBudget": 220,
+  "masterDecalMaterial": {
+    "name": "M_SurfaceWear_Decal",
+    "domain": "MD_DeferredDecal",
+    "blendMode": "DBM_Translucent",
+    "decalBlendMode": "DBUFFER_ColorRoughness",
+    "decalBlendModeNote": "DBuffer colour+roughness, not the normal-writing variant: the wear must tint and smooth what it lands on without fighting the world-space normals the triplanar architecture material outputs (the meshes carry no UVs, so tangents are undefined).",
+    "textureParameters": {
+      "WearMask": "WearMask"
+    },
+    "scalarParameters": {
+      "Opacity": 1.0,
+      "RoughnessDelta": -0.15,
+      "AlbedoDarken": 0.25,
+      "DetailWeight": 0.5
+    },
+    "vectorParameters": {
+      "WearTint": [
+        0.62,
+        0.58,
+        0.5,
+        1.0
+      ]
+    },
+    "graphNotes": [
+      "TextureSampleParameter2D 'WearMask'; its UV pin is named 'UVs' in 5.8, not 'UV'.",
+      "R -> Opacity multiply -> decal opacity. G -> lerp on RoughnessDelta. B -> lerp between WearTint and a slightly desaturated copy for within-decal variety.",
+      "Desaturation's first input pin is named 'None' in 5.8; connect the colour there.",
+      "Clamp's first input pin is also named 'None'."
+    ]
+  },
+  "decalInstances": [
+    {
+      "name": "MI_Wear_FootPolish",
+      "texture": "T_Wear_FootPolish_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": -0.3,
+        "AlbedoDarken": 0.16,
+        "DetailWeight": 0.35
+      },
+      "tint": [
+        0.6,
+        0.57,
+        0.51,
+        1.0
+      ],
+      "note": "Polished stone goes DARKER and much SMOOTHER; it does not go shiny."
+    },
+    {
+      "name": "MI_Wear_StepNosing",
+      "texture": "T_Wear_StepNosing_256",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": -0.26,
+        "AlbedoDarken": 0.34,
+        "DetailWeight": 0.5
+      },
+      "tint": [
+        0.46,
+        0.43,
+        0.38,
+        1.0
+      ],
+      "note": "Stronger darkening than open polish: the arris takes the whole sole."
+    },
+    {
+      "name": "MI_Wear_RainStreak",
+      "texture": "T_Wear_RainStreak_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.1,
+        "AlbedoDarken": 0.3,
+        "DetailWeight": 0.6
+      },
+      "tint": [
+        0.44,
+        0.42,
+        0.38,
+        1.0
+      ],
+      "note": "Streaks are dirt, so they ROUGHEN."
+    },
+    {
+      "name": "MI_Wear_DustRunoff",
+      "texture": "T_Wear_DustRunoff_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.14,
+        "AlbedoDarken": -0.1,
+        "DetailWeight": 0.5
+      },
+      "tint": [
+        0.78,
+        0.73,
+        0.63,
+        1.0
+      ],
+      "note": "Dust is LIGHTER than the stone, hence the negative darkening."
+    },
+    {
+      "name": "MI_Wear_WaterStain",
+      "texture": "T_Wear_WaterStain_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": -0.38,
+        "AlbedoDarken": 0.4,
+        "DetailWeight": 0.55
+      },
+      "tint": [
+        0.38,
+        0.37,
+        0.35,
+        1.0
+      ],
+      "note": "Wet stone: much darker and much smoother, the strongest roughness delta in the set."
+    },
+    {
+      "name": "MI_Wear_Soot",
+      "texture": "T_Wear_Soot_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.16,
+        "AlbedoDarken": 0.62,
+        "DetailWeight": 0.4
+      },
+      "tint": [
+        0.2,
+        0.19,
+        0.18,
+        1.0
+      ],
+      "note": "Warm-black, never blue-black; carbon on limestone."
+    },
+    {
+      "name": "MI_Wear_Lichen",
+      "texture": "T_Wear_Lichen_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.22,
+        "AlbedoDarken": 0.24,
+        "DetailWeight": 0.7
+      },
+      "tint": [
+        0.52,
+        0.55,
+        0.42,
+        1.0
+      ],
+      "note": "Grey-green, low saturation. Jerusalem lichen is not moss."
+    },
+    {
+      "name": "MI_Wear_WindDust",
+      "texture": "T_Wear_WindDust_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.2,
+        "AlbedoDarken": -0.14,
+        "DetailWeight": 0.45
+      },
+      "tint": [
+        0.8,
+        0.75,
+        0.64,
+        1.0
+      ],
+      "note": "Pale, matt, and slightly lighter than the paving under it."
+    },
+    {
+      "name": "MI_Wear_Weathering",
+      "texture": "T_Wear_Weathering_512",
+      "scalars": {
+        "Opacity": 1.0,
+        "RoughnessDelta": 0.12,
+        "AlbedoDarken": 0.1,
+        "DetailWeight": 0.65
+      },
+      "tint": [
+        0.72,
+        0.66,
+        0.52,
+        1.0
+      ],
+      "note": "The yellowing of aged meleke, applied broadly and weakly."
+    },
+    {
+      "name": "MI_Wear_DustPuff",
+      "texture": "T_Wear_DustPuff_256",
+      "scalars": {
+        "Opacity": 0.55,
+        "RoughnessDelta": 0.1,
+        "AlbedoDarken": -0.2,
+        "DetailWeight": 0.4
+      },
+      "tint": [
+        0.84,
+        0.79,
+        0.68,
+        1.0
+      ],
+      "note": "Spawned at run time by AMikdashSurfaceDetail on a dry-stone footfall."
+    },
+    {
+      "name": "MI_Wear_Ripple",
+      "texture": "T_Wear_Ripple_256",
+      "scalars": {
+        "Opacity": 0.75,
+        "RoughnessDelta": -0.2,
+        "AlbedoDarken": 0.05,
+        "DetailWeight": 0.3
+      },
+      "tint": [
+        0.72,
+        0.78,
+        0.8,
+        1.0
+      ],
+      "note": "Spawned at run time on a footfall over water."
+    }
+  ],
+  "stoneVariantApplication": {
+    "note": "Per-component slot-0 material overrides ONLY, on components of THIS map whose current slot-0 material is one of the three stone PBR instances. The instances themselves and the shared parent M_PBR_Tiled are never edited. The variant index is a hash of the component's own path name, so it is stable across runs and independent of iteration order; the age tier is the Chebyshev XY radius rule in the plan's ageTiers.",
+    "families": [
+      {
+        "id": "ashlar",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "variants": 10,
+        "componentsExpected": 1155
+      },
+      {
+        "id": "trim",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+        "variants": 8,
+        "componentsExpected": 332
+      },
+      {
+        "id": "paving",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+        "variants": 8,
+        "componentsExpected": 181
+      }
+    ],
+    "sourceMaterialsEligible": [
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs"
+    ],
+    "instancedStaticMeshComponentsExcluded": true
+  },
+  "protectedMaterials": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze_Displaced",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV1/Materials/M_KeruvFrieze_Tessellated",
+    "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/M_GoldFloor",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/M_GoldWall",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/M_GoldVessel"
+  ],
+  "protectedMaterialPrefixes": [
+    "/Game/MikdashV3/MaterialReview/KotelStoneV1/",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1/",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/",
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV1/",
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/"
+  ],
+  "protectedMaterialRule": "Every path in protectedMaterials must exist on disk with an unchanged SHA-256 after the run, and no asset under protectedMaterialPrefixes may be written at all. This exists because the 2026-09-07 sanctuary rebalance flattened the frieze wall relief by editing a shared parent and had to be reverted from a checkpoint. A shared parent is never edited by this script; only child MaterialInstanceConstants are created.",
+  "geometryRule": "The script snapshots every pre-existing actor's transform, mesh list and world bounds before it mutates anything, and refuses to save if any of them differs. It spawns only ADecalActor and the AMikdashSurfaceDetail manager, and destroys only actors it spawned in this run. It never calls destroy_actor on an actor it did not spawn.",
+  "verification": {
+    "transformToleranceCm": 0.05,
+    "decalSizeToleranceCm": 0.05,
+    "scalarParameterTolerance": 0.0001,
+    "vectorParameterTolerance": 0.0001,
+    "sampleDecalsForFullReadback": 40,
+    "note": "UE 5.8 fact: MaterialEditingLibrary.set_material_instance_{scalar,vector}_parameter_value returns a bResult that is never assigned and is therefore ALWAYS false. Only the readback decides; the struct-array fallback stamps Association=GlobalParameter and Index=-1, because a Python-default MaterialParameterInfo carries LayerParameter/0 and the global lookup would never find it."
+  },
+  "limitations": [
+    "Placement is geometric. No trace confirms that a decal's projection box actually reaches a surface.",
+    "No visual, performance, walking or packaged acceptance is established by this script.",
+    "The stone variation is quantised into a palette, not continuous per instance.",
+    "The manager actor is only spawned if the compiled MikdashRuntime module exposes the class; otherwise the run records an omission and the decals are placed unmanaged."
+  ]
+}

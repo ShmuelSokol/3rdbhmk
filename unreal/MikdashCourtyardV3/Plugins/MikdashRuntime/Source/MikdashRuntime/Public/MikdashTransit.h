@@ -230,6 +230,14 @@ public:
     UPROPERTY(BlueprintAssignable, Category="Transit|Boarding") FMikdashTransitBoardingSignature OnRequestBoarding;
     UPROPERTY(BlueprintAssignable, Category="Transit|Boarding") FMikdashTransitBoardingSignature OnRequestAlighting;
 
+    /** How many of a boarding or alighting group should stop and photograph the place
+     * instead of walking straight on. A HINT for whatever drives the crowd; this class
+     * owns no pedestrian and implements no behaviour. Deterministic in the stop and the
+     * run, so the same stop on the same run always answers the same number. Call it from
+     * the boarding handler with the Count it was just given. */
+    UFUNCTION(BlueprintPure, Category="Transit|Boarding")
+    int32 SuggestPhotographerCount(int32 GlobalStopIndex, int32 Count, int32 RunIndex) const;
+
     // -- configuration ---------------------------------------------------------
 
     /** Set only on an explicitly adopted, fully configured actor. */
@@ -289,6 +297,11 @@ public:
     /** HISM per-instance cull distance handed to the renderer. */
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Transit|Budget") float InstanceCullStartCm = 60000.f;
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Transit|Budget") float InstanceCullEndCm = 120000.f;
+
+    /** Share of each boarding group SuggestPhotographerCount hands back. The stop is a
+     * view of the Mount; people photograph it. Nothing here makes them do so. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Transit|Boarding", meta=(ClampMin="0.0", ClampMax="1.0"))
+    float PhotographerShare = 0.22f;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Transit") int32 Seed = 20260908;
     /** Body colours the paint variation draws from, one per instance. */

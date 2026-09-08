@@ -7,6 +7,10 @@
 // The contract the three-state precinct toggle depends on:
 //   1. the square is actually square - equal sides, equal diagonals, right angles - at
 //      yaw 0 and at an awkward yaw, and under every amah opinion in the table;
+//  1b. the four clearances close on the 3000 exactly; the Middot 2:1 ordering holds for the
+//      book's own diagram envelope and for Middot's 500-amah Har HaBayit, and is PROVED
+//      impossible for this project's square court envelope rather than being asserted or
+//      relaxed - see the long comment on ClearanceChecks();
 //   2. amah <-> cm <-> metre conversions round-trip, and reeds -> amot is exactly x6;
 //   3. the containment test is right ON the edge and ON the corner, not merely near them;
 //   4. the building-selection set is deterministic: same input in any order, same set,
@@ -56,20 +60,39 @@ static void RecordText(const char* Key, const char* Value)
 
 // ---------------------------------------------------------------------------
 // The real square this project places, so the test is testing the shipped numbers and not
-// a convenient toy. Court supporting platform faces are +-8100 Unreal cm in X and the
-// measured architecture spans Y -9450..9450 (SourceAssets/architecture-manifest.json).
+// a convenient toy.
+//
+// Two different "court envelopes" exist in this project and the earlier draft of this test
+// mixed them, which is what made the clearance ordering look merely inconsistent rather than
+// structurally impossible:
+//
+//   PLATFORM      SM_0127_architecture_Outer_court_supporting_platform, +-8100 Unreal cm on
+//                 BOTH axes -> 324 x 324 amot, SQUARE. This is what the shipped design
+//                 anchors on (enclosure-design.json inputs.courtPlatformBoundsCm), and it is
+//                 also the AABB of the 'Derived union of source outer envelope walls' actor
+//                 that Scripts/release_place_assets.py documents at +-8100 XY.
+//   ARCHITECTURE  architecture-manifest.json expectedBoundsUnrealCm, X -8100..9200 (the east
+//                 stair foot) and Y -9450..9450 (the two mount approach terraces) -> 346 amot
+//                 east-west by 378 north-south. DEEPER than it is wide.
+//
+// The earlier draft took its west/north anchor from the PLATFORM and its east/south
+// remainder from the ARCHITECTURE, so its four clearances did not close on the 3000 at all.
+// Both envelopes are checked below, and the ordering inverts under each for the same reason.
+//
 // Lishchno Tidreshu fig. 2'2 (p. 113): 500 amot clear west, 501 clear north.
 // ---------------------------------------------------------------------------
-static const double CourtWestFaceCm = -8100.0;
-static const double CourtNorthFaceCm = -8100.0;
-static const double ClearWestAmot = 500.0;
-static const double ClearNorthAmot = 501.0;
+static const FAabb2 CourtPlatform = {{-8100.0, -8100.0}, {8100.0, 8100.0}};
+static const double CourtEnvelopeEastWestAmot = 324.0;    // 16200 cm / 50
+static const double CourtEnvelopeNorthSouthAmot = 324.0;
+// architecture-manifest.json expectedBoundsUnrealCm, XY only.
+static const FAabb2 MeasuredArchitecture = {{-8100.0, -9450.0}, {9200.0, 9450.0}};
+static const double ArchitectureEastWestAmot = 346.0;     // 17300 cm / 50
+static const double ArchitectureNorthSouthAmot = 378.0;   // 18900 cm / 50
 
 static FSquare BookSquare(double Yaw = 0.0)
 {
-    return MakeSquareFromNorthWestClearance({CourtWestFaceCm, CourtNorthFaceCm},
-                                            ClearWestAmot, ClearNorthAmot,
-                                            PrecinctSideAmot, ProjectCmPerAmah, Yaw);
+    return MakeSquareFromClearances(CourtPlatform, BookClearWestAmot, BookClearNorthAmot,
+                                    PrecinctSideAmot, ProjectCmPerAmah, Yaw);
 }
 
 // ---------------------------------------------------------------------------
@@ -99,31 +122,190 @@ static void SquarenessChecks()
     assert(Near(Centred.CentreUnrealCm.X, 550.0) && Near(Centred.CentreUnrealCm.Y, 0.0));
 
     // The book anchoring must reproduce the west and north OUTER faces exactly, because
-    // that is the statement being modelled - not an approximate placement.
+    // that is the statement being modelled - not an approximate placement. The four faces
+    // and the centre are asserted against the numbers already shipped in
+    // SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json `enclosure`, so this
+    // header and that design file cannot silently drift apart.
     const FSquare Book = BookSquare();
     FVec2 Corners[4];
     SquareCorners(Book, Corners);
-    const double ExpectedWest = CourtWestFaceCm - ClearWestAmot * ProjectCmPerAmah;
-    const double ExpectedNorth = CourtNorthFaceCm - ClearNorthAmot * ProjectCmPerAmah;
-    assert(Near(Corners[0].X, ExpectedWest, 1e-9));
-    assert(Near(Corners[0].Y, ExpectedNorth, 1e-9));
-    assert(Near(Corners[2].X, ExpectedWest + PrecinctSideAmot * ProjectCmPerAmah, 1e-9));
-    assert(Near(Corners[2].Y, ExpectedNorth + PrecinctSideAmot * ProjectCmPerAmah, 1e-9));
-    // And the east/south clearances that fall out of the 3000 are the diagram's remainder.
-    const double ClearEast = UnrealCmToAmot(Corners[2].X - 8100.0);
-    const double ClearSouth = UnrealCmToAmot(Corners[2].Y - 9450.0);
-    Record("book_square_west_face_cm", ExpectedWest);
-    Record("book_square_north_face_cm", ExpectedNorth);
+    assert(Near(Corners[0].X, -33100.0, 1e-9));     // outerFacesCm.xWest
+    assert(Near(Corners[0].Y, -33150.0, 1e-9));     // outerFacesCm.yNorth
+    assert(Near(Corners[2].X, 116900.0, 1e-9));     // outerFacesCm.xEast
+    assert(Near(Corners[2].Y, 116850.0, 1e-9));     // outerFacesCm.ySouth
+    assert(Near(Book.CentreUnrealCm.X, 41900.0, 1e-9));   // centreCm[0]
+    assert(Near(Book.CentreUnrealCm.Y, 41850.0, 1e-9));   // centreCm[1]
+    Record("book_square_west_face_cm", Corners[0].X);
+    Record("book_square_north_face_cm", Corners[0].Y);
+    Record("book_square_east_face_cm", Corners[2].X);
+    Record("book_square_south_face_cm", Corners[2].Y);
     Record("book_square_centre_x_cm", Book.CentreUnrealCm.X);
     Record("book_square_centre_y_cm", Book.CentreUnrealCm.Y);
-    Record("book_clear_east_amot", ClearEast);
-    Record("book_clear_south_amot", ClearSouth);
     Record("worst_square_shape_error_cm", Worst);
-    // Mishkenei Elyon 196 m.1 order: south largest, then east, then north, least west.
-    assert(ClearSouth > ClearEast && ClearEast > ClearNorthAmot && ClearNorthAmot > ClearWestAmot);
     std::printf("squareness: worst corner/side/diagonal error %.3g cm over 7 yaws\n", Worst);
-    std::printf("book square: west face %.0f cm, north face %.0f cm, clearances E %.0f / S %.0f amot\n",
-                ExpectedWest, ExpectedNorth, ClearEast, ClearSouth);
+    std::printf("book square: faces W %.0f E %.0f N %.0f S %.0f cm, centre (%.0f, %.0f)\n",
+                Corners[0].X, Corners[2].X, Corners[0].Y, Corners[2].Y,
+                Book.CentreUnrealCm.X, Book.CentreUnrealCm.Y);
+}
+
+// ---------------------------------------------------------------------------
+// 1b. Clearances, and the ordering claim that cannot be true here
+// ---------------------------------------------------------------------------
+//
+// This block exists because of a concrete, reproduced bug. An earlier version asserted
+//
+//     ClearSouth > ClearEast && ClearEast > ClearNorth && ClearNorth > ClearWest
+//
+// - Middot 2:1's "largest south, second east, third north, least west" - directly on the
+// square this project places, and it failed. The header was NOT wrong. The expectation was:
+//
+//   * anchoring is by the two STATED clearances (west 500, north 501), so the other two are
+//     remainders:  East = Side - West - EnvelopeEW,  South = Side - North - EnvelopeNS;
+//   * therefore  South - East = (West + EnvelopeEW) - (North + EnvelopeNS);
+//   * this project's measured court envelope is SQUARE (324 x 324), so EnvelopeEW cancels
+//     EnvelopeNS and  South - East = West - North = -1 amah.
+//
+// With west 500 strictly less than north 501 - which the ordering itself demands - a square
+// envelope makes South > East ARITHMETICALLY IMPOSSIBLE. No tolerance, no tuning and no
+// re-anchoring on the measured platform can satisfy the old assertion; only a court envelope
+// wider east-west than north-south can, which is exactly the shape of Middot's own
+// 187 x 135 Azarah and of the book's 351 x 346 diagram envelope.
+//
+// So the ordering is asserted where it is true (the book's diagram, and Middot's own
+// 500-amah Har HaBayit), the impossibility is asserted as a theorem, and the shipped square
+// is asserted to depart from the ordering by exactly one amah and no more. That also pins a
+// live error in project data: enclosure-design.json's offsetRule claims the order is
+// "preserved" while its own numbers (east 2176, south 2175) show it inverted.
+static void ClearanceChecks()
+{
+    // ---- the shipped square, measured rather than assumed -----------------------------
+    const FSquare Book = BookSquare();
+    const FClearances Measured = ClearancesOf(Book, CourtPlatform);
+    assert(Near(Measured.WestAmot, 500.0, 1e-9));
+    assert(Near(Measured.NorthAmot, 501.0, 1e-9));
+    assert(Near(Measured.EastAmot, 2176.0, 1e-9));    // enclosure-design.json clearancesAmot
+    assert(Near(Measured.SouthAmot, 2175.0, 1e-9));
+    // The two sums close on the 3000 exactly; that is what makes the remainders remainders.
+    assert(Near(ClearanceClosureErrorAmot(Measured, CourtEnvelopeEastWestAmot,
+                                          CourtEnvelopeNorthSouthAmot, PrecinctSideAmot), 0.0, 1e-9));
+    // The order is inverted, and by exactly one amah - 50 cm on a 150,000 cm side.
+    assert(ClassifyClearanceOrder(Measured) == EClearanceOrder::EastSouthSwapped);
+    assert(Near(ClearanceOrderMarginAmot(Measured), -1.0, 1e-9));
+    assert(std::abs(ClearanceOrderMarginAmot(Measured)) <= 1.0 + 1e-9);
+
+    // ---- the book's own diagram, where the order does hold ------------------------------
+    const FClearances Diagram = BookDiagramClearances();
+    assert(Near(Diagram.WestAmot, 500.0, 1e-9));
+    assert(Near(Diagram.NorthAmot, 501.0, 1e-9));
+    assert(Near(Diagram.EastAmot, 2149.0, 1e-9));     // 3000 - 500 - 351
+    assert(Near(Diagram.SouthAmot, 2153.0, 1e-9));    // 3000 - 501 - 346
+    assert(ClassifyClearanceOrder(Diagram) == EClearanceOrder::Middot);
+    assert(Near(ClearanceClosureErrorAmot(Diagram, BookDiagramEnvelopeEastWestAmot,
+                                          BookDiagramEnvelopeNorthSouthAmot, PrecinctSideAmot),
+                0.0, 1e-9));
+    // The whole disagreement between the diagram and the placed square is the envelope.
+    assert(Near(Diagram.EastAmot - Measured.EastAmot,
+                CourtEnvelopeEastWestAmot - BookDiagramEnvelopeEastWestAmot, 1e-9));
+    assert(Near(Diagram.SouthAmot - Measured.SouthAmot,
+                CourtEnvelopeNorthSouthAmot - BookDiagramEnvelopeNorthSouthAmot, 1e-9));
+
+    // ---- the same square against the FULL measured architecture envelope ----------------
+    // 346 amot east-west, 378 north-south: deeper than wide, so the order inverts here too,
+    // and by more. This is the second half of the answer to "is the header wrong": no
+    // envelope this project actually measured can produce the book's four numbers.
+    const FClearances AgainstArchitecture = ClearancesOf(Book, MeasuredArchitecture);
+    assert(Near(AgainstArchitecture.WestAmot, 500.0, 1e-9));
+    assert(Near(AgainstArchitecture.NorthAmot, 474.0, 1e-9));    // the approach terrace is
+                                                                 // 27 amot north of the platform
+    assert(Near(AgainstArchitecture.EastAmot, 2154.0, 1e-9));    // 3000 - 500 - 346
+    assert(Near(AgainstArchitecture.SouthAmot, 2148.0, 1e-9));   // 3000 - 474 - 378
+    assert(Near(ClearanceClosureErrorAmot(AgainstArchitecture, ArchitectureEastWestAmot,
+                                          ArchitectureNorthSouthAmot, PrecinctSideAmot), 0.0, 1e-9));
+    assert(ClassifyClearanceOrder(AgainstArchitecture) == EClearanceOrder::Other);  // north < west
+    Record("architecture_clear_east_amot", AgainstArchitecture.EastAmot);
+    Record("architecture_clear_south_amot", AgainstArchitecture.SouthAmot);
+
+    // ---- Middot's 500-amah Har HaBayit: the other side of the dispute -------------------
+    // PROVENANCE: Mishkenei Elyon 196 ch.1 m.1, which the book quotes in full, applies the
+    // Middot 2:1 wording ("rubo min hadarom...") to a Har HaBayit of THREE THOUSAND amot, not
+    // to Middot's five hundred. The four numbers below - 100 west, 213 east, 115 north, 250
+    // south around Middot 5:1's 187 x 135 Azarah - are the received reckoning of the SECOND
+    // Temple's 500-amah Mount from the standard commentaries; they are NOT in this book and
+    // are marked "authored reconstruction" in SourceAssets/enclosure-review/sources.md. Only
+    // their two sums and their order are checked here, both of which are self-evident from
+    // the numbers themselves.
+    const FClearances Middot = MiddotHarHaBayitClearances();
+    assert(Near(Middot.WestAmot + MiddotAzarahEastWestAmot + Middot.EastAmot,
+                MiddotHarHaBayitAmot, 1e-9));         // 100 + 187 + 213 = 500
+    assert(Near(Middot.NorthAmot + MiddotAzarahNorthSouthAmot + Middot.SouthAmot,
+                MiddotHarHaBayitAmot, 1e-9));         // 115 + 135 + 250 = 500
+    assert(ClassifyClearanceOrder(Middot) == EClearanceOrder::Middot);
+    // And it is placeable: the 500 square built from those clearances is square, is 500
+    // amot, and reads its clearances back unchanged.
+    const FSquare Har = MakeMiddotHarHaBayitSquare({0.0, 0.0});
+    assert(SquareShapeErrorUnrealCm(Har) < 1e-6);
+    assert(Near(SquareSideAmot(Har), MiddotHarHaBayitAmot, 1e-9));
+    const double HalfEW = MiddotAzarahEastWestAmot * 0.5 * ProjectCmPerAmah;
+    const double HalfNS = MiddotAzarahNorthSouthAmot * 0.5 * ProjectCmPerAmah;
+    const FAabb2 Azarah = {{-HalfEW, -HalfNS}, {HalfEW, HalfNS}};
+    const FClearances Readback = ClearancesOf(Har, Azarah);
+    assert(Near(Readback.WestAmot, 100.0, 1e-9) && Near(Readback.EastAmot, 213.0, 1e-9));
+    assert(Near(Readback.NorthAmot, 115.0, 1e-9) && Near(Readback.SouthAmot, 250.0, 1e-9));
+    assert(ClassifyClearanceOrder(Readback) == EClearanceOrder::Middot);
+    // The 500 sits wholly inside the 3000, six times smaller on a side - the ratio the
+    // OVERLAY draws. Its corners are checked against the placed precinct, not assumed.
+    FVec2 HarCorners[4];
+    SquareCorners(Har, HarCorners);
+    for (int Index = 0; Index < 4; ++Index) assert(PointInside(Book, HarCorners[Index]));
+    assert(Near(SquareSideAmot(Book) / SquareSideAmot(Har), 6.0, 1e-9));
+
+    // ---- the impossibility, as a theorem rather than an anecdote ------------------------
+    // For ANY square court envelope and ANY side length, South - East is identically
+    // West - North. Swept over a range so a future change to the anchoring cannot quietly
+    // reintroduce the old assertion.
+    int SquareEnvelopeCases = 0;
+    for (double Envelope = 100.0; Envelope <= 600.0; Envelope += 25.0)
+    {
+        for (double West = 300.0; West <= 700.0; West += 50.0)
+        {
+            for (double NorthMinusWest = 1.0; NorthMinusWest <= 40.0; NorthMinusWest += 13.0)
+            {
+                const FClearances C = ClearancesFromStated(West, West + NorthMinusWest,
+                                                           Envelope, Envelope, PrecinctSideAmot);
+                assert(Near(ClearanceOrderMarginAmot(C), -NorthMinusWest, 1e-9));
+                assert(ClassifyClearanceOrder(C) != EClearanceOrder::Middot);
+                ++SquareEnvelopeCases;
+            }
+        }
+    }
+    assert(SquareEnvelopeCases > 100);
+    // And the converse: widen the envelope east-west by more than the west/north gap and
+    // the Middot order reappears, which is precisely why the book's diagram satisfies it.
+    const FClearances Wider = ClearancesFromStated(500.0, 501.0, 351.0, 346.0, PrecinctSideAmot);
+    assert(ClassifyClearanceOrder(Wider) == EClearanceOrder::Middot);
+    const FClearances Marginal = ClearancesFromStated(500.0, 501.0, 325.0, 324.0, PrecinctSideAmot);
+    assert(ClassifyClearanceOrder(Marginal) == EClearanceOrder::Other);   // an exact tie
+
+    Record("measured_clear_west_amot", Measured.WestAmot);
+    Record("measured_clear_north_amot", Measured.NorthAmot);
+    Record("measured_clear_east_amot", Measured.EastAmot);
+    Record("measured_clear_south_amot", Measured.SouthAmot);
+    Record("measured_order_margin_amot", ClearanceOrderMarginAmot(Measured));
+    Record("measured_order_margin_cm", ClearanceOrderMarginAmot(Measured) * ProjectCmPerAmah);
+    RecordText("measured_clearance_order", "east_south_swapped_by_one_amah");
+    Record("diagram_clear_east_amot", Diagram.EastAmot);
+    Record("diagram_clear_south_amot", Diagram.SouthAmot);
+    RecordText("diagram_clearance_order", "middot_south_east_north_west");
+    Record("middot_har_habayit_side_amot", MiddotHarHaBayitAmot);
+    RecordInt("square_envelope_impossibility_cases", SquareEnvelopeCases);
+    std::printf("clearances: placed W %.0f N %.0f E %.0f S %.0f amot -> order inverted by %.0f amah (%.0f cm)\n",
+                Measured.WestAmot, Measured.NorthAmot, Measured.EastAmot, Measured.SouthAmot,
+                -ClearanceOrderMarginAmot(Measured),
+                -ClearanceOrderMarginAmot(Measured) * ProjectCmPerAmah);
+    std::printf("clearances: book diagram W %.0f N %.0f E %.0f S %.0f amot -> Middot order holds; "
+                "%d square-envelope cases prove it cannot here\n",
+                Diagram.WestAmot, Diagram.NorthAmot, Diagram.EastAmot, Diagram.SouthAmot,
+                SquareEnvelopeCases);
 }
 
 // ---------------------------------------------------------------------------
@@ -159,6 +341,22 @@ static void ConversionChecks()
         std::snprintf(Key, sizeof(Key), "precinct_area_sq_km_at_%s", Opinion.Key);
         Record(Key, R.AreaRealSquareKm);
     }
+    // The book's own printed metre figure is reproduced by its own implied amah, which is
+    // how that amah was recovered in the first place. If either constant is ever edited
+    // without the other this fails rather than quietly re-scaling the whole precinct.
+    assert(Near(AmotToRealMetres(PrecinctSideAmot, BookImpliedAmahRealCm),
+                BookStatedPrecinctSideMetres, 1e-9));
+    assert(Near(RealMetresToAmot(BookStatedPrecinctSideMetres, BookImpliedAmahRealCm),
+                PrecinctSideAmot, 1e-9));
+    // And the book's amah is inside the range the table carries, at its bottom end.
+    assert(FindAmahOpinion("naeh") != nullptr);
+    assert(Near(FindAmahOpinion("naeh")->RealCentimetres, BookImpliedAmahRealCm, 1e-9));
+    assert(Near(Smallest, BookImpliedAmahRealCm, 1e-9));
+    Record("book_implied_amah_cm", BookImpliedAmahRealCm);
+    Record("book_stated_precinct_side_metres", BookStatedPrecinctSideMetres);
+    Record("precinct_side_metres_at_project_scale",
+           AmotToRealMetres(PrecinctSideAmot, ProjectCmPerAmah));
+
     assert(FindAmahOpinion("no-such-opinion") == nullptr);
     assert(FindAmahOpinion(nullptr) == nullptr);
     Record("amah_range_low_cm", Smallest);
@@ -437,31 +635,68 @@ static void BoundaryChecks()
 // ---------------------------------------------------------------------------
 // 6. The wall plan fits an RTX 2070
 // ---------------------------------------------------------------------------
-static std::vector<FGateOpening> BookGates()
+static std::vector<FGateOpening> BookGates(const FSquare& Square)
 {
-    // Lishchno Tidreshu pp. 115-117 after Mishkenei Elyon 196 m.2 and Middot 1:3:
-    // two gates south, one east, one north, one west; opening 10 amot wide.
+    // Five gates - two south, one each east, north and west - at the positions already
+    // shipped in enclosure-design.json `enclosure.gates`, which gives them as WORLD
+    // coordinates rather than as fractions: E, N and W sit on the Temple's own axes
+    // (world X = 0 or world Y = 0), the two south gates at world X 16900 and 66900 cm,
+    // i.e. one third and two thirds along the south wall. FractionAlongSide converts.
+    // Gate positions are the book's only for the count per side; the along-wall placement
+    // is the project's assumption and is recorded as such in enclosure-design.json
+    // `uncertainties`. Opening 10 amot (certain); piers 10 amot each side (authored).
+    const FVec2 TempleAxis = {0.0, 0.0};
     std::vector<FGateOpening> Gates;
-    Gates.push_back({static_cast<int>(ESide::North), 0.50, 10.0});
-    Gates.push_back({static_cast<int>(ESide::East),  0.50, 10.0});
-    Gates.push_back({static_cast<int>(ESide::South), 0.30, 10.0});
-    Gates.push_back({static_cast<int>(ESide::South), 0.70, 10.0});
-    Gates.push_back({static_cast<int>(ESide::West),  0.50, 10.0});
+    Gates.push_back({static_cast<int>(ESide::North),
+                     FractionAlongSide(Square, static_cast<int>(ESide::North), TempleAxis), 10.0});
+    Gates.push_back({static_cast<int>(ESide::East),
+                     FractionAlongSide(Square, static_cast<int>(ESide::East), TempleAxis), 10.0});
+    Gates.push_back({static_cast<int>(ESide::South),
+                     FractionAlongSide(Square, static_cast<int>(ESide::South), {16900.0, 0.0}), 10.0});
+    Gates.push_back({static_cast<int>(ESide::South),
+                     FractionAlongSide(Square, static_cast<int>(ESide::South), {66900.0, 0.0}), 10.0});
+    Gates.push_back({static_cast<int>(ESide::West),
+                     FractionAlongSide(Square, static_cast<int>(ESide::West), TempleAxis), 10.0});
     return Gates;
 }
 
 static void WallPlanChecks()
 {
     const FSquare Square = BookSquare();
-    const std::vector<FGateOpening> Gates = BookGates();
+    const std::vector<FGateOpening> Gates = BookGates(Square);
     const FModuleBudget Budget;
     const FWallPlan Plan = PlanWall(Square, 1250.0, Gates, 10.0, Budget, 1250.0);
 
+    // The gate fractions really are the shipped world positions, to the centimetre.
+    assert(Near(Gates[0].CentreFractionAlongSide * 150000.0, 33100.0, 1e-6));   // N at world X 0
+    assert(Near(Gates[1].CentreFractionAlongSide * 150000.0, 33150.0, 1e-6));   // E at world Y 0
+    assert(Near(Gates[2].CentreFractionAlongSide * 150000.0, 100000.0, 1e-6));  // S at world X 16900
+    assert(Near(Gates[3].CentreFractionAlongSide * 150000.0, 50000.0, 1e-6));   // S at world X 66900
+    assert(Near(Gates[4].CentreFractionAlongSide * 150000.0, 116850.0, 1e-6));  // W at world Y 0
+    // A fraction that does not land on its side is returned unclamped rather than hidden.
+    assert(FractionAlongSide(Square, static_cast<int>(ESide::North), {-100000.0, 0.0}) < 0.0);
+
     assert(Plan.SegmentsPerSide == 120);
     assert(Near(Plan.SegmentLengthUnrealCm, 1250.0, 1e-9));
-    // Five gates, each 10 + 2x10 = 30 amot = 1500 cm wide, so each removes exactly two
-    // 1250 cm segments from its side.
-    assert(Plan.WallInstances == 480 - 10);
+    // Each gate is 10 + 2x10 = 30 amot = 1500 cm wide, so it always destroys at least two
+    // 1250 cm segments, and three when it straddles a segment boundary. Two of the five
+    // gates land on a boundary (the two south gates, at exact thirds of the side) and three
+    // do not, so 2x2 + 3x3 = 13 segments are dropped from the 480.
+    assert(Plan.WallInstances == 480 - 13);
+    for (std::size_t Index = 0; Index < Gates.size(); ++Index)
+    {
+        int Dropped = 0;
+        for (int Step = 0; Step < Plan.SegmentsPerSide; ++Step)
+        {
+            if (!SegmentClearsGates(Gates[Index].Side, Plan.SegmentLengthUnrealCm * Step,
+                                    Plan.SegmentLengthUnrealCm, 150000.0,
+                                    {Gates[Index]}, 10.0))
+            {
+                ++Dropped;
+            }
+        }
+        assert(Dropped == 2 || Dropped == 3);
+    }
     assert(Plan.GateInstances == 5);
     assert(Plan.CornerInstances == 4);
     assert(Plan.TotalTriangles == Plan.WallTriangles + Plan.GateTriangles + Plan.CornerTriangles + Plan.OverlayTriangles);
@@ -472,6 +707,15 @@ static void WallPlanChecks()
     // toggle hides is 3,416,580 triangles, so the enclosure is ~4% of what it replaces.
     assert(Plan.TotalTriangles < 250000);
     assert(Plan.TotalInstances < 2000);
+    // The exact figures Scripts/create_enclosure.py --export writes into
+    // SourceAssets/enclosure-review/geometry-manifest.json. Asserting the totals rather than
+    // only the bound means a module that quietly grows is caught the next time this runs,
+    // instead of the day the frame rate drops.
+    assert(Plan.WallInstances == 467 && Plan.GateInstances == 5 && Plan.CornerInstances == 4);
+    assert(Plan.OverlayInstances == 480);
+    assert(Plan.TotalInstances == 956);
+    assert(Plan.TotalTriangles == 112944);
+    assert(Plan.WallTriangles == 467LL * 228LL);
 
     // A single-mesh wall would be one 1.5 km bounding box: assert the instanced form
     // actually buys per-instance culling granularity of a segment, not of the ring.
@@ -480,7 +724,7 @@ static void WallPlanChecks()
     // Gate carving is exact on both ends: a segment abutting an opening survives, one
     // overlapping it by a millimetre does not.
     const double SideLength = SquareSideUnrealCm(Square);
-    const double GateCentre = SideLength * 0.5;
+    const double GateCentre = SideLength * Gates[1].CentreFractionAlongSide;   // the east gate
     assert(SegmentClearsGates(static_cast<int>(ESide::East), GateCentre - 750.0 - 1250.0, 1250.0, SideLength, Gates, 10.0));
     assert(!SegmentClearsGates(static_cast<int>(ESide::East), GateCentre - 750.0 + 1.0, 1250.0, SideLength, Gates, 10.0));
     // A side with no gate on it keeps every segment.
@@ -587,6 +831,7 @@ static void DissolveChecks()
 int main(int Argc, char** Argv)
 {
     SquarenessChecks();
+    ClearanceChecks();
     ConversionChecks();
     ContainmentChecks();
     SelectionChecks();
@@ -602,7 +847,8 @@ int main(int Argc, char** Argv)
             std::fclose(Handle);
         }
     }
-    std::cout << "PASS: squareness at seven yaws, amah/reed/metre round-trips over five opinions, "
+    std::cout << "PASS: squareness at seven yaws, the clearance ordering resolved against both "
+                 "anchorings, amah/reed/metre round-trips over five opinions, "
                  "edge and corner containment, deterministic and order-independent building selection "
                  "with the terrain-tile trap asserted, boundary sampling, the instanced wall budget "
                  "and the three-state dissolve" << std::endl;

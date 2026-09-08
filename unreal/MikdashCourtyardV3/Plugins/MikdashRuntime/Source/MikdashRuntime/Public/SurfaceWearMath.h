@@ -413,12 +413,28 @@ struct FBudgetRequest
     int    Minimum;     // honoured first, but clipped if the minimums exceed the cap
 };
 
+/** A category's request, floored at zero.
+ *
+ * A negative Requested is not a request for a negative number of decals; it is a
+ * malformed row (an uninitialised plan entry, a subtraction that went below zero in
+ * the planner). It must be read as "wants nothing".
+ *
+ * This is not defensive decoration. Clipping a minimum against a raw negative request
+ * yields a negative allocation, and subtracting a negative allocation from the
+ * remaining budget ADDS to it -- so one malformed row silently raises the cap for
+ * every category after it. That is the opposite of what a budget is for. */
+inline int EffectiveRequest(const FBudgetRequest& Item)
+{
+    return Item.Requested > 0 ? Item.Requested : 0;
+}
+
 /** Allocate at most Cap decals across Count categories, writing per-category counts
  * to OutCounts and returning the total allocated.
  *
  * Guarantees, in this order:
  *   1. the returned total is <= Cap, always, for every input including absurd ones;
- *   2. OutCounts[i] lies in [0, Requested[i]];
+ *   2. OutCounts[i] lies in [0, max(0, Requested[i])] -- so a category that asks for a
+ *      negative number of decals gets exactly none, and cannot lend budget to anyone;
  *   3. the result is a pure function of the inputs (largest remainder, ties to the
  *      lower index), so two runs of the same plan allocate identically. */
 inline int AllocateBudget(const FBudgetRequest* Items, int Count, int Cap, int* OutCounts)
@@ -434,9 +450,13 @@ inline int AllocateBudget(const FBudgetRequest* Items, int Count, int Cap, int* 
     // cap is never broken to satisfy a minimum.
     for (int Index = 0; Index < Count && Remaining > 0; ++Index)
     {
+        // Order matters: floor the minimum at zero, then clip it against the request
+        // ALREADY floored at zero. Clipping against a raw negative request is what
+        // hands out a negative count and gives budget back to Remaining.
         int Want = Items[Index].Minimum;
         if (Want < 0) Want = 0;
-        if (Want > Items[Index].Requested) Want = Items[Index].Requested;
+        const int Request = EffectiveRequest(Items[Index]);
+        if (Want > Request)   Want = Request;
         if (Want > Remaining) Want = Remaining;
         OutCounts[Index] = Want;
         Remaining -= Want;
@@ -446,7 +466,7 @@ inline int AllocateBudget(const FBudgetRequest* Items, int Count, int Cap, int* 
     double TotalWeight = 0.0;
     for (int Index = 0; Index < Count; ++Index)
     {
-        const int Unmet = Items[Index].Requested - OutCounts[Index];
+        const int Unmet = EffectiveRequest(Items[Index]) - OutCounts[Index];
         if (Unmet > 0 && Items[Index].Weight > 0.0) TotalWeight += Items[Index].Weight;
     }
     if (TotalWeight > 0.0 && Remaining > 0)
@@ -454,7 +474,7 @@ inline int AllocateBudget(const FBudgetRequest* Items, int Count, int Cap, int* 
         const int Share = Remaining;
         for (int Index = 0; Index < Count; ++Index)
         {
-            const int Unmet = Items[Index].Requested - OutCounts[Index];
+            const int Unmet = EffectiveRequest(Items[Index]) - OutCounts[Index];
             if (Unmet <= 0 || !(Items[Index].Weight > 0.0)) continue;
             const double Ideal = static_cast<double>(Share) * Items[Index].Weight / TotalWeight;
             int Give = static_cast<int>(std::floor(Ideal));
@@ -471,7 +491,7 @@ inline int AllocateBudget(const FBudgetRequest* Items, int Count, int Cap, int* 
             double BestValue = -1.0;
             for (int Index = 0; Index < Count; ++Index)
             {
-                const int Unmet = Items[Index].Requested - OutCounts[Index];
+                const int Unmet = EffectiveRequest(Items[Index]) - OutCounts[Index];
                 if (Unmet <= 0 || !(Items[Index].Weight > 0.0)) continue;
                 const double Ideal     = static_cast<double>(Share) * Items[Index].Weight / TotalWeight;
                 const double Remainder = Ideal - std::floor(Ideal);

@@ -1,0 +1,1056 @@
+{
+  "schemaVersion": 1,
+  "status": "fx_material_manifest_generated",
+  "generatedBy": "Scripts/create_fx_materials.py",
+  "generatorSha256": "4f63f5747d81743f5e7bfee0f2d9ff5bf98797db0c38aa771aa457dcc4ea6e99",
+  "mathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/PlumeMath.h",
+  "mathTest": "Plugins/MikdashRuntime/Tests/PlumeMathTest.cpp",
+  "honesty": "Colour, opacity, rise velocity, particle size and duration are artistic choices. The straight smoke column is a depiction of a cited claim (Avos 5:5), not a physical result. Nothing here is rabbinic approval.",
+  "sourceClaims": [
+    {
+      "id": "FX-SRC-STRAIGHT",
+      "class": "H",
+      "claim": "The column of smoke from the arrangement was not dispersed by the wind.",
+      "source": "Avos 5:5 (among the miracles of the Mikdash)",
+      "depiction": "OuterAltarColumn is authored vertical at every wind speed. This is a depiction of a cited claim, not a physical result; the physical bent-plume path stays in PlumeMath.h and is separately tested."
+    },
+    {
+      "id": "FX-SRC-ESH-TAMID",
+      "class": "Torah text",
+      "claim": "A perpetual fire shall burn on the altar; it shall not go out.",
+      "source": "Vayikra 6:6",
+      "depiction": "The outer altar fire is the only continuous effect in the set."
+    },
+    {
+      "id": "FX-SRC-KETORES",
+      "class": "H",
+      "claim": "A stafflike column rose to the ceiling, and the smoke then spread and descended until the chamber was filled.",
+      "source": "Yoma 53a:4-5, 11",
+      "depiction": "Narrow indoor column (entrainment 0.06), ceiling impingement, radial ceiling jet, descending layer. Velocities, depths and durations are design values; the sugya gives none."
+    },
+    {
+      "id": "FX-SRC-TAMID",
+      "class": "H",
+      "claim": "Incense twice daily on the Golden Altar in the Heikhal, tied to tending the lamps.",
+      "source": "Shemos 30:7-8; Rambam, Temidin uMusafin 3:1",
+      "depiction": "The ketores plume is an event with a start and an end, driven by AMikdashServiceActor through AMikdashFXDirector, not a permanent emitter. Research dossier Research/ketores-service-and-smoke.md is explicit that 'regular service' is not evidence for a continuous emitter."
+    },
+    {
+      "id": "FX-SRC-MENORAH",
+      "class": "Torah text",
+      "claim": "Beaten olive oil for the light, to kindle a lamp continually.",
+      "source": "Shemos 27:20; Vayikra 24:2",
+      "depiction": "Wick-scale flames, warm and small, one small light each. Not torch scale."
+    },
+    {
+      "id": "FX-SRC-NEGATIVE",
+      "class": "R",
+      "claim": "The texts give qualitative behaviour and no measured colour, opacity, rise velocity, particle size or persistence.",
+      "source": "Research/ketores-service-and-smoke.md",
+      "depiction": "Every colour, opacity, speed and duration in this manifest is labelled a design value and none is presented as measured."
+    }
+  ],
+  "anchors": {
+    "outerAltarCentre": {
+      "value": [
+        0.0,
+        0.0
+      ],
+      "source": "SourceAssets/architecture-manifest.json, SM_0154..SM_0160: the altar tiers are symmetric about the world origin in X and Y"
+    },
+    "outerAltarFireTopZ": {
+      "value": 1091.1666870117188,
+      "source": "SourceAssets/architecture-manifest.json, SM_2061..SM_2067 detail_Altar_wood expectedBoundsUnrealCm max Z"
+    },
+    "outerAltarTierTopZ": {
+      "value": 1066.6666984558105,
+      "source": "SourceAssets/architecture-manifest.json, SM_0160 upper tier max Z"
+    },
+    "goldenAltarCentre": {
+      "value": [
+        -4650.0,
+        0.0,
+        925.0
+      ],
+      "source": "ServiceScheduleMath.h Anchors::GoldenAltar; release_scale_keilim.spec.json cluster"
+    },
+    "goldenAltarTopZ": {
+      "value": 1004.1666666666667,
+      "source": "PlumeMathTest.cpp HeikhalRoom(): 925 floor + 79.1667 altar height"
+    },
+    "heikhalCeilingZ": {
+      "value": 2925.0,
+      "source": "SM_0148_roof_Sanctuary_ceiling underside, per PlumeMathTest.cpp"
+    },
+    "menorahOrigin": {
+      "value": [
+        -5330.0,
+        315.17599868774414,
+        925.0
+      ],
+      "source": "SourceAssets/vessels-review/MenorahV4/native-import-20260908T030534818522Z.json readback location, yaw -90"
+    },
+    "menorahLampLocalXCm": {
+      "value": [
+        -45.045,
+        -31.47,
+        -16.5,
+        0.0,
+        16.5,
+        31.47,
+        45.045
+      ],
+      "source": "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json lamp_x_cm"
+    },
+    "menorahLampBowlLocalZCm": {
+      "value": 143.94,
+      "source": "geometry-manifest.json parameters.lamp_span[1]"
+    },
+    "menorahLidTopLocalZCm": {
+      "value": 146.67,
+      "source": "geometry-manifest.json parameters.lid_span[1] / finial_span[0]"
+    },
+    "menorahTopLocalZCm": {
+      "value": 150.0,
+      "source": "18 tefachim at the 50 cm amah; Rambam Beit HaBechirah 3:10"
+    },
+    "paroxesX": {
+      "value": -5600.0,
+      "source": "MikdashServiceActor.h: the paroches line enforced by the runtime"
+    },
+    "heikhalDoorwayX": {
+      "value": -3450.0,
+      "source": "ServiceScheduleMath.h Anchors::Doorway"
+    }
+  },
+  "textures": [
+    {
+      "name": "T_FX_Noise_fBm_512",
+      "file": "SourceAssets/fx-review/textures/T_FX_Noise_fBm_512.png",
+      "width": 512,
+      "height": 512,
+      "format": "PNG RGB8",
+      "channels": "R fine fBm (32 cells), G medium (8), B coarse (4); all three tile exactly",
+      "purpose": "Shared noise for erosion, UV distortion and large-scale break-up.",
+      "sha256": "75407c6e15818159a781fbf04b52c596163a2fea34ebb1b6e7883b6522d64e2e",
+      "sizeBytes": 679363,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Wrap",
+      "addressY": "TA_Wrap",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    },
+    {
+      "name": "T_FX_Smoke_Puff_512",
+      "file": "SourceAssets/fx-review/textures/T_FX_Smoke_Puff_512.png",
+      "width": 512,
+      "height": 512,
+      "format": "PNG RGB8",
+      "channels": "R lumpy density, G erosion threshold, B clean radial falloff; centred, not tileable by design",
+      "purpose": "Smoke puff card for the altar column, the ketores plume and the haze layers.",
+      "sha256": "d8fdba0d2fb01ae0fe80db1b43b076229d783ef3ad388b2952f89325956416d4",
+      "sizeBytes": 508185,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Clamp",
+      "addressY": "TA_Clamp",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    },
+    {
+      "name": "T_FX_Flame_Card_512",
+      "file": "SourceAssets/fx-review/textures/T_FX_Flame_Card_512.png",
+      "width": 512,
+      "height": 512,
+      "format": "PNG RGB8",
+      "channels": "R flame body, G tip-biased erosion ramp, B hot core; V=0 is the tip and V=1 the base, matching a quad whose V=0 edge is its top edge",
+      "purpose": "Additive flame card for the outer altar fire and the seven lamps.",
+      "sha256": "9c16ab8e5e4e3efc040cfb29dd95a4e479ac182abc0290971a7d34ef845c7ff3",
+      "sizeBytes": 290536,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Clamp",
+      "addressY": "TA_Clamp",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    },
+    {
+      "name": "T_FX_Ember_64",
+      "file": "SourceAssets/fx-review/textures/T_FX_Ember_64.png",
+      "width": 64,
+      "height": 64,
+      "format": "PNG RGB8",
+      "channels": "R soft dot, G hard dot, B vertical streak",
+      "purpose": "Ember and spark point over the outer altar.",
+      "sha256": "d58e5b5f0ba92fdeac4a6e763d98ca6289b95c881fba495e250053d91374298c",
+      "sizeBytes": 1997,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Clamp",
+      "addressY": "TA_Clamp",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    },
+    {
+      "name": "T_FX_DustMote_64",
+      "file": "SourceAssets/fx-review/textures/T_FX_DustMote_64.png",
+      "width": 64,
+      "height": 64,
+      "format": "PNG RGB8",
+      "channels": "R soft Gaussian disc, G tight glint, B blend of both",
+      "purpose": "Dust mote in the Heikhal light shafts.",
+      "sha256": "c7001802e7a158cc1823c3920aa1c9815cbf02de32035a9bd58ea647aa46eaab",
+      "sizeBytes": 1882,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Clamp",
+      "addressY": "TA_Clamp",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    },
+    {
+      "name": "T_FX_LightShaft_256",
+      "file": "SourceAssets/fx-review/textures/T_FX_LightShaft_256.png",
+      "width": 256,
+      "height": 256,
+      "format": "PNG RGB8",
+      "channels": "R beam cross-section, G length fade from the window, B tileable grain",
+      "purpose": "Light-shaft beam card for the Heikhal.",
+      "sha256": "c64c6bdc064cde61665902817812a5f87390b7704beb856a0542d3018bf0b183",
+      "sizeBytes": 170162,
+      "srgb": false,
+      "compressionSettings": "TC_Masks",
+      "mipGenSettings": "TMGS_SimpleAverage",
+      "addressX": "TA_Clamp",
+      "addressY": "TA_Clamp",
+      "destination": "/Game/MikdashV3/FX/Textures"
+    }
+  ],
+  "materials": [
+    {
+      "name": "M_FX_Flame",
+      "package": "/Game/MikdashV3/FX/Materials",
+      "domain": "Surface",
+      "blendMode": "Additive",
+      "shadingModel": "Unlit",
+      "twoSided": true,
+      "textures": {
+        "FlameTex": "T_FX_Flame_Card_512",
+        "NoiseTex": "T_FX_Noise_fBm_512"
+      },
+      "scalars": {
+        "FXFade": 1.0,
+        "FXErosion": 0.0,
+        "FXSeed": 0.0,
+        "FXAge": 0.0,
+        "FXFlicker": 0.0,
+        "VFlip": 0.0,
+        "PanSpeedU": 0.03,
+        "PanSpeedV": 0.35,
+        "NoiseTiling": 2.0,
+        "ErosionBias": 0.4,
+        "ErosionSoftness": 0.2,
+        "FlickerDepth": 0.28,
+        "CoreBoost": 3.2,
+        "EmissiveScale": 24.0
+      },
+      "vectors": {
+        "CoreColour": [
+          1.0,
+          0.86,
+          0.56,
+          1.0
+        ],
+        "EdgeColour": [
+          1.0,
+          0.33,
+          0.06,
+          1.0
+        ]
+      },
+      "instances": [
+        {
+          "name": "MI_FX_Flame_Altar",
+          "scalars": {
+            "EmissiveScale": 24.0,
+            "PanSpeedV": 0.55,
+            "NoiseTiling": 2.0,
+            "FlickerDepth": 0.28,
+            "ErosionBias": 0.42,
+            "ErosionSoftness": 0.18
+          },
+          "note": "The 3.25 m wood arrangement. The 0.8320 Hz puffing rate is applied by the director, not by the material."
+        },
+        {
+          "name": "MI_FX_Flame_Lamp",
+          "scalars": {
+            "EmissiveScale": 9.0,
+            "PanSpeedV": 1.9,
+            "NoiseTiling": 6.0,
+            "FlickerDepth": 0.34,
+            "ErosionBias": 0.3,
+            "ErosionSoftness": 0.16
+          },
+          "vectors": {
+            "CoreColour": [
+              1.0,
+              0.9,
+              0.66,
+              1.0
+            ],
+            "EdgeColour": [
+              1.0,
+              0.52,
+              0.16,
+              1.0
+            ]
+          },
+          "note": "Wick scale: smaller, warmer, and flickering at 19.365 Hz against the altar's 0.8320."
+        }
+      ]
+    },
+    {
+      "name": "M_FX_Smoke",
+      "package": "/Game/MikdashV3/FX/Materials",
+      "domain": "Surface",
+      "blendMode": "Translucent",
+      "shadingModel": "Unlit",
+      "twoSided": true,
+      "textures": {
+        "SmokeTex": "T_FX_Smoke_Puff_512",
+        "NoiseTex": "T_FX_Noise_fBm_512"
+      },
+      "scalars": {
+        "FXFade": 1.0,
+        "FXErosion": 0.0,
+        "FXSeed": 0.0,
+        "FXAge": 0.0,
+        "FXFlicker": 0.0,
+        "VFlip": 0.0,
+        "PanSpeedU": 0.03,
+        "PanSpeedV": 0.35,
+        "NoiseTiling": 2.0,
+        "ErosionBias": 0.4,
+        "ErosionSoftness": 0.2,
+        "DistortStrength": 0.055,
+        "OpacityScale": 0.55,
+        "OpacityFloor": 0.05,
+        "DepthFadeDistance": 90.0
+      },
+      "scalarsNote": "DepthFadeDistance exists only if MaterialExpressionDepthFade wired successfully. release_fx.py records which happened and no instance overrides it.",
+      "vectors": {
+        "SmokeColour": [
+          0.36,
+          0.34,
+          0.32,
+          1.0
+        ],
+        "LitColour": [
+          0.92,
+          0.62,
+          0.36,
+          1.0
+        ]
+      },
+      "instances": [
+        {
+          "name": "MI_FX_Smoke_Column",
+          "scalars": {
+            "PanSpeedV": 0.039875,
+            "OpacityScale": 0.55,
+            "OpacityFloor": 0.05,
+            "NoiseTiling": 1.5,
+            "DistortStrength": 0.055,
+            "ErosionBias": 0.5,
+            "ErosionSoftness": 0.22
+          },
+          "note": "PanSpeedV is 1 / 25.079 s, the modelled time for a parcel to cross the whole 4200 cm column, so the texture climbs at the speed the plume model says it climbs rather than at a rate someone liked the look of."
+        },
+        {
+          "name": "MI_FX_Smoke_Ketores",
+          "scalars": {
+            "PanSpeedV": 0.022844,
+            "OpacityScale": 0.42,
+            "NoiseTiling": 3.5,
+            "DistortStrength": 0.028,
+            "OpacityFloor": 0.08,
+            "ErosionBias": 0.46,
+            "ErosionSoftness": 0.2
+          },
+          "vectors": {
+            "SmokeColour": [
+              0.78,
+              0.76,
+              0.72,
+              1.0
+            ],
+            "LitColour": [
+              0.98,
+              0.92,
+              0.8,
+              1.0
+            ]
+          },
+          "note": "Paler and finer than wood smoke, and narrow: Yoma 53a calls the column stafflike."
+        },
+        {
+          "name": "MI_FX_Smoke_Ceiling",
+          "scalars": {
+            "PanSpeedV": 0.02,
+            "PanSpeedU": 0.012,
+            "OpacityScale": 0.3,
+            "NoiseTiling": 1.0,
+            "OpacityFloor": 0.06,
+            "ErosionBias": 0.45,
+            "ErosionSoftness": 0.3
+          },
+          "vectors": {
+            "SmokeColour": [
+              0.8,
+              0.78,
+              0.74,
+              1.0
+            ]
+          },
+          "note": "The layer under the roof: slow, wide, and never billboarded, because a slab of smoke under a ceiling is a slab."
+        },
+        {
+          "name": "MI_FX_Haze_Smoke",
+          "scalars": {
+            "PanSpeedV": 0.012,
+            "OpacityScale": 0.055,
+            "NoiseTiling": 0.6,
+            "OpacityFloor": 0.01,
+            "ErosionBias": 0.2,
+            "ErosionSoftness": 0.35
+          },
+          "note": "Faint smoke haze near the altar, under 6% opacity on purpose."
+        }
+      ]
+    },
+    {
+      "name": "M_FX_Point",
+      "package": "/Game/MikdashV3/FX/Materials",
+      "domain": "Surface",
+      "blendMode": "Additive",
+      "shadingModel": "Unlit",
+      "twoSided": true,
+      "textures": {
+        "PointTex": "T_FX_Ember_64"
+      },
+      "scalars": {
+        "FXFade": 1.0,
+        "FXErosion": 0.0,
+        "FXSeed": 0.0,
+        "FXAge": 0.0,
+        "FXFlicker": 0.0,
+        "VFlip": 0.0,
+        "Hardness": 0.5,
+        "EmissiveScale": 18.0
+      },
+      "scalarsNote": "No PanSpeed and no NoiseTiling: a point sprite has no UV motion of its own, so this material builds no scroll offset.",
+      "vectors": {
+        "Colour": [
+          1.0,
+          0.46,
+          0.12,
+          1.0
+        ]
+      },
+      "instances": [
+        {
+          "name": "MI_FX_Ember",
+          "scalars": {
+            "Hardness": 0.55,
+            "EmissiveScale": 18.0
+          },
+          "vectors": {
+            "Colour": [
+              1.0,
+              0.46,
+              0.12,
+              1.0
+            ]
+          },
+          "note": "Log-normal burnout, median 1.60 s, 95th percentile 3.95 s."
+        },
+        {
+          "name": "MI_FX_DustMote",
+          "textures": {
+            "PointTex": "T_FX_DustMote_64"
+          },
+          "scalars": {
+            "Hardness": 0.15,
+            "EmissiveScale": 1.6
+          },
+          "vectors": {
+            "Colour": [
+              1.0,
+              0.94,
+              0.82,
+              1.0
+            ]
+          },
+          "note": "Soft and dim. A mote is an out-of-focus speck, and a hard sprite at this size aliases into sparkle."
+        }
+      ]
+    },
+    {
+      "name": "M_FX_Shaft",
+      "package": "/Game/MikdashV3/FX/Materials",
+      "domain": "Surface",
+      "blendMode": "Additive",
+      "shadingModel": "Unlit",
+      "twoSided": true,
+      "textures": {
+        "ShaftTex": "T_FX_LightShaft_256",
+        "NoiseTex": "T_FX_Noise_fBm_512"
+      },
+      "scalars": {
+        "FXFade": 1.0,
+        "FXErosion": 0.0,
+        "FXSeed": 0.0,
+        "FXAge": 0.0,
+        "FXFlicker": 0.0,
+        "VFlip": 0.0,
+        "PanSpeedU": 0.03,
+        "PanSpeedV": 0.35,
+        "NoiseTiling": 2.0,
+        "GrainStrength": 0.25,
+        "EmissiveScale": 1.1,
+        "ViewFalloffPower": 2.5
+      },
+      "vectors": {
+        "Colour": [
+          1.0,
+          0.93,
+          0.78,
+          1.0
+        ]
+      },
+      "instances": [
+        {
+          "name": "MI_FX_LightShaft",
+          "scalars": {
+            "EmissiveScale": 1.1,
+            "GrainStrength": 0.25,
+            "ViewFalloffPower": 2.5,
+            "PanSpeedV": 0.02,
+            "NoiseTiling": 0.8
+          },
+          "note": "Brightness falls as |dot(view, card normal)| raised to ViewFalloffPower, so the beam vanishes when you look along it instead of becoming a visible sheet."
+        }
+      ]
+    },
+    {
+      "name": "M_FX_HeatHaze",
+      "package": "/Game/MikdashV3/FX/Materials",
+      "domain": "Surface",
+      "blendMode": "Translucent",
+      "shadingModel": "Unlit",
+      "twoSided": true,
+      "refraction": true,
+      "textures": {
+        "NoiseTex": "T_FX_Noise_fBm_512"
+      },
+      "scalars": {
+        "FXFade": 1.0,
+        "FXErosion": 0.0,
+        "FXSeed": 0.0,
+        "FXAge": 0.0,
+        "FXFlicker": 0.0,
+        "VFlip": 0.0,
+        "PanSpeedU": 0.03,
+        "PanSpeedV": 0.35,
+        "NoiseTiling": 2.0,
+        "RefractionStrength": 1.012,
+        "OpacityScale": 0.02
+      },
+      "vectors": {},
+      "instances": [
+        {
+          "name": "MI_FX_HeatHaze",
+          "scalars": {
+            "RefractionStrength": 1.012,
+            "OpacityScale": 0.02,
+            "NoiseTiling": 3.0,
+            "PanSpeedV": 0.09
+          },
+          "note": "Refraction only, essentially no opacity: shimmer, not fog."
+        }
+      ]
+    }
+  ],
+  "derived": {
+    "outerAltarColumn": {
+      "columnHeightCm": 4200.0,
+      "baseWidthCm": 500.0,
+      "topWidthCm": 1340.0,
+      "traverseSeconds": 25.078554,
+      "panSpeedV": 0.039875,
+      "meanRiseSpeedCmS": 167.4738,
+      "riseSpeedAtSourceCmS": 340.0,
+      "riseSpeedAtTopCmS": 130.2184,
+      "opacityAtBase": 1.0,
+      "opacityAtTop": 0.139229,
+      "puffingHz": 0.83205,
+      "profile": {
+        "sourceRadiusCm": 250.0,
+        "riseSpeedCmS": 340.0,
+        "entrainmentAlpha": 0.1,
+        "maxRadiusCm": 900.0,
+        "maxHeightCm": 4200.0,
+        "bendGain": 1.0,
+        "straightColumnInWind": true,
+        "minOpacity": 0.05
+      }
+    },
+    "ketores": {
+      "columnHeightCm": 1920.0,
+      "columnTopZCm": 2924.1667,
+      "ceilingZCm": 2925.0,
+      "clearanceUnderCeilingCm": 0.8333,
+      "baseWidthCm": 42.0,
+      "topWidthCm": 272.4,
+      "impingementSeconds": 43.799885,
+      "panSpeedV": 0.022844,
+      "spreadRadiusAt30sCm": 1035.548,
+      "spreadRadiusSaturatedCm": 1050.0,
+      "layerDepthAt60sCm": 806.8912,
+      "layerDepthSaturatedCm": 949.9992,
+      "timing": {
+        "emissionSeconds": 20.0,
+        "accumulateSeconds": 45.0,
+        "dissipateSeconds": 60.0
+      },
+      "eventSeconds": 148.7999,
+      "profile": {
+        "sourceRadiusCm": 21.0,
+        "riseSpeedCmS": 150.0,
+        "entrainmentAlpha": 0.06,
+        "maxRadiusCm": 180.0,
+        "maxHeightCm": 1920.0,
+        "bendGain": 1.0,
+        "straightColumnInWind": false,
+        "minOpacity": 0.08
+      },
+      "room": {
+        "sourceZCm": 1004.1666666666667,
+        "ceilingZCm": 2925.0,
+        "roomRadiusCm": 1050.0,
+        "spreadTimeConstantS": 7.0,
+        "fillTimeConstantS": 28.0,
+        "maxLayerDepthCm": 950.0
+      }
+    },
+    "lamps": {
+      "wickDiameterCm": 0.6,
+      "puffingHz": 19.364917,
+      "flameHeightCm": 7.0,
+      "flameWidthCm": 3.2,
+      "flameLocalZCm": 146.67,
+      "flameLocalZAlternativeCm": 143.94,
+      "positions": [
+        [
+          -5330.0,
+          360.221,
+          1071.67
+        ],
+        [
+          -5330.0,
+          346.646,
+          1071.67
+        ],
+        [
+          -5330.0,
+          331.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          315.176,
+          1071.67
+        ],
+        [
+          -5330.0,
+          298.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          283.706,
+          1071.67
+        ],
+        [
+          -5330.0,
+          270.131,
+          1071.67
+        ]
+      ],
+      "lightZCm": 1075.0,
+      "lightIntensityCandela": 1.4,
+      "lightAttenuationRadiusCm": 260.0,
+      "lightTemperatureK": 1850.0,
+      "seedPerLamp": [
+        231710363,
+        1702439495,
+        1937341386,
+        1211530217,
+        1408850039,
+        1484379641,
+        619425263
+      ]
+    },
+    "embers": {
+      "profile": {
+        "medianLifetimeS": 1.6,
+        "logSigma": 0.55,
+        "minLifetimeS": 0.25,
+        "maxLifetimeS": 8.0,
+        "launchSpeedCmS": 220.0,
+        "dragTimeConstantS": 1.1
+      },
+      "lifetimeP05S": 0.6475,
+      "lifetimeMedianS": 1.6,
+      "lifetimeP95S": 3.9538,
+      "spawnRatePerSecond": 24.0,
+      "maxAliveAtFullQuality": 96
+    },
+    "budget": {
+      "targetResolution": [
+        1920,
+        1080
+      ],
+      "targetFps": 60,
+      "fullDetailCm": 3000.0,
+      "cutoffCm": 24000.0,
+      "overdrawBudgetScreenAreas": 3.0,
+      "rtx2070Estimate": {
+        "status": "ARITHMETIC_NOT_A_CAPTURE",
+        "translucentMs": "1.0 to 1.8",
+        "translucentBasis": "The director holds total translucent overdraw to 3 screen areas and lowers EffectsQuality when it does not. 3 x 1920 x 1080 is 6.2 Mpixel of translucent shading; these materials are two texture fetches and about 30 ALU each, which a 2070 covers comfortably inside 2 ms.",
+        "dynamicLightsMs": "0.2 to 0.4",
+        "dynamicLightsBasis": "Eight movable point lights, all shadowless: the altar fire plus one per lamp. The lamp lights reach 260 cm, so each covers a small screen footprint. A shadow-casting flickering fire light would cost more than this whole set and is deliberately not used.",
+        "realRisk": "Draw calls, not fill. 295 cards is the arithmetic worst case; the altar group and the Heikhal group are 30 m apart and the per-anchor distance quality means both are never at full detail at once, so the practical range is 40 to 90 cards. That is CPU-side and is what to watch on a capture.",
+        "notMeasured": "Nobody has run this on a 2070. These are budgets to check a capture against."
+      },
+      "cards": {
+        "outerAltarFire": {
+          "min": 6,
+          "max": 18
+        },
+        "outerAltarColumn": {
+          "min": 4,
+          "max": 14
+        },
+        "outerAltarEmbers": {
+          "min": 0,
+          "max": 96
+        },
+        "ketoresPlume": {
+          "min": 4,
+          "max": 16
+        },
+        "ketoresCeilingLayer": {
+          "min": 2,
+          "max": 8
+        },
+        "menorahFlames": {
+          "min": 7,
+          "max": 7
+        },
+        "heikhalShafts": {
+          "min": 3,
+          "max": 6
+        },
+        "heikhalMotes": {
+          "min": 0,
+          "max": 120
+        },
+        "courtHeatHaze": {
+          "min": 2,
+          "max": 5
+        },
+        "altarSmokeHaze": {
+          "min": 2,
+          "max": 6
+        }
+      }
+    }
+  },
+  "effects": [
+    {
+      "id": "OuterAltarFire",
+      "label": "Outer altar fire",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Flame_Altar",
+      "cards": {
+        "min": 6,
+        "max": 18
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-ESH-TAMID"
+      ],
+      "notes": "Additive flame cards sitting on the wood arrangement, 325.0 cm across, flicker 0.83205 Hz."
+    },
+    {
+      "id": "OuterAltarColumn",
+      "label": "Outer altar smoke column",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Smoke_Column",
+      "cards": {
+        "min": 4,
+        "max": 14
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-STRAIGHT"
+      ],
+      "columnTopZCm": 5291.1667,
+      "notes": "Vertical at every wind speed. Source claim, not physics."
+    },
+    {
+      "id": "OuterAltarEmbers",
+      "label": "Outer altar embers",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1091.1667
+      ],
+      "material": "MI_FX_Ember",
+      "cards": {
+        "min": 0,
+        "max": 96
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Log-normal burnout, median 1.6 s, 95th percentile 3.9538 s."
+    },
+    {
+      "id": "OuterAltarLight",
+      "label": "Fire light on the surrounding stone",
+      "actorClass": "PointLight",
+      "location": [
+        0.0,
+        0.0,
+        1151.1667
+      ],
+      "material": null,
+      "cards": {
+        "min": 1,
+        "max": 1
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "One movable point light, 2100 K, flickered by the same FFlicker stream as the flame cards so light and flame agree."
+    },
+    {
+      "id": "AltarSmokeHaze",
+      "label": "Faint smoke haze near the altar",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        0.0,
+        0.0,
+        1341.1667
+      ],
+      "material": "MI_FX_Haze_Smoke",
+      "cards": {
+        "min": 2,
+        "max": 6
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Low-contrast depth-faded cards, opacity under 0.06."
+    },
+    {
+      "id": "KetoresPlume",
+      "label": "Ketores plume on the golden altar",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4650.0,
+        0.0,
+        1004.1667
+      ],
+      "material": "MI_FX_Smoke_Ketores",
+      "cards": {
+        "min": 4,
+        "max": 16
+      },
+      "continuous": false,
+      "sourceClaims": [
+        "FX-SRC-KETORES",
+        "FX-SRC-TAMID"
+      ],
+      "columnTopZCm": 2924.1667,
+      "notes": "Event, not an emitter. Rises then spreads. Reaches the ceiling in 43.799885 s."
+    },
+    {
+      "id": "KetoresCeilingLayer",
+      "label": "Ketores ceiling layer",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4650.0,
+        0.0,
+        2885.0
+      ],
+      "material": "MI_FX_Smoke_Ceiling",
+      "cards": {
+        "min": 2,
+        "max": 8
+      },
+      "continuous": false,
+      "sourceClaims": [
+        "FX-SRC-KETORES"
+      ],
+      "notes": "Spreads to 1050.0 cm and descends to 949.9992 cm. Stops at the ceiling; it never leaves the roof."
+    },
+    {
+      "id": "MenorahFlames",
+      "label": "Menorah seven lamps",
+      "actorClass": "MikdashFXDirector-owned card group + 7 PointLights",
+      "location": [
+        [
+          -5330.0,
+          360.221,
+          1071.67
+        ],
+        [
+          -5330.0,
+          346.646,
+          1071.67
+        ],
+        [
+          -5330.0,
+          331.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          315.176,
+          1071.67
+        ],
+        [
+          -5330.0,
+          298.676,
+          1071.67
+        ],
+        [
+          -5330.0,
+          283.706,
+          1071.67
+        ],
+        [
+          -5330.0,
+          270.131,
+          1071.67
+        ]
+      ],
+      "material": "MI_FX_Flame_Lamp",
+      "cards": {
+        "min": 7,
+        "max": 7
+      },
+      "continuous": true,
+      "sourceClaims": [
+        "FX-SRC-MENORAH"
+      ],
+      "notes": "Wick 0.6 cm, flicker 19.364917 Hz, 7.0 cm tall, one 1.4 cd light each."
+    },
+    {
+      "id": "HeikhalShafts",
+      "label": "Light shafts in the Heikhal",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4400.0,
+        0.0,
+        2100.0
+      ],
+      "material": "MI_FX_LightShaft",
+      "cards": {
+        "min": 3,
+        "max": 6
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Card beams from the Heikhal doorway wall toward the floor. Design: the window arrangement is not settled, so the shaft anchors are spec data and marked needs_review.",
+      "needsReview": "Heikhal window positions are not settled in this build; the shaft origins are authored, not derived from a window mesh."
+    },
+    {
+      "id": "HeikhalMotes",
+      "label": "Dust motes in the shafts",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        -4400.0,
+        0.0,
+        1700.0
+      ],
+      "material": "MI_FX_DustMote",
+      "cards": {
+        "min": 0,
+        "max": 120
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Motes drift only inside the shaft volumes; outside them they are invisible, which is what makes a shaft read as light."
+    },
+    {
+      "id": "CourtHeatHaze",
+      "label": "Heat shimmer over the fire and haze over the courts at midday",
+      "actorClass": "MikdashFXDirector-owned card group",
+      "location": [
+        [
+          0.0,
+          0.0,
+          1420.0
+        ],
+        [
+          900.0,
+          0.0,
+          1030.0
+        ],
+        [
+          -600.0,
+          700.0,
+          1030.0
+        ],
+        [
+          -600.0,
+          -700.0,
+          1030.0
+        ],
+        [
+          1800.0,
+          0.0,
+          1060.0
+        ]
+      ],
+      "material": "MI_FX_HeatHaze",
+      "cards": {
+        "min": 2,
+        "max": 5
+      },
+      "continuous": true,
+      "sourceClaims": [],
+      "notes": "Refraction-only cards. The first sits directly over the fire and is the altar's own heat shimmer; it is always on, because a fire is hot at any hour. The rest are the court haze and are scaled by HeatHazeStrength, which the time-of-day system drives through AMikdashFXDirector::SetHeatHazeStrength so this actor never reads the clock itself."
+    }
+  ],
+  "limitations": [
+    "The MenorahV4 model is the Temple Institute display vessel: each lamp bowl (local Z 142.17..143.94 cm) carries a decorative lid (143.745..146.67) and a finial (146.67..150). The model has no exposed wick. The flame is therefore authored at the lid crown, local Z 146.67, so that it reads as a lit lamp; lampFlameLocalZCm in the spec moves it back to the bowl rim if the menorah model is ever given open bowls. This is a modelling compromise, recorded, not a claim about the vessel.",
+    "Heat shimmer, the light shafts and the heat haze are camera-facing translucent cards with a refraction/panner treatment, not a volumetric or a screen-space distortion pass. They read correctly from the reviewed visitor viewpoints and will not survive an arbitrary flythrough.",
+    "The GPU numbers in this manifest are overdraw arithmetic, not a measured capture on an RTX 2070.",
+    "Nothing here is rabbinic approval, and no part of this depicts the incense formula, maaleh ashan's botanical identity, or a rule about service."
+  ]
+}

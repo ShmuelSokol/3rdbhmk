@@ -731,15 +731,19 @@ def sign_security(w=1024, h=1536):
 def sign_entrance(w=1024, h=640):
     cv = Canvas(w, h, CREAM)
     _band(cv, 0, h * 0.30, BAND_WAY, H_ENTRANCE, 'ENTRANCE', A_ENTRANCE)
-    _arrow(cv, w * 0.155, h * 0.63, h * 0.16, BAND_WAY, direction=1.0)
+    # prohibit()/permit() take the ring OUTER RADIUS, so a ring is 2s wide. At the old
+    # 0.155 h radius the rings were 198 px across on a 151 px pitch and every one of them
+    # cut into its neighbour. Pitch must exceed 2 * ring radius, with a little daylight.
+    _arrow(cv, w * 0.130, h * 0.63, h * 0.155, BAND_WAY, direction=1.0)
+    ring_r = h * 0.112
     for i, (pg, mark) in enumerate(((_arch, 'none'), (_bag, 'none'), (_shoe, 'prohibit'),
                                     (_phone, 'prohibit'), (_camera, 'permit'))):
-        cx = w * (0.34 + 0.148 * i)
-        pg(cv, cx, h * 0.63, h * 0.115, INK)
+        cx = w * (0.315 + 0.152 * i)
+        pg(cv, cx, h * 0.63, h * 0.098, INK)
         if mark == 'prohibit':
-            prohibit(cv, cx, h * 0.63, h * 0.155)
+            prohibit(cv, cx, h * 0.63, ring_r)
         elif mark == 'permit':
-            permit(cv, cx, h * 0.63, h * 0.155)
+            permit(cv, cx, h * 0.63, ring_r)
     _footer(cv, h * 0.925, ['Wayfinding plate. Pictograms carry the message; text confirms it.'], (110, 114, 120))
     return cv
 
@@ -911,6 +915,25 @@ def closed(v, f):
     return all(n == 2 for n in e.values())
 
 
+def consistently_oriented(v, f):
+    """Every DIRECTED edge appears exactly once, so the two faces sharing an edge traverse it
+    in opposite directions -- the actual definition of a coherently oriented surface.
+
+    closed() cannot do this job: it counts undirected edges, so a face group whose winding is
+    reversed still passes it. That is not hypothetical -- loft() shipped both of its end caps
+    inverted and closed() reported the solid closed, orient() reported it positive, and the
+    volume was silently a third of the truth. This is the check that catches it."""
+    keys = [tuple(round(x, 6) for x in p) for p in v]
+    directed = {}
+    for a, b, c in f:
+        for i, j in ((a, b), (b, c), (c, a)):
+            key = (keys[i], keys[j])
+            if key in directed:
+                return False              # same directed edge twice: two faces wound alike
+            directed[key] = True
+    return all((b, a) in directed for a, b in directed)
+
+
 def box(center, size):
     hx, hy, hz = [s / 2.0 for s in size]
     cx, cy, cz = center
@@ -1004,25 +1027,34 @@ def cylinder(center, radius, height, segments=16, axis='z'):
 
 
 def tube_along_y(center, r_out, r_in, y0, y1, segments=16):
-    """A hollow tube running along Y: the conveyor rollers' housing, a stanchion collar."""
+    """A hollow tube running along Y: a conveyor roller, a stanchion collar.
+
+    Four surfaces, and every one of them has to agree with its neighbours about which way is
+    out: the outer skin (normal radially outward), the bore (normal radially INWARD, because
+    the solid is the material between the radii), and the two annular end caps (-Y and +Y).
+    An earlier version of this function shared the directed edge (i -> j) between the outer
+    skin and the near cap, which means those two faces were wound the same way round rather
+    than opposite; consistently_oriented() rejects that.
+
+    Index convention below: A = outer at y0, B = bore at y0, C = outer at y1, D = bore at y1.
+    """
     cx, cz = center
-    outer = [(r_out * math.cos(i * math.tau / segments), r_out * math.sin(i * math.tau / segments)) for i in range(segments)]
-    inner = [(r_in * math.cos(i * math.tau / segments), r_in * math.sin(i * math.tau / segments)) for i in range(segments)]
-    v = []
-    for y in (y0, y1):
-        v += [(cx + x, y, cz + z) for x, z in outer]
-        v += [(cx + x, y, cz + z) for x, z in inner]
     n = segments
+    ring = [(math.cos(k * math.tau / n), math.sin(k * math.tau / n)) for k in range(n)]
+    v = []
+    for radius, y in ((r_out, y0), (r_in, y0), (r_out, y1), (r_in, y1)):
+        v += [(cx + radius * c, y, cz + radius * s_) for c, s_ in ring]
     f = []
     for i in range(n):
         j = (i + 1) % n
-        f += [(i, j, 2 * n + j), (i, 2 * n + j, 2 * n + i)]                       # outer skin
-        f += [(n + i, 3 * n + j, n + j), (n + i, 3 * n + i, 3 * n + j)]           # bore
-        f += [(i, 2 * n + i, 2 * n + n + i)] if False else []
-    for i in range(n):
-        j = (i + 1) % n
-        f += [(i, n + j, n + i), (i, j, n + j)]                                   # front annulus
-        f += [(2 * n + i, 3 * n + i, 3 * n + j), (2 * n + i, 3 * n + j, 2 * n + j)]   # back annulus
+        a_i, a_j = i, j                       # outer, y0
+        b_i, b_j = n + i, n + j               # bore,  y0
+        c_i, c_j = 2 * n + i, 2 * n + j       # outer, y1
+        d_i, d_j = 3 * n + i, 3 * n + j       # bore,  y1
+        f += [(a_i, c_i, c_j), (a_i, c_j, a_j)]      # outer skin, normal outward
+        f += [(a_i, a_j, b_j), (a_i, b_j, b_i)]      # cap at y0, normal -Y
+        f += [(b_i, b_j, d_j), (b_i, d_j, d_i)]      # bore, normal towards the axis
+        f += [(c_j, c_i, d_i), (c_j, d_i, d_j)]      # cap at y1, normal +Y
     return orient(v, f)
 
 
@@ -1039,9 +1071,16 @@ def loft(sections):
         for i in range(m):
             j = (i + 1) % m
             f += [(a0 + i, a0 + j, b0 + j), (a0 + i, b0 + j, b0 + i)]
+    # The two end caps. Rings run counter-clockwise seen from +w, so the FAR cap keeps that
+    # order (outward normal +w) and the NEAR cap must be reversed (outward normal -w).
+    # Both were wound the wrong way round here, which no other check in this file could see:
+    # closed() counts UNDIRECTED edges so a flipped cap still reads as closed, and orient()
+    # only looks at the sign of the total volume, which stayed positive. The symptom was a
+    # solid whose volume came out at a third of its true value and whose end caps would have
+    # rendered inside-out in Unreal. consistently_oriented() below now catches it directly.
     top = len(sections) - 1
     for i in range(1, m - 1):
-        f += [(0, i, i + 1), (top * m, top * m + i + 1, top * m + i)]
+        f += [(0, i + 1, i), (top * m + i, top * m + i + 1, top * m)]
     return orient(v, f)
 
 
@@ -1514,6 +1553,7 @@ def write_obj(name, parts, path, uv_kind=None):
         vol = volume(vertices, faces)
         assert vol > 0, 'inverted part ' + part
         assert closed(vertices, faces), 'open part ' + part
+        assert consistently_oriented(vertices, faces), 'inconsistently wound part ' + part
         allv.extend(vertices)
         lines.append('g ' + part)
         for a, b, c in faces:
@@ -1538,7 +1578,8 @@ def write_obj(name, parts, path, uv_kind=None):
                 lines.append('vn %.6f %.6f %.6f' % tuple(x / nl for x in n))
             lines.append('f ' + ' '.join('%d/%d/%d' % (k, k, k) for k in range(index, index + 3)))
             index += 3
-        checks.append(dict(name=part, triangles=len(faces), closed=True, volume_cm3=round(vol, 4)))
+        checks.append(dict(name=part, triangles=len(faces), closed=True,
+                           consistentlyOriented=True, volume_cm3=round(vol, 4)))
     Path(path).write_text('\n'.join(lines) + '\n', encoding='ascii')
     bounds = {k: [fn(p[i] for p in allv) for i in range(3)] for k, fn in (('min', min), ('max', max))}
     return dict(name=name, file=Path(path).name,
@@ -1583,15 +1624,24 @@ def readback(path, record):
     assert got == record['bounds_cm'], (got, record['bounds_cm'])
     uv_min = [round(min(t[i] for t in uvs), 5) for i in range(2)] if uvs else None
     uv_max = [round(max(t[i] for t in uvs), 5) for i in range(2)] if uvs else None
+    authored = round(sum(c['volume_cm3'] for c in record['part_checks']), 4)
     return dict(file=record['file'], triangles=len(faces), vertices=len(verts),
                 worstStoredNormalError=round(worst_normal, 9),
                 objSignedVolumeCm3=round(signed, 4),
-                objSignedVolumeIsNegativeAsExpected=signed < 0,
+                authoredSolidVolumeCm3=authored,
+                objSignedVolumeIsPositiveAsExpected=signed > 0,
+                objSignedVolumeMatchesAuthoredCm3=abs(signed - authored) < 0.05,
                 boundsAfterUnreflectingY=got, uvRange=[uv_min, uv_max],
-                note=('The OBJ carries Y reflected and the winding reversed, so its own signed '
-                      'volume is NEGATIVE by construction; the importer reflects Y back and the '
-                      'volume comes out positive in Unreal. The native winding check in '
-                      'release_gate_security.py is what proves that, not this file.'))
+                note=('The OBJ carries TWO orientation flips -- Y is reflected and the triangle '
+                      'winding is reversed -- and two flips cancel, so the signed volume of the '
+                      'file itself, computed right-handed, is POSITIVE and equals the authored '
+                      'solid volume exactly. An earlier version of this note claimed it should '
+                      'be NEGATIVE, having counted only the reflection; the equality recorded '
+                      'here is the evidence that it is not. The importer negates Y once more, '
+                      'which leaves the stored triangle order correct for the left-handed face '
+                      'normal cross(C-A, B-A) that Unreal uses. The native winding check in '
+                      'release_gate_security.py is what confirms that in the engine, not this '
+                      'file.'))
 
 
 # =====================================================================================
@@ -1607,24 +1657,6 @@ def render_geometry(geo, path, views, size=(1500, 520)):
     role_colour = dict(metal_brushed=(176, 182, 190), metal_dark=(96, 100, 108),
                        painted_steel=(198, 194, 182), timber=(150, 112, 72),
                        sign_face=(232, 228, 218))
-    # Every mesh is authored about its own pivot, so drawing them unshifted piles them all on
-    # one spot and the booth simply hides the rest. Lay them out in a row along Y, in the
-    # order given, each shifted so the meshes stand side by side with a gap between them.
-    spans = {}
-    for _n, (_parts, _role) in geo.items():
-        ys = [q[1] for _pn, (vv, _ff) in _parts for q in vv]
-        spans[_n] = (min(ys), max(ys))
-    gap = 40.0
-    cursor = 0.0
-    offset = {}
-    for _n in geo:
-        lo, hi = spans[_n]
-        offset[_n] = cursor - lo
-        cursor += (hi - lo) + gap
-    span_total = cursor - gap
-    for _n in offset:
-        offset[_n] -= span_total / 2.0
-
     for k, (yaw, pitch, scale, _label) in enumerate(views):
         u = (math.sin(math.radians(yaw)), math.cos(math.radians(yaw)))
         cp, sp = math.cos(math.radians(pitch)), math.sin(math.radians(pitch))
@@ -1633,15 +1665,40 @@ def render_geometry(geo, path, views, size=(1500, 520)):
         rl = math.sqrt(sum(x * x for x in right)) or 1.0
         right = [x / rl for x in right]
         up = cross(cam, right)
+        # Every mesh is authored about its own pivot, so drawing them unshifted piles them all
+        # on one spot and the booth simply hides the rest. Lay them out in a row -- but the row
+        # has to run along whatever direction is HORIZONTAL ON SCREEN in this particular view,
+        # or a view that happens to look down the row sees one mesh and eight shadows. So the
+        # offsets are computed per view, in projected space, along `right`.
+        proj = {}
+        for _nm, (_ps, _rl) in geo.items():
+            ws = [sum(q[i] * right[i] for i in range(3)) for _pn, (_vv, _ff) in _ps for q in _vv]
+            hs = [sum(q[i] * up[i] for i in range(3)) for _pn, (_vv, _ff) in _ps for q in _vv]
+            proj[_nm] = (min(ws), max(ws), min(hs), max(hs))
+        gap = 26.0
+        cursor = 0.0
+        offset = {}
+        for _nm in geo:
+            w0, w1, _h0, _h1 = proj[_nm]
+            offset[_nm] = cursor - w0
+            cursor += (w1 - w0) + gap
+        row = cursor - gap
+        for _nm in offset:
+            offset[_nm] -= row / 2.0
+        # Auto-fit: the row is over ten metres wide, so a hand-set scale either crops it or
+        # leaves it a speck. `scale` from the caller survives as a fill fraction, not cm/px.
+        margin = 18.0
+        hspan = max(1e-6, max(p3[3] for p3 in proj.values()) - min(p3[2] for p3 in proj.values()))
+        fit = min((panel - 2 * margin) / max(1e-6, row), (H - 2 * margin) / hspan) * min(1.0, scale / 1.55)
         x0 = k * panel + panel / 2.0
-        base_y = H - 34
+        base_y = H / 2.0 + (min(p3[2] for p3 in proj.values()) + max(p3[3] for p3 in proj.values())) / 2.0 * fit
+        scale = fit
         light = (-0.42, -0.55, 0.72)
         for name, (parts, role) in geo.items():
             colour = role_colour.get(role, (180, 180, 180))
-            dy = offset[name]
-            for _pn, (v0, f) in parts:
-                v = [(q[0], q[1] + dy, q[2]) for q in v0]
-                pr = [(sum(p[i] * right[i] for i in range(3)) * scale + x0,
+            dw = offset[name]
+            for _pn, (v, f) in parts:
+                pr = [((sum(p[i] * right[i] for i in range(3)) + dw) * scale + x0,
                        base_y - sum(p[i] * up[i] for i in range(3)) * scale,
                        -sum(p[i] * cam[i] for i in range(3))) for p in v]
                 for a, b, c in f:

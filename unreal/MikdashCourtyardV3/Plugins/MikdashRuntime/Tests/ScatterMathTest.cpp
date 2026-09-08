@@ -762,28 +762,57 @@ static void BudgetChecks()
     CHECK(LodForDistance(nullptr, 4, 100.0) == 0);
     CHECK(LodForDistance(Tree, 0, 100.0) == 0);
 
-    // 24 000 trees over the vegetated part of the 6.4 x 6.4 km terrain, culled at 60 000 cm,
-    // with a third of the disc actually in frustum and unoccluded.
-    const double AreaSqCm = 6.4e5 * 6.4e5;
-    const double Triangles = ExpectedTrianglesPerFrame(24000, AreaSqCm, 60000.0, Tree, 4, 1.0 / 3.0);
+    // The real planting, not a placeholder: Scripts/create_vegetation.py scatters trees over a
+    // 3.2 km square around the Mount, shrubs over a 2.4 x 2.2 km rectangle, and grass over only
+    // 1.6 x 1.2 km because grass is culled at 60 m and anything further would be paid for and
+    // never seen. A third of each cull disc is taken as in frustum and unoccluded, and the whole
+    // figure is then charged 3x for clumping, because a grove is not a uniform spread and a
+    // walker can stand inside one. Those two factors are the assumptions; the rest is arithmetic.
+    const double ClumpingSafety = 3.0;
+    const double TreeAreaSqCm = 3.2e5 * 3.2e5;
+    const double Triangles = ExpectedTrianglesPerFrame(30000, TreeAreaSqCm, 60000.0, Tree, 4, 1.0 / 3.0)
+        * ClumpingSafety;
     CHECK(Triangles > 0.0);
     CHECK(Triangles < 3.5e6);          // the stated 3.5 M-triangle foliage ceiling
+    // And with real headroom, not a number that only just squeaks under: the cap has to leave
+    // room for the city, the crowd and an unlucky camera angle.
+    CHECK(3.5e6 / Triangles > 2.0);
     // Doubling the instances doubles the triangles: the estimate is linear, as claimed.
-    CHECK(Near(ExpectedTrianglesPerFrame(48000, AreaSqCm, 60000.0, Tree, 4, 1.0 / 3.0), Triangles * 2.0, 1.0));
+    CHECK(Near(ExpectedTrianglesPerFrame(60000, TreeAreaSqCm, 60000.0, Tree, 4, 1.0 / 3.0) * ClumpingSafety,
+               Triangles * 2.0, 1.0));
     // Nothing visible costs nothing.
-    CHECK(Near(ExpectedTrianglesPerFrame(24000, AreaSqCm, 60000.0, Tree, 4, 0.0), 0.0));
-    CHECK(Near(ExpectedTrianglesPerFrame(0, AreaSqCm, 60000.0, Tree, 4, 1.0), 0.0));
+    CHECK(Near(ExpectedTrianglesPerFrame(30000, TreeAreaSqCm, 60000.0, Tree, 4, 0.0), 0.0));
+    CHECK(Near(ExpectedTrianglesPerFrame(0, TreeAreaSqCm, 60000.0, Tree, 4, 1.0), 0.0));
+    // The ladder has to be worth having. Drawing LOD0 out to the cull distance costs more than
+    // the entire foliage budget on its own, which is the argument for the LODs in one line.
+    const LodStep FlatLod0[1] = {{0.0, 3000}};
+    const double Unladdered = ExpectedTrianglesPerFrame(30000, TreeAreaSqCm, 60000.0, FlatLod0, 1,
+                                                        1.0 / 3.0) * ClumpingSafety;
+    CHECK(Unladdered > 3.5e6);
+    CHECK(Unladdered / Triangles > 8.0);
 
-    // Grass: many more instances but a short cull distance, which is why it is affordable.
-    const LodStep Grass[2] = {{0.0, 24}, {3000.0, 8}};
-    const double GrassTriangles = ExpectedTrianglesPerFrame(120000, AreaSqCm, 8000.0, Grass, 2, 1.0 / 3.0);
+    // Grass: many more instances but a 60 m cull, which is exactly why it is affordable.
+    const LodStep Grass[2] = {{0.0, 24}, {1500.0, 8}};
+    const double GrassTriangles = ExpectedTrianglesPerFrame(35000, 1.6e5 * 1.2e5, 6000.0, Grass, 2,
+                                                            1.0 / 3.0) * ClumpingSafety;
     CHECK(GrassTriangles < 1.0e6);
+    // Shrubs sit between the two.
+    const LodStep Shrub[3] = {{0.0, 420}, {2500.0, 150}, {8000.0, 2}};
+    const double ShrubTriangles = ExpectedTrianglesPerFrame(60000, 2.4e5 * 2.2e5, 14000.0, Shrub, 3,
+                                                            1.0 / 3.0) * ClumpingSafety;
+    // The whole foliage load. This is the number the instance cap is actually chosen against.
+    const double AllFoliage = Triangles + ShrubTriangles + GrassTriangles;
+    CHECK(AllFoliage < 3.5e6);
 
     Record("budget_tree_triangles_per_frame", Triangles);
+    Record("budget_shrub_triangles_per_frame", ShrubTriangles);
     Record("budget_grass_triangles_per_frame", GrassTriangles);
-    Record("budget_total_triangles_per_frame", Triangles + GrassTriangles);
-    std::printf("budget: 24000 trees %.0f tris/frame + 120000 grass %.0f tris/frame = %.2f M\n",
-                Triangles, GrassTriangles, (Triangles + GrassTriangles) / 1.0e6);
+    Record("budget_total_triangles_per_frame", AllFoliage);
+    Record("budget_unladdered_triangles_per_frame", Unladdered);
+    std::printf("budget: 30000 trees %.0f + 60000 shrubs %.0f + 35000 grass %.0f = %.2f M tris/frame "
+                "against a 3.50 M ceiling (%.1fx headroom); LOD0 everywhere would be %.2f M\n",
+                Triangles, ShrubTriangles, GrassTriangles, AllFoliage / 1.0e6,
+                3.5e6 / AllFoliage, Unladdered / 1.0e6);
 }
 
 int main(int Argc, char** Argv)

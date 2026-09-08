@@ -77,6 +77,18 @@ inline const FAmahOpinion* FindAmahOpinion(const char* Key)
     return nullptr;
 }
 
+/** The amah the BOOK itself works in, recovered from its own two metric conversions rather
+ * than from a stated shiur (it never states one): Ketz HaYamin on Yechezkel 42:16 gives the
+ * 3000-amah side as "a kilometre and four hundred and forty metres approximately"
+ * (1440 m / 3000 = 48.0 cm), and on Middot 2:3 it glosses a half-amah step as "about
+ * twenty-four cm" (2 x 24 = 48). It coincides with R' Chaim Naeh's 48 cm, which is why the
+ * table's smallest entry is also the book's. The LEVEL is nonetheless baked at 50; see
+ * ProjectCmPerAmah immediately below and SourceAssets/enclosure-review/sources.md. */
+constexpr double BookImpliedAmahRealCm = 48.0;
+/** The metre figure the book prints for one side of the precinct, quoted so the arithmetic
+ * above can be checked against it rather than merely asserted. */
+constexpr double BookStatedPrecinctSideMetres = 1440.0;
+
 /** The level's baked world scale. Changing this would invalidate every existing actor
  * transform in the Walkthrough map, so it is a constant, not a setting. */
 constexpr double ProjectCmPerAmah = 50.0;
@@ -735,12 +747,22 @@ struct FWallPlan
     int TotalInstances = 0;
 };
 
+/** Triangles per module. These are not estimates: they are the counts
+ * Scripts/create_enclosure.py actually writes, recorded in
+ * SourceAssets/enclosure-review/geometry-manifest.json `meshes[].triangles`, and the export
+ * refuses to run if a module comes out different. Keeping them here rather than in the
+ * generator is what lets the budget be asserted without an engine or a file read. */
 struct FModuleBudget
 {
-    int WallSegmentTriangles = 240;
-    int GateTriangles = 900;
-    int CornerTriangles = 320;
-    int OverlayQuadTriangles = 8;
+    /** 19 boxes: plinth, body, coping and eight pilasters on each face. */
+    int WallSegmentTriangles = 228;
+    /** 7 boxes: two piers with jamb orders, lintel, the mass above it, cornice. */
+    int GateTriangles = 84;
+    /** 6 boxes: plinth, body, coping and a three-step marker pylon. */
+    int CornerTriangles = 72;
+    /** One thin closed slab, so the overlay band is two-sided and never vanishes as the
+     * viewer crosses the line - the moment it is most wanted. */
+    int OverlayQuadTriangles = 12;
 };
 
 /** Plans the ring: how many segments per side at approximately NominalSegmentLength,

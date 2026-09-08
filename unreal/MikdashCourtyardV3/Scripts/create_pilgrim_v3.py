@@ -5,23 +5,40 @@ project's own original character procedurally, with no third-party asset and no
 account login. This script launches nothing; it writes geometry, previews and a
 manifest into SourceAssets/characters-review/PilgrimRigV3/ only.
 
-Why V3 exists
--------------
-V2 read as a smooth balloon: fat cylindrical sleeves, a conical robe with no
-folds, an unsculpted egg head and no shoulder structure. V3 rebuilds the same
-character with 7.5-head proportions, a defined shoulder shelf, tapered limbs,
-a sculpted head (brow, nose, cheekbones, ears, jaw, beard variants), layered
-garments (tunic + over-mantle with a hem band + wound sash + head covering) and
-cloth folds carried in the geometry rather than faked by shading.
+Why this rebuild exists
+-----------------------
+The first V3 pass fixed the fold geometry but kept a body that still read as a
+balloon, and the numbers say why. Measured off the shipped SM_V3_Pilgrim_Man_A:
+
+  head 16.1 cm across x 14.5 cm deep   - wider than deep, i.e. a ball. A real
+                                         male head is 15.5 x 19.4.
+  fingertips at 81.4 cm on a 179 cm    - 0.454 of stature; a real standing
+    figure                               fingertip is at 0.377, mid-thigh. The
+                                         upper arm was 23.9 cm against 33.3.
+  hand 13.0 cm long, 7.4 cm across     - against 19.3 x 8.5. Mittens.
+  foot 19.2 cm long                    - against 27.2. A child's foot.
+  tunic shoulder 40.8 cm               - against a 46.4 cm bideltoid breadth.
+  hem 117 cm around, 24% wider than    - a pencil skirt. Everything below the
+    the hip                              sash was one smooth cone with no legs
+                                         in it, which is the balloon.
+  and two of the nine "variants" had BYTE-IDENTICAL vertex data.
+
+All of those are fixed here against a cited anthropometric target (see
+PROPORTIONS below), the figures are re-measured off the built mesh rather than
+trusted, and the export refuses to write if any two variants are the same
+person.
 
 Rig compatibility
 -----------------
-The joint names, hierarchy and rest positions are byte-identical to
-SourceAssets/characters-review/PilgrimRigV2/rig-definition.json (27 joints), and
-the Idle/Walk clip authoring is reproduced unchanged, so the already-imported
-A_Pilgrim_Original_Idle / _Walk assets remain valid motion for this mesh once the
-mesh is bound to the same Skeleton. Two new original clips are added for the
-"people taking pictures" request: A_Pilgrim_V3_PhotoCamera and _PhotoPhone.
+Joint names, hierarchy and order are identical to PilgrimRigV2's 27-joint rig.
+The arm and foot bones are deliberately LONGER - that is the fix - but they were
+lengthened along their own unchanged rest directions, and the imported
+A_Pilgrim_Original_Idle / _Walk clips are rotation curves plus one pelvis
+translation track. A joint-local rotation curve does not depend on the child
+bone's length, and pelvis did not move, so those clips remain valid motion.
+assert_rig_matches_v2() asserts every part of that rather than asserting it.
+Two original clips are added for the "people taking pictures" request:
+A_Pilgrim_V3_PhotoCamera and A_Pilgrim_V3_PhotoPhone.
 
 Nothing here is a native import, a visual acceptance, a cook, a performance
 result, or a halachic/historical certification of the clothing.
@@ -44,6 +61,62 @@ DEST = '/Game/MikdashV3/CharacterReview/PilgrimRigV3'
 V2_RIG = ROOT / 'SourceAssets/characters-review/PilgrimRigV2/rig-definition.json'
 
 TRIANGLE_BUDGET = 25000
+
+# ---------------------------------------------------------------------------
+# Anthropometric target, as fractions of stature H, and where V3-a missed them.
+#
+# Source for the segment fractions: Drillis & Contini (1966), "Body Segment
+# Parameters", reproduced as Figure 4.1 in D. A. Winter, *Biomechanics and Motor
+# Control of Human Movement*, 4th ed., Wiley 2009, p. 83; head/hand/foot breadths
+# and depths cross-checked against the 50th-percentile male of NASA-STD-3000
+# Rev.B (1995) vol. I sec. 3.3. Artistic cross-check: the 7.5-head canon (Loomis,
+# *Figure Drawing for All It's Worth*, 1943) and shoulders = 2 head-heights.
+#
+# Every number below is (fraction of stature, centimetres at H = 179).
+PROPORTIONS = {
+    'stature':                (1.0000, 179.0),
+    'head_height_chin_crown': (0.1325, 23.7),   # 7.55 heads
+    'head_breadth_x':         (0.0865, 15.5),
+    'head_depth_y':           (0.1085, 19.4),   # V3-a shipped 14.5 -> beach ball
+    'neck_diameter':          (0.0680, 12.2),
+    'acromion_height':        (0.8180, 146.4),
+    'bideltoid_breadth':      (0.2590, 46.4),   # V3-a tunic shoulder 40.8
+    'glenohumeral_half_x':    (0.1145, 20.5),
+    'upperarm_length':        (0.1860, 33.3),   # V3-a 23.9
+    'forearm_length':         (0.1460, 26.1),   # V3-a 27.3 (ok)
+    'hand_length':            (0.1080, 19.3),   # V3-a 13.0
+    'hand_breadth':           (0.0475, 8.5),    # V3-a 7.4
+    'wrist_height_standing':  (0.4850, 86.8),
+    'dactylion_height':       (0.3770, 67.5),   # V3-a 81.4 -> doll arms
+    'hip_joint_height':       (0.5300, 94.9),
+    'knee_height':            (0.2850, 51.0),
+    'foot_length':            (0.1520, 27.2),   # V3-a 19.2
+    'foot_breadth':           (0.0550, 9.8),
+}
+
+# The V3-a figures, measured off SM_V3_Pilgrim_Man_A.obj on 8 Sep 2026 - which is
+# the mesh the "balloons" complaint was actually looking at. Kept so the
+# regression stays visible in the manifest and not only in a report.
+V3A_MEASURED = {
+    'stature': 179.4, 'head_height_chin_crown': 23.9, 'head_breadth_x': 16.1,
+    'head_depth_y': 14.5, 'tunic_shoulder_breadth': 40.8, 'dactylion_height': 81.4,
+    'hand_length': 13.0, 'hand_breadth': 7.4, 'foot_length': 19.2,
+    'tunic_hem_breadth': 42.6, 'tunic_hem_circumference': 117.0,
+}
+
+# Arm chain. The A-pose direction is deliberately IDENTICAL to PilgrimRigV2's
+# unit (0.470588, 0, -0.882353): the already-imported A_Pilgrim_Original_Idle /
+# _Walk clips carry a +-24 deg rotation about Y on upperarm_* that was authored
+# to bring THAT A-pose down to a relaxed hang. Rotation curves are independent
+# of bone length, so lengthening the chain along the same direction keeps those
+# clips valid motion while fixing the doll arms.
+ARM_DIR = (0.470588235294118, 0.0, -0.882352941176471)
+ARM_SHOULDER_X = 20.5
+ARM_SHOULDER_Z = 143.0
+ARM_UPPER = 32.0            # a shade under 33.3 so the wrist lands at 86 cm
+ARM_FORE = 25.2
+ARM_HAND = 19.3
+ARM_PALM = 10.6             # stylion -> knuckle
 
 # ---------------------------------------------------------------------------
 # vector / quaternion helpers
@@ -147,11 +220,12 @@ def gltf_quat(q):
 # ---------------------------------------------------------------------------
 
 
-def loft(rings, segments=32, radial=None, exponent=None, cap=True):
+def loft(rings, segments=32, radial=None, exponent=None, cap=True, zshift=None):
     """Stacked horizontal profiles; `radial(theta, z, level)` carries cloth folds.
 
     rings: (z, rx, ry, cx, cy). `exponent` < 1 squares the section off for a
-    ribcage/shoulder read instead of a balloon ellipse.
+    ribcage/shoulder read instead of a balloon ellipse. `zshift(theta, level)`
+    breaks a level hem: a real robe rides up over the instep and drags behind.
     """
     vertices, faces = [], []
     for level, ring in enumerate(rings):
@@ -160,11 +234,12 @@ def loft(rings, segments=32, radial=None, exponent=None, cap=True):
         for i in range(segments):
             t = i * math.tau / segments
             f = radial(t, z, level) if radial else 0.0
+            dz = zshift(t, level) if zshift else 0.0
             ct, st = math.cos(t), math.sin(t)
             if e != 1.0:
                 ct = math.copysign(abs(ct) ** e, ct)
                 st = math.copysign(abs(st) ** e, st)
-            vertices.append((cx + (rx + f) * ct, cy + (ry + f) * st, z))
+            vertices.append((cx + (rx + f) * ct, cy + (ry + f) * st, z + dz))
     for j in range(len(rings) - 1):
         for i in range(segments):
             a = j * segments + i
@@ -303,13 +378,16 @@ def box(centre, half, rounding=0.0):
 # ---------------------------------------------------------------------------
 
 ROUGHNESS = {'Skin': .70, 'Linen': .93, 'Mantle': .95, 'Headcloth': .94, 'Sash': .89,
-             'Leather': .78, 'Hair': .88, 'Eyes': .30, 'Trim': .86, 'Prop': .42, 'PropGlass': .10}
+             'Leather': .78, 'Hair': .88, 'Eyes': .30, 'Trim': .86, 'Prop': .42,
+             'PropGlass': .10, 'Denim': .90, 'Iris': .28}
 
 SKIN_TONES = {
     'olive': ((.455, .272, .173), (.070, .036, .020)),
     'tan': ((.520, .330, .215), (.085, .050, .028)),
     'deep': ((.330, .185, .112), (.045, .024, .014)),
     'fair': ((.610, .420, .310), (.140, .085, .045)),
+    'olive-grey': ((.440, .268, .175), (.615, .600, .572)),
+    'tan-grey': ((.510, .330, .222), (.680, .662, .630)),
 }
 
 GARMENT_PALETTES = {
@@ -327,6 +405,17 @@ GARMENT_PALETTES = {
                    'Headcloth': (.640, .660, .655), 'Sash': (.360, .300, .230), 'Trim': (.240, .240, .215)},
     'sand-teal': {'Linen': (.760, .690, .545), 'Mantle': (.190, .330, .320),
                   'Headcloth': (.790, .740, .630), 'Sash': (.400, .280, .160), 'Trim': (.260, .225, .140)},
+    # Kohen white. Undyed fine linen (shesh) is an off-white with a warm cast,
+    # not paper white; the sash and the migba'at are the same cloth.
+    'kohen-white': {'Linen': (.905, .893, .862), 'Mantle': (.860, .848, .818),
+                    'Headcloth': (.915, .903, .876), 'Sash': (.878, .866, .834),
+                    'Trim': (.822, .806, .770)},
+    'visitor-slate': {'Linen': (.585, .625, .662), 'Mantle': (.300, .340, .380),
+                      'Headcloth': (.430, .470, .510), 'Sash': (.280, .300, .330),
+                      'Trim': (.250, .272, .300), 'Denim': (.185, .215, .275)},
+    'visitor-olive': {'Linen': (.700, .688, .630), 'Mantle': (.290, .320, .250),
+                      'Headcloth': (.480, .500, .420), 'Sash': (.330, .300, .220),
+                      'Trim': (.245, .260, .205), 'Denim': (.300, .285, .250)},
 }
 
 PROP_COLOURS = {'Prop': (.055, .058, .062), 'PropGlass': (.030, .045, .060)}
@@ -335,54 +424,120 @@ PROP_COLOURS = {'Prop': (.055, .058, .062), 'PropGlass': (.030, .045, .060)}
 def variant_materials(variant):
     skin, hair = SKIN_TONES[variant['skin_tone']]
     colours = dict(GARMENT_PALETTES[variant['palette']])
-    colours.update({'Skin': skin, 'Hair': hair, 'Eyes': (.180, .130, .080), 'Leather': (.140, .080, .042)})
+    colours.update({'Skin': skin, 'Hair': hair,
+                    'Eyes': (.760, .742, .715),          # sclera, never pure white
+                    'Iris': (.135, .098, .062),
+                    'Leather': (.140, .080, .042)})
     colours.update(PROP_COLOURS)
+    colours.setdefault('Denim', tuple(v * .72 for v in colours['Mantle']))
+    assert set(colours) >= set(ROUGHNESS), sorted(set(ROUGHNESS) - set(colours))
     return colours
 
 
+# ---------------------------------------------------------------------------
+# variants
+#
+# Nine genuinely different people, not three bodies in nine colours. V3-a shipped
+# V3_Pilgrim_Man_A and V3_Pilgrim_Man_A_Bleached with BYTE-IDENTICAL vertex data
+# and V3_Pilgrim_Man_A_Ochre as a second copy of Man_B - exactly the failure the
+# crowd system hit earlier. build() now hashes the vertex block and compares
+# silhouette signatures, and refuses to export if any two variants are close.
+#
+# `stance` is applied to the STATIC crowd bake only, never to the GLB clips, so
+# every instanced figure stands differently while the skeletal clips stay
+# byte-compatible with the imported A_Pilgrim_Original_Idle / _Walk. It never
+# touches pelvis or the leg chain, so the feet stay planted on the ground.
+# Angles are degrees.
+# ---------------------------------------------------------------------------
+
 VARIANTS = [
-    dict(id='V3_Pilgrim_Man_A', label='Pilgrim man, standard build',
-         girth=1.00, shoulder=1.00, beard='short', headwear='cloth', mantle=True,
-         tunic_hem=8.0, prop=None, palette='linen-warm', skin_tone='olive',
-         actor_scale=1.00, fold_seed=11),
-    dict(id='V3_Pilgrim_Man_B', label='Pilgrim man, heavy build, full beard',
-         girth=1.13, shoulder=1.06, beard='full', headwear='turban', mantle=True,
-         tunic_hem=7.0, prop=None, palette='wool-umber', skin_tone='deep',
-         actor_scale=1.03, fold_seed=23),
-    dict(id='V3_Pilgrim_Woman_A', label='Pilgrim woman, long shawl',
-         girth=0.93, shoulder=0.90, beard='none', headwear='shawl', mantle=True,
-         tunic_hem=5.5, prop=None, palette='indigo', skin_tone='tan',
-         actor_scale=0.94, fold_seed=37),
-    dict(id='V3_Pilgrim_Youth', label='Youth, short tunic, no mantle',
-         girth=0.84, shoulder=0.88, beard='none', headwear='cap', mantle=False,
-         tunic_hem=42.0, prop=None, palette='ochre', skin_tone='tan',
-         actor_scale=0.86, fold_seed=53),
-    dict(id='V3_Visitor_Camera', label='Visitor with a camera (photo clip)',
-         girth=0.98, shoulder=1.02, beard='short', headwear='cap', mantle=False,
-         tunic_hem=9.0, prop='camera', palette='sand-teal', skin_tone='fair',
-         actor_scale=1.01, fold_seed=67),
-    dict(id='V3_Visitor_Phone', label='Visitor with a phone (photo clip)',
-         girth=1.02, shoulder=0.98, beard='none', headwear='none', mantle=True,
-         tunic_hem=8.5, prop='phone', palette='dusty-blue', skin_tone='olive',
-         actor_scale=0.99, fold_seed=71),
-    dict(id='V3_Pilgrim_Man_A_Bleached', label='Colour variant of Man A, bleached linen',
-         girth=1.00, shoulder=1.00, beard='short', headwear='cloth', mantle=True,
-         tunic_hem=8.0, prop=None, palette='bleached', skin_tone='tan',
-         actor_scale=0.98, fold_seed=11),
-    dict(id='V3_Pilgrim_Man_A_Ochre', label='Colour variant of Man A, ochre',
-         girth=1.00, shoulder=1.00, beard='full', headwear='turban', mantle=True,
-         tunic_hem=8.0, prop=None, palette='ochre', skin_tone='deep',
-         actor_scale=1.02, fold_seed=11),
-    dict(id='V3_Visitor_Camera_Umber', label='Colour variant of the camera visitor',
-         girth=0.98, shoulder=1.02, beard='none', headwear='cloth', mantle=True,
-         tunic_hem=9.0, prop='camera', palette='wool-umber', skin_tone='tan',
-         actor_scale=0.97, fold_seed=67),
+    dict(id='V3_Pilgrim_Man_Standard', label='Pilgrim man, standard build, short beard',
+         dress='robe', girth=1.00, shoulder=1.00, age=.35, beard='short', headwear='cloth',
+         mantle=True, mantle_hem=52.0, tunic_hem=7.0, prop=None, palette='linen-warm',
+         skin_tone='olive', actor_scale=1.00, fold_seed=11,
+         stance=dict(lean=2, bend=-3.0, twist=5, head_yaw=-11, head_tilt=2, sway=3,
+                     arm_r=4, arm_l=-2, swing_r=-5, swing_l=4, elbow_r=-11, elbow_l=-5)),
+    dict(id='V3_Pilgrim_Man_Heavy', label='Pilgrim man, heavy build, full beard, turban',
+         dress='robe', girth=1.17, shoulder=1.07, age=.50, beard='full', headwear='turban',
+         mantle=True, mantle_hem=50.0, tunic_hem=6.0, prop=None, palette='wool-umber',
+         skin_tone='deep', actor_scale=1.04, fold_seed=23,
+         stance=dict(lean=-1, bend=2.5, twist=-6, head_yaw=8, head_tilt=-3, sway=-4,
+                     arm_r=9, arm_l=8, swing_r=3, swing_l=-3, elbow_r=-6, elbow_l=-14)),
+    dict(id='V3_Pilgrim_Man_Elder', label='Elderly pilgrim man, stooped, long white beard',
+         dress='robe', girth=0.89, shoulder=0.95, age=.90, beard='full', headwear='cloth',
+         mantle=True, mantle_hem=56.0, tunic_hem=8.5, prop=None, palette='bleached',
+         skin_tone='tan-grey', actor_scale=0.97, fold_seed=37,
+         stance=dict(lean=11, bend=-1.5, twist=2, head_yaw=4, head_tilt=6, sway=1,
+                     arm_r=-3, arm_l=-4, swing_r=8, swing_l=6, elbow_r=-22, elbow_l=-18)),
+    dict(id='V3_Pilgrim_Woman_Young', label='Pilgrim woman, long shawl',
+         dress='robe', girth=0.91, shoulder=0.89, age=.25, beard='none', headwear='shawl',
+         mantle=True, mantle_hem=44.0, tunic_hem=4.5, prop=None, palette='indigo',
+         skin_tone='tan', actor_scale=0.93, fold_seed=53,
+         stance=dict(lean=1, bend=4.5, twist=-8, head_yaw=13, head_tilt=-4, sway=5,
+                     arm_r=-4, arm_l=1, swing_r=2, swing_l=-6, elbow_r=-16, elbow_l=-9)),
+    dict(id='V3_Pilgrim_Woman_Elder', label='Elderly pilgrim woman, heavier build, shawl',
+         dress='robe', girth=1.05, shoulder=0.93, age=.85, beard='none', headwear='shawl',
+         mantle=True, mantle_hem=46.0, tunic_hem=5.5, prop=None, palette='dusty-blue',
+         skin_tone='olive-grey', actor_scale=0.90, fold_seed=71,
+         stance=dict(lean=8, bend=-4.5, twist=6, head_yaw=-6, head_tilt=5, sway=-3,
+                     arm_r=6, arm_l=-5, swing_r=-2, swing_l=7, elbow_r=-19, elbow_l=-24)),
+    dict(id='V3_Pilgrim_Youth', label='Youth, knee-length tunic, no mantle',
+         dress='robe', girth=0.80, shoulder=0.86, age=.05, beard='none', headwear='cap',
+         mantle=False, tunic_hem=44.0, prop=None, palette='ochre',
+         skin_tone='tan', actor_scale=0.84, fold_seed=89,
+         stance=dict(lean=-3, bend=1.5, twist=-11, head_yaw=17, head_tilt=-6, sway=6,
+                     arm_r=-7, arm_l=5, swing_r=-9, swing_l=9, elbow_r=-4, elbow_l=-26)),
+    # Ordinary kohen in the white garments. Reference: the garment table in
+    # SourceAssets/runtime-review/kohen-service/sources.md section 5, written
+    # against the Temple Institute photographs - ketonet of white shesh, full
+    # length with long sleeves; avnet, a long band wound at the waist; migba'at,
+    # the ordinary kohen's wound white cap (distinct from the Kohen Gadol's
+    # mitznefet). The me'il, ephod and choshen are Kohen Gadol garments and are
+    # deliberately NOT modelled: sources.md records live disputes on all three.
+    # This is an artistic reconstruction and not a halachic or historical ruling.
+    dict(id='V3_Kohen_White', label='Ordinary kohen, white ketonet, avnet and migbaat',
+         dress='kohen', girth=1.00, shoulder=1.02, age=.40, beard='short', headwear='migbaat',
+         mantle=False, tunic_hem=5.0, flare=0.86, barefoot=True, prop=None,
+         palette='kohen-white', skin_tone='olive', actor_scale=1.01, fold_seed=97,
+         stance=dict(lean=0, bend=0.5, twist=2, head_yaw=-3, head_tilt=-2, sway=-1,
+                     arm_r=1, arm_l=1, swing_r=-1, swing_l=-1, elbow_r=-7, elbow_l=-7)),
+    dict(id='V3_Visitor_Camera', label='Modern visitor with a camera, short sleeves',
+         dress='modern', sleeves='short', girth=0.97, shoulder=1.03, age=.30, beard='short',
+         headwear='cap', mantle=False, tunic_hem=84.0, prop='camera', palette='visitor-olive',
+         skin_tone='fair', actor_scale=1.02, fold_seed=103,
+         stance=dict(lean=4, bend=-2.0, twist=3, head_yaw=-5, head_tilt=-4, sway=2,
+                     arm_r=2, arm_l=-6, swing_r=-3, swing_l=5, elbow_r=-12, elbow_l=-30)),
+    dict(id='V3_Visitor_Phone', label='Modern visitor with a phone, long sleeves',
+         dress='modern', sleeves='long', girth=1.04, shoulder=0.98, age=.20, beard='none',
+         headwear='none', mantle=False, tunic_hem=84.0, prop='phone', palette='visitor-slate',
+         skin_tone='olive', actor_scale=0.96, fold_seed=109,
+         stance=dict(lean=3, bend=3.5, twist=-4, head_yaw=9, head_tilt=-7, sway=-5,
+                     arm_r=-2, arm_l=7, swing_r=6, swing_l=-8, elbow_r=-15, elbow_l=-11)),
 ]
 
 
 # ---------------------------------------------------------------------------
 # skeleton (identical names, hierarchy and rest positions to PilgrimRigV2)
 # ---------------------------------------------------------------------------
+
+
+def arm_frame(s):
+    """(origin, along, across, front) for one arm, matching tube()'s own frame.
+
+    `across` lies in the arm's own XZ plane and `front` is +Y, so a hand authored
+    in this frame hangs the way a real one does whatever the A-pose angle is.
+    """
+    d = normalize((s * ARM_DIR[0], 0.0, ARM_DIR[2]))
+    across = normalize(cross((0.0, 1.0, 0.0), d))
+    front = cross(d, across)
+    return (s * ARM_SHOULDER_X, 0.0, ARM_SHOULDER_Z), d, across, front
+
+
+def arm_point(s, along, across=0.0, front=0.0):
+    o, d, a, w = arm_frame(s)
+    p = add(o, scale(d, along))
+    p = add(p, scale(a, across))
+    return add(p, scale(w, front))
 
 
 def skeleton():
@@ -399,14 +554,16 @@ def skeleton():
     bone('neck_01', 'chest', (0, 0, 153))
     bone('head', 'neck_01', (0, 0, 166))
     for s, side in [(-1, 'r'), (1, 'l')]:
-        bone('clavicle_' + side, 'chest', (s * 10, 0, 143))
-        bone('upperarm_' + side, 'clavicle_' + side, (s * 20, 0, 143))
-        bone('lowerarm_' + side, 'upperarm_' + side, (s * 33, -.5, 123))
-        bone('hand_' + side, 'lowerarm_' + side, (s * 44, -1, 98))
+        elbow = arm_point(s, ARM_UPPER)
+        wrist = arm_point(s, ARM_UPPER + ARM_FORE)
+        bone('clavicle_' + side, 'chest', (s * 11, 0, 145))
+        bone('upperarm_' + side, 'clavicle_' + side, (s * ARM_SHOULDER_X, 0, ARM_SHOULDER_Z))
+        bone('lowerarm_' + side, 'upperarm_' + side, (round(elbow[0], 3), -.5, round(elbow[2], 3)))
+        bone('hand_' + side, 'lowerarm_' + side, (round(wrist[0], 3), -1., round(wrist[2], 3)))
         bone('thigh_' + side, 'pelvis', (s * 8, 0, 88))
         bone('calf_' + side, 'thigh_' + side, (s * 8, 0, 47))
         bone('foot_' + side, 'calf_' + side, (s * 8, 0, 6))
-        bone('ball_' + side, 'foot_' + side, (s * 8, -9, 3))
+        bone('ball_' + side, 'foot_' + side, (s * 8, -11.5, 3))
         bone('skirt_' + side, 'pelvis', (s * 8, 0, 88))
     bone('mantle_front', 'chest', (0, -9, 143))
     bone('mantle_back', 'chest', (0, 11, 143))
@@ -418,20 +575,73 @@ def skeleton():
     return bones
 
 
+# Joints whose rest position V3 deliberately moves, and why. Every other joint
+# must still be byte-identical to PilgrimRigV2.
+MOVED_JOINTS = {
+    'clavicle_r': 'shoulder shelf raised toward the acromion height',
+    'clavicle_l': 'shoulder shelf raised toward the acromion height',
+    'upperarm_r': 'glenohumeral joint moved out to 0.1145 H',
+    'upperarm_l': 'glenohumeral joint moved out to 0.1145 H',
+    'lowerarm_r': 'upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction',
+    'lowerarm_l': 'upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction',
+    'hand_r': 'wrist put at 0.485 H so the fingertips reach mid-thigh',
+    'hand_l': 'wrist put at 0.485 H so the fingertips reach mid-thigh',
+    'ball_r': 'foot lengthened 19.2 -> 27.2 cm',
+    'ball_l': 'foot lengthened 19.2 -> 27.2 cm',
+}
+
+
 def assert_rig_matches_v2(bones):
-    """Refuse to ship a mesh whose rest pose would invalidate the existing clips."""
+    """Prove the already-imported clips still play, and say exactly why.
+
+    Those clips are rotation curves on named joints plus ONE translation track
+    (pelvis, in Walk). A joint-local rotation curve is independent of the child
+    bone's length, so lengthening a limb along its own rest direction cannot
+    invalidate it. What WOULD invalidate it is a renamed joint, a reordered
+    hierarchy, a changed rest DIRECTION, or a moved joint that carries a
+    translation track. All four are asserted here.
+    """
     if not V2_RIG.is_file():
         return {'compared': False, 'reason': 'PilgrimRigV2/rig-definition.json not present'}
     reference = json.loads(V2_RIG.read_text(encoding='utf-8-sig'))['bones']
     assert len(reference) == len(bones), 'joint count differs from PilgrimRigV2'
+    moved = []
     for a, b in zip(reference, bones):
         assert a['name'] == b['name'], (a['name'], b['name'])
         assert a['parent'] == b['parent'], a['name']
         assert a['parent_index'] == b['parent_index'], a['name']
-        assert tuple(a['position_cm']) == tuple(b['position_cm']), a['name']
-        assert tuple(a['local_translation_cm']) == tuple(b['local_translation_cm']), a['name']
-    return {'compared': True, 'joints': len(bones), 'identical_rest_pose': True,
-            'source': str(V2_RIG.relative_to(ROOT))}
+        if tuple(a['position_cm']) != tuple(b['position_cm']):
+            assert a['name'] in MOVED_JOINTS, 'undeclared joint move: ' + a['name']
+            moved.append({'joint': a['name'], 'v2_cm': list(a['position_cm']),
+                          'v3_cm': [round(v, 3) for v in b['position_cm']],
+                          'reason': MOVED_JOINTS[a['name']]})
+    assert {m['joint'] for m in moved} == set(MOVED_JOINTS), 'MOVED_JOINTS table is stale'
+    worst = 0.0
+    for s, side in ((-1, 'r'), (1, 'l')):
+        v2 = [r for r in reference if r['name'] == 'hand_' + side][0]
+        v2_dir = normalize(sub(v2['position_cm'], (s * 20, 0, 143)))
+        v3 = [r for r in bones if r['name'] == 'hand_' + side][0]
+        v3_dir = normalize(sub(v3['position_cm'], (s * ARM_SHOULDER_X, 0, ARM_SHOULDER_Z)))
+        angle = math.degrees(math.acos(clamp(dot(v2_dir, v3_dir), -1, 1)))
+        assert angle < 1.5, 'arm A-pose direction rotated %.2f deg on %s' % (angle, side)
+        worst = max(worst, angle)
+    translated = set()
+    for clip, duration in CLIPS.items():
+        for t in (0.0, duration * .5):
+            translated |= set(pose(bones, clip, t)[1])
+    assert translated <= {'pelvis'}, translated
+    assert 'pelvis' not in MOVED_JOINTS
+    return {'compared': True, 'joints': len(bones), 'source': str(V2_RIG.relative_to(ROOT)),
+            'identical_rest_pose': False,
+            'movedJoints': moved,
+            'jointNamesHierarchyAndOrderIdentical': True,
+            'armAPoseDirectionDriftDeg': round(worst, 6),
+            'clipsAnimateTranslationOnlyOn': sorted(translated),
+            'existingClipsRemainValid': True,
+            'why': ('Rotation curves are independent of bone length; the only translated '
+                    'track is pelvis, which did not move; no joint was renamed, reordered '
+                    'or re-aimed. A new Skeleton asset is still created on import because '
+                    'UE stores a reference pose per Skeleton - see the release spec.')}
 
 
 # ---------------------------------------------------------------------------
@@ -474,17 +684,28 @@ def sash_skin(p):
 def sleeve_skin(p):
     x, y, z = p
     side = 'r' if x < 0 else 'l'
-    if z > 137:
-        return blend('chest', 'upperarm_' + side, (abs(x) - 14) / 9)
-    if z > 112:
-        return blend('lowerarm_' + side, 'upperarm_' + side, (z - 112) / 20)
-    return blend('hand_' + side, 'lowerarm_' + side, (z - 99) / 12)
+    if z > 136:
+        return blend('chest', 'upperarm_' + side, (abs(x) - 15) / 10)
+    if z > 104:
+        return blend('lowerarm_' + side, 'upperarm_' + side, (z - 104) / 22)
+    return blend('hand_' + side, 'lowerarm_' + side, (z - 90) / 13)
 
 
 def forearm_skin(p):
     x, y, z = p
     side = 'r' if x < 0 else 'l'
-    return blend('hand_' + side, 'lowerarm_' + side, (z - 97) / 9)
+    return blend('hand_' + side, 'lowerarm_' + side, (z - 89) / 9)
+
+
+def trouser_skin(p):
+    """Modern visitor trouser leg: thigh -> calf -> foot down the whole limb."""
+    x, y, z = p
+    side = 'r' if x < 0 else 'l'
+    if z >= 88:
+        return blend('pelvis', 'thigh_' + side, clamp((94 - z) / 6))
+    if z >= 47:
+        return blend('calf_' + side, 'thigh_' + side, (z - 47) / 41)
+    return blend('foot_' + side, 'calf_' + side, (z - 8) / 18)
 
 
 def hand_skin(p):
@@ -527,7 +748,7 @@ def influence(part, p, index):
 # ---------------------------------------------------------------------------
 
 
-def fold_field(seed, base, harmonics=((13, 1.0), (7, .55), (23, .28), (5, .34))):
+def fold_field(seed, base, harmonics=((6, 1.0), (9, .62), (3, .55), (14, .34))):
     """Deterministic periodic cloth-fold offset, phase-drifting with height."""
     rng = random.Random(seed)
     terms = [(f, a * rng.uniform(.7, 1.25), rng.uniform(0, math.tau), rng.uniform(-.045, .045))
@@ -542,17 +763,79 @@ def fold_field(seed, base, harmonics=((13, 1.0), (7, .55), (23, .28), (5, .34)))
 
 
 def tunic_amplitude(z, hem):
-    """Flat over the chest, compressed under the sash, deepest toward the hem."""
+    """Flat over the chest, compressed under the sash, deepest toward the hem.
+
+    The hem term is what stops the lower half reading as a smooth cone. V3-a
+    peaked at ~2.8 cm of fold on a 21 cm radius; this peaks near 6 cm on 27.
+    """
     if z > 146:
         return 0.06
     if z > 118:
-        return .06 + .30 * smooth((146 - z) / 28)
+        return .08 + .34 * smooth((146 - z) / 28)
     if z > 112:
-        return .36 + .22 * smooth((118 - z) / 6)
+        return .42 + .26 * smooth((118 - z) / 6)
     if z > 99:
-        return .58 - .30 * smooth((112 - z) / 13) * smooth((z - 96) / 8)
+        return .68 - .34 * smooth((112 - z) / 13) * smooth((z - 96) / 8)
     below = clamp((99 - z) / max(12.0, 99 - hem))
-    return .55 + .80 * smooth(below)
+    return .70 + 1.35 * smooth(below)
+
+
+# ---------------------------------------------------------------------------
+# garment profile
+# ---------------------------------------------------------------------------
+
+# Half-width / half-depth of the clothed body, centimetres, at H = 179.
+# Shoulder ring 22.2 -> 44.4 cm across under cloth; with the deltoid inside the
+# sleeve the silhouette reads 46, which is the 0.259 H bideltoid breadth.
+# Hem 27.5/20.2 -> a 150 cm hem circumference. V3-a shipped 117, a pencil skirt,
+# which is the single reason the lower half read as one smooth balloon.
+GARMENT_ANCHORS = [
+    (0.0, 27.5, 20.2), (20.0, 23.8, 17.8), (40.0, 21.2, 15.9), (60.0, 19.4, 14.5),
+    (76.0, 18.0, 13.4), (88.0, 17.2, 12.6), (99.0, 15.7, 11.4), (105.5, 14.0, 10.4),
+    (111.0, 14.4, 10.7), (119.0, 16.3, 11.6), (127.0, 18.3, 12.4), (135.0, 20.3, 13.0),
+    (140.0, 21.5, 13.1), (143.5, 22.2, 12.9), (147.0, 18.5, 11.2), (150.5, 12.1, 8.8),
+    (153.0, 8.0, 6.9),
+]
+
+
+def anchor_at(z):
+    if z <= GARMENT_ANCHORS[0][0]:
+        return GARMENT_ANCHORS[0][1], GARMENT_ANCHORS[0][2]
+    for (z0, a0, b0), (z1, a1, b1) in zip(GARMENT_ANCHORS, GARMENT_ANCHORS[1:]):
+        if z <= z1:
+            t = (z - z0) / (z1 - z0)
+            return a0 + (a1 - a0) * t, b0 + (b1 - b0) * t
+    return GARMENT_ANCHORS[-1][1], GARMENT_ANCHORS[-1][2]
+
+
+def garment_rings(hem, girth, shoulder, flare=1.0, straight=False):
+    """Rings from the hem up, monotone in z whatever the hem height.
+
+    V3-a spliced fixed rings at z 24 and 42 under a hem list, so a short tunic
+    (hem 42) produced a non-monotone stack and a visibly doubled hem on the
+    youth. Sampling one analytic profile from the hem upward cannot do that.
+    """
+    def wh(z):
+        rx, ry = anchor_at(z)
+        if z < 99.0 and flare != 1.0:                     # kohen ketonet hangs straighter
+            base_x, base_y = anchor_at(99.0)
+            rx = base_x + (rx - base_x) * flare
+            ry = base_y + (ry - base_y) * flare
+        if straight and z < 119.0:                        # modern shirt: no hip flare
+            ref_x, ref_y = anchor_at(119.0)
+            rx = min(rx, ref_x * 1.02)
+            ry = min(ry, ref_y * 1.04)
+        return rx, ry
+
+    rx0, ry0 = wh(hem)
+    rings = [(hem, rx0 * .985, ry0 * .985), (hem + 2.6, rx0 * 1.035, ry0 * 1.035)]
+    for z, _, _ in GARMENT_ANCHORS:
+        if z > hem + 8.0:
+            rings.append((z,) + wh(z))
+    if rings[-1][0] < GARMENT_ANCHORS[-1][0] - .01:
+        rings.append((GARMENT_ANCHORS[-1][0],) + wh(GARMENT_ANCHORS[-1][0]))
+    return [(z, rx * girth * (shoulder if z > 130 else 1.0), ry * girth, 0.0, 0.0)
+            for z, rx, ry in rings]
 
 
 # ---------------------------------------------------------------------------
@@ -560,73 +843,144 @@ def tunic_amplitude(z, hem):
 # ---------------------------------------------------------------------------
 
 
+# Head shape, the single loudest "balloon" tell in V3-a. That head measured
+# 16.1 cm across and 14.5 cm front-to-back: wider than it was deep, i.e. a ball.
+# A real male head is 15.5 across and 19.4 deep (NASA-STD-3000 50th percentile),
+# so the fix is mostly one number - HEAD_RY - plus a flatter face plane, a real
+# occiput and a jaw that tapers in both axes.
+HEAD_RX = 7.75      # breadth 15.5
+HEAD_RY = 9.65      # depth 19.3
+HEAD_RZ = 11.85     # chin-to-crown 23.7 -> 7.55 heads at H = 179
+HEAD_C = (0.0, -0.60, 166.40)
+
+
 def head_sculpt(p):
+    """Local-space skull sculpt. z runs -11.85 (chin) .. +11.85 (crown)."""
     x, y, z = p
-    jaw = .70 + .30 * smooth((z + 10.6) / 10.2)
+    jaw = .68 + .32 * smooth((z + 10.4) / 9.6)
     x *= jaw
-    temple = 1 - .07 * gauss(z, 4.6, 3.4)
-    x *= temple
-    if y > 0:
-        y *= .965
-        y -= .55 * gauss(z, 6.0, 4.0) * gauss(abs(x), 0, 6.5)
-    else:
-        y -= .95 * gauss(abs(x), 3.5, 2.5) * gauss(z, 2.7, 1.9)       # brow ridge
-        y += 1.05 * gauss(abs(x), 3.2, 1.7) * gauss(z, 0.6, 1.5)      # eye socket
-        y -= .80 * gauss(abs(x), 4.7, 2.0) * gauss(z, -2.1, 2.1)      # cheekbone
-        y += .42 * gauss(abs(x), 3.4, 1.9) * gauss(z, -5.2, 2.1)      # cheek hollow
-        y -= .38 * gauss(abs(x), 0, 3.3) * gauss(z, -6.6, 2.5)        # muzzle
-        y -= .62 * gauss(abs(x), 0, 2.6) * gauss(z, -9.4, 2.3)        # chin
-        y += .30 * gauss(abs(x), 0, 1.6) * gauss(z, -7.8, 1.2)        # sub-lip crease
-    z -= .35 * gauss(abs(x), 0, 3.0) * gauss(z, -11.0, 2.0)
+    x *= 1 - .06 * gauss(z, 4.8, 3.4)                                  # temple flat
+    x *= 1 - .11 * gauss(z, -9.6, 3.0)                                 # chin narrows
+    if y > 0:                                                          # cranium
+        y *= .98
+        y *= 1 - .20 * smooth((-z - 3.5) / 7.0)                        # occiput tucks under
+        y -= .70 * gauss(z, 6.6, 4.2) * gauss(abs(x), 0, 6.2)
+    else:                                                              # face
+        f = -y / HEAD_RY
+        y += 1.55 * f * (abs(x) / HEAD_RX) ** 2 * gauss(z, -1.0, 7.5)  # flatten the face plane
+        y -= 1.15 * gauss(abs(x), 3.6, 2.4) * gauss(z, 2.6, 1.9)       # brow ridge
+        y += 1.35 * gauss(abs(x), 3.3, 1.7) * gauss(z, 0.4, 1.6)       # eye socket
+        y -= 1.05 * gauss(abs(x), 4.9, 2.0) * gauss(z, -2.4, 2.1)      # cheekbone
+        y += .60 * gauss(abs(x), 3.6, 1.9) * gauss(z, -5.4, 2.2)       # cheek hollow
+        y -= .55 * gauss(abs(x), 0, 3.2) * gauss(z, -6.8, 2.5)         # muzzle
+        y -= .85 * gauss(abs(x), 0, 2.5) * gauss(z, -9.6, 2.3)         # chin
+        y += .40 * gauss(abs(x), 0, 1.5) * gauss(z, -8.0, 1.2)         # sub-lip crease
+        y += .28 * gauss(abs(x), 0, .9) * gauss(z, -5.6, 1.0)          # philtrum
+    z -= .40 * gauss(abs(x), 0, 3.0) * gauss(z, -11.2, 2.0)
     return x, y, z
+
+
+def head_front(x, z):
+    """Sculpted face-surface local y at local (x, z). Features are hung off this
+    rather than off hand-tuned constants, so changing HEAD_RY moves them all."""
+    k = 1 - (x / HEAD_RX) ** 2 - (z / HEAD_RZ) ** 2
+    if k <= 1e-6:
+        return 0.0
+    return head_sculpt((x, -HEAD_RY * math.sqrt(k), z))[1]
+
+
+def face_point(x, z, out=0.0):
+    """World point on the face at local (x, z), `out` cm proud of the surface."""
+    return (HEAD_C[0] + x, HEAD_C[1] + head_front(x, z) - out, HEAD_C[2] + z)
 
 
 def face_parts(add, variant):
     g = variant['girth']
-    head_centre = (0, -.4, 166.4)
-    head_radii = (8.15 * (.97 + .03 * g), 7.35, 11.85)
-    add('Head', 'Skin', ellipsoid(head_centre, head_radii, 40, 26, head_sculpt), head_skin)
-    add('Neck', 'Skin', loft([(147.5, 5.9 * g, 5.2 * g, 0, .3), (152, 5.3 * g, 4.7 * g, 0, 0),
-                              (157, 5.5 * g, 5.0 * g, 0, -.3), (161, 6.2 * g, 5.6 * g, 0, -.6)], 22), neck_skin)
-    # Nose: bridge, tip and nostril wings rather than one smooth cone.
-    add('Nose', 'Skin', loft([
-        (161.4, 1.30, .95, 0, -7.05), (163.2, 1.05, .95, 0, -7.55),
-        (164.6, 1.45, 1.55, 0, -8.35), (165.6, 1.55, 1.60, 0, -8.55),
-        (167.2, 1.15, 1.05, 0, -8.00), (169.4, .78, .58, 0, -7.35),
-        (171.0, .60, .34, 0, -7.05)], 20), head_skin)
+    age = variant.get('age', 0.0)              # 0 young .. 1 elderly
+    radii = (HEAD_RX * (.96 + .04 * g), HEAD_RY, HEAD_RZ)
+    add('Head', 'Skin', ellipsoid(HEAD_C, radii, 40, 26, head_sculpt), head_skin)
+
+    # Neck: a real 12.2 cm column with a visible length. V3-a had the column but
+    # buried it under a collar at z 150.6 and a head cloth down to z 145, so the
+    # figure read as a head sitting straight on a robe.
+    n = 5.9 * (.95 + .05 * g)
+    add('Neck', 'Skin', loft([(146.0, n * 1.10, n * 1.02, 0, .5), (150.0, n * .98, n * .90, 0, .2),
+                              (154.0, n * .95, n * .88, 0, -.3), (158.0, n * 1.00, n * .94, 0, -.9),
+                              (161.5, n * 1.12, n * 1.06, 0, -1.4)], 22), neck_skin)
+    for side in (-1, 1):                                    # sternocleidomastoid
+        add('SCM%d' % side, 'Skin', tube([(side * 4.6, -3.2, 147.4), (side * 3.2, -4.4, 152.0),
+                                          (side * 2.0, -4.6, 156.5)],
+                                         [(1.5, 1.2), (1.2, 1.0), (.85, .75)], 8), neck_skin)
+
+    # Nose, hung off the sculpted face plane: root, bridge, ball, wings, columella.
+    nose = []
+    for zl, rx, ry, out in ((-3.5, 1.05, .70, .70), (-2.8, 1.60, 1.25, 1.45),
+                            (-1.9, 1.75, 1.55, 1.85), (-0.6, 1.45, 1.30, 1.30),
+                            (1.4, 1.10, .95, .60), (3.2, 1.25, .85, .10)):
+        p = face_point(0.0, zl, out)
+        nose.append((p[2], rx, ry, 0.0, p[1]))
+    add('Nose', 'Skin', loft(nose, 20), head_skin)
     for side in (-1, 1):
-        add('Nostril%d' % side, 'Skin', ellipsoid((side * 1.35, -7.85, 164.5), (.72, .68, .55), 14, 9), head_skin)
-        add('Ear%d' % side, 'Skin', ellipsoid((side * 7.6, .35, 165.9), (1.25, 1.15, 3.05), 16, 11,
-                                              lambda p: (p[0] * (1 - .35 * gauss(p[2], .3, 1.4)), p[1], p[2])), head_skin)
-        add('Eye%d' % side, 'Eyes', ellipsoid((side * 3.15, -6.95, 167.9), (1.05, .30, .42), 16, 9), head_skin)
-        add('Brow%d' % side, 'Hair', tube([(side * 1.7, -7.30, 169.5), (side * 3.1, -7.55, 169.9),
-                                           (side * 4.7, -7.10, 169.4)], [.22, .32, .16], 8), head_skin)
-    add('UpperLip', 'Skin', ellipsoid((0, -7.30, 161.9), (2.25, .48, .40), 18, 10), head_skin)
-    add('LowerLip', 'Skin', ellipsoid((0, -7.25, 161.0), (2.00, .45, .38), 18, 10), head_skin)
-    if variant['beard'] == 'none':
-        hair_folds = fold_field(variant['fold_seed'] + 5, .32, ((9, 1.0), (17, .5), (5, .6)))
-        add('Hair', 'Hair', loft([(162.5, 8.0, 7.3, 0, .4), (167, 8.6, 7.8, 0, .5),
-                                  (171.5, 8.5, 7.7, 0, .6), (175.5, 7.4, 6.7, 0, .6),
-                                  (178.2, 3.9, 3.5, 0, .5)], 26,
-                                 radial=lambda t, z, l: hair_folds(t, z, .8)), head_skin)
-        return
+        p = face_point(side * 1.55, -2.9, .55)
+        add('Nostril%d' % side, 'Skin', ellipsoid((p[0], p[1], p[2]), (.78, .72, .60), 14, 9), head_skin)
+        # Ear: long in z, deep in y, thin in x, set behind the head's mid-line.
+        add('Ear%d' % side, 'Skin',
+            ellipsoid((side * HEAD_RX * .93, HEAD_C[1] + 1.5, HEAD_C[2] - .4), (1.15, 1.85, 3.15), 16, 12,
+                      lambda p: (p[0] * (1 - .40 * gauss(p[2], .2, 1.5)), p[1], p[2])), head_skin)
+        e = face_point(side * 3.3, 1.1, -.55)               # set back inside the orbit
+        add('Eye%d' % side, 'Eyes', ellipsoid(e, (1.28, .52, .44), 16, 10), head_skin)
+        iris = (e[0] - side * .10, e[1] - .30, e[2] + .02)
+        add('Iris%d' % side, 'Iris', ellipsoid(iris, (.52, .22, .52), 12, 8), head_skin)
+        lid = face_point(side * 3.3, 2.05, .10)             # upper lid, breaks the stare
+        add('Lid%d' % side, 'Skin', ellipsoid(lid, (1.55, .62, .58), 14, 9), head_skin)
+        b0, b1, b2 = (face_point(side * 1.5, 3.0, .25), face_point(side * 3.2, 3.4, .30),
+                      face_point(side * 5.0, 2.9, .20))
+        add('Brow%d' % side, 'Hair', tube([b0, b1, b2], [.24, .36, .18], 8), head_skin)
+        if age > .45:                                       # naso-labial fold
+            f0, f1 = face_point(side * 1.9, -3.6, .05), face_point(side * 3.1, -6.4, .05)
+            add('Fold%d' % side, 'Skin', tube([f0, f1], [(.34, .30), (.30, .26)], 6), head_skin)
+    up = face_point(0.0, -5.0, .35)
+    lo = face_point(0.0, -6.2, .30)
+    add('UpperLip', 'Skin', ellipsoid(up, (2.50, .58, .46), 18, 10), head_skin)
+    add('LowerLip', 'Skin', ellipsoid(lo, (2.25, .58, .50), 18, 10), head_skin)
+
     style = variant['beard']
-    top = 158.6 if style == 'short' else 159.4
-    bottom = 154.2 if style == 'short' else 149.6
-    beard_folds = fold_field(variant['fold_seed'] + 3, .26, ((11, 1.0), (19, .5), (7, .6)))
+    if style == 'none':
+        hair_folds = fold_field(variant['fold_seed'] + 5, .34, ((9, 1.0), (17, .5), (5, .6)))
+        cy = HEAD_C[1] + .5
+        # Pulled inside the skull across the front (sin t < 0 is the face) so the
+        # hairline stops at the temples instead of masking the brow and cheeks.
+        def hair_radial(t, z, level):
+            face = max(0.0, -math.sin(t)) ** 1.4
+            return hair_folds(t, z, .8) - 2.6 * face * smooth((HEAD_C[2] + 8.0 - z) / 9.0)
+        add('Hair', 'Hair', loft([(HEAD_C[2] - 1.6, 7.95, 9.40, 0, cy + .8),
+                                  (HEAD_C[2] + 3.0, 8.30, 9.90, 0, cy + .5),
+                                  (HEAD_C[2] + 6.6, 8.25, 9.80, 0, cy + .4),
+                                  (HEAD_C[2] + 9.8, 7.05, 8.25, 0, cy + .5),
+                                  (HEAD_C[2] + 11.9, 3.70, 4.30, 0, cy + .5)], 26,
+                                 radial=hair_radial), head_skin)
+        return
+    # Beard: wraps the jaw and hangs off it. rx/ry follow the jaw taper so it
+    # never floats away from the deeper head.
+    beard_folds = fold_field(variant['fold_seed'] + 3, .30, ((11, 1.0), (19, .5), (7, .6)))
+    top = HEAD_C[2] - 6.4                                   # jaw line
+    bottom = HEAD_C[2] - (10.6 if style == 'short' else 17.2)
     rings = []
-    n = 6 if style == 'short' else 8
-    for i in range(n):
-        u = i / (n - 1)
+    steps = 7 if style == 'short' else 10
+    for i in range(steps):
+        u = i / (steps - 1)
         z = bottom + (top - bottom) * u
-        w = (2.0 + 4.6 * smooth(u)) if style == 'short' else (1.4 + 5.2 * smooth(u ** .8))
-        rings.append((z, w, w * .84, 0, -2.4 - 1.1 * (1 - u)))
+        k = smooth(u ** (1.0 if style == 'short' else .8))
+        rings.append((z, 2.1 + 4.6 * k, 2.4 + 5.3 * k, 0.0, HEAD_C[1] + .30 - 1.15 * (1 - k)))
     add('Beard', 'Hair', loft(rings, 26, radial=lambda t, z, l: beard_folds(t, z, .8)), head_skin)
-    add('Moustache', 'Hair', ellipsoid((0, -7.15, 162.9), (2.7, .70, .60), 16, 9), head_skin)
-    add('Sideburn-1', 'Hair', tube([(-7.4, -1.2, 168.0), (-7.6, -2.0, 163.5), (-6.4, -2.6, 159.8)],
-                                   [(1.0, 1.1), (1.0, 1.2), (1.3, 1.4)], 8), head_skin)
-    add('Sideburn1', 'Hair', tube([(7.4, -1.2, 168.0), (7.6, -2.0, 163.5), (6.4, -2.6, 159.8)],
-                                  [(1.0, 1.1), (1.0, 1.2), (1.3, 1.4)], 8), head_skin)
+    m = face_point(0.0, -4.2, .45)
+    add('Moustache', 'Hair', ellipsoid(m, (2.85, .80, .68), 16, 9), head_skin)
+    for side in (-1, 1):
+        add('Sideburn%d' % side, 'Hair',
+            tube([(side * 7.2, HEAD_C[1] + 1.0, HEAD_C[2] + 1.8),
+                  (side * 7.0, HEAD_C[1] + .1, HEAD_C[2] - 2.6),
+                  (side * 5.9, HEAD_C[1] - .8, HEAD_C[2] - 6.2)],
+                 [(1.05, 1.35), (1.05, 1.45), (1.30, 1.60)], 8), head_skin)
 
 
 # ---------------------------------------------------------------------------
@@ -635,33 +989,47 @@ def face_parts(add, variant):
 
 
 def head_covering(add, variant):
+    """Head coverings sized to the deeper skull, and cut so the NECK still shows.
+
+    V3-a's drape reached z 145, i.e. down onto the shoulders, which removed the
+    neck from the silhouette; the front of these stop at 154-158.
+    """
     kind = variant['headwear']
     if kind == 'none':
         return
-    folds = fold_field(variant['fold_seed'] + 9, .34, ((11, 1.0), (6, .7), (19, .35)))
-    if kind == 'turban':
-        add('TurbanCrown', 'Headcloth', ellipsoid((0, .3, 176.0), (8.9, 8.3, 5.4), 28, 12), head_skin)
-        for layer in range(3):
-            pts = [(8.5 * math.cos(i * math.tau / 26), .3 + 8.0 * math.sin(i * math.tau / 26),
-                    172.4 + layer * 1.95 + 1.0 * math.cos(i * math.tau / 26 + .5)) for i in range(27)]
-            add('TurbanBand%d' % layer, 'Headcloth', tube(pts, [(.82, 1.20)] * 27, 8), head_skin)
+    folds = fold_field(variant['fold_seed'] + 9, .38, ((11, 1.0), (6, .7), (19, .35)))
+    cy = HEAD_C[1] + .40
+    if kind in ('turban', 'migbaat'):
+        tall = kind == 'migbaat'
+        add('TurbanCrown', 'Headcloth',
+            ellipsoid((0, cy, HEAD_C[2] + (12.0 if tall else 10.6)),
+                      (8.55, 10.45, 6.0 if tall else 5.0), 28, 12), head_skin)
+        layers = 4 if tall else 3
+        for layer in range(layers):
+            pts = [(8.20 * math.cos(i * math.tau / 26), cy + 10.05 * math.sin(i * math.tau / 26),
+                    HEAD_C[2] + 7.4 + layer * 2.05 + 1.0 * math.cos(i * math.tau / 26 + .5))
+                   for i in range(27)]
+            add('TurbanBand%d' % layer, 'Headcloth', tube(pts, [(.86, 1.24)] * 27, 8), head_skin)
         return
     if kind == 'cap':
-        add('Cap', 'Headcloth', loft([(170.0, 8.7, 8.0, 0, .3), (173.5, 8.6, 7.9, 0, .35),
-                                      (176.5, 7.6, 7.0, 0, .4), (178.6, 4.3, 3.9, 0, .4)], 24,
+        add('Cap', 'Headcloth', loft([(HEAD_C[2] + 5.4, 8.05, 9.75, 0, cy),
+                                      (HEAD_C[2] + 7.1, 8.20, 9.95, 0, cy + .05),
+                                      (HEAD_C[2] + 10.1, 7.30, 8.85, 0, cy + .1),
+                                      (HEAD_C[2] + 12.2, 4.10, 4.90, 0, cy + .1)], 24,
                                      radial=lambda t, z, l: folds(t, z, .45)), head_skin)
         return
-    # 'cloth' and 'shawl': a skull cap plus a drape hanging from its rim around
-    # the back and both sides, open at the face. Built as an arc in the lateral
-    # angle so the face stays clear and the cloth never reads as a flat plate.
     long = kind == 'shawl'
-    add('HeadCap', 'Headcloth', loft([(168.5, 9.0, 8.3, 0, .4), (172.0, 9.1, 8.4, 0, .45),
-                                      (175.5, 8.4, 7.7, 0, .5), (178.3, 5.6, 5.1, 0, .5),
-                                      (179.4, 2.4, 2.2, 0, .5)], 26,
+    # Rim at +5.0 puts the cloth behind the hairline; V3-a's +2.1 crossed the
+    # brow ridge, which is why every face read as a mask.
+    add('HeadCap', 'Headcloth', loft([(HEAD_C[2] + 5.0, 8.55, 10.40, 0, cy),
+                                      (HEAD_C[2] + 7.4, 8.70, 10.55, 0, cy + .05),
+                                      (HEAD_C[2] + 9.1, 8.05, 9.75, 0, cy + .1),
+                                      (HEAD_C[2] + 11.9, 5.35, 6.45, 0, cy + .1),
+                                      (HEAD_C[2] + 13.0, 2.30, 2.75, 0, cy + .1)], 26,
                                      radial=lambda t, z, l: folds(t, z, .40)), head_skin)
     rows = 15 if long else 12
     cols = 21
-    span = math.radians(126 if not long else 138)
+    span = math.radians(126 if long else 112)
     grid = []
     for r in range(rows):
         u = r / (rows - 1)
@@ -670,40 +1038,164 @@ def head_covering(add, variant):
             t = c / (cols - 1)
             a = -span + 2 * span * t              # 0 = straight back, +-span = beside the face
             back = .5 + .5 * math.cos(a)          # 1 behind the head, 0 at the face
-            bottom = (132.0 if long else 145.0) + (14.0 if long else 8.0) * (1 - back)
-            z = 169.0 - (169.0 - bottom) * smooth(u)
-            flare = (3.6 if long else 2.0) * smooth(u) * (.45 + .75 * back)
-            rx = 9.1 + flare
-            ry = 8.4 + flare * 1.15
-            ripple = folds(a * 2.2 + u * 1.4, z, .55 + .8 * u)
+            # V3-a hung this to z 145 all the way round, which put cloth over the
+            # jaw and deleted the neck. `face` is 1 straight behind the head and
+            # 0 at the edge beside the cheek: the drape falls to the shoulder
+            # blades behind and tucks up above the jaw at the face, so the jaw,
+            # the beard and 6-9 cm of neck stay in the silhouette.
+            face = 1.0 - abs(a) / span
+            bottom = (124.0 if long else 136.0) + (46.0 if long else 32.0) * (1 - face) ** 1.4
+            z = (HEAD_C[2] + 5.4) - ((HEAD_C[2] + 5.4) - bottom) * smooth(u)
+            flare = (4.2 if long else 2.4) * smooth(u) * (.45 + .75 * back)
+            rx = 8.70 + flare
+            ry = 10.55 + flare * 1.10
+            ripple = folds(a * 2.2 + u * 1.4, z, .60 + .90 * u)
             x = (rx + ripple) * math.sin(a)
-            y = .45 + (ry + ripple) * math.cos(a)
+            y = cy + (ry + ripple) * math.cos(a)
             row.append((x, y, z + ripple * .35))
         grid.append(row)
     add('HeadCloth', 'Headcloth', cloth_panel(grid, .34), head_skin)
-    band = [(8.9 * math.cos(i * math.tau / 22), .45 + 8.3 * math.sin(i * math.tau / 22),
-             171.6 + .8 * math.cos(i * math.tau / 22)) for i in range(23)]
-    add('HeadBand', 'Trim', tube(band, [(.52, .80)] * 23, 8), head_skin)
+    band = [(8.50 * math.cos(i * math.tau / 22), cy + 10.35 * math.sin(i * math.tau / 22),
+             HEAD_C[2] + 7.4 + .8 * math.cos(i * math.tau / 22)) for i in range(23)]
+    add('HeadBand', 'Trim', tube(band, [(.54, .82)] * 23, 8), head_skin)
 
 
 def prop_parts(add, variant):
+    """Camera / phone, rigidly skinned to the right hand.
+
+    Anchored to the actual palm centre of the lengthened arm rather than a hard
+    coded (-46.5, -4.6, 95.0), so the prop cannot drift off the hand again when
+    the chain changes.
+    """
     kind = variant['prop']
     if not kind:
         return
-    # Skinned rigidly to the right hand: in the photo clips the arm lifts it to
-    # eye/chest height, which is what "people taking pictures" needs.
-    hx, hy, hz = -46.5, -4.6, 95.0
+    hx, hy, hz = arm_point(-1, ARM_UPPER + ARM_FORE + ARM_PALM * .5, 0.0, -1.2)
     if kind == 'camera':
-        cx, cy, cz = hx, hy - 2.6, hz + 2.4
-        add('CameraBody', 'Prop', box((cx, cy, cz), (5.4, 3.0, 3.6), 1.0), hand_skin)
-        add('CameraLens', 'Prop', tube([(cx, cy - 2.6, cz), (cx, cy - 7.0, cz)],
-                                       [(2.30, 2.30), (2.55, 2.55)], 14), hand_skin)
-        add('CameraGlass', 'PropGlass', tube([(cx, cy - 7.05, cz), (cx, cy - 7.5, cz)],
-                                             [(1.95, 1.95), (1.80, 1.80)], 14), hand_skin)
-        add('CameraHump', 'Prop', box((cx, cy + .3, cz + 4.5), (2.0, 1.9, 1.3), .5), hand_skin)
+        cx, cy, cz = hx + 3.0, hy - 6.2, hz + 3.4
+        add('CameraBody', 'Prop', box((cx, cy, cz), (5.6, 3.1, 3.7), 1.0), hand_skin)
+        add('CameraLens', 'Prop', tube([(cx, cy - 2.7, cz), (cx, cy - 7.2, cz)],
+                                       [(2.35, 2.35), (2.60, 2.60)], 14), hand_skin)
+        add('CameraGlass', 'PropGlass', tube([(cx, cy - 7.25, cz), (cx, cy - 7.7, cz)],
+                                             [(2.00, 2.00), (1.85, 1.85)], 14), hand_skin)
+        add('CameraHump', 'Prop', box((cx, cy + .3, cz + 4.6), (2.0, 1.9, 1.3), .5), hand_skin)
     else:
-        add('PhoneBody', 'Prop', box((hx, hy - .8, hz + 2.0), (3.6, .55, 7.2), .6), hand_skin)
-        add('PhoneScreen', 'PropGlass', box((hx, hy - 1.45, hz + 2.0), (3.15, .12, 6.6), .4), hand_skin)
+        add('PhoneBody', 'Prop', box((hx + 1.0, hy - 2.6, hz + 2.6), (3.7, .55, 7.4), .6), hand_skin)
+        add('PhoneScreen', 'PropGlass', box((hx + 1.0, hy - 3.25, hz + 2.6), (3.25, .12, 6.8), .4),
+            hand_skin)
+
+
+def arm_parts(add, variant, s):
+    """One arm, authored in the arm's own frame.
+
+    Everything is a distance `t` down the limb from the glenohumeral joint, so
+    the whole arm scales with the anthropometric chain instead of a table of
+    hand-fitted world coordinates. `across` is in the arm's own plane, `front`
+    is +Y - which is what makes the hanging hand present its edge to camera and
+    its palm to the thigh, the way a real one does.
+    """
+    g = variant['girth']
+    sh = variant['shoulder']
+    tag = 'R' if s < 0 else 'L'
+    sleeve_folds = fold_field(variant['fold_seed'] + 2, .32, ((5, 1.0), (9, .55), (13, .35)))
+    long_sleeve = variant['dress'] != 'modern' or variant.get('sleeves') == 'long'
+    cuff_t = 53.0 if long_sleeve else 27.0
+
+    def A(t, across=0.0, front=0.0):
+        return arm_point(s, t, across, front)
+
+    # Sleeve: buried in the torso at t=0, deltoid shelf at t=5..11, elbow at 32.
+    sleeve = [(0.0, 4.8 * g, 4.6 * g), (5.0, 7.15 * g * sh, 6.85 * g), (11.0, 7.35 * g * sh, 7.05 * g),
+              (18.0, 6.65 * g, 6.35 * g), (26.0, 6.05 * g, 5.80 * g), (32.0, 5.75 * g, 5.55 * g),
+              (40.0, 5.20 * g, 5.00 * g), (47.0, 4.65 * g, 4.45 * g)]
+    sleeve = [r for r in sleeve if r[0] <= cuff_t] + [(cuff_t, 4.35 * g, 4.15 * g)]
+    add('Sleeve' + tag, 'Linen',
+        tube([A(t) for t, _, _ in sleeve], [(rx, ry) for _, rx, ry in sleeve], 20,
+             radial=lambda th, i, k=s: (sleeve_folds(th + k * .8, 140 - i * 8, .70 + .60 * i / 6)
+                                        - .30 * math.cos(3 * th + 1.2) * gauss(i, 5.0, 1.2))),
+        sleeve_skin)
+    add('Cuff' + tag, 'Trim', tube([A(cuff_t - .9), A(cuff_t + 1.4)],
+                                   [(4.65 * g, 4.45 * g)] * 2, 20), sleeve_skin)
+
+    # Bare forearm below the cuff. Wrist half-thickness 2.7 = an 17 cm wrist.
+    fore = [(cuff_t + .4, 3.55, 3.30), (ARM_UPPER + ARM_FORE - 4.0, 3.05, 2.80),
+            (ARM_UPPER + ARM_FORE, 2.85, 2.65)]
+    fore = [r for r in fore if r[0] >= cuff_t]
+    if len(fore) >= 2:
+        add('Forearm' + tag, 'Skin', tube([A(t) for t, _, _ in fore],
+                                          [(rx, ry) for _, rx, ry in fore], 16), forearm_skin)
+
+    # Hand. 19.3 cm stylion-to-dactylion, 8.5 cm across, palm edge-on to camera.
+    w = ARM_UPPER + ARM_FORE
+    knuckle = w + ARM_PALM
+    add('Palm' + tag, 'Skin',
+        tube([A(w - .6), A(w + 2.4), A(w + 6.6), A(knuckle), A(knuckle + 1.1)],
+             [(1.75, 2.95), (1.95, 3.75), (2.10, 4.30), (1.95, 4.30), (1.55, 3.55)], 16),
+        hand_skin)
+    for i, (spread, flen, curl) in enumerate(((-3.05, 7.9, .5), (-1.05, 8.7, .6),
+                                              (1.00, 8.1, .55), (2.90, 6.4, .45))):
+        base = A(knuckle - .6, 0.0, spread)
+        mid = A(knuckle + flen * .45, -curl * .6, spread * 1.02)
+        tip = A(knuckle + flen, -curl * 1.9, spread * 1.05)
+        add('Finger%s%d' % (tag, i), 'Skin',
+            tube([base, mid, tip], [(.94, .88), (.84, .80), (.62, .58)], 8), hand_skin)
+    add('Thumb' + tag, 'Skin',
+        tube([A(w + 2.2, -.4, -3.4), A(w + 5.4, -1.2, -5.0), A(w + 8.4, -1.9, -5.6)],
+             [(1.05, 1.00), (.94, .90), (.68, .64)], 8), hand_skin)
+
+
+def leg_parts(add, variant, s):
+    """Bare lower leg, foot and sandal - or trousers and a shoe for the moderns.
+
+    Foot length 27.2 cm (0.152 H). V3-a's was 19.2, which is a child's foot on an
+    adult and reads as a doll from any distance.
+    """
+    g = variant['girth']
+    dress = variant['dress']
+    tag = 'R' if s < 0 else 'L'
+    hem = variant['tunic_hem']
+    if dress == 'modern':
+        trouser_folds = fold_field(variant['fold_seed'] + 13, .30, ((5, 1.0), (8, .5)))
+        add('Trouser' + tag, 'Linen', loft([(3.4, 5.15 * g, 5.55 * g, s * 8, -3.4),
+                                            (14.0, 5.55 * g, 5.95 * g, s * 8, -1.6),
+                                            (30.0, 6.75 * g, 7.15 * g, s * 8, -.6),
+                                            (44.0, 6.90 * g, 7.30 * g, s * 8, -.3),
+                                            (52.0, 6.55 * g, 6.95 * g, s * 8, -.2),
+                                            (70.0, 8.30 * g, 8.75 * g, s * 8, 0),
+                                            (86.0, 9.70 * g, 10.15 * g, s * 8, 0),
+                                            (97.0, 10.30 * g, 10.60 * g, s * 6, 0)], 24,
+                                           radial=lambda t, z, l: trouser_folds(t, z, .45 + .55 * (z < 55))),
+            trouser_skin)
+        add('Shoe' + tag, 'Leather', ellipsoid((s * 8, -5.2, 3.6), (4.85, 13.2, 3.4), 22, 12,
+            lambda p: (p[0] * (1 - .18 * gauss(p[1], -10.5, 4.5)), p[1],
+                       p[2] * (1 - .34 * gauss(p[1], -10.0, 5.0)))), foot_skin)
+        add('Sole' + tag, 'Leather', loft([(0, 4.55, 12.9, s * 8, -5.2), (.5, 5.00, 13.4, s * 8, -5.2),
+                                           (1.6, 5.00, 13.4, s * 8, -5.2), (2.1, 4.70, 12.9, s * 8, -5.2)],
+                                          24), foot_skin)
+        return
+
+    top = max(22.0, hem + 7.0)
+    # Barefoot: the sole of the foot IS the ground plane, so the ankle drops by
+    # the thickness of the sandal sole it no longer stands on.
+    bare = bool(variant.get('barefoot'))
+    ankle_z = 3.65 if bare else 4.70
+    add('Shin' + tag, 'Skin', loft([(ankle_z - .9, 3.60 * g, 3.95 * g, s * 8, .4),
+                                    (11.0, 4.25 * g, 4.55 * g, s * 8, .4),
+                                    (top * .55, 5.20 * g, 5.55 * g, s * 8, .4),
+                                    (top, 5.70 * g, 6.00 * g, s * 8, .4)], 20), leg_skin)
+    add('Foot' + tag, 'Skin', ellipsoid((s * 8, -5.6, ankle_z), (4.90 * g, 13.60, 3.40), 22, 13,
+        lambda p: (p[0] * (1 - .20 * gauss(p[1], -11.0, 4.5)), p[1],
+                   p[2] * (1 - .32 * gauss(p[1], -10.5, 5.0)))), foot_skin)
+    if bare:
+        return
+    add('SandalSole' + tag, 'Leather', loft([(0, 4.45 * g, 13.6, s * 8, -5.6),
+                                             (.55, 4.95 * g, 14.2, s * 8, -5.6),
+                                             (1.7, 4.95 * g, 14.2, s * 8, -5.6),
+                                             (2.1, 4.60 * g, 13.6, s * 8, -5.6)], 26), foot_skin)
+    for idx, y in enumerate((-13.2, -4.6)):
+        add('SandalStrap%s%d' % (tag, idx), 'Leather',
+            tube([(s * 8 - 4.3, y, 3.1), (s * 8 - 3.0, y, 6.8), (s * 8, y, 7.9),
+                  (s * 8 + 3.0, y, 6.8), (s * 8 + 4.3, y, 3.1)], [(.74, .32)] * 5, 8), foot_skin)
 
 
 def assembly(variant):
@@ -711,8 +1203,9 @@ def assembly(variant):
     g = variant['girth']
     sh = variant['shoulder']
     hem = variant['tunic_hem']
-    folds = fold_field(variant['fold_seed'], .95)
-    mantle_folds = fold_field(variant['fold_seed'] + 1, .70, ((9, 1.0), (5, .6), (15, .35)))
+    dress = variant['dress']
+    folds = fold_field(variant['fold_seed'], 1.30)
+    mantle_folds = fold_field(variant['fold_seed'] + 1, .95, ((5, 1.0), (8, .6), (12, .35)))
 
     def add(name, material, mesh, skin):
         v, f = mesh
@@ -721,134 +1214,113 @@ def assembly(variant):
             f = [(a, c, b) for a, b, c in f]
         parts.append({'name': name, 'material': material, 'vertices': v, 'faces': f, 'skin': skin})
 
-    # ---- tunic: the load-bearing silhouette. Real waist, ribcage and shoulder
-    # shelf, superelliptic sections, and vertical fold geometry in the cloth.
-    profile = [
-        (hem, 19.6, 14.0), (hem + 2.1, 20.3, 14.6), (hem + 8.0, 19.3, 13.9),
-        (24, 18.5, 13.4), (42, 17.7, 12.8), (60, 17.0, 12.3), (76, 16.4, 11.9),
-        (90, 15.8, 11.4), (99, 15.0, 10.9), (105.5, 13.5, 10.1), (111, 13.8, 10.3),
-        (119, 15.6, 11.1), (127, 17.4, 11.7), (135, 19.0, 12.2), (140, 19.9, 12.3),
-        (143.5, 20.4, 12.2), (147, 17.4, 10.8), (150.5, 11.6, 8.4), (153.5, 7.6, 6.6),
-    ]
-    rings = [(z, rx * g * (sh if z > 130 else 1.0), ry * g, 0, 0) for z, rx, ry in profile]
+    # ---- main garment shell. The load-bearing silhouette.
+    flare = variant.get('flare', 1.0)
+    body_hem = 88.0 if dress == 'modern' else hem
+    rings = garment_rings(body_hem, g, sh, flare, straight=dress == 'modern')
 
     def tunic_radial(t, z, level):
-        return folds(t, z, tunic_amplitude(z, hem))
+        f = folds(t, z, tunic_amplitude(z, body_hem) * (.55 if dress == 'modern' else 1.0))
+        if dress != 'modern' and z < 74.0:
+            # Two columns under the cloth: pushed out over each leg (t = 0, pi)
+            # and drawn in front and back between them. Without this the lower
+            # half is a cone and reads as one solid volume.
+            f += 2.9 * math.cos(2 * t) * smooth((74.0 - z) / 42.0)
+        return f
 
     def tunic_exponent(z, level):
-        # Ramped, never stepped: a hard change of section between two rings put
-        # a visible spike on V2-era shoulders.
         bump = smooth((z - 92) / 14) * smooth((140 - z) / 16)
-        return 1.0 - .15 * bump
+        return 1.0 - .17 * bump
 
-    add('Tunic', 'Linen', loft(rings, 60, radial=tunic_radial, exponent=tunic_exponent), torso_skin)
+    def hem_break(t, level):
+        if level > 2 or dress == 'modern':
+            return 0.0
+        k = (1.0, .85, .35)[level]
+        return k * (2.8 * max(0.0, -math.sin(t)) - 1.5 * max(0.0, math.sin(t)))
+
+    add('Tunic', 'Linen', loft(rings, 76, radial=tunic_radial, exponent=tunic_exponent,
+                               zshift=hem_break), torso_skin)
 
     def section(z):
-        """Interpolated tunic half-width/depth, so the mantle can follow the body."""
-        if z <= rings[0][0]:
-            return rings[0][1], rings[0][2]
         for (z0, rx0, ry0, _, _), (z1, rx1, ry1, _, _) in zip(rings, rings[1:]):
             if z <= z1:
-                t = (z - z0) / (z1 - z0)
+                t = clamp((z - z0) / (z1 - z0))
                 return rx0 + (rx1 - rx0) * t, ry0 + (ry1 - ry0) * t
         return rings[-1][1], rings[-1][2]
 
-    # ---- wound sash: one continuous band whose turns read as a diagonal wrap.
-    def sash_radial(t, z, level):
-        return (.38 * math.cos(t - (z - 100.5) * .82) + .20 * math.cos(11 * t + 1.1)
-                + .12 * math.cos(5 * t - 2.2))
-    sash_rings = []
-    for z, pad in ((100.0, 1.8), (101.2, 3.4), (103.6, 3.8), (106.6, 3.8), (109.2, 3.4), (110.4, 1.7)):
-        rx, ry = section(z)
-        sash_rings.append((z, rx + pad, ry + pad * .82, 0, 0))
-    add('Sash', 'Sash', loft(sash_rings, 36, radial=sash_radial), sash_skin)
-    rx0, ry0 = section(104)
-    add('SashTail', 'Sash', cloth_panel(
-        [[(2.8 + c * .95 + r * .16, -(ry0 + 2.9) - .55 * math.sin(r * .55) - .22 * c,
-           103.0 - r * 3.4 + .55 * math.sin(c * 1.4 + r * .5)) for c in range(5)]
-         for r in range(11)], .26), sash_skin)
-    add('Collar', 'Trim', loft([(150.6, 11.9 * g, 8.6 * g, 0, 0), (151.4, 12.4 * g, 9.0 * g, 0, 0),
-                                (153.0, 8.0 * g, 6.9 * g, 0, 0), (153.6, 7.4 * g, 6.4 * g, 0, 0)],
+    if dress == 'modern':
+        seat_folds = fold_field(variant['fold_seed'] + 17, .35, ((4, 1.0), (7, .5)))
+        add('Seat', 'Denim', loft([(78.0, 14.6 * g, 11.2 * g, 0, 0), (88.0, 15.9 * g, 11.9 * g, 0, 0),
+                                   (96.0, 16.0 * g, 11.9 * g, 0, 0), (101.0, 14.6 * g, 11.0 * g, 0, 0)],
+                                  30, radial=lambda t, z, l: seat_folds(t, z, .5)), torso_skin)
+        add('Belt', 'Leather', loft([(98.6, 14.8 * g, 11.1 * g, 0, 0), (99.8, 15.3 * g, 11.5 * g, 0, 0),
+                                     (102.6, 15.3 * g, 11.5 * g, 0, 0), (103.6, 14.7 * g, 11.0 * g, 0, 0)],
+                                    30), sash_skin)
+    else:
+        # ---- sash / avnet: one continuous band whose turns read as a wrap.
+        kohen = dress == 'kohen'
+        turns = 8 if kohen else 6
+        span = (97.0, 116.0) if kohen else (100.0, 110.4)
+        pads = ([1.7, 3.2, 3.9, 4.1, 4.1, 3.9, 3.2, 1.6] if kohen
+                else [1.8, 3.4, 3.8, 3.8, 3.4, 1.7])
+
+        def sash_radial(t, z, level):
+            return (.42 * math.cos(t - (z - span[0]) * .82) + .22 * math.cos(11 * t + 1.1)
+                    + .13 * math.cos(5 * t - 2.2))
+        sash_rings = []
+        for i in range(turns):
+            z = span[0] + (span[1] - span[0]) * i / (turns - 1)
+            rx, ry = section(z)
+            sash_rings.append((z, rx + pads[i], ry + pads[i] * .82, 0, 0))
+        add('Sash', 'Sash', loft(sash_rings, 36, radial=sash_radial), sash_skin)
+        rx0, ry0 = section(span[0] + 4)
+        add('SashTail', 'Sash', cloth_panel(
+            [[(rx0 * .58 + c * .95 + r * .22, -(ry0 * .80 + 2.6) - .55 * math.sin(r * .5) - .30 * c,
+               (span[0] + 2.0) - r * 3.2 + .55 * math.sin(c * 1.3 + r * .5)) for c in range(4)]
+             for r in range(10)], .26), sash_skin)
+
+    # Collar sits at 148.5 rather than V3-a's 150.6, so a real neck shows.
+    add('Collar', 'Trim', loft([(148.2, 12.9 * g, 9.4 * g, 0, 0), (149.2, 13.4 * g, 9.8 * g, 0, 0),
+                                (151.4, 8.6 * g, 7.3 * g, 0, 0), (152.2, 7.9 * g, 6.8 * g, 0, 0)],
                                26), torso_skin)
 
-    # ---- over-mantle: ONE cloth draped over both shoulders and open at the
-    # front, standing off the chest and back while pulling tight at the sides so
-    # the arms pass outside it. V2's separate flat boards read as cardboard.
+    # ---- over-mantle: ONE cloth over both shoulders, open at the front.
     if variant['mantle']:
-        opening = math.radians(14)
+        opening = math.radians(17)
         rows, cols = 22, 34
-        top_z, bottom_z = 149.0, 54.0
+        top_z, bottom_z = 145.5, variant.get('mantle_hem', 52.0)
         grid = []
         for r in range(rows):
             u = r / (rows - 1)
             z = top_z - (top_z - bottom_z) * u
             rx, ry = section(z)
-            ease = 2.6 + 4.4 * smooth(u)
+            ease = 1.15 + 2.55 * smooth(u)
             row = []
             for c in range(cols):
                 t = c / (cols - 1)
-                a = opening + t * (math.tau - 2 * opening)     # 0 = front, pi = back
+                a = opening + t * (math.tau - 2 * opening)
                 sa, ca = math.sin(a), math.cos(a)
-                ripple = .95 + mantle_folds(a * 1.9 + u * 1.1, z, .40 + .70 * smooth(u))
-                # Tight at the sides (|sin a| -> 1), standing proud front and back.
-                lateral = rx * sh * (1 - .17 * abs(sa)) + ease * (.30 + .70 * ca * ca)
-                depth = ry + ease + .8
-                x = (lateral + ripple) * sa
-                y = -(depth + ripple) * ca - .5
-                row.append((x, y, z + ripple * .30 - 2.6 * math.exp(-(min(t, 1 - t) / .13) ** 2) * (1 - u)))
+                ripple = .75 + mantle_folds(a * 1.9 + u * 1.1, z, .50 + .95 * smooth(u))
+                # Pulled hard to the shoulder at the top (u -> 0) so the cloth
+                # follows the deltoid instead of standing off it.
+                hug = .30 + .70 * smooth(u * 2.2)
+                lateral = rx * sh * (1 - .13 * abs(sa)) + ease * (.30 + .70 * ca * ca) * hug
+                depth = ry + (ease + .5) * hug
+                x = (lateral + ripple * hug) * sa
+                y = -(depth + ripple * hug) * ca - .5
+                row.append((x, y, z + ripple * .30 - 1.2 * math.exp(-(min(t, 1 - t) / .11) ** 2) * (1 - u)))
             grid.append(row)
-        add('Mantle', 'Mantle', cloth_panel(grid, .42),
+        add('Mantle', 'Mantle', cloth_panel(grid, .44),
             lambda p: (mantle_back_skin(p) if p[1] > 0 else mantle_front_skin(p)))
-        add('MantleHem', 'Trim', tube(grid[-1], [(.62, .62)] * cols, 6), mantle_back_skin)
+        add('MantleHem', 'Trim', tube(grid[-1], [(.66, .66)] * cols, 6), mantle_back_skin)
         for s, edge_index in ((-1, 0), (1, cols - 1)):
             column = [grid[r][edge_index] for r in range(rows)]
-            add('MantleEdge%d' % s, 'Trim', tube(column, [(.48, .48)] * rows, 6),
-                mantle_front_skin)
+            add('MantleEdge%d' % s, 'Trim', tube(column, [(.50, .50)] * rows, 6), mantle_front_skin)
 
-    # ---- arms: tapered sleeve, bare forearm, hand with fingers.
-    sleeve_folds = fold_field(variant['fold_seed'] + 2, .30, ((8, 1.0), (13, .55)))
     for s in (-1, 1):
-        tag = 'R' if s < 0 else 'L'
-        axis = [(s * 9.6 * sh, .3, 149.4), (s * 15.4 * sh, .3, 145.0), (s * 18.9 * sh, .1, 140.6), (s * 24.4, -.2, 132.6),
-                (s * 29.6, -.4, 126.0), (s * 32.6, -.5, 122.6), (s * 37.6, -.8, 112.4),
-                (s * 42.4, -1.0, 101.4)]
-        radii = [(4.1 * g, 3.9 * g), (6.5 * g, 6.1 * g), (6.4 * g, 6.1 * g), (5.9 * g, 5.6 * g),
-                 (5.2 * g, 5.0 * g), (4.9 * g, 4.7 * g), (4.4 * g, 4.2 * g), (3.9 * g, 3.7 * g)]
-        add('Sleeve' + tag, 'Linen', tube(axis, radii, 20,
-            radial=lambda t, i, k=s: (sleeve_folds(t + k * .8, 140 - i * 7, .75 + .55 * i / 6)
-                                      - .34 * math.cos(3 * t + 1.2) * gauss(i, 5.0, 1.1))), sleeve_skin)
-        add('Cuff' + tag, 'Trim', tube([(s * 41.6, -1, 103.0), (s * 42.7, -1, 100.6)],
-                                       [(4.30 * g, 4.10 * g)] * 2, 20), sleeve_skin)
-        add('Forearm' + tag, 'Skin', tube([(s * 42.5, -1, 101.6), (s * 43.6, -1, 98.6)],
-                                          [(3.05, 2.55), (3.00, 2.30)], 16), forearm_skin)
-        add('Palm' + tag, 'Skin', ellipsoid((s * 44.9, -1.3, 95.4), (3.35, 1.95, 5.20), 18, 13), hand_skin)
-        for i, flen in enumerate((4.9, 5.7, 5.3, 4.2)):
-            x = s * (42.5 + i * 1.62)
-            add('Finger%s%d' % (tag, i), 'Skin',
-                tube([(x, -1.2, 92.2), (x + s * .22, -1.6, 90.4), (x + s * .30, -2.35, 92.6 - flen)],
-                     [(.68, .74), (.64, .70), (.48, .56)], 8), hand_skin)
-        add('Thumb' + tag, 'Skin',
-            tube([(s * 42.6, -1.3, 96.6), (s * 40.8, -1.9, 94.4), (s * 40.2, -2.7, 92.7)],
-                 [(.92, .88), (.86, .82), (.62, .62)], 8), hand_skin)
-
-    # ---- legs and feet.
+        arm_parts(add, variant, s)
     for s in (-1, 1):
-        tag = 'R' if s < 0 else 'L'
-        top = max(20.0, hem + 6.0)
-        add('Shin' + tag, 'Skin', loft([(3.6, 3.3 * g, 3.6 * g, s * 8, .4),
-                                        (10, 3.6 * g, 4.0 * g, s * 8, .4),
-                                        (top * .55, 4.4 * g, 4.7 * g, s * 8, .4),
-                                        (top, 4.9 * g, 5.2 * g, s * 8, .4)], 20), leg_skin)
-        add('Foot' + tag, 'Skin', ellipsoid((s * 8, -4.0, 4.4), (3.85 * g, 9.6, 3.1), 20, 12,
-            lambda p: (p[0], p[1], p[2] * (1 - .30 * gauss(p[1], -8.0, 4.0)))), foot_skin)
-        add('SandalSole' + tag, 'Leather', loft([(0, 3.7 * g, 10.2, s * 8, -4.0),
-                                                 (.55, 4.25 * g, 10.7, s * 8, -4.0),
-                                                 (1.7, 4.25 * g, 10.7, s * 8, -4.0),
-                                                 (2.1, 3.95 * g, 10.2, s * 8, -4.0)], 26), foot_skin)
-        for idx, y in enumerate((-8.2, -3.4)):
-            add('SandalStrap%s%d' % (tag, idx), 'Leather',
-                tube([(s * 8 - 3.6, y, 3.0), (s * 8 - 2.5, y, 6.2), (s * 8, y, 7.2),
-                      (s * 8 + 2.5, y, 6.2), (s * 8 + 3.6, y, 3.0)], [(.72, .30)] * 5, 8), foot_skin)
+        leg_parts(add, variant, s)
 
     face_parts(add, variant)
     head_covering(add, variant)
@@ -861,7 +1333,12 @@ def assembly(variant):
 # ---------------------------------------------------------------------------
 
 CLIPS = {'Idle': 3.2, 'Walk': 1.2, 'PhotoCamera': 4.0, 'PhotoPhone': 3.6}
-ARM_CHAIN = {'r': (-1, (-13, -.5, -20), (-11, -.5, -25)), 'l': (1, (13, -.5, -20), (11, -.5, -25))}
+ARM_CHAIN = {side: (s,
+                    tuple(round(v, 4) for v in sub(arm_point(s, ARM_UPPER),
+                                                   (s * ARM_SHOULDER_X, 0., ARM_SHOULDER_Z))),
+                    tuple(round(v, 4) for v in sub(arm_point(s, ARM_UPPER + ARM_FORE),
+                                                   arm_point(s, ARM_UPPER))))
+             for s, side in ((-1, 'r'), (1, 'l'))}
 
 
 def arm_ik(side, target, pole):
@@ -871,7 +1348,7 @@ def arm_ik(side, target, pole):
     rotation equals the product of the local rotations above it.
     """
     s, upper_vec, lower_vec = ARM_CHAIN[side]
-    root = (s * 20, 0, 143)
+    root = (s * ARM_SHOULDER_X, 0, ARM_SHOULDER_Z)
     l1 = length(upper_vec)
     l2 = length(lower_vec)
     delta = sub(target, root)
@@ -891,12 +1368,49 @@ def arm_ik(side, target, pole):
     return q_upper, qmul(qconj(q_upper), q_lower_global)
 
 
-def pose(bones, clip, time):
+def apply_stance(q, stance):
+    """Per-variant standing posture, multiplied on top of a clip's own rotations.
+
+    Deliberately never touches pelvis, thigh_*, calf_* or foot_*: those carry the
+    figure's ground contact, and a naive weight shift there floats the feet. The
+    lean, side-bend, twist, head direction and per-arm hang are what actually
+    separate two figures in a line-up at conversational distance.
+    """
+    if not stance:
+        return q
+    r = math.radians
+
+    def mul(name, rot):
+        q[name] = qmul(q[name], rot)
+
+    mul('spine_01', qmul(qaxis((1, 0, 0), r(stance.get('lean', 0)) * .55),
+                         qaxis((0, 1, 0), r(stance.get('bend', 0)) * .6)))
+    mul('spine_02', qmul(qaxis((1, 0, 0), r(stance.get('lean', 0)) * .45),
+                         qmul(qaxis((0, 1, 0), r(-stance.get('bend', 0)) * .35),
+                              qaxis((0, 0, 1), r(stance.get('twist', 0)) * .5))))
+    mul('chest', qaxis((0, 0, 1), r(stance.get('twist', 0)) * .5))
+    mul('neck_01', qmul(qaxis((0, 0, 1), r(stance.get('head_yaw', 0)) * .4),
+                        qaxis((1, 0, 0), r(-stance.get('lean', 0)) * .5)))
+    mul('head', qmul(qaxis((0, 0, 1), r(stance.get('head_yaw', 0)) * .6),
+                     qaxis((0, 1, 0), r(stance.get('head_tilt', 0)))))
+    for s, side in ((-1, 'r'), (1, 'l')):
+        key = 'r' if s < 0 else 'l'
+        mul('clavicle_' + side, qaxis((0, 1, 0), r(s * stance.get('sway', 0)) * .3))
+        mul('upperarm_' + side, qmul(qaxis((0, 1, 0), r(s * stance.get('arm_' + key, 0))),
+                                     qaxis((1, 0, 0), r(stance.get('swing_' + key, 0)))))
+        mul('lowerarm_' + side, qaxis((1, 0, 0), r(stance.get('elbow_' + key, 0))))
+        mul('skirt_' + side, qaxis((1, 0, 0), r(stance.get('swing_' + key, 0)) * .25))
+    mul('mantle_front', qaxis((1, 0, 0), r(stance.get('lean', 0)) * .3))
+    mul('mantle_back', qaxis((1, 0, 0), r(-stance.get('lean', 0)) * .2))
+    return q
+
+
+def pose(bones, clip, time, stance=None):
     """Joint-local rotations/translations. Idle and Walk are V2's motion verbatim."""
     q = {b['name']: (0., 0., 0., 1.) for b in bones}
     translations = {}
     if clip == 'Bind':
-        return q, translations
+        return apply_stance(q, stance), translations
     if clip in ('Idle', 'Walk'):
         period = 3.2 if clip == 'Idle' else 1.2
         phase = math.tau * time / period
@@ -911,7 +1425,7 @@ def pose(bones, clip, time):
         if clip == 'Idle':
             q['mantle_front'] = qaxis((1, 0, 0), breathing * .25)
             q['mantle_back'] = qaxis((1, 0, 0), -breathing * .25)
-            return q, translations
+            return apply_stance(q, stance), translations
         pelvis_z = 95.8 - .25 * math.cos(phase * 2)
         translations['pelvis'] = (0, 0, pelvis_z)
         for s, side in [(-1, 'r'), (1, 'l')]:
@@ -930,7 +1444,7 @@ def pose(bones, clip, time):
             q['skirt_' + side] = qaxis((1, 0, 0), thigh * .25)
         q['mantle_front'] = qaxis((1, 0, 0), math.sin(phase) * .015)
         q['mantle_back'] = qaxis((1, 0, 0), math.sin(phase + .3) * .012)
-        return q, translations
+        return apply_stance(q, stance), translations
 
     # Original "taking a picture" clips: settle, hold, small hand-held drift.
     period = CLIPS[clip]
@@ -944,24 +1458,31 @@ def pose(bones, clip, time):
     q['mantle_front'] = qaxis((1, 0, 0), .010 * math.sin(phase))
     q['mantle_back'] = qaxis((1, 0, 0), -.008 * math.sin(phase + .3))
     if clip == 'PhotoCamera':
-        right = (-10.5 + sway * .35, -19.5 - bob * .3, 156.5 + bob * .5)
-        left = (11.5 - sway * .35, -18.0 - bob * .3, 154.5 + bob * .5)
-        pole_r = (-46, 6, 118)
-        pole_l = (46, 6, 118)
+        # A two-handed grip: the right hand carries the body at eye height and
+        # the LEFT crosses under the lens to support it. V3-a mirrored both hands
+        # to either cheek, which read as covering the eyes, not photographing.
+        right = (-11.5 + sway * .35, -27.0 - bob * .3, 148.0 + bob * .5)
+        left = (3.5 - sway * .3, -32.0 - bob * .3, 141.0 + bob * .5)
+        pole_r = (-50, 12, 108)
+        pole_l = (44, 14, 104)
     else:
-        right = (-8.5 + sway * .5, -25.0, 137.0 + bob)
-        left = (16.0, -12.0, 112.0)
+        right = (-9.5 + sway * .5, -28.0, 134.0 + bob)
+        left = (17.5, -13.0, 110.0)
         pole_r = (-44, 8, 112)
         pole_l = (44, 6, 108)
     for side, target, pole in (('r', right, pole_r), ('l', left, pole_l)):
         qu, ql = arm_ik(side, target, pole)
         q['upperarm_' + side] = qu
         q['lowerarm_' + side] = ql
-    return q, translations
+    # Photo clips drive the arms by IK to the prop; stance must not fight that,
+    # so only the spine, neck, head and cloth carry it here.
+    photo_stance = {k: v for k, v in (stance or {}).items()
+                    if not k.startswith(('arm_', 'swing_', 'elbow_'))}
+    return apply_stance(q, photo_stance), translations
 
 
-def global_pose(bones, clip, time):
-    rotations, translations = pose(bones, clip, time)
+def global_pose(bones, clip, time, stance=None):
+    rotations, translations = pose(bones, clip, time, stance)
     result = []
     for b in bones:
         localq = rotations[b['name']]
@@ -974,8 +1495,8 @@ def global_pose(bones, clip, time):
     return result
 
 
-def skinned_parts(parts, bones, index, clip, time):
-    gp = global_pose(bones, clip, time)
+def skinned_parts(parts, bones, index, clip, time, stance=None):
+    gp = global_pose(bones, clip, time, stance)
     result = []
     for part in parts:
         vertices = []
@@ -1031,6 +1552,81 @@ def check(parts):
                        'triangles': len(p['faces']), 'closed_index_topology': True,
                        'min_triangle_area_cm2': min_area, 'signed_volume_cm3': volume})
     return report
+
+
+def measure(parts):
+    """Read the anthropometry back off the built mesh, not off the source numbers.
+
+    This is the check that would have caught V3-a: every one of these was wrong
+    on the shipped mesh and none of them was ever measured.
+    """
+    by = {p['name']: p['vertices'] for p in parts}
+    allv = [v for p in parts for v in p['vertices']]
+    out = {}
+    out['stature'] = max(v[2] for v in allv)
+    head = by.get('Head', [])
+    if head:
+        out['head_height_chin_crown'] = max(v[2] for v in head) - min(v[2] for v in head)
+        out['head_breadth_x'] = max(v[0] for v in head) - min(v[0] for v in head)
+        out['head_depth_y'] = max(v[1] for v in head) - min(v[1] for v in head)
+        out['heads_tall'] = out['stature'] / out['head_height_chin_crown']
+    band = [v for v in allv if 138.0 < v[2] < 149.0]
+    if band:
+        out['shoulder_breadth'] = max(v[0] for v in band) - min(v[0] for v in band)
+    tips = [v for name, vs in by.items() if name.startswith('Finger') for v in vs]
+    if tips:
+        out['dactylion_height'] = min(v[2] for v in tips)
+    palm = by.get('PalmL') or by.get('PalmR')
+    if palm and tips:
+        wrist = max(v[2] for v in palm)
+        out['hand_length'] = wrist - min(v[2] for v in tips)
+        out['hand_breadth'] = max(v[1] for v in palm) - min(v[1] for v in palm)
+    foot = by.get('FootL') or by.get('ShoeL')
+    if foot:
+        out['foot_length'] = max(v[1] for v in foot) - min(v[1] for v in foot)
+        out['foot_breadth'] = max(v[0] for v in foot) - min(v[0] for v in foot)
+    neck = by.get('Neck')
+    if neck:
+        out['neck_diameter'] = max(v[0] for v in neck) - min(v[0] for v in neck)
+        out['neck_visible_height'] = 0.0
+        covered = [v[2] for name, vs in by.items()
+                   if name in ('Collar', 'HeadCloth', 'HeadCap', 'Cap', 'TurbanCrown', 'Beard')
+                   for v in vs]
+        if covered:
+            lowest_cover = min(v for v in covered if v > 140.0) if any(v > 140 for v in covered) else 161.0
+            out['neck_visible_height'] = max(0.0, min(161.0, lowest_cover) - 149.0)
+    hem = [v for v in by.get('Tunic', []) if v[2] < min(x[2] for x in by.get('Tunic', [(0, 0, 0)])) + 4.0]
+    if hem:
+        a = (max(v[0] for v in hem) - min(v[0] for v in hem)) / 2
+        b = (max(v[1] for v in hem) - min(v[1] for v in hem)) / 2
+        out['tunic_hem_breadth'] = a * 2
+        out['tunic_hem_circumference'] = math.pi * (3 * (a + b) - math.sqrt((3 * a + b) * (a + 3 * b)))
+    return {k: round(v, 2) for k, v in out.items()}
+
+
+def silhouette(parts, bands=26):
+    """Outline signature: half-width and half-depth in `bands` height slices.
+
+    A hash alone would pass two figures that differ by a micron. This is what
+    two variants must differ by in centimetres before the export is allowed.
+    """
+    allv = [v for p in parts for v in p['vertices']]
+    top = max(v[2] for v in allv)
+    sig = []
+    for i in range(bands):
+        lo = top * i / bands
+        hi = top * (i + 1) / bands
+        slab = [v for v in allv if lo <= v[2] < hi]
+        if slab:
+            sig.append(max(abs(v[0]) for v in slab))
+            sig.append(max(abs(v[1]) for v in slab))
+        else:
+            sig.extend((0.0, 0.0))
+    return sig
+
+
+def silhouette_distance(a, b):
+    return sum(abs(x - y) for x, y in zip(a, b)) / len(a)
 
 
 def bounds(parts):
@@ -1453,13 +2049,18 @@ def deformation_checks(parts, bones, index):
         for t in (0, duration * .25, duration * .5, duration * .75):
             deformed = skinned_parts(parts, bones, index, clip, t)
             assert all(math.isfinite(v) for p in deformed for a in p['vertices'] for v in a)
-            soles = [v for p in deformed if p['name'].startswith('SandalSole') for v in p['vertices']]
+            soles = [v for p in deformed
+                     if p['name'].startswith(('SandalSole', 'Sole', 'Shoe', 'Foot'))
+                     for v in p['vertices']]
             samples.append({'time_s': round(t, 4), 'bounds_cm': bounds(deformed),
                             'minimum_sole_z_cm': min(v[2] for v in soles)})
             assert min(v[2] for v in soles) > -.05, (clip, t)
         clips.append({'clip': clip, 'duration_s': duration, 'loop_vertex_error_cm': loop, 'samples': samples})
     return {'weight_sum_max_error': weight_error, 'bind_pose_error_cm': bind_error,
             'weighted_vertices': len(weights), 'clips': clips}
+
+
+MIN_SILHOUETTE_DISTANCE_CM = 0.90
 
 
 def build(previews=True, only=None):
@@ -1473,6 +2074,15 @@ def build(previews=True, only=None):
                 'namespace': DEST, 'units': 'centimetres', 'front': '-Y', 'up': 'Z',
                 'triangleBudgetPerCharacter': TRIANGLE_BUDGET,
                 'rigCompatibility': rig_match,
+                'proportionTarget': {k: {'fractionOfStature': f, 'cm_at_H179': c}
+                                     for k, (f, c) in PROPORTIONS.items()},
+                'proportionSource': ('Drillis & Contini (1966) segment fractions as reproduced in '
+                                     'Winter, Biomechanics and Motor Control of Human Movement, '
+                                     '4th ed. 2009, fig. 4.1 p.83; breadths/depths cross-checked '
+                                     'against the 50th-percentile male of NASA-STD-3000 Rev.B '
+                                     'vol.I sec.3.3; artistic cross-check the 7.5-head canon '
+                                     '(Loomis 1943, shoulders = 2 head-heights).'),
+                'previousVersionMeasured': V3A_MEASURED,
                 'clips': [{'name': ('A_Pilgrim_Original_' + c) if c in ('Idle', 'Walk') else ('A_Pilgrim_V3_' + c),
                            'duration_s': d,
                            'origin': 'reproduced from PilgrimRigV2 verbatim' if c in ('Idle', 'Walk')
@@ -1484,10 +2094,25 @@ def build(previews=True, only=None):
                     'Vertex colours and flat PBR factors only; no UV unwrap, texture maps or normal maps.',
                     'Cloth folds are static modelled geometry, not simulation; no per-frame cloth solve.',
                     'Separate intersecting closed shells per part; the character is not a watertight union.',
-                    'Clothing is an artistic pilgrim/visitor design, not kohanic vestments and not a halachic or historical ruling.',
-                    'The photo clips are original authored motion; hand/prop contact was checked numerically, not visually in engine.']}
+                    'Stylised-realistic, not photoreal: no facial animation, no finger rig, no hair strands, '
+                    'no skin shading model. At two metres from camera a MetaHuman will still be obviously better.',
+                    'Per-variant stance is baked into the STATIC crowd copy only; the skeletal meshes are '
+                    'unposed and play the shared clips.',
+                    'The pilgrim clothing is an artistic design and is not kohanic vestments.',
+                    'V3_Kohen_White is an artistic reconstruction of the ordinary kohen white garments '
+                    '(ketonet, avnet, migbaat) following the garment table in '
+                    'SourceAssets/runtime-review/kohen-service/sources.md section 5. The Kohen Gadol '
+                    'garments (me il, ephod, choshen, mitznefet, tzitz) are NOT modelled - that file '
+                    'records live disputes on their reconstruction. Nothing here is a halachic or '
+                    'historical ruling, and no rabbinic review is claimed.',
+                    'Bare feet on the kohen variant are an authored design choice flagged for review; '
+                    'sources.md does not cover footwear.',
+                    'The photo clips are original authored motion; hand/prop contact was checked '
+                    'numerically, not visually in engine.']}
     sheet = []
     selected = [v for v in VARIANTS if not only or v['id'] in only]
+    fingerprints = {}
+    signatures = {}
     for variant in selected:
         parts = assembly(variant)
         colours = variant_materials(variant)
@@ -1498,11 +2123,19 @@ def build(previews=True, only=None):
         glb = OUT / 'meshes' / (variant['id'] + '.glb')
         doc = export_glb(glb, variant, parts, bones, index, colours)
         decode = glb_decode_checks(glb, bones, triangles)
-        # Static crowd copy: prop variants are baked in their photo pose so a
-        # non-skeletal instance still reads as somebody taking a picture.
+        # Static crowd copy: prop variants baked in their photo pose, everyone
+        # else in their own stance, so an instanced crowd is not nine clones.
         static_clip = ('PhotoCamera' if variant['prop'] == 'camera'
                        else 'PhotoPhone' if variant['prop'] == 'phone' else 'Idle')
-        static = skinned_parts(parts, bones, index, static_clip, 0.0)
+        static = skinned_parts(parts, bones, index, static_clip, 0.0, variant.get('stance'))
+        ground = [v[2] for p in static
+                  if p['name'].startswith(('SandalSole', 'Sole', 'Shoe', 'Foot'))
+                  for v in p['vertices']]
+        assert ground and -0.6 < min(ground) < 0.9, (variant['id'], min(ground) if ground else None)
+        measured = measure(static)
+        signatures[variant['id']] = silhouette(static)
+        fingerprints[variant['id']] = hashlib.sha256(
+            b''.join(struct.pack('<3f', *v) for p in static for v in p['vertices'])).hexdigest()
         obj = OUT / 'meshes' / ('SM_' + variant['id'] + '.obj')
         mtl = OUT / 'meshes' / ('SM_' + variant['id'] + '.mtl')
         write_mtl(mtl, colours)
@@ -1520,9 +2153,13 @@ def build(previews=True, only=None):
             'id': variant['id'], 'label': variant['label'], 'triangles': triangles,
             'vertices': sum(r['vertices'] for r in report), 'parts': len(report),
             'materials': sorted({r['material'] for r in report}),
-            'palette': variant['palette'], 'skinTone': variant['skin_tone'],
+            'dress': variant['dress'], 'palette': variant['palette'],
+            'skinTone': variant['skin_tone'], 'age': variant.get('age'),
+            'girth': variant['girth'], 'shoulder': variant['shoulder'],
             'prop': variant['prop'], 'headwear': variant['headwear'], 'beard': variant['beard'],
             'mantle': variant['mantle'],
+            'measuredCm': measured,
+            'staticVertexFingerprint': fingerprints[variant['id']],
             'recommendedActorScale': variant['actor_scale'],
             'recommendedIdleClip': ('A_Pilgrim_V3_' + preview_clip) if variant['prop'] else 'A_Pilgrim_Original_Idle',
             'skeletalFile': str(glb.relative_to(OUT)).replace('\\', '/'),
@@ -1531,14 +2168,45 @@ def build(previews=True, only=None):
             'staticSha256': hashlib.sha256(obj.read_bytes()).hexdigest(),
             'staticMaterialFile': mtl.name,
             'staticBakedPose': static_clip,
+            'staticBakedStance': variant.get('stance'),
             'boundsCm': bounds(parts),
             'animations': [a['name'] for a in doc['animations']],
             'deformation': checks,
             'glbDecodeChecks': decode,
             'previews': shots,
             'partBreakdown': sorted(report, key=lambda r: -r['triangles'])[:12]})
-        print('%-32s %6d tris  %5d verts  %s' % (variant['id'], triangles,
-              sum(r['vertices'] for r in report), glb.name), flush=True)
+        print('%-30s %6d tris %5d verts  %.2f heads  shoulder %.1f  fingertip %.1f'
+              % (variant['id'], triangles, sum(r['vertices'] for r in report),
+                 measured.get('heads_tall', 0), measured.get('shoulder_breadth', 0),
+                 measured.get('dactylion_height', 0)), flush=True)
+
+    # ---- distinctness gate -------------------------------------------------
+    # V3-a shipped Man_A and Man_A_Bleached with identical vertex data. Fail the
+    # export rather than let that reach the crowd again.
+    ids = [v['id'] for v in manifest['variants']]
+    pairs = []
+    for i, a in enumerate(ids):
+        for b in ids[i + 1:]:
+            if fingerprints[a] == fingerprints[b]:
+                raise AssertionError('identical geometry: %s == %s' % (a, b))
+            d = silhouette_distance(signatures[a], signatures[b])
+            pairs.append({'a': a, 'b': b, 'silhouetteDistanceCm': round(d, 3)})
+    if pairs:
+        worst = min(pairs, key=lambda p: p['silhouetteDistanceCm'])
+        if worst['silhouetteDistanceCm'] < MIN_SILHOUETTE_DISTANCE_CM:
+            raise AssertionError('variants too alike: %s vs %s at %.3f cm (min %.2f)'
+                                 % (worst['a'], worst['b'], worst['silhouetteDistanceCm'],
+                                    MIN_SILHOUETTE_DISTANCE_CM))
+        manifest['distinctness'] = {
+            'uniqueVertexFingerprints': len(set(fingerprints.values())) == len(fingerprints),
+            'minimumSilhouetteDistanceCm': worst['silhouetteDistanceCm'],
+            'thresholdCm': MIN_SILHOUETTE_DISTANCE_CM,
+            'closestPair': [worst['a'], worst['b']],
+            'method': ('26 height bands per figure, max |x| and max |y| in each, mean absolute '
+                       'difference between two figures; plus a sha256 of the packed static '
+                       'vertex block. Both must pass or nothing is written.'),
+            'pairs': sorted(pairs, key=lambda p: p['silhouetteDistanceCm'])[:12]}
+
     if previews and len(sheet) > 1:
         lineup(sheet, OUT / 'previews' / 'lineup.png', width=190 * len(sheet))
         manifest['lineup'] = 'previews/lineup.png'

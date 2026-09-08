@@ -919,13 +919,23 @@ TArray<FMikdashCreditsSection> UMikdashFrontEnd::ReadThirdPartyCredits() const
                 return FString();
             }
             FString Name, Author, Licence;
-            Entry->TryGetStringField(TEXT("name"), Name);
-            if (Name.IsEmpty()) { Entry->TryGetStringField(TEXT("title"), Name); }
-            if (Name.IsEmpty()) { Entry->TryGetStringField(TEXT("asset"), Name); }
-            Entry->TryGetStringField(TEXT("author"), Author);
-            if (Author.IsEmpty()) { Entry->TryGetStringField(TEXT("creator"), Author); }
-            Entry->TryGetStringField(TEXT("license"), Licence);
-            if (Licence.IsEmpty()) { Entry->TryGetStringField(TEXT("licence"), Licence); }
+            // Field names differ between the manifests already on disk: the top-level
+            // third-party-manifest.json uses slug/licenseName, the per-asset
+            // provenance.json files use title/author, and the audio manifests use
+            // name/license. Missing one of these silently drops an attribution, and at
+            // least one CC BY credit was found unshipped that way.
+            for (const TCHAR* Key : { TEXT("name"), TEXT("title"), TEXT("asset"), TEXT("slug") })
+            {
+                if (Name.IsEmpty()) { Entry->TryGetStringField(Key, Name); }
+            }
+            for (const TCHAR* Key : { TEXT("author"), TEXT("creator"), TEXT("attribution") })
+            {
+                if (Author.IsEmpty()) { Entry->TryGetStringField(Key, Author); }
+            }
+            for (const TCHAR* Key : { TEXT("license"), TEXT("licence"), TEXT("licenseName"), TEXT("licenceName") })
+            {
+                if (Licence.IsEmpty()) { Entry->TryGetStringField(Key, Licence); }
+            }
 
             if (Name.IsEmpty())
             {

@@ -93,49 +93,70 @@ static std::string Number(double V)
 // ---------------------------------------------------------------------------------
 static std::vector<Vec3> IntroControlPoints()
 {
-    // World frame: +X east, +Y south, +Z up. Sources for every number are listed in
-    // Scripts/release_intro_sequence.spec.json; the path is duplicated here so the
-    // geometry of the shipped flythrough is tested, not a synthetic curve.
+    // World frame: +X east, +Y south, +Z up, centimetres. Every number below is either a
+    // coordinate recorded in a receipt under SourceAssets/ or a bound read out of
+    // SourceAssets/architecture-manifest.json; none of them is invented. The sources are
+    // listed shot by shot in Scripts/release_intro_sequence.spec.json. The path is
+    // duplicated here rather than read from that file so the geometry of the shipped
+    // flythrough is what these checks actually exercise.
     return {
-        {-38600.0, 48200.0, 3800.0},  // over the Batei Mahase street beside the placed bus
-        {-33000.0, 41000.0, 4600.0},  // climbing across the Old City roofs (local max 2875)
-        {-26000.0, 31000.0, 5600.0},
-        {-20500.0, 21000.0, 5600.0},
-        {-16800.0, 15000.0, 4400.0},  // over the Kotel plaza, wall face top 600
-        {-12000.0, 10500.0, 3600.0},  // inside the Mount enclosure ring, deck top 0
-        {-8000.0, 7000.0, 4400.0},    // climbing to clear the outer court envelope
-        {-3500.0, 6200.0, 5200.0},    // south of the House, whose roof reaches 6075
-        {600.0, 5400.0, 5000.0},
-        {3600.0, 3900.0, 4500.0},
-        {2000.0, 2400.0, 4100.0},     // over the inner court wall, top 3625
-        {-900.0, 1900.0, 3300.0},     // descending turn inside the inner court
-        {-1100.0, -1500.0, 2500.0},
-        {1400.0, -2100.0, 1800.0},
-        {2000.0, 1500.0, 1100.0},
-        {2100.0, 0.0, 668.0},         // the visitor's eye at the PlayerStart
+        {-38600.0, 48200.0, 4200.0},  // over the street beside the placed bus, actor origin
+                                      // [-37951, 46855], traced street level 642
+                                      // (visual-review/release-capture-20260908T023600Z view h)
+        {-31200.0, 39800.0, 5100.0},  // climbing away across the Old City roofs
+        {-23800.0, 30200.0, 5900.0},  // apex of the climb
+        {-16600.0, 16200.0, 5400.0},  // over the Kotel plaza; west-facing face midpoint
+                                      // [-14789, 13872], traced terrain about -386 (view f)
+        {-10200.0, 10600.0, 4900.0},  // crossing onto the Mount; platform deck top Z 0 (view g)
+        { -3800.0,  9200.0, 4400.0},  // abeam the House from the south, still outside the
+                                      // outer court footprint (|Y| > 8100)
+        {  2600.0,  7200.0, 3900.0},  // over the outer perimeter wall, top 3425
+        {  6400.0,  4200.0, 2900.0},  // descending over the outer court, floor top 300
+        {  7000.0,  1200.0, 1900.0},  // turning onto the eastern axis
+        {  5200.0,   200.0, 1300.0},  // settling onto the axis of the gates
+        {  3600.0,     0.0,  950.0},  // level run at the inner eastern vestibule,
+                                      // landings and stairs top 500
+        {  2100.0,     0.0,  668.0},  // the visitor's eye at Mikdash_PlayerStart [2100, 0]:
+                                      // inner court clear floor top 500 plus 168 eye height
+                                      // (visual-review/release-capture-20260908T023600Z view b)
     };
 }
 
-// The solid blocks the flythrough must clear, as axis-aligned boxes. Hollow unions are
-// NOT used as single boxes here: the outer envelope and the inner side walls enclose the
-// whole court, so an AABB test against them flags every point inside it. The inner court
-// wall is modelled as four 300 cm bands instead, 300 cm being the measured thickness of
-// the inner eastern gate wall jamb (x 2500..2800).
+// The solid blocks the flythrough must clear, as axis-aligned boxes.
+//
+// Every box below is a conservative cover of a group of real meshes: its bounds come from
+// the envelope of those meshes in SourceAssets/architecture-manifest.json, so clearing
+// these boxes implies clearing the geometry they cover. Hollow unions from the manifest
+// are deliberately NOT used: "Source solid union - outer envelope walls" has an AABB of
+// [-8100,-8100,300]..[8100,8100,3425], which is the whole complex, so an AABB test against
+// it would flag every point inside the courtyard. The perimeter it represents is modelled
+// as four 300 cm bands instead, 300 cm being the gap between the outer court floor edge
+// (7800) and the platform edge (8100).
+//
+// The gate openings are NOT cut out of the bands, so the boxes are strictly larger than
+// the real walls; the path is checked against both these boxes and, in
+// Scripts/release_intro_sequence.py, against the map's own collision.
 static std::vector<Box> IntroBlockers()
 {
     return {
-        {{-7000, -2500, 925}, {-2500, 2500, 6075}},    // House walls and roofs
-        {{-7500, -2500, -5000}, {-2500, 2500, 924}},   // House and Ulam foundations
-        {{-2500, -985, -5000}, {-1400, 985, 925}},     // Ulam stairs
-        {{-800, -800, -5000}, {800, 800, 1108.3}},     // altar
-        {{-2500, -2500, -5000}, {1575, 2500, 625}},    // Ezras Kohanim floor and its foundation
-        {{1575, -2500, -5000}, {2500, 2500, 625}},     // duchan rise and inner court clear floor
-        {{-7800, -7800, -5000}, {7800, 7800, 300}},    // outer court floor
-        {{-2500, -2800, 625}, {-2200, 2800, 3625}},    // inner court wall, west band
-        {{2200, -2800, 625}, {2500, 2800, 3625}},      // inner court wall, east band
-        {{-2500, -2800, 625}, {2500, -2500, 3625}},    // inner court wall, north band
-        {{-2500, 2500, 625}, {2500, 2800, 3625}},      // inner court wall, south band
-        {{2500, -2800, 500}, {2800, 2800, 3500}},      // inner eastern gate wall jamb
+        {{-7500, -2540, 425}, {-2382, 2540, 6130}},      // House, its walls and the Golden roof
+        {{-7500, -8129, 405}, {-2392, 8129, 3475}},      // west wings, cells and service passages
+        {{-8100, 7800, 300}, {8100, 8100, 3425}},        // outer perimeter wall, south band
+        {{-8100, -8100, 300}, {8100, -7800, 3425}},      // outer perimeter wall, north band
+        {{7800, -8100, 300}, {8100, 8100, 3425}},        // outer perimeter wall, east band
+        {{-8100, -8100, 300}, {-7800, 8100, 3425}},      // outer perimeter wall, west band
+        {{-8100, -8100, -5000}, {8100, 8100, 300}},      // outer court deck and its foundation
+        {{-2800, -2800, -5000}, {2800, 2800, 499}},      // inner court podium
+        {{-2500, -2500, -5000}, {1575, 2500, 625}},      // raised priest court and Ezras Kohanim floor
+        {{-2500, -2800, 625}, {2500, -2500, 3625}},      // inner court wall, north band
+        {{-2500, 2500, 625}, {2500, 2800, 3625}},        // inner court wall, south band
+        {{2500, -2800, 500}, {2800, -250, 3500}},        // inner eastern gate jamb, north
+        {{2500, 250, 500}, {2800, 2800, 3500}},          // inner eastern gate jamb, south
+        {{2500, -250, 3000}, {2800, 250, 3500}},         // inner eastern gate lintel
+        {{2800, -625, 300}, {3450, 625, 500}},           // inner eastern vestibule, landings and stairs
+        {{-2500, -985, 625}, {-1400, 985, 925}},         // Ulam stairs
+        {{-800, -800, 625}, {800, 800, 1091}},           // altar, wood on the upper tier at 1091
+        {{7300, -2600, 300}, {9200, 2600, 3546}},        // outer eastern gatehouse and its cells
     };
 }
 
@@ -159,7 +180,13 @@ static void ContinuityChecks()
         const double Span = std::min(U - Path.KnotAt(I - 1), Path.KnotAt(I + 1) - U);
         const double E = Span * 1e-9;
         const Vec3 Before = Path.PointAtParam(U - E), After = Path.PointAtParam(U + E);
-        MaxPositionJump = std::max(MaxPositionJump, Distance(Before, After));
+        // Distance(Before, After) on its own is not a discontinuity measure: it is
+        // dominated by the curve's own travel across the probe window, |dP/dU| * 2E,
+        // which on this path is several times 1e-6 cm and has nothing to do with C0.
+        // Subtracting that travel leaves the jump itself, which for a C0 curve is zero
+        // to within the cancellation noise of differencing two coordinates of this size.
+        const Vec3 Travel = Path.DerivativeAtParam(U) * (2.0 * E);
+        MaxPositionJump = std::max(MaxPositionJump, Distance(After - Before, Travel));
 
         const Vec3 Da = Path.DerivativeAtParam(U - E), Db = Path.DerivativeAtParam(U + E);
         const double Scale = std::max(Length(Da), 1e-9);
@@ -172,7 +199,8 @@ static void ContinuityChecks()
     MaxControlPointError = std::max(MaxControlPointError, Distance(Path.PointAtParam(Path.MinParam()), Points.front()));
     MaxControlPointError = std::max(MaxControlPointError, Distance(Path.PointAtParam(Path.MaxParam()), Points.back()));
 
-    Record("continuity", "maxPositionJumpAtInteriorKnotsCm", MaxPositionJump, "<=", 1e-6, "C0 across segment joins");
+    Record("continuity", "maxPositionJumpAtInteriorKnotsCm", MaxPositionJump, "<=", 1e-6,
+           "C0 across segment joins, measured as the residual after the smooth travel is removed");
     Record("continuity", "maxRelativeDerivativeJumpAtInteriorKnots", MaxDerivativeJump, "<=", 1e-6,
            "C1: one-sided dP/dU limits agree; the two segments share the tangent (P[i+1]-P[i-1])/(u[i+1]-u[i-1])");
     Record("continuity", "maxControlPointInterpolationErrorCm", MaxControlPointError, "<=", 1e-9,
@@ -209,6 +237,23 @@ static void ContinuityChecks()
     }
     Record("continuity", "introMaxRelativeDerivativeJump", IntroDerivativeJump, "<=", 1e-6, "C1 on the shipped path");
     Record("continuity", "introTotalLengthCm", Intro.TotalLength(), ">=", 40000.0, "the flythrough covers a real distance");
+    Record("continuity", "introTotalLengthUpperCm", Intro.TotalLength(), "<=", 120000.0,
+           "at the 40 to 70 second running time the shot is authored for, a longer path would "
+           "have to be flown faster than the shot reads");
+
+    // The shipped path must not cusp either: a flick backwards in a 55 second establishing
+    // shot is the single most obvious way for a camera move to look machine-made.
+    double IntroMinTangentDot = 1.0;
+    Vec3 IntroPrevious = Intro.TangentAtParam(Intro.MinParam());
+    for (int I = 1; I <= 4000; ++I)
+    {
+        const double U = Intro.MinParam() + (Intro.MaxParam() - Intro.MinParam()) * (static_cast<double>(I) / 4000);
+        const Vec3 T = Intro.TangentAtParam(U);
+        IntroMinTangentDot = std::min(IntroMinTangentDot, Dot(T, IntroPrevious));
+        IntroPrevious = T;
+    }
+    Record("continuity", "introMinConsecutiveTangentDot", IntroMinTangentDot, ">=", 0.999,
+           "no direction flip anywhere on the shipped path");
 }
 
 // ---------------------------------------------------------------------------------
@@ -576,19 +621,59 @@ static void ClampChecks()
     const std::vector<Box> Blockers = IntroBlockers();
     std::size_t Segment = 0, Which = 0;
     const bool bClears = PolylineClearsBoxes(Polyline, Blockers, 150.0, &Segment, &Which);
-    RecordFlag("clamp", "introPathClears12SolidBlocksBy150cm", bClears,
-               "600 segment polyline against the House, its foundations, the Ulam stairs, the altar, "
-               "three floor slabs, the four inner court wall bands and the east gate jamb");
-    // Where the path crosses into the inner court footprint it must be above the wall top.
-    double LowestCrossingZ = InfValue;
+    RecordFlag("clamp", "introPathClears18SolidBlocksBy150cm", bClears,
+               "600 segment polyline against the House, the west wings, the four outer perimeter "
+               "bands, the outer deck, the inner podium and priest court, the two inner court wall "
+               "bands, both inner eastern gate jambs and the lintel, the eastern vestibule and "
+               "stairs, the Ulam stairs, the altar and the outer eastern gatehouse");
+    // The path enters the inner court the way a visitor does: through the inner eastern
+    // gateway, not over the wall. The opening is 500 cm wide (jambs at |Y| >= 250, manifest
+    // "Context 15/16 Inner eastern gate wall jamb") and runs from the threshold at 500 to
+    // the lintel soffit at 3000. With the same 150 cm margin the flyable window is
+    // |Y| <= 100 and 650 <= Z <= 2850, which is what these three checks pin down. It
+    // crosses that plane once: a second crossing would mean the camera backed out again.
+    // Only the stretch of the X = 2500 plane that is actually the inner court's eastern
+    // wall counts, i.e. within the wall bands at |Y| < 2800. The long approach leg crosses
+    // the same plane far to the south of the enclosure, over open ground, which is not a
+    // wall crossing at all.
+    int WallLineCrossings = 0;
+    double GateY = 0.0, GateZ = 0.0;
     for (std::size_t I = 1; I < Polyline.size(); ++I)
     {
-        const bool bWasIn = std::abs(Polyline[I - 1].X) < 2500 && std::abs(Polyline[I - 1].Y) < 2800;
-        const bool bIsIn = std::abs(Polyline[I].X) < 2500 && std::abs(Polyline[I].Y) < 2800;
-        if (bWasIn != bIsIn) LowestCrossingZ = std::min(LowestCrossingZ, std::min(Polyline[I - 1].Z, Polyline[I].Z));
+        const bool bWestward = Polyline[I - 1].X > 2500.0 && Polyline[I].X <= 2500.0;
+        const bool bEastward = Polyline[I - 1].X <= 2500.0 && Polyline[I].X > 2500.0;
+        if (!bWestward && !bEastward) continue;
+        const double Span = Polyline[I].X - Polyline[I - 1].X;
+        const double T = std::abs(Span) > 1e-9 ? (2500.0 - Polyline[I - 1].X) / Span : 0.0;
+        const double CrossY = Polyline[I - 1].Y + (Polyline[I].Y - Polyline[I - 1].Y) * T;
+        const double CrossZ = Polyline[I - 1].Z + (Polyline[I].Z - Polyline[I - 1].Z) * T;
+        if (std::abs(CrossY) >= 2800.0) continue;
+        ++WallLineCrossings;
+        if (bWestward) { GateY = CrossY; GateZ = CrossZ; }
     }
-    Record("clamp", "innerCourtWallCrossingZCm", LowestCrossingZ, ">=", 3625.0 + 150.0,
-           "the only way into the inner court is over its 3625 cm wall; the path crosses once, high");
+    Record("clamp", "innerCourtWallLineCrossings", static_cast<double>(WallLineCrossings), "==", 1.0,
+           "the camera crosses the inner court wall line once, inward");
+    Record("clamp", "gateTransitLateralOffsetCm", std::abs(GateY), "<=", 100.0,
+           "half the 500 cm gateway less the 150 cm margin");
+    Record("clamp", "gateTransitHeightLowerCm", GateZ, ">=", 650.0, "threshold 500 plus the margin");
+    Record("clamp", "gateTransitHeightUpperCm", GateZ, "<=", 2850.0, "lintel soffit 3000 less the margin");
+
+    // The shot ends exactly where the visitor takes control, to the centimetre. A hand-off
+    // that lands anywhere else is a visible jump on the first frame of gameplay.
+    Record("clamp", "introArrivesAtPlayerStartCm", Distance(Polyline.back(), Vec3{2100.0, 0.0, 668.0}), "<=", 1e-6,
+           "Mikdash_PlayerStart [2100, 0], inner court clear floor top 500 plus 168 cm eye height");
+
+    // How much margin the path actually has. The binding constraint is the last metre:
+    // an eye 168 cm above the floor it stands on cannot clear that floor by more.
+    double LargestClearingInflate = 0.0;
+    for (double Trial = 0.0; Trial <= 400.0; Trial += 1.0)
+    {
+        if (!PolylineClearsBoxes(Polyline, Blockers, Trial)) break;
+        LargestClearingInflate = Trial;
+    }
+    Record("clamp", "introLargestClearingInflateCm", LargestClearingInflate, ">=", 150.0,
+           "largest uniform inflation of all 18 blocks the path still clears; capped by the "
+           "168 cm eye height at the arrival point");
 
     // Frustum-safe clamp.
     FrustumSpec Spec;

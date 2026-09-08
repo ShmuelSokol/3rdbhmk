@@ -910,6 +910,15 @@ void AMikdashTransit::BroadcastBoarding(int32 RouteIdx, int32 LocalStopIdx, int3
     }
 }
 
+int32 AMikdashTransit::SuggestPhotographerCount(int32 GlobalStopIndex, int32 Count, int32 RunIndex) const
+{
+    if (!StopIndex.IsValidIndex(GlobalStopIndex))
+    {
+        return 0;
+    }
+    return PhotographerCount(static_cast<uint32>(Seed), GlobalStopIndex, RunIndex, Count, PhotographerShare);
+}
+
 FVector AMikdashTransit::GetStopLocation(int32 GlobalStopIndex) const
 {
     if (!StopIndex.IsValidIndex(GlobalStopIndex))

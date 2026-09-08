@@ -1,0 +1,104 @@
+{
+  "about": [
+    "Plan for Scripts/release_tour.py. Every number the script uses that is not read from",
+    "SourceAssets/tour-review/tour-stops.json is here, so a human can review the plan before it runs.",
+    "The stop coordinates themselves are NOT duplicated here: they live in tour-stops.json,",
+    "which is also what AMikdashTourGuide loads at run time and what",
+    "Plugins/MikdashRuntime/Tests/TourMathTest.cpp mirrors. Three consumers, one set of numbers."
+  ],
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "tourContent": "SourceAssets/tour-review/tour-stops.json",
+  "codexContent": "SourceAssets/tour-review/codex-entries.json",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints",
+  "checkpointPrefix": "Tour-",
+  "receiptFolder": "SourceAssets/tour-review",
+  "receiptPrefix": "native-tour-",
+
+  "labelPrefix": "RELEASE_TOUR_",
+  "folder": "Release/Tour",
+  "actorTag": "MikdashTourRelease",
+  "markerTag": "MikdashTourMarker",
+  "guideLabel": "RELEASE_TOUR_Guide",
+  "codexLabel": "RELEASE_TOUR_Codex",
+  "guideClass": "MikdashTourGuide",
+  "codexClass": "MikdashCodex",
+
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+
+  "marker": {
+    "about": [
+      "A thin disc on the floor under each stop. Deliberately content-free: the first mesh",
+      "in meshCandidates that loads is used. /Engine/BasicShapes is engine content that a",
+      "map referencing it will cook, so it needs nothing added to the project.",
+      "triangles is null on purpose - this script cannot verify a triangle count it was",
+      "never told, and asserting a guess would be worse than recording the real one.",
+      "If NO candidate loads the markers are omitted with evidence and the tour falls back",
+      "to its on-screen bearing and distance, which needs no asset at all."
+    ],
+    "meshCandidates": [
+      "/Engine/BasicShapes/Cylinder",
+      "/Engine/BasicShapes/Cube"
+    ],
+    "triangles": null,
+    "scale": [1.6, 1.6, 0.06],
+    "zOffsetCm": 4.0,
+    "collisionProfile": "NoCollision",
+    "hiddenInGameOnPlace": true,
+    "maxHalfExtentCm": 200.0
+  },
+
+  "trace": {
+    "about": [
+      "Each marker's Z comes from a downward line trace at the stop's own XY. When the",
+      "trace misses, the Z written in tour-stops.json is used and the receipt records",
+      "which of the two produced each marker, per stop. The 2026-09-07 native route audit",
+      "against this map returned no hit for all 128 downward traces, so the fallback is the",
+      "expected path, not the exception - and the JSON Z values are themselves taken from",
+      "the architecture manifest's recorded floor tops."
+    ],
+    "startAboveCm": 1500.0,
+    "endBelowCm": 1500.0,
+    "acceptWithinCm": 250.0,
+    "selfTest": {
+      "probes": [
+        { "name": "outer court at the proven sample point", "xy": [4974.0, 0.0], "expectedZ": 300.0 },
+        { "name": "Court of Israel at the player start", "xy": [2100.0, 0.0], "expectedZ": 500.0 },
+        { "name": "Heikhal floor", "xy": [-4400.0, 0.0], "expectedZ": 925.0 }
+      ],
+      "toleranceCm": 25.0
+    }
+  },
+
+  "verification": {
+    "transformToleranceCm": 0.5,
+    "boundsToleranceCm": 2.0,
+    "requireEveryStopHasAMarker": true
+  },
+
+  "routeRules": {
+    "about": "Re-implementation of MikdashTour::Route::Validate in Python, checked offline against the JSON before anything is loaded. If these ever disagree with TourMath.h, TourMath.h is right.",
+    "maxStops": 24,
+    "maxWaypoints": 6,
+    "minArriveRadiusCm": 60.0,
+    "minRadiusGapCm": 60.0,
+    "minStopCount": 15,
+    "maxStopCount": 20
+  },
+
+  "codexRules": {
+    "validConfidence": ["certain", "disputed", "authored"],
+    "requireDisputedNamesPositions": true,
+    "requireSourcesUnlessAuthored": true
+  },
+
+  "limitations": [
+    "Placement is geometric only. No visual, halachic, walking, collision-route or packaged acceptance is established by this script.",
+    "The walkability of the route between consecutive stops has NOT been verified by a native trace. Approach waypoints route the path through recorded gate and door openings on paper only.",
+    "The marker discs are wayfinding furniture, not part of the reconstruction. They are hidden on placement and the guide unhides only the current one at run time."
+  ]
+}

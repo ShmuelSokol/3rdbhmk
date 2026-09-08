@@ -315,7 +315,13 @@ public:
         TotalLengthCm = 0.0;
     }
 
-    bool IsValid() const { return Points.size() >= 2 && TotalLengthCm > 0.0; }
+    // Geometry is usable as soon as the control points and knots are in place. The
+    // distance table is built AFTER that, and building it evaluates the derivative, so
+    // the evaluators must not gate on TotalLengthCm: an earlier revision did, which made
+    // BuildDistanceTable integrate a curve that reported itself invalid, measure a total
+    // length of zero, and hand Build() a false. Every downstream check then failed.
+    bool HasGeometry() const { return Points.size() >= 2 && Knots.size() == Points.size(); }
+    bool IsValid() const { return HasGeometry() && TotalLengthCm > 0.0; }
     std::size_t NumPoints() const { return Points.size(); }
     std::size_t NumSegments() const { return Points.empty() ? 0 : Points.size() - 1; }
     double TotalLength() const { return TotalLengthCm; }
@@ -327,7 +333,7 @@ public:
 
     Vec3 PointAtParam(double U) const
     {
-        if (!IsValid()) return {};
+        if (!HasGeometry()) return {};
         std::size_t Segment = 0;
         double S = 0;
         Locate(U, Segment, S);
@@ -339,7 +345,7 @@ public:
     // dP/dU, in cm per unit of curve parameter. Continuous across interior knots (C1).
     Vec3 DerivativeAtParam(double U) const
     {
-        if (!IsValid()) return {};
+        if (!HasGeometry()) return {};
         std::size_t Segment = 0;
         double S = 0;
         Locate(U, Segment, S);
@@ -662,7 +668,7 @@ inline FrustumClampResult FrustumSafeClamp(const Vec3& Position, const Orientati
     // Decompose in the un-rolled basis: yaw and pitch corrections are exact there.
     const Orientation Flat{Out.Rotation.Pitch, Out.Rotation.Yaw, 0.0};
     B = MakeBasis(Flat);
-    const double Cx = Dot(D, B.Right), Cy = Dot(D, B.Up), Cz = Dot(D, B.Forward);
+    const double Cz = Dot(D, B.Forward);
     Out.SubjectOffAxisDegrees = RadToDeg(std::acos(Clamp(Cz / Dist, -1.0, 1.0)));
 
     if (Cz <= 0.0)
@@ -677,27 +683,77 @@ inline FrustumClampResult FrustumSafeClamp(const Vec3& Position, const Orientati
 
     if (std::abs(WrapDegrees(Out.Rotation.Roll)) > 1e-6)
     {
+        // The frustum rectangle turns with the lens, so the only region that is inside
+        // the frustum at EVERY roll angle is the cone inscribed in it, half angle
+        // min(halfH, halfV). Rotate the forward axis along the great circle toward the
+        // subject by exactly (Off - Cone): the smallest rotation that lands the subject
+        // on the cone edge, and exact rather than approximate.
+        //
+        // A previous revision blended pitch and yaw toward the look-at rotation by the
+        // fraction (1 - Cone/Off). Interpolating two Euler angles by a fraction does not
+        // reduce the angle between the forward axis and the subject by that fraction, so
+        // the subject was left outside the cone the doc comment promised, and the
+        // guarantee photo mode leans on when the visitor tilts the horizon did not hold.
         const double Cone = std::min(HalfH, HalfV);
         const double Off = std::acos(Clamp(Cz / Dist, -1.0, 1.0));
-        if (Off > Cone)
+        const double SinOff = std::sin(Off);
+        if (Off > Cone && SinOff > 1e-12)
         {
-            const Orientation Aim = LookAt(Out.Position, Subject);
-            const double Blend = Clamp(1.0 - Cone / std::max(Off, 1e-9), 0.0, 1.0);
-            Out.Rotation.Pitch = Clamp(Out.Rotation.Pitch + ShortestDeltaDegrees(Out.Rotation.Pitch, Aim.Pitch) * Blend, -89.9, 89.9);
-            Out.Rotation.Yaw = WrapDegrees(Out.Rotation.Yaw + ShortestDeltaDegrees(Out.Rotation.Yaw, Aim.Yaw) * Blend);
-            Out.bRotationClamped = true;
+            const Vec3 Unit = D * (1.0 / Dist);
+            // Slerp: (sin(Cone) * Forward + sin(Off - Cone) * Unit) / sin(Off).
+            const Vec3 Slerped = B.Forward * (std::sin(Cone) / SinOff) + Unit * (std::sin(Off - Cone) / SinOff);
+            const Vec3 Aimed = Normalized(Slerped);
+            if (Finite(Aimed) && Length(Aimed) > 0.5)
+            {
+                Out.Rotation.Pitch = Clamp(RadToDeg(std::asin(Clamp(Aimed.Z, -1.0, 1.0))), -89.9, 89.9);
+                Out.Rotation.Yaw = WrapDegrees(RadToDeg(std::atan2(Aimed.Y, Aimed.X)));
+                Out.bRotationClamped = true;
+            }
         }
         return Out;
     }
 
-    const double AngleH = std::atan2(Cx, Cz);
-    const double AngleV = std::atan2(Cy, Cz);
-    const double ClampedH = Clamp(AngleH, -HalfH, HalfH);
-    const double ClampedV = Clamp(AngleV, -HalfV, HalfV);
-    if (std::abs(AngleH - ClampedH) > 1e-9 || std::abs(AngleV - ClampedV) > 1e-9)
+    // Zero roll: the safe region is the frustum rectangle inset by SafeInset.
+    //
+    // The pitch correction is exact in one step, because the vertical angle is exactly
+    // the elevation of the subject in the yawed plane minus the pitch. The horizontal one
+    // is NOT: a yaw turn is about world Z, so it changes the forward component as well as
+    // the sideways one, and a single pass leaves the subject about a tenth of a degree
+    // outside its own safe inset whenever the pitch is non-zero. Alternating the two
+    // exact-per-axis corrections converges on the corner in a handful of passes; the loop
+    // exits the moment the residual stops moving, so the common untouched case costs one
+    // basis evaluation.
+    double NewPitch = Out.Rotation.Pitch;
+    double NewYaw = Out.Rotation.Yaw;
+    bool bNeeded = false;
+    for (int Pass = 0; Pass < 24; ++Pass)
     {
-        Out.Rotation.Yaw = WrapDegrees(Out.Rotation.Yaw + RadToDeg(AngleH - ClampedH));
-        Out.Rotation.Pitch = Clamp(Out.Rotation.Pitch + RadToDeg(AngleV - ClampedV), -89.9, 89.9);
+        const Basis Step = MakeBasis(Orientation{NewPitch, NewYaw, 0.0});
+        const double Sx = Dot(D, Step.Right), Sy = Dot(D, Step.Up), Sz = Dot(D, Step.Forward);
+        if (Sz <= 0.0) break;
+        const double AngleH = std::atan2(Sx, Sz);
+        const double AngleV = std::atan2(Sy, Sz);
+        const double DeltaH = AngleH - Clamp(AngleH, -HalfH, HalfH);
+        const double DeltaV = AngleV - Clamp(AngleV, -HalfV, HalfV);
+        if (Pass == 0)
+        {
+            // The reported "was it clamped" answer is about the pose the caller handed
+            // in, so it is decided on the first pass and at the same 1e-9 rad tolerance
+            // SubjectInSafeFrustum reads back.
+            if (std::abs(DeltaH) <= 1e-9 && std::abs(DeltaV) <= 1e-9) break;
+            bNeeded = true;
+        }
+        else if (std::abs(DeltaH) <= 1e-15 && std::abs(DeltaV) <= 1e-15)
+        {
+            break;
+        }
+        NewYaw = WrapDegrees(NewYaw + RadToDeg(DeltaH));
+        NewPitch = Clamp(NewPitch + RadToDeg(DeltaV), -89.9, 89.9);
+    }
+    if (bNeeded)
+    {
+        Out.Rotation.Yaw = NewYaw;
+        Out.Rotation.Pitch = NewPitch;
         Out.bRotationClamped = true;
     }
     return Out;

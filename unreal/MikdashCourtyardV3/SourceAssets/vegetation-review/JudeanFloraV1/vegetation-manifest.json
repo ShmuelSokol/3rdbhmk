@@ -1,0 +1,6858 @@
+{
+ "status": "offline_geometry_and_textures_generated_native_pending",
+ "version": 1,
+ "generated": "2026-09-08T11:26:53.131044+00:00",
+ "generator": "Scripts/create_vegetation.py",
+ "generatorSha256": "d1b259f305b0bd08cb43608c248abb82d99aa3323367909f49c88bac8bf1a5f0",
+ "targetAssetFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1",
+ "objConvention": "JudeanFloraV1; canonical UE cm (X east, +Y south, Z up), written with Y reflected and triangle winding reversed for the legacy OBJ importer adapter. One o object, no g groups, so the importer creates exactly one material slot.",
+ "partKinds": {
+  "solid": "closed shell, every edge used exactly twice, canonical signed volume > 0",
+  "card": "alpha-tested leaf cards written back to back: closed shell, signed volume 0. A card emitted once leaves an open shell and fails the check.",
+  "billboard": "one open single-sided quad for a camera-facing material; exempt from both checks, and the exemption is recorded here rather than implied"
+ },
+ "adapterReadback": "Every OBJ is re-read after writing. Reflecting Y back must reproduce canonicalBoundsCm, and a solid mesh's FILE-SPACE signed volume must be negative - that sign is what proves the Y-reflect plus reversed winding was applied exactly once.",
+ "meshCount": 105,
+ "triangles": 30894,
+ "meshes": [
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Bark",
+   "file": "SM_JudeanFloraV1_Olive_L0_Bark.obj",
+   "sha256": "170aa8d5ae7367fe32b13f2bfe3e6c4a28ca826c0d027f288795040efc38fab8",
+   "bytes": 55562,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -227.04168595199766,
+     -425.70276950322443,
+     -5.394737263990349
+    ],
+    "max": [
+     400.61514806010535,
+     330.49300808294913,
+     1057.9822527307667
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 1301383.5018,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -227.04168595199766,
+       -425.70276950322443,
+       -5.394737263990349
+      ],
+      "max": [
+       400.61514806010535,
+       330.49300808294913,
+       1057.9822527307667
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Olive_L0_Leaf.obj",
+   "sha256": "0174c5d9ed4a713ce30770a8599ea21255fcc4a16a8222e1db77c578b7774009",
+   "bytes": 168434,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -460.15835408634376,
+     -513.5800058727459,
+     296.52711918901446
+    ],
+    "max": [
+     513.3227752965753,
+     503.73539444998863,
+     893.1774358363714
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 2e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -460.15835408634376,
+       -513.5800058727459,
+       296.52711918901446
+      ],
+      "max": [
+       513.3227752965753,
+       503.73539444998863,
+       893.1774358363714
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Bark",
+   "file": "SM_JudeanFloraV1_Olive_L1_Bark.obj",
+   "sha256": "091612d205a8fc30142000191f557514ffd467c9ae88c56385c12c2991b2a873",
+   "bytes": 9747,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -159.1329930651499,
+     -235.2911744934227,
+     -5.725098871152707
+    ],
+    "max": [
+     235.15335666161735,
+     186.90420216418562,
+     837.2795398951192
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 980239.9225,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -159.1329930651499,
+       -235.2911744934227,
+       -5.725098871152707
+      ],
+      "max": [
+       235.15335666161735,
+       186.90420216418562,
+       837.2795398951192
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Olive_L1_Leaf.obj",
+   "sha256": "7b62f771a5d024a70021ad9841d69dca973c8eafdae05858818349164225daec",
+   "bytes": 38894,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -462.9454586562152,
+     -526.6787586965565,
+     246.24415197938202
+    ],
+    "max": [
+     507.85523017877256,
+     516.4293219103222,
+     919.4091790645012
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -462.9454586562152,
+       -526.6787586965565,
+       246.24415197938202
+      ],
+      "max": [
+       507.85523017877256,
+       516.4293219103222,
+       919.4091790645012
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Bark",
+   "file": "SM_JudeanFloraV1_Olive_L2_Bark.obj",
+   "sha256": "7407fe9541966703321e7902d768eceeb1ced4d4e34efe905b9c8949c2e7588b",
+   "bytes": 2082,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -40.10232585339396,
+     -45.2138540992897,
+     -7.293943842234256
+    ],
+    "max": [
+     65.30807316361327,
+     70.41960140950901,
+     325.8971950612486
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 714683.6061,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -40.10232585339396,
+       -45.2138540992897,
+       -7.293943842234256
+      ],
+      "max": [
+       65.30807316361327,
+       70.41960140950901,
+       325.8971950612486
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Olive_L2_Leaf.obj",
+   "sha256": "80146a58aa8922eb49b33483cd032ba13eac18df4e76cfb85cb3472661ae2d82",
+   "bytes": 6288,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -404.4149112490831,
+     -465.5511597547467,
+     173.67732553106444
+    ],
+    "max": [
+     489.1485865029801,
+     446.84009158859783,
+     966.8487149601652
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -404.4149112490831,
+       -465.5511597547467,
+       173.67732553106444
+      ],
+      "max": [
+       489.1485865029801,
+       446.84009158859783,
+       966.8487149601652
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Bark",
+   "file": "SM_JudeanFloraV1_Olive_Gnarled_L0_Bark.obj",
+   "sha256": "a741135064c5fb51a4d20ead1d296f5a19b016a80a7f9a1a97862088b5be2dc1",
+   "bytes": 62865,
+   "triangles": 780,
+   "vertices": 434,
+   "normals": 487,
+   "canonicalBoundsCm": {
+    "min": [
+     -113.64520573123471,
+     -395.83203517908265,
+     -22.661914222043496
+    ],
+    "max": [
+     483.6042338621354,
+     325.8538823621074,
+     902.7452143357413
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L0_Bark",
+     "kind": "solid",
+     "triangles": 780,
+     "vertices": 434,
+     "signedVolumeCm3": 966369.3329,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -113.64520573123471,
+       -395.83203517908265,
+       -22.661914222043496
+      ],
+      "max": [
+       483.6042338621354,
+       325.8538823621074,
+       902.7452143357413
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Olive_Gnarled_L0_Leaf.obj",
+   "sha256": "788912dea223a0cc39b74037a2e1693c08af6bfb0ec80894a773b2cd6bae7e0f",
+   "bytes": 167989,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -367.59709886734413,
+     -531.4047144823996,
+     179.52860982069137
+    ],
+    "max": [
+     637.0416146905026,
+     487.87677630514787,
+     889.9952531044681
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 3e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -367.59709886734413,
+       -531.4047144823996,
+       179.52860982069137
+      ],
+      "max": [
+       637.0416146905026,
+       487.87677630514787,
+       889.9952531044681
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Bark",
+   "file": "SM_JudeanFloraV1_Olive_Gnarled_L1_Bark.obj",
+   "sha256": "4d84693e9609f0cf5d4ad1db5cc188428ae6c3c5455b32df4734d50e7e096528",
+   "bytes": 9655,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -79.91542225992946,
+     -272.1791776128858,
+     -22.93669888250009
+    ],
+    "max": [
+     359.5789802508911,
+     48.99603772568218,
+     713.0834736924731
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 589934.901,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -79.91542225992946,
+       -272.1791776128858,
+       -22.93669888250009
+      ],
+      "max": [
+       359.5789802508911,
+       48.99603772568218,
+       713.0834736924731
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Olive_Gnarled_L1_Leaf.obj",
+   "sha256": "a10238af4c395a0702ca446384eadb895866faadb114b94d9463593f792a2589",
+   "bytes": 38659,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -414.9787028451225,
+     -443.6151492386465,
+     128.55205934832426
+    ],
+    "max": [
+     607.5963377933282,
+     404.2873376719209,
+     911.7774229062637
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -414.9787028451225,
+       -443.6151492386465,
+       128.55205934832426
+      ],
+      "max": [
+       607.5963377933282,
+       404.2873376719209,
+       911.7774229062637
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Billboard",
+   "file": "SM_JudeanFloraV1_Olive_Billboard.obj",
+   "sha256": "e8b9443b0038cdbea6520362493db3108d00bc609370d1bd8dd51a9dba4dc479",
+   "bytes": 694,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -300.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     300.0,
+     0.0,
+     850.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Olive_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -300.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       300.0,
+       0.0,
+       850.0
+      ]
+     }
+    }
+   ],
+   "species": "Olive",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L0_Bark.obj",
+   "sha256": "27ff5294162af2f3f813fbfd600a40bb0515c0a828f835c296ea556bd1f591bf",
+   "bytes": 55919,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -455.00449927473187,
+     -465.5347681044387,
+     -1.6174839014496418
+    ],
+    "max": [
+     267.82926355584334,
+     234.3761852688133,
+     1828.1297200053584
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 1280719.7002,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -455.00449927473187,
+       -465.5347681044387,
+       -1.6174839014496418
+      ],
+      "max": [
+       267.82926355584334,
+       234.3761852688133,
+       1828.1297200053584
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L0_Leaf.obj",
+   "sha256": "4d128ec57e669eebdf43593c42423b4ee4d21ff6b597ec1cb53318fe072895c5",
+   "bytes": 169977,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -672.0339886262801,
+     -650.0494373374476,
+     597.5032863384823
+    ],
+    "max": [
+     455.28158884170796,
+     515.4932978540539,
+     1547.372187039383
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": -1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -672.0339886262801,
+       -650.0494373374476,
+       597.5032863384823
+      ],
+      "max": [
+       455.28158884170796,
+       515.4932978540539,
+       1547.372187039383
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Bark",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L1_Bark.obj",
+   "sha256": "ed517eca4969aabb372df9f5e7199de24ecc384a97a64205d29e8fa829e6b6a3",
+   "bytes": 9856,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -264.03071733510325,
+     -314.90420378278907,
+     -1.4397751475708587
+    ],
+    "max": [
+     146.61846773446766,
+     61.87232919898311,
+     1301.9454660566869
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 945470.2867,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -264.03071733510325,
+       -314.90420378278907,
+       -1.4397751475708587
+      ],
+      "max": [
+       146.61846773446766,
+       61.87232919898311,
+       1301.9454660566869
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Leaf",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L1_Leaf.obj",
+   "sha256": "bc2feec2c72bc9733a33983cd2f5342d9be1ab59d15971c46e71d02adb92fd69",
+   "bytes": 39243,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -607.7036504381502,
+     -618.5382326191667,
+     545.9816835457627
+    ],
+    "max": [
+     588.4076136471934,
+     491.924003692522,
+     1580.5163821993717
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -7e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -607.7036504381502,
+       -618.5382326191667,
+       545.9816835457627
+      ],
+      "max": [
+       588.4076136471934,
+       491.924003692522,
+       1580.5163821993717
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Bark",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L2_Bark.obj",
+   "sha256": "ad1e81212b159ee0a75361be5aab891c1488f771b04299adc5de508dcef7ef5d",
+   "bytes": 2140,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -76.09498976374891,
+     -107.0942065760413,
+     -3.7477567858133054
+    ],
+    "max": [
+     61.823864540262576,
+     65.89531187934095,
+     573.952000260245
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 718075.8348,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -76.09498976374891,
+       -107.0942065760413,
+       -3.7477567858133054
+      ],
+      "max": [
+       61.823864540262576,
+       65.89531187934095,
+       573.952000260245
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Leaf",
+   "file": "SM_JudeanFloraV1_JerusalemPine_L2_Leaf.obj",
+   "sha256": "dc79367bfcf3488229a5ce2f7909b595603478d9598194bf6251b37181bdf126",
+   "bytes": 6395,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -622.2195699562814,
+     -527.6411856373363,
+     479.40899035203535
+    ],
+    "max": [
+     438.68991637405514,
+     521.7081944529973,
+     1637.1196623426918
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": -5e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -622.2195699562814,
+       -527.6411856373363,
+       479.40899035203535
+      ],
+      "max": [
+       438.68991637405514,
+       521.7081944529973,
+       1637.1196623426918
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_Billboard",
+   "file": "SM_JudeanFloraV1_JerusalemPine_Billboard.obj",
+   "sha256": "c3df1c0128f92b1880579618fa75b0307276a02f2c43ff3deab4a1bb9423881b",
+   "bytes": 713,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -350.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     350.0,
+     0.0,
+     1500.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "JerusalemPine_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -350.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       350.0,
+       0.0,
+       1500.0
+      ]
+     }
+    }
+   ],
+   "species": "JerusalemPine",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Bark",
+   "file": "SM_JudeanFloraV1_Cypress_L0_Bark.obj",
+   "sha256": "777734202aa6bdd87e6a17b8d72623a509e9a796c2a1b84a0a927343d24772ad",
+   "bytes": 55720,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 433,
+   "canonicalBoundsCm": {
+    "min": [
+     -286.1048449313108,
+     -275.19561851027777,
+     -16.54755391683814
+    ],
+    "max": [
+     60.01781792294382,
+     172.4953374913482,
+     1486.7714039144364
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 558916.34,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -286.1048449313108,
+       -275.19561851027777,
+       -16.54755391683814
+      ],
+      "max": [
+       60.01781792294382,
+       172.4953374913482,
+       1486.7714039144364
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Cypress_L0_Leaf.obj",
+   "sha256": "dcf515d6951b7c004fc440ac931195db0544fde4d8b26d95a33d78e009c1ccf1",
+   "bytes": 168266,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -243.65546895010817,
+     -223.7303186615992,
+     263.51387232580885
+    ],
+    "max": [
+     129.12180564788378,
+     192.01027597772975,
+     1688.629777903725
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -243.65546895010817,
+       -223.7303186615992,
+       263.51387232580885
+      ],
+      "max": [
+       129.12180564788378,
+       192.01027597772975,
+       1688.629777903725
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Bark",
+   "file": "SM_JudeanFloraV1_Cypress_L1_Bark.obj",
+   "sha256": "21e0670ad00905f4cd6558d071316a9546b66da84d0454509fc5dc853dd807a0",
+   "bytes": 9802,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 103,
+   "canonicalBoundsCm": {
+    "min": [
+     -257.58629855308385,
+     -172.93341351536873,
+     -16.991373728952272
+    ],
+    "max": [
+     56.970621066490686,
+     58.18460185016584,
+     1115.94699687949
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 340300.26,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -257.58629855308385,
+       -172.93341351536873,
+       -16.991373728952272
+      ],
+      "max": [
+       56.970621066490686,
+       58.18460185016584,
+       1115.94699687949
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Cypress_L1_Leaf.obj",
+   "sha256": "bdb024cf70e87a1f0507e313179bf3a24df822c682639bf26945cf6a175266c8",
+   "bytes": 38822,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -280.097400923364,
+     -228.36759430343992,
+     229.21562462192088
+    ],
+    "max": [
+     105.02898443908555,
+     151.75276900347396,
+     1730.0632185598704
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -280.097400923364,
+       -228.36759430343992,
+       229.21562462192088
+      ],
+      "max": [
+       105.02898443908555,
+       151.75276900347396,
+       1730.0632185598704
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Bark",
+   "file": "SM_JudeanFloraV1_Cypress_L2_Bark.obj",
+   "sha256": "410f343e5d642b30b2b07b23d929597603546889b2c1f7197bccc99da497064e",
+   "bytes": 2112,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -124.0507347903665,
+     -41.038805413542306,
+     -22.094983107175754
+    ],
+    "max": [
+     48.56661081652971,
+     58.32867871632922,
+     177.80834210231683
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 225509.165,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -124.0507347903665,
+       -41.038805413542306,
+       -22.094983107175754
+      ],
+      "max": [
+       48.56661081652971,
+       58.32867871632922,
+       177.80834210231683
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Cypress_L2_Leaf.obj",
+   "sha256": "1af895eb5963d2abe6fe4ed1aa5795f6756ece8ffbb706aa05cc77f68aab974b",
+   "bytes": 6308,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -263.8216848473663,
+     -228.31185146984768,
+     380.82003311668615
+    ],
+    "max": [
+     109.96296850816246,
+     193.77361718188374,
+     1794.7341140692674
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -263.8216848473663,
+       -228.31185146984768,
+       380.82003311668615
+      ],
+      "max": [
+       109.96296850816246,
+       193.77361718188374,
+       1794.7341140692674
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_Billboard",
+   "file": "SM_JudeanFloraV1_Cypress_Billboard.obj",
+   "sha256": "0b17448e61246f691e1ce570e8afe919542e060d7a713328a9e0b3539a73c61c",
+   "bytes": 700,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -297.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     297.5,
+     0.0,
+     1700.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Cypress_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -297.5,
+       0.0,
+       0.0
+      ],
+      "max": [
+       297.5,
+       0.0,
+       1700.0
+      ]
+     }
+    }
+   ],
+   "species": "Cypress",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Bark",
+   "file": "SM_JudeanFloraV1_Almond_L0_Bark.obj",
+   "sha256": "370a4d80b18ea80841b117784e2e4825e454c493accb39c80f00e751996c7b35",
+   "bytes": 55287,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -253.91963365464846,
+     -204.34514865096293,
+     -0.8504638453140527
+    ],
+    "max": [
+     301.4736509452262,
+     282.7812285606336,
+     724.1068126526694
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 185674.4699,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -253.91963365464846,
+       -204.34514865096293,
+       -0.8504638453140527
+      ],
+      "max": [
+       301.4736509452262,
+       282.7812285606336,
+       724.1068126526694
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Almond_L0_Leaf.obj",
+   "sha256": "3a783c6fee8f5e9e6828db4388a4f702d1c7939c93c7df759bfd2731f465a3ed",
+   "bytes": 168160,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -385.2635746002889,
+     -373.71587496358194,
+     195.56955105325164
+    ],
+    "max": [
+     418.17041968318864,
+     406.93036956663445,
+     607.2173324441891
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -385.2635746002889,
+       -373.71587496358194,
+       195.56955105325164
+      ],
+      "max": [
+       418.17041968318864,
+       406.93036956663445,
+       607.2173324441891
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Bark",
+   "file": "SM_JudeanFloraV1_Almond_L1_Bark.obj",
+   "sha256": "56d55c53e2d7e41a4d5dac816581eb45f8da4278e2fe25d94e0e7c132351f830",
+   "bytes": 9716,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -108.54110826937443,
+     -196.65604505390354,
+     -0.7837905127123502
+    ],
+    "max": [
+     211.07531086551782,
+     155.8427271274634,
+     459.7738927503291
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 136386.3902,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -108.54110826937443,
+       -196.65604505390354,
+       -0.7837905127123502
+      ],
+      "max": [
+       211.07531086551782,
+       155.8427271274634,
+       459.7738927503291
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Almond_L1_Leaf.obj",
+   "sha256": "42ca6a5a9afc0227ab71dce6b5916af35d860f4b475d9d0a2a39aabbb6c24dc9",
+   "bytes": 38608,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -337.20505412942003,
+     -412.39809574979404,
+     157.9938084212622
+    ],
+    "max": [
+     442.2676217790434,
+     333.8142951582912,
+     627.5069782612832
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -337.20505412942003,
+       -412.39809574979404,
+       157.9938084212622
+      ],
+      "max": [
+       442.2676217790434,
+       333.8142951582912,
+       627.5069782612832
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Bark",
+   "file": "SM_JudeanFloraV1_Almond_L2_Bark.obj",
+   "sha256": "7b8a2bef7fcefc750d6a57b406deec1bc034e21148d51678d149dd96569c1b4c",
+   "bytes": 2072,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -15.693010891881686,
+     -18.300903166540344,
+     -1.7595350541570305
+    ],
+    "max": [
+     36.195281140166074,
+     35.11784676983351,
+     219.45557572052957
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 100860.6616,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -15.693010891881686,
+       -18.300903166540344,
+       -1.7595350541570305
+      ],
+      "max": [
+       36.195281140166074,
+       35.11784676983351,
+       219.45557572052957
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Almond_L2_Leaf.obj",
+   "sha256": "eef5d8d6003529b6d55c3345f4403c65cdd9d5de23880bd09d683a2a975a18af",
+   "bytes": 6228,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -322.35566945640056,
+     -368.61262569860594,
+     98.04034415593355
+    ],
+    "max": [
+     405.01089910839437,
+     317.3894265924641,
+     663.3170986480759
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -322.35566945640056,
+       -368.61262569860594,
+       98.04034415593355
+      ],
+      "max": [
+       405.01089910839437,
+       317.3894265924641,
+       663.3170986480759
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Bark",
+   "file": "SM_JudeanFloraV1_Almond_Gnarled_L0_Bark.obj",
+   "sha256": "4bbd6e41113f0a99d974b9c0a04f1f69e951d89786f619dd37206def5fb85196",
+   "bytes": 62893,
+   "triangles": 780,
+   "vertices": 434,
+   "normals": 487,
+   "canonicalBoundsCm": {
+    "min": [
+     -148.44317287624892,
+     -275.54250407145065,
+     -15.157364390981108
+    ],
+    "max": [
+     387.3597189239501,
+     237.19548441717558,
+     564.8764479847625
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L0_Bark",
+     "kind": "solid",
+     "triangles": 780,
+     "vertices": 434,
+     "signedVolumeCm3": 162053.785,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -148.44317287624892,
+       -275.54250407145065,
+       -15.157364390981108
+      ],
+      "max": [
+       387.3597189239501,
+       237.19548441717558,
+       564.8764479847625
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Almond_Gnarled_L0_Leaf.obj",
+   "sha256": "f3a7e055f6114efafe674f2d636434b1a88e48674548b61d122d451b8887cda8",
+   "bytes": 167826,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -350.0403860302942,
+     -410.76209560662323,
+     110.80911054322253
+    ],
+    "max": [
+     451.430129007059,
+     415.58882140196073,
+     606.7222737530268
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -350.0403860302942,
+       -410.76209560662323,
+       110.80911054322253
+      ],
+      "max": [
+       451.430129007059,
+       415.58882140196073,
+       606.7222737530268
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Bark",
+   "file": "SM_JudeanFloraV1_Almond_Gnarled_L1_Bark.obj",
+   "sha256": "45161387a880dcf3328c17d4f9b1a578b63f3a165a664a10a85b3734a49b4cfd",
+   "bytes": 9657,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -15.484505335248413,
+     -196.30648158152493,
+     -13.274644093872672
+    ],
+    "max": [
+     317.88179180404967,
+     134.45196259412583,
+     384.8984007553883
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 106169.7586,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -15.484505335248413,
+       -196.30648158152493,
+       -13.274644093872672
+      ],
+      "max": [
+       317.88179180404967,
+       134.45196259412583,
+       384.8984007553883
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Almond_Gnarled_L1_Leaf.obj",
+   "sha256": "8839f548d1cff523fb4e81b51903c876dd6eb5f926efc534b1dc0a0c716cd2f6",
+   "bytes": 38520,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -233.56538084318169,
+     -314.1106059639255,
+     72.60117014617903
+    ],
+    "max": [
+     457.75858914261755,
+     380.14449305495725,
+     627.6160167218936
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -233.56538084318169,
+       -314.1106059639255,
+       72.60117014617903
+      ],
+      "max": [
+       457.75858914261755,
+       380.14449305495725,
+       627.6160167218936
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Billboard",
+   "file": "SM_JudeanFloraV1_Almond_Billboard.obj",
+   "sha256": "2c541a95deb183c87292f1b7c5e1f66bfb7a85c25dbcc234ff15830e24a428ed",
+   "bytes": 696,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -225.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     225.0,
+     0.0,
+     575.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Almond_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -225.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       225.0,
+       0.0,
+       575.0
+      ]
+     }
+    }
+   ],
+   "species": "Almond",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Bark",
+   "file": "SM_JudeanFloraV1_Fig_L0_Bark.obj",
+   "sha256": "4a54be959ffec3a549d6f33868b808a5c3caa1f05c05ff08e38036088915b136",
+   "bytes": 55442,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -253.23094393248311,
+     -332.3400474520539,
+     -4.326509580081242
+    ],
+    "max": [
+     450.1408704825716,
+     358.297547579424,
+     641.9138314716228
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 399738.8726,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -253.23094393248311,
+       -332.3400474520539,
+       -4.326509580081242
+      ],
+      "max": [
+       450.1408704825716,
+       358.297547579424,
+       641.9138314716228
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Fig_L0_Leaf.obj",
+   "sha256": "4576f97b1de99fd1aa7a4a24f2eccef21a82e60f13245cfc4225cb50da196e26",
+   "bytes": 168739,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -496.1641335826246,
+     -540.8112793280945,
+     156.1847164277488
+    ],
+    "max": [
+     605.9469378231595,
+     524.7577699644701,
+     596.7916763626927
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": -3e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -496.1641335826246,
+       -540.8112793280945,
+       156.1847164277488
+      ],
+      "max": [
+       605.9469378231595,
+       524.7577699644701,
+       596.7916763626927
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Bark",
+   "file": "SM_JudeanFloraV1_Fig_L1_Bark.obj",
+   "sha256": "9198f9eb1010ac8ad24174137c41eb635b9c1729295cfe336bd88ded9be5f503",
+   "bytes": 9746,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -167.7053505142999,
+     -181.59345335869543,
+     -4.70557456231025
+    ],
+    "max": [
+     296.50972803157794,
+     133.72169188569055,
+     514.6902088130472
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 286154.3647,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -167.7053505142999,
+       -181.59345335869543,
+       -4.70557456231025
+      ],
+      "max": [
+       296.50972803157794,
+       133.72169188569055,
+       514.6902088130472
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Fig_L1_Leaf.obj",
+   "sha256": "2e915e45b6e69e7d91361d8c5f4758bf9a6792b3ac0d8c77f542baac4928469f",
+   "bytes": 38949,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -538.5370497075513,
+     -541.9942459718507,
+     101.39135235893764
+    ],
+    "max": [
+     564.059080023496,
+     493.0120086572167,
+     626.0364740893756
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -2e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -538.5370497075513,
+       -541.9942459718507,
+       101.39135235893764
+      ],
+      "max": [
+       564.059080023496,
+       493.0120086572167,
+       626.0364740893756
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Bark",
+   "file": "SM_JudeanFloraV1_Fig_L2_Bark.obj",
+   "sha256": "30d077ca1e6b26f9fdc81623acb8197932a54bfa7bbafc51a2703fd2d3b8ba6a",
+   "bytes": 2077,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -30.540321981814763,
+     -34.42970823936261,
+     -3.781958709261315
+    ],
+    "max": [
+     40.19407125561088,
+     43.240647982786655,
+     210.47638809163223
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 204523.3963,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -30.540321981814763,
+       -34.42970823936261,
+       -3.781958709261315
+      ],
+      "max": [
+       40.19407125561088,
+       43.240647982786655,
+       210.47638809163223
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Fig_L2_Leaf.obj",
+   "sha256": "bc2713191f2cfac399d7f76831c3cc997abdefa2a22bbf02ed028fbd965f16d6",
+   "bytes": 6299,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -398.1969806598686,
+     -550.3965993441194,
+     120.64451889911689
+    ],
+    "max": [
+     461.7628626588667,
+     436.3502657439764,
+     678.6771099974048
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 5e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -398.1969806598686,
+       -550.3965993441194,
+       120.64451889911689
+      ],
+      "max": [
+       461.7628626588667,
+       436.3502657439764,
+       678.6771099974048
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Bark",
+   "file": "SM_JudeanFloraV1_Fig_Gnarled_L0_Bark.obj",
+   "sha256": "a4ca364c548cf5262a1faa8b1c0b2351082bcff0b7ec4d888465732ff6151af3",
+   "bytes": 63174,
+   "triangles": 780,
+   "vertices": 434,
+   "normals": 487,
+   "canonicalBoundsCm": {
+    "min": [
+     -509.52508024043925,
+     -166.55279326134075,
+     -9.664846260637814
+    ],
+    "max": [
+     239.10657764612662,
+     468.4698152873727,
+     504.19864053397197
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L0_Bark",
+     "kind": "solid",
+     "triangles": 780,
+     "vertices": 434,
+     "signedVolumeCm3": 337269.6856,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -509.52508024043925,
+       -166.55279326134075,
+       -9.664846260637814
+      ],
+      "max": [
+       239.10657764612662,
+       468.4698152873727,
+       504.19864053397197
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Fig_Gnarled_L0_Leaf.obj",
+   "sha256": "4b67c5072780d9bdd8ee15ab5a41edbe8206247eb19a6c392b1930aa60d1e79b",
+   "bytes": 169024,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -618.1334632528858,
+     -471.0110788190597,
+     77.1331853935054
+    ],
+    "max": [
+     442.5596513860186,
+     626.6988732227118,
+     596.7945492830038
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -618.1334632528858,
+       -471.0110788190597,
+       77.1331853935054
+      ],
+      "max": [
+       442.5596513860186,
+       626.6988732227118,
+       596.7945492830038
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Bark",
+   "file": "SM_JudeanFloraV1_Fig_Gnarled_L1_Bark.obj",
+   "sha256": "b8082e68fb4ab10712ae14d9c1c77e71eae73852955597218a1460552ab0a266",
+   "bytes": 9715,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -305.80803575223274,
+     -133.52023772340763,
+     -13.654327100605016
+    ],
+    "max": [
+     84.54773294317283,
+     288.1314760655511,
+     407.4544577300767
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 226908.5475,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -305.80803575223274,
+       -133.52023772340763,
+       -13.654327100605016
+      ],
+      "max": [
+       84.54773294317283,
+       288.1314760655511,
+       407.4544577300767
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Fig_Gnarled_L1_Leaf.obj",
+   "sha256": "0dfddd602fcbb71f8ecf5bbd890205006439ae9c90655af27822930f059cf425",
+   "bytes": 38860,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -628.2754106694902,
+     -520.7705999564627,
+     22.047931092924784
+    ],
+    "max": [
+     445.9461051098709,
+     593.6933079729012,
+     626.0499857458298
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 5e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -628.2754106694902,
+       -520.7705999564627,
+       22.047931092924784
+      ],
+      "max": [
+       445.9461051098709,
+       593.6933079729012,
+       626.0499857458298
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Billboard",
+   "file": "SM_JudeanFloraV1_Fig_Billboard.obj",
+   "sha256": "5421e8e15bf349cab85cbd44ac419b839cf71d1d7381b02f1b7f40cfca4705b4",
+   "bytes": 690,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -325.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     325.0,
+     0.0,
+     550.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Fig_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -325.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       325.0,
+       0.0,
+       550.0
+      ]
+     }
+    }
+   ],
+   "species": "Fig",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "file": "SM_JudeanFloraV1_Pomegranate_L0_Bark.obj",
+   "sha256": "250b2ae42705b4baca2afebb1cb0f9d9aa84a1cb88db4b9f0790870f57219e79",
+   "bytes": 55222,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -166.1857360391443,
+     -156.03884330238165,
+     -0.3946122772283854
+    ],
+    "max": [
+     215.9911374202591,
+     199.3999546189434,
+     450.53495369095623
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 41455.0047,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -166.1857360391443,
+       -156.03884330238165,
+       -0.3946122772283854
+      ],
+      "max": [
+       215.9911374202591,
+       199.3999546189434,
+       450.53495369095623
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Pomegranate_L0_Leaf.obj",
+   "sha256": "1209d871b53d45f26108485899d74696744b68bc4af68a4598184155f3141202",
+   "bytes": 167315,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -222.5036397664991,
+     -262.7458865293448,
+     115.69786283473019
+    ],
+    "max": [
+     285.7195022764482,
+     272.9816147759456,
+     371.4453948972747
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -222.5036397664991,
+       -262.7458865293448,
+       115.69786283473019
+      ],
+      "max": [
+       285.7195022764482,
+       272.9816147759456,
+       371.4453948972747
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Bark",
+   "file": "SM_JudeanFloraV1_Pomegranate_L1_Bark.obj",
+   "sha256": "a2b9968a2e83864ccb82d5c981851a4f52fac7dc0487553c9c057c7588b87a84",
+   "bytes": 9696,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -126.09496942790415,
+     -111.93208262883196,
+     -0.5798106042978084
+    ],
+    "max": [
+     96.38798623287569,
+     61.57713517535713,
+     350.55484684339393
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 29713.8629,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -126.09496942790415,
+       -111.93208262883196,
+       -0.5798106042978084
+      ],
+      "max": [
+       96.38798623287569,
+       61.57713517535713,
+       350.55484684339393
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Pomegranate_L1_Leaf.obj",
+   "sha256": "86d3b8c78ffac11fd57cb0c95c91465f044ff2389fa00377bb51640487336a5c",
+   "bytes": 38631,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -277.5193682021441,
+     -284.1028000407157,
+     90.4098574120691
+    ],
+    "max": [
+     208.54769574977917,
+     236.45836720839247,
+     385.08645771762053
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -277.5193682021441,
+       -284.1028000407157,
+       90.4098574120691
+      ],
+      "max": [
+       208.54769574977917,
+       236.45836720839247,
+       385.08645771762053
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Bark",
+   "file": "SM_JudeanFloraV1_Pomegranate_L2_Bark.obj",
+   "sha256": "924c7f4d1c400d8ea6717b7e0543cb2e9ffb444b6da06eb345359804f1ac1775",
+   "bytes": 2066,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -9.290209420127889,
+     -10.83051442257275,
+     -0.7399425875261628
+    ],
+    "max": [
+     20.498727246431113,
+     21.21103678583306,
+     133.62008696538592
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 22097.5809,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -9.290209420127889,
+       -10.83051442257275,
+       -0.7399425875261628
+      ],
+      "max": [
+       20.498727246431113,
+       21.21103678583306,
+       133.62008696538592
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Pomegranate_L2_Leaf.obj",
+   "sha256": "d171f67d77c9f2e87d621180f7bd0cb956ee9c266dc4fd4842e21cf083374224",
+   "bytes": 6215,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -181.6359043497054,
+     -260.0199449218276,
+     54.82565335485829
+    ],
+    "max": [
+     215.16379368752308,
+     240.92140359522998,
+     408.86127538743494
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -181.6359043497054,
+       -260.0199449218276,
+       54.82565335485829
+      ],
+      "max": [
+       215.16379368752308,
+       240.92140359522998,
+       408.86127538743494
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_Billboard",
+   "file": "SM_JudeanFloraV1_Pomegranate_Billboard.obj",
+   "sha256": "e43eec1587348a749c22db351c0d17f5a425069da132c45ccdee01204ae8879e",
+   "bytes": 706,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -150.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     150.0,
+     0.0,
+     350.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Pomegranate_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -150.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       150.0,
+       0.0,
+       350.0
+      ]
+     }
+    }
+   ],
+   "species": "Pomegranate",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "file": "SM_JudeanFloraV1_DatePalm_L0_Bark.obj",
+   "sha256": "181b0de0f361cf4332805e43282c4b451088b229e4726162c91e84dcfb8c006f",
+   "bytes": 13921,
+   "triangles": 176,
+   "vertices": 90,
+   "normals": 143,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.27783575013086,
+     -26.571197797704695,
+     -0.6593887930227095
+    ],
+    "max": [
+     103.72379432297822,
+     51.57250944856198,
+     1362.3459096719453
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L0_Bark",
+     "kind": "solid",
+     "triangles": 176,
+     "vertices": 90,
+     "signedVolumeCm3": 1919925.7547,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -25.27783575013086,
+       -26.571197797704695,
+       -0.6593887930227095
+      ],
+      "max": [
+       103.72379432297822,
+       51.57250944856198,
+       1362.3459096719453
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "file": "SM_JudeanFloraV1_DatePalm_L0_Leaf.obj",
+   "sha256": "31043f328a7ca5cc51cd880332018c8672549fea9edf53530ac5512b3708e4da",
+   "bytes": 12332,
+   "triangles": 80,
+   "vertices": 160,
+   "normals": 40,
+   "canonicalBoundsCm": {
+    "min": [
+     -376.91991528480764,
+     -495.1675505125477,
+     1289.4484143740058
+    ],
+    "max": [
+     583.2128205966978,
+     533.0613378058656,
+     1456.0022488616307
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L0_Leaf",
+     "kind": "card",
+     "triangles": 80,
+     "vertices": 160,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -376.91991528480764,
+       -495.1675505125477,
+       1289.4484143740058
+      ],
+      "max": [
+       583.2128205966978,
+       533.0613378058656,
+       1456.0022488616307
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Bark",
+   "file": "SM_JudeanFloraV1_DatePalm_L1_Bark.obj",
+   "sha256": "02844ddac9bd38c9abc67a3bbce4453c1e0b889561bbeedc7d222517d7cd8e04",
+   "bytes": 5467,
+   "triangles": 68,
+   "vertices": 36,
+   "normals": 49,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.016725231539606,
+     -26.571197797704695,
+     -0.6196693320158384
+    ],
+    "max": [
+     102.05881168235896,
+     51.57250944856198,
+     1361.920451234909
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L1_Bark",
+     "kind": "solid",
+     "triangles": 68,
+     "vertices": 36,
+     "signedVolumeCm3": 1702728.1103,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -23.016725231539606,
+       -26.571197797704695,
+       -0.6196693320158384
+      ],
+      "max": [
+       102.05881168235896,
+       51.57250944856198,
+       1361.920451234909
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Leaf",
+   "file": "SM_JudeanFloraV1_DatePalm_L1_Leaf.obj",
+   "sha256": "f56db9cd96244c6cb26f40fe6a2c3e2ec0ac079e4f600e3a24396ebd687651d5",
+   "bytes": 6330,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -378.1589788406742,
+     -435.78630117879874,
+     1289.4484143740058
+    ],
+    "max": [
+     536.0833158232573,
+     483.33781002120844,
+     1450.764553690563
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L1_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -378.1589788406742,
+       -435.78630117879874,
+       1289.4484143740058
+      ],
+      "max": [
+       536.0833158232573,
+       483.33781002120844,
+       1450.764553690563
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Bark",
+   "file": "SM_JudeanFloraV1_DatePalm_L2_Bark.obj",
+   "sha256": "2b76051a9ddec0119f9cdadff0a7192fa379df05879960a67e0323ce590f0dde",
+   "bytes": 2105,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.559006567549204,
+     -26.5711977977047,
+     -0.7357591057947909
+    ],
+    "max": [
+     102.50130604594642,
+     53.81580852710181,
+     1361.639722615173
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 1310448.2962,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -23.559006567549204,
+       -26.5711977977047,
+       -0.7357591057947909
+      ],
+      "max": [
+       102.50130604594642,
+       53.81580852710181,
+       1361.639722615173
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Leaf",
+   "file": "SM_JudeanFloraV1_DatePalm_L2_Leaf.obj",
+   "sha256": "05c23e1a00bede5030d58d19e8ef02576e00cb427a6a1139b4f5b16fcc6f8f95",
+   "bytes": 2838,
+   "triangles": 16,
+   "vertices": 32,
+   "normals": 8,
+   "canonicalBoundsCm": {
+    "min": [
+     -363.4523173850399,
+     -454.1023480481328,
+     1299.8093422214754
+    ],
+    "max": [
+     536.0833158232573,
+     433.3251358954246,
+     1447.26023975004
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_L2_Leaf",
+     "kind": "card",
+     "triangles": 16,
+     "vertices": 32,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -363.4523173850399,
+       -454.1023480481328,
+       1299.8093422214754
+      ],
+      "max": [
+       536.0833158232573,
+       433.3251358954246,
+       1447.26023975004
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_Billboard",
+   "file": "SM_JudeanFloraV1_DatePalm_Billboard.obj",
+   "sha256": "1ddc2fbcc17761378c5d7927978313f6bf6b06d934621318c13b97afc1f3f895",
+   "bytes": 703,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -375.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     375.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DatePalm_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -375.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       375.0,
+       0.0,
+       1700.0
+      ]
+     }
+    }
+   ],
+   "species": "DatePalm",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Bark",
+   "file": "SM_JudeanFloraV1_Carob_L0_Bark.obj",
+   "sha256": "fe1e53686cedb8db9b2bbd67c219b507673b82545981d84f630c53b8a5ce165a",
+   "bytes": 55517,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -386.9399939861647,
+     -500.2619672178531,
+     -3.2221281051674886
+    ],
+    "max": [
+     411.79434359977205,
+     452.8368738708973,
+     1075.3364789400698
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 1187864.8607,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -386.9399939861647,
+       -500.2619672178531,
+       -3.2221281051674886
+      ],
+      "max": [
+       411.79434359977205,
+       452.8368738708973,
+       1075.3364789400698
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Carob_L0_Leaf.obj",
+   "sha256": "25e1b8d4f103179f636a8702ad824971be9207885760cd5c7c30671809844033",
+   "bytes": 169155,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -690.8744848235162,
+     -653.6127756639452,
+     295.052845977472
+    ],
+    "max": [
+     683.0418087133331,
+     655.2646579599068,
+     957.0243851545041
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": -4e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -690.8744848235162,
+       -653.6127756639452,
+       295.052845977472
+      ],
+      "max": [
+       683.0418087133331,
+       655.2646579599068,
+       957.0243851545041
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Bark",
+   "file": "SM_JudeanFloraV1_Carob_L1_Bark.obj",
+   "sha256": "4cfcb9bf9b2d2074183702d077298f63ffe223194e80947bb3b6bc45e1297aee",
+   "bytes": 9761,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -226.374582644667,
+     -323.70278311047997,
+     -2.693490531272145
+    ],
+    "max": [
+     255.1507297355196,
+     250.97200610194255,
+     878.2662816984692
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 873503.461,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -226.374582644667,
+       -323.70278311047997,
+       -2.693490531272145
+      ],
+      "max": [
+       255.1507297355196,
+       250.97200610194255,
+       878.2662816984692
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Carob_L1_Leaf.obj",
+   "sha256": "596cc36158ee83713d5640126c9ed851fa07703d594ee422c8cbacc0172be971",
+   "bytes": 38985,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -633.1644844523408,
+     -535.8279410300349,
+     241.80492612083287
+    ],
+    "max": [
+     652.5758135430666,
+     686.1669758457883,
+     992.4019228112891
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": -5e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -633.1644844523408,
+       -535.8279410300349,
+       241.80492612083287
+      ],
+      "max": [
+       652.5758135430666,
+       686.1669758457883,
+       992.4019228112891
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Bark",
+   "file": "SM_JudeanFloraV1_Carob_L2_Bark.obj",
+   "sha256": "a8e1f15168b35179da87f560c9b5b81513217d22f1c58138425ea37153d99aa6",
+   "bytes": 2085,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -38.955644565668855,
+     -82.32314134963455,
+     -3.7535598568839457
+    ],
+    "max": [
+     57.68788866748809,
+     62.652833714919154,
+     347.72533649562547
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 638902.6539,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -38.955644565668855,
+       -82.32314134963455,
+       -3.7535598568839457
+      ],
+      "max": [
+       57.68788866748809,
+       62.652833714919154,
+       347.72533649562547
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Carob_L2_Leaf.obj",
+   "sha256": "9b4ebbd9b70999e492bfc0f3c8486def9699514654e629d32633c3ace4d141ad",
+   "bytes": 6283,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -596.7640963240775,
+     -423.1209999522244,
+     161.21573933313385
+    ],
+    "max": [
+     615.3277396218864,
+     498.05576384696025,
+     1055.3013764827292
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -596.7640963240775,
+       -423.1209999522244,
+       161.21573933313385
+      ],
+      "max": [
+       615.3277396218864,
+       498.05576384696025,
+       1055.3013764827292
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Bark",
+   "file": "SM_JudeanFloraV1_Carob_Gnarled_L0_Bark.obj",
+   "sha256": "d0f940ccc0a8eae123345a15bebfbd138f331c4ff4c1ffd8ecac7de610277434",
+   "bytes": 63314,
+   "triangles": 780,
+   "vertices": 434,
+   "normals": 487,
+   "canonicalBoundsCm": {
+    "min": [
+     -725.7786175294765,
+     -410.30407889856195,
+     -19.959318443528428
+    ],
+    "max": [
+     204.57116437820164,
+     611.5991349851924,
+     913.6840413766244
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L0_Bark",
+     "kind": "solid",
+     "triangles": 780,
+     "vertices": 434,
+     "signedVolumeCm3": 1048986.6042,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -725.7786175294765,
+       -410.30407889856195,
+       -19.959318443528428
+      ],
+      "max": [
+       204.57116437820164,
+       611.5991349851924,
+       913.6840413766244
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Carob_Gnarled_L0_Leaf.obj",
+   "sha256": "4ae5f7178a0d50dd09ab4824cfdb995340558f7b2b02f32bd66d77ad010c3a8c",
+   "bytes": 169295,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -766.8898573972288,
+     -725.7073692029655,
+     168.74221607416905
+    ],
+    "max": [
+     595.2034989256704,
+     732.3997817305407,
+     957.5938732844088
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": -8e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -766.8898573972288,
+       -725.7073692029655,
+       168.74221607416905
+      ],
+      "max": [
+       595.2034989256704,
+       732.3997817305407,
+       957.5938732844088
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Bark",
+   "file": "SM_JudeanFloraV1_Carob_Gnarled_L1_Bark.obj",
+   "sha256": "3adfb696b93f0dfabc2be1797877b7a0ed0016958bf7ba5131b6631dbea8129f",
+   "bytes": 9743,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -461.67998958226474,
+     -287.30970722051336,
+     -14.871301946916326
+    ],
+    "max": [
+     56.72096516702814,
+     219.85497530957306,
+     629.7467047615972
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 683297.7522,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -461.67998958226474,
+       -287.30970722051336,
+       -14.871301946916326
+      ],
+      "max": [
+       56.72096516702814,
+       219.85497530957306,
+       629.7467047615972
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Carob_Gnarled_L1_Leaf.obj",
+   "sha256": "8c4ed6900c4863a9c3c1885c15ce72c4d70733b3ed417f52a7e45a199960b5fb",
+   "bytes": 38917,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -789.8510086383035,
+     -655.2649311477664,
+     107.52602424359802
+    ],
+    "max": [
+     609.0357398290193,
+     693.8808349714234,
+     993.489957187245
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 4e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -789.8510086383035,
+       -655.2649311477664,
+       107.52602424359802
+      ],
+      "max": [
+       609.0357398290193,
+       693.8808349714234,
+       993.489957187245
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Billboard",
+   "file": "SM_JudeanFloraV1_Carob_Billboard.obj",
+   "sha256": "4d88684ccc01c254e653e84c73c155eea6e93b4b39b2e69b69a112db03348184",
+   "bytes": 694,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -400.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     400.0,
+     0.0,
+     900.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Carob_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -400.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       400.0,
+       0.0,
+       900.0
+      ]
+     }
+    }
+   ],
+   "species": "Carob",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "file": "SM_JudeanFloraV1_Terebinth_L0_Bark.obj",
+   "sha256": "292e092289c2a613b53e6a6635c1bd50dda8298fa98ddda6139ff18974b1392f",
+   "bytes": 55598,
+   "triangles": 688,
+   "vertices": 382,
+   "normals": 434,
+   "canonicalBoundsCm": {
+    "min": [
+     -505.3425671193639,
+     -510.2646827862313,
+     -1.3037685325996615
+    ],
+    "max": [
+     590.9033969131901,
+     464.8594100957618,
+     799.3424591548693
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L0_Bark",
+     "kind": "solid",
+     "triangles": 688,
+     "vertices": 382,
+     "signedVolumeCm3": 1062915.253,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -505.3425671193639,
+       -510.2646827862313,
+       -1.3037685325996615
+      ],
+      "max": [
+       590.9033969131901,
+       464.8594100957618,
+       799.3424591548693
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Terebinth_L0_Leaf.obj",
+   "sha256": "52920ee9c6486c229cd814c657f6977ee9a22af8c3fff8b5c772ac4894392307",
+   "bytes": 168840,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -761.8199590210484,
+     -727.7895413043263,
+     247.075764099626
+    ],
+    "max": [
+     838.0029289263522,
+     618.1002844287046,
+     857.5997362489015
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -761.8199590210484,
+       -727.7895413043263,
+       247.075764099626
+      ],
+      "max": [
+       838.0029289263522,
+       618.1002844287046,
+       857.5997362489015
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Bark",
+   "file": "SM_JudeanFloraV1_Terebinth_L1_Bark.obj",
+   "sha256": "e490c628653cd604a95987b39531e1cefca5b0731f858beb3fcf8174c8273124",
+   "bytes": 9825,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -270.10352761148187,
+     -388.5958003636946,
+     -2.076989024869047
+    ],
+    "max": [
+     417.39131653134984,
+     126.92647932774729,
+     665.8776839350571
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 778009.8137,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -270.10352761148187,
+       -388.5958003636946,
+       -2.076989024869047
+      ],
+      "max": [
+       417.39131653134984,
+       126.92647932774729,
+       665.8776839350571
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Terebinth_L1_Leaf.obj",
+   "sha256": "1cc6654bfb7aa2b9afb0f7c7916ae48d120e03157d863a21c1b1c060e34cee34",
+   "bytes": 38870,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -597.4271448536356,
+     -678.2571615965629,
+     189.99468524797348
+    ],
+    "max": [
+     805.9222629049045,
+     601.6479449763239,
+     893.4687561729023
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 5e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -597.4271448536356,
+       -678.2571615965629,
+       189.99468524797348
+      ],
+      "max": [
+       805.9222629049045,
+       601.6479449763239,
+       893.4687561729023
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Bark",
+   "file": "SM_JudeanFloraV1_Terebinth_L2_Bark.obj",
+   "sha256": "339da44e3e3dd9cc37c586a6e5d985b607446a4206bd64c061769eeaffb7486d",
+   "bytes": 2167,
+   "triangles": 20,
+   "vertices": 12,
+   "normals": 18,
+   "canonicalBoundsCm": {
+    "min": [
+     -37.1645009820444,
+     -44.16243864408884,
+     -3.0518923851798037
+    ],
+    "max": [
+     59.30475908013271,
+     64.44264047353538,
+     307.628461566651
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L2_Bark",
+     "kind": "solid",
+     "triangles": 20,
+     "vertices": 12,
+     "signedVolumeCm3": 562563.4741,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -37.1645009820444,
+       -44.16243864408884,
+       -3.0518923851798037
+      ],
+      "max": [
+       59.30475908013271,
+       64.44264047353538,
+       307.628461566651
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 2,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Leaf",
+   "file": "SM_JudeanFloraV1_Terebinth_L2_Leaf.obj",
+   "sha256": "f571870bed74cd4daff0eacb3a6d171e0f2acb2d38d4d4aa96786786f7338508",
+   "bytes": 6350,
+   "triangles": 40,
+   "vertices": 80,
+   "normals": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -591.0719361471461,
+     -598.4398566301918,
+     127.95065284384526
+    ],
+    "max": [
+     526.35765313271,
+     593.3857934284374,
+     958.1778950618348
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L2_Leaf",
+     "kind": "card",
+     "triangles": 40,
+     "vertices": 80,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -591.0719361471461,
+       -598.4398566301918,
+       127.95065284384526
+      ],
+      "max": [
+       526.35765313271,
+       593.3857934284374,
+       958.1778950618348
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 2,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 12000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Bark",
+   "file": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Bark.obj",
+   "sha256": "1f719911950f47a3ae153d064e61b796e5a3168480333387f6b82a0a4173ab48",
+   "bytes": 63218,
+   "triangles": 780,
+   "vertices": 434,
+   "normals": 487,
+   "canonicalBoundsCm": {
+    "min": [
+     -737.7144466708917,
+     -476.93007921370344,
+     -12.018001650137057
+    ],
+    "max": [
+     277.07304819564075,
+     413.79758280947055,
+     901.4149825044241
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L0_Bark",
+     "kind": "solid",
+     "triangles": 780,
+     "vertices": 434,
+     "signedVolumeCm3": 973986.2198,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -737.7144466708917,
+       -476.93007921370344,
+       -12.018001650137057
+      ],
+      "max": [
+       277.07304819564075,
+       413.79758280947055,
+       901.4149825044241
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Leaf.obj",
+   "sha256": "f4faa8c418ea897910649f9fbca71a2240fdde052fd8e91f3a24e2e4798a983b",
+   "bytes": 169120,
+   "triangles": 1080,
+   "vertices": 2160,
+   "normals": 540,
+   "canonicalBoundsCm": {
+    "min": [
+     -890.723402869373,
+     -696.5419974733986,
+     131.5333541723072
+    ],
+    "max": [
+     524.3715316846731,
+     572.2951437349432,
+     857.1476950264764
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L0_Leaf",
+     "kind": "card",
+     "triangles": 1080,
+     "vertices": 2160,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -890.723402869373,
+       -696.5419974733986,
+       131.5333541723072
+      ],
+      "max": [
+       524.3715316846731,
+       572.2951437349432,
+       857.1476950264764
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 0,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Bark",
+   "file": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Bark.obj",
+   "sha256": "547a34877f0adf2bb8f03540a23bcfd8b20781de080d1b14f7ae21e506faf555",
+   "bytes": 9730,
+   "triangles": 116,
+   "vertices": 66,
+   "normals": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -460.3955725386066,
+     -418.32866862046797,
+     -10.099947267165488
+    ],
+    "max": [
+     94.17484263107043,
+     224.077013096213,
+     679.0372582498258
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L1_Bark",
+     "kind": "solid",
+     "triangles": 116,
+     "vertices": 66,
+     "signedVolumeCm3": 620589.0989,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -460.3955725386066,
+       -418.32866862046797,
+       -10.099947267165488
+      ],
+      "max": [
+       94.17484263107043,
+       224.077013096213,
+       679.0372582498258
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "bark",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Leaf.obj",
+   "sha256": "c0c68d236ce309df7e1851350a8a2eda4d3287b70fc01fd3959baccaaeac6427",
+   "bytes": 38906,
+   "triangles": 256,
+   "vertices": 512,
+   "normals": 128,
+   "canonicalBoundsCm": {
+    "min": [
+     -827.371544768709,
+     -804.2329250020247,
+     66.37671638392686
+    ],
+    "max": [
+     612.209841908646,
+     636.7198309454013,
+     893.0138862388335
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_L1_Leaf",
+     "kind": "card",
+     "triangles": 256,
+     "vertices": 512,
+     "signedVolumeCm3": 1e-09,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -827.371544768709,
+       -804.2329250020247,
+       66.37671638392686
+      ],
+      "max": [
+       612.209841908646,
+       636.7198309454013,
+       893.0138862388335
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 1,
+   "variant": "gnarled",
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 4000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Billboard",
+   "file": "SM_JudeanFloraV1_Terebinth_Billboard.obj",
+   "sha256": "35c222093819767d7ce12dac95e85c811fa3e163066757c7a549593fd434241d",
+   "bytes": 702,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -400.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     400.0,
+     0.0,
+     800.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Terebinth_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -400.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       400.0,
+       0.0,
+       800.0
+      ]
+     }
+    }
+   ],
+   "species": "Terebinth",
+   "lod": 3,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 30000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Bark",
+   "file": "SM_JudeanFloraV1_Sage_L0_Bark.obj",
+   "sha256": "4fced4ea40c61b2dfd87cded588c57e81562bfd7a8714b6332f89f6e6b42e8aa",
+   "bytes": 15215,
+   "triangles": 180,
+   "vertices": 108,
+   "normals": 161,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.558880417337722,
+     -27.420772940601257,
+     -1.293614974644742
+    ],
+    "max": [
+     24.971568165635123,
+     35.55515693647722,
+     70.6036790395334
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Sage_L0_Bark",
+     "kind": "solid",
+     "triangles": 180,
+     "vertices": 108,
+     "signedVolumeCm3": 3795.6653,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -25.558880417337722,
+       -27.420772940601257,
+       -1.293614974644742
+      ],
+      "max": [
+       24.971568165635123,
+       35.55515693647722,
+       70.6036790395334
+      ]
+     }
+    }
+   ],
+   "species": "Sage",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Sage_L0_Leaf.obj",
+   "sha256": "97fee2228de061f3e1ad3c98441824535d27aa801a84f1b996b5420ec3b99c02",
+   "bytes": 18758,
+   "triangles": 128,
+   "vertices": 256,
+   "normals": 64,
+   "canonicalBoundsCm": {
+    "min": [
+     -57.14443422486234,
+     -62.331962949390814,
+     4.4427438281391805
+    ],
+    "max": [
+     50.224053390620014,
+     53.13510710248648,
+     81.41268219667634
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Sage_L0_Leaf",
+     "kind": "card",
+     "triangles": 128,
+     "vertices": 256,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -57.14443422486234,
+       -62.331962949390814,
+       4.4427438281391805
+      ],
+      "max": [
+       50.224053390620014,
+       53.13510710248648,
+       81.41268219667634
+      ]
+     }
+    }
+   ],
+   "species": "Sage",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Bark",
+   "file": "SM_JudeanFloraV1_Sage_L1_Bark.obj",
+   "sha256": "f042c3793303333fe91ddf25b72f3b38659092a6a9eabe8283135418af70749b",
+   "bytes": 6912,
+   "triangles": 80,
+   "vertices": 48,
+   "normals": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.416064450008797,
+     -27.30089596411865,
+     -0.928851029622079
+    ],
+    "max": [
+     21.31277761423229,
+     27.613674729748304,
+     70.56244850547843
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Sage_L1_Bark",
+     "kind": "solid",
+     "triangles": 80,
+     "vertices": 48,
+     "signedVolumeCm3": 1930.534,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -23.416064450008797,
+       -27.30089596411865,
+       -0.928851029622079
+      ],
+      "max": [
+       21.31277761423229,
+       27.613674729748304,
+       70.56244850547843
+      ]
+     }
+    }
+   ],
+   "species": "Sage",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Sage_L1_Leaf.obj",
+   "sha256": "239f929afd5245fb5770c3402da1910e7184fecfbecec99fb268d6fa72118860",
+   "bytes": 3848,
+   "triangles": 24,
+   "vertices": 48,
+   "normals": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -71.51084572633287,
+     -67.2879410713724,
+     18.055817382629645
+    ],
+    "max": [
+     51.03711288786154,
+     51.757990678586815,
+     83.66427381856055
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Sage_L1_Leaf",
+     "kind": "card",
+     "triangles": 24,
+     "vertices": 48,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -71.51084572633287,
+       -67.2879410713724,
+       18.055817382629645
+      ],
+      "max": [
+       51.03711288786154,
+       51.757990678586815,
+       83.66427381856055
+      ]
+     }
+    }
+   ],
+   "species": "Sage",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_Billboard",
+   "file": "SM_JudeanFloraV1_Sage_Billboard.obj",
+   "sha256": "828e713ba147c35eba79300f0346f23e5ae4998eaab31ae5f44bed95361bc7f9",
+   "bytes": 693,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -44.99999999999999,
+     0.0,
+     0.0
+    ],
+    "max": [
+     44.99999999999999,
+     0.0,
+     75.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Sage_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -44.99999999999999,
+       0.0,
+       0.0
+      ],
+      "max": [
+       44.99999999999999,
+       0.0,
+       75.0
+      ]
+     }
+    }
+   ],
+   "species": "Sage",
+   "lod": 2,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 8000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "file": "SM_JudeanFloraV1_Hyssop_L0_Bark.obj",
+   "sha256": "640a50808f42a18baac15b6efad3b96c71f031a65bbb704d0cde91b816270d9e",
+   "bytes": 15187,
+   "triangles": 180,
+   "vertices": 108,
+   "normals": 161,
+   "canonicalBoundsCm": {
+    "min": [
+     -16.77997353876436,
+     -15.85845551588197,
+     -0.562490807655526
+    ],
+    "max": [
+     15.715294463133668,
+     11.680916839069413,
+     45.47856548006352
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Hyssop_L0_Bark",
+     "kind": "solid",
+     "triangles": 180,
+     "vertices": 108,
+     "signedVolumeCm3": 771.8805,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -16.77997353876436,
+       -15.85845551588197,
+       -0.562490807655526
+      ],
+      "max": [
+       15.715294463133668,
+       11.680916839069413,
+       45.47856548006352
+      ]
+     }
+    }
+   ],
+   "species": "Hyssop",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Hyssop_L0_Leaf.obj",
+   "sha256": "43c4754c72b6f449c2ddd205a3eeaa7f22f29c5d3e04f85f7f28f99ad0dad5ef",
+   "bytes": 18529,
+   "triangles": 128,
+   "vertices": 256,
+   "normals": 64,
+   "canonicalBoundsCm": {
+    "min": [
+     -32.06003562189766,
+     -31.868805615297664,
+     4.753108813402331
+    ],
+    "max": [
+     33.896104640510806,
+     32.05798714911046,
+     52.31281242383997
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Hyssop_L0_Leaf",
+     "kind": "card",
+     "triangles": 128,
+     "vertices": 256,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -32.06003562189766,
+       -31.868805615297664,
+       4.753108813402331
+      ],
+      "max": [
+       33.896104640510806,
+       32.05798714911046,
+       52.31281242383997
+      ]
+     }
+    }
+   ],
+   "species": "Hyssop",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Bark",
+   "file": "SM_JudeanFloraV1_Hyssop_L1_Bark.obj",
+   "sha256": "06ec3a518751678290e7fd6da1d1c38ceccb04a06c5f89a955756ad0073620d0",
+   "bytes": 6872,
+   "triangles": 80,
+   "vertices": 48,
+   "normals": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -10.669047140978124,
+     -8.901784244399842,
+     -0.47296959451825055
+    ],
+    "max": [
+     15.715294463133668,
+     6.71570500657046,
+     45.44874254333657
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Hyssop_L1_Bark",
+     "kind": "solid",
+     "triangles": 80,
+     "vertices": 48,
+     "signedVolumeCm3": 378.6094,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -10.669047140978124,
+       -8.901784244399842,
+       -0.47296959451825055
+      ],
+      "max": [
+       15.715294463133668,
+       6.71570500657046,
+       45.44874254333657
+      ]
+     }
+    }
+   ],
+   "species": "Hyssop",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Hyssop_L1_Leaf.obj",
+   "sha256": "2d7fe2f7ffefb1395c7138e924e2bac22d5832bd5af59e4634b09fbb27a000f1",
+   "bytes": 3785,
+   "triangles": 24,
+   "vertices": 48,
+   "normals": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -33.825739060271005,
+     -32.09693084721352,
+     -0.7039289572423648
+    ],
+    "max": [
+     29.19798933054619,
+     39.04708418098567,
+     57.76736999674668
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Hyssop_L1_Leaf",
+     "kind": "card",
+     "triangles": 24,
+     "vertices": 48,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -33.825739060271005,
+       -32.09693084721352,
+       -0.7039289572423648
+      ],
+      "max": [
+       29.19798933054619,
+       39.04708418098567,
+       57.76736999674668
+      ]
+     }
+    }
+   ],
+   "species": "Hyssop",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_Billboard",
+   "file": "SM_JudeanFloraV1_Hyssop_Billboard.obj",
+   "sha256": "98849184bf4f31453697c8b13ebdbb68c8799f8916a1834616933bf992a1bb28",
+   "bytes": 697,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     25.0,
+     0.0,
+     50.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Hyssop_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -25.0,
+       0.0,
+       0.0
+      ],
+      "max": [
+       25.0,
+       0.0,
+       50.0
+      ]
+     }
+    }
+   ],
+   "species": "Hyssop",
+   "lod": 2,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 8000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "file": "SM_JudeanFloraV1_Rockrose_L0_Bark.obj",
+   "sha256": "5d62bb8a2224216bd8b944c603be68688a23a8339c07653c718b4da0720e9a16",
+   "bytes": 15227,
+   "triangles": 180,
+   "vertices": 108,
+   "normals": 162,
+   "canonicalBoundsCm": {
+    "min": [
+     -27.56967139302659,
+     -30.997359490999347,
+     -1.1519996061341427
+    ],
+    "max": [
+     34.436777652117186,
+     32.783123408714225,
+     80.76131867272908
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Rockrose_L0_Bark",
+     "kind": "solid",
+     "triangles": 180,
+     "vertices": 108,
+     "signedVolumeCm3": 4022.7385,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -27.56967139302659,
+       -30.997359490999347,
+       -1.1519996061341427
+      ],
+      "max": [
+       34.436777652117186,
+       32.783123408714225,
+       80.76131867272908
+      ]
+     }
+    }
+   ],
+   "species": "Rockrose",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "file": "SM_JudeanFloraV1_Rockrose_L0_Leaf.obj",
+   "sha256": "6c42060d04a4a688b2ba0540986ef39f5be98fbcd4b8d00b05ef71df80edd880",
+   "bytes": 18720,
+   "triangles": 128,
+   "vertices": 256,
+   "normals": 64,
+   "canonicalBoundsCm": {
+    "min": [
+     -57.158988116691845,
+     -52.71684824451894,
+     5.802512990552003
+    ],
+    "max": [
+     58.417133974632755,
+     62.831331490040874,
+     78.72742246861581
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Rockrose_L0_Leaf",
+     "kind": "card",
+     "triangles": 128,
+     "vertices": 256,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -57.158988116691845,
+       -52.71684824451894,
+       5.802512990552003
+      ],
+      "max": [
+       58.417133974632755,
+       62.831331490040874,
+       78.72742246861581
+      ]
+     }
+    }
+   ],
+   "species": "Rockrose",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Bark",
+   "file": "SM_JudeanFloraV1_Rockrose_L1_Bark.obj",
+   "sha256": "3f6a2e704509815ea7214f8244203bb2662ef167682c3a3b539e28bdb96f2af6",
+   "bytes": 6895,
+   "triangles": 80,
+   "vertices": 48,
+   "normals": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -19.924590400835005,
+     -32.73819622420563,
+     -0.962531720356516
+    ],
+    "max": [
+     21.71993228458995,
+     30.16202603482563,
+     80.76131867272908
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Rockrose_L1_Bark",
+     "kind": "solid",
+     "triangles": 80,
+     "vertices": 48,
+     "signedVolumeCm3": 2098.2093,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -19.924590400835005,
+       -32.73819622420563,
+       -0.962531720356516
+      ],
+      "max": [
+       21.71993228458995,
+       30.16202603482563,
+       80.76131867272908
+      ]
+     }
+    }
+   ],
+   "species": "Rockrose",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Leaf",
+   "file": "SM_JudeanFloraV1_Rockrose_L1_Leaf.obj",
+   "sha256": "265dd256e8603747fe1624045bda87107f225e7accdd2ff7c640c68ac072a64c",
+   "bytes": 3800,
+   "triangles": 24,
+   "vertices": 48,
+   "normals": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -38.983698807961005,
+     -66.47344681240546,
+     -4.5877370193538525
+    ],
+    "max": [
+     67.87399923614699,
+     75.10693244518666,
+     62.167460215462285
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Rockrose_L1_Leaf",
+     "kind": "card",
+     "triangles": 24,
+     "vertices": 48,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -38.983698807961005,
+       -66.47344681240546,
+       -4.5877370193538525
+      ],
+      "max": [
+       67.87399923614699,
+       75.10693244518666,
+       62.167460215462285
+      ]
+     }
+    }
+   ],
+   "species": "Rockrose",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_Billboard",
+   "file": "SM_JudeanFloraV1_Rockrose_Billboard.obj",
+   "sha256": "f153c562255e78dd02eedc7846643ac27962b0d620056fe1eaa727bb813ad2f9",
+   "bytes": 694,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -47.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     47.5,
+     0.0,
+     85.0
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "Rockrose_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -47.5,
+       0.0,
+       0.0
+      ],
+      "max": [
+       47.5,
+       0.0,
+       85.0
+      ]
+     }
+    }
+   ],
+   "species": "Rockrose",
+   "lod": 2,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 8000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "file": "SM_JudeanFloraV1_ThornyBurnet_L0_Bark.obj",
+   "sha256": "8b6a32137e82c2a8016ec0031c2c2f8798aca321c4f83b102b30681403cef041",
+   "bytes": 15208,
+   "triangles": 180,
+   "vertices": 108,
+   "normals": 160,
+   "canonicalBoundsCm": {
+    "min": [
+     -16.531828776774002,
+     -16.712939598187937,
+     -1.2168630421959943
+    ],
+    "max": [
+     16.222387865549504,
+     20.8177741172234,
+     25.127302751517853
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "ThornyBurnet_L0_Bark",
+     "kind": "solid",
+     "triangles": 180,
+     "vertices": 108,
+     "signedVolumeCm3": 846.8054,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -16.531828776774002,
+       -16.712939598187937,
+       -1.2168630421959943
+      ],
+      "max": [
+       16.222387865549504,
+       20.8177741172234,
+       25.127302751517853
+      ]
+     }
+    }
+   ],
+   "species": "ThornyBurnet",
+   "lod": 0,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "file": "SM_JudeanFloraV1_ThornyBurnet_L0_Leaf.obj",
+   "sha256": "7fb5282aac634ce097df1072f0ee2ab6435e409134285dfe6c31c404d9af9292",
+   "bytes": 18736,
+   "triangles": 128,
+   "vertices": 256,
+   "normals": 64,
+   "canonicalBoundsCm": {
+    "min": [
+     -36.9267129614752,
+     -45.09855609421264,
+     -6.040591078131318
+    ],
+    "max": [
+     33.685231094997995,
+     43.71176064451877,
+     51.28420682893233
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "ThornyBurnet_L0_Leaf",
+     "kind": "card",
+     "triangles": 128,
+     "vertices": 256,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -36.9267129614752,
+       -45.09855609421264,
+       -6.040591078131318
+      ],
+      "max": [
+       33.685231094997995,
+       43.71176064451877,
+       51.28420682893233
+      ]
+     }
+    }
+   ],
+   "species": "ThornyBurnet",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Bark",
+   "file": "SM_JudeanFloraV1_ThornyBurnet_L1_Bark.obj",
+   "sha256": "235f9d607f84e102507a12ba9a73d2691e8b249037153a56d2af399debdcdf29",
+   "bytes": 6908,
+   "triangles": 80,
+   "vertices": 48,
+   "normals": 71,
+   "canonicalBoundsCm": {
+    "min": [
+     -12.092260383287526,
+     -24.046833424428556,
+     -1.2168630421959943
+    ],
+    "max": [
+     11.612522310681715,
+     16.76713874347639,
+     25.127302751517853
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "ThornyBurnet_L1_Bark",
+     "kind": "solid",
+     "triangles": 80,
+     "vertices": 48,
+     "signedVolumeCm3": 418.0293,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -12.092260383287526,
+       -24.046833424428556,
+       -1.2168630421959943
+      ],
+      "max": [
+       11.612522310681715,
+       16.76713874347639,
+       25.127302751517853
+      ]
+     }
+    }
+   ],
+   "species": "ThornyBurnet",
+   "lod": 1,
+   "materialRole": "bark",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Leaf",
+   "file": "SM_JudeanFloraV1_ThornyBurnet_L1_Leaf.obj",
+   "sha256": "8b53db64cff44af4f14eb7b8c4639b7182198dd2e52b4f9dc44aa29196e6a7ef",
+   "bytes": 3886,
+   "triangles": 24,
+   "vertices": 48,
+   "normals": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -47.11159695918217,
+     -53.832400576343986,
+     -13.193143162825677
+    ],
+    "max": [
+     32.05272829364652,
+     47.37111185340473,
+     56.85749260258766
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "ThornyBurnet_L1_Leaf",
+     "kind": "card",
+     "triangles": 24,
+     "vertices": 48,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -47.11159695918217,
+       -53.832400576343986,
+       -13.193143162825677
+      ],
+      "max": [
+       32.05272829364652,
+       47.37111185340473,
+       56.85749260258766
+      ]
+     }
+    }
+   ],
+   "species": "ThornyBurnet",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 2500.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_Billboard",
+   "file": "SM_JudeanFloraV1_ThornyBurnet_Billboard.obj",
+   "sha256": "40d5d92cb4390b6a5276d7cc03384a0a657421d1d6f370bd612dfb468c1b7765",
+   "bytes": 703,
+   "triangles": 2,
+   "vertices": 4,
+   "normals": 1,
+   "canonicalBoundsCm": {
+    "min": [
+     -32.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     32.5,
+     0.0,
+     44.99999999999999
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "ThornyBurnet_Billboard",
+     "kind": "billboard",
+     "triangles": 2,
+     "vertices": 4,
+     "closed": false,
+     "windingCheckExempt": "single open camera-facing quad; a closed-shell or signed-volume test is meaningless for it",
+     "boundsCm": {
+      "min": [
+       -32.5,
+       0.0,
+       0.0
+      ],
+      "max": [
+       32.5,
+       0.0,
+       44.99999999999999
+      ]
+     }
+    }
+   ],
+   "species": "ThornyBurnet",
+   "lod": 2,
+   "materialRole": "billboard",
+   "lodStartDistanceCm": 8000.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "file": "SM_JudeanFloraV1_DryGrass_L0_Leaf.obj",
+   "sha256": "ca6ea08bd93770cf0dd43d433d7ec41ebb5f54fe40fb158f1b3a154441f68f3b",
+   "bytes": 6584,
+   "triangles": 44,
+   "vertices": 88,
+   "normals": 22,
+   "canonicalBoundsCm": {
+    "min": [
+     -48.44478972801014,
+     -26.477490075506765,
+     1.1061061692789167
+    ],
+    "max": [
+     40.51025753394231,
+     41.539835609181644,
+     59.4352440682224
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DryGrass_L0_Leaf",
+     "kind": "card",
+     "triangles": 44,
+     "vertices": 88,
+     "signedVolumeCm3": 0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -48.44478972801014,
+       -26.477490075506765,
+       1.1061061692789167
+      ],
+      "max": [
+       40.51025753394231,
+       41.539835609181644,
+       59.4352440682224
+      ]
+     }
+    }
+   ],
+   "species": "DryGrass",
+   "lod": 0,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 0.0
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L1_Leaf",
+   "file": "SM_JudeanFloraV1_DryGrass_L1_Leaf.obj",
+   "sha256": "3d64bc21cf84655872a541f539e2ab085e7499646078a1b8145fe41e55c01d50",
+   "bytes": 2753,
+   "triangles": 16,
+   "vertices": 32,
+   "normals": 8,
+   "canonicalBoundsCm": {
+    "min": [
+     -33.13814049498194,
+     -26.477490075506765,
+     2.3837498101743826
+    ],
+    "max": [
+     40.51025753394231,
+     40.92197042874847,
+     51.65561710815028
+    ]
+   },
+   "partChecks": [
+    {
+     "part": "DryGrass_L1_Leaf",
+     "kind": "card",
+     "triangles": 16,
+     "vertices": 32,
+     "signedVolumeCm3": -0.0,
+     "closed": true,
+     "boundsCm": {
+      "min": [
+       -33.13814049498194,
+       -26.477490075506765,
+       2.3837498101743826
+      ],
+      "max": [
+       40.51025753394231,
+       40.92197042874847,
+       51.65561710815028
+      ]
+     }
+    }
+   ],
+   "species": "DryGrass",
+   "lod": 1,
+   "materialRole": "leaf",
+   "lodStartDistanceCm": 1500.0
+  }
+ ],
+ "readback": [
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Bark",
+   "boundsErrorCm": 4.048e-06,
+   "fileSpaceSignedVolumeCm3": 1301383.501,
+   "canonicalSignedVolumeCm3": 1301383.502,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Leaf",
+   "boundsErrorCm": 4.703e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Bark",
+   "boundsErrorCm": 4.493e-06,
+   "fileSpaceSignedVolumeCm3": 980239.925,
+   "canonicalSignedVolumeCm3": 980239.922,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Leaf",
+   "boundsErrorCm": 1.979e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Bark",
+   "boundsErrorCm": 4.939e-06,
+   "fileSpaceSignedVolumeCm3": 714683.595,
+   "canonicalSignedVolumeCm3": 714683.606,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Leaf",
+   "boundsErrorCm": 4.96e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Bark",
+   "boundsErrorCm": 4.821e-06,
+   "fileSpaceSignedVolumeCm3": 966369.325,
+   "canonicalSignedVolumeCm3": 966369.333,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Leaf",
+   "boundsErrorCm": 4.691e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Bark",
+   "boundsErrorCm": 3.692e-06,
+   "fileSpaceSignedVolumeCm3": 589934.927,
+   "canonicalSignedVolumeCm3": 589934.901,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Leaf",
+   "boundsErrorCm": 2.906e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "boundsErrorCm": 4.731e-06,
+   "fileSpaceSignedVolumeCm3": 1280719.675,
+   "canonicalSignedVolumeCm3": 1280719.7,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "boundsErrorCm": 3.662e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Bark",
+   "boundsErrorCm": 4.852e-06,
+   "fileSpaceSignedVolumeCm3": 945470.303,
+   "canonicalSignedVolumeCm3": 945470.287,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Leaf",
+   "boundsErrorCm": 3.693e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Bark",
+   "boundsErrorCm": 4.54e-06,
+   "fileSpaceSignedVolumeCm3": 718075.862,
+   "canonicalSignedVolumeCm3": 718075.835,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Leaf",
+   "boundsErrorCm": 4.453e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Bark",
+   "boundsErrorCm": 4.931e-06,
+   "fileSpaceSignedVolumeCm3": 558916.27,
+   "canonicalSignedVolumeCm3": 558916.34,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "boundsErrorCm": 4.352e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Bark",
+   "boundsErrorCm": 3.729e-06,
+   "fileSpaceSignedVolumeCm3": 340300.271,
+   "canonicalSignedVolumeCm3": 340300.26,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Leaf",
+   "boundsErrorCm": 4.622e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Bark",
+   "boundsErrorCm": 4.79e-06,
+   "fileSpaceSignedVolumeCm3": 225509.151,
+   "canonicalSignedVolumeCm3": 225509.165,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Leaf",
+   "boundsErrorCm": 4.847e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Bark",
+   "boundsErrorCm": 3.845e-06,
+   "fileSpaceSignedVolumeCm3": 185674.467,
+   "canonicalSignedVolumeCm3": 185674.47,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Leaf",
+   "boundsErrorCm": 4.964e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Bark",
+   "boundsErrorCm": 4.946e-06,
+   "fileSpaceSignedVolumeCm3": 136386.4,
+   "canonicalSignedVolumeCm3": 136386.39,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Leaf",
+   "boundsErrorCm": 4.842e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Bark",
+   "boundsErrorCm": 4.946e-06,
+   "fileSpaceSignedVolumeCm3": 100860.644,
+   "canonicalSignedVolumeCm3": 100860.662,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Leaf",
+   "boundsErrorCm": 4.301e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Bark",
+   "boundsErrorCm": 4.417e-06,
+   "fileSpaceSignedVolumeCm3": 162053.79,
+   "canonicalSignedVolumeCm3": 162053.785,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Leaf",
+   "boundsErrorCm": 4.393e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Bark",
+   "boundsErrorCm": 4.665e-06,
+   "fileSpaceSignedVolumeCm3": 106169.75,
+   "canonicalSignedVolumeCm3": 106169.759,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Leaf",
+   "boundsErrorCm": 4.036e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Bark",
+   "boundsErrorCm": 3.932e-06,
+   "fileSpaceSignedVolumeCm3": 399738.881,
+   "canonicalSignedVolumeCm3": 399738.873,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Leaf",
+   "boundsErrorCm": 3.637e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Bark",
+   "boundsErrorCm": 4.562e-06,
+   "fileSpaceSignedVolumeCm3": 286154.355,
+   "canonicalSignedVolumeCm3": 286154.365,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Leaf",
+   "boundsErrorCm": 4.089e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Bark",
+   "boundsErrorCm": 2.017e-06,
+   "fileSpaceSignedVolumeCm3": 204523.399,
+   "canonicalSignedVolumeCm3": 204523.396,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Leaf",
+   "boundsErrorCm": 4.256e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Bark",
+   "boundsErrorCm": 4.713e-06,
+   "fileSpaceSignedVolumeCm3": 337269.669,
+   "canonicalSignedVolumeCm3": 337269.686,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Leaf",
+   "boundsErrorCm": 4.606e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Bark",
+   "boundsErrorCm": 4.248e-06,
+   "fileSpaceSignedVolumeCm3": 226908.538,
+   "canonicalSignedVolumeCm3": 226908.547,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Leaf",
+   "boundsErrorCm": 4.89e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "boundsErrorCm": 4.619e-06,
+   "fileSpaceSignedVolumeCm3": 41455.009,
+   "canonicalSignedVolumeCm3": 41455.005,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "boundsErrorCm": 4.897e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Bark",
+   "boundsErrorCm": 4.825e-06,
+   "fileSpaceSignedVolumeCm3": 29713.86,
+   "canonicalSignedVolumeCm3": 29713.863,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Leaf",
+   "boundsErrorCm": 4.25e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Bark",
+   "boundsErrorCm": 4.423e-06,
+   "fileSpaceSignedVolumeCm3": 22097.585,
+   "canonicalSignedVolumeCm3": 22097.581,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Leaf",
+   "boundsErrorCm": 4.922e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "boundsErrorCm": 4.323e-06,
+   "fileSpaceSignedVolumeCm3": 1919925.76,
+   "canonicalSignedVolumeCm3": 1919925.755,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "boundsErrorCm": 4.715e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Bark",
+   "boundsErrorCm": 4.768e-06,
+   "fileSpaceSignedVolumeCm3": 1702728.155,
+   "canonicalSignedVolumeCm3": 1702728.11,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Leaf",
+   "boundsErrorCm": 4.374e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Bark",
+   "boundsErrorCm": 3.954e-06,
+   "fileSpaceSignedVolumeCm3": 1310448.439,
+   "canonicalSignedVolumeCm3": 1310448.296,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Leaf",
+   "boundsErrorCm": 4.177e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Bark",
+   "boundsErrorCm": 3.986e-06,
+   "fileSpaceSignedVolumeCm3": 1187864.83,
+   "canonicalSignedVolumeCm3": 1187864.861,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Leaf",
+   "boundsErrorCm": 4.845e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Bark",
+   "boundsErrorCm": 3.898e-06,
+   "fileSpaceSignedVolumeCm3": 873503.432,
+   "canonicalSignedVolumeCm3": 873503.461,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Leaf",
+   "boundsErrorCm": 4.452e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Bark",
+   "boundsErrorCm": 4.566e-06,
+   "fileSpaceSignedVolumeCm3": 638902.607,
+   "canonicalSignedVolumeCm3": 638902.654,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Leaf",
+   "boundsErrorCm": 3.847e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Bark",
+   "boundsErrorCm": 4.985e-06,
+   "fileSpaceSignedVolumeCm3": 1048986.583,
+   "canonicalSignedVolumeCm3": 1048986.604,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Leaf",
+   "boundsErrorCm": 3.926e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": -0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Bark",
+   "boundsErrorCm": 4.833e-06,
+   "fileSpaceSignedVolumeCm3": 683297.751,
+   "canonicalSignedVolumeCm3": 683297.752,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Leaf",
+   "boundsErrorCm": 4.971e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "boundsErrorCm": 3.087e-06,
+   "fileSpaceSignedVolumeCm3": 1062915.319,
+   "canonicalSignedVolumeCm3": 1062915.253,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "boundsErrorCm": 4.429e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Bark",
+   "boundsErrorCm": 3.935e-06,
+   "fileSpaceSignedVolumeCm3": 778009.812,
+   "canonicalSignedVolumeCm3": 778009.814,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Leaf",
+   "boundsErrorCm": 4.976e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Bark",
+   "boundsErrorCm": 2.385e-06,
+   "fileSpaceSignedVolumeCm3": 562563.373,
+   "canonicalSignedVolumeCm3": 562563.474,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Leaf",
+   "boundsErrorCm": 4.938e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Bark",
+   "boundsErrorCm": 3.329e-06,
+   "fileSpaceSignedVolumeCm3": 973986.231,
+   "canonicalSignedVolumeCm3": 973986.22,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Leaf",
+   "boundsErrorCm": 4.974e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Bark",
+   "boundsErrorCm": 3.096e-06,
+   "fileSpaceSignedVolumeCm3": 620589.151,
+   "canonicalSignedVolumeCm3": 620589.099,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Leaf",
+   "boundsErrorCm": 4.998e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Bark",
+   "boundsErrorCm": 4.975e-06,
+   "fileSpaceSignedVolumeCm3": 3795.666,
+   "canonicalSignedVolumeCm3": 3795.665,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Leaf",
+   "boundsErrorCm": 4.225e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Bark",
+   "boundsErrorCm": 4.73e-06,
+   "fileSpaceSignedVolumeCm3": 1930.534,
+   "canonicalSignedVolumeCm3": 1930.534,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Leaf",
+   "boundsErrorCm": 4.274e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "boundsErrorCm": 4.52e-06,
+   "fileSpaceSignedVolumeCm3": 771.88,
+   "canonicalSignedVolumeCm3": 771.88,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "boundsErrorCm": 4.641e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Bark",
+   "boundsErrorCm": 4.993e-06,
+   "fileSpaceSignedVolumeCm3": 378.61,
+   "canonicalSignedVolumeCm3": 378.609,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Leaf",
+   "boundsErrorCm": 4.181e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "boundsErrorCm": 3.409e-06,
+   "fileSpaceSignedVolumeCm3": 4022.738,
+   "canonicalSignedVolumeCm3": 4022.738,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "boundsErrorCm": 3.975e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Bark",
+   "boundsErrorCm": 3.965e-06,
+   "fileSpaceSignedVolumeCm3": 2098.21,
+   "canonicalSignedVolumeCm3": 2098.209,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Leaf",
+   "boundsErrorCm": 3.188e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "boundsErrorCm": 4.117e-06,
+   "fileSpaceSignedVolumeCm3": 846.806,
+   "canonicalSignedVolumeCm3": 846.805,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "boundsErrorCm": 3.906e-06,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Bark",
+   "boundsErrorCm": 3.424e-06,
+   "fileSpaceSignedVolumeCm3": 418.029,
+   "canonicalSignedVolumeCm3": 418.029,
+   "adapterSign": "positive_and_volume_preserved"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Leaf",
+   "boundsErrorCm": 3.163e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_Billboard",
+   "boundsErrorCm": 0.0,
+   "fileSpaceSignedVolumeCm3": 0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "boundsErrorCm": 4.391e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L1_Leaf",
+   "boundsErrorCm": 2.892e-06,
+   "fileSpaceSignedVolumeCm3": -0.0,
+   "canonicalSignedVolumeCm3": 0.0,
+   "adapterSign": "not_applicable_non_solid"
+  }
+ ],
+ "textures": [
+  {
+   "species": "Olive",
+   "leafAtlas": "T_Olive_Leaf_BCA.png",
+   "leafAtlasSha256": "7590c4ea750a64083c05b648071ab4cadd85aa01fbd9826269629e1f798bb35b",
+   "barkBaseColour": "T_Olive_Bark_BC.png",
+   "barkBaseColourSha256": "23769a429a98cbdb39dd6019077c9080a4569394f10a2e316f5f0760c10a19bb",
+   "barkNormal": "T_Olive_Bark_N.png",
+   "barkNormalSha256": "d5c40820f882b4e50489350936140248ef6205f8751ed2041932af5687cdff58",
+   "leafShape": "lanceolate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Olive_Billboard_BCA.png",
+   "billboardTextureSha256": "3dc65af482d187a1dda3496c8ddad2e07b381b99c46e4eb70cdc59268c88a0e7",
+   "billboardCoverage": 0.6235,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "JerusalemPine",
+   "leafAtlas": "T_JerusalemPine_Leaf_BCA.png",
+   "leafAtlasSha256": "f6b7035b064465f35219831cf4694a822644ba7d501bcc1e275b19688fd0e9cd",
+   "barkBaseColour": "T_JerusalemPine_Bark_BC.png",
+   "barkBaseColourSha256": "629c21107e9d335398934f69f1e0c5b94d31228a8a3e9022f478630a95b13298",
+   "barkNormal": "T_JerusalemPine_Bark_N.png",
+   "barkNormalSha256": "2e5bade54cb511f44bc0353bbbfb90373fb170b076fce7ede3c02fea328f9ded",
+   "leafShape": "needle",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_JerusalemPine_Billboard_BCA.png",
+   "billboardTextureSha256": "9f66d95694471d252d7057ce847080e4319777c4c715992904d5c06c4eb50691",
+   "billboardCoverage": 0.3761,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Cypress",
+   "leafAtlas": "T_Cypress_Leaf_BCA.png",
+   "leafAtlasSha256": "f6d16d15e3f8d942e960dd4fb2269e2119e2650453d96e0354f1218193dfc1d8",
+   "barkBaseColour": "T_Cypress_Bark_BC.png",
+   "barkBaseColourSha256": "927fbd13e9e19ce7195d5192562f3b2fafc978d18a17044d3a0b8fbe7629628b",
+   "barkNormal": "T_Cypress_Bark_N.png",
+   "barkNormalSha256": "6a1ce7269e849c40ec09c7ca44f9553c2c7133e53bdbe81da799d7aa031a53df",
+   "leafShape": "scale",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Cypress_Billboard_BCA.png",
+   "billboardTextureSha256": "964ad119819d01c4e2d65863bd0c90ea9179703a236dd1e4ce110115b91ab54d",
+   "billboardCoverage": 0.1443,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Almond",
+   "leafAtlas": "T_Almond_Leaf_BCA.png",
+   "leafAtlasSha256": "e160477849f25181c28ea849d54275aaa01037ca4524a4fb4d8c616ee1b2a55c",
+   "barkBaseColour": "T_Almond_Bark_BC.png",
+   "barkBaseColourSha256": "33b7fd9ef2b876716f2c6d3691663b456dd3e08692875fb3b87e7c8b173ba056",
+   "barkNormal": "T_Almond_Bark_N.png",
+   "barkNormalSha256": "5d7ac415880762a61e1e1c19a28896f4ea1c455d7251ad2b9d5f06f19c0b9ac3",
+   "leafShape": "lanceolate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Almond_Billboard_BCA.png",
+   "billboardTextureSha256": "524526f831c904aff7e7d00a7c25350bae0971c759e888881e4f4a70e5c05d6c",
+   "billboardCoverage": 0.6675,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Fig",
+   "leafAtlas": "T_Fig_Leaf_BCA.png",
+   "leafAtlasSha256": "cce498dbb72ca7136af3d7874fbe379dd988cdb2ab8601323a4c571feaab9f71",
+   "barkBaseColour": "T_Fig_Bark_BC.png",
+   "barkBaseColourSha256": "69c460ad0f965acd99f059b50423b2e81047c0428f4d1df59e4dbb6f55eb065f",
+   "barkNormal": "T_Fig_Bark_N.png",
+   "barkNormalSha256": "4643d8fd1fa53e94824a79fe69ae62a2369e1091e7a3fbc96ce4f8009ee57361",
+   "leafShape": "palmate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Fig_Billboard_BCA.png",
+   "billboardTextureSha256": "d5d2e6f238b01658f1c95315eb7411f9f18dda23b7171fbaff19df2621352179",
+   "billboardCoverage": 0.7789,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Pomegranate",
+   "leafAtlas": "T_Pomegranate_Leaf_BCA.png",
+   "leafAtlasSha256": "97255cdd24026cebea484c1f5ea4b73e996597887dce90f0ce305fc559b15e3f",
+   "barkBaseColour": "T_Pomegranate_Bark_BC.png",
+   "barkBaseColourSha256": "56e85f02b5f50e96c27e4e54db6e8285a0ae90690eff01da79042de91075be92",
+   "barkNormal": "T_Pomegranate_Bark_N.png",
+   "barkNormalSha256": "46b2702383334ce3548f2d89faec29749aa60c02e305c94afd4f49cfa58dac7f",
+   "leafShape": "ovate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Pomegranate_Billboard_BCA.png",
+   "billboardTextureSha256": "4b6058a8fb5911296e3529bb807931d1e5947f53b30fffdba1dc2f3861f8c042",
+   "billboardCoverage": 0.7296,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "DatePalm",
+   "leafAtlas": "T_DatePalm_Leaf_BCA.png",
+   "leafAtlasSha256": "8f4bc4c2d68e21935e1a4550e5297cd4256ad2d1d09f33cfa643632d3619c98c",
+   "barkBaseColour": "T_DatePalm_Bark_BC.png",
+   "barkBaseColourSha256": "c10f350e27c4a1446e833d9a5f303d334fe08a5d2a5949c7e1b5d2cc6a811f08",
+   "barkNormal": "T_DatePalm_Bark_N.png",
+   "barkNormalSha256": "316f777fb9d6b385a755f09f7d59a1fe77065e92547e42fd944b3cb6d7ac1286",
+   "leafShape": "pinnate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_DatePalm_Billboard_BCA.png",
+   "billboardTextureSha256": "2fba1f0fab6b69f79236d7a501a02202b99b231423426063db9a5198f75eebee",
+   "billboardCoverage": 0.0522,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Carob",
+   "leafAtlas": "T_Carob_Leaf_BCA.png",
+   "leafAtlasSha256": "a6904b20f98e0960649794cb09a8c5ef6b167ab2f25751fa3ab87d6c6b9a6659",
+   "barkBaseColour": "T_Carob_Bark_BC.png",
+   "barkBaseColourSha256": "4fad98ab3c40c687094fb4f13cb4b56ffb357bd04352c393ff4508d63ebe5fee",
+   "barkNormal": "T_Carob_Bark_N.png",
+   "barkNormalSha256": "1cd59e1e22e393dad76d94504a693abd9ca7a7a72d6f7bcd23cec163bc89f072",
+   "leafShape": "pinnate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Carob_Billboard_BCA.png",
+   "billboardTextureSha256": "19b4bc5bd4be6e51ce4efe3729b5ab39d0cd38a0f25f56c23775066f186bb15f",
+   "billboardCoverage": 0.6768,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Terebinth",
+   "leafAtlas": "T_Terebinth_Leaf_BCA.png",
+   "leafAtlasSha256": "2c1e4d92ec3d04c14fb2c59f3fa287582ebd7d1b0d058ec802a5b842fe436db9",
+   "barkBaseColour": "T_Terebinth_Bark_BC.png",
+   "barkBaseColourSha256": "a4a05714c0ba1dc2bb268912d23fbd5b0594ac59d5b47e2bfd298835989e7633",
+   "barkNormal": "T_Terebinth_Bark_N.png",
+   "barkNormalSha256": "3d84ba67490229fcadd29ec68b26d7354086c2eed0b06adc99764a989a63838a",
+   "leafShape": "pinnate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Terebinth_Billboard_BCA.png",
+   "billboardTextureSha256": "36a87099b68a00e4ff59f6c577281f4de0a171e553a98835e740f2315c92966e",
+   "billboardCoverage": 0.739,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Sage",
+   "leafAtlas": "T_Sage_Leaf_BCA.png",
+   "leafAtlasSha256": "a0c3247351f3abaf1785118f25e67892dd08a45a9a89d5890e080d812dac6b4c",
+   "barkBaseColour": "T_Sage_Bark_BC.png",
+   "barkBaseColourSha256": "2aab871f99d8c746a4985e9b67a17ba75ea2365d4c83cd66d4a76ee56d3088da",
+   "barkNormal": "T_Sage_Bark_N.png",
+   "barkNormalSha256": "a2945f6d5b30dac2ebf9e825453978d1c5bc7327261a9cd9a73c41d4faa6f360",
+   "leafShape": "ovate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Sage_Billboard_BCA.png",
+   "billboardTextureSha256": "f524f9c5402046d236c0e2925cccc48a3b3e3729f2ca172498a1a566b468688a",
+   "billboardCoverage": 0.6449,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Hyssop",
+   "leafAtlas": "T_Hyssop_Leaf_BCA.png",
+   "leafAtlasSha256": "37ee325d9d65a14b3112407e616b917d083da1e45b1cccd6088415ffa12ccdb8",
+   "barkBaseColour": "T_Hyssop_Bark_BC.png",
+   "barkBaseColourSha256": "1535426525be430af3b8b16c4edcb3b665adc5c110e6719d9ed4863bfe9bc292",
+   "barkNormal": "T_Hyssop_Bark_N.png",
+   "barkNormalSha256": "dfb72a301f6c9344b079d0beb5cba0a3070723b2d74983510450608b079fa9c4",
+   "leafShape": "ovate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Hyssop_Billboard_BCA.png",
+   "billboardTextureSha256": "5fc8db2b4a861b4c31b9ce9f33b2efa8f4073fa36f2fb1802eec371e97ff7ecd",
+   "billboardCoverage": 0.7818,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "Rockrose",
+   "leafAtlas": "T_Rockrose_Leaf_BCA.png",
+   "leafAtlasSha256": "21be2fac405df7a7ed559be2ff066f39ee6a94c8943aad3f052f3aa1eb1c3a7c",
+   "barkBaseColour": "T_Rockrose_Bark_BC.png",
+   "barkBaseColourSha256": "6f4076763727083ab00a521e3fd365f297d35965534c1a3416c0ec6cdf539cbf",
+   "barkNormal": "T_Rockrose_Bark_N.png",
+   "barkNormalSha256": "cdbd3666883b4ee057d7089fdde8e5f73b3ba06e67d7e1b6b41c80aaf5180857",
+   "leafShape": "ovate",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_Rockrose_Billboard_BCA.png",
+   "billboardTextureSha256": "8a5994e0157efeb71ef56c616306c17ca9e33ed2b37dcf3dd8ad2155b95111d4",
+   "billboardCoverage": 0.5287,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "ThornyBurnet",
+   "leafAtlas": "T_ThornyBurnet_Leaf_BCA.png",
+   "leafAtlasSha256": "19201a69bcc0128f8dd94b04ca3f136af3e7e117cddbb179a7d27ef7e48c527a",
+   "barkBaseColour": "T_ThornyBurnet_Bark_BC.png",
+   "barkBaseColourSha256": "28b7e05c81a006af72ca5f8753f54de100bbf10d9637bb0d88e0642b16f9b10c",
+   "barkNormal": "T_ThornyBurnet_Bark_N.png",
+   "barkNormalSha256": "98eb19aab0c6c2f9c866ab88da80249137eb36e1096739aece27350d3183378c",
+   "leafShape": "needle",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous.",
+   "billboardTexture": "T_ThornyBurnet_Billboard_BCA.png",
+   "billboardTextureSha256": "611554225aede2373318b2c7177ed07378d8078d5f437147a8cb2668b3060d06",
+   "billboardCoverage": 0.7015,
+   "billboardNote": "An orthographic render of this species' own LOD1 mesh, so the impostor is a picture of the tree it replaces."
+  },
+  {
+   "species": "DryGrass",
+   "leafAtlas": "T_DryGrass_Leaf_BCA.png",
+   "leafAtlasSha256": "eb3db6f82e3af90f5ac22ef53ebb15cba04ee830fdbd3c865ebe0b9bf03ee591",
+   "barkBaseColour": "T_DryGrass_Bark_BC.png",
+   "barkBaseColourSha256": "5ae6839334746e4e013acae2d3c06404dbb6efba4d84ca07ac054f561f8be087",
+   "barkNormal": "T_DryGrass_Bark_N.png",
+   "barkNormalSha256": "5ccfcfafee3f7ce24467d5b02fb3d05d97e858bd7c0e6eddf38d4c3b0e737d57",
+   "leafShape": "blade",
+   "alphaTest": true,
+   "note": "Generated procedurally with the standard library only - no PIL, no numpy, no photograph. The leaf atlas is 2x2 and its alpha edge is hard so an alpha-test threshold of 0.5 is unambiguous."
+  }
+ ],
+ "species": [
+  {
+   "key": "Olive",
+   "label": "olive",
+   "binomial": "Olea europaea",
+   "form": "tree",
+   "heightM": [
+    5.0,
+    12.0
+   ],
+   "crownM": [
+    4.0,
+    8.0
+   ],
+   "trunkDiameterM": [
+    0.3,
+    0.9
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Olea europaea; cultivated Judean groves run 5-10 m with a 4-8 m crown",
+   "pageCited": false,
+   "mikdashSource": "Olive oil for the Menorah, Shemot 27:20 and Mishnah Menachot 8:4-5, which ranks the oil of Tekoa first. The Mount of Olives itself is named in Zecharyah 14:4, and Mishnah Parah 3:6 has the causeway run from the Temple Mount to it for the Red Heifer.",
+   "growsThere": "The characteristic cultivated tree of the terraced Judean hillsides.",
+   "leafShape": "lanceolate",
+   "leafLengthCm": 6.0,
+   "leafColour": [
+    96,
+    112,
+    74
+   ],
+   "leafBackColour": [
+    150,
+    158,
+    132
+   ],
+   "barkColour": [
+    126,
+    118,
+    100
+   ],
+   "evergreen": true,
+   "spacingCm": 520.0,
+   "crownRadiusCm": 320.0,
+   "densityPer100SqM": 0.2,
+   "terraced": true,
+   "clusterRadiusCm": 9000.0,
+   "clusterStrength": 0.72,
+   "clusters": 90,
+   "gnarledFraction": 0.35,
+   "scaleRange": [
+    0.72,
+    1.28
+   ],
+   "tiltDegrees": 7.0,
+   "downhillTilt": 0.3,
+   "band": {
+    "minZ": -9000.0,
+    "maxZ": 14000.0,
+    "featherZ": 2500.0,
+    "minSlope": 2.0,
+    "maxSlope": 32.0,
+    "slopeFeather": 5.0
+   }
+  },
+  {
+   "key": "JerusalemPine",
+   "label": "Jerusalem pine",
+   "binomial": "Pinus halepensis",
+   "form": "tree",
+   "heightM": [
+    10.0,
+    20.0
+   ],
+   "crownM": [
+    5.0,
+    9.0
+   ],
+   "trunkDiameterM": [
+    0.3,
+    0.6
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Pinus halepensis; 10-20 m in the Judean hills, taller only on deep soil",
+   "pageCited": false,
+   "mikdashSource": null,
+   "growsThere": "The dominant conifer of the Jerusalem hills and of a century of afforestation on them; it is what a modern eye reads as \"the hills around Jerusalem\".",
+   "leafShape": "needle",
+   "leafLengthCm": 9.0,
+   "leafColour": [
+    74,
+    100,
+    68
+   ],
+   "leafBackColour": [
+    96,
+    118,
+    86
+   ],
+   "barkColour": [
+    118,
+    92,
+    74
+   ],
+   "evergreen": true,
+   "spacingCm": 700.0,
+   "crownRadiusCm": 400.0,
+   "densityPer100SqM": 0.12,
+   "terraced": false,
+   "clusterRadiusCm": 14000.0,
+   "clusterStrength": 0.8,
+   "clusters": 48,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.78,
+    1.3
+   ],
+   "tiltDegrees": 5.0,
+   "downhillTilt": 0.2,
+   "band": {
+    "minZ": -4000.0,
+    "maxZ": 16000.0,
+    "featherZ": 3000.0,
+    "minSlope": 0.0,
+    "maxSlope": 34.0,
+    "slopeFeather": 6.0
+   }
+  },
+  {
+   "key": "Cypress",
+   "label": "cypress",
+   "binomial": "Cupressus sempervirens",
+   "form": "tree",
+   "heightM": [
+    12.0,
+    22.0
+   ],
+   "crownM": [
+    2.0,
+    5.0
+   ],
+   "trunkDiameterM": [
+    0.25,
+    0.55
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Cupressus sempervirens; the columnar form is 2-5 m across at 12-22 m tall",
+   "pageCited": false,
+   "mikdashSource": "\"Berosh\" supplies the boards, floor and doors of Shlomo's Temple, Melachim I 6:15 and 6:34. The identification of berosh with Cupressus is the common one but is disputed (Juniperus excelsa and Abies cilicica are the rival readings), and that dispute is recorded rather than hidden.",
+   "growsThere": "Native to the eastern Mediterranean hills and long planted on them.",
+   "leafShape": "scale",
+   "leafLengthCm": 3.0,
+   "leafColour": [
+    58,
+    84,
+    62
+   ],
+   "leafBackColour": [
+    74,
+    96,
+    74
+   ],
+   "barkColour": [
+    122,
+    100,
+    82
+   ],
+   "evergreen": true,
+   "spacingCm": 560.0,
+   "crownRadiusCm": 220.0,
+   "densityPer100SqM": 0.05,
+   "terraced": false,
+   "clusterRadiusCm": 6000.0,
+   "clusterStrength": 0.85,
+   "clusters": 40,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.8,
+    1.25
+   ],
+   "tiltDegrees": 3.0,
+   "downhillTilt": 0.1,
+   "band": {
+    "minZ": -6000.0,
+    "maxZ": 15000.0,
+    "featherZ": 2500.0,
+    "minSlope": 0.0,
+    "maxSlope": 30.0,
+    "slopeFeather": 5.0
+   }
+  },
+  {
+   "key": "Almond",
+   "label": "almond",
+   "binomial": "Amygdalus communis (Prunus dulcis)",
+   "form": "tree",
+   "heightM": [
+    3.5,
+    8.0
+   ],
+   "crownM": [
+    3.0,
+    6.0
+   ],
+   "trunkDiameterM": [
+    0.15,
+    0.4
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Amygdalus communis; a small tree of 3.5-8 m",
+   "pageCited": false,
+   "mikdashSource": "The Menorah's cups are \"meshukadim\", made in the form of the almond blossom, Shemot 25:33-34. Aharon's staff bore almonds, Bamidbar 17:23.",
+   "growsThere": "Grows wild and cultivated on the terraces; the first blossom of the Judean spring.",
+   "leafShape": "lanceolate",
+   "leafLengthCm": 8.0,
+   "leafColour": [
+    104,
+    128,
+    76
+   ],
+   "leafBackColour": [
+    138,
+    156,
+    108
+   ],
+   "barkColour": [
+    104,
+    92,
+    82
+   ],
+   "evergreen": false,
+   "spacingCm": 460.0,
+   "crownRadiusCm": 260.0,
+   "densityPer100SqM": 0.07,
+   "terraced": true,
+   "clusterRadiusCm": 7000.0,
+   "clusterStrength": 0.78,
+   "clusters": 44,
+   "gnarledFraction": 0.1,
+   "scaleRange": [
+    0.75,
+    1.25
+   ],
+   "tiltDegrees": 6.0,
+   "downhillTilt": 0.25,
+   "band": {
+    "minZ": -8000.0,
+    "maxZ": 12000.0,
+    "featherZ": 2000.0,
+    "minSlope": 2.0,
+    "maxSlope": 28.0,
+    "slopeFeather": 4.0
+   }
+  },
+  {
+   "key": "Fig",
+   "label": "fig",
+   "binomial": "Ficus carica",
+   "form": "tree",
+   "heightM": [
+    3.0,
+    8.0
+   ],
+   "crownM": [
+    4.0,
+    9.0
+   ],
+   "trunkDiameterM": [
+    0.2,
+    0.6
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Ficus carica; a low, wide, often multi-stemmed tree, crown wider than tall",
+   "pageCited": false,
+   "mikdashSource": "One of the seven species of Devarim 8:8, from which bikkurim are brought to the Mikdash; Mishnah Bikkurim 3:1 has the fig among the first fruits marked in the field and carried up to Yerushalayim.",
+   "growsThere": "Planted at terrace edges and beside cisterns throughout the Judean hills.",
+   "leafShape": "palmate",
+   "leafLengthCm": 18.0,
+   "leafColour": [
+    86,
+    122,
+    66
+   ],
+   "leafBackColour": [
+    124,
+    148,
+    100
+   ],
+   "barkColour": [
+    148,
+    142,
+    128
+   ],
+   "evergreen": false,
+   "spacingCm": 520.0,
+   "crownRadiusCm": 340.0,
+   "densityPer100SqM": 0.05,
+   "terraced": true,
+   "clusterRadiusCm": 5000.0,
+   "clusterStrength": 0.82,
+   "clusters": 52,
+   "gnarledFraction": 0.2,
+   "scaleRange": [
+    0.75,
+    1.25
+   ],
+   "tiltDegrees": 8.0,
+   "downhillTilt": 0.3,
+   "wadiPreference": 0.55,
+   "band": {
+    "minZ": -11000.0,
+    "maxZ": 9000.0,
+    "featherZ": 2000.0,
+    "minSlope": 0.0,
+    "maxSlope": 26.0,
+    "slopeFeather": 4.0
+   }
+  },
+  {
+   "key": "Pomegranate",
+   "label": "pomegranate",
+   "binomial": "Punica granatum",
+   "form": "tree",
+   "heightM": [
+    2.0,
+    5.0
+   ],
+   "crownM": [
+    2.0,
+    4.0
+   ],
+   "trunkDiameterM": [
+    0.08,
+    0.25
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Punica granatum; a large shrub or small tree of 2-5 m",
+   "pageCited": false,
+   "mikdashSource": "Rimonim of blue, purple and scarlet on the hem of the Kohen Gadol's me'il, Shemot 28:33-34, and two hundred rimonim in rows on the capitals of Yachin and Boaz, Melachim I 7:18-20. Also one of the seven species, Devarim 8:8.",
+   "growsThere": "A standard terrace and garden shrub of the hills.",
+   "leafShape": "ovate",
+   "leafLengthCm": 5.0,
+   "leafColour": [
+    96,
+    132,
+    72
+   ],
+   "leafBackColour": [
+    132,
+    156,
+    104
+   ],
+   "barkColour": [
+    140,
+    118,
+    96
+   ],
+   "evergreen": false,
+   "spacingCm": 380.0,
+   "crownRadiusCm": 190.0,
+   "densityPer100SqM": 0.05,
+   "terraced": true,
+   "clusterRadiusCm": 4500.0,
+   "clusterStrength": 0.84,
+   "clusters": 48,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.75,
+    1.3
+   ],
+   "tiltDegrees": 8.0,
+   "downhillTilt": 0.25,
+   "wadiPreference": 0.45,
+   "band": {
+    "minZ": -10000.0,
+    "maxZ": 8000.0,
+    "featherZ": 2000.0,
+    "minSlope": 0.0,
+    "maxSlope": 25.0,
+    "slopeFeather": 4.0
+   }
+  },
+  {
+   "key": "DatePalm",
+   "label": "date palm",
+   "binomial": "Phoenix dactylifera",
+   "form": "palm",
+   "heightM": [
+    12.0,
+    22.0
+   ],
+   "crownM": [
+    6.0,
+    9.0
+   ],
+   "trunkDiameterM": [
+    0.35,
+    0.5
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Phoenix dactylifera; 12-22 m with a 6-9 m crown of pinnate fronds",
+   "pageCited": false,
+   "mikdashSource": "Temarim are carved on every wall, post and gate of Yechezkel's Temple, Yechezkel 40:16, 40:22, 40:26, 41:18-20 - as CARVED RELIEF, not as living trees inside the precinct. The lulav of Vayikra 23:40 and Mishnah Sukkah 3:1 is the palm frond.",
+   "growsThere": "The date palm needs groundwater and heat; it does not grow naturally on the Jerusalem hilltops. It is therefore placed ONLY on low ground - the Kidron floor and the valley bottoms below the platform datum - and never on the ridges. Putting palms on the crest would be the single most obvious botanical error available in this landscape.",
+   "leafShape": "pinnate",
+   "leafLengthCm": 300.0,
+   "leafColour": [
+    108,
+    132,
+    72
+   ],
+   "leafBackColour": [
+    138,
+    154,
+    104
+   ],
+   "barkColour": [
+    134,
+    116,
+    90
+   ],
+   "evergreen": true,
+   "spacingCm": 760.0,
+   "crownRadiusCm": 420.0,
+   "densityPer100SqM": 0.03,
+   "terraced": false,
+   "clusterRadiusCm": 5000.0,
+   "clusterStrength": 0.86,
+   "clusters": 26,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.82,
+    1.2
+   ],
+   "tiltDegrees": 5.0,
+   "downhillTilt": 0.15,
+   "wadiPreference": 0.85,
+   "band": {
+    "minZ": -40000.0,
+    "maxZ": -6000.0,
+    "featherZ": 2500.0,
+    "minSlope": 0.0,
+    "maxSlope": 14.0,
+    "slopeFeather": 3.0
+   }
+  },
+  {
+   "key": "Carob",
+   "label": "carob",
+   "binomial": "Ceratonia siliqua",
+   "form": "tree",
+   "heightM": [
+    6.0,
+    12.0
+   ],
+   "crownM": [
+    6.0,
+    10.0
+   ],
+   "trunkDiameterM": [
+    0.3,
+    0.8
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Ceratonia siliqua; a dense evergreen of 6-12 m with a broad crown",
+   "pageCited": false,
+   "mikdashSource": null,
+   "growsThere": "Warm, sunny, south-facing rocky slopes; the Ceratonio-Pistacietum association of the Judean foothills. Its aspect preference is modelled: the band prefers the downhill bearing that faces the sun in this frame. (Choni and the carob, Ta'anit 23a, is a Judean image but not a Mikdash source, and is not claimed as one.)",
+   "leafShape": "pinnate",
+   "leafLengthCm": 14.0,
+   "leafColour": [
+    66,
+    96,
+    56
+   ],
+   "leafBackColour": [
+    102,
+    124,
+    86
+   ],
+   "barkColour": [
+    112,
+    100,
+    86
+   ],
+   "evergreen": true,
+   "spacingCm": 640.0,
+   "crownRadiusCm": 380.0,
+   "densityPer100SqM": 0.07,
+   "terraced": false,
+   "clusterRadiusCm": 8000.0,
+   "clusterStrength": 0.8,
+   "clusters": 40,
+   "gnarledFraction": 0.25,
+   "scaleRange": [
+    0.78,
+    1.28
+   ],
+   "tiltDegrees": 7.0,
+   "downhillTilt": 0.3,
+   "band": {
+    "minZ": -14000.0,
+    "maxZ": 9000.0,
+    "featherZ": 2500.0,
+    "minSlope": 3.0,
+    "maxSlope": 34.0,
+    "slopeFeather": 5.0,
+    "preferredAspect": 90.0,
+    "aspectWeight": 0.65
+   }
+  },
+  {
+   "key": "Terebinth",
+   "label": "terebinth",
+   "binomial": "Pistacia palaestina / P. atlantica",
+   "form": "tree",
+   "heightM": [
+    4.0,
+    12.0
+   ],
+   "crownM": [
+    4.0,
+    12.0
+   ],
+   "trunkDiameterM": [
+    0.2,
+    0.9
+   ],
+   "sizeSource": "Zohary, M., Plants of the Bible (Cambridge University Press, 1982), species entry Pistacia palaestina (3-8 m) and P. atlantica (10-15 m, very broad crown); the range spans both, which is why it is wide",
+   "pageCited": false,
+   "mikdashSource": null,
+   "growsThere": "The elah of Bereishit 35:4 and Shoftim 6:11, and one of the two climax trees of the natural Judean maquis together with Quercus calliprinos. It belongs on the shaded northern faces and in the wadis. A biblical mention is not a Mikdash connection and is not counted as one here.",
+   "leafShape": "pinnate",
+   "leafLengthCm": 12.0,
+   "leafColour": [
+    88,
+    116,
+    68
+   ],
+   "leafBackColour": [
+    122,
+    142,
+    100
+   ],
+   "barkColour": [
+    108,
+    98,
+    90
+   ],
+   "evergreen": false,
+   "spacingCm": 680.0,
+   "crownRadiusCm": 380.0,
+   "densityPer100SqM": 0.09,
+   "terraced": false,
+   "clusterRadiusCm": 10000.0,
+   "clusterStrength": 0.76,
+   "clusters": 44,
+   "gnarledFraction": 0.3,
+   "scaleRange": [
+    0.7,
+    1.35
+   ],
+   "tiltDegrees": 9.0,
+   "downhillTilt": 0.35,
+   "wadiPreference": 0.6,
+   "band": {
+    "minZ": -16000.0,
+    "maxZ": 12000.0,
+    "featherZ": 3000.0,
+    "minSlope": 2.0,
+    "maxSlope": 36.0,
+    "slopeFeather": 6.0,
+    "preferredAspect": 270.0,
+    "aspectWeight": 0.45
+   }
+  },
+  {
+   "key": "Sage",
+   "label": "Judean sage",
+   "binomial": "Salvia fruticosa",
+   "form": "shrub",
+   "heightM": [
+    0.5,
+    1.0
+   ],
+   "crownM": [
+    0.6,
+    1.2
+   ],
+   "trunkDiameterM": [
+    0.02,
+    0.05
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Salvia fruticosa; a dwarf shrub of 0.5-1.0 m",
+   "pageCited": false,
+   "mikdashSource": "Zohary proposed that the whorled branching of a Salvia is the botanical model behind the Menorah's form. That is a PROPOSAL about the shape of a vessel, not a source that puts sage in the Mikdash, and it is recorded as a proposal.",
+   "growsThere": "A dominant dwarf shrub of the Judean batha on shallow rocky soil.",
+   "leafShape": "ovate",
+   "leafLengthCm": 5.0,
+   "leafColour": [
+    126,
+    138,
+    108
+   ],
+   "leafBackColour": [
+    158,
+    164,
+    142
+   ],
+   "barkColour": [
+    120,
+    110,
+    92
+   ],
+   "evergreen": true,
+   "spacingCm": 180.0,
+   "crownRadiusCm": 70.0,
+   "densityPer100SqM": 0.3,
+   "terraced": false,
+   "clusterRadiusCm": 4000.0,
+   "clusterStrength": 0.55,
+   "clusters": 160,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.7,
+    1.35
+   ],
+   "tiltDegrees": 12.0,
+   "downhillTilt": 0.2,
+   "band": {
+    "minZ": -18000.0,
+    "maxZ": 17000.0,
+    "featherZ": 3000.0,
+    "minSlope": 2.0,
+    "maxSlope": 42.0,
+    "slopeFeather": 6.0
+   }
+  },
+  {
+   "key": "Hyssop",
+   "label": "hyssop (ezov)",
+   "binomial": "Origanum syriacum",
+   "form": "shrub",
+   "heightM": [
+    0.3,
+    0.7
+   ],
+   "crownM": [
+    0.3,
+    0.7
+   ],
+   "trunkDiameterM": [
+    0.01,
+    0.03
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Origanum syriacum; 0.3-0.7 m",
+   "pageCited": false,
+   "mikdashSource": "Ezov is bound with cedar wood and crimson wool and thrown into the burning of the Red Heifer, Bamidbar 19:6 and Mishnah Parah 3:10-11 - and that burning takes place on the Mount of Olives opposite the Temple, which is exactly this hillside. The identification of ezov with Origanum syriacum is Rambam's and is the standard one; it is an identification, not a certainty.",
+   "growsThere": "Grows out of rock crevices and terrace walls across these hills.",
+   "leafShape": "ovate",
+   "leafLengthCm": 2.0,
+   "leafColour": [
+    132,
+    142,
+    112
+   ],
+   "leafBackColour": [
+    164,
+    168,
+    146
+   ],
+   "barkColour": [
+    122,
+    112,
+    94
+   ],
+   "evergreen": true,
+   "spacingCm": 150.0,
+   "crownRadiusCm": 50.0,
+   "densityPer100SqM": 0.18,
+   "terraced": false,
+   "clusterRadiusCm": 3000.0,
+   "clusterStrength": 0.6,
+   "clusters": 180,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.7,
+    1.35
+   ],
+   "tiltDegrees": 14.0,
+   "downhillTilt": 0.2,
+   "band": {
+    "minZ": -18000.0,
+    "maxZ": 17000.0,
+    "featherZ": 3000.0,
+    "minSlope": 4.0,
+    "maxSlope": 48.0,
+    "slopeFeather": 6.0
+   }
+  },
+  {
+   "key": "Rockrose",
+   "label": "rockrose",
+   "binomial": "Cistus creticus",
+   "form": "shrub",
+   "heightM": [
+    0.5,
+    1.2
+   ],
+   "crownM": [
+    0.6,
+    1.3
+   ],
+   "trunkDiameterM": [
+    0.02,
+    0.05
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Cistus creticus; 0.5-1.2 m",
+   "pageCited": false,
+   "mikdashSource": null,
+   "growsThere": "The first shrub back after fire or grazing on these slopes, and the pink flush on the Judean hillsides in spring.",
+   "leafShape": "ovate",
+   "leafLengthCm": 4.0,
+   "leafColour": [
+    104,
+    122,
+    86
+   ],
+   "leafBackColour": [
+    142,
+    152,
+    126
+   ],
+   "barkColour": [
+    116,
+    100,
+    84
+   ],
+   "evergreen": true,
+   "spacingCm": 190.0,
+   "crownRadiusCm": 75.0,
+   "densityPer100SqM": 0.22,
+   "terraced": false,
+   "clusterRadiusCm": 5000.0,
+   "clusterStrength": 0.62,
+   "clusters": 140,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.7,
+    1.35
+   ],
+   "tiltDegrees": 12.0,
+   "downhillTilt": 0.2,
+   "band": {
+    "minZ": -18000.0,
+    "maxZ": 17000.0,
+    "featherZ": 3000.0,
+    "minSlope": 3.0,
+    "maxSlope": 44.0,
+    "slopeFeather": 6.0
+   }
+  },
+  {
+   "key": "ThornyBurnet",
+   "label": "thorny burnet",
+   "binomial": "Sarcopoterium spinosum",
+   "form": "shrub",
+   "heightM": [
+    0.3,
+    0.6
+   ],
+   "crownM": [
+    0.4,
+    0.9
+   ],
+   "trunkDiameterM": [
+    0.01,
+    0.04
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Sarcopoterium spinosum; a hemispherical dwarf shrub 0.3-0.6 m tall",
+   "pageCited": false,
+   "mikdashSource": null,
+   "growsThere": "Danin, A., Flora and Vegetation of Israel (in Zohary ed.), Judean hills batha and maquis communities; Sarcopoterium is THE dominant dwarf shrub of degraded Judean batha and the single most characteristic plant of an exposed, grazed, rocky Jerusalem ridge. If one plant has to carry the bare ridges, it is this one.",
+   "leafShape": "needle",
+   "leafLengthCm": 1.5,
+   "leafColour": [
+    118,
+    124,
+    96
+   ],
+   "leafBackColour": [
+    146,
+    148,
+    124
+   ],
+   "barkColour": [
+    128,
+    116,
+    96
+   ],
+   "evergreen": true,
+   "spacingCm": 160.0,
+   "crownRadiusCm": 60.0,
+   "densityPer100SqM": 0.55,
+   "terraced": false,
+   "clusterRadiusCm": 6000.0,
+   "clusterStrength": 0.4,
+   "clusters": 200,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.7,
+    1.35
+   ],
+   "tiltDegrees": 10.0,
+   "downhillTilt": 0.15,
+   "band": {
+    "minZ": -18000.0,
+    "maxZ": 18000.0,
+    "featherZ": 3000.0,
+    "minSlope": 0.0,
+    "maxSlope": 50.0,
+    "slopeFeather": 6.0
+   }
+  },
+  {
+   "key": "DryGrass",
+   "label": "dry grasses",
+   "binomial": "Hordeum spontaneum / Avena sterilis / Stipa spp.",
+   "form": "grass",
+   "heightM": [
+    0.3,
+    0.8
+   ],
+   "crownM": [
+    0.2,
+    0.5
+   ],
+   "trunkDiameterM": [
+    0.0,
+    0.0
+   ],
+   "sizeSource": "Zohary & Feinbrun-Dothan, Flora Palaestina vols I-IV (Israel Academy of Sciences, 1966-1986), species entry Hordeum spontaneum and Avena sterilis; culms 0.3-0.8 m",
+   "pageCited": false,
+   "mikdashSource": "Hordeum spontaneum is the wild ancestor of the barley of the Omer, cut on the night after the first day of Pesach from a field near Yerushalayim - Mishnah Menachot 10:2-3. The stand modelled here is wild hillside grass, not a barley field, and the Omer field is not being depicted.",
+   "growsThere": "The dry annual grass layer that covers every un-grazed Judean slope by early summer.",
+   "leafShape": "blade",
+   "leafLengthCm": 45.0,
+   "leafColour": [
+    178,
+    166,
+    118
+   ],
+   "leafBackColour": [
+    196,
+    184,
+    140
+   ],
+   "barkColour": [
+    170,
+    158,
+    116
+   ],
+   "evergreen": false,
+   "spacingCm": 110.0,
+   "crownRadiusCm": 35.0,
+   "densityPer100SqM": 1.8,
+   "terraced": false,
+   "clusterRadiusCm": 9000.0,
+   "clusterStrength": 0.35,
+   "clusters": 240,
+   "gnarledFraction": 0.0,
+   "scaleRange": [
+    0.65,
+    1.4
+   ],
+   "tiltDegrees": 16.0,
+   "downhillTilt": 0.1,
+   "band": {
+    "minZ": -20000.0,
+    "maxZ": 18000.0,
+    "featherZ": 3000.0,
+    "minSlope": 0.0,
+    "maxSlope": 40.0,
+    "slopeFeather": 8.0
+   }
+  }
+ ],
+ "lodLadderCm": {
+  "tree": [
+   0.0,
+   4000.0,
+   12000.0,
+   30000.0
+  ],
+  "palm": [
+   0.0,
+   4000.0,
+   12000.0,
+   30000.0
+  ],
+  "shrub": [
+   0.0,
+   2500.0,
+   8000.0
+  ],
+  "grass": [
+   0.0,
+   1500.0
+  ]
+ },
+ "cullDistanceCm": {
+  "tree": 60000.0,
+  "palm": 60000.0,
+  "shrub": 14000.0,
+  "grass": 6000.0
+ },
+ "hashParity": {
+  "hash_int(0)": 0,
+  "hash_int(1)": 1364076727,
+  "hash_combine(20260908, 0)": 2320695718,
+  "hash_unit(20260908, 7, 3)": 0.808254383272
+ },
+ "scatterTests": null,
+ "materials": {
+  "bark": "opaque, base colour + normal, two-sided off",
+  "leaf": "MASKED alpha test at 0.5, TWO-SIDED, subsurface tint for the back face",
+  "billboard": "MASKED alpha test at 0.5, camera-facing"
+ },
+ "limitations": [
+  "No visual, collision, cook or packaged acceptance is established by this script.",
+  "Species habit is a stylised procedural approximation, not a scan or a survey.",
+  "Textures are procedural: no photograph, no third-party asset, no licence question.",
+  "Nothing here is halachic."
+ ]
+}

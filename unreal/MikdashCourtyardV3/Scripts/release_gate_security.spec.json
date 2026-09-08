@@ -1,0 +1,630 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable import and placement plan consumed by Scripts/release_gate_security.py. Every asset path, transform and tolerance is here so the plan can be reviewed before it is run.",
+  "sourceTable": "SourceAssets/security-review/sources.md",
+  "claimSummary": {
+    "asserted": "Entering Har HaBayit in shoes is prohibited; the Mount may not be used as a shortcut; one may not spit there. Mishnah Berachos 9:5; Rambam, Hilchos Beis HaBechira 7:2. Cited on the sign faces themselves.",
+    "modernStaging": "The detector arches, bag scanner, stanchions, guard booth and the telephone rule. Modelled on the Har HaBayit and Kotel plaza entrance procedure TODAY. No classical source; no claim about the Temple or its courts.",
+    "depictedNotAsserted": "Every dimension, material, colour and position of every object."
+  },
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "GateSecurity-",
+  "receiptFolder": "SourceAssets/security-review",
+  "receiptPrefix": "native-gate-security-",
+  "actorTag": "GateSecurityV1",
+  "labelPrefix": "RELEASE_",
+  "folderPrefix": "Release/",
+  "group": "GateSecurity",
+  "architectureManifest": "SourceAssets/architecture-manifest.json",
+  "westGate": "NOT PLACED. gateway-approach-audit.json direction W records \"NO_SOURCE_GATE_DO_NOT_INVENT_OPENING_OR_STAIRS\". There is no west gate and none is invented.",
+  "source": {
+    "folder": "SourceAssets/security-review/GateSecurityV1",
+    "signFolder": "SourceAssets/security-review/signs",
+    "manifest": "SourceAssets/security-review/GateSecurityV1/geometry-manifest.json",
+    "manifestSha256": "f47153c4df12d7d6114669ecc38a085527a7d26069e4ba1d0a6167ebad120265",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "glyphCheck": "SourceAssets/security-review/signs/glyph-check.json",
+    "authoringScript": "Scripts/create_gate_security.py",
+    "namespace": "/Game/MikdashV3/MaterialReview/GateSecurityV1",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes",
+    "textureFolder": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Textures",
+    "materialFolder": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials",
+    "objAdapter": "Centimetres. Canonical Unreal axes X east, +Y south, Z up. In each mesh LOCAL frame +X is the direction of travel through the checkpoint, +Y is the traveller's right, and the pivot is on the floor at the footprint centre; the placement script rotates the assembly to face each gate. OBJ carries Y reflected and triangle winding reversed for the legacy OBJ importer (the same adapter as create_keilim_ti_v1 / create_oldcity_facades, recorded in SourceAssets/sanctuary-detail/DoorsParochesV1/geometry-manifest.json); the importer reflects Y back, so imported bounds must equal bounds_cm and the signed volume in Unreal must be positive."
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim / doors / vessels OBJ adapter path (FbxFactory). Single-mesh OBJ: destination_name is the exact mesh name. build_nanite is False -- with Nanite on, get_num_triangles(0) returns the FALLBACK count and every triangle comparison below would be meaningless.",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    },
+    "textureSettings": {
+      "srgb": true,
+      "compression": "TC_Default",
+      "note": "Sign faces are sRGB colour art. The texture is imported with TextureFactory and its sRGB flag is READ BACK, never assumed."
+    }
+  },
+  "meshes": {
+    "DetectorArch": {
+      "name": "SM_GateSecurityV1_DetectorArch",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch",
+      "file": "SM_GateSecurityV1_DetectorArch.obj",
+      "sha256": "8a51a47eadcd7bc31440f0ca0af3cee6d34344eb86fdac8a52292209dd2f6dd1",
+      "triangles": 5544,
+      "role": "metal_brushed",
+      "claim": "modern-staging",
+      "what": "Walk-through metal detector arch: two uprights, a header, base plates, a control panel and indicator strips.",
+      "localBoundsCm": {
+        "min": [
+          -22.0,
+          -63.0,
+          0.0
+        ],
+        "max": [
+          22.0,
+          71.3,
+          255.2
+        ]
+      }
+    },
+    "BagScanner": {
+      "name": "SM_GateSecurityV1_BagScanner",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_BagScanner",
+      "file": "SM_GateSecurityV1_BagScanner.obj",
+      "sha256": "6b6cb96c90146ab8e3b7ba5d584e9275b6228b818596a901e711ac6b936a9774",
+      "triangles": 5412,
+      "role": "metal_brushed",
+      "claim": "modern-staging",
+      "what": "Bag-scanner table with a conveyor, rollers, a shielded hood, hanging curtain strips and an operator monitor.",
+      "localBoundsCm": {
+        "min": [
+          -90.0,
+          -38.0,
+          0.0
+        ],
+        "max": [
+          90.0,
+          52.0,
+          162.0
+        ]
+      }
+    },
+    "Stanchion": {
+      "name": "SM_GateSecurityV1_Stanchion",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion",
+      "file": "SM_GateSecurityV1_Stanchion.obj",
+      "sha256": "7837610853f8107fe51b8b6c0ab1236518d6ad7d03427cc9f7d3e6cf5778b8ac",
+      "triangles": 1516,
+      "role": "metal_dark",
+      "claim": "modern-staging",
+      "what": "Belt stanchion: weighted base, post, collar and a sagging belt spanning to the next post.",
+      "localBoundsCm": {
+        "min": [
+          -17.4,
+          -17.4,
+          -0.6
+        ],
+        "max": [
+          17.4,
+          180.0,
+          100.8
+        ]
+      }
+    },
+    "Booth": {
+      "name": "SM_GateSecurityV1_Booth",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Booth",
+      "file": "SM_GateSecurityV1_Booth.obj",
+      "sha256": "ad2c56e6fb21eb7ef2a4975c48e89cfe0c912a37b77501631273847ee4569034",
+      "triangles": 3852,
+      "role": "painted_steel",
+      "claim": "modern-staging",
+      "what": "Guard booth with a service window, a counter shelf, a door and an overhanging roof.",
+      "localBoundsCm": {
+        "min": [
+          -116.0,
+          -106.0,
+          0.0
+        ],
+        "max": [
+          106.0,
+          106.0,
+          262.0
+        ]
+      }
+    },
+    "ShoeRack": {
+      "name": "SM_GateSecurityV1_ShoeRack",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack",
+      "file": "SM_GateSecurityV1_ShoeRack.obj",
+      "sha256": "3502b9e55c7b79a037145cc03b0bd2ef9820345769fbb542ad7320f5c21f85b4",
+      "triangles": 3356,
+      "role": "timber",
+      "claim": "modern-staging-serving-a-halachic-rule",
+      "what": "Open shoe rack: five uprights, four rows of cubbies, a back panel, a toe kick and label plates.",
+      "localBoundsCm": {
+        "min": [
+          -20.5,
+          -83.5,
+          0.0
+        ],
+        "max": [
+          20.5,
+          83.5,
+          156.0
+        ]
+      }
+    },
+    "SignPostFrame": {
+      "name": "SM_GateSecurityV1_SignPostFrame",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame",
+      "file": "SM_GateSecurityV1_SignPostFrame.obj",
+      "sha256": "83ab71fd13017f012e6e8f4109951fa8c97e2284ee361d260a2130d06c0abb98",
+      "triangles": 1628,
+      "role": "metal_dark",
+      "claim": "modern-staging",
+      "what": "Tall post-mounted sign: post, panel frame and backer.",
+      "localBoundsCm": {
+        "min": [
+          -11.0,
+          -46.0,
+          0.0
+        ],
+        "max": [
+          11.0,
+          46.0,
+          252.6
+        ]
+      }
+    },
+    "SignPostFace": {
+      "name": "SM_GateSecurityV1_SignPostFace",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace",
+      "file": "SM_GateSecurityV1_SignPostFace.obj",
+      "sha256": "2e9342d1e0b4b251c18d70c6ea2fb53148e66139051a8f5e2081c080b66ca5bd",
+      "triangles": 12,
+      "role": "sign_face",
+      "claim": "see the sign it carries",
+      "what": "The printed face of the post-mounted panel; its own mesh so the artwork gets its own material.",
+      "localBoundsCm": {
+        "min": [
+          -3.6,
+          -42.0,
+          118.0
+        ],
+        "max": [
+          -2.6,
+          42.0,
+          244.0
+        ]
+      }
+    },
+    "SignPlateFrame": {
+      "name": "SM_GateSecurityV1_SignPlateFrame",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame",
+      "file": "SM_GateSecurityV1_SignPlateFrame.obj",
+      "sha256": "c5332823379a3bb79b3617e9ae80e66d8d80931765463b9e46b9b8ce0d03dfc4",
+      "triangles": 1148,
+      "role": "metal_dark",
+      "claim": "modern-staging",
+      "what": "Wall-mounted sign plate: frame, backer and four fixing bosses.",
+      "localBoundsCm": {
+        "min": [
+          -0.9,
+          -35.0,
+          132.0
+        ],
+        "max": [
+          5.6,
+          35.0,
+          178.0
+        ]
+      }
+    },
+    "SignPlateFace": {
+      "name": "SM_GateSecurityV1_SignPlateFace",
+      "asset": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace",
+      "file": "SM_GateSecurityV1_SignPlateFace.obj",
+      "sha256": "e41aa7fcdf3fa3b976bdabf0289afb4cde8e99e23d3917e7db8b070985f98734",
+      "triangles": 12,
+      "role": "sign_face",
+      "claim": "see the sign it carries",
+      "what": "The printed face of the wall-mounted plate.",
+      "localBoundsCm": {
+        "min": [
+          -0.6,
+          -32.0,
+          135.0
+        ],
+        "max": [
+          0.4,
+          32.0,
+          175.0
+        ]
+      }
+    }
+  },
+  "signs": {
+    "Entrance": {
+      "file": "T_GateSecurityV1_Sign_Entrance.png",
+      "sha256": "f4c5b2df9763b3adfc90adde14e3f220fda91fadcbd59ac88dc67b5e41d72969",
+      "texture": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Textures/T_GateSecurityV1_Sign_Entrance",
+      "materialInstance": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance",
+      "claim": "modern-staging",
+      "says": "Entrance this way; detector, bag search, no shoes, no phones, cameras permitted.",
+      "form": "plate",
+      "widthPx": 1024,
+      "heightPx": 640
+    },
+    "Reverence": {
+      "file": "T_GateSecurityV1_Sign_Reverence.png",
+      "sha256": "43db9f18f49cfbf00fdd4a45ccc3f17e7ecb70b33c0e3f0d976ffc248c5e95cc",
+      "texture": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Textures/T_GateSecurityV1_Sign_Reverence",
+      "materialInstance": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Reverence",
+      "claim": "halacha",
+      "says": "Holy area: no shortcut through the Mount, no spitting, no shoes.",
+      "form": "panel",
+      "widthPx": 1024,
+      "heightPx": 1536
+    },
+    "Security": {
+      "file": "T_GateSecurityV1_Sign_Security.png",
+      "sha256": "e79357ba1e492bd1c8dc0555f4b0c2b4fd4ead9076828f7316564d105b0498b2",
+      "texture": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Textures/T_GateSecurityV1_Sign_Security",
+      "materialInstance": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Security",
+      "claim": "modern-staging",
+      "says": "No telephone use; all bags are searched; pass through the detector.",
+      "form": "panel",
+      "widthPx": 1024,
+      "heightPx": 1536
+    },
+    "Shoes": {
+      "file": "T_GateSecurityV1_Sign_Shoes.png",
+      "sha256": "b7a3fc3eabea03f663102b7d1de5ef71e54dbc6814d86ecbebf7e1e0f8086c71",
+      "texture": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Textures/T_GateSecurityV1_Sign_Shoes",
+      "materialInstance": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes",
+      "claim": "halacha",
+      "says": "Entering Har HaBayit in shoes is prohibited; stockinged feet only; holy area.",
+      "form": "panel",
+      "widthPx": 1024,
+      "heightPx": 1536
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh. Falling past the first candidate is recorded as a limitation. UE 5.8 material setters can return False on a call that took, so the pass/fail decision is ALWAYS the readback.",
+    "roles": {
+      "metal_brushed": {
+        "candidates": [
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_Aluminium",
+            "kind": "brushed aluminium (TransitV2 release)"
+          },
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/BusStudyV1/Materials/M_BusStudyV1_Aluminium",
+            "kind": "aluminium_fallback"
+          }
+        ]
+      },
+      "metal_dark": {
+        "candidates": [
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_DarkTrim",
+            "kind": "dark trim (TransitV2 release)"
+          },
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/BusStudyV1/Materials/M_BusStudyV1_DarkTrim",
+            "kind": "dark_trim_fallback"
+          }
+        ]
+      },
+      "painted_steel": {
+        "candidates": [
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_IvoryPaint",
+            "kind": "ivory paint (TransitV2 release)"
+          },
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/BusStudyV1/Materials/M_BusStudyV1_IvoryPaint",
+            "kind": "ivory_paint_fallback"
+          }
+        ]
+      },
+      "timber": {
+        "candidates": [
+          {
+            "path": "/Game/MikdashV3/ArrivalReview/TransitV2/Materials/M_TransitV2_BenchWood",
+            "kind": "bench timber (TransitV2 release)"
+          }
+        ]
+      },
+      "sign_face": {
+        "candidates": []
+      }
+    },
+    "signFaceMaterial": {
+      "createParent": "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/M_GateSecurityV1_SignFace",
+      "textureParameterName": "SignFace",
+      "constants": {
+        "metallic": 0.0,
+        "roughness": 0.62
+      },
+      "method": "MaterialFactoryNew, then a MaterialExpressionTextureSampleParameter2D named SignFace wired to BaseColor and Constant nodes wired to Metallic and Roughness. connect_material_property can return False on a connection that took, so the return value is only RECORDED; the decision is the readback of the connected inputs on the SAVED asset.",
+      "instanceMethod": "One MaterialInstanceConstant per sign, texture parameter set with MaterialEditingLibrary and verified with get_material_instance_texture_parameter_value.",
+      "appliedPerActor": "The SAME face mesh carries three different sign artworks, so the instance is set on the ACTOR COMPONENT (component.set_material) and NOT on the mesh asset, then read back with component.get_material."
+    }
+  },
+  "gates": {
+    "east": {
+      "short": "E",
+      "outwardAxis": "+X",
+      "travelDirection": "-X",
+      "assemblyYawDegrees": 180.0,
+      "assemblyYawBasis": "DERIVED from the outward axis. No yaw is recorded for any gate anywhere in this project; every gate record is axis-aligned with rotation [0,0,0].",
+      "anchorCm": [
+        9300.0,
+        0.0,
+        0.0
+      ],
+      "anchorBasis": "Deck (Z 0) 100 cm outward of the first riser at X 9150; gate axis Y 0.",
+      "deckZCm": 0.0,
+      "deckZBasis": "gateway-approach-audit.json records bottomPlatformUncoveredAreaCm2 0.0 for E, N and S: the deck at all three approaches is Z 0.",
+      "anchorActors": [
+        {
+          "role": "firstRiser",
+          "assetName": "SM_0261_architecture_Outer_E_stair_1",
+          "sourceName": "Outer E stair 1",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0261_architecture_Outer_E_stair_1",
+          "expectedWorldBoundsCm": {
+            "min": [
+              9150.0,
+              -250.0,
+              0.0
+            ],
+            "max": [
+              9200.0,
+              250.0,
+              25.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        },
+        {
+          "role": "threshold",
+          "assetName": "SM_0177_architecture_Outer_E_threshold",
+          "sourceName": "Outer E threshold",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0177_architecture_Outer_E_threshold",
+          "expectedWorldBoundsCm": {
+            "min": [
+              7800.0,
+              -250.0,
+              280.0000190734863
+            ],
+            "max": [
+              8100.0,
+              250.0,
+              300.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        }
+      ],
+      "firstRiserBoundsCm": {
+        "min": [
+          9150.0,
+          -250.0,
+          0.0
+        ],
+        "max": [
+          9200.0,
+          250.0,
+          25.0
+        ]
+      },
+      "vestibulePlateLocalXCm": 1500.0,
+      "vestibulePlateLocalZCm": 300.0,
+      "vestibulePlateBasis": "The vestibule wall outward face at 7800.0 cm; the plate reads towards the visitor climbing the stairs."
+    },
+    "north": {
+      "short": "N",
+      "outwardAxis": "-Y",
+      "travelDirection": "+Y",
+      "assemblyYawDegrees": 90.0,
+      "assemblyYawBasis": "DERIVED from the outward axis. No yaw is recorded for any gate anywhere in this project; every gate record is axis-aligned with rotation [0,0,0].",
+      "anchorCm": [
+        0.0,
+        -9550.0,
+        0.0
+      ],
+      "anchorBasis": "Deck (Z 0) 100 cm outward of the first terrace riser at Y -9450; gate axis X 0.",
+      "deckZCm": 0.0,
+      "deckZBasis": "gateway-approach-audit.json records bottomPlatformUncoveredAreaCm2 0.0 for E, N and S: the deck at all three approaches is Z 0.",
+      "anchorActors": [
+        {
+          "role": "firstRiser",
+          "assetName": "SM_0364_architecture_Outer_N_mount_approach_terrace",
+          "sourceName": "Outer N mount approach terrace",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0364_architecture_Outer_N_mount_approach_terrace",
+          "expectedWorldBoundsCm": {
+            "min": [
+              -400.0,
+              -9450.0,
+              0.0
+            ],
+            "max": [
+              400.0,
+              -9400.0,
+              25.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        },
+        {
+          "role": "threshold",
+          "assetName": "SM_0273_architecture_Outer_N_threshold",
+          "sourceName": "Outer N threshold",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0273_architecture_Outer_N_threshold",
+          "expectedWorldBoundsCm": {
+            "min": [
+              -250.0,
+              -8100.0,
+              405.0000190734863
+            ],
+            "max": [
+              250.0,
+              -7800.0,
+              425.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        }
+      ],
+      "firstRiserBoundsCm": {
+        "min": [
+          -400.0,
+          -9450.0,
+          0.0
+        ],
+        "max": [
+          400.0,
+          -9400.0,
+          25.0
+        ]
+      },
+      "vestibulePlateLocalXCm": 1750.0,
+      "vestibulePlateLocalZCm": 425.0,
+      "vestibulePlateBasis": "The vestibule wall outward face at -7800.0 cm; the plate reads towards the visitor climbing the stairs."
+    },
+    "south": {
+      "short": "S",
+      "outwardAxis": "+Y",
+      "travelDirection": "-Y",
+      "assemblyYawDegrees": -90.0,
+      "assemblyYawBasis": "DERIVED from the outward axis. No yaw is recorded for any gate anywhere in this project; every gate record is axis-aligned with rotation [0,0,0].",
+      "anchorCm": [
+        0.0,
+        9550.0,
+        0.0
+      ],
+      "anchorBasis": "Deck (Z 0) 100 cm outward of the first terrace riser at Y 9450; gate axis X 0.",
+      "deckZCm": 0.0,
+      "deckZBasis": "gateway-approach-audit.json records bottomPlatformUncoveredAreaCm2 0.0 for E, N and S: the deck at all three approaches is Z 0.",
+      "anchorActors": [
+        {
+          "role": "firstRiser",
+          "assetName": "SM_0465_architecture_Outer_S_mount_approach_terrace",
+          "sourceName": "Outer S mount approach terrace",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0465_architecture_Outer_S_mount_approach_terrace",
+          "expectedWorldBoundsCm": {
+            "min": [
+              -400.0,
+              9400.0,
+              0.0
+            ],
+            "max": [
+              400.0,
+              9450.0,
+              25.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        },
+        {
+          "role": "threshold",
+          "assetName": "SM_0374_architecture_Outer_S_threshold",
+          "sourceName": "Outer S threshold",
+          "asset": "/Game/MikdashV3/Architecture/architecture_SM_0374_architecture_Outer_S_threshold",
+          "expectedWorldBoundsCm": {
+            "min": [
+              -250.0,
+              7800.0,
+              405.0000190734863
+            ],
+            "max": [
+              250.0,
+              8100.0,
+              425.0
+            ]
+          },
+          "matchBy": "static mesh asset path (labels are NOT unique in this map)"
+        }
+      ],
+      "firstRiserBoundsCm": {
+        "min": [
+          -400.0,
+          9400.0,
+          0.0
+        ],
+        "max": [
+          400.0,
+          9450.0,
+          25.0
+        ]
+      },
+      "vestibulePlateLocalXCm": 1750.0,
+      "vestibulePlateLocalZCm": 425.0,
+      "vestibulePlateBasis": "The vestibule wall outward face at 7800.0 cm; the plate reads towards the visitor climbing the stairs."
+    }
+  },
+  "assembly": {
+    "localFrame": "+X is the direction of travel TOWARDS the gate, +Y is the traveller's right, Z is up, origin on the deck at the anchor. A NEGATIVE local x stands further out from the gate, so the visitor meets it first.",
+    "order": "queue -> bag scanner -> detector arches -> shoe racks -> stairs",
+    "stanchionRowYCm": 235.0,
+    "stanchionXCm": [
+      -900.0,
+      -720.0,
+      -540.0,
+      -360.0
+    ],
+    "elementsPerGate": 30,
+    "depicted": "Every number in the layout is DEPICTED, not asserted. There is no measured drawing of a Jerusalem checkpoint in this project."
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "localBoundsToleranceCm": 0.05,
+    "anchorBoundsToleranceCm": 1.0,
+    "selfIntersectionToleranceCm": 2.0,
+    "maxTotalTrianglesPlaced": 2000000,
+    "compareRule": "Numeric location / rotation / scale fields and AABB corners only; str(Transform) is not compared."
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting): signed volume by the divergence theorem with the UE left-handed face normal cross(C-A, B-A). The OBJ carries Y reflected and the winding reversed; the importer reflects Y back, so a correctly imported mesh has POSITIVE signed volume in Unreal.",
+    "requireForPlacement": false,
+    "requireForPlacementNote": "Recorded rather than required, because the winding is already proved offline part by part in create_gate_security.py (every part asserted closed and positively oriented before writing). Pass -GateSecurityAllowUnverifiedWinding to place when GeometryScripting is not loaded."
+  },
+  "limitations": [
+    "Placement is geometric only: no visual, halachic, walking, collision-route or packaged acceptance is established.",
+    "The checkpoint, the detectors, the bag scanner, the booth and the telephone rule are MODERN STAGING modelled on Jerusalem today, not sourced from any classical text.",
+    "Deck extent outward of the first riser was NOT confirmed offline; the script checks each element against the first riser only, and a visual pass is still required to confirm nothing overhangs the platform edge.",
+    "No yaw is recorded for any gate anywhere; every assembly yaw is derived from the gate outward axis.",
+    "No nav corridor, spline or queue path exists in this project; the stanchion lane is scenery, not navigation."
+  ]
+}

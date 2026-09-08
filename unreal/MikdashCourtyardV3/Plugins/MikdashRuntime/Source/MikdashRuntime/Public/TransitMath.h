@@ -448,6 +448,29 @@ inline int BoardingCountFor(uint32_t Seed, int VehicleId, int StopIndex, int Run
     return static_cast<int>(Clamp(static_cast<double>(Scaled), 0.0, static_cast<double>(Hi) * 8.0));
 }
 
+/** How many of a boarding group stop to take a photograph instead of walking straight on.
+ *
+ * This is a HINT for whatever drives the crowd, not behaviour implemented here: the
+ * transit layer owns no pedestrian. Share is the fraction of the group, clamped to
+ * [0, 1]; the draw is deterministic in (Seed, StopIndex, RunIndex) so the same stop on
+ * the same run always produces the same number, and never exceeds TotalPeople.
+ *
+ * The count is drawn, not rounded, so a share of 0.25 on a group of 6 gives 1 or 2
+ * rather than always 2 -- a fixed ratio at every stop reads as choreography. */
+inline int PhotographerCount(uint32_t Seed, int StopIndex, int RunIndex, int TotalPeople, double Share)
+{
+    if (TotalPeople <= 0) return 0;
+    const double S = Clamp(std::isfinite(Share) ? Share : 0.0, 0.0, 1.0);
+    if (!(S > 0.0)) return 0;
+    const double Expected = TotalPeople * S;
+    const int Low = static_cast<int>(std::floor(Expected));
+    const int High = static_cast<int>(std::ceil(Expected));
+    const uint32_t Index = HashCombine(static_cast<uint32_t>(std::max(0, StopIndex)),
+                                       static_cast<uint32_t>(std::max(0, RunIndex)));
+    const int Picked = HashIntRange(Seed, Index, 113u, Low, High);
+    return static_cast<int>(Clamp(static_cast<double>(Picked), 0.0, static_cast<double>(TotalPeople)));
+}
+
 // ---------------------------------------------------------------------------
 // Dwell / door state machine
 // ---------------------------------------------------------------------------

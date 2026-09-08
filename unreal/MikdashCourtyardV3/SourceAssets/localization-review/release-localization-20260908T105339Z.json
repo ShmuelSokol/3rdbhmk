@@ -1,0 +1,178 @@
+{
+  "script": "release_localization.py",
+  "specVersion": 1,
+  "generated": "2026-09-08T10:53:39Z",
+  "stamp": "20260908T105339Z",
+  "mode": "offline",
+  "status": "offline_data_pass_complete_author_review_pending",
+  "guards": [
+    "strings.json structure",
+    "font files match the approved hashes",
+    "font glyph coverage and mark anchoring",
+    "derived files regenerated from strings.json",
+    "staged into Content with a verified checkpoint"
+  ],
+  "errors": [],
+  "packagingRequirement": {
+    "note": "Read this before packaging a build.",
+    "fontsAreAssets": "The two .ttf files are imported as UFontFace assets, which cook and package normally. No project-settings change is needed for the font.",
+    "stringsAreLooseFiles": "strings.json is a loose file under Content/Localization/Mikdash. Loose files are NOT staged unless the project lists their folder. Add 'Content/Localization/Mikdash' to Project Settings -> Packaging -> Additional Non-Asset Directories to Package (DirectoriesToAlwaysStageAsUFS in DefaultGame.ini) before packaging, or the packaged build will fall back to raw keys.",
+    "whyThisScriptDoesNotDoIt": "DefaultGame.ini is project configuration owned by the project, not by this module. The script reports the requirement in its receipt and refuses to edit it."
+  },
+  "structure": {
+    "strings": {
+      "total": 173,
+      "confident": 152,
+      "flagged": 21
+    },
+    "glossary": {
+      "total": 31,
+      "confident": 28,
+      "flagged": 3
+    }
+  },
+  "font": {
+    "files": [
+      {
+        "file": "NotoSansHebrew-Regular.ttf",
+        "role": "regular",
+        "bytes": 47756,
+        "sha256": "8fa046a031a67c38e13052713b9d685cadbd85f35fdfd64dc4e9c8d59b8dcd73"
+      },
+      {
+        "file": "NotoSansHebrew-Bold.ttf",
+        "role": "bold",
+        "bytes": 47724,
+        "sha256": "515e9647b17bca8dccc9e5e7a01a2a2c9bea69e82c5e3472b249e3d4628b6f79"
+      },
+      {
+        "file": "NotoSansHebrew-OFL.txt",
+        "role": "licence",
+        "bytes": 4382,
+        "sha256": "9b9fe028b5ba74d231659a1bbaf0ed09b11e759d1ca6a070999e16d151616b47"
+      }
+    ]
+  },
+  "fontAudit": {
+    "font": "NotoSansHebrew-Regular.ttf",
+    "verdict": "good",
+    "coverage": {
+      "baseLetters": {
+        "present": 27,
+        "of": 27
+      },
+      "nikud": {
+        "present": 18,
+        "of": 18
+      },
+      "punctuation": {
+        "present": 6,
+        "of": 6
+      },
+      "cantillation": {
+        "present": 31,
+        "of": 31
+      },
+      "presentationForms": {
+        "present": 46,
+        "of": 51
+      },
+      "latinBasic": {
+        "present": 58,
+        "of": 58
+      },
+      "missingBaseLetters": [],
+      "missingNikud": []
+    },
+    "markClasses": 1,
+    "specimenMarks": {
+      "total": 43,
+      "byMarkToBase": 43,
+      "byMarkToMark": 0,
+      "unanchored": 0
+    },
+    "specimen": {
+      "file": "hebrew-font-specimen.png",
+      "bytes": 167480,
+      "signatureOk": true,
+      "width": 1800,
+      "height": 1800,
+      "bitDepth": 8,
+      "colourType": 0,
+      "crcOk": true,
+      "decompressedBytes": 3241800,
+      "expectedBytes": 3241800,
+      "ok": true
+    }
+  },
+  "regenerated": {
+    "englishCsv": {
+      "path": "SourceAssets/localization-review/en.csv",
+      "rows": 173
+    },
+    "hebrewCsv": {
+      "path": "SourceAssets/localization-review/he.csv",
+      "rows": 173,
+      "approvedRows": 152
+    },
+    "reviewQueue": {
+      "path": "SourceAssets/localization-review/needs-author-review.json",
+      "strings": 21,
+      "glossary": 3
+    },
+    "counts": {
+      "strings": {
+        "total": 173,
+        "confident": 152,
+        "flagged": 21
+      },
+      "glossary": {
+        "total": 31,
+        "confident": 28,
+        "flagged": 3
+      },
+      "combined": {
+        "total": 204,
+        "confident": 180,
+        "flagged": 24
+      },
+      "refreshed": "20260908T105339Z"
+    }
+  },
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Localization-20260908T105339Z",
+  "staged": {
+    "written": [
+      {
+        "path": "Content\\Localization\\Mikdash\\strings.json",
+        "bytes": 48352,
+        "sha256": "f4b6e65e025bdfe574fe0eceb0b1b0f3be3566346d180b59895efb9e88401fff"
+      },
+      {
+        "path": "Content\\Localization\\Mikdash\\en.csv",
+        "bytes": 5073,
+        "sha256": "b1b3b02ea4aaf734dd08457e53aa2d6ef9bfff8c12f32c71e22dbc970a5d2d83"
+      },
+      {
+        "path": "Content\\Localization\\Mikdash\\he.csv",
+        "bytes": 5784,
+        "sha256": "e80ea51c7fc56ca2b2eb917a7768e8f5eb3689053a72ea3f8b7e0dbdc0f6ced7"
+      },
+      {
+        "path": "Content\\MikdashV3\\Fonts\\NotoSansHebrew-Regular.ttf",
+        "bytes": 47756,
+        "sha256": "8fa046a031a67c38e13052713b9d685cadbd85f35fdfd64dc4e9c8d59b8dcd73"
+      },
+      {
+        "path": "Content\\MikdashV3\\Fonts\\NotoSansHebrew-Bold.ttf",
+        "bytes": 47724,
+        "sha256": "515e9647b17bca8dccc9e5e7a01a2a2c9bea69e82c5e3472b249e3d4628b6f79"
+      },
+      {
+        "path": "Content\\MikdashV3\\Fonts\\NotoSansHebrew-OFL.txt",
+        "bytes": 4382,
+        "sha256": "9b9fe028b5ba74d231659a1bbaf0ed09b11e759d1ca6a070999e16d151616b47"
+      }
+    ],
+    "replacedFromCheckpoint": []
+  }
+}

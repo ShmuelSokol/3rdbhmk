@@ -1,0 +1,74 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-08",
+  "purpose": "Diagnose and repair the uniformly grey instanced crowd (AMikdashCrowdField): read-only dump of the HISM material assignments, NumCustomDataFloats and per-instance custom data from the main map; then a guarded material fix with a muted multi-hue garment palette under /Game/MikdashV3/MaterialReview/CrowdFieldV1/.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "CrowdTintFix-",
+  "receiptFolder": "SourceAssets/runtime-review/crowd-field",
+  "dumpReceiptPrefix": "tint-dump-",
+  "applyReceiptPrefix": "tint-fix-",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "crowdClass": "/Script/MikdashRuntime.MikdashCrowdField",
+  "actorLabel": "RELEASE_CrowdField",
+  "expected": {
+    "poseComponents": 6,
+    "numCustomDataFloats": 3,
+    "customDataLayout": {"0": "gait phase 0..1 (static after build)", "1": "garment tint = index / (GarmentPaletteSize - 1)", "2": "standing flag 0/1"},
+    "meshSlotsPerPose": 15,
+    "existingMaterialNamespace": "/Game/MikdashV3/Runtime/CrowdFieldV1/Materials",
+    "existingMaterials": ["M_CrowdRobeV1", "M_CrowdSkinV1", "M_CrowdWrapV1"],
+    "existingRobeLerp": {"light": [0.62, 0.58, 0.52], "dark": [0.29, 0.26, 0.30], "why": "The authored V1 palette: five lerp steps between two near-neutral colours. Even with the channel intact this is five shades of grey."}
+  },
+  "objSlotOrder": {
+    "source": "SourceAssets/runtime-review/crowd-field/CrowdFigureV1/SM_CrowdFigure_P*.obj, g/usemtl order, identical for all six poses",
+    "groups": ["Leg-1", "Foot-1", "Leg+1", "Foot+1", "Robe", "Sash", "Arm-1", "Hand-1", "Arm+1", "Hand+1", "Neck", "Head", "Beard", "Cover", "Drape"],
+    "materials": ["CrowdRobe", "CrowdSkin", "CrowdRobe", "CrowdSkin", "CrowdRobe", "CrowdWrap", "CrowdRobe", "CrowdSkin", "CrowdRobe", "CrowdSkin", "CrowdSkin", "CrowdSkin", "CrowdWrap", "CrowdWrap", "CrowdWrap"],
+    "groupWords": {"CrowdSkin": ["foot", "hand", "neck", "head"], "CrowdWrap": ["sash", "beard", "cover", "drape"], "CrowdRobe": ["leg", "arm", "robe"]}
+  },
+  "fix": {
+    "materialNamespace": "/Game/MikdashV3/MaterialReview/CrowdFieldV1",
+    "garmentPaletteSize": 8,
+    "tintCustomDataIndex": 1,
+    "variationCustomDataIndex": 0,
+    "readThroughVertexInterpolator": true,
+    "readWhy": "PerInstanceCustomData is read in the vertex stage and carried to the pixel stage by a VertexInterpolator, the same route this project's tree-crown ISM materials use and have rendered with (Scripts/import_instances_ue58.py). It removes any dependence on pixel-stage instance payload access.",
+    "sentinelDefaultTintIndex": 6,
+    "sentinelWhy": "If the custom data channel is unavailable to the shader every figure falls to palette entry 6 (traveller-dust): acceptable to look at, and a recognisable signature that is not the V1 grey.",
+    "brightness": {"min": 0.88, "max": 1.12, "why": "Per-figure brightness from custom data 0 so two figures in the same garment are not identical."},
+    "garmentPalette": [
+      {"name": "linen-undyed", "rgb": [0.72, 0.68, 0.58], "source": "release_people_v3.spec.json garments.variants.linen-undyed"},
+      {"name": "wool-umber", "rgb": [0.32, 0.24, 0.16], "source": "release_people_v3.spec.json garments.variants.wool-umber"},
+      {"name": "ochre-muted", "rgb": [0.50, 0.38, 0.18], "source": "authored: between mantle-saffron and traveller-dust, desaturated"},
+      {"name": "wool-indigo", "rgb": [0.16, 0.20, 0.34], "source": "release_people_v3.spec.json garments.variants.wool-indigo"},
+      {"name": "wool-madder", "rgb": [0.45, 0.20, 0.16], "source": "release_people_v3.spec.json garments.variants.wool-madder"},
+      {"name": "wool-grey", "rgb": [0.36, 0.35, 0.33], "source": "authored: undyed dark fleece"},
+      {"name": "traveller-dust", "rgb": [0.55, 0.48, 0.38], "source": "release_people_v3.spec.json garments.variants.traveller-dust"},
+      {"name": "linen-bleached", "rgb": [0.86, 0.85, 0.80], "source": "release_people_v3.spec.json garments.variants.linen-bleached; the white share (1 of 8 = 12.5%)"}
+    ],
+    "maxChroma": 0.34,
+    "garmentRoughness": 0.85,
+    "skinTones": [[0.68, 0.52, 0.42], [0.52, 0.36, 0.26], [0.36, 0.24, 0.17]],
+    "skinRoughness": 0.70,
+    "wrapTones": [[0.74, 0.71, 0.64], [0.86, 0.85, 0.80]],
+    "wrapRoughness": 0.86,
+    "assets": {"CrowdRobe": "M_CrowdGarmentPaletteV1", "CrowdSkin": "M_CrowdSkinToneV1", "CrowdWrap": "M_CrowdWrapLinenV1"},
+    "applyAs": "per-slot override materials on the six CrowdPose HISM components of RELEASE_CrowdField (map change), not on the mesh assets; ConfigureComponents() keeps overrides because SetStaticMesh() early-outs on an unchanged mesh and CrowdMaterialOverride stays unset.",
+    "limitations": [
+      "White is a global 12.5 percent share; zone-aware white (courts only) needs the C++ GarmentIndex to know the zone, which is outside this fix.",
+      "No render is made by the commandlet; visual acceptance is a real-RHI capture by the coordinator.",
+      "The GPU bob (world position offset) is not carried by the new materials; the actor keeps its CPU bob (BobAmplitudeCm 3.5) as recorded by native-apply-20260908T135329649669Z."
+    ]
+  },
+  "verification": {
+    "colourTolerance": 0.002,
+    "tintTolerance": 0.002,
+    "customDataSample": 12
+  }
+}

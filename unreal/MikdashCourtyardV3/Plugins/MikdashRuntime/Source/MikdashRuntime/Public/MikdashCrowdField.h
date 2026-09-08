@@ -183,6 +183,14 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Zones")
     TArray<FMikdashCrowdKeepOut> ProtectedPolygons;
 
+    /** Immutable authored property revision, separate from the current world's units. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Crowd|Zones")
+    FName SourceCoordinateRevision = TEXT("Legacy50.v1");
+
+    UFUNCTION(BlueprintPure, Category="Crowd") FString GetCoordinateStatus() const { return CoordinateStatus; }
+    UFUNCTION(BlueprintPure, Category="Crowd") bool GetRuntimeZone(const FString& Name, FMikdashCrowdZone& Zone) const;
+    UFUNCTION(BlueprintPure, Category="Crowd") bool GetRuntimeKeepOut(const FString& Name, FMikdashCrowdKeepOut& KeepOut) const;
+
     /** Keep-out skirt around every protected polygon, centimetres. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Zones", meta = (ClampMin = "0.0"))
     float ProtectedMarginCm = 150.f;
@@ -346,6 +354,11 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 
 private:
+    // Native property arrays remain untouched; every build decodes fresh into these.
+    TArray<FMikdashCrowdZone> RuntimeZones;
+    TArray<FMikdashCrowdKeepOut> RuntimeProtectedPolygons;
+    FString CoordinateStatus = TEXT("Not resolved");
+    bool PrepareRuntimeGeometry();
     UPROPERTY(VisibleAnywhere, Category = "Crowd")
     TArray<TObjectPtr<UHierarchicalInstancedStaticMeshComponent>> PoseComponents;
 

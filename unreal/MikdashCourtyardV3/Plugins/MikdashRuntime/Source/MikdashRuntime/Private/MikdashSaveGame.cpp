@@ -12,17 +12,24 @@
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/PlayerStart.h"
 #include "Misc/CoreDelegates.h"
 #include "Misc/DateTime.h"
 #include "PlatformFeatures.h"
 #include "SaveGameSystem.h"
+#include "UObject/Package.h"
 #include "UObject/UnrealType.h"
 
 #include "MikdashLocalization.h"
 #include "MikdashSettings.h"
 #include "MikdashTimeOfDay.h"
+#include "MikdashSceneUnits.h"
+#include "SaveSceneIdentity.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogMikdashSave, Log, All);
 
@@ -52,6 +59,36 @@ namespace
         Option.Type = MikdashSave::EOptionType::Bool;
         Option.BoolValue = Value;
         return Option;
+    }
+
+    std::string CurrentMapPackage(const UWorld* World)
+    {
+        return World ? FromFString(UWorld::RemovePIEPrefix(World->GetOutermost()->GetName())) : std::string();
+    }
+
+    /** Validate a walking capsule and a walkable support in this world. No NullRHI
+     * guesses, no saved-coordinate scaling, and no resizing of the actual capsule. */
+    bool SafeWalkingPosition(const ACharacter* Character, const FVector& Centre)
+    {
+        if (!Character || Centre.ContainsNaN() || !Character->GetActorEnableCollision()) return false;
+        const UWorld* World = Character->GetWorld();
+        const UCapsuleComponent* Capsule = Character->GetCapsuleComponent();
+        const UCharacterMovementComponent* Movement = Character->GetCharacterMovement();
+        if (!World || !Capsule || !Movement) return false;
+        const float Radius = Capsule->GetScaledCapsuleRadius();
+        const float HalfHeight = Capsule->GetScaledCapsuleHalfHeight();
+        if (Radius <= 2.f || HalfHeight <= 2.f) return false;
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(MikdashSaveSafePosition), false, Character);
+        FHitResult Floor;
+        if (!World->LineTraceSingleByChannel(Floor, Centre,
+            Centre - FVector(0,0,HalfHeight + Movement->MaxStepHeight + 8.f), ECC_Visibility, Query)
+            || !Floor.bBlockingHit || !Movement->IsWalkable(Floor)) return false;
+        const double FloorGap = Centre.Z - HalfHeight - Floor.ImpactPoint.Z;
+        if (FloorGap < -3.0 || FloorGap > Movement->MaxStepHeight + 5.0) return false;
+        // Two centimetres of query skin avoids treating floor contact as penetration.
+        const FCollisionShape Shape = FCollisionShape::MakeCapsule(Radius-2.f, HalfHeight-2.f);
+        return !World->OverlapBlockingTestByChannel(Centre + FVector(0,0,2), FQuat::Identity,
+            ECC_Pawn, Shape, Query);
     }
 }
 
@@ -496,7 +533,7 @@ void UMikdashSaveSystem::CaptureOptions(MikdashSave::FSaveRecord& Record) const
     }
 }
 
-void UMikdashSaveSystem::CaptureRecord(MikdashSave::FSaveRecord& Record, const FString& Label) const
+bool UMikdashSaveSystem::CaptureRecord(MikdashSave::FSaveRecord& Record, const FString& Label) const
 {
     Record.RecordVersion = MikdashSave::CurrentRecordVersion;
     Record.SlotLabel = FromFString(Label);
@@ -543,6 +580,23 @@ void UMikdashSaveSystem::CaptureRecord(MikdashSave::FSaveRecord& Record, const F
 
     CaptureSessionState(Record);
     CaptureOptions(Record);
+
+    const UWorld* World = Instance ? Instance->GetWorld() : nullptr;
+    MikdashSaveScene::Identity Identity;
+    FString SceneError;
+    const bool bValidFrame = AMikdashSceneUnits::Resolve(World, Identity.Frame, SceneError);
+    Identity.MapPackage = CurrentMapPackage(World);
+    const APlayerController* Controller = GetLocalController();
+    const ACharacter* Walker = Controller ? Cast<ACharacter>(Controller->GetPawn()) : nullptr;
+    Identity.HasWalkingPosition = Walker && SafeWalkingPosition(Walker, Walker->GetActorLocation());
+    if (!bValidFrame)
+        UE_LOG(LogMikdashSave, Warning, TEXT("Saving progress with an explicitly invalid spatial identity: %s"), *SceneError);
+    if (!MikdashSaveScene::Store(Record, bValidFrame ? &Identity : nullptr))
+    {
+        UE_LOG(LogMikdashSave, Error, TEXT("Save refused: no extension capacity for required scene identity. Existing slot unchanged."));
+        return false;
+    }
+    return true;
 }
 
 void UMikdashSaveSystem::AdoptSessionState(const MikdashSave::FSaveRecord& Record)
@@ -600,7 +654,46 @@ void UMikdashSaveSystem::AdoptSessionState(const MikdashSave::FSaveRecord& Recor
     AccumulatedPlayTimeSeconds = static_cast<double>(Record.PlayTimeSeconds);
 
     SnapshotOptions = Record.Options;
-    bHasSnapshotOptions = !SnapshotOptions.empty();
+    bHasSnapshotOptions = false;
+    for (const auto& Option : SnapshotOptions)
+        if (Option.Key.compare(0,9,"settings.") == 0) { bHasSnapshotOptions = true; break; }
+}
+
+void UMikdashSaveSystem::RestoreSafeCurrentWorldPosition(const FString& Reason)
+{
+    APlayerController* Controller = GetLocalController();
+    ACharacter* Walker = Controller ? Cast<ACharacter>(Controller->GetPawn()) : nullptr;
+    if (Walker && SafeWalkingPosition(Walker, Walker->GetActorLocation()))
+    {
+        LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::CurrentSafePositionRetained;
+        LastLocationRestoreMessage = TEXT("Your progress was restored. ") + Reason
+            + TEXT(" You remain at your current safe walking position.");
+        return;
+    }
+    if (Walker && Walker->GetWorld())
+    {
+        TArray<APlayerStart*> Starts;
+        for (TActorIterator<APlayerStart> It(Walker->GetWorld()); It; ++It) Starts.Add(*It);
+        Starts.Sort([](const APlayerStart& A, const APlayerStart& B)
+            { return A.GetFName().LexicalLess(B.GetFName()); });
+        for (APlayerStart* Start : Starts)
+        {
+            const FVector Position = Start->GetActorLocation();
+            if (!SafeWalkingPosition(Walker, Position)) continue;
+            if (!Walker->SetActorLocation(Position, false, nullptr, ETeleportType::TeleportPhysics)) continue;
+            Walker->GetCharacterMovement()->StopMovementImmediately();
+            Controller->SetControlRotation(Start->GetActorRotation());
+            LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::CurrentWorldSpawnUsed;
+            LastLocationRestoreMessage = TEXT("Your progress was restored. ") + Reason
+                + TEXT(" You have been placed at a checked starting point in the current scene.");
+            return;
+        }
+    }
+    // No character, no real floor trace, or no safe spawn: leave all transforms alone.
+    // In particular a possessed dove must never receive a saved walking transform.
+    LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::PositionUnchangedUnverified;
+    LastLocationRestoreMessage = TEXT("Your progress was restored. ") + Reason
+        + TEXT(" A safe walking position could not be checked, so your current position was left unchanged.");
 }
 
 void UMikdashSaveSystem::ApplyRecord(const MikdashSave::FSaveRecord& Record)
@@ -609,23 +702,52 @@ void UMikdashSaveSystem::ApplyRecord(const MikdashSave::FSaveRecord& Record)
 
     if (bRestorePlayerTransform)
     {
-        if (APlayerController* Controller = GetLocalController())
+        const UGameInstance* Instance = GetGameInstance();
+        const UWorld* World = Instance ? Instance->GetWorld() : nullptr;
+        MikdashSceneUnits::Frame Frame;
+        FString SceneError;
+        const bool bValidFrame = AMikdashSceneUnits::Resolve(World, Frame, SceneError);
+        const auto Decision = MikdashSaveScene::Evaluate(Record, bValidFrame ? &Frame : nullptr, CurrentMapPackage(World));
+        const bool bSameLayout = Decision == MikdashSaveScene::Decision::RestorePosition
+            || Decision == MikdashSaveScene::Decision::RestoreLegacyPosition;
+        APlayerController* Controller = GetLocalController();
+        APawn* Pawn = Controller ? Controller->GetPawn() : nullptr;
+        if (bSameLayout && Cast<ACharacter>(Pawn))
         {
             const FVector Location(Record.PlayerTransform.X, Record.PlayerTransform.Y, Record.PlayerTransform.Z);
             const FRotator Rotation(static_cast<float>(Record.PlayerTransform.Pitch),
                                     static_cast<float>(Record.PlayerTransform.Yaw),
                                     static_cast<float>(Record.PlayerTransform.Roll));
-            if (APawn* Pawn = Controller->GetPawn())
+            if (Pawn->SetActorLocation(Location, /*bSweep=*/false, nullptr, ETeleportType::TeleportPhysics))
             {
                 // Teleport, not sweep: the saved position is a position the visitor was
                 // legitimately standing in, and sweeping there from wherever they are now
                 // can stop short against geometry they were never meant to walk through.
-                Pawn->SetActorLocation(Location, /*bSweep=*/false, nullptr, ETeleportType::TeleportPhysics);
                 Pawn->SetActorRotation(FRotator(0.0f, Rotation.Yaw, 0.0f), ETeleportType::TeleportPhysics);
+                Controller->SetControlRotation(Rotation);
+                LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::SavedPositionRestored;
+                LastLocationRestoreMessage = TEXT("Your progress and saved walking position were restored.");
             }
-            Controller->SetControlRotation(Rotation);
+            else RestoreSafeCurrentWorldPosition(TEXT("The saved walking position could not be applied."));
+        }
+        else
+        {
+            FString Reason = TEXT("The saved location belongs to a different scene layout.");
+            if (Decision == MikdashSaveScene::Decision::InvalidCurrentIdentity)
+                Reason = TEXT("The current scene's coordinate identity could not be verified.");
+            else if (Decision == MikdashSaveScene::Decision::InvalidSavedIdentity)
+                Reason = TEXT("The saved coordinate identity could not be verified.");
+            else if (Decision == MikdashSaveScene::Decision::NoWalkingPosition || !Cast<ACharacter>(Pawn))
+                Reason = TEXT("There is no compatible saved walking position to apply.");
+            RestoreSafeCurrentWorldPosition(Reason);
         }
     }
+    else
+    {
+        LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::Disabled;
+        LastLocationRestoreMessage = TEXT("Your progress was restored; restoring a saved position is disabled.");
+    }
+    UE_LOG(LogMikdashSave, Log, TEXT("%s"), *LastLocationRestoreMessage);
 
     if (bRestoreTimeOfDay)
     {
@@ -712,7 +834,7 @@ bool UMikdashSaveSystem::WriteSlot(int32 SlotIndex, const MikdashSave::FSaveReco
 bool UMikdashSaveSystem::SaveToSlot(int32 SlotIndex, const FString& Label)
 {
     MikdashSave::FSaveRecord Record;
-    CaptureRecord(Record, Label);
+    if (!CaptureRecord(Record, Label)) { OnSaveCompleted.Broadcast(SlotIndex, false); return false; }
     const bool bSaved = WriteSlot(SlotIndex, Record);
     if (bSaved)
     {
@@ -747,7 +869,7 @@ bool UMikdashSaveSystem::Autosave(EMikdashSaveReason Reason)
     // the visitor switched to English. ScanSlot names the autosave slot from the string
     // table instead, so it follows the language rather than the moment it was written.
     MikdashSave::FSaveRecord Record;
-    CaptureRecord(Record, FString());
+    if (!CaptureRecord(Record, FString())) { OnSaveCompleted.Broadcast(GetAutosaveSlotIndex(), false); return false; }
     const bool bSaved = WriteSlot(GetAutosaveSlotIndex(), Record);
     if (bSaved)
     {
@@ -759,6 +881,8 @@ bool UMikdashSaveSystem::Autosave(EMikdashSaveReason Reason)
 
 bool UMikdashSaveSystem::LoadFromSlot(int32 SlotIndex)
 {
+    LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::NotAttempted;
+    LastLocationRestoreMessage.Reset();
     TArray<uint8> Bytes;
     if (!ReadSlot(SlotIndex, Bytes))
     {
@@ -826,6 +950,8 @@ bool UMikdashSaveSystem::DeleteSlot(int32 SlotIndex)
 
 void UMikdashSaveSystem::ResetSessionState()
 {
+    LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::NotAttempted;
+    LastLocationRestoreMessage.Reset();
     CompletedTourStops.Reset();
     CompletedTourStopOrder.Reset();
     UnlockedCodex.Reset();

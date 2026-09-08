@@ -24,8 +24,10 @@ def helper(name):
     return module
 
 
-def run(comparison_receipt, visual_review):
+def run(comparison_receipt, visual_review, jerusalem=False):
     import unreal as u
+    target_material = '/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm' if jerusalem else MATERIAL
+    expected_old = MATERIAL if jerusalem else OLD
     comparison_path = Path(comparison_receipt).resolve()
     review_path = Path(visual_review).resolve()
     comparison = json.loads(comparison_path.read_text(encoding='utf-8-sig'))
@@ -34,11 +36,16 @@ def run(comparison_receipt, visual_review):
         raise RuntimeError('Require a visual decision bound to this exact comparison')
     if comparison.get('errors') or not comparison.get('mapBytesUnchanged') or not comparison.get('pieEnded'):
         raise RuntimeError('Comparison failed or did not preserve/close its world')
-    if len(comparison.get('pavingComparison', [])) != 2 or comparison.get('pavingMaterialCandidate') != MATERIAL+'.MI_PBR_PavingSlabs':
+    if len(comparison.get('pavingComparison', [])) != 2 or comparison.get('pavingMaterialCandidate') != target_material+'.'+target_material.rsplit('/',1)[1]:
         raise RuntimeError('Need the exact two-view material comparison')
     for still in comparison['pavingComparison']:
         if sha(still['file']) != still['sha256']:
             raise RuntimeError('Reviewed image changed')
+    if jerusalem:
+        bound = comparison.get('pavingAssetHashes', {})
+        expected_paths={str(ROOT/'Content/MikdashV3/MaterialReview/JerusalemPavingV2'/name) for name in ('M_JerusalemPaving_500cm.uasset','T_JerusalemPaving_BaseColor.uasset')}
+        if set(bound)!=expected_paths or any(sha(p)!=digest for p,digest in bound.items()):
+            raise RuntimeError('Candidate material/texture changed since review')
     if Path(u.SystemLibrary.get_project_directory()).resolve() != ROOT:
         raise RuntimeError('Wrong project')
     ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
@@ -66,11 +73,13 @@ def run(comparison_receipt, visual_review):
     if len(matches) != 1:
         raise RuntimeError('Need exactly one platform surface')
     actor, component = matches[0]
-    if component.get_num_materials() != 1 or snapshot._path(component.get_material(0)) != OLD:
+    if component.get_num_materials() != 1 or snapshot._path(component.get_material(0)) != expected_old:
         raise RuntimeError('Unexpected original platform material')
     name = actor.get_name()
     shared = list((ROOT/'Content/MikdashV3/Materials/PBR').rglob('*.uasset'))
-    shared += [ROOT/'Content'/(asset[6:]+'.uasset') for asset in (MESH, OLD)]
+    shared += [ROOT/'Content'/(asset[6:]+'.uasset') for asset in (MESH, OLD, target_material)]
+    if jerusalem:
+        shared += list((ROOT/'Content/MikdashV3/MaterialReview/JerusalemPavingV2').glob('*.uasset'))
     hashes = {str(path): sha(path) for path in shared}
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     checkpoint = ROOT.parent/'ReviewCheckpoints'/('MountPaving-'+stamp)
@@ -87,7 +96,7 @@ def run(comparison_receipt, visual_review):
         out.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
     write()
     try:
-        material = u.load_asset(MATERIAL)
+        material = u.load_asset(target_material)
         if material is None:
             raise RuntimeError('Paving material missing')
         actor.modify(True)
@@ -106,7 +115,7 @@ def run(comparison_receipt, visual_review):
         write()
         if not levels.load_level(MAP) or snapshot._scene_snapshot(u, actors) != expected:
             raise RuntimeError('Saved scene readback mismatch')
-        report.update(status='SAVED_REOPENED_REVIEWED_PAVING', material=MATERIAL)
+        report.update(status='SAVED_REOPENED_REVIEWED_PAVING', material=target_material)
     except Exception as exc:
         report.update(status='FAILED_CHECKPOINT_AVAILABLE', error=repr(exc))
         raise

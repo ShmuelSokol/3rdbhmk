@@ -1,6 +1,8 @@
 #include "MikdashCrowdField.h"
 
 #include "CrowdFieldMath.h"
+#include "MikdashSceneUnits.h"
+#include "PopulationSceneMath.h"
 
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/SceneComponent.h"
@@ -99,8 +101,82 @@ int32 AMikdashCrowdField::GetFramesPerSweep() const
 FString AMikdashCrowdField::GetCrowdSummary() const
 {
     return FString::Printf(TEXT("%d instances in %d zones across %d pose meshes; %d seeded, %d refused, %d ground-trace misses, %d re-seed fallbacks; %d updates a frame = one sweep every %d frames"),
-                           GetTotalInstanceCount(), Zones.Num(), ActivePoseCount, SeededAgents, RefusedSeeds, GroundTraceMisses,
+                           GetTotalInstanceCount(), RuntimeZones.Num(), ActivePoseCount, SeededAgents, RefusedSeeds, GroundTraceMisses,
                            ReseedFallbacks, FMath::Max(1, UpdateBudgetPerFrame), GetFramesPerSweep());
+}
+
+bool AMikdashCrowdField::GetRuntimeZone(const FString& Name, FMikdashCrowdZone& Zone) const
+{
+    for(const auto& Candidate:RuntimeZones) if(Candidate.Name==Name) { Zone=Candidate; return true; }
+    return false;
+}
+
+bool AMikdashCrowdField::GetRuntimeKeepOut(const FString& Name, FMikdashCrowdKeepOut& KeepOut) const
+{
+    for(const auto& Candidate:RuntimeProtectedPolygons) if(Candidate.Name==Name) { KeepOut=Candidate; return true; }
+    return false;
+}
+
+bool AMikdashCrowdField::PrepareRuntimeGeometry()
+{
+    RuntimeZones.Reset(); RuntimeProtectedPolygons.Reset();
+    MikdashSceneUnits::Frame Frame;
+    if (!AMikdashSceneUnits::Resolve(GetWorld(),Frame,CoordinateStatus)) return false;
+    if (SourceCoordinateRevision != TEXT("Legacy50.v1"))
+    { CoordinateStatus=TEXT("Refused: crowd property coordinate revision is not legacy50 input"); return false; }
+    TArray<FMikdashCrowdZone> CandidateZones=Zones;
+    TArray<FMikdashCrowdKeepOut> CandidateProtected=ProtectedPolygons;
+    if (Frame.CoordinateRevision==MikdashSceneUnits::Revision::Selected48V1)
+    {
+        const auto ConvertXY=[this,&Frame](FVector2D& Point)
+        {
+            MikdashUnits::PointCm Result;
+            if (!MikdashSceneUnits::TryLegacyTemplePoint(Frame,{Point.X,Point.Y,0},Result))
+            { CoordinateStatus=TEXT("Refused: non-finite crowd coordinate or conversion overflow");return false; }
+            Point=FVector2D(Result.X,Result.Y); return true;
+        };
+        for (FMikdashCrowdZone& Zone : CandidateZones)
+        {
+            const auto Scope=MikdashPopulationScene::CrowdZoneScope(TCHAR_TO_UTF8(*Zone.Name));
+            if(Scope==MikdashPopulationScene::Scope::Unknown)
+            { CoordinateStatus=TEXT("Refused: unclassified crowd zone ")+Zone.Name; return false; }
+            if(Scope==MikdashPopulationScene::Scope::Metric) continue;
+            const double ExpectedFloor=Zone.Name==TEXT("OuterCourtEast") ? 300.0 : 425.0;
+            if(Zone.GroundMode!=EMikdashCrowdGround::Flat || !MikdashPopulationScene::Near(Zone.GroundZBase,ExpectedFloor)
+                || !FMath::IsNearlyZero(Zone.GroundSlopeX) || !FMath::IsNearlyZero(Zone.GroundSlopeY))
+            { CoordinateStatus=TEXT("Refused: Temple zone is not the reviewed legacy support: ")+Zone.Name; return false; }
+            for(FVector2D& Point:Zone.PolygonCm) if(!ConvertXY(Point)) return false;
+            if(!ConvertXY(Zone.GoalCm) || !ConvertXY(Zone.ReseedEdgeA) || !ConvertXY(Zone.ReseedEdgeB)) return false;
+            MikdashUnits::PointCm Support;
+            if(!MikdashSceneUnits::TryLegacyTemplePoint(Frame,{0,0,ExpectedFloor},Support)) return false;
+            Zone.GroundZBase=static_cast<float>(Support.Z);
+        }
+        for(FMikdashCrowdKeepOut& KeepOut:CandidateProtected)
+        {
+            if(KeepOut.Name==TEXT("KotelWallSlab")) continue;
+            MikdashPopulationScene::PaddedFootprint Footprint;
+            if(!MikdashPopulationScene::Footprint(TCHAR_TO_UTF8(*KeepOut.Name),Footprint))
+            { CoordinateStatus=TEXT("Refused: unclassified keep-out ")+KeepOut.Name; return false; }
+            std::vector<MikdashRoute::Point2> Input;
+            for(const auto& P:KeepOut.PolygonCm) Input.push_back({P.X,P.Y});
+            const auto LegacyBounds=MikdashPopulationScene::Padded(Footprint);
+            MikdashPopulationScene::Rect Converted;
+            if(!MikdashPopulationScene::IsRect(Input,LegacyBounds)
+                || !MikdashPopulationScene::TryFootprint(Frame,Footprint,Converted))
+            { CoordinateStatus=TEXT("Refused: keep-out no longer matches its legacy source footprint/pads: ")+KeepOut.Name; return false; }
+            // Keep original corner order, while reconstructing unscaled clearance pads.
+            for(FVector2D& P:KeepOut.PolygonCm)
+            {
+                P.X=MikdashPopulationScene::Near(P.X,LegacyBounds.MinX)?Converted.MinX:Converted.MaxX;
+                P.Y=MikdashPopulationScene::Near(P.Y,LegacyBounds.MinY)?Converted.MinY:Converted.MaxY;
+            }
+        }
+    }
+    RuntimeZones=MoveTemp(CandidateZones);RuntimeProtectedPolygons=MoveTemp(CandidateProtected);
+    CoordinateStatus=Frame.CoordinateRevision==MikdashSceneUnits::Revision::Selected48V1
+        ? TEXT("Selected48 runtime geometry from immutable legacy50 properties; geographic context and physical padding retained")
+        : TEXT("Legacy50 runtime geometry unchanged");
+    return true;
 }
 
 void AMikdashCrowdField::CacheGeometry()
@@ -109,7 +185,7 @@ void AMikdashCrowdField::CacheGeometry()
     KeepOutPointCache.Reset();
     KeepOutStartCache.Reset();
     KeepOutCountCache.Reset();
-    for (const FMikdashCrowdKeepOut& Polygon : ProtectedPolygons)
+    for (const FMikdashCrowdKeepOut& Polygon : RuntimeProtectedPolygons)
     {
         if (Polygon.PolygonCm.Num() < 3)
         {
@@ -127,7 +203,7 @@ void AMikdashCrowdField::CacheGeometry()
     ZoneStartCache.Reset();
     ZoneVertexCountCache.Reset();
     ZoneFlowCache.Reset();
-    for (const FMikdashCrowdZone& Zone : Zones)
+    for (const FMikdashCrowdZone& Zone : RuntimeZones)
     {
         ZoneStartCache.Add(ZonePointCache.Num());
         ZoneVertexCountCache.Add(Zone.PolygonCm.Num());
@@ -324,6 +400,7 @@ void AMikdashCrowdField::ClearCrowd()
         }
     }
     Agents.Reset();
+    RuntimeZones.Reset(); RuntimeProtectedPolygons.Reset();
     ZoneCounts.Reset();
     SeededAgents = 0;
     RefusedSeeds = 0;
@@ -348,10 +425,15 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
     using namespace MikdashCrowd;
 
     ClearCrowd();
+    if(!PrepareRuntimeGeometry())
+    {
+        UE_LOG(LogTemp,Warning,TEXT("%s: %s"),*GetName(),*CoordinateStatus);
+        return;
+    }
     ConfigureComponents();
 
     const int32 Total = OverrideCount >= 0 ? FMath::Min(OverrideCount, 60000) : GetEffectiveCrowdCount();
-    if (Total <= 0 || Zones.Num() == 0 || ActivePoseCount <= 0)
+    if (Total <= 0 || RuntimeZones.Num() == 0 || ActivePoseCount <= 0)
     {
         // Nothing to refuse loudly here: an unconfigured actor is the normal state of a freshly
         // placed one. GetCrowdSummary reports zero instances.
@@ -367,14 +449,14 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
     // Apportion by area * density, largest remainder, so the parts sum to exactly Total and
     // lowering Total thins every zone in proportion rather than emptying the far ones.
     TArray<double> Weights;
-    Weights.Reserve(Zones.Num());
-    for (int32 ZoneIndex = 0; ZoneIndex < Zones.Num(); ++ZoneIndex)
+    Weights.Reserve(RuntimeZones.Num());
+    for (int32 ZoneIndex = 0; ZoneIndex < RuntimeZones.Num(); ++ZoneIndex)
     {
         const double Area = PolygonArea(ZonePointCache.GetData() + ZoneStartCache[ZoneIndex], ZoneVertexCountCache[ZoneIndex]);
-        Weights.Add(Area * FMath::Max(0.f, Zones[ZoneIndex].DensityPerHundredSqM) / 1.0e6);
+        Weights.Add(Area * FMath::Max(0.f, RuntimeZones[ZoneIndex].DensityPerHundredSqM) / 1.0e6);
     }
-    ZoneCounts.SetNumZeroed(Zones.Num());
-    ApportionCounts(Weights.GetData(), Zones.Num(), Total, ZoneCounts.GetData());
+    ZoneCounts.SetNumZeroed(RuntimeZones.Num());
+    ApportionCounts(Weights.GetData(), RuntimeZones.Num(), Total, ZoneCounts.GetData());
 
     Agents.SetNum(Total);
     const uint32 Seed = static_cast<uint32>(RandomSeed);
@@ -382,9 +464,9 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
     const double MaxSpeed = FMath::Max(static_cast<double>(MinWalkSpeedCmPerSecond), static_cast<double>(MaxWalkSpeedCmPerSecond));
 
     int32 GlobalIndex = 0;
-    for (int32 ZoneIndex = 0; ZoneIndex < Zones.Num(); ++ZoneIndex)
+    for (int32 ZoneIndex = 0; ZoneIndex < RuntimeZones.Num(); ++ZoneIndex)
     {
-        const FMikdashCrowdZone& Zone = Zones[ZoneIndex];
+        const FMikdashCrowdZone& Zone = RuntimeZones[ZoneIndex];
         const Vec2* ZonePolygon = ZonePointCache.GetData() + ZoneStartCache[ZoneIndex];
         const int32 ZoneVertices = ZoneVertexCountCache[ZoneIndex];
         const FlowZone& Flow = ZoneFlowCache[ZoneIndex];
@@ -543,7 +625,7 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
         for (int32 Index = Start; Index < Start + Count; ++Index)
         {
             FMikdashCrowdAgent& Agent = Agents[Index];
-            if (!Agent.bValid || !Zones.IsValidIndex(Agent.ZoneIndex))
+            if (!Agent.bValid || !RuntimeZones.IsValidIndex(Agent.ZoneIndex))
             {
                 continue;
             }
@@ -564,7 +646,7 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
                 continue;
             }
 
-            const FMikdashCrowdZone& Zone = Zones[Agent.ZoneIndex];
+            const FMikdashCrowdZone& Zone = RuntimeZones[Agent.ZoneIndex];
             const Vec2* ZonePolygon = ZonePointCache.GetData() + ZoneStartCache[Agent.ZoneIndex];
             const int32 ZoneVertices = ZoneVertexCountCache[Agent.ZoneIndex];
             const FlowZone& Flow = ZoneFlowCache[Agent.ZoneIndex];
@@ -606,7 +688,7 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
 bool AMikdashCrowdField::IsTransitSegmentAllowed(const FVector& From, const FVector& To, float RadiusCm) const
 {
-    if (From.ContainsNaN() || To.ContainsNaN() || !FMath::IsFinite(RadiusCm) || RadiusCm < 0 || Zones.IsEmpty()) return false;
+    if (From.ContainsNaN() || To.ContainsNaN() || !FMath::IsFinite(RadiusCm) || RadiusCm < 0 || RuntimeZones.IsEmpty()) return false;
     const double Distance = FVector::Dist2D(From, To);
     if (Distance > 5000.0) return false; // bounded authored transfer, never city-scale teleportation
     const int32 Steps = FMath::Max(1, FMath::CeilToInt(Distance / 25.0));
@@ -616,14 +698,14 @@ bool AMikdashCrowdField::IsTransitSegmentAllowed(const FVector& From, const FVec
         const FVector Sample = FMath::Lerp(From, To, static_cast<double>(Step) / Steps);
         const MikdashCrowd::Vec2 Point{Sample.X, Sample.Y};
         bool InZone = false;
-        for (const FMikdashCrowdZone& Zone : Zones)
+        for (const FMikdashCrowdZone& Zone : RuntimeZones)
         {
             TArray<MikdashCrowd::Vec2> Polygon;
             for (const FVector2D& Vertex : Zone.PolygonCm) Polygon.Add({Vertex.X, Vertex.Y});
             if (MikdashCrowd::PointInPolygonWithMargin(Polygon.GetData(), Polygon.Num(), Point, Margin)) { InZone = true; break; }
         }
         if (!InZone) return false;
-        for (const FMikdashCrowdKeepOut& KeepOut : ProtectedPolygons)
+        for (const FMikdashCrowdKeepOut& KeepOut : RuntimeProtectedPolygons)
         {
             TArray<MikdashCrowd::Vec2> Polygon;
             for (const FVector2D& Vertex : KeepOut.PolygonCm) Polygon.Add({Vertex.X, Vertex.Y});

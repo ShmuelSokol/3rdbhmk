@@ -1,0 +1,73 @@
+{
+  "status": "IMPORTED_ONLY_VISUAL_PENDING",
+  "sourceSha256": "d3c9f895f72105e812654550e2fc05c29b0e769ebce6026ecf31fa32a71921f6",
+  "sourceReceiptSha256": "4b681871767b417adac2546ff277a88b97f2e1d5c823d3fcedeffe81d4440c38",
+  "material": "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/M_JerusalemPaving_500cm",
+  "texture": "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/T_JerusalemPaving_BaseColor",
+  "tileCm": 500,
+  "addressing": "MIRROR_XY",
+  "allowedReviewMesh": "/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface",
+  "mapMutation": false,
+  "normal": "None; no invented measured height",
+  "roughness": 0.8,
+  "interpretation": "Authored paving inspired by current Jerusalem stone; not a certified scan or a sourced claim about future Temple flooring",
+  "visualAcceptance": "PENDING_ROOT_PIE_AB",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\JerusalemPaving-20260908T161921017334Z",
+  "mainSha256Before": "ad80fd54f31eea15a05618d5bc64fcb44b0c37c5e10a13059bdb8481429a2a0e",
+  "savedGraph": {
+    "nodes": {
+      "MaterialExpressionWorldPosition_0": {
+        "kind": "MaterialExpressionWorldPosition",
+        "inputs": []
+      },
+      "MaterialExpressionCustom_0": {
+        "kind": "MaterialExpressionCustom",
+        "inputs": [
+          "MaterialExpressionWorldPosition_0"
+        ],
+        "code": "return float2(P.x, P.y) / 500.0;",
+        "outputType": "<CustomMaterialOutputType.CMOT_FLOAT2: 1>",
+        "inputNames": [
+          "P"
+        ]
+      },
+      "MaterialExpressionTextureSample_0": {
+        "kind": "MaterialExpressionTextureSample",
+        "inputs": [
+          "MaterialExpressionCustom_0",
+          null,
+          null
+        ],
+        "texture": "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/T_JerusalemPaving_BaseColor",
+        "srgb": true,
+        "address": [
+          "<TextureAddress.TA_MIRROR: 2>",
+          "<TextureAddress.TA_MIRROR: 2>"
+        ]
+      },
+      "MaterialExpressionConstant_0": {
+        "kind": "MaterialExpressionConstant",
+        "inputs": [],
+        "value": 0.800000011920929
+      },
+      "MaterialExpressionConstant_1": {
+        "kind": "MaterialExpressionConstant",
+        "inputs": [],
+        "value": 0.0
+      }
+    },
+    "outputs": {
+      "MP_BASE_COLOR": "MaterialExpressionTextureSample_0",
+      "MP_ROUGHNESS": "MaterialExpressionConstant_0",
+      "MP_METALLIC": "MaterialExpressionConstant_1"
+    },
+    "nanite": true,
+    "blendMode": "<BlendMode.BLEND_OPAQUE: 0>"
+  },
+  "reloadLimit": "load_asset readback; fresh-process disk reload and PIE A/B pending",
+  "assets": {
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/T_JerusalemPaving_BaseColor": "fc0a766cc1cb35dda030e185c5f77acbadff3d3966e9ca7de2edf1f55441a9f2",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/M_JerusalemPaving_500cm": "b666d8a4fd034daf71bcadc9216437e7f6c43d111bfcb3686628ae7c61d02f16"
+  },
+  "protectedUnchanged": true
+}

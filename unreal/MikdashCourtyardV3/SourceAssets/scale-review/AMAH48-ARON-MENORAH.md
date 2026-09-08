@@ -1,0 +1,11 @@
+# Remaining assembly calibration
+
+MenorahV4 is explicitly book-sized: generator lines15–16 and48–51 specify18tefachim,150cm at50cm amah. The manifest agrees. Its six vessel components therefore become144cm overall via.96 local scale; photo ratios remain unchanged, not asserted as exact future geometry. Every part shares the floor pivot. XY placement follows Temple coordinates; floor925 becomes888 with existing tiny numerical offset preserved.
+
+The seventh StepStone component is mixed: generator's `stone` uses authored90cm width,30cm tread,12cm corner,10cm gap but rise2tefachim. Only localZ scales.96, preserving metric width/tread/corner. The localY placement shifts by−.04×the plinth circumradius so the10cm clear gap survives the menorah base shrinking. This shift is rotated into world XY using the original actor yaw.
+
+Aron calibration was resolved by inspecting `release_import_thirdparty_vessels.spec.json`: its unitsNote explicitly says actor scale1.471 carries unit conversion and **book-size fit**. Thus Body_NoPoles and Lid are not independently metre-measured objects to leave large: both scales become1.41216, while common Temple location and lid offset resize with.96. Their approximate artistic geometry/source disagreements remain. No details are remodelled.
+
+The two separate AronStudyV3 poles are mixed. Pole spec states radius4cm, side gap.5cm and authored length derived from reaching the curtain, not a sourced number. Keep their geometry and radius/length unchanged in this bounded pass. Place centres at resized body half-length+4+.5 and resized model ring height; floor925→888. This converts support placement and avoids shrinking physical radius/clearance. Their ends must be refitted to the eventual resized curtain in a subsequent geometry step; no claim of complete pole/canopy alignment is made. Curtain art and geometry remain held.
+
+`release_amah48_aron_menorah.py` covers11 exact historical inventory identities, refusing changed native poses/meshes/attachments. It runs only in an already loaded Amah48 candidate, checkpoints that map, preserves main/config/architecture and selected source assets/material hashes, compares unrelated actors and saved/reopened scene. No promotion. Invocation: import module then run(apply=True); run() is offline. No engine/UBT was run by this worker.

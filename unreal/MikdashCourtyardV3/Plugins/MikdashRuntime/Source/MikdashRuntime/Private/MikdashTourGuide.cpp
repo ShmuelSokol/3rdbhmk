@@ -11,6 +11,7 @@
 
 #include "MikdashCodex.h"
 #include "MikdashFrontEnd.h"
+#include "MikdashSceneUnits.h"
 
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -359,6 +360,21 @@ FString AMikdashTourGuide::GetContentPath() const
 
 bool AMikdashTourGuide::ReloadRoute()
 {
+    MikdashSceneUnits::Frame TourFrame;
+    FString FrameError;
+    if (!AMikdashSceneUnits::Resolve(GetWorld(), TourFrame, FrameError))
+    {
+        LoadError = FrameError;
+        return false;
+    }
+    const bool bSelected48 = TourFrame.CoordinateRevision == MikdashSceneUnits::Revision::Selected48V1;
+    const auto ConvertTemple = [&TourFrame](FVector& Point)
+    {
+        MikdashUnits::PointCm Result;
+        if (!MikdashSceneUnits::TryLegacyTemplePoint(TourFrame, {Point.X, Point.Y, Point.Z}, Result)) return false;
+        Point = FVector(Result.X, Result.Y, Result.Z);
+        return true;
+    };
     const FString Path = GetContentPath();
     LoadError.Reset();
 
@@ -412,6 +428,20 @@ bool AMikdashTourGuide::ReloadRoute()
             LoadError = FString::Printf(TEXT("stop %d has no key"), Row);
             return false;
         }
+        // These eighteen stops all describe Temple-relative features, including the
+        // authored apron/immersion stops. There is no geographic Kotel/city stop in
+        // this legacy dataset. A new key needs explicit coordinate classification.
+        static const TSet<FString> TempleKeys = {
+            TEXT("mount-and-house"), TEXT("immersion"), TEXT("soreg-and-cheil"),
+            TEXT("east-outer-gate"), TEXT("outer-court"), TEXT("north-gate-and-inner-wall"),
+            TEXT("east-inner-gate"), TEXT("ezras-yisroel"), TEXT("duchan"), TEXT("outer-altar"),
+            TEXT("kiyor"), TEXT("twelve-steps"), TEXT("ulam"), TEXT("heikhal"), TEXT("menorah"),
+            TEXT("shulchan"), TEXT("golden-altar"), TEXT("paroches")};
+        if (bSelected48 && !TempleKeys.Contains(Key))
+        {
+            LoadError = FString::Printf(TEXT("stop %s has no reviewed48cm coordinate scope"), *Key);
+            return false;
+        }
 
         FMikdashTourStopText Text;
         Text.Key = FName(*Key);
@@ -459,6 +489,16 @@ bool AMikdashTourGuide::ReloadRoute()
                 }
                 if (Measurement->TryGetNumberField(TEXT("cm"), Cm) && Cm > 0.0)
                 {
+                    if (bSelected48)
+                    {
+                        if (Measurement->HasField(TEXT("amot")) || Measurement->HasField(TEXT("tefachim")) ||
+                            Measurement->HasField(TEXT("riseAmot")) || Key == TEXT("menorah") || Key == TEXT("kiyor")) Cm *= 0.96;
+                        else
+                        {
+                            LoadError = FString::Printf(TEXT("stop %s has an unclassified cm measurement"), *Key);
+                            return false;
+                        }
+                    }
                     Amount += Amount.IsEmpty() ? FString::Printf(TEXT("%g cm"), Cm)
                                                : FString::Printf(TEXT(" = %g cm"), Cm);
                 }
@@ -503,6 +543,16 @@ bool AMikdashTourGuide::ReloadRoute()
         }
         Text.Stand = Stand;
         Text.Look = Look;
+        if (bSelected48)
+        {
+            if (!ConvertTemple(Stand) || !ConvertTemple(Look))
+            {
+                LoadError = TEXT("Tour coordinate conversion failed");
+                return false;
+            }
+            Text.Stand = Stand;
+            Text.Look = Look;
+        }
 
         // The key has to outlive this function: MikdashTour::Stop keeps a const char* to
         // it, so it is copied into storage the route owns for as long as the route does.
@@ -548,7 +598,13 @@ bool AMikdashTourGuide::ReloadRoute()
                         return false;
                     }
                 }
-                Geometry.Waypoints[Geometry.WaypointCount++] = MikdashTour::Point3{Values[0], Values[1], Values[2]};
+                FVector Waypoint(Values[0], Values[1], Values[2]);
+                if (bSelected48 && !ConvertTemple(Waypoint))
+                {
+                    LoadError = TEXT("Tour approach conversion failed");
+                    return false;
+                }
+                Geometry.Waypoints[Geometry.WaypointCount++] = ToTourPoint(Waypoint);
             }
         }
 
@@ -990,6 +1046,10 @@ void AMikdashTourGuide::RefreshMarkerCache()
     Markers.Reset();
     UWorld* World = GetWorld();
     if (World == nullptr) return;
+    MikdashSceneUnits::Frame MarkerFrame;
+    FString MarkerFrameError;
+    const bool bCandidateMarkers = AMikdashSceneUnits::Resolve(World, MarkerFrame, MarkerFrameError)
+        && MarkerFrame.CoordinateRevision == MikdashSceneUnits::Revision::Selected48V1;
     for (TActorIterator<AActor> It(World); It; ++It)
     {
         AActor* Actor = *It;
@@ -999,6 +1059,7 @@ void AMikdashTourGuide::RefreshMarkerCache()
         for (const FName& Tag : Actor->Tags)
         {
             if (Tag == MarkerTag) continue;
+            if (bCandidateMarkers && !StopText.ContainsByPredicate([&Tag](const FMikdashTourStopText& Stop) { return Stop.Key == Tag; })) continue;
             Markers.Add(Tag, Actor);
             break;
         }

@@ -1,0 +1,240 @@
+{
+  "status": "passed_intro_flight_ascent_pause_exact_return_visual_pending",
+  "mapShaBefore": "ad80fd54f31eea15a05618d5bc64fcb44b0c37c5e10a13059bdb8481429a2a0e",
+  "errors": [],
+  "samples": [
+    {
+      "phase": "forward",
+      "wallSeconds": 0.030999999988125637,
+      "gameSeconds": 0.09385260194540024,
+      "ticks": 1,
+      "position": [
+        2100.0,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.0779999999795109,
+      "gameSeconds": 0.13163070008158684,
+      "ticks": 2,
+      "position": [
+        2106.422331144543,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        170.00144161283885,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.15599999998812564,
+      "gameSeconds": 0.1680906005203724,
+      "ticks": 3,
+      "position": [
+        2118.6025263102247,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        334.07099358736934,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.48399999999674037,
+      "gameSeconds": 0.5363631024956703,
+      "ticks": 10,
+      "position": [
+        2587.8350351521476,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.9059999999881256,
+      "gameSeconds": 0.955501101911068,
+      "ticks": 20,
+      "position": [
+        3342.2834340998634,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1799.9999999999998,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 1.2969999999913853,
+      "gameSeconds": 1.3690430000424385,
+      "ticks": 30,
+      "position": [
+        4086.6588507363304,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    }
+  ],
+  "scope": "Native frontend transitions and dove movement/pause/return; visual, physical keyboard and resident behavior are separate",
+  "flightEntry": "direct_toggle_during_intro",
+  "saveIsolation": {
+    "testPrefix": "AstraProbe_Jerusalem01",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "frontendTransitions": [
+    "main",
+    "settings",
+    "main",
+    "preparation",
+    "main",
+    "resume"
+  ],
+  "introPlaybackRoute": "native",
+  "introMoveInputInitiallyIgnored": true,
+  "flightRequestSkippedIntro": true,
+  "walkerClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+  "walkingStart": [
+    2100.0,
+    0.0,
+    598.0001907348633
+  ],
+  "flightOwnsView": true,
+  "birdClass": "/Script/MikdashRuntime.MikdashDovePawn",
+  "forwardDisplacement": [
+    2275.8446958431705,
+    0.0,
+    0.0
+  ],
+  "riseCm": 1622.6896915666716,
+  "pauseDriftCm": 0.0,
+  "returnErrorCm": 0.0,
+  "walkerCollisionEnabled": true,
+  "tour": {
+    "stops": 18,
+    "codexEntries": 76,
+    "transitions": [
+      "menu request",
+      "pause",
+      "resume",
+      "open codex",
+      "close codex",
+      "leave"
+    ],
+    "scope": "Live API interaction and staged content paths; route walking, narration and packaged readback remain unverified"
+  },
+  "integratedSystems": {
+    "crowdSeeded": 240,
+    "crowdInstances": 240,
+    "crowdRefused": 0,
+    "groundTraceMisses": 0,
+    "zones": [
+      70,
+      51,
+      101,
+      6,
+      5,
+      7
+    ],
+    "liveFxCards": 227,
+    "fxStatus": "293 cards planned, 42 built on the first frame, 7 lamp lights, 3 shafts. Outer altar fire continuous; ketores is an event.",
+    "scope": "Live presence and activity; appearance, paths and performance not accepted"
+  },
+  "diagnosticSubject": "mount-paving",
+  "diagnosticCameraPostProcessBlendWeight": 0.0,
+  "diagnosticSkylights": [
+    {
+      "label": "V2 skylight",
+      "intensity": "1.0",
+      "light_color": "<Struct 'Color' (0x00000170B63D2AB8) {b: 255, g: 255, r: 255, a: 255}>",
+      "source_type": "<SkyLightSourceType.SLS_CAPTURED_SCENE: 0>",
+      "cubemap": "None",
+      "real_time_capture": "True",
+      "visible": "True",
+      "cast_shadows": "True"
+    }
+  ],
+  "diagnosticStill": {
+    "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T162139Z.png",
+    "cameraCm": [
+      10500.0,
+      12000.0,
+      180.0
+    ],
+    "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+    "bytes": 1277774,
+    "sha256": "6a2a64e6c088ef0f8a84bf1c3fb2de0553c750b73ed5bb3bb303ea11fbaa8e24"
+  },
+  "pavingComparison": [
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T162117Z.png",
+      "cameraCm": [
+        10500.0,
+        12000.0,
+        180.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1314008,
+      "sha256": "f459f2aa8fb2c288f3d4a64e921601f8ba35cf8162a395d358b534df260fa8ef"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T162139Z.png",
+      "cameraCm": [
+        10500.0,
+        12000.0,
+        180.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1277774,
+      "sha256": "6a2a64e6c088ef0f8a84bf1c3fb2de0553c750b73ed5bb3bb303ea11fbaa8e24"
+    }
+  ],
+  "pavingMaterialBefore": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs.MI_PBR_PavingSlabs",
+  "pavingMaterialCandidate": "/Game/MikdashV3/MaterialReview/JerusalemPavingV1/M_JerusalemPaving_500cm.M_JerusalemPaving_500cm",
+  "pavingComparisonScope": "PIE-only component override; no shared asset or saved map change",
+  "pieEnded": true,
+  "mapBytesUnchanged": true
+}

@@ -13,7 +13,10 @@ def module(name):
 def offline_plan():
     spec_path=ROOT/'Scripts/release_import_keilim_ti.spec.json'
     inventory_path=REVIEW/'native-scale-inventory-20260908T133142315573Z.json'
+    native_path=ROOT/'SourceAssets/vessels-review/KeilimTIV1/native-import-20260908T031336905985Z.json'
+    nanite_path=ROOT/'SourceAssets/perf-review/perf-optimize-nanite-20260908T111035Z.json'
     spec=json.loads(spec_path.read_text());inventory=json.loads(inventory_path.read_text())
+    native=json.loads(native_path.read_text());nanite=json.loads(nanite_path.read_text())
     proposals=[]
     for key,group in spec['groups'].items():
         for mesh in group['meshes']:
@@ -21,15 +24,24 @@ def offline_plan():
             matches=[a for a in inventory['actors'] if any(c.get('mesh','').split('.')[0]==package for c in a['components'])]
             if len(matches)!=1:raise RuntimeError('Exact TI assembly member missing/duplicated')
             a=matches[0];old=a['locationCm']
+            imported=native['meshes'][mesh['name']]
+            if imported['asset']!=package or max(abs(imported['localBoundsCm'][k][i]-mesh['canonicalBoundsCm'][k][i]) for k in ('min','max') for i in range(3))>.001:
+                raise RuntimeError('Original native/source calibration mismatch')
+            if package not in {p.split('.')[0] for p in nanite['appliedPaths']} or nanite['status']!='completed':
+                raise RuntimeError('Missing exact post-import Nanite conversion evidence')
             if max(abs(old[i]-group['placement']['origin'][i]) for i in (0,1))>.001 or abs(old[2]-925)>.001 or a['scale']!=[1,1,1]:raise RuntimeError('TI source support/scale mismatch')
+            if a['rotationDegrees']!=[0,0,0]:raise RuntimeError('Native bound inversion requires identity rotation')
+            native_box={k:[a['boundsCm'][k][i]-old[i] for i in range(3)] for k in ('min','max')}
             proposals.append(dict(name=a['name'],label=a['label'],mesh=package,oldPose=old+a['rotationDegrees']+a['scale'],
                 location48=[old[0]*.96,old[1]*.96,888+(old[2]-925)],scale48=[.96,.96,.96],
+                expectedNativeLocalBounds=native_box,
+                nativeVsAuthoredBoundsMaxCm=max(abs(native_box[k][i]-mesh['canonicalBoundsCm'][k][i]) for k in ('min','max') for i in range(3)),
                 bounds48={k:[x*.96 for x in mesh['canonicalBoundsCm'][k]] for k in ('min','max')}))
     if len(proposals)!=8:raise RuntimeError('Expected complete7-part table+1altar')
     deferred=[dict(name=a['name'],label=a['label'],meshes=[c.get('mesh') for c in a['components']]) for a in inventory['actors']
               if any(any(x in c.get('mesh','') for x in ('Aron','MenorahV4')) for c in a['components'])]
     return dict(status='TI_EIGHT_PART_CANDIDATE_PLAN',proposals=proposals,deferred=deferred,
-        specSha256=sha(spec_path),inventorySha256=sha(inventory_path),
+        specSha256=sha(spec_path),inventorySha256=sha(inventory_path),nativeImportSha256=sha(native_path),naniteReceiptSha256=sha(nanite_path),
         tableCoreDimensions48=[96,48,144],altarCoreDimensions48=[40,40,80],
         policy='TI assembly artwork/proportions follow authored amah/tefach dimensions together, including ornaments and loaves. No claim each ornament is independently sourced. Preserve numerical floor jitter as a physical placement offset; floor925 becomes888.',
         unknowns=['Aron uses third-party Body_NoPoles/Lid at1.471 plus separate study poles: preserve until exact body/lid/pole calibration reconciled.',
@@ -57,7 +69,8 @@ def run(apply=False):
         cs=a.get_components_by_class(u.StaticMeshComponent)
         if len(cs)!=1 or h._path(cs[0].get_editor_property('static_mesh'))!=row['mesh'] or any(abs(x-y)>.001 for x,y in zip(h._pose(a),row['oldPose'])):raise RuntimeError('Mesh/pose changed; refuse mixed versions')
         local=box_helper._static_mesh_box(cs[0].get_editor_property('static_mesh'))
-        if max(abs(local[k][i]*.96-row['bounds48'][k][i]) for k in ('min','max') for i in range(3))>.1:raise RuntimeError('Source mesh dimensions differ from exact TI spec')
+        if max(abs(local[k][i]-row['expectedNativeLocalBounds'][k][i]) for k in ('min','max') for i in range(3))>.001:
+            raise RuntimeError('Post-Nanite native bounds changed for %s: actual=%r expected=%r authored48=%r' % (row['mesh'],local,row['expectedNativeLocalBounds'],row['bounds48']))
         for asset in [cs[0].get_editor_property('static_mesh')]+[cs[0].get_material(i) for i in range(cs[0].get_num_materials())]:
             p=h._path(asset)
             if p and p.startswith('/Game/'):

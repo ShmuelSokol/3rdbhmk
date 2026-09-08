@@ -75,6 +75,18 @@ enum class EMikdashSaveReason : uint8
     Periodic    UMETA(DisplayName = "Periodic"),
 };
 
+/** A successful progress load can deliberately retain/reset its location. */
+UENUM(BlueprintType)
+enum class EMikdashLocationRestoreOutcome : uint8
+{
+    NotAttempted,
+    SavedPositionRestored,
+    CurrentSafePositionRetained,
+    CurrentWorldSpawnUsed,
+    PositionUnchangedUnverified,
+    Disabled
+};
+
 /**
  * Why a load did not happen. Mirrors MikdashSave::ESaveDecodeError one for one, plus the
  * two failures that happen before the decoder is ever reached.
@@ -248,6 +260,13 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Mikdash|Save")
     MIKDASHRUNTIME_API bool LoadFromSlot(int32 SlotIndex);
 
+    UFUNCTION(BlueprintPure, Category="Mikdash|Save")
+    EMikdashLocationRestoreOutcome GetLastLocationRestoreOutcome() const { return LastLocationRestoreOutcome; }
+
+    /** Plain-language outcome: progress restored, and whether a location was reused. */
+    UFUNCTION(BlueprintPure, Category="Mikdash|Save")
+    FString GetLastLocationRestoreMessage() const { return LastLocationRestoreMessage; }
+
     /** Load GetContinueSlot(). False when there is nothing to continue. */
     UFUNCTION(BlueprintCallable, Category = "Mikdash|Save") MIKDASHRUNTIME_API bool ContinueFromLast();
 
@@ -357,10 +376,11 @@ public:
 
 private:
     /** Fill Record from the live world. Fields with no source keep their current value. */
-    void CaptureRecord(MikdashSave::FSaveRecord& Record, const FString& Label) const;
+    bool CaptureRecord(MikdashSave::FSaveRecord& Record, const FString& Label) const;
 
     /** Push a decoded record into the live world. Only called after a clean decode. */
     void ApplyRecord(const MikdashSave::FSaveRecord& Record);
+    void RestoreSafeCurrentWorldPosition(const FString& Reason);
 
     /** Copy the session lists into a record, without touching the world. */
     void CaptureSessionState(MikdashSave::FSaveRecord& Record) const;
@@ -410,6 +430,8 @@ private:
 
     TArray<FMikdashSaveSlotInfo> CachedSlots;
     bool bSlotCacheValid = false;
+    EMikdashLocationRestoreOutcome LastLocationRestoreOutcome = EMikdashLocationRestoreOutcome::NotAttempted;
+    FString LastLocationRestoreMessage;
 
     FTSTicker::FDelegateHandle TickHandle;
     FDelegateHandle PreExitHandle;

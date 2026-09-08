@@ -4,6 +4,7 @@
 #include "MikdashPeopleDirectory.h"
 #include "ResidentCrowdRuntime.h"
 #include "ResidentRouteLoop.h"
+#include "MikdashSceneUnitsMath.h"
 #include <vector>
 #include "MikdashResidentPopulation.generated.h"
 
@@ -77,6 +78,8 @@ public:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") bool bSpawnAuthoredPeopleOnBeginPlay = false;
     /** Path under Content/, staged non-UFS by DefaultGame.ini. Absolute paths are honoured. */
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") FString PeopleDirectoryFile = TEXT("Distribution/People/people.json");
+    /** Source JSON and route property values are legacy inputs, never rewritten at runtime. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") FName SourceCoordinateRevision = TEXT("Legacy50.v1");
     /** The dressed pilgrim rig every spawned body shares. */
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") TObjectPtr<USkeletalMesh> ResidentMesh;
     /** Material slot names on that rig which receive the garment variant material. */
@@ -105,6 +108,9 @@ public:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Route") int32 ExtendedRouteLaps = 3;
 
 private:
+    MikdashSceneUnits::Frame ActiveSceneFrame;
+    TArray<FVector> RuntimeExtendedWaypoints, RuntimeExtendedLookTargets;
+    bool ResolveCoordinateFrame(FString& Reason);
     /** Bodies this population is actually driving: the pilot's placed actors, or the ones
      * it spawned from the directory. Only spawned bodies are destroyed on shutdown. */
     UPROPERTY(Transient) TArray<TObjectPtr<AMikdashResidentCharacter>> ActiveBodies;

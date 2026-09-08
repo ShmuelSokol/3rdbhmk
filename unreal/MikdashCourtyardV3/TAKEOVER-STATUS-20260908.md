@@ -1,5 +1,15 @@
 # Astra takeover after Claude finished
 
+## Latest paving checkpoint — 8 September, 16:29 UTC
+
+Full verification after this batch:8/8 checks,29/29 standalone math suites,185 Python scripts,43 specs,644 receipts. Actual UBT compiled/linked seven actions in42.84s. Logs outside project: Astra-Jerusalem-Population-FullGate-20260908.log and verify-ubt-0r6wtv9o.log.61 historical failure warnings retained. This verifies code/build and saved paving evidence; candidate48 native population behavior and packaged runtime remain untested.
+
+Main SHA dc575d8e731ce1d10de79b4313eaeca3518460fabc022a8d11fb4f17ad3f6c31: new authored Jerusalem limestone paving on the exact flat Mount platform, saved/reopened with protected hashes unchanged. Actual PIE comparison162509371982 shows the new varied flags; user requested current Jewish Quarter character. Diagnostic162620 is the accepted material view under existing amber lighting. No claim of final lighting, geometric joint depth, other floor adoption, or a fresh downloadable package.
+
+V1 fallback checkerboard was rejected. V2 uses unchanged source PNG with Unreal power-of-two build resampling and shader readiness before screenshots. Adoption binds exact two native asset hashes. Original family photo remains private.
+
+Isolated48cm candidate now has218 resized panels and12 door parts; vessels stopped at a post-Nanite bounds/source mismatch and the guarded helper has been repaired for a targeted rerun. Save identity and tour adapters compiled; crowd/resident adapters await full gate/native checks. Three resident routes become too short and are explicitly refused. Candidate is not main/default. V15 paroches alone now approved by user through the design task; integration pending.
+
 User explicitly confirmed Claude finished and requested continuation. Latest source publication at takeover: b28b42ec.
 
 ## Verified now

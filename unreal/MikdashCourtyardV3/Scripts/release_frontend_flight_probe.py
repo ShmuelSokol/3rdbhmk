@@ -23,6 +23,8 @@ settings=u.get_default_object(u.load_class(None,'/Script/UnrealEd.LevelEditorPla
 old_mouse=settings.get_editor_property('GameGetsMouseControl')
 old_throttle=u.SystemLibrary.get_console_variable_int_value('Slate.bAllowThrottling')
 command_line=u.SystemLibrary.get_command_line()
+comparison_flags=[f for f in ('-comparepaving','-comparejerusalempaving','-comparedaylight') if f in command_line.lower()]
+assert len(comparison_flags)<=1,'Run one isolated comparison at a time'
 prefix_match=re.search(r'-TestSavePrefix=(AstraProbe_[A-Za-z0-9_]+)',command_line)
 assert prefix_match,'Require a unique -TestSavePrefix=AstraProbe_<stamp> and Game ini overrides'
 test_prefix=prefix_match.group(1)
@@ -249,7 +251,7 @@ def tick(dt):
    data=path.read_bytes()
    assert data[:8]==b'\x89PNG\r\n\x1a\n','Screenshot is not PNG'
    report['diagnosticStill'].update(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
-   if '-comparepaving' in u.SystemLibrary.get_command_line().lower():
+   if any(flag in command_line.lower() for flag in ('-comparepaving','-comparejerusalempaving')):
     report.setdefault('pavingComparison',[]).append(dict(report['diagnosticStill']))
     if len(report['pavingComparison'])==1:
      matches=[]
@@ -259,12 +261,17 @@ def tick(dt):
       if mesh and mesh.get_path_name()=='/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface':matches.append(comp)
      assert len(matches)==1,'Need exactly one PIE platform'
      comp=matches[0];assert comp.get_num_materials()==1
-     material=u.load_asset('/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs')
+     material_path='/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm' if '-comparejerusalempaving' in command_line.lower() else '/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs'
+     material=u.load_asset(material_path)
      assert material is not None,'Missing photographic paving material'
      report['pavingMaterialBefore']=comp.get_material(0).get_path_name()
      comp.set_material(0,material)
      assert comp.get_material(0)==material
      report['pavingMaterialCandidate']=material.get_path_name()
+     if '-comparejerusalempaving' in command_line.lower():
+      folder=ROOT/'Content/MikdashV3/MaterialReview/JerusalemPavingV2'
+      report['pavingAssetHashes']={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.glob('*.uasset')}
+      assert len(report['pavingAssetHashes'])==2,'Need exact material and texture bytes'
      report['pavingComparisonScope']='PIE-only component override; no shared asset or saved map change'
      phase('diagnostic_warm');return
    if '-comparedaylight' in u.SystemLibrary.get_command_line().lower():
@@ -292,6 +299,15 @@ def tick(dt):
   else:finish('failed_exception')
 handle=None
 try:
+ if '-comparejerusalempaving' in command_line.lower():
+  candidate=u.load_asset('/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm')
+  assert candidate is not None,'Missing paving candidate'
+  report['candidateShaderErrors']=list(u.MaterialEditingLibrary.recompile_material(candidate))
+  assert not report['candidateShaderErrors'],'Candidate shader compilation failed'
+  # Engine source: GetStatistics finishes this material's shader compilation only.
+  # Avoid waiting for the entire city's unrelated mesh derived-data queue.
+  stats=u.MaterialEditingLibrary.get_statistics(candidate)
+  report['candidateMaterialStatistics']=str(stats)
  settings.set_editor_property('GameGetsMouseControl',False)
  u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling 0')
  write();handle=u.register_slate_post_tick_callback(tick);levels.editor_request_begin_play()

@@ -1,5 +1,7 @@
 #include "MikdashResidentPopulation.h"
 #include "MikdashResidentCharacter.h"
+#include "MikdashSceneUnits.h"
+#include "PopulationSceneMath.h"
 #include "Animation/AnimSequence.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -48,6 +50,13 @@ AMikdashResidentCharacter* AMikdashResidentPopulation::GetResidentAt(int32 Index
     return ActiveBodies.IsValidIndex(Index) ? ActiveBodies[Index].Get() : nullptr;
 }
 
+bool AMikdashResidentPopulation::ResolveCoordinateFrame(FString& Reason)
+{
+    if(SourceCoordinateRevision!=TEXT("Legacy50.v1"))
+    { Reason=TEXT("Resident source coordinates must be explicitly legacy50 input"); return false; }
+    return AMikdashSceneUnits::Resolve(GetWorld(),ActiveSceneFrame,Reason);
+}
+
 bool AMikdashResidentPopulation::ReviewSegment(int32 BodyIndex, const FVector& From, const FVector& To) const
 {
     if (!GetWorld() || !ActiveBodies.IsValidIndex(BodyIndex) || !IsValid(ActiveBodies[BodyIndex])
@@ -60,9 +69,12 @@ bool AMikdashResidentPopulation::ReviewSegment(int32 BodyIndex, const FVector& F
     {
         // Convex box plus capsule inset makes the entire straight segment remain in the
         // authored outer visitor region. This is not a general sanctuary access policy.
+        MikdashPopulationScene::Rect Box;
+        // Original pilot rectangle4700..5300,900..1450 with physical capsule inset34.
+        if(!MikdashPopulationScene::TryFootprint(ActiveSceneFrame,{{4700,900,5300,1450},-34,-34},Box)) return false;
         for (const FVector& Point : {From, To})
-            if (Point.X < 4734 || Point.X > 5266 || Point.Y < 934 || Point.Y > 1416
-                || FMath::Abs(Point.Z - 300.0) > 12.0) return false;
+            if (Point.X < Box.MinX || Point.X > Box.MaxX || Point.Y < Box.MinY || Point.Y > Box.MaxY
+                || FMath::Abs(Point.Z - Plan.FloorZ) > 12.0) return false;
     }
     else
     {
@@ -70,7 +82,7 @@ bool AMikdashResidentPopulation::ReviewSegment(int32 BodyIndex, const FVector& F
         // inside the zone it was authored for and on that zone's floor. Not an access policy.
         const MikdashPeople::Zone Where = Plan.bMountDeck ? MikdashPeople::Zone::MountDeck : MikdashPeople::Zone::OuterCourt;
         for (const FVector& Point : {From, To})
-            if (!MikdashPeople::PointInZone(Where, {Point.X, Point.Y})
+            if (!MikdashPopulationScene::PointInZone(ActiveSceneFrame,Where, {Point.X, Point.Y})
                 || FMath::Abs(Point.Z - Plan.FloorZ) > MikdashRoute::FloorToleranceCm) return false;
         if (!MikdashRoute::SegmentWithinCorridor({From.X, From.Y}, {To.X, To.Y}, Plan.Loop)) return false;
     }
@@ -153,8 +165,18 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
 {
     if (bActive || Crowd.IsValid() || !GetWorld() || !GetWorld()->IsGameWorld()
         || Bodies.Num() != 5 || !IdleAnimation || !WalkAnimation) return false;
-    const FVector Positions[] = { FVector(4900,1000,300), FVector(5120,1120,300),
+    if(!ResolveCoordinateFrame(Status)) return false;
+    const FVector LegacyPositions[] = { FVector(4900,1000,300), FVector(5120,1120,300),
         FVector(4980,1260,300), FVector(5240,1330,300), FVector(4760,1180,300) };
+    FVector Positions[5];
+    for(int32 I=0;I<5;++I)
+    {
+        MikdashUnits::PointCm P;
+        if(!MikdashSceneUnits::TryLegacyTemplePoint(ActiveSceneFrame,
+            {LegacyPositions[I].X,LegacyPositions[I].Y,LegacyPositions[I].Z},P)) return false;
+        Positions[I]=FVector(P.X,P.Y,P.Z);
+    }
+    RuntimeExtendedWaypoints.Reset();RuntimeExtendedLookTargets.Reset();
     // Extended loop: validated first because the first leg's review depends on it. An invalid
     // configuration is reported and ignored; the short authored pilot still runs.
     bExtendedRoute = false; LoopPoints.clear();
@@ -162,10 +184,28 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
     {
         FString Reason;
         if (ExtendedRouteBodyIndex > 4) Reason = TEXT("body index must be 0..4");
-        else if (ValidateExtendedRoute(Positions[ExtendedRouteBodyIndex], Reason))
+        else if (ValidateExtendedRoute(LegacyPositions[ExtendedRouteBodyIndex], Reason))
         {
-            for (const FVector& P : ExtendedRouteWaypoints) LoopPoints.push_back({P.X, P.Y});
-            bExtendedRoute = true;
+            bool ConvertedOkay=true;
+            std::vector<double> Pauses;std::vector<std::string> Labels;
+            for(int32 I=0;I<ExtendedRouteWaypoints.Num();++I)
+            {
+                const FVector& Source=ExtendedRouteWaypoints[I];
+                const FVector& Look=ExtendedRouteLookTargets[I];
+                MikdashUnits::PointCm Point,Target;
+                if(!MikdashSceneUnits::TryLegacyTemplePoint(ActiveSceneFrame,{Source.X,Source.Y,Source.Z},Point)
+                    || !MikdashPopulationScene::TryLook(ActiveSceneFrame,{Look.X,Look.Y,Look.Z},Target)
+                    || !MikdashPopulationScene::PointInZone(ActiveSceneFrame,MikdashPeople::Zone::OuterCourt,{Point.X,Point.Y}))
+                { ConvertedOkay=false;Reason=TEXT("Extended route contains unclassified or invalid converted points");break; }
+                RuntimeExtendedWaypoints.Add(FVector(Point.X,Point.Y,Point.Z));
+                RuntimeExtendedLookTargets.Add(FVector(Target.X,Target.Y,Target.Z));
+                LoopPoints.push_back({Point.X,Point.Y});Pauses.push_back(ExtendedRoutePauseSeconds[I]);
+                Labels.push_back(TCHAR_TO_UTF8(*ExtendedRouteLabels[I]));
+            }
+            std::string Why;
+            if(ConvertedOkay && !MikdashRoute::ValidateLoopGeometry(LoopPoints,Pauses,Labels,&Why))
+            { ConvertedOkay=false;Reason=FString(UTF8_TO_TCHAR(Why.c_str())); }
+            bExtendedRoute=ConvertedOkay;
             ExtendedStatus = FString::Printf(TEXT("Extended loop: body %d, %d waypoints, %.1f m, %d laps"), ExtendedRouteBodyIndex,
                 ExtendedRouteWaypoints.Num(), MikdashRoute::LoopLengthCm(LoopPoints) / 100.0, ExtendedRouteLaps);
         }
@@ -202,18 +242,18 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
         Plan.bPilotBox = !IsExtendedBody(Index);
         Plan.bLooping = IsExtendedBody(Index);
         Plan.CorridorCm = IsExtendedBody(Index) ? ExtendedLegCorridorCm : 100.0;
-        Plan.FloorZ = MikdashRoute::FloorZ;
+        Plan.FloorZ = Positions[Index].Z;
         if (IsExtendedBody(Index))
         {
-            Plan.Waypoints = ExtendedRouteWaypoints;
-            Plan.LookTargets = ExtendedRouteLookTargets;
+            Plan.Waypoints = RuntimeExtendedWaypoints;
+            Plan.LookTargets = RuntimeExtendedLookTargets;
             Plan.Loop = LoopPoints;
         }
         RoutePlans.Add(Plan);
         Origins.Add(Positions[Index]);
         // Small individually reviewed route, not repetitive crowd wandering; the extended
         // body's first leg goes to its second authored waypoint instead.
-        Destinations.Add(IsExtendedBody(Index) ? ExtendedRouteWaypoints[1] : Positions[Index] + FVector(Index == 3 ? -80 : 80, 0, 0));
+        Destinations.Add(IsExtendedBody(Index) ? RuntimeExtendedWaypoints[1] : Positions[Index] + FVector(Index == 3 ? -80 : 80, 0, 0));
         if (!ReviewSegment(Index, Origins[Index], Destinations[Index]))
         {
             if (!IsExtendedBody(Index)) { ActiveBodies.Reset(); RoutePlans.Reset(); return false; }
@@ -369,6 +409,7 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
 {
     if (bActive || Crowd.IsValid() || !GetWorld() || !GetWorld()->IsGameWorld())
     { DirectoryStatus = TEXT("Refused: already active, or not a game world"); return false; }
+    if(!ResolveCoordinateFrame(DirectoryStatus)) return false;
     if (!ResidentMesh || !IdleAnimation || !WalkAnimation)
     { DirectoryStatus = TEXT("Refused: resident mesh, idle and walk animations must all be assigned"); return false; }
     if (ResidentMesh->GetSkeleton() != IdleAnimation->GetSkeleton()
@@ -385,6 +426,8 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
     // refused whole; a partially valid crowd is never assembled.
     if (!MikdashPeople::ReadDirectoryText(std::string(TCHAR_TO_UTF8(*Text)), Directory, Why))
     { DirectoryStatus = TEXT("Refused: ") + FString(UTF8_TO_TCHAR(Why.c_str())); return false; }
+    if(ActiveSceneFrame.CoordinateRevision==MikdashSceneUnits::Revision::Selected48V1 && Directory.Version!="people-v3")
+    { DirectoryStatus=TEXT("Refused: candidate48 resident adapter only has a scope audit for people-v3");return false; }
 
     ActiveBodies.Reset(); RoutePlans.Reset(); Origins.Reset(); Destinations.Reset();
     // Reserved up front for the same reason as the pilot path above.
@@ -397,7 +440,13 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
     TArray<FString> Skipped, Notes;
     for (std::size_t Which = 0; Which < Directory.People.size(); ++Which)
     {
-        const MikdashPeople::Person& Individual = Directory.People[Which];
+        MikdashPeople::Person Individual;
+        if(!MikdashPopulationScene::TryPerson(ActiveSceneFrame,Directory.People[Which],Individual,Why))
+        {
+            Skipped.Add(FString(UTF8_TO_TCHAR(Directory.People[Which].Id.c_str()))+TEXT(": coordinate/route refusal: ")
+                +FString(UTF8_TO_TCHAR(Why.c_str())));
+            continue;
+        }
         FString SpawnNote;
         AMikdashResidentCharacter* Body = SpawnAuthoredBody(Individual, SpawnNote);
         if (!Body)
@@ -413,7 +462,7 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
         Plan.bLooping = true;
         Plan.bPilotBox = false;
         Plan.bMountDeck = Individual.Where == MikdashPeople::Zone::MountDeck;
-        Plan.FloorZ = MikdashPeople::ZoneFloorZ(Individual.Where);
+        MikdashPopulationScene::TryFloor(ActiveSceneFrame,Individual.Where,Plan.FloorZ);
         Plan.CorridorCm = ExtendedLegCorridorCm;
         for (std::size_t Step = 0; Step < Individual.Route.size(); ++Step)
         {

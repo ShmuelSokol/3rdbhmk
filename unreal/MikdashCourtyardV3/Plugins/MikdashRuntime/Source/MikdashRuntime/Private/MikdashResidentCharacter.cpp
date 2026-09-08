@@ -57,7 +57,7 @@ bool AMikdashResidentCharacter::NearFeet(const FVector& A, const FVector& B)
 }
 
 bool AMikdashResidentCharacter::RequestReviewedRoute(const FString& RouteId,
-    const FVector& OriginFeet, const FVector& DestinationFeet, bool bAllowReviewedDirectCorridor)
+    const FVector& OriginFeet, const FVector& DestinationFeet, bool bAllowReviewedDirectCorridor, double MaxDirectCorridorCm)
 {
     const auto Reject = [this](const TCHAR* Reason) { RouteDiagnostic = Reason; return false; };
     const MikdashCrowd::Person* Person = Resident();
@@ -100,9 +100,10 @@ bool AMikdashResidentCharacter::RequestReviewedRoute(const FString& RouteId,
     if (bDirect)
     {
         if (!bAllowReviewedDirectCorridor) { RouteDiagnostic = NavigationFailure; return false; }
-        if (FVector::DistSquared(OriginFeet, DestinationFeet) > FMath::Square(100.0)
+        const double CorridorLimit = FMath::IsFinite(MaxDirectCorridorCm) ? FMath::Clamp(MaxDirectCorridorCm, 0.0, 5000.0) : 100.0;
+        if (FVector::DistSquared(OriginFeet, DestinationFeet) > FMath::Square(CorridorLimit)
             || FMath::Abs(OriginFeet.Z-DestinationFeet.Z) > 3.0)
-            return Reject(TEXT("Direct corridor exceeds 100cm or flatness bound"));
+            return Reject(TEXT("Direct corridor exceeds its length or flatness bound"));
         Candidate.Add(OriginFeet); Candidate.Add(DestinationFeet);
     }
     // Every candidate, including the opt-in straight corridor, receives the same
@@ -122,6 +123,7 @@ bool AMikdashResidentCharacter::RequestReviewedRoute(const FString& RouteId,
     RoutePoints.Add(DestinationFeet);
     MappedDestination = DestinationFeet;
     PointIndex = 0; RouteToken = Token; bNeedsPassageClearance = false;
+    Recovery.Reset(); bHasLastFeet = false; SidestepCount = 0; bFacingEnabled = false;
     RouteDiagnostic = bDirect ? TEXT("Accepted reviewed direct corridor; ") + NavigationFailure : TEXT("Accepted reviewed navigation path");
     return true;
 }
@@ -135,7 +137,7 @@ void AMikdashResidentCharacter::StopBody()
 void AMikdashResidentCharacter::FailRoute()
 {
     StopBody();
-    RoutePoints.Reset(); PointIndex = 0;
+    RoutePoints.Reset(); PointIndex = 0; Recovery.Reset(); bHasLastFeet = false;
     if (Crowd.IsValid()) Crowd->SetAccess(ResidentKey, false);
     if (RouteToken != 0)
     {
@@ -162,7 +164,7 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
     if (GetMesh() && bPaused != bWasPaused) GetMesh()->bPauseAnims = bPaused;
     bWasPaused = bPaused;
     if (bPaused) { StopBody(); return; }
-    if (RouteToken == 0) return;
+    if (RouteToken == 0) { UpdateStandingFacing(DeltaSeconds); return; }
     if (Person->Token != RouteToken || Person->State != MikdashCrowd::Phase::Traveling || !Person->Access)
     {
         RouteDiagnostic = TEXT("Travel interrupted: token/state/access changed"); FailRoute(); return;
@@ -185,11 +187,51 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
         RouteToken = 0; RoutePoints.Reset(); PointIndex = 0;
         return;
     }
-    const FVector Target = RoutePoints[PointIndex];
+    FVector Target = RoutePoints[PointIndex];
     if (!ReviewSegment(ResidentId, Feet, Target)) { RouteDiagnostic = TEXT("Travel interrupted: authoritative floor/capsule/access review"); FailRoute(); return; }
+    // Obstacle recovery: held still for two seconds against a target -> reviewed 100 cm sidestep,
+    // then retry the same target. Rejected sidesteps simply wait for the route timeout.
+    const double MovedCm = bHasLastFeet ? FVector::Dist2D(Feet, LastFeet) : 0.0;
+    LastFeet = Feet; bHasLastFeet = true;
+    if (Recovery.Advance(DeltaSeconds, MovedCm, true) && TrySidestep(Feet, Target)) Target = RoutePoints[PointIndex];
     FVector Direction = Target - Feet; Direction.Z = 0.0;
     if (Direction.IsNearlyZero()) { FailRoute(); return; }
     AddMovementInput(Direction.GetSafeNormal(), 1.f, true);
+}
+
+bool AMikdashResidentCharacter::TrySidestep(const FVector& Feet, const FVector& Target)
+{
+    // Both sides go through the same authoritative review; nothing unreviewed is walked.
+    for (int32 Attempt = 0; Attempt < 2; ++Attempt)
+    {
+        const MikdashRoute::Point2 Side = Recovery.SidestepTarget({Feet.X, Feet.Y}, {Target.X, Target.Y});
+        const FVector SideFeet(Side.X, Side.Y, Feet.Z);
+        if (ReviewSegment(ResidentId, Feet, SideFeet) && ReviewSegment(ResidentId, SideFeet, Target))
+        {
+            RoutePoints.Insert(SideFeet, PointIndex);
+            ++SidestepCount;
+            RouteDiagnostic = FString::Printf(TEXT("Blocked 2 s: reviewed sidestep %d of 100 cm, retrying"), SidestepCount);
+            return true;
+        }
+    }
+    RouteDiagnostic = TEXT("Blocked 2 s: both sidesteps rejected by review; waiting");
+    return false;
+}
+
+void AMikdashResidentCharacter::SetStandingFacingTarget(const FVector& WorldTarget, bool bEnabled)
+{
+    bFacingEnabled = bEnabled && !WorldTarget.ContainsNaN();
+    FacingTarget = WorldTarget;
+}
+
+void AMikdashResidentCharacter::UpdateStandingFacing(float DeltaSeconds)
+{
+    if (!bFacingEnabled || !GetVelocity().IsNearlyZero(1.0) || !GetCharacterMovement()->IsMovingOnGround()) return;
+    const FVector Feet = GetCharacterMovement()->GetActorFeetLocation();
+    if (FVector::DistSquared2D(Feet, FacingTarget) < FMath::Square(50.0)) return;
+    const double TargetYaw = MikdashRoute::YawTowardDegrees({Feet.X, Feet.Y}, {FacingTarget.X, FacingTarget.Y});
+    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds);
+    SetActorRotation(FRotator(0.0, Yaw, 0.0));
 }
 
 FString AMikdashResidentCharacter::GetResidentName() const
@@ -201,8 +243,9 @@ FString AMikdashResidentCharacter::GetResidentName() const
 FString AMikdashResidentCharacter::GetResidentGoal() const
 {
     const MikdashCrowd::Person* Person = Resident(); const MikdashCrowd::Identity* Identity = Plan();
-    return Person && Identity && Person->GoalIndex < Identity->Goals.size()
-        ? FString(UTF8_TO_TCHAR(Identity->Goals[Person->GoalIndex].Label.c_str())) : FString();
+    if (!Person || !Identity) return FString();
+    if (Person->GoalIndex >= Identity->Goals.size()) return TEXT("Plan complete: resting with the group");
+    return FString(UTF8_TO_TCHAR(Identity->Goals[Person->GoalIndex].Label.c_str()));
 }
 
 FString AMikdashResidentCharacter::GetResidentAction() const

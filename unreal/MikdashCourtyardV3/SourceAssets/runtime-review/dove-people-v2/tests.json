@@ -1,0 +1,91 @@
+{
+  "stamp": "20260908T004014Z",
+  "toolchain": "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35228 for x64",
+  "flags": "/nologo /std:c++17 /EHsc /W4 /WX /O2",
+  "note": "Asserts stay enabled: NDEBUG is deliberately not defined so every assert is executed under /O2.",
+  "sources": "Plugins\\MikdashRuntime\\Tests/*.cpp against Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Public",
+  "headers": {
+    "DoveFlightMath.h": "76cab5b78bebca6a1385edb4a59272399ae174f82ff0d9f8494f046ab41ae59e",
+    "FootstepCadence.h": "97b95580d7de5045d89ab54a55aca902ec6847dd76b444d82d82704ba5239c34",
+    "IncenseServiceSchedule.h": "e5ae0f51fb14a3a9028ad602ae35fe65abb2ac092c584e1fba8a6bdd2dd37107",
+    "MikdashDoveAppearance.h": "ade99298d88f4db6ec31499a999770adf02b177784af002c5955c838c30ed94e",
+    "MikdashDovePawn.h": "b5ebeaf7da3a7744a8594e5f2cef71b54eac02062851d50ad918cc9d5591a8b1",
+    "MikdashPlayerController.h": "13e0a57390f1fcdfdfd70b553b5ce8dc5a9b714e309d2bcc11922caee05df143",
+    "MikdashResidentCharacter.h": "4169ea10cda230cfc2f8e1718d7b1b9a4357f30042553063fa4fada90859b671",
+    "MikdashResidentPopulation.h": "8f3dd26c7edb2f85274e7db8f4f06192b8d8b831887f6a33b799d71691e52496",
+    "MikdashSurfaceAudioRouting.h": "d4d0e64edcf51fbd44a32a8f1e76292df52d38c18411d006ecb826dd25860b43",
+    "PreparationJourney.h": "ef7e1369436f62539bf60bd2054c81433dda61e9f8e05fa839df7b520bf4e749",
+    "ResidentCrowdRuntime.h": "a2becfda9ecd39d9ddf59da89891d0a7f405ec6001e7c3e4f17260d85455c7c9",
+    "ResidentRouteLoop.h": "4d348097e7c7afd85e33182974c1999378e6753af2643883db5f54f1a0e16b9e",
+    "ResidentSimulation.h": "dcb9e62cf4d7f952e695efff16f5900eaa96767030c871fc8d3e901cf8edbea8"
+  },
+  "results": [
+    {
+      "test": "DoveFlightMathTest.exe",
+      "source": "DoveFlightMathTest.cpp",
+      "sourceSha256": "c90595815e806919b2b160a02e7e0e249f78be5bf98b21fd6ec590df65d50f91",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Dove flight math: wing beat (4/6 Hz, 35 deg, glide), lagged camera, look-ahead, bank, obstacle slide and altitude clamp checks passed",
+      "stderr": "",
+      "exeSha256": "e812ab2bf987c4f35a1c25b15da58a34bb317edba8d5253979d9c2721ac8f414",
+      "passed": true
+    },
+    {
+      "test": "FootstepCadenceTest.exe",
+      "source": "FootstepCadenceTest.cpp",
+      "sourceSha256": "7c63b276eaf86315315d976a8f1d0653fabdfa3edf01f265cd724ef5e59bdc0b",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "speed=100 steps/10s=15,15,15\nspeed=240 steps/10s=26,26,26\nspeed=600 steps/10s=37,37,37\nPASS: standing, wall, pause, air, relocation, reset and frame-rate cadence",
+      "stderr": "",
+      "exeSha256": "62b3aec414d707de682a3ff4030fdcdac5c6916140528f8a64fbde1258a50682",
+      "passed": true
+    },
+    {
+      "test": "IncenseServiceScheduleTest.exe",
+      "source": "IncenseServiceScheduleTest.cpp",
+      "sourceSha256": "ca6d044f88174cde81298db4816f850c0358c189fb05485ae008a2d24422ce39",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Incense schedule: ritual phases, prerequisites, pause, distinct services, smoke lifetime and reload checks passed",
+      "stderr": "",
+      "exeSha256": "e10df0671c907fa9734b5861cfb1f96cd478d9a77d17ffd6b9f03550c959d00f",
+      "passed": true
+    },
+    {
+      "test": "PreparationJourneyTest.exe",
+      "source": "PreparationJourneyTest.cpp",
+      "sourceSha256": "0e05587fd8a05744547733f40423eb11c56c585efacc1093e4dd458ae6c75173",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "PreparationJourney: all semantic checks passed",
+      "stderr": "",
+      "exeSha256": "4a4242fbff42e90ec1f091137a5455520e0d7c900c5250dde4ceaa738fa79f5e",
+      "passed": true
+    },
+    {
+      "test": "ResidentRouteLoopTest.exe",
+      "source": "ResidentRouteLoopTest.cpp",
+      "sourceSha256": "e912dc1b52eafe3c9d6943f1c37f1e2e19eb81a54a17d7761398f28514053bc7",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "authored loop length cm=6912.19\nResident route loop: region/length validation, corridor, leg mapping, two-second block recovery with alternating sidestep, and pause turning checks passed",
+      "stderr": "",
+      "exeSha256": "1e6dba095496d57b8adede580e1256c14512670360182bb1f8a594a5af18253c",
+      "passed": true
+    },
+    {
+      "test": "ResidentSimulationTest.exe",
+      "source": "ResidentSimulationTest.cpp",
+      "sourceSha256": "60ca1475bc34885d34cd47358c2a8a94655636e1a0d9d2f91cd130ef9d51a981",
+      "compileExitCode": 0,
+      "exitCode": 0,
+      "stdout": "Resident simulation: continuity, clock, travel, authorization and memory checks passed",
+      "stderr": "",
+      "exeSha256": "a57873ed49be8d144f7d2dfcf03deb5da946e40129a50a0ab2c35acb20f6233f",
+      "passed": true
+    }
+  ],
+  "allPassed": true
+}

@@ -1,0 +1,66 @@
+{
+  "status": "failed_before_map_change",
+  "stamp": "20260908T005518139335Z",
+  "spec": "Scripts\\release_dove_people_v2.spec.json",
+  "specSha256": "19d07ab4a910cf9e183230d0e4cab2a8c495497fbd63bb038ee6af69e24d7eff",
+  "offline": {
+    "meshes": [
+      {
+        "name": "SM_DoveBodyV2",
+        "triangles": 6156,
+        "groups": 14,
+        "materials": [
+          "DoveGrey",
+          "DoveWhite"
+        ],
+        "sha256": "a45c2fa6902a24f02eb970cb320feff9ce876a3b7cb44d066a16e3be91920726"
+      },
+      {
+        "name": "SM_DoveWingLeftV2",
+        "triangles": 7640,
+        "groups": 24,
+        "materials": [
+          "DoveGrey",
+          "DoveWhite"
+        ],
+        "sha256": "cc1120bc73c393454ae18205cf75697614f70c59d8e3062aa6c5fa6a58950fdf"
+      },
+      {
+        "name": "SM_DoveWingRightV2",
+        "triangles": 7640,
+        "groups": 24,
+        "materials": [
+          "DoveGrey",
+          "DoveWhite"
+        ],
+        "sha256": "9f40b5a8e738674319af3fa2a2f166121e6adeaef6149ae0cf0f1478132f1250"
+      }
+    ],
+    "loopLengthCm": 6912.194174743099,
+    "namespaceFolderExistsOnDisk": false,
+    "status": "offline_checks_passed"
+  },
+  "mapBeforeSha256": "b370ca8a89d97f37afa0e227ff5f890d7f6c65d4cc8cbb5f76591b51fb31c6cd",
+  "switches": {
+    "importOnly": false,
+    "placeOnly": false,
+    "meshesExist": false
+  },
+  "meshes": {},
+  "materials": {
+    "DoveWhite": {
+      "path": "/Game/MikdashV3/Runtime/DoveV2/Materials/M_DoveWhiteV2.M_DoveWhiteV2",
+      "created": true
+    },
+    "DoveGrey": {
+      "path": "/Game/MikdashV3/Runtime/DoveV2/Materials/M_DoveGreyV2.M_DoveGreyV2",
+      "created": true
+    }
+  },
+  "mapSaved": false,
+  "mainRuntimeAcceptance": false,
+  "scope": "Native asset import and map property write with save/reopen readback; no PIE, render, cook or packaged acceptance",
+  "failure": "RuntimeError(\"Unexpected material slot 'BeakMat'/'BeakMat' on SM_DoveBodyV2\")",
+  "mapAfterSha256": "b370ca8a89d97f37afa0e227ff5f890d7f6c65d4cc8cbb5f76591b51fb31c6cd",
+  "mapBytesChanged": false
+}

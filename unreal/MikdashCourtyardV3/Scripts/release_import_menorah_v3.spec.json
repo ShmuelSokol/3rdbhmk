@@ -1,0 +1,383 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_import_menorah_v3.py: native OBJ import of the seven original MenorahV3 parts (base, shaft, branches L/R, ornaments, lamps, three-step tending stone), gold on every slot of the six gold parts and a stone material on the step stone, GeometryScript winding check with conditional flip, removal of the CC BY Titus-style RELEASE_Menorah actor (asset stays on disk with its attribution) and placement of the RELEASE_MenorahV3_* assembly at X -5330 with the lamp row north-south and the nearest lamp tip 125 cm from the south wall. Every number below is read from the frozen geometry manifest or earlier receipts; nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "2edb00afb822cb44e1f528fc03f5783d15d0e7a4faf043456b0060b7d96fc9bd",
+  "lastKnownMapSha256Note": "Walkthrough.umap on disk when this spec was prepared (after the dove/resident integration, AGENTS.md main SHA 2edb00af...). Recorded as matched/not matched only, not a guard.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "MenorahV3-",
+  "receiptFolder": "SourceAssets/vessels-review/MenorahV3",
+  "receiptPrefix": "native-import-",
+  "placementHelper": "Scripts/release_place_assets.py",
+  "placementHelperSpec": "Scripts/release_place_assets.spec.json",
+  "actorTag": "ReleaseMenorahV3",
+  "folder": "Release/MenorahV3",
+  "collisionNote": "Base and StepStone are BlockAll with importer-generated simple collision (auto_generate_collision True on those two imports; the tending stone is a walkable prop and the plinth must not be walked through). Shaft, branches, ornaments and lamps are NoCollision (thin ornament, not on the visitor route).",
+  "source": {
+    "folder": "SourceAssets/vessels-review/MenorahV3",
+    "manifest": "SourceAssets/vessels-review/MenorahV3/geometry-manifest.json",
+    "manifestSha256": "b7e24d2c730cbed59c028ac27a5231284f919dd86c2919ffd9834b44a11a3d20",
+    "manifestStatusRequired": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "authoringScript": "Scripts/create_menorah_v3.py",
+    "authoringScriptSha256": "b963ed5da7da7d8aafe86064c9cedf341d5adfab66fdd0484423cedf8f1751ef",
+    "namespace": "/Game/MikdashV3/MaterialReview/MenorahV3",
+    "meshFolder": "/Game/MikdashV3/MaterialReview/MenorahV3/Meshes",
+    "meshes": [
+      {
+        "name": "SM_MenorahV3_Base",
+        "part": "Base",
+        "file": "SM_MenorahV3_Base.obj",
+        "sha256": "f1c8b8ba2dd7376eef5415da52161e8e37cf0f56e7f0c1a94589172db1cb63ed",
+        "triangles": 428,
+        "role": "gold",
+        "collisionProfile": "BlockAll",
+        "autoGenerateCollision": true,
+        "canonicalBoundsCm": {
+          "min": [
+            -30.0,
+            -25.980762113533157,
+            0.0
+          ],
+          "max": [
+            30.0,
+            25.98076211353316,
+            22.5
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_Shaft",
+        "part": "Shaft",
+        "file": "SM_MenorahV3_Shaft.obj",
+        "sha256": "653b3fc8cba81d1c9da210ddcf2610aba582e0474e7f985535a34679f36ce1a9",
+        "triangles": 96,
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "autoGenerateCollision": false,
+        "canonicalBoundsCm": {
+          "min": [
+            -3.4,
+            -3.4,
+            20.0
+          ],
+          "max": [
+            3.4,
+            3.4,
+            122.8
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_BranchesL",
+        "part": "BranchesL",
+        "file": "SM_MenorahV3_BranchesL.obj",
+        "sha256": "9a826b07952d7e9f1f294a93e61706ca7323a6ba3e17e42013982e1720d38535",
+        "triangles": 5136,
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "autoGenerateCollision": false,
+        "canonicalBoundsCm": {
+          "min": [
+            -56.19972904986293,
+            -3.0,
+            67.83365023445026
+          ],
+          "max": [
+            0.14341434484283117,
+            3.0,
+            122.89815717219979
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_BranchesR",
+        "part": "BranchesR",
+        "file": "SM_MenorahV3_BranchesR.obj",
+        "sha256": "65519d083d7de6cbd3b18fc03f0f18185a7b79e6f2ff3882bb1e03737b382deb",
+        "triangles": 5136,
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "autoGenerateCollision": false,
+        "canonicalBoundsCm": {
+          "min": [
+            -0.14341434484283117,
+            -3.0,
+            67.83365023445026
+          ],
+          "max": [
+            56.19972904986293,
+            3.0,
+            122.89815717219979
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_Ornaments",
+        "part": "Ornaments",
+        "file": "SM_MenorahV3_Ornaments.obj",
+        "sha256": "c72596bbc14d10f7eae52efb7fb6748e613097ca4b14710c29adaa4babc5617e",
+        "triangles": 30688,
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "autoGenerateCollision": false,
+        "canonicalBoundsCm": {
+          "min": [
+            -59.824,
+            -7.715819909889825,
+            22.0
+          ],
+          "max": [
+            59.824,
+            7.715819909889825,
+            145.89999999999998
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_Lamps",
+        "part": "Lamps",
+        "file": "SM_MenorahV3_Lamps.obj",
+        "sha256": "f1735ed9d40e65516c34ab3c447c16709bdef2e242e2354ebfbaeeec24bbc155",
+        "triangles": 4816,
+        "role": "gold",
+        "collisionProfile": "NoCollision",
+        "autoGenerateCollision": false,
+        "canonicalBoundsCm": {
+          "min": [
+            -59.6,
+            -7.426371172770927,
+            144.7
+          ],
+          "max": [
+            59.6,
+            5.6,
+            149.99999586087688
+          ]
+        }
+      },
+      {
+        "name": "SM_MenorahV3_StepStone",
+        "part": "StepStone",
+        "file": "SM_MenorahV3_StepStone.obj",
+        "sha256": "b066b9ae83441d87217afb5daefcba5667b3aedb90117e6af3c634de901df920",
+        "triangles": 192,
+        "role": "stone",
+        "collisionProfile": "BlockAll",
+        "autoGenerateCollision": true,
+        "canonicalBoundsCm": {
+          "min": [
+            -45.0,
+            35.98076211353316,
+            0.0
+          ],
+          "max": [
+            45.0,
+            125.98076211353316,
+            50.0
+          ]
+        }
+      }
+    ],
+    "menorahParts": [
+      "SM_MenorahV3_Base",
+      "SM_MenorahV3_Shaft",
+      "SM_MenorahV3_BranchesL",
+      "SM_MenorahV3_BranchesR",
+      "SM_MenorahV3_Ornaments",
+      "SM_MenorahV3_Lamps"
+    ],
+    "stonePart": "SM_MenorahV3_StepStone",
+    "maxTotalTriangles": 250000,
+    "boundsToleranceCm": 0.05,
+    "objAdapter": "Source OBJ has Y reflected and triangle winding reversed for the legacy OBJ importer (create_menorah_v3.write_obj, same as the ShulchanV2 / doors / reliefs adapter). The importer reflects Y back, so the imported StaticMesh must reproduce canonicalBoundsCm (local X = lamp row, local +Y = front/stone side) and UE signed volumes must be positive. Every part shares the bottom-centre pivot under the plinth, so all seven actors take the same transform."
+  },
+  "importSettings": {
+    "note": "Identical to the reviewed keilim/keruvim/reliefs/doors/vessels/shulchan OBJ adapter path (FbxFactory). Single-mesh OBJ: destination_name is the exact mesh name. auto_generate_collision is overridden to True for the meshes flagged autoGenerateCollision (Base, StepStone).",
+    "factory": "FbxFactory",
+    "fbxImportUI": {
+      "automated_import_should_detect_type": false,
+      "mesh_type_to_import": "FBXIT_STATIC_MESH",
+      "import_as_skeletal": false,
+      "import_mesh": true,
+      "import_animations": false,
+      "import_materials": false,
+      "import_textures": false,
+      "create_physics_asset": false
+    },
+    "staticMeshImportData": {
+      "combine_meshes": true,
+      "transform_vertex_to_absolute": true,
+      "bake_pivot_in_vertex": false,
+      "convert_scene": false,
+      "convert_scene_unit": false,
+      "force_front_x_axis": false,
+      "import_uniform_scale": 1.0,
+      "auto_generate_collision": false,
+      "build_nanite": false,
+      "generate_lightmap_u_vs": false,
+      "remove_degenerates": true,
+      "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+    }
+  },
+  "materials": {
+    "rule": "First candidate that exists on disk and loads as a MaterialInterface is assigned to EVERY slot of the mesh (SM_KeruvimStudyV1 lesson). Falling past the first candidate is recorded as a limitation.",
+    "gold": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+          "kind": "gold (same as the vessels release / RELEASE_Menorah)"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+          "kind": "gold_fallback (keilim studies, shulchan)"
+        }
+      ]
+    },
+    "stone": {
+      "candidates": [
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+          "kind": "limestone instance (PBR architecture set)"
+        },
+        {
+          "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+          "kind": "limestone_fallback"
+        },
+        {
+          "path": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "kind": "stone_fallback"
+        }
+      ],
+      "createPath": "/Game/MikdashV3/MaterialReview/MenorahV3/M_MenorahV3_Stone",
+      "duplicateFrom": "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+      "method": "Only if no candidate exists: EditorAssetSubsystem.duplicate_asset(duplicateFrom -> createPath) then Constant3Vector/Constant expressions rewired to BaseColor/Metallic/Roughness (shulchan bread recipe); fallback MaterialFactoryNew. Recorded.",
+      "constants": {
+        "baseColor": [
+          0.62,
+          0.58,
+          0.5
+        ],
+        "metallic": 0.0,
+        "roughness": 0.8,
+        "note": "pale limestone tone; artistic real-time choice"
+      }
+    }
+  },
+  "windingCheck": {
+    "note": "GeometryScript readback of the imported LOD0 source model (needs -EnablePlugins=GeometryScripting): bulk vertex/triangle lists, signed volume by the divergence theorem with UE left-handed face normal cross(C-A, B-A), a sample cross-checked against get_triangle_face_normal (disagreements must be 0). Falls back to the per-triangle loop. Negative volume -> triangle order reversed with append_buffers_to_mesh and written back with copy_mesh_to_static_mesh, re-saved, re-checked, recorded.",
+    "requireForPlacement": true,
+    "flipIfNegative": true,
+    "faceNormalSampleTriangles": 2000,
+    "passCriteria": [
+      "signedVolumeUEcm3 > 0 after any flip",
+      "faceNormalVsCrossDisagreements == 0 on the sample"
+    ],
+    "expectedOfflineRightHandedVolumeSign": "positive for all seven files (create_menorah_v3 readback: the Y reflection and the winding reversal each flip the sign once), so no flip is expected; the flip path exists for safety.",
+    "rewriteOptions": {
+      "enable_recompute_normals": true,
+      "enable_recompute_tangents": true,
+      "enable_remove_degenerates": false,
+      "use_original_vertex_order": true,
+      "replace_materials": false,
+      "apply_nanite_settings": false,
+      "emit_transaction": false,
+      "defer_mesh_post_edit_change": false
+    }
+  },
+  "removal": {
+    "note": "The CC BY Titus-style RELEASE_Menorah (Dahan Meir, third-party vessels release) is destroyed in memory AFTER the .umap checkpoint and only persists as removed when the level is saved at the end; its label, folder, mesh, pose and world bounds are recorded. The run refuses if it is not found exactly once with this mesh, folder and pose (native-import-vessels-20260907T190204035803Z.json reopenedReadback). The imported asset SM_ThirdParty_Menorah_DahanMeir and its attribution stay on disk untouched.",
+    "label": "RELEASE_Menorah",
+    "folder": "Release/Vessels",
+    "mesh": "/Game/MikdashV3/ThirdParty/Vessels/Meshes/SM_ThirdParty_Menorah_DahanMeir",
+    "location": [
+      -5330.0,
+      312.6967660522461,
+      974.8447996520996
+    ],
+    "yaw": 90.0,
+    "scale": [
+      0.715,
+      0.715,
+      0.715
+    ],
+    "poseToleranceCm": 0.01,
+    "assetsLeftInPlace": "SM_ThirdParty_Menorah_DahanMeir (CC BY 4.0) stays in /Game/MikdashV3/ThirdParty/Vessels; keep its CREDITS entry while the asset is in Content."
+  },
+  "placement": {
+    "axes": "X east; Y south; Z up. Local X = lamp row -> yaw -90 turns local +X into world -Y (north) so the row runs north-south; local +Y (front, stone side) -> world +X (east).",
+    "x": -5330.0,
+    "yaw": -90.0,
+    "xBasis": "kept from the current RELEASE_Menorah (book p. 252: 5 amot from the west wall X -5600; book-keilim-review item 2)",
+    "southWallY": 500.0,
+    "nearestTipClearanceCm": 125.0,
+    "yRule": "y = southWallY - nearestTipClearanceCm - halfSpan, where halfSpan = max |local X| over the six menorah parts (imported bounds; manifest half_span_x_cm 59.824 -> y 315.176). Book p. 252 (5): 2.5 amot from the southern wall, measured to the tips as in the vessels release.",
+    "baseRule": "Actor Z = floor top (925) - local min Z (0): the plinth and the stone stand on the measured Heikhal floor.",
+    "stoneRule": "The stone actor shares the transform; its world AABB must lie entirely east (greater X) of the plinth AABB and must not touch it.",
+    "labelPrefix": "RELEASE_MenorahV3_",
+    "floor": {
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+      "worldBoundsCm": {
+        "min": [
+          -5600.0,
+          -500.0,
+          904.9999237060547
+        ],
+        "max": [
+          -3600.0,
+          500.0,
+          925.0
+        ]
+      },
+      "topZ": 925.0,
+      "boundsToleranceCm": 1.0,
+      "topToleranceCm": 0.05,
+      "groundSource": "floor component bounds read from the loaded level (traces return nothing in commandlets)"
+    },
+    "roomEnvelope": {
+      "min": [
+        -5600.0,
+        -500.0,
+        925.0
+      ],
+      "max": [
+        -3600.0,
+        500.0,
+        2925.0
+      ],
+      "rule": "Every placed AABB must lie inside the Heikhal envelope."
+    },
+    "clearance": {
+      "rule": "Each planned world AABB must not have strictly positive overlap volume with any mesh-bearing actor of the level other than the removed RELEASE_Menorah, the floor, terrain tiles and hollow architecture unions whose verified constituent boxes are not hit (release_place_assets.py rules). A blocker refuses the run BEFORE anything is saved.",
+      "architectureManifest": "SourceAssets/architecture-manifest.json",
+      "levelAssetPrefix": "/Game/MikdashV3/Architecture/architecture_",
+      "unionFolder": "Measured architecture/union",
+      "unionBoundsToleranceCm": 1.0,
+      "terrainFolders": [
+        "Jerusalem context/Terrain",
+        "FutureMountV1/Terrain",
+        "Future Mount/Terrain"
+      ]
+    }
+  },
+  "verification": {
+    "transformToleranceCm": 0.001,
+    "staticBoundsToleranceCm": 0.05,
+    "compareRule": "Numeric location/rotation/scale fields and AABB corners only."
+  },
+  "limitations": [
+    "Original interpretive model guided by the Torah/Talmud counts and the TI photograph's silhouette; not a measured TI replica (menorah-model-spec claims_not_allowed). Lamp pitch, branch section, ornament profiles, plinth and stone sizes are artistic (geometry-manifest dimensions table).",
+    "Rambam north-south orientation selected (book 22:23b); the Rashi east-west alternative (22:23a) is not modelled.",
+    "Wick nozzles follow Rambam 3:8 (six toward the centre, centre toward the west); no flames, oil or service tools.",
+    "BlockAll on the plinth and the stone relies on importer-generated simple collision; walkability of the 16.7 cm steps against the 55 cm step height is not tested here.",
+    "Import, material assignment, winding check and placement are geometric only; no visual, lighting or packaged acceptance is established.",
+    "The removed CC BY menorah asset stays on disk; Content/Distribution/CREDITS.txt is not edited by this script."
+  ]
+}

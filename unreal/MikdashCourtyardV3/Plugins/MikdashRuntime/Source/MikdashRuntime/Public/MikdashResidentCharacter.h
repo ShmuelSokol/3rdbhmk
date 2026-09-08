@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ResidentCrowdRuntime.h"
+#include "ResidentRouteLoop.h"
 #include "MikdashResidentCharacter.generated.h"
 
 // The integrator supplies continuous, role-specific mapped segment review. This
@@ -28,9 +29,16 @@ public:
 
     // Both feet transforms are reviewed semantic waypoint mappings in native cm.
     // Path projection must stay near them; no partial path or teleport fallback.
-    // Explicit opt-in permits a <=100cm flat, physically reviewed direct corridor
-    // only when navigation is unavailable. Authoritative review always remains required.
-    bool RequestReviewedRoute(const FString& RouteId, const FVector& OriginFeet, const FVector& DestinationFeet, bool bAllowReviewedDirectCorridor = false);
+    // Explicit opt-in permits a flat, physically reviewed direct corridor only when
+    // navigation is unavailable: 100 cm by default, or the caller's MaxDirectCorridorCm for
+    // an authored straight leg whose whole capsule sweep the reviewer has approved.
+    // Authoritative review always remains required.
+    bool RequestReviewedRoute(const FString& RouteId, const FVector& OriginFeet, const FVector& DestinationFeet,
+        bool bAllowReviewedDirectCorridor = false, double MaxDirectCorridorCm = 100.0);
+
+    // While standing (no active route), turn at 120 deg/s to face a world point, e.g. during a
+    // pause at a goal. Purely presentational; never moves the feet.
+    void SetStandingFacingTarget(const FVector& WorldTarget, bool bEnabled);
 
     // Call only after externally confirming body stopped AND passage resource clear.
     // A stopped body inside a doorway is not clear. This adapter never auto-releases.
@@ -58,6 +66,10 @@ public:
     UFUNCTION(BlueprintPure, Category="Residents")
     FString GetRouteDiagnostic() const { return RouteDiagnostic; }
 
+    // Number of two-second blockages answered with a reviewed 100 cm sidestep on the current route.
+    UFUNCTION(BlueprintPure, Category="Residents")
+    int32 GetSidestepCount() const { return SidestepCount; }
+
     uint64 GetRouteToken() const { return RouteToken; }
 
 private:
@@ -72,6 +84,12 @@ private:
     FVector MappedDestination = FVector::ZeroVector;
     bool bNeedsPassageClearance = false;
     bool bWasPaused = false;
+    MikdashRoute::BlockRecovery Recovery;
+    FVector LastFeet = FVector::ZeroVector;
+    bool bHasLastFeet = false;
+    int32 SidestepCount = 0;
+    FVector FacingTarget = FVector::ZeroVector;
+    bool bFacingEnabled = false;
     static constexpr double HorizontalTolerance = 18.0;
     static constexpr double VerticalTolerance = 12.0;
 
@@ -79,5 +97,7 @@ private:
     const MikdashCrowd::Identity* Plan() const;
     void StopBody();
     void FailRoute();
+    bool TrySidestep(const FVector& Feet, const FVector& Target);
+    void UpdateStandingFacing(float DeltaSeconds);
     static bool NearFeet(const FVector& A, const FVector& B);
 };

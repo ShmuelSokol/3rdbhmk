@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include <string>
 
 AMikdashResidentPopulation::AMikdashResidentPopulation()
 {
@@ -31,11 +32,22 @@ bool AMikdashResidentPopulation::ReviewSegment(int32 BodyIndex, const FVector& F
     const AMikdashResidentCharacter* Body = Bodies[BodyIndex];
     FCollisionQueryParams Query(SCENE_QUERY_STAT(ResidentPilotReview), true);
     Query.AddIgnoredActor(this); Query.AddIgnoredActor(Body);
-    // Convex box plus capsule inset makes the entire straight segment remain in the
-    // authored outer visitor region. This is not a general sanctuary access policy.
-    for (const FVector& Point : {From, To})
-        if (Point.X < 4734 || Point.X > 5266 || Point.Y < 934 || Point.Y > 1416
-            || FMath::Abs(Point.Z - 300.0) > 12.0) return false;
+    if (IsExtendedBody(BodyIndex))
+    {
+        // The extended body may only walk the authored loop corridor (150 cm either side),
+        // inside the outer-court region and on the Z 300 floor. Not a general access policy.
+        for (const FVector& Point : {From, To})
+            if (!MikdashRoute::PointInRegion({Point.X, Point.Y}) || FMath::Abs(Point.Z - MikdashRoute::FloorZ) > MikdashRoute::FloorToleranceCm) return false;
+        if (!MikdashRoute::SegmentWithinCorridor({From.X, From.Y}, {To.X, To.Y}, LoopPoints)) return false;
+    }
+    else
+    {
+        // Convex box plus capsule inset makes the entire straight segment remain in the
+        // authored outer visitor region. This is not a general sanctuary access policy.
+        for (const FVector& Point : {From, To})
+            if (Point.X < 4734 || Point.X > 5266 || Point.Y < 934 || Point.Y > 1416
+                || FMath::Abs(Point.Z - 300.0) > 12.0) return false;
+    }
     const int32 Samples = FMath::Max(1, FMath::CeilToInt(FVector::Distance(From, To) / 25.0));
     for (int32 Step = 0; Step <= Samples; ++Step)
     {
@@ -55,12 +67,62 @@ bool AMikdashResidentPopulation::ReviewSegment(int32 BodyIndex, const FVector& F
         FQuat::Identity, ECC_Pawn, Capsule, Query);
 }
 
+bool AMikdashResidentPopulation::ValidateExtendedRoute(const FVector& BodyStart, FString& Reason) const
+{
+    const int32 Count = ExtendedRouteWaypoints.Num();
+    if (ExtendedRouteLabels.Num() != Count || ExtendedRouteActions.Num() != Count
+        || ExtendedRoutePauseSeconds.Num() != Count || ExtendedRouteLookTargets.Num() != Count)
+    { Reason = TEXT("waypoint, label, action, pause and look-target arrays must have equal length"); return false; }
+    if (ExtendedRouteLaps < 1 || Count * ExtendedRouteLaps > 64) { Reason = TEXT("laps must be 1..12 (at most 64 goals)"); return false; }
+    if (Count == 0 || ExtendedRouteWaypoints[0].ContainsNaN() || FVector::Distance(ExtendedRouteWaypoints[0], BodyStart) > 3.0)
+    { Reason = TEXT("waypoint 0 must be the body's reviewed start position"); return false; }
+    std::vector<MikdashRoute::Point2> Points; std::vector<double> Pauses; std::vector<std::string> Labels;
+    for (int32 Index = 0; Index < Count; ++Index)
+    {
+        const FVector& P = ExtendedRouteWaypoints[Index];
+        if (P.ContainsNaN() || FMath::Abs(P.Z - MikdashRoute::FloorZ) > MikdashRoute::FloorToleranceCm) { Reason = TEXT("waypoint off the Z 300 outer-court floor"); return false; }
+        if (ExtendedRouteLookTargets[Index].ContainsNaN() || ExtendedRouteActions[Index].IsEmpty()) { Reason = TEXT("look target or action missing"); return false; }
+        Points.push_back({P.X, P.Y}); Pauses.push_back(ExtendedRoutePauseSeconds[Index]);
+        Labels.push_back(std::string(TCHAR_TO_UTF8(*ExtendedRouteLabels[Index])));
+    }
+    std::string Why;
+    if (!MikdashRoute::ValidateLoop(Points, Pauses, Labels, &Why)) { Reason = FString(UTF8_TO_TCHAR(Why.c_str())); return false; }
+    Reason.Empty();
+    return true;
+}
+
+FString AMikdashResidentPopulation::WaypointName(const std::string& Key, std::size_t Index) const
+{
+    const FString Name(UTF8_TO_TCHAR(Key.c_str()));
+    return Index == 0 ? Name + TEXT("-start") : Name + FString::Printf(TEXT("-wp-%d"), static_cast<int32>(Index));
+}
+
 bool AMikdashResidentPopulation::InitializeReviewedPilot()
 {
     if (bActive || Crowd.IsValid() || !GetWorld() || !GetWorld()->IsGameWorld()
         || Bodies.Num() != 5 || !IdleAnimation || !WalkAnimation) return false;
     const FVector Positions[] = { FVector(4900,1000,300), FVector(5120,1120,300),
         FVector(4980,1260,300), FVector(5240,1330,300), FVector(4760,1180,300) };
+    // Extended loop: validated first because the first leg's review depends on it. An invalid
+    // configuration is reported and ignored; the short authored pilot still runs.
+    bExtendedRoute = false; LoopPoints.clear();
+    if (ExtendedRouteBodyIndex >= 0)
+    {
+        FString Reason;
+        if (ExtendedRouteBodyIndex > 4) Reason = TEXT("body index must be 0..4");
+        else if (ValidateExtendedRoute(Positions[ExtendedRouteBodyIndex], Reason))
+        {
+            for (const FVector& P : ExtendedRouteWaypoints) LoopPoints.push_back({P.X, P.Y});
+            bExtendedRoute = true;
+            ExtendedStatus = FString::Printf(TEXT("Extended loop: body %d, %d waypoints, %.1f m, %d laps"), ExtendedRouteBodyIndex,
+                ExtendedRouteWaypoints.Num(), MikdashRoute::LoopLengthCm(LoopPoints) / 100.0, ExtendedRouteLaps);
+        }
+        if (!bExtendedRoute)
+        {
+            ExtendedStatus = TEXT("Extended route ignored: ") + Reason;
+            UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *GetName(), *ExtendedStatus);
+        }
+    }
     TSet<AMikdashResidentCharacter*> Unique;
     Origins.Reset(); Destinations.Reset();
     for (int32 Index = 0; Index < 5; ++Index)
@@ -78,9 +140,19 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
         const FVector Feet = Body->GetCharacterMovement()->GetActorFeetLocation();
         if (FVector::Distance(Feet, Positions[Index]) > 3.0) return false;
         Origins.Add(Positions[Index]);
-        // Small individually reviewed route, not repetitive crowd wandering.
-        Destinations.Add(Positions[Index] + FVector(Index == 3 ? -80 : 80, 0, 0));
-        if (!ReviewSegment(Index, Origins[Index], Destinations[Index])) return false;
+        // Small individually reviewed route, not repetitive crowd wandering; the extended
+        // body's first leg goes to its second authored waypoint instead.
+        Destinations.Add(IsExtendedBody(Index) ? ExtendedRouteWaypoints[1] : Positions[Index] + FVector(Index == 3 ? -80 : 80, 0, 0));
+        if (!ReviewSegment(Index, Origins[Index], Destinations[Index]))
+        {
+            if (!IsExtendedBody(Index)) return false;
+            // Physical review of the first leg failed: keep the pilot, drop the extension.
+            bExtendedRoute = false; LoopPoints.clear();
+            ExtendedStatus = TEXT("Extended route ignored: first leg failed floor/capsule review at startup");
+            UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *GetName(), *ExtendedStatus);
+            Destinations[Index] = Positions[Index] + FVector(Index == 3 ? -80 : 80, 0, 0);
+            if (!ReviewSegment(Index, Origins[Index], Destinations[Index])) return false;
+        }
     }
     std::vector<MikdashCrowd::Identity> Plans;
     std::vector<MikdashCrowd::Route> Routes;
@@ -90,15 +162,41 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
         MikdashCrowd::Identity Plan;
         Plan.Id = Key; Plan.Name = "Fictional visitor " + std::to_string(Index + 1);
         Plan.Start = Key + "-start";
-        MikdashCrowd::Goal Goal;
-        Goal.Id = Key + "-observe"; Goal.Label = "Walk to a nearby meeting place";
-        Goal.Destination = Key + "-meeting"; Goal.Action = "Wait quietly";
-        Goal.Earliest = static_cast<MikdashCrowd::Seconds>(Index * 4); Goal.Duration = 30;
-        Plan.Goals.push_back(Goal); Plans.push_back(Plan);
-        MikdashCrowd::Route Route;
-        Route.Id = Key + "-route"; Route.From = Plan.Start; Route.To = Goal.Destination;
-        Route.Resource = "outer-visitor-pilot"; Route.Capacity = 1; Route.Timeout = 60;
-        Routes.push_back(Route);
+        if (IsExtendedBody(Index))
+        {
+            const std::size_t N = LoopPoints.size();
+            for (std::size_t J = 0; J < N * static_cast<std::size_t>(ExtendedRouteLaps); ++J)
+            {
+                const MikdashRoute::Leg Leg = MikdashRoute::LegForGoal(J, N);
+                MikdashCrowd::Goal Goal;
+                Goal.Id = Key + "-goal-" + std::to_string(J);
+                Goal.Label = std::string(TCHAR_TO_UTF8(*ExtendedRouteLabels[static_cast<int32>(Leg.To)]));
+                Goal.Destination = std::string(TCHAR_TO_UTF8(*WaypointName(Key, Leg.To)));
+                Goal.Action = std::string(TCHAR_TO_UTF8(*ExtendedRouteActions[static_cast<int32>(Leg.To)]));
+                Goal.Earliest = static_cast<MikdashCrowd::Seconds>(Index * 4);
+                Goal.Duration = static_cast<MikdashCrowd::Seconds>(FMath::Max(1, FMath::RoundToInt(ExtendedRoutePauseSeconds[static_cast<int32>(Leg.To)])));
+                Plan.Goals.push_back(Goal);
+                MikdashCrowd::Route Route;
+                Route.Id = Key + "-leg-" + std::to_string(J);
+                Route.From = std::string(TCHAR_TO_UTF8(*WaypointName(Key, Leg.From)));
+                Route.To = Goal.Destination;
+                Route.Resource = "outer-visitor-loop"; Route.Capacity = 1; Route.Timeout = 90;
+                Routes.push_back(Route);
+            }
+        }
+        else
+        {
+            MikdashCrowd::Goal Goal;
+            Goal.Id = Key + "-observe"; Goal.Label = "Walk to a nearby meeting place";
+            Goal.Destination = Key + "-meeting"; Goal.Action = "Wait quietly";
+            Goal.Earliest = static_cast<MikdashCrowd::Seconds>(Index * 4); Goal.Duration = 30;
+            Plan.Goals.push_back(Goal);
+            MikdashCrowd::Route Route;
+            Route.Id = Key + "-route"; Route.From = Plan.Start; Route.To = Goal.Destination;
+            Route.Resource = "outer-visitor-pilot"; Route.Capacity = 1; Route.Timeout = 60;
+            Routes.push_back(Route);
+        }
+        Plans.push_back(Plan);
     }
     Crowd = MakeShared<MikdashCrowd::Runtime>();
     if (!Crowd->Configure(Plans, Routes)) { Crowd.Reset(); return false; }
@@ -142,12 +240,29 @@ void AMikdashResidentPopulation::Tick(float DeltaSeconds)
         const std::string Key(TCHAR_TO_UTF8(*Body->GetResidentId()));
         const MikdashCrowd::Person* Person = Crowd->Find(Key);
         if (!Person) { StopPopulation(); return; }
+        const bool Extended = IsExtendedBody(Index);
+        FString RouteId = FString(UTF8_TO_TCHAR((Key + "-route").c_str()));
+        double CorridorCm = 100.0;
+        if (Extended)
+        {
+            // Current leg from the shared model's goal index; origins/destinations follow it.
+            const std::size_t N = LoopPoints.size();
+            const MikdashRoute::Leg Leg = MikdashRoute::LegForGoal(Person->GoalIndex, N);
+            Origins[Index] = ExtendedRouteWaypoints[static_cast<int32>(Leg.From)];
+            Destinations[Index] = ExtendedRouteWaypoints[static_cast<int32>(Leg.To)];
+            RouteId = FString(UTF8_TO_TCHAR((Key + "-leg-" + std::to_string(Person->GoalIndex)).c_str()));
+            CorridorCm = ExtendedLegCorridorCm;
+            // Pause behavior: while attending a goal (or finished), face that waypoint's look target.
+            const bool Standing = Person->State == MikdashCrowd::Phase::Working || Person->State == MikdashCrowd::Phase::Complete;
+            const std::size_t At = Person->State == MikdashCrowd::Phase::Complete ? 0 : Leg.To;
+            Body->SetStandingFacingTarget(ExtendedRouteLookTargets[static_cast<int32>(At)], Standing);
+        }
         if (Person->State == MikdashCrowd::Phase::AccessReview || Person->State == MikdashCrowd::Phase::RouteWait)
         {
             const bool Clear = ReviewSegment(Index, Origins[Index], Destinations[Index]);
             Crowd->SetAccess(Key, Clear);
             if (!Clear) Status = FString::Printf(TEXT("%s: physical corridor review blocked (bounds/floor/capsule)"), *Body->GetResidentId());
-            if (Clear) Body->RequestReviewedRoute(FString(UTF8_TO_TCHAR((Key + "-route").c_str())), Origins[Index], Destinations[Index], true);
+            if (Clear) Body->RequestReviewedRoute(RouteId, Origins[Index], Destinations[Index], true, CorridorCm);
         }
         // In-place walking is tied to actual velocity, never to an assigned goal alone.
         const bool Moving = Body->GetVelocity().SizeSquared2D() > 25.0;

@@ -1,0 +1,46 @@
+{
+  "status": "exterior_review_recorded_no_scene_change",
+  "reviewedUtc": "2026-09-08",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256AtReview": "2edb00afb822cb44e1f528fc03f5783d15d0e7a4faf043456b0060b7d96fc9bd",
+  "rendersInspected": [
+    "SourceAssets/visual-review/release-capture-20260908T001321Z/a_exterior_wide_arrival.png",
+    "SourceAssets/visual-review/release-capture-20260907T220013Z/a_exterior_wide_arrival.png",
+    "SourceAssets/visual-review/release-capture-20260907T220013Z/g_mount_platform_approach.png",
+    "SourceAssets/visual-review/release-capture-20260907T220013Z/h_bus_street_level.png",
+    "SourceAssets/visual-review/release-capture-20260907T220013Z/i_overhead_city.png",
+    "SourceAssets/visual-review/release-capture-20260907T220851Z/h_bus_street_level.png",
+    "SourceAssets/visual-review/release-capture-20260907T210550Z/a_exterior_wide_arrival.png",
+    "SourceAssets/visual-review/release-capture-20260907T210550Z/c_outer_court_pilgrims.png"
+  ],
+  "defects": [
+    {"rank": 1, "id": "plaza_to_platform_access_missing", "severity": "blocking_route", "render": "001321Z a_exterior_wide_arrival", "frame": "lower-left quadrant, platform west skirt", "evidence": "No stair/ramp/portal on the perimeter; Content KotelApproach folder holds only *_KotelCut walls; OpeningV2 nativeExecuted=false; walk probes start on the deck.", "fix": "release_exterior_fixes.py access (import OpeningV2, RELEASE_MountAccess_*, +2 cm lift, BlockAll)", "scripted": true, "effortMinutes": 50},
+    {"rank": 2, "id": "sky_horizon_black_overcast", "severity": "high", "render": "220013Z/001321Z a_exterior; 220013Z/220851Z h_bus", "frame": "top 4% (a); whole sky (h)", "evidence": "Blue horizon in 210550Z before lighting apply; MI_Cloud_Scattered coverage 0.35 + fog max opacity 0.85 after.", "fix": "release_exterior_fixes.py sky (opt-in): Cloud_GlobalCoverage 0.35->0.15", "scripted": "opt-in", "effortMinutes": 15},
+    {"rank": 3, "id": "platform_slab_untextured", "severity": "high", "render": "001321Z a_exterior; 220013Z i_overhead", "frame": "centre-left deck, lower-left skirt", "evidence": "PavingReview 60 cm blocks 4.5% variation invisible beyond 50 m; no joints or macro tint.", "fix": "MaterialInstance override on the two Platform actors (BlockWidthCm 240, BlockVariation 0.15) or world-aligned paving with 6-8 m macro", "scripted": false, "effortMinutes": 30},
+    {"rank": 4, "id": "terrain_tiling_repetition", "severity": "medium", "render": "001321Z a_exterior; 220013Z i_overhead", "frame": "right third (Kidron slopes); lower-right", "evidence": "Regular speck grid from dry_ground_rocks at TileCm 400, macro 6000 cm at 12%.", "fix": "release_exterior_fixes.py tiling: Terrain TileCm 650, ScrubTileCm 380, MacroCm 2700, MacroAmp 0.28", "scripted": true, "effortMinutes": 5},
+    {"rank": 5, "id": "city_uniform_beige", "severity": "medium", "render": "001321Z a_exterior; 220013Z i_overhead", "frame": "upper half", "evidence": "Building tints differ <10%; no contrast against terrain.", "fix": "release_exterior_fixes.py tiling: widen Tint1..3, RoughVar 0.2", "scripted": true, "effortMinutes": 5},
+    {"rank": 6, "id": "city_wall_block_scale", "severity": "medium", "render": "220851Z h_bus", "frame": "right edge wall", "evidence": "stone_block_wall 2.1 m tiled at 3.5 m gives 1 m blocks.", "fix": "release_exterior_fixes.py tiling: CityWall TileCm 240", "scripted": true, "effortMinutes": 2},
+    {"rank": 7, "id": "bus_wheel_float_and_road_lip", "severity": "medium", "render": "220851Z h_bus", "frame": "front-axle tyres x 600-760 px, y 660-700; road lip y ~620 left", "evidence": "Receipt wheel-plane float 0.10 cm vs visible gap; camera terrain Z 641.8 vs asphalt Z 973 at 14.5 m.", "fix": "Per-wheel PIE trace, lower RELEASE_Bus_* by max gap, re-capture at wheel height", "scripted": false, "effortMinutes": 20},
+    {"rank": 8, "id": "road_terrain_seams", "severity": "medium", "render": "220851Z h_bus; 220013Z i_overhead", "frame": "foreground; slope roads", "evidence": "Ribbons are 100 m buckets baked to DEM height; vertical edges on slopes.", "fix": "Re-export ribbons with terrain-following 20 cm skirt (path-grounded-v3 pattern); per-actor Z nudge rejected (moves whole districts)", "scripted": false, "effortMinutes": 60},
+    {"rank": 9, "id": "trees_on_mount_and_vegetation", "severity": "low", "render": "001321Z a_exterior; 220013Z i_overhead", "frame": "deck clear", "evidence": "Live ISM trunks 4265 / crowns 12795 match the 144-tree removal; crowns identical spheres.", "fix": "release_exterior_fixes.py trees: polygon verification, remove any inside (expected 0)", "scripted": true, "effortMinutes": 5},
+    {"rank": 10, "id": "platform_terrain_seams", "severity": "low", "render": "001321Z a_exterior; 220013Z i_overhead", "frame": "skirt base lower-left; north edge upper-centre", "evidence": "No cracks at this range; dark band at skirt base; buildings sliced by north skirt.", "fix": "Plaza-level capture first (j_plaza_kotel_skirt)", "scripted": false, "effortMinutes": 10},
+    {"rank": 11, "id": "floating_sunken_buildings", "severity": "low", "render": "220013Z i_overhead", "frame": "upper-centre", "evidence": "Half-buried blocks along the north platform edge only (expected).", "fix": "Recheck in plaza-level capture", "scripted": false, "effortMinutes": 0},
+    {"rank": 12, "id": "terrain_uniform_bright", "severity": "low", "render": "001321Z a_exterior", "frame": "lower right", "evidence": "Scrub mask thresholds 0.40-0.50 leave mapped green areas as bare ground.", "fix": "Partly tiling fix; later MaskLumHigh 0.56 and greener ScrubTint", "scripted": "partial", "effortMinutes": 5},
+    {"rank": 13, "id": "horizon_terrain_edge", "severity": "low", "render": "001321Z a_exterior", "frame": "top edge", "evidence": "3.2 km terrain tiles end as a straight cut against the sky.", "fix": "Fog/aerial perspective beyond 2.5 km or distant horizon ring", "scripted": false, "effortMinutes": 15}
+  ],
+  "accessGeometryOfflineCheck": {
+    "corridorYcm": 19972.432518,
+    "platformWestEdgeXAtCorridorCm": -13597.38,
+    "deckEastEndXcm": -12500,
+    "coplanarOverlapWithPlatformDeckCm": 1097.4,
+    "zLiftCm": 2.0,
+    "protectedViolationSamples": 0,
+    "adaptedSignedVolumesM3": {"KotelApproach_ElevatedDeck_V2": 79.65, "KotelApproach_ElevatedGuards_V2": 54.87, "KotelApproach_AboveWallPortal_V2": 22.39},
+    "openingV2Checks": {"allRetainedWallBoxesTested": 1952, "protectedBufferOverlapCm2": 0.0, "minimumCrossingDeckToWallGapCm": 868.61, "portalClearWidthCm": 300, "portalMinimumHeadroomCm": 320, "originalWallTrianglesRemoved": 0}
+  },
+  "limitations": [
+    "Review from stills and receipts; no render, walk, PIE or map change performed.",
+    "Kotel stone surface excluded (owned elsewhere).",
+    "Bus and road seam findings need PIE traces and closer captures before any change."
+  ]
+}

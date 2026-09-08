@@ -1,0 +1,112 @@
+{
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "2edb00afb822cb44e1f528fc03f5783d15d0e7a4faf043456b0060b7d96fc9bd",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "ExteriorFixes-",
+  "receiptFolder": "SourceAssets/arrival-review/ExteriorReviewV1",
+  "receiptPrefix": "native-exterior-fixes-",
+  "adapterFolder": "SourceAssets/arrival-review/ExteriorReviewV1/adapter",
+  "defaultFixes": ["access", "tiling", "trees"],
+  "optionalFixes": ["sky"],
+  "actorTag": "RELEASE_ExteriorFixesV1",
+  "interpretationTag": "AUTHORED_INTERPRETATION_NOT_SOURCE_FACT",
+
+  "access": {
+    "scenario": "Authored illustrative future access from the Kotel plaza level (Z -1432.5) up to the Mount platform deck (Z 0) along the OpeningV2 corridor. Not an existing bridge, not a surveyed or halachic access, not a structural design.",
+    "sourceMeshJson": "SourceAssets/mount-access/OpeningV2/opening-v2.mesh.json",
+    "sourceMeshJsonSha256": "61c4d2f7fef2afc6a03d365c5e78ea54f9674ca377a1e79ee9c601f55afe982b",
+    "sourceChecksJson": "SourceAssets/mount-access/OpeningV2/opening-v2-checks.json",
+    "sourceChecksJsonSha256": "201734c8014447adb37017f1622fd03ff5c58d0cf84ee41ea72ced074d108219",
+    "sourceChecksStatusRequired": "PASS_OFFLINE_ONLY",
+    "designJson": "SourceAssets/visual-review/mount-platform-design.json",
+    "designJsonSha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+    "platformMeshJson": "SourceAssets/FutureMountV1/mount-platform.mesh.json",
+    "platformMeshJsonSha256": "693d76b5bae73e4ed70f80e4fb48e19c3834ec4f505c873c622465c57b41c524",
+    "namespace": "/Game/MikdashV3/ArrivalReview/MountAccessV2",
+    "labelPrefix": "RELEASE_MountAccess_",
+    "folder": "Release/MountAccess",
+    "collisionProfile": "BlockAll",
+    "zLiftCm": 2.0,
+    "zLiftReason": "The V2 deck top and the platform deck are both Z 0 from the platform edge (x -13597 at the corridor Y) to x -12500; a 2 cm lift avoids coplanar z-fighting and is far below the 55 cm step height.",
+    "protectedBufferCm": 200.0,
+    "footprintSampleStepCm": 50.0,
+    "meshes": [
+      {"name": "KotelApproach_ElevatedDeck_V2", "label": "RELEASE_MountAccess_Deck", "materialKey": "paving", "triangles": 1080},
+      {"name": "KotelApproach_ElevatedGuards_V2", "label": "RELEASE_MountAccess_Guards", "materialKey": "wall", "triangles": 2160},
+      {"name": "KotelApproach_AboveWallPortal_V2", "label": "RELEASE_MountAccess_Portal", "materialKey": "wall", "triangles": 60}
+    ],
+    "materials": {
+      "paving": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "wall": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_WallReview"
+    },
+    "materialsNote": "Same review stone materials the platform deck (PavingReview) and skirt (WallReview) already carry, so the stair reads as part of the platform. Not Kotel stone; the Kotel surface is owned elsewhere.",
+    "boundsToleranceCm": 0.05,
+    "transformToleranceCm": 0.01
+  },
+
+  "tiling": {
+    "reason": "release-capture-20260908T001321Z a_exterior_wide_arrival.png and release-capture-20260907T220013Z i_overhead_city.png: the dry-ground set repeats as a regular speck grid on every slope east of the platform; city walls in h_bus_street_level.png show 1 m Lego blocks (stone_block_wall real size is 2.1 m, tiled at 3.5 m); buildings read as one uniform beige because the four tints differ by under 10 percent.",
+    "materials": {
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain": {
+        "scalar": {"TileCm": [400.0, 650.0], "ScrubTileCm": [250.0, 380.0], "MacroCm": [6000.0, 2700.0], "MacroAmp": [0.12, 0.28]}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Asphalt": {
+        "scalar": {"MacroCm": [2500.0, 1400.0], "MacroAmp": [0.08, 0.18]}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_StonePath": {
+        "scalar": {"MacroAmp": [0.08, 0.16]}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": {
+        "scalar": {"TileCm": [350.0, 240.0]}
+      },
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": {
+        "scalar": {"RoughVar": [0.12, 0.2]},
+        "vector": {
+          "Tint1": [[0.97, 0.9, 0.8, 1.0], [0.9, 0.82, 0.7, 1.0]],
+          "Tint2": [[0.92, 0.86, 0.75, 1.0], [0.82, 0.78, 0.7, 1.0]],
+          "Tint3": [[1.0, 0.94, 0.86, 1.0], [1.0, 0.93, 0.84, 1.0]]
+        }
+      }
+    },
+    "expectedBeforeToleranceScalar": 0.001,
+    "expectedBeforeToleranceVector": 0.005,
+    "readbackTolerance": 0.0005,
+    "methodPolicy": "UE 5.8 Python has no MaterialEditingLibrary default-parameter setter. Method 1 edits the parameter expressions' default_value (get_material_expressions is BlueprintPure in the installed header; editor_only_data.expression_collection is the reflected fallback) and verifies with the exposed default getters. Method 2 (automatic fallback) creates one MaterialInstanceConstant child per parent and overrides slot 0 on every StaticMeshComponent of this map that carries the parent; parents and mesh assets stay untouched.",
+    "instanceFolder": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1",
+    "instancePrefix": "MI_",
+    "instanceSuffix": "_ExteriorV1"
+  },
+
+  "trees": {
+    "reason": "Handoff rule: no trees on the Mount. The integrated map carries the L_FutureMount removal (trunks 4265, crowns 12795 in native-apply-20260907T215118571170Z.json); this fix verifies the live instances against the inferred enclosure polygon and removes only instances whose trunk/crown XY falls inside it.",
+    "polygonSource": "mount-platform-design.json boundary.nativeXYcm (66 points, closed)",
+    "components": [
+      {"label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks", "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks", "expectedInstances": 4265},
+      {"label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns", "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns", "expectedInstances": 12795}
+    ],
+    "expectedInsideCount": 0,
+    "maxRemovals": 200
+  },
+
+  "sky": {
+    "optIn": true,
+    "reason": "Every exterior view since the lighting apply (release-capture-20260907T220013Z and 20260908T001321Z) shows the horizon band black/dark brown; release-capture-20260907T210550Z (same camera, before the MI_Cloud_Scattered swap) showed a blue horizon. The scattered cloud deck seen edge-on reads as a dark overcast wall. Lighting is owned by the sanctuary-balance task; this fix is opt-in only.",
+    "materialInstance": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered",
+    "scalar": {"Cloud_GlobalCoverage": [0.35, 0.15]},
+    "expectedBeforeTolerance": 0.001
+  },
+
+  "limitations": [
+    "Geometric and asset-level changes only; visual acceptance needs a fresh real-RHI capture and a bounded walk probe along the new stair.",
+    "The access stair is an authored future interpretation over the OpeningV2 corridor; it does not cut, hide or move any retained wall, terrain, plaza or Kotel geometry.",
+    "OpeningV2 obstacle clearance was verified against the 1,952 retained city-wall boxes only; buildings and terrain along the corridor were not clipped or tested.",
+    "Material parameter changes alter shared StaticMesh dependencies: donor maps may look different although their .umap bytes are unchanged."
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_kotel_stone_v2.py: native import of the Kotel ashlar V2 geometry, one limestone PBR material, identity placement, photo-panel hiding. Nothing here claims visual acceptance.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "namespace": "/Game/MikdashV3/MaterialReview/KotelStoneV2",
+  "sourceFolder": "SourceAssets/kotel-detail/KotelStoneV2",
+  "manifest": "SourceAssets/kotel-detail/KotelStoneV2/manifest.json",
+  "manifestSha256": "e527412c38132fafd2f37a37040ca41999c0a60233f6dcd3548cf82f9cef03f4",
+  "manifestStatusRequired": "EXPORTED_NATIVE_PENDING",
+  "triangleBudget": 400000,
+  "meshes": [
+    {
+      "name": "SM_KotelAshlarV2_E24",
+      "file": "SM_KotelAshlarV2_E24.obj",
+      "edge": 24,
+      "triangles": 4632,
+      "blocks": 72,
+      "boundsCm": {
+        "min": [
+          -15690.400059362077,
+          8845.472424494435,
+          -1399.695
+        ],
+        "max": [
+          -15666.014187624334,
+          9171.012331235797,
+          600.3050000000001
+        ]
+      },
+      "maxFrontCm": 13.415
+    },
+    {
+      "name": "SM_KotelAshlarV2_E25",
+      "file": "SM_KotelAshlarV2_E25.obj",
+      "edge": 25,
+      "triangles": 33210,
+      "blocks": 529,
+      "boundsCm": {
+        "min": [
+          -15676.355146940701,
+          9171.125219907355,
+          -1399.695
+        ],
+        "max": [
+          -15128.496241510997,
+          11908.47799233928,
+          600.3050000000001
+        ]
+      },
+      "maxFrontCm": 13.655
+    },
+    {
+      "name": "SM_KotelAshlarV2_E0",
+      "file": "SM_KotelAshlarV2_E0.obj",
+      "edge": 0,
+      "triangles": 46012,
+      "blocks": 737,
+      "boundsCm": {
+        "min": [
+          -15138.669119080492,
+          11908.102466670387,
+          -1399.695
+        ],
+        "max": [
+          -14451.000437088918,
+          15836.866568311318,
+          600.3050000000001
+        ]
+      },
+      "maxFrontCm": 14.061
+    },
+    {
+      "name": "SM_KotelAshlarV2_E1",
+      "file": "SM_KotelAshlarV2_E1.obj",
+      "edge": 1,
+      "triangles": 22848,
+      "blocks": 366,
+      "boundsCm": {
+        "min": [
+          -14461.249533193413,
+          15836.608664382742,
+          -1399.695
+        ],
+        "max": [
+          -14108.499348154846,
+          17750.920930969336,
+          600.3050000000001
+        ]
+      },
+      "maxFrontCm": 13.882
+    }
+  ],
+  "textures": {
+    "albedo": {
+      "asset": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+      "samplerType": "SAMPLERTYPE_COLOR",
+      "source": "materials-pbr/limestone-ashlar (Poly Haven sandstone_blocks_08, CC0)"
+    },
+    "normal": {
+      "asset": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+      "samplerType": "SAMPLERTYPE_NORMAL",
+      "convention": "DirectX nor_dx; swizzled into world space (u along face tangent, v up) and added to VertexNormalWS"
+    },
+    "arm": {
+      "asset": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM",
+      "samplerType": "SAMPLERTYPE_MASKS",
+      "channels": "R ambient occlusion, G roughness, B metallic (unused)"
+    }
+  },
+  "material": {
+    "name": "M_KotelAshlarV2",
+    "projectionEdge": 0,
+    "scalarParameters": {
+      "TilingCm": 300.0,
+      "AlbedoMeanLuminance": 0.42,
+      "DetailStrength": 0.7,
+      "RoughnessScale": 1.0,
+      "NormalStrength": 1.0
+    },
+    "brightnessRange": [
+      0.94,
+      1.06
+    ],
+    "roughnessRange": [
+      0.9,
+      1.1
+    ],
+    "note": "World-aligned UV = (dot(WorldPosition.xy, edge-0 tangent), WorldPosition.z) / TilingCm plus a per-stone offset. Per-stone tint index and jitter are decoded from UV0 (floor(u/8), floor(q/8) with q = v<0.5 ? 1-v : v). BaseColor = tint * lerp(1, desaturate(albedo)/AlbedoMeanLuminance, DetailStrength); colour comes from the 8 manifest tints (mortar = index 8). Roughness = ARM.G * per-stone multiplier * RoughnessScale. AO = ARM.R. tangent_space_normal=false."
+  },
+  "actors": {
+    "labelPrefix": "RELEASE_KotelStoneV2_",
+    "folder": "Release/KotelStoneV2",
+    "tag": "KotelStoneV2Release",
+    "collisionProfile": "NoCollision",
+    "transform": "identity (geometry baked in world coordinates); mortar bed begins 1 cm in front of the source face, block fronts at most 14.1 cm"
+  },
+  "baseWall": {
+    "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+    "rule": "Exactly one component with this mesh at identity; its state (mesh, materials, collision, visibility, pose) must be unchanged before save and after reopen. It keeps collision."
+  },
+  "hide": {
+    "photoPanelLabelPrefix": "REVIEW_KotelPhoto_",
+    "photoPanelLabels": [
+      "REVIEW_KotelPhoto_24",
+      "REVIEW_KotelPhoto_25",
+      "REVIEW_KotelPhoto_0",
+      "REVIEW_KotelPhoto_1"
+    ],
+    "photoPanelMesh": "/Engine/BasicShapes/Plane",
+    "expectedPanels": 4,
+    "overlayMeshPrefix": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint",
+    "expectedOverlays": 6,
+    "rule": "Panels: set component visible=false and hidden_in_game=true, previous state recorded under hiddenForRestore. Overlays must already be hidden and stay hidden. Nothing is deleted."
+  },
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "protectedAssetFolders": [
+    "/Game/MikdashV3/MaterialReview/KotelStoneV1",
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2",
+    "/Game/MikdashV3/FutureMountV1/KotelApproach"
+  ],
+  "verification": {
+    "staticBoundsToleranceCm": 0.05,
+    "transformToleranceCm": 0.001
+  },
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "KotelStoneV2-",
+  "allowRepeatedReceipts": false,
+  "limitations": [
+    "Authored ashlar study, not a stone-by-stone survey",
+    "Per-stone data travels in UV0 because the legacy OBJ adapter carries no vertex colour",
+    "Plaza Z from the source model base (-1399.695 cm); ground contact unreviewed natively",
+    "NoCollision: the walker may clip up to ~14 cm into block fronts near the wall",
+    "No LOD/Nanite decision; four actors, 106702 triangles"
+  ]
+}

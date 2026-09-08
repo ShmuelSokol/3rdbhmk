@@ -1,0 +1,856 @@
+{
+  "status": "offline_geometry_validated_native_import_pending",
+  "convention": "keilim OBJ adapter: per-triangle vertices, file Y = -canonical Y, winding reversed; importer reflects back; bounds must match canonical within 0.05 cm",
+  "axes": "bird-local: +X forward (beak), +Y right, +Z up; cm; wings in shoulder-pivot space",
+  "shoulder_pivots_cm": {
+    "left": [
+      2,
+      -7,
+      6
+    ],
+    "right": [
+      2,
+      7,
+      6
+    ]
+  },
+  "wing_animation": "rigid wing pieces rotate about the pivot X axis: left roll -angle, right roll +angle; 35 deg sine, 4 Hz cruise, 6 Hz climb, level glide when diving (DoveFlightMath.h)",
+  "colour_slots": {
+    "DoveWhite": [
+      0.92,
+      0.92,
+      0.9
+    ],
+    "DoveGrey": [
+      0.38,
+      0.39,
+      0.42
+    ]
+  },
+  "vertex_colours": "not written; see module docstring",
+  "meshes": {
+    "SM_DoveBodyV2": {
+      "file": "SM_DoveBodyV2.obj",
+      "sha256": "a45c2fa6902a24f02eb970cb320feff9ce876a3b7cb44d066a16e3be91920726",
+      "triangles": 6156,
+      "bounds_cm": {
+        "min": [
+          -50.0,
+          -16.143295302905305,
+          -11.5
+        ],
+        "max": [
+          46,
+          16.143295302905305,
+          20.0
+        ]
+      },
+      "materials": [
+        "DoveGrey",
+        "DoveWhite"
+      ],
+      "parts": [
+        {
+          "name": "Body",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 10881.926195674578,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Breast",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 5345.127952364047,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Neck",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 1929.0687346877771,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Head",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 1406.6126190431714,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Beak",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 48,
+          "signed_volume_cm3": 32.13683825084227,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Eye-1",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 224,
+          "signed_volume_cm3": 4.645163528317013,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Eye+1",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 224,
+          "signed_volume_cm3": 4.645163528319998,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail0",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368767,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail1",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368764,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail2",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.1081845636875,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail3",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368762,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail4",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368756,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail5",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368756,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Tail6",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 164.10818456368756,
+          "closed_welded_edges": true
+        }
+      ]
+    },
+    "SM_DoveWingLeftV2": {
+      "file": "SM_DoveWingLeftV2.obj",
+      "sha256": "cc1120bc73c393454ae18205cf75697614f70c59d8e3062aa6c5fa6a58950fdf",
+      "triangles": 7640,
+      "bounds_cm": {
+        "min": [
+          -34.83363526931848,
+          -88.99478963375506,
+          -1.7000000000000002
+        ],
+        "max": [
+          11.145193901632638,
+          1.8685254888385572,
+          2.9849685788062135
+        ]
+      },
+      "materials": [
+        "DoveGrey",
+        "DoveWhite"
+      ],
+      "parts": [
+        {
+          "name": "Coverts",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 3046.939334788901,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Wrist",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 534.2036496058458,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary0",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 77.2294825223219,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary1",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 78.84369936619248,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary2",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 80.4729725549509,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary3",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 82.11640589380241,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary4",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 83.77316601993755,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary5",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 85.44247770339254,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary0Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 76.78965243263842,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary0Tip",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 47.01259912255344,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary1Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 72.00772037827068,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary1Tip",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 44.00913227532723,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary2Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 67.37444942403953,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary2Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 41.10255145543009,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary3Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 62.88983956994263,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary3Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 38.29285666286345,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary4Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 58.55389081598279,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary4Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 35.5800478976285,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary5Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 54.36660316215801,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary5Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 32.964125159720446,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary6Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 50.32797660846832,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary6Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 30.4450884491436,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary7Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 46.43801115491538,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary7Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 28.022937765896607,
+          "closed_welded_edges": true
+        }
+      ]
+    },
+    "SM_DoveWingRightV2": {
+      "file": "SM_DoveWingRightV2.obj",
+      "sha256": "9f40b5a8e738674319af3fa2a2f166121e6adeaef6149ae0cf0f1478132f1250",
+      "triangles": 7640,
+      "bounds_cm": {
+        "min": [
+          -34.83363526931848,
+          -1.8685254888385572,
+          -1.7000000000000002
+        ],
+        "max": [
+          11.145193901632638,
+          88.99478963375506,
+          2.9849685788062135
+        ]
+      },
+      "materials": [
+        "DoveGrey",
+        "DoveWhite"
+      ],
+      "parts": [
+        {
+          "name": "Coverts",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 3046.9393347888986,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Wrist",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 960,
+          "signed_volume_cm3": 534.2036496058455,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary0",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 77.22948252232189,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary1",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 78.84369936619252,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary2",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 80.472972554951,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary3",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 82.11640589380274,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary4",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 83.77316601993734,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Secondary5",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 85.44247770339224,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary0Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 76.78965243263885,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary0Tip",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 47.01259912255267,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary1Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 72.00772037827107,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary1Tip",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 44.0091322753265,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary2Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 67.37444942403859,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary2Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 41.10255145542922,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary3Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 62.88983956994272,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary3Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 38.2928566628628,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary4Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 58.553890815982655,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary4Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 35.58004789762665,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary5Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 54.366603162157,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary5Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 32.96412515972358,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary6Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 50.327976608469434,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary6Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 30.445088449144233,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary7Base",
+          "material": "DoveWhite",
+          "colour": [
+            0.92,
+            0.92,
+            0.9
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 46.43801115491661,
+          "closed_welded_edges": true
+        },
+        {
+          "name": "Primary7Tip",
+          "material": "DoveGrey",
+          "colour": [
+            0.38,
+            0.39,
+            0.42
+          ],
+          "triangles": 260,
+          "signed_volume_cm3": 28.022937765897183,
+          "closed_welded_edges": true
+        }
+      ]
+    }
+  },
+  "source_script_sha256": "13e9be168a8fd7d592ad5c35ae69c7b95e1113f528e4d6e9fadd0bdb887d1e35",
+  "limitations": [
+    "Stylized original, roughly twice life size; not measured anatomy",
+    "Rigid feather pieces overlap at joins; not a skinned or watertight single shell",
+    "Grey tips are a second material slot, not a texture",
+    "No native import, render, cook or packaged acceptance from offline checks"
+  ],
+  "wingspan_cm": 191.98957926751012,
+  "body_length_cm": 96.0,
+  "total_triangles": 21436
+}

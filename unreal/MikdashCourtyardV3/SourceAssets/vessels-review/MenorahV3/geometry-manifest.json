@@ -1,0 +1,1817 @@
+{
+  "status": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "namespace": "/Game/MikdashV3/MaterialReview/MenorahV3",
+  "amah_cm": 50.0,
+  "tefach_cm": 8.333333333333334,
+  "script": "Scripts/create_menorah_v3.py",
+  "script_sha256": "b963ed5da7da7d8aafe86064c9cedf341d5adfab66fdd0484423cedf8f1751ef",
+  "reference_spec": "SourceAssets/vessels-review/menorah-model-spec.json",
+  "reference_spec_sha256": "889db7f501d8051e188def9c6060e60b33ae6f4d37c338a7630ac38fed2d30c8",
+  "convention": "Canonical XYZ Unreal cm: local X = lamp row (fan axis; +X = north after the placement yaw -90), local +Y = front (east; the tending stone side), Z up, origin at the centre of the base contact plane on the floor; every part shares this pivot. OBJ files carry Y reflected and winding reversed for the legacy OBJ importer (ShulchanV2 / DoorsParochesV1 adapter); the importer reflects Y back, so imported bounds must equal bounds_cm and UE signed volumes must be positive. Per-triangle normals and non-degenerate planar UV charts; no images, no scanned or traced geometry.",
+  "claims": "Original approximate study guided by the Torah/Talmud counts and positions and by the Temple Institute photograph's silhouette; not a measured TI replica, not a rabbinically certified vessel (menorah-model-spec claims_allowed / claims_not_allowed).",
+  "parameters": {
+    "total_height": 150.0,
+    "lamp_pitch": 18.0,
+    "junction_z": [
+      70.83333333333334,
+      87.5,
+      104.16666666666667
+    ],
+    "lower_group_z": 41.66666666666667,
+    "base_tiers": [
+      [
+        30.0,
+        0.0,
+        7.0
+      ],
+      [
+        24.0,
+        7.0,
+        13.0
+      ],
+      [
+        18.0,
+        13.0,
+        18.5
+      ]
+    ],
+    "collar": [
+      [
+        0,
+        18.5
+      ],
+      [
+        9.0,
+        18.5
+      ],
+      [
+        9.0,
+        19.5
+      ],
+      [
+        6.5,
+        20.5
+      ],
+      [
+        5.5,
+        22.5
+      ],
+      [
+        0,
+        22.5
+      ]
+    ],
+    "base_flower_z": 22.0,
+    "shaft_r": [
+      3.4,
+      2.9
+    ],
+    "branch_r": [
+      3.0,
+      2.2
+    ],
+    "goblet_h": 5.2,
+    "knop_h": 5.0,
+    "knop_r": 5.4,
+    "junction_knop": [
+      6.6,
+      3.6
+    ],
+    "flower_h": 4.0,
+    "flower_r": 5.2,
+    "lamp_h": 3.6,
+    "lamp_r": 5.6,
+    "nozzle_r": 0.7,
+    "stone": {
+      "gap": 10.0,
+      "width": 90.0,
+      "tread": 30.0,
+      "rise": 16.666666666666668,
+      "steps": 3,
+      "corner": 12.0
+    }
+  },
+  "layout": {
+    "lamp_z0": 144.7,
+    "flower_z0": 141.89999999999998,
+    "knop_z0": 137.2,
+    "goblet_z0": [
+      122.0,
+      127.19999999999999,
+      132.4
+    ],
+    "branch_top": 122.8,
+    "lower_goblet": 41.66666666666667,
+    "lower_knop": 46.466666666666676,
+    "lower_flower": 51.16666666666668,
+    "lamp_rim": 148.29999999999998,
+    "upper_group_span": [
+      122.0,
+      145.89999999999998
+    ],
+    "lower_group_span": [
+      41.66666666666667,
+      55.16666666666668
+    ]
+  },
+  "menorah_bounds_cm": {
+    "min": [
+      -59.824,
+      -25.980762113533157,
+      0.0
+    ],
+    "max": [
+      59.824,
+      25.98076211353316,
+      149.99999586087688
+    ]
+  },
+  "half_span_x_cm": 59.824,
+  "counts": {
+    "base": 4,
+    "shaft": 1,
+    "flower": 9,
+    "goblet": 22,
+    "knop": 11,
+    "lamp": 7,
+    "wick_nozzle": 7,
+    "branch": 6,
+    "stone_step": 3
+  },
+  "count_contract": {
+    "lamps": 7,
+    "side_branches": 6,
+    "goblets_total": 22,
+    "goblets_each_side_branch": 3,
+    "goblets_central_shaft": 4,
+    "knops_total": 11,
+    "knops_upper_groups": 7,
+    "knops_branch_junctions": 3,
+    "knops_lower_central": 1,
+    "flowers_total": 9,
+    "flowers_upper_groups": 7,
+    "flowers_lower_central": 2,
+    "source": "Shemos 25:31-40; menorah-model-spec count_contract"
+  },
+  "ornaments": [
+    {
+      "id": "BaseTier_01",
+      "kind": "base",
+      "mesh": "SM_MenorahV3_Base",
+      "triangles": 36,
+      "circumradius_cm": 30.0,
+      "z_cm": [
+        0.0,
+        7.0
+      ]
+    },
+    {
+      "id": "BaseTier_02",
+      "kind": "base",
+      "mesh": "SM_MenorahV3_Base",
+      "triangles": 36,
+      "circumradius_cm": 24.0,
+      "z_cm": [
+        7.0,
+        13.0
+      ]
+    },
+    {
+      "id": "BaseTier_03",
+      "kind": "base",
+      "mesh": "SM_MenorahV3_Base",
+      "triangles": 36,
+      "circumradius_cm": 18.0,
+      "z_cm": [
+        13.0,
+        18.5
+      ]
+    },
+    {
+      "id": "BaseCollar",
+      "kind": "base",
+      "mesh": "SM_MenorahV3_Base",
+      "triangles": 320,
+      "z_cm": [
+        18.5,
+        22.5
+      ]
+    },
+    {
+      "id": "Shaft",
+      "kind": "shaft",
+      "mesh": "SM_MenorahV3_Shaft",
+      "triangles": 96,
+      "radius_cm": [
+        3.4,
+        2.9
+      ],
+      "z_cm": [
+        20.0,
+        122.8
+      ]
+    },
+    {
+      "id": "Flower_Shaft_Base",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 0.0,
+      "z_cm": 22.0,
+      "note": "Menachos 28b: flower within the lowest 3 tefachim (yerech u-ferach)"
+    },
+    {
+      "id": "Goblet_Shaft_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 0.0,
+      "z_cm": 41.66666666666667
+    },
+    {
+      "id": "Knop_Shaft_Lower",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 46.466666666666676
+    },
+    {
+      "id": "Flower_Shaft_Lower",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 0.0,
+      "z_cm": 51.16666666666668
+    },
+    {
+      "id": "Knop_Junction_01",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 70.83333333333334,
+      "note": "Menachos 28b: knop from which two branches emerge"
+    },
+    {
+      "id": "Knop_Junction_02",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 87.5,
+      "note": "Menachos 28b: knop from which two branches emerge"
+    },
+    {
+      "id": "Knop_Junction_03",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 104.16666666666667,
+      "note": "Menachos 28b: knop from which two branches emerge"
+    },
+    {
+      "id": "Goblet_L3_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -54.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_L3_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -54.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_L3_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -54.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_L3",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": -54.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_L3",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": -54.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_L3",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": -54.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_L3",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": -54.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_L2_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -36.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_L2_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -36.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_L2_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -36.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_L2",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": -36.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_L2",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": -36.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_L2",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": -36.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_L2",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": -36.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_L1_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -18.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_L1_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -18.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_L1_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": -18.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_L1",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": -18.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_L1",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": -18.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_L1",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": -18.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_L1",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": -18.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_C_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 0.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_C_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 0.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_C_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 0.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_C",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_C",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 0.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_C",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": 0.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_C",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": 0.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_R1_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 18.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_R1_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 18.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_R1_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 18.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_R1",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 18.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_R1",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 18.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_R1",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": 18.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_R1",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": 18.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_R2_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 36.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_R2_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 36.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_R2_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 36.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_R2",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 36.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_R2",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 36.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_R2",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": 36.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_R2",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": 36.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Goblet_R3_01",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 54.0,
+      "z_cm": 122.0
+    },
+    {
+      "id": "Goblet_R3_02",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 54.0,
+      "z_cm": 127.19999999999999
+    },
+    {
+      "id": "Goblet_R3_03",
+      "kind": "goblet",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 800,
+      "x_cm": 54.0,
+      "z_cm": 132.4
+    },
+    {
+      "id": "Knop_R3",
+      "kind": "knop",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 640,
+      "x_cm": 54.0,
+      "z_cm": 137.2
+    },
+    {
+      "id": "Flower_R3",
+      "kind": "flower",
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 672,
+      "x_cm": 54.0,
+      "z_cm": 141.89999999999998
+    },
+    {
+      "id": "Lamp_R3",
+      "kind": "lamp",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 640,
+      "x_cm": 54.0,
+      "z_cm": 144.7,
+      "rim_z_cm": 148.29999999999998,
+      "wick_direction_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "wick_source": "Rambam Beit HaBechirah 3:8 (six toward the middle lamp, the middle lamp toward the west)"
+    },
+    {
+      "id": "WickNozzle_R3",
+      "kind": "wick_nozzle",
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 48,
+      "x_cm": 54.0,
+      "top_z_cm": 150.14483136000354
+    },
+    {
+      "id": "Branch_L3",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesL",
+      "triangles": 2544,
+      "root_z_cm": 70.83333333333334,
+      "tip_x_cm": -54.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 54.0,
+      "vertical_semi_axis_cm": 51.966666666666654,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R3",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesR",
+      "triangles": 2544,
+      "root_z_cm": 70.83333333333334,
+      "tip_x_cm": 54.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 54.0,
+      "vertical_semi_axis_cm": 51.966666666666654,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_L2",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesL",
+      "triangles": 1728,
+      "root_z_cm": 87.5,
+      "tip_x_cm": -36.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 36.0,
+      "vertical_semi_axis_cm": 35.3,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R2",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesR",
+      "triangles": 1728,
+      "root_z_cm": 87.5,
+      "tip_x_cm": 36.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 36.0,
+      "vertical_semi_axis_cm": 35.3,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_L1",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesL",
+      "triangles": 864,
+      "root_z_cm": 104.16666666666667,
+      "tip_x_cm": -18.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 18.0,
+      "vertical_semi_axis_cm": 18.633333333333326,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Branch_R1",
+      "kind": "branch",
+      "mesh": "SM_MenorahV3_BranchesR",
+      "triangles": 864,
+      "root_z_cm": 104.16666666666667,
+      "tip_x_cm": 18.0,
+      "top_z_cm": 122.8,
+      "horizontal_semi_axis_cm": 18.0,
+      "vertical_semi_axis_cm": 18.633333333333326,
+      "section_radius_cm": [
+        3.0,
+        2.2
+      ],
+      "curve": "quarter ellipse, horizontal tangent at the shaft, vertical tangent at the stack"
+    },
+    {
+      "id": "Step_01",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV3_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        0.0,
+        16.666666666666668
+      ],
+      "y_cm": [
+        35.98076211353316,
+        125.98076211353316
+      ],
+      "width_cm": 90.0
+    },
+    {
+      "id": "Step_02",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV3_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        16.666666666666668,
+        33.333333333333336
+      ],
+      "y_cm": [
+        35.98076211353316,
+        95.98076211353316
+      ],
+      "width_cm": 90.0
+    },
+    {
+      "id": "Step_03",
+      "kind": "stone_step",
+      "mesh": "SM_MenorahV3_StepStone",
+      "triangles": 64,
+      "z_cm": [
+        33.333333333333336,
+        50.0
+      ],
+      "y_cm": [
+        35.98076211353316,
+        65.98076211353316
+      ],
+      "width_cm": 90.0
+    }
+  ],
+  "dimensions": [
+    {
+      "item": "overall height, floor to highest lamp detail (wick nozzle top)",
+      "value_cm": 149.99999586087688,
+      "halachic": "18 tefachim",
+      "kind": "measured",
+      "source": "Rambam Beit HaBechirah 3:10; Menachos 28b; book p. 252 (1) \"the height of the Menorah is eighteen tefachim\"; 8.333 cm tefach (50 cm amah)"
+    },
+    {
+      "item": "lamp rim height",
+      "value_cm": 148.29999999999998,
+      "halachic": null,
+      "kind": "derived",
+      "source": "lamp cups nest 1.2 cm into the upper flowers; 18 tefachim measured to the nozzle tops (the Talmudic breakdown ends at the flowers; lamps ride on them)"
+    },
+    {
+      "item": "lamp count and row",
+      "value_cm": 7,
+      "halachic": "7 in one line",
+      "kind": "measured",
+      "source": "Shemos 25:37; Rambam 3:12 (line north-south; book diagram 22:23b)"
+    },
+    {
+      "item": "lamp pitch (centre to centre) / row span",
+      "value_cm": [
+        18.0,
+        108.0
+      ],
+      "halachic": null,
+      "kind": "artistic (TI photo fit)",
+      "source": "menorah-model-spec normalized lamp offsets 0.11-0.12 H apart -> 18 cm at H 150; the brief's 25 cm alternative gives a 150 cm span, wider than the TI silhouette (0.73-0.83 H)"
+    },
+    {
+      "item": "overall width of the fan (lamp rims)",
+      "value_cm": 119.648,
+      "halachic": null,
+      "kind": "derived",
+      "source": "6 x pitch + lamp diameter; TI width/H range 0.73-0.83"
+    },
+    {
+      "item": "branch junction heights (knop centres)",
+      "value_cm": [
+        70.83333333333334,
+        87.5,
+        104.16666666666667
+      ],
+      "halachic": "tefachim 8-9, 10-11, 12-13",
+      "kind": "measured",
+      "source": "Menachos 28b breakdown of the 18 tefachim (3 legs+flower, 2 plain, 1 goblet-knop-flower, 2 plain, 1 knop+2 branches, 1, 1 knop+2 branches, 1, 1 knop+2 branches, 2 plain, 3 goblets-knop-flower)"
+    },
+    {
+      "item": "branch curve: quarter ellipses, horizontal / vertical semi-axes (outer, middle, inner)",
+      "value_cm": [
+        [
+          54.0,
+          51.966666666666654
+        ],
+        [
+          36.0,
+          35.3
+        ],
+        [
+          18.0,
+          18.633333333333326
+        ]
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "nested rounded U forms per the TI photograph (menorah-model-spec finished_photo_observations.branches); near-circular because the Menachos heights and the 18 cm pitch nearly coincide"
+    },
+    {
+      "item": "branch section radius, root -> tip",
+      "value_cm": [
+        3.0,
+        2.2
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "brief: swept circular sections tapering 3.0 -> 2.2 cm; the TI branches read as broad bands, not measured"
+    },
+    {
+      "item": "shaft radius, bottom -> top",
+      "value_cm": [
+        3.4,
+        2.9
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "brief; \"visibly substantial\" per the photo audit"
+    },
+    {
+      "item": "goblets (gevi'im): count",
+      "value_cm": 22,
+      "halachic": "22 = 6 x 3 + 4",
+      "kind": "measured",
+      "source": "Shemos 25:33-34; menorah-model-spec count_contract"
+    },
+    {
+      "item": "goblet height / bowl radius",
+      "value_cm": [
+        5.2,
+        3.7
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "Rashi Shemos 25:31 (Alexandrian cups, narrow below, wide above); revolved almond/cup profile with 16 shallow flutes"
+    },
+    {
+      "item": "knops (kaftorim): count (3 junction + lower shaft + upper shaft + 6 branch)",
+      "value_cm": 11,
+      "halachic": "11",
+      "kind": "measured",
+      "source": "Shemos 25:33-35; Menachos 28b; count_contract"
+    },
+    {
+      "item": "knop size: flattened sphere radius / height; junction knops",
+      "value_cm": [
+        5.4,
+        5.0,
+        [
+          6.6,
+          3.6
+        ]
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "Rashi Shemos 25:31 (like Cretan apples); 12 shallow lobes"
+    },
+    {
+      "item": "flowers (perachim): count (base + lower shaft + upper shaft + 6 branch)",
+      "value_cm": 9,
+      "halachic": "9",
+      "kind": "measured",
+      "source": "Shemos 25:31-34; Menachos 28b (flower in the lowest 3 tefachim); count_contract"
+    },
+    {
+      "item": "flower height / rim radius (base flower x1.5)",
+      "value_cm": [
+        4.0,
+        5.2
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "flared six-petal rim; the upper flower carries the lamp"
+    },
+    {
+      "item": "upper stack span (first goblet foot to flower rim)",
+      "value_cm": [
+        122.0,
+        145.89999999999998
+      ],
+      "halachic": "upper 3 tefachim",
+      "kind": "measured (approx.)",
+      "source": "Menachos 28b: three goblets, knop and flower in the top 3 tefachim; modelled span 23.9 cm"
+    },
+    {
+      "item": "lower shaft group span (goblet, knop, flower)",
+      "value_cm": [
+        41.66666666666667,
+        55.16666666666668
+      ],
+      "halachic": "tefach 5-6",
+      "kind": "measured position, stretched height",
+      "source": "Menachos 28b puts all three in one tefach; modelled over 13.5 cm so the profiles stay readable (recorded deviation)"
+    },
+    {
+      "item": "base: hexagonal stepped plinth, 3 tiers, circumradius / z (bottom -> top) + round collar",
+      "value_cm": [
+        [
+          30.0,
+          0.0,
+          7.0
+        ],
+        [
+          24.0,
+          7.0,
+          13.0
+        ],
+        [
+          18.0,
+          13.0,
+          18.5
+        ],
+        22.5
+      ],
+      "halachic": "yerech within 3 tefachim",
+      "kind": "artistic form, measured height band",
+      "source": "TI photo: broad stepped polygonal plinth under a round collar (menorah-model-spec base observation); hexagon count and relief panels not established; Menachos 28b: legs and flower occupy the lowest 3 tefachim"
+    },
+    {
+      "item": "lamps: open oil cups with a wick nozzle; radius / height",
+      "value_cm": [
+        5.6,
+        3.6
+      ],
+      "halachic": null,
+      "kind": "artistic",
+      "source": "Shemos 25:37; TI display shows covered forms (unverified); no flames, no shamash"
+    },
+    {
+      "item": "wick directions",
+      "value_cm": "six toward the centre lamp, centre lamp toward the west (local -Y)",
+      "halachic": null,
+      "kind": "measured",
+      "source": "Rambam Beit HaBechirah 3:8; book-keilim-review item 2"
+    },
+    {
+      "item": "tending stone: three steps in front (east) of the menorah",
+      "value_cm": [
+        3,
+        16.666666666666668,
+        30.0,
+        90.0
+      ],
+      "halachic": "3 steps; 2-tefach rise",
+      "kind": "measured count/position, artistic sizes",
+      "source": "Rambam 3:11; book p. 252 (2) \"before the Menorah there is a stone with three steps on which the Kohen stands\"; diagram 22:23b shows it east of the menorah; rise 16.7 cm, tread 30 cm, width 90 cm, 10 cm gap to the plinth are artistic"
+    },
+    {
+      "item": "orientation: lamp row north-south, stone east",
+      "value_cm": "yaw -90 in placement (local +X -> north, local +Y -> east)",
+      "halachic": null,
+      "kind": "measured",
+      "source": "Rambam 3:12 (book diagram 22:23b); Rashi east-west alternative (22:23a) NOT modelled"
+    },
+    {
+      "item": "placement: centre X -5330, nearest lamp tip 125 cm (2.5 amot) from the south wall face Y +500",
+      "value_cm": null,
+      "halachic": "2.5 amot",
+      "kind": "interpretation",
+      "source": "book p. 252 (5) \"in the south of the Heikhal, 2.5 amot from the southern wall\"; measured to the tips as in the vessels release; X kept from the current RELEASE_Menorah"
+    }
+  ],
+  "artistic_summary": "Lamp pitch, branch section, shaft radius, ornament profiles (flutes, lobes, petals), hexagon/tier sizes, collar, lamp cup and nozzle shape, stone sizes and the stretched lower group are artistic. Counts, the 18-tefach height, the junction heights, the lamp row orientation, the wick directions and the stone's existence/position follow the cited sources.",
+  "not_modelled": [
+    "Base relief panels and ornament motifs (menorah-model-spec: unreadable at the available resolution)",
+    "TI broad-band branch section (circular sections used per the brief)",
+    "Flames, oil, wicks, service tools, shamash",
+    "Rashi east-west orientation (book 22:23a)"
+  ],
+  "total_triangles": 46492,
+  "meshes": [
+    {
+      "name": "SM_MenorahV3_Base",
+      "file": "SM_MenorahV3_Base.obj",
+      "sha256": "f1c8b8ba2dd7376eef5415da52161e8e37cf0f56e7f0c1a94589172db1cb63ed",
+      "triangles": 428,
+      "parts": 4,
+      "bounds_cm": {
+        "min": [
+          -30.0,
+          -25.980762113533157,
+          0.0
+        ],
+        "max": [
+          30.0,
+          25.98076211353316,
+          22.5
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 668.7573380469796,
+      "part_checks": [
+        {
+          "name": "BaseTier_01",
+          "kind": "base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 16290.803870589074
+        },
+        {
+          "name": "BaseTier_02",
+          "kind": "base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 8917.463582768365
+        },
+        {
+          "name": "BaseTier_03",
+          "kind": "base",
+          "triangles": 36,
+          "closed": true,
+          "volume_cm3": 4583.872462231033
+        },
+        {
+          "name": "BaseCollar",
+          "kind": "base",
+          "triangles": 320,
+          "closed": true,
+          "volume_cm3": 668.7573380469796
+        }
+      ],
+      "material_role": "gold",
+      "collision": "BlockAll"
+    },
+    {
+      "name": "SM_MenorahV3_Shaft",
+      "file": "SM_MenorahV3_Shaft.obj",
+      "sha256": "653b3fc8cba81d1c9da210ddcf2610aba582e0474e7f985535a34679f36ce1a9",
+      "triangles": 96,
+      "parts": 1,
+      "bounds_cm": {
+        "min": [
+          -3.4,
+          -3.4,
+          20.0
+        ],
+        "max": [
+          3.4,
+          3.4,
+          122.8
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 3174.6992538558497,
+      "part_checks": [
+        {
+          "name": "Shaft",
+          "kind": "shaft",
+          "triangles": 96,
+          "closed": true,
+          "volume_cm3": 3174.6992538558497
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV3_BranchesL",
+      "file": "SM_MenorahV3_BranchesL.obj",
+      "sha256": "9a826b07952d7e9f1f294a93e61706ca7323a6ba3e17e42013982e1720d38535",
+      "triangles": 5136,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -56.19972904986293,
+          -3.0,
+          67.83365023445026
+        ],
+        "max": [
+          0.14341434484283117,
+          3.0,
+          122.89815717219979
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 606.7548499527562,
+      "part_checks": [
+        {
+          "name": "Branch_L3",
+          "kind": "branch",
+          "triangles": 2544,
+          "closed": true,
+          "volume_cm3": 1765.2286796517353
+        },
+        {
+          "name": "Branch_L2",
+          "kind": "branch",
+          "triangles": 1728,
+          "closed": true,
+          "volume_cm3": 1186.074135932343
+        },
+        {
+          "name": "Branch_L1",
+          "kind": "branch",
+          "triangles": 864,
+          "closed": true,
+          "volume_cm3": 606.7548499527562
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV3_BranchesR",
+      "file": "SM_MenorahV3_BranchesR.obj",
+      "sha256": "65519d083d7de6cbd3b18fc03f0f18185a7b79e6f2ff3882bb1e03737b382deb",
+      "triangles": 5136,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -0.14341434484283117,
+          -3.0,
+          67.83365023445026
+        ],
+        "max": [
+          56.19972904986293,
+          3.0,
+          122.89815717219979
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 606.7548499527544,
+      "part_checks": [
+        {
+          "name": "Branch_R3",
+          "kind": "branch",
+          "triangles": 2544,
+          "closed": true,
+          "volume_cm3": 1765.228679651731
+        },
+        {
+          "name": "Branch_R2",
+          "kind": "branch",
+          "triangles": 1728,
+          "closed": true,
+          "volume_cm3": 1186.074135932343
+        },
+        {
+          "name": "Branch_R1",
+          "kind": "branch",
+          "triangles": 864,
+          "closed": true,
+          "volume_cm3": 606.7548499527544
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV3_Ornaments",
+      "file": "SM_MenorahV3_Ornaments.obj",
+      "sha256": "c72596bbc14d10f7eae52efb7fb6748e613097ca4b14710c29adaa4babc5617e",
+      "triangles": 30688,
+      "parts": 42,
+      "bounds_cm": {
+        "min": [
+          -59.824,
+          -7.715819909889825,
+          22.0
+        ],
+        "max": [
+          59.824,
+          7.715819909889825,
+          145.89999999999998
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 99.57257160983134,
+      "part_checks": [
+        {
+          "name": "Flower_Shaft_Base",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 335.5372946046632
+        },
+        {
+          "name": "Goblet_Shaft_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729861
+        },
+        {
+          "name": "Knop_Shaft_Lower",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731511
+        },
+        {
+          "name": "Flower_Shaft_Lower",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160983818
+        },
+        {
+          "name": "Knop_Junction_01",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 634.2006393951535
+        },
+        {
+          "name": "Knop_Junction_02",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 634.2006393951498
+        },
+        {
+          "name": "Knop_Junction_03",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 634.2006393951553
+        },
+        {
+          "name": "Goblet_L3_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729432
+        },
+        {
+          "name": "Goblet_L3_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729907
+        },
+        {
+          "name": "Goblet_L3_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.4881904172935
+        },
+        {
+          "name": "Knop_L3",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731572
+        },
+        {
+          "name": "Flower_L3",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160983352
+        },
+        {
+          "name": "Goblet_L2_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.4881904172967
+        },
+        {
+          "name": "Goblet_L2_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729605
+        },
+        {
+          "name": "Goblet_L2_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729598
+        },
+        {
+          "name": "Knop_L2",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731515
+        },
+        {
+          "name": "Flower_L2",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160984649
+        },
+        {
+          "name": "Goblet_L1_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.4881904172975
+        },
+        {
+          "name": "Goblet_L1_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041730087
+        },
+        {
+          "name": "Goblet_L1_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041730019
+        },
+        {
+          "name": "Knop_L1",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.86569087314405
+        },
+        {
+          "name": "Flower_L1",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160983816
+        },
+        {
+          "name": "Goblet_C_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729848
+        },
+        {
+          "name": "Goblet_C_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.4881904173068
+        },
+        {
+          "name": "Goblet_C_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041730395
+        },
+        {
+          "name": "Knop_C",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731612
+        },
+        {
+          "name": "Flower_C",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160983134
+        },
+        {
+          "name": "Goblet_R1_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041730111
+        },
+        {
+          "name": "Goblet_R1_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.4881904173
+        },
+        {
+          "name": "Goblet_R1_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729824
+        },
+        {
+          "name": "Knop_R1",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731481
+        },
+        {
+          "name": "Flower_R1",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160983973
+        },
+        {
+          "name": "Goblet_R2_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729469
+        },
+        {
+          "name": "Goblet_R2_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041728954
+        },
+        {
+          "name": "Goblet_R2_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729212
+        },
+        {
+          "name": "Knop_R2",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.8656908731544
+        },
+        {
+          "name": "Flower_R2",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160984894
+        },
+        {
+          "name": "Goblet_R3_01",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729939
+        },
+        {
+          "name": "Goblet_R3_02",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.488190417297
+        },
+        {
+          "name": "Goblet_R3_03",
+          "kind": "goblet",
+          "triangles": 800,
+          "closed": true,
+          "volume_cm3": 100.48819041729878
+        },
+        {
+          "name": "Knop_R3",
+          "kind": "knop",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 294.86569087314894
+        },
+        {
+          "name": "Flower_R3",
+          "kind": "flower",
+          "triangles": 672,
+          "closed": true,
+          "volume_cm3": 99.57257160984436
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV3_Lamps",
+      "file": "SM_MenorahV3_Lamps.obj",
+      "sha256": "f1735ed9d40e65516c34ab3c447c16709bdef2e242e2354ebfbaeeec24bbc155",
+      "triangles": 4816,
+      "parts": 14,
+      "bounds_cm": {
+        "min": [
+          -59.6,
+          -7.426371172770927,
+          144.7
+        ],
+        "max": [
+          59.6,
+          5.6,
+          149.99999586087688
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 6.672616844506955,
+      "part_checks": [
+        {
+          "name": "Lamp_L3",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244248975
+        },
+        {
+          "name": "WickNozzle_L3",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.672616844507054
+        },
+        {
+          "name": "Lamp_L2",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244248537
+        },
+        {
+          "name": "WickNozzle_L2",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.672616844507336
+        },
+        {
+          "name": "Lamp_L1",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244247815
+        },
+        {
+          "name": "WickNozzle_L1",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.672616844507218
+        },
+        {
+          "name": "Lamp_C",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244247156
+        },
+        {
+          "name": "WickNozzle_C",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.672616844507194
+        },
+        {
+          "name": "Lamp_R1",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244247047
+        },
+        {
+          "name": "WickNozzle_R1",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.67261684450726
+        },
+        {
+          "name": "Lamp_R2",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.94835244248077
+        },
+        {
+          "name": "WickNozzle_R2",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.67261684450735
+        },
+        {
+          "name": "Lamp_R3",
+          "kind": "lamp",
+          "triangles": 640,
+          "closed": true,
+          "volume_cm3": 116.9483524424826
+        },
+        {
+          "name": "WickNozzle_R3",
+          "kind": "wick_nozzle",
+          "triangles": 48,
+          "closed": true,
+          "volume_cm3": 6.672616844506955
+        }
+      ],
+      "material_role": "gold",
+      "collision": "NoCollision"
+    },
+    {
+      "name": "SM_MenorahV3_StepStone",
+      "file": "SM_MenorahV3_StepStone.obj",
+      "sha256": "b066b9ae83441d87217afb5daefcba5667b3aedb90117e6af3c634de901df920",
+      "triangles": 192,
+      "parts": 3,
+      "bounds_cm": {
+        "min": [
+          -45.0,
+          35.98076211353316,
+          0.0
+        ],
+        "max": [
+          45.0,
+          125.98076211353316,
+          50.0
+        ]
+      },
+      "minimum_part_signed_volume_cm3": 43926.994249476294,
+      "part_checks": [
+        {
+          "name": "Step_01",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 133926.99424947635
+        },
+        {
+          "name": "Step_02",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 88926.99424947631
+        },
+        {
+          "name": "Step_03",
+          "kind": "stone_step",
+          "triangles": 64,
+          "closed": true,
+          "volume_cm3": 43926.994249476294
+        }
+      ],
+      "material_role": "stone",
+      "collision": "BlockAll"
+    }
+  ],
+  "readback": [
+    {
+      "mesh": "SM_MenorahV3_Base",
+      "triangles": 428,
+      "bounds_error_cm": 1.3533160370116093e-08,
+      "file_space_signed_volume_cm3": 30460.897258152774,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_Shaft",
+      "triangles": 96,
+      "bounds_error_cm": 0.0,
+      "file_space_signed_volume_cm3": 3174.6992884396786,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_BranchesL",
+      "triangles": 5136,
+      "bounds_error_cm": 4.986293333786307e-08,
+      "file_space_signed_volume_cm3": 3558.0576650811004,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_BranchesR",
+      "triangles": 5136,
+      "bounds_error_cm": 4.986293333786307e-08,
+      "file_space_signed_volume_cm3": 3558.057665081098,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_Ornaments",
+      "triangles": 30688,
+      "bounds_error_cm": 9.889824958975169e-09,
+      "file_space_signed_volume_cm3": 7604.385478990029,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_Lamps",
+      "triangles": 4816,
+      "bounds_error_cm": 3.9123108308558585e-08,
+      "file_space_signed_volume_cm3": 865.3467859466728,
+      "normals_and_uvs": "PASS"
+    },
+    {
+      "mesh": "SM_MenorahV3_StepStone",
+      "triangles": 192,
+      "bounds_error_cm": 1.3533160370116093e-08,
+      "file_space_signed_volume_cm3": 266780.98275434057,
+      "normals_and_uvs": "PASS"
+    }
+  ],
+  "previews": {
+    "menorah-v3-preview.png": [
+      "front elevation: looking west from the east (north on the right); tending stone hidden so the plinth is visible",
+      "side elevation: looking north from the south (east and the tending stone on the right)",
+      "oblique from the south-east above"
+    ]
+  },
+  "preview_limit": "Software orthographic source preview with illustrative gold/stone colours; not a native render or material acceptance."
+}

@@ -1,0 +1,174 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-07",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_sanctuary_balance.py: tone the sanctuary golds toward a physically plausible gold with low-frequency world-space variation, give the Kodesh partition the book's gold lining instead of the blown-out hammered PBR instance, stop the gold floor mirroring, trim the entrance fill and add highlight roll-off in the post-process volume. Answers the 20260907T214622Z renders d_heikhal_west_vessels / e_kodesh_aron_keruvim (rear wall to white, flat synthetic yellow gold, mechanical frieze repetition, harsh highlights). Every number is an artistic proposal read back numerically; nothing here claims visual acceptance. Astra's lighting values (morning sun, EV 0..14 histogram exposure, fill, fog) are refined, never undone.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "2edb00afb822cb44e1f528fc03f5783d15d0e7a4faf043456b0060b7d96fc9bd",
+  "lastKnownMapSha256Note": "AGENTS.md dove/resident integration save. Recorded as matched/not matched only, never a guard: other native jobs re-save the map; run strictly serial after checking live UnrealEditor PIDs.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_gold_25ecb5dbb0",
+    "/Game/MikdashV3/MaterialReview/Canonical/Materials/M_Canonical_goldPaving_9bfaee4f4a"
+  ],
+  "protectedAssetsNote": "The PBR master and the hammered-gold instance dress 587 exterior gold components (dentils, roof, anti-bird points); the canonical golds are the pre-PBR donors. None of them may change: the partition is re-pointed at the veneer gold at the component level instead.",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "SanctuaryBalance-",
+  "revertCheckpointPrefix": "SanctuaryBalanceRevert-",
+  "receiptFolder": "SourceAssets/sanctuary-detail/BalanceV1",
+  "receiptPrefix": "native-balance-",
+  "revertReceiptPrefix": "native-balance-revert-",
+  "dryRunReceiptPrefix": "native-balance-dryrun-",
+  "lightingReceiptFolder": "SourceAssets/lighting-review",
+  "lightingApplyPrefix": "native-apply-",
+  "lightingAppliedStatus": "lighting_polish_saved_reopened_visual_acceptance_pending",
+  "gold": {
+    "linear": [1.0, 0.71, 0.29],
+    "why": "Measured gold reflectance (linear, F0 about 1.00/0.71/0.29 in sRGB primaries) instead of the saturated 1.0/0.766/0.336 study colour; metallic 1 so the diffuse term is zero and the surface reads through its reflections, not as yellow paint.",
+    "metallic": 1.0
+  },
+  "variation": {
+    "scaleCm": 1000.0,
+    "roughnessAmplitude": 0.06,
+    "tintAmplitude": 0.03,
+    "tintPositionOffsetCm": [3700.0, 1300.0, 700.0],
+    "roughnessClamp": [0.05, 0.95],
+    "noise": {
+      "functionCandidates": ["NOISEFUNCTION_GRADIENT_ALU", "NOISEFUNCTION_VALUE_ALU", "NOISEFUNCTION_SIMPLEX_TEX"],
+      "quality": 1,
+      "levels": 2,
+      "turbulence": false,
+      "levelScale": 2.0,
+      "outputMin": -1.0,
+      "outputMax": 1.0
+    },
+    "graph": "WorldPosition -> Divide(scaleCm) -> Noise(-1..1, Perlin/gradient ALU) -> Multiply(roughnessAmplitude) -> Add(existing roughness node) -> Clamp -> Roughness. Tint: (WorldPosition + offset) / scaleCm -> Noise -> Multiply(tintAmplitude) -> Add(1.0) -> Multiply(existing Constant3Vector) -> BaseColor. 10 m features: neighbouring 250 cm frieze panels differ by up to +-0.06 roughness and +-3 percent tint, so no two panels read identical while the hammered-relief lerp of the frieze material is kept.",
+    "why": "The frieze already varies roughness with relief height (0.45 ground -> 0.35 raised); what the renders lack is variation ACROSS panels. World-space noise costs one ALU noise per pass and no texture; it is applied only to the veneer and frieze materials (walls), not to the vessels, where a 10 m feature would be invisible."
+  },
+  "frieze": {
+    "materials": [
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced"
+    ],
+    "expectedRoughnessNode": "MaterialExpressionLinearInterpolate",
+    "expectedBefore": {"baseColor": [1.0, 0.766, 0.336], "metallic": 1.0, "roughnessAtHeight0": 0.45, "roughnessAtHeight1": 0.35, "source": "SourceAssets/sanctuary-detail/KeruvFriezeV2/native-import-20260907T204023357744Z.json materials.*.nodes"},
+    "roughnessAtHeight0": 0.5,
+    "roughnessAtHeight1": 0.42,
+    "actorLabelPrefix": "RELEASE_Frieze_",
+    "minimumActorsUsingDisplaced": 1,
+    "applyVariation": true
+  },
+  "veneer": {
+    "folderSuffix": "Sanctuary finishes",
+    "labelPrefix": "Review_",
+    "expectedVeneerCount": 7,
+    "expectedMaterial": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "expectedRoughnessNode": "MaterialExpressionConstant",
+    "expectedBefore": {"baseColor": [1.0, 0.766, 0.336], "metallic": 1.0, "roughness": 0.34, "source": "Scripts/build_sanctuary_finishes.py"},
+    "roughness": 0.46,
+    "applyVariation": true
+  },
+  "vessels": {
+    "materials": [
+      "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+      "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+      "/Game/MikdashV3/MaterialReview/KeruvimStudyV1/M_KeruvimStudyGold"
+    ],
+    "expectedRoughnessNode": "MaterialExpressionConstant",
+    "expectedBefore": {"baseColor": [1.0, 0.766, 0.336], "metallic": 1.0, "roughness": 0.28, "source": "Scripts/create_aron_study_v1.py, create_heikhal_keilim.py, create_keruvim_study.py"},
+    "roughness": 0.42,
+    "applyVariation": false,
+    "skipUnused": true,
+    "usageNote": "M_AronStudyV3_Gold dresses RELEASE_Aron_Body/Lid, RELEASE_Menorah and the Aron poles (third-party vessels spec first gold candidate); M_HeikhalKeilim_Gold the incense altar / shulchan studies; M_KeruvimStudyGold the 100 slots of RELEASE_Keruvim_1. A listed material with no component in the map is recorded and skipped."
+  },
+  "partition": {
+    "faceX": -5600.0,
+    "backX": -5700.0,
+    "faceToleranceCm": 0.5,
+    "yHalfWidthCm": 500.0,
+    "zRange": [925.0, 2925.0],
+    "meshPrefix": "/Game/MikdashV3/Architecture/",
+    "expectedMeshes": [
+      "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+      "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+      "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel"
+    ],
+    "expectedMaterialBefore": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "expectedMaterialBeforeSource": "SourceAssets/materials-pbr/native-apply-20260907T204439966864Z.json (gold profile -> MI_PBR_GoldHammered with -PbrIncludeGold)",
+    "newMaterial": "same as veneer.expectedMaterial",
+    "bookBasis": "SourceAssets/research/book-scene-requirements-20260907.json p.222 (41:16) and p.231 (41:17): cedar-over-stone lining overlaid with gold on ALL walls of the Heikhal and Kodesh HaKodashim, floor to ceiling, above the door and behind the doors; status certain (Rashi). The partition's Heikhal face is therefore gold, not off-white stone.",
+    "note": "Component-level override on three measured architecture pieces (both faces and the doorway jambs become gold). The keruv/palm relief the book also demands on this wall (p.238) is a follow-up: the frieze V2 spec skipped this wall for lack of a veneer actor."
+  },
+  "floor": {
+    "instance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "expectedParent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "expectedArmTexture": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_ARM",
+    "expectedBefore": {"RoughnessScale": 1.1, "Metallic": 0.8, "Tint": [0.5775804404296506, 0.5088813208549338, 0.3277780980565422, 1.0], "source": "Scripts/release_pbr_architecture.spec.json instances.MI_PBR_GoldFloor"},
+    "expectedComponentsUsing": 3,
+    "targetRoughness": 0.5,
+    "roughnessSource": {
+      "file": "SourceAssets/materials-pbr/scratched-metal/blue_metal_plate_arm_2k.jpg",
+      "sha256": "64991aa1059eb36d74fb5973dcc55de9153cf277e8f587a5b7939966737a04e4",
+      "channel": "G (roughness; TC_MASKS, linear)",
+      "measuredMean01": 0.2849,
+      "measuredPercentiles01": {"p10": 0.2275, "p50": 0.2824, "p90": 0.3412},
+      "measurement": "System.Drawing decode of the frozen JPG, every 4th pixel (262144 samples), 2026-09-07; the roughness_2k.jpg gives 0.2845."
+    },
+    "roughnessScale": 1.755,
+    "roughnessScaleRule": "targetRoughness / measuredMean01 = 0.5 / 0.2849 = 1.755, giving a mean roughness of 0.50 (p10 0.40, p90 0.60) through the master's Multiply(ARM.G, RoughnessScale). The previous 1.1 made the floor a 0.31 mirror.",
+    "alsoTintAndMetallic": true,
+    "metallic": 1.0,
+    "tintNote": "With AlbedoFlatness 1.0 the Tint IS the base colour; the pale [0.578, 0.509, 0.328] at metallic 0.8 is the 'synthetic yellow'. Tint becomes gold.linear, metallic 1."
+  },
+  "lighting": {
+    "fill": {
+      "label": "RELEASE_HeikhalEntranceFill",
+      "tag": "ReleaseLightingPolishV1",
+      "componentClass": "RectLightComponent",
+      "intensityThresholdCd": 15000.0,
+      "intensityCd": 15000.0,
+      "why": "Receipt value 25,000 cd exceeds the 15,000 cd threshold; 15,000 (-0.74 stop) keeps the side walls and vessels lifted while cutting the fill's rectangle reflection on the floor and partition gold. The partition blow-out itself is the 24 klux sun patch, which the exposure changes below address."
+    },
+    "postProcess": {
+      "labelAfter": "V3 cinematic exposure - histogram EV 0-14, filmic, local exposure",
+      "required": ["local_exposure_highlight_contrast_scale"],
+      "properties": {
+        "override_local_exposure_method": true,
+        "local_exposure_method": {"$enum": "LocalExposureMethod.BILATERAL"},
+        "override_local_exposure_highlight_contrast_scale": true,
+        "local_exposure_highlight_contrast_scale": 0.8,
+        "override_film_white_clip": true,
+        "film_white_clip": 0.02,
+        "override_film_shoulder": true,
+        "film_shoulder": 0.3
+      },
+      "recordOnly": ["auto_exposure_method", "auto_exposure_min_brightness", "auto_exposure_max_brightness", "auto_exposure_bias", "auto_exposure_low_percent", "auto_exposure_high_percent", "film_slope", "film_toe", "local_exposure_shadow_contrast_scale", "local_exposure_detail_strength", "local_exposure_blurred_luminance_blend", "bloom_intensity"],
+      "expectedExposureBounds": {"auto_exposure_min_brightness": 1.0, "auto_exposure_max_brightness": 16384.0, "source": "SourceAssets/lighting-review/native-interior-exposure-20260907T214522053469Z.json verifiedMin/MaxBrightness (EV 0 and EV 14 with ExtendDefaultLuminanceRange off)"},
+      "notes": {
+        "local_exposure_highlight_contrast_scale": "Bilateral local exposure at 0.8 compresses the sunlit partition patch toward the frame's midtones (about -0.6 stop on the brightest region) without lifting shadows or changing the global EV 0..14 metering.",
+        "film_white_clip": "0.04 -> 0.02 gives the filmic curve about half a stop more headroom before the whites clip.",
+        "film_shoulder": "0.26 -> 0.30: a slightly stronger shoulder rolls the gold highlights off instead of clipping them; slope 0.9 and toe 0.55 are untouched."
+      }
+    }
+  },
+  "verification": {
+    "floatRelativeTolerance": 0.0001,
+    "colourTolerance": 0.001,
+    "boundsToleranceCm": 0.5
+  },
+  "limitations": [
+    "Every value is an artistic proposal read back numerically; no still, walk or packaged acceptance is established by this script.",
+    "Gold reflectance, roughness and the 10 m variation are reconstruction choices, not sourced surfaces; the book specifies gold-over-cedar lining, not its finish.",
+    "The Kodesh partition receives plain gold; the keruv/palm relief the book also requires on that wall is still missing (frieze V2 skipped the wall).",
+    "Material .uasset edits are shared assets: donor/review maps that reference the same materials look different afterwards although their .umap bytes are unchanged.",
+    "Revert restores the material .uasset bytes from the checkpoint and the map properties from the receipt; a material already loaded in the reverting process can read back stale until a fresh process confirms (run -BalanceDryRun afterwards)."
+  ]
+}

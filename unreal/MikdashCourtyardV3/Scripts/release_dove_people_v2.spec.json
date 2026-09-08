@@ -1,0 +1,230 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-07",
+ "purpose": "Human-reviewable plan consumed by Scripts/release_dove_people_v2.py: import the original DoveV2 meshes, place one hidden MikdashDoveAppearance reference actor, and write one resident's authored loop onto the existing RELEASE_ResidentPopulation actor. Nothing here is visual or runtime acceptance.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "DovePeopleV2-",
+ "receiptFolder": "SourceAssets/runtime-review/dove-people-v2",
+ "receiptPrefix": "native-apply-",
+ "compiledClassesRequired": {
+  "appearance": "/Script/MikdashRuntime.MikdashDoveAppearance",
+  "population": "/Script/MikdashRuntime.MikdashResidentPopulation",
+  "populationPropertyProvingFreshBinary": "extended_route_waypoints",
+  "pawn": "/Script/MikdashRuntime.MikdashDovePawn"
+ },
+ "dove": {
+  "sourceFolder": "SourceAssets/runtime-review/dove-people-v2/DoveV2",
+  "manifest": "SourceAssets/runtime-review/dove-people-v2/DoveV2/geometry-manifest.json",
+  "manifestSha256": "8cc7a9a7eead6e7bc02d0e112d8311a71d791959935e9a3b72d2f8a4d3b95001",
+  "manifestStatusRequired": "offline_geometry_validated_native_import_pending",
+  "namespace": "/Game/MikdashV3/Runtime/DoveV2",
+  "meshes": [
+   {
+    "name": "SM_DoveBodyV2",
+    "file": "SM_DoveBodyV2.obj",
+    "sha256": "a45c2fa6902a24f02eb970cb320feff9ce876a3b7cb44d066a16e3be91920726",
+    "triangles": 6156,
+    "canonicalBoundsCm": {
+     "min": [
+      -50.0,
+      -16.143295302905305,
+      -11.5
+     ],
+     "max": [
+      46,
+      16.143295302905305,
+      20.0
+     ]
+    },
+    "materialSlots": [
+     "DoveGrey",
+     "DoveWhite"
+    ]
+   },
+   {
+    "name": "SM_DoveWingLeftV2",
+    "file": "SM_DoveWingLeftV2.obj",
+    "sha256": "cc1120bc73c393454ae18205cf75697614f70c59d8e3062aa6c5fa6a58950fdf",
+    "triangles": 7640,
+    "canonicalBoundsCm": {
+     "min": [
+      -34.83363526931848,
+      -88.99478963375506,
+      -1.7000000000000002
+     ],
+     "max": [
+      11.145193901632638,
+      1.8685254888385572,
+      2.9849685788062135
+     ]
+    },
+    "materialSlots": [
+     "DoveGrey",
+     "DoveWhite"
+    ]
+   },
+   {
+    "name": "SM_DoveWingRightV2",
+    "file": "SM_DoveWingRightV2.obj",
+    "sha256": "9f40b5a8e738674319af3fa2a2f166121e6adeaef6149ae0cf0f1478132f1250",
+    "triangles": 7640,
+    "canonicalBoundsCm": {
+     "min": [
+      -34.83363526931848,
+      -1.8685254888385572,
+      -1.7000000000000002
+     ],
+     "max": [
+      11.145193901632638,
+      88.99478963375506,
+      2.9849685788062135
+     ]
+    },
+    "materialSlots": [
+     "DoveGrey",
+     "DoveWhite"
+    ]
+   }
+  ],
+  "boundsToleranceCm": 0.05,
+  "materials": {
+   "DoveWhite": {
+    "asset": "M_DoveWhiteV2",
+    "baseColor": [
+     0.92,
+     0.92,
+     0.9
+    ],
+    "roughness": 0.62,
+    "metallic": 0.0
+   },
+   "DoveGrey": {
+    "asset": "M_DoveGreyV2",
+    "baseColor": [
+     0.38,
+     0.39,
+     0.42
+    ],
+    "roughness": 0.55,
+    "metallic": 0.0
+   }
+  },
+  "appearanceActor": {
+   "label": "RELEASE_DoveAppearance",
+   "folder": "Release/Dove",
+   "tag": "ReleaseDoveV2",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "leftShoulderCm": [
+    2,
+    -7,
+    6
+   ],
+   "rightShoulderCm": [
+    2,
+    7,
+    6
+   ]
+  },
+  "importSettings": "FbxFactory legacy OBJ path, combine_meshes, convert_scene False, import normals, no materials/textures/collision/nanite; identical to the keilim/reliefs/doors imports"
+ },
+ "residents": {
+  "populationLabel": "RELEASE_ResidentPopulation",
+  "expectedBodyCount": 5,
+  "extendedRouteBodyIndex": 3,
+  "extendedBodyLabel": "RELEASE_Resident_authored-outer-visitor-04",
+  "extendedBodyExpectedFeetCm": [
+   5240.0,
+   1330.0,
+   300.0
+  ],
+  "expectedActorZForFeet300": 396.0,
+  "choice": "Body 04 at (5240,1330) is the easternmost of the five and sits on the outer edge of the group, so its departure toward the outer east gate does not cross the others.",
+  "waypointsCm": [
+   [
+    5240.0,
+    1330.0,
+    300.0
+   ],
+   [
+    6300.0,
+    1000.0,
+    300.0
+   ],
+   [
+    6900.0,
+    1000.0,
+    300.0
+   ],
+   [
+    6700.0,
+    3200.0,
+    300.0
+   ],
+   [
+    5400.0,
+    3000.0,
+    300.0
+   ]
+  ],
+  "labels": [
+   "Rejoin the visiting group and wait",
+   "Walk toward the outer eastern gate",
+   "Pause at the court's edge and look at the gate",
+   "Walk along the northern side of the court",
+   "Turn back toward the visiting group"
+  ],
+  "actions": [
+   "Stand with the group",
+   "Look for the gate opening",
+   "Look at the outer eastern gate",
+   "Look back toward the sanctuary",
+   "Look across at the group"
+  ],
+  "pauseSeconds": [
+   4.0,
+   3.0,
+   5.0,
+   4.0,
+   3.0
+  ],
+  "lookTargetsCm": [
+   [
+    5000.0,
+    1180.0,
+    300.0
+   ],
+   [
+    7800.0,
+    0.0,
+    300.0
+   ],
+   [
+    7800.0,
+    0.0,
+    300.0
+   ],
+   [
+    0.0,
+    0.0,
+    300.0
+   ],
+   [
+    5000.0,
+    1180.0,
+    300.0
+   ]
+  ],
+  "laps": 3,
+  "loopLengthCmExpected": 6912.19,
+  "regionRule": "ResidentRouteLoop.h: x 1500..7000, 900 <= |y| < 6000, Z 300 +- 12, 4..6 points, 60..120 m, pauses 3..5 s; corridor margin 150 cm; legs reviewed by full capsule sweep + 25 cm floor traces at runtime (no NavMesh in this map)",
+  "knownGeometryNearRoute": "architecture-manifest.json: nothing above the floor inside x 4500..7300, y 600..3600 except two pier bases at x >= 7290 (outside the loop); outer east gate building spans y +-625 to x 5300..7800 and is avoided by y >= 900",
+  "startupBehavior": "bActivateReviewedPilotOnBeginPlay stays as adopted (True); the extension is validated at startup and ignored with a status reason if invalid"
+ }
+}

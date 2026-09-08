@@ -3,6 +3,12 @@
 Evidence for the two release features added on 2026-09-08: the cinematic intro and photo
 mode.
 
+* `INTRO-EAST-GATE-SOURCE-20260908.md` — why the intro enters from the east through the
+  precinct east gate (Yechezkel 43:1-4), what is sourced and what is authored.
+
+* `cinematics-design-eastgate-*.json` — offline design evidence for the shipped east-gate route;
+  `cinematics-design-20260908T111148Z.json` is the superseded west route.
+
 * `cinematics-design-*.json` — offline design evidence, produced with no engine running.
   The intro spline is rebuilt in pure Python and measured: total length, even-speed
   spread, the single crossing of the inner court wall line, the arrival error at

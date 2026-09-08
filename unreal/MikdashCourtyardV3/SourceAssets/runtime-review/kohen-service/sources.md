@@ -201,6 +201,15 @@ unwarranted entry into the whole House; the Kessef Mishneh questions that
 reading. Our design consequence (no idle wandering) is conservative under
 either reading, so nothing turns on it here.
 
+### SVC-FX-CONTRACT — D — cross-agent coupling, pinned
+`AMikdashFXDirector` (Astra's, already in the map) starts and ends the ketores
+plume by matching the substring **"golden altar for the incense"** in this
+actor's `GetCurrentActionText()`. The coupling is deliberately on the director's
+side; this actor stays a pure pause and exposes no dispatcher. The phrase lives
+only on the GoldenAltar station and only while dwelling there, so the plume
+cannot start early or outlive the figure's presence. Pinned by
+`ServiceScheduleMathTest.cpp`; do not reword that station's text.
+
 ### SVC-R-WITHDRAWAL — **R**
 The 20-second pause outside between the two groups of lamps stands in for a
 service that happens elsewhere and is **not depicted**. Its action text says so

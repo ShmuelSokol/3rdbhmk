@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
+#include <map>
+#include <set>
 namespace
 {
 int Checks=0,Failures=0;
@@ -73,6 +75,47 @@ int main()
     Expect(TryShellClearance(Selected,Scaled(OnlyLegSamples,.96),Error),"lane loop between platform and N plinth clear at 48");
     Expect(!TryShellClearance(Selected,{{4000,1000}},Error),"a single point is not a loop");
 
+    // Skeletal body placement invariants (PilgrimRigV3 swap). The capsule and spawn lift are
+    // fixed physical numbers; the visual scale is a component scale that no frame rescales.
+    {
+        using namespace MikdashResidentBody;
+        Expect(Near(CapsuleRadiusCm,34)&&Near(CapsuleHalfHeightCm,96)&&Near(MeshRelativeZCm,-96),"capsule 34/96 and mesh offset -96 are fixed");
+        Expect(Near(RelativeYawForFacing(MeshFacing::PlusY),-90)&&Near(RelativeYawForFacing(MeshFacing::MinusY),90)&&Near(RelativeYawForFacing(MeshFacing::PlusX),0),"mesh facing +Y needs relative yaw -90; the V2 -Y rig keeps +90");
+        MeshFacing Facing;
+        Expect(TryFacingFromKey("+Y",Facing)&&Facing==MeshFacing::PlusY&&TryFacingFromKey("-Y",Facing)&&Facing==MeshFacing::MinusY&&!TryFacingFromKey("up",Facing),"receipt facing keys parse exactly");
+        Expect(Near(VisualScaleForFrame(Selected,0.84),0.84)&&Near(VisualScaleForFrame(Legacy,1.04),1.04),"visual scale is never multiplied by the amah factor");
+        Expect(VisualScaleReviewed(0.84)&&VisualScaleReviewed(1.04)&&!VisualScaleReviewed(0.83)&&!VisualScaleReviewed(1.05)&&!VisualScaleReviewed(0.96*0.84),"reviewed scale range is 0.84..1.04 inclusive");
+        const MeshPose Small=ResolveMeshPose(MeshFacing::PlusY,0.84),Large=ResolveMeshPose(MeshFacing::PlusY,1.04),Bad=ResolveMeshPose(MeshFacing::PlusY,2.0);
+        Expect(Near(Small.RelativeZ,-96)&&Near(Large.RelativeZ,-96)&&Near(Small.RelativeYaw,-90)&&Near(Small.Scale,0.84)&&Near(Large.Scale,1.04),"pose keeps the feet pivot at -96 at every scale");
+        Expect(Near(Bad.Scale,1.0)&&Near(Bad.RelativeZ,-96),"unreviewed scale resolves to 1.0, never clamps the offset");
+        Expect(Near(ExpectedHeadZ(288,1.0),454)&&Near(ExpectedHeadZ(300,0.84),300+139.44)&&Near(ExpectedHeadZ(0,1.04),172.64),"head bone expectation is floor + 166 x scale");
+        Expect(Near(ExpectedBallZ(300,1.0),303)&&Near(ExpectedBallZ(288,0.84),290.52),"ball bone rests 3 x scale above the sole plane");
+    }
+    // Body member parsing (optional "body": {variant, visualScale}).
+    {
+        auto Parse=[](const std::string& Body,MikdashPeople::Directory& Out,std::string& Why)
+        {
+            const std::string Doc="{\"version\":\"people-v3\",\"placementBasis\":{\"pilgrim\":{\"decision\":\"Pilgrims walk the outer court floor per the reviewed envelope.\",\"evidence\":[\"Research/people-and-city.md:44\"]}},"
+                "\"people\":[{\"id\":\"test-person\",\"name\":\"Test Person\",\"role\":\"pilgrim\",\"garment\":\"linen-undyed\",\"zone\":\"outer-court\",\"mission\":\"Walk the court once.\","
+                "\"dialog\":[\"I walked here from far away.\",\"I am looking for my group now.\",\"The court is larger than I thought.\"],\"laps\":2,"+Body+
+                "\"route\":[{\"at\":[3700,1050,300],\"pause\":4,\"label\":\"Walk east\",\"action\":\"Look ahead\",\"look\":[0,0,300]},{\"at\":[5150,1050,300],\"pause\":3,\"label\":\"Turn north\",\"action\":\"Look back\",\"look\":[7800,0,300]},"
+                "{\"at\":[5150,2750,300],\"pause\":5,\"label\":\"Walk west\",\"action\":\"Wait here\",\"look\":[0,0,300]},{\"at\":[3700,2750,300],\"pause\":4,\"label\":\"Turn south\",\"action\":\"Rest here\",\"look\":[7800,0,300]}]}]}";
+            return MikdashPeople::ReadDirectoryText(Doc,Out,Why);
+        };
+        MikdashPeople::Directory Parsed;std::string Why;
+        Expect(Parse("",Parsed,Why)&&Parsed.People.size()==1&&Parsed.People[0].BodyVariant.empty()&&Near(Parsed.People[0].VisualScale,1.0),"no body member: default body, scale 1");
+        Expect(Parse("\"body\":{\"variant\":\"V3_Pilgrim_Man_Standard\",\"visualScale\":0.97},",Parsed,Why)
+            &&Parsed.People[0].BodyVariant=="V3_Pilgrim_Man_Standard"&&Near(Parsed.People[0].VisualScale,0.97),"body member parsed: variant key and component scale");
+        Expect(!Parse("\"body\":{\"variant\":\"V3_Pilgrim_Man_Standard\"},",Parsed,Why)&&Why.find("visualScale")!=std::string::npos,"body without visualScale refused");
+        Expect(!Parse("\"body\":{\"variant\":\"V3_Pilgrim_Man_Standard\",\"visualScale\":1.6},",Parsed,Why),"visualScale above 1.5 refused by the parser");
+        Expect(!Parse("\"body\":{\"variant\":\"V3_Pilgrim_Man_Standard\",\"visualScale\":0.4},",Parsed,Why),"visualScale below 0.5 refused by the parser");
+        Expect(!Parse("\"body\":{\"variant\":\"bad key!\",\"visualScale\":1.0},",Parsed,Why)&&Why.find("variant")!=std::string::npos,"variant key with spaces or punctuation refused");
+        Expect(!Parse("\"body\":\"V3_Pilgrim_Man_Standard\",",Parsed,Why),"body must be an object");
+        MikdashPeople::Person Out;std::string Note;
+        Expect(Parse("\"body\":{\"variant\":\"V3_Pilgrim_Youth\",\"visualScale\":0.84},",Parsed,Why)&&TryPerson(Selected,Parsed.People[0],Out,Why,&Note)
+            &&Out.BodyVariant=="V3_Pilgrim_Youth"&&Near(Out.VisualScale,0.84),"decoder carries the body through unchanged (no amah scaling of the body)");
+    }
+
     // Exercise production JSON parsing and source data, then the exact runtime decoder.
     const auto Root=std::filesystem::path(__FILE__).parent_path().parent_path().parent_path().parent_path();
     const std::string Text=ReadAll(Root/"Content/Distribution/People/people.json");
@@ -91,6 +134,23 @@ int main()
                 &&A.Route[J].PauseSeconds==B.Route[J].PauseSeconds&&A.Route[J].Label==B.Route[J].Label&&A.Route[J].Action==B.Route[J].Action
                 &&A.Route[J].LookX==B.Route[J].LookX&&A.Route[J].LookY==B.Route[J].LookY&&A.Route[J].LookZ==B.Route[J].LookZ;
         Expect(SameRoute,"candidate48 file carries the same legacy source routes as people.json");
+        Expect(A.BodyVariant==B.BodyVariant&&A.VisualScale==B.VisualScale,"both files cast the same body");
+    }
+    {
+        // Every staged resident is cast on one of the six reviewed PilgrimRigV3 variants at a reviewed
+        // component scale; scales inside a variant are distinct; the Youth is the only Linen-slot body.
+        const std::set<std::string> Cast={"V3_Pilgrim_Man_Standard","V3_Pilgrim_Man_Heavy","V3_Pilgrim_Man_Elder","V3_Pilgrim_Woman_Young","V3_Pilgrim_Woman_Elder","V3_Pilgrim_Youth"};
+        std::map<std::string,std::set<double>> ScalesByVariant;bool AllCast=true,AllReviewed=true,Distinct=true;
+        for(const auto& P:Directory.People)
+        {
+            AllCast=AllCast&&Cast.count(P.BodyVariant)>0;
+            AllReviewed=AllReviewed&&MikdashResidentBody::VisualScaleReviewed(P.VisualScale);
+            Distinct=Distinct&&ScalesByVariant[P.BodyVariant].insert(P.VisualScale).second;
+        }
+        Expect(AllCast,"all 24 staged residents name a reviewed V3 variant (never Kohen_White or the visitors)");
+        Expect(AllReviewed,"all staged visual scales are inside 0.84..1.04");
+        Expect(Distinct,"scales inside one variant are all distinct");
+        Expect(ScalesByVariant.size()==6&&ScalesByVariant["V3_Pilgrim_Youth"].size()==2,"six variants used; two youths");
     }
     int Accepted=0,Refused=0,MetricPeople=0,AuthoredExtensions=0,FallThroughNotes=0;
     for(const auto& Person:Directory.People)

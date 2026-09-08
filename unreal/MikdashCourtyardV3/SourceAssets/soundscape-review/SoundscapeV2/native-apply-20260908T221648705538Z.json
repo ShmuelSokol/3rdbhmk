@@ -1,0 +1,1361 @@
+{
+  "status": "failed_before_save_map_unchanged",
+  "stamp": "20260908T221648705538Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273",
+  "protectedSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/Runtime/Audio/SW_CourtyardOriginal_Pilot01": "02e2a708a97b7533269bb77e2487da0ee54e4a2b5a4ad24e079cefb4ad2265ff"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.spec.json",
+  "specSha256": "40f913e719caa866874cbd2b77d1b392e0a9439de20cc8cf9ab61cde77d10f41",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "switches": {
+    "importOnly": false,
+    "useCues": true,
+    "audioVolume": true,
+    "dryRun": false,
+    "ambientFallback": false,
+    "runtimeActor": true
+  },
+  "zombieEditorCheckAtStart": {
+    "checked": true,
+    "processes": [],
+    "note": "When this runs inside a commandlet, this process is one of the listed ones, so the expected count is 1 and TWO OR MORE means another editor holds the map -- that, not a bug in this script, is why a save failed. Run offline from a plain Python interpreter the expected count is 0."
+  },
+  "offlineCheck": {
+    "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.spec.json",
+    "specSha256": "40f913e719caa866874cbd2b77d1b392e0a9439de20cc8cf9ab61cde77d10f41",
+    "sources": [
+      {
+        "key": "wind_mild",
+        "role": "windBed",
+        "file": "MildWindBackground_Bashar3A.wav",
+        "present": true,
+        "sha256": "9f1fd5c8b37949e6889a7f6acbd822f66e0ab4e918d72bda58d8d8c2c7e85a80",
+        "bytes": 15708766,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "wind_outdoor",
+        "role": "windBed",
+        "file": "AmbOutdoor1Loop_Kresiek.wav",
+        "present": true,
+        "sha256": "c0a4b0e5b981bd15c3463b75a4fd2067a70a54a917ff9f7a9de6dd984af95883",
+        "bytes": 5268832,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "wind_park",
+        "role": "windBed",
+        "file": "ParkAmbienceWind_Thimras.wav",
+        "present": true,
+        "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+        "bytes": 73960096,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "wind_short",
+        "role": "windGust",
+        "file": "ShortWind_remaxim.wav",
+        "present": true,
+        "sha256": "4435f5ad1baf171f21f876f778d0a8a7447becea0c4955bb2566e0c63ab20f41",
+        "bytes": 747196,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "foliage_forest",
+        "role": "foliage",
+        "file": "Foret_JosephSardin.wav",
+        "present": true,
+        "sha256": "93606dc76a254da067cddb567601eed039f76101d705d908dfcd207511a26f03",
+        "bytes": 10437034,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "cloth_swing",
+        "role": "cloth",
+        "file": "ClothSwing_Vinrax.wav",
+        "present": true,
+        "sha256": "fe85c3aef953348afa856d1219e1fb57bbbf0c2df2d23dbbfdf754d9fd03690f",
+        "bytes": 1742006,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_l1",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneL1-mono.wav",
+        "present": true,
+        "sha256": "f278908aa55d37c79ece444fa90a2e7cc6b12f985a2a835a387586ecc05f6c50",
+        "bytes": 32934,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_l2",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneL2-mono.wav",
+        "present": true,
+        "sha256": "e5b3ffd146a3f43c59b4001dbc2e431bcdb7198a8f8427be0ce5d6908df45b58",
+        "bytes": 29294,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_l3",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneL3-mono.wav",
+        "present": true,
+        "sha256": "cce357bf6aacd84835da1116da23ef50b05395d6d72d38b0ced66cfb028c642a",
+        "bytes": 29232,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_r1",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneR1-mono.wav",
+        "present": true,
+        "sha256": "34b47629e6edd04bd8165ba0a0195e5dfb31c2a77d483ef9c2fead7b4fed895f",
+        "bytes": 31502,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_r2",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneR2-mono.wav",
+        "present": true,
+        "sha256": "fdc07ae2e5c4d34f0b7e418a802b0917f7a98c34b65ee83fff7fe2fb19a13a63",
+        "bytes": 28498,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_stone_r3",
+        "role": "footstepStone",
+        "file": "Fantozzi-StoneR3-mono.wav",
+        "present": true,
+        "sha256": "6e4e48e3bf01dd5fa8c8e71c390812c7a0a640f525fd7067afaba62f81368f10",
+        "bytes": 30214,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_l1",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandL1-mono.wav",
+        "present": true,
+        "sha256": "c74d959991ecec1499d64ae5baf9c3ac11a9c1969a97607d5b076670dbf172f1",
+        "bytes": 39076,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_l2",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandL2-mono.wav",
+        "present": true,
+        "sha256": "98ee17b903cb0af8924f14239e44990ca12bd715e734ab3ed791e9881ef19bfc",
+        "bytes": 28232,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_l3",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandL3-mono.wav",
+        "present": true,
+        "sha256": "50ce5eae70a8ea01cb9c5cc8bb4d1a031aa8505d639d2bf6eb9bcc0293666caf",
+        "bytes": 26462,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_r1",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandR1-mono.wav",
+        "present": true,
+        "sha256": "d5deb78e97a711594edd82ce8fe78ec37f8a749d95962c4447ce29aa681d4cde",
+        "bytes": 35832,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_r2",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandR2-mono.wav",
+        "present": true,
+        "sha256": "635c0752527f25ead6d818d5fb9d288f843e60587aa83d97b904157645d6fb3e",
+        "bytes": 30048,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "footstep_soft_r3",
+        "role": "footstepSoft",
+        "file": "Fantozzi-SandR3-mono.wav",
+        "present": true,
+        "sha256": "2a8557ff9d49dc87d9b18a630779fc8ce33a331445f8ab9a45e9f6aec3162f78",
+        "bytes": 29102,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "city_alexa",
+        "role": "cityHum",
+        "file": "CityHum_AlexaMallBerlin_thore.ogg",
+        "present": true,
+        "sha256": "bb066e130e5d665db57cb5f88e820d053c724d8f777b275213998d2074c6529a",
+        "bytes": 1666896,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "city_restaurant",
+        "role": "cityHum",
+        "file": "CityHum_Restaurant_stephan.ogg",
+        "present": true,
+        "sha256": "0aeb1fa7a3d9647d3284e97d9880b6375b54db2eda6a517c64e3bb02ac8a51cc",
+        "bytes": 1970215,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "murmur_church",
+        "role": "murmur",
+        "file": "Murmur_ChurchPeopleReverb_stephan.ogg",
+        "present": true,
+        "sha256": "a0b2063236d361b6a69e4e83204ea9df94b89d33c50dfc91091cecfd26275034",
+        "bytes": 858271,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "murmur_festival",
+        "role": "murmur",
+        "file": "Murmur_FestivalCrowd_stephan.ogg",
+        "present": true,
+        "sha256": "704b68f75b3f6885abfb35173c8b61aa34fc42c6b694b371e848ce47d045c13c",
+        "bytes": 1821225,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_sparrow",
+        "role": "bird",
+        "file": "Bird_HouseSparrowTschilp_JosephSardin.ogg",
+        "present": true,
+        "sha256": "7f26490caf1febcd3d5143b8bfa4a6b905fc232a9ec55823409578c3106458b0",
+        "bytes": 144049,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_woodpigeon_song",
+        "role": "bird",
+        "file": "Bird_WoodPigeonSong_Raisanen.ogg",
+        "present": true,
+        "sha256": "aaf7f25693e645d5e9144a118bbd338680393ecd398c5251c436b64d9282efe5",
+        "bytes": 82821,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_dove_coo",
+        "role": "bird",
+        "file": "Bird_DoveCooing_mary905.ogg",
+        "present": true,
+        "sha256": "84d92584f22b0655f78fe59aaff026e792300c4e63d45a69d48c907400bacc23",
+        "bytes": 50644,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_woodpigeon_call",
+        "role": "bird",
+        "file": "Bird_WoodPigeonCall_Crunchysaviour.ogg",
+        "present": true,
+        "sha256": "b92441933079729d572ba5a0a0f7798452d8d9d22178b0dc0ea36d9724f6988f",
+        "bytes": 45655,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_pigeon",
+        "role": "bird",
+        "file": "Bird_Pigeon_Gasybeaugosse2020.wav",
+        "present": true,
+        "sha256": "04573706e2ac0828e26d10394ab3adc99326a6561c9dac9b23e4bdb1a66e8f7a",
+        "bytes": 330616,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_hooded_crow",
+        "role": "bird",
+        "file": "Bird_HoodedCrow_Raisanen.ogg",
+        "present": true,
+        "sha256": "16026c1a65e185bdee21c95f341c306d3687ebf2d4660e7ff2fcaa2538396098",
+        "bytes": 41517,
+        "frozenMatch": true,
+        "provenance": true
+      },
+      {
+        "key": "bird_swallow",
+        "role": "bird",
+        "file": "Bird_Swallow_natalie.ogg",
+        "present": true,
+        "sha256": "663a8a1ef79e26d1cd30e261c801bd73d764dcd4636ce2f43df746826b0981dc",
+        "bytes": 215162,
+        "frozenMatch": true,
+        "provenance": true
+      }
+    ],
+    "emitters": [
+      {
+        "label": "RELEASE_SSV2_WindBed_Azarah",
+        "layer": "windBedBase",
+        "location": [
+          900.0,
+          -900.0,
+          1300.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 4200.0,
+        "falloffCm": 11000.0,
+        "maxAudibleCm": 15200.0
+      },
+      {
+        "label": "RELEASE_SSV2_WindBed_OuterCourt",
+        "layer": "windBedAir",
+        "location": [
+          3800.0,
+          1400.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 4200.0,
+        "falloffCm": 11000.0,
+        "maxAudibleCm": 15200.0
+      },
+      {
+        "label": "RELEASE_SSV2_WindOverlay_North",
+        "layer": "windOverlay",
+        "location": [
+          -1200.0,
+          -5400.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 3000.0,
+        "falloffCm": 9000.0,
+        "maxAudibleCm": 12000.0
+      },
+      {
+        "label": "RELEASE_SSV2_WindOverlay_East",
+        "layer": "windOverlay",
+        "location": [
+          6200.0,
+          800.0,
+          1600.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 3000.0,
+        "falloffCm": 9000.0,
+        "maxAudibleCm": 12000.0
+      },
+      {
+        "label": "RELEASE_SSV2_WindDoorway_Ulam",
+        "layer": "doorwayWind",
+        "location": [
+          -3250.0,
+          0.0,
+          1750.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 350.0,
+        "falloffCm": 2400.0,
+        "maxAudibleCm": 2750.0
+      },
+      {
+        "label": "RELEASE_SSV2_CityHum_West",
+        "layer": "cityHum",
+        "location": [
+          -38000.0,
+          6000.0,
+          3200.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 14000.0,
+        "falloffCm": 45000.0,
+        "maxAudibleCm": 59000.0
+      },
+      {
+        "label": "RELEASE_SSV2_CityHum_SouthWest",
+        "layer": "cityHum",
+        "location": [
+          -30000.0,
+          30000.0,
+          3200.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 14000.0,
+        "falloffCm": 45000.0,
+        "maxAudibleCm": 59000.0
+      },
+      {
+        "label": "RELEASE_SSV2_CityHum_South",
+        "layer": "cityHum",
+        "location": [
+          0.0,
+          40000.0,
+          3200.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 14000.0,
+        "falloffCm": 45000.0,
+        "maxAudibleCm": 59000.0
+      },
+      {
+        "label": "RELEASE_SSV2_CityHum_North",
+        "layer": "cityHum",
+        "location": [
+          8000.0,
+          -34000.0,
+          3200.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 14000.0,
+        "falloffCm": 45000.0,
+        "maxAudibleCm": 59000.0
+      },
+      {
+        "label": "RELEASE_SSV2_Murmur_KotelPlaza",
+        "layer": "murmur",
+        "location": [
+          -21000.0,
+          13000.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 9000.0,
+        "falloffCm": 28000.0,
+        "maxAudibleCm": 37000.0
+      },
+      {
+        "label": "RELEASE_SSV2_Murmur_CityEdge",
+        "layer": "murmur",
+        "location": [
+          -6000.0,
+          26000.0,
+          1800.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 9000.0,
+        "falloffCm": 28000.0,
+        "maxAudibleCm": 37000.0
+      },
+      {
+        "label": "RELEASE_SSV2_Bird_NorthCourt",
+        "layer": "bird",
+        "location": [
+          3400.0,
+          -3800.0,
+          1600.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 900.0,
+        "falloffCm": 7000.0,
+        "maxAudibleCm": 7900.0
+      },
+      {
+        "label": "RELEASE_SSV2_Bird_SouthCourt",
+        "layer": "bird",
+        "location": [
+          4200.0,
+          4600.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 900.0,
+        "falloffCm": 7000.0,
+        "maxAudibleCm": 7900.0
+      },
+      {
+        "label": "RELEASE_SSV2_Bird_NorthChambers",
+        "layer": "bird",
+        "location": [
+          -5200.0,
+          -6200.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 900.0,
+        "falloffCm": 7000.0,
+        "maxAudibleCm": 7900.0
+      },
+      {
+        "label": "RELEASE_SSV2_Bird_SouthChambers",
+        "layer": "bird",
+        "location": [
+          -4800.0,
+          6400.0,
+          1500.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 900.0,
+        "falloffCm": 7000.0,
+        "maxAudibleCm": 7900.0
+      },
+      {
+        "label": "RELEASE_SSV2_Bird_EastGate",
+        "layer": "bird",
+        "location": [
+          7600.0,
+          -600.0,
+          1800.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 900.0,
+        "falloffCm": 7000.0,
+        "maxAudibleCm": 7900.0
+      },
+      {
+        "label": "RELEASE_SSV2_Foliage_WestSlope",
+        "layer": "foliage",
+        "location": [
+          -13500.0,
+          -4000.0,
+          900.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 2500.0,
+        "falloffCm": 9000.0,
+        "maxAudibleCm": 11500.0
+      },
+      {
+        "label": "RELEASE_SSV2_Foliage_SouthSlope",
+        "layer": "foliage",
+        "location": [
+          -2000.0,
+          13500.0,
+          900.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 2500.0,
+        "falloffCm": 9000.0,
+        "maxAudibleCm": 11500.0
+      },
+      {
+        "label": "RELEASE_SSV2_Cloth_EastGate",
+        "layer": "cloth",
+        "location": [
+          7300.0,
+          1200.0,
+          1200.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 700.0,
+        "falloffCm": 3600.0,
+        "maxAudibleCm": 4300.0
+      },
+      {
+        "label": "RELEASE_SSV2_Cloth_UlamPorch",
+        "layer": "cloth",
+        "location": [
+          -2600.0,
+          -1500.0,
+          1600.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 700.0,
+        "falloffCm": 3600.0,
+        "maxAudibleCm": 4300.0
+      },
+      {
+        "label": "RELEASE_SSV2_CrowdCourt_Azarah",
+        "layer": "crowdCourt",
+        "location": [
+          1400.0,
+          600.0,
+          1000.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 3500.0,
+        "falloffCm": 13000.0,
+        "maxAudibleCm": 16500.0
+      },
+      {
+        "label": "RELEASE_SSV2_CrowdCourt_OuterCourt",
+        "layer": "crowdCourt",
+        "location": [
+          5200.0,
+          -1800.0,
+          1000.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 3500.0,
+        "falloffCm": 13000.0,
+        "maxAudibleCm": 16500.0
+      },
+      {
+        "label": "RELEASE_SSV2_CrowdCourt_EastGateQueue",
+        "layer": "crowdCourt",
+        "location": [
+          7900.0,
+          900.0,
+          950.0
+        ],
+        "insideSanctuary": false,
+        "insideWorld": true,
+        "radiusCm": 3500.0,
+        "falloffCm": 13000.0,
+        "maxAudibleCm": 16500.0
+      }
+    ],
+    "problems": [],
+    "totalSourceBytes": 115461427,
+    "totalSourceMegabytes": 110.11,
+    "zones": [
+      {
+        "label": "SSV2_Zone_Heikhal",
+        "priority": 10,
+        "sizeCm": [
+          3550.0,
+          1800.0,
+          2150.0
+        ],
+        "blendMarginCm": 250.0,
+        "reachesFullStrength": true,
+        "insideWorld": true
+      },
+      {
+        "label": "SSV2_Zone_Kodesh",
+        "priority": 20,
+        "sizeCm": [
+          1180.0,
+          1800.0,
+          2150.0
+        ],
+        "blendMarginCm": 150.0,
+        "reachesFullStrength": true,
+        "insideWorld": true
+      },
+      {
+        "label": "SSV2_Zone_UlamPorch",
+        "priority": 6,
+        "sizeCm": [
+          1900.0,
+          5080.0,
+          5290.0
+        ],
+        "blendMarginCm": 300.0,
+        "reachesFullStrength": true,
+        "insideWorld": true
+      }
+    ],
+    "runtimeActor": {
+      "class": "MikdashSoundscape",
+      "label": "RELEASE_SoundscapeV2_Runtime",
+      "banks": {
+        "birdCallSources": {
+          "count": 7,
+          "missing": []
+        },
+        "birdWingburstSources": {
+          "count": 0,
+          "missing": []
+        },
+        "footstepStoneSources": {
+          "count": 6,
+          "missing": []
+        },
+        "footstepSoftSources": {
+          "count": 6,
+          "missing": []
+        },
+        "serviceSources": {
+          "count": 0,
+          "missing": []
+        }
+      }
+    },
+    "repetitionPeriods": {
+      "layers": [
+        {
+          "label": "RELEASE_SSV2_WindBed_Azarah",
+          "mode": "loop",
+          "source": "wind_mild",
+          "sourceSeconds": 44.509615,
+          "pitch": 0.93,
+          "effectiveLoopSeconds": 47.86
+        },
+        {
+          "label": "RELEASE_SSV2_WindBed_OuterCourt",
+          "mode": "loop",
+          "source": "wind_park",
+          "sourceSeconds": 256.803333,
+          "pitch": 1.04,
+          "effectiveLoopSeconds": 246.926
+        },
+        {
+          "label": "RELEASE_SSV2_WindOverlay_North",
+          "mode": "randomGap",
+          "delayMinSeconds": 34.0,
+          "delayMaxSeconds": 96.0,
+          "sourceCount": 2,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_WindOverlay_East",
+          "mode": "randomGap",
+          "delayMinSeconds": 23.0,
+          "delayMaxSeconds": 71.0,
+          "sourceCount": 2,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_WindDoorway_Ulam",
+          "mode": "loop",
+          "source": "wind_mild",
+          "sourceSeconds": 44.509615,
+          "pitch": 0.88,
+          "effectiveLoopSeconds": 50.579
+        },
+        {
+          "label": "RELEASE_SSV2_CityHum_West",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            60.05551,
+            76.251429
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_CityHum_SouthWest",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            60.05551,
+            76.251429
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_CityHum_South",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            60.05551,
+            76.251429
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_CityHum_North",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            60.05551,
+            76.251429
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_Murmur_KotelPlaza",
+          "mode": "randomGap",
+          "delayMinSeconds": 26.0,
+          "delayMaxSeconds": 84.0,
+          "sourceCount": 2,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Murmur_CityEdge",
+          "mode": "randomGap",
+          "delayMinSeconds": 37.0,
+          "delayMaxSeconds": 110.0,
+          "sourceCount": 2,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Bird_NorthCourt",
+          "mode": "randomGap",
+          "delayMinSeconds": 20.0,
+          "delayMaxSeconds": 62.0,
+          "sourceCount": 7,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Bird_SouthCourt",
+          "mode": "randomGap",
+          "delayMinSeconds": 27.0,
+          "delayMaxSeconds": 74.0,
+          "sourceCount": 7,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Bird_NorthChambers",
+          "mode": "randomGap",
+          "delayMinSeconds": 33.0,
+          "delayMaxSeconds": 88.0,
+          "sourceCount": 7,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Bird_SouthChambers",
+          "mode": "randomGap",
+          "delayMinSeconds": 24.0,
+          "delayMaxSeconds": 69.0,
+          "sourceCount": 7,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Bird_EastGate",
+          "mode": "randomGap",
+          "delayMinSeconds": 38.0,
+          "delayMaxSeconds": 90.0,
+          "sourceCount": 7,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Foliage_WestSlope",
+          "mode": "loop",
+          "source": "foliage_forest",
+          "sourceSeconds": 54.354813,
+          "pitch": 0.97,
+          "effectiveLoopSeconds": 56.036
+        },
+        {
+          "label": "RELEASE_SSV2_Foliage_SouthSlope",
+          "mode": "loop",
+          "source": "foliage_forest",
+          "sourceSeconds": 54.354813,
+          "pitch": 1.05,
+          "effectiveLoopSeconds": 51.766
+        },
+        {
+          "label": "RELEASE_SSV2_Cloth_EastGate",
+          "mode": "randomGap",
+          "delayMinSeconds": 14.0,
+          "delayMaxSeconds": 46.0,
+          "sourceCount": 1,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_Cloth_UlamPorch",
+          "mode": "randomGap",
+          "delayMinSeconds": 19.0,
+          "delayMaxSeconds": 58.0,
+          "sourceCount": 1,
+          "note": "randomised silent gap plus a random source, pitch and level every pass; there is no fixed period at all"
+        },
+        {
+          "label": "RELEASE_SSV2_CrowdCourt_Azarah",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            30.328163,
+            61.152653
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_CrowdCourt_OuterCourt",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            30.328163,
+            61.152653
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        },
+        {
+          "label": "RELEASE_SSV2_CrowdCourt_EastGateQueue",
+          "mode": "loopRandom",
+          "sourceCount": 2,
+          "sourceSeconds": [
+            30.328163,
+            61.152653
+          ],
+          "note": "continuous, but the take and its pitch are re-drawn on every pass, so the sequence never repeats"
+        }
+      ],
+      "loopingBedEffectiveSeconds": [
+        47.86,
+        246.926,
+        50.579,
+        56.036,
+        51.766
+      ],
+      "allBedsRealignAfterSeconds": 298868234785.22,
+      "allBedsRealignAfterHours": 83018954.11,
+      "realignCaveat": "The realignment figure is the least common multiple of the pitched loop lengths quantised to 1 ms, so its exact magnitude is an arithmetic artefact and means nothing on its own. The claim it supports is only this: the looping beds are 47.9 s, 50.6 s and 246.9 s long after their pitch offsets, share no common factor at audible resolution, and therefore never present the same combined texture twice inside any plausible session. It is not evidence that a listener cannot hear the individual 47.9 s bed repeat; only an audition settles that."
+    },
+    "ok": true
+  },
+  "actorsBefore": {
+    "AmbientSound": [
+      {
+        "name": "AmbientSound_0",
+        "label": "Courtyard original ambience pilot",
+        "class": "AmbientSound"
+      }
+    ],
+    "AudioVolume": [],
+    "tagged": []
+  },
+  "pilotAmbience": {
+    "actor": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.AmbientSound_0",
+    "label": "Courtyard original ambience pilot",
+    "sound": "/Game/MikdashV3/Runtime/Audio/SW_CourtyardOriginal_Pilot01",
+    "autoActivateBefore": false,
+    "destroyed": false,
+    "moved": false,
+    "repointed": false,
+    "autoActivateAfter": false
+  },
+  "assets": {
+    "waves": [],
+    "cues": [],
+    "attenuations": [],
+    "soundClass": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SoundClass_SoundscapeV2.SoundClass_SoundscapeV2",
+    "reverb": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/RE_SanctuaryStone.RE_SanctuaryStone",
+    "submix": null
+  },
+  "runtimeActor": null,
+  "submix": null,
+  "audioVolumeBrushFinding": null,
+  "created": [],
+  "changes": [
+    {
+      "target": "soundClass",
+      "property": "apply_ambient_volumes",
+      "required": false,
+      "applied": true,
+      "resolvedName": "apply_ambient_volumes",
+      "before": {
+        "type": "bool",
+        "value": false
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "soundClass",
+      "property": "reverb",
+      "required": false,
+      "applied": true,
+      "resolvedName": "reverb",
+      "before": {
+        "type": "bool",
+        "value": true
+      },
+      "desired": {
+        "type": "bool",
+        "value": true
+      },
+      "after": {
+        "type": "bool",
+        "value": true
+      },
+      "matches": true
+    },
+    {
+      "target": "soundClass",
+      "property": "volume",
+      "required": false,
+      "applied": true,
+      "resolvedName": "volume",
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 1.0
+      },
+      "after": {
+        "type": "float",
+        "value": 1.0
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "density",
+      "required": false,
+      "applied": true,
+      "resolvedName": "density",
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 1.0
+      },
+      "after": {
+        "type": "float",
+        "value": 1.0
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "diffusion",
+      "required": false,
+      "applied": true,
+      "resolvedName": "diffusion",
+      "before": {
+        "type": "float",
+        "value": 1.0
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.95
+      },
+      "after": {
+        "type": "float",
+        "value": 0.95
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "gain",
+      "required": false,
+      "applied": true,
+      "resolvedName": "gain",
+      "before": {
+        "type": "float",
+        "value": 0.32
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.3
+      },
+      "after": {
+        "type": "float",
+        "value": 0.3
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "gain_hf",
+      "required": false,
+      "applied": true,
+      "resolvedName": "gain_hf",
+      "before": {
+        "type": "float",
+        "value": 0.89
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.55
+      },
+      "after": {
+        "type": "float",
+        "value": 0.55
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "decay_time",
+      "required": false,
+      "applied": true,
+      "resolvedName": "decay_time",
+      "before": {
+        "type": "float",
+        "value": 1.49
+      },
+      "desired": {
+        "type": "float",
+        "value": 2.6
+      },
+      "after": {
+        "type": "float",
+        "value": 2.6
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "decay_hf_ratio",
+      "required": false,
+      "applied": true,
+      "resolvedName": "decay_hf_ratio",
+      "before": {
+        "type": "float",
+        "value": 0.83
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.62
+      },
+      "after": {
+        "type": "float",
+        "value": 0.62
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "reflections_gain",
+      "required": false,
+      "applied": true,
+      "resolvedName": "reflections_gain",
+      "before": {
+        "type": "float",
+        "value": 0.05
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.22
+      },
+      "after": {
+        "type": "float",
+        "value": 0.22
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "reflections_delay",
+      "required": false,
+      "applied": true,
+      "resolvedName": "reflections_delay",
+      "before": {
+        "type": "float",
+        "value": 0.007
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.012
+      },
+      "after": {
+        "type": "float",
+        "value": 0.012
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "late_gain",
+      "required": false,
+      "applied": true,
+      "resolvedName": "late_gain",
+      "before": {
+        "type": "float",
+        "value": 1.26
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.45
+      },
+      "after": {
+        "type": "float",
+        "value": 0.45
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "late_delay",
+      "required": false,
+      "applied": true,
+      "resolvedName": "late_delay",
+      "before": {
+        "type": "float",
+        "value": 0.011
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.035
+      },
+      "after": {
+        "type": "float",
+        "value": 0.035
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "air_absorption_gain_hf",
+      "required": false,
+      "applied": true,
+      "resolvedName": "air_absorption_gain_hf",
+      "before": {
+        "type": "float",
+        "value": 0.994
+      },
+      "desired": {
+        "type": "float",
+        "value": 0.994
+      },
+      "after": {
+        "type": "float",
+        "value": 0.994
+      },
+      "matches": true
+    },
+    {
+      "target": "reverb",
+      "property": "room_rolloff_factor",
+      "required": false,
+      "applied": false,
+      "error": "no accepted spelling among ['room_rolloff_factor', 'b_room_rolloff_factor'] (last error: ReverbEffect: Failed to find property 'b_room_rolloff_factor' for attribute 'b_room_rolloff_factor' on 'ReverbEffect')"
+    },
+    {
+      "target": "submix",
+      "property": "submix_effect_chain",
+      "required": true,
+      "applied": true,
+      "resolvedName": "submix_effect_chain",
+      "before": {
+        "type": "opaque",
+        "value": "[]"
+      },
+      "desired": {
+        "type": "array",
+        "value": [
+          {
+            "type": "object",
+            "value": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SM_SSV2_StoneHall.SM_SSV2_StoneHall:SubmixEffectReverbPreset_0"
+          }
+        ]
+      },
+      "after": {
+        "type": "opaque",
+        "value": "[\"/Script/AudioMixer.SubmixEffectReverbPreset'/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SM_SSV2_StoneHall.SM_SSV2_StoneHall:SubmixEffectReverbPreset_0'\"]"
+      },
+      "matches": false
+    }
+  ],
+  "notes": [
+    "SoundCue construction is NOT available in this process (unreal.SoundCueGraph is not exposed, so the AudioEditor module is not loaded and USoundCue::CreateGraph() would crash this process). Every layer fell back to a plain looping SoundWave, which has no randomisation and WOULD read as a loop. Treat this run as diagnostic, not as the design."
+  ],
+  "errors": [
+    {
+      "stage": "run",
+      "error": "RuntimeError('Readback differs for submix.submix_effect_chain: {\\'type\\': \\'opaque\\', \\'value\\': \\'[\"/Script/AudioMixer.SubmixEffectReverbPreset\\\\\\'/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SM_SSV2_StoneHall.SM_SSV2_StoneHall:SubmixEffectReverbPreset_0\\\\\\'\"]\\'} vs {\\'type\\': \\'array\\', \\'value\\': [{\\'type\\': \\'object\\', \\'value\\': \\'/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SM_SSV2_StoneHall.SM_SSV2_StoneHall:SubmixEffectReverbPreset_0\\'}]}')"
+    }
+  ],
+  "mapSaved": false,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\SoundscapeV2-20260908T221648705538Z",
+  "soundCueProbe": {
+    "audioEditorClassVisible": false,
+    "factoryVisible": true,
+    "newObjectAvailable": true,
+    "created": false,
+    "firstNodeSettable": false,
+    "childNodesSettable": false,
+    "error": "unreal.SoundCueGraph is not exposed, so the AudioEditor module is not loaded and USoundCue::CreateGraph() would crash this process"
+  },
+  "audioVolume": null,
+  "creditsBlock": [
+    "SoundscapeV2 recordings (imported into /Game/MikdashV3/Runtime/Audio/SoundscapeV2):",
+    "  MildWindBackground_Bashar3A.wav - \"Mild Wind Background Noise\" by Bashar3A - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/mild-wind-background-noise",
+    "  AmbOutdoor1Loop_Kresiek.wav - \"AMB Outside 1\" by Kresiek The Furry - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/amb-outside-1",
+    "  ParkAmbienceWind_Thimras.wav - \"Park ambiences (wind)\" by Thimras - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/park-ambiences",
+    "  ShortWind_remaxim.wav - \"Short wind sound\" by remaxim - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/short-wind-sound",
+    "  Foret_JosephSardin.wav - \"Foret (forest)\" by Joseph SARDIN (LaSonotheque) - CC0 1.0 Universal (Public Domain Dedication) - https://commons.wikimedia.org/wiki/File:For%C3%AAt_(Joseph_SARDIN).wav",
+    "  ClothSwing_Vinrax.wav - \"Cloth Swing Sounds\" by Vinrax - Creative Commons Attribution 3.0 Unported (CC BY 3.0) - https://opengameart.org/content/cloth-swing-sounds",
+    "  Fantozzi-StoneL1-mono.wav - \"Fantozzi's Footsteps (stone) - left foot, take 1\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-StoneL2-mono.wav - \"Fantozzi's Footsteps (stone) - left foot, take 2\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-StoneL3-mono.wav - \"Fantozzi's Footsteps (stone) - left foot, take 3\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-StoneR1-mono.wav - \"Fantozzi's Footsteps (stone) - right foot, take 1\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-StoneR2-mono.wav - \"Fantozzi's Footsteps (stone) - right foot, take 2\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-StoneR3-mono.wav - \"Fantozzi's Footsteps (stone) - right foot, take 3\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandL1-mono.wav - \"Fantozzi's Footsteps (sand or grass) - left foot, take 1\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandL2-mono.wav - \"Fantozzi's Footsteps (sand or grass) - left foot, take 2\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandL3-mono.wav - \"Fantozzi's Footsteps (sand or grass) - left foot, take 3\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandR1-mono.wav - \"Fantozzi's Footsteps (sand or grass) - right foot, take 1\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandR2-mono.wav - \"Fantozzi's Footsteps (sand or grass) - right foot, take 2\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  Fantozzi-SandR3-mono.wav - \"Fantozzi's Footsteps (sand or grass) - right foot, take 3\" by Fantozzi (recorded), qubodup (edited and uploaded) - CC0 1.0 Universal (Public Domain Dedication) - https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+    "  CityHum_AlexaMallBerlin_thore.ogg - \"1 minute at the Alexa mall in Berlin\" by thore (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:1_minute_at_the_alexa_mall_in_berlin.ogg",
+    "  CityHum_Restaurant_stephan.ogg - \"Restaurant ambience\" by stephan (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Restaurant_ambience.ogg",
+    "  Murmur_ChurchPeopleReverb_stephan.ogg - \"Church, people walking, steps with reverb\" by stephan (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Church_people_walking_steps_with_reverb.ogg",
+    "  Murmur_FestivalCrowd_stephan.ogg - \"Festival concert people crowd\" by stephan (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Festival_concert_people_crowd.ogg",
+    "  Bird_HouseSparrowTschilp_JosephSardin.ogg - \"Passer domesticus - tschilp call\" by Joseph Sardin (LaSonotheque) - CC0 1.0 Universal (Public Domain Dedication) - https://commons.wikimedia.org/wiki/File:Joseph_Sardin_-_Passer_domesticus_tschilp_call.oga",
+    "  Bird_WoodPigeonSong_Raisanen.ogg - \"Columba palumbus birdsong\" by Oona Raisanen - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Columba_palumbus_birdsong.ogg",
+    "  Bird_DoveCooing_mary905.ogg - \"Dove cooing\" by mary905 (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Dove_cooing.ogg",
+    "  Bird_WoodPigeonCall_Crunchysaviour.ogg - \"Wood pigeon call\" by Crunchysaviour (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Wood_pigeon_call_128.ogg",
+    "  Bird_Pigeon_Gasybeaugosse2020.wav - \"Pigeon in Antefasy\" by Gasybeaugosse2020 - CC0 1.0 Universal (Public Domain Dedication) - https://commons.wikimedia.org/wiki/File:Pigeon_in_Antefasy.wav",
+    "  Bird_HoodedCrow_Raisanen.ogg - \"Corvus cornix\" by Oona Raisanen - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Corvus_cornix.ogg",
+    "  Bird_Swallow_natalie.ogg - \"Baby swallow\" by natalie (via Wikimedia Commons) - Public domain (Wikimedia Commons public-domain release; the file page uses a PD-release template, so no Creative Commons deed URL is asserted) - https://commons.wikimedia.org/wiki/File:Baby_swallow_up.ogg",
+    "  CC BY entries above REQUIRE this credit to be shipped with the build."
+  ],
+  "auditioned": false,
+  "auditionStatement": "NOBODY HAS LISTENED TO THIS. Every check in this receipt is a numeric readback of a property or an asset path. No audition, walk test, PIE session, voice-count measurement or packaged run has happened, and no claim about how this sounds is made anywhere.",
+  "limitations": [
+    "NOBODY HAS HEARD ANY OF THIS. Not one of the seventeen recordings has been auditioned, and the script has never been executed against the editor by its author. Every acceptance statement in the receipt is a numeric readback, not a listening verdict.",
+    "The statistics in SoundscapeV2/*.provenance.json come from a decoded signal, not from an ear. A file with no flagged transient windows can still contain a voice, a dog, a car door or a microphone bump that a listener would refuse instantly.",
+    "Only one wind take exceeds 60 s (the 256.8 s Thimras recording). The brief asked for two to four; the other two wind takes are 44.5 s and 29.9 s and are handled as one continuous loop plus randomly gapped overlays precisely because they are short. The rejected-candidate list records why no fourth long take was shipped.",
+    "The four Ogg sources cannot be decoded by the standard library. Their statistics were produced by decoding through ffmpeg into a throwaway WAV; the shipped bytes are the publisher originals. If ffmpeg is absent, those files carry a container check only.",
+    "The city hum and murmur recordings are a Berlin mall, a restaurant, a church interior and a festival crowd. At the distances and cutoffs specified none should be identifiable, but that claim is exactly what an audition has to test.",
+    "Bird species are house sparrow, wood pigeon, dove, pigeon, hooded crow and a swallow standing in for a swift. Only the sparrow, the crow and the pigeons are plausibly Jerusalem residents; no ornithological review was done.",
+    "There is no interior room tone. The Heikhal and the Kodesh are quiet by ducking the exterior, not by adding a recorded floor, because no suitable CC0 room tone was found.",
+    "SoundCue graphs built this way are invisible in the Sound Cue Editor and would be destroyed if a human opens and saves them there.",
+    "The FInteriorSettings ducking only affects sources whose sound class sets bApplyAmbientVolumes; the existing PlaySound2D footsteps are outside it and are unaffected by the interior quiet and the reverb.",
+    "Twenty new emitters is twenty more concurrent voices in the worst case. No voice-count, concurrency or performance measurement has been made; the audition must include a frame-time check.",
+    "SoundBase.VirtualizationMode is left at the engine default (Disabled). An emitter whose listener walks out of its falloff stops entirely and restarts its random delay from zero on return, rather than keeping its timer running. That is cheaper and, for beds and birds, harmless, but it means the bird timers are not a global clock. Setting the randomGap cues to PlayWhenSilent is the knob if that ever matters.",
+    "The city hum is a continuous distance gradient plus occlusion, not a gate. Its emitters are 270 to 400 m from the altar with a 140 m inner radius and a 450 m falloff, so a faint hum is present in the courts by design; what makes it read as 'outside' is the 700 Hz distance cutoff, the extra 9 dB and 450 Hz cutoff from occlusion behind the court walls, and the AudioVolume ducking it to a tenth indoors. Nothing hard-switches it off.",
+    "Source bit depths are 16, 24 and 32-bit (one file is 32-bit float). USoundFactory only accepts 16-bit PCM directly and routes everything else through libsndfile (WITH_SNDFILE_IO) to convert it, so every imported SoundWave ends up 16-bit whatever the source was. That conversion is the engine's, not this script's, and it has not been verified on this machine. If an import fails with 'Only 16 bit WAV source files are supported on this editor platform', that editor build lacks libsndfile and the three non-16-bit WAVs must be converted by hand before re-running."
+  ],
+  "actorCountBefore": 7888,
+  "unrelatedActorBaselineCount": 7888,
+  "oneFilePerActorFoldersCopied": [],
+  "mapSha256After": "9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273",
+  "mapBytesChanged": false,
+  "createdAssetPaths": [
+    "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SoundClass_SoundscapeV2.SoundClass_SoundscapeV2",
+    "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/RE_SanctuaryStone.RE_SanctuaryStone",
+    "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support/SM_SSV2_StoneHall.SM_SSV2_StoneHall"
+  ],
+  "appliedChangeCount": 15,
+  "skippedChangeCount": 1,
+  "protectedUnchanged": true
+}

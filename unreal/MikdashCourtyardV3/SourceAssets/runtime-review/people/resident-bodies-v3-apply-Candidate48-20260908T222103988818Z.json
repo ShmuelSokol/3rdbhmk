@@ -1,0 +1,446 @@
+{
+  "status": "failed_checkpoint_available",
+  "mode": "apply",
+  "target": "Candidate48",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapBeforeSha256": "ae363a2c311953e464f9b9394aa46cbec90457b4f8774bbda039449f0c8abafd",
+  "otherMapsBefore": {
+    "Main50": "bc4aa9e065093be1282271d3c71af13e52e6284e34307588ac0c10a4ad7a3491"
+  },
+  "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_resident_bodies_v3.spec.json",
+  "plan": {
+    "status": "PLAN_ONLY_NO_WRITES",
+    "targets": {
+      "Main50": {
+        "staged": "Content/Distribution/People/people.json",
+        "relativeToContent": "Distribution/People/people.json",
+        "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+        "frame": "Legacy50.v1",
+        "plannedSha256": "21470b6ea31159a090e5f8e6244f86b8c2b2cf8638b5a2b29a0c75e895a9de69",
+        "stagedExists": true,
+        "stagedSha256": "21470b6ea31159a090e5f8e6244f86b8c2b2cf8638b5a2b29a0c75e895a9de69",
+        "stagedMatchesPlan": true
+      },
+      "Candidate48": {
+        "staged": "Content/Distribution/People/people-candidate48.json",
+        "relativeToContent": "Distribution/People/people-candidate48.json",
+        "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+        "frame": "Selected48.v1",
+        "plannedSha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8",
+        "stagedExists": true,
+        "stagedSha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8",
+        "stagedMatchesPlan": true
+      }
+    },
+    "variants": {
+      "V3_Pilgrim_Man_Elder": {
+        "id": "V3_Pilgrim_Man_Elder",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+        "garmentSlot": "Mantle",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215643835357Z.json"
+      },
+      "V3_Pilgrim_Man_Heavy": {
+        "id": "V3_Pilgrim_Man_Heavy",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk",
+        "garmentSlot": "Mantle",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215643835357Z.json"
+      },
+      "V3_Pilgrim_Man_Standard": {
+        "id": "V3_Pilgrim_Man_Standard",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+        "garmentSlot": "Mantle",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215251507927Z.json"
+      },
+      "V3_Pilgrim_Woman_Elder": {
+        "id": "V3_Pilgrim_Woman_Elder",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk",
+        "garmentSlot": "Mantle",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215643835357Z.json"
+      },
+      "V3_Pilgrim_Woman_Young": {
+        "id": "V3_Pilgrim_Woman_Young",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk",
+        "garmentSlot": "Mantle",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215643835357Z.json"
+      },
+      "V3_Pilgrim_Youth": {
+        "id": "V3_Pilgrim_Youth",
+        "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth",
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth_Skeleton",
+        "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_YouthA_Pilgrim_Original_Idle",
+        "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_YouthA_Pilgrim_Original_Walk",
+        "garmentSlot": "Linen",
+        "meshRelativeYaw": -90.0,
+        "receipt": "SourceAssets/characters-review/PilgrimRigV3/review-native-20260908T215834284952Z.json"
+      }
+    },
+    "residents": {
+      "yoav-ben-shimi": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Standard",
+        "visualScale": 1.0,
+        "garmentSlot": "Mantle",
+        "start": [
+          2400.0,
+          2900.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "miryam-bas-elyakim": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Young",
+        "visualScale": 0.93,
+        "garmentSlot": "Mantle",
+        "start": [
+          3700.0,
+          1050.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "naftali-ben-chagai": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "visualScale": 1.04,
+        "garmentSlot": "Mantle",
+        "start": [
+          5375.0,
+          1050.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "tzipporah-bas-menachem": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "visualScale": 0.9,
+        "garmentSlot": "Mantle",
+        "start": [
+          1950.0,
+          3850.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "elchanan-ben-uriya": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Elder",
+        "visualScale": 0.97,
+        "garmentSlot": "Mantle",
+        "start": [
+          3525.0,
+          3550.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "shulamis-bas-yechiel": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Young",
+        "visualScale": 0.95,
+        "garmentSlot": "Mantle",
+        "start": [
+          5375.0,
+          3550.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "gad-ben-peleth": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "visualScale": 1.02,
+        "garmentSlot": "Mantle",
+        "start": [
+          4150.0,
+          -2600.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "devorah-bas-amram": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Young",
+        "visualScale": 0.92,
+        "garmentSlot": "Mantle",
+        "start": [
+          3700.0,
+          -2750.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "yigal-ben-zerach": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Standard",
+        "visualScale": 0.99,
+        "garmentSlot": "Mantle",
+        "start": [
+          5375.0,
+          -2750.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "techiya-bas-nadav": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Young",
+        "visualScale": 0.9,
+        "garmentSlot": "Mantle",
+        "start": [
+          1775.0,
+          -5250.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "amitai-ben-kalev": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Youth",
+        "visualScale": 0.84,
+        "garmentSlot": "Linen",
+        "start": [
+          3525.0,
+          -5250.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "yehudis-bas-ovadya": {
+        "role": "pilgrim",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "visualScale": 0.91,
+        "garmentSlot": "Mantle",
+        "start": [
+          5375.0,
+          -5250.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "pinchas-ben-achituv": {
+        "role": "kohen",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "visualScale": 0.96,
+        "garmentSlot": "Mantle",
+        "start": [
+          4000.0,
+          2100.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "yedidya-ben-chilkiya": {
+        "role": "kohen",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Elder",
+        "visualScale": 0.96,
+        "garmentSlot": "Mantle",
+        "start": [
+          3850.0,
+          -4400.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "uriel-ben-shemaya": {
+        "role": "kohen",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Standard",
+        "visualScale": 1.02,
+        "garmentSlot": "Mantle",
+        "start": [
+          4000.0,
+          1750.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "assaf-ben-berachya": {
+        "role": "levite",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Standard",
+        "visualScale": 1.01,
+        "garmentSlot": "Mantle",
+        "start": [
+          4000.0,
+          -4300.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "chananel-ben-mattisyahu": {
+        "role": "levite",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Standard",
+        "visualScale": 0.98,
+        "garmentSlot": "Mantle",
+        "start": [
+          5600.0,
+          1650.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "rivka-bas-yoezer": {
+        "role": "host",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "visualScale": 0.89,
+        "garmentSlot": "Mantle",
+        "start": [
+          2400.0,
+          -3400.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "nechemya-ben-tzuriel": {
+        "role": "guide",
+        "zone": "outer-court",
+        "variant": "V3_Pilgrim_Man_Elder",
+        "visualScale": 0.94,
+        "garmentSlot": "Mantle",
+        "start": [
+          1800.0,
+          3700.0,
+          300.0
+        ],
+        "imported": true
+      },
+      "shmaya-ben-nachshon": {
+        "role": "host",
+        "zone": "mount-deck",
+        "variant": "V3_Pilgrim_Man_Heavy",
+        "visualScale": 1.01,
+        "garmentSlot": "Mantle",
+        "start": [
+          9360.0,
+          -2600.0,
+          0.0
+        ],
+        "imported": true
+      },
+      "aviela-bas-refael": {
+        "role": "guide",
+        "zone": "mount-deck",
+        "variant": "V3_Pilgrim_Woman_Young",
+        "visualScale": 0.94,
+        "garmentSlot": "Mantle",
+        "start": [
+          9400.0,
+          2700.0,
+          0.0
+        ],
+        "imported": true
+      },
+      "ovadya-ben-ephrayim": {
+        "role": "vendor",
+        "zone": "mount-deck",
+        "variant": "V3_Pilgrim_Man_Elder",
+        "visualScale": 0.95,
+        "garmentSlot": "Mantle",
+        "start": [
+          9350.0,
+          -1250.0,
+          0.0
+        ],
+        "imported": true
+      },
+      "machla-bas-yiftach": {
+        "role": "vendor",
+        "zone": "mount-deck",
+        "variant": "V3_Pilgrim_Woman_Elder",
+        "visualScale": 0.86,
+        "garmentSlot": "Mantle",
+        "start": [
+          9360.0,
+          100.0,
+          0.0
+        ],
+        "imported": true
+      },
+      "elad-ben-yishai": {
+        "role": "vendor",
+        "zone": "mount-deck",
+        "variant": "V3_Pilgrim_Youth",
+        "visualScale": 0.87,
+        "garmentSlot": "Linen",
+        "start": [
+          9330.0,
+          -2300.0,
+          0.0
+        ],
+        "imported": true
+      }
+    },
+    "failures": [],
+    "neighbourPairsChecked": 58,
+    "variantUse": {
+      "V3_Pilgrim_Man_Elder": 4,
+      "V3_Pilgrim_Man_Heavy": 4,
+      "V3_Pilgrim_Man_Standard": 5,
+      "V3_Pilgrim_Woman_Elder": 4,
+      "V3_Pilgrim_Woman_Young": 5,
+      "V3_Pilgrim_Youth": 2
+    },
+    "offlineOk": true
+  },
+  "errors": [],
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ResidentBodiesV3-Candidate48-20260908T222103988818Z",
+  "staged": {
+    "Main50": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\Distribution\\People\\people.json",
+      "sha256": "21470b6ea31159a090e5f8e6244f86b8c2b2cf8638b5a2b29a0c75e895a9de69"
+    },
+    "Candidate48": {
+      "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\Distribution\\People\\people-candidate48.json",
+      "sha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8"
+    }
+  },
+  "defaultBody": {
+    "mesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+    "idle": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.PilgrimRigV2A_Pilgrim_Original_Idle",
+    "walk": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.PilgrimRigV2A_Pilgrim_Original_Walk",
+    "slots": [
+      "Mantle"
+    ],
+    "yaw": 90.0
+  },
+  "failure": "RuntimeError(\"V3_Pilgrim_Man_Elder: mesh skeleton '/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.V3_Pilgrim_Man_Elder_Skeleton' differs from the marker '/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton'\")",
+  "traceback": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_resident_bodies_v3.py\", line 246, in run_apply\n    if skel is None or _path(skel) != va['skeleton']: raise RuntimeError('%s: mesh skeleton %r differs from the marker %r' % (name, _path(skel), va['skeleton']))\n                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: V3_Pilgrim_Man_Elder: mesh skeleton '/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.V3_Pilgrim_Man_Elder_Skeleton' differs from the marker '/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton'\n"
+}

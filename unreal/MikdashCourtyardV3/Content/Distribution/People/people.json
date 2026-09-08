@@ -1,6 +1,6 @@
 {
  "version": "people-v3",
- "note": "Twenty-four fictional inhabitants for the walkthrough. Names, households, origins, missions and dialogue are authored fiction and are not source facts. No character issues a halachic ruling, quotes a measurement as settled, names a Second Temple court on the Yechezkel reconstruction, or states a future attendance number. Each route is a closed 4 to 6 point loop with authored pauses; this is scripted waypoint behaviour with written lines, not a mind. Routes V2 (2026-09-08): twelve outer-court loops relocated off the hollow inner-court supporting platform, the inner cell plinths, the west terrace steps and the corner kitchens measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; legacy50 source centimetres, decoded by the scene-units adapter of whichever map loads this file.",
+ "note": "Twenty-four fictional inhabitants for the walkthrough. Names, households, origins, missions and dialogue are authored fiction and are not source facts. No character issues a halachic ruling, quotes a measurement as settled, names a Second Temple court on the Yechezkel reconstruction, or states a future attendance number. Each route is a closed 4 to 6 point loop with authored pauses; this is scripted waypoint behaviour with written lines, not a mind. Routes V2 (2026-09-08): twelve outer-court loops relocated off the hollow inner-court supporting platform, the inner cell plinths, the west terrace steps and the corner kitchens measured in PIE receipt spawn-diagnosis-20260908T184544564223Z; legacy50 source centimetres, decoded by the scene-units adapter of whichever map loads this file. Bodies V3 (2026-09-08): each person carries body = {variant, visualScale} cast per resident-swap-plan.json onto the natively imported PilgrimRigV3 variants; the scale is a skeletal-mesh component scale, never the actor, capsule or amah.",
  "placementBasis": {
   "pilgrim": {
    "decision": "Pilgrims stand and walk on the outer court floor (Z 300, x 1500..7000, 900 <= |y| < 6000, legacy 50 cm source centimetres), off the y=0 east gate corridor, and OUTSIDE the hollow architecture shells that stand on that floor: the raised inner-court supporting platform (|x| and |y| <= 2800), the inner east cell plinths (x 2800..3600, 375 <= |y| <= 2275), the north and south cell plinth overhangs (x 375..2275, 2800 <= |y| <= 3600), the west terrace steps and foundation (x <= 1675) and the corner kitchen courts (x >= 5300, |y| >= 5400). Every waypoint and leg keeps the 34 cm capsule radius clear of those footprints at either amah scale; the earlier envelope wrongly treated the platform and plinth area as open floor (PIE receipt spawn-diagnosis-20260908T184544564223Z). This repeats the reviewed pilot envelope rather than opening new ground.",
@@ -234,7 +234,11 @@
      ]
     }
    ],
-   "origin": "the northern valleys"
+   "origin": "the northern valleys",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Standard",
+    "visualScale": 1.0
+   }
   },
   {
    "id": "miryam-bas-elyakim",
@@ -312,7 +316,11 @@
      ]
     }
    ],
-   "origin": "the southern hill country"
+   "origin": "the southern hill country",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Young",
+    "visualScale": 0.93
+   }
   },
   {
    "id": "naftali-ben-chagai",
@@ -390,7 +398,11 @@
      ]
     }
    ],
-   "origin": "the eastern plain"
+   "origin": "the eastern plain",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Heavy",
+    "visualScale": 1.04
+   }
   },
   {
    "id": "tzipporah-bas-menachem",
@@ -468,7 +480,11 @@
      ]
     }
    ],
-   "origin": "the coastal lowland"
+   "origin": "the coastal lowland",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Elder",
+    "visualScale": 0.9
+   }
   },
   {
    "id": "elchanan-ben-uriya",
@@ -546,7 +562,11 @@
      ]
     }
    ],
-   "origin": "the river districts"
+   "origin": "the river districts",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Elder",
+    "visualScale": 0.97
+   }
   },
   {
    "id": "shulamis-bas-yechiel",
@@ -624,7 +644,11 @@
      ]
     }
    ],
-   "origin": "the northern lake shore"
+   "origin": "the northern lake shore",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Young",
+    "visualScale": 0.95
+   }
   },
   {
    "id": "gad-ben-peleth",
@@ -702,7 +726,11 @@
      ]
     }
    ],
-   "origin": "the high pastures"
+   "origin": "the high pastures",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Heavy",
+    "visualScale": 1.02
+   }
   },
   {
    "id": "devorah-bas-amram",
@@ -780,7 +808,11 @@
      ]
     }
    ],
-   "origin": "the western foothills"
+   "origin": "the western foothills",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Young",
+    "visualScale": 0.92
+   }
   },
   {
    "id": "yigal-ben-zerach",
@@ -858,7 +890,11 @@
      ]
     }
    ],
-   "origin": "the desert edge"
+   "origin": "the desert edge",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Standard",
+    "visualScale": 0.99
+   }
   },
   {
    "id": "techiya-bas-nadav",
@@ -936,7 +972,11 @@
      ]
     }
    ],
-   "origin": "the terraced slopes"
+   "origin": "the terraced slopes",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Young",
+    "visualScale": 0.9
+   }
   },
   {
    "id": "amitai-ben-kalev",
@@ -1014,7 +1054,11 @@
      ]
     }
    ],
-   "origin": "the southern grain country"
+   "origin": "the southern grain country",
+   "body": {
+    "variant": "V3_Pilgrim_Youth",
+    "visualScale": 0.84
+   }
   },
   {
    "id": "yehudis-bas-ovadya",
@@ -1092,7 +1136,11 @@
      ]
     }
    ],
-   "origin": "the northern ridges"
+   "origin": "the northern ridges",
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Elder",
+    "visualScale": 0.91
+   }
   },
   {
    "id": "pinchas-ben-achituv",
@@ -1170,7 +1218,11 @@
      ]
     }
    ],
-   "presence": "Crossing the public court on his way to his watch; not serving and not stationed here."
+   "presence": "Crossing the public court on his way to his watch; not serving and not stationed here.",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Heavy",
+    "visualScale": 0.96
+   }
   },
   {
    "id": "yedidya-ben-chilkiya",
@@ -1248,7 +1300,11 @@
      ]
     }
    ],
-   "presence": "Off duty and changed out of service garments before coming out among the people."
+   "presence": "Off duty and changed out of service garments before coming out among the people.",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Elder",
+    "visualScale": 0.96
+   }
   },
   {
    "id": "uriel-ben-shemaya",
@@ -1326,7 +1382,11 @@
      ]
     }
    ],
-   "presence": "Newly assigned; walking the public court to learn its approaches before his watch is called."
+   "presence": "Newly assigned; walking the public court to learn its approaches before his watch is called.",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Standard",
+    "visualScale": 1.02
+   }
   },
   {
    "id": "assaf-ben-berachya",
@@ -1404,7 +1464,11 @@
      ]
     }
    ],
-   "presence": "Waiting in the public court for a gate or music assignment; no assignment yet given."
+   "presence": "Waiting in the public court for a gate or music assignment; no assignment yet given.",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Standard",
+    "visualScale": 1.01
+   }
   },
   {
    "id": "chananel-ben-mattisyahu",
@@ -1482,7 +1546,11 @@
      ]
     }
    ],
-   "presence": "Between duties in the public court; walking to where the day's assignments are given out."
+   "presence": "Between duties in the public court; walking to where the day's assignments are given out.",
+   "body": {
+    "variant": "V3_Pilgrim_Man_Standard",
+    "visualScale": 0.98
+   }
   },
   {
    "id": "rivka-bas-yoezer",
@@ -1559,7 +1627,11 @@
       300.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Elder",
+    "visualScale": 0.89
+   }
   },
   {
    "id": "nechemya-ben-tzuriel",
@@ -1636,7 +1708,11 @@
       300.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Man_Elder",
+    "visualScale": 0.94
+   }
   },
   {
    "id": "shmaya-ben-nachshon",
@@ -1728,7 +1804,11 @@
       0.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Man_Heavy",
+    "visualScale": 1.01
+   }
   },
   {
    "id": "aviela-bas-refael",
@@ -1820,7 +1900,11 @@
       0.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Young",
+    "visualScale": 0.94
+   }
   },
   {
    "id": "ovadya-ben-ephrayim",
@@ -1897,7 +1981,11 @@
       0.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Man_Elder",
+    "visualScale": 0.95
+   }
   },
   {
    "id": "machla-bas-yiftach",
@@ -1974,7 +2062,11 @@
       0.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Woman_Elder",
+    "visualScale": 0.86
+   }
   },
   {
    "id": "elad-ben-yishai",
@@ -2051,7 +2143,11 @@
       0.0
      ]
     }
-   ]
+   ],
+   "body": {
+    "variant": "V3_Pilgrim_Youth",
+    "visualScale": 0.87
+   }
   }
  ]
 }

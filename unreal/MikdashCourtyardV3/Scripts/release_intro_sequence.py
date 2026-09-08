@@ -456,11 +456,14 @@ def build_orbit_keys(orbit, samples_per_second):
 # ---------------------------------------------------------------------------
 
 BLOCKERS = [
+    # -- the Mikdash (architecture-manifest.json envelopes) -----------------------------
     ('House, its walls and the Golden roof', [-7500, -2540, 425], [-2382, 2540, 6130]),
     ('west wings, cells and service passages', [-7500, -8129, 405], [-2392, 8129, 3475]),
     ('outer perimeter wall, south band', [-8100, 7800, 300], [8100, 8100, 3425]),
     ('outer perimeter wall, north band', [-8100, -8100, 300], [8100, -7800, 3425]),
-    ('outer perimeter wall, east band', [7800, -8100, 300], [8100, 8100, 3425]),
+    ('outer perimeter wall, east band north of the gate', [7800, -8100, 300], [8100, -250, 3425]),
+    ('outer perimeter wall, east band south of the gate', [7800, 250, 300], [8100, 8100, 3425]),
+    ('court east gate lintel (union decomposition)', [7800, -250, 2800], [8100, 250, 3300]),
     ('outer perimeter wall, west band', [-8100, -8100, 300], [-7800, 8100, 3425]),
     ('outer court deck and its foundation', [-8100, -8100, -5000], [8100, 8100, 300]),
     ('inner court podium', [-2800, -2800, -5000], [2800, 2800, 499]),
@@ -473,8 +476,39 @@ BLOCKERS = [
     ('inner eastern vestibule, landings and stairs', [2800, -625, 300], [3450, 625, 500]),
     ('Ulam stairs', [-2500, -985, 625], [-1400, 985, 925]),
     ('altar, wood on the upper tier at 1091', [-800, -800, 625], [800, 800, 1091]),
-    ('outer eastern gatehouse and its cells', [7300, -2600, 300], [9200, 2600, 3546]),
+    # -- the court's east gate, piece by piece ----------------------------------------------
+    ('vestibule pillar, collars and palm fronds, north', [7291, -525, 300], [7409, -225, 3346]),
+    ('vestibule pillar, collars and palm fronds, south', [7291, 225, 300], [7409, 525, 3346]),
+    ('vestibule entablature, over the axis', [7300, -625, 2800], [7800, 625, 2900]),
+    ('vestibule wall, north', [7400, -625, 300], [7800, -325, 2800]),
+    ('vestibule wall, south', [7400, 325, 300], [7800, 625, 2800]),
+    ('open gate leaf, north', [7782, -282, 300], [8018, -261, 2840]),
+    ('open gate leaf, south', [7782, 261, 300], [8018, 282, 2840]),
+    ('court string course and cornice, west run, north', [7772, -8100, 3201], [7828, -250, 3312]),
+    ('court string course and cornice, west run, south', [7772, 250, 3201], [7828, 8100, 3312]),
+    ('court string course and cornice, east run, north', [8072, -8100, 3201], [8128, -250, 3312]),
+    ('court string course and cornice, east run, south', [8072, 250, 3201], [8128, 8100, 3312]),
+    ('outer eastern cells, north', [8100, -2275, 300], [8900, -375, 700]),
+    ('outer eastern cells, south', [8100, 375, 300], [8900, 2275, 700]),
+    ('raised pavement gallery, east run, north', [7300, -7800, 2675], [7800, -600, 2925]),
+    ('raised pavement gallery, east run, south', [7300, 600, 2675], [7800, 7800, 2925]),
+    # -- the 3,000-amah precinct wall (RELEASE_EnclosureV2, HISM): east gate and neighbours --
+    # Reconstructed from enclosure-review/precinct-Main50.json with the placer's GroundSpan
+    # rule: gate block 1500 cm centred on Y 0, plinth 3551.4; module depth X 116549..116900.
+    ('precinct E gate pier, north', [116549, -780, 2750], [116900, -250, 6551]),
+    ('precinct E gate pier, south', [116549, 250, 2750], [116900, 780, 6551]),
+    ('precinct E gate lintel over the 500 x 2500 opening', [116549, -250, 6051], [116900, 250, 6551]),
+    ('precinct E gate threshold and substructure', [116549, -780, 2750], [116900, 780, 3551]),
+    ('precinct E wall module 23', [116540, -4400, 4279], [116900, -3150, 4896]),
+    ('precinct E wall module 24', [116540, -3150, 3904], [116900, -1900, 4687]),
+    ('precinct E wall module 28', [116540, 1850, 1654], [116900, 3100, 2586]),
+    ('precinct E wall module 29', [116540, 3100, 1300], [116900, 4350, 2062]),
 ]
+
+# The precinct east gate, for the transit checks. Plinth from GroundSpan over the gate block;
+# the placed receipt states 783.6 m a.s.l. (3560 cm), 9 cm off, inside every margin.
+PRECINCT_GATE = {'xInner': 116549.0, 'xOuter': 116900.0, 'xCentre': 116720.0,
+                 'halfOpeningCm': 250.0, 'plinthCm': 3551.4, 'lintelSoffitCm': 6051.4}
 
 
 def segment_hits_box(a, b, minimum, maximum, inflate):
@@ -546,6 +580,26 @@ def offline_check(spec=None):
         if abs(cross[1]) < 2800.0:
             crossings.append({'direction': 'westward' if westward else 'eastward', 'atCm': cross})
 
+    # The precinct east gate transit, across the whole module depth.
+    gate = PRECINCT_GATE
+    precinct = {'crossingsOfEastFace': 0, 'worstLateralCm': 0.0, 'lowestZ': None, 'highestZ': None}
+    for i in range(1, len(polyline)):
+        a, b = polyline[i - 1], polyline[i]
+        if (a[0] > gate['xOuter']) != (b[0] > gate['xOuter']):
+            precinct['crossingsOfEastFace'] += 1
+        if max(a[0], b[0]) >= gate['xInner'] and min(a[0], b[0]) <= gate['xOuter']:
+            precinct['worstLateralCm'] = max(precinct['worstLateralCm'], abs(a[1]), abs(b[1]))
+            lo, hi = min(a[2], b[2]), max(a[2], b[2])
+            precinct['lowestZ'] = lo if precinct['lowestZ'] is None else min(precinct['lowestZ'], lo)
+            precinct['highestZ'] = hi if precinct['highestZ'] is None else max(precinct['highestZ'], hi)
+    precinct['pierClearanceCm'] = gate['halfOpeningCm'] - precinct['worstLateralCm']
+    precinct['thresholdClearanceCm'] = (precinct['lowestZ'] - gate['plinthCm']) if precinct['lowestZ'] is not None else None
+    precinct['lintelClearanceCm'] = (gate['lintelSoffitCm'] - precinct['highestZ']) if precinct['highestZ'] is not None else None
+    precinct['passesThroughOpeningWith150cmMargin'] = bool(
+        precinct['crossingsOfEastFace'] == 1 and precinct['pierClearanceCm'] >= 150.0
+        and precinct['thresholdClearanceCm'] is not None and precinct['thresholdClearanceCm'] >= 150.0
+        and precinct['lintelClearanceCm'] >= 150.0)
+
     orbits = []
     for orbit in spec['orbits']:
         orbit_keys = build_orbit_keys(orbit, samples)
@@ -575,6 +629,7 @@ def offline_check(spec=None):
         'firstOffendingBox': box,
         'largestClearingInflateCm': largest_clearing_inflate(polyline),
         'innerCourtWallLineCrossings': crossings,
+        'precinctEastGate': precinct,
         'orbits': orbits,
         'blockerBoxes': len(BLOCKERS),
         'limitations': spec['limitations'],
@@ -795,6 +850,9 @@ def author(load_target=True, samples_per_second=None, do_intro=True, do_orbits=T
     if not offline['clearsBlockersAtInflateCm']:
         raise RuntimeError('The path does not clear %s at %.0f cm; refusing to author it'
                            % (offline['firstOffendingBox'], offline['clearanceInflateCm']))
+    if not offline['precinctEastGate']['passesThroughOpeningWith150cmMargin']:
+        raise RuntimeError('The path does not pass through the precinct east gate opening with a 150 cm margin: %s'
+                           % offline['precinctEastGate'])
     if not offline['durationWithinBrief']:
         raise RuntimeError('Duration %.1f s is outside the 40 to 70 second brief' % spec['durationSeconds'])
 

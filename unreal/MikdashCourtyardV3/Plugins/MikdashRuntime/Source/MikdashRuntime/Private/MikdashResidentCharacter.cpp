@@ -254,6 +254,13 @@ void AMikdashResidentCharacter::SetResidentProfile(const FString& InName, const 
     DialogLines = InDialogLines;
 }
 
+void AMikdashResidentCharacter::SetResidentBody(const FString& InVariantId, double InVisualScale, bool bInFallback)
+{
+    BodyVariantId = InVariantId;
+    BodyVisualScale = FMath::IsFinite(InVisualScale) ? InVisualScale : 1.0;
+    bBodyFallback = bInFallback;
+}
+
 void AMikdashResidentCharacter::SetConversationHold(bool bHold, FVector FaceWorldTarget)
 {
     bConversationHold = bHold && !FaceWorldTarget.ContainsNaN();

@@ -396,14 +396,47 @@ def _require_fresh_binary(ue, spec):
     return service_class
 
 
+# Every UENUM property this script writes, with the Python class that owns it.
+# Enum values are compared as enum objects on write and reported by .name on
+# read; the 2026-09-08 refusal came from slicing str(enum) instead.
+ENUM_PROPERTIES = {
+    'service_scenario': 'MikdashServiceScenario',
+}
+
+
+def _enum_class(ue, name):
+    return getattr(ue, ENUM_PROPERTIES[name])
+
+
+def _enum_value(ue, name, identifier):
+    cls = _enum_class(ue, name)
+    if not hasattr(cls, identifier):
+        raise RuntimeError('%s has no member %s' % (ENUM_PROPERTIES[name], identifier))
+    return getattr(cls, identifier)
+
+
+def _enum_name(ue, name, value):
+    """The enum member's identifier, found by comparing enum objects, never by
+    parsing str(value)."""
+    cls = _enum_class(ue, name)
+    direct = getattr(value, 'name', None)
+    if isinstance(direct, str) and hasattr(cls, direct) and getattr(cls, direct) == value:
+        return direct
+    for member in dir(cls):
+        if member.isupper() and getattr(cls, member) == value:
+            return member
+    raise RuntimeError('Read-back value %r of %s is not a member of %s'
+                       % (value, name, ENUM_PROPERTIES[name]))
+
+
 def _write_properties(ue, actor, props):
     """Write every property, then read every one back. No setter return value is
     trusted: UE 5.8 setters can report failure on an assignment that took."""
     vector_keys = {'ulam_approach_point', 'doorway_point', 'tending_stone_point',
                    'golden_altar_point', 'menorah_point', 'inner_stand_point'}
     for name, value in props.items():
-        if name == 'service_scenario':
-            actor.set_editor_property(name, getattr(ue.MikdashServiceScenario, value))
+        if name in ENUM_PROPERTIES:
+            actor.set_editor_property(name, _enum_value(ue, name, value))
         elif name in vector_keys:
             actor.set_editor_property(name, ue.Vector(*[float(v) for v in value]))
         else:
@@ -419,8 +452,10 @@ def _read_properties(ue, actor, props):
         value = actor.get_editor_property(name)
         if name in vector_keys:
             out[name] = [round(v, 4) for v in _vector_list(value)]
-        elif name == 'service_scenario':
-            out[name] = str(value).rsplit('.', 1)[-1].replace('MikdashServiceScenario', '').strip('. ')
+        elif name in ENUM_PROPERTIES:
+            # UE 5.8 Python: str(enum) is '<EMikdashServiceScenario.ORDINARY_DAY: 0>'.
+            # Never do string surgery on that; the enum object carries .name.
+            out[name] = _enum_name(ue, name, value)
         elif isinstance(value, bool):
             out[name] = bool(value)
         else:
@@ -434,8 +469,10 @@ def _compare_properties(read_back, props, spec, where):
     problems = []
     for name, want in props.items():
         got = read_back.get(name)
-        if name == 'service_scenario':
-            if str(got).upper().replace('_', '') != str(want).upper().replace('_', ''):
+        if name in ENUM_PROPERTIES:
+            # read_back holds the enum's .name (see _enum_name); the spec holds the
+            # same identifier. An exact identifier match, nothing looser.
+            if got != want:
                 problems.append('%s = %r, wanted %r' % (name, got, want))
         elif isinstance(want, bool):
             if bool(got) is not bool(want):

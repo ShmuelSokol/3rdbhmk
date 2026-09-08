@@ -347,6 +347,7 @@ def offline_check(spec=None):
     report['kotelDetailTriangles'] = sum(m['triangles'] for m in spec['kotel']['meshes'])
     if report['kotelDetailTriangles'] != spec['kotel']['totalDetailTriangles']:
         raise RuntimeError('Kotel triangle total differs from manifest')
+    report['snapshotRulesSelfTest'] = selftest_snapshot_rules()    # raises on failure
     report['status'] = 'offline_spec_consistent'
     return report
 
@@ -398,6 +399,247 @@ def _enum_name(enum_class, value, candidates):
     return str(value)
 
 
+# --------------------------------------------------------------------------
+# Scene snapshot rules (shared by every release script that compares the level
+# before and after its own mutation)
+# --------------------------------------------------------------------------
+#
+# 2026-09-08 lesson, from two refusals on the same night (Release-GateSecurity-01.log,
+# Release-SurfaceDetail-01.log). Both scripts carried a private comparator that put the
+# actor's WORLD BOUNDS into the pre/post key. Ten actors then "differed" with nothing
+# touched, one script refusing after its save and the other before it:
+#
+#   Actor_0 .. Actor_4          bare AActor carriers for the five DecorativeInstancesV1
+#                               InstancedStaticMesh sets (rooftop tanks / panels, tree
+#                               crowns / trunks, cemetery markers; 4409-15143 instances each;
+#                               spawned persistent by import_instances_ue58.py)
+#   MikdashCrowdField_0         RELEASE_CrowdField, six HierarchicalInstancedStaticMesh pose
+#                               components
+#   MikdashBirdFlock_0 .. _3    the bird flocks, HISM built at load
+#
+# Every one of them is an INSTANCE CARRIER. The AABB of an ISM/HISM component is derived
+# from its instance data and, in a -nullrhi commandlet, is not stable from one snapshot to
+# the next (async cluster-tree build, no render state). Label, class, mesh asset paths and
+# the root transform ARE stable. So the rule is:
+#
+#   * compare every persistent actor by label, class, mesh asset paths and root transform;
+#   * compare BOUNDS only for actors that carry no instanced component at all;
+#   * leave out actors that are not owned by the map package (they are not saved and cannot
+#     be "damaged" by a save);
+#   * still refuse on any genuine change to a persistent actor -- moved, deleted, re-meshed.
+#
+# UE 5.8's Python does not expose object flags (PyWrapperObject's method table has get_outer,
+# get_outermost, get_package, is_package_external ... and no flags accessor), so RF_Transient
+# cannot be read directly. Package ownership is the honest proxy, and Placement.probe_load_churn
+# (opt-in) catches whatever that misses by comparing two pristine loads before any mutation.
+
+LOAD_CHURN_REGRESSION = {
+    'note': ('The exact churn set from both 2026-09-08 logs. A comparator that flags any of '
+             'these for a bounds-only difference is wrong; one that misses a moved or deleted '
+             'StaticMeshActor is also wrong. selftest_snapshot_rules() checks both.'),
+    'logs': [r'C:\Mikdash\Working-5.8\Release-GateSecurity-01.log',
+             r'C:\Mikdash\Working-5.8\Release-SurfaceDetail-01.log'],
+    'actors': [
+        {'name': 'Actor_0', 'class': 'Actor', 'label': 'JerusalemInstance_Rooftop_tanks',
+         'why': 'ISM carrier, 6007 instances', 'persistent': True},
+        {'name': 'Actor_1', 'class': 'Actor', 'label': 'JerusalemInstance_Rooftop_panels',
+         'why': 'ISM carrier, 6007 instances', 'persistent': True},
+        {'name': 'Actor_2', 'class': 'Actor', 'label': 'JerusalemInstance_Tree_crowns',
+         'why': 'ISM carrier, 13227 instances', 'persistent': True},
+        {'name': 'Actor_3', 'class': 'Actor', 'label': 'JerusalemInstance_Tree_trunks',
+         'why': 'ISM carrier, 4409 instances', 'persistent': True},
+        {'name': 'Actor_4', 'class': 'Actor', 'label': 'JerusalemInstance_Cemetery_markers',
+         'why': 'ISM carrier, 15143 instances', 'persistent': True},
+        {'name': 'MikdashCrowdField_0', 'class': 'MikdashCrowdField', 'label': 'RELEASE_CrowdField',
+         'why': 'six HISM pose components', 'persistent': True},
+        {'name': 'MikdashBirdFlock_0', 'class': 'MikdashBirdFlock', 'label': 'RELEASE_Birds_1',
+         'why': 'HISM built at load', 'persistent': True},
+        {'name': 'MikdashBirdFlock_1', 'class': 'MikdashBirdFlock', 'label': 'RELEASE_Birds_2',
+         'why': 'HISM built at load', 'persistent': True},
+        {'name': 'MikdashBirdFlock_2', 'class': 'MikdashBirdFlock', 'label': 'RELEASE_Birds_3',
+         'why': 'HISM built at load', 'persistent': True},
+        {'name': 'MikdashBirdFlock_3', 'class': 'MikdashBirdFlock', 'label': 'RELEASE_Birds_4',
+         'why': 'HISM built at load', 'persistent': True},
+    ],
+}
+
+
+def _is_instanced_component(ue, component):
+    cls = getattr(ue, 'InstancedStaticMeshComponent', None)
+    if cls is not None:
+        try:
+            return isinstance(component, cls)
+        except TypeError:
+            pass
+    return 'InstancedStaticMesh' in type(component).__name__
+
+
+def snapshot_row(ue, actor, map_package):
+    """One actor as the comparison sees it. Nothing here depends on render state."""
+    meshes = []
+    instanced = False
+    for component in actor.get_components_by_class(ue.StaticMeshComponent):
+        meshes.append(_asset_path(component.get_editor_property('static_mesh')))
+        instanced = instanced or _is_instanced_component(ue, component)
+    if hasattr(ue, 'SkeletalMeshComponent'):
+        for component in actor.get_components_by_class(ue.SkeletalMeshComponent):
+            meshes.append(_asset_path(component.get_skeletal_mesh_asset()))
+    try:
+        package = actor.get_package().get_name()
+    except Exception:  # noqa: BLE001 - very old wrappers
+        package = actor.get_outermost().get_name()
+    return {'actor': actor, 'name': actor.get_name(), 'label': actor.get_actor_label(),
+            'folder': str(actor.get_folder_path()),
+            'class': actor.get_class().get_name(),
+            'package': package, 'persistent': package == map_package,
+            'instanced': instanced, 'meshes': meshes,
+            'pose': _actor_pose(actor), 'bounds': _actor_bounds(actor)}
+
+
+def bounds_comparable(row):
+    """Bounds go into the key only for actors whose AABB cannot be rebuilt at load."""
+    return bool(row.get('persistent', True)) and not bool(row.get('instanced', False))
+
+
+def baseline_key(row, strict=False):
+    """The tuple two snapshots of the same actor must agree on.
+
+    Always: label, class, mesh asset paths, root transform. With strict=True, also the
+    world bounds -- but only where bounds_comparable(), never for an instance carrier."""
+    key = (row['label'], row.get('class'), tuple(row['meshes']),
+           tuple(row['pose']['location'] + row['pose']['rotation'] + row['pose']['scale']))
+    if strict and bounds_comparable(row):
+        b = row['bounds']
+        key += (tuple(round(v, 4) for v in b['min']), tuple(round(v, 4) for v in b['max']))
+    return key
+
+
+def numeric_baseline_rows(rows, strict=False, exclude=()):
+    """{name: key} over PERSISTENT actors only, minus any explicitly excluded names."""
+    excluded = set(exclude)
+    return {row['name']: baseline_key(row, strict) for row in rows
+            if row.get('persistent', True) and row['name'] not in excluded}
+
+
+def baseline_exclusions(rows, exclude=()):
+    """What numeric_baseline_rows left out, and why -- for the receipt."""
+    out = []
+    for row in rows:
+        if not row.get('persistent', True):
+            out.append({'name': row['name'], 'label': row['label'], 'class': row.get('class'),
+                        'package': row.get('package'), 'reason': 'not owned by the map package'})
+        elif row['name'] in set(exclude):
+            out.append({'name': row['name'], 'label': row['label'], 'class': row.get('class'),
+                        'reason': 'unstable across two pristine loads (probe_load_churn)'})
+    return out
+
+
+def diff_baselines(before_rows, after_rows, strict=False, exclude=()):
+    """Per-actor evidence of what changed: field, before, after. Empty list means equal."""
+    before = {r['name']: r for r in before_rows if r.get('persistent', True)}
+    after = {r['name']: r for r in after_rows if r.get('persistent', True)}
+    excluded = set(exclude)
+    diffs = []
+    for name, b in before.items():
+        if name in excluded:
+            continue
+        a = after.get(name)
+        if a is None:
+            diffs.append({'name': name, 'label': b['label'], 'class': b.get('class'),
+                          'field': 'presence', 'before': 'present', 'after': 'missing'})
+            continue
+        for field, fb, fa in (('label', b['label'], a['label']),
+                              ('class', b.get('class'), a.get('class')),
+                              ('meshes', b['meshes'], a['meshes']),
+                              ('pose', b['pose'], a['pose'])):
+            if fb != fa:
+                diffs.append({'name': name, 'label': b['label'], 'class': b.get('class'),
+                              'field': field, 'before': fb, 'after': fa})
+        if strict and bounds_comparable(b) and bounds_comparable(a):
+            if box_error(b['bounds'], a['bounds']) > 1e-4:
+                diffs.append({'name': name, 'label': b['label'], 'class': b.get('class'),
+                              'field': 'bounds', 'before': b['bounds'], 'after': a['bounds']})
+    for name, a in after.items():
+        if name not in before and name not in excluded:
+            diffs.append({'name': name, 'label': a['label'], 'class': a.get('class'),
+                          'field': 'presence', 'before': 'missing', 'after': 'present'})
+    return diffs
+
+
+def selftest_snapshot_rules():
+    """The regression case. Synthetic rows built from LOAD_CHURN_REGRESSION with bounds that
+    differ between 'before' and 'after' must compare EQUAL; a moved, deleted or re-meshed
+    StaticMeshActor must still be flagged; an actor from another package must be left out.
+    Raises on any failure so an offline check cannot pass over a broken comparator."""
+    map_pkg = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+
+    def row(name, label, cls, meshes, loc, bounds, persistent=True, instanced=False):
+        return {'name': name, 'label': label, 'class': cls, 'meshes': list(meshes),
+                'package': map_pkg if persistent else '/Engine/Transient', 'persistent': persistent,
+                'instanced': instanced,
+                'pose': {'location': list(loc), 'rotation': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]},
+                'bounds': bounds}
+
+    def box(lo, hi):
+        return {'min': [lo, lo, lo], 'max': [hi, hi, hi]}
+
+    before, after = [], []
+    for churn in LOAD_CHURN_REGRESSION['actors']:
+        before.append(row(churn['name'], churn['label'], churn['class'], ['/Game/X/SM_A'],
+                          (0.0, 0.0, 0.0), box(-100.0, 100.0), instanced=True))
+        after.append(row(churn['name'], churn['label'], churn['class'], ['/Game/X/SM_A'],
+                         (0.0, 0.0, 0.0), box(-9999.0, 9999.0), instanced=True))   # bounds churn
+    # genuine changes that MUST be flagged
+    before.append(row('StaticMeshActor_7', 'Wall', 'StaticMeshActor', ['/Game/X/SM_Wall'], (10.0, 0.0, 0.0), box(0.0, 10.0)))
+    after.append(row('StaticMeshActor_7', 'Wall', 'StaticMeshActor', ['/Game/X/SM_Wall'], (11.0, 0.0, 0.0), box(1.0, 11.0)))   # moved 1 cm
+    before.append(row('StaticMeshActor_8', 'Step', 'StaticMeshActor', ['/Game/X/SM_Step'], (0.0, 0.0, 0.0), box(0.0, 5.0)))
+    #                                                                                                          deleted
+    before.append(row('StaticMeshActor_9', 'Door', 'StaticMeshActor', ['/Game/X/SM_DoorA'], (0.0, 0.0, 0.0), box(0.0, 5.0)))
+    after.append(row('StaticMeshActor_9', 'Door', 'StaticMeshActor', ['/Game/X/SM_DoorB'], (0.0, 0.0, 0.0), box(0.0, 5.0)))     # re-meshed
+    before.append(row('StaticMeshActor_10', 'Lintel', 'StaticMeshActor', ['/Game/X/SM_L'], (0.0, 0.0, 0.0), box(0.0, 5.0)))
+    after.append(row('StaticMeshActor_10', 'Lintel', 'StaticMeshActor', ['/Game/X/SM_L'], (0.0, 0.0, 0.0), box(0.0, 5.5)))      # bounds only, plain actor -> strict flags it
+    # an unsaved actor that appears only after the reload must be ignored
+    after.append(row('CameraActor_3', 'MenuCamera', 'CameraActor', [], (5.0, 5.0, 5.0), box(0.0, 1.0), persistent=False))
+
+    loose_b, loose_a = numeric_baseline_rows(before), numeric_baseline_rows(after)
+    strict_b, strict_a = numeric_baseline_rows(before, strict=True), numeric_baseline_rows(after, strict=True)
+    loose_changed = sorted(n for n, k in loose_b.items() if loose_a.get(n) != k)
+    strict_changed = sorted(n for n, k in strict_b.items() if strict_a.get(n) != k)
+    churn_names = {c['name'] for c in LOAD_CHURN_REGRESSION['actors']}
+    diffs = diff_baselines(before, after, strict=True)
+
+    result = {
+        'churnActors': len(churn_names),
+        'churnFlaggedLoose': sorted(churn_names & set(loose_changed)),
+        'churnFlaggedStrict': sorted(churn_names & set(strict_changed)),
+        'genuineFlaggedLoose': loose_changed,
+        'genuineFlaggedStrict': strict_changed,
+        'transientExcluded': 'CameraActor_3' not in strict_a and 'CameraActor_3' not in loose_a,
+        'diffFields': sorted({(d['name'], d['field']) for d in diffs}),
+    }
+    problems = []
+    if result['churnFlaggedLoose'] or result['churnFlaggedStrict']:
+        problems.append('instance carriers flagged for bounds churn: %s'
+                        % (result['churnFlaggedLoose'] + result['churnFlaggedStrict']))
+    if loose_changed != ['StaticMeshActor_7', 'StaticMeshActor_8', 'StaticMeshActor_9']:
+        problems.append('loose comparison must flag exactly moved/deleted/re-meshed, got %s' % loose_changed)
+    if strict_changed != ['StaticMeshActor_10', 'StaticMeshActor_7', 'StaticMeshActor_8', 'StaticMeshActor_9']:
+        problems.append('strict comparison must also flag the plain-actor bounds change, got %s' % strict_changed)
+    if not result['transientExcluded']:
+        problems.append('actor outside the map package was not excluded')
+    expected_fields = {('StaticMeshActor_7', 'pose'), ('StaticMeshActor_7', 'bounds'),
+                       ('StaticMeshActor_8', 'presence'), ('StaticMeshActor_9', 'meshes'),
+                       ('StaticMeshActor_10', 'bounds')}
+    if set(result['diffFields']) != expected_fields:
+        problems.append('diff evidence differs from expectation: %s' % result['diffFields'])
+    result['passed'] = not problems
+    result['problems'] = problems
+    if problems:
+        raise RuntimeError('snapshot rules self-test failed: %s' % problems)
+    return result
+
+
+
 class Placement:
     """Holds engine handles, cached scene snapshot and the receipt."""
 
@@ -413,6 +655,9 @@ class Placement:
         self.receipt = None
         self.receipt_path = None
         self.trace_method = None
+        # names excluded from every before/after comparison: filled by probe_load_churn()
+        self.excluded_names = set()
+        self.load_churn = []
 
     # -- receipt -----------------------------------------------------------
 
@@ -421,24 +666,52 @@ class Placement:
 
     # -- scene snapshot ------------------------------------------------------
 
+    def _map_package(self):
+        world = self.world or self.editor.get_editor_world()
+        return world.get_outermost().get_name()
+
     def take_snapshot(self):
-        ue = self.ue
-        rows = []
-        for actor in self.actors.get_all_level_actors():
-            meshes = []
-            for component in actor.get_components_by_class(ue.StaticMeshComponent):
-                meshes.append(_asset_path(component.get_editor_property('static_mesh')))
-            for component in actor.get_components_by_class(ue.SkeletalMeshComponent):
-                meshes.append(_asset_path(component.get_skeletal_mesh_asset()))
-            rows.append({'actor': actor, 'name': actor.get_name(), 'label': actor.get_actor_label(),
-                         'folder': str(actor.get_folder_path()), 'meshes': meshes,
-                         'pose': _actor_pose(actor), 'bounds': _actor_bounds(actor)})
+        """Every level actor, through snapshot_row(): label, class, package ownership, whether
+        it carries instanced components, mesh paths, root transform and bounds."""
+        map_package = self._map_package()
+        rows = [snapshot_row(self.ue, actor, map_package)
+                for actor in self.actors.get_all_level_actors() if actor is not None]
         self.snapshot = rows
         return rows
 
     def numeric_baseline(self, rows):
-        return {row['name']: (row['label'], tuple(row['meshes']),
-                              tuple(row['pose']['location'] + row['pose']['rotation'] + row['pose']['scale'])) for row in rows}
+        """{name: key} for persistent actors: label, class, meshes, root transform. Bounds are
+        NOT in this key (see the snapshot rules above); use strict_numeric_baseline for that."""
+        return numeric_baseline_rows(rows, strict=False, exclude=self.excluded_names)
+
+    def strict_numeric_baseline(self, rows):
+        """As numeric_baseline, plus world bounds for actors with no instanced component."""
+        return numeric_baseline_rows(rows, strict=True, exclude=self.excluded_names)
+
+    def baseline_exclusions(self, rows):
+        return baseline_exclusions(rows, exclude=self.excluded_names)
+
+    def diff(self, before_rows, after_rows, strict=False):
+        return diff_baselines(before_rows, after_rows, strict=strict, exclude=self.excluded_names)
+
+    def probe_load_churn(self, target, strict=True):
+        """Opt-in. Load the (still clean) target a second time and compare two pristine
+        snapshots. Whatever differs with nothing touched is load churn by definition; it is
+        recorded and excluded from every later comparison. Must run BEFORE any mutation."""
+        first = self.snapshot or self.take_snapshot()
+        if not self.levels.load_level(target):
+            raise RuntimeError('probe_load_churn: reload of %s failed' % target)
+        self.world = self.editor.get_editor_world()
+        if self.world.get_outermost().get_name() != target:
+            raise RuntimeError('probe_load_churn: reloaded world is not %s' % target)
+        second = self.take_snapshot()
+        churn = diff_baselines(first, second, strict=strict)
+        names = sorted({d['name'] for d in churn})
+        self.load_churn = churn
+        self.excluded_names |= set(names)
+        return {'unstableActors': names, 'evidence': churn, 'strict': strict,
+                'rule': ('actors whose key differs between two pristine loads are load churn '
+                         'and are excluded from the before/after comparison')}
 
     def actors_with_mesh(self, asset_path):
         return [row for row in self.snapshot if asset_path in row['meshes']]

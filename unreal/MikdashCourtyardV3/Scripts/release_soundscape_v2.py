@@ -1338,12 +1338,42 @@ def encode_value(ue, value):
         return {'type': 'str', 'value': str(value)}
     if isinstance(value, ue.Object):
         return {'type': 'object', 'value': value.get_path_name()}
-    if isinstance(value, (list, tuple)):
+    # Containers. A property READ BACK from the engine is an unreal.Array / unreal.Set /
+    # unreal.FixedArray, never a Python list, so the desired (list) and the after (Array)
+    # sides must both be unrolled element by element or the comparison degenerates to
+    # str() of two different renderings and fails on content that is identical. That is
+    # exactly what happened on submix_effect_chain in Release-Soundscape-01.log.
+    if isinstance(value, (list, tuple)) or type(value).__name__ in ('Array', 'FixedArray', 'Set'):
         return {'type': 'array', 'value': [encode_value(ue, v) for v in value]}
+    if type(value).__name__ == 'Map':
+        return {'type': 'array', 'value': [{'type': 'array',
+                                            'value': [encode_value(ue, k), encode_value(ue, v)]}
+                                           for k, v in sorted(value.items(), key=str)]}
+    # Structs compare field by field, never by str(): to_tuple() gives the fields in
+    # declaration order, and a struct read back is a copy, not the object that was set.
+    if isinstance(value, ue.StructBase):
+        try:
+            return {'type': 'array', 'value': [encode_value(ue, v) for v in value.to_tuple()]}
+        except Exception:
+            return {'type': 'opaque', 'value': str(value)}
     try:                                             # enums expose a numeric value
         return {'type': 'enum', 'value': int(value.value), 'name': str(value)}
     except Exception:
         return {'type': 'opaque', 'value': str(value)}
+
+
+def _object_path_key(path):
+    """Normalise an object path for comparison.
+
+    Accepts '/Game/A/B.B', '/Game/A/B.B:Sub_0' and the export form
+    "/Script/Mod.Class'/Game/A/B.B:Sub_0'"; returns the bare object path with any class
+    prefix and quotes removed, so the same object renders identically whichever side of
+    the readback produced it, and different sub-objects stay different.
+    """
+    text = str(path or '')
+    if "'" in text:
+        text = text.split("'", 1)[1].rsplit("'", 1)[0]
+    return text.strip()
 
 
 def values_match(a, b, tolerance=1e-4):
@@ -1357,7 +1387,7 @@ def values_match(a, b, tolerance=1e-4):
         return len(a['value']) == len(b['value']) and all(
             values_match(x, y, tolerance) for x, y in zip(a['value'], b['value']))
     if a['type'] == 'object':
-        return a['value'].split('.')[0] == b['value'].split('.')[0]
+        return _object_path_key(a['value']) == _object_path_key(b['value'])
     return a['value'] == b['value']
 
 
@@ -1482,9 +1512,41 @@ class Soundscape(object):
 
     def guard_namespace(self):
         root = self.spec['namespace']['root']
+        if not self.assets.does_directory_exist(root):
+            return
+        # A run that failed BEFORE the map save leaves its already-saved support assets
+        # behind (Release-Soundscape-01.log did: the sound class and the reverb effect).
+        # -SoundscapeRevertAssets cannot clear them, because revert only accepts a receipt
+        # whose map was saved. So: if the newest receipt is exactly that kind of failure,
+        # the map is unchanged, and EVERY asset now in the namespace is one that receipt
+        # records creating, remove them and continue. Anything else still refuses.
+        folder = ROOT / self.spec['receiptFolder']
+        candidates = sorted(folder.glob(self.spec['receiptPrefix'] + '*.json'))
+        # the receipt for THIS run is already on disk; skip it
+        candidates = [c for c in candidates if c != self.receipt_path]
+        previous = json.loads(candidates[-1].read_text(encoding='utf-8-sig')) if candidates else {}
+        status = str(previous.get('status', ''))
+        recorded = set(str(a).split('.')[0] for a in previous.get('createdAssetPaths', []))
+        present = set(str(a).split('.')[0] for a in self.assets.list_assets(root, True, False))
+        healable = (status.startswith('failed_before_save') and not previous.get('mapBytesChanged')
+                    and present and present <= recorded)
+        if not healable:
+            raise RuntimeError(
+                'Namespace %s already exists with %s; previous receipt status %r, created %s. '
+                'Refusing to touch assets this script cannot account for. Remove the folder by '
+                'hand or run -SoundscapeRevertAssets against a saved receipt.'
+                % (root, sorted(present), status, sorted(recorded)))
+        if not self.assets.delete_directory(root):
+            raise RuntimeError('Could not remove the leftover namespace ' + root)
         if self.assets.does_directory_exist(root):
-            raise RuntimeError('Namespace %s already exists; revert (-SoundscapeRevertAssets) or '
-                               'remove it before a fresh apply' % root)
+            raise RuntimeError('Namespace %s still exists after delete_directory' % root)
+        self.receipt['leftoverNamespaceRemoved'] = {
+            'fromReceipt': candidates[-1].name, 'previousStatus': status,
+            'assets': sorted(present)}
+        self.note('Removed %d leftover asset(s) from %s that the failed-before-save run %s '
+                  'recorded creating. Nothing else was touched.'
+                  % (len(present), root, candidates[-1].name))
+        self.write_receipt()
 
     def discover(self, require_clean=True):
         ue = self.ue

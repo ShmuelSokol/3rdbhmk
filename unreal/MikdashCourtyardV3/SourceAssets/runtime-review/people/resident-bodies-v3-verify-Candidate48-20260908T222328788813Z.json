@@ -1,0 +1,4666 @@
+{
+  "status": "verify_complete_pie_evidence_23_of_24_spawned_0_variant_bodies_0_moved",
+  "mode": "verify",
+  "target": "Candidate48",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "frame": "Selected48.v1",
+  "ratio": 0.96,
+  "floorZ": 288.0,
+  "mapShaBefore": "ae363a2c311953e464f9b9394aa46cbec90457b4f8774bbda039449f0c8abafd",
+  "otherMapsBefore": {
+    "Main50": "bc4aa9e065093be1282271d3c71af13e52e6284e34307588ac0c10a4ad7a3491"
+  },
+  "stagedDirectory": {
+    "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\Distribution\\People\\people-candidate48.json",
+    "sha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8",
+    "unchanged": true
+  },
+  "errors": [],
+  "scope": "Real-RHI PIE: body identity, component pose, bone heights over a sample window, capsule invariants, garment readback, spawn accounting, legs, motion, frame time; no map writes; not visual acceptance",
+  "commandLine": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough -ExecCmds=\"py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_resident_bodies_v3.py\" -BodiesVerify -BodiesTarget=Candidate48 -TestSavePrefix=FableProbe_BodiesV3_01 -ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableProbe_BodiesV3_01,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableProbe_BodiesV3_01_Settings -unattended -NoSplash -abslog=C:/Mikdash/Working-5.8/Fable-BodiesV3-Candidate48-01.log",
+  "abslog": "C:/Mikdash/Working-5.8/Fable-BodiesV3-Candidate48-01.log",
+  "saveIsolation": {
+    "testPrefix": "FableProbe_BodiesV3_01",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "editorPopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "label": "RELEASE_ResidentPopulation",
+      "spawn_authored_people_on_begin_play": "False",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "default_mesh_relative_yaw": "90.0",
+      "bodyVariants": []
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "label": "RELEASE_PeopleV3Population",
+      "spawn_authored_people_on_begin_play": "True",
+      "people_directory_file": "Distribution/People/people-candidate48.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "default_mesh_relative_yaw": "90.0",
+      "bodyVariants": []
+    }
+  ],
+  "populationReadyWaitSeconds": 18.7,
+  "piePopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "living": 5,
+      "directoryStatus": "Authored people directory not requested",
+      "status": "Pilot bound; collision/nav review may hold residents idle",
+      "active": true,
+      "get_variant_body_count": 0,
+      "get_fallback_body_count": 0,
+      "get_extended_route_status": "Extended loop: body 3, 5 waypoints, 66.4 m, 3 laps"
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "living": 23,
+      "directoryStatus": "Directory 'people-v3': 24 authored, 23 walking, 1 skipped, 23 notes; 0 variant bodies, 23 default bodies; file C:/Mikdash/Working-5.8/MikdashCourtyardV3/Content/Distribution/People/people-candidate48.json",
+      "status": "Authored people bound; collision/nav review may hold residents idle",
+      "active": true,
+      "get_variant_body_count": 0,
+      "get_fallback_body_count": 23,
+      "get_extended_route_status": "No extended route configured"
+    }
+  ],
+  "residents": [
+    {
+      "id": "yoav-ben-shimi",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Standard",
+      "castScale": 1.0,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        2304.0,
+        2784.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Standard' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1504015251994,
+        "ballMaxZ": 293.1504015251994,
+        "headMinZ": 456.15039825439453,
+        "headMaxZ": 456.15039825439453,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1504015251994,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15039825439453,
+        "headMaxZ": 456.15039825439453,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenUndyed.MI_Garment_LinenUndyed",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          2304.0,
+          2784.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            2304.0,
+            2784.0,
+            288.0
+          ],
+          "toFeet": [
+            4848.0,
+            2784.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4848.0,
+            2784.0,
+            288.0
+          ],
+          "toFeet": [
+            4848.0,
+            3264.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4848.0,
+            3264.0,
+            288.0
+          ],
+          "toFeet": [
+            2304.0,
+            3264.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            2304.0,
+            3264.0,
+            288.0
+          ],
+          "toFeet": [
+            2304.0,
+            2784.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          2056.0,
+          2784.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          2056.0,
+          2784.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "miryam-bas-elyakim",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Young",
+      "castScale": 0.93,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3552.0,
+        1008.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Young' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1501116082072,
+        "ballMaxZ": 293.1501116082072,
+        "headMinZ": 456.15010833740234,
+        "headMaxZ": 456.15010833740234,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1501116082072,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15010833740234,
+        "headMaxZ": 456.15010833740234,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolMadder.MI_Garment_WoolMadder",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          3552.0,
+          1008.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3552.0,
+            1008.0,
+            288.0
+          ],
+          "toFeet": [
+            4944.0,
+            1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4944.0,
+            1008.0,
+            288.0
+          ],
+          "toFeet": [
+            4944.0,
+            2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4944.0,
+            2640.0,
+            288.0
+          ],
+          "toFeet": [
+            3552.0,
+            2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3552.0,
+            2640.0,
+            288.0
+          ],
+          "toFeet": [
+            3552.0,
+            1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3304.0,
+          1008.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3304.0,
+          1008.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "naftali-ben-chagai",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Heavy",
+      "castScale": 1.04,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        5160.0,
+        1008.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Heavy' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1501116082072,
+        "ballMaxZ": 293.1501116082072,
+        "headMinZ": 456.15010833740234,
+        "headMaxZ": 456.15010833740234,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1501116082072,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15010833740234,
+        "headMaxZ": 456.15010833740234,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_TravellerDust.MI_Garment_TravellerDust",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          5160.0,
+          1008.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            5160.0,
+            1008.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            1008.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            2640.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5160.0,
+            2640.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4912.0,
+          1008.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          4912.0,
+          1008.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "tzipporah-bas-menachem",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Elder",
+      "castScale": 0.9,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        1872.0,
+        3696.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.150538854301,
+        "ballMaxZ": 293.150538854301,
+        "headMinZ": 456.1505355834961,
+        "headMaxZ": 456.1505355834961,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.150538854301,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.1505355834961,
+        "headMaxZ": 456.1505355834961,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolIndigo.MI_Garment_WoolIndigo",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 29.999,
+        "impactPoint": [
+          1872.0,
+          3696.0,
+          288.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            1872.0,
+            3696.0,
+            288.0
+          ],
+          "toFeet": [
+            3072.0,
+            3696.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 13,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3072.0,
+            3696.0,
+            288.0
+          ],
+          "toFeet": [
+            3072.0,
+            5568.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 20,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3072.0,
+            5568.0,
+            288.0
+          ],
+          "toFeet": [
+            1872.0,
+            5568.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 13,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            1872.0,
+            5568.0,
+            288.0
+          ],
+          "toFeet": [
+            1872.0,
+            3696.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 20,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1624.0,
+          3696.0,
+          386.151
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          1624.0,
+          3696.0,
+          386.151
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "elchanan-ben-uriya",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Elder",
+      "castScale": 0.97,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3384.0,
+        3408.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1504892632365,
+        "ballMaxZ": 293.1504892632365,
+        "headMinZ": 456.15048599243164,
+        "headMaxZ": 456.15048599243164,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1504892632365,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15048599243164,
+        "headMaxZ": 456.15048599243164,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_MantleOlive.MI_Garment_MantleOlive",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 29.999,
+        "impactPoint": [
+          3384.0,
+          3408.0,
+          288.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3384.0,
+            3408.0,
+            288.0
+          ],
+          "toFeet": [
+            4776.0,
+            3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4776.0,
+            3408.0,
+            288.0
+          ],
+          "toFeet": [
+            4776.0,
+            5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4776.0,
+            5040.0,
+            288.0
+          ],
+          "toFeet": [
+            3384.0,
+            5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3384.0,
+            5040.0,
+            288.0
+          ],
+          "toFeet": [
+            3384.0,
+            3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3136.0,
+          3408.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3136.0,
+          3408.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "shulamis-bas-yechiel",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Young",
+      "castScale": 0.95,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        5160.0,
+        3408.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Young' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1504892632365,
+        "ballMaxZ": 293.1504892632365,
+        "headMinZ": 456.15048599243164,
+        "headMaxZ": 456.15048599243164,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1504892632365,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15048599243164,
+        "headMaxZ": 456.15048599243164,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenBleached.MI_Garment_LinenBleached",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 29.999,
+        "impactPoint": [
+          5160.0,
+          3408.0,
+          288.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            5160.0,
+            3408.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            3408.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            5040.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5160.0,
+            5040.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4912.0,
+          3408.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          4912.0,
+          3408.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "gad-ben-peleth",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Heavy",
+      "castScale": 1.02,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3984.0,
+        -2496.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Heavy' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14953177422285,
+        "ballMaxZ": 293.14953177422285,
+        "headMinZ": 456.14952850341797,
+        "headMaxZ": 456.14952850341797,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14953177422285,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14952850341797,
+        "headMaxZ": 456.14952850341797,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolUmber.MI_Garment_WoolUmber",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          3984.0,
+          -2496.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3984.0,
+            -2496.0,
+            288.0
+          ],
+          "toFeet": [
+            5664.0,
+            -2496.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5664.0,
+            -2496.0,
+            288.0
+          ],
+          "toFeet": [
+            5664.0,
+            -1152.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5664.0,
+            -1152.0,
+            288.0
+          ],
+          "toFeet": [
+            3984.0,
+            -1152.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3984.0,
+            -1152.0,
+            288.0
+          ],
+          "toFeet": [
+            3984.0,
+            -2496.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3736.0,
+          -2496.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3736.0,
+          -2496.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "devorah-bas-amram",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Young",
+      "castScale": 0.92,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3552.0,
+        -2640.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Young' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14950888603926,
+        "ballMaxZ": 293.14950888603926,
+        "headMinZ": 456.1495056152344,
+        "headMaxZ": 456.1495056152344,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14950888603926,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.1495056152344,
+        "headMaxZ": 456.1495056152344,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_MantleSaffron.MI_Garment_MantleSaffron",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          3552.0,
+          -2640.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3552.0,
+            -2640.0,
+            288.0
+          ],
+          "toFeet": [
+            4944.0,
+            -2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4944.0,
+            -2640.0,
+            288.0
+          ],
+          "toFeet": [
+            4944.0,
+            -1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4944.0,
+            -1008.0,
+            288.0
+          ],
+          "toFeet": [
+            3552.0,
+            -1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3552.0,
+            -1008.0,
+            288.0
+          ],
+          "toFeet": [
+            3552.0,
+            -2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3304.0,
+          -2640.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3304.0,
+          -2640.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yigal-ben-zerach",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Standard",
+      "castScale": 0.99,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        5160.0,
+        -2640.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Standard' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14950888603926,
+        "ballMaxZ": 293.14950888603926,
+        "headMinZ": 456.1495056152344,
+        "headMaxZ": 456.1495056152344,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14950888603926,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.1495056152344,
+        "headMaxZ": 456.1495056152344,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_TravellerDust.MI_Garment_TravellerDust",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          5160.0,
+          -2640.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            5160.0,
+            -2640.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            -2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            -2640.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            -1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            -1008.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            -1008.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5160.0,
+            -1008.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            -2640.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4912.0,
+          -2640.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          4912.0,
+          -2640.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "techiya-bas-nadav",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Young",
+      "castScale": 0.9,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        1704.0,
+        -5040.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Young' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14911215752363,
+        "ballMaxZ": 293.14911215752363,
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14911215752363,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolIndigo.MI_Garment_WoolIndigo",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          1704.0,
+          -5040.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            1704.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            3240.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3240.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            3240.0,
+            -3552.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3240.0,
+            -3552.0,
+            288.0
+          ],
+          "toFeet": [
+            1704.0,
+            -3552.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 17,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            1704.0,
+            -3552.0,
+            288.0
+          ],
+          "toFeet": [
+            1704.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1456.0,
+          -5040.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          1456.0,
+          -5040.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "amitai-ben-kalev",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Youth",
+      "castScale": 0.84,
+      "expectedGarmentSlot": "Linen",
+      "decodedWaypoint0": [
+        3384.0,
+        -5040.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Youth' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14911215752363,
+        "ballMaxZ": 293.14911215752363,
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14911215752363,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 1,
+        "material": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Linen.Linen",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": false,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          3384.0,
+          -5040.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3384.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            4776.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4776.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            4776.0,
+            -3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4776.0,
+            -3408.0,
+            288.0
+          ],
+          "toFeet": [
+            3384.0,
+            -3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3384.0,
+            -3408.0,
+            288.0
+          ],
+          "toFeet": [
+            3384.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3136.0,
+          -5040.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3136.0,
+          -5040.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yehudis-bas-ovadya",
+      "role": "pilgrim",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Elder",
+      "castScale": 0.91,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        5160.0,
+        -5040.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14911215752363,
+        "ballMaxZ": 293.14911215752363,
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14911215752363,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14910888671875,
+        "headMaxZ": 456.14910888671875,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolMadder.MI_Garment_WoolMadder",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          5160.0,
+          -5040.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            5160.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            -5040.0,
+            288.0
+          ],
+          "toFeet": [
+            6552.0,
+            -3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            6552.0,
+            -3408.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            -3408.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 15,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5160.0,
+            -3408.0,
+            288.0
+          ],
+          "toFeet": [
+            5160.0,
+            -5040.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          4912.0,
+          -5040.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          4912.0,
+          -5040.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "pinchas-ben-achituv",
+      "role": "kohen",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Heavy",
+      "castScale": 0.96,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3840.0,
+        2016.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Heavy' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.15027564018965,
+        "ballMaxZ": 293.15027564018965,
+        "headMinZ": 456.15027236938477,
+        "headMaxZ": 456.15027236938477,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.15027564018965,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15027236938477,
+        "headMaxZ": 456.15027236938477,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenUndyed.MI_Garment_LinenUndyed",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          3840.0,
+          2016.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3840.0,
+            2016.0,
+            288.0
+          ],
+          "toFeet": [
+            5808.0,
+            2016.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 21,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5808.0,
+            2016.0,
+            288.0
+          ],
+          "toFeet": [
+            5808.0,
+            4128.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5808.0,
+            4128.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            4128.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 21,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3840.0,
+            4128.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            2016.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3592.0,
+          2016.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3592.0,
+          2016.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "yedidya-ben-chilkiya",
+      "role": "kohen",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Elder",
+      "castScale": 0.96,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3696.0,
+        -4224.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.14923422783613,
+        "ballMaxZ": 293.14923422783613,
+        "headMinZ": 456.14923095703125,
+        "headMaxZ": 456.14923095703125,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.14923422783613,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14923095703125,
+        "headMaxZ": 456.14923095703125,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenBleached.MI_Garment_LinenBleached",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          3696.0,
+          -4224.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3696.0,
+            -4224.0,
+            288.0
+          ],
+          "toFeet": [
+            5760.0,
+            -4224.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5760.0,
+            -4224.0,
+            288.0
+          ],
+          "toFeet": [
+            5760.0,
+            -1728.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5760.0,
+            -1728.0,
+            288.0
+          ],
+          "toFeet": [
+            3696.0,
+            -1728.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3696.0,
+            -1728.0,
+            288.0
+          ],
+          "toFeet": [
+            3696.0,
+            -4224.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3448.0,
+          -4224.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3448.0,
+          -4224.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "uriel-ben-shemaya",
+      "role": "kohen",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Standard",
+      "castScale": 1.02,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3840.0,
+        1680.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Standard' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.15021079033613,
+        "ballMaxZ": 293.15021079033613,
+        "headMinZ": 456.15020751953125,
+        "headMaxZ": 456.15020751953125,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.15021079033613,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15020751953125,
+        "headMaxZ": 456.15020751953125,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenUndyed.MI_Garment_LinenUndyed",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          3840.0,
+          1680.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3840.0,
+            1680.0,
+            288.0
+          ],
+          "toFeet": [
+            5472.0,
+            1680.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5472.0,
+            1680.0,
+            288.0
+          ],
+          "toFeet": [
+            5472.0,
+            4176.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5472.0,
+            4176.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            4176.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 18,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3840.0,
+            4176.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            1680.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3592.0,
+          1680.0,
+          386.15
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3592.0,
+          1680.0,
+          386.15
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "assaf-ben-berachya",
+      "role": "levite",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Standard",
+      "castScale": 1.01,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        3840.0,
+        -4128.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Standard' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.149260930717,
+        "ballMaxZ": 293.149260930717,
+        "headMinZ": 456.1492576599121,
+        "headMaxZ": 456.1492576599121,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.149260930717,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.1492576599121,
+        "headMaxZ": 456.1492576599121,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolIndigo.MI_Garment_WoolIndigo",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          3840.0,
+          -4128.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            3840.0,
+            -4128.0,
+            288.0
+          ],
+          "toFeet": [
+            5904.0,
+            -4128.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5904.0,
+            -4128.0,
+            288.0
+          ],
+          "toFeet": [
+            5904.0,
+            -2064.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            5904.0,
+            -2064.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            -2064.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3840.0,
+            -2064.0,
+            288.0
+          ],
+          "toFeet": [
+            3840.0,
+            -4128.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 22,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          3592.0,
+          -4128.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          3592.0,
+          -4128.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "chananel-ben-mattisyahu",
+      "role": "levite",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Standard",
+      "castScale": 0.98,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        5376.0,
+        1584.0,
+        288.0
+      ],
+      "spawned": false,
+      "logReasons": [
+        "skipped: coordinate/route refusal: authored route extension requires reviewed selected48 origin zero"
+      ],
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          5376.0,
+          1584.0,
+          288.0
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      }
+    },
+    {
+      "id": "rivka-bas-yoezer",
+      "role": "host",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Woman_Elder",
+      "castScale": 0.89,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        2304.0,
+        -3264.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.149390630424,
+        "ballMaxZ": 293.149390630424,
+        "headMinZ": 456.14938735961914,
+        "headMaxZ": 456.14938735961914,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.149390630424,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.14938735961914,
+        "headMaxZ": 456.14938735961914,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_MantleSaffron.MI_Garment_MantleSaffron",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.001,
+        "impactPoint": [
+          2304.0,
+          -3264.0,
+          287.999
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            2304.0,
+            -3264.0,
+            288.0
+          ],
+          "toFeet": [
+            4848.0,
+            -3264.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4848.0,
+            -3264.0,
+            288.0
+          ],
+          "toFeet": [
+            4848.0,
+            -2784.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            4848.0,
+            -2784.0,
+            288.0
+          ],
+          "toFeet": [
+            2304.0,
+            -2784.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            2304.0,
+            -2784.0,
+            288.0
+          ],
+          "toFeet": [
+            2304.0,
+            -3264.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 6,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          2056.0,
+          -3264.0,
+          386.149
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          2056.0,
+          -3264.0,
+          386.149
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "nechemya-ben-tzuriel",
+      "role": "guide",
+      "zone": "outer-court",
+      "castVariant": "V3_Pilgrim_Man_Elder",
+      "castScale": 0.94,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        1728.0,
+        3552.0,
+        288.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 293.1505235955119,
+        "ballMaxZ": 293.1505235955119,
+        "headMinZ": 456.15052032470703,
+        "headMaxZ": 456.15052032470703,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 288.0,
+      "feet": {
+        "ballMinZ": 293.1505235955119,
+        "expectedBallZ": 291.0,
+        "errorCm": 5.15,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 456.15052032470703,
+        "headMaxZ": 456.15052032470703,
+        "expectedZ": 454.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_MantleOlive.MI_Garment_MantleOlive",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 29.999,
+        "impactPoint": [
+          1728.0,
+          3552.0,
+          288.001
+        ],
+        "impactNormal": [
+          0.0,
+          -0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "Outer court floor"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            1728.0,
+            3552.0,
+            288.0
+          ],
+          "toFeet": [
+            3216.0,
+            3552.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3216.0,
+            3552.0,
+            288.0
+          ],
+          "toFeet": [
+            3216.0,
+            5712.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            3216.0,
+            5712.0,
+            288.0
+          ],
+          "toFeet": [
+            1728.0,
+            5712.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 16,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            1728.0,
+            5712.0,
+            288.0
+          ],
+          "toFeet": [
+            1728.0,
+            3552.0,
+            288.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 23,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          1480.0,
+          3552.0,
+          386.151
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          1480.0,
+          3552.0,
+          386.151
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "shmaya-ben-nachshon",
+      "role": "host",
+      "zone": "mount-deck",
+      "castVariant": "V3_Pilgrim_Man_Heavy",
+      "castScale": 1.01,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        9360.0,
+        -2600.0,
+        0.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Heavy' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 5.399997167289257,
+        "ballMaxZ": 5.399997167289257,
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 0.0,
+      "feet": {
+        "ballMinZ": 5.399997167289257,
+        "expectedBallZ": 3.0,
+        "errorCm": 5.4,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "expectedZ": 166.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolUmber.MI_Garment_WoolUmber",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          9360.0,
+          -2600.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            9360.0,
+            -2600.0,
+            0.0
+          ],
+          "toFeet": [
+            9940.0,
+            -1500.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9940.0,
+            -1500.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            -400.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            -400.0,
+            0.0
+          ],
+          "toFeet": [
+            9940.0,
+            700.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9940.0,
+            700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            1800.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            1800.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            -2600.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 45,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9360.0,
+          -2600.0,
+          98.4
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          9360.0,
+          -2600.0,
+          98.4
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "aviela-bas-refael",
+      "role": "guide",
+      "zone": "mount-deck",
+      "castVariant": "V3_Pilgrim_Woman_Young",
+      "castScale": 0.94,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        9400.0,
+        2700.0,
+        0.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Young' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 5.399997167289257,
+        "ballMaxZ": 5.399997167289257,
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 0.0,
+      "feet": {
+        "ballMinZ": 5.399997167289257,
+        "expectedBallZ": 3.0,
+        "errorCm": 5.4,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "expectedZ": 166.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_LinenBleached.MI_Garment_LinenBleached",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          9400.0,
+          2700.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            9400.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9900.0,
+            1600.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9900.0,
+            1600.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            500.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9400.0,
+            500.0,
+            0.0
+          ],
+          "toFeet": [
+            9900.0,
+            -600.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9900.0,
+            -600.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            -1700.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 14,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9400.0,
+            -1700.0,
+            0.0
+          ],
+          "toFeet": [
+            9400.0,
+            2700.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 45,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9400.0,
+          2700.0,
+          98.4
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          9400.0,
+          2700.0,
+          98.4
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "ovadya-ben-ephrayim",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "castVariant": "V3_Pilgrim_Man_Elder",
+      "castScale": 0.95,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        9350.0,
+        -1250.0,
+        0.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Man_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 5.399997167289257,
+        "ballMaxZ": 5.399997167289257,
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 0.0,
+      "feet": {
+        "ballMinZ": 5.399997167289257,
+        "expectedBallZ": 3.0,
+        "errorCm": 5.4,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "expectedZ": 166.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_TravellerDust.MI_Garment_TravellerDust",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          9350.0,
+          -1250.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            9350.0,
+            -1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9950.0,
+            -1250.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9950.0,
+            -1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9950.0,
+            1250.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9950.0,
+            1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9350.0,
+            1250.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9350.0,
+            1250.0,
+            0.0
+          ],
+          "toFeet": [
+            9350.0,
+            -1250.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 26,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9350.0,
+          -1250.0,
+          98.4
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          9350.0,
+          -1250.0,
+          98.4
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "machla-bas-yiftach",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "castVariant": "V3_Pilgrim_Woman_Elder",
+      "castScale": 0.86,
+      "expectedGarmentSlot": "Mantle",
+      "decodedWaypoint0": [
+        9360.0,
+        100.0,
+        0.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Woman_Elder' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 5.399997167289257,
+        "ballMaxZ": 5.399997167289257,
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 0.0,
+      "feet": {
+        "ballMinZ": 5.399997167289257,
+        "expectedBallZ": 3.0,
+        "errorCm": 5.4,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "expectedZ": 166.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 2,
+        "material": "/Game/MikdashV3/Runtime/PeopleV3/Materials/MI_Garment_WoolMadder.MI_Garment_WoolMadder",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": true,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          9360.0,
+          100.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            9360.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9920.0,
+            100.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9920.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9920.0,
+            2700.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9920.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            2700.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 7,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9360.0,
+            2700.0,
+            0.0
+          ],
+          "toFeet": [
+            9360.0,
+            100.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 27,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9360.0,
+          100.0,
+          98.4
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          9360.0,
+          100.0,
+          98.4
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    },
+    {
+      "id": "elad-ben-yishai",
+      "role": "vendor",
+      "zone": "mount-deck",
+      "castVariant": "V3_Pilgrim_Youth",
+      "castScale": 0.87,
+      "expectedGarmentSlot": "Linen",
+      "decodedWaypoint0": [
+        9330.0,
+        -2300.0,
+        0.0
+      ],
+      "spawned": true,
+      "logReasons": [
+        "note: body fallback to the default rig: variant 'V3_Pilgrim_Youth' is not registered on this population"
+      ],
+      "actualMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
+      "reportedBody": {
+        "variantId": "",
+        "visualScale": 1.0,
+        "fallback": true
+      },
+      "meshMatchesCast": false,
+      "component": {
+        "relativeScale3d": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "relativeYaw": 90.0,
+        "relativeLocation": [
+          0.0,
+          0.0,
+          -96.0
+        ]
+      },
+      "componentOk": true,
+      "capsule": {
+        "radius": 34.0,
+        "halfHeight": 96.0,
+        "actorScale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "capsuleOk": true,
+      "bones": {
+        "samples": 28,
+        "ballMinZ": 5.399997167289257,
+        "ballMaxZ": 5.399997167289257,
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "toesAheadSamples": 0,
+        "movingSamples": 0,
+        "movingTowardToesSamples": 0
+      },
+      "zoneFloor": 0.0,
+      "feet": {
+        "ballMinZ": 5.399997167289257,
+        "expectedBallZ": 3.0,
+        "errorCm": 5.4,
+        "ok": true
+      },
+      "head": {
+        "headMinZ": 168.39999389648438,
+        "headMaxZ": 168.39999389648438,
+        "expectedZ": 166.0,
+        "ok": true
+      },
+      "facing": {
+        "toesAheadFraction": 0.0,
+        "movingTowardToesFraction": null
+      },
+      "garment": {
+        "slotIndex": 1,
+        "material": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/Materials/Linen.Linen",
+        "slotNames": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headwrap",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim"
+        ]
+      },
+      "garmentOk": false,
+      "capsuleBlockers": [],
+      "floorOk": true,
+      "floorTrace": {
+        "blocking": true,
+        "distance": 30.0,
+        "impactPoint": [
+          9330.0,
+          -2300.0,
+          0.0
+        ],
+        "impactNormal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "component": "StaticMeshComponent0",
+        "actorLabel": "SM_MountPlatform_Surface"
+      },
+      "legs": [
+        {
+          "fromFeet": [
+            9330.0,
+            -2300.0,
+            0.0
+          ],
+          "toFeet": [
+            9990.0,
+            -2300.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 8,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9990.0,
+            -2300.0,
+            0.0
+          ],
+          "toFeet": [
+            9990.0,
+            100.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 25,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9990.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9330.0,
+            100.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 8,
+          "floorFailureCount": 0
+        },
+        {
+          "fromFeet": [
+            9330.0,
+            100.0,
+            0.0
+          ],
+          "toFeet": [
+            9330.0,
+            -2300.0,
+            0.0
+          ],
+          "sweepBlocked": false,
+          "firstBlock": null,
+          "floorSamples": 25,
+          "floorFailureCount": 0
+        }
+      ],
+      "legsBlocked": 0,
+      "legsWithFloorFailures": 0,
+      "motion": {
+        "first": [
+          9330.0,
+          -2300.0,
+          98.4
+        ],
+        "firstAtSeconds": 8.06,
+        "second": [
+          9330.0,
+          -2300.0,
+          98.4
+        ],
+        "secondAtSeconds": 24.0,
+        "movedCm": 0.0
+      },
+      "walkedInPie": false
+    }
+  ],
+  "frameTime": {
+    "framesInWindow": 802,
+    "windowSeconds": 24.3,
+    "averageMs": 30.3
+  },
+  "summary": {
+    "authored": 24,
+    "spawned": 23,
+    "skipped": [
+      "chananel-ben-mattisyahu"
+    ],
+    "variantBodies": [],
+    "fallbackBodies": [
+      "yoav-ben-shimi",
+      "miryam-bas-elyakim",
+      "naftali-ben-chagai",
+      "tzipporah-bas-menachem",
+      "elchanan-ben-uriya",
+      "shulamis-bas-yechiel",
+      "gad-ben-peleth",
+      "devorah-bas-amram",
+      "yigal-ben-zerach",
+      "techiya-bas-nadav",
+      "amitai-ben-kalev",
+      "yehudis-bas-ovadya",
+      "pinchas-ben-achituv",
+      "yedidya-ben-chilkiya",
+      "uriel-ben-shemaya",
+      "assaf-ben-berachya",
+      "rivka-bas-yoezer",
+      "nechemya-ben-tzuriel",
+      "shmaya-ben-nachshon",
+      "aviela-bas-refael",
+      "ovadya-ben-ephrayim",
+      "machla-bas-yiftach",
+      "elad-ben-yishai"
+    ],
+    "meshMatchesCast": [],
+    "meshMismatch": [
+      "yoav-ben-shimi",
+      "miryam-bas-elyakim",
+      "naftali-ben-chagai",
+      "tzipporah-bas-menachem",
+      "elchanan-ben-uriya",
+      "shulamis-bas-yechiel",
+      "gad-ben-peleth",
+      "devorah-bas-amram",
+      "yigal-ben-zerach",
+      "techiya-bas-nadav",
+      "amitai-ben-kalev",
+      "yehudis-bas-ovadya",
+      "pinchas-ben-achituv",
+      "yedidya-ben-chilkiya",
+      "uriel-ben-shemaya",
+      "assaf-ben-berachya",
+      "rivka-bas-yoezer",
+      "nechemya-ben-tzuriel",
+      "shmaya-ben-nachshon",
+      "aviela-bas-refael",
+      "ovadya-ben-ephrayim",
+      "machla-bas-yiftach",
+      "elad-ben-yishai"
+    ],
+    "componentOk": 23,
+    "capsuleOk": 23,
+    "feetOk": 23,
+    "headOk": 23,
+    "garmentOk": 21,
+    "feetFailed": [],
+    "headFailed": [],
+    "componentFailed": [],
+    "garmentFailed": [
+      "amitai-ben-kalev",
+      "elad-ben-yishai"
+    ],
+    "extremeScales": {
+      "naftali-ben-chagai": 1.04,
+      "amitai-ben-kalev": 0.84
+    },
+    "spawnedWithAllLegsClear": [
+      "yoav-ben-shimi",
+      "miryam-bas-elyakim",
+      "naftali-ben-chagai",
+      "tzipporah-bas-menachem",
+      "elchanan-ben-uriya",
+      "shulamis-bas-yechiel",
+      "gad-ben-peleth",
+      "devorah-bas-amram",
+      "yigal-ben-zerach",
+      "techiya-bas-nadav",
+      "amitai-ben-kalev",
+      "yehudis-bas-ovadya",
+      "pinchas-ben-achituv",
+      "yedidya-ben-chilkiya",
+      "uriel-ben-shemaya",
+      "assaf-ben-berachya",
+      "rivka-bas-yoezer",
+      "nechemya-ben-tzuriel",
+      "shmaya-ben-nachshon",
+      "aviela-bas-refael",
+      "ovadya-ben-ephrayim",
+      "machla-bas-yiftach",
+      "elad-ben-yishai"
+    ],
+    "movedMoreThanThreshold": [],
+    "capsuleAgreementWithSpawner": false
+  },
+  "pieEnded": true,
+  "mapShaAfter": "ae363a2c311953e464f9b9394aa46cbec90457b4f8774bbda039449f0c8abafd",
+  "mapBytesUnchanged": true,
+  "otherMapsUnchanged": true
+}

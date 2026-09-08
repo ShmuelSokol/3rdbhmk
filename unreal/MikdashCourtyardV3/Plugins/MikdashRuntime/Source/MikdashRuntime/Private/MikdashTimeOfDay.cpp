@@ -96,12 +96,14 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
     Presets.SetNum(int32(EMikdashTimePreset::Night) + 1);
 
     // Shared, non-negotiable fog geometry: the authored tune from
-    // SourceAssets/lighting-review/fog-tune-20260908T024650Z.json.
+    // SourceAssets/lighting-review/fog-tune-20260908T024650Z.json (density 0.0015, falloff
+    // 0.15, start 8000, volumetric off) plus the max opacity 0.85 the lighting-polish pass
+    // set and every later inventory confirms.
     auto AuthoredFog = [](FMikdashSkyPreset& P)
     {
         P.FogHeightFalloff = 0.15f;
         P.FogStartDistance = 8000.f;
-        P.FogMaxOpacity = 1.f;
+        P.FogMaxOpacity = 0.85f;
         P.bVolumetricFog = false;
     };
 
@@ -117,7 +119,7 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
         P.SunVolumetricScatteringIntensity = 1.4f;
         P.MoonIntensityLux = 1.2f;
         P.MoonTemperatureK = 8500.f;
-        P.SkyLightIntensity = 1.35f;
+        P.SkyLightIntensity = 1.7f;
         P.FogDensity = 0.0020f;
         P.FogColorScale = FLinearColor(1.00f, 0.78f, 0.68f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(120.f, 70.f, 55.f, 1.f);
@@ -140,7 +142,7 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
         P.SunVolumetricScatteringIntensity = 1.6f;
         P.MoonIntensityLux = 0.6f;
         P.MoonTemperatureK = 8500.f;
-        P.SkyLightIntensity = 1.15f;
+        P.SkyLightIntensity = 1.5f;
         P.FogDensity = 0.0019f;
         P.FogColorScale = FLinearColor(1.00f, 0.84f, 0.66f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(1400.f, 700.f, 320.f, 1.f);
@@ -156,17 +158,21 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
     {
         FMikdashSkyPreset& P = Presets[int32(EMikdashTimePreset::Morning)];
         AuthoredFog(P);
-        // Matches the reviewed live scene exactly: 30 klux at 5000 K, source angle 0.5,
-        // volumetric scattering 1.0, fog 0.0015, exposure bias 0, bounds EV 0..14.
+        // EXACTLY the reviewed daylight adopted on 2026-09-08 (cool-daylight-acceptance,
+        // native-reviewed-daylight-20260908T171157734314Z): 30 klux at 6500 K, source angle
+        // 0.5, volumetric scattering 1.0, sky light 1.3, fog 0.0015 with the live colour
+        // scale (1, 0.94, 0.82) and directional inscattering (1500, 1170, 750), exposure
+        // bias 0, bounds EV 0..14, aerial perspective 1.8, Mie 0.005. With the clock on the
+        // Morning preset and clear weather this row reproduces the saved map's look.
         P.SunIntensityLux = 30000.f;
-        P.SunTemperatureK = 5000.f;
+        P.SunTemperatureK = 6500.f;
         P.SunSourceAngleDeg = 0.5f;
         P.SunVolumetricScatteringIntensity = 1.0f;
         P.MoonIntensityLux = 0.f;
         P.MoonTemperatureK = 8000.f;
-        P.SkyLightIntensity = 1.0f;
+        P.SkyLightIntensity = 1.3f;
         P.FogDensity = 0.0015f;
-        P.FogColorScale = FLinearColor(1.00f, 0.96f, 0.90f, 1.f);
+        P.FogColorScale = FLinearColor(1.00f, 0.94f, 0.82f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(1500.f, 1170.f, 750.f, 1.f);
         P.CloudCoverage = 0.35f;
         P.CloudDensity = 0.15f;
@@ -180,37 +186,39 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
     {
         FMikdashSkyPreset& P = Presets[int32(EMikdashTimePreset::Midday)];
         AuthoredFog(P);
-        // Solar noon. FOG IS THE AUTHORED TUNE, UNCHANGED: 0.0015 / 0.15 / 8000 /
-        // volumetric off. Exposure bias 0 and bounds EV 0..14, which are the live values.
-        P.SunIntensityLux = 42000.f;
-        P.SunTemperatureK = 5600.f;
+        // Solar noon. FOG IS THE AUTHORED TUNE, UNCHANGED: 0.0015 / 0.15 / 8000 / 0.85 /
+        // volumetric off, live colour scale. Sun stays at the adopted 6500 K and the sky
+        // light at the adopted 1.3; only the illuminance rises with the higher sun.
+        // Exposure bias 0 and bounds EV 0..14 are the live values.
+        P.SunIntensityLux = 38000.f;
+        P.SunTemperatureK = 6500.f;
         P.SunSourceAngleDeg = 0.5f;
-        P.SunVolumetricScatteringIntensity = 0.8f;
+        P.SunVolumetricScatteringIntensity = 0.9f;
         P.MoonIntensityLux = 0.f;
         P.MoonTemperatureK = 8000.f;
-        P.SkyLightIntensity = 1.10f;
+        P.SkyLightIntensity = 1.3f;
         P.FogDensity = 0.0015f;
-        P.FogColorScale = FLinearColor(1.00f, 1.00f, 1.00f, 1.f);
-        P.DirectionalInscatteringLuminance = FLinearColor(1200.f, 1150.f, 1050.f, 1.f);
+        P.FogColorScale = FLinearColor(1.00f, 0.94f, 0.82f, 1.f);
+        P.DirectionalInscatteringLuminance = FLinearColor(1300.f, 1200.f, 1000.f, 1.f);
         P.CloudCoverage = 0.30f;
         P.CloudDensity = 0.14f;
         P.ExposureBiasEV = 0.f;
         P.ExposureMinEV100 = 0.f;
         P.ExposureMaxEV100 = 14.f;
-        P.AerialPerspectiveViewDistanceScale = 1.6f;
-        P.MieScatteringScale = 0.0045f;
+        P.AerialPerspectiveViewDistanceScale = 1.7f;
+        P.MieScatteringScale = 0.0047f;
         P.SkyLuminanceFactor = 1.f;
     }
     {
         FMikdashSkyPreset& P = Presets[int32(EMikdashTimePreset::Afternoon)];
         AuthoredFog(P);
         P.SunIntensityLux = 28000.f;
-        P.SunTemperatureK = 4700.f;
+        P.SunTemperatureK = 5600.f;
         P.SunSourceAngleDeg = 0.5f;
         P.SunVolumetricScatteringIntensity = 1.1f;
         P.MoonIntensityLux = 0.f;
         P.MoonTemperatureK = 8000.f;
-        P.SkyLightIntensity = 0.95f;
+        P.SkyLightIntensity = 1.25f;
         P.FogDensity = 0.0015f;
         P.FogColorScale = FLinearColor(1.00f, 0.94f, 0.84f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(1600.f, 1150.f, 700.f, 1.f);
@@ -232,7 +240,7 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
         P.SunVolumetricScatteringIntensity = 1.6f;
         P.MoonIntensityLux = 0.8f;
         P.MoonTemperatureK = 8500.f;
-        P.SkyLightIntensity = 1.10f;
+        P.SkyLightIntensity = 1.45f;
         P.FogDensity = 0.0018f;
         P.FogColorScale = FLinearColor(1.00f, 0.76f, 0.55f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(1700.f, 800.f, 330.f, 1.f);
@@ -254,7 +262,7 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
         P.SunVolumetricScatteringIntensity = 1.4f;
         P.MoonIntensityLux = 1.6f;
         P.MoonTemperatureK = 8500.f;
-        P.SkyLightIntensity = 1.4f;
+        P.SkyLightIntensity = 1.8f;
         P.FogDensity = 0.0020f;
         P.FogColorScale = FLinearColor(0.88f, 0.78f, 0.82f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(110.f, 65.f, 60.f, 1.f);
@@ -282,7 +290,7 @@ void AMikdashTimeOfDay::BuildDefaultPresets()
         // illuminated fraction so a new moon really is dark.
         P.MoonIntensityLux = 3.0f;
         P.MoonTemperatureK = 9000.f;
-        P.SkyLightIntensity = 3.0f;
+        P.SkyLightIntensity = 3.5f;
         P.FogDensity = 0.0016f;
         P.FogColorScale = FLinearColor(0.55f, 0.64f, 0.88f, 1.f);
         P.DirectionalInscatteringLuminance = FLinearColor(0.f, 0.f, 0.f, 1.f);

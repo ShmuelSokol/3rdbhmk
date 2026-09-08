@@ -373,7 +373,8 @@
     "requireReadbackOfEveryProperty": true,
     "readbackNote": "UE 5.8: a setter can report failure on an assignment that actually took, so no setter return value is trusted anywhere in this script. Every property written is read back and compared numerically, before the save and again after the reopen.",
     "staticMobilityNote": "UE 5.8: a static-mobility actor does not dirty its package on a transform change. This actor's root is Movable by construction, and the script does not rely on a transform edit to mark the map dirty: it checks get_dirty_map_packages() explicitly before saving.",
-    "zombieProcessNote": "Before concluding that a save failed, check for leftover UnrealEditor / UnrealEditor-Cmd processes holding the package. The receipt records the process list it observed."
+    "zombieProcessNote": "Before concluding that a save failed, check for leftover UnrealEditor / UnrealEditor-Cmd processes holding the package. The receipt records the process list it observed.",
+    "enumReadbackNote": "UE 5.8 Python enum values stringify as '<EEnumName.MEMBER: n>'. Compare enum objects or use .name; never parse str(). Every UENUM property is listed in ENUM_PROPERTIES in the script and handled that way."
   },
   "limitations": [
     "Placement and configuration only. The figure is not started: start_on_begin_play stays False so nothing animates before a visual review.",
@@ -381,5 +382,22 @@
     "No Kohen Gadol garment asset exists yet; the actor falls back to an existing pilgrim garment material and records that it is a stand-in, not the eight golden garments.",
     "The tending order among the seven lamps, and which five belong to the first group, are authored placeholders pending review (sources.md, SVC-R-ORDER).",
     "The Yom Kippur scenario is not enabled and its inner service is not depicted beyond an entry and an exit."
-  ]
+  ],
+  "mapProvenance": {
+    "note": "Informational only. This spec does NOT gate on a map hash: the geometry it asserts is about the fixed Heikhal floors and placed keilim, which later placements elsewhere in the map do not move. The receipt records mapSha256Before/After for every run.",
+    "observedWalkthroughSha256_20260908": "9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273",
+    "producedBy": "Transit and birds placement (SourceAssets/birds-review/BirdsV1/native-birds-20260908T221243278271Z.json records the same hash); several receipted saves preceded it.",
+    "firstRunRefusal": {
+      "receipt": "SourceAssets/runtime-review/kohen-service/release-kohen-service-20260908T221342152276Z.json",
+      "status": "failed_before_save_map_unchanged, partial actor destroyed, map sha identical before and after",
+      "cause": "UE 5.8 Python str(enum) is '<EMikdashServiceScenario.ORDINARY_DAY: 0>'; the read-back sliced that string. Fixed: enum properties are written as enum objects and read back by .name via ENUM_PROPERTIES in the script, never by string surgery.",
+      "checkpointLeftBehind": "ReviewCheckpoints/KohenService-20260908T221342152276Z (valid pre-mutation copy; harmless)"
+    }
+  },
+  "fxContract": {
+    "note": "AMikdashFXDirector (another agent's class, already in the map) finds the AMikdashServiceActor and starts/ends the ketores plume by matching this substring in GetCurrentActionText(). The coupling is deliberately on the director's side; this actor stays a pure pause at the golden altar and exposes no dispatcher.",
+    "matchPhrase": "golden altar for the incense",
+    "carriedBy": "GoldenAltar station only (ServiceScheduleMath.h BuildMenorahSequence); pinned by ServiceScheduleMathTest.cpp so a reworded label cannot silently break the smoke.",
+    "runtimeCondition": "The phrase is only reported while the sequence is running and dwelling at that station; while walking, held, paused, waiting or stopped the text is different, so the plume cannot start early or persist after the figure leaves."
+  }
 }

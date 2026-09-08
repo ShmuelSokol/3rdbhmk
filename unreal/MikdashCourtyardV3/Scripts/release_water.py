@@ -75,6 +75,7 @@ is in SourceAssets/water-review/sources.md; nothing here asserts any of it.
 import hashlib
 import json
 import math
+import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
@@ -138,6 +139,89 @@ def base_source_name(source_name):
     to base_name() in the authoring script, character for character.
     """
     return ''.join(c for c in source_name if not c.isdigit()).strip().rstrip('-').strip()
+
+
+ASSET_INDEX_TOKEN = re.compile(r'(SM_\d{4}_.+)$')
+
+
+def manifest_key_for_asset(asset_name):
+    """Reduce a LEVEL mesh asset name to the manifest assetName it was imported from.
+
+    THE LIVE FAILURE OF 2026-09-08T22:06Z. The architecture importer prefixes every mesh
+    with its import group: the manifest entry 'SM_0000_architecture_Ulam_stair_6' lives in
+    the level as '/Game/MikdashV3/Architecture/architecture_SM_0000_architecture_Ulam_stair_6'.
+    An exact-key lookup on the bare assetName therefore matched NOTHING -- 531 architecture
+    actors came back with no sourceName, no host classification and no union decomposition,
+    and 46 stair treads, floors and platforms the conduit is cut into were reported as
+    blockers. The manifest's four-digit index token is unique per entry, so the key is
+    everything from 'SM_NNNN_' onward, whatever was prepended in front of it.
+    """
+    if not asset_name:
+        return None
+    match = ASSET_INDEX_TOKEN.search(asset_name)
+    return match.group(1) if match else asset_name
+
+
+def manifest_entry_for_assets(asset_names, by_key):
+    """First manifest entry any of an actor's mesh assets resolves to, or None."""
+    for asset in asset_names:
+        entry = by_key.get(manifest_key_for_asset(asset))
+        if entry is not None:
+            return entry
+    return None
+
+
+def classify_source(source_name, host_names, union_names):
+    """'host' | 'union' | 'other' for a manifest sourceName, after suffix normalisation."""
+    base = base_source_name(source_name) if source_name else None
+    if base in union_names:
+        return 'union'
+    if base in host_names:
+        return 'host'
+    return 'other'
+
+
+def self_test_classification(arch, spec):
+    """The live names that were misclassified on 2026-09-08, asserted forever.
+
+    Runs inside offline_check(), so the gate the operator runs before the commandlet IS the
+    unit test. Every name below is copied verbatim from the failing receipt's
+    liveClearance.unmatchedActors / blockers, not typed from memory.
+    """
+    by_key = {manifest_key_for_asset(e['assetName']): e for e in arch['meshes']}
+    hosts = set(spec['clearance']['hostSourceNames'])
+    unions = set(spec['clearance']['hollowUnionSourceNames'])
+    expect = {
+        # live asset name                                                   -> expected class
+        'architecture_SM_0000_architecture_Ulam_stair_6': 'host',
+        'architecture_SM_0006_architecture_Ulam_stair_12': 'host',
+        'architecture_SM_0261_architecture_Outer_E_stair_1': 'host',
+        'architecture_SM_1669_architecture_Duchan_rise_1': 'host',
+        'architecture_SM_0494_architecture_Inner_E_cell_supporting_plinth': 'host',
+        'architecture_SM_0166_architecture_Southern_kevesh_ascend_north': 'other',
+        'architecture_SM_0138_architecture_Inner_eastern_gate_wall_jamb_1': 'other',
+        'architecture_SM_0073_vessel_Hollow_basin_with_inner_wall': 'other',
+    }
+    failures, results = [], {}
+    for asset, wanted in expect.items():
+        entry = manifest_entry_for_assets([asset], by_key)
+        got = classify_source(entry['sourceName'], hosts, unions) if entry else 'UNMATCHED'
+        results[asset] = {'sourceName': entry['sourceName'] if entry else None, 'class': got}
+        if got != wanted:
+            failures.append('%s -> %s, expected %s' % (asset, got, wanted))
+    # The four hollow unions must be found under the live prefix AND decompose exactly.
+    for e in arch['meshes']:
+        if base_source_name(e['sourceName']) in unions:
+            live_name = 'architecture_' + e['assetName']
+            entry = manifest_entry_for_assets([live_name], by_key)
+            boxes = union_constituent_boxes(entry) if entry else None
+            ok, error = verify_union_decomposition(entry, boxes) if entry else (False, None)
+            results[live_name] = {'sourceName': e['sourceName'], 'class': 'union',
+                                  'constituentBoxes': len(boxes) if boxes else 0,
+                                  'recomposedOk': ok, 'recomposeErrorCm': error}
+            if not ok:
+                failures.append('%s: union not decomposed live (error %r)' % (live_name, error))
+    return {'ok': not failures, 'failures': failures, 'cases': results}
 
 
 def normalise_groups(groups):
@@ -329,6 +413,16 @@ def offline_check(spec=None):
     if not source_path.exists():
         report['errors'].append('AMikdashWater source missing: ' + str(source_path))
     report['runtimeContract'] = contract
+
+    # -- the live-identification self-test -----------------------------------------
+    try:
+        arch = json.loads((ROOT / spec['clearance']['architectureManifest']).read_text(encoding='utf-8'))
+        selftest = self_test_classification(arch, spec)
+    except Exception as error:  # noqa: BLE001
+        selftest = {'ok': False, 'failures': ['self-test could not run: %r' % error], 'cases': {}}
+    report['liveIdentificationSelfTest'] = selftest
+    if not selftest['ok']:
+        report['errors'].append('live identification self-test failed: %s' % selftest['failures'][:4])
 
     # -- the sources record --------------------------------------------------------
     sources = ROOT / spec['sourcesRecord']
@@ -531,10 +625,21 @@ class WaterRelease:
     def new_material(self, path, record):
         ue = self.ue
         if self.assets.does_asset_exist(path):
+            # The failed run of 2026-09-08 saved this material before refusing. Reusing it and
+            # wiring again would stack a second copy of every node and parameter onto the
+            # first; the graph is rebuilt from nothing instead, and the receipt says so.
             asset = ue.load_asset(path)
             if not isinstance(asset, ue.Material):
                 raise RuntimeError('Existing asset at the material path is not a Material: ' + path)
-            record['reusedExisting'] = True
+            # Cleared in place rather than deleted: the meshes saved by the earlier run still
+            # reference this asset, and a force-delete would null those references.
+            self.ml.delete_all_material_expressions(asset)
+            remaining = len(asset.get_editor_property('expressions')) if hasattr(asset, 'get_editor_property') else -1
+            record['replacedExisting'] = True
+            record['expressionsRemainingAfterClear'] = remaining
+            if remaining not in (0, -1):
+                raise RuntimeError('%d expressions survived delete_all_material_expressions on %s' % (remaining, path))
+            self.receipt['limitations'].append('%s existed from an earlier run; its graph was cleared and rebuilt' % path)
             return asset
         folder, name = path.rsplit('/', 1)
         material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
@@ -909,10 +1014,8 @@ class WaterRelease:
         """
         spec = self.spec['clearance']
         arch = json.loads((ROOT / spec['architectureManifest']).read_text(encoding='utf-8'))
-        by_asset = {entry['assetName']: entry for entry in arch['meshes']}
+        by_key = {manifest_key_for_asset(entry['assetName']): entry for entry in arch['meshes']}
         union_names = set(spec['hollowUnionSourceNames'])
-        union_assets = {entry['assetName'] for entry in arch['meshes']
-                        if base_source_name(entry['sourceName']) in union_names}
         host_sources = set(spec['hostSourceNames'])
 
         sub_boxes = [dict(mesh=b['mesh'], part=b['part'],
@@ -939,11 +1042,12 @@ class WaterRelease:
                 continue
             report['actorsBroadPhaseHits'] += 1
 
-            entry = next((by_asset[a] for a in assets if a in by_asset), None)
+            entry = manifest_entry_for_assets(assets, by_key)
             source_name = entry['sourceName'] if entry else None
             base_name = base_source_name(source_name) if source_name else None
+            kind = classify_source(source_name, host_sources, union_names)
             candidate_boxes = [row['bounds']]
-            if any(a in union_assets for a in assets):
+            if kind == 'union':
                 decomposed = union_constituent_boxes(entry) if entry else None
                 ok, error = verify_union_decomposition(entry, decomposed) if entry else (False, None)
                 if ok:
@@ -959,10 +1063,16 @@ class WaterRelease:
                     continue
             elif entry is None:
                 report['unmatchedActors'].append({'actor': row['label'], 'assets': assets})
+                if any('_architecture_' in a or '_vessel_' in a for a in assets):
+                    # An architecture mesh that does not resolve to the manifest means the
+                    # identification path is broken again, and every classification below it
+                    # is meaningless. Refuse rather than report a page of false blockers.
+                    raise RuntimeError('architecture actor %r (%s) does not resolve to the manifest; '
+                                       'see manifest_key_for_asset()' % (row['label'], assets))
 
             report['actorsNarrowPhaseTested'] += 1
             hits, nearest = [], None
-            is_host = base_name in host_sources
+            is_host = kind == 'host'
             for candidate in candidate_boxes:
                 for sub in sub_boxes:
                     gap = separation_cm(sub['box'], candidate)
@@ -1367,6 +1477,11 @@ def write_spec():
                      'TLM_SURFACE_PER_PIXEL_LIGHTING'],
                 ],
                 'normalCandidates': [
+                    {'path': '/Game/MikdashV3/MaterialReview/MikdashWaterV1/Textures/T_Water_Normal',
+                     'kind': ('authored tiling water normal (create_water_normal.py): 3 swell + 5 wind '
+                              'trains + periodic ripple fBm, moderate amplitude; source '
+                              'SourceAssets/water-review/textures/T_Water_Normal.png sha256 '
+                              '6e29c0471a143057be1dbc39d8c6deba4706a08274c3fb593daec7a14d4ad54b')},
                     {'path': '/Game/MikdashV3/Materials/PBR/Plaster/T_Plaster_Normal',
                      'kind': ('fine isotropic normal used as a STAND-IN ripple map: this project has no '
                               'water normal. Recorded as a limitation; drop a tiling water normal in '

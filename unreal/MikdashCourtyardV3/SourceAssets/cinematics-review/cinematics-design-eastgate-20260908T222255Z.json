@@ -1,0 +1,493 @@
+{
+  "status": "intro_rerouted_through_precinct_east_gate_designed_offline_native_run_pending",
+  "stamp": "20260908T222255Z",
+  "supersedes": "cinematics-design-20260908T111148Z.json (west approach over the perimeter wall, through no gate)",
+  "scope": "Offline design evidence for the re-routed intro. Computed with no engine: the spline, its clearance against the architecture, the union decompositions, the reconstructed precinct east wall and gate, the DEM and platform, and the modern building tops; the precinct gate transit numbers; the C++ standalone test receipt. Nothing here is visual, packaged or halachic acceptance.",
+  "source": {
+    "direction": "Yechezkel 43:1-4; 42:15; 44:1-2 for context",
+    "document": "INTRO-EAST-GATE-SOURCE-20260908.md",
+    "choreography": "AUTHORED"
+  },
+  "controlPointsCm": [
+    {
+      "index": 0,
+      "cm": [
+        140000.0,
+        4200.0,
+        8600.0
+      ],
+      "arrivesAtSeconds": 0.0
+    },
+    {
+      "index": 1,
+      "cm": [
+        129500.0,
+        1600.0,
+        6500.0
+      ],
+      "arrivesAtSeconds": 13.2
+    },
+    {
+      "index": 2,
+      "cm": [
+        122500.0,
+        300.0,
+        5300.0
+      ],
+      "arrivesAtSeconds": 16.2
+    },
+    {
+      "index": 3,
+      "cm": [
+        116720.0,
+        0.0,
+        4800.0
+      ],
+      "arrivesAtSeconds": 18.4
+    },
+    {
+      "index": 4,
+      "cm": [
+        111500.0,
+        0.0,
+        5000.0
+      ],
+      "arrivesAtSeconds": 20.2
+    },
+    {
+      "index": 5,
+      "cm": [
+        103500.0,
+        0.0,
+        6500.0
+      ],
+      "arrivesAtSeconds": 22.9
+    },
+    {
+      "index": 6,
+      "cm": [
+        92000.0,
+        0.0,
+        7000.0
+      ],
+      "arrivesAtSeconds": 26.8
+    },
+    {
+      "index": 7,
+      "cm": [
+        81000.0,
+        0.0,
+        7300.0
+      ],
+      "arrivesAtSeconds": 30.6
+    },
+    {
+      "index": 8,
+      "cm": [
+        66000.0,
+        0.0,
+        5900.0
+      ],
+      "arrivesAtSeconds": 35.7
+    },
+    {
+      "index": 9,
+      "cm": [
+        50000.0,
+        0.0,
+        3800.0
+      ],
+      "arrivesAtSeconds": 41.2
+    },
+    {
+      "index": 10,
+      "cm": [
+        34000.0,
+        0.0,
+        2900.0
+      ],
+      "arrivesAtSeconds": 46.6
+    },
+    {
+      "index": 11,
+      "cm": [
+        20000.0,
+        0.0,
+        3300.0
+      ],
+      "arrivesAtSeconds": 51.5
+    },
+    {
+      "index": 12,
+      "cm": [
+        12500.0,
+        0.0,
+        3950.0
+      ],
+      "arrivesAtSeconds": 54.7
+    },
+    {
+      "index": 13,
+      "cm": [
+        8300.0,
+        0.0,
+        3800.0
+      ],
+      "arrivesAtSeconds": 56.9
+    },
+    {
+      "index": 14,
+      "cm": [
+        7300.0,
+        0.0,
+        3450.0
+      ],
+      "arrivesAtSeconds": 57.6
+    },
+    {
+      "index": 15,
+      "cm": [
+        6200.0,
+        0.0,
+        2650.0
+      ],
+      "arrivesAtSeconds": 58.5
+    },
+    {
+      "index": 16,
+      "cm": [
+        5000.0,
+        0.0,
+        1800.0
+      ],
+      "arrivesAtSeconds": 59.8
+    },
+    {
+      "index": 17,
+      "cm": [
+        3800.0,
+        0.0,
+        1100.0
+      ],
+      "arrivesAtSeconds": 61.3
+    },
+    {
+      "index": 18,
+      "cm": [
+        2100.0,
+        0.0,
+        668.0
+      ],
+      "arrivesAtSeconds": 68.0
+    }
+  ],
+  "durationSeconds": 68.0,
+  "easing": {
+    "profile": "trapezoid",
+    "inFraction": 0.3,
+    "outFraction": 0.3,
+    "note": "Velocity smoothsteps up over the first 30 percent, holds a genuinely constant speed through the ridge and the Kidron, and smoothsteps down over the last 30 percent into the arrival. No linear interpolation anywhere: the position track is an arc-length reparameterised centripetal Catmull-Rom and the keys are baked at 30 per second with cubic (auto) tangents. The gate is passed at 17 percent of the distance, inside the ease-in, so the threshold is crossed slowly.",
+    "averageSpeedMetresPerSecond": 20.6,
+    "peakSpeedMetresPerSecond": 29.4,
+    "aimHalfLifeSeconds": 0.55,
+    "maxBankDegrees": 6.0,
+    "yawRateForFullBankDegPerSecond": 22.0,
+    "bankHalfLifeSeconds": 0.9,
+    "startFieldOfViewDegrees": 62.0,
+    "endFieldOfViewDegrees": 75.0
+  },
+  "offlineCheck": {
+    "specSha256": "74a14658c10919a86672622c76e45981ef135e853d5b0f7190be990113d25a49",
+    "controlPoints": 19,
+    "pathLengthCm": 139987.4550363504,
+    "durationSeconds": 68.0,
+    "durationWithinBrief": true,
+    "averageSpeedCmPerSecond": 2058.639044652212,
+    "keys": 2041,
+    "firstKey": {
+      "timeSeconds": 0.0,
+      "location": [
+        140000.0,
+        4200.0,
+        8600.0
+      ],
+      "rotation": [
+        0.0,
+        -2.1333635960942177,
+        -178.33971763101718
+      ],
+      "fieldOfViewDegrees": 62.0
+    },
+    "lastKey": {
+      "timeSeconds": 68.0,
+      "location": [
+        2100.0,
+        0.0,
+        668.0
+      ],
+      "rotation": [
+        5.400124791776761e-13,
+        9.05299835143568,
+        -179.99999999999963
+      ],
+      "fieldOfViewDegrees": 75.0
+    },
+    "arrivesAtPlayerStartErrorCm": 0.0,
+    "evenSampleChordSpreadFraction": 0.002025506169762513,
+    "clearsBlockersAtInflateCm": true,
+    "clearanceInflateCm": 150.0,
+    "firstOffendingSegment": -1,
+    "firstOffendingBox": "",
+    "largestClearingInflateCm": 168.0,
+    "innerCourtWallLineCrossings": [
+      {
+        "direction": "westward",
+        "atCm": [
+          2500.0,
+          0.0,
+          760.8151993725384
+        ]
+      }
+    ],
+    "precinctEastGate": {
+      "crossingsOfEastFace": 1,
+      "worstLateralCm": 6.76920023181044,
+      "lowestZ": 4794.551447513902,
+      "highestZ": 4807.905759917414,
+      "pierClearanceCm": 243.23079976818957,
+      "thresholdClearanceCm": 1243.1514475139015,
+      "lintelClearanceCm": 1243.4942400825857,
+      "passesThroughOpeningWith150cmMargin": true
+    },
+    "orbits": [
+      {
+        "id": "menorah",
+        "keys": 421,
+        "durationSeconds": 14.0,
+        "firstLocationCm": [
+          -4484.276641292682,
+          622.8181289931018,
+          1220.0
+        ],
+        "closestApproachCm": 907.9647570252929
+      },
+      {
+        "id": "goldenAltar",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -3850.0,
+          0.0,
+          1200.0
+        ],
+        "closestApproachCm": 813.9410298049851
+      },
+      {
+        "id": "aron",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -5638.089172037277,
+          262.02332227923364,
+          1153.0
+        ],
+        "closestApproachCm": 626.4982043070829
+      },
+      {
+        "id": "altar",
+        "keys": 541,
+        "durationSeconds": 18.0,
+        "firstLocationCm": [
+          2251.666049839541,
+          1299.9999999999998,
+          1800.0
+        ],
+        "closestApproachCm": 2751.3632984395203
+      },
+      {
+        "id": "house",
+        "keys": 601,
+        "durationSeconds": 20.0,
+        "firstLocationCm": [
+          3557.2335870731767,
+          3078.1812899310185,
+          6400.0
+        ],
+        "closestApproachCm": 9551.96314900764
+      },
+      {
+        "id": "outerCourt",
+        "keys": 781,
+        "durationSeconds": 26.0,
+        "firstLocationCm": [
+          12020.81528017131,
+          12020.815280171308,
+          9500.0
+        ],
+        "closestApproachCm": 18788.294228055933
+      }
+    ],
+    "blockerBoxes": 42,
+    "limitations": [
+      "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+      "Clearance is geometric, against axis-aligned boxes: manifest meshes, union decompositions, reconstructed precinct modules, the DEM and the extruded building tops. It says nothing about foliage, decals, translucent volumes or anything without collision, and the precinct boxes are a reconstruction of the placer's rule, not a read-back of the placed HISM instances; the editor run reads those back.",
+      "The wall follows a baked ground profile. If the terrain tiles or the profile are regenerated the gate plinth moves and this path must be re-verified."
+    ]
+  },
+  "clearanceBySet_largestClearingInflateCm": {
+    "architecture2629Meshes": 168.0,
+    "unionDecompositions160Boxes": 250.0,
+    "precinctEastWallAndGate": 200.0,
+    "terrainDemAndPlatform": 400.0,
+    "modernBuildingsAlongTheAxis": 400.0
+  },
+  "precinctGateTransit": {
+    "crossingsOfEastFace": 1,
+    "worstLateralCm": 6.76920023181044,
+    "lowestZ": 4794.551447513902,
+    "highestZ": 4807.905759917414,
+    "pierClearanceCm": 243.23079976818957,
+    "thresholdClearanceCm": 1243.1514475139015,
+    "lintelClearanceCm": 1243.4942400825857,
+    "passesThroughOpeningWith150cmMargin": true
+  },
+  "courtEastGate": {
+    "atX8100": {
+      "y": 0.0,
+      "z": 3775.5,
+      "lintelJambTop": 3300
+    },
+    "atX7800": {
+      "y": 0.0,
+      "z": 3706.5
+    },
+    "atX7300": {
+      "y": 0.0,
+      "z": 3449.8,
+      "pillarsTop": 3346
+    }
+  },
+  "modernState": "Wall and gate vanish; modern buildings inside the precinct return. Path clears their extruded tops (jerusalem-meshes.json) by >= 400 cm along the axis corridor |Y| <= 1500, so the same path is valid.",
+  "cameraPathMathTest": {
+    "checks": 150,
+    "failures": 0,
+    "status": "all_camera_path_math_checks_passed",
+    "gate": [
+      {
+        "group": "continuity",
+        "name": "introTotalLengthCm",
+        "measured": 139987.455036,
+        "comparison": ">=",
+        "tolerance": 40000,
+        "passed": true,
+        "note": "the flythrough covers a real distance"
+      },
+      {
+        "group": "clamp",
+        "name": "introPathClears42SolidBlocksBy150cm",
+        "measured": 1,
+        "comparison": "==",
+        "tolerance": 1,
+        "passed": true,
+        "note": "600 segment polyline against the House, the west wings, the perimeter bands, the outer deck, the inner podium and priest court, the inner court walls, both gates of the court piece by piece, the Ulam stairs, the altar, and the east gate of the precinct wall with its neighbouring modules"
+      },
+      {
+        "group": "clamp",
+        "name": "precinctEastGateCrossings",
+        "measured": 1,
+        "comparison": "==",
+        "tolerance": 1,
+        "passed": true,
+        "note": "the camera crosses the precinct's east face once, inward, and nowhere else"
+      },
+      {
+        "group": "clamp",
+        "name": "precinctGateLateralOffsetCm",
+        "measured": 6.76920023181,
+        "comparison": "<=",
+        "tolerance": 100,
+        "passed": true,
+        "note": "half the 500 cm opening less the 150 cm margin, across the whole module depth"
+      },
+      {
+        "group": "clamp",
+        "name": "precinctGateHeightLowerCm",
+        "measured": 4794.55144751,
+        "comparison": ">=",
+        "tolerance": 3701.4,
+        "passed": true,
+        "note": "plinth plus the margin"
+      },
+      {
+        "group": "clamp",
+        "name": "precinctGateHeightUpperCm",
+        "measured": 4807.90575992,
+        "comparison": "<=",
+        "tolerance": 5901.4,
+        "passed": true,
+        "note": "lintel soffit less the margin"
+      },
+      {
+        "group": "clamp",
+        "name": "innerCourtWallLineCrossings",
+        "measured": 1,
+        "comparison": "==",
+        "tolerance": 1,
+        "passed": true,
+        "note": "the camera crosses the inner court wall line once, inward"
+      },
+      {
+        "group": "clamp",
+        "name": "gateTransitLateralOffsetCm",
+        "measured": 0,
+        "comparison": "<=",
+        "tolerance": 100,
+        "passed": true,
+        "note": "half the 500 cm gateway less the 150 cm margin"
+      },
+      {
+        "group": "clamp",
+        "name": "gateTransitHeightLowerCm",
+        "measured": 760.815199373,
+        "comparison": ">=",
+        "tolerance": 650,
+        "passed": true,
+        "note": "threshold 500 plus the margin"
+      },
+      {
+        "group": "clamp",
+        "name": "gateTransitHeightUpperCm",
+        "measured": 760.815199373,
+        "comparison": "<=",
+        "tolerance": 2850,
+        "passed": true,
+        "note": "lintel soffit 3000 less the margin"
+      },
+      {
+        "group": "clamp",
+        "name": "introArrivesAtPlayerStartCm",
+        "measured": 0,
+        "comparison": "<=",
+        "tolerance": 1e-06,
+        "passed": true,
+        "note": "Mikdash_PlayerStart [2100, 0], inner court clear floor top 500 plus 168 cm eye height"
+      },
+      {
+        "group": "clamp",
+        "name": "introLargestClearingInflateCm",
+        "measured": 168,
+        "comparison": ">=",
+        "tolerance": 150,
+        "passed": true,
+        "note": "largest uniform inflation of all 42 blocks the path still clears; capped by the 168 cm eye height at the arrival point"
+      }
+    ]
+  },
+  "reauthorCommandlet": "\"C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe\" \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/MikdashCourtyardV3.uproject\" -run=pythonscript -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_intro_sequence.py\" -IntroReplace -unattended -nullrhi -abslog=\"C:/Mikdash/Working-5.8/Release-IntroSequence-02.log\"",
+  "limitations": [
+    "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+    "Clearance is geometric, against axis-aligned boxes: manifest meshes, union decompositions, reconstructed precinct modules, the DEM and the extruded building tops. It says nothing about foliage, decals, translucent volumes or anything without collision, and the precinct boxes are a reconstruction of the placer's rule, not a read-back of the placed HISM instances; the editor run reads those back.",
+    "The wall follows a baked ground profile. If the terrain tiles or the profile are regenerated the gate plinth moves and this path must be re-verified.",
+    "Offline only. No Level Sequence has been re-authored by this document; the commandlet above does that, serially, when the coordinator releases the editor."
+  ]
+}

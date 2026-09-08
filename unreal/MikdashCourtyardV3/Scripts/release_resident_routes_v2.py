@@ -255,6 +255,16 @@ def plan():
                                       plannedSha256=hashlib.sha256(text).hexdigest(), stagedExists=staged.exists(),
                                       stagedSha256=sha(staged) if staged.exists() else None)
         result['targets'][key]['stagedMatchesPlan'] = result['targets'][key]['stagedSha256'] == result['targets'][key]['plannedSha256']
+        # A later layer (release_resident_bodies_v3.py) adds per-person "body" members and its own
+        # note suffix on top of this document; the routes themselves must still be exactly these.
+        if staged.exists():
+            try:
+                on_disk = json.loads(staged.read_text(encoding='utf-8-sig'))
+                result['targets'][key]['stagedCarriesRoutesV2'] = ([p['route'] for p in on_disk['people']] == [p['route'] for p in data['people']]
+                    and on_disk['placementBasis']['pilgrim']['decision'] == data['placementBasis']['pilgrim']['decision'])
+                result['targets'][key]['stagedHasBodyLayer'] = any('body' in p for p in on_disk['people'])
+            except Exception as exc:
+                result['targets'][key]['stagedCarriesRoutesV2'] = 'unreadable: ' + repr(exc)
     people = docs['Main50'][0]['people']
     if [p['route'] for p in people] != [p['route'] for p in docs['Candidate48'][0]['people']]:
         raise RuntimeError('The two targets must carry identical legacy routes')

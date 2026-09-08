@@ -1,0 +1,55 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-08",
+ "purpose": "Resident bodies V3: cast the 24 people-v3 residents onto the natively imported PilgrimRigV3 variants. The staged directories are the Routes V2 documents (Scripts/release_resident_routes_v2.py) plus one body = {variant, visualScale} per person taken from the reviewed casting in Scripts/release_pilgrim_v3_review.spec.json residentSwap.casting (rendered in resident-swap-plan.json). Asset paths are read from the import marker review-native-progress.json (Interchange added a folder level named after the file and prefixed the clips with the mesh name), never assumed. The visual scale is a skeletal-mesh COMPONENT scale with the pivot at the feet (relative location stays (0,0,-96)); never the Character actor, its 34/96 capsule or the amah scale; never multiplied by 0.96. The imported meshes face UE +Y, so the mesh relative yaw is -90 (the V2 rig keeps +90). Native apply registers the cast variants on the population actor (hard references, so they cook) and stages the JSON; PIE verify reports what actually spawned. Casting is authored characterisation, not a sourced or halachic statement.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "routesLayer": "Scripts/release_resident_routes_v2.py",
+ "castingSource": {
+  "spec": "Scripts/release_pilgrim_v3_review.spec.json",
+  "key": "residentSwap.casting",
+  "renderedPlan": "SourceAssets/characters-review/PilgrimRigV3/resident-swap-plan.json",
+  "neighbourRadiusCm": 2600,
+  "minScaleGapSameVariant": 0.02
+ },
+ "importMarker": "SourceAssets/characters-review/PilgrimRigV3/review-native-progress.json",
+ "expectedNamespace": "/Game/MikdashV3/Characters/PilgrimRigV3",
+ "clipSuffixes": {"idle": "A_Pilgrim_Original_Idle", "walk": "A_Pilgrim_Original_Walk"},
+ "garmentSlotByVariant": {"default": "Mantle", "V3_Pilgrim_Youth": "Linen"},
+ "expectedFacing": "+Y",
+ "expectedMeshRelativeYaw": -90.0,
+ "reviewedScaleRange": [0.84, 1.04],
+ "defaultBody": {
+  "note": "The V2 rig stays on the population as the fallback; it faces UE -Y so its relative yaw is +90. Paths per Scripts/release_people_v3.spec.json rig.",
+  "skeletalMesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2",
+  "idleAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle",
+  "walkAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk",
+  "garmentMaterialSlots": ["Mantle"],
+  "meshRelativeYaw": 90.0
+ },
+ "garmentInstanceNamespace": "/Game/MikdashV3/Runtime/PeopleV3",
+ "bones": {"head": "head", "pelvis": "pelvis", "ballRight": "ball_r", "ballLeft": "ball_l", "footRight": "foot_r"},
+ "restCm": {"head": 166.0, "pelvis": 98.0, "ball": 3.0, "source": "PilgrimRigV2 rig-definition.json and review-native receipts restPositionsUeCm (identical on every V3 variant)"},
+ "targets": {
+  "Main50": {"noteSuffix": " Bodies V3 (2026-09-08): each person carries body = {variant, visualScale} cast per resident-swap-plan.json onto the natively imported PilgrimRigV3 variants; the scale is a skeletal-mesh component scale, never the actor, capsule or amah."},
+  "Candidate48": {"noteSuffix": " Bodies V3 (2026-09-08): each person carries body = {variant, visualScale} cast per resident-swap-plan.json onto the natively imported PilgrimRigV3 variants; the scale is a skeletal-mesh component scale, never the actor, capsule or amah, and it is not converted by the selected48 adapter."}
+ },
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "ResidentBodiesV3-",
+ "receiptFolder": "SourceAssets/runtime-review/people",
+ "receiptPrefix": "resident-bodies-v3-",
+ "verify": {
+  "requiredFlags": ["-BodiesVerify", "-BodiesTarget=Main50|Candidate48", "<map> as the first positional argument", "-TestSavePrefix=FableProbe_<unique>", "-ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=<prefix>,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=<prefix>_Settings", "-unattended", "-NoSplash", "-abslog=<unique log>"],
+  "capsule": {"radiusCm": 34.0, "halfHeightCm": 96.0, "toleranceCm": 0.01},
+  "feetToleranceCm": 3.0,
+  "headToleranceCm": 6.0,
+  "scaleToleranceAbs": 0.001,
+  "yawToleranceDeg": 0.5,
+  "boneSampleWindowSeconds": [6.0, 22.0],
+  "boneSampleIntervalSeconds": 0.5,
+  "motionSampleSeconds": [8.0, 24.0],
+  "movedThresholdCm": 50.0,
+  "populationWaitSeconds": 20,
+  "watchdogSeconds": 300,
+  "expectation": "Observed values are recorded, never assumed. Real RHI only. Map bytes, the other map, the staged file and user saves are hashed before and after."
+ }
+}

@@ -287,6 +287,35 @@ class Native:
         if u.EditorLoadingAndSavingUtils.get_dirty_map_packages():
             raise RuntimeError('Map still dirty after save')
 
+    def component_materials(self, keys):
+        wanted = {(n, c): s for n, c, s in keys}
+        out = {}
+        for actor in self.actors.get_all_level_actors():
+            for comp in actor.get_components_by_class(self.u.StaticMeshComponent):
+                k = (actor.get_name(), comp.get_name())
+                if k in wanted:
+                    m = comp.get_material(wanted[k])
+                    out['%s.%s[%d]' % (k[0], k[1], wanted[k])] = m.get_path_name().split('.')[0] if m else None
+        return out
+
+    def restore_component_overrides(self, overrides):
+        u = self.u
+        by_actor = {}
+        for o in overrides:
+            by_actor.setdefault(o['actorName'], []).append(o)
+        restored = 0
+        for actor in self.actors.get_all_level_actors():
+            for o in by_actor.get(actor.get_name(), []):
+                for comp in actor.get_components_by_class(u.StaticMeshComponent):
+                    if comp.get_name() == o['component']:
+                        mat = u.load_asset(o['before']) if o['before'] else None
+                        actor.modify(True)
+                        comp.modify(True)
+                        comp.set_material(o['slot'], mat)
+                        restored += 1
+        if restored != len(overrides):
+            raise RuntimeError('Restored %d of %d component overrides' % (restored, len(overrides)))
+
     # ---------------------------------------------------------------------------------- APPLY
     def apply(self, variant_name):
         u = self.u
@@ -347,6 +376,66 @@ class Native:
                 raise RuntimeError('Usage flags / textures / parent changed on ' + n)
         r['instanceSha256After'] = {n: sha(p) for n, p in files.items()}
         self.stage('instances_saved')
+        # new instances (fresh namespace, child of the untouched parent) and component re-pointing
+        created = {}
+        for name, block in variant.get('newInstances', {}).items():
+            package = block['package']
+            if u.EditorAssetLibrary.does_asset_exist(package):
+                raise RuntimeError('New instance already exists; refuse to overwrite: ' + package)
+            parent = u.load_asset(block['parent'])
+            if parent is None or parent.get_path_name().split('.')[0] != spec['protectedAssets'][0]:
+                raise RuntimeError('Parent must be the protected master ' + spec['protectedAssets'][0])
+            folder, short = package.rsplit('/', 1)
+            factory = u.MaterialInstanceConstantFactoryNew()
+            inst = u.AssetToolsHelpers.get_asset_tools().create_asset(short, folder, u.MaterialInstanceConstant, factory)
+            if inst is None:
+                raise RuntimeError('create_asset failed for ' + package)
+            ml = u.MaterialEditingLibrary
+            ml.set_material_instance_parent(inst, parent)
+            src = u.load_asset(block['copyParametersFrom'])
+            for t in ('Albedo', 'Normal', 'ARM'):
+                tex = ml.get_material_instance_texture_parameter_value(src, t)
+                ml.set_material_instance_texture_parameter_value(inst, t, tex)
+                if ml.get_material_instance_texture_parameter_value(inst, t) != tex:
+                    raise RuntimeError('Texture parameter readback mismatch ' + t)
+            self.set_instance_params(inst, block)
+            self.save_asset(inst)
+            created[name] = inst
+            r.setdefault('newInstancesCreated', {})[name] = {'package': package, 'values': self.instance_values(inst), 'diskSha256': sha(disk(package))}
+        overrides = []
+        if variant.get('componentOverrides'):
+            wanted = {(o['meshAsset'], o['slot']): o for o in variant['componentOverrides']}
+            for actor in self.actors.get_all_level_actors():
+                for comp in actor.get_components_by_class(u.StaticMeshComponent):
+                    mesh = comp.static_mesh
+                    if not mesh:
+                        continue
+                    mesh_path = mesh.get_path_name().split('.')[0]
+                    for slot in range(comp.get_num_materials()):
+                        o = wanted.get((mesh_path, slot))
+                        if not o:
+                            continue
+                        before = comp.get_material(slot)
+                        before_path = before.get_path_name().split('.')[0] if before else None
+                        if o.get('expectedBefore') and before_path != o['expectedBefore']:
+                            raise RuntimeError('Component %s slot %d carries %s, expected %s; stop and rebase' % (actor.get_actor_label(), slot, before_path, o['expectedBefore']))
+                        target = created[o['material'][5:]] if o['material'].startswith('$new:') else u.load_asset(o['material'])
+                        if target is None:
+                            raise RuntimeError('Missing target material for ' + str(o))
+                        actor.modify(True)
+                        comp.modify(True)
+                        comp.set_material(slot, target)
+                        after_path = comp.get_material(slot).get_path_name().split('.')[0]
+                        if after_path != target.get_path_name().split('.')[0]:
+                            raise RuntimeError('set_material readback mismatch on ' + actor.get_actor_label())
+                        overrides.append({'actorName': actor.get_name(), 'actorLabel': actor.get_actor_label(), 'component': comp.get_name(), 'mesh': mesh_path, 'slot': slot,
+                                          'before': before_path, 'after': after_path})
+            if len(overrides) != len(wanted):
+                raise RuntimeError('Found %d of %d override targets' % (len(overrides), len(wanted)))
+            exclude |= {row['actorName'] for row in overrides}
+            before_scene = self.scene_snapshot(exclude)
+        r['componentOverrides'] = overrides
+        self.stage('components_overridden', count=len(overrides))
         # mutate map
         if pp_keys:
             scene['pp'].modify(True)
@@ -390,6 +479,12 @@ class Native:
                 raise RuntimeError('Reopened Nanite usage differs on ' + n)
         if not r['reopened']['sceneUnchanged']:
             raise RuntimeError('Reopened scene differs')
+        if overrides:
+            live = self.component_materials([(o['actorName'], o['component'], o['slot']) for o in overrides])
+            r['reopened']['componentOverrides'] = live
+            for o in overrides:
+                if live.get('%s.%s[%d]' % (o['actorName'], o['component'], o['slot'])) != o['after']:
+                    raise RuntimeError('Reopened component override mismatch on ' + o['actorLabel'])
         r['status'] = 'APPLIED_SAVED_REOPENED_VISUAL_REVIEW_PENDING'
         return r
 
@@ -412,9 +507,12 @@ class Native:
         scene = self.find_scene()
         r['postProcess'] = self.pp_values(scene['pp'], list(variant.get('postProcess', {})))
         r['guardValues'] = self.guard_values(scene)
+        if prior.get('componentOverrides'):
+            r['componentOverrides'] = self.component_materials([(o['actorName'], o['component'], o['slot']) for o in prior['componentOverrides']])
+            r['componentOverridesMatch'] = all(r['componentOverrides'].get('%s.%s[%d]' % (o['actorName'], o['component'], o['slot'])) == o['after'] for o in prior['componentOverrides'])
         r['protectedNow'] = self.protected_hashes()
         r['protectedUnchangedSinceApply'] = r['protectedNow'] == prior.get('protectedBefore')
-        ok = r['mapMatchesApplyAfter'] and r['instancesMatchApplyAfter'] and r['protectedUnchangedSinceApply']
+        ok = r['mapMatchesApplyAfter'] and r['instancesMatchApplyAfter'] and r['protectedUnchangedSinceApply'] and r.get('componentOverridesMatch', True)
         for k, raw in variant.get('postProcess', {}).items():
             ok = ok and close(r['postProcess'][k]['value'], raw) and r['postProcess'][k]['override']
         for n, block in variant.get('instances', {}).items():
@@ -461,6 +559,8 @@ class Native:
             if pp_before:
                 scene['pp'].modify(True)
                 self.set_pp(scene['pp'], {k: v['value'] for k, v in pp_before.items()}, {k: v['override'] for k, v in pp_before.items()})
+            if prior.get('componentOverrides'):
+                self.restore_component_overrides(prior['componentOverrides'])
             if 'sunAfter' in prior:
                 p, y, rr = prior['sunBefore']['rotation']
                 scene['sun'].modify(True)

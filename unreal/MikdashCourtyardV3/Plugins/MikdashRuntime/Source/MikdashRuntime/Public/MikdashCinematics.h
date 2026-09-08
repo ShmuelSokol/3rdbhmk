@@ -1,9 +1,14 @@
 // MikdashCinematics.h -- the cinematic intro, and the orbit shots used for stills.
 //
 // The walkthrough used to begin with the visitor standing in the inner court with no idea
-// where they were. This is the 55 second answer: the modern city, a climb to the Mount,
-// a pass over the outer court, and a level run in through the inner eastern gate to the
-// exact spot where the player takes control.
+// where they were. This is the 68 second answer, and its direction is sourced: Yechezkel
+// 43:1-4 brings the prophet to the gate facing east, and the glory enters the House by that
+// gate. So the camera comes in from the east over the Mount of Olives, passes THROUGH the
+// east gate of the 3,000-amah precinct wall at gate height, climbs the ridge, crosses the
+// Kidron to the Mount, passes over the court's east gate and dives to the inner eastern
+// gate, which it threads on the axis to the exact spot where the player takes control.
+// The choreography itself is authored; see
+// SourceAssets/cinematics-review/INTRO-EAST-GATE-SOURCE-20260908.md.
 //
 // TWO WAYS TO PLAY IT, AND WHY
 //
@@ -121,7 +126,7 @@ public:
      * Immutable legacy50 intro control points, in world centimetres, in order.
      *
      * These are the numbers the release script writes into the Level Sequence and the
-     * numbers CameraPathMathTest.cpp proves clear the 18 blocking volumes by 150 cm. Any
+     * numbers CameraPathMathTest.cpp proves clear the blocking volumes by 150 cm. Any
      * change here has to be made in all three places and re-verified. BuildIntroKeys
      * resolves the current world's descriptor; this static source API does not.
      */
@@ -165,11 +170,11 @@ protected:
     UPROPERTY(Config) bool bOncePerSession = true;
 
     /** Total running time. The brief for this shot is 40 to 70 seconds. */
-    UPROPERTY(Config) float IntroDurationSeconds = 55.0f;
+    UPROPERTY(Config) float IntroDurationSeconds = 68.0f;
 
     /** Trapezoidal speed profile: this much of the shot ramping up, this much down. */
-    UPROPERTY(Config) float EaseInFraction = 0.22f;
-    UPROPERTY(Config) float EaseOutFraction = 0.32f;
+    UPROPERTY(Config) float EaseInFraction = 0.30f;
+    UPROPERTY(Config) float EaseOutFraction = 0.30f;
 
     /** Half life of the look-at damping, in seconds. Larger is lazier. */
     UPROPERTY(Config) float AimHalfLifeSeconds = 0.55f;

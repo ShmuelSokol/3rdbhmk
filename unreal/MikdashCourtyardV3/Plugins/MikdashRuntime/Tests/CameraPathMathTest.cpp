@@ -93,57 +93,63 @@ static std::string Number(double V)
 // ---------------------------------------------------------------------------------
 static std::vector<Vec3> IntroControlPoints()
 {
-    // World frame: +X east, +Y south, +Z up, centimetres. Every number below is either a
-    // coordinate recorded in a receipt under SourceAssets/ or a bound read out of
-    // SourceAssets/architecture-manifest.json; none of them is invented. The sources are
-    // listed shot by shot in Scripts/release_intro_sequence.spec.json. The path is
-    // duplicated here rather than read from that file so the geometry of the shipped
-    // flythrough is what these checks actually exercise.
+    // World frame: +X east, +Y south, +Z up, centimetres. The approach is from the EAST,
+    // through the east gate of the 3,000-amah precinct wall: Yechezkel 43:1-4. Every number
+    // below is a coordinate recorded in a receipt under SourceAssets/ or a bound read out of
+    // SourceAssets/architecture-manifest.json or enclosure-review/precinct-Main50.json; the
+    // sources are listed shot by shot in Scripts/release_intro_sequence.spec.json. The path
+    // is duplicated here so the geometry of the shipped flythrough is what is exercised.
     return {
-        {-38600.0, 48200.0, 4200.0},  // over the street beside the placed bus, actor origin
-                                      // [-37951, 46855], traced street level 642
-                                      // (visual-review/release-capture-20260908T023600Z view h)
-        {-31200.0, 39800.0, 5100.0},  // climbing away across the Old City roofs
-        {-23800.0, 30200.0, 5900.0},  // apex of the climb
-        {-16600.0, 16200.0, 5400.0},  // over the Kotel plaza; west-facing face midpoint
-                                      // [-14789, 13872], traced terrain about -386 (view f)
-        {-10200.0, 10600.0, 4900.0},  // crossing onto the Mount; platform deck top Z 0 (view g)
-        { -3800.0,  9200.0, 4400.0},  // abeam the House from the south, still outside the
-                                      // outer court footprint (|Y| > 8100)
-        {  2600.0,  7200.0, 3900.0},  // over the outer perimeter wall, top 3425
-        {  6400.0,  4200.0, 2900.0},  // descending over the outer court, floor top 300
-        {  7000.0,  1200.0, 1900.0},  // turning onto the eastern axis
-        {  5200.0,   200.0, 1300.0},  // settling onto the axis of the gates
-        {  3600.0,     0.0,  950.0},  // level run at the inner eastern vestibule,
-                                      // landings and stairs top 500
-        {  2100.0,     0.0,  668.0},  // the visitor's eye at Mikdash_PlayerStart [2100, 0]:
-                                      // inner court clear floor top 500 plus 168 eye height
-                                      // (visual-review/release-capture-20260908T023600Z view b)
+        {140000.0, 4200.0, 8600.0},  // over the eastern slope of the Mount of Olives (DEM ~1060,
+                                     // modern tops ~1100), looking west down the axis
+        {129500.0, 1600.0, 6500.0},  // descending toward the gate
+        {122500.0,  300.0, 5300.0},  // settling onto the axis
+        {116720.0,    0.0, 4800.0},  // THROUGH the east gate at its module centre: E gate at
+                                     // (116900, 0), module X 116549..116900, opening |Y| < 250,
+                                     // plinth 3551.4, lintel soffit 6051.4 (precinct-Main50.json,
+                                     // geometry-manifest.json SM_EnclosureV2_Gate)
+        {111500.0,    0.0, 5000.0},
+        {103500.0,    0.0, 6500.0},  // over the Olives ridge; modern tops to 4993 (Modern state)
+        { 92000.0,    0.0, 7000.0},
+        { 81000.0,    0.0, 7300.0},  // the crest, modern tops 5543
+        { 66000.0,    0.0, 5900.0},
+        { 50000.0,    0.0, 3800.0},  // out over the Kidron, floor about -6000 at X 26-32 k
+        { 34000.0,    0.0, 2900.0},
+        { 20000.0,    0.0, 3300.0},  // rising to the Mount platform, deck top 0 to X 14953
+        { 12500.0,    0.0, 3950.0},
+        {  8300.0,    0.0, 3800.0},  // over the court's east gate; lintel and jamb tops 3300
+        {  7300.0,    0.0, 3450.0},  // over the vestibule pillars and palm fronds, top 3346
+        {  6200.0,    0.0, 2650.0},  // the dive across the outer court, floor top 300
+        {  5000.0,    0.0, 1800.0},
+        {  3800.0,    0.0, 1100.0},  // level at the inner eastern vestibule, landings and stairs top 500
+        {  2100.0,    0.0,  668.0},  // the visitor's eye at Mikdash_PlayerStart [2100, 0]:
+                                     // inner court clear floor top 500 plus 168 eye height
     };
 }
 
 // The solid blocks the flythrough must clear, as axis-aligned boxes.
 //
-// Every box below is a conservative cover of a group of real meshes: its bounds come from
-// the envelope of those meshes in SourceAssets/architecture-manifest.json, so clearing
-// these boxes implies clearing the geometry they cover. Hollow unions from the manifest
-// are deliberately NOT used: "Source solid union - outer envelope walls" has an AABB of
-// [-8100,-8100,300]..[8100,8100,3425], which is the whole complex, so an AABB test against
-// it would flag every point inside the courtyard. The perimeter it represents is modelled
-// as four 300 cm bands instead, 300 cm being the gap between the outer court floor edge
-// (7800) and the platform edge (8100).
+// Every box is a conservative cover of real geometry: envelopes of named meshes in
+// SourceAssets/architecture-manifest.json, the box decomposition of that manifest's hollow
+// unions (source_elements_json, which recomposes to each union's bounds exactly), and the
+// precinct wall modules reconstructed from enclosure-review/precinct-Main50.json with the
+// same GroundSpan rule the placer uses. Hollow union AABBs themselves are never used: the
+// "outer envelope walls" union spans the whole court.
 //
-// The gate openings are NOT cut out of the bands, so the boxes are strictly larger than
-// the real walls; the path is checked against both these boxes and, in
-// Scripts/release_intro_sequence.py, against the map's own collision.
+// The precinct wall is 1.5 km a side; only the modules the path comes within 5 km of are
+// listed. Elsewhere the path is on the axis Y 0, 33 km from the north and south walls and
+// 150 km from the west wall, so nothing there can be in the way.
 static std::vector<Box> IntroBlockers()
 {
     return {
+        // -- the Mikdash ----------------------------------------------------------------
         {{-7500, -2540, 425}, {-2382, 2540, 6130}},      // House, its walls and the Golden roof
         {{-7500, -8129, 405}, {-2392, 8129, 3475}},      // west wings, cells and service passages
         {{-8100, 7800, 300}, {8100, 8100, 3425}},        // outer perimeter wall, south band
         {{-8100, -8100, 300}, {8100, -7800, 3425}},      // outer perimeter wall, north band
-        {{7800, -8100, 300}, {8100, 8100, 3425}},        // outer perimeter wall, east band
+        {{7800, -8100, 300}, {8100, -250, 3425}},        // outer perimeter wall, east band north of the gate
+        {{7800, 250, 300}, {8100, 8100, 3425}},          // outer perimeter wall, east band south of the gate
+        {{7800, -250, 2800}, {8100, 250, 3300}},         // court east gate lintel (union decomposition)
         {{-8100, -8100, 300}, {-7800, 8100, 3425}},      // outer perimeter wall, west band
         {{-8100, -8100, -5000}, {8100, 8100, 300}},      // outer court deck and its foundation
         {{-2800, -2800, -5000}, {2800, 2800, 499}},      // inner court podium
@@ -156,7 +162,31 @@ static std::vector<Box> IntroBlockers()
         {{2800, -625, 300}, {3450, 625, 500}},           // inner eastern vestibule, landings and stairs
         {{-2500, -985, 625}, {-1400, 985, 925}},         // Ulam stairs
         {{-800, -800, 625}, {800, 800, 1091}},           // altar, wood on the upper tier at 1091
-        {{7300, -2600, 300}, {9200, 2600, 3546}},        // outer eastern gatehouse and its cells
+        // -- the court's east gate, piece by piece (manifest meshes and union boxes) ------
+        {{7291, -525, 300}, {7409, -225, 3346}},         // vestibule pillar, collars and palm fronds, north
+        {{7291, 225, 300}, {7409, 525, 3346}},           // vestibule pillar, collars and palm fronds, south
+        {{7300, -625, 2800}, {7800, 625, 2900}},         // vestibule entablature, over the axis
+        {{7400, -625, 300}, {7800, -325, 2800}},         // vestibule wall, north
+        {{7400, 325, 300}, {7800, 625, 2800}},           // vestibule wall, south
+        {{7782, -282, 300}, {8018, -261, 2840}},         // open gate leaf, north
+        {{7782, 261, 300}, {8018, 282, 2840}},           // open gate leaf, south
+        {{7772, -8100, 3201}, {7828, -250, 3312}},       // court string course and cornice, west run, north
+        {{7772, 250, 3201}, {7828, 8100, 3312}},         // court string course and cornice, west run, south
+        {{8072, -8100, 3201}, {8128, -250, 3312}},       // court string course and cornice, east run, north
+        {{8072, 250, 3201}, {8128, 8100, 3312}},         // court string course and cornice, east run, south
+        {{8100, -2275, 300}, {8900, -375, 700}},         // outer eastern cells, north
+        {{8100, 375, 300}, {8900, 2275, 700}},           // outer eastern cells, south
+        {{7300, -7800, 2675}, {7800, -600, 2925}},       // raised pavement gallery, east run, north
+        {{7300, 600, 2675}, {7800, 7800, 2925}},         // raised pavement gallery, east run, south
+        // -- the 3,000-amah precinct wall: east gate and its neighbours (RELEASE_EnclosureV2) --
+        {{116549, -780, 2750}, {116900, -250, 6551}},    // E gate pier, north, substructure to lintel top
+        {{116549, 250, 2750}, {116900, 780, 6551}},      // E gate pier, south
+        {{116549, -250, 6051}, {116900, 250, 6551}},     // E gate lintel over the 500 x 2500 opening
+        {{116549, -780, 2750}, {116900, 780, 3551}},     // E gate threshold and substructure
+        {{116540, -4400, 4279}, {116900, -3150, 4896}},  // E wall module 23, plinth 4596
+        {{116540, -3150, 3904}, {116900, -1900, 4687}},  // E wall module 24, plinth 4387
+        {{116540, 1850, 1654}, {116900, 3100, 2586}},    // E wall module 28, plinth 2286
+        {{116540, 3100, 1300}, {116900, 4350, 2062}},    // E wall module 29, plinth 1762
     };
 }
 
@@ -237,11 +267,11 @@ static void ContinuityChecks()
     }
     Record("continuity", "introMaxRelativeDerivativeJump", IntroDerivativeJump, "<=", 1e-6, "C1 on the shipped path");
     Record("continuity", "introTotalLengthCm", Intro.TotalLength(), ">=", 40000.0, "the flythrough covers a real distance");
-    Record("continuity", "introTotalLengthUpperCm", Intro.TotalLength(), "<=", 120000.0,
-           "at the 40 to 70 second running time the shot is authored for, a longer path would "
-           "have to be flown faster than the shot reads");
+    Record("continuity", "introTotalLengthUpperCm", Intro.TotalLength(), "<=", 160000.0,
+           "at the 68 second running time the shot is authored for, 1.4 km is already 21 m/s "
+           "average; a longer path would have to be flown faster than the shot reads");
 
-    // The shipped path must not cusp either: a flick backwards in a 55 second establishing
+    // The shipped path must not cusp either: a flick backwards in a 68 second establishing
     // shot is the single most obvious way for a camera move to look machine-made.
     double IntroMinTangentDot = 1.0;
     Vec3 IntroPrevious = Intro.TangentAtParam(Intro.MinParam());
@@ -504,7 +534,7 @@ static void EasingChecks()
     for (int I = 0; I <= 4000; ++I)
     {
         const double T = static_cast<double>(I) / 4000;
-        const double D = EaseTrapezoid(T, 0.22, 0.30) * Intro.TotalLength();
+        const double D = EaseTrapezoid(T, 0.30, 0.30) * Intro.TotalLength();
         WorstBackwards = std::max(WorstBackwards, LastDistance - D);
         LastDistance = D;
     }
@@ -621,11 +651,37 @@ static void ClampChecks()
     const std::vector<Box> Blockers = IntroBlockers();
     std::size_t Segment = 0, Which = 0;
     const bool bClears = PolylineClearsBoxes(Polyline, Blockers, 150.0, &Segment, &Which);
-    RecordFlag("clamp", "introPathClears18SolidBlocksBy150cm", bClears,
-               "600 segment polyline against the House, the west wings, the four outer perimeter "
-               "bands, the outer deck, the inner podium and priest court, the two inner court wall "
-               "bands, both inner eastern gate jambs and the lintel, the eastern vestibule and "
-               "stairs, the Ulam stairs, the altar and the outer eastern gatehouse");
+    RecordFlag("clamp", "introPathClears42SolidBlocksBy150cm", bClears,
+               "600 segment polyline against the House, the west wings, the perimeter bands, the "
+               "outer deck, the inner podium and priest court, the inner court walls, both gates "
+               "of the court piece by piece, the Ulam stairs, the altar, and the east gate of the "
+               "precinct wall with its neighbouring modules");
+    // The path enters the PRECINCT the way Yechezkel 43:1-4 has the glory enter: from the
+    // east, through the east gate. The gate module is X 116549..116900; the opening is 500 cm
+    // wide between piers at |Y| >= 250 and runs from the plinth at 3551.4 to the lintel
+    // soffit at 6051.4. With the 150 cm margin the flyable window is |Y| <= 100 and
+    // 3701.4 <= Z <= 5901.4, at every X across the module's depth.
+    int PrecinctCrossings = 0;
+    double PrecinctWorstLateral = 0.0, PrecinctLowestZ = InfValue, PrecinctHighestZ = -InfValue;
+    for (std::size_t I = 1; I < Polyline.size(); ++I)
+    {
+        const Vec3& A = Polyline[I - 1];
+        const Vec3& B = Polyline[I];
+        if ((A.X > 116900.0) != (B.X > 116900.0)) ++PrecinctCrossings;
+        if (std::max(A.X, B.X) >= 116549.0 && std::min(A.X, B.X) <= 116900.0)
+        {
+            PrecinctWorstLateral = std::max(PrecinctWorstLateral, std::max(std::abs(A.Y), std::abs(B.Y)));
+            PrecinctLowestZ = std::min(PrecinctLowestZ, std::min(A.Z, B.Z));
+            PrecinctHighestZ = std::max(PrecinctHighestZ, std::max(A.Z, B.Z));
+        }
+    }
+    Record("clamp", "precinctEastGateCrossings", static_cast<double>(PrecinctCrossings), "==", 1.0,
+           "the camera crosses the precinct's east face once, inward, and nowhere else");
+    Record("clamp", "precinctGateLateralOffsetCm", PrecinctWorstLateral, "<=", 100.0,
+           "half the 500 cm opening less the 150 cm margin, across the whole module depth");
+    Record("clamp", "precinctGateHeightLowerCm", PrecinctLowestZ, ">=", 3551.4 + 150.0, "plinth plus the margin");
+    Record("clamp", "precinctGateHeightUpperCm", PrecinctHighestZ, "<=", 6051.4 - 150.0, "lintel soffit less the margin");
+
     // The path enters the inner court the way a visitor does: through the inner eastern
     // gateway, not over the wall. The opening is 500 cm wide (jambs at |Y| >= 250, manifest
     // "Context 15/16 Inner eastern gate wall jamb") and runs from the threshold at 500 to
@@ -672,7 +728,7 @@ static void ClampChecks()
         LargestClearingInflate = Trial;
     }
     Record("clamp", "introLargestClearingInflateCm", LargestClearingInflate, ">=", 150.0,
-           "largest uniform inflation of all 18 blocks the path still clears; capped by the "
+           "largest uniform inflation of all 42 blocks the path still clears; capped by the "
            "168 cm eye height at the arrival point");
 
     // Frustum-safe clamp.

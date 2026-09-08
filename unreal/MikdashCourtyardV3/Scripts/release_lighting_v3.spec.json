@@ -268,7 +268,61 @@
           0.0
         ]
       },
-      "why": "PIE-only comparison: the same relief/local-exposure changes with the sun moved from az 110 to az 140 (compass, +X east, +Y south; light direction d = (-sin az cos el, cos az cos el, -sin el) -> pitch -35, yaw -130). East facades are then lit 58 deg off their normal (raking) instead of 35. Changes the reviewed sun rotation, so it is adopted only if the captures are clearly better everywhere, including the Heikhal beam."
+      "why": "PIE-only comparison: the same relief/local-exposure changes with the sun moved from az 110 to az 140 (compass, +X east, +Y south; light direction d = (-sin az cos el, cos az cos el, -sin el) -> pitch -35, yaw -130). East facades are then lit 58 deg off their normal (raking) instead of 35. Changes the reviewed sun rotation, so it is adopted only if the captures are clearly better everywhere, including the Heikhal beam.",
+      "facadeIncidence": "Facade normal +X. Baseline d=(-0.814,-0.296,-0.500): incidence acos(0.814)=35.5 deg, irradiance 30000 x 0.814 = 24.4 klux. B d=(-0.5265,-0.6275,-0.5736): acos(0.5265)=58.3 deg, 15.8 klux (-0.63 stop). B does NOT take the east facades out of direct sun; only an afternoon azimuth > 180 (e.g. the polish spec's az 250 / el 27) does. B does move the Heikhal doorway beam: over the 2000 cm from the door to the partition it shifts 2384 cm north (vs 727 at baseline), so under both suns the beam lands on the north side wall, not on the partition."
+    },
+    "C_facade_partition_materials": {
+      "inherits": "A_relief_local_exposure",
+      "componentOverrides": [
+        {
+          "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_2630_union_Derived_union_of_source_House_walls_and_",
+          "slot": 0,
+          "expectedBefore": "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue",
+          "material": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+          "why": "The whole Ulam east face (X -2500, Y +-2500, Z 925..6075) is ONE union mesh still carrying the FinishPilot procedural stone (census: 1 slot, native-scale-inventory-20260908T133142). Its base colour is the canonical 'blue' pale stone [0.776,0.680,0.497] -> luma 0.69 linear vs 0.30 for MI_PBR_LimestoneAshlar: +1.2 stops brighter than the side walls under the same 35 deg sun, so it sits at sRGB 232 (p95) while the meter sits on the shaded court. Re-pointing the component to the V3 limestone instance (map-level override, like the PBR pass) is the material fix; no shared material is edited."
+        },
+        {
+          "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+          "slot": 0,
+          "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+          "material": "$new:MI_PBR_GoldMatte_Partition"
+        },
+        {
+          "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+          "slot": 0,
+          "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+          "material": "$new:MI_PBR_GoldMatte_Partition"
+        },
+        {
+          "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+          "slot": 0,
+          "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+          "material": "$new:MI_PBR_GoldMatte_Partition",
+          "why": "The Kodesh partition (X -5600 face) carries M_Sanctuary_gold: metallic 1, constant colour, roughness 0.34 (build_sanctuary_finishes.py; the asset bytes differ from the pre-balance checkpoint so the live roughness may be 0.46 with noise). A near-mirror metal facing the open 5 x 25 m doorway reflects the 24 klux sunlit court: that reflection, not direct sun, is the cream-white. Geometry check: at az 110 the beam through the doorway (Y +-250) lands 727 cm north over the 2000 cm to the partition, i.e. on the north side wall (Y -500), not on the partition. Exposure cannot fix a specular image of the sun-lit exterior; roughness can. A NEW instance (child of the untouched M_PBR_Tiled, parameters copied from MI_PBR_GoldHammered, RoughnessScale 2.1 -> mean roughness 0.285 x 2.1 = 0.60) is assigned to the three partition components only; the nine repaired instances and M_Sanctuary_gold are not edited."
+        }
+      ],
+      "newInstances": {
+        "MI_PBR_GoldMatte_Partition": {
+          "package": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+          "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+          "copyParametersFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+          "scalars": {
+            "TilingCm": 250.0,
+            "NormalStrength": 0.6,
+            "RoughnessScale": 2.1,
+            "Metallic": 1.0,
+            "AlbedoFlatness": 1.0
+          },
+          "tint": [
+            0.6105,
+            0.39157,
+            0.0865,
+            1.0
+          ],
+          "pieProxy": "dynamic instance of MI_PBR_GoldHammered with RoughnessScale 2.1 (identical shading in the PIE A/B; the asset is created only by the apply script)"
+        }
+      },
+      "why": "A only scales the limestone instances the side walls use; the two surfaces the coordinator flagged (Ulam facade, Kodesh partition) do not use them. C keeps A and fixes those two surfaces at the component level. Expected in v1: facade radiance -1.2 stops (luma 0.69 -> 0.30 at the same irradiance), so it lands near the side walls instead of at sRGB 232."
     }
   },
   "verification": {

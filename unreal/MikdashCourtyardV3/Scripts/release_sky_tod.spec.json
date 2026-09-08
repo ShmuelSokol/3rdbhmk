@@ -1,0 +1,119 @@
+{
+  "specVersion": 2,
+  "prepared": "2026-09-08",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_sky_tod.py: add the runtime time-of-day and weather actors (AMikdashTimeOfDay, AMikdashWeather from Plugins/MikdashRuntime) to the combined Walkthrough map, wire them to the existing sun, sky light, sky atmosphere, volumetric cloud, height fog and post-process volume, record every existing lighting value BEFORE anything is touched, checkpoint, save, reopen and read back. By default NO existing actor property is written: the actors drive lighting at play time and restore it at EndPlay. The optional -SkyToDBake=<preset> switch writes one preset into the actors for editor preview and is recorded field by field so it can be reverted from the receipt.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+  "lastKnownMapSha256": "9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273",
+  "lastKnownMapSha256Note": "Recorded as matched/not matched only, NEVER a guard: the map is re-saved by other release jobs many times a day.",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedAssets": [
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered"
+  ],
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "SkyTOD-",
+  "receiptFolder": "SourceAssets/sky-review",
+  "receiptPrefix": "native-place-",
+  "folder": "Release/Sky",
+  "compiledClasses": {
+    "timeOfDay": {"python": "MikdashTimeOfDay", "path": "/Script/MikdashRuntime.MikdashTimeOfDay", "required": true},
+    "weather": {"python": "MikdashWeather", "path": "/Script/MikdashRuntime.MikdashWeather", "required": false,
+                "note": "Omitted with evidence if the binary predates MikdashWeather.h; the time-of-day actor still places."}
+  },
+  "actors": {
+    "timeOfDay": {
+      "label": "RELEASE_SkyTimeOfDay",
+      "tag": "ReleaseSkyTimeOfDayV1",
+      "location": [0.0, 0.0, 0.0],
+      "settings": {
+        "frozen": true,
+        "rate_multiplier": 0.0,
+        "year": 2026,
+        "month": 9,
+        "day": 8,
+        "start_preset": {"$enum": "MikdashTimePreset.MORNING"},
+        "apply_start_preset_on_begin_play": true,
+        "restore_on_end_play": true,
+        "use_israeli_daylight_saving": true,
+        "world_x_axis_compass_bearing_deg": 90.0,
+        "max_fog_density": 0.006,
+        "forbid_volumetric_fog": true,
+        "spawn_moon_light_if_missing": true,
+        "drive_sun": true, "drive_moon": true, "drive_sky_light": true, "drive_sky_atmosphere": true,
+        "drive_clouds": true, "drive_fog": true, "drive_exposure": true
+      },
+      "settingsNotes": {
+        "frozen": "The scene stays locked to one lighting condition until a controller unfreezes it; placement changes nothing visible.",
+        "start_preset": "Morning is the row that reproduces the adopted reviewed daylight (30 klux, 6500 K, sky light 1.3, fog 0.0015/0.15/8000, volumetric off) exactly.",
+        "world_x_axis_compass_bearing_deg": "Walkthrough frame: +X east, +Y south, +Z up (capture receipt b_courtyard_spawn_west, release_lighting_polish.spec.json worldFrame)."
+      },
+      "sceneReferences": {
+        "sun_light": "DirectionalLight", "sky_light": "SkyLight", "sky_atmosphere": "SkyAtmosphere",
+        "volumetric_cloud": "VolumetricCloud", "height_fog": "ExponentialHeightFog", "post_process_volume": "PostProcessVolume"
+      }
+    },
+    "weather": {
+      "label": "RELEASE_SkyWeather",
+      "tag": "ReleaseSkyWeatherV1",
+      "location": [0.0, 0.0, 200.0],
+      "settings": {
+        "start_weather": {"$enum": "MikdashWeather.CLEAR"},
+        "pick_seasonal_weather_on_begin_play": false,
+        "enforce_season": true,
+        "default_transition_seconds": 20.0,
+        "world_x_axis_compass_bearing_deg": 90.0
+      },
+      "settingsNotes": {
+        "start_weather": "CLEAR is the identity modifier, so the placed scene plays back exactly the time-of-day table. Hazy (the summer default) is one call away and is what a seasonal pick returns for September."
+      }
+    }
+  },
+  "expectedExisting": {
+    "DirectionalLight": {"min": 1, "max": 2, "note": "The sun. A second one is tolerated (a previous moon light) but the atmosphere-sun-light index 0 is the one wired."},
+    "SkyLight": {"min": 1, "max": 1},
+    "SkyAtmosphere": {"min": 1, "max": 1},
+    "VolumetricCloud": {"min": 1, "max": 1},
+    "ExponentialHeightFog": {"min": 1, "max": 1},
+    "PostProcessVolume": {"min": 1, "max": 3, "note": "The unbound one is wired."}
+  },
+  "recordBeforeAndAfter": {
+    "DirectionalLight": ["intensity", "use_temperature", "temperature", "light_color", "light_source_angle", "light_source_soft_angle", "volumetric_scattering_intensity", "atmosphere_sun_light", "atmosphere_sun_light_index", "cast_cloud_shadows", "cloud_shadow_strength", "contact_shadow_length", "mobility", "indirect_lighting_intensity", "cast_shadows"],
+    "SkyLight": ["intensity", "light_color", "source_type", "cubemap", "real_time_capture", "lower_hemisphere_is_black", "lower_hemisphere_color", "indirect_lighting_intensity", "volumetric_scattering_intensity", "cubemap_resolution", "mobility"],
+    "SkyAtmosphere": ["aerial_pespective_view_distance_scale", "mie_scattering_scale", "mie_absorption_scale", "mie_anisotropy", "rayleigh_scattering_scale", "height_fog_contribution", "sky_luminance_factor", "multi_scattering_factor", "transmittance_min_light_elevation_angle"],
+    "VolumetricCloud": ["material", "layer_bottom_altitude", "layer_height"],
+    "ExponentialHeightFog": ["fog_density", "fog_height_falloff", "start_distance", "fog_max_opacity", "fog_cutoff_distance", "fog_inscattering_luminance", "sky_atmosphere_ambient_contribution_color_scale", "directional_inscattering_luminance", "directional_inscattering_exponent", "directional_inscattering_start_distance", "enable_volumetric_fog", "volumetric_fog_scattering_distribution", "volumetric_fog_extinction_scale", "volumetric_fog_distance"],
+    "PostProcessVolumeSettings": ["auto_exposure_method", "auto_exposure_min_brightness", "auto_exposure_max_brightness", "auto_exposure_bias", "auto_exposure_low_percent", "auto_exposure_high_percent", "film_slope", "film_toe", "film_shoulder", "film_white_clip", "bloom_intensity", "vignette_intensity", "white_temp", "lumen_scene_detail", "lumen_final_gather_quality", "lumen_reflection_quality"],
+    "PostProcessVolumeOverrides": ["override_auto_exposure_bias", "override_auto_exposure_min_brightness", "override_auto_exposure_max_brightness"],
+    "cloudMaterialScalarParameters": ["Cloud_GlobalCoverage", "Cloud_GlobalDensity", "Layout_CloudGlobalScale", "StormClouds"],
+    "cloudMaterialVectorParameters": ["Layout_WindControls"]
+  },
+  "authoredTuneThatMustSurvive": {
+    "note": "Read back after reopen in every mode; a mismatch is a hard failure UNLESS -SkyToDBake selected a twilight/night row, where the recorded delta is the point. In the default mode and in a Morning/Midday/Afternoon bake these must be byte-identical.",
+    "ExponentialHeightFog": {"fog_density": 0.0015, "fog_height_falloff": 0.15, "start_distance": 8000.0, "enable_volumetric_fog": false},
+    "SkyLight": {"lower_hemisphere_is_black": false, "source_type": "SLS_CAPTURED_SCENE", "real_time_capture": true},
+    "floatRelativeTolerance": 0.0005
+  },
+  "bake": {
+    "switch": "-SkyToDBake=<dawn|sunrise|morning|midday|afternoon|sunset|dusk|night>",
+    "default": "none",
+    "method": "Sets time_of_day_hours to the row's real hour for the spec date, turns off drive_moon and drive_clouds for the bake (a spawned moon light and a dynamic cloud material must never be saved into the map), calls bind_scene_actors() then apply_now() on the placed actor, restores the two flags, then records every field in recordBeforeAndAfter again so the receipt carries the full before/after delta. The exposure min/max are written as 2^EV because r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange is 0 in this project.",
+    "revert": "Re-run with -SkyToDRevert=<receipt path>: every recorded 'before' value is written back to the same actor and read back, and the placed actors are destroyed. The checkpoint copy of the umap is the belt to that suspenders."
+  },
+  "verification": {
+    "floatRelativeTolerance": 0.0005,
+    "compareRule": "Numeric fields, enum names, bools and asset paths only; str(Struct) is never compared."
+  },
+  "limitations": [
+    "Placement establishes no visual acceptance: the actors are frozen on the Morning row, which is the adopted daylight; dawn, dusk and night renders are still to be reviewed.",
+    "The weather actor writes no material parameter unless a UMaterialParameterCollection is assigned to WeatherParameters; wet-surface and snow response requires materials that read it, and no material is edited by this pass.",
+    "Sunrise/sunset times are sea-level USNO convention; Jerusalem's 750 m elevation (about 4 minutes) is not modelled.",
+    "The atmosphere draws the moon as a round disc dimmed by phase; a crescent needs a mesh moon driven by GetMoonBrightLimbAngleDegrees()."
+  ]
+}

@@ -1,10 +1,10 @@
 {
   "title": "ServiceScheduleMath standalone test",
-  "runUtc": "2026-09-08T04:14:02Z",
+  "runUtc": "2026-09-08T22:18:15Z",
   "status": "passed",
   "exitCode": 0,
-  "checksPassed": 100168,
-  "output": "Service schedule: 100168 checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)",
+  "checksPassed": 100186,
+  "output": "Service schedule: 100186 checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)",
   "compiler": {
     "tool": "cl.exe (VS2022 BuildTools, vcvars64)",
     "version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35228 for x64",
@@ -18,7 +18,7 @@
     },
     "test": {
       "path": "Plugins/MikdashRuntime/Tests/ServiceScheduleMathTest.cpp",
-      "sha256": "20663e5ff6e4a508ef7a5be76bbe2f67a9c3da7ffaefeb8c855a787272461476"
+      "sha256": "2a4232de77b5d0e28fcb92a71c7ec61f20f2f3a93140e91be4b03b720810eecd"
     }
   },
   "whatIsCovered": [
@@ -32,7 +32,8 @@
     "Refusals: station moved past the line, floating station, station outside the hall, non-finite dwell, impossible lamp index, one-station plan, negative walk speed, mismatched lamp grouping, negative dwell.",
     "Runner behaviour: unconfigured fails closed, a paused tick advances nothing, a NaN or negative clock step changes nothing, a blocked leg holds without moving a centimetre and is counted once, holds clear when the leg clears.",
     "20000-step and single-5000-second sweeps asserting that every position the runner ever reports is inside a permitted zone and east of the paroches line, that all seven lamps are reported, and that the interval repeat is observed.",
-    "The Yom Kippur runner does pass the line, and the identical plan is refused the moment the scenario flag is off."
+    "The Yom Kippur runner does pass the line, and the identical plan is refused the moment the scenario flag is off.",
+    "Cross-agent contract: the golden-altar station's action text contains 'golden altar for the incense' and no other station does. AMikdashFXDirector starts and ends the ketores plume by matching that substring in the service actor's current-action text."
   ],
   "whatIsNotCovered": [
     "Nothing here touches Unreal. The capsule sweep, the floor traces, the mesh and material lookup and the actual walking in the map are untested until the coordinator compiles MikdashRuntime and runs the release script.",

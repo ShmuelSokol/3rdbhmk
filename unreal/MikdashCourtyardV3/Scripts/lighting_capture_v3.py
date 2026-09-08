@@ -392,6 +392,47 @@ def apply_variant(world, name):
                         counts[short] = counts.get(short, 0) + 1
         applied['dynamicInstancesCreated'] = counts
         applied['instanceParameters'] = v['instances']
+    if 'componentOverrides' in v:
+        # PIE-only component re-pointing. '$new:<name>' materials use the spec's pieProxy: a dynamic
+        # instance of copyParametersFrom with the new instance's scalar/tint values (no asset is created).
+        proxies = {}
+        for name, block in v.get('newInstances', {}).items():
+            src = u.load_asset(block['copyParametersFrom'])
+            assert src, 'Missing ' + block['copyParametersFrom']
+            proxies[name] = (src, block)
+        wanted = {(o['meshAsset'], o['slot']): o for o in v['componentOverrides']}
+        done = []
+        for actor in u.GameplayStatics.get_all_actors_of_class(world, u.Actor):
+            for comp in actor.get_components_by_class(u.StaticMeshComponent):
+                mesh = comp.static_mesh
+                if not mesh:
+                    continue
+                mesh_path = mesh.get_path_name().split('.')[0]
+                for slot in range(comp.get_num_materials()):
+                    o = wanted.get((mesh_path, slot))
+                    if not o:
+                        continue
+                    before = comp.get_material(slot)
+                    before_path = before.get_path_name().split('.')[0] if before else None
+                    if o['material'].startswith('$new:'):
+                        src, block = proxies[o['material'][5:]]
+                        mid = comp.create_dynamic_material_instance(slot, src)
+                        for pname, pval in block['scalars'].items():
+                            mid.set_scalar_parameter_value(pname, float(pval))
+                        mid.set_vector_parameter_value('Tint', u.LinearColor(*block['tint']))
+                        after_path = 'MID<%s RoughnessScale %.2f>' % (block['copyParametersFrom'].rsplit('/', 1)[-1], block['scalars']['RoughnessScale'])
+                    else:
+                        mat = u.load_asset(o['material'])
+                        assert mat, 'Missing ' + o['material']
+                        comp.set_material(slot, mat)
+                        after_path = comp.get_material(slot).get_path_name().split('.')[0]
+                    done.append({'actor': actor.get_actor_label(), 'mesh': mesh_path, 'slot': slot, 'before': before_path,
+                                 'expectedBefore': o.get('expectedBefore'), 'beforeMatchesExpected': before_path == o.get('expectedBefore'), 'after': after_path})
+        applied['componentOverrides'] = done
+        found = {(d['mesh'], d['slot']) for d in done}
+        missing = [k for k in wanted if k not in found]
+        if missing:
+            failure('componentOverrides', 'no PIE component found for %s' % missing)
     if 'postProcess' in v:
         volumes = list(u.GameplayStatics.get_all_actors_of_class(world, u.PostProcessVolume))
         assert len(volumes) == 1, 'Need exactly one PIE post-process volume'

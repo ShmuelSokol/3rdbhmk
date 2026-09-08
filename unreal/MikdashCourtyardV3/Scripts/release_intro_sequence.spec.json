@@ -1,7 +1,7 @@
 {
-  "specVersion": 1,
+  "specVersion": 2,
   "prepared": "2026-09-08",
-  "purpose": "Human-reviewable plan for the cinematic intro, consumed by Scripts/release_intro_sequence.py. Every coordinate below is traceable to a receipt under SourceAssets/ or to SourceAssets/architecture-manifest.json; nothing here is invented. The same numbers appear in Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCinematics.h (IntroControlPoints) and in Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp, which proves the path clears the geometry.",
+  "purpose": "Human-reviewable plan for the cinematic intro, consumed by Scripts/release_intro_sequence.py. The approach is from the EAST through the east gate of the 3,000-amah precinct wall; that direction is sourced (Yechezkel 43:1-4, see SourceAssets/cinematics-review/INTRO-EAST-GATE-SOURCE-20260908.md) and the camera choreography is AUTHORED. Every coordinate below is traceable to a receipt under SourceAssets/ or to a manifest bound. The same control points are in Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCinematics.h (IntroControlPoints) and in Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp, which proves the path clears the geometry.",
   "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
   "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
   "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
@@ -17,7 +17,7 @@
   "sequencePackagePath": "/Game/MikdashV3/Cinematics",
   "sequenceAssetName": "SEQ_MikdashIntro",
   "displayRate": 30,
-  "durationSeconds": 55.0,
+  "durationSeconds": 68.0,
   "samplesPerSecond": 30,
   "cameraActorLabel": "CINE_MikdashIntro",
   "cameraCutSectionCoversWholeSequence": true,
@@ -25,97 +25,109 @@
   "worldFrame": {
     "axes": "+X east, +Y south, +Z up",
     "units": "centimetres, seconds, degrees",
-    "note": "Matches CameraPathMath.h exactly, so a rotator computed there can be keyed here without a sign fix-up."
+    "note": "Matches CameraPathMath.h exactly, so a rotator computed there can be keyed here without a sign fix-up. Z 0 = 748 m a.s.l."
+  },
+
+  "source": {
+    "direction": "Yechezkel 43:1-4: the prophet is brought to the gate facing east; the glory of God comes from the way of the east and enters the House by the gate whose face is toward the east. Yechezkel 42:15: the measuring of the precinct goes out through the east gate. Yechezkel 44:1-2 (context): that gate is afterwards shut because the LORD entered by it.",
+    "sourced": ["the approach from the east", "entering through the east gate of the 3,000-amah wall", "the gate on the Temple's east-west axis (enclosure author, sources.md gates table)"],
+    "authored": ["the start point and height over the Mount of Olives", "descending to gate height", "the height through the opening", "the climb over the Olives ridge and the descent across the Kidron", "passing OVER the court's own east gate rather than through it", "the dive to the inner eastern gate", "all timings, eases, aim points and lens"],
+    "document": "SourceAssets/cinematics-review/INTRO-EAST-GATE-SOURCE-20260908.md"
+  },
+
+  "precinctEastGate": {
+    "positionCm": [116900.0, 0.0],
+    "moduleWorldCm": {"xInner": 116549.0, "xCentre": 116720.0, "xOuter": 116900.0, "yPiers": "|Y| 250..780", "yOpening": "|Y| < 250"},
+    "openingCm": {"width": 500.0, "height": 2500.0, "depth": 300.0},
+    "plinthZcm": 3551.4,
+    "plinthNote": "GroundSpan (EnclosureMath.h) over the 1500 cm gate block on the precinct-Main50.json ground profile, 9 subsamples; the placed receipt states 783.6 m a.s.l. = 3560 cm; the 9 cm difference is subsample count and is inside every margin.",
+    "lintelSoffitZcm": 6051.4,
+    "topZcm": 6551.4,
+    "flyableWindowWith150cmMargin": {"absY": 100.0, "zMin": 3701.4, "zMax": 5901.4},
+    "sources": ["SourceAssets/enclosure-review/precinct-Main50.json gates[E], groundProfile side 1", "SourceAssets/enclosure-review/geometry-manifest.json meshes[SM_EnclosureV2_Gate] canonicalBoundsCm", "SourceAssets/enclosure-review/native-enclosure-Main50-20260908T211423791852Z.json reopenedReadback"]
   },
 
   "levelHeights": {
     "mountPlatformDeckTopCm": 0.0,
-    "outerCourtPlatformTopCm": 299.0,
+    "mountPlatformEastEdgeX": 14953.0,
     "outerCourtFloorTopCm": 300.0,
-    "outerPerimeterWallTopCm": 3425.0,
-    "innerCourtPodiumTopCm": 499.0,
+    "courtEastGateLintelTopCm": 3300.0,
+    "courtEastGateVestibulePillarsTopCm": 3346.0,
     "innerCourtClearFloorTopCm": 500.0,
-    "raisedPriestCourtTopCm": 625.0,
-    "innerCourtWallTopCm": 3625.0,
     "innerEasternGateThresholdCm": 500.0,
     "innerEasternGateLintelSoffitCm": 3000.0,
-    "heichalFloorTopCm": 925.0,
     "houseRoofTopCm": 6130.0,
+    "olivesRidgeGroundMaxCm": 5128.0,
+    "olivesRidgeModernTopsMaxCm": 5543.0,
+    "kidronFloorAtAxisCm": -6000.0,
     "eyeHeightCm": 168.0,
-    "source": "SourceAssets/architecture-manifest.json, expectedBoundsUnrealCm of the named meshes"
+    "sources": "architecture-manifest.json (meshes and union decompositions), FutureMountV1/mount-platform.mesh.json, jerusalem.json DEM (sha 76a2b76c), jerusalem-meshes.json extruded buildings (sha cec2748b)"
   },
 
   "shots": [
     {
-      "id": "1_modern_city",
+      "id": "1_over_the_mount_of_olives",
       "startSeconds": 0.0,
-      "endSeconds": 9.0,
-      "beat": "Establish the modern city. The camera holds high over the street beside the placed bus and begins to move, with the Kotel and the Mount already on frame.",
-      "controlPointCm": [-38600.0, 48200.0, 4200.0],
-      "aimCm": [-14800.0, 13900.0, 400.0],
-      "basis": "TransitV2 bus actor origin [-37951.473, 46854.779]; capture view h in SourceAssets/visual-review/release-capture-20260908T023600Z/receipt.json places the eye at traced street level + 168, i.e. street level about 642."
+      "endSeconds": 16.2,
+      "beat": "Establish from the east: high over the eastern slope of the Mount of Olives, looking west down the axis. The east gate stands ahead; the ridge, the Kidron and the Old City are beyond it; the House is on the axis in the distance.",
+      "controlPointsCm": [[140000.0, 4200.0, 8600.0], [129500.0, 1600.0, 6500.0], [122500.0, 300.0, 5300.0]],
+      "aimCm": [-4900.0, 0.0, 3200.0],
+      "basis": "Start on the eastern slope, DEM ground about 1060 and modern tops about 1100 at X 140 k (jerusalem.json, jerusalem-meshes.json). The descent brings the camera onto the axis Y 0 before the gate."
     },
     {
-      "id": "2_old_city_roofs",
-      "startSeconds": 9.0,
-      "endSeconds": 20.0,
-      "beat": "Climb north-east across the Old City roofs.",
-      "controlPointsCm": [[-31200.0, 39800.0, 5100.0], [-23800.0, 30200.0, 5900.0]],
-      "aimCm": [-14800.0, 13900.0, 400.0],
-      "basis": "Jerusalem context buildings, /Game/MikdashV3/JerusalemContext/Buildings, imported per SourceAssets/context-review/buildings-import-20260907T023932Z-289628.json."
+      "id": "2_through_the_east_gate",
+      "startSeconds": 16.2,
+      "endSeconds": 20.2,
+      "beat": "Descend to gate height so the 30 m gate reads as a threshold, and pass THROUGH the opening on the axis, mid-height, still on the ease-in so it is slow.",
+      "controlPointsCm": [[116720.0, 0.0, 4800.0], [111500.0, 0.0, 5000.0]],
+      "aimCm": [-4900.0, 0.0, 3200.0],
+      "basis": "Gate module centre X 116720; Z 4800 is 1248.6 above the plinth and 1251.4 below the lintel soffit; the polyline stays within |Y| 4.7 across the module depth (pier clearance 245 cm)."
     },
     {
-      "id": "3_kotel_plaza",
-      "startSeconds": 20.0,
-      "endSeconds": 30.0,
-      "beat": "Over the Kotel plaza, the wall passing under the camera.",
-      "controlPointCm": [-16600.0, 16200.0, 5400.0],
-      "aimCm": [-6000.0, 4000.0, 2000.0],
-      "basis": "kotel-detail manifest edge 0 west-facing face midpoint [-14788.765, 13872.183]; traced terrain there about -386 (capture views f and f2 of the same receipt)."
+      "id": "3_over_the_olives_ridge",
+      "startSeconds": 20.2,
+      "endSeconds": 35.7,
+      "beat": "Climb over the ridge of the Mount of Olives; the Kidron opens below and the Old City lies beyond, the House on the axis.",
+      "controlPointsCm": [[103500.0, 0.0, 6500.0], [92000.0, 0.0, 7000.0], [81000.0, 0.0, 7300.0], [66000.0, 0.0, 5900.0]],
+      "aimCm": [-4900.0, 0.0, 3200.0],
+      "basis": "Ridge ground to 5128 within 15 m of the axis and modern building tops to 5543 at X 79-82 k (visible in the MODERN state); the path is 1757 cm above the tops at the crest."
     },
     {
-      "id": "4_onto_the_mount",
-      "startSeconds": 30.0,
-      "endSeconds": 38.0,
-      "beat": "Cross onto the Mount and reveal the enclosure whole.",
-      "controlPointsCm": [[-10200.0, 10600.0, 4900.0], [-3800.0, 9200.0, 4400.0]],
-      "aimCm": [-6000.0, 4000.0, 2000.0],
-      "basis": "Future Mount platform deck top Z 0 (capture view g). Both points are outside the outer court footprint, |Y| > 8100."
+      "id": "4_across_the_kidron",
+      "startSeconds": 35.7,
+      "endSeconds": 54.7,
+      "beat": "Descend across the Kidron toward the Mount; the platform and the court's east gate come up on the axis.",
+      "controlPointsCm": [[50000.0, 0.0, 3800.0], [34000.0, 0.0, 2900.0], [20000.0, 0.0, 3300.0], [12500.0, 0.0, 3950.0]],
+      "aimCm": [8000.0, 0.0, 2000.0],
+      "basis": "Kidron floor about -6000 at X 26-32 k on the axis; Mount platform deck top Z 0 to X 14953 (mount-platform.mesh.json surface bounds)."
     },
     {
-      "id": "5_over_the_outer_court",
-      "startSeconds": 38.0,
-      "endSeconds": 47.0,
-      "beat": "Come over the southern perimeter wall and descend across the outer court, the House turning through frame.",
-      "controlPointsCm": [[2600.0, 7200.0, 3900.0], [6400.0, 4200.0, 2900.0]],
-      "aimCm": [-2000.0, 0.0, 2600.0],
-      "basis": "Outer perimeter wall top 3425 and outer court floor top 300, both from the architecture manifest. The wall is crossed at about Z 4125, well over the 3575 the 150 cm margin requires."
-    },
-    {
-      "id": "6_the_eastern_axis",
-      "startSeconds": 47.0,
-      "endSeconds": 53.0,
-      "beat": "Turn onto the axis of the gates and level out for the run in.",
-      "controlPointsCm": [[7000.0, 1200.0, 1900.0], [5200.0, 200.0, 1300.0], [3600.0, 0.0, 950.0]],
+      "id": "5_over_the_court_east_gate",
+      "startSeconds": 54.7,
+      "endSeconds": 58.5,
+      "beat": "Pass over the court's east gate on the axis and begin the dive into the outer court.",
+      "controlPointsCm": [[8300.0, 0.0, 3800.0], [7300.0, 0.0, 3450.0], [6200.0, 0.0, 2650.0]],
       "aimCm": [-2450.0, 0.0, 2200.0],
-      "basis": "Inner eastern vestibule floor, landings and stairs top 500 (Context 527 to 530, 657 to 659)."
+      "basis": "Gate lintel and jamb tops 3300 (union decomposition), cornices 3312, vestibule pillars and palm fronds 3346 at |Y| 225..525, entablature 2900 over the axis. The path is 406 cm over the lintel at X 7800 and 475 over the jamb line at X 8100. The court gate is not threaded: its 6.5 m opening with open leaves at +/-2.6 m is too narrow for a 150 cm margin at this speed."
     },
     {
-      "id": "7_through_the_gate_and_arrive",
-      "startSeconds": 53.0,
-      "endSeconds": 55.0,
-      "beat": "Through the inner eastern gateway on the axis and settle at the visitor's eye, facing the House. Control passes here.",
-      "controlPointCm": [2100.0, 0.0, 668.0],
+      "id": "6_the_axis_run_and_arrival",
+      "startSeconds": 58.5,
+      "endSeconds": 68.0,
+      "beat": "Level out on the axis, thread the inner eastern gateway and settle at the visitor's eye, facing the House. Control passes here.",
+      "controlPointsCm": [[5000.0, 0.0, 1800.0], [3800.0, 0.0, 1100.0], [2100.0, 0.0, 668.0]],
       "aimCm": [-2450.0, 0.0, 1400.0],
-      "basis": "Mikdash_PlayerStart [2100, 0], pawn centre Z 598, inner court clear floor top 500 plus 168 cm eye height (capture view b). The gateway is 500 cm wide between the jambs at |Y| >= 250 and runs from the threshold at 500 to the lintel soffit at 3000; the path crosses X = 2500 at about Y -4.5, Z 736."
+      "basis": "Inner eastern vestibule, landings and stairs top 500; gateway 500 cm wide between jambs at |Y| >= 250, threshold 500, lintel soffit 3000; the path crosses X 2500 at Y 0.0, Z 761. Mikdash_PlayerStart [2100, 0], inner court clear floor top 500 plus 168 cm eye height (capture view b)."
     }
   ],
 
   "easing": {
     "profile": "trapezoid",
-    "inFraction": 0.22,
-    "outFraction": 0.32,
-    "note": "Velocity smoothsteps up, holds a genuinely constant speed through the middle, and smoothsteps down. No linear interpolation anywhere: the position track is an arc-length reparameterised centripetal Catmull-Rom and the keys are baked at 30 per second with cubic (auto) tangents.",
+    "inFraction": 0.30,
+    "outFraction": 0.30,
+    "note": "Velocity smoothsteps up over the first 30 percent, holds a genuinely constant speed through the ridge and the Kidron, and smoothsteps down over the last 30 percent into the arrival. No linear interpolation anywhere: the position track is an arc-length reparameterised centripetal Catmull-Rom and the keys are baked at 30 per second with cubic (auto) tangents. The gate is passed at 17 percent of the distance, inside the ease-in, so the threshold is crossed slowly.",
+    "averageSpeedMetresPerSecond": 20.6,
+    "peakSpeedMetresPerSecond": 29.4,
     "aimHalfLifeSeconds": 0.55,
     "maxBankDegrees": 6.0,
     "yawRateForFullBankDegPerSecond": 22.0,
@@ -127,10 +139,18 @@
   "clearance": {
     "inflateCm": 150.0,
     "polylineSegments": 600,
-    "largestClearingInflateCm": 168.0,
-    "bindingConstraint": "The 168 cm eye height at the arrival point: a camera standing at eye height above a floor cannot clear that floor by more than 168 cm.",
-    "verifiedAgainst": "All 2629 non-union meshes of SourceAssets/architecture-manifest.json, and separately against the 18 conservative blocking boxes listed in Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp.",
-    "hollowUnionNote": "The manifest mesh 'Source solid union - outer envelope walls' has an AABB of [-8100,-8100,300]..[8100,8100,3425], which is the whole complex. It is a hollow Boolean union and is excluded from AABB clearance tests; the perimeter it represents is modelled as four 300 cm bands between the floor edge at 7800 and the platform edge at 8100."
+    "largestClearingInflateCm": {
+      "architecture2629Meshes": 168.0,
+      "unionDecompositions160Boxes": 250.0,
+      "precinctEastWallAndGate": 200.0,
+      "terrainDemAndPlatform": 400.0,
+      "modernBuildingsAlongTheAxis": 400.0
+    },
+    "bindingConstraint": "The 168 cm eye height at the arrival point: a camera standing at eye height above a floor cannot clear that floor by more than 168 cm. The next binding element is the precinct gate itself at 200 cm (the pier clearance is 245 cm; the module boxes include the substructure).",
+    "precinctGateTransit": {"crossingsOfEastFace": 1, "worstLateralCm": 4.7, "pierClearanceCm": 245.3, "thresholdClearanceCm": 1244.1, "lintelClearanceCm": 1246.0},
+    "verifiedAgainst": "All 2629 non-union meshes of SourceAssets/architecture-manifest.json; the 160 boxes of its four hollow unions (source_elements_json, recomposition error 0.0 cm); the 121 precinct east-wall boxes reconstructed from precinct-Main50.json (117 wall modules with their substructure, the gate's piers, lintel and threshold); the DEM and the Mount platform deck; and the modern building tops along the axis corridor (|Y| <= 1500) from jerusalem-meshes.json. In Plugins/MikdashRuntime/Tests/CameraPathMathTest.cpp the same path is checked against 42 conservative boxes.",
+    "modernState": "When the enclosure is toggled to MODERN the wall and gate vanish and the modern buildings inside the precinct return. The path clears those buildings by at least 400 cm along the whole axis corridor, so the same path is valid in both states.",
+    "hollowUnionNote": "The manifest mesh 'Source solid union - outer envelope walls' has an AABB of [-8100,-8100,300]..[8100,8100,3425], which is the whole complex. Its 116 source boxes are used instead; they place the court's east gate lintel at X 7800..8100, |Y| < 250, Z 2800..3300."
   },
 
   "orbits": [
@@ -153,7 +173,7 @@
 
   "limitations": [
     "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
-    "Clearance is geometric, against axis-aligned boxes and against the map's own collision where a trace is available. It says nothing about foliage, decals, translucent volumes or anything without collision.",
-    "The Jerusalem context legs of the flight are checked against the map's collision at run time, not against the architecture manifest, because the city is not in that manifest."
+    "Clearance is geometric, against axis-aligned boxes: manifest meshes, union decompositions, reconstructed precinct modules, the DEM and the extruded building tops. It says nothing about foliage, decals, translucent volumes or anything without collision, and the precinct boxes are a reconstruction of the placer's rule, not a read-back of the placed HISM instances; the editor run reads those back.",
+    "The wall follows a baked ground profile. If the terrain tiles or the profile are regenerated the gate plinth moves and this path must be re-verified."
   ]
 }

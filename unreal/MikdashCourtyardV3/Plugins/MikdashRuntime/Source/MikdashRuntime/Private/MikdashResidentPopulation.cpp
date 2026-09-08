@@ -153,7 +153,8 @@ bool AMikdashResidentPopulation::BindConfiguredBodies(const std::vector<MikdashC
             { return WeakOwner.IsValid() && WeakOwner->ReviewSegment(Index, From, To); }))
         { StopPopulation(); Status = TEXT("Binding failed; stopped; restart world before retry"); return false; }
         ActiveBodies[Index]->AddTickPrerequisiteActor(this);
-        ActiveBodies[Index]->GetMesh()->PlayAnimation(IdleAnimation, true);
+        UAnimSequence* Idle = RoutePlans.IsValidIndex(Index) && RoutePlans[Index].IdleClip ? RoutePlans[Index].IdleClip : IdleAnimation.Get();
+        ActiveBodies[Index]->GetMesh()->PlayAnimation(Idle, true);
     }
     return true;
 }
@@ -355,8 +356,45 @@ UMaterialInterface* AMikdashResidentPopulation::GarmentFor(const FString& Varian
     return nullptr;
 }
 
+FMikdashResolvedBody AMikdashResidentPopulation::ResolveBody(const MikdashPeople::Person& Individual) const
+{
+    FMikdashResolvedBody Body;
+    Body.Mesh = ResidentMesh.Get(); Body.Idle = IdleAnimation.Get(); Body.Walk = WalkAnimation.Get();
+    Body.GarmentSlots = GarmentMaterialSlots; Body.MeshRelativeYaw = DefaultMeshRelativeYaw; Body.VisualScale = 1.0;
+    if (Individual.BodyVariant.empty()) return Body; // legacy directory: the default body, no note
+    const FString Wanted(UTF8_TO_TCHAR(Individual.BodyVariant.c_str()));
+    auto Fallback = [&Body, &Wanted](const TCHAR* Why)
+    {
+        Body.bFallback = true;
+        Body.Note = FString::Printf(TEXT("body fallback to the default rig: variant '%s' %s"), *Wanted, Why);
+        return Body;
+    };
+    const FMikdashResidentBodyVariant* Variant = nullptr;
+    for (const FMikdashResidentBodyVariant& Candidate : BodyVariants)
+        if (Candidate.Id == Wanted) { Variant = &Candidate; break; }
+    if (!Variant) return Fallback(TEXT("is not registered on this population"));
+    if (!Variant->SkeletalMesh || !Variant->IdleAnimation || !Variant->WalkAnimation)
+        return Fallback(TEXT("has a missing skeletal mesh or clip asset"));
+    if (!Variant->SkeletalMesh->GetSkeleton()
+        || Variant->SkeletalMesh->GetSkeleton() != Variant->IdleAnimation->GetSkeleton()
+        || Variant->SkeletalMesh->GetSkeleton() != Variant->WalkAnimation->GetSkeleton())
+        return Fallback(TEXT("has clips that do not belong to its own skeleton"));
+    if (Variant->GarmentMaterialSlots.Num() == 0) return Fallback(TEXT("names no garment slot"));
+    if (!FMath::IsFinite(Variant->MeshRelativeYaw)) return Fallback(TEXT("has a non-finite mesh yaw"));
+    // The authored scale is a physical body proportion on the mesh component only: it is not
+    // multiplied by the amah factor and never touches the actor or the 34/96 capsule.
+    const double Scale = MikdashResidentBody::VisualScaleForFrame(ActiveSceneFrame, Individual.VisualScale);
+    if (!MikdashResidentBody::VisualScaleReviewed(Scale))
+        Body.Note = FString::Printf(TEXT("visual scale %.3f outside the reviewed 0.84..1.04 range; 1.0 used"), Scale);
+    Body.VariantId = Wanted; Body.Mesh = Variant->SkeletalMesh.Get();
+    Body.Idle = Variant->IdleAnimation.Get(); Body.Walk = Variant->WalkAnimation.Get();
+    Body.GarmentSlots = Variant->GarmentMaterialSlots; Body.MeshRelativeYaw = Variant->MeshRelativeYaw;
+    Body.VisualScale = MikdashResidentBody::VisualScaleReviewed(Scale) ? Scale : 1.0;
+    return Body;
+}
+
 AMikdashResidentCharacter* AMikdashResidentPopulation::SpawnAuthoredBody(
-    const MikdashPeople::Person& Individual, FString& OutReason)
+    const MikdashPeople::Person& Individual, const FMikdashResolvedBody& Chosen, FString& OutReason)
 {
     const MikdashPeople::Waypoint& Start = Individual.Route[0];
     const MikdashPeople::Waypoint& Next = Individual.Route[1];
@@ -371,18 +409,22 @@ AMikdashResidentCharacter* AMikdashResidentPopulation::SpawnAuthoredBody(
         AMikdashResidentCharacter::StaticClass(), Feet + FVector(0, 0, 96), FRotator(0.0, Yaw, 0.0), Params);
     if (!Body) { OutReason = TEXT("spawn refused: the capsule at waypoint 0 is not clear"); return nullptr; }
     USkeletalMeshComponent* Mesh = Body->GetMesh();
-    Mesh->SetSkeletalMeshAsset(ResidentMesh);
-    Mesh->SetRelativeLocation(FVector(0, 0, -96));
-    Mesh->SetRelativeRotation(FRotator(0, 90, 0));
+    Mesh->SetSkeletalMeshAsset(Chosen.Mesh);
+    // Pivot at the feet: the component sits 96 below the capsule centre whatever its scale.
+    // Scale is applied to the mesh COMPONENT only; the actor and its 34/96 capsule stay physical.
+    Mesh->SetRelativeLocation(FVector(0, 0, MikdashResidentBody::MeshRelativeZCm));
+    Mesh->SetRelativeRotation(FRotator(0.0, Chosen.MeshRelativeYaw, 0.0));
+    Mesh->SetRelativeScale3D(FVector(Chosen.VisualScale));
     Mesh->SetCollisionProfileName(TEXT("NoCollision"));
     Mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
     Body->GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
-    // Garment: one material instance per authored variant key, applied only to the named
-    // garment slots. A missing variant or slot leaves the rig's own material in place.
+    Body->SetResidentBody(Chosen.VariantId, Chosen.VisualScale, Chosen.bFallback);
+    // Garment: one material instance per authored variant key, applied only to the body's
+    // named garment slots. A missing variant or slot leaves the rig's own material in place.
     if (UMaterialInterface* Garment = GarmentFor(FString(UTF8_TO_TCHAR(Individual.Garment.c_str()))))
     {
         int32 Applied = 0;
-        for (const FName& Slot : GarmentMaterialSlots)
+        for (const FName& Slot : Chosen.GarmentSlots)
         {
             const int32 SlotIndex = Mesh->GetMaterialIndex(Slot);
             if (SlotIndex != INDEX_NONE) { Mesh->SetMaterial(SlotIndex, Garment); ++Applied; }
@@ -430,6 +472,7 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
     { DirectoryStatus=TEXT("Refused: candidate48 resident adapter only has a scope audit for people-v3");return false; }
 
     ActiveBodies.Reset(); RoutePlans.Reset(); Origins.Reset(); Destinations.Reset();
+    VariantBodyCount = 0; FallbackBodyCount = 0;
     // Reserved up front for the same reason as the pilot path above.
     ActiveBodies.Reserve(static_cast<int32>(Directory.People.size()));
     RoutePlans.Reserve(static_cast<int32>(Directory.People.size()));
@@ -458,18 +501,22 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
             LoggedExtensionNotes.Add(NoteText,&bAlreadyLogged);
             if(!bAlreadyLogged) UE_LOG(LogTemp, Display, TEXT("%s: %s"), *GetName(), *NoteText);
         }
+        const FMikdashResolvedBody Chosen = ResolveBody(Individual);
+        if (!Chosen.Note.IsEmpty()) Notes.Add(FString(UTF8_TO_TCHAR(Individual.Id.c_str())) + TEXT(": ") + Chosen.Note);
         FString SpawnNote;
-        AMikdashResidentCharacter* Body = SpawnAuthoredBody(Individual, SpawnNote);
+        AMikdashResidentCharacter* Body = SpawnAuthoredBody(Individual, Chosen, SpawnNote);
         if (!Body)
         {
             Skipped.Add(FString(UTF8_TO_TCHAR(Individual.Id.c_str())) + TEXT(": ") + SpawnNote);
             continue;
         }
         if (!SpawnNote.IsEmpty()) Notes.Add(FString(UTF8_TO_TCHAR(Individual.Id.c_str())) + TEXT(": ") + SpawnNote);
+        if (Chosen.VariantId.IsEmpty()) ++FallbackBodyCount; else ++VariantBodyCount;
         const int32 Index = ActiveBodies.Num();
         ActiveBodies.Add(Body);
         FMikdashResidentRoutePlan Plan;
         Plan.Key = FString(UTF8_TO_TCHAR(Individual.Id.c_str()));
+        Plan.IdleClip = Chosen.Idle; Plan.WalkClip = Chosen.Walk;
         Plan.bLooping = true;
         Plan.bPilotBox = false;
         Plan.bMountDeck = Individual.Where == MikdashPeople::Zone::MountDeck;
@@ -536,9 +583,9 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
         return false;
     }
     bActive = true;
-    DirectoryStatus = FString::Printf(TEXT("Directory '%s': %d authored, %d walking, %d skipped, %d notes; file %s"),
+    DirectoryStatus = FString::Printf(TEXT("Directory '%s': %d authored, %d walking, %d skipped, %d notes; %d variant bodies, %d default bodies; file %s"),
         *FString(UTF8_TO_TCHAR(Directory.Version.c_str())), static_cast<int32>(Directory.People.size()),
-        ActiveBodies.Num(), Skipped.Num(), Notes.Num(), *ResolvedDirectoryPath);
+        ActiveBodies.Num(), Skipped.Num(), Notes.Num(), VariantBodyCount, FallbackBodyCount, *ResolvedDirectoryPath);
     for (const FString& Line : Skipped) UE_LOG(LogTemp, Warning, TEXT("%s: skipped %s"), *GetName(), *Line);
     for (const FString& Line : Notes) UE_LOG(LogTemp, Warning, TEXT("%s: note %s"), *GetName(), *Line);
     Status = TEXT("Authored people bound; collision/nav review may hold residents idle");
@@ -618,7 +665,9 @@ void AMikdashResidentPopulation::Tick(float DeltaSeconds)
         const bool Moving = Body->GetVelocity().SizeSquared2D() > 25.0;
         if (Moving != Walking[Index])
         {
-            Body->GetMesh()->PlayAnimation(Moving ? WalkAnimation.Get() : IdleAnimation.Get(), true);
+            UAnimSequence* Walk = Plan.WalkClip ? Plan.WalkClip : WalkAnimation.Get();
+            UAnimSequence* Idle = Plan.IdleClip ? Plan.IdleClip : IdleAnimation.Get();
+            Body->GetMesh()->PlayAnimation(Moving ? Walk : Idle, true);
             Walking[Index] = Moving;
         }
         // StopRequested keeps its reservation. No automatic passage-clear claim.

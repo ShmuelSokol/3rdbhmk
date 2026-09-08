@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <limits>
+#include <string>
 using namespace MikdashService;
 
 static int Passed = 0;
@@ -117,6 +118,15 @@ int main()
         if (P.Items[I].Kind == StationKind::GoldenAltar) AltarAt = I;
     }
     Check(AltarAt > LastLamp, "the incense station follows the last lamp");
+    // Cross-agent contract: AMikdashFXDirector starts and ends the ketores plume by
+    // matching this substring in the service actor's current-action text. Rewording
+    // the golden-altar station's text silently breaks the smoke. Pin it.
+    Check(std::string(P.Items[AltarAt].Action).find("golden altar for the incense") != std::string::npos,
+        "golden-altar action text carries the FX director's match phrase 'golden altar for the incense'");
+    for (std::size_t I = 0; I < P.Count; ++I)
+        if (I != AltarAt)
+            Check(std::string(P.Items[I].Action).find("golden altar for the incense") == std::string::npos,
+                "no other station carries the FX match phrase, so the plume cannot start early or twice");
 
     const double Loop = PlanLoopSeconds(P, Speed);
     Check(Loop >= 180.0 && Loop <= 360.0, "the loop lands in the commissioned three to six minutes");

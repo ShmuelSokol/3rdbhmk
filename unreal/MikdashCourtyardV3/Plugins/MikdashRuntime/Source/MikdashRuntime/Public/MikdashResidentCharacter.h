@@ -73,6 +73,20 @@ public:
     UFUNCTION(BlueprintPure, Category="Residents|Dialog")
     FString GetGarmentVariant() const { return GarmentVariant; }
 
+    /** Which registered body this resident was given (empty = the population's default rig),
+     * the visual scale applied to its skeletal mesh COMPONENT, and whether that was a fallback.
+     * Written once at spawn by the population; read by the PIE verification script. */
+    void SetResidentBody(const FString& InVariantId, double InVisualScale, bool bInFallback);
+
+    UFUNCTION(BlueprintPure, Category="Residents|Body")
+    FString GetBodyVariantId() const { return BodyVariantId; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Body")
+    double GetBodyVisualScale() const { return BodyVisualScale; }
+
+    UFUNCTION(BlueprintPure, Category="Residents|Body")
+    bool IsBodyFallback() const { return bBodyFallback; }
+
     UFUNCTION(BlueprintPure, Category="Residents|Dialog")
     int32 GetResidentDialogLineCount() const { return DialogLines.Num(); }
 
@@ -144,6 +158,9 @@ private:
     UPROPERTY() FString PresenceNote;
     UPROPERTY() FString GarmentVariant;
     UPROPERTY() TArray<FString> DialogLines;
+    UPROPERTY() FString BodyVariantId;
+    UPROPERTY() double BodyVisualScale = 1.0;
+    UPROPERTY() bool bBodyFallback = false;
     bool bConversationHold = false;
     FVector ConversationFacing = FVector::ZeroVector;
 

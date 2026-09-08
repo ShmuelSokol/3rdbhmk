@@ -325,7 +325,15 @@ struct Person
     std::vector<std::string> Dialog;
     std::vector<Waypoint> Route;
     int Laps = 1;
+    /** Optional authored body: "body": {"variant": "V3_Pilgrim_Man_Standard", "visualScale": 0.97}.
+     * The variant names a registered skeletal body; the scale goes on the skeletal mesh COMPONENT
+     * only (never the actor, capsule or amah). Empty variant = the population's default body. */
+    std::string BodyVariant;
+    double VisualScale = 1.0;
 };
+// Parser bounds for the authored visual scale; the population applies its own narrower review
+// range (0.84..1.04) and falls back to 1.0 with a note outside it.
+const double MinVisualScale = 0.5, MaxVisualScale = 1.5;
 
 /** A written, source-referenced reason that a role stands where it is authored to stand. */
 struct Placement
@@ -375,6 +383,19 @@ inline bool RoleRequiresPresenceNote(const std::string& Role, Zone Where)
 inline bool SingleLine(const std::string& S, std::size_t Least, std::size_t Most)
 {
     return S.size() >= Least && S.size() <= Most && S.find_first_of("\r\n\t") == std::string::npos;
+}
+
+/** Asset-style key: letters, digits, underscores and inner hyphens (e.g. V3_Pilgrim_Man_Standard). */
+inline bool AssetKeyValid(const std::string& S, std::size_t Least, std::size_t Most)
+{
+    if (S.size() < Least || S.size() > Most) return false;
+    for (std::size_t I = 0; I < S.size(); ++I)
+    {
+        const char C = S[I];
+        const bool Word = (C >= 'a' && C <= 'z') || (C >= 'A' && C <= 'Z') || (C >= '0' && C <= '9') || C == '_';
+        if (!Word && !(C == '-' && I != 0 && I + 1 != S.size())) return false;
+    }
+    return true;
 }
 
 inline bool SlugValid(const std::string& S, std::size_t Least, std::size_t Most)
@@ -435,6 +456,18 @@ inline bool ReadPerson(const MikdashJson::Value& Node, Person& Out, std::string&
         if (!Line.IsString() || !SingleLine(Line.Text, 12, 300))
             MIKDASH_PEOPLE_FAIL("each dialog line must be one line of 12 to 300 characters");
         Out.Dialog.push_back(Line.Text);
+    }
+
+    if (const MikdashJson::Value* Body = Node.Member("body"))
+    {
+        if (!Body->IsObject()) MIKDASH_PEOPLE_FAIL("body, when present, must be an object {variant, visualScale}");
+        if (!Local::Str(*Body, "variant", Out.BodyVariant) || !AssetKeyValid(Out.BodyVariant, 3, 64))
+            MIKDASH_PEOPLE_FAIL("body variant must be a 3 to 64 character asset key");
+        const MikdashJson::Value* Scale = Body->Member("visualScale");
+        if (!Scale || !Scale->IsNumber() || !std::isfinite(Scale->Number)
+            || Scale->Number < MinVisualScale || Scale->Number > MaxVisualScale)
+            MIKDASH_PEOPLE_FAIL("body visualScale must be a finite number from 0.5 to 1.5");
+        Out.VisualScale = Scale->Number;
     }
 
     const MikdashJson::Value* Laps = Node.Member("laps");

@@ -967,12 +967,81 @@ class TransitJob(object):
         self.receipt['oneFilePerActorFoldersCopied'] = copied
         self.write_receipt()
 
+    # -- reflected property names are RESOLVED, never guessed ------------------
+    #
+    # UE's Python layer renames UPROPERTYs: CamelCase becomes snake_case and the 'b'
+    # prefix of a bool is DROPPED, so bRail is exposed as 'rail', not 'b_rail'. Guessing
+    # that is exactly what Release-TransitV3-Place-01.log records. Every name below is
+    # therefore looked up against what the type actually exposes (the same
+    # _resolve_properties pattern Scripts/release_crowd_tint_fix.py used), normalising
+    # case, underscores and the bool prefix, and every write is read back.
+
+    _property_cache = {}
+
+    @staticmethod
+    def _exposed_property_names(type_object):
+        names = set()
+        for line in (getattr(type_object, '__doc__', '') or '').splitlines():
+            line = line.strip()
+            if line.startswith('- ``'):
+                end = line.find('``', 4)
+                if end > 4:
+                    names.add(line[4:end])
+        return names
+
+    def _prop(self, type_object, wanted):
+        """Exposed Python name for a UPROPERTY given its C++ name or a snake_case guess."""
+        key = (type_object.__name__, wanted)
+        if key in self._property_cache:
+            return self._property_cache[key]
+        available = self._exposed_property_names(type_object)
+
+        def norm(name):
+            flat = name.replace('_', '').lower()
+            return flat[1:] if flat.startswith('b') and len(flat) > 1 and flat[1].isalpha() and name[:1] == 'b' and (len(name) > 1 and (name[1] == '_' or name[1].isupper())) else flat
+
+        table = {}
+        for name in available:
+            table.setdefault(name.replace('_', '').lower(), name)
+        want = wanted.replace('_', '').lower()
+        candidates = [want, norm(wanted)]
+        if want.startswith('b'):
+            candidates.append(want[1:])
+        for candidate in candidates:
+            if candidate in table:
+                self._property_cache[key] = table[candidate]
+                return table[candidate]
+        raise RuntimeError('%s exposes no property matching %r; it exposes %r'
+                           % (type_object.__name__, wanted, sorted(available)))
+
+    def _put(self, target, wanted, value, tolerance=None):
+        """set_editor_property by resolved name, then read back and compare."""
+        name = self._prop(type(target), wanted)
+        target.set_editor_property(name, value)
+        got = target.get_editor_property(name)
+        if tolerance is not None:
+            ok = abs(float(got) - float(value)) <= tolerance
+        elif isinstance(value, bool):
+            ok = bool(got) == value
+        elif isinstance(value, int):
+            ok = int(got) == value
+        elif isinstance(value, str):
+            ok = str(got) == value
+        elif isinstance(value, list):
+            ok = len(list(got)) == len(value)
+        else:
+            ok = got is not None
+        if not ok:
+            raise RuntimeError('Readback mismatch writing %s.%s (%s): wrote %r, read %r'
+                               % (type(target).__name__, name, wanted, value, got))
+        return name
+
     def load_body(self, assembly, doors=None, length_cm=None, serves_stops=False):
         """One FMikdashTransitBody from the four imported group meshes."""
         ue = self.ue
         spec = self.spec
         body = ue.MikdashTransitBody()
-        body.set_editor_property('key', ue.Name(assembly))
+        self._put(body, 'Key', ue.Name(assembly))
         found = 0
         for group in ('Paint', 'Glass', 'Dark', 'Lens'):
             record = next((m for m in spec['geometry']['meshes']
@@ -986,12 +1055,12 @@ class TransitJob(object):
             if mesh.get_num_triangles(0) != record['triangles']:
                 raise RuntimeError('%s triangles %d, spec says %d'
                                    % (path, mesh.get_num_triangles(0), record['triangles']))
-            body.set_editor_property(group.lower(), mesh)
+            self._put(body, group, mesh)
             found += 1
         if found == 0:
             raise RuntimeError('No group mesh found for assembly ' + assembly)
-        body.set_editor_property('length_cm', float(length_cm if length_cm is not None else 460.0))
-        body.set_editor_property('b_serves_stops', bool(serves_stops))
+        self._put(body, 'LengthCm', float(length_cm if length_cm is not None else 460.0), 1e-3)
+        self._put(body, 'bServesStops', bool(serves_stops))
         if doors:
             leaf = doors['assembly']
             for group, prop in (('Paint', 'door_leaf_paint'), ('Glass', 'door_leaf_glass')):
@@ -1003,9 +1072,8 @@ class TransitJob(object):
                 mesh = ue.load_asset(path)
                 if not isinstance(mesh, ue.StaticMesh):
                     raise RuntimeError('Not a StaticMesh: ' + path)
-                body.set_editor_property(prop, mesh)
-            body.set_editor_property('door_local_offsets',
-                                     [ue.Vector(*offset) for offset in doors['offsets']])
+                self._put(body, prop, mesh)
+            self._put(body, 'DoorLocalOffsets', [ue.Vector(*offset) for offset in doors['offsets']])
         return body
 
     def build_routes(self, accepted_names):
@@ -1017,30 +1085,30 @@ class TransitJob(object):
         summary = []
         for route in self.routes['routes']:
             entry = ue.MikdashTransitRoute()
-            entry.set_editor_property('id', ue.Name(route['id']))
-            entry.set_editor_property('b_rail', route['kind'] == 'rail')
-            entry.set_editor_property('points', [ue.Vector(*point) for point in route['points']])
-            entry.set_editor_property('smoothing_per_segment', int(route['smoothingPerSegment']))
-            entry.set_editor_property('lane_offset_cm', float(route['laneOffsetCm']))
-            entry.set_editor_property('ride_height_cm', float(route['rideHeightCm']))
-            entry.set_editor_property('speed_limit_cm_per_second', float(route['speedLimitCmPerSecond']))
-            entry.set_editor_property('vehicle_weight', float(route['vehicleWeight']))
-            entry.set_editor_property('bus_share', float(route['busShare']))
+            self._put(entry, 'Id', ue.Name(route['id']))
+            self._put(entry, 'bRail', route['kind'] == 'rail')
+            self._put(entry, 'Points', [ue.Vector(*point) for point in route['points']])
+            self._put(entry, 'SmoothingPerSegment', int(route['smoothingPerSegment']))
+            self._put(entry, 'LaneOffsetCm', float(route['laneOffsetCm']), 1e-3)
+            self._put(entry, 'RideHeightCm', float(route['rideHeightCm']), 1e-3)
+            self._put(entry, 'SpeedLimitCmPerSecond', float(route['speedLimitCmPerSecond']), 1e-3)
+            self._put(entry, 'VehicleWeight', float(route['vehicleWeight']), 1e-4)
+            self._put(entry, 'BusShare', float(route['busShare']), 1e-4)
             stops = []
             for stop in route['stops']:
                 if stop['name'] not in accepted_names:
                     dropped.append(stop['name'])
                     continue
                 record = ue.MikdashTransitStop()
-                record.set_editor_property('name', stop['name'])
-                record.set_editor_property('world_position', ue.Vector(*stop['worldCm']))
-                record.set_editor_property('dwell_min_seconds', float(stop['dwellMinSeconds']))
-                record.set_editor_property('dwell_max_seconds', float(stop['dwellMaxSeconds']))
-                record.set_editor_property('boarding_min_people', int(stop['boardingMinPeople']))
-                record.set_editor_property('boarding_max_people', int(stop['boardingMaxPeople']))
-                record.set_editor_property('furniture_offset_cm', float(stop['furnitureOffsetCm']))
+                self._put(record, 'Name', stop['name'])
+                self._put(record, 'WorldPosition', ue.Vector(*stop['worldCm']))
+                self._put(record, 'DwellMinSeconds', float(stop['dwellMinSeconds']), 1e-3)
+                self._put(record, 'DwellMaxSeconds', float(stop['dwellMaxSeconds']), 1e-3)
+                self._put(record, 'BoardingMinPeople', int(stop['boardingMinPeople']))
+                self._put(record, 'BoardingMaxPeople', int(stop['boardingMaxPeople']))
+                self._put(record, 'FurnitureOffsetCm', float(stop['furnitureOffsetCm']), 1e-3)
                 stops.append(record)
-            entry.set_editor_property('stops', stops)
+            self._put(entry, 'Stops', stops)
             built.append(entry)
             summary.append({'id': route['id'], 'kind': route['kind'],
                             'controlPoints': len(route['points']), 'stopsPlaced': len(stops),
@@ -1071,15 +1139,15 @@ class TransitJob(object):
             actor.set_editor_property('tags', [ue.Name(spec['actorTag']), ue.Name(spec['groupTag'])])
 
             routes, dropped, summary = self.build_routes(set(self.accepted_stops))
-            actor.set_editor_property('routes', routes)
+            self._put(actor, 'Routes', routes)
 
             consist = spec['geometry']['consist']
             doors = spec['geometry']['doorLocalOffsetsCm']
             cars = [self.load_body(label, length_cm=length)
                     for label, length in (('CarHatchback', 405.0), ('CarSedan', 470.0),
                                           ('CarCrossover', 435.0), ('CarVan', 490.0))]
-            actor.set_editor_property('car_bodies', cars)
-            actor.set_editor_property('bus_body', self.load_body(
+            self._put(actor, 'CarBodies', cars)
+            self._put(actor, 'BusBody', self.load_body(
                 'Bus', doors={'assembly': 'BusDoorLeaf', 'offsets': doors['Bus']},
                 length_cm=1200.0, serves_stops=True))
             train = []
@@ -1087,50 +1155,33 @@ class TransitJob(object):
                 train.append(self.load_body(
                     label, doors={'assembly': 'TramDoorLeaf', 'offsets': doors['Tram']},
                     length_cm=consist['moduleLengthCm'], serves_stops=True))
-            actor.set_editor_property('train_bodies', train)
+            self._put(actor, 'TrainBodies', train)
 
-            scalars = {
-                'road_vehicle_count': int(settings['RoadVehicleCount']),
-                'density_multiplier': float(settings['DensityMultiplier']),
-                'max_road_vehicles': int(settings['MaxRoadVehicles']),
-                'max_active_trains': int(settings['MaxActiveTrains']),
-                'update_budget': int(settings['UpdateBudget']),
-                'transform_freeze_distance_cm': float(settings['TransformFreezeDistanceCm']),
-                'instance_cull_start_cm': float(settings['InstanceCullStartCm']),
-                'instance_cull_end_cm': float(settings['InstanceCullEndCm']),
-                'train_headway_min_seconds': float(settings['TrainHeadwayMinSeconds']),
-                'train_headway_max_seconds': float(settings['TrainHeadwayMaxSeconds']),
-                'train_dwell_min_seconds': float(settings['TrainDwellMinSeconds']),
-                'train_dwell_max_seconds': float(settings['TrainDwellMaxSeconds']),
-                'train_car_length_cm': float(settings['TrainCarLengthCm']),
-                'train_coupling_gap_cm': float(settings['TrainCouplingGapCm']),
-                'train_bogie_inset_cm': float(settings['TrainBogieInsetCm']),
-                'bus_dwell_min_seconds': float(settings['BusDwellMinSeconds']),
-                'bus_dwell_max_seconds': float(settings['BusDwellMaxSeconds']),
-                'door_open_seconds': float(settings['DoorOpenSeconds']),
-                'door_close_seconds': float(settings['DoorCloseSeconds']),
-                'door_travel_cm': float(settings['DoorTravelCm']),
-                'photographer_share': float(settings['PhotographerShare']),
-                'seed': int(settings['Seed']),
-                'b_activate_on_begin_play': bool(settings['bActivateOnBeginPlay']),
-            }
-            for key, value in scalars.items():
-                actor.set_editor_property(key, value)
-            actor.set_editor_property('paint_palette',
-                                      [ue.LinearColor(*colour, 1.0) for colour in settings['PaintPalette']])
-            # Read every scalar straight back off the actor: set_editor_property does not
-            # raise on a clamped or refused value, it just keeps the old one.
+            # Keys are the C++ UPROPERTY names straight from the spec; _put resolves each to
+            # whatever the Python layer calls it and reads it back, so a clamped, refused or
+            # renamed property fails here and not silently at runtime.
+            scalars = {key: (float(settings[key]) if isinstance(settings[key], float)
+                             else bool(settings[key]) if isinstance(settings[key], bool)
+                             else int(settings[key]))
+                       for key in ('RoadVehicleCount', 'DensityMultiplier', 'MaxRoadVehicles',
+                                   'MaxActiveTrains', 'UpdateBudget', 'TransformFreezeDistanceCm',
+                                   'InstanceCullStartCm', 'InstanceCullEndCm',
+                                   'TrainHeadwayMinSeconds', 'TrainHeadwayMaxSeconds',
+                                   'TrainDwellMinSeconds', 'TrainDwellMaxSeconds',
+                                   'TrainCarLengthCm', 'TrainCouplingGapCm', 'TrainBogieInsetCm',
+                                   'BusDwellMinSeconds', 'BusDwellMaxSeconds', 'DoorOpenSeconds',
+                                   'DoorCloseSeconds', 'DoorTravelCm', 'PhotographerShare',
+                                   'Seed', 'bActivateOnBeginPlay')}
+            resolved = {}
             readback = {}
             for key, value in scalars.items():
-                got = actor.get_editor_property(key)
-                readback[key] = got
-                if isinstance(value, float) and abs(float(got) - value) > 1e-3:
-                    raise RuntimeError('%s read back as %s, set %s' % (key, got, value))
-                if isinstance(value, bool) and bool(got) != value:
-                    raise RuntimeError('%s read back as %s, set %s' % (key, got, value))
-                if isinstance(value, int) and not isinstance(value, bool) and int(got) != value:
-                    raise RuntimeError('%s read back as %s, set %s' % (key, got, value))
-            placed_routes = actor.get_editor_property('routes')
+                name = self._put(actor, key, value, 1e-3 if isinstance(value, float) else None)
+                resolved[key] = name
+                readback[key] = actor.get_editor_property(name)
+            resolved['PaintPalette'] = self._put(
+                actor, 'PaintPalette', [ue.LinearColor(*colour, 1.0) for colour in settings['PaintPalette']])
+            self.receipt['resolvedPropertyNames'] = resolved
+            placed_routes = actor.get_editor_property(self._prop(type(actor), 'Routes'))
             if len(placed_routes) != len(routes):
                 raise RuntimeError('Route array read back with %d entries, set %d'
                                    % (len(placed_routes), len(routes)))
@@ -1138,9 +1189,9 @@ class TransitJob(object):
             worst_point = 0.0
             for index, route in enumerate(self.routes['routes']):
                 got = placed_routes[index]
-                if str(got.get_editor_property('id')) != route['id']:
-                    raise RuntimeError('Route %d read back as %s' % (index, got.get_editor_property('id')))
-                points = got.get_editor_property('points')
+                if str(got.get_editor_property(self._prop(type(got), 'Id'))) != route['id']:
+                    raise RuntimeError('Route %d read back as %s' % (index, got.get_editor_property(self._prop(type(got), 'Id'))))
+                points = got.get_editor_property(self._prop(type(got), 'Points'))
                 if len(points) != len(route['points']):
                     raise RuntimeError('Route %s read back with %d points, set %d'
                                        % (route['id'], len(points), len(route['points'])))
@@ -1158,7 +1209,8 @@ class TransitJob(object):
                 'stopsDropped': dropped, 'stopsPlaced': sum(r['stopsPlaced'] for r in summary),
                 'carBodies': len(cars), 'trainBodies': len(train),
                 'worstRoutePointReadbackCm': worst_point,
-                'scalars': {k: (float(v) if isinstance(v, float) else v) for k, v in readback.items()},
+                'scalars': {k: (float(v) if not isinstance(v, bool) and isinstance(v, (int, float)) else v)
+                            for k, v in readback.items()},
                 'shelterMeshes': [], 'platformMeshes': [],
                 'furnitureNote': ('ShelterMeshes and PlatformMeshes are deliberately left empty: '
                                   'no stop furniture is authored in VehiclesV3 and this job does '
@@ -1226,16 +1278,16 @@ class TransitJob(object):
             raise RuntimeError('Reopened transform differs: loc %.5f rot %.5f scale %.7f'
                                % (location_error, rotation_error, scale_error))
         actor = row['actor']
-        routes = actor.get_editor_property('routes')
+        routes = actor.get_editor_property(self._prop(type(actor), 'Routes'))
         if len(routes) != len(record['routes']):
             raise RuntimeError('Reopened route count %d, placed %d' % (len(routes), len(record['routes'])))
         worst_point = 0.0
         stops_after = 0
         for index, summary in enumerate(record['routes']):
             got = routes[index]
-            if str(got.get_editor_property('id')) != summary['id']:
-                raise RuntimeError('Reopened route %d is %s' % (index, got.get_editor_property('id')))
-            points = got.get_editor_property('points')
+            if str(got.get_editor_property(self._prop(type(got), 'Id'))) != summary['id']:
+                raise RuntimeError('Reopened route %d is %s' % (index, got.get_editor_property(self._prop(type(got), 'Id'))))
+            points = got.get_editor_property(self._prop(type(got), 'Points'))
             authored = self.routes['routes'][index]['points']
             if len(points) != len(authored):
                 raise RuntimeError('Reopened route %s has %d points, placed %d'
@@ -1244,16 +1296,19 @@ class TransitJob(object):
                 got_point = points[k]
                 worst_point = max(worst_point, abs(got_point.x - point[0]),
                                   abs(got_point.y - point[1]), abs(got_point.z - point[2]))
-            stops_after += len(got.get_editor_property('stops'))
+            stops_after += len(got.get_editor_property(self._prop(type(got), 'Stops')))
         if worst_point > verify['routePointToleranceCm']:
             raise RuntimeError('Reopened route points differ by %.5f cm' % worst_point)
         if stops_after != record['stopsPlaced']:
             raise RuntimeError('Reopened stop count %d, placed %d' % (stops_after, record['stopsPlaced']))
         scalars = {}
         for key, value in record['scalars'].items():
-            got = actor.get_editor_property(key)
+            got = actor.get_editor_property(self._prop(type(actor), key))
             scalars[key] = got
-            if isinstance(value, float) and abs(float(got) - value) > 1e-3:
+            if isinstance(value, bool):
+                if bool(got) != value:
+                    raise RuntimeError('Reopened %s is %s, placed %s' % (key, got, value))
+            elif isinstance(value, (int, float)) and abs(float(got) - float(value)) > 1e-3:
                 raise RuntimeError('Reopened %s is %s, placed %s' % (key, got, value))
         self.receipt['reopenedReadback'] = {
             'label': row['label'], 'folder': row['folder'], 'class': row['klass'],

@@ -265,3 +265,49 @@ inline bool TryPerson(const MikdashSceneUnits::Frame& Frame,const MikdashPeople:
     Out=std::move(Candidate);Error.clear();return true;
 }
 }
+
+// Skeletal body placement invariants for the authored residents. Engine-independent so the
+// standalone test pins them: the 34 x 96 capsule and the +96 spawn lift never change with the
+// body; the visual scale lives on the skeletal mesh COMPONENT (pivot at the feet, relative
+// location (0,0,-96)) and is NEVER multiplied by the amah factor; the mesh relative yaw is
+// decided by the imported mesh's facing (PilgrimRigV3 faces UE +Y per the native receipts,
+// so -90; the V2 rig assumed -Y, so +90). Head bone rest height is 166 cm at scale 1.
+namespace MikdashResidentBody
+{
+constexpr double CapsuleRadiusCm = 34.0;
+constexpr double CapsuleHalfHeightCm = 96.0;
+constexpr double MeshRelativeZCm = -96.0;
+constexpr double HeadBoneRestZCm = 166.0;
+constexpr double BallBoneRestZCm = 3.0;
+constexpr double MinReviewedVisualScale = 0.84, MaxReviewedVisualScale = 1.04;
+enum class MeshFacing { PlusY, MinusY, PlusX };
+inline double RelativeYawForFacing(MeshFacing Facing)
+{
+    switch (Facing)
+    {
+    case MeshFacing::PlusY: return -90.0;
+    case MeshFacing::MinusY: return 90.0;
+    default: return 0.0;
+    }
+}
+inline bool TryFacingFromKey(const std::string& Key, MeshFacing& Out)
+{
+    if (Key == "+Y") { Out = MeshFacing::PlusY; return true; }
+    if (Key == "-Y") { Out = MeshFacing::MinusY; return true; }
+    if (Key == "+X") { Out = MeshFacing::PlusX; return true; }
+    return false;
+}
+inline bool VisualScaleReviewed(double Scale)
+{ return std::isfinite(Scale) && Scale >= MinReviewedVisualScale && Scale <= MaxReviewedVisualScale; }
+// The authored scale is a physical body proportion: identical in every scene frame.
+inline double VisualScaleForFrame(const MikdashSceneUnits::Frame&, double AuthoredScale) { return AuthoredScale; }
+struct MeshPose { double RelativeZ = MeshRelativeZCm; double RelativeYaw = 0.0; double Scale = 1.0; };
+inline MeshPose ResolveMeshPose(MeshFacing Facing, double VisualScale)
+{
+    MeshPose Pose; Pose.RelativeYaw = RelativeYawForFacing(Facing);
+    Pose.Scale = VisualScaleReviewed(VisualScale) ? VisualScale : 1.0;
+    return Pose;
+}
+inline double ExpectedHeadZ(double FloorZ, double VisualScale) { return FloorZ + HeadBoneRestZCm * VisualScale; }
+inline double ExpectedBallZ(double FloorZ, double VisualScale) { return FloorZ + BallBoneRestZCm * VisualScale; }
+}

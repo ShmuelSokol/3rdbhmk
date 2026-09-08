@@ -1,0 +1,1386 @@
+﻿{
+  "schemaVersion": 1,
+  "title": "Codex of the Third Beis HaMikdash reconstruction",
+  "generated": "2026-09-08",
+  "aboutThisFile": [
+    "A browsable reference for everything in this build. One entry per thing, each with the source it rests on and an honest label for how firm that source is.",
+    "The three labels are the point of the file. 'certain' means the sources agree or one is decisive and nothing cited disputes it. 'disputed' means they disagree, and the entry names who holds what. 'authored' means nobody said it - the project chose it because a model has to put something somewhere.",
+    "Where a receipt in SourceAssets records what was actually built and to what size, the receipt is cited by path, and where the built number differs from the sourced number the entry says both.",
+    "The primary text is the author's Hebrew book 'Lishchno Tidreshu'. Only its Third Temple layer - the Ketz HaYamin (קץ הימין) sections - is treated as a claim about this building; its historical layers describe the Mishkan and the first two Temples and are marked as such.",
+    "None of this is rabbinically approved and none of it is practical guidance."
+  ],
+  "confidenceLabels": {
+    "certain": "The sources agree, or one source is decisive and no cited authority disputes it.",
+    "disputed": "The sources disagree. The entry names who holds what.",
+    "authored": "Nobody said this. The project chose it because a model has to put something somewhere."
+  },
+  "sourceLayers": {
+    "book-ketz-hayamin": "Lishchno Tidreshu, the Ketz HaYamin (קץ הימין) layer: the author's Third Temple summary per verse. Primary for this project.",
+    "book-biur-chai": "Lishchno Tidreshu, the Ba'or Chai (באור חי) layer: sources and reasoning.",
+    "book-hashlamas-sheres": "Lishchno Tidreshu, the Hashlamas Sheres (השלמת שרת) layer: completions from Torah, Middos and Rambam, often describing the Mishkan or the earlier Temples.",
+    "navi": "Yechezkel 40-42 itself.",
+    "halachic": "Mishnah, Talmud, Rambam. Evidence for the institution described, not automatic proof of every detail of the future House.",
+    "receipt": "A JSON or Markdown record under SourceAssets of what this build actually made and where."
+  },
+  "cautions": [
+    "The Ketz HaYamin paragraph for a verse is reprinted on every page of that verse in the book. Repetition is not independent confirmation.",
+    "Diagram 22:28 on p. 257 is the Third Temple. Diagram 22:27 on the same page, with ten menorot and ten tables, is the First Temple. Do not read the second as this building.",
+    "Do not name a court in this model after a Second Temple court merely because it looks similar."
+  ],
+  "localization": {
+    "keyPrefix": "Codex.Entry.",
+    "keyPattern": "Codex.Entry.<id>.<Field>",
+    "hebrewPolicy": "Hebrew NAMES are filled where the term is a standard Hebrew name. Hebrew PROSE is empty and marked hebrewProse:\"not-authored\" - an English fallback the reader can correct beats a Hebrew paragraph he has to unpick.",
+    "mergeTarget": "SourceAssets/localization-review/ (owned elsewhere; keys shaped to merge without renaming)"
+  },
+  "categories": [
+    { "id": "precinct", "name": { "en": "The Mount and its boundaries", "he": "" } },
+    { "id": "courts", "name": { "en": "The courts and their gates", "he": "" } },
+    { "id": "altar", "name": { "en": "The altar and its furniture", "he": "" } },
+    { "id": "house", "name": { "en": "The House", "he": "" } },
+    { "id": "vessels", "name": { "en": "The vessels", "he": "" } },
+    { "id": "service", "name": { "en": "The service", "he": "" } },
+    { "id": "people", "name": { "en": "People, access and purity", "he": "" } },
+    { "id": "method", "name": { "en": "How this reconstruction was made", "he": "" } }
+  ],
+  "entries": [
+    {
+      "id": "the-amah",
+      "category": "method",
+      "name": { "en": "The amah, and how long it is", "he": "אמה" },
+      "confidence": "disputed",
+      "summary": { "en": "Everything here is measured in amot, and the physical length of an amah is not settled. This model is baked at a round 50 cm per amah, which is a modelling decision and not a ruling. The common opinions run from about 48 cm to about 58 cm, so the same 3000-amah square is 1440 m a side under one and 1740 m under another - without a single vertex moving. One object is measured differently on purpose: the golden altar uses the five-tefach amah of Eruvin 4a, 41.67 cm.", "he": "" },
+      "measurements": [
+        { "label": "Project world scale", "value": "50.0 cm per amah, tefach 8.3333 cm", "source": "EnclosureMath.h ProjectCmPerAmah; SourceAssets/vessels-review/*/geometry-manifest.json" },
+        { "label": "R' Avraham Chaim Naeh", "value": "48.0 cm", "source": "Shiurei Torah - amah of six tefachim of 8 cm" },
+        { "label": "R' Moshe Feinstein", "value": "54.0 cm", "source": "Igros Moshe OC I:136 - a 21 3/8 inch amah" },
+        { "label": "Chazon Ish", "value": "57.6 cm, 58.0 stringent", "source": "Kuntres HaShiurim" },
+        { "label": "Golden altar only", "value": "41.6667 cm", "source": "Eruvin 4a on Yechezkel 43:13" }
+      ],
+      "dispute": { "positions": [
+        { "who": "R' Avraham Chaim Naeh", "holds": "48 cm" },
+        { "who": "R' Moshe Feinstein", "holds": "54 cm" },
+        { "who": "Chazon Ish", "holds": "57.6 cm, 58 for de'oraisa" }
+      ] },
+      "sources": ["Yechezkel 40:5 - a reed of six amot, an amah and a tefach", "Eruvin 4a on Yechezkel 43:13", "Shiurei Torah", "Igros Moshe OC I:136", "Chazon Ish, Kuntres HaShiurim"],
+      "receipts": ["Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h", "SourceAssets/vessels-review/IncenseAltarV2/geometry-manifest.json"],
+      "unlockedBy": ["mount-and-house", "golden-altar"],
+      "related": ["precinct-size", "golden-altar"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "precinct-size",
+      "category": "precinct",
+      "name": { "en": "The size of the precinct: 3000 amot or 500?", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "This is the single largest open question in the reconstruction, and it changes the scale of everything.\n\nThe reading this model is built on: Yechezkel 42:15-20 measures the sacred precinct with a reed, five hundred by five hundred. A reed is six amot (Yechezkel 40:5, 'a reed of six amot, an amah and a tefach'). Five hundred reeds is therefore 3000 amot a side - about a kilometre and a half at any of the common amot - and Rashi reads it that way. The book adopts it as certain, notes the Kalir piyut on the figure, and points out that this makes the future Mount thirty-six times the area of the Second Temple's.\n\nThe other reading: Mishnah Middot 2:1 gives the Har HaBayit of the Second Temple as 500 amot square. Read Yechezkel's five hundred as amot rather than reeds and the future precinct is the same size as the old one. The research assembled for this project does not find the book arguing that case for the Third Temple - it uses the 500 amot as the Second Temple comparison figure that the thirty-six-times ratio is computed against, and takes Middot 2:1 for the shape and proportions rather than the magnitude. Anyone who holds the 500-amah reading is entitled to it; this entry is stating what the source pile in this project actually contains, not settling it.\n\nA third position, and it is the author's own: an inner soreg ring of 500 amot square inside the 3000, with the cheil inside that. The research marks this explicitly as 'the author's forced reading', starred for study, and it is the only place the 500-amah figure survives into the Third Temple in his account.\n\nWhat is actually built: the enclosure in this map is the 3000-amah square, 150,000 cm a side, with its wall faces at X -33100 to 116900 and Y -33150 to 116850. The Future Mount platform underneath it is only about 377 m square, so the ring is far larger than the terrain it stands on. That mismatch is a recorded gap, not a claim.", "he": "" },
+      "measurements": [
+        { "label": "Yechezkel reading, each side", "value": "500 reeds = 3000 amot = 150,000 cm at 50 cm/amah", "source": "Yechezkel 42:15-20 with Rashi; Yechezkel 40:5" },
+        { "label": "Middot's Har HaBayit", "value": "500 amot = 25,000 cm", "source": "Mishnah Middot 2:1 (Second Temple)" },
+        { "label": "Ratio", "value": "36 times the area", "source": "Lishchno Tidreshu p. 359; the Kalir piyut on the figure" },
+        { "label": "As built", "value": "150,000 cm a side, centre [41900, 41850], wall 300 cm thick and 300 cm high", "source": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 42:15-20 as read by Rashi, adopted by the book and built here", "holds": "500 reeds, so 3000 amot a side" },
+        { "who": "Mishnah Middot 2:1", "holds": "the Har HaBayit is 500 amot square - in the research pile this is the Second Temple figure, and whether it governs the future precinct is exactly what is at issue" },
+        { "who": "The author of Lishchno Tidreshu, starred for study only", "holds": "an additional inner soreg ring of 500 amot square within the 3000, the cheil inside it - his own 'forced reading'" }
+      ] },
+      "sources": ["Yechezkel 42:15-20 with Rashi", "Yechezkel 40:5", "Yechezkel 40:2 with Rashi", "Mishnah Middot 2:1", "Mishkenei Elyon 184, 188, 189, 191-192, 196", "Lishchno Tidreshu pp. 112-113, 359-364 (Hebrew confirmed on the page images)"],
+      "receipts": ["SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json", "SourceAssets/research/book-scene-requirements-20260907.json rows p.112, p.113, p.359", "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h"],
+      "unlockedBy": ["mount-and-house"],
+      "related": ["the-amah", "precinct-wall-and-gates", "sanctuary-not-centred", "terumah"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "sanctuary-not-centred",
+      "category": "precinct",
+      "name": { "en": "The House does not stand in the middle", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "The Sanctuary sits toward the north-west of the precinct, not at its centre. Open ground is largest to the south, then east, then north, and least to the west, and the city lies on the slope to the south. That asymmetry is why the enclosure in this model is centred at [41900, 41850] rather than on the Temple, and why the clearances come out as 500 amot west, 501 north, 2176 east and 2175 south.", "he": "" },
+      "measurements": [
+        { "label": "Clearance west / north / east / south", "value": "500 / 501 / 2176 / 2175 amot", "source": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json" }
+      ],
+      "sources": ["Mishkenei Elyon 184, 189, 196", "Yechezkel 45:1-5, 48:10-21", "Lishchno Tidreshu pp. 112-113, 116, fig. 2'2"],
+      "receipts": ["SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json"],
+      "unlockedBy": ["mount-and-house"],
+      "related": ["precinct-size", "terumah"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "terumah",
+      "category": "precinct",
+      "name": { "en": "The terumah, the portion around the precinct", "he": "תרומה" },
+      "confidence": "disputed",
+      "summary": { "en": "Yechezkel 45:1 and 48:8-20 describe a consecrated portion of land 25,000 on a side around the precinct. Whether those 25,000 are amot or reeds is itself disputed, which is a six-fold difference. This model draws the ring in amot and labels it rather than deciding.", "he": "" },
+      "measurements": [ { "label": "Terumah side", "value": "25,000 - unit disputed", "source": "Yechezkel 45:1, 48:8-20" } ],
+      "dispute": { "positions": [ { "who": "Read as amot", "holds": "25,000 amot" }, { "who": "Read as reeds", "holds": "150,000 amot" } ] },
+      "sources": ["Yechezkel 45:1, 48:8-20"],
+      "receipts": ["Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h - TerumahSideAmot"],
+      "unlockedBy": ["mount-and-house"],
+      "related": ["precinct-size"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "precinct-wall-and-gates",
+      "category": "precinct",
+      "name": { "en": "The wall of the Mount and its five gates", "he": "חומת הר הבית" },
+      "confidence": "certain",
+      "summary": { "en": "A wall six amot thick and six amot high runs round all four sides of the precinct, dividing what is holy from what is not. Five gates pierce it: two on the south, one each on the east, north and west. Each opening is ten amot wide and fifty high, with doors. The extra ten amot of wall carried above the opening - making sixty in all - is the author's, marked for study.", "he": "" },
+      "measurements": [
+        { "label": "Wall", "value": "6 x 6 amot = 300 x 300 cm", "source": "Yechezkel 40:5 with Rashi citing Middos 2:4" },
+        { "label": "Gate opening", "value": "10 amot wide x 50 high = 500 x 2500 cm", "source": "Mishkenei Elyon 170, 172, 196" },
+        { "label": "Total gate height", "value": "60 amot", "source": "authored - the book's starred suggestion" },
+        { "label": "As built", "value": "five gates at E [116750, 0], N [0, -33000], W [-32950, 0], S1 [16900, 116700], S2 [66900, 116700]", "source": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json" }
+      ],
+      "sources": ["Yechezkel 40:5 with Rashi", "Mishnah Middot 1:3, 2:4", "Mishkenei Elyon 170, 172, 196", "Sanhedrin 100a / Bava Basra 75a", "Lishchno Tidreshu pp. 115-117"],
+      "receipts": ["SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json", "Scripts/release_import_enclosure.spec.json"],
+      "unlockedBy": ["mount-and-house"],
+      "related": ["precinct-size", "soreg", "cheil"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "soreg",
+      "category": "precinct",
+      "name": { "en": "The soreg", "he": "סורג" },
+      "confidence": "certain",
+      "summary": { "en": "A wooden lattice ten tefachim high running round the court, well inside the precinct wall. It is low enough to step over, which is the point: it marks a line rather than blocking one. It is built here at 83.33 cm, at a radius of about 10,250 cm from the Temple centre.", "he": "" },
+      "measurements": [ { "label": "Height", "value": "10 tefachim = 83.333 cm", "source": "Mishnah Middot 2:3; built at 83.3333 cm" } ],
+      "sources": ["Mishnah Middot 2:3", "Mishkenei Elyon 191-192", "Lishchno Tidreshu pp. 121-126"],
+      "receipts": ["SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json - soreg inner 10250, outer 10275 cm"],
+      "unlockedBy": ["soreg-and-cheil"],
+      "related": ["cheil", "three-camps", "precinct-size"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "cheil",
+      "category": "precinct",
+      "name": { "en": "The cheil", "he": "חיל" },
+      "confidence": "disputed",
+      "summary": { "en": "Inside the soreg comes the cheil, and what the cheil is depends on whom you follow. The Rambam, the Meiri and Mishkenei Elyon read it as a wall ten amot high with ten amot of open ground inside it, and that is what is built here. The Bartenura and the Tosafos Yom Tov read the soreg itself as the cheil's wall, leaving only the open strip. The one-amah thickness given to the wall in this model is the book author's own, offered for study.", "he": "" },
+      "measurements": [
+        { "label": "Wall height", "value": "10 amot = 500 cm", "source": "Rambam, Beis HaBechirah 5:3, 6:1" },
+        { "label": "Open strip", "value": "10 amot = 500 cm", "source": "Mishnah Middot 2:3" },
+        { "label": "Wall thickness", "value": "1 amah - authored", "source": "Lishchno Tidreshu, starred for study" },
+        { "label": "As built", "value": "cheil wall outer face 9750 cm, height 500 cm; cheil slab 9200..9700 cm", "source": "SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Rambam, Meiri, Mishkenei Elyon - built here", "holds": "the cheil is a ten-amah wall plus ten amot of open ground" },
+        { "who": "Bartenura, Tosafos Yom Tov", "holds": "the soreg is the cheil's wall; the cheil is the strip" }
+      ] },
+      "sources": ["Mishnah Middot 2:3", "Rambam, Beis HaBechirah 5:3, 6:1", "Meiri on Middot 2:3 / Yoma 16b", "Bartenura and Tosafos Yom Tov on Middot 2:3", "Mishkenei Elyon 191-196", "Lishchno Tidreshu pp. 121-126"],
+      "receipts": ["SourceAssets/FutureMountV1/EnclosureV1/enclosure-design.json"],
+      "unlockedBy": ["soreg-and-cheil"],
+      "related": ["soreg", "three-camps"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "height-terraces",
+      "category": "precinct",
+      "name": { "en": "How the whole complex steps upward", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Nothing here is level. The mountain slopes down on all four sides; the outer court gate floors sit below the inner court; the Court of Israel sits two and a half amot below the priests' court; the House stands six amot above that; and the Even HaShtiya rises three fingerbreadths above the House's floor. The step counts are firm - twelve steps at the east outer gate, seven at the north and south, eight at every inner gate, twelve to the Ulam. The slopes and the exact western levels are the author's.", "he": "" },
+      "measurements": [
+        { "label": "As built, walkable tops", "value": "mount platform 0; outer court 300; Court of Israel 500; priests' court 625; House 925; altar burning surface 1066.67", "source": "SourceAssets/architecture-manifest.json" },
+        { "label": "Outer gate floors", "value": "east 6.5 amot below the inner court, north and south 4", "source": "Rashi on Yechezkel 42:9; Middos 2:3" }
+      ],
+      "dispute": { "positions": [ { "who": "Step counts", "holds": "certain - Middos 2:3, 2:6" }, { "who": "Slopes and western levels", "holds": "the book author's, starred" } ] },
+      "sources": ["Rashi on Yechezkel 42:9", "Mishnah Middot 2:3, 2:6", "Yoma 16b", "Mishkenei Elyon 192-193, 196, 198", "Lishchno Tidreshu pp. 300-305"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["east-outer-gate", "ezras-yisroel"],
+      "related": ["duchan", "twelve-steps", "even-hashtiya"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "outer-court",
+      "category": "courts",
+      "name": { "en": "The outer court", "he": "העזרה החיצונה" },
+      "confidence": "certain",
+      "summary": { "en": "The great court the people stood in. Its wall is six amot thick; three gates open into it from the Mount - east, north and south - and three more lead from it into the inner court. There is no west gate anywhere in this plan. It is a hundred amot from any gate to the gate facing it across the court.", "he": "" },
+      "measurements": [
+        { "label": "Gate to facing gate", "value": "100 amot = 5000 cm", "source": "Yechezkel 40:19, 23, 27 with Rashi" },
+        { "label": "As built", "value": "floor +/-7800 cm, top Z 300; supporting platform +/-8100 cm", "source": "SourceAssets/architecture-manifest.json SM_0129" }
+      ],
+      "sources": ["Yechezkel 40:17-27", "Rashi on Yechezkel 40:19", "Mishkenei Elyon 171, 182", "Lishchno Tidreshu pp. 141-147"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["outer-court"],
+      "related": ["outer-gates", "gallery-chambers", "corner-courts", "circulation"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "outer-gates",
+      "category": "courts",
+      "name": { "en": "The outer gates", "he": "שערי העזרה החיצונה" },
+      "confidence": "certain",
+      "summary": { "en": "Each outer gate is a block twenty-five amot wide: five of wall, two and a half, the ten-amah opening, two and a half, five. Six cells line its passage, three a side. In front of it a vestibule projects ten amot into the court, its interior thirteen by eight and fifty high, flanked by two round pillars two amot square and sixty high with palm capitals. Twelve steps climb to the east gate, seven to the north and south, because the ground is higher there.", "he": "" },
+      "measurements": [
+        { "label": "Gate block width", "value": "25 amot = 5 + 2.5 + 10 + 2.5 + 5", "source": "Rashi on Yechezkel 40:13" },
+        { "label": "Opening", "value": "10 amot wide x 50 high", "source": "Yechezkel 40:6-16 with Rashi; height from Mishkenei Elyon 170" },
+        { "label": "Vestibule interior", "value": "13 x 8 amot, 50 high", "source": "Yechezkel 40:8-9 with Rashi" },
+        { "label": "Eilim", "value": "2 x 2 amot, 60 high", "source": "Yechezkel 40:14 with Rashi; the palm being 10 of the 60 is authored" },
+        { "label": "As built", "value": "Outer E threshold X 7800..8100 Z 300; Outer E stair X 8600..9200 Z 0..300; Outer N/S thresholds at Y -/+7800..8100 Z 425", "source": "SourceAssets/architecture-manifest.json" }
+      ],
+      "sources": ["Yechezkel 40:6-16, 40:19-27", "Rashi on Yechezkel 40:13, 40:14", "Mishkenei Elyon 166-197", "Lishchno Tidreshu pp. 121-147"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["east-outer-gate"],
+      "related": ["gate-cells", "splayed-windows", "gate-calendar", "inner-gates"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "gate-cells",
+      "category": "courts",
+      "name": { "en": "The cells in the gate passage", "he": "תאים" },
+      "confidence": "certain",
+      "summary": { "en": "Six chambers, three on each side of the passage, each six amot square inside with five-amah walls, projecting eleven amot outward on the Mount side. They are chain-linked one to the next and can be entered only from the passage itself. The five-amah cell walls rising to fifty and a ceiling spanning the passage - so that the vestibule, the passage and the gate are covered continuously - is the book author's proposal.", "he": "" },
+      "measurements": [ { "label": "Cell interior", "value": "6 x 6 amot, walls 5, projection 11", "source": "Yechezkel 40:7-13 with Rashi" } ],
+      "sources": ["Yechezkel 40:7-13", "Rashi on Yechezkel 40:13", "Metzudas Dovid", "Mishkenei Elyon 197, 199", "Lishchno Tidreshu pp. 127-134, 153"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.127, p.133"],
+      "unlockedBy": ["east-outer-gate"],
+      "related": ["outer-gates", "inner-gates"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "splayed-windows",
+      "category": "house",
+      "name": { "en": "The windows that widen outward", "he": "חלונות שקופים אטומים" },
+      "confidence": "disputed",
+      "summary": { "en": "The windows are built the wrong way round on purpose: narrow on the inside and widening as they go out, the opposite of a window meant to gather light. They carry no glass and are never closed. Where they are and how many is another matter - the counts in this model are the book author's, and Rashi's gloss about them being sealed from within is treated in the book as a corrupt reading.", "he": "" },
+      "measurements": [ { "label": "Counts", "value": "authored throughout - 12 per gate, 12 per court-wall side, 4 each in the Heikhal's north, south and east walls, 12 in the Kodesh HaKodashim", "source": "the book author, starred" } ],
+      "dispute": { "positions": [
+        { "who": "Rashi on Yechezkel 40:16, Mishkenei Elyon 169", "holds": "shape and outward splay are settled; open, never glazed" },
+        { "who": "The book author", "holds": "the counts and placement, offered for study" }
+      ] },
+      "sources": ["Yechezkel 40:16 with Rashi", "Mishkenei Elyon 169", "Rabbeinu Bachya, Beha'aloscha 8", "Lishchno Tidreshu pp. 138-140, 224-226"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.138, p.224"],
+      "unlockedBy": ["east-outer-gate", "heikhal"],
+      "related": ["outer-gates", "windows"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "gallery-chambers",
+      "category": "courts",
+      "name": { "en": "The thirty chambers on the gallery", "he": "שלשים לשכות" },
+      "confidence": "disputed",
+      "summary": { "en": "Thirty chambers stand on a gallery whose floor is fifty amot up - the same height as the gate openings. Ten on the east, ten on the south, ten on the north, five to each side of every gate, and none at all on the west. That much is Rashi and Mishkenei Elyon. Their size, their height and the suggestion that they are where women stood are the book author's.", "he": "" },
+      "measurements": [
+        { "label": "Count and gallery floor", "value": "30 chambers, floor at 50 amot", "source": "Rashi on Yechezkel 40:17-18; Mishkenei Elyon 185, 197" },
+        { "label": "Chamber size", "value": "10 x 5 amot, 10 high, 5-amah slab - authored", "source": "the book author" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Rashi, Radak, Mishkenei Elyon", "holds": "thirty chambers with the gallery floor at fifty amot" },
+        { "who": "The book author", "holds": "their dimensions, and that women may have used them" }
+      ] },
+      "sources": ["Yechezkel 40:17-18 with Rashi", "Radak", "Mishnah Middot 2:5", "Mishkenei Elyon 185, 197", "Lishchno Tidreshu pp. 141-143, 339"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.141, p.339"],
+      "unlockedBy": ["outer-court"],
+      "related": ["no-ezras-nashim", "outer-court"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "corner-courts",
+      "category": "courts",
+      "name": { "en": "The four corner courts", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Four unroofed courts, forty by thirty amot, one in each corner of the outer court, where the lesser holy offerings were cooked. No piers and no gallery run over them.", "he": "" },
+      "measurements": [ { "label": "Each court", "value": "40 x 30 amot", "source": "Yechezkel 46:21-22; Rashi on 40:18" } ],
+      "sources": ["Yechezkel 40:18, 46:21-22 with Rashi", "Mishkenei Elyon 185, 197", "Lishchno Tidreshu pp. 143, 276-278"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md section 2 - four corner kitchens present, built at 44 x 30"],
+      "unlockedBy": ["outer-court"],
+      "related": ["outer-court", "priestly-kitchen"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "circulation",
+      "category": "people",
+      "name": { "en": "Which way a pilgrim walked", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Everyone entering the Mount turned right and circled, leaving by the left. A mourner, or someone under a ban, went the other way round, so that whoever met him coming the wrong way knew and could ask what had happened to him.", "he": "" },
+      "measurements": [],
+      "sources": ["Mishnah Middot 2:2", "Bartenura on Middot 2:2", "Lishchno Tidreshu p. 118"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.118"],
+      "unlockedBy": ["outer-court"],
+      "related": ["outer-court", "gate-calendar"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "gate-calendar",
+      "category": "people",
+      "name": { "en": "Which gate is open when", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "The outer east gate is the gate of entry all year round, except at the three festivals, when the crowd enters by the north and leaves by the south, or the reverse. The inner east gate is different: it opens on Shabbos and on Rosh Chodesh and on no other day. On an ordinary weekday the way into the inner court was through the lower chambers, which have a door into the Court of Israel. This model has no lower chambers, so the tour walks up a gate that would be shut.", "he": "" },
+      "measurements": [],
+      "sources": ["Yechezkel 46:1, 46:9", "Rambam, Beis HaBechirah 7:2, 7:16", "Keilim 1:8", "Rashi on Yechezkel 42:12", "Lishchno Tidreshu pp. 137, 313, 341"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.137, p.313"],
+      "unlockedBy": ["east-outer-gate", "east-inner-gate"],
+      "related": ["lower-chambers", "inner-gates", "circulation"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "inner-gates",
+      "category": "courts",
+      "name": { "en": "The inner gates", "he": "שערי העזרה הפנימית" },
+      "confidence": "certain",
+      "summary": { "en": "The inner gates are the outer gates turned back to front. Eight steps instead of twelve or seven, and the vestibule projecting outward into the great court with the cells behind it, so a person climbing goes vestibule, then steps over the eleven amot of cells, then gate. There are three of them and no more.", "he": "" },
+      "measurements": [
+        { "label": "Steps", "value": "8, half an amah each = 4 amot", "source": "Yechezkel 40:31 with Rashi; Middos 2:3" },
+        { "label": "As built", "value": "Inner E threshold X 2500..2800 Z 500; Inner N Y -2800..-2500; Inner S Y 2500..2800; both at Z 625", "source": "SourceAssets/architecture-manifest.json" }
+      ],
+      "sources": ["Yechezkel 40:28-37 with Rashi", "Mishnah Middot 2:3", "Mishkenei Elyon 193", "Lishchno Tidreshu pp. 148-152"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["north-gate-and-inner-wall", "east-inner-gate"],
+      "related": ["gate-names", "inner-court-recesses", "gate-calendar"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "gate-names",
+      "category": "courts",
+      "name": { "en": "The names of the three inner gates", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "That there are three inner gates and not the seven or thirteen of the Second Temple is settled. What they are called is not. The book maps the north to the gate of the offering, because kodshei kodashim are slaughtered on the north side, and the south to the water gate, because the water of Yechezkel 47:1-2 flows out from the Kodesh HaKodashim through the southern inner gate; he floats a gate of the firstborn as well. The research records this mapping explicitly as the author's, not the navi's.", "he": "" },
+      "measurements": [],
+      "sources": ["Mishnah Middot 1:4, 2:6", "Yechezkel 47:1-2", "Lishchno Tidreshu p. 340"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.340 - status: certain (3 gates); names = author's mapping"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["inner-gates", "slaughter-tables"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "inner-court-recesses",
+      "category": "courts",
+      "name": { "en": "The six recesses in the inner court wall", "he": "אולמים" },
+      "confidence": "disputed",
+      "summary": { "en": "Recesses twenty-five amot by five are set into the thickness of the inner court wall, one on each side of each inner gate, leaving half an amah of wall on each face. That they are twenty-five by five is Rashi. That there are six of them is the author's reasoning from there being three gates, and their twenty-five-amah height is his too. They are not in this model at all - a recorded gap.", "he": "" },
+      "measurements": [ { "label": "Each recess", "value": "25 x 5 amot", "source": "Rashi on Yechezkel 40:30, 41:15-16" } ],
+      "dispute": { "positions": [
+        { "who": "Rashi, Mishkenei Elyon 188", "holds": "the 25 x 5 in-wall recess is certain" },
+        { "who": "The book author", "holds": "there are six, and they rise 25 amot" }
+      ] },
+      "sources": ["Yechezkel 40:29-30, 41:15-16 with Rashi", "Tosafos on Yechezkel 42:3", "Mishkenei Elyon 188", "Lishchno Tidreshu pp. 150-151, 220-224"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 7 - absent from the scene"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["inner-gates", "atikim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "slaughter-tables",
+      "category": "courts",
+      "name": { "en": "The slaughter tables and the rinsing chamber", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Eight tables belong at the north inner gate: four inside its vestibule, two east and two west, and four in the cell passage at the gate's own floor level. The vestibule, although it stands in the outer court, carries inner-court sanctity. At the gate's west shoulder is a closed chamber with four stone tables an amah and a half square and an amah high, and eight low cedar posts carrying iron hooks a tefach long in three rows. In this build the eight tables are not at the gate at all: they sit clustered inside the court at X -1188 to -663, Y -2088 to -1812. That is a recorded gap, not a reading.", "he": "" },
+      "measurements": [
+        { "label": "Marble tables", "value": "1.5 x 1.5 x 1 amot = 75 x 75 x 50 cm, four of them", "source": "Yechezkel 40:42-43 with Rashi" },
+        { "label": "Hooks", "value": "1 tefach, on eight posts in three rows", "source": "Yechezkel 40:43; Middos 3:5; Tamid 3:5, 4:2" },
+        { "label": "As built", "value": "8 tables at X -1187.5..-662.5, Y -2087.5..-1812.5, Z 665..675", "source": "SourceAssets/architecture-manifest.json" }
+      ],
+      "sources": ["Yechezkel 40:38-43 with Rashi", "Zevachim 47a-48a", "Pesachim 65a", "Mishnah Tamid 3:5, 4:2", "Mishnah Middot 3:5", "Rambam, Maaseh HaKorbanos 5:2-3", "Mishkenei Elyon 177-178, 199, 202", "Lishchno Tidreshu pp. 154-164"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/research/book-scene-requirements-20260907.md gap 8"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["gate-names", "inner-gates"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "song-and-clothing-chambers",
+      "category": "courts",
+      "name": { "en": "The song chamber and the clothing chamber", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "At the east shoulder of the north inner gate stands the Levites' chamber for the instruments - one chamber from outside, divided in two within, its doors facing south. At the north shoulder of the east inner gate stands the chamber where the kohanim put on their white linen. Both positions are Rashi and Mishkenei Elyon. In this build the chamber labelled 'Song chamber' is in the south-west of the court instead, and the clothing chamber is absent. Recorded gap.", "he": "" },
+      "measurements": [ { "label": "As built", "value": "Song chamber at X -2200..-1700, Y 1900..2400, Z 605..625 - the wrong corner", "source": "SourceAssets/architecture-manifest.json SM_0041" } ],
+      "sources": ["Yechezkel 40:44-46 with Rashi", "Mishkenei Elyon 178-179, 199", "Rambam, Klei HaMikdash 8:8-9 (the 96 garment niches, a Second Temple detail the author reuses)", "Lishchno Tidreshu pp. 165-169"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/research/book-scene-requirements-20260907.md gap 9"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["levites-song", "garments"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "court-of-israel",
+      "category": "courts",
+      "name": { "en": "The Court of Israel and the priests' court", "he": "עזרת ישראל ועזרת כהנים" },
+      "confidence": "certain",
+      "summary": { "en": "The inner court is a hundred amot square and divides east to west as seventeen amot for Israel, seventeen for the kohanim, thirty-two for the altar and thirty-four from the altar to the porch. The Court of Israel is two and a half amot lower than the priests' court. North to south the reckoning is four amot from the wall to the ramp, sixty-two for ramp and altar together, and thirty-four to the north wall.", "he": "" },
+      "measurements": [
+        { "label": "Inner court", "value": "100 x 100 amot", "source": "Yechezkel 40:47" },
+        { "label": "East-west split", "value": "17 + 17 + 32 + 34", "source": "Mishkenei Elyon 182, 198, 204" },
+        { "label": "As built", "value": "Court of Israel floor X 1675..2500, Z 500; priests' court X -2500..1575, Z 625", "source": "SourceAssets/architecture-manifest.json SM_0130, SM_0071" }
+      ],
+      "sources": ["Yechezkel 40:47 with Rashi", "Mishnah Middot 2:6", "Mishkenei Elyon 182, 198, 204", "Lishchno Tidreshu pp. 170-172"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["ezras-yisroel"],
+      "related": ["duchan", "outer-altar", "house-moved-west", "no-ezras-nashim", "who-may-enter"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "no-ezras-nashim",
+      "category": "courts",
+      "name": { "en": "There is no Women's Court here", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "Every plan of the Second Temple has an Ezras Nashim east of the Israelite Court. This plan does not, and neither does this model: the research assembled for this project contains no Third Temple row describing one, and the word appears nowhere in the build's receipts. The nearest thing in the book is a suggestion that women may have used the thirty gallery chambers of the outer court, and the research marks that as the author's, after the Second Temple's balcony. Saying 'we found nothing' is a result. It is not the same as saying there was none.", "he": "" },
+      "measurements": [],
+      "sources": ["Lishchno Tidreshu p. 339 (women in the gallery chambers - marked author)", "Mishnah Middot 2:5, 3:5, 5:3 (the Second Temple arrangement)", "Rambam, Biat HaMikdash 3:3-7 (zone-graded exclusion, a halachic register)"],
+      "receipts": ["SourceAssets - zero occurrences of 'nashim' or 'Women's Court' across SourceAssets, Scripts and Config", "SourceAssets/research/book-scene-requirements-20260907.json row p.339"],
+      "unlockedBy": ["ezras-yisroel"],
+      "related": ["gallery-chambers", "court-of-israel", "three-camps"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "house-moved-west",
+      "category": "house",
+      "name": { "en": "Why the House stands thirteen amot further west", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "The altar's site is fixed and cannot move. So when the distance from altar to porch grows from the Second Temple's twenty-two amot to thirty-four, and the partition of the Kodesh HaKodashim grows from one amah to two, the whole House shifts west by thirteen amot. The Zohar's answer to the obvious worry - that the Aron would then no longer sit on the Even HaShtiya - is that the stone fills the whole chamber.", "he": "" },
+      "measurements": [ { "label": "Shift", "value": "12 amot from the altar-to-Ulam distance, 1 from the partition = 13", "source": "Mishkenei Elyon 182, 198, 204; Middos 4:7, 5:1" } ],
+      "sources": ["Rambam, Beis HaBechirah 2:1, 2:3", "Mishnah Middot 4:7, 5:1", "Zohar", "Mishkenei Elyon 182, 198, 204", "Lishchno Tidreshu p. 172 (marked as comparison)"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.172"],
+      "unlockedBy": ["ezras-yisroel", "outer-altar"],
+      "related": ["outer-altar", "even-hashtiya", "kodesh-hakodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "duchan",
+      "category": "courts",
+      "name": { "en": "The duchan", "he": "דוכן" },
+      "confidence": "certain",
+      "summary": { "en": "The step between the Court of Israel and the priests' court: a rise of one amah with a three-stepped platform on it, half an amah each, two and a half amot in all. The Levites stood on it facing east. This is R' Eliezer b. Yaakov's arrangement in Middot 2:6, adopted here.", "he": "" },
+      "measurements": [
+        { "label": "Total rise", "value": "2.5 amot = 125 cm", "source": "Mishnah Middot 2:6" },
+        { "label": "As built", "value": "four rises X 1575..1675, tops Z 550, 575, 600, 625 from floor Z 500 - 125 cm", "source": "SourceAssets/architecture-manifest.json SM_1669..SM_1672" }
+      ],
+      "sources": ["Mishnah Middot 2:6", "Rashi on Yechezkel 42:12", "Rambam, Beis HaBechirah 6:3-5", "Rosh on Middot 2:6", "Mishkenei Elyon 184, 198", "Lishchno Tidreshu pp. 171, 313, 342"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/runtime-review/route-waypoints.json - Duchan step diagnostics"],
+      "unlockedBy": ["duchan"],
+      "related": ["levites-song", "court-of-israel", "height-terraces"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "levites-song",
+      "category": "service",
+      "name": { "en": "The Levites' song", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "The Levites sang at the wine libation of the daily offering, morning and afternoon, standing on the duchan and facing east. Their instruments were kept in the chamber at the east shoulder of the north inner gate.", "he": "" },
+      "measurements": [],
+      "sources": ["Divrei HaYamim II 5:12", "Mishnah Middot 2:6", "Yechezkel 40:44-45 with Rashi", "Rambam, Beis HaBechirah 6:3-5", "Mishkenei Elyon 178-179, 198"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.165, p.171, p.313"],
+      "unlockedBy": ["duchan"],
+      "related": ["duchan", "song-and-clothing-chambers"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "outer-altar",
+      "category": "altar",
+      "name": { "en": "The altar", "he": "מזבח החיצון" },
+      "confidence": "disputed",
+      "summary": { "en": "Thirty-two amot square, in the exact centre of the inner court, thirty-four amot from the porch. That much is Yechezkel 40:47 as Rashi and Mishkenei Elyon read it, and everything else in the plan is measured from it because its site is fixed forever.\n\nWhat this project does NOT have from the sources is the altar's own build-up. The volume of the book read here covers Yechezkel 40 to 42 and defers the altar's height, yesod, sovev and horns to a note on chapter 43 in a second part that is not in the export. So the tiers, the ramp's width and slope and the horn heights in this model come from the architecture manifest and not from a text, and they are labelled authored here for that reason. The Gemara's rule is that the Torah's altar measures are not indispensable - it may be made larger, never smaller than Moshe's.", "he": "" },
+      "measurements": [
+        { "label": "Each side", "value": "32 amot = 1600 cm", "source": "Yechezkel 40:47 with Rashi; Mishkenei Elyon 182, 198" },
+        { "label": "Altar to the porch", "value": "34 amot (22 in the Second Temple)", "source": "Mishkenei Elyon 182, 198, 204" },
+        { "label": "As built - yesod", "value": "X,Y +/-800 cm, Z 625..716.67", "source": "SourceAssets/architecture-manifest.json SM_0155..SM_0158" },
+        { "label": "As built - middle tier", "value": "+/-750 cm, Z 716.67..916.67", "source": "SourceAssets/architecture-manifest.json SM_0159" },
+        { "label": "As built - burning surface", "value": "+/-708.33 cm, top Z 1066.67", "source": "SourceAssets/architecture-manifest.json SM_0160" },
+        { "label": "As built - horns", "value": "four, Z 1066.67..1108.33", "source": "SourceAssets/architecture-manifest.json SM_0162..SM_0165" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 40:47 with Rashi and Mishkenei Elyon", "holds": "32 amot square, central, 34 from the porch - settled" },
+        { "who": "Not in the sources read", "holds": "height, yesod, sovev, horns and ramp - deferred by the book to chapter 43, part 2, which is not in this export" }
+      ] },
+      "sources": ["Yechezkel 40:47 with Rashi", "Zevachim 62a", "Ohr HaChaim on Shemos 25:9", "Chasam Sofer YD 236", "Rambam, Beis HaBechirah 2:1-3", "Mishkenei Elyon 182, 198, 204", "Lishchno Tidreshu pp. 170-173"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/research/book-scene-requirements-20260907.md section 9"],
+      "unlockedBy": ["outer-altar"],
+      "related": ["kevesh", "altar-furniture", "house-moved-west", "court-of-israel"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "kevesh",
+      "category": "altar",
+      "name": { "en": "The ramp", "he": "כבש" },
+      "confidence": "authored",
+      "summary": { "en": "The altar is climbed by a ramp from the south, not by steps. The only figure the research gives is indirect: north to south, the ramp and the altar together account for sixty-two amot, with four amot from the court wall to the ramp's foot and thirty-four from the altar to the north wall. Its width, its length and its gradient in this model are the build's own, and no source in this project fixes them.", "he": "" },
+      "measurements": [
+        { "label": "Ramp and altar together", "value": "62 amot north-south", "source": "Mishkenei Elyon 182, 198" },
+        { "label": "As built", "value": "X +/-400 cm (16 amot wide), Y 710.08..2300, Z 625..1066.67", "source": "SourceAssets/architecture-manifest.json SM_0166" }
+      ],
+      "sources": ["Yechezkel 40:47 as read in Mishkenei Elyon 182, 198", "Lishchno Tidreshu p. 170"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/runtime-review/route-waypoints.json - Southern altar ramp diagnostics"],
+      "unlockedBy": ["outer-altar"],
+      "related": ["outer-altar", "altar-furniture"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "altar-furniture",
+      "category": "altar",
+      "name": { "en": "The ash place, the shis and the two tables", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Around the altar stand: the place of the ashes, east of it, ten amot north of the ramp's foot and three tefachim east; the shis, the drain at the south-west corner; two tables west of the ramp, one for the ninety-three service vessels and one for the fats; a fire pan; and cups for the wine and water libations. The items themselves are from the Torah and are not in question. Their positions come from Middot, which describes the Second Temple, and are adopted here for want of anything else. None of them are in this model.", "he": "" },
+      "measurements": [ { "label": "Ash place", "value": "10 amot north of the ramp's foot, 3 tefachim east", "source": "Middos, as read in Lishchno Tidreshu p. 173" } ],
+      "dispute": { "positions": [
+        { "who": "Torah", "holds": "the items exist" },
+        { "who": "Middos - a Second Temple description", "holds": "where they stand; adopted for want of a Third Temple source" }
+      ] },
+      "sources": ["Mishnah Middot 3:1-3", "Mishnah Tamid", "Lishchno Tidreshu p. 173"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 11 - absent from the scene"],
+      "unlockedBy": ["outer-altar"],
+      "related": ["outer-altar", "kevesh", "kiyor"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "kiyor",
+      "category": "altar",
+      "name": { "en": "The kiyor", "he": "כיור" },
+      "confidence": "disputed",
+      "summary": { "en": "The laver stands with its base between the porch and the altar. A kohen sanctified his hands and his feet from it before serving, and again after leaving the court; the requirement is its own, and no immersion replaces it. A pit and a pulley lower it into water overnight so it is not disqualified by standing. Its size and its number of spouts are not in any source read for this project: the basin in this build is 208 cm across with twelve spouts, and those are the build's numbers.", "he": "" },
+      "measurements": [
+        { "label": "Position", "value": "between the Ulam and the altar", "source": "Middos 3:6; Lishchno Tidreshu p. 173" },
+        { "label": "As built", "value": "basin X -2054..-1846, Y 1396..1604, Z 690..750; pedestal Z 625..696; 12 spouts", "source": "SourceAssets/architecture-manifest.json SM_0072, SM_0073, SM_0078..SM_0122" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Middos 3:6, Rambam", "holds": "position and function" },
+        { "who": "Not in the sources read", "holds": "dimensions and spout count - authored here" }
+      ] },
+      "sources": ["Shemos 30:17-21", "Mishnah Middot 3:6", "Rambam, Biat HaMikdash 5:1-2", "Mishkenei Elyon 177", "Lishchno Tidreshu p. 173"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "SourceAssets/experience-review/service-routes/service-route-spec.json - the 'laver' destination is recorded as unresolved_no_coordinate"],
+      "unlockedBy": ["kiyor"],
+      "related": ["unmentioned-vessels", "immersion-and-purity", "altar-furniture"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "unmentioned-vessels",
+      "category": "method",
+      "name": { "en": "What licenses a vessel Yechezkel never mentions", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Yechezkel names one piece of furniture in the House - the table of 41:22 - and no others. The menorah, the golden altar, the Aron and its keruvim, the kiyor and its base are all absent from his account. Rashi, the Radak, the Tosafos Yom Tov and Mishkenei Elyon take the Torah's furniture as continuing unless the navi cancels it, and the book records that as certain. That principle is what allows this reconstruction to contain anything at all beyond the walls; it is worth knowing it is a principle and not a verse.", "he": "" },
+      "measurements": [],
+      "sources": ["Rashi, Radak and Tosafos Yom Tov as gathered in Mishkenei Elyon 177", "Lishchno Tidreshu p. 160"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.160 - status: certain (book's method)"],
+      "unlockedBy": ["kiyor", "menorah"],
+      "related": ["kiyor", "menorah", "golden-altar", "aron"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "twelve-steps",
+      "category": "house",
+      "name": { "en": "The twelve steps to the porch", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Twelve steps of half an amah lift the House six amot above the priests' court. They are laid out as two steps, a landing of three amot, twice more the same, then two steps and a landing of four - twenty-one amot from foot to threshold.", "he": "" },
+      "measurements": [
+        { "label": "Rise / run", "value": "6 amot / 21 amot", "source": "Yechezkel 40:49 with Rashi; Middos 3:6" },
+        { "label": "As built", "value": "foot [-1350, 0, 625] to [-2375, 0, 925]", "source": "SourceAssets/runtime-review/route-waypoints.json - Ulam stair diagnostics" }
+      ],
+      "sources": ["Yechezkel 40:49 with Rashi", "Mishnah Middot 3:6", "Rambam, Beis HaBechirah 6:4", "Lishchno Tidreshu pp. 174-179"],
+      "receipts": ["SourceAssets/runtime-review/route-waypoints.json", "SourceAssets/architecture-manifest.json SM_0000..SM_0006"],
+      "unlockedBy": ["twelve-steps"],
+      "related": ["ulam", "eilim-and-palms", "height-terraces"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "eilim-and-palms",
+      "category": "house",
+      "name": { "en": "The two pillars at the entrance", "he": "אילים" },
+      "confidence": "disputed",
+      "summary": { "en": "Two pillars, two amot square and sixty high with palm capitals, stand at the porch entrance in the place Yachin and Boaz held in the First Temple - though those were thirty-six amot high and four thick, so these are not the same pillars remade. How much of the sixty is capital is the author's guess: he suggests ten.", "he": "" },
+      "measurements": [
+        { "label": "Pillar", "value": "2 x 2 amot, 60 high", "source": "Yechezkel 40:49 with Rashi" },
+        { "label": "Palm capital", "value": "10 of the 60 - authored", "source": "the book author, starred" },
+        { "label": "Yachin and Boaz, for contrast", "value": "36 amot high, 4 thick", "source": "Melachim I 7:16" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Rashi on Yechezkel 40:49, Mishkenei Elyon 166, 172", "holds": "2 x 2 x 60 with a palm capital is certain" },
+        { "who": "The book author", "holds": "ten of the sixty amot are capital" }
+      ] },
+      "sources": ["Yechezkel 40:49 with Rashi", "Melachim I 7:16", "Mishkenei Elyon 166, 172, 197", "Lishchno Tidreshu p. 176"],
+      "receipts": ["SourceAssets/architecture-manifest.json - SM_0167, SM_0172 entrance pillars, Z 925..3925"],
+      "unlockedBy": ["twelve-steps"],
+      "related": ["ulam", "twelve-steps", "reliefs"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "ulam",
+      "category": "house",
+      "name": { "en": "The Ulam", "he": "אולם" },
+      "confidence": "certain",
+      "summary": { "en": "The porch of the House: twenty amot north to south, eleven east to west, walls five amot thick, its facade a hundred amot long. The jambs step three amot in from each side, so the opening is fourteen amot wide - not the twenty of the Second Temple - and fifty amot high. Only palm reliefs go on its jambs; the keruvim begin inside.", "he": "" },
+      "measurements": [
+        { "label": "Interior", "value": "20 x 11 amot, walls 5", "source": "Yechezkel 40:48 with Rashi" },
+        { "label": "Opening", "value": "14 amot wide, 50 high", "source": "Yechezkel 40:48 with Rashi; height Mishkenei Elyon 170" },
+        { "label": "As built", "value": "floor X -3300..-2750, top Z 925; clear opening 700 cm at Y +/-350", "source": "SourceAssets/architecture-manifest.json SM_0145, SM_0167, SM_0172" }
+      ],
+      "sources": ["Yechezkel 40:48-49 with Rashi", "Yechezkel 41:26 with Rashi", "Mishkenei Elyon 170, 202", "Lishchno Tidreshu pp. 174-179, 268-270"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["ulam"],
+      "related": ["beis-hachalifos", "miltaros-historical", "eilim-and-palms", "heikhal"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "beis-hachalifos",
+      "category": "house",
+      "name": { "en": "The chambers of the knives", "he": "בית החליפות" },
+      "confidence": "certain",
+      "summary": { "en": "Two chambers flank the porch, fifteen amot north to south by ten east to west, where the slaughtering knives were stored. Their five-amah east walls are part of the hundred-amah facade. The one-amah west wall and the small side doors are the author's.", "he": "" },
+      "measurements": [
+        { "label": "Each chamber", "value": "15 x 10 amot", "source": "Yechezkel 40:48, 41:12 with Rashi; Middos 4:7" },
+        { "label": "As built", "value": "knife store wing X -2950..-2750, Y 500..2500, with nine niches", "source": "SourceAssets/architecture-manifest.json SM_0022..SM_0031" }
+      ],
+      "sources": ["Yechezkel 40:48, 41:12 with Rashi", "Mishnah Middot 4:7", "Zevachim 55b", "Mishkenei Elyon 176, 202", "Lishchno Tidreshu p. 174"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["ulam"],
+      "related": ["ulam", "the-house-overall"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "miltaros-historical",
+      "category": "method",
+      "name": { "en": "The stepped lintel over the porch is Second Temple", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Five stepped olive-wood beams above the porch entrance, each projecting an amah further at each side, are Middot 3:7 describing the Second Temple. They are not described for this House, and the book says so. The layered stone lintel and cornice in this model are that Second Temple styling carried over by mistake - a recorded gap, not a reading.", "he": "" },
+      "measurements": [],
+      "sources": ["Mishnah Middot 3:7", "Lishchno Tidreshu p. 265, marked historical", "Rashi on Yechezkel 41:25"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.265, section: historical", "SourceAssets/research/book-scene-requirements-20260907.md gap 12"],
+      "unlockedBy": ["ulam"],
+      "related": ["ulam", "bracing-beams"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "heikhal",
+      "category": "house",
+      "name": { "en": "The Heikhal", "he": "היכל" },
+      "confidence": "certain",
+      "summary": { "en": "Forty amot long, twenty wide, with walls six amot thick on all four sides. Its doorway is ten amot wide and fifty high - twenty in the Second Temple - with a square frame: threshold, straight lintel, two jambs, and nothing round or five-sided about it.", "he": "" },
+      "measurements": [
+        { "label": "Interior", "value": "40 x 20 amot = 2000 x 1000 cm", "source": "Yechezkel 41:2 with Rashi" },
+        { "label": "Walls", "value": "6 amot", "source": "Yechezkel 41:5; Mishkenei Elyon 164" },
+        { "label": "Door opening", "value": "10 x 50 amot", "source": "Yechezkel 41:2, 41:21; height Mishkenei Elyon 169-170" },
+        { "label": "As built", "value": "floor X -5600..-3600, Y +/-500, top Z 925; ceiling Z 2925..3025", "source": "SourceAssets/architecture-manifest.json SM_0146" }
+      ],
+      "sources": ["Yechezkel 41:1-2, 41:21", "Rashi on Yechezkel 41:2", "Mishkenei Elyon 164, 169-170, 203", "Lishchno Tidreshu pp. 182-183, 240"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["heikhal"],
+      "related": ["heikhal-doors", "reliefs", "gold-over-cedar", "atikim", "windows", "kodesh-hakodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "heikhal-doors",
+      "category": "house",
+      "name": { "en": "The doors of the Heikhal", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Two pairs of leaves, each leaf five amot wide and fifty high. The outer pair sits an amah in from the jamb and folds back onto the five amot of wall thickness, the extra amah being the door's own thickness; the inner pair stands at the Sanctuary face and folds onto the five-amah shoulders inside. That is the Tanna Kamma's arrangement, followed by the Rambam and the Ramchal, and it is the one the book builds. Rashi also carries R' Yehudah's version of the folding. The western pair was opened first each morning, then the eastern, and they were locked each evening by way of the small northern door. In this model the doors are four flat slabs protruding into the Sanctuary - a recorded gap.", "he": "" },
+      "measurements": [
+        { "label": "Each leaf", "value": "5 amot wide, 50 high", "source": "Yechezkel 41:24 with Rashi; Middos 4:1" },
+        { "label": "As built", "value": "SM_1948..SM_1951, X -3670..-3220, Y +/-250.5..261.5, Z 925..3425", "source": "SourceAssets/architecture-manifest.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Tanna Kamma, Rambam Beis HaBechirah 4:7, Ramchal - built here", "holds": "two pairs, outer folding into the wall thickness" },
+        { "who": "R' Yehudah, cited by Rashi", "holds": "a different folding arrangement" }
+      ] },
+      "sources": ["Yechezkel 41:23-24 with Rashi", "Mishnah Middot 4:1-2", "Mishnah Tamid 3:7", "Rambam, Beis HaBechirah 4:7", "Mishkenei Elyon 170", "Lishchno Tidreshu pp. 259-263"],
+      "receipts": ["SourceAssets/architecture-manifest.json", "Scripts/release_import_doors.spec.json - deliberateOmissions.heichal", "SourceAssets/research/book-scene-requirements-20260907.md gap 2"],
+      "unlockedBy": ["heikhal"],
+      "related": ["heikhal", "paroches", "reliefs"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "gold-over-cedar",
+      "category": "house",
+      "name": { "en": "Why there is cedar under the gold", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Gold cannot be laid directly on stone. So the walls, jambs, doors and ceiling of the Sanctuary and the Kodesh HaKodashim are panelled floor to ceiling in thin cedar boards, carved, and the gold is beaten into the carving so the forms stay visible, fixed with gold nails. Only the window openings are left bare. In this Temple, unlike the last, the wall behind the doors is lined too. No wood is left exposed anywhere in the House or the courts. That the floor is also carved boards under gold is the author's.", "he": "" },
+      "measurements": [],
+      "sources": ["Yechezkel 41:16-17 with Rashi and Targum", "Melachim I 6:32 with Rashi, Radak and Malbim", "Rambam, Beis HaBechirah 1:9", "Tikkunei Zohar 21", "Mishkenei Elyon 168", "Lishchno Tidreshu pp. 222-234"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.222"],
+      "unlockedBy": ["heikhal"],
+      "related": ["reliefs", "heikhal", "bracing-beams"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "reliefs",
+      "category": "house",
+      "name": { "en": "The keruvim and palms on the walls", "he": "כרובים ותמורים" },
+      "confidence": "disputed",
+      "summary": { "en": "Every wall of the Sanctuary and the Kodesh HaKodashim carries an alternating carving: keruv, palm, keruv, palm, floor to ceiling, on the jambs and the doors and above the entrance. Each keruv shows two faces and only faces - not a body: a young lion's face on the keruv's right, turned to the palm on that side, and a man's face on its left, turned to the palm on that side. The two faces and the alternation are in the navi and Rashi. Which face goes on which side is Mishkenei Elyon, who reads the lion as the right and so as chesed. The six wings the book gives them are his own speculation. None of this has been modelled: the walls in this build carry gold and a palm-only study panel, and the keruvim have never been made. It is the largest recorded gap in the reconstruction.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 41:18-19 with Rashi", "holds": "two faces, lion and man, palms between - certain" },
+        { "who": "Mishkenei Elyon 168, 190", "holds": "the lion is on the right, and the right is chesed" },
+        { "who": "The book author", "holds": "six wings each - speculation" }
+      ] },
+      "sources": ["Yechezkel 41:18-20 with Rashi, Targum, Radak, Metzudas Dovid and Malbim", "Chagigah 13b", "Sukkah 5b", "Mishkenei Elyon 168, 190-191, 203", "Lishchno Tidreshu pp. 235-239"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 1"],
+      "unlockedBy": ["heikhal"],
+      "related": ["gold-over-cedar", "keruvim-on-the-kaporet", "keruvim-anatomy", "heikhal-doors"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "atikim",
+      "category": "house",
+      "name": { "en": "The atikim", "he": "עתיקים" },
+      "confidence": "disputed",
+      "summary": { "en": "Square reinforcing pillars set into the north and south walls of the Sanctuary and the Kodesh HaKodashim, projecting both inside and out and rising about two-thirds of the wall's height before tapering. That they exist is settled; that there are three to a side is Mishkenei Elyon as the author reads him. On the upper priestly chambers the Tosafos and the Metzudas Dovid read the atikim the other way round, as being below rather than above. None are in this model.", "he": "" },
+      "measurements": [ { "label": "Count", "value": "3 per side, north and south, inside and out - Mishkenei Elyon as read by the author", "source": "Mishkenei Elyon 169" } ],
+      "dispute": { "positions": [
+        { "who": "Mishkenei Elyon 169, Tosafos on Yechezkel 42:3", "holds": "buttresses above, three a side" },
+        { "who": "Tosafos and Metzudas Dovid on the chambers", "holds": "the atikim are below, not above" }
+      ] },
+      "sources": ["Yechezkel 42:3-6 with Rashi and Tosafos", "Metzudas Dovid", "Mishkenei Elyon 169, 186-187", "Lishchno Tidreshu pp. 223-226, 291"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.223, p.291"],
+      "unlockedBy": ["heikhal"],
+      "related": ["heikhal", "upper-chambers", "inner-court-recesses"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "windows",
+      "category": "house",
+      "name": { "en": "The windows of the House", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "The navi does not say how many windows the House has or where they are. Every count in this model - twelve in the Kodesh HaKodashim, four each in the Sanctuary's north, south and east walls - is the book author's proposal. What is not authored is that they are always open and carry no glass. There is also a suggestion of a small opening in the west wall six to eight amot up, as the Second Temple had, and that too is the author's.", "he": "" },
+      "measurements": [],
+      "sources": ["Mishkenei Elyon 169", "Rashi on Yechezkel 40:16", "Zevachim 55b; Gittin 54b with Rashi; Middos 4:5 (the west opening)", "Lishchno Tidreshu pp. 63, 224-226"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json rows p.63, p.224", "SourceAssets/research/book-scene-requirements-20260907.md gap 13"],
+      "unlockedBy": ["heikhal"],
+      "related": ["splayed-windows", "heikhal", "kodesh-hakodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "bracing-beams",
+      "category": "house",
+      "name": { "en": "The beams that come through the facade", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Thick cedar beams run from the Sanctuary wall across to the porch wall and protrude eastward through the front of the House, covered in gold. That they protrude is Rashi and the Radak. That there are ten of them, six amot by two, running up to sixty amot, is the author's. They are not in this model.", "he": "" },
+      "measurements": [ { "label": "Beams", "value": "10 beams of 6 x 2 amot up to 60 amot high - authored", "source": "the book author, starred" } ],
+      "dispute": { "positions": [
+        { "who": "Rashi and Radak on Yechezkel 41:25", "holds": "the beams protrude east through the facade, gold-covered" },
+        { "who": "The book author", "holds": "their number and size" }
+      ] },
+      "sources": ["Yechezkel 41:25 with Rashi, Radak and Metzudas Dovid", "Mishnah Middot 3:8", "Rambam, Beis HaBechirah 1:9", "Mishkenei Elyon 171, 202", "Lishchno Tidreshu pp. 264-267"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.264"],
+      "unlockedBy": ["heikhal"],
+      "related": ["gold-over-cedar", "miltaros-historical", "ulam"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "the-house-overall",
+      "category": "house",
+      "name": { "en": "The House, a hundred amot every way", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "The House measures a hundred amot long, a hundred wide and a hundred high. The length adds up exactly: porch wall 5, porch 11, Sanctuary wall 6, Sanctuary 40, partition 2, Kodesh HaKodashim 20, west wall 6, west chamber 4, chamber foundation 6. The width is the porch's twenty with forty-three of wall on each flank and the two knife chambers. The height of a hundred is certain; the layers the author breaks it into - eighty-five of interior, six of otem, five of ceiling, three of parapet, one of spikes - are his. For contrast the First Temple was a hundred and twenty and the Second a hundred, and the book's reading of why is kabbalistic rather than architectural.", "he": "" },
+      "measurements": [
+        { "label": "Length", "value": "5 + 11 + 6 + 40 + 2 + 20 + 6 + 4 + 6 = 100 amot", "source": "Yechezkel 41:13 with Rashi; Middos 3:8, 4:7" },
+        { "label": "Height", "value": "100 amot", "source": "Rashi on Yechezkel 41:8 citing Middos 4:6" },
+        { "label": "As built", "value": "roof top Z 6130 including the anti-bird points", "source": "SourceAssets/architecture-manifest.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 41:13 with Rashi, Middos 4:6-4:7", "holds": "100 by 100 by 100 - certain" },
+        { "who": "The book author", "holds": "the internal breakdown of the hundred amot of height" }
+      ] },
+      "sources": ["Yechezkel 41:13-14 with Rashi", "Mishnah Middot 3:8, 4:6, 4:7", "Chasam Sofer YD 234", "Chaggai 2:9", "Mishkenei Elyon 150, 170-171", "Lishchno Tidreshu pp. 63, 113, 191, 201-219"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["mount-and-house", "heikhal"],
+      "related": ["side-chambers", "mesibah-and-water-house", "heikhal", "ulam"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "side-chambers",
+      "category": "house",
+      "name": { "en": "The thirty-three side chambers", "he": "צלעות" },
+      "confidence": "disputed",
+      "summary": { "en": "Thirty-three chambers in three storeys wrap the House: fifteen north, fifteen south, three west. Their widths grow with height - four, then five, then six amot - because the House wall steps back from six to five to four to three, and the cedar beams rest on the ledges rather than being socketed into the holy wall. Chambers are eleven amot long with five-amah walls; the west ones are twenty-two. The storey heights are the author's.", "he": "" },
+      "measurements": [
+        { "label": "Chamber widths by storey", "value": "4 / 5 / 6 amot", "source": "Yechezkel 41:6-7 with Rashi; Middos 4:4" },
+        { "label": "Storey height", "value": "6 amot plus 5 of ceiling = 11, so 33 in all - authored", "source": "the book author, starred" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 41:5-7 with Rashi, Middos 4:4, Mishkenei Elyon 180-181", "holds": "33 chambers, stepped widths, cedar on ledges - certain" },
+        { "who": "The book author", "holds": "the storey heights" }
+      ] },
+      "sources": ["Yechezkel 41:5-7 with Rashi", "Melachim I 6:6, 6:10", "Mishnah Middot 4:4", "Bava Basra 61a", "Mishkenei Elyon 180-181, 203", "Lishchno Tidreshu pp. 193-200"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.195"],
+      "unlockedBy": ["heikhal"],
+      "related": ["the-house-overall", "mesibah-and-water-house"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "mesibah-and-water-house",
+      "category": "house",
+      "name": { "en": "The winding stair and the water passage", "he": "מסיבה ובית הורדת המים" },
+      "confidence": "disputed",
+      "summary": { "en": "The seventy-amah block behind the House divides as thirty-two of chamber, four of ledge, five of wall, then five amot of winding stair on the north and five of the water passage on the south, each with a five-amah wall. The winding stair climbs to the chamber roofs and to the roof of the House itself. Mishkenei Elyon's five-and-five split is what is built; Middot gives three and five. The only way into the side chambers is through the corner passages, reached by the small doors in the porch - the northern one always open, the southern one always shut.", "he": "" },
+      "measurements": [ { "label": "West block", "value": "70 amot = 32 + 4 + 5 + 5 + 5 either side", "source": "Yechezkel 41:9-12 with Rashi; Mishkenei Elyon 181, 204" } ],
+      "dispute": { "positions": [
+        { "who": "Mishkenei Elyon 181, 204 - built here", "holds": "5 and 5" },
+        { "who": "Mishnah Middot 4:7", "holds": "3 and 5" }
+      ] },
+      "sources": ["Yechezkel 41:9-12 with Rashi", "Yechezkel 44:1-2", "Mishnah Middot 4:5, 4:7", "Mishkenei Elyon 181, 204", "Lishchno Tidreshu pp. 205-214"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.205"],
+      "unlockedBy": ["heikhal"],
+      "related": ["side-chambers", "the-house-overall"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "menorah",
+      "category": "vessels",
+      "name": { "en": "The Menorah", "he": "מנורה" },
+      "confidence": "certain",
+      "summary": { "en": "Beaten from a single talent of gold, eighteen tefachim high, standing on the south side of the Sanctuary two and a half amot from the south wall and five from the wall of the Kodesh HaKodashim. Twenty-two cups, eleven knobs and nine flowers ornament it - forty-two in all - and seven lamps burn on it, one of which burns even on Shabbos. Before it stands a stone with three steps for the kohen to reach the lamps.", "he": "" },
+      "measurements": [
+        { "label": "Height", "value": "18 tefachim = 150 cm at this project's amah", "source": "Rambam, Beis HaBechirah 3:8-12; Lishchno Tidreshu p. 241" },
+        { "label": "Ornaments", "value": "22 cups, 11 knobs, 9 flowers", "source": "Rambam, Beis HaBechirah 3:1-10" },
+        { "label": "Oil per lamp", "value": "half a log", "source": "Rambam, Temidin uMusafin 3:11" },
+        { "label": "As built", "value": "at [-5330, 315.176, 925], lamps at Z 1075, width across the outer lamp rims 101.52 cm; step stone X -5284.1..-5194.1, top Z 975", "source": "SourceAssets/vessels-review/MenorahV4/native-import-20260908T030534818522Z.json" }
+      ],
+      "sources": ["Shemos 25:31-40, 26:35 with Rashi", "Rambam, Beis HaBechirah 3:1-12", "Rambam, Temidin uMusafin 3:11", "Menachos 98b", "Mishkenei Elyon 167, 173", "Lishchno Tidreshu pp. 241, 252-254 (Hebrew confirmed on the p. 241 image)"],
+      "receipts": ["SourceAssets/vessels-review/MenorahV4/native-import-20260908T030534818522Z.json", "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json", "SourceAssets/runtime-review/kohen-service/sources.md - SVC-STONE"],
+      "unlockedBy": ["menorah"],
+      "related": ["menorah-orientation", "lamp-service", "lamp-order-authored", "menorah-height-conflict", "unmentioned-vessels"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "menorah-orientation",
+      "category": "vessels",
+      "name": { "en": "Which way the menorah faces", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "The Rambam has the six branches running north and south; Rashi has them east and west, and the book draws Rashi's arrangement as an alternative in its diagram 22:23a. This model follows the Rambam - and the reason it does is that the imported asset was built that way. That is a consistency decision with the placement spec, not an independent ruling on the question. The six outer lamps face the middle one, and on the Rambam's orientation the middle one faces the Kodesh HaKodashim.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Rambam - depicted here", "holds": "branches north-south" },
+        { "who": "Rashi", "holds": "branches east-west; drawn in the book as diagram 22:23a" }
+      ] },
+      "sources": ["Rambam, Beis HaBechirah 3:8 - the six lamps all faced the central lamp, from Bamidbar 8:2", "Rambam, Temidin uMusafin 3:13", "Bamidbar 8:2", "Menachos 98b", "Lishchno Tidreshu p. 241 and diagram 22:23a"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - SVC-LAMPS-FACE-CENTRE and SVC-R-ORIENTATION", "Scripts/release_import_menorah_v4.spec.json"],
+      "unlockedBy": ["menorah"],
+      "related": ["menorah", "lamp-service"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "menorah-height-conflict",
+      "category": "vessels",
+      "name": { "en": "How tall is eighteen tefachim?", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Eighteen tefachim is a fixed number and an unfixed length. At this project's amah it is 150 cm, and that is what is built. At the Temple Institute's own conversion it is about 1.80 m; at the two tefach values recorded on Wikimikdash, 8 cm and 9.67 cm, it is 144 cm or 174 cm. The Temple Institute's own pages give its physical menorah's mass as 45 kg in one place and 43 kg in another; the audit for this project decided to preserve that discrepancy rather than pick one, and to record the object's true measured height, width and base footprint as unknown.", "he": "" },
+      "measurements": [
+        { "label": "At 50 cm/amah - built here", "value": "150 cm", "source": "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json" },
+        { "label": "Temple Institute schematic", "value": "about 180 cm", "source": "Temple Institute illustrated tour, per the project audit" },
+        { "label": "At tefach 8 cm / 9.67 cm", "value": "144 cm / 174.06 cm", "source": "Wikimikdash tefach values, per the project audit" }
+      ],
+      "dispute": { "positions": [
+        { "who": "This build", "holds": "150 cm, following the project amah" },
+        { "who": "The Temple Institute's own presentation", "holds": "about 180 cm" },
+        { "who": "The two Wikimikdash tefach conversions", "holds": "144 cm or 174 cm" }
+      ] },
+      "sources": ["Rambam, Beis HaBechirah 3:10 (18 tefachim)", "Temple Institute reference audit", "Wikimikdash article on the tefach"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/temple-institute-menorah-reference-audit.md", "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json"],
+      "unlockedBy": ["menorah"],
+      "related": ["menorah", "the-amah"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "lamp-service",
+      "category": "service",
+      "name": { "en": "The lamp service", "he": "הטבת הנרות" },
+      "confidence": "disputed",
+      "summary": { "en": "Every lamp that had gone out had its wick and leftover oil taken away and the lamp cleaned; a new wick and a fresh half-log of oil went in, and it was kindled. The Rambam says that kindling is what the word hatavah means - and the Moznaim note on that passage records that other authorities take hatavah as the cleaning alone. This build depicts the Rambam.\n\nThe kohen came in carrying a golden vessel, put the spent wicks and oil into it, kindled five lamps, left the vessel on the second of the three steps and went out; then came back, kindled the remaining two, took the vessel, prostrated himself and left.\n\nWho does it: ordinarily an ordinary kohen, chosen by the lottery of Temidin uMusafin chapter 4. The Kohen Gadol may perform any service he wishes on any day without entering the lottery, and Mishnah Yoma 1:2 names the lamps among the services he performs during his seven days of sequestering - so depicting him doing it is legitimate.", "he": "" },
+      "measurements": [ { "label": "Oil", "value": "half a log per lamp", "source": "Rambam, Temidin uMusafin 3:11" } ],
+      "dispute": { "positions": [
+        { "who": "Rambam, Temidin uMusafin 3:12 - depicted here", "holds": "hatavah means the kindling" },
+        { "who": "Other authorities, per the Moznaim note there", "holds": "hatavah refers only to the cleaning of the lamps" }
+      ] },
+      "sources": ["Rambam, Temidin uMusafin 3:11, 3:12, 3:17", "Rambam, Beis HaBechirah 3:11 (the stone of three steps)", "Rambam, Biat HaMikdash 2:1", "Rambam, Klei HaMikdash 5:12", "Mishnah Yoma 1:2 (Yoma 14a)", "Bartenura on Tamid 3:9"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - SVC-HATAVAH, SVC-FIVE-THEN-TWO, SVC-ORDINARY-KOHEN, SVC-KG-MAY-SERVE, SVC-STONE"],
+      "unlockedBy": ["menorah"],
+      "related": ["lamp-order-authored", "menorah", "citation-corrections", "who-may-enter", "service-pacing-authored"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "lamp-order-authored",
+      "category": "service",
+      "name": { "en": "The order of the seven lamps is authored", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "This one has to be said plainly, because the depiction is convincing and the source is not there. The Rambam says five lamps, then two. He does not say WHICH five and which two, and no passage read for this project does. The sequence in this build walks the seven from north to south, lamps one to five and then six and seven, and that ordering is an authored placeholder chosen because it reads cleanly on screen. It must not be presented to anyone as the order of the service. The agent who built it wrote: 'It is a single edit to change - the two group sizes are already fields.'", "he": "" },
+      "measurements": [],
+      "sources": ["Rambam, Temidin uMusafin 3:17 - five, then two, unnamed"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - SVC-R-ORDER, described there as 'the biggest one'", "SourceAssets/runtime-review/kohen-service/tests.json - whatIsNotCovered: no test can validate an unsourced choice"],
+      "unlockedBy": ["menorah"],
+      "related": ["lamp-service", "menorah", "service-pacing-authored"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "citation-corrections",
+      "category": "method",
+      "name": { "en": "Two citations this project got wrong and fixed", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Both corrections were found and recorded by the agent that built the Kohen Gadol's service, and they are carried here so they are not quietly re-broken.\n\nFirst: the ruling that the Kohen Gadol may perform any service he wishes without entering the lottery is Rambam, Klei HaMikdash 5:12, not 5:11. 5:11 is a different halachah - it describes him entering the Sanctuary to prostrate, supported by three attendants, one holding the jewels of the choshen so it does not shift from the ephod. That halachah is independently useful: it is direct evidence that he walks into the Sanctuary in the golden garments.\n\nSecond: that the lamps face the centre is Rambam, Beis HaBechirah 3:8, not 3:12. Beis HaBechirah 3:12 is the Shulchan. Temidin uMusafin 3:12 is the definition of hatavah - both 3:12s are real and each is cited for what it actually says.", "he": "" },
+      "measurements": [],
+      "sources": ["Rambam, Klei HaMikdash 5:11 and 5:12", "Rambam, Beis HaBechirah 3:8 and 3:12", "Rambam, Temidin uMusafin 3:12"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - the two blockquoted citation corrections"],
+      "unlockedBy": ["menorah"],
+      "related": ["lamp-service", "who-may-enter", "shulchan"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "service-pacing-authored",
+      "category": "service",
+      "name": { "en": "Every timing in the service is invented", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "Fourteen seconds a lamp, eight in the porch, four at the doorway, six on the stone, five for the vessel, twenty waiting outside, thirty at the golden altar, ninety centimetres a second walking, ninety seconds between one sequence and the next. Nothing in any source fixes any of them. They are pacing choices, and the whole loop runs 290.5 seconds because those numbers were picked, not because the service took that long.", "he": "" },
+      "measurements": [ { "label": "Loop length", "value": "290.5 s ordinary day, 346.7 s in the Yom Kippur variant", "source": "SourceAssets/runtime-review/kohen-service/sources.md - SVC-D-PACING" } ],
+      "sources": [],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - SVC-D-PACING"],
+      "unlockedBy": ["menorah", "golden-altar"],
+      "related": ["lamp-service", "lamp-order-authored", "ketores"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "shulchan",
+      "category": "vessels",
+      "name": { "en": "The Shulchan", "he": "שולחן" },
+      "confidence": "disputed",
+      "summary": { "en": "Wood overlaid with gold, two amot long east to west - its length running along the length of the House - one wide, and three high. It stands on the north side of the Sanctuary, opposite the menorah, two and a half amot from the north wall and five from the wall of the Kodesh HaKodashim. Bread is on it always.\n\nThree amot is the number to notice. The Torah's table is a cubit and a half; Yechezkel's is three. The book takes the three at face value and this model builds it that way, and the book also records the alternative reading that the three amot are measured with the bread stacked on it.", "he": "" },
+      "measurements": [
+        { "label": "Length x width x height", "value": "2 x 1 x 3 amot = 100 x 50 x 150 cm", "source": "Yechezkel 41:22 with Rashi and Targum; Shemos 25:23" },
+        { "label": "Torah's table, for contrast", "value": "1.5 amot high", "source": "Shemos 25:23" },
+        { "label": "As built", "value": "at [-5300, -350, 925], misgeret 8.3333 cm, upright plates 41.667 cm wide reaching Z 250 above the floor", "source": "SourceAssets/vessels-review/KeilimTIV1/native-import-20260908T031336905985Z.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "The book's main line, built here", "holds": "three amot is the table's own height" },
+        { "who": "The alternative the book records at p. 246", "holds": "the three amot include the bread" }
+      ] },
+      "sources": ["Yechezkel 41:22 with Rashi and Targum", "Shemos 25:23, 26:35 with Rashi", "Yoma 33b", "Menachos 98b-99a", "Baraisa d'Meleches HaMishkan", "Rambam, Beis HaBechirah 3:12", "Mishkenei Elyon 167, 203", "Lishchno Tidreshu pp. 241-251"],
+      "receipts": ["SourceAssets/vessels-review/KeilimTIV1/native-import-20260908T031336905985Z.json", "SourceAssets/vessels-review/ShulchanV2/geometry-manifest.json"],
+      "unlockedBy": ["shulchan"],
+      "related": ["lechem-hapanim", "menorah", "unmentioned-vessels"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "lechem-hapanim",
+      "category": "vessels",
+      "name": { "en": "The showbread", "he": "לחם הפנים" },
+      "confidence": "certain",
+      "summary": { "en": "Twelve folded loaves in two stacks of six, each a tefach thick and folded to six tefachim by five. Twenty-eight golden half-tubes hold them apart, three under each loaf and two on the top one of each stack, carried on four golden uprights that rise five amot from the floor. Two golden bowls of frankincense stand between the stacks. Before Shabbos the new loaves wait in the porch on a marble table on the north side, and the old ones go to a golden table on the south.", "he": "" },
+      "measurements": [
+        { "label": "Loaf", "value": "1 tefach thick, folded to 6 x 5 tefachim", "source": "Menachos 94-99" },
+        { "label": "Rods and uprights", "value": "28 rods, 4 uprights 5 tefachim wide reaching 5 amot", "source": "Rambam, Beis HaBechirah 3:12-16" },
+        { "label": "As built", "value": "12 loaves, 28 rods, 2 bowls; uprights to Z 250 above the floor", "source": "SourceAssets/vessels-review/KeilimTIV1/geometry-manifest.json" }
+      ],
+      "sources": ["Menachos 94-99", "Rambam, Beis HaBechirah 3:12-16", "Rambam, Temidin uMusafin 5", "Rashi on Shemos 25:29", "Lishchno Tidreshu p. 250"],
+      "receipts": ["SourceAssets/vessels-review/KeilimTIV1/geometry-manifest.json"],
+      "unlockedBy": ["shulchan"],
+      "related": ["shulchan"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "golden-altar",
+      "category": "vessels",
+      "name": { "en": "The golden altar", "he": "מזבח הזהב" },
+      "confidence": "certain",
+      "summary": { "en": "Acacia overlaid with gold, one amah square and two amot high, with four horns. It stands on the centre line of the Sanctuary opposite the Aron, between the menorah and the table and drawn a little east of them; all three vessels are in the western half of the forty-amah Sanctuary. Incense is offered on it morning and afternoon.\n\nIt is the one object in this model built at a different amah. Eruvin 4a reads its cubit as a five-tefach cubit, so its 1 x 1 x 2 amot come out at 41.7 by 41.7 by 83.3 cm rather than 50 by 50 by 100.", "he": "" },
+      "measurements": [
+        { "label": "Square and height", "value": "1 x 1 x 2 amot at the 5-tefach amah = 41.67 x 41.67 x 83.33 cm", "source": "Shemos 30:1-2; Eruvin 4a on Yechezkel 43:13" },
+        { "label": "As built", "value": "at [-4650, 0, 925]; roof plane 79.167; horns 4.1667 square; ring axis Z +70.833; poles 100 cm", "source": "SourceAssets/vessels-review/IncenseAltarV2/geometry-manifest.json" }
+      ],
+      "sources": ["Shemos 30:1-10", "Eruvin 4a on Yechezkel 43:13", "Rashi on Shemos 26:35", "Yoma 33b", "Menachos 98b", "Rambam, Beis HaBechirah 3:17", "Mishkenei Elyon 167, 193", "Lishchno Tidreshu pp. 241, 255-258"],
+      "receipts": ["SourceAssets/vessels-review/IncenseAltarV2/geometry-manifest.json", "SourceAssets/vessels-review/KeilimTIV1/native-import-20260908T031336905985Z.json", "Scripts/release_scale_keilim.spec.json"],
+      "unlockedBy": ["golden-altar"],
+      "related": ["ketores", "maaleh-ashan", "the-amah", "unmentioned-vessels"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "ketores",
+      "category": "service",
+      "name": { "en": "The incense", "he": "קטורת" },
+      "confidence": "disputed",
+      "summary": { "en": "Incense is offered on the golden altar morning and afternoon. The morning offering falls between the blood service of the daily offering and the bringing up of its limbs; the afternoon one between the limbs and the libations - these are relative positions in the service, not clock times. While the incense burns everyone withdraws from the Sanctuary and from the space between the porch and the outer altar, until the kohen who offered it comes out.\n\nWhere in the lamp sequence it falls is not settled. Abaye's order of service puts it after the second group of lamps; the Rambam's own note at Temidin uMusafin 3:17 sets the re-entry after the limbs were brought up. This build follows Abaye, and the passage in Yoma 33a was not independently verified in the pass that recorded it. Treat the relative position as unsettled.\n\nNothing about the incense is modelled: no particles, no emitter, no smoke.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Abaye, Yoma 33a - followed here, and not independently verified in the pass that recorded it", "holds": "five lamps, the blood of the daily offering, two lamps, then the incense" },
+        { "who": "Rambam's note at Temidin uMusafin 3:17", "holds": "the re-entry comes after the limbs were brought up" }
+      ] },
+      "sources": ["Shemos 30:7-8", "Rambam, Temidin uMusafin 3:1, 3:3, 3:9", "Mishnah Yoma 3:5", "Mishnah Tamid 6:3", "Yoma 33a", "Vayikra 16:12-13", "Rambam, Avodat Yom HaKippurim 4:1, 4:2"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/ketores-service-and-smoke.md - KET-DAILY-LOCATION, KET-DAILY-SEQUENCE, KET-OVERSEER, KET-YK-SEQUENCE", "SourceAssets/runtime-review/kohen-service/sources.md - SVC-R-KETORES-POSITION"],
+      "unlockedBy": ["golden-altar"],
+      "related": ["golden-altar", "maaleh-ashan", "service-pacing-authored", "incense-compounding-authored"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "maaleh-ashan",
+      "category": "service",
+      "name": { "en": "The smoke, and what nobody knows about it", "he": "מעלה עשן" },
+      "confidence": "authored",
+      "summary": { "en": "Yoma 53a describes the smoke rising like a staff to the ceiling and then spreading down the walls until the chamber is full, and distinguishes putting the incense on the fire inside from carrying a cloud in ready-made. Yoma 38a records the Avtinas family's column against the Alexandrians' dispersing smoke, and a descendant who could recognise the herb and would not name it.\n\nWhat none of that establishes is a plant. The research for this project states flatly that no secure botanical identification of maaleh ashan has been made, and that no modern species, chemical mechanism or recovered sample may be labelled as the authentic ingredient. Colour, opacity, rise speed, thickness, particle size, smell and how long it lingers are all artistic choices.", "he": "" },
+      "measurements": [],
+      "sources": ["Yoma 53a:4-5, 11, 15-16", "Yoma 38a:10, 14"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/ketores-service-and-smoke.md - KET-SMOKE-FORM, KET-SMOKE-DAILY, KET-AVTINAS and the R-class note"],
+      "unlockedBy": ["golden-altar"],
+      "related": ["ketores", "golden-altar"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "incense-compounding-authored",
+      "category": "service",
+      "name": { "en": "Where the incense is compounded", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "The incense must be compounded within the holy precinct. Where exactly is not stated, and the book places it in the west recess of the southern wall vestibule, on the second and third floors. That is his suggestion, starred, and not a source.", "he": "" },
+      "measurements": [],
+      "sources": ["Kerisos 6a", "Rambam, Klei HaMikdash 2:6", "Yerushalmi Yoma 1:5", "Lishchno Tidreshu p. 327 - the author's suggestion"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.327"],
+      "unlockedBy": ["golden-altar"],
+      "related": ["ketores", "lower-chambers"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "paroches",
+      "category": "house",
+      "name": { "en": "The paroches", "he": "פרוכת" },
+      "confidence": "disputed",
+      "summary": { "en": "A curtain of blue, purple, scarlet and linen with keruvim woven on both sides, hanging before the entrance to the Kodesh HaKodashim and exactly the size of the gateway - seven amot by six, no less and no more. The Aron's poles press into it from behind like two breasts.\n\nIt is not in the navi. Yechezkel gives the partition, the opening and the two doors; the curtain comes from Mishkenei Elyon, and the book draws it. In the First Temple there were doors and a curtain both, against an amah-thick wall; in the Second there was no wall at all and two curtains with an amah between them, and it was a matter of doubt which side that amah belonged to.\n\nIn this build the line of the paroches at X -5600 is a hard boundary, enforced in three separate places in the service code so that the depicted Kohen Gadol cannot cross it on an ordinary day.", "he": "" },
+      "measurements": [
+        { "label": "Paroches", "value": "7 x 6 amot = 350 x 300 cm, the measure of the gateway", "source": "Mishkenei Elyon 159-160, 166" },
+        { "label": "As built", "value": "at [-5585, 0, 928]; the boundary line is X -5600", "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 41:3", "holds": "the partition, the 7 x 6 opening and the doors - certain" },
+        { "who": "Mishkenei Elyon 159-160, 166", "holds": "there is also a curtain, exactly the size of the gateway - not in the navi" },
+        { "who": "The book author", "holds": "the doors open inward - starred" }
+      ] },
+      "sources": ["Yechezkel 41:3, 41:21, 41:23 with Rashi", "Yoma 54a", "Shemos 26:31-33", "Menachos 98a-b", "Rambam, Beis HaBechirah 4:2", "Yoma 51b", "Mishnah Middot 4:7", "Mishkenei Elyon 159-166, 203", "Lishchno Tidreshu pp. 184-186, 261"],
+      "receipts": ["SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json", "SourceAssets/runtime-review/kohen-service/sources.md - SVC-KODESH-BOUNDARY", "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ServiceScheduleMath.h - KodeshLineX"],
+      "unlockedBy": ["paroches"],
+      "related": ["kodesh-hakodashim", "who-may-enter", "aron", "heikhal-doors"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "kodesh-hakodashim",
+      "category": "house",
+      "name": { "en": "The Kodesh HaKodashim", "he": "קדש הקדשים" },
+      "confidence": "certain",
+      "summary": { "en": "Twenty amot square, behind a partition two amot thick - an amah in the First Temple, no wall at all in the Second. Its entrance is seven amot wide and six high in a square four-post frame, with two doors of three and a half by six amot, cedar carved with keruvim and palms and overlaid with gold, standing permanently open. There is no upper storey above it.", "he": "" },
+      "measurements": [
+        { "label": "Chamber", "value": "20 x 20 amot = 1000 x 1000 cm", "source": "Yechezkel 41:4" },
+        { "label": "Partition", "value": "2 amot = 100 cm", "source": "Yechezkel 41:3" },
+        { "label": "Entrance", "value": "7 amot wide x 6 high = 350 x 300 cm", "source": "Yechezkel 41:3" },
+        { "label": "As built", "value": "floor X -6700..-5700, Y +/-500, top Z 925; partition X -5700..-5600; lintel Z 1225..2925", "source": "SourceAssets/architecture-manifest.json SM_0142..SM_0147" }
+      ],
+      "sources": ["Yechezkel 41:3-4, 41:23 with Rashi", "Rambam, Beis HaBechirah 4:1", "Yoma 53b", "Mishnah Middot 4:1-2", "Mishnah Tamid 3:7", "Mishkenei Elyon 150, 167, 170", "Lishchno Tidreshu pp. 184-192, 259"],
+      "receipts": ["SourceAssets/architecture-manifest.json"],
+      "unlockedBy": ["paroches"],
+      "related": ["paroches", "aron", "even-hashtiya", "keruvim-on-the-kaporet", "who-may-enter", "house-moved-west"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "aron",
+      "category": "vessels",
+      "name": { "en": "The Aron", "he": "ארון" },
+      "confidence": "disputed",
+      "summary": { "en": "A wooden box two and a half amot by one and a half by one and a half, with an inner gold box a tefach smaller and an outer a tefach larger, a gold crown around it, four rings at the top corners and gold-covered poles permanently in them. Inside it the Luchos, the broken Luchos and a Sefer Torah. On it the kaporet, a gold slab a tefach thick - and that thickness is a rabbinic derivation, not a measurement in the verse. Beside it Aharon's staff, the jar of manna and the flask of anointing oil.\n\nAll of that was missing from the Second Temple, along with the fire, the Shechinah and the Urim v'Tumim. Where the Aron stands is disputed: the Rambam puts it on a stone in the western part of the chamber, the Tosafos Yom Tov and the Tanchuma in the middle. And Yirmiyahu 3:16-17, with Rashi, speaks of an era when it is not spoken of again - a passage that must be acknowledged, and which should not be flattened either into a prohibition on depicting it or out of existence.\n\nIn this build there is an Aron study at [-6200, 0, 925] in sixteen parts. The project's own audit found no finished Aron mesh in the architecture manifests and recorded the Kodesh floor package as a source-derived chamber envelope, not an established Aron location.", "he": "" },
+      "measurements": [
+        { "label": "Box", "value": "2.5 x 1.5 x 1.5 amot = 125 x 75 x 75 cm", "source": "Shemos 25:10-22" },
+        { "label": "Kaporet", "value": "1 tefach thick - a rabbinic derivation, not stated in the verse", "source": "Sukkah 5a" },
+        { "label": "As built", "value": "study at [-6200, 0, 925], 16 parts sharing one origin; kaporet 125 x 75 x 8.3333; poles 250 cm", "source": "SourceAssets/vessels-review/aron-study-v1-spec.json" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Rambam, Beis HaBechirah 4:1", "holds": "on a stone in the western part of the chamber" },
+        { "who": "Tosafos Yom Tov on Yoma 5:2; Tanchuma Kedoshim 10", "holds": "in the centre" }
+      ] },
+      "sources": ["Shemos 25:10-22 with Rashi", "Bava Basra 14a-b", "Sukkah 5a-5b", "Yoma 21b, 53b", "Rambam, Beis HaBechirah 4:1", "Yirmiyahu 3:16-17 with Rashi", "Mishkenei Elyon 150, 167", "Lishchno Tidreshu pp. 187-192"],
+      "receipts": ["SourceAssets/vessels-review/aron-study-v1-spec.json", "SourceAssets/vessels-review/aron-placement-spec.json", "SourceAssets/IntegratedReviewV2/source-collection.json", "C:/Mikdash/GitHub/3rdbhmk/unreal/Research/aron-reference-and-presence-audit.md"],
+      "unlockedBy": ["paroches"],
+      "related": ["keruvim-on-the-kaporet", "keruvim-anatomy", "even-hashtiya", "kodesh-hakodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "keruvim-on-the-kaporet",
+      "category": "vessels",
+      "name": { "en": "The keruvim on the kaporet", "he": "כרובים" },
+      "confidence": "disputed",
+      "summary": { "en": "Two figures beaten out of the same slab as the cover, wings spread above it, faces toward each other and inclined down toward the cover, with the faces of children. Their bodies are ten tefachim high - about 83 cm at this project's amah, and the derivation of the ten tefachim is in Sukkah 5b, which in the same discussion sets out the five-tefach and six-tefach cubit systems and warns against mixing their arithmetic.\n\nThe book adds that each has six wings. The research for this project records that as the book's own statement with no source given, and it is reported here on that footing and no other.\n\nDo not confuse three different sets of keruvim: the two on the cover, Shlomo's ten-amah figures in Melachim I 6:23-28, and the carved figures on Yechezkel's walls. The ten amot belong to Shlomo's and to nothing else.", "he": "" },
+      "measurements": [
+        { "label": "Body height", "value": "10 tefachim = about 83.33 cm at this project's amah", "source": "Sukkah 5b" },
+        { "label": "Six wings", "value": "the book's statement, no source given", "source": "Lishchno Tidreshu p. 190, as recorded in the project research" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Shemos 25:18-20 and Sukkah 5b", "holds": "two figures, faces to each other and down, ten tefachim - certain" },
+        { "who": "The book", "holds": "six wings each - no source given" }
+      ] },
+      "sources": ["Shemos 25:18-22", "Sukkah 5a-5b", "Bava Basra 99a", "Melachim I 6:23-28 (Shlomo's, a different thing)", "Lishchno Tidreshu p. 190"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/aron-keruvim-modeling-brief.md", "SourceAssets/IntegratedReviewV2/release-placement-20260907T160101911633Z.json - RELEASE_Keruvim_1 at [-6200, 0, 925]"],
+      "unlockedBy": ["paroches"],
+      "related": ["aron", "keruvim-anatomy", "reliefs"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "keruvim-anatomy",
+      "category": "vessels",
+      "name": { "en": "What a keruv looks like", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "Two reconstructions are named in the project's modelling brief: birdlike bodies with youthful faces, attributed to the Rashbam, and a human-like head and shoulders on a birdlike lower body with wings, attributed to R' Avraham ben HaRambam, who leaves the legs unspecified. The brief is explicit that both attributions come through a Temple Institute Hebrew article and were not read in the originals for this project. The face is not less than a tefach.", "he": "" },
+      "measurements": [ { "label": "Face", "value": "not less than a tefach", "source": "Sukkah 5b" } ],
+      "dispute": { "positions": [
+        { "who": "Rashbam, as reported second-hand", "holds": "birdlike bodies with youthful faces" },
+        { "who": "R' Avraham ben HaRambam, as reported second-hand", "holds": "human head and shoulders, birdlike lower body and wings; legs unspecified" }
+      ] },
+      "sources": ["Sukkah 5b", "Rashbam and R' Avraham ben HaRambam, reported via a Temple Institute Hebrew article and NOT read in the original for this project"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/aron-keruvim-modeling-brief.md"],
+      "unlockedBy": ["paroches"],
+      "related": ["keruvim-on-the-kaporet", "reliefs"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "even-hashtiya",
+      "category": "house",
+      "name": { "en": "The Even HaShtiya", "he": "אבן השתיה" },
+      "confidence": "disputed",
+      "summary": { "en": "A stone standing three fingerbreadths - about six centimetres - above the floor of the chamber. Where it is is genuinely unresolved. The Rambam puts it in the west of the Kodesh HaKodashim; the Tosafos Yom Tov and the Tanchuma put it in the centre, the Tanchuma describing it as visible 'before the Aron', which reads as protruding eastward; Mishkenei Elyon says it is 'in the place of' the chamber. The book reconciles them by letting the stone spread about twelve amot square from the centre, and marks that reconciliation as study only. It is not in this model.", "he": "" },
+      "measurements": [ { "label": "Height above the floor", "value": "3 fingerbreadths, about 6 cm", "source": "Rambam, Beis HaBechirah 4:1" } ],
+      "dispute": { "positions": [
+        { "who": "Rambam, Beis HaBechirah 4:1", "holds": "in the west of the chamber" },
+        { "who": "Tosafos Yom Tov on Yoma 5:2; Tanchuma Kedoshim 10", "holds": "in the centre, visible before the Aron" },
+        { "who": "Mishkenei Elyon 150, 167", "holds": "in the place of the chamber" },
+        { "who": "The book author, study only", "holds": "a slab about 12 x 12 amot spreading from the centre, reconciling them" }
+      ] },
+      "sources": ["Rambam, Beis HaBechirah 4:1", "Yoma 53b", "Tosafos Yom Tov on Yoma 5:2", "Tanchuma Kedoshim 10", "Zohar Noach 70a-b", "Mishkenei Elyon 150, 167", "Lishchno Tidreshu pp. 187-189, 306"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.306", "SourceAssets/research/book-scene-requirements-20260907.md gap 14"],
+      "unlockedBy": ["paroches"],
+      "related": ["aron", "kodesh-hakodashim", "house-moved-west"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "who-may-enter",
+      "category": "people",
+      "name": { "en": "Who goes how far in", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "An ordinary kohen may enter the Sanctuary every day, for service. The Kohen Gadol enters the Kodesh HaKodashim once a year, on Yom Kippur, and nobody else ever does. All kohanim are warned not to be in the Sanctuary or the chamber beyond it when they are not in the middle of a service; this model's depicted service has no idle wandering for that reason.\n\nOne caution: the Rambam extends the verse's 'within the curtain' to the whole House, and the Kessef Mishneh questions that reading. Where the tour walks past those lines it says so.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Rambam, Biat HaMikdash 2:2", "holds": "'within the curtain' extends to the whole House" },
+        { "who": "Kessef Mishneh", "holds": "questions that extension" }
+      ] },
+      "sources": ["Vayikra 16:2", "Rambam, Biat HaMikdash 2:1, 2:2", "Rambam, Klei HaMikdash 5:11, 5:12", "Mishnah Yoma 1:2 (Yoma 14a)", "Keilim 1:8-9"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md - SVC-ORDINARY-KOHEN, SVC-KG-MAY-SERVE, SVC-KG-IN-HEIKHAL, SVC-KODESH-BOUNDARY, SVC-R-BIAT-2-2"],
+      "unlockedBy": ["heikhal", "paroches"],
+      "related": ["three-camps", "paroches", "lamp-service", "citation-corrections"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "three-camps",
+      "category": "people",
+      "name": { "en": "The three camps", "he": "שלש מחנות" },
+      "confidence": "certain",
+      "summary": { "en": "The camp of Israel is the whole city up to the Mount, including where the kohanim and Levites live around it. The camp of the Levites runs from the Mount's gate to the vestibules of the three inner gates - the outer court, the eleven amot behind the House, the lower chambers. The camp of the Shechinah begins at those vestibules and goes inward. A non-Jew and anyone bearing corpse impurity stop at the cheil; someone who has immersed but whose day has not ended stops at the outer court.", "he": "" },
+      "measurements": [],
+      "sources": ["Rambam, Beis HaBechirah 7:11-22", "Keilim 1:6-9", "Chagigah 26a", "Lishchno Tidreshu p. 356"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.356"],
+      "unlockedBy": ["soreg-and-cheil", "immersion"],
+      "related": ["cheil", "immersion-and-purity", "who-may-enter", "garments"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "immersion-and-purity",
+      "category": "people",
+      "name": { "en": "Immersion, and three things it is not", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Three separate ideas get run together and the sources keep them apart.\n\nCorpse impurity is not cured by a bath at all: it needs the purification water and the third and seventh days and then immersion and the ending of the day. A bath is not a universal reset.\n\nExclusion is graded by zone. The Rambam distinguishes what bars a person from the Mount, from the cheil, from the Women's Court and from the Israelite Court, and corpse impurity, someone who has immersed but whose day has not ended, and someone still owing an offering are not interchangeable.\n\nImmersion before service is its own requirement, described in Yoma for someone already pure. It must never be implemented as clearing an existing state of corpse impurity. Sanctifying hands and feet at the laver is a further and separate prerequisite that no immersion replaces.\n\nNo mikveh has been built in this model and the research gives no Third Temple location for one; where the book places mikvaot in the lower chambers, that placement is his own.", "he": "" },
+      "measurements": [],
+      "sources": ["Bamidbar 19:11-12, 19", "Rambam, Biat HaMikdash 3:3-7, 3:14", "Rambam, Biat HaMikdash 5:1-2", "Mishnah Yoma 3:3, 3:4", "Lishchno Tidreshu p. 324 (the mikvaot placements - the author's)"],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/halacha-and-service.md", "SourceAssets/experience-review/service-routes/service-route-spec.json - mikvah_entry and mikvah_exit unresolved_no_coordinate"],
+      "unlockedBy": ["immersion"],
+      "related": ["three-camps", "kiyor", "who-may-enter"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "garments",
+      "category": "people",
+      "name": { "en": "The priestly garments", "he": "בגדי כהונה" },
+      "confidence": "disputed",
+      "summary": { "en": "An ordinary kohen wears four garments: tunic, breeches, head covering and sash. The Kohen Gadol wears eight, and his Yom Kippur linen set - tunic, breeches, turban and sash - is a service-specific outfit for part of that day, not a replacement for everything he wears through it.\n\nSeveral points are open and must not be quietly decided. Whether the Kohen Gadol's sash is the same as an ordinary kohen's is disputed between the Rambam and others. The pomegranates on the hem of the robe are drawn both open-mouthed and closed. The Temple Institute holds two reconstructions of the ephod, one after the Rambam and one after Rashi, and they differ in how it sits. The modern identification of several of the breastplate stones is not settled. Even whether the words on the head plate run on one line or two is disputed.\n\nThere is no Kohen Gadol garment asset in this project at all. The figure in the service sequence wears a pilgrim material and says so.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Rambam and others", "holds": "differ on whether the Kohen Gadol's sash is the ordinary kohen's" },
+        { "who": "Reconstructions of the ephod", "holds": "differ after the Rambam and after Rashi" },
+        { "who": "The pomegranates and the head plate", "holds": "open or closed mouths; one line of engraving or two" }
+      ] },
+      "sources": ["Rambam, Klei HaMikdash ch. 9", "Rambam, Klei HaMikdash 8:1-3, 8:11", "Yechezkel 44:17-19 (needs a documented reconciliation with the wool question)", "Shemos 28"],
+      "receipts": ["SourceAssets/runtime-review/kohen-service/sources.md section 5", "SourceAssets/reference-ti/ (gitignored reference photographs)"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["song-and-clothing-chambers", "who-may-enter", "eating-kodshei-kodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "eating-kodshei-kodashim",
+      "category": "people",
+      "name": { "en": "Where the kohanim ate", "he": "" },
+      "confidence": "disputed",
+      "summary": { "en": "The most holy offerings are eaten in the upper chambers, which carry inner-court sanctity, and eaten in the four service garments. The garments are then left there and ordinary clothes put on before going out to the people. Nobody sits in the court except the kings of the house of David. That they ate standing at high tables, and that the Kohen Gadol alone sits to eat in the southern chamber, is the author's, and he himself records it as doubtful. The Metzudas Dovid includes all four chamber blocks rather than only the upper ones.", "he": "" },
+      "measurements": [],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 42:13 with Rashi, Mishkenei Elyon", "holds": "the upper chambers" },
+        { "who": "Metzudas Dovid", "holds": "all four blocks" },
+        { "who": "The book author", "holds": "standing, at high tables - recorded by him as a doubt" }
+      ] },
+      "sources": ["Yechezkel 42:13-14, 44:3 with Rashi", "Chagigah 2:7", "Yoma 68b-69b", "Zevachim 15b-16a, 23b, 56a", "Rambam, Klei HaMikdash 10:4-5; Biat HaMikdash 5:16-17; Beis HaBechirah 6:8", "Mishkenei Elyon 182, 186-187, 198", "Lishchno Tidreshu pp. 345-358"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.349"],
+      "unlockedBy": ["ezras-yisroel"],
+      "related": ["upper-chambers", "garments", "three-camps"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "upper-chambers",
+      "category": "courts",
+      "name": { "en": "The upper priestly chambers", "he": "לשכות העליונות" },
+      "confidence": "disputed",
+      "summary": { "en": "Two blocks a hundred amot by fifty at the north-west and south-west, three storeys, standing twenty amot clear of the House's side building, their floors at the level of the inner court, doors on the north and into the twenty-amah strip. Fifty amot of open court lie north of them and their east wall is a fifty-amah fence. The layout is certain; every height and storey number in the book is his own example. In this model the block is 98 by 46 at Z 405 - below the court level - about 24 amot high and without the pillars. A recorded gap.", "he": "" },
+      "measurements": [
+        { "label": "Each block", "value": "100 x 50 amot, 3 storeys", "source": "Yechezkel 42:1-2 with Rashi" },
+        { "label": "As built", "value": "98 x 46 amot at Z 405, about 24 high, no atikim", "source": "SourceAssets/research/book-scene-requirements-20260907.md section 7" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 42:1-8 with Rashi, Mishkenei Elyon 186-187, 198", "holds": "the layout" },
+        { "who": "The book author", "holds": "50 amot high, storeys about 10, pillars about 7 thick - 'for example'" }
+      ] },
+      "sources": ["Yechezkel 42:1-8 with Rashi", "Menachos 96a", "Mishkenei Elyon 186-187, 198", "Lishchno Tidreshu pp. 272-299"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 5"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["lower-chambers", "priestly-kitchen", "atikim", "eating-kodshei-kodashim"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "lower-chambers",
+      "category": "courts",
+      "name": { "en": "The lower chambers", "he": "לשכות התחתונות" },
+      "confidence": "disputed",
+      "summary": { "en": "Two blocks a hundred amot by fifty at the north-east and south-east, three storeys, at the level of the outer court, running east from the ends of the gate cells and leaving eleven amot to the east wall, with doors north and south and doors into the Court of Israel. That is the size and position. What they are FOR is not stated anywhere, and the book fills them - Sanhedrin, the lots, the fire chamber, mikvaot, the Kohen Gadol's chamber, the seals, the wood, the metzoraim, the nazirites, the oil and wine, seating for the pilgrims - and marks the filling as his own throughout. None of these blocks are in this model.", "he": "" },
+      "measurements": [
+        { "label": "Each block", "value": "100 x 50 amot, 3 storeys, 11 amot clear of the east wall", "source": "Yechezkel 42:9-12 with Rashi; the 11 amot from Tzuras HaBayis as adopted" },
+        { "label": "Height", "value": "45 amot - the author's, for illustration only", "source": "the book author" }
+      ],
+      "dispute": { "positions": [
+        { "who": "Yechezkel 42:9-12 with Rashi, Mishkenei Elyon 187, 197", "holds": "existence, size and position - certain" },
+        { "who": "The book author", "holds": "everything they are used for" }
+      ] },
+      "sources": ["Yechezkel 42:9-12 with Rashi", "Tzuras HaBayis", "Metzudas Dovid", "Mishkenei Elyon 184-187, 197", "Lishchno Tidreshu pp. 300-337"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 6"],
+      "unlockedBy": ["east-inner-gate"],
+      "related": ["gate-calendar", "lishkas-hagazis", "upper-chambers", "incense-compounding-authored"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "lishkas-hagazis",
+      "category": "courts",
+      "name": { "en": "Where the Sanhedrin sits", "he": "לשכת הגזית" },
+      "confidence": "authored",
+      "summary": { "en": "This is authored, and it should be labelled that way wherever it appears. The book puts the Great Sanhedrin of seventy-one on the third floor of the northern lower chambers at the east end, with a door out to the unconsecrated side, and the lots half in the holy area with a door into the inner court; the two courts of twenty-three at the Mount's east gate by the cheil and on the second floor of the southern lower chambers. The judges sit in a semicircle. The sources cited are about the institution, not about this building's plan.", "he": "" },
+      "measurements": [],
+      "sources": ["Sanhedrin 86b", "Yoma 25a", "Rambam, Sanhedrin 1:3", "Mishnah Middot 5:4", "Lishchno Tidreshu p. 316 - the author's suggestion"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.json row p.316 - status: author's suggestion"],
+      "unlockedBy": ["east-inner-gate"],
+      "related": ["lower-chambers"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "priestly-kitchen",
+      "category": "courts",
+      "name": { "en": "The priestly kitchen and the one-amah way in", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "The twenty-amah strip is inner court, and its western end on the north side is the kitchen where the sin offerings, guilt offerings and meal offerings were cooked. It is entered from the outer court by a sloping opening one amah wide at the end of the court wall, leading into a passage five amot by ten. The book also proposes a second opening from the inner court, and that one is his.", "he": "" },
+      "measurements": [ { "label": "Entry", "value": "a 1-amah sloped opening into a 5 x 10 amot passage", "source": "Yechezkel 42:4 with Rashi per R' Shemayah; Mishkenei Elyon 198" } ],
+      "sources": ["Yechezkel 42:3-4, 46:19-20 with Rashi", "Menachos 96a", "Sukkah 7b", "Rambam, Maaseh HaKorbanos 11:21-22", "Mishkenei Elyon 187, 198", "Lishchno Tidreshu pp. 276-290"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md gap 10"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["upper-chambers", "corner-courts"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "water-from-the-house",
+      "category": "precinct",
+      "name": { "en": "The water that comes out from under the threshold", "he": "" },
+      "confidence": "certain",
+      "summary": { "en": "Yechezkel 47:1-2 has water coming out from under the threshold of the House eastward and passing out by the southern gate. The book takes the southern inner gate as its way out, and that is the source point this scene would use. It is not modelled.", "he": "" },
+      "measurements": [],
+      "sources": ["Yechezkel 47:1-2", "Lishchno Tidreshu p. 340"],
+      "receipts": ["SourceAssets/research/book-scene-requirements-20260907.md section 9"],
+      "unlockedBy": ["north-gate-and-inner-wall"],
+      "related": ["gate-names", "inner-gates"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    },
+    {
+      "id": "method-and-limits",
+      "category": "method",
+      "name": { "en": "How to read this codex", "he": "" },
+      "confidence": "authored",
+      "summary": { "en": "Three things are worth knowing before trusting any entry here.\n\nFirst, the labels mean what they say. 'Certain' means the sources read for this project agree; it does not mean the matter is beyond argument, only that no cited authority in this pile disputes it. 'Disputed' names the disagreement. 'Authored' means the project made it up, and every 'authored' label in this file is a place where the model is more confident-looking than the evidence.\n\nSecond, a source about the Mishkan or the first two Temples is evidence for the institution, not automatic proof of a detail of the future House. The book itself works in three layers and only its Ketz HaYamin layer is a claim about this building.\n\nThird, 'unknown' is a result. It is not the same as 'permitted', and it is not an invitation to fill the gap. Things this project looked for and did not find are recorded as not found - the altar's own dimensions, the kiyor's size, any Women's Court, the order of the seven lamps, the identity of the smoke-raising herb, and a rabbinic approval of any of it.", "he": "" },
+      "measurements": [],
+      "sources": [],
+      "receipts": ["C:/Mikdash/GitHub/3rdbhmk/unreal/Research/halacha-and-service.md - the P / H / R / D evidence classes and the 'unknown is an explicit result' rule", "SourceAssets/research/book-scene-requirements-20260907.md - the certain / opinion / author status vocabulary"],
+      "unlockedBy": [],
+      "related": ["the-amah", "precinct-size", "lamp-order-authored", "no-ezras-nashim", "citation-corrections"],
+      "hebrewProse": "not-authored",
+      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+    }
+  ]
+}

@@ -1099,6 +1099,8 @@ def offline_check(spec=None):
             total += row['bytes']
             record = frozen.get(entry['key'])
             row['frozenMatch'] = bool(record and record['sha256'] == row['sha256'])
+            if not record:
+                result['problems'].append('source missing individual frozen hash: ' + entry['file'])
             if record and not row['frozenMatch']:
                 result['problems'].append('source changed since --freeze: ' + entry['file'])
             provenance = _provenance_path(entry)
@@ -1964,6 +1966,11 @@ class Soundscape(object):
                 'AmbientSound path silently; pass -SoundscapeAmbientFallback if a diagnostic '
                 'run without the runtime actor is genuinely wanted.' % cfg['class'])
 
+        existing_directors = [a.get_name() for a in self.actors.get_all_level_actors()
+                              if isinstance(a, cls)]
+        if existing_directors:
+            raise RuntimeError('Existing soundscape director(s); refusing doubled audio: %s'
+                               % existing_directors)
         actor = self.actors.spawn_actor_from_class(
             cls, ue.Vector(*[float(v) for v in cfg['location']]))
         if actor is None:
@@ -1977,12 +1984,17 @@ class Soundscape(object):
             self.set_prop(cfg['label'], actor, prop,
                           value if isinstance(value, bool) else (
                               int(value) if isinstance(value, int) else float(value)),
-                          required=False)
+                          required=True)
 
         emitters = []
         emitter_records = []
         for emitter in self.spec['emitters']:
             layer = self.spec['layers'][emitter['layer']]
+            # The live flock owns bird-event timing/location. Do not also schedule
+            # five unrelated bird callers when that binding is enabled.
+            if layer['runtimeLayer'] == 'BIRD' and cfg['properties'].get('bind_bird_flocks'):
+                self.receipt.setdefault('omittedScheduledBirdEmitters', []).append(emitter['label'])
+                continue
             struct = ue.MikdashSoundEmitter()
             sources = [w for w in (self._sound_for(k) for k in layer['sources']) if w is not None]
             if not sources:

@@ -58,6 +58,10 @@ SPEC_PATH = ROOT / 'Scripts' / 'release_tour.spec.json'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 
 GROUP_ORDER = ('actors', 'markers')
+RUNTIME_CONTENT = {
+    'MikdashTourGuide': ('tourContent', 'Content/Distribution/Tour/tour-stops.json'),
+    'MikdashCodex': ('codexContent', 'Content/Distribution/Tour/codex-entries.json'),
+}
 
 
 # --------------------------------------------------------------------------
@@ -469,7 +473,14 @@ class TourPlacement:
             actor.set_actor_label(label)
             actor.set_folder_path(self.spec['folder'])
             actor.set_editor_property('tags', [ue.Name(self.spec['actorTag'])])
+            source_key, runtime_path = RUNTIME_CONTENT[class_name]
+            if sha256_of(ROOT / runtime_path) != sha256_of(ROOT / self.spec[source_key]):
+                raise RuntimeError('Staged runtime content differs from reviewed source: ' + runtime_path)
+            actor.set_editor_property('content_relative_path', runtime_path)
+            if actor.get_editor_property('content_relative_path') != runtime_path:
+                raise RuntimeError('Runtime content path readback mismatch')
             placed.append({'label': label, 'class': class_name, 'kind': 'Actor',
+                           'runtimeContent': runtime_path,
                            'location': [0.0, 0.0, 0.0], 'rotation': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0],
                            'actor': actor})
         return {'actors': placed}
@@ -563,6 +574,12 @@ def place(load_target=True, groups=GROUP_ORDER, dry_run=False):
     if run.editor.get_game_world():
         raise RuntimeError('A game world is active; never mutate during play')
     class_report = run.require_classes()
+    if 'actors' in groups:
+        for source_key, runtime_path in RUNTIME_CONTENT.values():
+            if not (ROOT / runtime_path).is_file() or sha256_of(ROOT / runtime_path) != sha256_of(ROOT / spec[source_key]):
+                raise RuntimeError('Stage the reviewed tour JSON into ' + runtime_path + ' before native placement')
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages present; refuse before loading target')
     if load_target:
         if not run.levels.load_level(TARGET):
             raise RuntimeError('load_level failed for ' + TARGET)
@@ -653,6 +670,8 @@ def place(load_target=True, groups=GROUP_ORDER, dry_run=False):
             run.write_receipt()
 
         placed_records = [record for result in results.values() for record in result['actors']]
+        if run.receipt['errors'] or run.receipt['omissions']:
+            raise RuntimeError('Requested tour groups incomplete; refusing to save a partial tour')
         if dry_run:
             run.receipt['status'] = 'dry_run_complete_map_unchanged'
             return run.receipt
@@ -703,6 +722,17 @@ def place(load_target=True, groups=GROUP_ORDER, dry_run=False):
             else:
                 if row['class'] != record['class']:
                     raise RuntimeError('Reopened class differs for %s: %s' % (record['label'], row['class']))
+                actual = next(a for a in run.actors.get_all_level_actors() if a.get_actor_label() == record['label'])
+                entry['runtimeContent'] = actual.get_editor_property('content_relative_path')
+                if entry['runtimeContent'] != record['runtimeContent']:
+                    raise RuntimeError('Reopened runtime content path mismatch')
+                loaded = actual.reload_route() if record['class'] == 'MikdashTourGuide' else actual.reload_entries()
+                if not loaded:
+                    raise RuntimeError('Reopened actor cannot read staged content: ' + actual.get_load_error())
+                entry['loadedCount'] = actual.get_stop_count() if record['class'] == 'MikdashTourGuide' else actual.num()
+                expected_count = offline['stopCount'] if record['class'] == 'MikdashTourGuide' else offline['codexEntryCount']
+                if entry['loadedCount'] != expected_count:
+                    raise RuntimeError('Staged content count does not match reviewed source')
             readback.append(entry)
         run.receipt['reopenedReadback'] = readback
 
@@ -725,7 +755,12 @@ def place(load_target=True, groups=GROUP_ORDER, dry_run=False):
         run.receipt['protectedMapsUnchanged'] = all(
             sha256_of(disk_path(m, 'umap')) == value for m, value in protected.items())
         run.receipt['placedActorCount'] = sum(len(g['actors']) for g in run.receipt['placed'].values())
+        if not run.receipt['protectedMapsUnchanged']:
+            run.receipt['status'] = 'failed_protected_map_hash_mismatch'
+            run.receipt['errors'].append({'stage': 'final_verification', 'error': 'Protected map hashes changed'})
         run.write_receipt()
+        if not run.receipt['protectedMapsUnchanged']:
+            raise RuntimeError('Protected map hashes changed; inspect checkpoint and receipt')
 
 
 def _unreal_available():

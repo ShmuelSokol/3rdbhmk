@@ -1,0 +1,1588 @@
+{
+  "status": "tour_placed_saved_reopened_readback_matched",
+  "stamp": "20260908T142311093415Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "334b281c81821a789067cfcfd92658b209e6eaf4f50d2749bbbc2785c63254a9",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\ReviewCheckpoints\\Tour-20260908T142311093415Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_tour.spec.json",
+  "specSha256": "f2ecdfe1daf9481ebc31a56e019ef851ae3313a85467a11b60179f461aba37f8",
+  "offlineCheck": {
+    "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_tour.spec.json",
+    "specSha256": "f2ecdfe1daf9481ebc31a56e019ef851ae3313a85467a11b60179f461aba37f8",
+    "tourContent": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\tour-review\\tour-stops.json",
+    "tourContentSha256": "440714b0a0c4012ac6c84d10f72cc36de46cee51a0fecaf0e25d07df67529603",
+    "codexContent": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\tour-review\\codex-entries.json",
+    "codexContentSha256": "a317474869ef96b8cee1b63715876ba5182b888784070defb2a8131697d65fd3",
+    "stopCount": 18,
+    "stopKeys": [
+      "mount-and-house",
+      "immersion",
+      "soreg-and-cheil",
+      "east-outer-gate",
+      "outer-court",
+      "north-gate-and-inner-wall",
+      "east-inner-gate",
+      "ezras-yisroel",
+      "duchan",
+      "outer-altar",
+      "kiyor",
+      "twelve-steps",
+      "ulam",
+      "heikhal",
+      "menorah",
+      "shulchan",
+      "golden-altar",
+      "paroches"
+    ],
+    "routeWalkingLengthCm": 35663.766,
+    "routeWalkingLengthAmot": 713.28,
+    "routeProblems": [],
+    "codexEntryCount": 76,
+    "codexCountsByConfidence": {
+      "certain": 33,
+      "disputed": 33,
+      "authored": 10
+    },
+    "codexProblems": [],
+    "codexEntriesNoStopUnlocks": [
+      "method-and-limits"
+    ],
+    "stopsWithHebrewName": 18,
+    "stopsWithNarrationAudio": 0,
+    "ok": true
+  },
+  "runtimeClasses": {
+    "MikdashTourGuide": "<class 'MikdashTourGuide'>",
+    "MikdashCodex": "<class 'MikdashCodex'>"
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "groupsRequested": [
+    "actors",
+    "markers"
+  ],
+  "dryRun": false,
+  "preExistingTourActors": [],
+  "placed": {
+    "actors": {
+      "actors": [
+        {
+          "label": "RELEASE_TOUR_Guide",
+          "class": "MikdashTourGuide",
+          "kind": "Actor",
+          "runtimeContent": "Content/Distribution/Tour/tour-stops.json",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Codex",
+          "class": "MikdashCodex",
+          "kind": "Actor",
+          "runtimeContent": "Content/Distribution/Tour/codex-entries.json",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    "markers": {
+      "actors": [
+        {
+          "label": "RELEASE_TOUR_Marker_01_mount-and-house",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "mount-and-house",
+          "location": [
+            12000.0,
+            0.0,
+            4.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_02_immersion",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "immersion",
+          "location": [
+            11000.0,
+            900.0,
+            4.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_03_soreg-and-cheil",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "soreg-and-cheil",
+          "location": [
+            10000.0,
+            0.0,
+            4.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_04_east-outer-gate",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "east-outer-gate",
+          "location": [
+            7950.0,
+            0.0,
+            304.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_05_outer-court",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "outer-court",
+          "location": [
+            4974.0,
+            0.0,
+            304.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_06_north-gate-and-inner-wall",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "north-gate-and-inner-wall",
+          "location": [
+            0.0,
+            -4500.0,
+            304.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_07_east-inner-gate",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "east-inner-gate",
+          "location": [
+            3500.0,
+            0.0,
+            404.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_08_ezras-yisroel",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "ezras-yisroel",
+          "location": [
+            2300.0,
+            0.0,
+            504.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_09_duchan",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "duchan",
+          "location": [
+            1450.0,
+            0.0,
+            629.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_10_outer-altar",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "outer-altar",
+          "location": [
+            1150.0,
+            1250.0,
+            629.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_11_kiyor",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "kiyor",
+          "location": [
+            -1700.0,
+            1250.0,
+            629.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_12_twelve-steps",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "twelve-steps",
+          "location": [
+            -1300.0,
+            0.0,
+            629.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_13_ulam",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "ulam",
+          "location": [
+            -3000.0,
+            0.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_14_heikhal",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "heikhal",
+          "location": [
+            -3900.0,
+            0.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_15_menorah",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "menorah",
+          "location": [
+            -4950.0,
+            315.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_16_shulchan",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "shulchan",
+          "location": [
+            -4950.0,
+            -350.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_17_golden-altar",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "golden-altar",
+          "location": [
+            -4400.0,
+            0.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_18_paroches",
+          "class": "StaticMeshActor",
+          "kind": "StaticMeshActor",
+          "mesh": "/Engine/BasicShapes/Cylinder",
+          "key": "paroches",
+          "location": [
+            -5350.0,
+            0.0,
+            929.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.6,
+            1.6,
+            0.06
+          ]
+        }
+      ],
+      "mesh": "/Engine/BasicShapes/Cylinder",
+      "meshLocalBounds": {
+        "min": [
+          -50.0,
+          -50.0,
+          -50.0
+        ],
+        "max": [
+          50.0,
+          50.0,
+          50.0
+        ]
+      },
+      "markerRows": [
+        {
+          "label": "RELEASE_TOUR_Marker_01_mount-and-house",
+          "key": "mount-and-house",
+          "order": 1,
+          "jsonZ": 0.0,
+          "placedZ": 4.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_02_immersion",
+          "key": "immersion",
+          "order": 2,
+          "jsonZ": 0.0,
+          "placedZ": 4.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_03_soreg-and-cheil",
+          "key": "soreg-and-cheil",
+          "order": 3,
+          "jsonZ": 0.0,
+          "placedZ": 4.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_04_east-outer-gate",
+          "key": "east-outer-gate",
+          "order": 4,
+          "jsonZ": 300.0,
+          "placedZ": 304.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_05_outer-court",
+          "key": "outer-court",
+          "order": 5,
+          "jsonZ": 300.0,
+          "placedZ": 304.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_06_north-gate-and-inner-wall",
+          "key": "north-gate-and-inner-wall",
+          "order": 6,
+          "jsonZ": 300.0,
+          "placedZ": 304.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_07_east-inner-gate",
+          "key": "east-inner-gate",
+          "order": 7,
+          "jsonZ": 400.0,
+          "placedZ": 404.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_08_ezras-yisroel",
+          "key": "ezras-yisroel",
+          "order": 8,
+          "jsonZ": 500.0,
+          "placedZ": 504.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_09_duchan",
+          "key": "duchan",
+          "order": 9,
+          "jsonZ": 625.0,
+          "placedZ": 629.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_10_outer-altar",
+          "key": "outer-altar",
+          "order": 10,
+          "jsonZ": 625.0,
+          "placedZ": 629.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_11_kiyor",
+          "key": "kiyor",
+          "order": 11,
+          "jsonZ": 625.0,
+          "placedZ": 629.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_12_twelve-steps",
+          "key": "twelve-steps",
+          "order": 12,
+          "jsonZ": 625.0,
+          "placedZ": 629.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_13_ulam",
+          "key": "ulam",
+          "order": 13,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_14_heikhal",
+          "key": "heikhal",
+          "order": 14,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_15_menorah",
+          "key": "menorah",
+          "order": 15,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_16_shulchan",
+          "key": "shulchan",
+          "order": 16,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_17_golden-altar",
+          "key": "golden-altar",
+          "order": 17,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        },
+        {
+          "label": "RELEASE_TOUR_Marker_18_paroches",
+          "key": "paroches",
+          "order": 18,
+          "jsonZ": 925.0,
+          "placedZ": 929.0,
+          "zSource": "json-fallback"
+        }
+      ]
+    }
+  },
+  "omissions": {},
+  "errors": [],
+  "mapSaved": true,
+  "limitations": [
+    "Placement is geometric only. No visual, halachic, walking, collision-route or packaged acceptance is established by this script.",
+    "The walkability of the route between consecutive stops has NOT been verified by a native trace. Approach waypoints route the path through recorded gate and door openings on paper only.",
+    "The marker discs are wayfinding furniture, not part of the reconstruction. They are hidden on placement and the guide unhides only the current one at run time."
+  ],
+  "traceSelfTest": {
+    "probes": [
+      {
+        "name": "outer court at the proven sample point",
+        "xy": [
+          4974.0,
+          0.0
+        ],
+        "expectedZ": 300.0,
+        "z": 300.0,
+        "method": "json-fallback",
+        "result": "FALLBACK"
+      },
+      {
+        "name": "Court of Israel at the player start",
+        "xy": [
+          2100.0,
+          0.0
+        ],
+        "expectedZ": 500.0,
+        "z": 500.0,
+        "method": "json-fallback",
+        "result": "FALLBACK"
+      },
+      {
+        "name": "Heikhal floor",
+        "xy": [
+          -4400.0,
+          0.0
+        ],
+        "expectedZ": 925.0,
+        "z": 925.0,
+        "method": "json-fallback",
+        "result": "FALLBACK"
+      }
+    ],
+    "anyTraceHit": false
+  },
+  "mapSha256AfterSave": "841993842baeea0958a3a969165c1a002b2726c0ae407fd14f855b5fe0d1ee58",
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_TOUR_Guide",
+      "class": "MikdashTourGuide",
+      "folder": "Release/Tour",
+      "tags": [
+        "MikdashTourRelease"
+      ],
+      "meshPath": [],
+      "pose": {
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "poseErrorCm": 0.0,
+      "runtimeContent": "Content/Distribution/Tour/tour-stops.json",
+      "loadedCount": 18
+    },
+    {
+      "label": "RELEASE_TOUR_Codex",
+      "class": "MikdashCodex",
+      "folder": "Release/Tour",
+      "tags": [
+        "MikdashTourRelease"
+      ],
+      "meshPath": [],
+      "pose": {
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "poseErrorCm": 0.0,
+      "runtimeContent": "Content/Distribution/Tour/codex-entries.json",
+      "loadedCount": 76
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_01_mount-and-house",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "mount-and-house"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          12000.0,
+          0.0,
+          4.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          11920.0,
+          -80.0,
+          1.0
+        ],
+        "max": [
+          12080.0,
+          80.0,
+          7.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_02_immersion",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "immersion"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          11000.0,
+          900.0,
+          4.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          10920.0,
+          820.0,
+          1.0
+        ],
+        "max": [
+          11080.0,
+          980.0,
+          7.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_03_soreg-and-cheil",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "soreg-and-cheil"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          10000.0,
+          0.0,
+          4.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          9920.0,
+          -80.0,
+          1.0
+        ],
+        "max": [
+          10080.0,
+          80.0,
+          7.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_04_east-outer-gate",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "east-outer-gate"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          7950.0,
+          0.0,
+          304.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          7870.0,
+          -80.0,
+          301.0
+        ],
+        "max": [
+          8030.0,
+          80.0,
+          307.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_05_outer-court",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "outer-court"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          4974.0,
+          0.0,
+          304.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          4894.0,
+          -80.0,
+          301.0
+        ],
+        "max": [
+          5054.0,
+          80.0,
+          307.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_06_north-gate-and-inner-wall",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "north-gate-and-inner-wall"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          0.0,
+          -4500.0,
+          304.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -80.0,
+          -4580.0,
+          301.0
+        ],
+        "max": [
+          80.0,
+          -4420.0,
+          307.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_07_east-inner-gate",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "east-inner-gate"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          3500.0,
+          0.0,
+          404.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          3420.0,
+          -80.0,
+          401.0
+        ],
+        "max": [
+          3580.0,
+          80.0,
+          407.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_08_ezras-yisroel",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "ezras-yisroel"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          2300.0,
+          0.0,
+          504.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          2220.0,
+          -80.0,
+          501.0
+        ],
+        "max": [
+          2380.0,
+          80.0,
+          507.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_09_duchan",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "duchan"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          1450.0,
+          0.0,
+          629.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          1370.0,
+          -80.0,
+          626.0
+        ],
+        "max": [
+          1530.0,
+          80.0,
+          632.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_10_outer-altar",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "outer-altar"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          1150.0,
+          1250.0,
+          629.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          1070.0,
+          1170.0,
+          626.0
+        ],
+        "max": [
+          1230.0,
+          1330.0,
+          632.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_11_kiyor",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "kiyor"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -1700.0,
+          1250.0,
+          629.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -1780.0,
+          1170.0,
+          626.0
+        ],
+        "max": [
+          -1620.0,
+          1330.0,
+          632.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_12_twelve-steps",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "twelve-steps"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -1300.0,
+          0.0,
+          629.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -1380.0,
+          -80.0,
+          626.0
+        ],
+        "max": [
+          -1220.0,
+          80.0,
+          632.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_13_ulam",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "ulam"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -3000.0,
+          0.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -3080.0,
+          -80.0,
+          926.0
+        ],
+        "max": [
+          -2920.0,
+          80.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_14_heikhal",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "heikhal"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -3900.0,
+          0.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -3980.0,
+          -80.0,
+          926.0
+        ],
+        "max": [
+          -3820.0,
+          80.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_15_menorah",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "menorah"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -4950.0,
+          315.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5030.0,
+          235.0,
+          926.0
+        ],
+        "max": [
+          -4870.0,
+          395.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_16_shulchan",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "shulchan"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -4950.0,
+          -350.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5030.0,
+          -430.0,
+          926.0
+        ],
+        "max": [
+          -4870.0,
+          -270.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_17_golden-altar",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "golden-altar"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -4400.0,
+          0.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -4480.0,
+          -80.0,
+          926.0
+        ],
+        "max": [
+          -4320.0,
+          80.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    },
+    {
+      "label": "RELEASE_TOUR_Marker_18_paroches",
+      "class": "StaticMeshActor",
+      "folder": "Release/Tour/Markers",
+      "tags": [
+        "MikdashTourRelease",
+        "MikdashTourMarker",
+        "paroches"
+      ],
+      "meshPath": [
+        "/Engine/BasicShapes/Cylinder"
+      ],
+      "pose": {
+        "location": [
+          -5350.0,
+          0.0,
+          929.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.6,
+          1.6,
+          0.06
+        ]
+      },
+      "worldBoundsCm": {
+        "min": [
+          -5430.0,
+          -80.0,
+          926.0
+        ],
+        "max": [
+          -5270.0,
+          80.0,
+          932.0
+        ]
+      },
+      "poseErrorCm": 0.0
+    }
+  ],
+  "mapSha256After": "841993842baeea0958a3a969165c1a002b2726c0ae407fd14f855b5fe0d1ee58",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 20
+}

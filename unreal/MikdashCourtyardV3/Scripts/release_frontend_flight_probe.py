@@ -1,6 +1,6 @@
 """Bounded frontend state and dove flight test; no map writes or UI injection."""
 from pathlib import Path
-import hashlib,json,time
+import hashlib,json,time,os,re
 from datetime import datetime,timezone
 import unreal as u
 ROOT=Path(__file__).resolve().parents[1]
@@ -22,6 +22,18 @@ state=dict(start=time.monotonic(),phase='world',at=time.monotonic(),stopping=Fal
 settings=u.get_default_object(u.load_class(None,'/Script/UnrealEd.LevelEditorPlaySettings'))
 old_mouse=settings.get_editor_property('GameGetsMouseControl')
 old_throttle=u.SystemLibrary.get_console_variable_int_value('Slate.bAllowThrottling')
+command_line=u.SystemLibrary.get_command_line()
+prefix_match=re.search(r'-TestSavePrefix=(AstraProbe_[A-Za-z0-9_]+)',command_line)
+assert prefix_match,'Require a unique -TestSavePrefix=AstraProbe_<stamp> and Game ini overrides'
+test_prefix=prefix_match.group(1)
+for section,key,value in [('MikdashSaveSystem','SlotNamePrefix',test_prefix),('MikdashSettingsSubsystem','SaveSlot',test_prefix+'_Settings')]:
+ assert ('[/Script/MikdashRuntime.'+section+']:'+key+'='+value) in command_line,'Missing save-isolation ini override'
+save_roots=[ROOT/'Saved/SaveGames',Path(os.environ['LOCALAPPDATA'])/'MikdashCourtyardV3/Saved/SaveGames']
+def user_save_hashes():
+ return {str(p):hashlib.sha256(p.read_bytes()).hexdigest() for folder in save_roots
+         if folder.exists() for p in folder.glob('*.sav') if not p.name.startswith('AstraProbe_')}
+original_saves=user_save_hashes()
+report['saveIsolation']=dict(testPrefix=test_prefix,originalSaveFileCount=len(original_saves))
 def xyz(v):return [v.x,v.y,v.z]
 def write():out.write_text(json.dumps(report,indent=2)+'\n')
 def phase(name):
@@ -39,6 +51,8 @@ def tick(dt):
    if world and now-state['at']<10:return
    if world:report['errors'].append('PIE teardown timeout')
    report['pieEnded']=world is None;report['mapBytesUnchanged']=sha()==report['mapShaBefore']
+   report['saveIsolation']['originalSavesUnchanged']=user_save_hashes()==original_saves
+   if not report['saveIsolation']['originalSavesUnchanged']:report['errors'].append('Original save files changed')
    for restore in (lambda:settings.set_editor_property('GameGetsMouseControl',old_mouse),lambda:u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling '+str(old_throttle))):
     try:restore()
     except Exception as exc:report['errors'].append('Cleanup: '+repr(exc))
@@ -54,6 +68,8 @@ def tick(dt):
    front=u.MikdashFrontEnd.get(world)
    if front is None or not front.is_front_end_visible():return
    state['front']=front
+   saves=u.MikdashSaveSystem.get(world)
+   assert all(str(slot.slot_name).startswith(test_prefix+'_') for slot in saves.get_slot_infos(True)),'Save slot isolation did not reach live subsystem'
    assert c.is_walkthrough_menu_open() and u.GameplayStatics.is_game_paused(world)
    front.show_settings();phase('settings');return
   if state['phase']=='settings':
@@ -131,6 +147,25 @@ def tick(dt):
   if state['phase']=='final_state':
    assert not c.is_walkthrough_menu_open() and not u.GameplayStatics.is_game_paused(world)
    assert not state['front'].is_front_end_visible()
+   if '-testtour' in u.SystemLibrary.get_command_line().lower():
+    guides=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashTourGuide))
+    books=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCodex))
+    assert len(guides)==1 and len(books)==1,'Missing or duplicated tour/codex'
+    guide=guides[0];book=books[0]
+    assert guide.is_route_loaded() and guide.get_stop_count()==18,'Tour route not loaded'
+    assert book.is_loaded() and book.num()==76,'Codex not loaded'
+    assert 'Content/Distribution/Tour/' in guide.get_content_path().replace('\\','/'),'Tour using development path'
+    assert 'Content/Distribution/Tour/' in book.get_content_path().replace('\\','/'),'Codex using development path'
+    assert state['front'].is_guided_tour_available(),'Frontend tour action unbound'
+    state['front'].request_guided_tour();assert guide.is_tour_running(),'Tour menu request did not start tour'
+    guide.pause_tour();assert guide.is_tour_paused(),'Tour did not pause'
+    guide.resume_tour();assert not guide.is_tour_paused(),'Tour did not resume'
+    guide.toggle_codex_panel();assert guide.is_codex_panel_visible(),'Codex panel did not open'
+    guide.toggle_codex_panel();assert not guide.is_codex_panel_visible(),'Codex panel did not close'
+    guide.leave_tour();assert not guide.is_tour_running(),'Tour did not end'
+    report['tour']=dict(stops=guide.get_stop_count(),codexEntries=book.num(),
+      transitions=['menu request','pause','resume','open codex','close codex','leave'],
+      scope='Live API interaction and staged content paths; route walking, narration and packaged readback remain unverified')
    if '-testintegratedsystems' in u.SystemLibrary.get_command_line().lower():
     crowds=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCrowdField))
     effects=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashFXDirector))

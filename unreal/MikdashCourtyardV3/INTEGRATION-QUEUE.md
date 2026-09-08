@@ -43,7 +43,7 @@ Order chosen so that anything reading positions from the map runs after what it 
  8. [x] release_fx.py               — director/materials saved/reopened; live/visual review pending. Service cue wiring remains dependent on service adoption.
  9. [ ] release_surface_detail.py   — wear goes on top of everything
 10. [ ] release_sky_tod.py          — lighting last so it is tuned against the final scene
-11. [ ] release_tour.py             — markers at final positions
+11. [x] release_tour.py             — guide/codex plus18 markers saved/reopened on legacy50 geometry;18/76 entries reload from staged Content/Distribution/Tour. Runtime interaction and48cm relocation remain separate.
 12. [ ] release_intro_sequence.py   — camera path against the final scene
 13. [ ] Front-end subsystem/controller integration — automatic GameInstance subsystem; no separate release_frontend.py or startup-map change
 14. [ ] release_localization.py

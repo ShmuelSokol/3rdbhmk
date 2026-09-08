@@ -1,0 +1,322 @@
+{
+  "status": "passed_intro_flight_ascent_pause_exact_return_visual_pending",
+  "mapShaBefore": "dc575d8e731ce1d10de79b4313eaeca3518460fabc022a8d11fb4f17ad3f6c31",
+  "errors": [],
+  "samples": [
+    {
+      "phase": "forward",
+      "wallSeconds": 0.07800000000861473,
+      "gameSeconds": 0.06308230012655258,
+      "ticks": 1,
+      "position": [
+        2100.0,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.20300000000861473,
+      "gameSeconds": 0.14341279864311218,
+      "ticks": 2,
+      "position": [
+        2129.0384504636354,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        361.48724332451786,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.2970000000204891,
+      "gameSeconds": 0.2583412006497383,
+      "ticks": 3,
+      "position": [
+        2230.022020829788,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        878.665052354337,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.5470000000204891,
+      "gameSeconds": 0.570615004748106,
+      "ticks": 10,
+      "position": [
+        2729.2829724170533,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 0.8590000000258442,
+      "gameSeconds": 0.8919815048575401,
+      "ticks": 20,
+      "position": [
+        3307.7426726140347,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1799.9999999999998,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 1.187000000005355,
+      "gameSeconds": 1.2281339019536972,
+      "ticks": 30,
+      "position": [
+        3912.8169873871175,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    },
+    {
+      "phase": "forward",
+      "wallSeconds": 1.4060000000172295,
+      "gameSeconds": 1.45106590539217,
+      "ticks": 40,
+      "position": [
+        4314.094593576368,
+        0.0,
+        814.0001907348633
+      ],
+      "velocity": [
+        1800.0,
+        0.0,
+        0.0
+      ],
+      "paused": false,
+      "menuOpen": false,
+      "moveInputIgnored": false
+    }
+  ],
+  "scope": "Native frontend transitions and dove movement/pause/return; visual, physical keyboard and resident behavior are separate",
+  "flightEntry": "direct_toggle_during_intro",
+  "saveIsolation": {
+    "testPrefix": "AstraProbe_Floors02",
+    "originalSaveFileCount": 0,
+    "originalSavesUnchanged": true
+  },
+  "candidateShaderErrors": [],
+  "candidateMaterialStatistics": "<Struct 'MaterialStatistics' (0x000001AA5034EC20) {num_vertex_shader_instructions: 148, num_pixel_shader_instructions: 341, num_samplers: 4, num_vertex_texture_samples: 0, num_pixel_texture_samples: 4, num_virtual_texture_samples: 0, num_uv_scalars: 0, num_interpolator_scalars: 0}>",
+  "frontendTransitions": [
+    "main",
+    "settings",
+    "main",
+    "preparation",
+    "main",
+    "resume"
+  ],
+  "introPlaybackRoute": "native",
+  "introMoveInputInitiallyIgnored": true,
+  "flightRequestSkippedIntro": true,
+  "walkerClass": "/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C",
+  "walkingStart": [
+    2100.0,
+    0.0,
+    598.0001907348633
+  ],
+  "flightOwnsView": true,
+  "birdClass": "/Script/MikdashRuntime.MikdashDovePawn",
+  "forwardDisplacement": [
+    2322.8496933497754,
+    0.0,
+    0.0
+  ],
+  "riseCm": 1598.8655946748677,
+  "pauseDriftCm": 0.0,
+  "returnErrorCm": 0.0,
+  "walkerCollisionEnabled": true,
+  "tour": {
+    "stops": 18,
+    "codexEntries": 76,
+    "transitions": [
+      "menu request",
+      "pause",
+      "resume",
+      "open codex",
+      "close codex",
+      "leave"
+    ],
+    "scope": "Live API interaction and staged content paths; route walking, narration and packaged readback remain unverified"
+  },
+  "integratedSystems": {
+    "crowdSeeded": 240,
+    "crowdInstances": 240,
+    "crowdRefused": 0,
+    "groundTraceMisses": 0,
+    "zones": [
+      70,
+      51,
+      101,
+      6,
+      5,
+      7
+    ],
+    "liveFxCards": 201,
+    "fxStatus": "293 cards planned, 42 built on the first frame, 7 lamp lights, 3 shafts. Outer altar fire continuous; ketores is an event.",
+    "scope": "Live presence and activity; appearance, paths and performance not accepted"
+  },
+  "diagnosticSubject": "courtyard-floors",
+  "diagnosticCameraPostProcessBlendWeight": 0.0,
+  "diagnosticSkylights": [
+    {
+      "label": "V2 skylight",
+      "intensity": "1.0",
+      "light_color": "<Struct 'Color' (0x000001ABA1FF48B8) {b: 255, g: 255, r: 255, a: 255}>",
+      "source_type": "<SkyLightSourceType.SLS_CAPTURED_SCENE: 0>",
+      "cubemap": "None",
+      "real_time_capture": "True",
+      "visible": "True",
+      "cast_shadows": "True"
+    }
+  ],
+  "diagnosticStill": {
+    "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T164151Z.png",
+    "cameraCm": [
+      6000.0,
+      3500.0,
+      468.0
+    ],
+    "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+    "bytes": 1634630,
+    "sha256": "15e096d0a95b14a95671ddae9f39b8b85b194af0a362274f81773927b30ad563"
+  },
+  "floorComparison": [
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T164130Z.png",
+      "cameraCm": [
+        6000.0,
+        3500.0,
+        468.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1080159,
+      "sha256": "1148251a67fb692e23e609de62ee026f5fe7e59f87eae08e404a1eae7e0d430d"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\runtime-diagnostic-20260908T164151Z.png",
+      "cameraCm": [
+        6000.0,
+        3500.0,
+        468.0
+      ],
+      "scope": "Actual PIE view after 20 seconds; derived-data barrier NOT completed, lighting/quality acceptance pending",
+      "bytes": 1634630,
+      "sha256": "15e096d0a95b14a95671ddae9f39b8b85b194af0a362274f81773927b30ad563"
+    }
+  ],
+  "floorMeshes": [
+    "/Game/MikdashV3/Architecture/architecture_SM_0071_floor_Ezras_Kohanim_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0129_floor_Outer_court_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0130_floor_Inner_court_clear_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0179_floor_Outer_E_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0196_floor_Outer_E_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0197_floor_Outer_E_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0204_floor_Outer_E_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0211_floor_Outer_E_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0229_floor_Outer_E_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0230_floor_Outer_E_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0237_floor_Outer_E_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0244_floor_Outer_E_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0275_floor_Outer_N_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0292_floor_Outer_N_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0293_floor_Outer_N_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0300_floor_Outer_N_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0307_floor_Outer_N_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0325_floor_Outer_N_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0326_floor_Outer_N_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0333_floor_Outer_N_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0340_floor_Outer_N_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0376_floor_Outer_S_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0393_floor_Outer_S_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0394_floor_Outer_S_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0401_floor_Outer_S_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0408_floor_Outer_S_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0426_floor_Outer_S_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0427_floor_Outer_S_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0434_floor_Outer_S_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0441_floor_Outer_S_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0478_floor_Inner_E_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0495_floor_Inner_E_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0496_floor_Inner_E_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0503_floor_Inner_E_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0510_floor_Inner_E_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0528_floor_Inner_E_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0529_floor_Inner_E_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0536_floor_Inner_E_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0543_floor_Inner_E_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0571_floor_Inner_N_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0588_floor_Inner_N_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0589_floor_Inner_N_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0596_floor_Inner_N_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0603_floor_Inner_N_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0621_floor_Inner_N_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0622_floor_Inner_N_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0629_floor_Inner_N_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0636_floor_Inner_N_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0664_floor_Inner_S_vestibule_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0681_floor_Inner_S_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0682_floor_Inner_S_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0689_floor_Inner_S_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0696_floor_Inner_S_cell_floor_1_2",
+    "/Game/MikdashV3/Architecture/architecture_SM_0714_floor_Inner_S_continuous_cell_doorway_floor",
+    "/Game/MikdashV3/Architecture/architecture_SM_0715_floor_Inner_S_cell_floor_1_0",
+    "/Game/MikdashV3/Architecture/architecture_SM_0722_floor_Inner_S_cell_floor_1_1",
+    "/Game/MikdashV3/Architecture/architecture_SM_0729_floor_Inner_S_cell_floor_1_2"
+  ],
+  "floorMaterialCandidate": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm.M_JerusalemFloorSlabs_500cm",
+  "floorAssetHashes": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\JerusalemFloorSlabsV1\\M_JerusalemFloorSlabs_500cm.uasset": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\T_JerusalemPaving_BaseColor.uasset": "d3f46754c34de48e1642eb9efc215c7c752c2d1c3ae1fc863d4112adee09ded7"
+  },
+  "pieEnded": true,
+  "mapBytesUnchanged": true
+}

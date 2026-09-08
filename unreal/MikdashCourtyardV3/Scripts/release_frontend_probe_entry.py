@@ -1,12 +1,14 @@
 """ExecCmds entry wrapper: shut down even if probe preflight fails before its tick loop."""
 import json
 import runpy
+import sys
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 import unreal
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'Scripts'))
 try:
     runpy.run_path(str(ROOT / 'Scripts/release_frontend_flight_probe.py'))
 except Exception:

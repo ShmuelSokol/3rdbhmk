@@ -61,6 +61,7 @@ def graph_snapshot(u, material):
             row['texture'] = t.get_path_name().split('.')[0]
             row['srgb'] = t.get_editor_property('srgb')
             row['address'] = [str(t.get_editor_property(k)) for k in ('address_x', 'address_y')]
+            row['powerOfTwoMode'] = str(t.get_editor_property('power_of_two_mode'))
         rows[n.get_name()] = row
     expected = {'MaterialExpressionWorldPosition':1, 'MaterialExpressionCustom':1,
                 'MaterialExpressionTextureSample':1, 'MaterialExpressionConstant':2}
@@ -76,6 +77,8 @@ def graph_snapshot(u, material):
     t = rows[sample]
     if t['texture'] != TEXTURE or not t['srgb'] or t['address'] != [str(u.TextureAddress.TA_MIRROR)] * 2 or uv not in t['inputs']:
         raise RuntimeError('Texture/sRGB/address/UV mismatch')
+    if t['powerOfTwoMode'] != str(u.TexturePowerOfTwoSetting.STRETCH_TO_POWER_OF_TWO):
+        raise RuntimeError('Native mip-build resampling policy changed')
     outputs = {}
     for key in ('MP_BASE_COLOR', 'MP_ROUGHNESS', 'MP_METALLIC'):
         n = ml.get_material_property_input_node(material, getattr(u.MaterialProperty, key))

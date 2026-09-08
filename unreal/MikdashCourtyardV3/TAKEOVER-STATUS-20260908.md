@@ -1,5 +1,11 @@
 # Astra takeover after Claude finished
 
+## Latest courtyard floor checkpoint — 8 September, 16:44 UTC
+
+Main SHA480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0: platform plus57 reviewed courtyard/gateway slabs now carry the user-directed Jerusalem paving. Slab shader keeps the pattern on tops and plain limestone on thin edges. Exact actor/material allowlist, source/geometry/collision/gold-floor preservation, saved/reopened native receipt164354150280. Actual PIE164034569694 rendered both views after targeted shader compilation; no errors,57matches, scene and user saves unchanged. Root inspected164130/164151. Fine relief remains albedo-only, mirror repetition and amber/clipped lighting remain, and crowd quality is not accepted. No fresh package yet.
+
+48cm candidate now also contains the saved/reopened8TI+11Aron/menorah fitting conversions. Tour waits on the prepared frame descriptor. Main paving has not been ported into candidate; do not promote it yet.
+
 ## Latest paving checkpoint — 8 September, 16:29 UTC
 
 Full verification after this batch:8/8 checks,29/29 standalone math suites,185 Python scripts,43 specs,644 receipts. Actual UBT compiled/linked seven actions in42.84s. Logs outside project: Astra-Jerusalem-Population-FullGate-20260908.log and verify-ubt-0r6wtv9o.log.61 historical failure warnings retained. This verifies code/build and saved paving evidence; candidate48 native population behavior and packaged runtime remain untested.

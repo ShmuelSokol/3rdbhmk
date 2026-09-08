@@ -23,7 +23,7 @@ settings=u.get_default_object(u.load_class(None,'/Script/UnrealEd.LevelEditorPla
 old_mouse=settings.get_editor_property('GameGetsMouseControl')
 old_throttle=u.SystemLibrary.get_console_variable_int_value('Slate.bAllowThrottling')
 command_line=u.SystemLibrary.get_command_line()
-comparison_flags=[f for f in ('-comparepaving','-comparejerusalempaving','-comparedaylight') if f in command_line.lower()]
+comparison_flags=[f for f in ('-comparepaving','-comparejerusalempaving','-comparefloors','-comparedaylight') if f in command_line.lower()]
 assert len(comparison_flags)<=1,'Run one isolated comparison at a time'
 prefix_match=re.search(r'-TestSavePrefix=(AstraProbe_[A-Za-z0-9_]+)',command_line)
 assert prefix_match,'Require a unique -TestSavePrefix=AstraProbe_<stamp> and Game ini overrides'
@@ -192,7 +192,7 @@ def tick(dt):
      assert report['diagnosticSunTemperatureAfter']==6500.0
      report['diagnosticSunScope']='PIE-only color comparison; no map or lighting adoption'
     c.set_control_rotation(u.Rotator(pitch=0,yaw=180,roll=0))
-    if any(flag in u.SystemLibrary.get_command_line().lower() for flag in ('-diagnosticheikhal','-diagnosticparoches','-diagnosticmount','-diagnostickotel','-diagnosticpaving')):
+    if any(flag in u.SystemLibrary.get_command_line().lower() for flag in ('-diagnosticheikhal','-diagnosticparoches','-diagnosticmount','-diagnostickotel','-diagnosticpaving','-diagnosticfloors')):
      cameras=list(u.GameplayStatics.get_all_actors_of_class(world,u.CameraActor))
      assert cameras,'No PIE camera actor for sanctuary diagnostic'
      camera=cameras[0]
@@ -205,6 +205,7 @@ def tick(dt):
      mount='-diagnosticmount' in u.SystemLibrary.get_command_line().lower()
      kotel='-diagnostickotel' in u.SystemLibrary.get_command_line().lower()
      paving='-diagnosticpaving' in u.SystemLibrary.get_command_line().lower()
+     floors='-diagnosticfloors' in command_line.lower()
      position=u.Vector(-5100,0,1081) if paroches else u.Vector(-4000,0,1093)
      if paroches:component.set_field_of_view(55.0)
      if mount:
@@ -216,12 +217,16 @@ def tick(dt):
      if paving:
       position=u.Vector(10500,12000,180)
       component.set_field_of_view(80.0)
+     if floors:
+      position=u.Vector(6000,3500,468)
+      component.set_field_of_view(80.0)
      camera.set_actor_location(position,False,True)
-     camera.set_actor_rotation(u.Rotator(pitch=-15 if paving else (-25 if kotel else (-90 if mount else 0)),yaw=-135 if paving else (-9.79 if kotel else (0 if mount else 180)),roll=0),True)
+     camera.set_actor_rotation(u.Rotator(pitch=-15 if paving or floors else (-25 if kotel else (-90 if mount else 0)),yaw=-135 if paving else (-9.79 if kotel else (0 if mount else 180)),roll=0),True)
      c.set_view_target_with_blend(camera,0.0)
      state['diagnosticExpectedCamera']=position
      report['diagnosticSubject']='kotel-platform-join' if kotel else ('mount' if mount else ('paroches' if paroches else 'heikhal'))
      if paving:report['diagnosticSubject']='mount-paving'
+     if floors:report['diagnosticSubject']='courtyard-floors'
      report['diagnosticCameraPostProcessBlendWeight']=0.0
      report['diagnosticSkylights']=[]
      for sky in u.GameplayStatics.get_all_actors_of_class(world,u.SkyLight):
@@ -274,6 +279,29 @@ def tick(dt):
       assert len(report['pavingAssetHashes'])==2,'Need exact material and texture bytes'
      report['pavingComparisonScope']='PIE-only component override; no shared asset or saved map change'
      phase('diagnostic_warm');return
+   if '-comparefloors' in command_line.lower():
+    report.setdefault('floorComparison',[]).append(dict(report['diagnosticStill']))
+    if len(report['floorComparison'])==1:
+     import release_jerusalem_floor_slabs as slabs
+     floor_plan=slabs.plan();rows={r['mesh']:r for r in floor_plan['rows']}
+     matched={}
+     for actor in u.GameplayStatics.get_all_actors_of_class(world,u.StaticMeshActor):
+      comp=actor.get_component_by_class(u.StaticMeshComponent);mesh=comp.get_editor_property('static_mesh')
+      package=mesh.get_path_name().split('.')[0] if mesh else ''
+      if package not in rows:continue
+      assert package not in matched,'Duplicate floor mesh'
+      row=rows[package]
+      assert actor.get_name()==row['actorName'] and comp.get_name()==row['componentName'],'Floor identity changed'
+      assert comp.get_num_materials()==1 and comp.get_material(0).get_path_name()==row['nativeMaterials'][0],'Original floor material changed'
+      matched[package]=comp
+     assert set(matched)==set(rows) and len(matched)==57,'Missing exact floor scope'
+     material=u.load_asset(slabs.MATERIAL);assert material
+     for comp in matched.values():
+      comp.set_material(0,material);assert comp.get_material(0)==material
+     report['floorMeshes']=sorted(matched)
+     report['floorMaterialCandidate']=material.get_path_name()
+     report['floorAssetHashes']={str(slabs.assetfile(p)):slabs.sha(slabs.assetfile(p)) for p in (slabs.MATERIAL,slabs.TEXTURE)}
+     phase('diagnostic_warm');return
    if '-comparedaylight' in u.SystemLibrary.get_command_line().lower():
     report.setdefault('daylightComparison',[]).append(dict(report['diagnosticStill']))
     if len(report['daylightComparison'])==1:
@@ -299,6 +327,12 @@ def tick(dt):
   else:finish('failed_exception')
 handle=None
 try:
+ if '-comparefloors' in command_line.lower():
+  import release_jerusalem_floor_slabs as slabs
+  candidate=u.load_asset(slabs.MATERIAL);assert candidate
+  report['candidateShaderErrors']=list(u.MaterialEditingLibrary.recompile_material(candidate))
+  assert not report['candidateShaderErrors'],'Floor material compile failed'
+  report['candidateMaterialStatistics']=str(u.MaterialEditingLibrary.get_statistics(candidate))
  if '-comparejerusalempaving' in command_line.lower():
   candidate=u.load_asset('/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm')
   assert candidate is not None,'Missing paving candidate'

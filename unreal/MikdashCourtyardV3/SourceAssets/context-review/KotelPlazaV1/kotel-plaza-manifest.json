@@ -1,0 +1,262 @@
+{
+ "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_PLACEMENT_PENDING",
+ "version": 1,
+ "stamp": "20260909T232226565455Z",
+ "generatorSha256": "99a35b8f75382ee538fe74d103fb4a20913887ec644549b7d81781dd26e12ddd",
+ "userInstruction": "i also want you to restore the old city to its current modern day layout... with kotel plaza and then houses up to that point",
+ "source": {
+  "design": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\mount-platform-design.json",
+  "designSha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+  "jerusalemJson": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+  "jerusalemJsonSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+  "plazaOsmId": 26492734,
+  "wallOsmId": 817206833,
+  "alignment": "UEcm = ((x_amot + 17.509700315687695) * 50, (z_amot -0.551349644938533) * 50) - baked once by export_buildings.py, reused here, never re-applied",
+  "reuse": "Every mesh and material is the PrecinctPlazaV1 set already imported and receipted on 9 September 2026. This generator imports nothing."
+ },
+ "sourced": {
+  "plazaFootprint": "OSM way 26492734 \"Western Wall Plaza\", highway=pedestrian, 31 vertices",
+  "plazaAreaM2": 5589.61,
+  "plazaBboxCm": [
+   -23414.5,
+   11907.9,
+   -14107.5,
+   25039.4
+  ],
+  "plazaExtentM": [
+   93.1,
+   131.3
+  ],
+  "wallFootprint": "OSM way 817206833 \"Western Wall\", building=wall, height=20",
+  "wallLengthCm": 9095.7,
+  "wallGuardCm": 200.0,
+  "groundDem": "257 x 257 at 50 source amot (25 m), reference elevation 748.0 m a.s.l.",
+  "groundUnderPlazaMasl": {
+   "samples": 1394,
+   "min": 733.6,
+   "p25": 736.0,
+   "median": 737.73,
+   "p75": 739.26,
+   "max": 742.94
+  }
+ },
+ "authored": {
+  "twoLevels": "A lower prayer plaza at the wall and an upper plaza behind it. That the modern plaza has this form is well known; WHERE the split falls here is authored, not surveyed.",
+  "splitFromWallCm": 4000.0,
+  "cellCm": 250.0,
+  "parapetHeightCm": 110.0,
+  "mechitzaHeightCm": 180.0,
+  "mechitzaFractionAlongWall": 0.62,
+  "note": "The 25 cm riser and 100 cm tread are NOT authored here: they are the existing SM_PlazaV1_Step module, reused."
+ },
+ "derived": {
+  "lowerDeckZCm": -1234.594,
+  "lowerDeckMasl": 735.65,
+  "lowerFrom": "p25 of 579 DEM samples under the lower half",
+  "upperDeckZCm": -984.594,
+  "upperDeckMasl": 738.15,
+  "upperFrom": "p50 of 815 DEM samples under the upper half (738.03 m a.s.l.), rounded to a whole number of 25 cm risers",
+  "risers": 10,
+  "riseCm": 250.0,
+  "flightSpanCm": 11522.2,
+  "flightModules": 5,
+  "flightScaleX": 0.921775,
+  "deckCells": 926,
+  "deckCellsDroppedForWallGuard": 27,
+  "deckAreaM2": 5545.83,
+  "deckAreaVersusPolygonPercent": 99.22,
+  "retainedEdgePieces": 22,
+  "maxRetainedDropCm": 427.9
+ },
+ "meshes": {
+  "deck": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+  "step": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+  "kerb": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+  "band": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand"
+ },
+ "materials": {
+  "deck": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+  "ashlar": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar"
+ },
+ "components": [
+  {
+   "key": "deck",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+   "instances": 926,
+   "castShadow": false,
+   "note": "Deck tiles clipped to the polygon and scaled in X and Y only, which is the module manifest's own sanctioned use. The paving material maps by WORLD position, so a scaled tile still lays a correct 5 m pattern."
+  },
+  {
+   "key": "step",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "instances": 50,
+   "castShadow": true,
+   "note": "The flight between the two levels, 25 cm riser, 100 cm tread."
+  },
+  {
+   "key": "kerb",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "instances": 25,
+   "castShadow": true,
+   "note": "Perimeter parapet where the deck stands more than 1 m above ground, and the mechitza across the lower plaza. Scaled in Z; the ashlar material maps by world position, so its courses stay on world-Z levels."
+  },
+  {
+   "key": "band",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "instances": 28,
+   "castShadow": true,
+   "note": "Retaining bands down to grade, 250 cm each, never scaled in Z - the PrecinctPlazaV1 discipline, kept."
+  }
+ ],
+ "instanceTotal": 1029,
+ "triangleTotal": 12348,
+ "buildingCensus": {
+  "totalBuildingsInModel": 11437,
+  "consideredWithin60mOfPlazaBbox": 97,
+  "centroidInsidePlazaPolygon": 0,
+  "withAVertexWithin": {
+   "0m": 4,
+   "5m": 7,
+   "10m": 13,
+   "20m": 23,
+   "30m": 36,
+   "60m": 77
+  },
+  "finding": "ZERO buildings stand inside the Western Wall Plaza polygon and 36 have a vertex within 30 m of its edge. That IS the present-day layout - the Mughrabi Quarter was cleared in June 1967 and the OSM data is post-1967. The Jewish Quarter housing bordering the plaza therefore already exists in this level as OSM building actors; restoring it is the MODERN state doing its job, not a build."
+ },
+ "earthwork": {
+  "verdict": "A TERRAIN CUT IS A PREREQUISITE. No flat deck level satisfies both the Kotel and the houses at once: a level low enough to keep the wall exposed is pierced by the DEM over most of the plaza, and a level high enough to clear the DEM buries the bordering houses. The plan below is generated at the low level - the wall keeps its height - and the terrain is what has to move. This is the SAME open item PLAZA-DESIGN-20260909.md names first for the precinct plaza, at 1/370th the size.",
+  "demResolution": "257 x 257 at 50 source amot = 25 m. The plaza is 93 x 131 m, so the whole terrace spans under four by six DEM cells.",
+  "atGeneratedLevels": {
+   "samples": 5589,
+   "sampleStepCm": 100.0,
+   "areaPiercedByTerrainPercent": 59.8,
+   "cutDepthCm": {
+    "median": 212.2,
+    "max": 490.2
+   },
+   "fillDepthCm": {
+    "median": 133.6,
+    "max": 435.5
+   }
+  },
+  "levelTrials": [
+   {
+    "groundPercentile": 0.25,
+    "deckMasl": 736.0,
+    "areaPiercedByTerrainPercent": 75.0,
+    "kotelExposedM": 18.0,
+    "borderingHousesBuriedOver1m": 10,
+    "worstHouseBurialM": 12.4
+   },
+   {
+    "groundPercentile": 0.5,
+    "deckMasl": 737.74,
+    "areaPiercedByTerrainPercent": 50.0,
+    "kotelExposedM": 16.3,
+    "borderingHousesBuriedOver1m": 11,
+    "worstHouseBurialM": 14.1
+   },
+   {
+    "groundPercentile": 0.75,
+    "deckMasl": 739.27,
+    "areaPiercedByTerrainPercent": 25.0,
+    "kotelExposedM": 14.7,
+    "borderingHousesBuriedOver1m": 11,
+    "worstHouseBurialM": 15.6
+   },
+   {
+    "groundPercentile": 0.9,
+    "deckMasl": 740.57,
+    "areaPiercedByTerrainPercent": 10.0,
+    "kotelExposedM": 13.4,
+    "borderingHousesBuriedOver1m": 12,
+    "worstHouseBurialM": 16.9
+   },
+   {
+    "groundPercentile": 0.95,
+    "deckMasl": 741.5,
+    "areaPiercedByTerrainPercent": 5.0,
+    "kotelExposedM": 12.5,
+    "borderingHousesBuriedOver1m": 14,
+    "worstHouseBurialM": 17.9
+   },
+   {
+    "groundPercentile": 1.0,
+    "deckMasl": 743.06,
+    "areaPiercedByTerrainPercent": 0.0,
+    "kotelExposedM": 10.9,
+    "borderingHousesBuriedOver1m": 16,
+    "worstHouseBurialM": 19.4
+   }
+  ],
+  "kotelMeshInLevel": {
+   "asset": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+   "source": "componentDerivedUnrealBoundsCm in western-wall-detail-brief.json",
+   "briefSha256": "b94249648bde3d3e1e98645b74a4b4b6c0e82c1cbcfb95d0b7d091730c51c19d",
+   "baseMasl": 734.0,
+   "topMasl": 754.0,
+   "heightM": 20.0
+  },
+  "borderingHouseGradeMasl": {
+   "houses": 36,
+   "min": 723.65,
+   "median": 742.62,
+   "max": 748.49
+  },
+  "terrainTilesToCut": [
+   {
+    "row": 8,
+    "column": 7,
+    "name": "SM_JerusalemTerrain_08_07",
+    "xCm": [
+     -40000.0,
+     0.0
+    ],
+    "yCm": [
+     0.0,
+     40000.0
+    ]
+   }
+  ],
+  "recipe": "Exactly the FutureMountV1 precedent, at one tile instead of four: Scripts/import_future_mount_terrain.py already builds cut twins of terrain tiles against a polygon using GeometryScripting, creates them as new assets under a separate folder, and swaps them by visibility without ever deleting the original. The plaza polygon lands on the tiles listed above."
+ },
+ "notBuilt": [
+  "Wilson's Arch. It is a vaulted hall under the buildings at the north end - interior architecture, not a plaza surface - and none is modelled.",
+  "The Mughrabi ramp up to the Temple Mount at the south end. The Mughrabi Gate building (OSM 291836692) is in the model; the ramp is not.",
+  "Prayer-section furniture: shtenders, book cases, partition rails, chairs.",
+  "The security plaza, its entrances and its screening at the west.",
+  "Lighting of any kind.",
+  "NO VISUAL ACCEPTANCE. Nobody has looked at any of this in a frame."
+ ],
+ "limitations": [
+  "The DEM is 257 x 257 at 25 m. It resolves the hillside and does NOT resolve a man-made terrace, so both deck levels are DEM percentiles, not survey levels.",
+  "The deck edge is stepped at the 250 cm cell, clipped to the polygon by AABB of the clipped cell. It is not a smooth polygon edge.",
+  "Nothing is placed inside the Western Wall footprint plus its 200 cm no-edit guard; the preserved source ground occupies that seam, exactly as the mount-access study left it.",
+  "Collision, walkability and the seam to the surrounding street ribbons are untested here."
+ ],
+ "planFile": "kotel-plaza-plan.json",
+ "planSha256": "21bc4badeb91fc58a976e02a3dcef498d6f903855160e7417b08ca972ad06db9",
+ "preview": null,
+ "nativePlacement": {
+  "placed": false,
+  "why": "HELD DELIBERATELY. The earthwork measurement below shows the 25 m DEM pierces this plan over 59.8% of the plaza, median 2.12 m and up to 4.90 m, and that no flat level escapes it: at the level that keeps the Kotel 18.0 m exposed the terrain pierces 75% of the area, and at the level that clears the terrain entirely the Kotel shows 10.9 m. Placing 1,029 instances under a green receipt while knowing most of them would be buried is the exact failure this project guards against.",
+  "prerequisite": "Re-tessellate and cut SM_JerusalemTerrain_08_07 against the plaza polygon (one tile - the plaza is fully interior to it, 141 m from the nearest tile edge, so no seam with any neighbouring tile is possible), by the Scripts/import_future_mount_terrain.py precedent: read the existing tile triangles and vertex colours in-engine, drop those inside the polygon, append a finer grid at deck level with a graded rim, save as a twin under a separate folder, hide the original and show the twin. Never delete.",
+  "thenPlace": "The plan in kotel-plaza-plan.json is unchanged by that pass: 4 HISM components, 1,029 instances, 12,348 triangles, reusing four PrecinctPlazaV1 meshes and two materials that this audit proved resolve on disk in both maps."
+ },
+ "auditCrossReference": {
+  "receipts": [
+   "SourceAssets/enclosure-review/modern-restore-audit-Candidate48-20260909T232248926330Z.json",
+   "SourceAssets/enclosure-review/modern-restore-audit-Main50-20260909T232419163242Z.json"
+  ],
+  "modernRestores": "PROVEN by state switching, both maps. Hidden actors fall from 277 to 8 (Candidate48) and 307 to 29 (Main50) on entering MODERN, and the 8 and 29 were already hidden before the audit ran. All eight plaza HISM components go invisible in MODERN and OVERLAY; all thirteen instanced components on the precinct actor resolve a mesh that exists on disk.",
+  "atTheKotelToday": "In MODERN the Western Wall Plaza footprint carries 31 visible actors: the approved Kotel surface work (RELEASE_Kotel_1..6, RELEASE_KotelStoneV2_E*, REVIEW_KotelPhoto_*), the four OSM building batches and their facade and infill batches, four SM_Jerusalem_StonePaths_03 ribbons - and NO plaza surface. The ribbons are the pedestrian way traced around the outline; the inside is bare DEM terrain. That is the gap this plan fills.",
+  "foreignActorsInModern": "RELEASE_MountAccess_Deck and RELEASE_MountAccess_Guards are visible in MODERN and cross the plaza polygon (X -18400..-12500 at Y 19972). They are the illustrative FUTURE access stair from SourceAssets/mount-access, whose own README calls it \"not existing surveyed infrastructure\". A faithful present-day Old City should not show them; they are not touched here.",
+  "cityDetailOpenItem": "The 12 RELEASE_CityDetail_Precinct_* actors are VISIBLE IN EVERY STATE including YECHEZKEL, so their 13,080 roofscape instances stand over the precinct deck with the buildings they decorate hidden under it. The CityDetail receipt calls the fix \"a one-line addition to the precinct hide set\". IT IS NOT: MikdashEnclosure.cpp BuildingIdentityLabel() returns an empty label for any actor whose single component is an InstancedStaticMeshComponent, and GatherModernBuildings() skips empty labels before the hide list is consulted. No value in ExplicitHideLabels, ExplicitHideMeshNames or ModernBuildingLabelPrefixes can reach a HISM-only actor. The fix is a plugin change and a rebuild - the same shape as the plaza's own components, which are toggled by SetVisibility in ApplyWeights. This is a YECHEZKEL defect, not a MODERN one.",
+  "plazaStatusReadsNotBuilt": "GetPlazaStatus() returns \"not-built\" on both maps in a freshly loaded editor world, while all eight components carry exactly the receipted instance counts (14,039 / 602 / 6,166 / 602 / 2,616 / 8,600 / 1,813 / 215 = 34,653). The geometry is saved and correct; only the status string is not persisted. A future -PlazaVerify that trusts that string will read a false negative."
+ }
+}

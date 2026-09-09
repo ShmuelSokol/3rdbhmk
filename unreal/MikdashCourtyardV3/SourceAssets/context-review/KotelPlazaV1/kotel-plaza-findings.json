@@ -1,0 +1,131 @@
+{
+ "note": "Findings that create_kotel_plaza.py does NOT regenerate. Kept separately so a re-run of the generator cannot erase them.",
+ "nativePlacement": {
+  "placed": false,
+  "why": "HELD DELIBERATELY. The earthwork measurement below shows the 25 m DEM pierces this plan over 59.8% of the plaza, median 2.12 m and up to 4.90 m, and that no flat level escapes it: at the level that keeps the Kotel 18.0 m exposed the terrain pierces 75% of the area, and at the level that clears the terrain entirely the Kotel shows 10.9 m. Placing 1,029 instances under a green receipt while knowing most of them would be buried is the exact failure this project guards against.",
+  "prerequisite": "Re-tessellate and cut SM_JerusalemTerrain_08_07 against the plaza polygon (one tile - the plaza is fully interior to it, 141 m from the nearest tile edge, so no seam with any neighbouring tile is possible), by the Scripts/import_future_mount_terrain.py precedent: read the existing tile triangles and vertex colours in-engine, drop those inside the polygon, append a finer grid at deck level with a graded rim, save as a twin under a separate folder, hide the original and show the twin. Never delete.",
+  "thenPlace": "The plan in kotel-plaza-plan.json is unchanged by that pass: 4 HISM components, 1,029 instances, 12,348 triangles, reusing four PrecinctPlazaV1 meshes and two materials that this audit proved resolve on disk in both maps."
+ },
+ "auditCrossReference": {
+  "receipts": [
+   "SourceAssets/enclosure-review/modern-restore-audit-Candidate48-20260909T232248926330Z.json",
+   "SourceAssets/enclosure-review/modern-restore-audit-Main50-20260909T232419163242Z.json"
+  ],
+  "modernRestores": "PROVEN by state switching, both maps. Hidden actors fall from 277 to 8 (Candidate48) and 307 to 29 (Main50) on entering MODERN, and the 8 and 29 were already hidden before the audit ran. All eight plaza HISM components go invisible in MODERN and OVERLAY; all thirteen instanced components on the precinct actor resolve a mesh that exists on disk.",
+  "atTheKotelToday": "In MODERN the Western Wall Plaza footprint carries 31 visible actors: the approved Kotel surface work (RELEASE_Kotel_1..6, RELEASE_KotelStoneV2_E*, REVIEW_KotelPhoto_*), the four OSM building batches and their facade and infill batches, four SM_Jerusalem_StonePaths_03 ribbons - and NO plaza surface. The ribbons are the pedestrian way traced around the outline; the inside is bare DEM terrain. That is the gap this plan fills.",
+  "foreignActorsInModern": "RELEASE_MountAccess_Deck and RELEASE_MountAccess_Guards are visible in MODERN and cross the plaza polygon (X -18400..-12500 at Y 19972). They are the illustrative FUTURE access stair from SourceAssets/mount-access, whose own README calls it \"not existing surveyed infrastructure\". A faithful present-day Old City should not show them; they are not touched here.",
+  "cityDetailOpenItem": "The 12 RELEASE_CityDetail_Precinct_* actors are VISIBLE IN EVERY STATE including YECHEZKEL, so their 13,080 roofscape instances stand over the precinct deck with the buildings they decorate hidden under it. The CityDetail receipt calls the fix \"a one-line addition to the precinct hide set\". IT IS NOT: MikdashEnclosure.cpp BuildingIdentityLabel() returns an empty label for any actor whose single component is an InstancedStaticMeshComponent, and GatherModernBuildings() skips empty labels before the hide list is consulted. No value in ExplicitHideLabels, ExplicitHideMeshNames or ModernBuildingLabelPrefixes can reach a HISM-only actor. The fix is a plugin change and a rebuild - the same shape as the plaza's own components, which are toggled by SetVisibility in ApplyWeights. This is a YECHEZKEL defect, not a MODERN one.",
+  "plazaStatusReadsNotBuilt": "GetPlazaStatus() returns \"not-built\" on both maps in a freshly loaded editor world, while all eight components carry exactly the receipted instance counts (14,039 / 602 / 6,166 / 602 / 2,616 / 8,600 / 1,813 / 215 = 34,653). The geometry is saved and correct; only the status string is not persisted. A future -PlazaVerify that trusts that string will read a false negative."
+ },
+ "earthwork": {
+  "verdict": "A TERRAIN CUT IS A PREREQUISITE. No flat deck level satisfies both the Kotel and the houses at once: a level low enough to keep the wall exposed is pierced by the DEM over most of the plaza, and a level high enough to clear the DEM buries the bordering houses. The plan below is generated at the low level - the wall keeps its height - and the terrain is what has to move. This is the SAME open item PLAZA-DESIGN-20260909.md names first for the precinct plaza, at 1/370th the size.",
+  "demResolution": "257 x 257 at 50 source amot = 25 m. The plaza is 93 x 131 m, so the whole terrace spans under four by six DEM cells.",
+  "atGeneratedLevels": {
+   "samples": 5589,
+   "sampleStepCm": 100.0,
+   "areaPiercedByTerrainPercent": 59.8,
+   "cutDepthCm": {
+    "median": 212.2,
+    "max": 490.2
+   },
+   "fillDepthCm": {
+    "median": 133.6,
+    "max": 435.5
+   }
+  },
+  "levelTrials": [
+   {
+    "groundPercentile": 0.25,
+    "deckMasl": 736.0,
+    "areaPiercedByTerrainPercent": 75.0,
+    "kotelExposedM": 18.0,
+    "borderingHousesBuriedOver1m": 10,
+    "worstHouseBurialM": 12.4
+   },
+   {
+    "groundPercentile": 0.5,
+    "deckMasl": 737.74,
+    "areaPiercedByTerrainPercent": 50.0,
+    "kotelExposedM": 16.3,
+    "borderingHousesBuriedOver1m": 11,
+    "worstHouseBurialM": 14.1
+   },
+   {
+    "groundPercentile": 0.75,
+    "deckMasl": 739.27,
+    "areaPiercedByTerrainPercent": 25.0,
+    "kotelExposedM": 14.7,
+    "borderingHousesBuriedOver1m": 11,
+    "worstHouseBurialM": 15.6
+   },
+   {
+    "groundPercentile": 0.9,
+    "deckMasl": 740.57,
+    "areaPiercedByTerrainPercent": 10.0,
+    "kotelExposedM": 13.4,
+    "borderingHousesBuriedOver1m": 12,
+    "worstHouseBurialM": 16.9
+   },
+   {
+    "groundPercentile": 0.95,
+    "deckMasl": 741.5,
+    "areaPiercedByTerrainPercent": 5.0,
+    "kotelExposedM": 12.5,
+    "borderingHousesBuriedOver1m": 14,
+    "worstHouseBurialM": 17.9
+   },
+   {
+    "groundPercentile": 1.0,
+    "deckMasl": 743.06,
+    "areaPiercedByTerrainPercent": 0.0,
+    "kotelExposedM": 10.9,
+    "borderingHousesBuriedOver1m": 16,
+    "worstHouseBurialM": 19.4
+   }
+  ],
+  "kotelMeshInLevel": {
+   "asset": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+   "source": "componentDerivedUnrealBoundsCm in western-wall-detail-brief.json",
+   "briefSha256": "b94249648bde3d3e1e98645b74a4b4b6c0e82c1cbcfb95d0b7d091730c51c19d",
+   "baseMasl": 734.0,
+   "topMasl": 754.0,
+   "heightM": 20.0
+  },
+  "borderingHouseGradeMasl": {
+   "houses": 36,
+   "min": 723.65,
+   "median": 742.62,
+   "max": 748.49
+  },
+  "terrainTilesToCut": [
+   {
+    "row": 8,
+    "column": 7,
+    "name": "SM_JerusalemTerrain_08_07",
+    "xCm": [
+     -40000.0,
+     0.0
+    ],
+    "yCm": [
+     0.0,
+     40000.0
+    ]
+   }
+  ],
+  "recipe": "Exactly the FutureMountV1 precedent, at one tile instead of four: Scripts/import_future_mount_terrain.py already builds cut twins of terrain tiles against a polygon using GeometryScripting, creates them as new assets under a separate folder, and swaps them by visibility without ever deleting the original. The plaza polygon lands on the tiles listed above."
+ },
+ "buildingCensus": {
+  "totalBuildingsInModel": 11437,
+  "consideredWithin60mOfPlazaBbox": 97,
+  "centroidInsidePlazaPolygon": 0,
+  "withAVertexWithin": {
+   "0m": 4,
+   "5m": 7,
+   "10m": 13,
+   "20m": 23,
+   "30m": 36,
+   "60m": 77
+  },
+  "finding": "ZERO buildings stand inside the Western Wall Plaza polygon and 36 have a vertex within 30 m of its edge. That IS the present-day layout - the Mughrabi Quarter was cleared in June 1967 and the OSM data is post-1967. The Jewish Quarter housing bordering the plaza therefore already exists in this level as OSM building actors; restoring it is the MODERN state doing its job, not a build."
+ }
+}

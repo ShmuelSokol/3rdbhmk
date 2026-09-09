@@ -1,0 +1,877 @@
+{
+ "status": "plaza_saved_reopened_visual_acceptance_pending",
+ "mode": "apply",
+ "stamp": "20260909T230017414502Z",
+ "target": "Main50",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+ "mapSha256Before": "c14a792779663024358d448580b9ae5c4ec5e8b09044ebff037ff81bb62cd3a6",
+ "mapMatchesSpecObservedSha256": true,
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctPlaza-Main50-20260909T230017414502Z",
+ "oneFilePerActorFoldersCopied": [],
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "c96d424e30893f1aab5f566dfd0207d26e1daa9c148d088db3a3f748d28c2937",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+ },
+ "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_precinct_plaza.spec.json",
+ "specSha256": "3233c239dc3c95c540d67b6edb5df6926dd178ed81bd4fddd5ff0af72e869e99",
+ "scriptSha256": "c9630f925770574edfc916992dcc1b50543ec389ca4e346c203dd45e7962a524",
+ "decision": "\"that whole expanded area around that we had to, like, take out buildings. I'm not sure if I like it because either you put it as a platform, like a flat flat platform that's built out into those dimensions to just expand the plaza. Or what you have to do is you have to restore the buildings that are there now. I would say make it a flat plaza for the dimensions of the the area that has call sets, that expanded area.\" - Shmuel, 9 September 2026. Yechezkel 42:15-20 gives the EXTENT and nothing else; that the enclosed ground is a built flat plaza is the user's decision, and the retaining, paving, drainage and stair design is AUTHORED by this project.",
+ "offlineCheck": {
+  "status": "OFFLINE_CHECK",
+  "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_precinct_plaza.spec.json",
+  "specSha256": "3233c239dc3c95c540d67b6edb5df6926dd178ed81bd4fddd5ff0af72e869e99",
+  "scriptSha256": "c9630f925770574edfc916992dcc1b50543ec389ca4e346c203dd45e7962a524",
+  "geometryManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\plaza-manifest.json",
+  "geometryManifestSha256": "98f2578043a6f1cdecf39e1a2771406c684e76e292448f51939742dfddc9f74a",
+  "generatorSha256": "421150531eb888d3a1c6bb214ae2b894292931b8c66611d038630bbb9300cc39",
+  "enclosureMathSha256Recorded": "a0518f8d14434b3290f1c70f37b9063a2eb6e841bf7662980934a582867ac824",
+  "enclosureMathSha256Now": "a0518f8d14434b3290f1c70f37b9063a2eb6e841bf7662980934a582867ac824",
+  "deckDatum": {
+   "zUnrealCm": 0.0,
+   "metresAboveSeaLevel": 748.0,
+   "rule": "PlazaDeckDatumOffsetAmot = 0 amot from the Temple court datum",
+   "witness": {
+    "asset": "SM_0127_architecture_Outer_court_supporting_platform",
+    "expectedBoundsUnrealCm": {
+     "min": [
+      -8100.0,
+      -8100.0,
+      0.0
+     ],
+     "max": [
+      8100.0,
+      8100.0,
+      299.0000009536743
+     ]
+    },
+    "undersideZcm": 0.0,
+    "topZcm": 299.0000009536743,
+    "proves": "the deck datum: Z 0 is the plane the measured court platform stands on"
+   }
+  },
+  "antiRepetition": [
+   "Irregular super-panels from a frozen recursive binary split (PlazaPanelAt), 3 to 8 cells a side - 36 m to 96 m - so panel size AND offset both vary. A lattice, however jittered, still reads as a lattice.",
+   "One course direction per panel from five values (0, 22.5, 45, 67.5, 90 degrees). The two odd angles are there so the eye cannot find the world axes in the field paving.",
+   "A greedy five-colouring against EVERY panel along the west and north joints, not just the one at the corner (PlazaPanelCourseIndex): a panel eight cells deep can abut four shorter ones, and two neighbours laid alike merge into one larger panel to the eye. The colouring compares neighbours by their own hashed preference rather than by their final colour - doing otherwise makes every panel depend on the one before it all the way back to the north-west corner - so a residual remains, and EnclosureMathTest.cpp MEASURES it: 940 of 29,282 cell joints, 3.2%, against 20% for five colours picked at random. Those joints still carry a rib and still start their paving at different origins.",
+   "A per-panel UV origin in [0, 25) amot on both axes, so no two panels start the 5 m pattern at the same place even when they share a direction.",
+   "An ashlar rib on every panel joint, a quarter of an amah proud, so the seam between two differently-laid panels is a deliberate line of stone.",
+   "Five processional ways in the OTHER approved paving, two cells wide, laid ACROSS the direction of travel and kerbed both sides: a different treatment on the approach axes, cutting the patchwork and legible from the air as the roads they are.",
+   "A drainage network on a non-periodic stride (11, 14, 9, 16, 12 cells - it repeats only after 1,550 amot, longer than any run on the plaza) plus a perimeter channel, and a tonal drift on a 120 m lattice, which is the slow variation every photograph of a real esplanade has and a tiled texture never does."
+  ],
+  "meshes": [
+   {
+    "name": "SM_PlazaV1_DeckTile",
+    "file": "SM_PlazaV1_DeckTile.obj",
+    "sha256": "e167073c99dfab844dd85c6abcac4c1469e39e8240c0a1c3695b6340eb8b13a0",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -625.0,
+      -50.0
+     ],
+     "max": [
+      625.0,
+      625.0,
+      0.0
+     ]
+    },
+    "materialRole": "deck",
+    "castShadow": false
+   },
+   {
+    "name": "SM_PlazaV1_WayTile",
+    "file": "SM_PlazaV1_WayTile.obj",
+    "sha256": "be5d740d3fa38cbbf889edfeb579c1bdef80730555a92db7dabb6c34545e4acd",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -625.0,
+      -50.0
+     ],
+     "max": [
+      625.0,
+      625.0,
+      0.0
+     ]
+    },
+    "materialRole": "way",
+    "castShadow": false
+   },
+   {
+    "name": "SM_PlazaV1_Rib",
+    "file": "SM_PlazaV1_Rib.obj",
+    "sha256": "0e6dc3cc9139f7801b670eb164badb87d08ed9a8ea683c1f1a9fef9f4a57eafd",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -25.0,
+      -50.0
+     ],
+     "max": [
+      625.0,
+      25.0,
+      12.5
+     ]
+    },
+    "materialRole": "ashlar",
+    "castShadow": false
+   },
+   {
+    "name": "SM_PlazaV1_Kerb",
+    "file": "SM_PlazaV1_Kerb.obj",
+    "sha256": "49a5345a61217531b69fa6955751a9a2a6857706a90583ebb824b71d7f3f52e3",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -25.0,
+      -50.0
+     ],
+     "max": [
+      625.0,
+      25.0,
+      25.0
+     ]
+    },
+    "materialRole": "ashlar",
+    "castShadow": true
+   },
+   {
+    "name": "SM_PlazaV1_Channel",
+    "file": "SM_PlazaV1_Channel.obj",
+    "sha256": "4e8f2c237ce4c78c4876c3a248222b25f1a4a948a78542b03f9308f08d4bac2d",
+    "triangles": 36,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -75.0,
+      -75.0
+     ],
+     "max": [
+      625.0,
+      75.0,
+      6.25
+     ]
+    },
+    "materialRole": "ashlar",
+    "castShadow": true
+   },
+   {
+    "name": "SM_PlazaV1_RetainingBand",
+    "file": "SM_PlazaV1_RetainingBand.obj",
+    "sha256": "5b9403c6ac9d43ca0b044fb982216334bf0f601953e76e90b38ebcf7b2503a5f",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -625.0,
+      -150.0,
+      -250.0
+     ],
+     "max": [
+      625.0,
+      0.0,
+      0.0
+     ]
+    },
+    "materialRole": "ashlar",
+    "castShadow": true
+   },
+   {
+    "name": "SM_PlazaV1_Step",
+    "file": "SM_PlazaV1_Step.obj",
+    "sha256": "644f2f4fe56657a019295726b0bb9ba1d3cc5af2ef1377a4d1cf03e41724a8ed",
+    "triangles": 12,
+    "canonicalBoundsCm": {
+     "min": [
+      -1250.0,
+      -50.0,
+      -25.0
+     ],
+     "max": [
+      1250.0,
+      50.0,
+      0.0
+     ]
+    },
+    "materialRole": "ashlar",
+    "castShadow": true
+   }
+  ],
+  "warnings": [],
+  "targets": {
+   "Main50": {
+    "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "amahCm": 50.0,
+    "plazaReceipt": "SourceAssets/enclosure-review/plaza-Main50.json",
+    "plazaReceiptSha256": "23105d15ae9440da3095971befa9023d2e12f4520f8b38939b7c3990ee06523d",
+    "deckTopZcm": 0.0,
+    "deckTopMetresAsl": 748.0,
+    "grid": {
+     "cellCm": 1250.0,
+     "cellAmot": 25.0,
+     "i0": -27,
+     "i1": 94,
+     "j0": -27,
+     "j1": 94,
+     "cellsX": 121,
+     "cellsY": 121,
+     "cells": 14641,
+     "xMinCm": -32800.0,
+     "xMaxCm": 116600.0,
+     "yMinCm": -32850.0,
+     "yMaxCm": 116550.0,
+     "setOutFrom": "world origin (the measured court centre), NOT the wall, so the Temple axes fall on cell boundaries and the axial ways are symmetric to the centimetre"
+    },
+    "panels": 713,
+    "plan": {
+     "deckTiles": 14039,
+     "wayTiles": 602,
+     "ribModules": 6166,
+     "kerbModules": 602,
+     "channelModules": 2616,
+     "retainingBands": 8758,
+     "scarpBands": 1768,
+     "stepModules": 190,
+     "totalInstances": 34741,
+     "triangles": {
+      "deck": 168468,
+      "way": 7224,
+      "rib": 73992,
+      "kerb": 7224,
+      "channel": 94176,
+      "retaining": 105096,
+      "scarp": 21216,
+      "step": 2280,
+      "total": 479676
+     }
+    },
+    "retainingPerSide": [
+     {
+      "side": 0,
+      "name": "north",
+      "modules": 120,
+      "fillModules": 53,
+      "cutModules": 70,
+      "retainingBands": 508,
+      "scarpBands": 918,
+      "retainingMaxCm": 4929.99,
+      "retainingMaxMetres": 49.3,
+      "scarpMaxCm": 5679.8,
+      "scarpMaxMetres": 56.8,
+      "wallBaseMinMetresAsl": 748.0,
+      "wallBaseMaxMetresAsl": 804.8
+     },
+     {
+      "side": 1,
+      "name": "east",
+      "modules": 120,
+      "fillModules": 88,
+      "cutModules": 33,
+      "retainingBands": 3050,
+      "scarpBands": 606,
+      "retainingMaxCm": 14665.1,
+      "retainingMaxMetres": 146.65,
+      "scarpMaxCm": 6058.76,
+      "scarpMaxMetres": 60.59,
+      "wallBaseMinMetresAsl": 748.0,
+      "wallBaseMaxMetresAsl": 808.59
+     },
+     {
+      "side": 2,
+      "name": "south",
+      "modules": 120,
+      "fillModules": 120,
+      "cutModules": 0,
+      "retainingBands": 4149,
+      "scarpBands": 0,
+      "retainingMaxCm": 14709.41,
+      "retainingMaxMetres": 147.09,
+      "scarpMaxCm": 0.0,
+      "scarpMaxMetres": 0.0,
+      "wallBaseMinMetresAsl": 748.0,
+      "wallBaseMaxMetresAsl": 748.0
+     },
+     {
+      "side": 3,
+      "name": "west",
+      "modules": 120,
+      "fillModules": 69,
+      "cutModules": 56,
+      "retainingBands": 1051,
+      "scarpBands": 244,
+      "retainingMaxCm": 8974.95,
+      "retainingMaxMetres": 89.75,
+      "scarpMaxCm": 1691.16,
+      "scarpMaxMetres": 16.91,
+      "wallBaseMinMetresAsl": 748.0,
+      "wallBaseMaxMetresAsl": 764.91
+     }
+    ],
+    "gates": [
+     {
+      "id": "N",
+      "side": 0,
+      "positionCm": [
+       0.0,
+       -33150.0
+      ],
+      "outsideGroundMetresAsl": 743.4,
+      "thresholdMetresAsl": 748.0,
+      "riseAboveDeckCm": 0.0,
+      "riseAboveDeckMetres": 0.0,
+      "dropOutsideDeckMetres": 4.6,
+      "insideSteps": 0,
+      "landings": 0,
+      "stepModules": 0,
+      "insideRunCm": 0.0
+     },
+     {
+      "id": "E",
+      "side": 1,
+      "positionCm": [
+       116900.0,
+       0.0
+      ],
+      "outsideGroundMetresAsl": 783.01,
+      "thresholdMetresAsl": 783.01,
+      "riseAboveDeckCm": 3501.35,
+      "riseAboveDeckMetres": 35.01,
+      "dropOutsideDeckMetres": 0.0,
+      "insideSteps": 141,
+      "landings": 7,
+      "stepModules": 176,
+      "insideRunCm": 17600.0
+     },
+     {
+      "id": "S1",
+      "side": 2,
+      "positionCm": [
+       16900.0,
+       116850.0
+      ],
+      "outsideGroundMetresAsl": 683.26,
+      "thresholdMetresAsl": 748.0,
+      "riseAboveDeckCm": 0.0,
+      "riseAboveDeckMetres": 0.0,
+      "dropOutsideDeckMetres": 64.74,
+      "insideSteps": 0,
+      "landings": 0,
+      "stepModules": 0,
+      "insideRunCm": 0.0
+     },
+     {
+      "id": "S2",
+      "side": 2,
+      "positionCm": [
+       66900.0,
+       116850.0
+      ],
+      "outsideGroundMetresAsl": 693.87,
+      "thresholdMetresAsl": 748.0,
+      "riseAboveDeckCm": 0.0,
+      "riseAboveDeckMetres": 0.0,
+      "dropOutsideDeckMetres": 54.13,
+      "insideSteps": 0,
+      "landings": 0,
+      "stepModules": 0,
+      "insideRunCm": 0.0
+     },
+     {
+      "id": "W",
+      "side": 3,
+      "positionCm": [
+       -33100.0,
+       0.0
+      ],
+      "outsideGroundMetresAsl": 751.3,
+      "thresholdMetresAsl": 751.3,
+      "riseAboveDeckCm": 329.94,
+      "riseAboveDeckMetres": 3.3,
+      "dropOutsideDeckMetres": 0.0,
+      "insideSteps": 14,
+      "landings": 0,
+      "stepModules": 14,
+      "insideRunCm": 1400.0
+     }
+    ],
+    "cutFill": {
+     "method": "DEM prism between jerusalem.json terrain.heights and the flat deck, one sample at the centre of every paving cell, weighted by the cell's clipped area. Reported only; nothing in the geometry depends on it.",
+     "deckMetresAsl": 748.0,
+     "pavedAreaM2": 2232036.0,
+     "groundLowMetresAsl": 601.5,
+     "groundHighMetresAsl": 810.6,
+     "fillCubicMetres": 86956440.0,
+     "cutCubicMetres": 13715652.4,
+     "netCubicMetres": 73240787.6,
+     "fillAreaM2": 1778188.2,
+     "cutAreaM2": 453847.8,
+     "fillAreaFraction": 0.7967,
+     "cutAreaFraction": 0.2033,
+     "meanFillDepthMetres": 48.9,
+     "meanCutDepthMetres": 30.22,
+     "quadrants": {
+      "NW": {
+       "fillCubicMetres": 14514895.7,
+       "cutCubicMetres": 416834.8,
+       "fillAreaM2": 505793.8,
+       "cutAreaM2": 61591.8,
+       "groundLowMetresAsl": 664.7,
+       "groundHighMetresAsl": 765.2
+      },
+      "SW": {
+       "fillCubicMetres": 35811757.5,
+       "cutCubicMetres": 73.1,
+       "fillAreaM2": 557402.8,
+       "cutAreaM2": 193.8,
+       "groundLowMetresAsl": 611.0,
+       "groundHighMetresAsl": 749.4
+      },
+      "NE": {
+       "fillCubicMetres": 3156839.0,
+       "cutCubicMetres": 13290960.4,
+       "fillAreaM2": 169406.2,
+       "cutAreaM2": 388937.2,
+       "groundLowMetresAsl": 684.9,
+       "groundHighMetresAsl": 810.6
+      },
+      "SE": {
+       "fillCubicMetres": 33472947.8,
+       "cutCubicMetres": 7784.1,
+       "fillAreaM2": 545585.5,
+       "cutAreaM2": 3125.0,
+       "groundLowMetresAsl": 601.5,
+       "groundHighMetresAsl": 753.4
+      }
+     },
+     "demSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463"
+    },
+    "observedMapSha256": "c14a792779663024358d448580b9ae5c4ec5e8b09044ebff037ff81bb62cd3a6",
+    "currentMapSha256": "c14a792779663024358d448580b9ae5c4ec5e8b09044ebff037ff81bb62cd3a6"
+   }
+  }
+ },
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "meshes": [
+  {
+   "name": "SM_PlazaV1_DeckTile",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "e6499e12991fe829940216852d80c4a6c5043e5fce4293623795c2dca1f0bf4a"
+  },
+  {
+   "name": "SM_PlazaV1_WayTile",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_WayTile",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_WaySlabs",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "9333099680d4399760388585d4532881bcda7a551e809cd87222237895900a1c"
+  },
+  {
+   "name": "SM_PlazaV1_Rib",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Rib",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     12.5
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     12.5
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "45eae488fe863bc0b375b60495dde074e8d8c110fef2b1c7c73e9d3c40c6c76d"
+  },
+  {
+   "name": "SM_PlazaV1_Kerb",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     25.0
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     25.0
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "d37e3e32e606d867abb4dd787f675809bf738bfba9050e39360019e393b2cf7f"
+  },
+  {
+   "name": "SM_PlazaV1_Channel",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Channel",
+   "triangles": 36,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -75.0,
+     -75.0
+    ],
+    "max": [
+     625.0,
+     75.0,
+     6.25
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -75.0,
+     -75.0
+    ],
+    "max": [
+     625.0,
+     75.0,
+     6.25
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "adab6a94830620ebdf7d2c12598708ac6da83f980159a9e9da3130646a69fd3d"
+  },
+  {
+   "name": "SM_PlazaV1_RetainingBand",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -625.0,
+     -150.0,
+     -250.0
+    ],
+    "max": [
+     625.0,
+     0.0,
+     0.0
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -150.0,
+     -250.0
+    ],
+    "max": [
+     625.0,
+     0.0,
+     0.0
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 150.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "8601f6cd2f599662dad6bee5adc34b26b6573e78dd504f94cae212c32fcd61da"
+  },
+  {
+   "name": "SM_PlazaV1_Step",
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+   "triangles": 12,
+   "importedBoundsCm": {
+    "min": [
+     -1250.0,
+     -50.0,
+     -25.0
+    ],
+    "max": [
+     1250.0,
+     50.0,
+     0.0
+    ]
+   },
+   "canonicalBoundsCm": {
+    "min": [
+     -1250.0,
+     -50.0,
+     -25.0
+    ],
+    "max": [
+     1250.0,
+     50.0,
+     0.0
+    ]
+   },
+   "boundsErrorCm": 0.0,
+   "unreflectedBoundsErrorCm": 0.0,
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "materialSlots": 1,
+   "nanite": true,
+   "uassetSha256": "a01712919bc16f7994f29a8506556a8bb9816575abd18e4a8ddf1d91eb17697b"
+  }
+ ],
+ "materials": {
+  "deck": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+   "reused": true,
+   "readback": {
+    "nodes": {
+     "MaterialExpressionWorldPosition_0": {
+      "kind": "MaterialExpressionWorldPosition"
+     },
+     "MaterialExpressionPerInstanceCustomData_0": {
+      "kind": "MaterialExpressionPerInstanceCustomData",
+      "dataIndex": 0
+     },
+     "MaterialExpressionPerInstanceCustomData_1": {
+      "kind": "MaterialExpressionPerInstanceCustomData",
+      "dataIndex": 1
+     },
+     "MaterialExpressionPerInstanceCustomData_2": {
+      "kind": "MaterialExpressionPerInstanceCustomData",
+      "dataIndex": 2
+     },
+     "MaterialExpressionPerInstanceCustomData_3": {
+      "kind": "MaterialExpressionPerInstanceCustomData",
+      "dataIndex": 3
+     },
+     "MaterialExpressionPerInstanceCustomData_4": {
+      "kind": "MaterialExpressionPerInstanceCustomData",
+      "dataIndex": 4
+     },
+     "MaterialExpressionCustom_0": {
+      "kind": "MaterialExpressionCustom",
+      "code": "float2 d = float2(P.x - U0, P.y - V0); return float2(d.x * Cs + d.y * Sn, d.y * Cs - d.x * Sn) / 500.0;",
+      "inputNames": [
+       "P",
+       "Cs",
+       "Sn",
+       "U0",
+       "V0"
+      ]
+     },
+     "MaterialExpressionTextureSample_0": {
+      "kind": "MaterialExpressionTextureSample",
+      "texture": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
+      "srgb": true
+     },
+     "MaterialExpressionCustom_1": {
+      "kind": "MaterialExpressionCustom",
+      "code": "return C * saturate(1.0 + T * 0.04);",
+      "inputNames": [
+       "C",
+       "T"
+      ]
+     },
+     "MaterialExpressionConstant_0": {
+      "kind": "MaterialExpressionConstant",
+      "value": 0.800000011920929
+     },
+     "MaterialExpressionConstant_1": {
+      "kind": "MaterialExpressionConstant",
+      "value": 0.0
+     }
+    },
+    "kinds": {
+     "MaterialExpressionWorldPosition": 1,
+     "MaterialExpressionPerInstanceCustomData": 5,
+     "MaterialExpressionCustom": 2,
+     "MaterialExpressionTextureSample": 1,
+     "MaterialExpressionConstant": 2
+    },
+    "usages": {
+     "MATUSAGE_NANITE": true,
+     "MATUSAGE_INSTANCED_STATIC_MESHES": true
+    },
+    "blendMode": "<BlendMode.BLEND_OPAQUE: 0>"
+   },
+   "uassetSha256": "a7b5dc673ca789dd4c66431e589ae0a5b9e1939caa7eb50116e16c949a9cef7c"
+  },
+  "way": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_WaySlabs",
+   "reused": true,
+   "parent": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+   "parentSha256Unchanged": true,
+   "usages": {
+    "MATUSAGE_NANITE": true,
+    "MATUSAGE_INSTANCED_STATIC_MESHES": true
+   },
+   "uassetSha256": "aba715ba5acbbd6d2fadcf8b8803732824a7f3e6d504c11a62c34fbd27a9e5c4"
+  },
+  "ashlar": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "reused": true,
+   "parent": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+   "parentSha256Unchanged": true,
+   "usages": {
+    "MATUSAGE_NANITE": true,
+    "MATUSAGE_INSTANCED_STATIC_MESHES": true
+   },
+   "uassetSha256": "4367d9c5129806ab9b223297075801fcb9c7d61398a438306f6d39ea512e1b1c"
+  }
+ },
+ "actor": {
+  "applied": true,
+  "meshesSet": 7
+ },
+ "readback": {
+  "plazaStatus": "built",
+  "deckTopZcm": 0.0,
+  "triangles": 479676,
+  "counts": {
+   "deckTiles": 14039,
+   "wayTiles": 602,
+   "ribModules": 6166,
+   "kerbModules": 602,
+   "channelModules": 2616,
+   "retainingBands": 8758,
+   "scarpBands": 1768,
+   "stepModules": 190
+  },
+  "extentCm": [
+   -32800.0,
+   -32850.0,
+   116600.0,
+   116550.0
+  ],
+  "cellsX": 121,
+  "cellsY": 121,
+  "panels": 713,
+  "facesPerSide": [
+   {
+    "side": "north",
+    "retainingCm": 4929.99,
+    "scarpCm": 5679.8
+   },
+   {
+    "side": "east",
+    "retainingCm": 14665.1,
+    "scarpCm": 6058.76
+   },
+   {
+    "side": "south",
+    "retainingCm": 14709.41,
+    "scarpCm": 0.0
+   },
+   {
+    "side": "west",
+    "retainingCm": 8974.95,
+    "scarpCm": 1691.16
+   }
+  ]
+ },
+ "omissions": [],
+ "errors": [],
+ "mapSaved": true,
+ "sourcedVersusAuthored": {
+  "sourced": "The extent only: Yechezkel 42:15-20 with 40:5 - 500 reeds of six amot, 3000 amot a side, measured from outside.",
+  "user": "\"that whole expanded area around that we had to, like, take out buildings. I'm not sure if I like it because either you put it as a platform, like a flat flat platform that's built out into those dimensions to just expand the plaza. Or what you have to do is you have to restore the buildings that are there now. I would say make it a flat plaza for the dimensions of the the area that has call sets, that expanded area.\" - Shmuel, 9 September 2026. Yechezkel 42:15-20 gives the EXTENT and nothing else; that the enclosed ground is a built flat plaza is the user's decision, and the retaining, paving, drainage and stair design is AUTHORED by this project.",
+  "authored": "The deck datum's consequences, the paving layout and its anti-repetition scheme, the drainage, the retaining and scarp construction, the processional ways and the gate stairs."
+ },
+ "limitations": [
+  "GEOMETRY AND ASSETS ONLY. Nothing this script does establishes visual, halachic, walking or packaged acceptance of the plaza.",
+  "The plaza raises the actor count by ZERO and the asset count by seven meshes and three materials. The 2.07 km2 deck is about 34,700 run-time instances across seven HierarchicalInstancedStaticMeshComponents on the one precinct actor, not 34,700 actors.",
+  "THE TERRAIN IS NOT CUT. On the fifth of the footprint where the ground stands above the deck - the Mount of Olives slope in the north-east and strips on the north and west - the existing DEM terrain tiles still rise through the paving. The plaza is correct there and the terrain is not. The fix is the FutureMountV1 precedent extended: generate *_PrecinctCut twins of the sixteen terrain tiles the precinct overlaps and swap them by visibility with the state, exactly as the buildings are swapped. That is a separate mechanical pass and it is NOT done here.",
+  "THE OUTSIDE APPROACHES ARE NOT BUILT. Where the deck stands above the ground outside the wall - up to 61 m at the south-west gate - a visitor arriving from the modern street has no way up. Recorded, not built.",
+  "The fill under the deck is not modelled; there is a void closed by the retaining ring, which no viewer can see into.",
+  "Nothing is ever deleted or hidden by this script. Hiding happens at run time, by visibility, and is reversed on EndPlay."
+ ],
+ "mapSha256AfterSave": "d97ae2f2f8620082e8ee49a2c9502532f34d3a77a7037286bc75a156d6081180",
+ "mapSha256After": "d97ae2f2f8620082e8ee49a2c9502532f34d3a77a7037286bc75a156d6081180",
+ "mapBytesChanged": true,
+ "protectedMapsUnchanged": true
+}

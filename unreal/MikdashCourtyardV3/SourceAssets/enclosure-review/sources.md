@@ -24,6 +24,12 @@ states it - 500 reeds x 6 amot = 3,000 amot a side - and that is the DEFAULT vie
 buildings inside are hidden by visibility, never deleted. MODERN and OVERLAY remain one and two
 presses of the cycle key away.
 
+**Decision, 9 September 2026 (Shmuel):** the ground the precinct encloses is a BUILT FLAT
+PLAZA across its whole footprint, not hidden buildings and not restored ones — see section
+4c. Its geometry is `Scripts/create_precinct_plaza.py`, its placer
+`Scripts/release_precinct_plaza.py`, and every choice in it is recorded in
+`PLAZA-DESIGN-20260909.md`. The extent stays sourced; the plaza is authored.
+
 ---
 
 ## 1. The size of the precinct
@@ -281,13 +287,54 @@ Where the east and south walls cross the Kidron the drop is 100–200 m and the 
 under single modules reaches ten metres. **The sources say nothing about foundations there; the
 substructure is this project's construction and is labelled so in every receipt.**
 
+## 4c. The ground inside the wall is now BUILT — **the user's decision, 9 September 2026**
+
+The verse gives the precinct an extent and says nothing whatever about the ground inside it.
+Until 9 September the YECHEZKEL state hid the modern buildings and left the raw DEM terrain
+showing, which reads as a bald patch cut out of Jerusalem. Shmuel's decision that day,
+verbatim:
+
+> "that whole expanded area around that we had to, like, take out buildings. I'm not sure if
+> I like it because either you put it as a platform, like a flat flat platform that's built
+> out into those dimensions to just expand the plaza. Or what you have to do is you have to
+> restore the buildings that are there now. I would say make it a flat plaza for the
+> dimensions of the the area that has call sets, that expanded area."
+
+So the precinct is now a **flat built plaza across its whole footprint**, at the Temple's own
+datum (Z 0, 748.0 m a.s.l. — the plane the measured court supporting platform stands on, and
+the plane the project's own FutureMountV1 platform deck already used). The buildings are
+**still hidden by visibility and still never deleted**; MODERN restores every one of them
+exactly, as before. **The extent is sourced. The plaza is the user's decision. Every dimension
+of it is AUTHORED**, and the whole design — deck datum, paving layout and its anti-repetition
+scheme, drainage, retaining and scarp construction, processional ways and gate stairs — is
+recorded with its reasoning in `PLAZA-DESIGN-20260909.md`.
+
+Two numbers worth carrying into any summary of the model. A flat deck at the Temple's datum
+implies **76.8 million cubic metres of fill over 80% of the footprint (mean 46.8 m) and 12.5
+million of cut over the remaining 20% (mean 30.0 m)** on the 48 cm candidate; and the
+retaining wall that fill needs reaches **137 m on the south face and 135 m on the east**,
+against about 45 m at the Herodian Temple Mount's south-east corner. Neither figure is a
+historical claim. They are the arithmetic consequence of the decision on this terrain, and
+they are reported rather than tuned away.
+
+**Not finished, and named:** the existing terrain tiles are NOT cut, so on the fifth of the
+footprint that stands above the deck — the Mount of Olives slope in the north-east — the
+terrain still rises through the paving; and the approaches OUTSIDE the gates, where the deck
+stands up to 61 m above the modern street, are not built. Both are in
+`PLAZA-DESIGN-20260909.md` section 6 with the named fix.
+
 ## 5. The three states, and what happens to the modern city
 
-| state | wall | overlay band | modern buildings inside |
-|---|---|---|---|
-| **YECHEZKEL (default)** | solid, terrain-following, with substructure | — | **hidden by visibility, never deleted** |
-| MODERN | — | — | **all visible** |
-| OVERLAY | — | translucent band + ground line of light + markers | **all visible** |
+| state | wall | plaza | overlay band | modern buildings inside |
+|---|---|---|---|---|
+| **YECHEZKEL (default)** | solid, standing on max(deck, outside grade) | **built, flat, at Z 0** | — | **hidden by visibility, never deleted** |
+| MODERN | — | — | — | **all visible** |
+| OVERLAY | — | — | translucent band + ground line of light + markers | **all visible** |
+
+The plaza follows the wall exactly: present in YECHEZKEL, gone in MODERN (which must
+restore today's city untouched) and gone in OVERLAY, whose whole point is the standing
+city seen under the boundary line — a deck laid over it would hide the thing the overlay
+exists to show.
 
 Cycle order `CyclePrecinctState`: YECHEZKEL → MODERN → OVERLAY → YECHEZKEL. (As of 8 September
 no key is bound to it in MikdashRuntime C++ or Config; it is BlueprintCallable and needs a

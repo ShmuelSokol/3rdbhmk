@@ -1,0 +1,468 @@
+{
+ "status": "OFFLINE_SOURCE_EXPORTED_NATIVE_PENDING",
+ "namespace": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1",
+ "meshFolder": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes",
+ "generatorSha256": "421150531eb888d3a1c6bb214ae2b894292931b8c66611d038630bbb9300cc39",
+ "enclosureMathSha256": "a0518f8d14434b3290f1c70f37b9063a2eb6e841bf7662980934a582867ac824",
+ "cmPerAmah": 50.0,
+ "decision": "Shmuel, 9 September 2026, verbatim: \"that whole expanded area around that we had to, like, take out buildings. I'm not sure if I like it because either you put it as a platform, like a flat flat platform that's built out into those dimensions to just expand the plaza. Or what you have to do is you have to restore the buildings that are there now. I would say make it a flat plaza for the dimensions of the the area that has call sets, that expanded area.\" Yechezkel 42:15-20 gives the EXTENT and nothing else; that the enclosed ground is a built flat plaza is the user's decision, and the whole of the design below is AUTHORED.",
+ "coordinateConvention": "UE cm: X east, Y south, Z up; measured court centre at the origin; module origin at the centre of its footprint ON THE DECK PLANE with local +X along the run and local +Y across it (outward for the retaining bands); OBJ files carry Y negated and reversed winding (legacy adapter)",
+ "objConvention": "per-face vertices; file Y = -canonical Y and winding reversed; the importer reflects Y back, so imported bounds must equal canonicalBoundsCm and imported signed volumes must be positive. One `o` object and no `g` groups, so one material slot per mesh.",
+ "deckDatum": {
+  "zUnrealCm": 0.0,
+  "metresAboveSeaLevel": 748.0,
+  "rule": "PlazaDeckDatumOffsetAmot = 0 amot from the Temple court datum",
+  "witness": {
+   "asset": "SM_0127_architecture_Outer_court_supporting_platform",
+   "expectedBoundsUnrealCm": {
+    "min": [
+     -8100.0,
+     -8100.0,
+     0.0
+    ],
+    "max": [
+     8100.0,
+     8100.0,
+     299.0000009536743
+    ]
+   },
+   "undersideZcm": 0.0,
+   "topZcm": 299.0000009536743,
+   "proves": "the deck datum: Z 0 is the plane the measured court platform stands on"
+  }
+ },
+ "courtPlatformWitness": {
+  "asset": "SM_0127_architecture_Outer_court_supporting_platform",
+  "expectedBoundsUnrealCm": {
+   "min": [
+    -8100.0,
+    -8100.0,
+    0.0
+   ],
+   "max": [
+    8100.0,
+    8100.0,
+    299.0000009536743
+   ]
+  },
+  "undersideZcm": 0.0,
+  "topZcm": 299.0000009536743,
+  "proves": "the deck datum: Z 0 is the plane the measured court platform stands on"
+ },
+ "meshes": [
+  {
+   "name": "SM_PlazaV1_DeckTile",
+   "file": "SM_PlazaV1_DeckTile.obj",
+   "sha256": "e167073c99dfab844dd85c6abcac4c1469e39e8240c0a1c3695b6340eb8b13a0",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 78125000.0,
+   "materialRole": "paving",
+   "note": "One 25-amah square of the deck. AUTHORED. Scaled in X and Y only, for the partial cells that meet the wall."
+  },
+  {
+   "name": "SM_PlazaV1_WayTile",
+   "file": "SM_PlazaV1_WayTile.obj",
+   "sha256": "be5d740d3fa38cbbf889edfeb579c1bdef80730555a92db7dabb6c34545e4acd",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -625.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     625.0,
+     0.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 78125000.0,
+   "materialRole": "slabs",
+   "note": "The same square in the other approved paving, for the five processional ways. AUTHORED."
+  },
+  {
+   "name": "SM_PlazaV1_Rib",
+   "file": "SM_PlazaV1_Rib.obj",
+   "sha256": "0e6dc3cc9139f7801b670eb164badb87d08ed9a8ea683c1f1a9fef9f4a57eafd",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     12.5
+    ]
+   },
+   "canonicalSignedVolumeCm3": 3906250.0,
+   "materialRole": "ashlar",
+   "note": "Ashlar rib along a super-panel joint, a quarter of an amah proud. AUTHORED."
+  },
+  {
+   "name": "SM_PlazaV1_Kerb",
+   "file": "SM_PlazaV1_Kerb.obj",
+   "sha256": "49a5345a61217531b69fa6955751a9a2a6857706a90583ebb824b71d7f3f52e3",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -25.0,
+     -50.0
+    ],
+    "max": [
+     625.0,
+     25.0,
+     25.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 4687500.0,
+   "materialRole": "ashlar",
+   "note": "Kerb along a processional way, half an amah proud. AUTHORED."
+  },
+  {
+   "name": "SM_PlazaV1_Channel",
+   "file": "SM_PlazaV1_Channel.obj",
+   "sha256": "4e8f2c237ce4c78c4876c3a248222b25f1a4a948a78542b03f9308f08d4bac2d",
+   "triangles": 36,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -75.0,
+     -75.0
+    ],
+    "max": [
+     625.0,
+     75.0,
+     6.25
+    ]
+   },
+   "canonicalSignedVolumeCm3": 11171875.0,
+   "materialRole": "ashlar",
+   "note": "Drainage channel: a two-amah invert half an amah deep, lipped rims an eighth of an amah proud overlapping it to a 1.6-amah opening. AUTHORED - the sources say nothing about drainage."
+  },
+  {
+   "name": "SM_PlazaV1_RetainingBand",
+   "file": "SM_PlazaV1_RetainingBand.obj",
+   "sha256": "5b9403c6ac9d43ca0b044fb982216334bf0f601953e76e90b38ebcf7b2503a5f",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -625.0,
+     -150.0,
+     -250.0
+    ],
+    "max": [
+     625.0,
+     0.0,
+     0.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 46875000.0,
+   "materialRole": "ashlar",
+   "note": "Five-amah course band of the retaining wall (fill) or the scarp revetment (cut). AUTHORED. Never scaled in Z, so the ashlar courses stay on world-Z levels."
+  },
+  {
+   "name": "SM_PlazaV1_Step",
+   "file": "SM_PlazaV1_Step.obj",
+   "sha256": "644f2f4fe56657a019295726b0bb9ba1d3cc5af2ef1377a4d1cf03e41724a8ed",
+   "triangles": 12,
+   "canonicalBoundsCm": {
+    "min": [
+     -1250.0,
+     -50.0,
+     -25.0
+    ],
+    "max": [
+     1250.0,
+     50.0,
+     0.0
+    ]
+   },
+   "canonicalSignedVolumeCm3": 6250000.0,
+   "materialRole": "ashlar",
+   "note": "One step of the stair from the deck up to a gate that stands above it. AUTHORED."
+  }
+ ],
+ "readback": [
+  {
+   "mesh": "SM_PlazaV1_DeckTile",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 78125000.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_WayTile",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 78125000.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_Rib",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 3906250.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_Kerb",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 4687500.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_Channel",
+   "triangles": 36,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 11171875.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_RetainingBand",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 46875000.0,
+   "normalsAndUvs": "PASS"
+  },
+  {
+   "mesh": "SM_PlazaV1_Step",
+   "triangles": 12,
+   "boundsErrorCm": 0.0,
+   "worstNormalError": 0.0,
+   "fileSpaceSignedVolumeCm3": 6250000.0,
+   "normalsAndUvs": "PASS"
+  }
+ ],
+ "preview": {
+  "file": "plaza-plan-Candidate48.png",
+  "sha256": "ffbf10890eb439d8c022a922d8cc39bcd986bf96dcb9507fba136b619cd67d21",
+  "pixels": [
+   900,
+   900
+  ],
+  "legend": "one block per 25-amah paving cell, tinted by its super-panel course direction; darker lines are panel ribs, blue lines drainage channels, lighter bands the five processional ways"
+ },
+ "materials": {
+  "deck": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+  "way": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+  "ashlar": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+  "note": "The deck reuses the approved Jerusalem paving texture and finish; the ways reuse the approved floor slabs. Neither approved MATERIAL can be varied as it stands: M_JerusalemPaving_500cm maps its UV from a frozen unparameterised Custom node, \"return float2(P.x,P.y)/500.0;\", with MIRROR addressing on both axes, and release_jerusalem_paving.py asserts that graph node for node. Over 1.44 km that gives a 5 m tile with a 10 m mirror period and axis-aligned symmetry lines - the strongest grid cue there is, and exactly what the decision was made to avoid. The plaza therefore needs a parameterised master that samples THE SAME approved texture at the same 500 cm, the same roughness 0.8 and metallic 0, with the world-XY mapping rotated per instance from per-instance custom data. release_precinct_plaza.py builds it and records the parameter readback; the approved materials themselves are never edited."
+ },
+ "antiRepetition": [
+  "Irregular super-panels from a frozen recursive binary split (PlazaPanelAt), 3 to 8 cells a side - 36 m to 96 m - so panel size AND offset both vary. A lattice, however jittered, still reads as a lattice.",
+  "One course direction per panel from five values (0, 22.5, 45, 67.5, 90 degrees). The two odd angles are there so the eye cannot find the world axes in the field paving.",
+  "A greedy five-colouring against EVERY panel along the west and north joints, not just the one at the corner (PlazaPanelCourseIndex): a panel eight cells deep can abut four shorter ones, and two neighbours laid alike merge into one larger panel to the eye. The colouring compares neighbours by their own hashed preference rather than by their final colour - doing otherwise makes every panel depend on the one before it all the way back to the north-west corner - so a residual remains, and EnclosureMathTest.cpp MEASURES it: 940 of 29,282 cell joints, 3.2%, against 20% for five colours picked at random. Those joints still carry a rib and still start their paving at different origins.",
+  "A per-panel UV origin in [0, 25) amot on both axes, so no two panels start the 5 m pattern at the same place even when they share a direction.",
+  "An ashlar rib on every panel joint, a quarter of an amah proud, so the seam between two differently-laid panels is a deliberate line of stone.",
+  "Five processional ways in the OTHER approved paving, two cells wide, laid ACROSS the direction of travel and kerbed both sides: a different treatment on the approach axes, cutting the patchwork and legible from the air as the roads they are.",
+  "A drainage network on a non-periodic stride (11, 14, 9, 16, 12 cells - it repeats only after 1,550 amot, longer than any run on the plaza) plus a perimeter channel, and a tonal drift on a 120 m lattice, which is the slow variation every photograph of a real esplanade has and a tiled texture never does."
+ ],
+ "targets": {
+  "Main50": {
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "cmPerAmah": 50.0,
+   "receipt": "plaza-Main50.json",
+   "deckTopZcm": 0.0,
+   "plan": {
+    "deckTiles": 14039,
+    "wayTiles": 602,
+    "ribModules": 6166,
+    "kerbModules": 602,
+    "channelModules": 2616,
+    "retainingBands": 8758,
+    "scarpBands": 1768,
+    "stepModules": 190,
+    "totalInstances": 34741,
+    "triangles": {
+     "deck": 168468,
+     "way": 7224,
+     "rib": 73992,
+     "kerb": 7224,
+     "channel": 94176,
+     "retaining": 105096,
+     "scarp": 21216,
+     "step": 2280,
+     "total": 479676
+    }
+   },
+   "cutFill": {
+    "method": "DEM prism between jerusalem.json terrain.heights and the flat deck, one sample at the centre of every paving cell, weighted by the cell's clipped area. Reported only; nothing in the geometry depends on it.",
+    "deckMetresAsl": 748.0,
+    "pavedAreaM2": 2232036.0,
+    "groundLowMetresAsl": 601.5,
+    "groundHighMetresAsl": 810.6,
+    "fillCubicMetres": 86956440.0,
+    "cutCubicMetres": 13715652.4,
+    "netCubicMetres": 73240787.6,
+    "fillAreaM2": 1778188.2,
+    "cutAreaM2": 453847.8,
+    "fillAreaFraction": 0.7967,
+    "cutAreaFraction": 0.2033,
+    "meanFillDepthMetres": 48.9,
+    "meanCutDepthMetres": 30.22,
+    "quadrants": {
+     "NW": {
+      "fillCubicMetres": 14514895.7,
+      "cutCubicMetres": 416834.8,
+      "fillAreaM2": 505793.8,
+      "cutAreaM2": 61591.8,
+      "groundLowMetresAsl": 664.7,
+      "groundHighMetresAsl": 765.2
+     },
+     "SW": {
+      "fillCubicMetres": 35811757.5,
+      "cutCubicMetres": 73.1,
+      "fillAreaM2": 557402.8,
+      "cutAreaM2": 193.8,
+      "groundLowMetresAsl": 611.0,
+      "groundHighMetresAsl": 749.4
+     },
+     "NE": {
+      "fillCubicMetres": 3156839.0,
+      "cutCubicMetres": 13290960.4,
+      "fillAreaM2": 169406.2,
+      "cutAreaM2": 388937.2,
+      "groundLowMetresAsl": 684.9,
+      "groundHighMetresAsl": 810.6
+     },
+     "SE": {
+      "fillCubicMetres": 33472947.8,
+      "cutCubicMetres": 7784.1,
+      "fillAreaM2": 545585.5,
+      "cutAreaM2": 3125.0,
+      "groundLowMetresAsl": 601.5,
+      "groundHighMetresAsl": 753.4
+     }
+    },
+    "demSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463"
+   }
+  },
+  "Candidate48": {
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "cmPerAmah": 48.0,
+   "receipt": "plaza-Candidate48.json",
+   "deckTopZcm": 0.0,
+   "plan": {
+    "deckTiles": 14039,
+    "wayTiles": 602,
+    "ribModules": 6166,
+    "kerbModules": 602,
+    "channelModules": 2616,
+    "retainingBands": 8600,
+    "scarpBands": 1813,
+    "stepModules": 215,
+    "totalInstances": 34653,
+    "triangles": {
+     "deck": 168468,
+     "way": 7224,
+     "rib": 73992,
+     "kerb": 7224,
+     "channel": 94176,
+     "retaining": 103200,
+     "scarp": 21756,
+     "step": 2580,
+     "total": 478620
+    }
+   },
+   "cutFill": {
+    "method": "DEM prism between jerusalem.json terrain.heights and the flat deck, one sample at the centre of every paving cell, weighted by the cell's clipped area. Reported only; nothing in the geometry depends on it.",
+    "deckMetresAsl": 748.0,
+    "pavedAreaM2": 2057044.4,
+    "groundLowMetresAsl": 611.3,
+    "groundHighMetresAsl": 810.9,
+    "fillCubicMetres": 76842081.4,
+    "cutCubicMetres": 12448472.6,
+    "netCubicMetres": 64393608.8,
+    "fillAreaM2": 1642672.1,
+    "cutAreaM2": 414372.3,
+    "fillAreaFraction": 0.7986,
+    "cutAreaFraction": 0.2014,
+    "meanFillDepthMetres": 46.78,
+    "meanCutDepthMetres": 30.04,
+    "quadrants": {
+     "NW": {
+      "fillCubicMetres": 13400985.6,
+      "cutCubicMetres": 304514.0,
+      "fillAreaM2": 473449.0,
+      "cutAreaM2": 49453.5,
+      "groundLowMetresAsl": 664.9,
+      "groundHighMetresAsl": 764.5
+     },
+     "SW": {
+      "fillCubicMetres": 32949392.8,
+      "cutCubicMetres": 53.6,
+      "fillAreaM2": 513846.4,
+      "cutAreaM2": 34.6,
+      "groundLowMetresAsl": 611.3,
+      "groundHighMetresAsl": 749.5
+     },
+     "NE": {
+      "fillCubicMetres": 2707750.0,
+      "cutCubicMetres": 12114728.2,
+      "fillAreaM2": 156165.1,
+      "cutAreaM2": 358404.2,
+      "groundLowMetresAsl": 696.3,
+      "groundHighMetresAsl": 810.9
+     },
+     "SE": {
+      "fillCubicMetres": 27783953.1,
+      "cutCubicMetres": 29177.0,
+      "fillAreaM2": 499211.6,
+      "cutAreaM2": 6480.0,
+      "groundLowMetresAsl": 612.5,
+      "groundHighMetresAsl": 758.1
+     }
+    },
+    "demSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463"
+   }
+  }
+ },
+ "instancing": {
+  "componentType": "HierarchicalInstancedStaticMeshComponent",
+  "components": 7,
+  "castShadow": {
+   "deck": false,
+   "way": false,
+   "rib": false,
+   "kerb": true,
+   "channel": true,
+   "retaining": true,
+   "step": true,
+   "note": "A flat ground plane casts nothing. ShadowDepths was the single most expensive pass in this build before the Nanite pass (8.62 ms, PERFORMANCE-BUDGET.md), so the three flat components are excluded from it outright."
+  },
+  "nanite": true,
+  "budgetNote": "RTX 2070, 8 GB, 1080p. 34653 instances across seven HISM components - seven draw calls before per-instance culling, against the 3,140 the whole map issues today - and 478620 triangles for the entire 2.07 km2 deck, its retaining walls and its stairs. That is 14.0% of the 3,416,580 triangles in the 190-actor Old City facade set the YECHEZKEL state already hides, and the deck, way and rib components are placed with CastShadow off because a flat ground plane casts nothing and ShadowDepths is the pass this build spent 8.6 ms in before Nanite. Nanite is ON for every plaza module: they are large, static, opaque and instanced, which is the case Nanite exists for."
+ },
+ "limitations": [
+  "GEOMETRY ONLY. Nothing here establishes visual, halachic, walking or packaged acceptance.",
+  "The extent is sourced (Yechezkel 42:15-20 with 40:5). That the enclosed ground is a built flat plaza is the USER'S decision of 9 September 2026. Every dimension, the paving layout, the drainage, the retaining construction, the processional ways and the stairs are AUTHORED by this project and are a study aid, not a claim about the Temple.",
+  "THE FILL IS NOT MODELLED. Under the deck, where the ground falls away, there is a void closed by the retaining ring; no vaults, no cisterns, no substructure. A viewer can never see into it, and modelling 77 million cubic metres of anything would be dishonest as well as expensive. The real Temple Mount solves the same problem with vaults.",
+  "THE TERRAIN IS NOT CUT. On the fifth of the footprint where the ground stands above the deck - the Mount of Olives slope in the north-east, and strips on the north and west - the existing DEM terrain tiles still rise through the paving. The plaza is correct there and the terrain is not. The fix is the FutureMountV1 precedent extended: generate *_PrecinctCut twins of the terrain tiles the precinct overlaps and swap them by visibility with the state, exactly as the buildings are swapped. That is a separate, mechanical pass and it is NOT done here. Until it is, the north-east quadrant of the plaza is not finished.",
+  "THE OUTSIDE APPROACHES ARE NOT BUILT. Where the deck stands above the ground outside the wall - up to 60 m at the south-west gate - a visitor arriving from the modern street has no way up. Real precedent (the Huldah stairway, Robinson's Arch) is a monumental stair or a bridge on arches, and both would be large authored structures standing over modern buildings that this project deliberately leaves visible. Recorded, not built.",
+  "DRAINAGE OUTFALLS ARE NOT MODELLED. The channel network runs to the perimeter channel; where it would discharge through the retaining face there is no opening, because a hole in a 136 m ashlar wall is a piece of architecture and nothing has been designed.",
+  "The two south processional ways are snapped to the nearest cell boundary, because the gates at thirds of the south wall do not fall on the Temple-set-out grid. The offset is recorded per way in plaza-<Target>.json and is at most half a cell."
+ ]
+}

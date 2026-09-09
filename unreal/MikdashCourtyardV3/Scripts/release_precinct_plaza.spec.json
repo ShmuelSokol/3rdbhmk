@@ -1,0 +1,206 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-09",
+ "purpose": "Import the seven PrecinctPlazaV1 module meshes written by Scripts/create_precinct_plaza.py --export, build the one new material the anti-repetition scheme needs, and bake the plaza onto the existing AMikdashEnclosure actor so the YECHEZKEL state shows a BUILT FLAT PLAZA across the whole 3000-amah footprint instead of bald DEM terrain with the modern buildings hidden. Shmuel's decision of 9 September 2026, quoted in full in decision below. The buildings stay hidden by visibility and are never deleted; MODERN still restores every one of them exactly.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "decision": "\"that whole expanded area around that we had to, like, take out buildings. I'm not sure if I like it because either you put it as a platform, like a flat flat platform that's built out into those dimensions to just expand the plaza. Or what you have to do is you have to restore the buildings that are there now. I would say make it a flat plaza for the dimensions of the the area that has call sets, that expanded area.\" - Shmuel, 9 September 2026. Yechezkel 42:15-20 gives the EXTENT and nothing else; that the enclosed ground is a built flat plaza is the user's decision, and the retaining, paving, drainage and stair design is AUTHORED by this project.",
+ "targets": {
+  "Candidate48": {
+   "flag": "-Candidate48",
+   "role": "The configured default and the cook map, at the book's own 48 cm amah. RUN THIS ONE FIRST.",
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+   "amahCm": 48.0,
+   "courtPlatformHalfExtentCm": 7776.0,
+   "plazaReceipt": "SourceAssets/enclosure-review/plaza-Candidate48.json",
+   "precinctReceipt": "SourceAssets/enclosure-review/precinct-Candidate48.json",
+   "observedMapSha256": "78d9df3dd96c5121bdd63907957c4b30185a47b89e2407cbe292539969692dd3",
+   "observedUtc": "2026-09-09T22:48:59.078485+00:00",
+   "observedProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_precinct_plaza.write_spec() at 2026-09-09T22:48:59.078485+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+   "protectedMaps": [
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+   ]
+  },
+  "Main50": {
+   "flag": "-Main50",
+   "role": "The legacy 50 cm map. Run second, after the candidate has been looked at.",
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+   "amahCm": 50.0,
+   "courtPlatformHalfExtentCm": 8100.0,
+   "plazaReceipt": "SourceAssets/enclosure-review/plaza-Main50.json",
+   "precinctReceipt": "SourceAssets/enclosure-review/precinct-Main50.json",
+   "observedMapSha256": "c14a792779663024358d448580b9ae5c4ec5e8b09044ebff037ff81bb62cd3a6",
+   "observedUtc": "2026-09-09T22:48:59.078485+00:00",
+   "observedProvenance": "sha256 read off Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap by release_precinct_plaza.write_spec() at 2026-09-09T22:48:59.078485+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+   "protectedMaps": [
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+   ]
+  }
+ },
+ "targetNote": "One target per run, chosen with its flag; there is no default, because the two maps are not interchangeable. The city and the terrain are metric in both and do not move; only the Temple (so the court platform half-extent, 8100 -> 7776) and therefore the precinct and its plaza scale. The plaza cell grid is 25 amot in BOTH maps, so the cell COUNTS are identical (121 x 121) and only the centimetres differ.",
+ "generatorScript": "Scripts/create_precinct_plaza.py",
+ "geometryManifest": "SourceAssets/enclosure-review/plaza-manifest.json",
+ "enclosureMathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/EnclosureMath.h",
+ "meshSourceFolder": "SourceAssets/enclosure-review/PrecinctPlazaV1",
+ "namespace": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1",
+ "meshFolder": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes",
+ "materialFolder": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials",
+ "enclosureActorLabel": "RELEASE_EnclosureV2_Precinct",
+ "enclosureActorTag": "ReleaseEnclosureV2",
+ "enclosureActorNote": "The plaza is NOT a new actor. It is seven more HierarchicalInstancedStaticMeshComponents on the precinct actor that already exists, because the deck and the wall must be grounded from the same ground profile and must appear and disappear together with the state. If that actor is not in the map, this script refuses rather than spawning a second one.",
+ "meshes": [
+  {
+   "name": "SM_PlazaV1_DeckTile",
+   "material": "deck",
+   "castShadow": false
+  },
+  {
+   "name": "SM_PlazaV1_WayTile",
+   "material": "way",
+   "castShadow": false
+  },
+  {
+   "name": "SM_PlazaV1_Rib",
+   "material": "ashlar",
+   "castShadow": false
+  },
+  {
+   "name": "SM_PlazaV1_Kerb",
+   "material": "ashlar",
+   "castShadow": true
+  },
+  {
+   "name": "SM_PlazaV1_Channel",
+   "material": "ashlar",
+   "castShadow": true
+  },
+  {
+   "name": "SM_PlazaV1_RetainingBand",
+   "material": "ashlar",
+   "castShadow": true
+  },
+  {
+   "name": "SM_PlazaV1_Step",
+   "material": "ashlar",
+   "castShadow": true
+  }
+ ],
+ "castShadowNote": "Set on the COMPONENT by AMikdashEnclosure, not on the mesh; recorded here so the receipt can state it. A flat ground plane casts nothing, and ShadowDepths was the single most expensive pass in this build before the Nanite pass (8.62 ms - PERFORMANCE-BUDGET.md).",
+ "importSettings": {
+  "note": "Identical to the proven keilim / doors / water OBJ adapter path (FbxFactory). Single-mesh OBJ with one `o` object and no `g` groups: destination_name is the exact mesh name and combine_meshes merges into one static mesh with one material slot. build_nanite is TRUE here, unlike the wall modules: the plaza is large, static, opaque and instanced, which is the case Nanite exists for, and 34,000 non-Nanite instances would go straight back into the shadow-depth pass this build has just been dug out of.",
+  "factory": "FbxFactory",
+  "fbxImportUI": {
+   "automated_import_should_detect_type": false,
+   "mesh_type_to_import": "FBXIT_STATIC_MESH",
+   "import_as_skeletal": false,
+   "import_mesh": true,
+   "import_animations": false,
+   "import_materials": false,
+   "import_textures": false,
+   "create_physics_asset": false
+  },
+  "staticMeshImportData": {
+   "combine_meshes": true,
+   "transform_vertex_to_absolute": true,
+   "bake_pivot_in_vertex": false,
+   "convert_scene": false,
+   "convert_scene_unit": false,
+   "force_front_x_axis": false,
+   "import_uniform_scale": 1.0,
+   "auto_generate_collision": false,
+   "build_nanite": true,
+   "generate_lightmap_u_vs": false,
+   "remove_degenerates": true,
+   "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+  }
+ },
+ "objAdapter": "Unreal legacy OBJ adapter: canonical vertices are UE cm (X east, +Y south, Z up); the files are written with Y REFLECTED and triangle winding REVERSED. The importer reflects Y back, so imported bounds must equal canonicalBoundsCm and imported triangle counts must equal the manifest. A mismatch means the adapter convention changed and every one of the 34,000 instances would be mirrored.",
+ "materials": {
+  "deck": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+   "kind": "new master",
+   "texture": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
+   "tileCm": 500.0,
+   "roughness": 0.8,
+   "metallic": 0.0,
+   "why": "The approved M_JerusalemPaving_500cm CANNOT be varied as it stands. Its mapping is a frozen unparameterised Custom node, `return float2(P.x,P.y)/500.0;`, with MIRROR addressing on both axes, and Scripts/release_jerusalem_paving.py asserts that graph node for node. Over 1.44 km that is a 5 m tile with a 10 m mirror period and axis-aligned symmetry lines - the strongest grid cue there is, and precisely the thing the decision above was made to avoid. This master samples THE SAME APPROVED TEXTURE at the same 500 cm with the same roughness and metallic, and adds only a rotation and an origin taken from per-instance custom data, so one draw call can lay fourteen thousand tiles in five directions with no two panels starting the pattern in the same place. The approved material is never edited.",
+   "customData": [
+    {
+     "index": 0,
+     "name": "Cs",
+     "meaning": "cosine of the panel's course angle"
+    },
+    {
+     "index": 1,
+     "name": "Sn",
+     "meaning": "sine of the panel's course angle"
+    },
+    {
+     "index": 2,
+     "name": "U0",
+     "meaning": "the panel's UV origin along X, world cm"
+    },
+    {
+     "index": 3,
+     "name": "V0",
+     "meaning": "the panel's UV origin along Y, world cm"
+    },
+    {
+     "index": 4,
+     "name": "Tn",
+     "meaning": "tonal offset, -1..1, from a 120 m value-noise lattice"
+    }
+   ],
+   "tintAmplitude": 0.04,
+   "tintNote": "Four per cent of lightness, which is at the edge of visibility on a single tile and clearly readable as slow drift across a kilometre. More than that and the plaza looks patched rather than weathered."
+  },
+  "way": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_WaySlabs",
+   "kind": "instance",
+   "parent": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+   "why": "The five processional ways run on the world axes, so the approved slab material's own unrotated world-XY mapping is already aligned with them and needs no change at all. An INSTANCE is created rather than using the approved master directly for one reason only: a HISM needs MATUSAGE_INSTANCED_STATIC_MESHES, and setting that on the instance leaves the approved master byte-identical."
+  },
+  "ashlar": {
+   "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "kind": "instance",
+   "parent": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+   "why": "The retaining wall, the scarp, the ribs, the kerbs, the channels and the stairs are the same stone as the precinct wall and the Kotel, so they take the approved Herodian ashlar. Its parent maps u = world X|Y / 300 cm and v = world Z / 300 cm, which is why the retaining bands are never scaled in Z: a scaled band would carry courses of a different height from the band above it, on a face 137 m tall. An instance again, so the usage overrides do not touch the approved asset."
+  },
+  "usage": {
+   "requireNanite": true,
+   "requireInstancedStaticMeshes": true,
+   "note": "MaterialEditingLibrary setters return False even on success in 5.8, so every set is verified by readback."
+  }
+ },
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "PrecinctPlaza-",
+ "receiptFolder": "SourceAssets/enclosure-review",
+ "receiptPrefix": "native-plaza-",
+ "verification": {
+  "boundsToleranceCm": 1.0,
+  "deckZToleranceCm": 0.001,
+  "extentToleranceCm": 0.01,
+  "faceHeightToleranceCm": 1.0,
+  "note": "Imported bounds must reproduce the OBJ's CANONICAL bounds, because the legacy importer reflects Y back. After save and reopen the placed actor is asked to MeasureWithoutHiding() in the editor world and its OWN numbers are compared to plaza-<Target>.json: deck top Z exactly, the paved extent to a hundredth of a centimetre, the cell grid and panel count exactly, all eight instance counts exactly, and the tallest retaining and scarp stack on each side to a centimetre. Nothing is hidden in the editor world and nothing is saved after the readback."
+ },
+ "modes": {
+  "-PlazaAssets": "Import the seven meshes and build the three materials. Touches no map and no actor; the run refuses if any target map changes by a byte.",
+  "-PlazaApply": "Bake the plaza onto the existing AMikdashEnclosure actor, save, reopen and read back. Requires the MikdashRuntime plugin to have been rebuilt with the plaza properties; if it has not, the run records an OMISSION with evidence and leaves the map untouched rather than failing.",
+  "-PlazaVerify": "Reopen the target map and read the placed actor back against the receipt. Saves nothing."
+ },
+ "limitations": [
+  "GEOMETRY AND ASSETS ONLY. Nothing this script does establishes visual, halachic, walking or packaged acceptance of the plaza.",
+  "The plaza raises the actor count by ZERO and the asset count by seven meshes and three materials. The 2.07 km2 deck is about 34,700 run-time instances across seven HierarchicalInstancedStaticMeshComponents on the one precinct actor, not 34,700 actors.",
+  "THE TERRAIN IS NOT CUT. On the fifth of the footprint where the ground stands above the deck - the Mount of Olives slope in the north-east and strips on the north and west - the existing DEM terrain tiles still rise through the paving. The plaza is correct there and the terrain is not. The fix is the FutureMountV1 precedent extended: generate *_PrecinctCut twins of the sixteen terrain tiles the precinct overlaps and swap them by visibility with the state, exactly as the buildings are swapped. That is a separate mechanical pass and it is NOT done here.",
+  "THE OUTSIDE APPROACHES ARE NOT BUILT. Where the deck stands above the ground outside the wall - up to 61 m at the south-west gate - a visitor arriving from the modern street has no way up. Recorded, not built.",
+  "The fill under the deck is not modelled; there is a void closed by the retaining ring, which no viewer can see into.",
+  "Nothing is ever deleted or hidden by this script. Hiding happens at run time, by visibility, and is reversed on EndPlay."
+ ]
+}

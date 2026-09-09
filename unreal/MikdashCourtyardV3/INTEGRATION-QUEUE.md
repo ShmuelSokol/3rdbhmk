@@ -303,3 +303,62 @@ and every resident walks naturally. Until then they amble.
 head look-at. `GetGroundSpeed()` and `GetCadenceBias()` are already exposed `BlueprintPure` for
 it to read. Epic ships 25 usable locomotion AnimSequences in
 `Optional/Animation/UEFNAnimPreset/Locomotion/`, including foot-phased Start_*/Stop_* clips.
+
+## The precinct plaza — 9 Sep, 23:0x UTC
+
+**Shmuel's decision, verbatim:** *"that whole expanded area around that we had to, like, take
+out buildings. I'm not sure if I like it because either you put it as a platform, like a flat
+flat platform that's built out into those dimensions to just expand the plaza. Or what you
+have to do is you have to restore the buildings that are there now. I would say make it a flat
+plaza for the dimensions of the the area that has call sets, that expanded area."*
+
+The YECHEZKEL state no longer leaves bald DEM terrain inside the ring. The precinct is a
+**built flat deck at the Temple's own datum, Z 0 (748.0 m a.s.l.)**, across the whole 3,000-amah
+footprint, with ashlar retaining walls down to grade where the ground falls away and a scarp
+where it rises. Buildings are still hidden by visibility and still never deleted; MODERN
+restores everything exactly, and the plaza is hidden in MODERN and in OVERLAY.
+
+Design record, with every choice and its reasoning:
+`SourceAssets/enclosure-review/PLAZA-DESIGN-20260909.md`. Plan view:
+`plaza-plan-Candidate48.png`. `sources.md` §4c carries the decision and the two numbers that
+matter (77 Mm3 of fill over 80% of the footprint; 137 m of retaining on the south face).
+
+**DONE AND RECEIPTED on both maps, 9 Sep.** `MikdashRuntime` was rebuilt at 18:47 (the DLL
+carries the plaza), the standalone C++ maths test PASSES
+(`python Scripts/create_enclosure.py --tests`), and all four steps have run:
+
+1. `python Scripts/create_precinct_plaza.py --export` — 7 modules, both per-map receipts, the
+   plan-view PNG. 42 s, no engine.
+2. `-Candidate48 -PlazaAssets` — 7 meshes at bounds error **0.0**, 3 materials built and read
+   back node for node (five PerInstanceCustomData slots, both Custom nodes, approved texture,
+   both usages). Map and all four protected maps byte-identical.
+   `native-plaza-assets-Candidate48-20260909T225412198686Z.json`
+3. `-Candidate48 -PlazaApply` — placed, saved, reopened, read back. `built`, deck Z **0.0**,
+   **121x121 cells, 713 panels**, all eight instance counts and all four per-side face heights
+   equal to `plaza-Candidate48.json`, 478,620 triangles.
+   `native-plaza-apply-Candidate48-20260909T225822507573Z.json`
+4. `-Main50 -PlazaApply` — the same, 479,676 triangles, 34,741 instances.
+   `native-plaza-apply-Main50-20260909T230017414502Z.json`
+
+Both runs checkpointed into `C:\Mikdash\Working-5.8\ReviewCheckpoints\PrecinctPlaza-*` and
+left every protected map byte-identical.
+
+**The 713-panel agreement is the load-bearing check.** The generator lays the plaza in Python
+and the actor lays it again in C++, both walking the same frozen recursive split in
+`EnclosureMath.h`. Two independent implementations producing the same 713 panels and the same
+instance counts is what says the receipt describes the plaza actually in the level.
+
+**Nothing here establishes visual acceptance. Nobody has looked at it in a frame.**
+
+**Two things the plaza does NOT yet do, and both are visible:**
+
+- **The terrain is not cut.** On the fifth of the footprint standing above the deck (the Mount
+  of Olives slope in the north-east, strips north and west) the DEM tiles still rise through
+  the paving. The precinct overlaps **16 terrain tiles**, 4 wholly inside and 12 straddling.
+  The fix is the FutureMountV1 precedent extended: generate `*_PrecinctCut` twins of the twelve
+  and swap them by visibility with the state, never deleting.
+  `Scripts/import_future_mount_terrain.py` already does exactly this for four tiles against a
+  185-vertex polygon; a rectangle is simpler. **Until that runs the NE quadrant is unfinished.**
+- **The outside approaches are not built.** The deck stands up to 61 m above the modern street
+  at the south-west gate. Huldah-stairway or Robinson's-Arch scale structures, over buildings
+  this project deliberately leaves visible. Recorded, not built.

@@ -1,0 +1,404 @@
+{
+ "target": "Main50",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "note": "Main/legacy map, baked at 50 Unreal cm per amah.",
+ "cmPerAmah": 50.0,
+ "courtPlatformHalfExtentCm": 8100.0,
+ "moduleScale": 1.0,
+ "deck": {
+  "topZcm": 0.0,
+  "topMetresAsl": 748.0,
+  "slabThicknessCm": 50.0,
+  "datumRule": "PlazaDeckDatumOffsetAmot = 0: the Temple court datum itself. SM_0127 stands with its underside on this plane."
+ },
+ "grid": {
+  "cellCm": 1250.0,
+  "cellAmot": 25.0,
+  "i0": -27,
+  "i1": 94,
+  "j0": -27,
+  "j1": 94,
+  "cellsX": 121,
+  "cellsY": 121,
+  "cells": 14641,
+  "xMinCm": -32800.0,
+  "xMaxCm": 116600.0,
+  "yMinCm": -32850.0,
+  "yMaxCm": 116550.0,
+  "setOutFrom": "world origin (the measured court centre), NOT the wall, so the Temple axes fall on cell boundaries and the axial ways are symmetric to the centimetre"
+ },
+ "panels": {
+  "count": 713,
+  "minCells": 3,
+  "maxCells": 8,
+  "seed": "0x5EED5A17",
+  "splitChance256": 96,
+  "courseAnglesDegrees": [
+   0.0,
+   22.5,
+   45.0,
+   67.5,
+   90.0
+  ],
+  "cellsPerCourseAngle": [
+   2896,
+   2491,
+   3321,
+   2997,
+   2936
+  ],
+  "meanCellsPerPanel": 20.53
+ },
+ "tint": {
+  "latticeCells": 10,
+  "latticeMetres": 125.0,
+  "observedRange": [
+   -0.9918,
+   0.9871
+  ]
+ },
+ "ways": [
+  {
+   "gate": "N",
+   "northSouth": true,
+   "band0": -1,
+   "band1": 1,
+   "along0": -27,
+   "along1": -7,
+   "snapCm": 0.0
+  },
+  {
+   "gate": "E",
+   "northSouth": false,
+   "band0": -1,
+   "band1": 1,
+   "along0": 7,
+   "along1": 94,
+   "snapCm": 0.0
+  },
+  {
+   "gate": "S1",
+   "northSouth": true,
+   "band0": 13,
+   "band1": 15,
+   "along0": 7,
+   "along1": 94,
+   "snapCm": 600.0
+  },
+  {
+   "gate": "S2",
+   "northSouth": true,
+   "band0": 53,
+   "band1": 55,
+   "along0": 7,
+   "along1": 94,
+   "snapCm": 600.0
+  },
+  {
+   "gate": "W",
+   "northSouth": false,
+   "band0": -1,
+   "band1": 1,
+   "along0": -27,
+   "along1": -7,
+   "snapCm": 0.0
+  }
+ ],
+ "wayCells": 602,
+ "channelLines": {
+  "x": [
+   -16,
+   -2,
+   7,
+   23,
+   35,
+   46,
+   60,
+   69,
+   85
+  ],
+  "y": [
+   -16,
+   -2,
+   7,
+   23,
+   35,
+   46,
+   60,
+   69,
+   85
+  ],
+  "strideCells": [
+   11,
+   14,
+   9,
+   16,
+   12
+  ],
+  "culvertedUnderWays": 46
+ },
+ "retainingPerSide": [
+  {
+   "side": 0,
+   "name": "north",
+   "modules": 120,
+   "fillModules": 53,
+   "cutModules": 70,
+   "retainingBands": 508,
+   "scarpBands": 918,
+   "retainingMaxCm": 4929.99,
+   "retainingMaxMetres": 49.3,
+   "scarpMaxCm": 5679.8,
+   "scarpMaxMetres": 56.8,
+   "wallBaseMinMetresAsl": 748.0,
+   "wallBaseMaxMetresAsl": 804.8
+  },
+  {
+   "side": 1,
+   "name": "east",
+   "modules": 120,
+   "fillModules": 88,
+   "cutModules": 33,
+   "retainingBands": 3050,
+   "scarpBands": 606,
+   "retainingMaxCm": 14665.1,
+   "retainingMaxMetres": 146.65,
+   "scarpMaxCm": 6058.76,
+   "scarpMaxMetres": 60.59,
+   "wallBaseMinMetresAsl": 748.0,
+   "wallBaseMaxMetresAsl": 808.59
+  },
+  {
+   "side": 2,
+   "name": "south",
+   "modules": 120,
+   "fillModules": 120,
+   "cutModules": 0,
+   "retainingBands": 4149,
+   "scarpBands": 0,
+   "retainingMaxCm": 14709.41,
+   "retainingMaxMetres": 147.09,
+   "scarpMaxCm": 0.0,
+   "scarpMaxMetres": 0.0,
+   "wallBaseMinMetresAsl": 748.0,
+   "wallBaseMaxMetresAsl": 748.0
+  },
+  {
+   "side": 3,
+   "name": "west",
+   "modules": 120,
+   "fillModules": 69,
+   "cutModules": 56,
+   "retainingBands": 1051,
+   "scarpBands": 244,
+   "retainingMaxCm": 8974.95,
+   "retainingMaxMetres": 89.75,
+   "scarpMaxCm": 1691.16,
+   "scarpMaxMetres": 16.91,
+   "wallBaseMinMetresAsl": 748.0,
+   "wallBaseMaxMetresAsl": 764.91
+  }
+ ],
+ "gates": [
+  {
+   "id": "N",
+   "side": 0,
+   "positionCm": [
+    0.0,
+    -33150.0
+   ],
+   "outsideGroundMetresAsl": 743.4,
+   "thresholdMetresAsl": 748.0,
+   "riseAboveDeckCm": 0.0,
+   "riseAboveDeckMetres": 0.0,
+   "dropOutsideDeckMetres": 4.6,
+   "insideSteps": 0,
+   "landings": 0,
+   "stepModules": 0,
+   "insideRunCm": 0.0
+  },
+  {
+   "id": "E",
+   "side": 1,
+   "positionCm": [
+    116900.0,
+    0.0
+   ],
+   "outsideGroundMetresAsl": 783.01,
+   "thresholdMetresAsl": 783.01,
+   "riseAboveDeckCm": 3501.35,
+   "riseAboveDeckMetres": 35.01,
+   "dropOutsideDeckMetres": 0.0,
+   "insideSteps": 141,
+   "landings": 7,
+   "stepModules": 176,
+   "insideRunCm": 17600.0
+  },
+  {
+   "id": "S1",
+   "side": 2,
+   "positionCm": [
+    16900.0,
+    116850.0
+   ],
+   "outsideGroundMetresAsl": 683.26,
+   "thresholdMetresAsl": 748.0,
+   "riseAboveDeckCm": 0.0,
+   "riseAboveDeckMetres": 0.0,
+   "dropOutsideDeckMetres": 64.74,
+   "insideSteps": 0,
+   "landings": 0,
+   "stepModules": 0,
+   "insideRunCm": 0.0
+  },
+  {
+   "id": "S2",
+   "side": 2,
+   "positionCm": [
+    66900.0,
+    116850.0
+   ],
+   "outsideGroundMetresAsl": 693.87,
+   "thresholdMetresAsl": 748.0,
+   "riseAboveDeckCm": 0.0,
+   "riseAboveDeckMetres": 0.0,
+   "dropOutsideDeckMetres": 54.13,
+   "insideSteps": 0,
+   "landings": 0,
+   "stepModules": 0,
+   "insideRunCm": 0.0
+  },
+  {
+   "id": "W",
+   "side": 3,
+   "positionCm": [
+    -33100.0,
+    0.0
+   ],
+   "outsideGroundMetresAsl": 751.3,
+   "thresholdMetresAsl": 751.3,
+   "riseAboveDeckCm": 329.94,
+   "riseAboveDeckMetres": 3.3,
+   "dropOutsideDeckMetres": 0.0,
+   "insideSteps": 14,
+   "landings": 0,
+   "stepModules": 14,
+   "insideRunCm": 1400.0
+  }
+ ],
+ "wallPlan": {
+  "segmentsPerSide": 120,
+  "segmentLengthCm": 1250.0
+ },
+ "plan": {
+  "deckTiles": 14039,
+  "wayTiles": 602,
+  "ribModules": 6166,
+  "kerbModules": 602,
+  "channelModules": 2616,
+  "retainingBands": 8758,
+  "scarpBands": 1768,
+  "stepModules": 190,
+  "totalInstances": 34741,
+  "triangles": {
+   "deck": 168468,
+   "way": 7224,
+   "rib": 73992,
+   "kerb": 7224,
+   "channel": 94176,
+   "retaining": 105096,
+   "scarp": 21216,
+   "step": 2280,
+   "total": 479676
+  }
+ },
+ "cutFill": {
+  "method": "DEM prism between jerusalem.json terrain.heights and the flat deck, one sample at the centre of every paving cell, weighted by the cell's clipped area. Reported only; nothing in the geometry depends on it.",
+  "deckMetresAsl": 748.0,
+  "pavedAreaM2": 2232036.0,
+  "groundLowMetresAsl": 601.5,
+  "groundHighMetresAsl": 810.6,
+  "fillCubicMetres": 86956440.0,
+  "cutCubicMetres": 13715652.4,
+  "netCubicMetres": 73240787.6,
+  "fillAreaM2": 1778188.2,
+  "cutAreaM2": 453847.8,
+  "fillAreaFraction": 0.7967,
+  "cutAreaFraction": 0.2033,
+  "meanFillDepthMetres": 48.9,
+  "meanCutDepthMetres": 30.22,
+  "quadrants": {
+   "NW": {
+    "fillCubicMetres": 14514895.7,
+    "cutCubicMetres": 416834.8,
+    "fillAreaM2": 505793.8,
+    "cutAreaM2": 61591.8,
+    "groundLowMetresAsl": 664.7,
+    "groundHighMetresAsl": 765.2
+   },
+   "SW": {
+    "fillCubicMetres": 35811757.5,
+    "cutCubicMetres": 73.1,
+    "fillAreaM2": 557402.8,
+    "cutAreaM2": 193.8,
+    "groundLowMetresAsl": 611.0,
+    "groundHighMetresAsl": 749.4
+   },
+   "NE": {
+    "fillCubicMetres": 3156839.0,
+    "cutCubicMetres": 13290960.4,
+    "fillAreaM2": 169406.2,
+    "cutAreaM2": 388937.2,
+    "groundLowMetresAsl": 684.9,
+    "groundHighMetresAsl": 810.6
+   },
+   "SE": {
+    "fillCubicMetres": 33472947.8,
+    "cutCubicMetres": 7784.1,
+    "fillAreaM2": 545585.5,
+    "cutAreaM2": 3125.0,
+    "groundLowMetresAsl": 601.5,
+    "groundHighMetresAsl": 753.4
+   }
+  },
+  "demSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463"
+ },
+ "generatorSha256": "421150531eb888d3a1c6bb214ae2b894292931b8c66611d038630bbb9300cc39",
+ "enclosureMathSha256": "a0518f8d14434b3290f1c70f37b9063a2eb6e841bf7662980934a582867ac824",
+ "courtPlatformWitness": {
+  "asset": "SM_0127_architecture_Outer_court_supporting_platform",
+  "expectedBoundsUnrealCm": {
+   "min": [
+    -8100.0,
+    -8100.0,
+    0.0
+   ],
+   "max": [
+    8100.0,
+    8100.0,
+    299.0000009536743
+   ]
+  },
+  "undersideZcm": 0.0,
+  "topZcm": 299.0000009536743,
+  "proves": "the deck datum: Z 0 is the plane the measured court platform stands on"
+ },
+ "moduleTriangles": {
+  "SM_PlazaV1_DeckTile": 12,
+  "SM_PlazaV1_WayTile": 12,
+  "SM_PlazaV1_Rib": 12,
+  "SM_PlazaV1_Kerb": 12,
+  "SM_PlazaV1_Channel": 36,
+  "SM_PlazaV1_RetainingBand": 12,
+  "SM_PlazaV1_Step": 12
+ },
+ "limitations": [
+  "GEOMETRY ONLY. Nothing here establishes visual, halachic, walking or packaged acceptance.",
+  "The extent is sourced (Yechezkel 42:15-20 with 40:5). That the enclosed ground is a built flat plaza is the USER'S decision of 9 September 2026. Every dimension, the paving layout, the drainage, the retaining construction, the processional ways and the stairs are AUTHORED by this project and are a study aid, not a claim about the Temple.",
+  "THE FILL IS NOT MODELLED. Under the deck, where the ground falls away, there is a void closed by the retaining ring; no vaults, no cisterns, no substructure. A viewer can never see into it, and modelling 77 million cubic metres of anything would be dishonest as well as expensive. The real Temple Mount solves the same problem with vaults.",
+  "THE TERRAIN IS NOT CUT. On the fifth of the footprint where the ground stands above the deck - the Mount of Olives slope in the north-east, and strips on the north and west - the existing DEM terrain tiles still rise through the paving. The plaza is correct there and the terrain is not. The fix is the FutureMountV1 precedent extended: generate *_PrecinctCut twins of the terrain tiles the precinct overlaps and swap them by visibility with the state, exactly as the buildings are swapped. That is a separate, mechanical pass and it is NOT done here. Until it is, the north-east quadrant of the plaza is not finished.",
+  "THE OUTSIDE APPROACHES ARE NOT BUILT. Where the deck stands above the ground outside the wall - up to 60 m at the south-west gate - a visitor arriving from the modern street has no way up. Real precedent (the Huldah stairway, Robinson's Arch) is a monumental stair or a bridge on arches, and both would be large authored structures standing over modern buildings that this project deliberately leaves visible. Recorded, not built.",
+  "DRAINAGE OUTFALLS ARE NOT MODELLED. The channel network runs to the perimeter channel; where it would discharge through the retaining face there is no opening, because a hole in a 136 m ashlar wall is a piece of architecture and nothing has been designed.",
+  "The two south processional ways are snapped to the nearest cell boundary, because the gates at thirds of the south wall do not fall on the Temple-set-out grid. The offset is recorded per way in plaza-<Target>.json and is at most half a cell."
+ ]
+}

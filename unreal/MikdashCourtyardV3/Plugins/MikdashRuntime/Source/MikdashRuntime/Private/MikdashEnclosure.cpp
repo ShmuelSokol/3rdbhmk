@@ -13,6 +13,24 @@ using namespace MikdashEnclosure;
 
 namespace
 {
+/** The visible Kotel detail layers do not collide. This retained source batch supplies
+ * that boundary; keep the entire batch colliding until a selective geometry audit.
+ * Full asset identity survives cooking, unlike actor labels. No assets are changed. */
+bool ContainsProtectedKotelCollision(const AActor* Actor)
+{
+    TInlineComponentArray<UStaticMeshComponent*> Components;
+    Actor->GetComponents(Components);
+    for (const UStaticMeshComponent* Component : Components)
+    {
+        const UStaticMesh* Mesh = Component->GetStaticMesh();
+        if (Mesh != nullptr && Mesh->GetPathName() == TEXT("/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001.SM_JerusalemBuildings_Grid_N002_P001"))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 /** The engine-free enum is the authority; this is the only place the two are related. */
 EPrecinctState ToMath(EMikdashPrecinctState State)
 {
@@ -680,19 +698,28 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
     TArray<int32> Selected;
     SelectedBuildingIndices(Selected);
 
-    // Only actors in the selected set are touched, and only their visibility.
+    // Actor-level collision follows complete hiding in game worlds only. During a
+    // partial dissolve, retain the originally configured collision. Editor previews
+    // must not bake disabled collision into a subsequently saved map.
+    const bool bGameWorld = GetWorld() != nullptr && GetWorld()->IsGameWorld();
     for (int32 Index : Selected)
     {
         AActor* Actor = BuildingActors[Index].Get();
         if (Actor == nullptr) continue;
-        const bool bAlreadyRecorded = HiddenBuildings.Contains(Actor);
-        if (!bAlreadyRecorded)
+        int32 RecordedIndex = HiddenBuildings.IndexOfByKey(Actor);
+        if (RecordedIndex == INDEX_NONE)
         {
-            HiddenBuildings.Add(Actor);
+            RecordedIndex = HiddenBuildings.Add(Actor);
             HiddenBuildingsPriorHidden.Add(Actor->IsHidden());
+            HiddenBuildingsPriorCollision.Add(Actor->GetActorEnableCollision());
+            HiddenBuildingsKeepCollision.Add(ContainsProtectedKotelCollision(Actor));
         }
-        // NEVER Destroy, NEVER modify the package. Visibility only.
-        Actor->SetActorHiddenInGame(bHardHide);
+        Actor->SetActorHiddenInGame(bHardHide || HiddenBuildingsPriorHidden[RecordedIndex]);
+        if (bGameWorld)
+        {
+            Actor->SetActorEnableCollision((!bHardHide || HiddenBuildingsKeepCollision[RecordedIndex])
+                                          && HiddenBuildingsPriorCollision[RecordedIndex]);
+        }
     }
 }
 
@@ -708,9 +735,15 @@ void AMikdashEnclosure::RestoreAllModernBuildings()
         // Restore what it was, not what we assume it was: a building hidden by some other
         // system before we ever saw it must stay hidden.
         Actor->SetActorHiddenInGame(bPrior);
+        if (HiddenBuildingsPriorCollision.IsValidIndex(Index))
+        {
+            Actor->SetActorEnableCollision(HiddenBuildingsPriorCollision[Index]);
+        }
     }
     HiddenBuildings.Reset();
     HiddenBuildingsPriorHidden.Reset();
+    HiddenBuildingsPriorCollision.Reset();
+    HiddenBuildingsKeepCollision.Reset();
 }
 
 void AMikdashEnclosure::SetPrecinctStateOver(EMikdashPrecinctState NewState, float Seconds)
@@ -760,6 +793,9 @@ bool AMikdashEnclosure::IsTransitioning() const
 
 void AMikdashEnclosure::RebuildPrecinct()
 {
+    // Selection can change on a rebuild. Restore the old selection before replacing
+    // it, and do not mistake our own disabled collision for an actor's original state.
+    RestoreAllModernBuildings();
     GatherModernBuildings();
     BuildRing();
     ApplyWeights(WeightsFor(ToMath(CurrentState)));
@@ -767,6 +803,7 @@ void AMikdashEnclosure::RebuildPrecinct()
 
 void AMikdashEnclosure::MeasureWithoutHiding()
 {
+    RestoreAllModernBuildings();
     GatherModernBuildings();
     BuildRing();
 }

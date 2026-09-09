@@ -125,7 +125,13 @@ def hit_record(hit):
     actor=d.get('hitactor') or d.get('actor');comp=d.get('hitcomponent') or d.get('component')
     mesh=comp.get_editor_property('static_mesh') if isinstance(comp,u.StaticMeshComponent) else None
     return {'point':xyz(d['impactpoint']),'normal':xyz(d['impactnormal']),
-            'actor':actor.get_name() if actor else None,'mesh':mesh.get_path_name().split('.')[0] if mesh else None}
+            'actor':actor.get_name() if actor else None,'mesh':mesh.get_path_name().split('.')[0] if mesh else None,
+            'actorClass':actor.get_class().get_path_name() if actor else None,
+            'component':comp.get_path_name() if comp else None,
+            'actorHidden':bool(actor.get_editor_property('hidden')) if actor else None,
+            'actorCollision':bool(actor.get_actor_enable_collision()) if actor else None,
+            'componentVisible':bool(comp.get_editor_property('visible')) if comp else None,
+            'componentHidden':bool(comp.get_editor_property('hidden_in_game')) if comp else None}
 def floor_trace(world,p,ignored):
     return hit_record(u.SystemLibrary.line_trace_single_by_profile(world_context_object=world,
         start=u.Vector(p[0],p[1],p[2]+30),end=u.Vector(p[0],p[1],p[2]-60),profile_name='Pawn',
@@ -134,6 +140,31 @@ def expected_floor(x):
     for item in state['segments']:
         if item['xStartCm']<=x<item['xEndCm']: return item['topZcm']+2.0
     return 0.0 if -12500<=x<=-12300 else None
+
+
+def kotel_visibility(world, pawn):
+    # Same metric edge-0 camera as the rejected lighting capture. Diagnose the
+    # actual collision surface in front of it without hiding/moving any actor.
+    a=(-15127.514984215617,11907.932517753074)
+    b=(-14450.014984215613,15836.432517753074)
+    normal=(-.9854528733045355,.1699489173129251)
+    mid=[(a[i]+b[i])/2 for i in range(2)]
+    xy=[mid[i]+normal[i]*1000 for i in range(2)]
+    def trace(start,end):
+        return hit_record(u.SystemLibrary.line_trace_single_by_profile(
+            world_context_object=world,start=u.Vector(*start),end=u.Vector(*end),
+            profile_name='Pawn',trace_complex=True,actors_to_ignore=[pawn],
+            draw_debug_type=u.DrawDebugTrace.NONE,ignore_self=False))
+    ground=trace([*xy,1100],[*xy,-2900])
+    if ground is None:
+        return {'scope':'Collision diagnostics, not visual acceptance','ground':None,'rays':[]}
+    eye=[*xy,ground['point'][2]+168]
+    rays=[]
+    for height in (eye[2],eye[2]+250,0.0,400.0):
+        end=[mid[i]-normal[i]*100 for i in range(2)]+[height]
+        rays.append({'start':eye,'end':end,'hit':trace(eye,end)})
+    return {'scope':'Metric edge-0 camera; Pawn-profile rays cannot identify non-colliding visual occluders',
+            'ground':ground,'eye':eye,'rays':rays}
 
 
 def tick(dt):
@@ -163,12 +194,24 @@ def tick(dt):
             state['services']=[a for a in aa if u.MathLibrary.class_is_child_of(a.get_class(),service_cls)]
             service_off(state['services']);frame(aa)
             report['pieAccess']=access_guard(aa)
+            report['kotelVisibility']=kotel_visibility(world,pawn)
+            report['kotelSurfaces']=[]
+            for actor in aa:
+                if actor.get_actor_label().startswith(('RELEASE_Kotel','REVIEW_KotelPhoto','SM_JerusalemBuildings_Grid_N002_P001')):
+                    report['kotelSurfaces'].append({
+                        'label':actor.get_actor_label(),'actor':actor.get_name(),
+                        'hidden':bool(actor.get_editor_property('hidden')),
+                        'components':[{'mesh':c.get_editor_property('static_mesh').get_path_name() if c.get_editor_property('static_mesh') else None,
+                                       'visible':bool(c.get_editor_property('visible')),'hidden':bool(c.get_editor_property('hidden_in_game')),
+                                       'materials':[c.get_material(i).get_path_name() if c.get_material(i) else None for i in range(c.get_num_materials())]}
+                                      for c in actor.get_components_by_class(u.StaticMeshComponent)]})
             movement=pawn.get_component_by_class(u.CharacterMovementComponent)
             capsule=pawn.get_component_by_class(u.CapsuleComponent)
             if movement is None or capsule is None: raise RuntimeError('Actual walking character required')
             radius=capsule.get_scaled_capsule_radius();half=capsule.get_scaled_capsule_half_height()
             report['physical']={'radius':radius,'halfHeight':half,'maxStepHeight':movement.get_editor_property('max_step_height'),
-                                'walkSpeed':movement.get_editor_property('max_walk_speed')}
+                                'walkSpeed':movement.get_editor_property('max_walk_speed'),
+                                'collisionProfile':str(capsule.get_collision_profile_name())}
             floor=floor_trace(world,START,[pawn])
             if floor is None or abs(floor['point'][2]-START[2])>1 or floor['normal'][2]<.95:
                 raise RuntimeError('Lower landing actual support differs')
@@ -191,11 +234,19 @@ def tick(dt):
             raise RuntimeError('Physical walking settings changed during probe')
         elapsed=gt-state['start'];feet=[pos.x,pos.y,pos.z-state['half']]
         if elapsed>180: finish('failed_simulation_watchdog');return
-        if abs(pos.y-Y)>110: raise RuntimeError('Left the authored300cm clear corridor')
+        if abs(pos.y-Y)>110:
+            report['corridorFailure']={'seconds':elapsed,'feet':feet,'velocity':xyz(pawn.get_velocity())}
+            raise RuntimeError('Left the authored300cm clear corridor')
         if elapsed-state['last']>=.25:
             floor=floor_trace(world,feet,[pawn]);expected=expected_floor(pos.x)
+            direction=1.0 if ROUTE[state['leg']][1]>pos.x else -1.0
+            ahead=hit_record(u.SystemLibrary.capsule_trace_single_by_profile(world_context_object=world,
+                start=pos,end=pos+u.Vector(direction*120,0,0),
+                radius=report['physical']['radius'],half_height=state['half'],profile_name='Pawn',
+                trace_complex=False,actors_to_ignore=[pawn],draw_debug_type=u.DrawDebugTrace.NONE,ignore_self=False))
             report['samples'].append({'seconds':elapsed,'feet':feet,'floor':floor,'expectedFloor':expected,
-                'walking':movement.is_walking(),'floorDelta':feet[2]-floor['point'][2] if floor else None})
+                'walking':movement.is_walking(),'floorDelta':feet[2]-floor['point'][2] if floor else None,
+                'aheadCapsule':ahead,'velocity':xyz(pawn.get_velocity())})
             state['last']=elapsed
         label,target_x,target_z=ROUTE[state['leg']]
         if abs(pos.x-target_x)<20 and abs(pos.y-Y)<20:

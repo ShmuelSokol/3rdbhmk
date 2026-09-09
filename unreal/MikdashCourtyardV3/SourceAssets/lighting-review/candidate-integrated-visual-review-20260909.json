@@ -1,0 +1,51 @@
+{
+  "receipt": "lighting-v3-capture-20260909T080856Z.json",
+  "status": "reviewed_with_visual_findings",
+  "reviewer": "Astra root; independent verifier agrees",
+  "imagesInspected": 4,
+  "findings": {
+    "v3_heikhal_menorah": "Interior and vessels are legible, but gold is strongly uniform yellow, coarse and bright. Not production-quality acceptance.",
+    "v5_kotel_plaza": "Rejected: close dark brick surface fills the wall view. Subsequent upper collision rays reach the intended Kotel base mesh, so an extra wall occluder is not established. Check visible surface layers, lighting and wider framing before identifying the cause.",
+    "v6_outer_east_gate_shade": "Paver joints and gateway are readable. People remain visibly simple and sparse; no character-realism acceptance.",
+    "v9_inner_court_oblique": "Rejected as a full-facade diagnostic: south-side altar ramp obscures the lower facade and the roof is outside the frame. Architecture must not be moved to repair a camera angle."
+  },
+  "performance": {
+    "scope": "8-second Slate callback windows at live viewport 1014x550 before 1920x1080 HighResShot; not packaged or 1080p gameplay performance",
+    "finding": "352-373 callbacks per window. Reported p50/p95 values cluster at exactly 16/32 ms, indicating clock quantization. Do not use those percentiles as precise frame timings.",
+    "nextMeasurement": "Use perf_counter with recorded clock implementation and resolution, then repeat after settling."
+  },
+  "preservation": "Capture receipt reports all map, material-instance and original save hashes unchanged.",
+  "nextActions": [
+    "Identify upper-deck return deflection with native capsule contacts.",
+    "Compare existing cleaned Kotel world-projected photo on V2 stone geometry in PIE only.",
+    "Continue visual/access fixes before candidate promotion."
+  ],
+  "followup084554": {
+    "receipt": "lighting-v3-capture-20260909T084554Z.json",
+    "reviewer": "Astra root and independent verifier",
+    "imagesInspected": 2,
+    "findings": {
+      "v10_inner_court_north_oblique": "Entrance readable; roof/top facade still cropped, altar foreground and right mass obstruct full establishing view. Not final-quality acceptance.",
+      "v11_kotel_wide": "Intended wall visible across frame; generic dark masonry, sparse gray figures and haze. No extra-wall conclusion. Photographic surface trial pending."
+    },
+    "performance": {
+      "clock": "QueryPerformanceCounter resolution 1e-7 seconds",
+      "viewport": [
+        1014,
+        550
+      ],
+      "windowSeconds": 8,
+      "northP50P95Ms": [
+        23.7018,
+        27.8898
+      ],
+      "kotelP50P95Ms": [
+        22.3089,
+        25.5006
+      ],
+      "scope": "Settled Slate callbacks, not GPU timing or packaged/1080p performance"
+    },
+    "credits": "18 curated native BuildCredits names present; no rendered screen or packaged acceptance",
+    "preservation": "All maps, instances and original saves unchanged"
+  }
+}

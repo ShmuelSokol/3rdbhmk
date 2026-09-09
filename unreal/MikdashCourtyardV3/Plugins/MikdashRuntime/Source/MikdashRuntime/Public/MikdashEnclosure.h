@@ -68,8 +68,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FMikdashPrecinctStateSignature,
  * ------------------------------------------------------------
  * This actor NEVER calls Destroy(), NEVER modifies a package, NEVER touches a component's
  * mobility or transform on a building it did not spawn, and NEVER writes to disk. The only
- * thing it does to a modern building is SetActorHiddenInGame. It records every actor it
- * touched in HiddenBuildings and restores all of them on state change, on EndPlay and on
+ * visual change to a modern building is SetActorHiddenInGame. In game worlds only, a
+ * fully hidden selected building also has actor collision disabled; component collision
+ * settings are never rewritten. The exact retained Kotel base mesh is a conservative
+ * collision exception: its whole batch keeps original collision even while hidden.
+ * It records the prior visibility and actor collision in
+ * HiddenBuildings and restores them on state change, on EndPlay and on
  * RestoreAllModernBuildings(). A crash mid-transition therefore loses nothing: the map on
  * disk is untouched and a reload comes back with everything visible.
  *
@@ -378,6 +382,8 @@ private:
      *  a building that was ALREADY hidden by someone else is not "restored" into view. */
     UPROPERTY(Transient) TArray<TWeakObjectPtr<AActor>> HiddenBuildings;
     UPROPERTY(Transient) TArray<bool> HiddenBuildingsPriorHidden;
+    UPROPERTY(Transient) TArray<bool> HiddenBuildingsPriorCollision;
+    UPROPERTY(Transient) TArray<bool> HiddenBuildingsKeepCollision;
 
     /** Candidates found by GatherModernBuildings. */
     TArray<TWeakObjectPtr<AActor>> BuildingActors;

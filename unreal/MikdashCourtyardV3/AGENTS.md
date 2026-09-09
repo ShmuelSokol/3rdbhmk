@@ -1,3 +1,55 @@
+## Current verified state — 2026-09-09 09:05 UTC
+
+Full gate9/9,32/32math and UBT passed; latest publication quick gate6/6 passes.
+Build log verify-ubt-3x8p_4_e.log is clean, including corrected ServiceActor header order.
+Native enclosure restoration083903 passes269actors, original-false fixture and protected
+Kotel boundary collision. Maps/saves unchanged. Kotel ascent/platform access passes,
+but upper-deck return deflects near x=-13585: roundtrip084132/085303 remains failed.
+Forward capsule lifted5cm saw no contact; next diagnostic uses the actual capsule centre.
+
+Photo A/B084910 was visually reviewed by root and verifier and accepted for limited
+weathering improvement. Four candidate V2 slots now use existing PhotoSurfaceV2 materials:
+apply090038688444 saved/reopened and separate fresh090248379625 passes unrelated baseline,
+protected Content and material identity. Candidate SHA
+dcea5bf85498cabd519c182e3665792cbe732d358ebac94cdfcdec0032c0e7e1.
+Main remains93483d25; defaults/cook remain Main50. No fresh packaged build yet.
+Photo stretch/joint mismatch, haze, sparse simple figures and paving remain unfinished.
+
+Capture084554 verifies18 native BuildCredits names. ThirdPartyFolder is protected in
+Python even under its raw name: use observable public BuildCredits output, not property read.
+Its two reviewed views retain visual defects. QPC p50/p95: north23.70/27.89ms,
+Kotel22.31/25.50ms at1014x550,8seconds; not packaged or1080p game performance.
+Next: publish verified checkpoint, diagnose return contact, then continue visual/access
+fixes before candidate promotion and fresh downloadable build. Older notes below are history.
+
+## Historical native findings — 2026-09-09 08:28 UTC
+
+Kotel walk081519 and081953 both refused before initial placement. The actual blocker is
+OldCityInfill Grid_N002_P001 actor7483; latter receipt proves hidden=true, collision=true.
+Enclosure source fix now preserves original actor collision, disables it for fully hidden
+selected buildings in game worlds, and restores it on return/cleanup. Protected Kotel
+base mesh Grid_N002_P001 keeps its original collision because visible detail has none.
+This is a runtime state fix, not geometry deletion; subsequent build/runtime results are above.
+The layer diagnostic shows V2 ashlar visible; V1 and photo planes are hidden. Upper rays
+hit the intended Kotel base, so the dark close-up does NOT establish an extra wall occluder.
+Capture082421 failed at a Config-only property alias; raw ThirdPartyFolder also proved
+protected in084353. The public BuildCredits output check supersedes both attempts.
+First capture080856 timings were quantized (16/32 ms); use perf_counter plus clock metadata,
+not coarse monotonic tick differences, for future frame intervals. Prior raw evidence kept.
+Component GetCollisionEnabled is owner-aware (PrimitiveComponentPhysics.cpp1569). To test
+component settings preservation under actor collision toggles, read raw BodyInstance
+CollisionEnabled; effective collision is expected to change. See current acceptance above.
+
+## Publication detail — 2026-09-09 08:08 UTC
+
+Runtime checkpoint pushed 7741901c; configured-map gate pushed 2a5b00e0.
+On this case-insensitive filesystem, use the exact tracked Git spelling
+`Scripts/verify.py` when staging. `scripts/verify.py` resolves for file reads/copies
+but did not stage the tracked uppercase-directory path. Check staged names against
+the explicit manifest, not just command success, before committing.
+Native four-view Candidate48 capture with viewport timings is running; no visual or
+performance result is claimed until the actual images/receipt are inspected.
+
 ## Boarding runtime checkpoint — 2026-09-09 08:06 UTC
 
 Candidate bridge runtime080239102318 completed 180.017 simulated seconds: 45 boarded,
@@ -631,3 +683,59 @@ Diagnostic camera trap (2026-09-08): the four saved review CameraActors have man
 Pacing correction (2026-09-08): the user again corrected stopping after a verified checkpoint. A checkpoint is an intermediate result under the standing sustained-build instruction. Continue independent authorized build/test/fix work; only the specifically held paroches designs require approval. Report actual activity honestly rather than implying work continues after a turn ends.
 
 Verification launcher correction: passing an already quoted Build.bat command as a subprocess list element adds literal escaped quotes before Program Files and prevents UBT starting. Scripts/verify.py now invokes its fixed local batch command with shell=True and preserves both stdout and stderr in a unique external verify-ubt log. A launcher failure is not evidence of a C++ compile failure.
+## Collision state verification — 2026-09-09 08:41 UTC
+
+Kotel walk084132 now ascends and reaches platform/upper-deck return, but then deflects
+south near x=-13585 and leaves the corridor. Preserve failure; forward capsule diagnostics
+are added without changing route/capsule/tolerances. Walking roundtrip is NOT accepted.
+Capture084353 failed before images: ThirdPartyFolder is protected even under its raw name.
+Verify public BuildCredits output coverage instead; do not add an API solely to bypass this.
+
+Full gate passes 9/9 and 32/32 math; UBT succeeded (verify-ubt-5icewpn7.log).
+The nonfatal ServiceActor own-header-order diagnostic is corrected in source; rebuild pending.
+Native candidate-collision-restore-20260909T083903043338Z passes five instantaneous
+state/explicit-restore checks across 269 selected actors, including original-false fixture
+and protected Kotel collision. Maps and original saves unchanged. This does not establish
+partial-transition, independent EndPlay/rebuild, or walking-route acceptance. Kotel walk is next.
+Visible Kotel V2 samples the cleaned photo palette but uses generic sandstone textures;
+the retained PhotoSurfaceV2 materials project world-position imagery and are not currently visible.
+Do not claim the actual photo is applied to V2. A PIE-only material comparison is being prepared;
+photo joints and procedural geometry may mismatch, and the panorama is aspect-fitted.
+## Wider visual/credits check — 2026-09-09 08:49 UTC
+
+Capture084554 completes two inspected PNGs with zero errors/failures and all maps,
+material instances and original saves unchanged. Native BuildCredits includes all18
+reviewed names; screen/package readback remains separate. QPC intervals at1014x550:
+north p50/p95 23.70/27.89ms; Kotel22.31/25.50ms, each8seconds. Not packaged FPS.
+North entrance is readable but top still cropped; wide Kotel is visible with generic
+dark masonry, sparse gray figures and haze. Photo-on-stone A/B is running, not adopted.
+## Photo comparison and access finding — 2026-09-09 08:56 UTC
+
+Photo A/B084910 passes four transient assignments, restoration and preservation.
+Root and independent verifier accept the photographed weathering as a limited improvement;
+explicit visual-acceptance-20260909T0854.json pins the two images/receipt and limitations.
+No adoption yet. Photo joints can mismatch V2 geometry; panorama stretch/haze remain.
+Kotel return failure085303 repeats, but forward capsule lifted5cm reports no hit near
+deflection. Next diagnostic uses the actual capsule centre to detect shallow contact;
+do not claim a dynamic actor or platform cause yet. Original maps/saves remain unchanged.
+## Clean rebuild — 2026-09-09 09:00 UTC
+
+Full gate9/9,32/32math and UBT4actions16.54s pass in verify-ubt-3x8p_4_e.log;
+ServiceActor own-header diagnostic is resolved, log has no warning/error matches.
+Candidate-only photo material adoption is now running under the explicit visual receipt.
+Fresh process verification is still owed; do not publish a saved-map claim before receipt.
+## Candidate photo materials saved — 2026-09-09 09:02 UTC
+
+candidate-photo-depth-20260909T090038688444Z reports saved_reopened, four slots,
+zero errors/protected differences/new Content files. Candidate SHA is now
+dcea5bf85498cabd519c182e3665792cbe732d358ebac94cdfcdec0032c0e7e1.
+Only candidate V2 material overrides changed; photo source assets/Main remain unchanged.
+Checkpoint CandidateKotelPhotoDepth-20260909T090038688444Z preserves the old map.
+A separate process is verifying persisted scene/material identity now; default/cook remains Main50.
+## Photo adoption independently verified — 2026-09-09 09:04 UTC
+
+Fresh process candidate-photo-depth-20260909T090248379625Z passes four saved materials,
+canonical unrelated scene baseline and protected-content checks, zero errors/new files.
+Candidate dcea5bf8 is ready for the next access diagnostic; visual acceptance stays limited
+to weathered photo appearance, not joint alignment/lighting/finished characters.
+Source/visual/collision checkpoint is being verified for publication. No fresh package yet.

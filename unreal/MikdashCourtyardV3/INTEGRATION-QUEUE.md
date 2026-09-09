@@ -1,4 +1,15 @@
-## Current continuation — 2026-09-09 08:06 UTC
+## Current continuation — 2026-09-09 09:05 UTC
+
+Candidate dcea5bf8 now has independently verified photo materials on four Kotel V2 sections;
+source photo assets and other Content unchanged. Native collision restoration passes269actors.
+Kotel ascent/platform succeeds, but return deflection persists near x=-13585; exact-height
+capsule contact diagnostic is next. Do not call the roundtrip accepted.
+Wide/north capture084554 and photo A/B084910 are reviewed; remaining haze, cropped facade,
+photo aspect/joint mismatch and simple sparse people are recorded.18nativecreditsnames pass.
+Full build9/9+32/32math and latest quick6/6 pass. Publish this intermediate checkpoint,
+then continue access/visual fixes. Main50 is still default/cook; no fresh package yet.
+
+## Historical continuation — 2026-09-09 08:06 UTC
 
 Candidate48 bridge placement and fresh verification pass; native 180-second exchange
 test reports 45 boarding, 25 alighting and 15 photographer figures, no overruns. This is
@@ -163,3 +174,29 @@ Order chosen so that anything reading positions from the map runs after what it 
 - [ ] Launch smoke test; hash the CHILD exe in Binaries\Win64, not the bootstrap at the root.
 - [ ] publish.py --stage with explicit paths. Never `git add -A`.
 - [ ] Release note, commit, push, report the hash.
+## Current continuation — 2026-09-09 08:42 UTC
+
+Collision restoration passes native five-state/explicit-restore checks for269actors;
+protected Kotel base retains collision and original-false settings restore correctly.
+The previous Kotel stair probes failed before walking because an invisible infill mesh
+retained collision. New runtime fix compiled; actual stair roundtrip is now running.
+Four-view capture080856 is complete, visually reviewed with unresolved gold/Kotel/framing
+defects. Its frame intervals were clock-quantized; new high-resolution timings are pending.
+Wide Kotel and north-side facade views are prepared. Credits capture082421 failed at a
+Config-only reflected-property alias; exact ThirdPartyFolder read is fixed but unverified.
+Photo palette does not equal photographic surface: visible Kotel V2 uses generic sandstone.
+A guarded transient photo-material A/B is being prepared without changing saved assets.
+No default/cook promotion or new Windows package yet. Older entries below are historical.
+## Visual checkpoint — 2026-09-09 08:49 UTC
+
+Wide/north capture084554 now completes, including18 native attribution entries.
+Both images reviewed: Kotel generic/dark; facade top cropped. QPC interval p50 is22–24ms
+at1014x550, not a packaged60fps claim. Photographic Kotel-on-stone A/B is running.
+Kotel walk084132 ascends/reaches platform but return deflects; diagnostic rerun pending.
+## Candidate Kotel adoption — 2026-09-09 09:04 UTC
+
+Photo A/B084910 independently accepted as limited visual improvement. Four saved candidate
+V2 material slots now use existing world-projected PhotoSurfaceV2 materials. Apply090038 and
+separate fresh090248 both pass with protected Content unchanged. Candidate SHA dcea5bf8.
+Preserve aspect/joint/lighting limitations. Next: exact-height capsule contact diagnostic
+for upper-deck return deflection, then default/cook promotion after access checks.

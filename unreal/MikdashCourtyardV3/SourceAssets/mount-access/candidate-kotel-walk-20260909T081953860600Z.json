@@ -1,0 +1,550 @@
+{
+  "status": "failed",
+  "errors": [
+    "RuntimeError(\"Initial landing capsule blocked: {'point': [-18255.361328125, 19972.208984375, -1311.65576171875], 'normal': [0.9991296182188062, 0.04171337912400202, 0.0], 'actor': 'StaticMeshActor_7483', 'mesh': '/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/SM_OldCityInfill_Grid_N002_P001', 'actorHidden': True, 'actorCollision': True, 'componentVisible': True, 'componentHidden': False}\")"
+  ],
+  "samples": [],
+  "pid": 47460,
+  "scope": "Lower landing to upperdeck, platform-only endpoint, then back. One initial test placement; normal walking only. No plaza-to-landing approach, accessibility, full Mount connectivity or halachic claim.",
+  "mapsBefore": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\FirstPerson\\Lvl_FirstPerson.umap": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "cd3348ec8c0cf6f40291a5f85e338207d22c7d770a7855be0dd443d88964d1a7",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV1\\Maps\\Walkthrough.umap": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "93483d25ff23e01ee1462845b958d9c2139f2cd2e7177cf5e3e3141dd4ae1432",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\BusVisualAuditV1\\Maps\\Walkthrough.umap": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\CheckpointAudit\\BeforePlatform.umap": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV1\\L_IncenseSmokeReview.umap": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV2\\L_IncenseSmokeReview.umap": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV3\\L_IncenseSmokeReview.umap": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\InteriorExposureV1\\Courtyard_InteriorExposureV1.umap": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\Maps\\Walkthrough.umap": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\KotelSurfacePolishV1\\Maps\\Walkthrough.umap": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\KotelSurfacePolishV2\\Maps\\Walkthrough.umap": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\MaterialReview\\SanctuaryPolishV1\\Maps\\CourtyardPolish.umap": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\ResidentCrowdReview\\20260907T222556423474Z\\Walkthrough.umap": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755"
+  },
+  "savesBefore": {},
+  "savedAccess": {
+    "RELEASE_MountAccess_Deck": {
+      "actor": "StaticMeshActor_7275",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedDeck_V2.KotelApproach_ElevatedDeck_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    "RELEASE_MountAccess_Guards": {
+      "actor": "StaticMeshActor_7276",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedGuards_V2.KotelApproach_ElevatedGuards_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    "RELEASE_MountAccess_Portal": {
+      "actor": "StaticMeshActor_7362",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_AboveWallPortal_V2.KotelApproach_AboveWallPortal_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "planSha256": "920bd0868545d7f0d5083821a912176da72eecae43c81acac76763a79541717b",
+  "route": [
+    [
+      "upper_deck",
+      -12650.0,
+      2.0
+    ],
+    [
+      "platform_only",
+      -12350.0,
+      0.0
+    ],
+    [
+      "upper_deck_return",
+      -12650.0,
+      2.0
+    ],
+    [
+      "lower_landing_return",
+      -18250.0,
+      -1430.5
+    ]
+  ],
+  "metricY": 19972.432518,
+  "pieAccess": {
+    "RELEASE_MountAccess_Deck": {
+      "actor": "StaticMeshActor_7275",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedDeck_V2.KotelApproach_ElevatedDeck_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    "RELEASE_MountAccess_Guards": {
+      "actor": "StaticMeshActor_7276",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_ElevatedGuards_V2.KotelApproach_ElevatedGuards_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    "RELEASE_MountAccess_Portal": {
+      "actor": "StaticMeshActor_7362",
+      "mesh": "/Game/MikdashV3/ArrivalReview/MountAccessV2/KotelApproach_AboveWallPortal_V2.KotelApproach_AboveWallPortal_V2",
+      "profile": "BlockAll",
+      "stepUp": "<CanBeCharacterBase.ECB_YES: 1>",
+      "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+      "pose": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "kotelVisibility": {
+    "scope": "Metric edge-0 camera; Pawn-profile rays cannot identify non-colliding visual occluders",
+    "ground": {
+      "point": [
+        -15774.21785752015,
+        14042.131435066,
+        -799.5959170904775
+      ],
+      "normal": [
+        -0.26367195604235893,
+        0.040886809241256615,
+        0.9637454894456656
+      ],
+      "actor": "StaticMeshActor_2753",
+      "mesh": "/Game/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_08_FutureMountCut",
+      "actorHidden": false,
+      "actorCollision": true,
+      "componentVisible": true,
+      "componentHidden": false
+    },
+    "eye": [
+      -15774.21785752015,
+      14042.131435066,
+      -631.5959170904775
+    ],
+    "rays": [
+      {
+        "start": [
+          -15774.21785752015,
+          14042.131435066,
+          -631.5959170904775
+        ],
+        "end": [
+          -14690.219696885162,
+          13855.187626021781,
+          -631.5959170904775
+        ],
+        "hit": {
+          "point": [
+            -15176.155918174738,
+            13938.991059882972,
+            -631.5959170904775
+          ],
+          "normal": [
+            -0.26367195604235893,
+            0.040886809241256615,
+            0.9637454894456656
+          ],
+          "actor": "StaticMeshActor_2753",
+          "mesh": "/Game/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_08_FutureMountCut",
+          "actorHidden": false,
+          "actorCollision": true,
+          "componentVisible": true,
+          "componentHidden": false
+        }
+      },
+      {
+        "start": [
+          -15774.21785752015,
+          14042.131435066,
+          -631.5959170904775
+        ],
+        "end": [
+          -14690.219696885162,
+          13855.187626021781,
+          -381.59591709047754
+        ],
+        "hit": {
+          "point": [
+            -14788.765067191376,
+            13872.182532062881,
+            -404.3232089542587
+          ],
+          "normal": [
+            -0.9854529072556075,
+            0.16994872044670145,
+            0.0
+          ],
+          "actor": "StaticMeshActor_2945",
+          "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+          "actorHidden": true,
+          "actorCollision": true,
+          "componentVisible": true,
+          "componentHidden": false
+        }
+      },
+      {
+        "start": [
+          -15774.21785752015,
+          14042.131435066,
+          -631.5959170904775
+        ],
+        "end": [
+          -14690.219696885162,
+          13855.187626021781,
+          0.0
+        ],
+        "hit": {
+          "point": [
+            -14788.765067191376,
+            13872.182532062881,
+            -57.41785899075114
+          ],
+          "normal": [
+            -0.9854529072556076,
+            0.16994872044670145,
+            0.0
+          ],
+          "actor": "StaticMeshActor_2945",
+          "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+          "actorHidden": true,
+          "actorCollision": true,
+          "componentVisible": true,
+          "componentHidden": false
+        }
+      },
+      {
+        "start": [
+          -15774.21785752015,
+          14042.131435066,
+          -631.5959170904775
+        ],
+        "end": [
+          -14690.219696885162,
+          13855.187626021781,
+          400.0
+        ],
+        "hit": {
+          "point": [
+            -14788.765067191376,
+            13872.182532062881,
+            306.218474027199
+          ],
+          "normal": [
+            -0.9854529072556076,
+            0.16994872044670145,
+            0.0
+          ],
+          "actor": "StaticMeshActor_2945",
+          "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001",
+          "actorHidden": true,
+          "actorCollision": true,
+          "componentVisible": true,
+          "componentHidden": false
+        }
+      }
+    ]
+  },
+  "kotelSurfaces": [
+    {
+      "label": "SM_JerusalemBuildings_Grid_N002_P001",
+      "actor": "StaticMeshActor_2945",
+      "hidden": true,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001.SM_JerusalemBuildings_Grid_N002_P001",
+          "visible": true,
+          "hidden": false,
+          "materials": [
+            "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_1",
+      "actor": "StaticMeshActor_7293",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint0.SM_KotelFace_Tint0",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_0.M_KotelSurface_0"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_2",
+      "actor": "StaticMeshActor_7294",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint1.SM_KotelFace_Tint1",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_1.M_KotelSurface_1"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_3",
+      "actor": "StaticMeshActor_7295",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint2.SM_KotelFace_Tint2",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_2.M_KotelSurface_2"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_4",
+      "actor": "StaticMeshActor_7296",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint3.SM_KotelFace_Tint3",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_3.M_KotelSurface_3"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_5",
+      "actor": "StaticMeshActor_7297",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint4.SM_KotelFace_Tint4",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_4.M_KotelSurface_4"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_Kotel_6",
+      "actor": "StaticMeshActor_7298",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV1/Meshes/SM_KotelFace_Tint5.SM_KotelFace_Tint5",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_5.M_KotelSurface_5"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REVIEW_KotelPhoto_24",
+      "actor": "StaticMeshActor_7277",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Engine/BasicShapes/Plane.Plane",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_24.M_PhotoFace_24"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REVIEW_KotelPhoto_25",
+      "actor": "StaticMeshActor_7278",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Engine/BasicShapes/Plane.Plane",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_25.M_PhotoFace_25"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REVIEW_KotelPhoto_0",
+      "actor": "StaticMeshActor_7279",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Engine/BasicShapes/Plane.Plane",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_0.M_PhotoFace_0"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REVIEW_KotelPhoto_1",
+      "actor": "StaticMeshActor_7280",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Engine/BasicShapes/Plane.Plane",
+          "visible": false,
+          "hidden": true,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/M_PhotoFace_1.M_PhotoFace_1"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_KotelStoneV2_E24",
+      "actor": "StaticMeshActor_7288",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV2/Meshes/SM_KotelAshlarV2_E24.SM_KotelAshlarV2_E24",
+          "visible": true,
+          "hidden": false,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2.M_KotelAshlarV2"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_KotelStoneV2_E25",
+      "actor": "StaticMeshActor_7289",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV2/Meshes/SM_KotelAshlarV2_E25.SM_KotelAshlarV2_E25",
+          "visible": true,
+          "hidden": false,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2.M_KotelAshlarV2"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_KotelStoneV2_E0",
+      "actor": "StaticMeshActor_7290",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV2/Meshes/SM_KotelAshlarV2_E0.SM_KotelAshlarV2_E0",
+          "visible": true,
+          "hidden": false,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2.M_KotelAshlarV2"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "RELEASE_KotelStoneV2_E1",
+      "actor": "StaticMeshActor_7291",
+      "hidden": false,
+      "components": [
+        {
+          "mesh": "/Game/MikdashV3/MaterialReview/KotelStoneV2/Meshes/SM_KotelAshlarV2_E1.SM_KotelAshlarV2_E1",
+          "visible": true,
+          "hidden": false,
+          "materials": [
+            "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2.M_KotelAshlarV2"
+          ]
+        }
+      ]
+    }
+  ],
+  "physical": {
+    "radius": 33.99907684326172,
+    "halfHeight": 96.0,
+    "maxStepHeight": 55.0,
+    "walkSpeed": 600.0
+  },
+  "mapsUnchanged": true,
+  "originalSavesUnchanged": true
+}

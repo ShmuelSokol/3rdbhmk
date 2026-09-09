@@ -77,6 +77,15 @@ OBLIQUE_VIEW = {
     'basis': 'Authored technical view from inner court, 17 m beside the axial altar sightline, aimed at the Ulam; ground is traced, not assumed. Not a ritual access claim.'}
 if VIEW_FILTER and 'v9_inner_court_oblique' in VIEW_FILTER.split(','):
     CAP['views'].append(OBLIQUE_VIEW)
+if VIEW_FILTER and 'v10_inner_court_north_oblique' in VIEW_FILTER.split(','):
+    CAP['views'].append(dict(OBLIQUE_VIEW,
+        id='v10_inner_court_north_oblique', xy=[2100.0,-1700.0], pitch=18.0,
+        yaw=math.degrees(math.atan2(1700.0,-5600.0)),
+        basis='Authored technical north-side court view; avoids the south altar ramp seen in v9. Actual facade visibility remains a visual review, floor support is traced.'))
+if VIEW_FILTER and 'v11_kotel_wide' in VIEW_FILTER.split(','):
+    original_kotel = next(v for v in CAP['views'] if v['id']=='v5_kotel_plaza')
+    CAP['views'].append(dict(original_kotel,id='v11_kotel_wide',distanceCm=3000.0,targetRiseCm=800.0,
+        basis='Authored wider view 30 m along the measured edge-0 outward normal; ground must be traced. Evaluates wall context and shadow, not a surveyed visitor route.'))
 VIEWS = [v for v in CAP['views'] if not VIEW_FILTER or v['id'] in VIEW_FILTER.split(',')]
 OUT_DIR = ROOT / SPEC['captureFolder']
 RECEIPT = ROOT / SPEC['receiptFolder'] / ('lighting-v3-capture-' + STAMP + '.json')
@@ -95,7 +104,8 @@ if TARGET_NAME == 'Candidate48':
     VARIANTS = ['baseline']
     allowed = {'v1_inner_court_ulam_facade', 'v2_outer_court_west_gate',
                'v3_heikhal_menorah', 'v5_kotel_plaza',
-               'v6_outer_east_gate_shade', 'v9_inner_court_oblique'}
+               'v6_outer_east_gate_shade', 'v9_inner_court_oblique',
+               'v10_inner_court_north_oblique', 'v11_kotel_wide'}
     requested = set(VIEW_FILTER.split(',')) if VIEW_FILTER else set()
     if not requested or not requested <= allowed or len(VIEWS) != len(requested):
         CANDIDATE_ERRORS.append('Candidate requires explicit supported view subset: ' + ','.join(sorted(allowed)))
@@ -103,7 +113,7 @@ if TARGET_NAME == 'Candidate48':
         CANDIDATE_ERRORS.append('Candidate baseline reuse refused; trace its current floor')
     VIEWS = json.loads(json.dumps(VIEWS))
     for view in VIEWS:
-        if view['id'] == 'v5_kotel_plaza':
+        if view['id'] in ('v5_kotel_plaza','v11_kotel_wide'):
             # The photographed Kotel and its modern metric plaza were never
             # amah-scaled. Preserve their measured coordinates and floor traces.
             continue
@@ -119,6 +129,13 @@ if TARGET_NAME == 'Candidate48':
         view['traceBottomZ'] = old_floor*.96 + view['traceBottomZ']-old_floor
 elif TARGET_NAME != 'Main50':
     CANDIDATE_ERRORS.append('Unknown LightingV3Target '+TARGET_NAME)
+
+KOTEL_PHOTO_AB = '-lightingv3kotelphotoab' in CMD.lower()
+if KOTEL_PHOTO_AB:
+    if TARGET_NAME != 'Candidate48' or not VIEWS or any(v['id'] not in ('v5_kotel_plaza', 'v11_kotel_wide') for v in VIEWS):
+        CANDIDATE_ERRORS.append('Kotel photo comparison requires Candidate48 and Kotel-only views')
+    SPEC['variants']['kotel_photo_on_stone'] = {}
+    VARIANTS = ['baseline', 'kotel_photo_on_stone']
 
 
 
@@ -456,6 +473,12 @@ def spec_value(raw):
 
 
 def apply_variant(world, name):
+    if name == 'kotel_photo_on_stone':
+        assert KOTEL_PHOTO_AB, 'Photo material trial requires explicit opt-in'
+        sys.path.insert(0, str(ROOT/'Scripts'))
+        import kotel_photo_pie_review
+        state['kotelPhotoModule'] = kotel_photo_pie_review
+        return {'variant': name, 'photoTrial': kotel_photo_pie_review.apply(world)}
     v = resolve_variant(name)
     applied = {'variant': name}
     if 'vesselMatte' in v:
@@ -590,6 +613,11 @@ def apply_variant(world, name):
 def finish(status):
     if state['stopping']:
         return
+    if state.get('kotelPhotoModule'):
+        try:
+            report['kotelPhotoRestore'] = state['kotelPhotoModule'].restore()
+        except Exception as exc:
+            report['errors'].append('Kotel photo restoration: '+repr(exc))
     report['status'] = status
     state['stopping'] = True
     phase('stopping')
@@ -644,6 +672,9 @@ def next_view(world):
         except Exception as exc:
             failure('apply_variant ' + name, repr(exc))
             report.setdefault('variantsApplied', []).append({'variant': name, 'error': repr(exc)})
+            if name == 'kotel_photo_on_stone':
+                finish('failed_photo_material_trial')
+                return
         state['barrier_done_for_variant'] = None
         next_view(world)
         return
@@ -760,6 +791,24 @@ def tick(dt):
             if elapsed < 1.0:
                 return
             report['liveLighting']['pie_start'] = lighting_snapshot(world)
+            if '-lightingv3creditsprobe' in CMD.lower():
+                front = u.MikdashFrontEnd.get(world)
+                assert front is not None, 'FrontEnd absent for credits check'
+                # ThirdPartyFolder is protected in Python. Verify its observable
+                # native BuildCredits result instead of trying to bypass access.
+                folder = 'Content/Distribution/Credits'
+                credit_file = ROOT / folder / 'attributions.json'
+                expected = json.loads(credit_file.read_text(encoding='utf-8-sig'))['assets']
+                assert len(expected)==18 and len({entry['name'] for entry in expected})==18, 'Expected 18 distinct reviewed credits entries'
+                sections = [{'heading':str(s.get_editor_property('heading')),
+                             'lines':[str(line) for line in s.get_editor_property('lines')]}
+                            for s in front.build_credits()]
+                lines = '\n'.join(line for section in sections for line in section['lines'])
+                missing = [entry['name'] for entry in expected if entry['name'] not in lines]
+                report['creditsProbe'] = {'folder':folder,'sourceSha256':sha(credit_file),
+                    'sections':sections,'missingNames':missing,
+                    'scope':'Native BuildCredits output from staged-source path, not packaged or rendered credits-screen acceptance'}
+                assert not missing and expected, 'Missing curated native credits entries'
             cameras = list(u.GameplayStatics.get_all_actors_of_class(world, u.CameraActor))
             assert cameras, 'No CameraActor in the PIE world to reuse'
             camera = cameras[0]
@@ -792,7 +841,7 @@ def tick(dt):
                 state['viewPerformance'] = None
                 if PERF_SECONDS:
                     state['frameIntervals'] = []
-                    state['lastPerfTick'] = now
+                    state['lastPerfTick'] = time.perf_counter()
                     state['perfGameStart'] = u.GameplayStatics.get_time_seconds(world)
                     phase('performance')
                 else:
@@ -806,11 +855,12 @@ def tick(dt):
             manager = u.GameplayStatics.get_player_camera_manager(world, 0)
             if (manager.get_camera_location()-u.Vector(*state['current']['position'])).length()>1:
                 raise RuntimeError('Performance camera drifted')
-            interval = (now-state['lastPerfTick'])*1000.0
+            perf_tick = time.perf_counter()
+            interval = (perf_tick-state['lastPerfTick'])*1000.0
             if not math.isfinite(interval) or interval<=0:
                 raise RuntimeError('Invalid frame interval')
             state['frameIntervals'].append(interval)
-            state['lastPerfTick'] = now
+            state['lastPerfTick'] = perf_tick
             if elapsed >= PERF_SECONDS:
                 values = sorted(state['frameIntervals'])
                 viewport = list(c.get_viewport_size())
@@ -821,6 +871,8 @@ def tick(dt):
                     return values[min(len(values)-1, math.ceil(q*len(values))-1)]
                 state['viewPerformance'] = {
                     'scope': 'Settled real-RHI PIE Slate callback intervals at the live camera; not GPU/thread breakdown or packaged performance. HighResShot is excluded.',
+                    'clock': {'name': 'perf_counter', 'implementation': time.get_clock_info('perf_counter').implementation,
+                              'resolutionSeconds': time.get_clock_info('perf_counter').resolution},
                     'seconds': elapsed, 'frames': len(values),
                     'viewportSize': viewport,
                     'gameSecondsAdvanced': advanced,

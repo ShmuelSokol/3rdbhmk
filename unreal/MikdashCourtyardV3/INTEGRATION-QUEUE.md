@@ -1,4 +1,24 @@
-## Current continuation — 2026-09-09 09:05 UTC
+## Current continuation — 2026-09-09 10:14 UTC
+
+Update10:21: PhotoCook apply101331 + fresh101546 PASS. Current candidate114a6130 now
+default/startup/cook. Render101820 retains photo detail with no missingNanite/default
+material warnings; root reviewed, verifier checking. Next gate/commit, freshWindows12
+cook and packaged/download verification. No downloadable12 result claimed yet.
+
+Candidate936f4fbb skirtV2 local notch is accepted for the bounded walking route:
+fresh101143434433 geometry/preservation PASS; actual100924875746 roundtrip PASS4/4,
+76 supportedWalking samples,20.774seconds, maps/saves unchanged. PublicLOD0 scale1:1;
+protectedinternalBodySetup scale is not directly read. Center ray gaps on treads reach
+19.62cm between endpoints; not perfect foot planting or whole-plaza acceptance.
+Original assets and failed receipts retained. Photo Nanite material clone apply now
+running with reviewed authored-graph proof; originals remain protected. Defaults/cook
+stillMain50; after photo verification/capture promote Selected48 and packageWindows12.
+
+## Historical continuation — 2026-09-09 09:05 UTC
+
+Update09:11: checkpoint4e8dbc7b pushed. Exact-height capsule090736 identifies platform
+skirt actor7257 as the return blocker. Candidate-only shallow under-bridge trim is being
+prepared on a duplicate; original mesh/deck/capsule remain unchanged. No repair result yet.
 
 Candidate dcea5bf8 now has independently verified photo materials on four Kotel V2 sections;
 source photo assets and other Content unchanged. Native collision restoration passes269actors.

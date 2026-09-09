@@ -1,11 +1,81 @@
-## Current verified state — 2026-09-09 09:05 UTC
+## Current verified state — 2026-09-09 10:21 UTC
+
+Candidate114a6130cde60efabef34e30d0437fe6f1746d30737295d608245e55ee79ff77
+is now configured as game default/editor startup/cook map (Selected48). Main50 is retained.
+PhotoCook apply101331272215 and distinct fresh101546517415 pass four independent clones,
+saved Nanite usage, exact authored graph/photo identity and unrelated-content preservation.
+Original5 photo assets unchanged. RealRHI capture101820 reviewed by root: photo weathering
+retained, no missingNanite/defaultmaterial/compile warnings; haze/simplefigures/paving still
+unfinished. Capture maps/instances/originalsaves unchanged. Verifier visual review PASS;
+quick gate6/6 (241Python,55specs,890receipts,123historicalWARN) and launcher CheckOnly PASS.
+Skirt fresh101143434433 PASS, originalfailure095139 preserved; actualwalk100924 PASSbelow.
+Preparing Windows12, not yet cooked/packaged/download verified. Last pushed4e8dbc7b.
+
+## Historical continuation — 2026-09-09 10:12 UTC
+
+Kotel walking100924875746 PASSES the unchanged four-checkpoint roundtrip in20.774s:
+76samples, zero airborne/missing support, no errors, maps/original saves unchanged.
+Scope is lower landing→deck→platform→lower landing, one initial test placement;
+not the plaza approach, physical keyboard, full connectivity or ritual permission.
+Candidate936f4fbb contains only local skirtV2 notch since dcea5bf8. Fresh persisted
+mesh verification is running with reviewed float32 boundary readback. Photo cook
+clones remain unapplied; latest source-graph fix is reviewed. Defaults/cook stillMain50.
+
+Update10:09: for asynchronous Slate/PIE probes use -ExecCmds="py SCRIPT", as prior
+successful runs do. -ExecutePythonScript auto-quits after registering the callback;
+walk100654 exited before any samples and is NOT a collision result. Use one combined
+-ini:Game argument with both full class sections, as prior isolated-save runs do.
+Fresh100117 scale readback passes public LOD0 [1,1,1], but notch edge failed exact-double
+boundary due to persisted float32 Y rounding. Diagnostic100352 proves0.000877375cm shift;
+saved-source check now uses exact float32 cut representation, same area threshold.
+Reviewer replay passes actual triangle and rejects0.01cm intrusion. Native walk1009 running.
+
+Update09:55: V2 skirt apply095139 saved candidate936f4fbb and clone55860b8c, then failed
+a readback at incorrect BodySetup property spelling build_scale3d. Raw BuildScale3D
+is declared UPROPERTY in installed BodySetup.h299. Read-only recovery from the exact
+SHA-pinned failure receipt is being reviewed; no reapply/overwrite. All protected Content
+unchanged. The prior V1 orphan asset is retained, not bound to the map.
+
+Update09:49: skirt093726 passed the strict local geometry/attribute checks but refused
+before map save: only target actor7257 bounds differed (Nanite-expanded to tight source
+bounds). Original Content and map dcea5bf8 remain unchanged. Investigating a target-only
+bounds check; unrelated actor checks remain strict. Photo Nanite clone dry-run diagnostic
+is running; no saved clones or new package yet.
+
+Update09:35: four photo materials log missing Nanite usage in real PIE and would fall back
+in packaged play. Candidate-only base-material clones with saved usage are being prepared;
+original photos/materials remain protected. Skirt remains unapplied. Failed093247 topology
+diagnostic shows four unchanged single triangles moved only~1e-12cm, crossing round3 ties.
+Guard now permits only same-single-triangle <=1e-6cm fallback, not area-only equivalence or
+subdivision; reviewer checking. GeometryScript_Primitives is the actual ScriptName in
+MeshPrimitiveFunctions.h; do not infer Python class names from C++ filenames.
+
+Update09:24: skirt attempts091838/092204 refused before duplication/save, map dcea5bf8 and
+protected Content unchanged. Diagnostic092204 shows1824/1824 triangles and four lexicographic
+ordering mismatches after float conversion (nearest corner error<0.001cm). Source guard now
+uses one-to-one residual triangle matching at the SAME0.05cm tolerance; missing/duplicate
+geometry still fails. Reviewer checking before rerun. The local trim remains unapplied.
+
+Checkpoint4e8dbc7b is pushed. New exact-height contact probe090736345971 identifies
+SM_MountPlatform_Skirt actor7257 at about7cm above the deck, deflecting the return walk.
+Do not blame people or the Kotel base. A candidate-only duplicate skirt clearance is
+being prepared: local top notch inside the 300cm bridge footprint, original asset retained.
+Actual deck slab thickness is45cm (z[-43,2]);110cm is guard height, not deck thickness.
+Installed GeometryScript TRIM_INSIDE supports clipping an open sheet; a closed Subtract
+would be the wrong operation. No repair mutation or walking acceptance yet.
+
+Performance handoff correction: current PERFORMANCE-BUDGET.md already has Sept8 CSV
+thread/GPU evidence and Nanite adoption. The earlier claim that flat frame times prove
+per-draw CPU limitation is superseded: render thread measured about3ms, GPU25.7→17.0ms,
+cloud plus cloud shadows about6ms after Nanite. Current22–24ms Slate samples do not
+replace that thread breakdown. Reprofile the current candidate before further conclusions.
 
 Full gate9/9,32/32math and UBT passed; latest publication quick gate6/6 passes.
 Build log verify-ubt-3x8p_4_e.log is clean, including corrected ServiceActor header order.
 Native enclosure restoration083903 passes269actors, original-false fixture and protected
 Kotel boundary collision. Maps/saves unchanged. Kotel ascent/platform access passes,
 but upper-deck return deflects near x=-13585: roundtrip084132/085303 remains failed.
-Forward capsule lifted5cm saw no contact; next diagnostic uses the actual capsule centre.
+Forward capsule lifted5cm missed the shallow contact; actual-centre tracing identified it above.
 
 Photo A/B084910 was visually reviewed by root and verifier and accepted for limited
 weathering improvement. Four candidate V2 slots now use existing PhotoSurfaceV2 materials:

@@ -1,0 +1,33 @@
+{
+  "status": "accepted_bounded_collision_repair",
+  "candidateSha256": "936f4fbbe89845259f8de8257bb2e45d30379c9c227b26141cb0971cc14d9f85",
+  "clone": "/Game/MikdashV3/CandidateKotelSkirtV2/SM_MountPlatform_Skirt_Notched",
+  "cloneSha256": "55860b8cb9976d431d426cde5b7f157a08d27cb82e07b9660ed1007ffe63314d",
+  "evidence": [
+    {
+      "path": "SourceAssets/lighting-review/candidate-kotel-skirt-20260909T095139270425Z.json",
+      "sha256": "8d19260e4e46c8f3506e5d08f9efb14927596335d134535f8c04c2ba26e6502a"
+    },
+    {
+      "path": "SourceAssets/lighting-review/candidate-kotel-skirt-20260909T101143434433Z.json",
+      "sha256": "ab3e89ef9bf62e59ae3bfa4b4463eabb467216925cb100368d28bd2646cab28e"
+    },
+    {
+      "path": "SourceAssets/mount-access/candidate-kotel-walk-20260909T100924875746Z.json",
+      "sha256": "608422badf71d4a42be409433f58348d7ebba9be4ad0b20b814d58ebd6990a43"
+    }
+  ],
+  "findings": [
+    "Original skirt retained; candidate-only local notch within access deck footprint.",
+    "Fresh independent source-model geometry, attributes, materials, authored scale and unrelated-content checks pass.",
+    "Unchanged four-checkpoint route and capsule completes20.774seconds with76 supported Walking samples; original maps and saves unchanged."
+  ],
+  "limitations": [
+    "Apply receipt retains a post-save Python property readback failure; exact SHA-pinned fresh verification recovers readback without mutation.",
+    "Float32 saved boundary is checked in its actual stored representation.",
+    "Landing-to-platform roundtrip only, with one initial placement; no plaza approach, physical keyboard or full connectivity claim.",
+    "Center floor ray gap on treads reaches19.62cm between endpoints; not perfect foot planting.",
+    "BodySetup internal scale protected; authored LOD0 scale and actual movement tested.",
+    "No new packaged build yet."
+  ]
+}

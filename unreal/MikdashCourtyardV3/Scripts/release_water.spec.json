@@ -1,12 +1,87 @@
 {
-  "specVersion": "MikdashWaterV1-release-1",
-  "prepared": "2026-09-08T10:50:56.920020+00:00",
+  "specVersion": "MikdashWaterV1-release-2",
+  "prepared": "2026-09-09T17:32:43.913011+00:00",
   "purpose": "Import, materialise, place and drive the stream of Yechezkel 47, its channel through the courts and the four mikvaot. Every claim behind the geometry is in SourceAssets/water-review/sources.md, marked certain / disputed / authored.",
   "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
-  "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
-  "targetMapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
-  "lastKnownMapSha256": "a46066dfe2382785eb092d2648e2678ee6c9a5205173a92016315e5f5970bdf2",
-  "lastKnownMapSha256Note": "Recorded, never required: the map legitimately changes between releases. A mismatch is reported, not refused.",
+  "targets": {
+    "Candidate48": {
+      "flag": "-Candidate48",
+      "role": "the configured default and the COOK map (Config/DefaultEngine.ini GameDefaultMap). Place here first; this is the one that ships.",
+      "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+      "amahCm": 48.0,
+      "placement": {
+        "uniformScale": 0.96,
+        "translationCm": [
+          -248.0,
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+        "evidence": [
+          "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+          "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+          "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+        ]
+      },
+      "limitations": [
+        "On the 48 cm candidate the water carries the same 0.96 similarity transform as the architecture, so it is 4 per cent smaller than the authored geometry in every linear dimension. AMikdashWater and WaterFlowMath.h compute in the 50 cm authoring frame (ProjectAmahCm = 50.0), so the depths, velocities and forty-seah volumes the driver reports describe the AUTHORED channel, not the placed one: lengths are high by 1/0.96, volumes by 1/0.96^3. Nothing in this release corrects that.",
+        "The FutureMountV1 terrain and the metric city context were NOT rescaled with the architecture, so on this map the four stages of Yechezkel 47:3-5, measured east in authored amot, end 4 per cent short against unscaled ground. That is true of every 48 cm placement on this map and is not introduced here."
+      ],
+      "observedMapSha256": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+      "observedUtc": "2026-09-09T17:32:43.913011+00:00",
+      "observedProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:32:43.913011+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against."
+    },
+    "Main50": {
+      "flag": "-Main50",
+      "role": "the legacy 50 cm main map, retained for comparison. Place here only after the candidate has gone cleanly.",
+      "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+      "amahCm": 50.0,
+      "placement": {
+        "uniformScale": 1.0,
+        "translationCm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "derivation": "The identity. The OBJs are authored directly in this map world centimetres from SourceAssets/architecture-manifest.json, whose architecture actors sit at the origin at unit scale.",
+        "evidence": [
+          "SourceAssets/architecture-manifest.json meshes[*].spawnLocationUnrealCm [0,0,0], spawnScale [1,1,1], objectTransformIdentity true"
+        ]
+      },
+      "limitations": [],
+      "observedMapSha256": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+      "observedUtc": "2026-09-09T17:32:43.913011+00:00",
+      "observedProvenance": "sha256 read off Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:32:43.913011+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against."
+    }
+  },
+  "targetsNote": "One target per run, chosen with its flag, exactly as release_paroches_v15.py and release_herodian_ashlar_v4.py do. The map that is NOT selected joins the protected set for the duration of the run and must come out byte-identical.",
+  "placementCheck": {
+    "absoluteToleranceCm": 0.5,
+    "spanRelativeTolerance": 5e-05,
+    "minimumExtentCm": 1.0,
+    "excludedSemantics": [
+      "vessel"
+    ],
+    "excludedSemanticsNote": "The 54 manifest entries with semantic \"vessel\" are the kiyor and nothing else: 40 Copper fittings, 12 Spouts, the Turned pedestal and the Hollow basin with inner wall. They are in the architecture manifest but were re-posed on the candidate by release_amah48_vessels.py, so they do not sit under the architecture placement and cannot be evidence for or against it. They are measured and reported all the same -- excludedSampled / excludedAgreeing and every offender by name -- so their absence from the fraction is visible rather than silent. A vessel is never a host, so this never weakens the host gate.",
+    "minimumSamples": 2000,
+    "minimumAgreeingFraction": 0.98,
+    "reportDisagreeing": 500,
+    "note": "Before anything is spawned, every level actor whose mesh resolves to the architecture manifest is compared, IN CENTIMETRES, with its manifest bounds carried through the declared placement. A HOST -- paving, a stair, a platform the conduit is cut into -- that disagrees is fatal whatever the fraction, because the water would be cut into the wrong place.",
+    "toleranceEvidence": "Measured, not guessed. The 2026-09-09T17:25Z Candidate48 run (native-release-water-Candidate48-20260909T172556239576Z.json) put 2,523 of 2,633 manifest actors EXACTLY on scale 0.96 / translation (-248, 0, 0), and every one of the nine hosts it flagged was in truth displaced by 0.001 to 0.159 cm -- the flag came from solving for a scale on a 19 cm floor slab and a 75 m cornice, not from a real displacement. 0.5 cm plus 5e-5 of the span passes those, still flags the kiyor parts that other releases genuinely re-posed (Turned pedestal 2.75 cm, Hollow basin 5.23 cm, Copper fitting up to 51.96 cm), and is 200 times tighter than the 248 cm error it exists to catch.",
+    "minimumAgreeingFractionNote": "Applies to the 2,579 non-vessel manifest actors. Not 1.0 only because a single unforeseen re-posed mesh should be reported and looked at, not turned into a refusal that hides the 2,578 that agree; a real transform error moves every one of them and fails this by a mile."
+  },
   "protectedMaps": [
     "/Game/MikdashV3/Maps/Courtyard",
     "/Game/MikdashV3/FutureMountV1/L_FutureMount",
@@ -251,13 +326,17 @@
       "Court string course and cornice",
       "Derived union of source western paving and transition"
     ],
+    "unionLiveToleranceCm": 100.0,
+    "unionLiveToleranceNote": "A decomposed hollow union must recompose to the MANIFEST bounds within 0.05 cm, which proves the amot-to-centimetre swizzle, and, once carried through the target placement, to that actor LIVE bounds within this figure, which proves it is the same actor in the same frame. A union failing either test is skipped and recorded, never used as a blocker on its site-wide AABB. Every decomposed union records its live error in liveClearance.unionLiveBoundsErrorCm whether it passes or not.",
+    "unionLiveToleranceEvidence": "Not 0.5 cm, because one union genuinely does not match its manifest bounds and it is not this release that broke it. The 2026-09-09T17:31Z Candidate48 run measured \"Derived union of source House walls and roofs\" 40.80 cm out on Y and 16.32 cm on Z while EXACT on X, on spans of 48 and 49 m -- a 0.85 per cent mesh-versus-manifest discrepancy that has nothing to do with the 0.96 placement (X, carrying the whole -248 cm translation, was 0.0000 cm out). The other 2,578 non-vessel actors agreed exactly. 100 cm accepts that known discrepancy, is still 2.5 times tighter than the 248 cm frame error the check exists to catch, and any clearance derived from a decomposed union carries its live error in the receipt so a reader can discount it.",
     "namesNote": "Exact manifest sourceName values, copied from HOST_MESH_NAMES and HOLLOW_UNION_NAMES in Scripts/create_water_geometry.py so the live test and the offline export classify the same meshes the same way. Substring matching on editor labels was tried first and is wrong: labels are user-editable and need not match the manifest at all.",
     "reportNearest": 25
   },
   "verification": {
     "transformToleranceCm": 0.001,
     "staticBoundsToleranceCm": 0.05,
-    "compareRule": "Every water actor is spawned at the world origin with an identity transform, because the OBJ vertices are already absolute world centimetres. Reopened world bounds must therefore equal canonicalBoundsCm; any offset is a silent re-siting of the stream."
+    "float32RelativeAllowance": 2.4e-07,
+    "compareRule": "The OBJ vertices are already absolute world centimetres in the 50 cm authoring frame, so every water actor carries the declared placement of its target and nothing else. Reopened world bounds must equal canonicalBoundsCm under that placement; any other offset is a silent re-siting of the stream."
   },
   "limitations": [
     "A courtyard channel is a CUT in paving this script does not own and cannot boolean. The generated masonry therefore occupies the paving, platform and stair meshes listed in clearance.hosts; those are intended, and every non-paving contact is a blocker that fails the export.",
@@ -265,12 +344,5 @@
     "Widths, depths, grades and every mikveh dimension are authored. The prophet gives four depths in body parts and no widths at all.",
     "The forty-se'ah figures are arithmetic, not a ruling.",
     "The route is disputed: the book takes the stream out by the inner court's SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is built; the south is available as group \"southgate\". Neither is asserted over the other."
-  ],
-  "lastKnownMapSha256History": [
-    {
-      "previous": "dae24e5e6005cfb87662bb8cf9bc074057c6c6bd655f1b02e9d8e815b4b624d8",
-      "replacedBy": "a46066dfe2382785eb092d2648e2678ee6c9a5205173a92016315e5f5970bdf2",
-      "reason": "main map saved four times after this spec was frozen, each receipted: ParochesV15 Main50 (a538b255), release_enclosure Main50 (5766493d), LimestoneV2 apply (78693b71), crowd tint fix (a46066df). Reviewed by the coordinator."
-    }
   ]
 }

@@ -1,0 +1,809 @@
+{
+  "status": "reviewed_daylight_PORTED_from_main50_review_saved_reopened_visual_acceptance_on_this_map_pending",
+  "stamp": "20260909T172832268438Z",
+  "mode": "daylight-port",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "targetName": "Candidate48",
+  "portStatement": "PORTED, NOT REVIEWED ON THIS MAP. The sun temperature and sky light intensity written here are the values Shmuel adopted on 2026-09-08 after three PIE camera comparisons (subjects mount-paving, heikhal and kotel-platform-join) run on /Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough at map sha256 480ea53f...f1b0, recorded in the three native-frontend-flight receipts named in comparisonReceipts and adopted in cool-daylight-acceptance-20260908.json. NO PIE COMPARISON HAS BEEN RUN ON THIS MAP. The port is justified by the two maps sharing one daylight rig (a single DirectionalLight and a single SkyLight) and by this map having been on the exact pre-review baseline the reviewers compared against; it is not justified by any visual evidence captured here. Visual acceptance on this map is still pending. release_reviewed_daylight.py declined this map and was neither weakened nor bypassed: its validate_preset is imported and called unchanged to derive the numbers below.",
+  "visualAcceptanceOnThisMap": "PENDING - no PIE comparison has been run on this map",
+  "reviewedDaylightEvidence": {
+    "decisionFile": "SourceAssets/lighting-review/cool-daylight-acceptance-20260908.json",
+    "reviewedOnMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "reviewedOnMapSha256": "480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0",
+    "comparisonReceipts": [
+      "SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T165802894653Z.json",
+      "SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T170147884224Z.json",
+      "SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T170356069458Z.json"
+    ],
+    "comparisonSubjects": [
+      "mount-paving",
+      "heikhal",
+      "kotel-platform-join"
+    ],
+    "statement": "PORTED, NOT REVIEWED ON THIS MAP. The sun temperature and sky light intensity written here are the values Shmuel adopted on 2026-09-08 after three PIE camera comparisons (subjects mount-paving, heikhal and kotel-platform-join) run on /Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough at map sha256 480ea53f...f1b0, recorded in the three native-frontend-flight receipts named in comparisonReceipts and adopted in cool-daylight-acceptance-20260908.json. NO PIE COMPARISON HAS BEEN RUN ON THIS MAP. The port is justified by the two maps sharing one daylight rig (a single DirectionalLight and a single SkyLight) and by this map having been on the exact pre-review baseline the reviewers compared against; it is not justified by any visual evidence captured here. Visual acceptance on this map is still pending. release_reviewed_daylight.py declined this map and was neither weakened nor bypassed: its validate_preset is imported and called unchanged to derive the numbers below.",
+    "decisionSha256": "3d2a98b998ed3140c1da578c18c4e92c452fc133b767adf88bb6dd7db8a5ade7",
+    "comparisons": [
+      {
+        "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\runtime-review\\frontend-flight\\native-frontend-flight-20260908T165802894653Z.json",
+        "sha256": "0b54fa93606fa29da41d06a6fc13601919d97cded0dff24fdd5b604a64b76f48",
+        "subject": "mount-paving",
+        "mapShaBefore": "480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0"
+      },
+      {
+        "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\runtime-review\\frontend-flight\\native-frontend-flight-20260908T170147884224Z.json",
+        "sha256": "e98cc28c424f1214f30f9f08b735e7517dd6a44a0efaa0dd1cfd8416adb7a7cd",
+        "subject": "heikhal",
+        "mapShaBefore": "480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0"
+      },
+      {
+        "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\runtime-review\\frontend-flight\\native-frontend-flight-20260908T170356069458Z.json",
+        "sha256": "b81c1693d86fcd092c42426538d032cf2a9801b12e554c971a557b1ab86b9857",
+        "subject": "kotel-platform-join",
+        "mapShaBefore": "480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0"
+      }
+    ],
+    "preset": "cool_source_more_fill",
+    "validatedBy": "release_reviewed_daylight.validate_preset (imported unmodified)"
+  },
+  "reviewedBaseline": {
+    "sunIntensity": 30000.0,
+    "temperature": 5000.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.0
+  },
+  "reviewedProposed": {
+    "sunIntensity": 30000.0,
+    "temperature": 6500.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.2999999523162842
+  },
+  "preset": "cool_source_more_fill",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+  "mapMatchesLastKnownSha256": true,
+  "lastKnownMapSha256Provenance": {
+    "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "sha256": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+    "bytes": 23575718,
+    "observedUtc": "2026-09-09",
+    "writtenBy": "release_herodian_ashlar_v4.py -- Herodian ashlar on every wall slot and the precinct wall (publication clone commit c4dbf2b7), after the Aron re-pivot of 2026-09-08 that set FixedArchitectureOriginCm (-6200,0,0)",
+    "supersedes": "d494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785 (reviewed 24-resident checkpoint, 2026-09-08; stale after the ashlar pass)"
+  },
+  "protectedSha256Before": {
+    "/Game/FirstPerson/Lvl_FirstPerson": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "c1fe80080e4496c4cf370c9590e1688c664c96f8ce91b135534ae368ae19346c",
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/MaterialReview/BusVisualAuditV1/Maps/Walkthrough": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "/Game/MikdashV3/MaterialReview/CheckpointAudit/BeforePlatform": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV1/L_IncenseSmokeReview": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV2/L_IncenseSmokeReview": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV3/L_IncenseSmokeReview": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/Maps/Walkthrough": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1/Maps/Walkthrough": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Maps/Walkthrough": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "/Game/MikdashV3/ResidentCrowdReview/20260907T222556423474Z/Walkthrough": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755"
+  },
+  "protectedAssetSha256Before": {
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud": "bb7ff44a214d5f2b86fca14f3f984bea2b5c93e4435c4fef30823015d4f53d7c",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered": "aeecbfd89cd4770857df2e23a7c0b6f320707ef62169bf8a798e7ec98ca33f7c"
+  },
+  "specSha256": "05d33113ff3129fbf8bce8f8ac6ff02127108e9a5373e93fd3323dea6c89d120",
+  "offlineCheck": {
+    "status": "offline_check",
+    "targetMapExists": true,
+    "targetMapSha256": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+    "timeOfDayHeaderExists": true,
+    "weatherHeaderExists": true,
+    "pluginDllExists": true,
+    "pluginDllModified": "2026-09-09T11:23:06.734965+00:00",
+    "uhtHasTimeOfDay": true,
+    "uhtHasWeather": true,
+    "liveEditorProcesses": [
+      [
+        "UnrealEditor-Cmd.exe",
+        "47144",
+        "Console",
+        "1",
+        "1,794,336 K"
+      ]
+    ],
+    "targetMapMatchesLastKnown": true,
+    "problems": []
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "sunActor": {
+    "name": "DirectionalLight_0",
+    "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+  },
+  "skyLightActor": {
+    "name": "SkyLight_0",
+    "label": "V2 skylight"
+  },
+  "daylightBefore": {
+    "sunIntensity": 30000.0,
+    "temperature": 5000.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.0
+  },
+  "daylightWanted": {
+    "sunIntensity": 30000.0,
+    "temperature": 6500.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.2999999523162842
+  },
+  "sunLabelBefore": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+  "sunLabelWanted": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30",
+  "lightingBefore": {
+    "sun": {
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 5000.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "volumetric_scattering_intensity": 1.0,
+        "atmosphere_sun_light": true,
+        "atmosphere_sun_light_index": 0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "contact_shadow_length": 0.019999999552965164,
+        "indirect_lighting_intensity": 1.0,
+        "cast_shadows": true,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      }
+    },
+    "skyLight": {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "props": {
+        "intensity": 1.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cubemap_resolution": 128,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "skyAtmosphere": {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "transmittance_min_light_elevation_angle": -90.0
+      }
+    },
+    "cloud": {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "materialParameters": {
+          "scalars": {
+            "Cloud_GlobalCoverage": 0.15000000596046448,
+            "Cloud_GlobalDensity": 0.00800000037997961,
+            "Layout_CloudGlobalScale": 256.0,
+            "StormClouds": 0.0
+          },
+          "vectors": {
+            "Layout_WindControls": [
+              1.0,
+              1.0,
+              0.5,
+              0.33333298563957214
+            ]
+          }
+        }
+      }
+    },
+    "fog": {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.9399999976158142,
+          0.8199999928474426,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0
+      }
+    },
+    "postProcess": {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "settings": {
+        "auto_exposure_method": "AutoExposureMethod.AEM_HISTOGRAM",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "bloom_intensity": 0.30000001192092896,
+        "vignette_intensity": 0.30000001192092896,
+        "white_temp": 6500.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5
+      },
+      "overrides": {
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true
+      },
+      "unbound": true,
+      "priority": 1000.0
+    }
+  },
+  "revert": {
+    "daylight": {
+      "sunIntensity": 30000.0,
+      "temperature": 5000.0,
+      "useTemperature": true,
+      "rotation": [
+        -30.000000000000004,
+        -160.0,
+        -0.0
+      ],
+      "skyIntensity": 1.0
+    },
+    "sunLabel": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+  },
+  "revertCommand": "-SkyToDPortRevert=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\sky-review\\native-daylight-port-Candidate48-20260909T172832268438Z.json\" -SkyToDTarget=Candidate48",
+  "liveEditorProcessesAtStart": [
+    [
+      "UnrealEditor-Cmd.exe",
+      "47144",
+      "Console",
+      "1",
+      "3,209,072 K"
+    ]
+  ],
+  "errors": [],
+  "omissions": {},
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\SkyToDPort-Candidate48-20260909T172832268438Z",
+  "oneFilePerActorFoldersCopied": [],
+  "levelBaselineActors": 7802,
+  "levelBaselineRelaxations": [
+    {
+      "name": "Actor_0",
+      "label": "JCTX_ISM_SM_JerusalemInstance_Rooftop_tanks",
+      "class": "Actor",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": false,
+      "componentMeshes": [
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Rooftop_tanks"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "Actor_1",
+      "label": "JCTX_ISM_SM_JerusalemInstance_Rooftop_panels",
+      "class": "Actor",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": false,
+      "componentMeshes": [
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Rooftop_panels"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "Actor_2",
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+      "class": "Actor",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": false,
+      "componentMeshes": [
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "Actor_3",
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+      "class": "Actor",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": false,
+      "componentMeshes": [
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "Actor_4",
+      "label": "JCTX_ISM_SM_JerusalemInstance_Cemetery_markers",
+      "class": "Actor",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": false,
+      "componentMeshes": [
+        "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Cemetery_markers"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashCrowdField_0",
+      "label": "RELEASE_CrowdField",
+      "class": "MikdashCrowdField",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P0",
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P1",
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P2",
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P3",
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P4",
+        "/Game/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P5"
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashEnclosure_0",
+      "label": "RELEASE_EnclosureV2_Precinct",
+      "class": "MikdashEnclosure",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashTransit_0",
+      "label": "RELEASE_Transit_Selected48_V1",
+      "class": "MikdashTransit",
+      "instancedComponentsNow": false,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashBirdFlock_0",
+      "label": "RELEASE_BirdFlock_KotelPigeons",
+      "class": "MikdashBirdFlock",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashBirdFlock_1",
+      "label": "RELEASE_BirdFlock_WallSwifts",
+      "class": "MikdashBirdFlock",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashBirdFlock_2",
+      "label": "RELEASE_BirdFlock_RooftopCrows",
+      "class": "MikdashBirdFlock",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashBirdFlock_3",
+      "label": "RELEASE_BirdFlock_MountKestrel",
+      "class": "MikdashBirdFlock",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    },
+    {
+      "name": "MikdashTransitBoardingBridge_0",
+      "label": "RELEASE_TransitBridge_Selected48_V1",
+      "class": "MikdashTransitBoardingBridge",
+      "instancedComponentsNow": true,
+      "rebuiltAtConstruction": true,
+      "componentMeshes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "comparedBy": "existence, label, class, root transform",
+      "notComparedBy": "component/instance inventory, world bounds"
+    }
+  ],
+  "written": {
+    "sun.temperature": 6500.0,
+    "skyLight.intensity": 1.2999999523162842,
+    "sun.label": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30"
+  },
+  "unrelatedLevelChangesBeforeSave": [],
+  "liveEditorProcessesBeforeSave": [
+    [
+      "UnrealEditor-Cmd.exe",
+      "47144",
+      "Console",
+      "1",
+      "5,363,860 K"
+    ]
+  ],
+  "mapSaved": true,
+  "mapSha256AfterSave": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "daylightAfter": {
+    "sunIntensity": 30000.0,
+    "temperature": 6500.0,
+    "useTemperature": true,
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ],
+    "skyIntensity": 1.2999999523162842
+  },
+  "sunLabelAfter": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30",
+  "lightingAfter": {
+    "sun": {
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 6500.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "volumetric_scattering_intensity": 1.0,
+        "atmosphere_sun_light": true,
+        "atmosphere_sun_light_index": 0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "contact_shadow_length": 0.019999999552965164,
+        "indirect_lighting_intensity": 1.0,
+        "cast_shadows": true,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      }
+    },
+    "skyLight": {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "props": {
+        "intensity": 1.2999999523162842,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cubemap_resolution": 128,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "skyAtmosphere": {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "transmittance_min_light_elevation_angle": -90.0
+      }
+    },
+    "cloud": {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "materialParameters": {
+          "scalars": {
+            "Cloud_GlobalCoverage": 0.15000000596046448,
+            "Cloud_GlobalDensity": 0.00800000037997961,
+            "Layout_CloudGlobalScale": 256.0,
+            "StormClouds": 0.0
+          },
+          "vectors": {
+            "Layout_WindControls": [
+              1.0,
+              1.0,
+              0.5,
+              0.33333298563957214
+            ]
+          }
+        }
+      }
+    },
+    "fog": {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.9399999976158142,
+          0.8199999928474426,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0
+      }
+    },
+    "postProcess": {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "settings": {
+        "auto_exposure_method": "AutoExposureMethod.AEM_HISTOGRAM",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "bloom_intensity": 0.30000001192092896,
+        "vignette_intensity": 0.30000001192092896,
+        "white_temp": 6500.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5
+      },
+      "overrides": {
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true
+      },
+      "unbound": true,
+      "priority": 1000.0
+    }
+  },
+  "lightingDelta": {
+    "sun.temperature": {
+      "before": 5000.0,
+      "after": 6500.0
+    },
+    "skyLight.intensity": {
+      "before": 1.0,
+      "after": 1.2999999523162842
+    }
+  },
+  "unintendedLightingDelta": {},
+  "unrelatedLevelChangesAfterReopen": [],
+  "reviewedDaylightAgreementAfter": {
+    "sun.intensity": {
+      "reviewed": 30000.0,
+      "now": 30000.0,
+      "ok": true
+    },
+    "sun.use_temperature": {
+      "reviewed": true,
+      "now": true,
+      "ok": true
+    },
+    "sun.temperature": {
+      "reviewed": 6500.0,
+      "now": 6500.0,
+      "ok": true
+    },
+    "skyLight.intensity": {
+      "reviewed": 1.3,
+      "now": 1.2999999523162842,
+      "ok": true
+    },
+    "fog.fog_density": {
+      "reviewed": 0.0015,
+      "now": 0.001500000013038516,
+      "ok": true
+    },
+    "fog.fog_height_falloff": {
+      "reviewed": 0.15,
+      "now": 0.15000000596046448,
+      "ok": true
+    },
+    "fog.start_distance": {
+      "reviewed": 8000.0,
+      "now": 8000.0,
+      "ok": true
+    },
+    "fog.enable_volumetric_fog": {
+      "reviewed": false,
+      "now": false,
+      "ok": true
+    }
+  },
+  "mapSha256After": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "protectedAssetsUnchanged": true
+}

@@ -1,0 +1,1078 @@
+{
+  "status": "failed_before_save_map_unchanged",
+  "stamp": "20260909T173106235437Z",
+  "target": "Candidate48",
+  "targetRole": "the configured default and the COOK map (Config/DefaultEngine.ini GameDefaultMap). Place here first; this is the one that ships.",
+  "amahCm": 48.0,
+  "placement": {
+    "uniformScale": 0.96,
+    "translationCm": [
+      -248.0,
+      0.0,
+      0.0
+    ],
+    "rotationDegrees": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+    "evidence": [
+      "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+      "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+      "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+    ]
+  },
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapSha256RecordedInSpec": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapMatchesSpecRecord": true,
+  "mapHashProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:30:25.589484+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Water-Candidate48-20260909T173106235437Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_water.spec.json",
+  "specSha256": "c075309df6cfe8bb94ef16e88f4ad7fec462a27742e5cd60fa2e54d691c2e3c0",
+  "geometryManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\water-review\\MikdashWaterV1\\geometry-manifest.json",
+  "geometryManifestSha256": "2c849356daa610aee7f0adc839b1fda80a2d0a457bee97b48a43e4b0242c6fd2",
+  "geometryStatus": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "offlineCheck": {
+    "checkedUtc": "2026-09-09T17:30:59.470815+00:00",
+    "target": "Candidate48",
+    "errors": [],
+    "warnings": [],
+    "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_water.spec.json",
+    "specSha256": "c075309df6cfe8bb94ef16e88f4ad7fec462a27742e5cd60fa2e54d691c2e3c0",
+    "geometryManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\water-review\\MikdashWaterV1\\geometry-manifest.json",
+    "geometryManifestSha256": "2c849356daa610aee7f0adc839b1fda80a2d0a457bee97b48a43e4b0242c6fd2",
+    "geometryStatus": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "offlineClearance": {
+      "blockers": 0,
+      "hosts": [
+        "Duchan rise",
+        "Ezras Kohanim floor",
+        "Inner E cell supporting plinth",
+        "Inner E continuous cell doorway floor",
+        "Inner court clear floor",
+        "Inner court supporting platform",
+        "Outer E cell access landing",
+        "Outer E stair",
+        "Outer E threshold",
+        "Outer E vestibule floor",
+        "Outer court floor",
+        "Outer court supporting platform",
+        "Raised priest court foundation",
+        "Ulam stair"
+      ],
+      "wholePartAabbHits": 56,
+      "subBoxHits": 42,
+      "falsePositivesEliminated": 14,
+      "namedClearancesCm": [
+        {
+          "feature": "Song chamber",
+          "found": true,
+          "meshCount": 7,
+          "isHost": false,
+          "clearanceCm": 839.312,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0042_architecture_Song_chamber_side",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "Ulam entrance pillar",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 18.0,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0172_architecture_Ulam_entrance_pillar",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "altar (yesod, the widest course)",
+          "found": true,
+          "meshCount": 4,
+          "isHost": false,
+          "clearanceCm": 203.796,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0156_architecture_Altar_yesod_west",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "altar ramp (kevesh)",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 18.0,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0166_architecture_Southern_kevesh_ascend_north",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "duchan rise",
+          "found": true,
+          "meshCount": 4,
+          "isHost": true,
+          "clearanceCm": 0.0,
+          "nearestGeneratedPart": "Court_Trough_02",
+          "nearestArchitectureAsset": "SM_1669_architecture_Duchan_rise_1",
+          "intersects": true,
+          "deepestInterpenetrationCm": 25.0
+        },
+        {
+          "feature": "inner E cell connecting doorway",
+          "found": true,
+          "meshCount": 18,
+          "isHost": false,
+          "clearanceCm": 15.8,
+          "nearestGeneratedPart": "Court_Conduit_02",
+          "nearestArchitectureAsset": "SM_0554_architecture_Inner_E_connecting_doorway_back",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "inner eastern gate wall jamb",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 15.0,
+          "nearestGeneratedPart": "Court_Conduit_02",
+          "nearestArchitectureAsset": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "kiyor basin",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 422.331,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0073_vessel_Hollow_basin_with_inner_wall",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "kiyor pedestal",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 480.851,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0072_vessel_Turned_pedestal",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "outer east gate vestibule wall",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 99.639,
+          "nearestGeneratedPart": "Court_Trough_03",
+          "nearestArchitectureAsset": "SM_0187_architecture_Outer_E_vestibule_wall",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "stone slaughter tables",
+          "found": true,
+          "meshCount": 8,
+          "isHost": false,
+          "clearanceCm": 2419.388,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_1610_architecture_Stone_slaughter_table",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        }
+      ]
+    },
+    "meshes": [
+      {
+        "name": "SM_MikdashWaterV1_CourtChannel",
+        "file": "SM_MikdashWaterV1_CourtChannel.obj",
+        "group": "court",
+        "role": "stone",
+        "triangles": 2228,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_CourtWater",
+        "file": "SM_MikdashWaterV1_CourtWater.obj",
+        "group": "court",
+        "role": "water",
+        "triangles": 1020,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageChannel",
+        "file": "SM_MikdashWaterV1_StageChannel.obj",
+        "group": "stages",
+        "role": "stone",
+        "triangles": 1376,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageWater",
+        "file": "SM_MikdashWaterV1_StageWater.obj",
+        "group": "stages",
+        "role": "water",
+        "triangles": 672,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageMarks",
+        "file": "SM_MikdashWaterV1_StageMarks.obj",
+        "group": "stages",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily",
+        "file": "SM_MikdashWaterV1_Mikveh_KohanimDaily.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohanimDaily.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+        "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYear.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+        "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 108,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_Metzoraim",
+        "file": "SM_MikdashWaterV1_Mikveh_Metzoraim.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+        "file": "SM_MikdashWaterV1_MikvehWater_Metzoraim.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      }
+    ],
+    "totalTriangles": 5836,
+    "clearanceBoxes": 2307,
+    "runtimeContract": {
+      "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashWater.h",
+      "exists": true,
+      "parametersDeclaredInHeader": [
+        "WaterFlowSpeed",
+        "WaterScrollTiles",
+        "WaterDepth",
+        "WaterOpacity",
+        "WaterFoam",
+        "WaterFroude",
+        "WaterSurfaceRise",
+        "WaterRipple",
+        "WaterStage",
+        "WaterDemoProgress"
+      ],
+      "parametersMissingFromHeader": [],
+      "classDeclared": true,
+      "sourceExists": true
+    },
+    "liveIdentificationSelfTest": {
+      "ok": true,
+      "failures": [],
+      "cases": {
+        "architecture_SM_0000_architecture_Ulam_stair_6": {
+          "sourceName": "Ulam stair 6",
+          "class": "host"
+        },
+        "architecture_SM_0006_architecture_Ulam_stair_12": {
+          "sourceName": "Ulam stair 12",
+          "class": "host"
+        },
+        "architecture_SM_0261_architecture_Outer_E_stair_1": {
+          "sourceName": "Outer E stair 1",
+          "class": "host"
+        },
+        "architecture_SM_1669_architecture_Duchan_rise_1": {
+          "sourceName": "Duchan rise 1",
+          "class": "host"
+        },
+        "architecture_SM_0494_architecture_Inner_E_cell_supporting_plinth": {
+          "sourceName": "Inner E cell supporting plinth",
+          "class": "host"
+        },
+        "architecture_SM_0166_architecture_Southern_kevesh_ascend_north": {
+          "sourceName": "Southern kevesh \u2014 ascend north",
+          "class": "other"
+        },
+        "architecture_SM_0138_architecture_Inner_eastern_gate_wall_jamb_1": {
+          "sourceName": "Inner eastern gate wall jamb 1",
+          "class": "other"
+        },
+        "architecture_SM_0073_vessel_Hollow_basin_with_inner_wall": {
+          "sourceName": "Hollow basin with inner wall",
+          "class": "other"
+        },
+        "architecture_SM_1676_union_Derived_union_of_House_and_Ulam_foundati": {
+          "sourceName": "Derived union of House and Ulam foundations",
+          "class": "union",
+          "constituentBoxes": 2,
+          "recomposedOk": true,
+          "recomposeErrorCm": 2.288818359375e-05
+        },
+        "architecture_SM_2629_union_Derived_union_of_source_outer_envelope_w": {
+          "sourceName": "Derived union of source outer envelope walls",
+          "class": "union",
+          "constituentBoxes": 116,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        },
+        "architecture_SM_2630_union_Derived_union_of_source_House_walls_and_": {
+          "sourceName": "Derived union of source House walls and roofs",
+          "class": "union",
+          "constituentBoxes": 27,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        },
+        "architecture_SM_2631_union_Derived_union_of_source_raised_gallery_s": {
+          "sourceName": "Derived union of source raised gallery slabs",
+          "class": "union",
+          "constituentBoxes": 6,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        }
+      }
+    },
+    "sourcesRecord": {
+      "path": "SourceAssets/water-review/sources.md",
+      "exists": true
+    },
+    "maps": {
+      "Candidate48": {
+        "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+        "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+        "exists": true,
+        "role": "the configured default and the COOK map (Config/DefaultEngine.ini GameDefaultMap). Place here first; this is the one that ships.",
+        "amahCm": 48.0,
+        "placement": {
+          "uniformScale": 0.96,
+          "translationCm": [
+            -248.0,
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+          "evidence": [
+            "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+            "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+            "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+          ]
+        },
+        "recordedSha256": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+        "recordedProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:30:25.589484+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+        "sha256Now": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+        "matchesRecorded": true
+      },
+      "Main50": {
+        "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+        "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+        "exists": true,
+        "role": "the legacy 50 cm main map, retained for comparison. Place here only after the candidate has gone cleanly.",
+        "amahCm": 50.0,
+        "placement": {
+          "uniformScale": 1.0,
+          "translationCm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "derivation": "The identity. The OBJs are authored directly in this map world centimetres from SourceAssets/architecture-manifest.json, whose architecture actors sit at the origin at unit scale.",
+          "evidence": [
+            "SourceAssets/architecture-manifest.json meshes[*].spawnLocationUnrealCm [0,0,0], spawnScale [1,1,1], objectTransformIdentity true"
+          ]
+        },
+        "recordedSha256": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+        "recordedProvenance": "sha256 read off Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:30:25.589484+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+        "sha256Now": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+        "matchesRecorded": true
+      }
+    },
+    "targetMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "targetMapExists": true,
+    "targetPlacement": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "rotationDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+      "evidence": [
+        "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+        "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+        "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+      ]
+    },
+    "targetPlacedBounds": {
+      "SM_MikdashWaterV1_CourtChannel": {
+        "min": [
+          -2643.0771360584163,
+          127.67999999999999,
+          -47.04
+        ],
+        "max": [
+          8584.0,
+          1053.12,
+          870.7199999999999
+        ]
+      },
+      "SM_MikdashWaterV1_CourtWater": {
+        "min": [
+          -2635.495497903413,
+          148.79999999999998,
+          -33.024
+        ],
+        "max": [
+          8584.0,
+          1032.0,
+          863.04
+        ]
+      },
+      "SM_MikdashWaterV1_StageChannel": {
+        "min": [
+          7528.0,
+          -1171.2,
+          -4983.36
+        ],
+        "max": [
+          199528.0,
+          1516.8,
+          -5.760000000000002
+        ]
+      },
+      "SM_MikdashWaterV1_StageWater": {
+        "min": [
+          7528.0,
+          -1027.2,
+          -4963.584
+        ],
+        "max": [
+          199528.0,
+          1372.8,
+          -19.2
+        ]
+      },
+      "SM_MikdashWaterV1_StageMarks": {
+        "min": [
+          55504.0,
+          217.92,
+          -4944.96
+        ],
+        "max": [
+          199552.0,
+          1468.8,
+          -1161.6
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohanimDaily": {
+        "min": [
+          -4212.799999999999,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3963.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohanimDaily": {
+        "min": [
+          -4184.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -4016.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohenGadolYear": {
+        "min": [
+          -3252.7999999999997,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3003.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohenGadolYear": {
+        "min": [
+          -3224.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -3056.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur": {
+        "min": [
+          -1668.8,
+          1975.6799999999998,
+          480.0
+        ],
+        "max": [
+          -1419.2,
+          2140.7999999999997,
+          840.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur": {
+        "min": [
+          -1640.0,
+          2016.0,
+          504.47999999999996
+        ],
+        "max": [
+          -1472.0,
+          2112.0,
+          596.16
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_Metzoraim": {
+        "min": [
+          -7092.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -6843.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_Metzoraim": {
+        "min": [
+          -7064.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -6896.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      }
+    },
+    "ok": true
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "groupsRequested": [
+    "court",
+    "stages",
+    "mikvaot"
+  ],
+  "importOnly": false,
+  "skipActor": false,
+  "sourcesRecord": "SourceAssets/water-review/sources.md",
+  "materials": {
+    "water": {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "nodes": [],
+      "connections": [],
+      "kind": "water_translucent",
+      "status": "started",
+      "replacedExisting": true,
+      "expressionsBeforeClear": 53,
+      "expressionsRemainingAfterClear": 26,
+      "expressionCountMethod": "UMaterial's 'Expressions' UPROPERTY carries neither EditAnywhere nor a Blueprint accessor, so PropertyAccessUtil::CanGetPropertyValue denies it and UE 5.8 Python raises \"Property 'Expressions' ... is protected and cannot be read\" (PyUtil.cpp:897). The graph is counted through MaterialEditingLibrary.get_num_material_expressions instead, falling back to len(get_material_expressions(...)); -1 means neither was exposed and the count proves nothing."
+    }
+  },
+  "imported": [],
+  "placed": [],
+  "omissions": {},
+  "errors": [
+    {
+      "stage": "run",
+      "error": "RuntimeError('26 expressions survived delete_all_material_expressions on /Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water')"
+    }
+  ],
+  "mapSaved": false,
+  "depicted": [
+    "the stream issuing from under the threshold of the House, eastward (47:1)",
+    "its descent on the right (south) side of the House and its passage SOUTH OF THE ALTAR (47:1)",
+    "its emergence at the right (south) shoulder of the outer east gate (47:2)",
+    "the four measured thousands, as literal distances, with the depth at each (47:3-5)",
+    "four mikvaot with steps down, and a linen screen at the Kohen Gadol's (Yoma 3:4)"
+  ],
+  "assertedNotDepicted": [
+    "the descent to the Aravah and into the sea, and the healing of the sea's waters (47:8)",
+    "the fishermen standing from Ein Gedi to Ein Eglayim (47:10)",
+    "the marshes and swamps that are not healed, being given to salt (47:11)",
+    "the trees on both banks, leaf unwithering and fruit unfailing, new fruit monthly, the fruit for food and the leaf for healing, because the water issues from the Mikdash (47:12)",
+    "reason: all of these lie tens of kilometres east of the map; the built channel stops at the fourth measurement, 2.000 km east of the outer gate."
+  ],
+  "limitations": [
+    "A courtyard channel is a CUT in paving this script does not own and cannot boolean. The generated masonry therefore occupies the paving, platform and stair meshes listed in clearance.hosts; those are intended, and every non-paving contact is a blocker that fails the export.",
+    "No terrain east of the mount is checked here: the architecture manifest ends at X 9200. The far-field segments are checked against the live level by Scripts/release_water.py.",
+    "Widths, depths, grades and every mikveh dimension are authored. The prophet gives four depths in body parts and no widths at all.",
+    "The forty-se'ah figures are arithmetic, not a ruling.",
+    "The route is disputed: the book takes the stream out by the inner court's SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is built; the south is available as group \"southgate\". Neither is asserted over the other.",
+    "Geometry and material wiring only. No visual, walking, lighting, cook or halachic acceptance is established by this receipt.",
+    "The four stages are built as LITERAL distances; the schematic reading is recorded in SourceAssets/water-review/sources.md and is not built.",
+    "The route is disputed: the book (p. 340) takes the water out by the inner court SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is placed.",
+    "Every width, depth, grade and mikveh dimension is AUTHORED. The prophet gives four depths as parts of a body and no widths at all.",
+    "Terrain tiles are excluded from the live clearance test by name because a heightfield cannot be decomposed into boxes; the architecture-manifest clearance is the authority.",
+    "On the 48 cm candidate the water carries the same 0.96 similarity transform as the architecture, so it is 4 per cent smaller than the authored geometry in every linear dimension. AMikdashWater and WaterFlowMath.h compute in the 50 cm authoring frame (ProjectAmahCm = 50.0), so the depths, velocities and forty-seah volumes the driver reports describe the AUTHORED channel, not the placed one: lengths are high by 1/0.96, volumes by 1/0.96^3. Nothing in this release corrects that.",
+    "The FutureMountV1 terrain and the metric city context were NOT rescaled with the architecture, so on this map the four stages of Yechezkel 47:3-5, measured east in authored amot, end 4 per cent short against unscaled ground. That is true of every 48 cm placement on this map and is not introduced here."
+  ],
+  "preExistingReleaseActors": [],
+  "placementProof": {
+    "target": "Candidate48",
+    "declared": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "rotationDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+      "evidence": [
+        "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+        "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+        "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+      ]
+    },
+    "sampled": 2579,
+    "agreeing": 2578,
+    "excludedSemantics": [
+      "vessel"
+    ],
+    "excludedSampled": 54,
+    "excludedAgreeing": 48,
+    "worstBoundsErrorCm": 40.80011718750029,
+    "worstAgreeingBoundsErrorCm": 0.05414062499949068,
+    "disagreeing": [
+      {
+        "actor": "Turned pedestal",
+        "sourceName": "Turned pedestal",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 2.7502,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 2.5074,
+            "allowanceCm": 0.5058,
+            "spanCm": 115.2
+          },
+          {
+            "axis": "Y",
+            "errorCm": 2.7502,
+            "allowanceCm": 0.5058,
+            "spanCm": 115.2
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.3034,
+            "allowanceCm": 0.5034,
+            "spanCm": 68.16
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.988275,
+            -192.0533
+          ],
+          [
+            0.990396,
+            -46.5203
+          ],
+          [
+            0.964933,
+            -3.1296
+          ]
+        ]
+      },
+      {
+        "actor": "Hollow basin with inner wall",
+        "sourceName": "Hollow basin with inner wall",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 5.225,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 5.225,
+            "allowanceCm": 0.51,
+            "spanCm": 199.68
+          },
+          {
+            "axis": "Y",
+            "errorCm": 1.901,
+            "allowanceCm": 0.51,
+            "spanCm": 199.68
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.6912,
+            "allowanceCm": 0.5029,
+            "spanCm": 57.6
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.995919,
+            -179.4478
+          ],
+          [
+            0.96932,
+            -14.9116
+          ],
+          [
+            0.979936,
+            -14.2605
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 1.2773,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.5512,
+            "allowanceCm": 0.51,
+            "spanCm": 199.296
+          },
+          {
+            "axis": "Y",
+            "errorCm": 1.2773,
+            "allowanceCm": 0.51,
+            "spanCm": 199.296
+          },
+          {
+            "axis": "Z",
+            "errorCm": 1.269,
+            "allowanceCm": 0.5002,
+            "spanCm": 3.287
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.962813,
+            -242.7735
+          ],
+          [
+            0.968762,
+            -13.5112
+          ],
+          [
+            1.666871,
+            -529.3287
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.7666,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.0294,
+            "allowanceCm": 0.5057,
+            "spanCm": 114.72
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.7088,
+            "allowanceCm": 0.5057,
+            "spanCm": 114.72
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.7666,
+            "allowanceCm": 0.5002,
+            "spanCm": 3.196
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.960461,
+            -247.0989
+          ],
+          [
+            0.96605,
+            -9.4221
+          ],
+          [
+            1.395267,
+            -274.696
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.7124,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.7124,
+            "allowanceCm": 0.5036,
+            "spanCm": 72.384
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.2956,
+            "allowanceCm": 0.5036,
+            "spanCm": 72.384
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.4397,
+            "allowanceCm": 0.5001,
+            "spanCm": 2.191
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.973988,
+            -220.9091
+          ],
+          [
+            0.964416,
+            -6.7534
+          ],
+          [
+            1.301114,
+            -223.3096
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.5217,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.2576,
+            "allowanceCm": 0.5035,
+            "spanCm": 69.312
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.2907,
+            "allowanceCm": 0.5035,
+            "spanCm": 69.312
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.5217,
+            "allowanceCm": 0.5001,
+            "spanCm": 2.009
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.965247,
+            -237.7008
+          ],
+          [
+            0.966057,
+            -9.1569
+          ],
+          [
+            1.357648,
+            -269.3007
+          ]
+        ]
+      },
+      {
+        "actor": "Derived union of source House walls and roofs",
+        "sourceName": "Derived union of source House walls and roofs",
+        "class": "union",
+        "semantic": "union",
+        "excludedFromFraction": false,
+        "boundsErrorCm": 40.8001,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.0,
+            "allowanceCm": 0.716,
+            "spanCm": 4320.0
+          },
+          {
+            "axis": "Y",
+            "errorCm": 40.8001,
+            "allowanceCm": 0.74,
+            "spanCm": 4800.0
+          },
+          {
+            "axis": "Z",
+            "errorCm": 16.3233,
+            "allowanceCm": 0.7472,
+            "spanCm": 4944.0
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.96,
+            -248.0
+          ],
+          [
+            0.96816,
+            20.3996
+          ],
+          [
+            0.96317,
+            -19.2551
+          ]
+        ]
+      }
+    ],
+    "disagreeingHosts": [],
+    "disagreeingBySourceName": {
+      "Turned pedestal": {
+        "count": 1,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 2.7502
+      },
+      "Hollow basin with inner wall": {
+        "count": 1,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 5.225
+      },
+      "Copper fitting": {
+        "count": 4,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 1.2773
+      },
+      "Derived union of source House walls and roofs": {
+        "count": 1,
+        "class": "union",
+        "semantic": "union",
+        "excludedFromFraction": false,
+        "worstBoundsErrorCm": 40.8001
+      }
+    },
+    "method": "for every level actor whose mesh resolves to SourceAssets/architecture-manifest.json, the manifest bounds carried through the declared placement are compared with the actor world bounds, per axis, IN CENTIMETRES. Allowance per axis is 0.50 cm plus 5.0e-05 of that axis span, which covers float32 map storage and mesh bound rounding on a 150 m channel and is still two orders of magnitude tighter than the 248 cm this exists to catch.",
+    "disagreeingCount": 7,
+    "agreeingFraction": 0.9996122528111672,
+    "excludedAgreeingFraction": 0.8888888888888888
+  },
+  "mapSha256After": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapBytesChanged": false,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 0
+}

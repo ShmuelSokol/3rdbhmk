@@ -5,8 +5,8 @@
   "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
   "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
   "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
-  "lastKnownMapSha256": "9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273",
-  "lastKnownMapSha256Note": "Recorded as matched/not matched only, NEVER a guard: the map is re-saved by other release jobs many times a day.",
+  "lastKnownMapSha256": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+  "lastKnownMapSha256Note": "Main50 /Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough as of 2026-09-09, last written by release_sky_tod.py -SkyToDFixSunLabel (label only, 25,601,239 bytes). RECORDED, not gated: the receipt carries mapMatchesLastKnownSha256. Candidate48 pins 97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0 (23,575,718 bytes, written by -SkyToDPort when the reviewed daylight was ported to it) and IS gated, because the candidate port asserts a reviewed input. Both live with their full provenance chain in MAP_HASH_PROVENANCE in release_sky_tod.py; never refresh either blindly.",
   "protectedMaps": [
     "/Game/MikdashV3/Maps/Courtyard",
     "/Game/MikdashV3/FutureMountV1/L_FutureMount",
@@ -23,22 +23,36 @@
   "receiptPrefix": "native-place-",
   "folder": "Release/Sky",
   "compiledClasses": {
-    "timeOfDay": {"python": "MikdashTimeOfDay", "path": "/Script/MikdashRuntime.MikdashTimeOfDay", "required": true},
-    "weather": {"python": "MikdashWeather", "path": "/Script/MikdashRuntime.MikdashWeather", "required": false,
-                "note": "Omitted with evidence if the binary predates MikdashWeather.h; the time-of-day actor still places."}
+    "timeOfDay": {
+      "python": "MikdashTimeOfDay",
+      "path": "/Script/MikdashRuntime.MikdashTimeOfDay",
+      "required": true
+    },
+    "weather": {
+      "python": "MikdashWeather",
+      "path": "/Script/MikdashRuntime.MikdashWeather",
+      "required": false,
+      "note": "Omitted with evidence if the binary predates MikdashWeather.h; the time-of-day actor still places."
+    }
   },
   "actors": {
     "timeOfDay": {
       "label": "RELEASE_SkyTimeOfDay",
       "tag": "ReleaseSkyTimeOfDayV1",
-      "location": [0.0, 0.0, 0.0],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
       "settings": {
         "frozen": true,
         "rate_multiplier": 0.0,
         "year": 2026,
         "month": 9,
         "day": 8,
-        "start_preset": {"$enum": "MikdashTimePreset.MORNING"},
+        "start_preset": {
+          "$enum": "MikdashTimePreset.MORNING"
+        },
         "apply_start_preset_on_begin_play": true,
         "restore_on_end_play": true,
         "use_israeli_daylight_saving": true,
@@ -46,8 +60,13 @@
         "max_fog_density": 0.006,
         "forbid_volumetric_fog": true,
         "spawn_moon_light_if_missing": true,
-        "drive_sun": true, "drive_moon": true, "drive_sky_light": true, "drive_sky_atmosphere": true,
-        "drive_clouds": true, "drive_fog": true, "drive_exposure": true
+        "drive_sun": true,
+        "drive_moon": true,
+        "drive_sky_light": true,
+        "drive_sky_atmosphere": true,
+        "drive_clouds": true,
+        "drive_fog": true,
+        "drive_exposure": true
       },
       "settingsNotes": {
         "frozen": "The scene stays locked to one lighting condition until a controller unfreezes it; placement changes nothing visible.",
@@ -55,16 +74,26 @@
         "world_x_axis_compass_bearing_deg": "Walkthrough frame: +X east, +Y south, +Z up (capture receipt b_courtyard_spawn_west, release_lighting_polish.spec.json worldFrame)."
       },
       "sceneReferences": {
-        "sun_light": "DirectionalLight", "sky_light": "SkyLight", "sky_atmosphere": "SkyAtmosphere",
-        "volumetric_cloud": "VolumetricCloud", "height_fog": "ExponentialHeightFog", "post_process_volume": "PostProcessVolume"
+        "sun_light": "DirectionalLight",
+        "sky_light": "SkyLight",
+        "sky_atmosphere": "SkyAtmosphere",
+        "volumetric_cloud": "VolumetricCloud",
+        "height_fog": "ExponentialHeightFog",
+        "post_process_volume": "PostProcessVolume"
       }
     },
     "weather": {
       "label": "RELEASE_SkyWeather",
       "tag": "ReleaseSkyWeatherV1",
-      "location": [0.0, 0.0, 200.0],
+      "location": [
+        0.0,
+        0.0,
+        200.0
+      ],
       "settings": {
-        "start_weather": {"$enum": "MikdashWeather.CLEAR"},
+        "start_weather": {
+          "$enum": "MikdashWeather.CLEAR"
+        },
         "pick_seasonal_weather_on_begin_play": false,
         "enforce_season": true,
         "default_transition_seconds": 20.0,
@@ -76,28 +105,142 @@
     }
   },
   "expectedExisting": {
-    "DirectionalLight": {"min": 1, "max": 2, "note": "The sun. A second one is tolerated (a previous moon light) but the atmosphere-sun-light index 0 is the one wired."},
-    "SkyLight": {"min": 1, "max": 1},
-    "SkyAtmosphere": {"min": 1, "max": 1},
-    "VolumetricCloud": {"min": 1, "max": 1},
-    "ExponentialHeightFog": {"min": 1, "max": 1},
-    "PostProcessVolume": {"min": 1, "max": 3, "note": "The unbound one is wired."}
+    "DirectionalLight": {
+      "min": 1,
+      "max": 2,
+      "note": "The sun. A second one is tolerated (a previous moon light) but the atmosphere-sun-light index 0 is the one wired."
+    },
+    "SkyLight": {
+      "min": 1,
+      "max": 1
+    },
+    "SkyAtmosphere": {
+      "min": 1,
+      "max": 1
+    },
+    "VolumetricCloud": {
+      "min": 1,
+      "max": 1
+    },
+    "ExponentialHeightFog": {
+      "min": 1,
+      "max": 1
+    },
+    "PostProcessVolume": {
+      "min": 1,
+      "max": 3,
+      "note": "The unbound one is wired."
+    }
   },
   "recordBeforeAndAfter": {
-    "DirectionalLight": ["intensity", "use_temperature", "temperature", "light_color", "light_source_angle", "light_source_soft_angle", "volumetric_scattering_intensity", "atmosphere_sun_light", "atmosphere_sun_light_index", "cast_cloud_shadows", "cloud_shadow_strength", "contact_shadow_length", "mobility", "indirect_lighting_intensity", "cast_shadows"],
-    "SkyLight": ["intensity", "light_color", "source_type", "cubemap", "real_time_capture", "lower_hemisphere_is_black", "lower_hemisphere_color", "indirect_lighting_intensity", "volumetric_scattering_intensity", "cubemap_resolution", "mobility"],
-    "SkyAtmosphere": ["aerial_pespective_view_distance_scale", "mie_scattering_scale", "mie_absorption_scale", "mie_anisotropy", "rayleigh_scattering_scale", "height_fog_contribution", "sky_luminance_factor", "multi_scattering_factor", "transmittance_min_light_elevation_angle"],
-    "VolumetricCloud": ["material", "layer_bottom_altitude", "layer_height"],
-    "ExponentialHeightFog": ["fog_density", "fog_height_falloff", "start_distance", "fog_max_opacity", "fog_cutoff_distance", "fog_inscattering_luminance", "sky_atmosphere_ambient_contribution_color_scale", "directional_inscattering_luminance", "directional_inscattering_exponent", "directional_inscattering_start_distance", "enable_volumetric_fog", "volumetric_fog_scattering_distribution", "volumetric_fog_extinction_scale", "volumetric_fog_distance"],
-    "PostProcessVolumeSettings": ["auto_exposure_method", "auto_exposure_min_brightness", "auto_exposure_max_brightness", "auto_exposure_bias", "auto_exposure_low_percent", "auto_exposure_high_percent", "film_slope", "film_toe", "film_shoulder", "film_white_clip", "bloom_intensity", "vignette_intensity", "white_temp", "lumen_scene_detail", "lumen_final_gather_quality", "lumen_reflection_quality"],
-    "PostProcessVolumeOverrides": ["override_auto_exposure_bias", "override_auto_exposure_min_brightness", "override_auto_exposure_max_brightness"],
-    "cloudMaterialScalarParameters": ["Cloud_GlobalCoverage", "Cloud_GlobalDensity", "Layout_CloudGlobalScale", "StormClouds"],
-    "cloudMaterialVectorParameters": ["Layout_WindControls"]
+    "DirectionalLight": [
+      "intensity",
+      "use_temperature",
+      "temperature",
+      "light_color",
+      "light_source_angle",
+      "light_source_soft_angle",
+      "volumetric_scattering_intensity",
+      "atmosphere_sun_light",
+      "atmosphere_sun_light_index",
+      "cast_cloud_shadows",
+      "cloud_shadow_strength",
+      "contact_shadow_length",
+      "mobility",
+      "indirect_lighting_intensity",
+      "cast_shadows"
+    ],
+    "SkyLight": [
+      "intensity",
+      "light_color",
+      "source_type",
+      "cubemap",
+      "real_time_capture",
+      "lower_hemisphere_is_black",
+      "lower_hemisphere_color",
+      "indirect_lighting_intensity",
+      "volumetric_scattering_intensity",
+      "cubemap_resolution",
+      "mobility"
+    ],
+    "SkyAtmosphere": [
+      "aerial_pespective_view_distance_scale",
+      "mie_scattering_scale",
+      "mie_absorption_scale",
+      "mie_anisotropy",
+      "rayleigh_scattering_scale",
+      "height_fog_contribution",
+      "sky_luminance_factor",
+      "multi_scattering_factor",
+      "transmittance_min_light_elevation_angle"
+    ],
+    "VolumetricCloud": [
+      "material",
+      "layer_bottom_altitude",
+      "layer_height"
+    ],
+    "ExponentialHeightFog": [
+      "fog_density",
+      "fog_height_falloff",
+      "start_distance",
+      "fog_max_opacity",
+      "fog_cutoff_distance",
+      "fog_inscattering_luminance",
+      "sky_atmosphere_ambient_contribution_color_scale",
+      "directional_inscattering_luminance",
+      "directional_inscattering_exponent",
+      "directional_inscattering_start_distance",
+      "enable_volumetric_fog",
+      "volumetric_fog_scattering_distribution",
+      "volumetric_fog_extinction_scale",
+      "volumetric_fog_distance"
+    ],
+    "PostProcessVolumeSettings": [
+      "auto_exposure_method",
+      "auto_exposure_min_brightness",
+      "auto_exposure_max_brightness",
+      "auto_exposure_bias",
+      "auto_exposure_low_percent",
+      "auto_exposure_high_percent",
+      "film_slope",
+      "film_toe",
+      "film_shoulder",
+      "film_white_clip",
+      "bloom_intensity",
+      "vignette_intensity",
+      "white_temp",
+      "lumen_scene_detail",
+      "lumen_final_gather_quality",
+      "lumen_reflection_quality"
+    ],
+    "PostProcessVolumeOverrides": [
+      "override_auto_exposure_bias",
+      "override_auto_exposure_min_brightness",
+      "override_auto_exposure_max_brightness"
+    ],
+    "cloudMaterialScalarParameters": [
+      "Cloud_GlobalCoverage",
+      "Cloud_GlobalDensity",
+      "Layout_CloudGlobalScale",
+      "StormClouds"
+    ],
+    "cloudMaterialVectorParameters": [
+      "Layout_WindControls"
+    ]
   },
   "authoredTuneThatMustSurvive": {
     "note": "Read back after reopen in every mode; a mismatch is a hard failure UNLESS -SkyToDBake selected a twilight/night row, where the recorded delta is the point. In the default mode and in a Morning/Midday/Afternoon bake these must be byte-identical.",
-    "ExponentialHeightFog": {"fog_density": 0.0015, "fog_height_falloff": 0.15, "start_distance": 8000.0, "enable_volumetric_fog": false},
-    "SkyLight": {"lower_hemisphere_is_black": false, "source_type": "SLS_CAPTURED_SCENE", "real_time_capture": true},
+    "ExponentialHeightFog": {
+      "fog_density": 0.0015,
+      "fog_height_falloff": 0.15,
+      "start_distance": 8000.0,
+      "enable_volumetric_fog": false
+    },
+    "SkyLight": {
+      "lower_hemisphere_is_black": false,
+      "source_type": "SLS_CAPTURED_SCENE",
+      "real_time_capture": true
+    },
     "floatRelativeTolerance": 0.0005
   },
   "bake": {
@@ -115,5 +258,28 @@
     "The weather actor writes no material parameter unless a UMaterialParameterCollection is assigned to WeatherParameters; wet-surface and snow response requires materials that read it, and no material is edited by this pass.",
     "Sunrise/sunset times are sea-level USNO convention; Jerusalem's 750 m elevation (about 4 minutes) is not modelled.",
     "The atmosphere draws the moon as a round disc dimmed by phase; a crescent needs a mesh moon driven by GetMoonBrightLimbAngleDegrees()."
-  ]
+  ],
+  "reviewedDaylight": {
+    "provenance": "Reviewed daylight adopted by Shmuel and applied by Scripts/release_reviewed_daylight.py (variant A: sun 30,000 lux at 6500 K with use_temperature, sky light 1.3). The fog row is the same authored tune asserted in authoredTuneThatMustSurvive.",
+    "DirectionalLight": {
+      "intensity": 30000.0,
+      "use_temperature": true,
+      "temperature": 6500.0
+    },
+    "SkyLight": {
+      "intensity": 1.3
+    },
+    "ExponentialHeightFog": {
+      "fog_density": 0.0015,
+      "fog_height_falloff": 0.15,
+      "start_distance": 8000.0,
+      "enable_volumetric_fog": false
+    },
+    "bakeMayDifferSections": [
+      "DirectionalLight",
+      "SkyLight"
+    ],
+    "note": "Honoured, not re-written. In default mode this pass writes no existing lighting value at all; the check is that a reviewed value which agreed BEFORE the pass still agrees after it. A value that already diverged is reported as preExistingDivergence, never blamed on this run. A -SkyToDBake preset is allowed to differ where its row deliberately does, and the delta is recorded.",
+    "portedToCandidate48": "Applied to the candidate on 2026-09-09 by release_sky_tod.py -SkyToDPort as a PORT of the Main50 review, not as a review of the candidate: receipt SourceAssets/sky-review/native-daylight-port-Candidate48-20260909T172832268438Z.json. Before: sun 5000 K, sky light 1.0 (the exact baseline the three PIE comparisons were run against). After: sun 6500 K, sky light 1.3. No PIE comparison has been run on the candidate; visual acceptance there is still pending. release_reviewed_daylight.py correctly declined this map and was not weakened -- its validate_preset is imported and called unchanged."
+  }
 }

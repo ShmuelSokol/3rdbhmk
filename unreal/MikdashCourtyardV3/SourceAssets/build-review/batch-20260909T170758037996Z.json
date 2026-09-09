@@ -1,0 +1,30 @@
+{
+  "status": "batch_complete_1_of_3_ran_without_raising",
+  "stamp": "20260909T170758037996Z",
+  "requested": [
+    "release_soundscape_v2.py",
+    "release_intro_sequence.py",
+    "release_transit_bridge.py"
+  ],
+  "results": [
+    {
+      "script": "release_soundscape_v2.py",
+      "outcome": "raised",
+      "error": "Map adoption held pending source audition and runtime species/crowd fixes; use -SoundscapeImportOnly",
+      "traceback": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/run_batch.py\", line 57, in <module>\n    runpy.run_path(str(path), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2880, in <module>\n    _main()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2818, in _main\n    receipt = run(load_target=True, import_only=switches['import_only'],\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2557, in run\n    raise RuntimeError('Map adoption held pending source audition and runtime species/crowd fixes; use -SoundscapeImportOnly')\nRuntimeError: Map adoption held pending source audition and runtime species/crowd fixes; use -SoundscapeImportOnly\n",
+      "seconds": 9.3
+    },
+    {
+      "script": "release_intro_sequence.py",
+      "outcome": "ran",
+      "seconds": 14.0
+    },
+    {
+      "script": "release_transit_bridge.py",
+      "outcome": "raised",
+      "error": "Dirty packages present; save or revert first (nothing is auto-saved)",
+      "traceback": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/run_batch.py\", line 57, in <module>\n    runpy.run_path(str(path), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 528, in <module>\n    _main()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 515, in _main\n    receipt = job.run()\n              ^^^^^^^^^\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 495, in run\n    self.preflight()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 245, in preflight\n    raise RuntimeError('Dirty packages present; save or revert first (nothing is auto-saved)')\nRuntimeError: Dirty packages present; save or revert first (nothing is auto-saved)\n",
+      "seconds": 3.3
+    }
+  ]
+}

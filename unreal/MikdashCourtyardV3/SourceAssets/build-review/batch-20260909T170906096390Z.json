@@ -1,0 +1,24 @@
+{
+  "status": "batch_complete_0_of_2_ran_without_raising",
+  "stamp": "20260909T170906096390Z",
+  "requested": [
+    "release_transit_bridge.py",
+    "release_soundscape_v2.py"
+  ],
+  "results": [
+    {
+      "script": "release_transit_bridge.py",
+      "outcome": "raised",
+      "error": "A bridge actor is already placed; do not duplicate: RELEASE_TransitBridgeV1_Bridge",
+      "traceback": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/run_batch.py\", line 57, in <module>\n    runpy.run_path(str(path), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 528, in <module>\n    _main()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 515, in _main\n    receipt = job.run()\n              ^^^^^^^^^\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 495, in run\n    self.preflight()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 257, in preflight\n    self.check_level()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.py\", line 275, in check_level\n    raise RuntimeError('A bridge actor is already placed; do not duplicate: ' + ', '.join(guards['existingBridgeActors']))\nRuntimeError: A bridge actor is already placed; do not duplicate: RELEASE_TransitBridgeV1_Bridge\n",
+      "seconds": 8.1
+    },
+    {
+      "script": "release_soundscape_v2.py",
+      "outcome": "raised",
+      "error": "Import of CityHum_AlexaMallBerlin_thore.ogg produced 0 SoundWave(s)",
+      "traceback": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/run_batch.py\", line 57, in <module>\n    runpy.run_path(str(path), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2880, in <module>\n    _main()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2818, in _main\n    receipt = run(load_target=True, import_only=switches['import_only'],\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 2594, in run\n    scape.import_waves()\n  File \"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_soundscape_v2.py\", line 1693, in import_waves\n    raise RuntimeError('Import of %s produced %d SoundWave(s)'\nRuntimeError: Import of CityHum_AlexaMallBerlin_thore.ogg produced 0 SoundWave(s)\n",
+      "seconds": 9.6
+    }
+  ]
+}

@@ -424,9 +424,24 @@ def _enum_name(enum_class, value, candidates):
 #
 #   * compare every persistent actor by label, class, mesh asset paths and root transform;
 #   * compare BOUNDS only for actors that carry no instanced component at all;
+#   * compare an INSTANCE CARRIER (HISM-bearing actor) by existence, label, class and root
+#     transform ONLY -- not by its component/instance inventory (see below);
 #   * leave out actors that are not owned by the map package (they are not saved and cannot
 #     be "damaged" by a save);
-#   * still refuse on any genuine change to a persistent actor -- moved, deleted, re-meshed.
+#   * still refuse on any genuine change to a persistent actor -- moved, deleted, re-meshed;
+#     an instance carrier that MOVES or DISAPPEARS is still a refusal.
+#
+# 2026-09-09 follow-up. The bounds rule above is necessary but not sufficient. MikdashCrowdField
+# and MikdashBirdFlock BUILD their HISM components at construction (RebuildFlock / RebuildField),
+# so the component set itself is not stable across a save+reopen inside one commandlet: the
+# 'meshes' list is derived from get_components_by_class(StaticMeshComponent), so its length is
+# the CARRIER'S COMPONENT COUNT, and an actor whose previews are rebuilt can present zero
+# components in one snapshot and six in the next. That asymmetry also flips the per-row
+# 'instanced' flag, which in turn flipped whether bounds entered the strict key -- so two
+# snapshots of an untouched flock could still produce different keys. The fix is symmetric by
+# CLASS as well as by observed components: REBUILT_AT_CONSTRUCTION_CLASSES is consulted before
+# any component is looked at, so both snapshots agree on the comparison rule for such an actor
+# whatever its components happen to be at that instant.
 #
 # UE 5.8's Python does not expose object flags (PyWrapperObject's method table has get_outer,
 # get_outermost, get_package, is_package_external ... and no flags accessor), so RF_Transient
@@ -461,7 +476,24 @@ LOAD_CHURN_REGRESSION = {
         {'name': 'MikdashBirdFlock_3', 'class': 'MikdashBirdFlock', 'label': 'RELEASE_Birds_4',
          'why': 'HISM built at load', 'persistent': True},
     ],
+    # Classes that rebuild their instanced components at construction. Membership is decided
+    # by CLASS, before any component is inspected, so both snapshots of the same actor agree
+    # on the comparison rule even when one of them catches the actor with no components yet.
+    # These are every MikdashRuntime actor that owns an ISM/HISM component (verified against
+    # Plugins/MikdashRuntime/Source/MikdashRuntime/Private on 2026-09-09): the two in the logs
+    # plus the four that were not exercised that night. MikdashTransit is the sharpest case --
+    # it NewObject<UHierarchicalInstancedStaticMeshComponent>()s and RegisterComponent()s its
+    # components at run time (MikdashTransit.cpp:74,86), so its component inventory genuinely
+    # does not exist until it is rebuilt; MikdashEnclosure builds its HISM instances in
+    # BeginPlay. Listing a class that turns out never to churn only relaxes mesh/bounds for
+    # it; omitting one that does churn costs a false refusal on a clean map.
+    'rebuiltAtConstructionClasses': ['MikdashBirdFlock', 'MikdashCrowdField', 'MikdashEnclosure',
+                                     'MikdashTransit', 'MikdashTransitBoardingBridge',
+                                     'MikdashTransitCrowdCoordinator'],
 }
+
+# Derived from the regression record above so the two can never drift apart.
+REBUILT_AT_CONSTRUCTION_CLASSES = frozenset(LOAD_CHURN_REGRESSION['rebuiltAtConstructionClasses'])
 
 
 def _is_instanced_component(ue, component):
@@ -488,25 +520,44 @@ def snapshot_row(ue, actor, map_package):
         package = actor.get_package().get_name()
     except Exception:  # noqa: BLE001 - very old wrappers
         package = actor.get_outermost().get_name()
+    cls = actor.get_class().get_name()
     return {'actor': actor, 'name': actor.get_name(), 'label': actor.get_actor_label(),
             'folder': str(actor.get_folder_path()),
-            'class': actor.get_class().get_name(),
+            'class': cls,
             'package': package, 'persistent': package == map_package,
-            'instanced': instanced, 'meshes': meshes,
+            'instanced': instanced, 'rebuiltAtConstruction': cls in REBUILT_AT_CONSTRUCTION_CLASSES,
+            'meshes': meshes,
             'pose': _actor_pose(actor), 'bounds': _actor_bounds(actor)}
+
+
+def is_instance_carrier(row):
+    """True for an actor whose component/instance inventory is rebuilt rather than loaded:
+    it either carries an instanced component now, or its class rebuilds them at construction
+    (in which case a snapshot may legitimately catch it with none). Such an actor is compared
+    by existence, label, class and root transform only."""
+    return bool(row.get('instanced', False)) or bool(row.get('rebuiltAtConstruction', False)) \
+        or row.get('class') in REBUILT_AT_CONSTRUCTION_CLASSES
 
 
 def bounds_comparable(row):
     """Bounds go into the key only for actors whose AABB cannot be rebuilt at load."""
-    return bool(row.get('persistent', True)) and not bool(row.get('instanced', False))
+    return bool(row.get('persistent', True)) and not is_instance_carrier(row)
+
+
+def meshes_comparable(row):
+    """The mesh list is the carrier's COMPONENT inventory; for an instance carrier that is
+    rebuilt, not loaded, so it is evidence for the receipt and never part of the key."""
+    return not is_instance_carrier(row)
 
 
 def baseline_key(row, strict=False):
     """The tuple two snapshots of the same actor must agree on.
 
-    Always: label, class, mesh asset paths, root transform. With strict=True, also the
-    world bounds -- but only where bounds_comparable(), never for an instance carrier."""
-    key = (row['label'], row.get('class'), tuple(row['meshes']),
+    Always: label, class and root transform. Mesh asset paths join the key only for actors
+    that are not instance carriers (meshes_comparable). With strict=True the world bounds
+    join it too, but only where bounds_comparable() -- never for an instance carrier."""
+    key = (row['label'], row.get('class'),
+           tuple(row['meshes']) if meshes_comparable(row) else None,
            tuple(row['pose']['location'] + row['pose']['rotation'] + row['pose']['scale']))
     if strict and bounds_comparable(row):
         b = row['bounds']
@@ -534,6 +585,26 @@ def baseline_exclusions(rows, exclude=()):
     return out
 
 
+def baseline_relaxations(rows, exclude=()):
+    """Persistent actors that ARE compared but under the relaxed instance-carrier rule --
+    existence, label, class and root transform only. Receipt evidence, so a reader can see
+    exactly which actors were not compared by component inventory or bounds, and why."""
+    excluded = set(exclude)
+    out = []
+    for row in rows:
+        if not row.get('persistent', True) or row['name'] in excluded:
+            continue
+        if not is_instance_carrier(row):
+            continue
+        out.append({'name': row['name'], 'label': row['label'], 'class': row.get('class'),
+                    'instancedComponentsNow': bool(row.get('instanced', False)),
+                    'rebuiltAtConstruction': row.get('class') in REBUILT_AT_CONSTRUCTION_CLASSES,
+                    'componentMeshes': list(row.get('meshes', [])),
+                    'comparedBy': 'existence, label, class, root transform',
+                    'notComparedBy': 'component/instance inventory, world bounds'})
+    return out
+
+
 def diff_baselines(before_rows, after_rows, strict=False, exclude=()):
     """Per-actor evidence of what changed: field, before, after. Empty list means equal."""
     before = {r['name']: r for r in before_rows if r.get('persistent', True)}
@@ -548,10 +619,12 @@ def diff_baselines(before_rows, after_rows, strict=False, exclude=()):
             diffs.append({'name': name, 'label': b['label'], 'class': b.get('class'),
                           'field': 'presence', 'before': 'present', 'after': 'missing'})
             continue
-        for field, fb, fa in (('label', b['label'], a['label']),
-                              ('class', b.get('class'), a.get('class')),
-                              ('meshes', b['meshes'], a['meshes']),
-                              ('pose', b['pose'], a['pose'])):
+        fields = [('label', b['label'], a['label']),
+                  ('class', b.get('class'), a.get('class')),
+                  ('pose', b['pose'], a['pose'])]
+        if meshes_comparable(b) and meshes_comparable(a):
+            fields.insert(2, ('meshes', b['meshes'], a['meshes']))
+        for field, fb, fa in fields:
             if fb != fa:
                 diffs.append({'name': name, 'label': b['label'], 'class': b.get('class'),
                               'field': field, 'before': fb, 'after': fa})
@@ -585,10 +658,25 @@ def selftest_snapshot_rules():
 
     before, after = [], []
     for churn in LOAD_CHURN_REGRESSION['actors']:
-        before.append(row(churn['name'], churn['label'], churn['class'], ['/Game/X/SM_A'],
-                          (0.0, 0.0, 0.0), box(-100.0, 100.0), instanced=True))
-        after.append(row(churn['name'], churn['label'], churn['class'], ['/Game/X/SM_A'],
+        rebuilt = churn['class'] in REBUILT_AT_CONSTRUCTION_CLASSES
+        # The two logged shapes of the same non-change:
+        #   ISM carriers (bare Actor_0..4): components load with the map, only the AABB churns.
+        #   HISM actors (crowd field, bird flocks): the components themselves are rebuilt at
+        #   construction, so one snapshot can catch the actor with none at all.
+        before.append(row(churn['name'], churn['label'], churn['class'],
+                          [] if rebuilt else ['/Game/X/SM_A'],
+                          (0.0, 0.0, 0.0), box(-100.0, 100.0), instanced=not rebuilt))
+        after.append(row(churn['name'], churn['label'], churn['class'],
+                         ['/Game/X/SM_A', '/Game/X/SM_B'] if rebuilt else ['/Game/X/SM_A'],
                          (0.0, 0.0, 0.0), box(-9999.0, 9999.0), instanced=True))   # bounds churn
+    # an instance carrier that genuinely MOVES or DISAPPEARS is still a refusal
+    before.append(row('MikdashBirdFlock_9', 'RELEASE_Birds_9', 'MikdashBirdFlock', [],
+                      (0.0, 0.0, 0.0), box(-100.0, 100.0)))
+    after.append(row('MikdashBirdFlock_9', 'RELEASE_Birds_9', 'MikdashBirdFlock', ['/Game/X/SM_A'],
+                     (0.0, 0.0, 250.0), box(-100.0, 100.0), instanced=True))       # moved 250 cm
+    before.append(row('MikdashCrowdField_9', 'RELEASE_CrowdField_9', 'MikdashCrowdField',
+                      ['/Game/X/SM_A'], (0.0, 0.0, 0.0), box(-100.0, 100.0), instanced=True))
+    #                                                                                     deleted
     # genuine changes that MUST be flagged
     before.append(row('StaticMeshActor_7', 'Wall', 'StaticMeshActor', ['/Game/X/SM_Wall'], (10.0, 0.0, 0.0), box(0.0, 10.0)))
     after.append(row('StaticMeshActor_7', 'Wall', 'StaticMeshActor', ['/Game/X/SM_Wall'], (11.0, 0.0, 0.0), box(1.0, 11.0)))   # moved 1 cm
@@ -608,6 +696,9 @@ def selftest_snapshot_rules():
     churn_names = {c['name'] for c in LOAD_CHURN_REGRESSION['actors']}
     diffs = diff_baselines(before, after, strict=True)
 
+    expected_loose = ['MikdashBirdFlock_9', 'MikdashCrowdField_9',
+                      'StaticMeshActor_7', 'StaticMeshActor_8', 'StaticMeshActor_9']
+    expected_strict = sorted(expected_loose + ['StaticMeshActor_10'])
     result = {
         'churnActors': len(churn_names),
         'churnFlaggedLoose': sorted(churn_names & set(loose_changed)),
@@ -615,21 +706,32 @@ def selftest_snapshot_rules():
         'genuineFlaggedLoose': loose_changed,
         'genuineFlaggedStrict': strict_changed,
         'transientExcluded': 'CameraActor_3' not in strict_a and 'CameraActor_3' not in loose_a,
+        'carrierMoveFlagged': 'MikdashBirdFlock_9' in loose_changed,
+        'carrierDeleteFlagged': 'MikdashCrowdField_9' in loose_changed,
+        'relaxedActors': sorted(r['name'] for r in baseline_relaxations(before)),
         'diffFields': sorted({(d['name'], d['field']) for d in diffs}),
     }
     problems = []
     if result['churnFlaggedLoose'] or result['churnFlaggedStrict']:
-        problems.append('instance carriers flagged for bounds churn: %s'
+        problems.append('instance carriers flagged for bounds/component churn: %s'
                         % (result['churnFlaggedLoose'] + result['churnFlaggedStrict']))
-    if loose_changed != ['StaticMeshActor_7', 'StaticMeshActor_8', 'StaticMeshActor_9']:
-        problems.append('loose comparison must flag exactly moved/deleted/re-meshed, got %s' % loose_changed)
-    if strict_changed != ['StaticMeshActor_10', 'StaticMeshActor_7', 'StaticMeshActor_8', 'StaticMeshActor_9']:
+    if loose_changed != expected_loose:
+        problems.append('loose comparison must flag exactly the moved/deleted/re-meshed actors '
+                        'and the moved/deleted instance carriers, got %s' % loose_changed)
+    if strict_changed != expected_strict:
         problems.append('strict comparison must also flag the plain-actor bounds change, got %s' % strict_changed)
     if not result['transientExcluded']:
         problems.append('actor outside the map package was not excluded')
+    if not result['carrierMoveFlagged']:
+        problems.append('a moved instance carrier was not flagged')
+    if not result['carrierDeleteFlagged']:
+        problems.append('a deleted instance carrier was not flagged')
+    if set(result['relaxedActors']) != churn_names | {'MikdashBirdFlock_9', 'MikdashCrowdField_9'}:
+        problems.append('relaxed set is not exactly the instance carriers: %s' % result['relaxedActors'])
     expected_fields = {('StaticMeshActor_7', 'pose'), ('StaticMeshActor_7', 'bounds'),
                        ('StaticMeshActor_8', 'presence'), ('StaticMeshActor_9', 'meshes'),
-                       ('StaticMeshActor_10', 'bounds')}
+                       ('StaticMeshActor_10', 'bounds'),
+                       ('MikdashBirdFlock_9', 'pose'), ('MikdashCrowdField_9', 'presence')}
     if set(result['diffFields']) != expected_fields:
         problems.append('diff evidence differs from expectation: %s' % result['diffFields'])
     result['passed'] = not problems
@@ -690,6 +792,10 @@ class Placement:
 
     def baseline_exclusions(self, rows):
         return baseline_exclusions(rows, exclude=self.excluded_names)
+
+    def baseline_relaxations(self, rows):
+        """Persistent instance carriers compared by existence and root transform only."""
+        return baseline_relaxations(rows, exclude=self.excluded_names)
 
     def diff(self, before_rows, after_rows, strict=False):
         return diff_baselines(before_rows, after_rows, strict=strict, exclude=self.excluded_names)

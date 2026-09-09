@@ -20,14 +20,38 @@ and dirty-package guards, exactly like release_place_assets.py. Importing it ins
 editor does nothing; call place(load_target=False) there after opening the map.
 
 Optional switches (read from the engine command line):
-  -SkyToDTarget=Candidate48
+  -Target=Candidate48   (alias: -SkyToDTarget=; Main50 | Candidate48, plus the usual aliases)
         Explicit reviewed48cm map; main remains default. Placement-only, no bake/revert.
         Input map hash and Selected48 descriptor/pivot must match the reviewed checkpoint.
+        Both maps' hashes are pinned WITH PROVENANCE in MAP_HASH_PROVENANCE below (which
+        pass last wrote each map, and which hash it superseded) -- never refreshed blindly.
   -SkyToDBake=<dawn|sunrise|morning|midday|afternoon|sunset|dusk|night>
         Also write that one preset into the existing lighting actors for editor preview.
         Default: none. Without it NO existing actor property is written by this pass.
   -SkyToDRevert=<path to a native-place receipt>
         Write every recorded "before" value back, destroy the placed actors, save, reopen.
+  -SkyToDPort
+        PORT the adopted daylight (sun 6500 K, sky light 1.3) onto the target's existing sun
+        and sky light. This is a PORT, not a review: the three PIE comparisons that adopted
+        these numbers were run on Main50, and no comparison has been run on the target. The
+        receipt says so in words and names the three receipts. Refuses unless the target is
+        on the exact reviewed BASELINE (30,000 lux / 5000 K / use_temperature / sky 1.0);
+        it will not adjust a map sitting on some third setting. Guard pattern in full:
+        read-before-write of every recorded lighting value, checkpoint under
+        ReviewCheckpoints, before/after map hashes, save, reopen, numeric readback, and a
+        whole-level comparison through release_place_assets.py's shared snapshot rules.
+        release_reviewed_daylight.py is IMPORTED (validate_preset) and never weakened.
+  -SkyToDPortRevert=<path to a native-daylight-port receipt>
+        Replay that receipt's revert block: the recorded before values and sun label are
+        written back, saved, reopened and read back.
+  -SkyToDFixSunLabel   (alias -SkyToDRelabel)
+        Label only. The sun actor's label states its own colour temperature; where that no
+        longer matches the light, correct it in the same guarded pass. Writes no value.
+  -SkyToDVerify
+        Read-only. Load the target, confirm RELEASE_SkyTimeOfDay / RELEASE_SkyWeather are
+        still present with the spec's settings after later passes have saved over the map,
+        read every recorded lighting value and the reviewed daylight, write a
+        native-verify-<target>-<stamp>.json receipt. Saves nothing, mutates nothing.
 
 Run WITHOUT the engine for the offline check only (no map is touched):
 
@@ -49,6 +73,13 @@ Safety model (the release_place_assets.py pattern):
     numerically. The authored fog/skylight tune from the spec is asserted byte-identical
     unless a twilight/night bake was requested (then the delta is the point and is
     recorded).
+  * The reviewed daylight adopted by Shmuel (sun 6500 K / 30,000 lux, sky light 1.3, fog
+    0.0015 / 0.15 / 8000, volumetric fog off -- spec.reviewedDaylight) is HONOURED, not
+    re-written: in default mode this pass writes no existing lighting value at all, so the
+    check is that a reviewed value which agreed BEFORE the pass still agrees after it. A
+    value that already diverged is reported as a pre-existing divergence, not blamed on
+    this run; a -SkyToDBake preset may deliberately differ at its time of day and the
+    delta is recorded instead.
   * The receipt JSON is written at start and again in finally, preserving partial state.
 
 UE 5.8 pitfalls this script is built around:
@@ -61,6 +92,7 @@ import io
 import hashlib
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
@@ -71,7 +103,42 @@ ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_sky_tod.spec.json'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 CANDIDATE = '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
-CANDIDATE_SHA = 'd494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785'
+
+# Map hashes are PINNED WITH PROVENANCE, never refreshed blindly: a spec that silently
+# adopts whatever is on disk cannot tell a reviewed input from a damaged one. Each entry
+# says which pass last wrote the map, so a mismatch is a question ("what saved it since?"),
+# not a nuisance.
+MAP_HASH_PROVENANCE = {
+    'Candidate48': {
+        'map': CANDIDATE,
+        'sha256': '97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0',
+        'bytes': 23575718,
+        'observedUtc': '2026-09-09',
+        'writtenBy': ('release_sky_tod.py -SkyToDPort -- the reviewed daylight PORTED from the '
+                      'Main50 review (sun 5000 K -> 6500 K, sky light 1.0 -> 1.3, sun label '
+                      'corrected), receipt native-daylight-port-Candidate48-20260909T172832268438Z.json'),
+        'supersedes': ('b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c '
+                       '(release_herodian_ashlar_v4.py, 2026-09-09, publication clone commit '
+                       'c4dbf2b7, after the 2026-09-08 Aron re-pivot that set '
+                       'FixedArchitectureOriginCm (-6200,0,0)); before that '
+                       'd494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785, the '
+                       'reviewed 24-resident checkpoint of 2026-09-08)'),
+    },
+    'Main50': {
+        'map': TARGET,
+        'sha256': '7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd',
+        'bytes': 25601239,
+        'observedUtc': '2026-09-09',
+        'writtenBy': ('release_sky_tod.py -SkyToDFixSunLabel -- label only, no lighting value '
+                      'written; the sun actor still said 5000 K after the 2026-09-08 review moved '
+                      'it to 6500 K. Receipt native-relabel-Main50-20260909T172939800657Z.json'),
+        'supersedes': ('c1fe80080e4496c4cf370c9590e1688c664c96f8ce91b135534ae368ae19346c '
+                       '(release_herodian_ashlar_v4.py, 2026-09-09, same pass as the candidate); '
+                       'before that 9d2c492069359e356064b7cf5f2f7759e529c93706360ab7fc4ac395210bd273, '
+                       'the spec lastKnownMapSha256 of 2026-09-08)'),
+    },
+}
+CANDIDATE_SHA = MAP_HASH_PROVENANCE['Candidate48']['sha256']
 
 PRESET_NAMES = ('dawn', 'sunrise', 'morning', 'midday', 'afternoon', 'sunset', 'dusk', 'night')
 
@@ -90,6 +157,22 @@ def disk_path(asset_path, extension='uasset'):
     return ROOT / 'Content' / (asset_path[6:] + '.' + extension)
 
 
+TARGET_ALIASES = {
+    'main50': 'Main50', 'main': 'Main50', 'legacy': 'Main50',
+    'integratedreviewv2': 'Main50',
+    'candidate48': 'Candidate48', 'candidate': 'Candidate48', 'amah48': 'Candidate48',
+    '48': 'Candidate48', 'selected48': 'Candidate48',
+}
+
+
+def _normalise_target(value):
+    """-Target / -SkyToDTarget accept either canonical name or a common alias."""
+    key = (value or '').strip().strip('"').lower()
+    if key in TARGET_ALIASES:
+        return TARGET_ALIASES[key]
+    raise RuntimeError('Unknown sky target %r; use Main50 or Candidate48' % value)
+
+
 def load_spec(target_name="Main50"):
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
     if spec['targetMap'] != TARGET:
@@ -101,10 +184,12 @@ def load_spec(target_name="Main50"):
     if target_name == 'Candidate48':
         spec['targetMap'] = CANDIDATE
         spec['targetMapFile'] = 'Content/' + CANDIDATE[6:] + '.umap'
-        spec['lastKnownMapSha256'] = CANDIDATE_SHA
         spec['checkpointPrefix'] += 'Candidate48-'
         spec['receiptPrefix'] += 'Candidate48-'
     spec['targetName'] = target_name
+    # The pinned hash for THIS target, with the provenance that justifies it.
+    spec['lastKnownMapSha256'] = MAP_HASH_PROVENANCE[target_name]['sha256']
+    spec['lastKnownMapSha256Provenance'] = MAP_HASH_PROVENANCE[target_name]
     maps = set(spec['protectedMaps'])
     maps.update('/Game/' + p.relative_to(ROOT / 'Content').with_suffix('').as_posix()
                 for p in (ROOT / 'Content').rglob('*.umap'))
@@ -127,6 +212,10 @@ def editor_processes():
 def relative_close(a, b, tolerance):
     if isinstance(a, bool) or isinstance(b, bool):
         return a == b
+    if isinstance(a, dict) and isinstance(b, dict):
+        # Whole daylight records are compared as dicts; without this they fell to exact
+        # equality, which no float readback survives reliably.
+        return a.keys() == b.keys() and all(relative_close(a[k], b[k], tolerance) for k in a)
     if isinstance(a, (int, float)) and isinstance(b, (int, float)):
         scale = max(1.0, abs(a), abs(b))
         return abs(a - b) <= tolerance * scale
@@ -388,6 +477,503 @@ def _preset_enum(ue, name):
     return getattr(ue.MikdashTimePreset, name.upper())
 
 
+# --------------------------------------------------------------------------
+# Reviewed-daylight PORT (not a review)
+# --------------------------------------------------------------------------
+#
+# 2026-09-09. The daylight adopted on 8 September -- sun 30,000 lux at 6500 K with
+# use_temperature, sky light 1.3, against a 5000 K / 1.0 baseline -- was accepted after
+# three real PIE camera comparisons, ALL OF THEM ON MAIN50. release_reviewed_daylight.py
+# therefore (correctly) declines to write it anywhere else: validate_preset requires the
+# three comparisons to share one mapShaBefore, and that hash is Main50's. That guard is
+# right and is NOT weakened or bypassed here -- this module IMPORTS validate_preset and
+# calls it, rather than reimplementing or relaxing it.
+#
+# What this mode does instead is an honest PORT. The candidate is the same daylight rig as
+# Main50 (one DirectionalLight, one SkyLight, identical component values); it differs in
+# scale, 0.48 vs 0.50 amah, and in what has been placed -- not in its lighting. It was still
+# sitting on the exact pre-review baseline the reviewers compared AGAINST. Carrying the two
+# adopted numbers across is completing an adopted decision, and shipping the map on the
+# superseded 5000 K / 1.0 is the worse outcome. But it is not a review, and the receipt says
+# so in words: no PIE comparison has been run on the candidate.
+#
+# The port refuses unless the target's current values are byte-for-byte the reviewed
+# BASELINE. It will not "fix up" a map that is on some third setting -- that would be a new
+# lighting decision, and this mode does not make one.
+REVIEWED_DAYLIGHT_PORT = {
+    'decisionFile': 'SourceAssets/lighting-review/cool-daylight-acceptance-20260908.json',
+    'reviewedOnMap': TARGET,
+    'reviewedOnMapSha256': '480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0',
+    'comparisonReceipts': [
+        'SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T165802894653Z.json',
+        'SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T170147884224Z.json',
+        'SourceAssets/runtime-review/frontend-flight/native-frontend-flight-20260908T170356069458Z.json',
+    ],
+    'comparisonSubjects': ['mount-paving', 'heikhal', 'kotel-platform-join'],
+    'statement': (
+        'PORTED, NOT REVIEWED ON THIS MAP. The sun temperature and sky light intensity written '
+        'here are the values Shmuel adopted on 2026-09-08 after three PIE camera comparisons '
+        '(subjects mount-paving, heikhal and kotel-platform-join) run on '
+        '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough at map sha256 480ea53f...f1b0, '
+        'recorded in the three native-frontend-flight receipts named in comparisonReceipts and '
+        'adopted in cool-daylight-acceptance-20260908.json. NO PIE COMPARISON HAS BEEN RUN ON '
+        'THIS MAP. The port is justified by the two maps sharing one daylight rig (a single '
+        'DirectionalLight and a single SkyLight) and by this map having been on the exact '
+        'pre-review baseline the reviewers compared against; it is not justified by any visual '
+        'evidence captured here. Visual acceptance on this map is still pending. '
+        'release_reviewed_daylight.py declined this map and was neither weakened nor bypassed: '
+        'its validate_preset is imported and called unchanged to derive the numbers below.'),
+}
+
+# The label the sun actor carries states its own colour temperature. After the port it
+# misreports the value, so it is corrected in the same guarded pass (and on Main50, where the
+# value moved on 8 September and the label was never updated).
+_LABEL_TEMPERATURE = re.compile(r'(?<![\d.])(\d{3,5})\s*K\b')
+
+
+def _relabelled_sun(label, temperature_k):
+    """The same label with its stated colour temperature corrected, or None if it already
+    agrees (or states no temperature at all -- this never invents text)."""
+    if not label:
+        return None
+    wanted = '%d K' % int(round(float(temperature_k)))
+    matches = _LABEL_TEMPERATURE.findall(label)
+    if not matches:
+        return None
+    if all(int(m) == int(round(float(temperature_k))) for m in matches):
+        return None
+    return _LABEL_TEMPERATURE.sub(wanted, label)
+
+
+def _reviewed_daylight_evidence():
+    """Re-check the adoption evidence and return (preset, baseline, proposed, evidence).
+
+    Every hash in the decision file is re-verified, then release_reviewed_daylight's own
+    validate_preset() decides -- imported, not copied, so this can never drift from, or
+    soften, the policy that script enforces."""
+    import importlib.util
+    decision_path = ROOT / REVIEWED_DAYLIGHT_PORT['decisionFile']
+    decision = json.loads(decision_path.read_text(encoding='utf-8-sig'))
+    if decision.get('decision') != 'ADOPT_REVIEWED_DAYLIGHT':
+        raise RuntimeError('No visual adoption decision in ' + str(decision_path))
+    receipts, files = [], []
+    for entry in decision['comparisons']:
+        path = Path(entry['file'])
+        if sha256_of(path) != entry['sha256']:
+            raise RuntimeError('Comparison receipt changed since adoption: %s' % path)
+        record = json.loads(path.read_text(encoding='utf-8-sig'))
+        if record.get('errors') or not record.get('pieEnded') or not record.get('mapBytesUnchanged'):
+            raise RuntimeError('Incomplete or failed comparison: %s' % path)
+        receipts.append(record)
+        files.append({'file': str(path), 'sha256': entry['sha256'],
+                      'subject': record.get('diagnosticSubject'),
+                      'mapShaBefore': record.get('mapShaBefore')})
+    named = {Path(f['file']).name for f in files}
+    if named != {Path(p).name for p in REVIEWED_DAYLIGHT_PORT['comparisonReceipts']}:
+        raise RuntimeError('Adoption cites different comparison receipts than this port records')
+    reviewed_sha = {f['mapShaBefore'] for f in files}
+    if reviewed_sha != {REVIEWED_DAYLIGHT_PORT['reviewedOnMapSha256']}:
+        raise RuntimeError('Comparisons were run on %s, not the recorded reviewed map' % reviewed_sha)
+
+    spec_module = importlib.util.spec_from_file_location(
+        'release_reviewed_daylight_for_port', ROOT / 'Scripts' / 'release_reviewed_daylight.py')
+    module = importlib.util.module_from_spec(spec_module)
+    spec_module.loader.exec_module(module)
+    preset, baseline, proposed = module.validate_preset(decision, receipts)   # unchanged policy
+    evidence = dict(REVIEWED_DAYLIGHT_PORT)
+    evidence['decisionSha256'] = sha256_of(decision_path)
+    evidence['comparisons'] = files
+    evidence['preset'] = preset
+    evidence['validatedBy'] = 'release_reviewed_daylight.validate_preset (imported unmodified)'
+    return preset, baseline, proposed, evidence
+
+
+def port_reviewed_daylight(load_target=True, target_name="Candidate48", revert=None, relabel_only=False):
+    """Write the adopted daylight onto the target's existing sun and sky light as a PORT.
+
+    Full guard pattern, the release_place_assets.py model: every existing lighting value is
+    read into the receipt BEFORE anything is written, the umap is checkpointed under
+    ReviewCheckpoints, before/after map hashes are recorded, the level is saved, reopened and
+    every written value read back numerically, the rest of the level is compared with the
+    shared snapshot rules, and the receipt carries a revert block that this same function
+    replays with -SkyToDPortRevert.
+
+    relabel_only=True skips the value write and only corrects the sun actor's label where it
+    misstates the temperature the light actually has."""
+    import unreal as ue
+    spec = load_spec(target_name)
+    target = spec['targetMap']
+    offline = offline_check(spec)
+    if Path(ue.Paths.project_dir()).resolve() != ROOT:
+        raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
+
+    preset, baseline, proposed, evidence = _reviewed_daylight_evidence()
+    revert_record = None
+    if revert:
+        revert_record = json.loads(Path(revert).read_text(encoding='utf-8'))
+        if revert_record.get('map') != target:
+            raise RuntimeError('Revert receipt is for %s, not %s' % (revert_record.get('map'), target))
+        if not revert_record.get('revert'):
+            raise RuntimeError('Revert receipt carries no revert block')
+
+    run = Placement(ue, spec)
+    if run.editor.get_game_world():
+        raise RuntimeError('A game world is active; never mutate during play')
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages present before map load; refusing to discard changes')
+    if load_target and not run.levels.load_level(target):
+        raise RuntimeError('load_level failed for ' + target)
+    run.world = run.editor.get_editor_world()
+    loaded = run.world.get_outermost().get_name() if run.world is not None else ''
+    if loaded != target:
+        raise RuntimeError('Loaded world %s is not %s' % (loaded, target))
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages present; resolve before a checkpointed write')
+
+    map_file = disk_path(target, 'umap')
+    map_sha_before = sha256_of(map_file)
+    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps']}
+    protected_assets = {a: sha256_of(disk_path(a)) for a in spec['protectedAssets'] if disk_path(a).exists()}
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+    receipt_folder = ROOT / spec['receiptFolder']
+    receipt_folder.mkdir(parents=True, exist_ok=True)
+    mode = 'relabel' if relabel_only else ('daylight-port-revert' if revert else 'daylight-port')
+    run.receipt_path = receipt_folder / ('native-%s-%s-%s.json' % (mode, target_name, stamp))
+    if run.receipt_path.exists():
+        raise RuntimeError('Receipt already exists: ' + str(run.receipt_path))
+
+    found = run.find_existing()
+    sun = run.pick_sun(found)
+    sky = found['SkyLight'][0] if found['SkyLight'] else None
+    if sun is None or sky is None:
+        raise RuntimeError('This map has no sun and sky light to port onto')
+    if len(found['DirectionalLight']) != 1 or len(found['SkyLight']) != 1:
+        raise RuntimeError('Port needs exactly one DirectionalLight and one SkyLight; found %d and %d'
+                           % (len(found['DirectionalLight']), len(found['SkyLight'])))
+    wired = {'sun': sun, 'skyLight': sky,
+             'skyAtmosphere': found['SkyAtmosphere'][0] if found['SkyAtmosphere'] else None,
+             'cloud': found['VolumetricCloud'][0] if found['VolumetricCloud'] else None,
+             'fog': found['ExponentialHeightFog'][0] if found['ExponentialHeightFog'] else None,
+             'postProcess': run.pick_post_process(found)}
+
+    light = sun.get_component_by_class(ue.DirectionalLightComponent)
+    skylight = sky.get_component_by_class(ue.SkyLightComponent)
+
+    def daylight_values():
+        rot = sun.get_actor_rotation()
+        return {'sunIntensity': float(light.get_editor_property('intensity')),
+                'temperature': float(light.get_editor_property('temperature')),
+                'useTemperature': bool(light.get_editor_property('use_temperature')),
+                'rotation': [rot.pitch, rot.yaw, rot.roll],
+                'skyIntensity': float(skylight.get_editor_property('intensity'))}
+
+    tol = spec['verification']['floatRelativeTolerance']
+    before_values = daylight_values()
+    before_lighting = run.snapshot(wired)          # read EVERY recorded value before any write
+    before_label = sun.get_actor_label()
+
+    if revert:
+        wanted = revert_record['revert']['daylight']
+        wanted_label = revert_record['revert'].get('sunLabel')
+    elif relabel_only:
+        wanted, wanted_label = before_values, _relabelled_sun(before_label, before_values['temperature'])
+    else:
+        if not relative_close(before_values, baseline, tol):
+            raise RuntimeError('This map is not on the reviewed baseline, so the adopted numbers '
+                               'cannot simply be carried across: current %r, reviewed baseline %r'
+                               % (before_values, baseline))
+        wanted = dict(proposed)
+        wanted['rotation'] = before_values['rotation']   # the port carries the adopted VALUES only
+        wanted_label = _relabelled_sun(before_label, wanted['temperature'])
+
+    run.receipt = {
+        'status': 'started', 'stamp': stamp, 'mode': mode, 'map': target, 'targetName': target_name,
+        'portStatement': REVIEWED_DAYLIGHT_PORT['statement'],
+        'visualAcceptanceOnThisMap': 'PENDING - no PIE comparison has been run on this map',
+        'reviewedDaylightEvidence': evidence,
+        'reviewedBaseline': baseline, 'reviewedProposed': proposed, 'preset': preset,
+        'mapFile': str(map_file), 'mapSha256Before': map_sha_before,
+        'mapMatchesLastKnownSha256': map_sha_before == spec['lastKnownMapSha256'],
+        'lastKnownMapSha256Provenance': spec.get('lastKnownMapSha256Provenance'),
+        'protectedSha256Before': protected, 'protectedAssetSha256Before': protected_assets,
+        'specSha256': sha256_of(SPEC_PATH), 'offlineCheck': offline,
+        'engineVersion': ue.SystemLibrary.get_engine_version(),
+        'sunActor': {'name': sun.get_name(), 'label': before_label},
+        'skyLightActor': {'name': sky.get_name(), 'label': sky.get_actor_label()},
+        'daylightBefore': before_values, 'daylightWanted': wanted,
+        'sunLabelBefore': before_label, 'sunLabelWanted': wanted_label,
+        'lightingBefore': before_lighting,
+        # enough to undo this pass without the checkpoint
+        'revert': {'daylight': before_values, 'sunLabel': before_label},
+        'revertCommand': ('-SkyToDPortRevert="%s" -SkyToDTarget=%s' % (run.receipt_path, target_name)),
+        'liveEditorProcessesAtStart': editor_processes(),
+        'errors': [], 'omissions': {},
+    }
+    run.write_receipt()
+
+    saved = False
+    try:
+        # -- checkpoint before any mutation -------------------------------------
+        checkpoint = Path(spec['checkpointRoot']) / ('SkyToDPort-%s-%s' % (target_name, stamp))
+        checkpoint.mkdir(parents=True, exist_ok=False)
+        shutil.copy2(map_file, checkpoint / map_file.name)
+        if sha256_of(checkpoint / map_file.name) != map_sha_before:
+            raise RuntimeError('Checkpoint copy hash differs')
+        external_copied = []
+        for folder_name in ('__ExternalActors__', '__ExternalObjects__'):
+            external = ROOT / 'Content' / folder_name / target[6:]
+            if external.exists():
+                shutil.copytree(external, checkpoint / folder_name / target[6:])
+                external_copied.append(str(external))
+        run.receipt['checkpoint'] = str(checkpoint)
+        run.receipt['oneFilePerActorFoldersCopied'] = external_copied
+        run.write_receipt()
+
+        # -- whole-level baseline, shared snapshot rules -------------------------
+        helper = _placement_helper()
+        map_package = run.world.get_outermost().get_name()
+        level_before = [helper.snapshot_row(ue, a, map_package)
+                        for a in run.actors.get_all_level_actors() if a is not None]
+        run.receipt['levelBaselineActors'] = len(level_before)
+        run.receipt['levelBaselineRelaxations'] = helper.baseline_relaxations(level_before)
+
+        # -- write ---------------------------------------------------------------
+        written = {}
+        for obj in (sun, sky, light, skylight):
+            obj.modify(True)
+        if not relative_close(before_values['temperature'], wanted['temperature'], tol) or \
+                before_values['useTemperature'] != wanted['useTemperature']:
+            light.set_editor_property('use_temperature', wanted['useTemperature'])
+            light.set_temperature(wanted['temperature'])
+            written['sun.temperature'] = wanted['temperature']
+        if not relative_close(before_values['sunIntensity'], wanted['sunIntensity'], tol):
+            light.set_intensity(wanted['sunIntensity'])
+            written['sun.intensity'] = wanted['sunIntensity']
+        if not relative_close(before_values['skyIntensity'], wanted['skyIntensity'], tol):
+            skylight.set_intensity(wanted['skyIntensity'])
+            written['skyLight.intensity'] = wanted['skyIntensity']
+        if wanted_label and wanted_label != sun.get_actor_label():
+            sun.set_actor_label(wanted_label)
+            written['sun.label'] = wanted_label
+        run.receipt['written'] = written
+        if not written:
+            run.receipt['status'] = 'nothing_to_write_map_unchanged'
+            run.receipt['note'] = 'Target already carries these values and a correct label.'
+            return run.receipt
+
+        after_write = daylight_values()
+        if not relative_close(after_write, wanted, tol):
+            raise RuntimeError('Pre-save readback %r != wanted %r' % (after_write, wanted))
+
+        # -- nothing else in the level may have moved ---------------------------
+        level_mid = [helper.snapshot_row(ue, a, map_package)
+                     for a in run.actors.get_all_level_actors() if a is not None]
+        unrelated = [d for d in helper.diff_baselines(level_before, level_mid, strict=True)
+                     if d['name'] != sun.get_name()]
+        if unrelated:
+            raise RuntimeError('Unrelated actors changed during the write: %s' % unrelated[:6])
+        run.receipt['unrelatedLevelChangesBeforeSave'] = unrelated
+
+        # -- save ---------------------------------------------------------------
+        run.receipt['liveEditorProcessesBeforeSave'] = editor_processes()
+        if not run.levels.save_current_level():
+            if not ue.EditorLoadingAndSavingUtils.save_dirty_packages(True, True):
+                raise RuntimeError('save_current_level and save_dirty_packages both returned False. '
+                                   'Live UnrealEditor processes: %s' % run.receipt['liveEditorProcessesBeforeSave'])
+            run.receipt['saveFallback'] = 'EditorLoadingAndSavingUtils.save_dirty_packages'
+        saved = True
+        run.receipt['mapSaved'] = True
+        run.receipt['mapSha256AfterSave'] = sha256_of(map_file)
+        run.write_receipt()
+
+        # -- reopen and read back numerically -----------------------------------
+        if not run.levels.load_level(target):
+            raise RuntimeError('Reopen failed')
+        run.world = run.editor.get_editor_world()
+        found2 = run.find_existing()
+        sun2 = run.pick_sun(found2)
+        sky2 = found2['SkyLight'][0] if found2['SkyLight'] else None
+        if sun2 is None or sky2 is None:
+            raise RuntimeError('Sun or sky light missing after reopen')
+        light, skylight, sun, sky = (sun2.get_component_by_class(ue.DirectionalLightComponent),
+                                     sky2.get_component_by_class(ue.SkyLightComponent), sun2, sky2)
+        after_values = daylight_values()
+        run.receipt['daylightAfter'] = after_values
+        run.receipt['sunLabelAfter'] = sun2.get_actor_label()
+        if not relative_close(after_values, wanted, tol):
+            raise RuntimeError('Reopened daylight %r != wanted %r' % (after_values, wanted))
+        if wanted_label and sun2.get_actor_label() != wanted_label:
+            raise RuntimeError('Reopened sun label %r != %r' % (sun2.get_actor_label(), wanted_label))
+
+        wired2 = dict(wired, sun=sun2, skyLight=sky2,
+                      skyAtmosphere=found2['SkyAtmosphere'][0] if found2['SkyAtmosphere'] else None,
+                      cloud=found2['VolumetricCloud'][0] if found2['VolumetricCloud'] else None,
+                      fog=found2['ExponentialHeightFog'][0] if found2['ExponentialHeightFog'] else None,
+                      postProcess=run.pick_post_process(found2))
+        after_lighting = run.snapshot(wired2)
+        run.receipt['lightingAfter'] = after_lighting
+        delta = _delta(before_lighting, after_lighting, tol)
+        intended = {'sun.intensity', 'sun.temperature', 'sun.use_temperature', 'skyLight.intensity'}
+        unintended = {k: v for k, v in delta.items() if k not in intended}
+        run.receipt['lightingDelta'] = delta
+        run.receipt['unintendedLightingDelta'] = unintended
+        if unintended:
+            raise RuntimeError('Lighting values changed that this port never wrote: %s' % list(unintended)[:8])
+
+        level_after = [helper.snapshot_row(ue, a, map_package)
+                       for a in run.actors.get_all_level_actors() if a is not None]
+        reopened_unrelated = [d for d in helper.diff_baselines(level_before, level_after, strict=True)
+                              if d['name'] != sun2.get_name()]
+        run.receipt['unrelatedLevelChangesAfterReopen'] = reopened_unrelated
+        if reopened_unrelated:
+            raise RuntimeError('Unrelated actors differ after reopen: %s' % reopened_unrelated[:6])
+
+        reviewed = spec.get('reviewedDaylight', {})
+        run.receipt['reviewedDaylightAgreementAfter'] = {
+            '%s.%s' % (key, prop): {'reviewed': expect,
+                                    'now': after_lighting.get(key, {}).get('props', {}).get(prop),
+                                    'ok': relative_close(after_lighting.get(key, {}).get('props', {}).get(prop), expect, tol)}
+            for section, key in (('DirectionalLight', 'sun'), ('SkyLight', 'skyLight'), ('ExponentialHeightFog', 'fog'))
+            for prop, expect in reviewed.get(section, {}).items()}
+        run.receipt['status'] = (
+            'sun_label_corrected_saved_reopened' if relabel_only else
+            'reviewed_daylight_reverted_saved_reopened' if revert else
+            'reviewed_daylight_PORTED_from_main50_review_saved_reopened_visual_acceptance_on_this_map_pending')
+        return run.receipt
+    except Exception as error:
+        run.receipt['errors'].append({'stage': mode, 'error': repr(error)})
+        changed = sha256_of(map_file) != map_sha_before
+        run.receipt['status'] = ('failed_after_save_checkpoint_available'
+                                 if saved or run.receipt.get('mapSaved') or changed
+                                 else 'failed_before_save_map_unchanged')
+        try:
+            run.receipt['liveEditorProcessesAtFailure'] = editor_processes()
+        except Exception as inventory_error:  # noqa: BLE001
+            run.receipt['processInventoryError'] = repr(inventory_error)
+        raise
+    finally:
+        run.receipt['mapSha256After'] = sha256_of(map_file)
+        run.receipt['mapBytesChanged'] = run.receipt['mapSha256After'] != map_sha_before
+        run.receipt['protectedMapsUnchanged'] = all(sha256_of(disk_path(m, 'umap')) == v for m, v in protected.items())
+        run.receipt['protectedAssetsUnchanged'] = all(sha256_of(disk_path(a)) == v for a, v in protected_assets.items())
+        protection_failed = not (run.receipt['protectedMapsUnchanged'] and run.receipt['protectedAssetsUnchanged'])
+        if protection_failed:
+            run.receipt['status'] = 'failed_protected_files_changed_checkpoint_available'
+            run.receipt['errors'].append({'stage': 'final_protection', 'error': 'Protected map or asset bytes changed'})
+        run.write_receipt()
+        if protection_failed:
+            raise RuntimeError('Protected map or asset bytes changed; see sky receipt')
+
+
+def _placement_helper():
+    """release_place_assets.py, loaded by path: the shared before/after snapshot rules."""
+    import importlib.util
+    module_spec = importlib.util.spec_from_file_location(
+        'release_place_assets_for_sky', ROOT / 'Scripts' / 'release_place_assets.py')
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+    for name in ('snapshot_row', 'diff_baselines', 'baseline_relaxations'):
+        if not hasattr(module, name):
+            raise RuntimeError('release_place_assets.py lacks ' + name)
+    return module
+
+
+def verify(load_target=True, target_name="Main50"):
+    """Read-only confirmation that the sky/time-of-day pass is still present and intact on
+    the CURRENT map, after other passes have saved over it. Loads the target itself (a
+    -run=pythonscript commandlet starts with no map loaded), reads every placed setting,
+    every reference and every recorded lighting value, checks the reviewed daylight, writes
+    a receipt and saves nothing. Mutates no actor and never calls save."""
+    import unreal as ue
+    spec = load_spec(target_name)
+    target = spec['targetMap']
+    offline = offline_check(spec)
+    if Path(ue.Paths.project_dir()).resolve() != ROOT:
+        raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
+
+    run = Placement(ue, spec)
+    if run.editor.get_game_world():
+        raise RuntimeError('A game world is active; refusing to read during play')
+    if load_target:
+        if not run.levels.load_level(target):
+            raise RuntimeError('load_level failed for ' + target)
+    run.world = run.editor.get_editor_world()
+    loaded = run.world.get_outermost().get_name() if run.world is not None else ''
+    if loaded != target:
+        raise RuntimeError('Loaded world %s is not %s' % (loaded, target))
+
+    map_file = disk_path(target, 'umap')
+    map_sha_before = sha256_of(map_file)
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+    receipt_folder = ROOT / spec['receiptFolder']
+    receipt_folder.mkdir(parents=True, exist_ok=True)
+    run.receipt_path = receipt_folder / ('native-verify-' + target_name + '-' + stamp + '.json')
+    run.receipt = {'status': 'started', 'stamp': stamp, 'mode': 'verify', 'map': target,
+                   'targetName': target_name, 'mapFile': str(map_file),
+                   'mapSha256Before': map_sha_before,
+                   'mapMatchesLastKnownSha256': map_sha_before == spec['lastKnownMapSha256'],
+                   'lastKnownMapSha256Provenance': spec.get('lastKnownMapSha256Provenance'),
+                   'specSha256': sha256_of(SPEC_PATH), 'offlineCheck': offline,
+                   'engineVersion': ue.SystemLibrary.get_engine_version(),
+                   'errors': [], 'problems': []}
+    run.write_receipt()
+
+    tol = spec['verification']['floatRelativeTolerance']
+    try:
+        found = run.find_existing()
+        wired = {'sun': run.pick_sun(found),
+                 'skyLight': found['SkyLight'][0] if found['SkyLight'] else None,
+                 'skyAtmosphere': found['SkyAtmosphere'][0] if found['SkyAtmosphere'] else None,
+                 'cloud': found['VolumetricCloud'][0] if found['VolumetricCloud'] else None,
+                 'fog': found['ExponentialHeightFog'][0] if found['ExponentialHeightFog'] else None,
+                 'postProcess': run.pick_post_process(found)}
+        current = run.snapshot(wired)
+        run.receipt['wired'] = {k: (v.get_actor_label() if v else None) for k, v in wired.items()}
+        run.receipt['lighting'] = current
+
+        for key, entry in (('timeOfDay', spec['actors']['timeOfDay']),
+                           ('weather', spec['actors']['weather'])):
+            matches = run.find_by_label(entry['label'])
+            block = {'label': entry['label'], 'count': len(matches)}
+            if len(matches) == 1:
+                block['settings'] = run.read_placed(matches[0], entry['settings'])
+                block['mismatches'] = sorted(
+                    k for k, raw in entry['settings'].items()
+                    if not relative_close(block['settings'][k], _plain(run.resolve_value(raw)), tol))
+                if block['mismatches']:
+                    run.receipt['problems'].append('%s settings differ: %s' % (key, block['mismatches']))
+            elif key == 'timeOfDay':
+                run.receipt['problems'].append('timeOfDay actor count %d (expected 1)' % len(matches))
+            run.receipt['present_' + key] = block
+
+        reviewed = spec.get('reviewedDaylight', {})
+        agreement, diverged = {}, []
+        for section, snapshot_key in (('DirectionalLight', 'sun'), ('SkyLight', 'skyLight'),
+                                      ('ExponentialHeightFog', 'fog')):
+            for prop, expect in reviewed.get(section, {}).items():
+                now = current.get(snapshot_key, {}).get('props', {}).get(prop)
+                ok = relative_close(now, expect, tol)
+                agreement['%s.%s' % (snapshot_key, prop)] = {'reviewed': expect, 'now': now, 'ok': ok}
+                if not ok:
+                    diverged.append('%s.%s' % (snapshot_key, prop))
+        run.receipt['reviewedDaylight'] = {'source': reviewed.get('provenance'),
+                                           'agreement': agreement, 'diverged': sorted(diverged)}
+        run.receipt['status'] = ('sky_tod_verified_present_reviewed_daylight_intact'
+                                 if not run.receipt['problems'] and not diverged else
+                                 'sky_tod_verified_with_findings')
+        return run.receipt
+    except Exception as error:
+        run.receipt['errors'].append({'stage': 'verify', 'error': repr(error)})
+        run.receipt['status'] = 'verify_failed'
+        raise
+    finally:
+        run.receipt['mapSha256After'] = sha256_of(map_file)
+        run.receipt['mapBytesChanged'] = run.receipt['mapSha256After'] != map_sha_before
+        if run.receipt['mapBytesChanged']:
+            run.receipt['errors'].append({'stage': 'verify', 'error': 'read-only pass changed map bytes'})
+        run.write_receipt()
+
+
 def place(load_target=True, bake=None, revert=None, target_name="Main50"):
     """Run the guarded placement. Returns the receipt dict; raises on guard failure."""
     import unreal as ue
@@ -647,6 +1233,44 @@ def place(load_target=True, bake=None, revert=None, target_name="Main50"):
             raise RuntimeError('Authored fog/skylight tune not preserved: %s' % {k: v for k, v in tune_report.items() if not v['ok']})
         run.receipt['authoredTunePreserved'] = tune_ok
 
+        # -- reviewed daylight ------------------------------------------------------
+        # The daylight Shmuel adopted (sun 6500 K / 30,000 lux, sky light 1.3, fog
+        # 0.0015 / 0.15 / 8000, volumetric fog off) is honoured but NOT re-written here:
+        # this pass reads every existing lighting value before it touches anything, so it
+        # stays reversible. The rule is therefore "this pass must not move it". A value that
+        # already disagreed before the pass is recorded as a pre-existing divergence, not
+        # blamed on this run; a bake is allowed to differ where the preset row deliberately
+        # does, and the delta is recorded rather than asserted away.
+        reviewed = spec.get('reviewedDaylight', {})
+        agreement, broken_here, pre_existing = {}, [], []
+        for section, snapshot_key in (('DirectionalLight', 'sun'), ('SkyLight', 'skyLight'),
+                                      ('ExponentialHeightFog', 'fog')):
+            for key, expect in reviewed.get(section, {}).items():
+                was = before.get(snapshot_key, {}).get('props', {}).get(key)
+                now = after.get(snapshot_key, {}).get('props', {}).get(key)
+                ok_before = relative_close(was, expect, tol)
+                ok_after = relative_close(now, expect, tol)
+                field = '%s.%s' % (snapshot_key, key)
+                agreement[field] = {'reviewed': expect, 'before': was, 'after': now,
+                                    'agreedBefore': ok_before, 'agreedAfter': ok_after}
+                if ok_before and not ok_after:
+                    broken_here.append(field)
+                elif not ok_before:
+                    pre_existing.append(field)
+        bake_may_differ = bake is not None and reviewed.get('bakeMayDifferSections', [])
+        run.receipt['reviewedDaylight'] = {
+            'source': reviewed.get('provenance'),
+            'agreement': agreement,
+            'preExistingDivergence': sorted(pre_existing),
+            'movedByThisPass': sorted(broken_here),
+            'bakeExemptionApplied': bool(bake_may_differ),
+            'rule': ('this pass never writes an existing lighting value in default mode; a '
+                     'reviewed value that agreed before the pass must still agree after it'),
+        }
+        if broken_here and not bake:
+            raise RuntimeError('This pass moved the reviewed daylight: %s' % broken_here)
+        run.write_receipt()
+
         readback = {}
         matches = run.find_by_label(tod_entry['label'])
         if len(matches) != 1 or not isinstance(matches[0], tod_cls):
@@ -820,11 +1444,27 @@ def _main():
     import unreal as ue
     command_line = ue.SystemLibrary.get_command_line()
     bake, revert = None, None
+    verify_only = False
+    port_daylight = False
+    relabel_only = False
+    port_revert = None
     target_name = "Main50"
     for token in command_line.split():
         low = token.lower()
-        if low.startswith('-skytodtarget='):
-            target_name = token.split('=',1)[1].strip('"')
+        if low in ('-skytodverify', '-skytodverify=1', '-skytodverify=true'):
+            verify_only = True
+            continue
+        if low in ('-skytodport', '-skytodport=1', '-skytodport=true'):
+            port_daylight = True
+            continue
+        if low in ('-skytodfixsunlabel', '-skytodrelabel'):
+            relabel_only = True
+            continue
+        if low.startswith('-skytodportrevert='):
+            port_revert = token.split('=', 1)[1].strip('"')
+            continue
+        if low.startswith('-skytodtarget=') or low.startswith('-target='):
+            target_name = _normalise_target(token.split('=', 1)[1].strip('"'))
         elif low.startswith('-skytodbake='):
             bake = token.split('=', 1)[1].strip('"').lower()
             if bake in ('', 'none'):
@@ -832,8 +1472,15 @@ def _main():
         elif low.startswith('-skytodrevert='):
             revert = token.split('=', 1)[1].strip('"')
     try:
-        receipt = place(load_target=True, bake=bake, revert=revert, target_name=target_name)
+        if verify_only:
+            receipt = verify(load_target=True, target_name=target_name)
+        elif port_daylight or relabel_only or port_revert:
+            receipt = port_reviewed_daylight(load_target=True, target_name=target_name,
+                                             revert=port_revert, relabel_only=relabel_only)
+        else:
+            receipt = place(load_target=True, bake=bake, revert=revert, target_name=target_name)
         ue.log('release_sky_tod: %s receipt %s' % (receipt['status'], receipt.get('stamp')))
+        ue.log('release_sky_tod: receipt file %s' % receipt.get('stamp'))
     except Exception as error:
         ue.log_error('release_sky_tod failed: ' + repr(error))
         raise
@@ -846,7 +1493,8 @@ if __name__ == '__main__':
     if _unreal_available():
         _main()
     else:
-        args = [arg.split('=',1)[1] for arg in sys.argv[1:] if arg.startswith('-SkyToDTarget=')]
-        print(json.dumps(offline_check(load_spec(args[0] if args else 'Main50')), indent=2))
+        args = [arg.split('=', 1)[1] for arg in sys.argv[1:]
+                if arg.lower().startswith('-skytodtarget=') or arg.lower().startswith('-target=')]
+        print(json.dumps(offline_check(load_spec(_normalise_target(args[0]) if args else 'Main50')), indent=2))
 elif _invoked_as_native_script():
     _main()

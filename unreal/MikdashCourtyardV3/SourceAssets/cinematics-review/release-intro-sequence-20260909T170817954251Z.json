@@ -1,0 +1,845 @@
+{
+  "status": "intro_sequence_authored_visual_and_packaged_acceptance_pending",
+  "stamp": "20260909T170817954251Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "c1fe80080e4496c4cf370c9590e1688c664c96f8ce91b135534ae368ae19346c",
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c"
+  },
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Cinematics-20260909T170817954251Z",
+  "oneFilePerActorFoldersCopied": [],
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_intro_sequence.spec.json",
+  "specSha256": "74a14658c10919a86672622c76e45981ef135e853d5b0f7190be990113d25a49",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "samplesPerSecond": 30,
+  "offlineCheck": {
+    "specSha256": "74a14658c10919a86672622c76e45981ef135e853d5b0f7190be990113d25a49",
+    "controlPoints": 19,
+    "pathLengthCm": 139987.4550363504,
+    "durationSeconds": 68.0,
+    "durationWithinBrief": true,
+    "averageSpeedCmPerSecond": 2058.639044652212,
+    "keys": 2041,
+    "firstKey": {
+      "timeSeconds": 0.0,
+      "location": [
+        140000.0,
+        4200.0,
+        8600.0
+      ],
+      "rotation": [
+        0.0,
+        -2.1333635960942177,
+        -178.33971763101718
+      ],
+      "fieldOfViewDegrees": 62.0
+    },
+    "lastKey": {
+      "timeSeconds": 68.0,
+      "location": [
+        2100.0,
+        0.0,
+        668.0
+      ],
+      "rotation": [
+        5.400124791776761e-13,
+        9.05299835143568,
+        -179.99999999999963
+      ],
+      "fieldOfViewDegrees": 75.0
+    },
+    "arrivesAtPlayerStartErrorCm": 0.0,
+    "evenSampleChordSpreadFraction": 0.002025506169762513,
+    "clearsBlockersAtInflateCm": true,
+    "clearanceInflateCm": 150.0,
+    "firstOffendingSegment": -1,
+    "firstOffendingBox": "",
+    "largestClearingInflateCm": 168.0,
+    "innerCourtWallLineCrossings": [
+      {
+        "direction": "westward",
+        "atCm": [
+          2500.0,
+          0.0,
+          760.8151993725384
+        ]
+      }
+    ],
+    "precinctEastGate": {
+      "crossingsOfEastFace": 1,
+      "worstLateralCm": 6.76920023181044,
+      "lowestZ": 4794.551447513902,
+      "highestZ": 4807.905759917414,
+      "pierClearanceCm": 243.23079976818957,
+      "thresholdClearanceCm": 1243.1514475139015,
+      "lintelClearanceCm": 1243.4942400825857,
+      "passesThroughOpeningWith150cmMargin": true
+    },
+    "orbits": [
+      {
+        "id": "menorah",
+        "keys": 421,
+        "durationSeconds": 14.0,
+        "firstLocationCm": [
+          -4484.276641292682,
+          622.8181289931018,
+          1220.0
+        ],
+        "closestApproachCm": 907.9647570252929
+      },
+      {
+        "id": "goldenAltar",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -3850.0,
+          0.0,
+          1200.0
+        ],
+        "closestApproachCm": 813.9410298049851
+      },
+      {
+        "id": "aron",
+        "keys": 361,
+        "durationSeconds": 12.0,
+        "firstLocationCm": [
+          -5638.089172037277,
+          262.02332227923364,
+          1153.0
+        ],
+        "closestApproachCm": 626.4982043070829
+      },
+      {
+        "id": "altar",
+        "keys": 541,
+        "durationSeconds": 18.0,
+        "firstLocationCm": [
+          2251.666049839541,
+          1299.9999999999998,
+          1800.0
+        ],
+        "closestApproachCm": 2751.3632984395203
+      },
+      {
+        "id": "house",
+        "keys": 601,
+        "durationSeconds": 20.0,
+        "firstLocationCm": [
+          3557.2335870731767,
+          3078.1812899310185,
+          6400.0
+        ],
+        "closestApproachCm": 9551.96314900764
+      },
+      {
+        "id": "outerCourt",
+        "keys": 781,
+        "durationSeconds": 26.0,
+        "firstLocationCm": [
+          12020.81528017131,
+          12020.81528017131,
+          9500.0
+        ],
+        "closestApproachCm": 18788.294228055933
+      }
+    ],
+    "blockerBoxes": 42,
+    "limitations": [
+      "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+      "Clearance is geometric, against axis-aligned boxes: manifest meshes, union decompositions, reconstructed precinct modules, the DEM and the extruded building tops. It says nothing about foliage, decals, translucent volumes or anything without collision, and the precinct boxes are a reconstruction of the placer's rule, not a read-back of the placed HISM instances; the editor run reads those back.",
+      "The wall follows a baked ground profile. If the terrain tiles or the profile are regenerated the gate plinth moves and this path must be re-verified."
+    ]
+  },
+  "shotList": [
+    {
+      "id": "1_over_the_mount_of_olives",
+      "startSeconds": 0.0,
+      "endSeconds": 16.2,
+      "beat": "Establish from the east: high over the eastern slope of the Mount of Olives, looking west down the axis. The east gate stands ahead; the ridge, the Kidron and the Old City are beyond it; the House is on the axis in the distance.",
+      "aimCm": [
+        -4900.0,
+        0.0,
+        3200.0
+      ]
+    },
+    {
+      "id": "2_through_the_east_gate",
+      "startSeconds": 16.2,
+      "endSeconds": 20.2,
+      "beat": "Descend to gate height so the 30 m gate reads as a threshold, and pass THROUGH the opening on the axis, mid-height, still on the ease-in so it is slow.",
+      "aimCm": [
+        -4900.0,
+        0.0,
+        3200.0
+      ]
+    },
+    {
+      "id": "3_over_the_olives_ridge",
+      "startSeconds": 20.2,
+      "endSeconds": 35.7,
+      "beat": "Climb over the ridge of the Mount of Olives; the Kidron opens below and the Old City lies beyond, the House on the axis.",
+      "aimCm": [
+        -4900.0,
+        0.0,
+        3200.0
+      ]
+    },
+    {
+      "id": "4_across_the_kidron",
+      "startSeconds": 35.7,
+      "endSeconds": 54.7,
+      "beat": "Descend across the Kidron toward the Mount; the platform and the court's east gate come up on the axis.",
+      "aimCm": [
+        8000.0,
+        0.0,
+        2000.0
+      ]
+    },
+    {
+      "id": "5_over_the_court_east_gate",
+      "startSeconds": 54.7,
+      "endSeconds": 58.5,
+      "beat": "Pass over the court's east gate on the axis and begin the dive into the outer court.",
+      "aimCm": [
+        -2450.0,
+        0.0,
+        2200.0
+      ]
+    },
+    {
+      "id": "6_the_axis_run_and_arrival",
+      "startSeconds": 58.5,
+      "endSeconds": 68.0,
+      "beat": "Level out on the axis, thread the inner eastern gateway and settle at the visitor's eye, facing the House. Control passes here.",
+      "aimCm": [
+        -2450.0,
+        0.0,
+        1400.0
+      ]
+    }
+  ],
+  "sequences": {
+    "SEQ_MikdashIntro": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashIntro",
+      "kind": "intro",
+      "durationSeconds": 68.0,
+      "keys": 2041,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA95A40) {}>",
+        "transformKeys": 12246,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 68.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      },
+      "keyedLocations": [
+        [
+          140000.0,
+          4200.0,
+          8600.0
+        ],
+        [
+          139993.4311852692,
+          4198.373342692811,
+          8598.686193826352
+        ],
+        [
+          139948.77137146835,
+          4187.309147368323,
+          8589.75165809805
+        ],
+        [
+          139831.57240568253,
+          4158.233637631235,
+          8566.286566426763
+        ],
+        [
+          139611.38004254986,
+          4103.456116937891,
+          8522.13100267341
+        ],
+        [
+          139261.75513896812,
+          4016.1066979707675,
+          8451.848037348607
+        ],
+        [
+          138760.27926641513,
+          3890.121608334091,
+          8350.717426682088
+        ],
+        [
+          138088.528209735,
+          3720.323832867284,
+          8214.770560619329
+        ],
+        [
+          137231.99999599904,
+          3502.635030274319,
+          8040.882101541912
+        ],
+        [
+          136179.98890181302,
+          3234.440517238516,
+          7826.927639100651
+        ],
+        [
+          134925.39822486078,
+          2915.13216271932,
+          7572.01820866072
+        ],
+        [
+          133464.47523065557,
+          2546.902403371579,
+          7276.844041106813
+        ],
+        [
+          131796.42012116275,
+          2136.0110930433657,
+          6944.225745636162
+        ],
+        [
+          129922.73941117396,
+          1695.1684664752547,
+          6580.158714276016
+        ],
+        [
+          127849.31646936237,
+          1239.4075814464934,
+          6189.449949056312
+        ],
+        [
+          125586.24750545516,
+          785.2456232565374,
+          5779.019671887022
+        ],
+        [
+          123137.27969925551,
+          384.27657002531754,
+          5388.032522931277
+        ],
+        [
+          120513.05027921111,
+          120.8648855194475,
+          5061.485680020939
+        ],
+        [
+          117745.79345894145,
+          24.387044712499836,
+          4840.488893420706
+        ],
+        [
+          114879.66696388299,
+          -21.536804696194004,
+          4774.823218144322
+        ],
+        [
+          111963.43702800141,
+          -0.8667594817618607,
+          4944.08814115822
+        ],
+        [
+          109067.66433086917,
+          0.0,
+          5445.812156687876
+        ],
+        [
+          106195.37115201865,
+          0.0,
+          6077.103189165742
+        ],
+        [
+          103289.56312566643,
+          0.0,
+          6521.0878384780335
+        ],
+        [
+          100356.55286334411,
+          0.0,
+          6733.021116483722
+        ],
+        [
+          97417.96966508127,
+          0.0,
+          6848.592487708801
+        ],
+        [
+          94478.09732573613,
+          0.0,
+          6926.715120052808
+        ],
+        [
+          91538.60978906334,
+          0.0,
+          7017.495609139203
+        ],
+        [
+          88601.29813592904,
+          0.0,
+          7162.503797365985
+        ],
+        [
+          85663.67806921015,
+          0.0,
+          7300.722181446472
+        ],
+        [
+          82723.33053679434,
+          0.0,
+          7343.998744202987
+        ],
+        [
+          79784.55390006104,
+          0.0,
+          7239.873053554695
+        ],
+        [
+          76850.8915336986,
+          0.0,
+          7034.635754549168
+        ],
+        [
+          73922.14625042323,
+          0.0,
+          6767.774717679414
+        ],
+        [
+          70997.20287517484,
+          0.0,
+          6461.830443011172
+        ],
+        [
+          68074.48498173978,
+          0.0,
+          6135.217473387025
+        ],
+        [
+          65152.62486198802,
+          0.0,
+          5801.046196316796
+        ],
+        [
+          62236.521611478245,
+          0.0,
+          5420.15818811163
+        ],
+        [
+          59325.285946386146,
+          0.0,
+          5003.454451106067
+        ],
+        [
+          56414.584425394685,
+          0.0,
+          4583.011723128763
+        ],
+        [
+          53500.07593714539,
+          0.0,
+          4190.010037237173
+        ],
+        [
+          50578.260777099174,
+          0.0,
+          3856.1182443323014
+        ],
+        [
+          47649.20964126313,
+          0.0,
+          3592.586795317083
+        ],
+        [
+          44716.7782200278,
+          0.0,
+          3369.6842873600526
+        ],
+        [
+          41781.62002002652,
+          0.0,
+          3186.1524741507405
+        ],
+        [
+          38844.22533698117,
+          0.0,
+          3042.830602022494
+        ],
+        [
+          35905.080825919926,
+          0.0,
+          2941.6340927966853
+        ],
+        [
+          32964.70400032259,
+          0.0,
+          2888.099628740097
+        ],
+        [
+          30024.357813800405,
+          0.0,
+          2905.402442955099
+        ],
+        [
+          27102.74596070375,
+          0.0,
+          2981.4009943939236
+        ],
+        [
+          24237.341591153356,
+          0.0,
+          3095.621622349641
+        ],
+        [
+          21462.242642128876,
+          0.0,
+          3227.8679444461914
+        ],
+        [
+          18807.829443905815,
+          0.0,
+          3373.1276179706874
+        ],
+        [
+          16306.31329176538,
+          0.0,
+          3606.299456464749
+        ],
+        [
+          13974.42986186463,
+          0.0,
+          3848.630345238095
+        ],
+        [
+          11819.763373550388,
+          0.0,
+          3969.702583438619
+        ],
+        [
+          9861.729804722605,
+          0.0,
+          3925.141983831132
+        ],
+        [
+          8118.299066966046,
+          0.0,
+          3778.430087232622
+        ],
+        [
+          6767.29121592824,
+          0.0,
+          3086.9787426742646
+        ],
+        [
+          5712.011451974829,
+          0.0,
+          2295.251216606064
+        ],
+        [
+          4800.347933350744,
+          0.0,
+          1668.4196914034774
+        ],
+        [
+          4031.0487988202512,
+          0.0,
+          1201.4341205025507
+        ],
+        [
+          3368.565253669868,
+          0.0,
+          960.3548678846498
+        ],
+        [
+          2856.207859249808,
+          0.0,
+          837.8538217099414
+        ],
+        [
+          2497.296281288288,
+          0.0,
+          760.4616939822517
+        ],
+        [
+          2271.7667910817663,
+          0.0,
+          709.7620095976437
+        ],
+        [
+          2152.15173961411,
+          0.0,
+          681.0630715471668
+        ],
+        [
+          2106.6819967591828,
+          0.0,
+          669.6947990196752
+        ],
+        [
+          2100.0,
+          0.0,
+          668.0
+        ]
+      ]
+    },
+    "SEQ_MikdashOrbit_Menorah": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_Menorah",
+      "kind": "orbit",
+      "orbitId": "menorah",
+      "subjectCm": [
+        -5330.0,
+        315.0,
+        1100.0
+      ],
+      "durationSeconds": 14.0,
+      "keys": 421,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA9F460) {}>",
+        "transformKeys": 2526,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 14.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    },
+    "SEQ_MikdashOrbit_GoldenAltar": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_GoldenAltar",
+      "kind": "orbit",
+      "orbitId": "goldenAltar",
+      "subjectCm": [
+        -4650.0,
+        0.0,
+        1050.0
+      ],
+      "durationSeconds": 12.0,
+      "keys": 361,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA9E8D0) {}>",
+        "transformKeys": 2166,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 12.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    },
+    "SEQ_MikdashOrbit_Aron": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_Aron",
+      "kind": "orbit",
+      "orbitId": "aron",
+      "subjectCm": [
+        -6200.0,
+        0.0,
+        1063.0
+      ],
+      "durationSeconds": 12.0,
+      "keys": 361,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA9D660) {}>",
+        "transformKeys": 2166,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 12.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    },
+    "SEQ_MikdashOrbit_Altar": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_Altar",
+      "kind": "orbit",
+      "orbitId": "altar",
+      "subjectCm": [
+        0.0,
+        0.0,
+        900.0
+      ],
+      "durationSeconds": 18.0,
+      "keys": 541,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA93830) {}>",
+        "transformKeys": 3246,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 18.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    },
+    "SEQ_MikdashOrbit_House": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_House",
+      "kind": "orbit",
+      "orbitId": "house",
+      "subjectCm": [
+        -4900.0,
+        0.0,
+        3200.0
+      ],
+      "durationSeconds": 20.0,
+      "keys": 601,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA95F20) {}>",
+        "transformKeys": 3606,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 20.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    },
+    "SEQ_MikdashOrbit_OuterCourt": {
+      "assetPath": "/Game/MikdashV3/Cinematics/SEQ_MikdashOrbit_OuterCourt",
+      "kind": "orbit",
+      "orbitId": "outerCourt",
+      "subjectCm": [
+        0.0,
+        0.0,
+        1500.0
+      ],
+      "durationSeconds": 26.0,
+      "keys": 781,
+      "built": {
+        "binding": "<Struct 'Guid' (0x000002A63BA90940) {}>",
+        "transformKeys": 4686,
+        "focalLengthKeys": 0,
+        "cameraCutStartSeconds": 0.0,
+        "cameraCutEndSeconds": 26.0,
+        "notes": [
+          "camera bound as a spawnable from a template instance",
+          "key interpolation <MovieSceneKeyInterpolation.AUTO: 0>",
+          "camera component binding not found; field of view left at the camera default",
+          "camera cut binding by make_binding_id failed: AttributeError(\"type object 'MovieSceneSequenceExtensions' has no attribute 'make_binding_id'\")",
+          "camera cut bound by guid_property"
+        ]
+      }
+    }
+  },
+  "errors": [],
+  "assetsSaved": true,
+  "limitations": [
+    "Authoring only. Nothing here establishes visual acceptance, lighting acceptance, packaged playback, audio, or that the shot reads well; those need a human watching it.",
+    "Clearance is geometric, against axis-aligned boxes: manifest meshes, union decompositions, reconstructed precinct modules, the DEM and the extruded building tops. It says nothing about foliage, decals, translucent volumes or anything without collision, and the precinct boxes are a reconstruction of the placer's rule, not a read-back of the placed HISM instances; the editor run reads those back.",
+    "The wall follows a baked ground profile. If the terrain tiles or the profile are regenerated the gate plinth moves and this path must be re-verified."
+  ],
+  "readback": {
+    "SEQ_MikdashIntro": {
+      "channelKeysRead": 12246,
+      "worstLocationErrorCm": 0.0077826436900068074,
+      "worstRotationErrorDegrees": 7.6287039689759695e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 68.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A64528B338) {numerator: 30, denominator: 1}>",
+      "assetSha256": "0d6c9b8f5e25e143f3902e4d6c8c06f8af0fd90b884c86b12260b79b165d11b7",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_Menorah": {
+      "channelKeysRead": 2526,
+      "worstLocationErrorCm": 0.00024400098209298449,
+      "worstRotationErrorDegrees": 7.535204474606871e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 14.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A64528F088) {numerator: 30, denominator: 1}>",
+      "assetSha256": "7817fa897c9c8a4aa5fa98d1c2c5a6467195829fa5e9e47412589ee52af97989",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_GoldenAltar": {
+      "channelKeysRead": 2166,
+      "worstLocationErrorCm": 0.00024358005521207815,
+      "worstRotationErrorDegrees": 7.530553119750039e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 12.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A645286AB0) {numerator: 30, denominator: 1}>",
+      "assetSha256": "133f736deb3408c24e58fee2ab59e424daf90d62ea77f50df2572caf72a06ff2",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_Aron": {
+      "channelKeysRead": 2166,
+      "worstLocationErrorCm": 0.00024364134878851473,
+      "worstRotationErrorDegrees": 7.611762129045019e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 12.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A6452881D8) {numerator: 30, denominator: 1}>",
+      "assetSha256": "2ae641bfe42f6fa4b014d94c1c6c245b830b528c4caa2f8731efe532daf45897",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_Altar": {
+      "channelKeysRead": 3246,
+      "worstLocationErrorCm": 0.00012198709009680897,
+      "worstRotationErrorDegrees": 7.603586482218816e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 18.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A645281C58) {numerator: 30, denominator: 1}>",
+      "assetSha256": "7e6de7dbc93ebf6d7e406e0748ee350b13978a71385be5abfe6cb34a4b4daed3",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_House": {
+      "channelKeysRead": 3606,
+      "worstLocationErrorCm": 0.0004868100568273803,
+      "worstRotationErrorDegrees": 7.613437503550813e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 20.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A6452896E8) {numerator: 30, denominator: 1}>",
+      "assetSha256": "ffdb4dae80893a274082af3cbc8f94b77446ccce01699317719dd0f5c99a20bd",
+      "durationErrorSeconds": 0.0
+    },
+    "SEQ_MikdashOrbit_OuterCourt": {
+      "channelKeysRead": 4686,
+      "worstLocationErrorCm": 0.0009750526187417563,
+      "worstRotationErrorDegrees": 7.616414393396553e-06,
+      "locationWithinTolerance": true,
+      "rotationWithinTolerance": true,
+      "playbackStartSeconds": 0.0,
+      "playbackEndSeconds": 26.0,
+      "displayRate": "<Struct 'FrameRate' (0x000002A64528F008) {numerator: 30, denominator: 1}>",
+      "assetSha256": "39a23c9e577150410f6fb49d0bf4c1b468c2eb48b4a46f03a8f67b8ead1b8bd5",
+      "durationErrorSeconds": 0.0
+    }
+  },
+  "mapSha256After": "c1fe80080e4496c4cf370c9590e1688c664c96f8ce91b135534ae368ae19346c",
+  "mapUnchanged": true,
+  "protectedMapsUnchanged": true,
+  "mapSha256AtExit": "c1fe80080e4496c4cf370c9590e1688c664c96f8ce91b135534ae368ae19346c"
+}

@@ -7,7 +7,33 @@ import json
 import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+
+# The reviewed preset was adopted on the legacy map only, so the map that actually ships
+# was still on the pre-review 5000 K sun and 1.0 skylight when this was found (9 Sep).
+# -Target=Candidate48 (the configured default and cook map) or -Main50 (legacy).
+_TARGETS = {
+    'candidate48': '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough',
+    'main50': '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough',
+}
+
+
+def _target_from_command_line():
+    import sys
+    tokens = [t.lower() for t in sys.argv]
+    try:
+        import unreal as _ue
+        tokens += _ue.SystemLibrary.get_command_line().lower().split()
+    except Exception:  # noqa: BLE001 - offline syntax checks have no engine
+        pass
+    for token in tokens:
+        for key in _TARGETS:
+            if token in ('-' + key, '--' + key) or token.endswith('=' + key):
+                return key
+    return 'main50'          # unchanged default: never retarget a run that did not ask
+
+
+TARGET = _target_from_command_line()
+MAP = _TARGETS[TARGET]
 
 
 def sha(p):

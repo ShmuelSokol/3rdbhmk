@@ -1,0 +1,316 @@
+{
+  "status": "sky_tod_verified_with_findings",
+  "stamp": "20260909T171956255856Z",
+  "mode": "verify",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "targetName": "Candidate48",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+  "mapMatchesLastKnownSha256": true,
+  "lastKnownMapSha256Provenance": {
+    "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "sha256": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+    "bytes": 23575718,
+    "observedUtc": "2026-09-09",
+    "writtenBy": "release_herodian_ashlar_v4.py -- Herodian ashlar on every wall slot and the precinct wall (publication clone commit c4dbf2b7), after the Aron re-pivot of 2026-09-08 that set FixedArchitectureOriginCm (-6200,0,0)",
+    "supersedes": "d494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785 (reviewed 24-resident checkpoint, 2026-09-08; stale after the ashlar pass)"
+  },
+  "specSha256": "05d33113ff3129fbf8bce8f8ac6ff02127108e9a5373e93fd3323dea6c89d120",
+  "offlineCheck": {
+    "status": "offline_check",
+    "targetMapExists": true,
+    "targetMapSha256": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+    "timeOfDayHeaderExists": true,
+    "weatherHeaderExists": true,
+    "pluginDllExists": true,
+    "pluginDllModified": "2026-09-09T11:23:06.734965+00:00",
+    "uhtHasTimeOfDay": true,
+    "uhtHasWeather": true,
+    "liveEditorProcesses": [
+      [
+        "UnrealEditor-Cmd.exe",
+        "51996",
+        "Console",
+        "1",
+        "1,799,996 K"
+      ]
+    ],
+    "targetMapMatchesLastKnown": true,
+    "problems": []
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "errors": [],
+  "problems": [],
+  "wired": {
+    "sun": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+    "skyLight": "V2 skylight",
+    "skyAtmosphere": "V3 daylight sky",
+    "cloud": "IntegratedReview_VolumetricCloud",
+    "fog": "RELEASE_HeightFog",
+    "postProcess": "V3 cinematic exposure - histogram EV 0-14, filmic"
+  },
+  "lighting": {
+    "sun": {
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 5000.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "volumetric_scattering_intensity": 1.0,
+        "atmosphere_sun_light": true,
+        "atmosphere_sun_light_index": 0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "contact_shadow_length": 0.019999999552965164,
+        "indirect_lighting_intensity": 1.0,
+        "cast_shadows": true,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      }
+    },
+    "skyLight": {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "props": {
+        "intensity": 1.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cubemap_resolution": 128,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "skyAtmosphere": {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "transmittance_min_light_elevation_angle": -90.0
+      }
+    },
+    "cloud": {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "materialParameters": {
+          "scalars": {
+            "Cloud_GlobalCoverage": 0.15000000596046448,
+            "Cloud_GlobalDensity": 0.00800000037997961,
+            "Layout_CloudGlobalScale": 256.0,
+            "StormClouds": 0.0
+          },
+          "vectors": {
+            "Layout_WindControls": [
+              1.0,
+              1.0,
+              0.5,
+              0.33333298563957214
+            ]
+          }
+        }
+      }
+    },
+    "fog": {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.9399999976158142,
+          0.8199999928474426,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0
+      }
+    },
+    "postProcess": {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "settings": {
+        "auto_exposure_method": "AutoExposureMethod.AEM_HISTOGRAM",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "bloom_intensity": 0.30000001192092896,
+        "vignette_intensity": 0.30000001192092896,
+        "white_temp": 6500.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5
+      },
+      "overrides": {
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true
+      },
+      "unbound": true,
+      "priority": 1000.0
+    }
+  },
+  "present_timeOfDay": {
+    "label": "RELEASE_SkyTimeOfDay",
+    "count": 1,
+    "settings": {
+      "frozen": true,
+      "rate_multiplier": 0.0,
+      "year": 2026,
+      "month": 9,
+      "day": 8,
+      "start_preset": "MikdashTimePreset.MORNING",
+      "apply_start_preset_on_begin_play": true,
+      "restore_on_end_play": true,
+      "use_israeli_daylight_saving": true,
+      "world_x_axis_compass_bearing_deg": 90.0,
+      "max_fog_density": 0.006000000052154064,
+      "forbid_volumetric_fog": true,
+      "spawn_moon_light_if_missing": true,
+      "drive_sun": true,
+      "drive_moon": true,
+      "drive_sky_light": true,
+      "drive_sky_atmosphere": true,
+      "drive_clouds": true,
+      "drive_fog": true,
+      "drive_exposure": true
+    },
+    "mismatches": []
+  },
+  "present_weather": {
+    "label": "RELEASE_SkyWeather",
+    "count": 1,
+    "settings": {
+      "start_weather": "MikdashWeather.CLEAR",
+      "pick_seasonal_weather_on_begin_play": false,
+      "enforce_season": true,
+      "default_transition_seconds": 20.0,
+      "world_x_axis_compass_bearing_deg": 90.0
+    },
+    "mismatches": []
+  },
+  "reviewedDaylight": {
+    "source": "Reviewed daylight adopted by Shmuel and applied by Scripts/release_reviewed_daylight.py (variant A: sun 30,000 lux at 6500 K with use_temperature, sky light 1.3). The fog row is the same authored tune asserted in authoredTuneThatMustSurvive.",
+    "agreement": {
+      "sun.intensity": {
+        "reviewed": 30000.0,
+        "now": 30000.0,
+        "ok": true
+      },
+      "sun.use_temperature": {
+        "reviewed": true,
+        "now": true,
+        "ok": true
+      },
+      "sun.temperature": {
+        "reviewed": 6500.0,
+        "now": 5000.0,
+        "ok": false
+      },
+      "skyLight.intensity": {
+        "reviewed": 1.3,
+        "now": 1.0,
+        "ok": false
+      },
+      "fog.fog_density": {
+        "reviewed": 0.0015,
+        "now": 0.001500000013038516,
+        "ok": true
+      },
+      "fog.fog_height_falloff": {
+        "reviewed": 0.15,
+        "now": 0.15000000596046448,
+        "ok": true
+      },
+      "fog.start_distance": {
+        "reviewed": 8000.0,
+        "now": 8000.0,
+        "ok": true
+      },
+      "fog.enable_volumetric_fog": {
+        "reviewed": false,
+        "now": false,
+        "ok": true
+      }
+    },
+    "diverged": [
+      "skyLight.intensity",
+      "sun.temperature"
+    ]
+  },
+  "mapSha256After": "b44632dcebddd81abbd530cfc318457f29bb26fe935ff0dbeab21957262a339c",
+  "mapBytesChanged": false
+}

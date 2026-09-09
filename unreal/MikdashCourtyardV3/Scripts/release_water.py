@@ -1,9 +1,9 @@
 """Guarded release of MikdashWaterV1: the stream of Yechezkel 47, its channel and the mikvaot.
 
 Imports the OBJs written by Scripts/create_water_geometry.py, builds the water and channel
-materials with MaterialEditingLibrary, places the meshes in the combined IntegratedReviewV2
-map, tags every water surface, spawns one AMikdashWater to drive them, then saves, reopens
-and reads back every number.
+materials with MaterialEditingLibrary, places the meshes in ONE of the two integrated maps,
+tags every water surface, spawns one AMikdashWater to drive them, then saves, reopens and
+reads back every number.
 
 Commandlet invocation (serial; never while another native job is running):
 
@@ -11,8 +11,14 @@ Commandlet invocation (serial; never while another native job is running):
       "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject"
       -run=pythonscript
       -script="C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_water.py"
+      -Candidate48
       -unattended -nullrhi
       -abslog="C:/Mikdash/Working-5.8/Release-Water-01.log"
+
+ONE TARGET PER RUN, chosen with its flag; there is no default, because the two maps are not
+interchangeable (see THE 48 cm TRAP below):
+  -Candidate48   the configured default and the cook map. Run this one first.
+  -Main50        the legacy 50 cm map.
 
 Optional switches, read from the engine command line:
   -WaterGroups=court,stages,mikvaot   subset to place (default: all three).
@@ -21,19 +27,35 @@ Optional switches, read from the engine command line:
                                       been rebuilt yet and the class is not registered).
 
 Run with no engine at all to get the offline check as JSON:
-  python Scripts/release_water.py
+  python Scripts/release_water.py -Candidate48
+
+THE 48 cm TRAP
+--------------
+The geometry is authored in the project's 50 cm modelling amah, in the legacy main map's world
+centimetres. The 48 cm candidate is the SAME architecture assets under a similarity transform:
+2,633 architecture actors rescaled 0.96 about the world origin, then 2,917 temple actors
+translated (-248, 0, 0) by the Aron re-pivot. Spawned at the identity there the stream would be
+4 per cent too large and 248 cm too far east -- it would miss the channel cut in the paving by
+two and a half metres. Every actor therefore carries the target's declared placement, and
+verify_placement() MEASURES that transform off the live level, against the architecture
+manifest's bounds, before anything is spawned. A host mesh -- paving, a stair, a platform the
+conduit is cut into -- that does not sit under the declared placement stops the run.
 
 ORDER OF OPERATIONS (nothing here works if these are done out of order)
 ----------------------------------------------------------------------
   1. python Scripts/create_water_geometry.py --export
   2. rebuild the plugin, so AMikdashWater exists as a class     <- REQUIRED before step 4
-  3. python Scripts/release_water.py            (offline check must be green)
+  3. python Scripts/release_water.py -Candidate48   (offline check must be green)
   4. the commandlet above
 
 SAFETY MODEL (the same one release_place_assets.py uses, and for the same reasons)
 ---------------------------------------------------------------------------------
   * Refuses to run with the wrong project directory, a live game world, a loaded world that
-    is not the combined map, or any dirty package.
+    is not the selected target, or any dirty package. The map that is NOT the target joins
+    the protected set for the run and must come out byte-identical.
+  * Map hashes are EVIDENCE, never a gate: both maps are saved by other release scripts several
+    times a day, so the spec records each hash with its provenance and the run reports the hash
+    it actually released against. A spec that refused on a stale hash would refuse always.
   * Requires the geometry manifest's status to be OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING.
     A manifest written by `create_water_geometry.py --force` carries a different status and is
     refused, so a forced export can never reach a map by accident.
@@ -82,8 +104,19 @@ from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_water.spec.json'
-TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 GROUP_ORDER = ('court', 'stages', 'mikvaot')
+
+# TWO MAPS, ONE GEOMETRY. The OBJs are authored in the 50 cm modelling amah of the legacy main
+# map. The 48 cm candidate -- the configured default and the cook map -- holds the SAME
+# architecture assets under a similarity transform: every one of the 2,633 architecture actors
+# was rescaled 0.96 about the world origin (release_amah48_candidate.py, RATIO = 48/50) and then
+# translated (-248, 0, 0) by the Aron re-pivot, so the Aron sits over the rock. The water is
+# placed under exactly that transform, and the transform is MEASURED off the live level before
+# anything is spawned rather than trusted from this comment.
+CANDIDATE48_MAP = '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+MAIN50_MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+TARGET_FLAGS = {'-candidate48': 'Candidate48', '-main50': 'Main50'}
+TARGET_ORDER = ('Candidate48', 'Main50')
 
 # Exact architecture-manifest sourceName values, mirroring HOST_MESH_NAMES and
 # HOLLOW_UNION_NAMES in Scripts/create_water_geometry.py. A courtyard conduit is by nature a
@@ -122,11 +155,73 @@ def disk_path(asset_path, extension='uasset'):
 
 def load_spec():
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
-    if spec['targetMap'] != TARGET:
-        raise RuntimeError('Spec target differs from script target')
     if Path(spec['projectDir']).resolve() != ROOT:
         raise RuntimeError('Spec project directory differs from script root')
+    missing = [n for n in TARGET_ORDER if n not in (spec.get('targets') or {})]
+    if missing:
+        raise RuntimeError('Spec is missing targets %s; regenerate it with --write-spec' % missing)
+    for name, cfg in spec['targets'].items():
+        if cfg['flag'] != '-' + name:
+            raise RuntimeError('Target %r declares flag %r' % (name, cfg['flag']))
     return spec
+
+
+def target_from_command_line(command_line):
+    """Exactly one target flag, or nothing. Never a default: the two maps are not interchangeable."""
+    lowered = ' %s ' % command_line.lower()
+    chosen = [name for flag, name in TARGET_FLAGS.items() if (' %s ' % flag) in lowered
+              or ('%s=' % flag) in lowered]
+    if len(chosen) > 1:
+        raise RuntimeError('Choose exactly one of %s' % list(TARGET_FLAGS))
+    return chosen[0] if chosen else None
+
+
+def target_config(spec, target):
+    if not target:
+        raise RuntimeError('Choose the target map with one of %s (%s first: it is the configured '
+                           'default and the cook map)' % (list(TARGET_FLAGS), TARGET_ORDER[0]))
+    if target not in spec['targets']:
+        raise RuntimeError('Unknown target %r; the spec declares %s' % (target, list(spec['targets'])))
+    return spec['targets'][target]
+
+
+def placement_of(cfg):
+    """The (uniform scale, translation cm) that carries 50 cm-authored world metres onto a target."""
+    placement = cfg['placement']
+    return float(placement['uniformScale']), [float(v) for v in placement['translationCm']]
+
+
+def transform_point(point, scale, translation):
+    return [float(point[i]) * scale + translation[i] for i in range(3)]
+
+
+def transform_box(box, scale, translation):
+    """A positive UNIFORM scale about the origin plus a translation maps an AABB onto an AABB
+    exactly -- no re-fitting, no growth -- which is why the candidate is supported this way and
+    not by re-exporting the geometry at 48 cm."""
+    return box_from_min_max(transform_point(box['min'], scale, translation),
+                            transform_point(box['max'], scale, translation))
+
+
+def measure_placement(live_box, manifest_box, minimum_extent_cm=1.0):
+    """Per-axis (scale, translation) carrying a manifest AABB onto the live one; None if too thin.
+
+    DIAGNOSTIC ONLY -- it is what a disagreeing actor is described WITH, never what agreement is
+    judged BY. Solving for a scale divides by the manifest extent, so on a 19 cm floor slab or a
+    150 m channel a sub-millimetre difference in live bounds comes back as a scale error of 1e-4
+    and, multiplied out over the extent, as an apparent translation error of a third of a
+    centimetre. The 2026-09-09T17:25Z run refused on exactly that: nine hosts flagged whose real
+    displacement was 0.001 to 0.16 cm. Agreement is judged on the box error in centimetres.
+    """
+    out = []
+    for i in range(3):
+        span = float(manifest_box['max'][i]) - float(manifest_box['min'][i])
+        if span < minimum_extent_cm:
+            out.append(None)
+            continue
+        scale = (float(live_box['max'][i]) - float(live_box['min'][i])) / span
+        out.append((scale, float(live_box['min'][i]) - scale * float(manifest_box['min'][i])))
+    return out
 
 
 def base_source_name(source_name):
@@ -317,9 +412,10 @@ def group_of_mesh(name):
     return 'court'
 
 
-def offline_check(spec=None):
+def offline_check(spec=None, target=None):
     """Everything decidable without the engine. Run this before the commandlet, every time."""
-    report = {'checkedUtc': datetime.now(timezone.utc).isoformat(), 'errors': [], 'warnings': []}
+    report = {'checkedUtc': datetime.now(timezone.utc).isoformat(), 'target': target,
+              'errors': [], 'warnings': []}
     try:
         spec = spec or load_spec()
     except Exception as error:  # noqa: BLE001
@@ -430,14 +526,44 @@ def offline_check(spec=None):
     if not sources.exists():
         report['errors'].append('sources.md missing; every header in this feature cites it')
 
-    # -- the map -------------------------------------------------------------------
-    map_file = disk_path(TARGET, 'umap')
-    report['targetMapExists'] = map_file.exists()
-    if not map_file.exists():
-        report['errors'].append('target map missing: ' + str(map_file))
-    else:
-        report['targetMapSha256'] = sha256_of(map_file)
-        report['targetMapMatchesLastKnown'] = report['targetMapSha256'] == spec.get('lastKnownMapSha256')
+    # -- the maps ------------------------------------------------------------------
+    # A map hash is EVIDENCE, never a gate. Every one of these maps is saved by other release
+    # scripts several times a day, so a spec that refused on a stale hash would refuse always.
+    # Both hashes and the provenance of the recorded one go in the report; a difference is a
+    # warning that says when and by what the recorded value was taken.
+    report['maps'] = {}
+    for name in TARGET_ORDER:
+        cfg = spec['targets'][name]
+        map_file = ROOT / cfg['mapFile']
+        row = {'map': cfg['map'], 'mapFile': cfg['mapFile'], 'exists': map_file.exists(),
+               'role': cfg['role'], 'amahCm': cfg['amahCm'], 'placement': cfg['placement'],
+               'recordedSha256': cfg['observedMapSha256'],
+               'recordedProvenance': cfg['observedProvenance']}
+        if not map_file.exists():
+            report['errors'].append('target map missing: ' + str(map_file))
+        else:
+            row['sha256Now'] = sha256_of(map_file)
+            row['matchesRecorded'] = row['sha256Now'] == cfg['observedMapSha256']
+            if not row['matchesRecorded']:
+                report['warnings'].append(
+                    '%s has been saved since the spec recorded it (%s -> %s, recorded %s). This is '
+                    'expected and is not a refusal; the receipt records the hash actually released '
+                    'against.' % (name, cfg['observedMapSha256'][:8], row['sha256Now'][:8],
+                                  cfg['observedProvenance']))
+        report['maps'][name] = row
+    if target:
+        cfg = spec['targets'].get(target)
+        if cfg is None:
+            report['errors'].append('unknown target %r; the spec declares %s'
+                                    % (target, list(spec['targets'])))
+        else:
+            report['targetMap'] = cfg['map']
+            report['targetMapExists'] = (ROOT / cfg['mapFile']).exists()
+            report['targetPlacement'] = cfg['placement']
+            scale, translation = placement_of(cfg)
+            report['targetPlacedBounds'] = {
+                m['name']: transform_box(m['canonicalBoundsCm'], scale, translation)
+                for m in manifest['meshes'] if group_of_mesh(m['name']) in GROUP_ORDER}
 
     report['ok'] = not report['errors']
     return report
@@ -461,6 +587,82 @@ def _xyz(v):
 
 def _asset_path(obj):
     return obj.get_path_name().split('.')[0] if obj else None
+
+
+MAX_CLEAR_PASSES = 12
+
+EXPRESSION_COUNT_NOTE = (
+    "UMaterial's 'Expressions' UPROPERTY carries neither EditAnywhere nor a Blueprint accessor, so "
+    "PropertyAccessUtil::CanGetPropertyValue denies it and UE 5.8 Python raises \"Property "
+    "'Expressions' ... is protected and cannot be read\" (PyUtil.cpp:897). The graph is counted "
+    'through MaterialEditingLibrary.get_num_material_expressions instead, falling back to '
+    'len(get_material_expressions(...)); -1 means neither was exposed and the count proves nothing.')
+
+
+def clear_material_expressions(ue, material, path, record):
+    """Empty a UMaterial graph completely, which delete_all_material_expressions does NOT do.
+
+    THE FOURTH LIVE FAILURE, 2026-09-09T17:31Z: 26 of 53 expressions survived. It is an engine
+    bug, not a race. MaterialEditingLibrary.cpp:
+
+        void UMaterialEditingLibrary::DeleteAllMaterialExpressions(UMaterial* Material)
+        {
+            for (UMaterialExpression* Expression : Material->GetExpressions())
+                DeleteMaterialExpression(Material, Expression);
+        }
+
+    GetExpressions() returns a TConstArrayView OVER the live array, and DeleteMaterialExpression
+    removes from that same array, so every removal shifts the tail down under the iterator and
+    the next element is skipped: it deletes ceil(n/2) and leaves floor(n/2). 53 -> 26, exactly
+    what the receipt recorded.
+
+    GetMaterialExpressions() is a BlueprintPure that returns a TArray COPY, so iterating that
+    snapshot and deleting one at a time is complete in one pass. The loop that follows is belt
+    and braces, and the count is read back afterwards either way: this function returns only
+    when the graph is empty, or it raises.
+    """
+    library = ue.MaterialEditingLibrary
+    before = count_material_expressions(ue, material)
+    passes = []
+    lister = getattr(library, 'get_material_expressions', None)
+    if lister is not None:
+        for expression in list(lister(material)):
+            library.delete_material_expression(material, expression)
+        passes.append({'method': 'per-expression over a get_material_expressions snapshot',
+                       'remaining': count_material_expressions(ue, material)})
+    for _ in range(MAX_CLEAR_PASSES):
+        if passes and passes[-1]['remaining'] == 0:
+            break
+        library.delete_all_material_expressions(material)
+        passes.append({'method': 'delete_all_material_expressions (halves the graph per pass)',
+                       'remaining': count_material_expressions(ue, material)})
+    remaining = passes[-1]['remaining'] if passes else before
+    record['expressionsBeforeClear'] = before
+    record['expressionsRemainingAfterClear'] = remaining
+    record['expressionClearPasses'] = passes
+    record['expressionCountMethod'] = EXPRESSION_COUNT_NOTE
+    if remaining > 0:
+        raise RuntimeError('%d of %d expressions survived %d clearing passes on %s'
+                           % (remaining, before, len(passes), path))
+    return remaining
+
+
+def count_material_expressions(ue, material):
+    """Node count of a UMaterial graph without touching the protected 'Expressions' property.
+
+    THE THIRD LIVE FAILURE, 2026-09-08T22:20Z. Reading Material.expressions from Python is not a
+    slow path or a deprecation warning: it is a hard exception, so the clear-and-rebuild of the
+    material left by the earlier failed run could never complete. Returns -1, never a guess, if
+    the engine exposes no counting entry point at all.
+    """
+    library = ue.MaterialEditingLibrary
+    counter = getattr(library, 'get_num_material_expressions', None)
+    if counter is not None:
+        return int(counter(material))
+    lister = getattr(library, 'get_material_expressions', None)
+    if lister is not None:
+        return len(list(lister(material)))
+    return -1
 
 
 def _static_mesh_box(mesh):
@@ -560,9 +762,14 @@ class Graph:
 class WaterRelease:
     """Engine handles, the scene snapshot and the receipt for one release run."""
 
-    def __init__(self, ue, spec):
+    def __init__(self, ue, spec, target):
         self.ue = ue
         self.spec = spec
+        self.target = target
+        self.cfg = target_config(spec, target)
+        self.map = self.cfg['map']
+        self.map_file = ROOT / self.cfg['mapFile']
+        self.scale, self.translation = placement_of(self.cfg)
         self.ml = ue.MaterialEditingLibrary
         self.assets = ue.get_editor_subsystem(ue.EditorAssetSubsystem)
         self.editor = ue.get_editor_subsystem(ue.UnrealEditorSubsystem)
@@ -633,12 +840,8 @@ class WaterRelease:
                 raise RuntimeError('Existing asset at the material path is not a Material: ' + path)
             # Cleared in place rather than deleted: the meshes saved by the earlier run still
             # reference this asset, and a force-delete would null those references.
-            self.ml.delete_all_material_expressions(asset)
-            remaining = len(asset.get_editor_property('expressions')) if hasattr(asset, 'get_editor_property') else -1
             record['replacedExisting'] = True
-            record['expressionsRemainingAfterClear'] = remaining
-            if remaining not in (0, -1):
-                raise RuntimeError('%d expressions survived delete_all_material_expressions on %s' % (remaining, path))
+            clear_material_expressions(ue, asset, path, record)
             self.receipt['limitations'].append('%s existed from an earlier run; its graph was cleared and rebuilt' % path)
             return asset
         folder, name = path.rsplit('/', 1)
@@ -1002,6 +1205,114 @@ class WaterRelease:
                       'materialSlots': slots, 'material': _asset_path(material),
                       'uassetSha256': sha256_of(disk_path(_asset_path(mesh)))}
 
+    # -- the target's similarity transform, proved off the level ---------------
+
+    def verify_placement(self, by_key, host_names, union_names):
+        """Measure the transform the target map's architecture actually sits under.
+
+        THE 48 cm TRAP. The candidate map is not a different map with the same coordinates: its
+        2,633 architecture actors were rescaled 0.96 about the world origin and then translated
+        (-248, 0, 0), so geometry authored against the 50 cm main map lands 4 per cent too large
+        and 248 cm too far east if it is spawned at the identity. Nothing here trusts that
+        sentence: every actor whose mesh resolves to the architecture manifest is measured
+        against its manifest bounds, and the spec's declared placement has to be what the level
+        actually shows. A host -- paving, a stair, a platform the conduit is cut into -- that
+        disagrees is fatal, because the water would be cut into the wrong place.
+        """
+        tolerance = self.spec['placementCheck']
+        excluded_semantics = set(tolerance['excludedSemantics'])
+        report = {'target': self.target, 'declared': self.cfg['placement'],
+                  'sampled': 0, 'agreeing': 0,
+                  'excludedSemantics': sorted(excluded_semantics),
+                  'excludedSampled': 0, 'excludedAgreeing': 0,
+                  'worstBoundsErrorCm': 0.0, 'worstAgreeingBoundsErrorCm': 0.0,
+                  'disagreeing': [], 'disagreeingHosts': [], 'disagreeingBySourceName': {},
+                  'method': ('for every level actor whose mesh resolves to '
+                             'SourceAssets/architecture-manifest.json, the manifest bounds carried '
+                             'through the declared placement are compared with the actor world '
+                             'bounds, per axis, IN CENTIMETRES. Allowance per axis is %.2f cm plus '
+                             '%.1e of that axis span, which covers float32 map storage and mesh '
+                             'bound rounding on a 150 m channel and is still two orders of '
+                             'magnitude tighter than the 248 cm this exists to catch.'
+                             % (tolerance['absoluteToleranceCm'],
+                                tolerance['spanRelativeTolerance']))}
+        for row in self.snapshot:
+            assets = [m.rsplit('/', 1)[-1] for m in row['meshes'] if m]
+            entry = manifest_entry_for_assets(assets, by_key)
+            if entry is None:
+                continue
+            excluded = entry.get('semantic') in excluded_semantics
+            if excluded:
+                report['excludedSampled'] += 1
+            else:
+                report['sampled'] += 1
+            predicted = transform_box(entry['expectedBoundsUnrealCm'], self.scale, self.translation)
+            axes, agrees, worst = [], True, 0.0
+            for i in range(3):
+                span = predicted['max'][i] - predicted['min'][i]
+                allowance = (tolerance['absoluteToleranceCm']
+                             + tolerance['spanRelativeTolerance'] * span)
+                error = max(abs(row['bounds']['min'][i] - predicted['min'][i]),
+                            abs(row['bounds']['max'][i] - predicted['max'][i]))
+                axes.append({'axis': 'XYZ'[i], 'errorCm': round(error, 4),
+                             'allowanceCm': round(allowance, 4), 'spanCm': round(span, 3)})
+                worst = max(worst, error)
+                agrees = agrees and error <= allowance
+            if not excluded:
+                report['worstBoundsErrorCm'] = max(report['worstBoundsErrorCm'], worst)
+            if agrees:
+                if excluded:
+                    report['excludedAgreeing'] += 1
+                else:
+                    report['agreeing'] += 1
+                    report['worstAgreeingBoundsErrorCm'] = max(report['worstAgreeingBoundsErrorCm'],
+                                                               worst)
+                continue
+            kind = classify_source(entry['sourceName'], host_names, union_names)
+            measured = measure_placement(row['bounds'], entry['expectedBoundsUnrealCm'],
+                                         tolerance['minimumExtentCm'])
+            offender = {'actor': row['label'], 'sourceName': entry['sourceName'], 'class': kind,
+                        'semantic': entry.get('semantic'), 'excludedFromFraction': excluded,
+                        'boundsErrorCm': round(worst, 4), 'perAxis': axes,
+                        'diagnosticScaleTranslationPerAxis':
+                            [None if m is None else [round(m[0], 6), round(m[1], 4)] for m in measured]}
+            report['disagreeing'].append(offender)
+            name = base_source_name(entry['sourceName']) if entry['sourceName'] else '(unnamed)'
+            summary = report['disagreeingBySourceName'].setdefault(
+                name, {'count': 0, 'class': kind, 'semantic': entry.get('semantic'),
+                       'excludedFromFraction': excluded, 'worstBoundsErrorCm': 0.0})
+            summary['count'] += 1
+            summary['worstBoundsErrorCm'] = round(max(summary['worstBoundsErrorCm'], worst), 4)
+            if kind == 'host':
+                report['disagreeingHosts'].append(offender)
+        report['disagreeingCount'] = len(report['disagreeing'])
+        report['agreeingFraction'] = (report['agreeing'] / report['sampled']) if report['sampled'] else 0.0
+        report['excludedAgreeingFraction'] = ((report['excludedAgreeing'] / report['excludedSampled'])
+                                              if report['excludedSampled'] else None)
+        report['disagreeing'] = report['disagreeing'][:tolerance['reportDisagreeing']]
+        self.receipt['placementProof'] = report
+        self.write_receipt()
+        if report['sampled'] < tolerance['minimumSamples']:
+            raise RuntimeError('Only %d architecture actors resolved to the manifest on %s; the '
+                               'placement transform cannot be proved (need %d)'
+                               % (report['sampled'], self.target, tolerance['minimumSamples']))
+        if report['disagreeingHosts']:
+            raise RuntimeError('%d host actors on %s do not sit under the declared placement '
+                               '(scale %s, translation %s): %s'
+                               % (len(report['disagreeingHosts']), self.target, self.scale,
+                                  self.translation,
+                                  [(o['actor'], o['boundsErrorCm']) for o in report['disagreeingHosts']][:6]))
+        if report['agreeingFraction'] < tolerance['minimumAgreeingFraction']:
+            raise RuntimeError('Only %.4f of %d manifest actors on %s sit under the declared '
+                               'placement (scale %s, translation %s; need %.4f). Worst bounds error '
+                               '%.3f cm. By source name: %s'
+                               % (report['agreeingFraction'], report['sampled'], self.target,
+                                  self.scale, self.translation, tolerance['minimumAgreeingFraction'],
+                                  report['worstBoundsErrorCm'],
+                                  sorted(report['disagreeingBySourceName'].items(),
+                                         key=lambda kv: -kv[1]['worstBoundsErrorCm'])[:12]))
+        return report
+
     # -- clearance against the live level --------------------------------------
 
     def live_clearance(self, boxes, placed_labels):
@@ -1018,12 +1329,17 @@ class WaterRelease:
         union_names = set(spec['hollowUnionSourceNames'])
         host_sources = set(spec['hostSourceNames'])
 
+        # The published sub-boxes are in the 50 cm authoring frame; the level is in the target's
+        # frame. Transform ONCE here, and the whole narrow phase below compares like with like.
         sub_boxes = [dict(mesh=b['mesh'], part=b['part'],
-                          box=box_from_min_max(b['min'], b['max'])) for b in boxes['boxes']]
+                          box=transform_box(box_from_min_max(b['min'], b['max']),
+                                            self.scale, self.translation))
+                     for b in boxes['boxes']]
         overall = box_from_min_max([min(b['box']['min'][i] for b in sub_boxes) for i in range(3)],
                                    [max(b['box']['max'][i] for b in sub_boxes) for i in range(3)])
 
         report = {'method': spec['method'], 'subBoxesTested': len(sub_boxes),
+                  'target': self.target, 'placement': self.cfg['placement'],
                   'generatedOverallBoundsCm': overall,
                   'terrainActorsExcluded': 0, 'unionsDecomposed': 0, 'unionsUndecomposable': [],
                   'actorsBroadPhaseHits': 0, 'actorsNarrowPhaseTested': 0, 'actorsSkippedOwn': 0,
@@ -1050,6 +1366,19 @@ class WaterRelease:
             if kind == 'union':
                 decomposed = union_constituent_boxes(entry) if entry else None
                 ok, error = verify_union_decomposition(entry, decomposed) if entry else (False, None)
+                live_error = None
+                if ok:
+                    # Two proofs, not one: the decomposition must recompose to the MANIFEST bounds
+                    # (which proves the amot-to-centimetre swizzle) and, once transformed into the
+                    # target's frame, to this actor's LIVE bounds (which proves the transform on
+                    # the very actor being tested).
+                    decomposed = [transform_box(b, self.scale, self.translation) for b in decomposed]
+                    live_error = box_error(
+                        box_from_min_max([min(b['min'][i] for b in decomposed) for i in range(3)],
+                                         [max(b['max'][i] for b in decomposed) for i in range(3)]),
+                        row['bounds'])
+                    report.setdefault('unionLiveBoundsErrorCm', {})[row['label']] = round(live_error, 4)
+                    ok = live_error <= spec['unionLiveToleranceCm']
                 if ok:
                     candidate_boxes = decomposed
                     report['unionsDecomposed'] += 1
@@ -1058,6 +1387,7 @@ class WaterRelease:
                     # mechanism exists to prevent. Recorded loudly so it cannot be forgotten.
                     report['unionsUndecomposable'].append(
                         {'actor': row['label'], 'assets': assets, 'boundsErrorCm': error,
+                         'liveBoundsErrorCm': live_error,
                          'note': 'hollow union could not be decomposed; its AABB encloses the site '
                                  'and was NOT used as a blocker. Inspect by eye.'})
                     continue
@@ -1102,61 +1432,74 @@ class WaterRelease:
 
 # --------------------------------------------------------------------------
 
-def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=False):
+def release(target, load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=False):
     """Import, build materials, place, save, reopen, read back. Returns the receipt."""
     import unreal as ue
     groups = normalise_groups(groups)
     spec = load_spec()
-    offline = offline_check(spec)
+    cfg = target_config(spec, target)
+    offline = offline_check(spec, target)
     if not offline['ok']:
         raise RuntimeError('offline check failed: %s' % offline['errors'][:5])
     if Path(ue.Paths.project_dir()).resolve() != ROOT:
         raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
 
-    run = WaterRelease(ue, spec)
+    run = WaterRelease(ue, spec, target)
     if run.editor.get_game_world():
         raise RuntimeError('A game world is active; never mutate during play')
     if load_target:
-        if not run.levels.load_level(TARGET):
-            raise RuntimeError('load_level failed for ' + TARGET)
+        if not run.levels.load_level(run.map):
+            raise RuntimeError('load_level failed for ' + run.map)
     run.world = run.editor.get_editor_world()
     loaded = run.world.get_outermost().get_name()
-    if loaded != TARGET:
-        raise RuntimeError('Loaded world %s is not the combined map %s' % (loaded, TARGET))
+    if loaded != run.map:
+        raise RuntimeError('Loaded world %s is not the %s map %s' % (loaded, target, run.map))
     if (ue.EditorLoadingAndSavingUtils.get_dirty_map_packages()
             or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages()):
         raise RuntimeError('Dirty packages present; resolve before checkpointed placement')
 
     manifest, boxes, manifest_path, boxes_path = load_geometry(spec)
-    map_file = disk_path(TARGET, 'umap')
+    map_file = run.map_file
     map_sha_before = sha256_of(map_file)
-    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps']
+    # The map that is NOT the selected target joins the protected set for the duration of the run,
+    # exactly as release_herodian_ashlar_v4.py does: one target per run, and the other map must
+    # come out byte-identical.
+    protected_maps = list(spec['protectedMaps']) + [t['map'] for name, t in spec['targets'].items()
+                                                    if name != target]
+    protected = {m: sha256_of(disk_path(m, 'umap')) for m in protected_maps
                  if disk_path(m, 'umap').exists()}
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
-    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + stamp)
+    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + target + '-' + stamp)
     checkpoint.mkdir(parents=True, exist_ok=False)
     shutil.copy2(map_file, checkpoint / map_file.name)
     if sha256_of(checkpoint / map_file.name) != map_sha_before:
         raise RuntimeError('Checkpoint copy hash differs')
     external_copied = []
     for folder_name in ('__ExternalActors__', '__ExternalObjects__'):
-        external = ROOT / 'Content' / folder_name / TARGET[6:]
+        external = ROOT / 'Content' / folder_name / run.map[6:]
         if external.exists():
-            shutil.copytree(external, checkpoint / folder_name / TARGET[6:])
+            shutil.copytree(external, checkpoint / folder_name / run.map[6:])
             external_copied.append(str(external))
 
     receipt_folder = ROOT / spec['receiptFolder']
     receipt_folder.mkdir(parents=True, exist_ok=True)
-    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + stamp + '.json')
+    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + target + '-' + stamp + '.json')
     if run.receipt_path.exists():
         raise RuntimeError('Receipt already exists: ' + str(run.receipt_path))
     run.receipt = {
         'status': 'water_release_started',
         'stamp': stamp,
-        'map': TARGET,
+        'target': target,
+        'targetRole': cfg['role'],
+        'amahCm': cfg['amahCm'],
+        'placement': cfg['placement'],
+        'map': run.map,
         'mapFile': str(map_file),
         'mapSha256Before': map_sha_before,
+        'mapSha256RecordedInSpec': cfg['observedMapSha256'],
+        'mapMatchesSpecRecord': map_sha_before == cfg['observedMapSha256'],
+        'mapHashProvenance': cfg['observedProvenance'],
         'checkpoint': str(checkpoint),
         'oneFilePerActorFoldersCopied': external_copied,
         'protectedMapSha256Before': protected,
@@ -1190,7 +1533,7 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
             'depths as parts of a body and no widths at all.',
             'Terrain tiles are excluded from the live clearance test by name because a heightfield '
             'cannot be decomposed into boxes; the architecture-manifest clearance is the authority.',
-        ],
+        ] + list(cfg.get('limitations') or []),
     }
     run.write_receipt()
 
@@ -1207,6 +1550,11 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
         if pre_existing:
             raise RuntimeError('Existing water release actors present; refusing duplicate placement: %s'
                                % [r['label'] for r in pre_existing][:10])
+
+        arch = json.loads((ROOT / spec['clearance']['architectureManifest']).read_text(encoding='utf-8'))
+        by_key = {manifest_key_for_asset(e['assetName']): e for e in arch['meshes']}
+        run.verify_placement(by_key, set(spec['clearance']['hostSourceNames']),
+                             set(spec['clearance']['hollowUnionSourceNames']))
 
         water_material = run.build_water_material()
         stone_material = run.build_channel_material()
@@ -1226,12 +1574,16 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
             return run.receipt
 
         # -- place ------------------------------------------------------------
-        # The OBJ vertices are already absolute world centimetres, so every actor is
-        # spawned at the origin with an identity transform and its world bounds must equal
-        # canonicalBoundsCm exactly. Any offset would be a silent re-siting of the stream.
+        # The OBJ vertices are already absolute world centimetres in the 50 cm authoring frame,
+        # so every actor carries the target's similarity transform and NOTHING else: on Main50
+        # that is the identity, on the candidate it is the same uniform 0.96 and (-248, 0, 0)
+        # that every one of its 2,633 architecture actors carries, proved off the level above.
+        # Expected world bounds are the canonical bounds under that transform; any other offset
+        # would be a silent re-siting of the stream.
         placed = []
-        origin = ue.Vector(0.0, 0.0, 0.0)
+        origin = ue.Vector(*run.translation)
         rotation = ue.Rotator(0.0, 0.0, 0.0)
+        scale3d = ue.Vector(run.scale, run.scale, run.scale)
         for mesh, record, info in imported:
             actor = run.actors.spawn_actor_from_class(ue.StaticMeshActor, origin, rotation)
             if actor is None:
@@ -1253,10 +1605,13 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
             tags.append(spec['actorTag'])
             component.set_editor_property('component_tags', tags)
             actor.set_editor_property('tags', [spec['actorTag']])
+            actor.set_actor_scale3d(scale3d)
             placed.append({'label': label, 'mesh': _asset_path(mesh), 'role': record['materialRole'],
                            'group': group_of_mesh(record['name']),
                            'componentTags': [str(t) for t in component.get_editor_property('component_tags')],
-                           'plannedWorldBoundsCm': record['canonicalBoundsCm']})
+                           'authoredWorldBoundsCm': record['canonicalBoundsCm'],
+                           'plannedWorldBoundsCm': transform_box(record['canonicalBoundsCm'],
+                                                                 run.scale, run.translation)})
             run.receipt['placed'] = placed
             run.write_receipt()
 
@@ -1273,6 +1628,9 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
             driver = run.actors.spawn_actor_from_class(water_class, origin, rotation)
             if driver is None:
                 raise RuntimeError('spawn_actor_from_class failed for AMikdashWater')
+            # The driver carries no geometry: it finds its surfaces by tag, so it is left at unit
+            # scale and only its location follows the target. Its hydraulics are computed in the
+            # 50 cm authoring frame (WaterFlowMath.h ProjectAmahCm); see the limitations.
             driver.set_actor_label(spec['labelPrefix'] + 'Driver')
             driver.set_folder_path(spec['folder'])
             driver.set_editor_property('stream_mesh_tag', spec['runtime']['surfaceTag'])
@@ -1300,7 +1658,15 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
         current = run.numeric_baseline([r for r in run.snapshot if r['label'] not in placed_labels])
         changed = [name for name, row in baseline.items() if current.get(name) != row]
         if changed:
-            raise RuntimeError('Pre-existing actors changed before save: %s' % changed[:10])
+            # Every difference goes in the receipt, not just ten names: an editor launch on this
+            # machine is expensive and a truncated list is not enough to tell a real regression
+            # from a runtime-constructed actor rebuilding itself.
+            run.receipt['preExistingActorDiff'] = [
+                {'actor': name, 'before': baseline[name], 'after': current.get(name)}
+                for name in changed]
+            run.write_receipt()
+            raise RuntimeError('Pre-existing actors changed before save (%d): %s'
+                               % (len(changed), changed[:10]))
 
         # -- save, reopen, read back -------------------------------------------
         if not run.levels.save_current_level():
@@ -1309,7 +1675,7 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
         run.receipt['mapSaved'] = True
         run.receipt['mapSha256AfterSave'] = sha256_of(map_file)
         run.write_receipt()
-        if not run.levels.load_level(TARGET):
+        if not run.levels.load_level(run.map):
             raise RuntimeError('Reopen failed')
         run.world = run.editor.get_editor_world()
         reopened = run.take_snapshot()
@@ -1323,19 +1689,29 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
             row = matching[0]
             if row['meshes'] != [record['mesh']]:
                 raise RuntimeError('Reopened mesh differs for %s: %r' % (record['label'], row['meshes']))
-            pose_error = max([abs(v) for v in row['pose']['location']]
+            pose_error = max([abs(row['pose']['location'][i] - run.translation[i]) for i in range(3)]
                              + [abs(v) for v in row['pose']['rotation']]
-                             + [abs(v - 1.0) for v in row['pose']['scale']])
+                             + [abs(v - run.scale) for v in row['pose']['scale']])
             if pose_error > verify['transformToleranceCm']:
-                raise RuntimeError('Reopened transform for %s is not identity at the origin (%.5f)'
-                                   % (record['label'], pose_error))
+                raise RuntimeError('Reopened transform for %s is not the declared placement '
+                                   '(scale %.4f, translation %s): worst component %.5f'
+                                   % (record['label'], run.scale, run.translation, pose_error))
             bounds_error = box_error(row['bounds'], record['plannedWorldBoundsCm'])
-            if bounds_error > verify['staticBoundsToleranceCm']:
-                raise RuntimeError('Reopened bounds for %s differ by %.4f cm'
-                                   % (record['label'], bounds_error))
+            # The stage channel reaches 208,100 cm from the origin and the map stores transforms
+            # and bounds as float32: 2 x FLT_EPSILON of 208,100 cm is already 0.05 cm, before the
+            # target's scale multiply adds another rounding. The allowance is stated as a relative
+            # term rather than hidden inside a larger flat number.
+            allowance = (verify['staticBoundsToleranceCm']
+                         + verify['float32RelativeAllowance']
+                         * max(abs(v) for key in ('min', 'max')
+                               for v in record['plannedWorldBoundsCm'][key]))
+            if bounds_error > allowance:
+                raise RuntimeError('Reopened bounds for %s differ by %.4f cm (allowance %.4f)'
+                                   % (record['label'], bounds_error, allowance))
             component = matching[0]['actor'].get_component_by_class(ue.StaticMeshComponent)
             readback.append({'label': record['label'], 'folder': row['folder'],
                              'meshPath': row['meshes'], 'worldBoundsCm': row['bounds'],
+                             'poseLocationCm': row['pose']['location'], 'poseScale': row['pose']['scale'],
                              'boundsErrorCm': bounds_error, 'poseErrorCm': pose_error,
                              'componentTags': [str(t) for t in component.get_editor_property('component_tags')],
                              'collisionProfile': str(component.get_collision_profile_name()),
@@ -1360,6 +1736,13 @@ def release(load_target=True, groups=GROUP_ORDER, import_only=False, skip_actor=
                                    'find nothing to drive' % spec['runtime']['surfaceTag'])
 
         run.receipt['status'] = 'water_saved_reopened_visual_and_runtime_acceptance_pending'
+        run.receipt['clearanceSummary'] = {
+            'blockers': len(clearance['blockers']),
+            'hosts': sorted({h['sourceName'] for h in clearance['hosts'] if h.get('sourceName')}),
+            'nearestFive': clearance['nearest'][:5],
+            'terrainActorsExcluded': clearance['terrainActorsExcluded'],
+            'unionsDecomposed': clearance['unionsDecomposed'],
+        }
         return run.receipt
     except Exception as error:
         run.receipt['errors'].append({'stage': 'run', 'error': repr(error)})
@@ -1383,19 +1766,128 @@ def write_spec():
     """Regenerate release_water.spec.json. Run offline after changing the geometry."""
     manifest = json.loads((ROOT / 'SourceAssets/water-review/MikdashWaterV1/geometry-manifest.json')
                           .read_text(encoding='utf-8'))
-    map_file = disk_path(TARGET, 'umap')
+    observed = datetime.now(timezone.utc).isoformat()
+    targets = {
+        'Candidate48': {
+            'flag': '-Candidate48',
+            'role': ('the configured default and the COOK map (Config/DefaultEngine.ini '
+                     'GameDefaultMap). Place here first; this is the one that ships.'),
+            'map': CANDIDATE48_MAP,
+            'mapFile': 'Content/' + CANDIDATE48_MAP[6:] + '.umap',
+            'amahCm': 48.0,
+            'placement': {
+                'uniformScale': 0.96,
+                'translationCm': [-248.0, 0.0, 0.0],
+                'rotationDegrees': [0.0, 0.0, 0.0],
+                'derivation': (
+                    'Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by '
+                    'RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); '
+                    'Scripts/release_aron_alignment.py then translated the 2,917 temple actors by '
+                    'deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. '
+                    'The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is '
+                    'measured off the level itself before anything is spawned.'),
+                'evidence': [
+                    'SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: '
+                    'ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}',
+                    'ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: '
+                    'pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]',
+                    'SourceAssets/scale-review/aron-alignment-release-Candidate48-'
+                    '20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, '
+                    'aronAfter.locationCm [-6200, 0, 888.00005859375]',
+                ],
+            },
+            'limitations': [
+                'On the 48 cm candidate the water carries the same 0.96 similarity transform as the '
+                'architecture, so it is 4 per cent smaller than the authored geometry in every '
+                'linear dimension. AMikdashWater and WaterFlowMath.h compute in the 50 cm authoring '
+                'frame (ProjectAmahCm = 50.0), so the depths, velocities and forty-seah volumes the '
+                'driver reports describe the AUTHORED channel, not the placed one: lengths are high '
+                'by 1/0.96, volumes by 1/0.96^3. Nothing in this release corrects that.',
+                'The FutureMountV1 terrain and the metric city context were NOT rescaled with the '
+                'architecture, so on this map the four stages of Yechezkel 47:3-5, measured east in '
+                'authored amot, end 4 per cent short against unscaled ground. That is true of every '
+                '48 cm placement on this map and is not introduced here.',
+            ],
+        },
+        'Main50': {
+            'flag': '-Main50',
+            'role': ('the legacy 50 cm main map, retained for comparison. Place here only after the '
+                     'candidate has gone cleanly.'),
+            'map': MAIN50_MAP,
+            'mapFile': 'Content/' + MAIN50_MAP[6:] + '.umap',
+            'amahCm': 50.0,
+            'placement': {
+                'uniformScale': 1.0,
+                'translationCm': [0.0, 0.0, 0.0],
+                'rotationDegrees': [0.0, 0.0, 0.0],
+                'derivation': ('The identity. The OBJs are authored directly in this map world '
+                               'centimetres from SourceAssets/architecture-manifest.json, whose '
+                               'architecture actors sit at the origin at unit scale.'),
+                'evidence': ['SourceAssets/architecture-manifest.json meshes[*].spawnLocationUnrealCm '
+                             '[0,0,0], spawnScale [1,1,1], objectTransformIdentity true'],
+            },
+            'limitations': [],
+        },
+    }
+    for name, cfg in targets.items():
+        path = ROOT / cfg['mapFile']
+        cfg['observedMapSha256'] = sha256_of(path) if path.exists() else None
+        cfg['observedUtc'] = observed
+        cfg['observedProvenance'] = (
+            'sha256 read off %s by release_water.write_spec() at %s. RECORDED, NEVER REQUIRED: '
+            'every release script in this project saves these maps, so the hash is stale within '
+            'hours. offline_check() reports the recorded and the current hash and warns on a '
+            'difference; the receipt records the hash actually released against.'
+            % (cfg['mapFile'], observed))
     spec = {
-        'specVersion': 'MikdashWaterV1-release-1',
-        'prepared': datetime.now(timezone.utc).isoformat(),
+        'specVersion': 'MikdashWaterV1-release-2',
+        'prepared': observed,
         'purpose': ('Import, materialise, place and drive the stream of Yechezkel 47, its channel '
                     'through the courts and the four mikvaot. Every claim behind the geometry is in '
                     'SourceAssets/water-review/sources.md, marked certain / disputed / authored.'),
         'projectDir': str(ROOT),
-        'targetMap': TARGET,
-        'targetMapFile': str(map_file),
-        'lastKnownMapSha256': sha256_of(map_file) if map_file.exists() else None,
-        'lastKnownMapSha256Note': ('Recorded, never required: the map legitimately changes between '
-                                   'releases. A mismatch is reported, not refused.'),
+        'targets': targets,
+        'targetsNote': ('One target per run, chosen with its flag, exactly as release_paroches_v15.py '
+                        'and release_herodian_ashlar_v4.py do. The map that is NOT selected joins the '
+                        'protected set for the duration of the run and must come out byte-identical.'),
+        'placementCheck': {
+            'absoluteToleranceCm': 0.5,
+            'spanRelativeTolerance': 5e-05,
+            'minimumExtentCm': 1.0,
+            'excludedSemantics': ['vessel'],
+            'excludedSemanticsNote': (
+                'The 54 manifest entries with semantic "vessel" are the kiyor and nothing else: '
+                '40 Copper fittings, 12 Spouts, the Turned pedestal and the Hollow basin with '
+                'inner wall. They are in the architecture manifest but were re-posed on the '
+                'candidate by release_amah48_vessels.py, so they do not sit under the architecture '
+                'placement and cannot be evidence for or against it. They are measured and '
+                'reported all the same -- excludedSampled / excludedAgreeing and every offender by '
+                'name -- so their absence from the fraction is visible rather than silent. A vessel '
+                'is never a host, so this never weakens the host gate.'),
+            'minimumSamples': 2000,
+            'minimumAgreeingFraction': 0.98,
+            'reportDisagreeing': 500,
+            'note': ('Before anything is spawned, every level actor whose mesh resolves to the '
+                     'architecture manifest is compared, IN CENTIMETRES, with its manifest bounds '
+                     'carried through the declared placement. A HOST -- paving, a stair, a platform '
+                     'the conduit is cut into -- that disagrees is fatal whatever the fraction, '
+                     'because the water would be cut into the wrong place.'),
+            'toleranceEvidence': (
+                'Measured, not guessed. The 2026-09-09T17:25Z Candidate48 run '
+                '(native-release-water-Candidate48-20260909T172556239576Z.json) put 2,523 of 2,633 '
+                'manifest actors EXACTLY on scale 0.96 / translation (-248, 0, 0), and every one of '
+                'the nine hosts it flagged was in truth displaced by 0.001 to 0.159 cm -- the flag '
+                'came from solving for a scale on a 19 cm floor slab and a 75 m cornice, not from a '
+                'real displacement. 0.5 cm plus 5e-5 of the span passes those, still flags the '
+                'kiyor parts that other releases genuinely re-posed (Turned pedestal 2.75 cm, '
+                'Hollow basin 5.23 cm, Copper fitting up to 51.96 cm), and is 200 times tighter '
+                'than the 248 cm error it exists to catch.'),
+            'minimumAgreeingFractionNote': (
+                'Applies to the 2,579 non-vessel manifest actors. Not 1.0 only because a single '
+                'unforeseen re-posed mesh should be reported and looked at, not turned into a '
+                'refusal that hides the 2,578 that agree; a real transform error moves every one '
+                'of them and fails this by a mile.'),
+        },
         'protectedMaps': ['/Game/MikdashV3/Maps/Courtyard',
                           '/Game/MikdashV3/FutureMountV1/L_FutureMount',
                           '/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough'],
@@ -1560,6 +2052,24 @@ def write_spec():
                             'authority for the built Temple.'),
             'hollowUnionSourceNames': HOLLOW_UNION_SOURCE_NAMES,
             'hostSourceNames': HOST_SOURCE_NAMES,
+            'unionLiveToleranceCm': 100.0,
+            'unionLiveToleranceNote': (
+                'A decomposed hollow union must recompose to the MANIFEST bounds within 0.05 cm, '
+                'which proves the amot-to-centimetre swizzle, and, once carried through the target '
+                'placement, to that actor LIVE bounds within this figure, which proves it is the '
+                'same actor in the same frame. A union failing either test is skipped and recorded, '
+                'never used as a blocker on its site-wide AABB. Every decomposed union records its '
+                'live error in liveClearance.unionLiveBoundsErrorCm whether it passes or not.'),
+            'unionLiveToleranceEvidence': (
+                'Not 0.5 cm, because one union genuinely does not match its manifest bounds and it '
+                'is not this release that broke it. The 2026-09-09T17:31Z Candidate48 run measured '
+                '"Derived union of source House walls and roofs" 40.80 cm out on Y and 16.32 cm on '
+                'Z while EXACT on X, on spans of 48 and 49 m -- a 0.85 per cent mesh-versus-manifest '
+                'discrepancy that has nothing to do with the 0.96 placement (X, carrying the whole '
+                '-248 cm translation, was 0.0000 cm out). The other 2,578 non-vessel actors agreed '
+                'exactly. 100 cm accepts that known discrepancy, is still 2.5 times tighter than '
+                'the 248 cm frame error the check exists to catch, and any clearance derived from a '
+                'decomposed union carries its live error in the receipt so a reader can discount it.'),
             'namesNote': ('Exact manifest sourceName values, copied from HOST_MESH_NAMES and '
                           'HOLLOW_UNION_NAMES in Scripts/create_water_geometry.py so the live test '
                           'and the offline export classify the same meshes the same way. Substring '
@@ -1570,10 +2080,12 @@ def write_spec():
         'verification': {
             'transformToleranceCm': 0.001,
             'staticBoundsToleranceCm': 0.05,
-            'compareRule': ('Every water actor is spawned at the world origin with an identity '
-                            'transform, because the OBJ vertices are already absolute world '
-                            'centimetres. Reopened world bounds must therefore equal '
-                            'canonicalBoundsCm; any offset is a silent re-siting of the stream.'),
+            'float32RelativeAllowance': 2.4e-7,
+            'compareRule': ('The OBJ vertices are already absolute world centimetres in the 50 cm '
+                            'authoring frame, so every water actor carries the declared placement '
+                            'of its target and nothing else. Reopened world bounds must equal '
+                            'canonicalBoundsCm under that placement; any other offset is a silent '
+                            're-siting of the stream.'),
         },
         'limitations': list(manifest.get('limitations') or []),
     }
@@ -1607,14 +2119,15 @@ def _main():
     groups = GROUP_ORDER
     import_only = '-waterimportonly' in command_line
     skip_actor = '-waterskipactor' in command_line
+    target = target_from_command_line(command_line)
     for token in command_line.split():
         if token.startswith('-watergroups='):
             groups = normalise_groups(token.split('=', 1)[1].strip('"'))
     try:
-        receipt = release(load_target=True, groups=groups, import_only=import_only,
+        receipt = release(target, load_target=True, groups=groups, import_only=import_only,
                           skip_actor=skip_actor)
-        ue.log('release_water: %s groups %s placed %s' % (
-            receipt['status'], list(groups), receipt.get('placedActorCount')))
+        ue.log('release_water %s: %s groups %s placed %s' % (
+            target, receipt['status'], list(groups), receipt.get('placedActorCount')))
     except Exception as error:
         ue.log_error('release_water failed: ' + repr(error))
         raise
@@ -1632,6 +2145,7 @@ if __name__ == '__main__':
             write_spec()
             print(json.dumps({'wrote': str(SPEC_PATH), 'sha256': sha256_of(SPEC_PATH)}, indent=2))
         else:
-            print(json.dumps(offline_check(), indent=2))
+            print(json.dumps(offline_check(target=target_from_command_line(' '.join(sys.argv[1:]))),
+                             indent=2))
 elif _invoked_as_native_script():
     _main()

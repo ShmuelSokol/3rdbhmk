@@ -209,6 +209,61 @@ def check_receipts() -> None:
         check("no receipt records a failure", True)
 
 
+def check_map_parity() -> None:
+    """Flag work applied to one map but not the other.
+
+    This has now bitten twice, both times silently and both times against the map that
+    actually ships. The Herodian/limestone stone reached only the legacy map, so the
+    public download kept flat sandstone; the reviewed daylight likewise, so the download
+    kept the pre-review 5000 K sun. Nothing failed in either case - the pass simply ran
+    against one target.
+
+    Receipts record their target, so the asymmetry is visible offline without an editor.
+    This reports rather than fails: a pass legitimately belonging to one map (the Aron
+    re-pivot is candidate-only by design) must not turn the gate red.
+    """
+    src = ROOT / "SourceAssets"
+    if not src.is_dir():
+        return
+    ship, legacy = "candidate48", "main50"
+    seen: dict[str, set[str]] = {}
+    for j in src.rglob("*.json"):
+        if any(p in {".tools", "node_modules"} for p in j.parts):
+            continue
+        try:
+            data = json.loads(j.read_text(encoding="utf-8-sig", errors="replace"))
+        except Exception:  # noqa: BLE001
+            continue
+        if not isinstance(data, dict):
+            continue
+        target = str(data.get("target") or "").strip().lower()
+        if target not in (ship, legacy):
+            continue
+        # Group by the pass, not the receipt: strip the timestamp AND the target, since
+        # receipts name their target in the filename and the two halves of one pass must
+        # land in the same bucket to be comparable at all.
+        pass_name = re.sub(r"[-_]?\d{8}T\d{6}.*$", "", j.stem) or j.stem
+        pass_name = re.sub(r"[-_](?:Main50|Candidate48|Selected48)$", "", pass_name, flags=re.I)
+        seen.setdefault(pass_name, set()).add(target)
+
+    legacy_only = sorted(n for n, t in seen.items() if t == {legacy})
+    ship_only = sorted(n for n, t in seen.items() if t == {ship})
+    both = sum(1 for t in seen.values() if len(t) == 2)
+
+    print(f"  INFO  map parity: {both} pass(es) ran on both maps, "
+          f"{len(legacy_only)} legacy-only, {len(ship_only)} ship-only")
+    if legacy_only:
+        print("  WARN  ran on the LEGACY map only - check whether the shipping map needs it:")
+        for name in legacy_only[:10]:
+            print(f"          {name}")
+        if len(legacy_only) > 10:
+            print(f"          ... and {len(legacy_only) - 10} more")
+    if ship_only:
+        print("  INFO  ran on the shipping map only (often correct, e.g. the Aron re-pivot):")
+        for name in ship_only[:6]:
+            print(f"          {name}")
+
+
 # ---------------------------------------------------------------------------
 # C++ math tests
 # ---------------------------------------------------------------------------
@@ -321,6 +376,7 @@ def main() -> int:
     check_python_scripts()
     check_specs()
     check_receipts()
+    check_map_parity()
     print("-- C++")
     if args.quick:
         print("  SKIP  standalone math tests (--quick)")

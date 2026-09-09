@@ -78,6 +78,13 @@ def marker():
     if m.get('namespace') != SPEC['expectedNamespace']: raise RuntimeError('Import marker namespace differs from the spec')
     return m['completed']
 
+def _object_path(path):
+    """Import markers store package paths; native readback returns object paths."""
+    if path is None or '.' in path.rsplit('/', 1)[-1]:
+        return path
+    return path + '.' + path.rsplit('/', 1)[-1]
+
+
 def variant_assets(name):
     """Resolved asset set for one imported variant, from the marker only."""
     entry = marker().get(name)
@@ -93,7 +100,7 @@ def variant_assets(name):
     facing = entry['facing']
     if facing['meshFacesUE'] != SPEC['expectedFacing'] or abs(float(facing['relativeYawForActorForwardX']) - SPEC['expectedMeshRelativeYaw']) > 1e-9:
         raise RuntimeError('%s: receipt facing %r disagrees with the spec expectation' % (name, facing))
-    return dict(id=name, skeletalMesh=entry['skeletalMesh'], skeleton=entry['skeleton'], idle=clips['idle'], walk=clips['walk'],
+    return dict(id=name, skeletalMesh=_object_path(entry['skeletalMesh']), skeleton=_object_path(entry['skeleton']), idle=_object_path(clips['idle']), walk=_object_path(clips['walk']),
                 garmentSlot=slot, meshRelativeYaw=float(facing['relativeYawForActorForwardX']), receipt=entry['receipt'])
 
 # ---------------------------------------------------------------------------------------
@@ -440,6 +447,14 @@ def run_verify(target_key):
         rows = []
         for person in people['people']:
             pts, extended = ROUTES.decode(person, ratio)
+            descriptors = list(u.GameplayStatics.get_all_actors_of_class(world, u.MikdashSceneUnits))
+            if target_key == 'Candidate48':
+                if len(descriptors) != 1: raise RuntimeError('Candidate requires one live scene frame')
+                origin = descriptors[0].get_editor_property('fixed_architecture_origin_cm')
+                report['fixedArchitectureOriginCm'] = xyz(origin)
+                if person['zone'] == 'outer-court':
+                    delta = [v * (1.0 - ratio) for v in xyz(origin)]
+                    pts = [[p[i] + delta[i] for i in range(3)] for p in pts]
             feet = u.Vector(*pts[0]); label = 'Resident_' + person['id']
             body = bodies.get(label)
             cast = person.get('body') or {}
@@ -467,7 +482,7 @@ def run_verify(target_key):
                 ball_expected = zone_floor + REST['ball'] * expected_scale
                 row.update(
                     actualMesh=_path(asset), reportedBody=reported,
-                    meshMatchesCast=bool(asset is not None and cast.get('variant') and _path(asset).endswith('/' + cast['variant'] + '/SkeletalMeshes/' + cast['variant'])),
+                    meshMatchesCast=bool(asset is not None and cast.get('variant') and _path(asset) == variant_assets(cast['variant'])['skeletalMesh']),
                     component=dict(relativeScale3d=xyz(rel_scale), relativeYaw=round(float(rel_rot.yaw), 3), relativeLocation=xyz(rel_loc)),
                     componentOk=(abs(rel_scale.x - expected_scale) <= V['scaleToleranceAbs'] and abs(rel_scale.y - expected_scale) <= V['scaleToleranceAbs'] and abs(rel_scale.z - expected_scale) <= V['scaleToleranceAbs']
                                  and abs(((float(rel_rot.yaw) - expected_yaw + 180) % 360) - 180) <= V['yawToleranceDeg']
@@ -533,14 +548,27 @@ def run_verify(target_key):
             if now - state['start'] > V['watchdogSeconds']: finish('failed_watchdog'); return
             if not world: return
             if state['phase'] == 'world':
+                controller = u.GameplayStatics.get_player_controller(world, 0)
+                if controller is None: return
+                if not state.get('resumed'):
+                    controller.resume_walkthrough()
+                    state['resumed'] = True
+                    return
+                cinematic = u.MikdashCinematics.get(world)
+                if cinematic and cinematic.is_playing(): cinematic.skip_intro()
+                if u.GameplayStatics.is_game_paused(world) or controller.is_walkthrough_menu_open():
+                    raise RuntimeError('Walkthrough did not resume before resident sampling')
+                report['samplingUnpaused'] = True
                 pops = list(u.GameplayStatics.get_all_actors_of_class(world, u.MikdashResidentPopulation))
                 ready = any('Directory' in str(p.get_directory_status()) for p in pops)
                 if not ready and now - state['at'] < V['populationWaitSeconds']: return
-                state['phase'] = 'window'; state['at'] = now; state['frameStart'] = now
+                state['phase'] = 'window'; state['at'] = now; state['frameStart'] = now; state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
                 report['populationReadyWaitSeconds'] = round(now - state['start'], 2)
                 return
             if state['phase'] == 'window':
-                elapsed = now - state['at']; state['frames'] += 1
+                elapsed = u.GameplayStatics.get_time_seconds(world) - state['gameAt']; state['frames'] += 1
+                if u.GameplayStatics.is_game_paused(world): raise RuntimeError('Game paused during resident sampling')
+                report['simulatedSampleSeconds'] = round(elapsed, 3)
                 lo, hi = V['boneSampleWindowSeconds']
                 if lo <= elapsed <= hi and elapsed >= state['nextBone']:
                     sample_bones(world); state['nextBone'] = elapsed + V['boneSampleIntervalSeconds']

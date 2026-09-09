@@ -29,6 +29,11 @@ Optional switches, read from the engine command line:
                                               receipt, and place NOTHING.
   -EnclosureAllowMissingHideLabels=1          place even if some receipt labels are absent from
                                               the loaded map (they are listed; default refuse).
+  -EnclosureRepair=1                          the map already holds the release actor: re-import
+                                              and SAVE the five meshes, re-point the actor's mesh
+                                              properties, save, reopen, read back. This is the
+                                              fix for the 2026-09-08 placement whose meshes were
+                                              never written to disk (nothing rendered at run time).
 
 Run this module outside the editor and it prints offline_check() for both targets as JSON and
 exits; nothing native happens and nothing is written.
@@ -590,19 +595,32 @@ class Placement(object):
         for record in geometry['meshes']:
             asset_path = destination + '/' + record['name']
             existing = ue.EditorAssetLibrary.does_asset_exist(asset_path)
-            if existing and not self.spec['reimportExisting']:
-                raise OmissionError('Mesh already exists and reimport is off: ' + asset_path, {'asset': asset_path})
-            task = ue.AssetImportTask()
-            task.filename = str(mesh_folder / record['file'])
-            task.destination_path = destination
-            task.destination_name = record['name']
-            task.automated = True
-            task.replace_existing = True
-            task.save = False
-            self.assets.import_asset_tasks([task])
-            mesh = ue.EditorAssetLibrary.load_asset(asset_path)
-            if mesh is None:
-                raise OmissionError('Import produced no asset for ' + asset_path, {'obj': record['file']})
+            on_disk = disk_path(asset_path)
+            existing_hash = sha256_of(on_disk) if on_disk.exists() else None
+            if existing or on_disk.exists():
+                # Reuse saved packages; repairs must never overwrite an existing namespace.
+                mesh = ue.EditorAssetLibrary.load_asset(asset_path)
+                if mesh is None or existing_hash is None:
+                    raise OmissionError('Existing mesh is not persistently readable: ' + asset_path,
+                                        {'asset': asset_path})
+            else:
+                task = ue.AssetImportTask()
+                task.filename = str(mesh_folder / record['file'])
+                task.destination_path = destination
+                task.destination_name = record['name']
+                task.automated = True
+                task.replace_existing = False
+                # Same-process instance counts cannot establish package persistence.
+                task.save = True
+                self.assets.import_asset_tasks([task])
+                mesh = ue.EditorAssetLibrary.load_asset(asset_path)
+                if mesh is None:
+                    raise OmissionError('Import produced no asset for ' + asset_path, {'obj': record['file']})
+                if not ue.EditorAssetLibrary.save_asset(asset_path, only_if_is_dirty=False):
+                    raise OmissionError('save_asset returned False for ' + asset_path, {'asset': asset_path})
+            if not on_disk.exists():
+                raise OmissionError('Mesh package was not written to disk: ' + str(on_disk),
+                                    {'asset': asset_path, 'expectedFile': str(on_disk)})
             bounds = mesh.get_bounds()
             origin = _vector_list(bounds.origin)
             extent = _vector_list(bounds.box_extent)
@@ -621,10 +639,48 @@ class Placement(object):
             if triangles != record['triangles']:
                 raise OmissionError('Imported triangle count %d != %d for %s'
                                     % (triangles, record['triangles'], record['name']), {'asset': asset_path})
+            if existing_hash is not None and sha256_of(on_disk) != existing_hash:
+                raise RuntimeError('Reused mesh package changed: ' + asset_path)
             imported.append(dict(asset=asset_path, obj=record['file'], triangles=triangles,
                                  importedBoundsCm=actual, boundsErrorCm=round(error, 6),
-                                 replacedExisting=bool(existing)))
+                                 replacedExisting=False, reusedExisting=existing_hash is not None,
+                                 packageFile=str(on_disk), packageSha256=sha256_of(on_disk)))
         return imported
+
+    # -- repair -------------------------------------------------------------
+
+    def repair_actor(self, actor, imported, spec):
+        """Re-point an already-placed actor's five mesh properties (and the wall material if
+        it is null) at the now-saved packages. Touches nothing else on the actor: the ground
+        profile, the hide lists, the state and the amah stay exactly as saved."""
+        ue = self.ue
+        by_role = {entry['obj']: entry['asset'] for entry in imported}
+
+        def mesh_for(name):
+            for obj, asset in by_role.items():
+                if obj.startswith(name):
+                    return ue.EditorAssetLibrary.load_asset(asset)
+            return None
+
+        actor.modify(True)
+        before = {}
+        for prop, name in (('WallModuleMesh', 'SM_EnclosureV2_WallSegment'),
+                           ('GateModuleMesh', 'SM_EnclosureV2_Gate'),
+                           ('CornerModuleMesh', 'SM_EnclosureV2_Corner'),
+                           ('FoundationModuleMesh', 'SM_EnclosureV2_Foundation'),
+                           ('OverlayQuadMesh', 'SM_EnclosureV2_OverlaySlab')):
+            before[prop] = _asset_path(actor.get_editor_property(prop))
+            mesh = mesh_for(name)
+            if mesh is None:
+                raise OmissionError('No imported mesh for ' + prop, {'property': prop})
+            actor.set_editor_property(prop, mesh)
+        materials = {}
+        if actor.get_editor_property('WallMaterial') is None and spec.get('wallMaterial'):
+            path = spec['wallMaterial']
+            if ue.EditorAssetLibrary.does_asset_exist(path):
+                actor.set_editor_property('WallMaterial', ue.EditorAssetLibrary.load_asset(path))
+                materials['wallMaterial'] = path
+        return dict(meshPropertiesBefore=before, materialsSet=materials)
 
     # -- place ------------------------------------------------------------
 
@@ -702,6 +758,19 @@ class Placement(object):
 
 def readback_actor(ue, placed, offline, spec):
     """NUMERIC readback of the actor's own maths in the editor world, without hiding anything."""
+    # The mesh references must resolve from DISK in the reopened world: a null here is exactly
+    # the failure that shipped once (meshes imported but never saved), and it must refuse.
+    meshes = {}
+    for prop in ('WallModuleMesh', 'GateModuleMesh', 'CornerModuleMesh', 'FoundationModuleMesh', 'OverlayQuadMesh'):
+        asset = placed.get_editor_property(prop)
+        path = _asset_path(asset)
+        package = path.split('.')[0] if path else None
+        on_disk = disk_path(package) if package else None
+        meshes[prop] = dict(asset=path, packageOnDisk=bool(on_disk and on_disk.exists()),
+                            packageSha256=sha256_of(on_disk) if on_disk and on_disk.exists() else None)
+        if asset is None or not meshes[prop]['packageOnDisk']:
+            raise RuntimeError('Reopened actor property %s is %s; the mesh package is not on disk, so the '
+                               'ring would draw nothing at run time' % (prop, path or 'null'))
     placed.measure_without_hiding()
     tolerance = float(spec['verification']['groundZAgreementToleranceCm'])
     clearances = placed.get_measured_clearances_amot()
@@ -724,6 +793,7 @@ def readback_actor(ue, placed, offline, spec):
                           abs(row['plinthZmaxCm'] - expected['baseZmaxCm']))
         sides.append(row)
     result = dict(
+        meshReferences=meshes,
         measuredClearancesAmot=dict(west=float(clearances.x), north=float(clearances.y),
                                     east=float(clearances.z), south=float(clearances.w)),
         outerFacesCm=dict(west=float(faces.x), north=float(faces.y), east=float(faces.z), south=float(faces.w)),
@@ -764,8 +834,12 @@ def readback_actor(ue, placed, offline, spec):
 
 
 def place(target_name=DEFAULT_TARGET, load_target=True, initial_state=None, count_only=False,
-          allow_missing_hide_labels=False):
-    """Guarded import and placement. Returns the receipt dict; raises on guard failure."""
+          allow_missing_hide_labels=False, repair=False):
+    """Guarded import and placement. Returns the receipt dict; raises on guard failure.
+
+    repair=True: the map ALREADY holds the release actor (placed by the run whose meshes were
+    never saved). Re-import and SAVE the five meshes, re-point the actor's mesh properties,
+    save, reopen and read back. Nothing else on the actor changes."""
     import unreal as ue
     spec = load_spec()
     initial_state = initial_state or spec['defaultState']
@@ -832,6 +906,7 @@ def place(target_name=DEFAULT_TARGET, load_target=True, initial_state=None, coun
         'hideSetSummary': {k: v for k, v in offline['hideSet'].items() if k not in ('labels', 'meshNames')},
         'engineVersion': ue.SystemLibrary.get_engine_version(),
         'countOnly': bool(count_only),
+        'repair': bool(repair),
         'initialState': initial_state,
         'placed': {}, 'omissions': {}, 'errors': [], 'mapSaved': False,
         'limitations': [
@@ -852,10 +927,19 @@ def place(target_name=DEFAULT_TARGET, load_target=True, initial_state=None, coun
     try:
         rows = run.survey()
         run.receipt['actorCountBefore'] = len(rows)
-        existing = [row['label'] for row in rows if row['label'].startswith(spec['actorLabel'])]
-        if existing and not count_only:
-            raise RuntimeError('An EnclosureV2 release actor already exists: %r' % existing)
+        existing_rows = [row for row in rows if row['label'].startswith(spec['actorLabel'])]
+        existing = [row['label'] for row in existing_rows]
+        if existing and not count_only and not repair:
+            raise RuntimeError('An EnclosureV2 release actor already exists: %r (pass -EnclosureRepair=1 '
+                               'to re-point its meshes)' % existing)
+        if repair and len(existing_rows) != 1:
+            raise RuntimeError('Repair needs exactly one existing release actor; found %r' % existing)
         run.receipt['preExistingEnclosureActors'] = existing
+        # What the saved actor currently references, before anything is touched.
+        run.receipt['meshPackagesOnDiskBefore'] = {
+            name: (disk_path(spec['meshFolder'] + '/' + name)).exists()
+            for name in ('SM_EnclosureV2_WallSegment', 'SM_EnclosureV2_Gate', 'SM_EnclosureV2_Corner',
+                         'SM_EnclosureV2_OverlaySlab', 'SM_EnclosureV2_Foundation')}
 
         run.receipt['unionEnvelopeCheck'] = run.union_envelope_check(rows)
         resolution = run.resolve_hide_list(rows, offline['hideSet']['labels'])
@@ -887,11 +971,17 @@ def place(target_name=DEFAULT_TARGET, load_target=True, initial_state=None, coun
 
         actor = None
         try:
-            actor, materials = run.place_actor(imported, initial_state, offline, resolution)
-            run.receipt['placed']['actor'] = dict(label=spec['actorLabel'], folder=spec['folder'],
-                                                  initialState=initial_state, materials=materials,
-                                                  hideLabelsBaked=resolution['resolved'],
-                                                  groundProfileStations=4 * offline['groundProfile']['stationsPerSide'])
+            if repair:
+                actor = existing_rows[0]['actor']
+                repaired = run.repair_actor(actor, imported, spec)
+                run.receipt['placed']['actor'] = dict(label=existing_rows[0]['label'], repaired=True,
+                                                      **repaired)
+            else:
+                actor, materials = run.place_actor(imported, initial_state, offline, resolution)
+                run.receipt['placed']['actor'] = dict(label=spec['actorLabel'], folder=spec['folder'],
+                                                      initialState=initial_state, materials=materials,
+                                                      hideLabelsBaked=resolution['resolved'],
+                                                      groundProfileStations=4 * offline['groundProfile']['stationsPerSide'])
         except OmissionError as omission:
             run.receipt['omissions']['actor'] = {'reason': str(omission), 'evidence': omission.evidence}
 
@@ -944,9 +1034,14 @@ def place(target_name=DEFAULT_TARGET, load_target=True, initial_state=None, coun
                     raise RuntimeError('Reopened actor reports hide labels missing/duplicated: %r'
                                        % readback['actor']['hideListResolution'])
         run.receipt['reopenedReadback'] = readback
-        run.receipt['status'] = ('enclosure_saved_reopened_visual_acceptance_pending'
-                                 if readback['actor']
-                                 else 'meshes_only_saved_actor_omitted_rebuild_required')
+        run.receipt['meshPackagesOnDiskAfter'] = {
+            entry['asset'].split('/')[-1]: disk_path(entry['asset']).exists()
+            for entry in run.receipt['placed'].get('meshes', [])}
+        if readback['actor']:
+            run.receipt['status'] = ('enclosure_repaired_saved_reopened_visual_acceptance_pending' if repair
+                                     else 'enclosure_saved_reopened_visual_acceptance_pending')
+        else:
+            run.receipt['status'] = 'meshes_only_saved_actor_omitted_rebuild_required'
         return run.receipt
     except Exception as error:
         run.receipt['errors'].append({'stage': 'run', 'error': repr(error)})
@@ -986,6 +1081,7 @@ def _main():
     initial_state = None
     count_only = False
     allow_missing = False
+    repair = False
     for token in command_line.split():
         lowered = token.lower()
         if lowered.startswith('-enclosuretarget='):
@@ -1003,9 +1099,11 @@ def _main():
             count_only = lowered.split('=', 1)[1].strip('"') not in ('0', 'false', '')
         elif lowered.startswith('-enclosureallowmissinghidelabels='):
             allow_missing = lowered.split('=', 1)[1].strip('"') not in ('0', 'false', '')
+        elif lowered.startswith('-enclosurerepair='):
+            repair = lowered.split('=', 1)[1].strip('"') not in ('0', 'false', '')
     try:
         receipt = place(target_name=target_name, load_target=True, initial_state=initial_state,
-                        count_only=count_only, allow_missing_hide_labels=allow_missing)
+                        count_only=count_only, allow_missing_hide_labels=allow_missing, repair=repair)
         ue.log('release_enclosure[%s]: %s; hide labels resolved %s; state %s'
                % (target_name, receipt['status'],
                   (receipt.get('hideListResolution') or {}).get('resolved'), receipt.get('initialState')))

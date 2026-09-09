@@ -171,7 +171,7 @@ inline bool LockedSignatureMatches(const MikdashPeople::Person& Legacy,const Loc
 // A locked id whose legacy signature no longer matches gets NO extension and is NOT
 // refused here: the function returns true without touching Candidate, reports the change
 // through Note, and the standard classifier in TryPerson decides on the new route alone.
-// A matching signature keeps every original guard (origin zero, freshly decoded input,
+// A matching signature keeps the reviewed-frame guard (zero or the Aron pivot), freshly decoded input,
 // exact physical lengths, original corridor, reviewed region).
 inline bool TryAuthoredRouteExtension(const MikdashSceneUnits::Frame& Frame,
     const MikdashPeople::Person& Legacy,MikdashPeople::Person& Candidate,std::string& Error,std::string* Note=nullptr)
@@ -186,8 +186,13 @@ inline bool TryAuthoredRouteExtension(const MikdashSceneUnits::Frame& Frame,
         return true;
     }
     auto Fail=[&Error](const char* Why){Error=Why;return false;};
-    if(!MikdashSceneUnits::Valid(Frame) || Frame.FixedOrigin.X!=0 || Frame.FixedOrigin.Y!=0 || Frame.FixedOrigin.Z!=0)
-        return Fail("authored route extension requires reviewed selected48 origin zero");
+    // release_aron_alignment.spec.json moves the selected48 pivot to the legacy Aron.
+    // The route is already decoded through that frame below; physical lengths and the
+    // 25 cm edge adjustment are translation invariant. Unreviewed pivots still refuse.
+    const bool ReviewedPivot=(Frame.FixedOrigin.X==0 || Frame.FixedOrigin.X==-6200)
+        && Frame.FixedOrigin.Y==0 && Frame.FixedOrigin.Z==0;
+    if(!MikdashSceneUnits::Valid(Frame) || !ReviewedPivot)
+        return Fail("authored route extension requires reviewed selected48 zero or Aron pivot");
     if(Candidate.Route.size()!=4) return Fail("authored route extension source identity or shape changed");
     std::vector<MikdashRoute::Point2> Original;
     for(std::size_t I=0;I<4;++I)

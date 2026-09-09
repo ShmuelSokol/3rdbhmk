@@ -1,5 +1,36 @@
 # Mikdash native Unreal project — current state (2026-09-07, after the Walkthrough-06 release work)
 
+## Astra resumed after Claude limit (2026-09-09 UTC)
+
+Published checkpoint 9f3b5404 supersedes the historical status below: V15 on both maps,
+1490 limestone overrides, nine V3 variants imported, transit/birds/security/service placed.
+No fresh package accepted. Six interrupted source/script files were preserved under
+ReviewCheckpoints/AstraResume-20260909T010506Z before continuation.
+Enclosure imports had save=False: five mesh packages are absent on disk despite same-process
+instance readback. Main repair saved/reopened all five packages and actor references, receipt
+native-enclosure-Main50-20260909T010837451823Z: zero errors, protected maps unchanged.
+Main SHA12f8fe58403c023a8ec0412ce299f328448f758adbecc368072f719f028e2454.
+Fresh-process runtime verification and candidate binding remain pending. Never treat same-process readback as persistence.
+Resident V3 helper compared marker package paths with native object paths; normalize marker
+paths to explicit object paths before skeleton/readback/cast checks. Its old 0-movement
+receipt did not resume the initially paused front end. Updated probes explicitly resume/skip
+intro and body sampling uses simulated seconds with a separate wall-clock watchdog. These
+are verification repairs, not evidence yet that all 24 new bodies walk.
+Main body bindings saved/reopened native receipt resident-bodies-v3-apply-Main50-20260909T011239800399Z.
+Candidate missing Chananel is a route refusal, not a physical blocker: the approved Aron
+re-pivot changed the frame to (-6200,0,0), while the locked 25 cm route extension allowed
+only zero origin. The adapter now accepts those two reviewed pivots only and retains its
+source-signature, length, region/corridor and no-double-extension guards; new regression
+checks cover the exact -248 cm translation. Fresh compilation and native acceptance pending.
+Fresh enclosure PIE loaded all five assets and produced 467 wall, 5 gate, 4 corner and
+476 foundation instances. Its trace helper then failed on UE5.8's HitResult return shape;
+that receipt remains a failure, not full acceptance. Material InstancedStaticMeshes usage
+was missing on MI_PBR_LimestoneAshlar. Targeted override saved/compiled in real editor
+(material-instancing-20260909T011612069494Z, 389 pixel instructions, protected maps/PBR
+assets unchanged). Commandlet without a render resource returned 0 instructions and was
+correctly refused without saving. Fresh visual/usage verification remains required.
+
+
 Latest candidate group/render test180131188281 passes sampled51parties/201grouped+35individuals,4refused,19paused,98movingmembers,minsamplegap80.03cm. Two Temple crowd zones .96/four metric zones unchanged.15/24skeletal residents stillspawn; candidate remainsunpromoted. Real scene log has zero missing/auto-set Nanite usage messages after nine-instance repair. Root inspected180225: bright clipped surfaces, amber candidate lighting and simple figures remain. This is partial runtime acceptance, not final visuals/navigation/package.
 
 Latest material repair: nine exact PBR material instances now persist explicit Nanite usage overrides, saved/compiled receipt173857999122 and verified from different PID175937249147; maps/config/shared parent/other PBR asset hashes unchanged. UE5.8 material instances have independent usage overrides: use MaterialEditingLibrary.set_material_usage_override(instance,MATUSAGE_NANITE,True,True), update_material_instance, get_statistics, save, then fresh-process readback. Do not widen their shared parent or assume a base-material-only repair handles instances. Shared sampler counts do not equal texture counts. New helper release_nanite_instance_usage.py; historical base helper preserved. Render/cook acceptance is separate.

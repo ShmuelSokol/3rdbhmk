@@ -224,6 +224,18 @@ int main()
             Expect(!TryPerson(Selected,Changed,Out,Error,&ChangeNote)&&Error=="loop length must be 60 to 120 m"&&ChangeNote.empty(),"unknown short loop is never generically stretched and has no note");
             auto MovedOrigin=Selected;MovedOrigin.FixedOrigin.X=10;
             Expect(!TryPerson(MovedOrigin,Person,Out,Error),"authored origin-zero extension refuses moved frame");
+            auto AronFrame=Selected;AronFrame.FixedOrigin.X=-6200;
+            MikdashPeople::Person AronOut;
+            Expect(TryPerson(AronFrame,Person,AronOut,Error),"reviewed Aron pivot accepts the locked extension");
+            Expect(AronOut.Route.size()==Converted.Route.size(),"Aron pivot keeps waypoint count");
+            for(std::size_t I=0;I<AronOut.Route.size() && I<Converted.Route.size();++I)
+            {
+                Expect(Near(AronOut.Route[I].X,Converted.Route[I].X-248)
+                    && Near(AronOut.Route[I].Y,Converted.Route[I].Y)
+                    && Near(AronOut.Route[I].Z,Converted.Route[I].Z),"Aron pivot translates the extended route exactly 248 cm west");
+            }
+            auto AronTwice=AronOut;
+            Expect(!TryAuthoredRouteExtension(AronFrame,Person,AronTwice,Error),"Aron pivot still refuses a repeated extension");
             auto Twice=Converted;const double BeforeRetry=Twice.Route[South?0:2].Y;
             Expect(!TryAuthoredRouteExtension(Selected,Person,Twice,Error)
                 &&Twice.Route[South?0:2].Y==BeforeRetry,"direct repeated extension refuses without mutation");

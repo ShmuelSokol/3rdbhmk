@@ -9,7 +9,6 @@
 #include "Engine/ExponentialHeightFog.h"
 #include "Engine/PostProcessVolume.h"
 #include "Engine/SkyLight.h"
-#include "Engine/TextureCube.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
 #include "HAL/IConsoleManager.h"
@@ -81,7 +80,6 @@ AMikdashTimeOfDay::AMikdashTimeOfDay()
     // tick in the level editor would leave the map looking different from what is saved.
     PrimaryActorTick.bTickEvenWhenPaused = false;
     SetActorEnableCollision(false);
-    bIsEditorOnlyActor = false;
 
     BuildDefaultPresets();
 }
@@ -849,17 +847,13 @@ void AMikdashTimeOfDay::RecomputeBlend()
     }
 
     const double Now = Ring(TimeOfDayHours);
-    int32 Lower = 0;
-    for (int32 I = 0; I + 1 < 9; ++I)
+    int32 Lower = 7;
+    for (int32 I = 0; I < 8; ++I)
     {
-        if (Now >= Keys[I].RingHours && Now <= Keys[I + 1].RingHours)
+        if (Now <= Keys[I + 1].RingHours)
         {
             Lower = I;
             break;
-        }
-        if (I + 2 == 9)
-        {
-            Lower = 7;
         }
     }
     const double Span = FMath::Max(1e-6, Keys[Lower + 1].RingHours - Keys[Lower].RingHours);
@@ -914,7 +908,15 @@ void AMikdashTimeOfDay::ApplyNow()
     RecomputeAstronomy();
     RecomputeBlend();
     ApplyToScene();
-    OnTimeOfDayChanged.Broadcast(TimeOfDayHours, CachedSunAltitudeDeg);
+    // Frozen scenes re-apply every tick (weather and wind keep moving) but must not spam
+    // listeners: broadcast only when the clock or the date actually moved.
+    const int32 DateKey = Year * 10000 + Month * 100 + Day;
+    if (!FMath::IsNearlyEqual(TimeOfDayHours, LastBroadcastHours, 1e-4f) || DateKey != LastBroadcastDateKey)
+    {
+        LastBroadcastHours = TimeOfDayHours;
+        LastBroadcastDateKey = DateKey;
+        OnTimeOfDayChanged.Broadcast(TimeOfDayHours, CachedSunAltitudeDeg);
+    }
 }
 
 void AMikdashTimeOfDay::ApplyToScene()

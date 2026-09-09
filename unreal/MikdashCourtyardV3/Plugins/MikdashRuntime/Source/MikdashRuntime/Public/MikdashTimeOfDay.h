@@ -13,7 +13,6 @@ class ASkyLight;
 class AVolumetricCloud;
 class UMaterialInstanceDynamic;
 class UMaterialInterface;
-class UTextureCube;
 
 /** The eight named times of day. Mirrors MikdashSun::ETimePreset one-for-one; the
  * reflected copy exists because UENUM cannot wrap a plain enum class from a non-UObject
@@ -405,12 +404,10 @@ public:
     // Night sky
     // -----------------------------------------------------------------------
 
-    /** Optional star cubemap. LEFT EMPTY BY DEFAULT ON PURPOSE: assigning it switches the
-     * sky light from SLS_CAPTURED_SCENE (which the reviewed scene uses) to a specified
-     * cubemap at night, which is a visible change to how the whole scene is lit. Set it
-     * only after a night render has been reviewed. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Night")
-    TSoftObjectPtr<UTextureCube> NightSkyCubemap;
+    // A star cubemap is deliberately NOT offered here: applying one means switching the sky
+    // light from SLS_CAPTURED_SCENE to a specified cubemap at night, which changes how the
+    // whole scene is lit and is a review decision, not a default. The night sky is the
+    // atmosphere lit by the moon (atmosphere light index 1) plus NightSkyLightFloor.
 
     /** Sun altitude, in degrees, below which "night" lighting is fully in effect. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Night")
@@ -606,6 +603,8 @@ protected:
 
     float CachedNightBlend = 0.f;
     float LastRecaptureSunAltitudeDeg = -1000.f;
+    float LastBroadcastHours = -1.f;
+    int32 LastBroadcastDateKey = 0;
 
     float WindDirectionDeg = 270.f;
     float WindSpeedKph = 8.f;

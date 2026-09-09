@@ -62,6 +62,9 @@ Commandlet invocation (serial, never while another native job is running):
 Optional switches (read from the engine command line):
   -GateSecurityGates=east,north      comma-separated subset of east,north,south.
   -GateSecurityImportOnly            import and material work only; no map mutation.
+  -GateSecurityVerifyOnly            READ-ONLY: re-read every planned actor against the spec
+                                     (mesh, pose, bounds, sign material, collision) and write
+                                     a verify receipt. No checkpoint, no spawn, no save.
   -GateSecurityAllowUnverifiedWinding    place even if GeometryScripting is unavailable.
 
 UE 5.8 pitfalls this script is written against
@@ -100,6 +103,26 @@ from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_gate_security.spec.json'
+HELPER_PATH = ROOT / 'Scripts' / 'release_place_assets.py'
+_HELPER = None
+
+
+def helper():
+    """release_place_assets.py, loaded by path: the one place the before/after comparison
+    rules live (snapshot_row, numeric_baseline_rows, diff_baselines, LOAD_CHURN_REGRESSION)."""
+    global _HELPER
+    if _HELPER is None:
+        import importlib.util
+        module_spec = importlib.util.spec_from_file_location('release_place_assets', HELPER_PATH)
+        module = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(module)
+        for name in ('snapshot_row', 'numeric_baseline_rows', 'baseline_exclusions',
+                     'diff_baselines', 'selftest_snapshot_rules', 'LOAD_CHURN_REGRESSION'):
+            if not hasattr(module, name):
+                raise RuntimeError('release_place_assets.py lacks ' + name)
+        _HELPER = module
+    return _HELPER
+
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 GATE_ORDER = ('east', 'north', 'south')
 
@@ -469,6 +492,10 @@ def offline_check(spec=None):
         report['problems'].append('planned triangles %d exceed the budget %d'
                                   % (total, report['triangleBudget']))
     report['westGateOmitted'] = spec['westGate']
+    try:
+        report['snapshotRulesSelfTest'] = helper().selftest_snapshot_rules()
+    except Exception as error:  # noqa: BLE001
+        report['problems'].append('shared snapshot rules self-test failed: %r' % error)
     report['passed'] = not report['problems']
     return report
 
@@ -857,6 +884,7 @@ class GateSecurity(object):
         self.snapshot = []
         self.materials = {}
         self.sign_materials = {}
+        self.excluded_names = set()
 
     # -- receipt -----------------------------------------------------------
     def write_receipt(self):
@@ -865,29 +893,46 @@ class GateSecurity(object):
                                          encoding='utf-8')
 
     # -- world snapshot ----------------------------------------------------
+    # All comparison rules live in release_place_assets.py (see LOAD_CHURN_REGRESSION there).
+    # This script compares STRICTLY -- bounds included -- but bounds only ever enter the key
+    # for actors with no instanced component, which is exactly what the 2026-09-08 refusal
+    # got wrong: it put the instance-derived AABB of ten ISM/HISM carriers into the key.
+    def _map_package(self):
+        world = self.world or self.editor.get_editor_world()
+        return world.get_outermost().get_name()
+
     def take_snapshot(self):
-        ue = self.ue
-        rows = []
-        for actor in self.actors_sub.get_all_level_actors():
-            if actor is None:
-                continue
-            meshes = []
-            for component in actor.get_components_by_class(ue.StaticMeshComponent):
-                mesh = component.get_editor_property('static_mesh')
-                if mesh is not None:
-                    meshes.append(_asset_path(mesh))
-            rows.append({'actor': actor, 'name': actor.get_name(),
-                         'label': actor.get_actor_label(),
-                         'folder': str(actor.get_folder_path()),
-                         'meshes': sorted(meshes), 'pose': _actor_pose(actor),
-                         'bounds': _actor_bounds(actor)})
+        h = helper()
+        map_package = self._map_package()
+        rows = [h.snapshot_row(self.ue, actor, map_package)
+                for actor in self.actors_sub.get_all_level_actors() if actor is not None]
         self.snapshot = rows
         return rows
 
-    @staticmethod
-    def numeric_baseline(rows):
-        return {row['name']: {'label': row['label'], 'meshes': row['meshes'],
-                              'pose': row['pose'], 'bounds': row['bounds']} for row in rows}
+    def numeric_baseline(self, rows):
+        return helper().numeric_baseline_rows(rows, strict=True, exclude=self.excluded_names)
+
+    def baseline_exclusions(self, rows):
+        return helper().baseline_exclusions(rows, exclude=self.excluded_names)
+
+    def diff(self, before_rows, after_rows):
+        return helper().diff_baselines(before_rows, after_rows, strict=True, exclude=self.excluded_names)
+
+    def probe_load_churn(self):
+        """Two pristine loads, before any mutation: whatever differs is load churn, recorded
+        and excluded. Catches in-level RF_Transient spawns too, which Python cannot flag."""
+        first = self.snapshot or self.take_snapshot()
+        if not self.levels.load_level(TARGET):
+            raise RuntimeError('probe_load_churn: reload failed')
+        self.world = self.editor.get_editor_world()
+        if self.world.get_outermost().get_name() != TARGET:
+            raise RuntimeError('probe_load_churn: reloaded world is not the target')
+        second = self.take_snapshot()
+        churn = helper().diff_baselines(first, second, strict=True)
+        names = sorted({d['name'] for d in churn})
+        self.excluded_names |= set(names)
+        return {'unstableActors': names, 'evidence': churn,
+                'rule': 'differs between two pristine loads with nothing touched -> excluded'}
 
     # -- gate confirmation -------------------------------------------------
     def confirm_gate(self, gate_key):
@@ -1408,7 +1453,10 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
 
         # ---- the map ----
         run_state.take_snapshot()
-        baseline = run_state.numeric_baseline(run_state.snapshot)
+        run_state.receipt['loadChurnProbe'] = run_state.probe_load_churn()
+        run_state.receipt['baselineExclusions'] = run_state.baseline_exclusions(run_state.snapshot)
+        baseline_rows = list(run_state.snapshot)
+        baseline = run_state.numeric_baseline(baseline_rows)
         label_prefix = spec['labelPrefix'] + spec['group'] + '_'
         pre_existing = [row for row in run_state.snapshot
                         if row['label'].startswith(label_prefix)
@@ -1442,9 +1490,11 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
             run_state.receipt['status'] = 'nothing_placed_map_unchanged'
             return run_state.receipt
 
-        current = run_state.numeric_baseline(run_state.take_snapshot())
+        current_rows = run_state.take_snapshot()
+        current = run_state.numeric_baseline(current_rows)
         changed = [name for name, row in baseline.items() if current.get(name) != row]
         if changed:
+            run_state.receipt['baselineDiffBeforeSave'] = run_state.diff(baseline_rows, current_rows)
             raise RuntimeError('Pre-existing actors changed before save: %s' % changed[:10])
 
         run_state.receipt['zombieEditorCheckBeforeSave'] = _zombie_editors()
@@ -1464,6 +1514,7 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
         reopened_numeric = run_state.numeric_baseline(reopened)
         changed = [name for name, row in baseline.items() if reopened_numeric.get(name) != row]
         if changed:
+            run_state.receipt['baselineDiffAfterReopen'] = run_state.diff(baseline_rows, reopened)
             raise RuntimeError('Pre-existing actors differ after reopen: %s' % changed[:10])
 
         verify = spec['verification']
@@ -1519,6 +1570,99 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
         run_state.write_receipt()
 
 
+def verify_in_place(gates=GATE_ORDER, load_target=True):
+    """READ-ONLY. Load the map, find every RELEASE_GateSecurity_* actor the spec plans, and
+    read it back numerically against the plan: mesh path, pose, world bounds, sign material
+    override, collision profile. Also re-confirms the gate anchors. No checkpoint, no spawn,
+    no save. Writes a receipt and raises if anything planned is missing or different."""
+    import unreal as ue
+    gates = normalise_gates(gates)
+    spec = load_spec()
+    if Path(ue.Paths.project_dir()).resolve() != ROOT:
+        raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
+    run_state = GateSecurity(ue, spec)
+    if run_state.editor.get_game_world():
+        raise RuntimeError('A game world is active')
+    if load_target and not run_state.levels.load_level(TARGET):
+        raise RuntimeError('load_level failed for ' + TARGET)
+    run_state.world = run_state.editor.get_editor_world()
+    if run_state.world.get_outermost().get_name() != TARGET:
+        raise RuntimeError('Loaded world is not the target map')
+    map_file = disk_path(TARGET, 'umap')
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+    folder = ROOT / spec['receiptFolder']
+    folder.mkdir(parents=True, exist_ok=True)
+    run_state.receipt_path = folder / (spec['receiptPrefix'] + 'verify-' + stamp + '.json')
+    run_state.receipt = {'status': 'verify_started', 'mode': 'read_only_verify', 'stamp': stamp,
+                         'map': TARGET, 'mapSha256': sha256_of(map_file), 'specSha256': sha256_of(SPEC_PATH),
+                         'gatesRequested': list(gates), 'gates': {}, 'problems': [], 'mapSaved': False}
+    run_state.write_receipt()
+    verify = spec['verification']
+    try:
+        rows = run_state.take_snapshot()
+        by_label = {}
+        for row in rows:
+            by_label.setdefault(row['label'], []).append(row)
+        total_ok = 0
+        for gate_key in gates:
+            entry = {'anchors': None, 'actors': [], 'problems': []}
+            try:
+                entry['anchors'] = run_state.confirm_gate(gate_key)
+            except OmissionError as omission:
+                entry['problems'].append('anchor: %s' % omission)
+            for plan in plan_gate(spec, gate_key):
+                found = by_label.get(plan['label'], [])
+                rec = {'label': plan['label'], 'found': len(found)}
+                if len(found) != 1:
+                    rec['problem'] = 'expected exactly one actor, found %d' % len(found)
+                    entry['problems'].append(rec['problem'] + ': ' + plan['label'])
+                    entry['actors'].append(rec)
+                    continue
+                row = found[0]
+                rec.update({'meshPath': row['meshes'], 'pose': row['pose'], 'worldBoundsCm': row['bounds'],
+                            'folder': row['folder'], 'class': row['class']})
+                if row['meshes'] != [plan['mesh']]:
+                    rec['problem'] = 'mesh differs'
+                close, err = _pose_close(row['pose'], plan['location'], plan['rotation'], plan['scale'],
+                                         verify['transformToleranceCm'])
+                rec['poseErrorCm'] = err
+                if not close:
+                    rec['problem'] = 'pose differs by %.5f cm' % err
+                rec['boundsErrorCm'] = round(box_error(row['bounds'], plan['plannedWorldBoundsCm']), 5)
+                if rec['boundsErrorCm'] > verify['staticBoundsToleranceCm']:
+                    rec['problem'] = 'bounds differ by %.5f cm' % rec['boundsErrorCm']
+                component = row['actor'].get_component_by_class(ue.StaticMeshComponent)
+                rec['collisionProfile'] = str(component.get_collision_profile_name())
+                if plan['sign']:
+                    observed = [_asset_path(component.get_material(k)) for k in range(component.get_num_materials())]
+                    rec['signMaterialReadback'] = observed
+                    expected = spec['signs'][plan['sign']]['materialInstance']
+                    if not observed or any(o != expected for o in observed):
+                        rec['problem'] = 'sign material differs: %r' % observed
+                if 'problem' in rec:
+                    entry['problems'].append(rec['problem'] + ': ' + plan['label'])
+                else:
+                    total_ok += 1
+                entry['actors'].append(rec)
+            entry['verified'] = sum(1 for a in entry['actors'] if 'problem' not in a and a['found'] == 1)
+            entry['planned'] = len(entry['actors'])
+            run_state.receipt['gates'][gate_key] = entry
+            run_state.receipt['problems'] += entry['problems']
+            run_state.write_receipt()
+        run_state.receipt['verifiedActorCount'] = total_ok
+        run_state.receipt['plannedActorCount'] = sum(g['planned'] for g in run_state.receipt['gates'].values())
+        run_state.receipt['status'] = ('gate_security_verified_in_place' if not run_state.receipt['problems']
+                                       else 'gate_security_verify_failed')
+        if run_state.receipt['problems']:
+            raise RuntimeError('verify: %d problem(s): %s' % (len(run_state.receipt['problems']),
+                                                            run_state.receipt['problems'][:5]))
+        return run_state.receipt
+    finally:
+        run_state.receipt['mapSha256After'] = sha256_of(map_file)
+        run_state.receipt['mapBytesChanged'] = run_state.receipt['mapSha256After'] != run_state.receipt['mapSha256']
+        run_state.write_receipt()
+
+
 # ==========================================================================
 # Entry points
 # ==========================================================================
@@ -1545,12 +1689,18 @@ def _main():
     import unreal as ue
     command_line = ue.SystemLibrary.get_command_line().lower()
     gates = GATE_ORDER
+    verify_only = '-gatesecurityverifyonly' in command_line
     import_only = '-gatesecurityimportonly' in command_line
     allow_unverified = '-gatesecurityallowunverifiedwinding' in command_line
     for token in command_line.split():
         if token.startswith('-gatesecuritygates='):
             gates = normalise_gates(token.split('=', 1)[1].strip('"'))
     try:
+        if verify_only:
+            receipt = verify_in_place(gates=gates)
+            ue.log('release_gate_security VERIFY: %s verified %s of %s planned'
+                   % (receipt['status'], receipt.get('verifiedActorCount'), receipt.get('plannedActorCount')))
+            return
         receipt = run(gates=gates, import_only=import_only,
                       allow_unverified_winding=allow_unverified)
         ue.log('release_gate_security: %s gates %s placed %s omitted %s'

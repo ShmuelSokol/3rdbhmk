@@ -1,0 +1,20 @@
+{
+  "status": "compiled_not_placed",
+  "helper": "Scripts/release_service_candidate48.py",
+  "target": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "nativePrerequisite": "Service adapter and reflected version marker compiled in verify-ubt-7w4t65wn.log on 2026-09-09; native helper still checks GetServiceSceneFrameAdapterVersion returns 1 before placement.",
+  "applySwitch": "-Service48ExpectedHash=<current candidate SHA256>",
+  "freshVerifySwitch": "-Service48Verify=<absolute successful apply receipt>",
+  "coordinateContract": "Copy legacy50 station properties verbatim from release_kohen_service.spec.json. Native BuildSequence decodes once using Selected48.v1, revision 1, pivot [-6200,0,0]. Only the actor origin is pre-positioned at [-3320,0,888].",
+  "startup": false,
+  "ownership": "Create exactly one RELEASE_KohenGadolService_Selected48_V1; refuse any pre-existing service instance or ownership collision, including subclasses. Never replace or delete existing actors.",
+  "preservation": "Checkpoint target map and external folders; protect every other Content file including all other maps. Strict shared persistent snapshots and static mesh material bindings; refuse pristine reload churn before mutation.",
+  "notEstablished": [
+    "Native reflection readback in the placement process",
+    "Map placement and fresh-process persistence",
+    "Candidate service route floor/capsule clearance",
+    "Animation, garment quality and authored body fallback",
+    "Runtime completion and ordinary-day boundary enforcement",
+    "Visual, halachic, packaged or release acceptance"
+  ]
+}

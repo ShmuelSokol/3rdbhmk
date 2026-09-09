@@ -1,3 +1,43 @@
+## Current integration — 2026-09-09 04:53 UTC
+
+Main intro050722047734Z now observes playback from0.0s through natural completion,
+602samples, zero continuous sweep/headroom hits, controls restored, no map/save changes.
+Approach/inside gate images reviewed: opening visible and camera emerges inside.
+Two stills and NoCollision traces do not certify all intermediate portal clearance.
+Candidate48 same-route probe is underway. Gold saved/fresh-verified state is93483d25.
+
+Full gate now9/9,32/32math suites; UHT+8-action UBT succeeded40.48s in
+verify-ubt-7w4t65wn.log. Service adapter/version marker and cinematic timing gate
+compiled. Main live intro retry with gate screenshots is next; candidate service
+placement still pending. Earlier unbuilt labels below are historical.
+
+Gold fresh process050035209417Z verifies1113 slots and unchanged map hash93483d25;
+protected content differences empty. Native/orbit timing gate now has17 focused MSVC
+checks; full Unreal build pending. Intro probe now requires observing the first0.5s
+and never sweeps across a change of view target. Earlier late-start receipt is retained.
+
+Gold main apply045818582514Z saved/reopened1113 slots, zero protected differences;
+main SHA93483d25ff23e01ee1462845b958d9c2139f2cd2e7177cf5e3e3141dd4ae1432.
+Fresh-process readback is pending. Intro startup gap is a native FTSTicker clock bug:
+new callbacks consume the whole startup frame delta. Native/orbit clock correction
+is in progress; do not treat the prior natural finish as complete opening playback.
+
+Main intro retry045552785959Z naturally finished and restored movement/look controls;
+all maps/saves unchanged. First probe failed on unreflected pc.get_pawn; use
+GameplayStatics.get_player_pawn. One sweep hit spans the initial pawn-to-cinematic
+camera cut, not a continuous route segment; probe now separates camera cuts. The first
+playing sample already reports 22.92 seconds elapsed, so opening timing is under review
+and full-route observation remains unproven. Do not hide that gap under a finish result.
+
+Gold vessel A/B045055Z completed without errors, all maps/original saves unchanged.
+Both 1920x1080 views reviewed: six vessel components with the existing matte gold
+show more altar detail and less Shulchan white glare. Bounded improvement accepted;
+map persistence is pending. Intro natural-route runtime probe now being exercised.
+Candidate service helper prepared with startup disabled and legacy station anchors;
+the reflected adapter version marker and four service adapter files still need UBT.
+Public video download verified anonymously HTTP200 with matching SHA; release tag
+scene-preview-2026-09-09, video workflow commit38078c4e.
+
 ## Movie export lessons — 2026-09-09
 
 V5 capture accepted as a WIP preview: 960 frames at 896x504 avoid the preview downsize,

@@ -9,6 +9,7 @@ NoCollision gate geometry means no claim of safe passage from clear traces alone
 import hashlib
 import json
 import os
+import struct
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,6 +23,7 @@ MAP=MAPS[TARGET]
 STAMP = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 OUT = ROOT / 'SourceAssets/cinematics-review' / ('intro-runtime-' + TARGET + '-' + STAMP + '.json')
 CMD = u.SystemLibrary.get_command_line()
+CAPTURE_GATES = '-introcapturegates' in CMD.lower()
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
 levels = u.get_editor_subsystem(u.LevelEditorSubsystem)
 settings = u.get_default_object(u.load_class(None, '/Script/UnrealEd.LevelEditorPlaySettings'))
@@ -71,6 +73,17 @@ def shutdown():
         report['originalSavesUnchanged'] = saves() == report['savesBefore']
         if not report['mapsUnchanged'] or not report['originalSavesUnchanged']:
             report['errors'].append('Persistence guard failed')
+        if CAPTURE_GATES:
+            shots=report.get('gateScreenshots',[])
+            if len(shots)!=2:report['errors'].append('Expected two gate screenshots')
+            for shot in shots:
+                path=Path(shot['path'])
+                if not path.is_file():
+                    report['errors'].append('Missing gate screenshot '+str(path));continue
+                with path.open('rb') as stream:header=stream.read(24)
+                shot['headerValid']=len(header)==24 and header[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',header[16:24])==(1280,720)
+                if not shot['headerValid']:report['errors'].append('Invalid gate screenshot header')
+                shot['sha256']=sha(path)
         if report['errors']:
             report['status'] = 'failed_' + report['status']
         write()
@@ -139,24 +152,42 @@ def tick(dt):
             manager=u.GameplayStatics.get_player_camera_manager(world,0)
             if not manager:raise RuntimeError('No player camera manager')
             pos=manager.get_camera_location()
-            target=pc.get_view_target();ignored=[v for v in (pc.get_pawn(),target) if v]
-            collision=trace(world,state.get('last_position',pos),pos,ignored)
+            target=pc.get_view_target();ignored=[v for v in (u.GameplayStatics.get_player_pawn(world,0),target) if v]
+            target_name=target.get_name() if target else None
+            continuous=playing and state.get('last_playing',False) and target_name==state.get('last_view_target')
+            collision=trace(world,state.get('last_position',pos),pos,ignored) if continuous else None
             overhead=trace(world,pos,pos+u.Vector(0,0,100),ignored)
             row={'seconds':elapsed,'introElapsed':cine.get_elapsed_seconds(),'playing':playing,
-                'camera':xyz(pos),'viewTarget':target.get_name() if target else None,
+                'camera':xyz(pos),'viewTarget':target_name,'continuousIntroSegment':continuous,
                 'moveIgnored':pc.is_move_input_ignored(),'lookIgnored':pc.is_look_input_ignored(),
                 'sweepHit':collision,'headroomHit':overhead}
             report['samples'].append(row);state['last_position']=pos;state['last_sample']=elapsed
+            state['last_playing']=playing;state['last_view_target']=target_name
+            if CAPTURE_GATES and playing:
+                gates=[tr['location'][0] for group in report['gateComponents'] for tr in group['instances']]
+                if not gates:raise RuntimeError('No gate geometry for captures')
+                east=max(gates)
+                shots=report.setdefault('gateScreenshots',[])
+                for label,threshold in [('approach',east+2000),('inside',east-1000)]:
+                    if pos.x<=threshold and not any(s['label']==label for s in shots):
+                        image_path=OUT.parent/('intro-gate-'+TARGET+'-'+STAMP+'-'+label+'.png')
+                        if image_path.exists():raise RuntimeError('Capture output already exists')
+                        shots.append({'label':label,'path':str(image_path),'camera':xyz(pos),'introElapsed':cine.get_elapsed_seconds(),'visualReview':'pending'})
+                        u.SystemLibrary.execute_console_command(world,'HighResShot 1280x720 filename="'+str(image_path)+'"',pc)
+                        break
             if len(report['samples'])%30==0:write()
         if state.get('observed_playing') and not playing:
             report['finish']={'hasPlayed':cine.has_played_this_session(),'route':cine.get_playback_route(),
                 'refusal':cine.get_last_refusal_reason(),'moveUnlocked':not pc.is_move_input_ignored(),
                 'lookUnlocked':not pc.is_look_input_ignored()}
             positions=[r['camera'] for r in report['samples'] if r['playing']]
+            playing_samples=[r for r in report['samples'] if r['playing']]
+            report['firstObservedIntroSeconds']=playing_samples[0]['introElapsed'] if playing_samples else None
+            report['openingObserved']=bool(playing_samples) and report['firstObservedIntroSeconds']<=0.5
             report['observedEastApproach']=bool(positions) and positions[0][0]>100000 and positions[-1][0]<10000
             report['sweepHits']=sum(r['sweepHit'] is not None for r in report['samples'])
             report['headroomHits']=sum(r['headroomHit'] is not None for r in report['samples'])
-            passed=report['observedEastApproach'] and report['finish']['hasPlayed'] and report['finish']['moveUnlocked'] and report['finish']['lookUnlocked']
+            passed=report['openingObserved'] and report['observedEastApproach'] and report['finish']['hasPlayed'] and report['finish']['moveUnlocked'] and report['finish']['lookUnlocked']
             if TARGET=='Candidate48':
                 passed=passed and report['finish']['route']=='native'
             finish('natural_intro_finished_controls_unlocked_geometry_review_pending' if passed else 'failed_intro_acceptance')

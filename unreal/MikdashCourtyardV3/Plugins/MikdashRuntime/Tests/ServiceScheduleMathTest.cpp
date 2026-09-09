@@ -265,6 +265,35 @@ int main()
     }
     Check(WentInside, "the Yom Kippur scenario, and only it, passes the paroches");
 
+    // Frame adapter: production48cm pivot, with physical safety margins unchanged.
+    MikdashSceneUnits::Frame Frame48;
+    Frame48.CoordinateRevision=MikdashSceneUnits::Revision::Selected48V1;
+    Frame48.FixedOrigin={-6200,0,0};
+    Anchors Selected; Geometry Geometry48;
+    Check(DecodeScene(Frame48,A,Selected,Geometry48), "48cm anchors decode");
+    Check(std::abs(Geometry48.KodeshLineX+5624)<1e-7 && Geometry48.FloorZ==888 && Geometry48.StoneTopZ==936, "48cm geometry follows pivot");
+    Check(std::abs(Selected.LampZ-1032)<1e-7, "measured menorah height scales to144cm");
+    Check(Selected.AltarFace.Z-Selected.GoldenAltar.Z==100, "physical look offset unchanged");
+    Check(!HeightPermitted(Geometry48.FloorZ+3.01,Geometry48) && HeightPermitted(Geometry48.FloorZ+3,Geometry48), "physical3cm floor tolerance unchanged");
+    Plan P48; Refusal Why48;
+    Check(BuildMenorahSequence(Scenario::OrdinaryDay,Selected,Lamps,Dwell,P48,Why48,Geometry48), "48cm plan builds");
+    Sequencer Run48;
+    Check(Run48.Configure(Scenario::OrdinaryDay,P48,90,90,180,360,Geometry48), "48cm plan validates with physical90cm speed");
+    for (std::size_t I=0;I<P48.Count;++I)
+    {
+        Check(ZoneOf(P48.Items[I].Stand,Geometry48)!=Zone::Outside, "48cm station within envelope");
+        Check(HeightPermitted(P48.Items[I].Stand.Z,Geometry48), "48cm station stands at correct height");
+    }
+    for(std::size_t I=0;I<7;++I)
+        Check(Selected.StandForLamp(I).Z==936 && Selected.LampAt(I).Z==1032, "all7stone/lamp heights converted");
+    Check(!SegmentPermitted(Scenario::OrdinaryDay,Selected.GoldenAltar,{Geometry48.KodeshLineX,0,888},Why48,Geometry48), "48cm exact paroches boundary refuses");
+    Anchors Sentinel=Selected; Geometry SavedGeometry=Geometry48;
+    Check(!DecodeScene(Frame48,Selected,Sentinel,Geometry48) && Sentinel.LampZ==Selected.LampZ, "double conversion refuses without mutation");
+    MikdashSceneUnits::Frame InvalidFrame=Frame48;InvalidFrame.SchemaVersion=2;
+    Check(!DecodeScene(InvalidFrame,A,Sentinel,Geometry48) && Geometry48.FloorZ==SavedGeometry.FloorZ, "unknown frame refuses transactionally");
+    MikdashSceneUnits::Frame LegacyFrame;Anchors LegacyDecoded;Geometry LegacyGeometry;
+    Check(DecodeScene(LegacyFrame,A,LegacyDecoded,LegacyGeometry) && LegacyDecoded.LampZ==A.LampZ && LegacyGeometry.FloorZ==FloorZ, "legacy decode unchanged");
+
     std::cout << "Service schedule: " << Passed
               << " checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, "
                  "five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)\n";

@@ -43,6 +43,7 @@
 
 #include "CoreMinimal.h"
 #include "CameraPathMath.h"
+#include "CinematicTimingMath.h"
 #include "MikdashSceneUnitsMath.h"
 #include "Containers/Ticker.h"
 #include "Subsystems/GameInstanceSubsystem.h"
@@ -233,6 +234,7 @@ private:
     double AimRoll = 0.0;
     double PreviousYaw = 0.0;
     float Elapsed = 0.0f;
+    MikdashCinematicTiming::StepGate NativeStepGate;
     float ActiveDuration = 0.0f;
     bool bPlaying = false;
     bool bPlayedThisSession = false;

@@ -132,6 +132,8 @@ public:
      * floor X -5600..-3600). The release script writes them explicitly so a
      * human can review the numbers in the map. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Stations")
+    // Immutable legacy50 authored anchors; runtime decodes once through the world frame.
+    // Candidate placement must not pre-convert these properties.
     FVector UlamApproachPoint = FVector(-3200.0, 0.0, 925.0);
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Stations")
     FVector DoorwayPoint = FVector(-3450.0, 0.0, 925.0);
@@ -199,6 +201,9 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     bool IsServiceActive() const { return bActive; }
+    /** Versioned placement guard: anchors remain legacy50 and decode once at runtime. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceSceneFrameAdapterVersion() const { return 1; }
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     FString GetServiceStatus() const { return Status; }
     /** Which mesh and which garment material were actually used, and why. */
@@ -246,6 +251,7 @@ private:
 
     MikdashService::Sequencer Runner;
     MikdashService::Plan Sequence;
+    MikdashService::Geometry SceneGeometry;
     bool bActive = false;
     bool bPaused = false;
     /** Cached leg review; refreshed on a new leg and while held. */

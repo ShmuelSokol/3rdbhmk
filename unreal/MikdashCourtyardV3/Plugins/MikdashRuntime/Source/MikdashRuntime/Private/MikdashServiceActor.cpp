@@ -1,3 +1,4 @@
+#include "MikdashSceneUnits.h"
 #include "MikdashServiceActor.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/SkeletalMeshActor.h"
@@ -131,6 +132,13 @@ bool AMikdashServiceActor::BuildSequence(FString& OutReason)
     A.MenorahCentreY = MenorahPoint.Y;
     A.LampZ = MenorahPoint.Z + 150.0;
 
+    MikdashSceneUnits::Frame Frame;
+    if (!AMikdashSceneUnits::Resolve(GetWorld(), Frame, OutReason)) return false;
+    Anchors Decoded;
+    if (!DecodeScene(Frame, A, Decoded, SceneGeometry))
+    { OutReason = TEXT("Invalid service scene-frame/legacy anchor conversion."); return false; }
+    A = Decoded;
+
     LampSchedule Lamps;
     Lamps.PerLampSeconds = PerLampSeconds;
     DwellTimes Dwell;
@@ -143,7 +151,7 @@ bool AMikdashServiceActor::BuildSequence(FString& OutReason)
     Dwell.InnerSeconds = InnerSeconds;
 
     Refusal Why = Refusal::None;
-    if (!BuildMenorahSequence(NativeScenario(), A, Lamps, Dwell, Sequence, Why))
+    if (!BuildMenorahSequence(NativeScenario(), A, Lamps, Dwell, Sequence, Why, SceneGeometry))
     {
         OutReason = FString::Printf(TEXT("The sequence could not be built: %s."), RefusalText(Why));
         return false;
@@ -155,11 +163,11 @@ bool AMikdashServiceActor::BuildSequence(FString& OutReason)
     if (NativeScenario() == MikdashService::Scenario::YomKippur)
     {
         MaxSeconds += InnerSeconds + DoorwaySeconds
-            + 2.0 * FVector::Dist2D(FVector(KodeshLineX, 0, 0), InnerStandPoint) / FMath::Max(1.f, WalkSpeedCmPerSec);
+            + 2.0 * FVector::Dist2D(FVector(SceneGeometry.KodeshLineX, 0, 0), ToUnreal(A.InnerStand)) / FMath::Max(1.f, WalkSpeedCmPerSec);
     }
 
     if (!Runner.Configure(NativeScenario(), Sequence, WalkSpeedCmPerSec,
-            RepeatIntervalSeconds, MinLoopSeconds, MaxSeconds))
+            RepeatIntervalSeconds, MinLoopSeconds, MaxSeconds, SceneGeometry))
     {
         OutReason = FString::Printf(
             TEXT("The sequence was refused at station %d: %s. Nothing moved."),
@@ -289,14 +297,14 @@ bool AMikdashServiceActor::MoveIsPermitted(const FVector& To, FString& OutReason
         OutReason = TEXT("the requested position is not a usable number.");
         return false;
     }
-    if (NativeScenario() == MikdashService::Scenario::OrdinaryDay && To.X <= KodeshLineX)
+    if (NativeScenario() == MikdashService::Scenario::OrdinaryDay && To.X <= SceneGeometry.KodeshLineX)
     {
         OutReason = FString::Printf(
             TEXT("the ordinary-day scenario does not permit X %.1f, which reaches the paroches line at %.1f; the Kodesh HaKodashim is entered only on Yom Kippur."),
-            To.X, KodeshLineX);
+            To.X, SceneGeometry.KodeshLineX);
         return false;
     }
-    const Zone Where = ZoneOf(ToNative(To));
+    const Zone Where = ZoneOf(ToNative(To), SceneGeometry);
     if (Where == Zone::Outside)
     {
         OutReason = FString::Printf(TEXT("the position (%.1f, %.1f) is outside the measured Ulam, doorway and Heikhal floor."), To.X, To.Y);

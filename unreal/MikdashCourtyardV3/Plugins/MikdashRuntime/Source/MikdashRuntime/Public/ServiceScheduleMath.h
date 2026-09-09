@@ -1,3 +1,4 @@
+#include "MikdashSceneUnitsMath.h"
 #pragma once
 #include <array>
 #include <cmath>
@@ -140,23 +141,38 @@ inline bool Between(double V, double Low, double High)
     return V >= Low && V <= High;
 }
 
+struct Geometry
+{
+    double KodeshLineX = MikdashService::KodeshLineX;
+    double ParochesBandWestX = MikdashService::ParochesBandWestX;
+    double KodeshWestX = MikdashService::KodeshWestX;
+    double HeikhalEastX = MikdashService::HeikhalEastX;
+    double UlamWestX = MikdashService::UlamWestX;
+    double UlamEastX = MikdashService::UlamEastX;
+    double SanctuaryHalfY = MikdashService::SanctuaryHalfY;
+    double DoorwayHalfY = MikdashService::DoorwayHalfY;
+    double ParochesGapHalfY = MikdashService::ParochesGapHalfY;
+    double FloorZ = MikdashService::FloorZ;
+    double StoneTopZ = MikdashService::StoneTopZ;
+};
+
 // XY zone only. Height is checked separately: a point may legitimately sit on
 // the floor (925) or on top of the three-step stone (975).
-inline Zone ZoneOf(const Point3& P)
+inline Zone ZoneOf(const Point3& P, const Geometry& G = Geometry{})
 {
     if (!Finite(P)) return Zone::Outside;
     const double AbsY = std::fabs(P.Y);
-    if (Between(P.X, UlamWestX + EdgeInsetCm, UlamEastX - EdgeInsetCm)
-        && AbsY <= SanctuaryHalfY - EdgeInsetCm) return Zone::Ulam;
-    if (Between(P.X, HeikhalEastX, UlamWestX + EdgeInsetCm)
-        && AbsY <= DoorwayHalfY - EdgeInsetCm) return Zone::Doorway;
+    if (Between(P.X, G.UlamWestX + EdgeInsetCm, G.UlamEastX - EdgeInsetCm)
+        && AbsY <= G.SanctuaryHalfY - EdgeInsetCm) return Zone::Ulam;
+    if (Between(P.X, G.HeikhalEastX, G.UlamWestX + EdgeInsetCm)
+        && AbsY <= G.DoorwayHalfY - EdgeInsetCm) return Zone::Doorway;
     // Strictly east of the paroches line: the ordinary-day hard boundary.
-    if (P.X > KodeshLineX + EdgeInsetCm && P.X <= HeikhalEastX
-        && AbsY <= SanctuaryHalfY - EdgeInsetCm) return Zone::Heikhal;
-    if (Between(P.X, ParochesBandWestX, KodeshLineX + EdgeInsetCm)
-        && AbsY <= ParochesGapHalfY - EdgeInsetCm) return Zone::ParochesGap;
-    if (Between(P.X, KodeshWestX + EdgeInsetCm, ParochesBandWestX)
-        && AbsY <= SanctuaryHalfY - EdgeInsetCm) return Zone::Kodesh;
+    if (P.X > G.KodeshLineX + EdgeInsetCm && P.X <= G.HeikhalEastX
+        && AbsY <= G.SanctuaryHalfY - EdgeInsetCm) return Zone::Heikhal;
+    if (Between(P.X, G.ParochesBandWestX, G.KodeshLineX + EdgeInsetCm)
+        && AbsY <= G.ParochesGapHalfY - EdgeInsetCm) return Zone::ParochesGap;
+    if (Between(P.X, G.KodeshWestX + EdgeInsetCm, G.ParochesBandWestX)
+        && AbsY <= G.SanctuaryHalfY - EdgeInsetCm) return Zone::Kodesh;
     return Zone::Outside;
 }
 
@@ -186,11 +202,11 @@ inline bool KindPermitted(Scenario Day, StationKind Kind)
 }
 
 // A stand height is acceptable if it is the reviewed floor or the stone top.
-inline bool HeightPermitted(double Z)
+inline bool HeightPermitted(double Z, const Geometry& G = Geometry{})
 {
     return std::isfinite(Z)
-        && (std::fabs(Z - FloorZ) <= HeightToleranceCm
-            || std::fabs(Z - StoneTopZ) <= HeightToleranceCm);
+        && (std::fabs(Z - G.FloorZ) <= HeightToleranceCm
+            || std::fabs(Z - G.StoneTopZ) <= HeightToleranceCm);
 }
 
 // Boundary test for one straight leg. The leg is sampled because a leg may be
@@ -198,14 +214,14 @@ inline bool HeightPermitted(double Z)
 // ordinary day, clip the paroches line. X is monotone along a segment, so the
 // ordinary-day line test alone is exact; the sampling covers the Y narrowing
 // at the doorway and at the paroches gap.
-inline bool SegmentPermitted(Scenario Day, const Point3& From, const Point3& To, Refusal& Why)
+inline bool SegmentPermitted(Scenario Day, const Point3& From, const Point3& To, Refusal& Why, const Geometry& G = Geometry{})
 {
     Why = Refusal::None;
     if (!Finite(From) || !Finite(To)) { Why = Refusal::BadGeometry; return false; }
     if (Day == Scenario::OrdinaryDay)
     {
         const double MinX = From.X < To.X ? From.X : To.X;
-        if (MinX <= KodeshLineX) { Why = Refusal::CrossesKodeshLine; return false; }
+        if (MinX <= G.KodeshLineX) { Why = Refusal::CrossesKodeshLine; return false; }
     }
     for (int Step = 0; Step <= SegmentSamples; ++Step)
     {
@@ -213,7 +229,7 @@ inline bool SegmentPermitted(Scenario Day, const Point3& From, const Point3& To,
         const Point3 At{From.X + (To.X - From.X) * T,
                         From.Y + (To.Y - From.Y) * T,
                         From.Z + (To.Z - From.Z) * T};
-        const Zone Where = ZoneOf(At);
+        const Zone Where = ZoneOf(At, G);
         if (Where == Zone::Outside) { Why = Refusal::OutsideReviewedEnvelope; return false; }
         if (!ZonePermitted(Day, Where))
         {
@@ -325,20 +341,63 @@ struct Anchors
 
     // The body never walks between lamps: it stands on the stone and shuffles
     // along the stone top, clamped to the stone footprint, turning to each lamp.
+    bool SceneDecoded = false;
+    double LampStandZ = StoneTopZ;
     Point3 StandForLamp(std::size_t K) const
     {
         double Y = LampAt(K).Y;
         if (Y < StoneMinY) Y = StoneMinY;
         if (Y > StoneMaxY) Y = StoneMaxY;
-        return Point3{StoneStand.X, Y, StoneTopZ};
+        return Point3{StoneStand.X, Y, LampStandZ};
     }
 };
+
+// Decode immutable legacy anchors exactly once; all outputs committed together.
+inline bool DecodeScene(const MikdashSceneUnits::Frame& F, const Anchors& Legacy,
+                        Anchors& Out, Geometry& OutGeometry)
+{
+    if (!MikdashSceneUnits::Valid(F) || Legacy.SceneDecoded) return false;
+    Anchors A = Legacy; Geometry G;
+    auto Point = [&F](Point3& P) {
+        MikdashUnits::PointCm Converted;
+        if (!MikdashSceneUnits::TryLegacyTemplePoint(F,{P.X,P.Y,P.Z},Converted)) return false;
+        P = {Converted.X,Converted.Y,Converted.Z}; return true;
+    };
+    const double AltarLookOffset = Legacy.AltarFace.Z-Legacy.GoldenAltar.Z;
+    if (!std::isfinite(AltarLookOffset) || AltarLookOffset < 0) return false;
+    if (!Point(A.UlamApproach) || !Point(A.Doorway) || !Point(A.StoneStand)
+        || !Point(A.GoldenAltar) || !Point(A.InnerStand)) return false;
+    A.AltarFace = A.GoldenAltar; A.AltarFace.Z += AltarLookOffset;
+    Point3 Lamp{A.MenorahX,A.MenorahCentreY,A.LampZ};
+    if (!Point(Lamp)) return false;
+    A.MenorahX=Lamp.X; A.MenorahCentreY=Lamp.Y; A.LampZ=Lamp.Z;
+    if (F.CoordinateRevision == MikdashSceneUnits::Revision::Selected48V1)
+    {
+        // Supported production pivot has Y/Z zero; refuse unsupported zone translations.
+        if (F.FixedOrigin.Y != 0 || F.FixedOrigin.Z != 0) return false;
+        const double R=48.0/50.0, Shift=F.FixedOrigin.X*(1-R);
+        G.KodeshLineX = G.KodeshLineX*R + Shift;
+        G.ParochesBandWestX = G.ParochesBandWestX*R + Shift;
+        G.KodeshWestX = G.KodeshWestX*R + Shift;
+        G.HeikhalEastX = G.HeikhalEastX*R + Shift;
+        G.UlamWestX = G.UlamWestX*R + Shift;
+        G.UlamEastX = G.UlamEastX*R + Shift;
+        G.SanctuaryHalfY = G.SanctuaryHalfY*R;
+        G.DoorwayHalfY = G.DoorwayHalfY*R;
+        G.ParochesGapHalfY = G.ParochesGapHalfY*R;
+        G.FloorZ = G.FloorZ*R;
+        G.StoneTopZ = G.StoneTopZ*R;
+        A.BranchHalfSpanY*=R; A.StoneMinY*=R; A.StoneMaxY*=R;
+    }
+    A.LampStandZ=G.StoneTopZ;
+    A.SceneDecoded=true; Out=A; OutGeometry=G; return true;
+}
 
 // The ordinary-day menorah sequence. Yom Kippur adds a clearly separate inner
 // entry and exit around the same daily sequence and simulates nothing else of
 // that day: entry and exit only, as commissioned.
 inline bool BuildMenorahSequence(Scenario Day, const Anchors& A, const LampSchedule& Lamps,
-                                 const DwellTimes& Dwell, Plan& Out, Refusal& Why)
+                                 const DwellTimes& Dwell, Plan& Out, Refusal& Why, const Geometry& G = Geometry{})
 {
     Out.Clear();
     Why = Refusal::None;
@@ -381,10 +440,10 @@ inline bool BuildMenorahSequence(Scenario Day, const Anchors& A, const LampSched
         "Standing at the golden altar for the incense; the smoke itself is not produced here.");
     if (Day == Scenario::YomKippur)
     {
-        Ok = Ok && At(StationKind::InnerEntry, A.InnerStand, Point3{A.InnerStand.X - 100.0, 0.0, FloorZ},
+        Ok = Ok && At(StationKind::InnerEntry, A.InnerStand, Point3{A.InnerStand.X - 100.0, 0.0, G.FloorZ},
             Dwell.InnerSeconds, -1,
             "Yom Kippur scenario only: entering beyond the paroches. Nothing of that service is depicted; this is entry and exit only.");
-        Ok = Ok && At(StationKind::InnerExit, Point3{KodeshLineX + 200.0, 0.0, FloorZ}, A.Doorway,
+        Ok = Ok && At(StationKind::InnerExit, Point3{G.KodeshLineX + 200.0, 0.0, G.FloorZ}, A.Doorway,
             Dwell.DoorwaySeconds, -1,
             "Yom Kippur scenario only: coming back out past the paroches.");
     }
@@ -427,7 +486,7 @@ inline constexpr double DefaultMinLoopSeconds = 180.0;
 inline constexpr double DefaultMaxLoopSeconds = 360.0;
 
 inline Refusal ValidatePlan(Scenario Day, const Plan& P, double SpeedCmPerSec,
-                            double MinLoopSeconds, double MaxLoopSeconds, std::size_t& BadIndex)
+                            double MinLoopSeconds, double MaxLoopSeconds, std::size_t& BadIndex, const Geometry& G = Geometry{})
 {
     BadIndex = 0;
     if (P.Count < 2) return Refusal::EmptySequence;
@@ -439,13 +498,13 @@ inline Refusal ValidatePlan(Scenario Day, const Plan& P, double SpeedCmPerSec,
         if (!Finite(S.Stand) || !Finite(S.Face)) return Refusal::BadGeometry;
         if (!std::isfinite(S.DwellSeconds) || S.DwellSeconds < 0.0) return Refusal::BadGeometry;
         if (!KindPermitted(Day, S.Kind)) return Refusal::ScenarioForbidsStation;
-        if (!HeightPermitted(S.Stand.Z)) return Refusal::BadFloorHeight;
-        const Zone Where = ZoneOf(S.Stand);
+        if (!HeightPermitted(S.Stand.Z, G)) return Refusal::BadFloorHeight;
+        const Zone Where = ZoneOf(S.Stand, G);
         if (Where == Zone::Outside) return Refusal::OutsideReviewedEnvelope;
         if (!ZonePermitted(Day, Where))
             return (Where == Zone::Kodesh || Where == Zone::ParochesGap)
                 ? Refusal::CrossesKodeshLine : Refusal::ScenarioForbidsStation;
-        if (Day == Scenario::OrdinaryDay && S.Stand.X <= KodeshLineX) return Refusal::CrossesKodeshLine;
+        if (Day == Scenario::OrdinaryDay && S.Stand.X <= G.KodeshLineX) return Refusal::CrossesKodeshLine;
         if (S.Kind == StationKind::Lamp
             && (S.LampIndex < 0 || static_cast<std::size_t>(S.LampIndex) >= LampCount))
             return Refusal::BadLampGrouping;
@@ -454,7 +513,7 @@ inline Refusal ValidatePlan(Scenario Day, const Plan& P, double SpeedCmPerSec,
     {
         BadIndex = I;
         Refusal Why = Refusal::None;
-        if (!SegmentPermitted(Day, P.Items[I - 1].Stand, P.Items[I].Stand, Why)) return Why;
+        if (!SegmentPermitted(Day, P.Items[I - 1].Stand, P.Items[I].Stand, Why, G)) return Why;
     }
     // The interval restart jumps from the last station back to the first, so
     // the two must be the same point or the body would teleport across the
@@ -511,10 +570,10 @@ class Sequencer
 public:
     bool Configure(Scenario Day, const Plan& Sequence, double SpeedCmPerSec,
                    double IntervalSeconds, double MinLoopSeconds = DefaultMinLoopSeconds,
-                   double MaxLoopSeconds = DefaultMaxLoopSeconds)
+                   double MaxLoopSeconds = DefaultMaxLoopSeconds, const Geometry& G = Geometry{})
     {
         std::size_t Bad = 0;
-        LastRefusal = ValidatePlan(Day, Sequence, SpeedCmPerSec, MinLoopSeconds, MaxLoopSeconds, Bad);
+        LastRefusal = ValidatePlan(Day, Sequence, SpeedCmPerSec, MinLoopSeconds, MaxLoopSeconds, Bad, G);
         if (LastRefusal != Refusal::None) { BadStation = Bad; Ready = false; return false; }
         if (!std::isfinite(IntervalSeconds) || IntervalSeconds < 0.0)
         {

@@ -220,6 +220,7 @@ bool UMikdashCinematics::PlayIntro()
 
     PreviousViewTarget = Controller->GetViewTarget();
     Elapsed = 0.0f;
+    NativeStepGate.Reset();
     ActiveDuration = GetDurationSeconds();
     bAimInitialised = false;
     OrbitKeys.Reset();
@@ -337,7 +338,11 @@ bool UMikdashCinematics::Tick(float DeltaSeconds)
         TickHandle.Reset();
         return false;
     }
-    Elapsed += DeltaSeconds;
+    // Keep external sequence timing unchanged: its player advances on its own
+    // world clock. Only native/orbit playback owns this bounded choreography clock.
+    const bool bUsesNativeClock = OrbitKeys.Num() > 0 || PlaybackRoute == TEXT("native");
+    const float AcceptedStep = bUsesNativeClock ? NativeStepGate.Accept(DeltaSeconds) : DeltaSeconds;
+    Elapsed += AcceptedStep;
 
     // The skip key is armed only after the press that started the walkthrough has had time
     // to clear, or the intro ends on its own first frame.
@@ -376,7 +381,7 @@ bool UMikdashCinematics::Tick(float DeltaSeconds)
     }
     else if (PlaybackRoute == TEXT("native"))
     {
-        EvaluateNative(Alpha, DeltaSeconds);
+        EvaluateNative(Alpha, AcceptedStep);
     }
 
     if (Alpha >= 1.0f)
@@ -738,6 +743,7 @@ bool UMikdashCinematics::PlayOrbit(FName OrbitId)
 
     PlaybackRoute = TEXT("orbit");
     Elapsed = 0.0f;
+    NativeStepGate.Reset();
     ActiveDuration = FMath::Max(Found->DurationSeconds, 0.5f);
     bPlaying = true;
     if (!TickHandle.IsValid())

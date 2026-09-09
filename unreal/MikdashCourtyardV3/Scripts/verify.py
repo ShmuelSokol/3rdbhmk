@@ -52,7 +52,7 @@ def check(name: str, ok: bool, detail: str = "") -> bool:
 # environment
 # ---------------------------------------------------------------------------
 
-def check_no_stray_editor() -> None:
+def check_no_stray_editor() -> bool:
     """A zombie editor holding the map makes saves return False with no other symptom.
 
     This has cost this project a full debugging session before, so it is the first check.
@@ -63,19 +63,17 @@ def check_no_stray_editor() -> None:
             capture_output=True, text=True, timeout=30,
         )
         if proc.returncode != 0:
-            check("no stray UnrealEditor process", False,
+            return check("no stray UnrealEditor process", False,
                   f"process inventory failed (exit {proc.returncode}): {(proc.stderr or '').strip()[:200]}")
-            return
         rows = list(csv.reader(proc.stdout.splitlines()))
         if not rows or any(len(row) < 2 for row in rows):
-            check("no stray UnrealEditor process", False, "process inventory empty or malformed")
-            return
+            return check("no stray UnrealEditor process", False, "process inventory empty or malformed")
         running = [row for row in rows if row[0].lower().startswith("unrealeditor")
                    and row[0].lower().endswith(".exe")]
-        check("no stray UnrealEditor process", not running,
+        return check("no stray UnrealEditor process", not running,
               "; ".join(row[0] + " PID " + row[1] for row in running))
     except Exception as exc:  # noqa: BLE001
-        check("no stray UnrealEditor process", False, f"could not inventory processes: {exc}")
+        return check("no stray UnrealEditor process", False, f"could not inventory processes: {exc}")
 
 
 def check_security_token() -> None:
@@ -278,27 +276,32 @@ def run_build() -> None:
     if not UBT_BUILD.exists():
         check("plugin C++ compiles", False, f"Build.bat not found at {UBT_BUILD}")
         return
-    cmd = (
-        f'"{UBT_BUILD}" MikdashCourtyardV3Editor Win64 Development '
-        f'-Project="{ROOT / "MikdashCourtyardV3.uproject"}" -WaitMutex -NoHotReload'
-    )
-    # Build.bat requires cmd's batch parsing. Passing an already quoted command
-    # as a list element adds literal backslash-quote escapes before Program Files.
-    # shell=True supplies the outer cmd /c quoting for this fixed local command.
-    proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    output = (proc.stdout or "") + "\n" + (proc.stderr or "")
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", prefix="verify-ubt-",
-                                     suffix=".log", dir=ROOT.parent, delete=False) as log:
-        log.write(output)
-        build_log = log.name
-    print(f"  BUILD LOG  {build_log}")
-    ok = proc.returncode == 0 and "Result: Succeeded" in (proc.stdout or "")
-    detail = ""
-    if not ok:
-        errs = [l for l in output.splitlines() if re.search(r"error [A-Z]+\d+", l)]
-        lines = [l.strip() for l in output.splitlines() if l.strip()]
-        detail = errs[0][:200] if errs else f"exit {proc.returncode}: " + (lines[-1][:180] if lines else "no build output")
-    check("plugin C++ compiles", ok, detail)
+    failures = []
+    # Editor-only APIs can compile cleanly but fail in a packaged game. Verify
+    # both targets, strictly serial, before treating the C++ gate as passed.
+    for target in ("MikdashCourtyardV3Editor", "MikdashCourtyardV3"):
+        if not check_no_stray_editor():
+            failures.append(target+": editor appeared or process inventory unavailable; build refused")
+            break
+        cmd = (
+            f'"{UBT_BUILD}" {target} Win64 Development '
+            f'-Project="{ROOT / "MikdashCourtyardV3.uproject"}" -WaitMutex -NoHotReload'
+        )
+        # shell=True supplies cmd batch parsing for this fixed local command;
+        # a quoted list element previously broke the Program Files path.
+        proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        output = (proc.stdout or "") + "\n" + (proc.stderr or "")
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", prefix="verify-ubt-"+target+"-",
+                                         suffix=".log", dir=ROOT.parent, delete=False) as log:
+            log.write(output)
+            build_log = log.name
+        print(f"  BUILD LOG  {build_log}")
+        if proc.returncode != 0 or "Result: Succeeded" not in (proc.stdout or ""):
+            errs = [l for l in output.splitlines() if re.search(r"error [A-Z]+\d+", l)]
+            lines = [l.strip() for l in output.splitlines() if l.strip()]
+            detail = errs[0][:200] if errs else f"exit {proc.returncode}: " + (lines[-1][:180] if lines else "no build output")
+            failures.append(target+": "+detail)
+    check("plugin C++ compiles (editor and game)", not failures, " | ".join(failures))
 
 
 # ---------------------------------------------------------------------------

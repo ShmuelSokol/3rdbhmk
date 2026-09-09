@@ -1,0 +1,11 @@
+{
+  "status": "failed_game_target_compile",
+  "logSha256": "bacf68934ed7174ebc351cf5403af5a333b6b93540fd1dc0a6179ea8abbeb78c",
+  "errors": [
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Private\\MikdashEnclosure.cpp(259,38): error C2039: 'GetActorLabel': is not a member of 'AActor'",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Private\\MikdashEnclosure.cpp(356,93): error C2039: 'GetActorLabel': is not a member of 'AActor'",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Plugins\\MikdashRuntime\\Source\\MikdashRuntime\\Private\\MikdashEnclosure.cpp(382,76): error C2039: 'GetActorLabel': is not a member of 'AActor'"
+  ],
+  "lesson": "Editor build cannot establish game-target compatibility. verify.py --build now checks Editor and Game serially.",
+  "next": "Fix runtime enclosure identity, test label-free path, then retry fresh cook; do not claim a Windows12 package."
+}

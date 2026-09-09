@@ -10,6 +10,7 @@ not a halachic ruling or a claim of final production quality.
 - Candidate48 becomes the game, editor and cook default; the previous Main50 map remains preserved.
 - The Kotel's four visible stone sections retain the reviewed photo materials, now using independent material copies with persisted Nanite usage.
 - A shallow local notch in a copy of the platform skirt removes the obstruction on the return down the Kotel access stairs. Original geometry remains preserved.
+- The enclosure identifies buildings from audited mesh assets in both editor and game builds. Its exact 269-actor selection and visibility/collision restoration pass a live regression.
 - The candidate includes the previously verified transit, bird flocks, boarding figures, residents, tour/codex and dove controls.
 - Native credits find the curated attribution entries. Full distribution notices are included in the packaging plan.
 
@@ -26,6 +27,10 @@ weathering without missing-Nanite or default-material warnings. Maps and origina
 remain unchanged during runtime tests.
 
 ## Still required before a download claim
+
+The first packaging attempt found an editor-only API in enclosure code and produced no
+package. That defect is corrected; the full gate now compiles both Editor and Game targets
+and passes all 32 math tests. The failed attempt remains recorded.
 
 Fresh Windows cook, child-executable startup and controls, rendered packaged review,
 staged notices/localization checks, ordinary ZIP creation and download/extraction verification.

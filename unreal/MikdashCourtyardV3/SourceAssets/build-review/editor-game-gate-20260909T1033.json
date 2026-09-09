@@ -1,0 +1,19 @@
+{
+  "status": "passed_editor_and_game_builds",
+  "checksPassed": 11,
+  "standaloneMathPassed": 32,
+  "logs": [
+    {
+      "path": "C:\\Mikdash\\Working-5.8\\verify-ubt-MikdashCourtyardV3Editor-uf01hkdw.log",
+      "sha256": "4501cdbacdd6f8030b061d8d5b373ac04e61fbee36928909574bca944ebffef3",
+      "resultSucceeded": true
+    },
+    {
+      "path": "C:\\Mikdash\\Working-5.8\\verify-ubt-MikdashCourtyardV3-au9jdhas.log",
+      "sha256": "5c4855ad2fdead3332df72ee1e0f843e0232dd0e519a10ea1647cf44c914a05c",
+      "resultSucceeded": true
+    }
+  ],
+  "scope": "Compilation and offline gate, not runtime/cook acceptance.",
+  "change": "Enclosure uses same audited mesh-derived identity in PIE and game; verify.py builds both targets serially with per-target editor preflight."
+}

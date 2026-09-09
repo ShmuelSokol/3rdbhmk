@@ -163,6 +163,17 @@ def tick(dt):
         e=state['enclosure'];phase=state['phase']
         if phase=='baseline_modern':
             selected=[a for a in state['initialHidden'].values() if not bool(a.get_editor_property('hidden'))]
+            reference=ROOT/'SourceAssets/enclosure-review/candidate-collision-restore-20260909T083903043338Z.json'
+            if sha(reference)!='6bc24d2c71731bd2e9fc3a1e88f77f8439b2aab3c90f17d4be44fe5383fc769e':raise RuntimeError('Pinned original selection receipt differs')
+            expected=set(json.loads(reference.read_text(encoding='utf-8-sig'))['baseline'])
+            if {a.get_name() for a in selected}!=expected:raise RuntimeError('Runtime mesh identities select different actors than original269')
+            fingerprint=1469598103934665603
+            for label in sorted(a.get_actor_label() for a in selected):
+                for byte in label.encode('utf-8'):fingerprint=((fingerprint^byte)*1099511628211)&0xffffffffffffffff
+            expected_fingerprint='%016x'%fingerprint
+            if e.get_hide_set_fingerprint()!=expected_fingerprint:raise RuntimeError('Runtime mesh-derived fingerprint differs from original actor labels')
+            report['identityParity']={'referenceSha256':sha(reference),'exactActorSetCount':len(expected),
+                                     'fingerprint':expected_fingerprint,'scope':'Shared editor/game mesh resolver compared to original269 actor identities'}
             if state['blocker'] not in selected or state['kotel'] not in selected:raise RuntimeError('Expected blocker/Kotel were not selected by original state')
             state['selected']=selected;state['baseline']={a.get_name():actor_state(a) for a in selected}
             if not state['blocker'].get_actor_enable_collision():raise RuntimeError('Known blocker did not restore original true collision')

@@ -387,6 +387,8 @@ private:
 
     /** Candidates found by GatherModernBuildings. */
     TArray<TWeakObjectPtr<AActor>> BuildingActors;
+    /** Exact audited mesh-to-label inverse, shared by editor/PIE and cooked builds. */
+    TArray<FString> BuildingIdentityLabels;
     std::vector<MikdashEnclosure::FBuildingRef> BuildingRefs;
     /** Parallel to BuildingActors: true when the actor's label is in ExplicitHideLabels. */
     TArray<bool> BuildingInExplicitList;

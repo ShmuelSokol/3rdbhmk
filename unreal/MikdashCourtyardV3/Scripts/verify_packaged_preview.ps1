@@ -53,7 +53,9 @@ try {
         Start-Sleep -Milliseconds 500;$proc.Refresh()
         if($proc.HasExited){throw 'Child exited before startup acceptance'}
         $text=if(Test-Path -LiteralPath $log){Get-Content -LiteralPath $log -Raw}else{''}
-        if($text -match 'LogInit: Display: Game Engine Initialized' -and $text -match 'MIKDASH_MENU_OPEN') { $ready=$true;break }
+        # Enabled native FrontEnd bypasses the legacy MENU_OPEN log marker.
+        # This smoke proves engine/default-map startup; observe menu separately.
+        if($text -match 'LogInit: Display: Game Engine Initialized' -and $text -match ('LogLoad: LoadMap:\s*'+[regex]::Escape($expectedMap)+'(?:\?|\s|$)')) { $ready=$true;break }
     }
     if(-not $ready){throw 'Startup markers missing before deadline'}
     $report.readySeconds=$clock.Elapsed.TotalSeconds
@@ -118,7 +120,7 @@ public static class AstraPreviewWindow {
         $bad=@($text -split '\r?\n' | Where-Object {$_ -match 'Fatal error|Assertion failed|Unhandled Exception|LogWindows: Error|LogMaterial: (Error|Fatal)|LogShaderCompilers: (Error|Fatal)|LogMaterial: Warning: Material failed to compile|missing the usage flag Nanite|Default Material will be used|default material will be used'})
         $report.rejectedLogLines=$bad
         if($bad.Count){$report.errors+='Fatal/shader/default-material warning detected'}
-        if($text -match 'MIKDASH_MENU_RESUME'){$report.errors+='Unexpected resume without test input'}
+        $report.menuAndControlsAcceptance='Not established by logs; current FrontEnd emits no legacy menu markers. Requires separate UI observation.'
         if(Test-Path -LiteralPath $log){$report.logSha256=(Get-FileHash -LiteralPath $log -Algorithm SHA256).Hash.ToLower()}
         if((Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower() -ne $report.childSha256){$report.errors+='Child executable changed'}
     } catch {$report.errors+='Final verification: '+$_.Exception.Message}

@@ -1,4 +1,25 @@
-## Current verified state — 2026-09-09 10:21 UTC
+## Current verified state — 2026-09-09 10:38 UTC
+
+Runtime identity fix now passes native103614713103: exact same269actor set as083903,
+fingerprintadd1b55da3535d53, hardhide→Modern→Overlay→hardhide→RestoreAll and originally
+false fixture all restored; protectedKotel collision retained, maps/saves unchanged.
+BothEditor+Game compilation and32math passed (full11/11). Preparing sourcecheckpoint
+then Windows12 Attempt2; firstcook failure preserved, no package success yet.
+
+## Historical continuation — 2026-09-09 10:21 UTC
+
+Update10:27: checkpoint423cdce1 pushed. First Windows12 game target FAILED at three
+GetActorLabel calls in MikdashEnclosure.cpp (editor-only API). Both map hashes unchanged,
+no packaged child exists. RuntimeBuild-12 retains log/failed receipt. Worker fixing actual
+runtime building identity; do not just replace labels with arbitrary object names.
+verify.py --build now checks Editor AND Game strictly serially; earlier editor-only gate
+did not establish packaged compatibility. Also current FrontEnd bypasses legacy MENU_OPEN
+logs; startup smoke now checks engine/defaultMap only and requires separate menu UI review.
+
+Update10:33: corrected shared mesh-identity resolver compiles in BOTHtargets. Full gate
+11/11,32/32math PASS; logs verify-ubt-MikdashCourtyardV3Editor-uf01hkdw.log and
+verify-ubt-MikdashCourtyardV3-au9jdhas.log, no compilerdiagnostics. Exact269actor-set/FNV
+parity plus nativecollisionrestore now running. No secondcook until it finishes.
 
 Candidate114a6130cde60efabef34e30d0437fe6f1746d30737295d608245e55ee79ff77
 is now configured as game default/editor startup/cook map (Selected48). Main50 is retained.

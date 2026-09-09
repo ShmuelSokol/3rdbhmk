@@ -1,5 +1,14 @@
 ## Current continuation — 2026-09-09 10:14 UTC
 
+Update10:38: shared cooked/editor mesh identity passes full11/11gate,32math,bothbuilds
+and native103614 exact269set/FNV restoration, protectedKotel and saves/maps unchanged.
+Next sourcecheckpoint and Windows12 Attempt2 (fresh job folder, same absent archive).
+
+Update10:30: first Windows12 cook stopped in Game compilation at editor-only
+GetActorLabel in enclosure. Mesh-derived identities now replace labels in both PIE/game,
+with offline269/269 parity. Full32math+Editor+Game gate running; actual exact269-set/FNV
+collision-restoration probe follows. No package produced; originalfailure retained.
+
 Update10:21: PhotoCook apply101331 + fresh101546 PASS. Current candidate114a6130 now
 default/startup/cook. Render101820 retains photo detail with no missingNanite/default
 material warnings; root reviewed, verifier checking. Next gate/commit, freshWindows12

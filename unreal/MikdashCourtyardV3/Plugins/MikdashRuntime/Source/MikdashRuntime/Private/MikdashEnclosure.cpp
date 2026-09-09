@@ -1,6 +1,7 @@
 #include "MikdashEnclosure.h"
 
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
+#include "Components/InstancedStaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
@@ -13,6 +14,34 @@ using namespace MikdashEnclosure;
 
 namespace
 {
+/** Cooked actors have no editor label. Recover ONLY the three audited building
+ * identities from their actual mesh package, reversing hideListMeshNameRule in
+ * release_enclosure.spec.json. Never classify by generated actor object name.
+ * Unknown, instanced or multi-mesh actors stay outside this selection. The same
+ * resolver runs in editor/PIE and packaged builds so native parity is testable. */
+FString BuildingIdentityLabel(const AActor* Actor)
+{
+    if (Actor == nullptr) return FString();
+    TInlineComponentArray<UStaticMeshComponent*> Components;
+    Actor->GetComponents(Components);
+    if (Components.Num() != 1 || Cast<UInstancedStaticMeshComponent>(Components[0]) != nullptr) return FString();
+    const UStaticMesh* Mesh = Components[0]->GetStaticMesh();
+    if (Mesh == nullptr) return FString();
+    const FString AssetPath = Mesh->GetPathName();
+    const FString MeshName = Mesh->GetName();
+    if (AssetPath == FString(TEXT("/Game/MikdashV3/JerusalemContext/Buildings/")) + MeshName + TEXT(".") + MeshName
+        && (MeshName.StartsWith(TEXT("SM_JerusalemBuildings_Grid_"), ESearchCase::CaseSensitive)
+            || MeshName.StartsWith(TEXT("SM_JerusalemBuildings_Large_"), ESearchCase::CaseSensitive)))
+        return MeshName;
+    if (AssetPath != FString(TEXT("/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Meshes/")) + MeshName + TEXT(".") + MeshName)
+        return FString();
+    if (MeshName.StartsWith(TEXT("SM_OldCityFacades_Grid_"), ESearchCase::CaseSensitive))
+        return FString(TEXT("RELEASE_OldCityFacades_")) + MeshName.RightChop(18);
+    if (MeshName.StartsWith(TEXT("SM_OldCityInfill_Grid_"), ESearchCase::CaseSensitive))
+        return FString(TEXT("RELEASE_OldCityInfill_")) + MeshName.RightChop(17);
+    return FString();
+}
+
 /** The visible Kotel detail layers do not collide. This retained source batch supplies
  * that boundary; keep the entire batch colliding until a selective geometry audit.
  * Full asset identity survives cooking, unlike actor labels. No assets are changed. */
@@ -227,6 +256,7 @@ bool AMikdashEnclosure::IsModernBuildingLabel(const FString& Label) const
 void AMikdashEnclosure::GatherModernBuildings()
 {
     BuildingActors.Reset();
+    BuildingIdentityLabels.Reset();
     BuildingRefs.clear();
     BuildingInExplicitList.Reset();
     ExplicitFound = ExplicitMissing = ExplicitDuplicated = 0;
@@ -256,7 +286,8 @@ void AMikdashEnclosure::GatherModernBuildings()
     {
         AActor* Actor = *It;
         if (Actor == nullptr || Actor == this) continue;
-        const FString Label = Actor->GetActorLabel();
+        const FString Label = BuildingIdentityLabel(Actor);
+        if (Label.IsEmpty()) continue; // no unverified actor-name or mesh-name fallback
         const bool bExcluded = IsExcludedLabel(Label);
         FString MatchedKey;
         if (!bExcluded && Wanted.Contains(Label))
@@ -293,6 +324,7 @@ void AMikdashEnclosure::GatherModernBuildings()
         Ref.bExcluded = bExcluded;
         BuildingRefs.push_back(Ref);
         BuildingActors.Add(Actor);
+        BuildingIdentityLabels.Add(Label);
         BuildingInExplicitList.Add(bExplicit);
         MatchedKeys.Add(MatchedKey);
         if (bExplicit) Seen.FindOrAdd(MatchedKey) += 1;
@@ -353,7 +385,8 @@ void AMikdashEnclosure::SelectedBuildingIndices(TArray<int32>& OutIndices) const
         if (static_cast<std::size_t>(Index) >= BuildingRefs.size()) break;
         const FBuildingRef& Ref = BuildingRefs[static_cast<std::size_t>(Index)];
         if (Ref.bExcluded) continue;
-        if (!IsModernBuildingLabel(BuildingActors[Index].IsValid() ? BuildingActors[Index]->GetActorLabel() : FString())) continue;
+        if (!BuildingActors[Index].IsValid() || !BuildingIdentityLabels.IsValidIndex(Index)
+            || !IsModernBuildingLabel(BuildingIdentityLabels[Index])) continue;
         if (std::binary_search(Selected.begin(), Selected.end(), Ref.Id)) OutIndices.Add(Index);
     }
 }
@@ -379,7 +412,7 @@ FString AMikdashEnclosure::GetHideSetFingerprint() const
     TArray<FString> Labels;
     for (int32 Index : Indices)
     {
-        if (AActor* Actor = BuildingActors[Index].Get()) Labels.Add(Actor->GetActorLabel());
+        if (BuildingActors[Index].IsValid() && BuildingIdentityLabels.IsValidIndex(Index)) Labels.Add(BuildingIdentityLabels[Index]);
     }
     // Byte order, not FString's case-insensitive order: the receipt sorted these in Python.
     Labels.Sort([](const FString& A, const FString& B) { return FCString::Strcmp(*A, *B) < 0; });

@@ -1,3 +1,10 @@
+## Attempt4 safe checkpoint — 2026-09-09 11:31 UTC
+
+Cook/staging/startup passed; Main/Pause wrapped text fits at1920x1080. UI process
+quit normally; no native work in flight. Read HANDOFF-20260909-READY-TO-PAUSE.md.
+ZIP creation, extraction verification and release upload remain next. User choosing
+pause versus continuation; no full-production/route/audio certification implied.
+
 ## Current continuation — Windows12 Attempt3, 2026-09-09
 
 Attempt3 cook/archive, staging and startup PASS after six-material usage repair

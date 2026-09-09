@@ -1,6 +1,6 @@
 # Walkthrough-12 — development preview, release acceptance pending
 
-Windows12 Attempt3 cook/archive, staging and packaged startup passed on
+Windows12 Attempt4 cook/archive, staging and packaged startup passed on
 9 September 2026. The configured game/editor/cook map is Selected48, using the exact
 0.48 m amah. Legacy Main50 remains retained. Both map files were unchanged by cook.
 
@@ -23,11 +23,10 @@ returned to walking, and mouse Quit closed normally. This does not establish ful
 route, settings, preparation lesson or audio acceptance.
 
 Attempt3 screenshots showed the full preparation label overflowing its Main/Pause
-button. A wrapping/width constraint fix is prepared, pending compilation and rendered
-verification; wording and accessible text scaling are preserved.
+button. The wrapping/width constraint fix passes both compilation and Attempt4 Main/Pause
+rendered verification at observed1920x1080; wording and text scaling are preserved.
 
-Before release: compile and verify the wrap fix, recook and repeat the applicable
-packaged gates. Then prepare ordinary ZIPs,
+Before release: prepare ordinary ZIPs,
 verify extraction and payload hashes, and verify the authorized download method.
 No downloadable Windows12 release or production-quality completion is claimed.
 

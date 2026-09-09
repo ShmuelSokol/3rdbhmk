@@ -1,3 +1,11 @@
+## Safe checkpoint — 2026-09-09 11:31 UTC
+
+Attempt4 cook/staging/strictstartup PASS. Main/Pause preparation text wraps/fits
+visually at observed1920x1080; titleBegin/skip/Pause/mouseQuit exercised. Game31484
+quit normally, saves unchanged, no native job remains. Child329a2d910a53... .
+Handoff HANDOFF-20260909-READY-TO-PAUSE.md records exact continuation. No ZIPs/upload
+started; user choosing pause vs distribution. Broader quality goal incomplete.
+
 ## Wrap build checkpoint — 2026-09-09 11:25 UTC
 
 Full wrapping gate11/11,32/32math PASS; Editor45.94s/Game53.01s. Same two

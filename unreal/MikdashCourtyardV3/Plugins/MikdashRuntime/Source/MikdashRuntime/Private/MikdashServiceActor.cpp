@@ -394,6 +394,30 @@ bool AMikdashServiceActor::IsServiceGrounded() const
     return Motor && Motor->GetCharacterMovement()->IsMovingOnGround() && GroundedDestinationPermitted(Motor->ServiceFeet());
 }
 
+int32 AMikdashServiceActor::GetServiceMovementMode() const
+{
+    const auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    return Motor ? static_cast<int32>(Motor->GetCharacterMovement()->MovementMode) : -1;
+}
+
+bool AMikdashServiceActor::HasServiceWalkableSupport() const
+{
+    const auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    return Motor && Motor->GetCharacterMovement()->CurrentFloor.IsWalkableFloor();
+}
+
+float AMikdashServiceActor::GetServiceMovementFloorDistance() const
+{
+    const auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    return Motor ? Motor->GetCharacterMovement()->CurrentFloor.GetDistanceToFloor() : -1.f;
+}
+
+FVector AMikdashServiceActor::GetServiceMovementFloorImpact() const
+{
+    const auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    return Motor ? Motor->GetCharacterMovement()->CurrentFloor.HitResult.ImpactPoint : FVector::ZeroVector;
+}
+
 bool AMikdashServiceActor::MotorSegmentPermitted(const FVector& From,const FVector& To) const
 {
     if (From.ContainsNaN() || To.ContainsNaN()) return false;

@@ -27,6 +27,7 @@ CMD = u.SystemLibrary.get_command_line()
 LEG_DIAGNOSTIC_ONLY = '-servicelegdiagnosticonly' in CMD.lower()
 FULL_ROUTE = '-servicefullroute' in CMD.lower()
 PAUSE_PROBE = '-servicemotorpauseprobe' in CMD.lower()
+VISUAL_PROBE = '-servicevisualprobe' in CMD.lower()
 SIM_LIMIT = 600 if FULL_ROUTE else 90
 WALL_LIMIT = 900 if FULL_ROUTE else 300
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
@@ -80,6 +81,13 @@ def shutdown():
         u.SystemLibrary.execute_console_command(ed.get_editor_world(),'Slate.bAllowThrottling '+str(old_throttle))
         report['mapsUnchanged'] = maps()==report['mapsBefore']
         report['originalSavesUnchanged'] = saves()==report['savesBefore']
+        for shot in report.get('visualCaptures',[]):
+            path=Path(shot['path'])
+            data=path.read_bytes() if path.exists() else b''
+            valid=data.startswith(b'\x89PNG\r\n\x1a\n') and data.endswith(b'IEND\xaeB`\x82')
+            shot['status']='file_verified_not_visually_reviewed' if valid else 'missing_or_incomplete'
+            if valid: shot['sha256']=hashlib.sha256(data).hexdigest()
+            else: report['errors'].append('Requested visual capture missing/incomplete: '+str(path))
         if not report['mapsUnchanged'] or not report['originalSavesUnchanged']:
             report['errors'].append('Persistence guard failed')
         if report['errors']:
@@ -228,16 +236,65 @@ def tick(dt):
             state['simStart']=gt
         actor=state['service']
         elapsed=gt-state['simStart']
+        if report.get('groundedMode'):
+            if not hasattr(actor,'get_service_movement_mode'):
+                raise RuntimeError('Compiled movement diagnostics required')
+            # Do not treat the spawn callback as a post-physics arrival sample.
+            if elapsed>0 and actor.is_service_dwelling():
+                index=actor.get_service_current_station_index()
+                key=(actor.get_completed_sequences(),index)
+                seen=state.setdefault('arrivalKeys',set())
+                if key not in seen:
+                    feet=xyz(actor.get_service_feet_location())
+                    target=xyz(actor.get_service_station_location(index))
+                    arrival={'seconds':elapsed,'index':index,'sequence':key[0],
+                             'feet':feet,'target':target,'xyErrorCm':math.dist(feet[:2],target[:2]),
+                             'zErrorCm':abs(feet[2]-target[2]),'grounded':actor.is_service_grounded()}
+                    arrival['passed']=arrival['xyErrorCm']<=2.0 and arrival['zErrorCm']<=3.0 and arrival['grounded']
+                    report.setdefault('observedDwellingStations',[]).append(arrival)
+                    seen.add(key)
         if PAUSE_PROBE and report.get('groundedMode') and not state.get('pauseDone'):
-            if 'pauseAt' not in state and elapsed>12 and actor.get_service_current_station_index()==2:
-                state.update(pauseAt=gt,pauseFeet=xyz(actor.get_service_feet_location()),pauseMaxDrift=0.0)
+            if 'pauseAt' not in state and elapsed>12 and actor.get_service_current_station_index()==2 and not actor.is_service_dwelling() and actor.get_blocked_leg_count()==0:
+                state.update(pauseAt=gt,pauseFeet=xyz(actor.get_service_feet_location()),pauseMaxDrift=0.0,
+                             pausePhase=actor.get_service_phase_seconds(),pausePhaseDrift=0.0,pauseStateValid=True)
                 actor.set_service_paused(True)
             elif 'pauseAt' in state:
                 state['pauseMaxDrift']=max(state['pauseMaxDrift'],math.dist(state['pauseFeet'],xyz(actor.get_service_feet_location())))
+                state['pausePhaseDrift']=max(state['pausePhaseDrift'],abs(actor.get_service_phase_seconds()-state['pausePhase']))
+                state['pauseStateValid'] &= actor.is_service_paused() and actor.get_service_current_station_index()==2 and not actor.is_service_dwelling()
                 if gt-state['pauseAt']>=2.0:
                     actor.set_service_paused(False)
-                    report['motorPause']={'seconds':gt-state['pauseAt'],'maximumFeetDriftCm':state['pauseMaxDrift'],'passed':state['pauseMaxDrift']<.01}
-                    state['pauseDone']=True
+                    report['motorPause']={'seconds':gt-state['pauseAt'],'maximumFeetDriftCm':state['pauseMaxDrift'],
+                                          'maximumPhaseDriftSeconds':state['pausePhaseDrift'],'pauseStateValid':state['pauseStateValid'],
+                                          'resumedMovementCm':0.0,'passed':False}
+                    state.update(pauseDone=True,resumeAt=gt,resumeFeet=xyz(actor.get_service_feet_location()))
+        if state.get('pauseDone') and not state.get('resumeConfirmed'):
+            travel=math.dist(state['resumeFeet'],xyz(actor.get_service_feet_location()))
+            pause=report['motorPause']; pause['resumedMovementCm']=travel
+            if travel>10 and not actor.is_service_paused():
+                pause['resumeDelaySeconds']=gt-state['resumeAt']
+                pause['passed']=pause['maximumFeetDriftCm']<.01 and pause['maximumPhaseDriftSeconds']<.001 and pause['pauseStateValid']
+                state['resumeConfirmed']=True
+        if VISUAL_PROBE and report.get('groundedMode') and actor.is_service_dwelling() and not actor.is_service_paused():
+            index=actor.get_service_current_station_index()
+            captured=state.setdefault('visualIndices',set())
+            if index in (2,6,10) and index not in captured:
+                if state.get('visualIndex')!=index:
+                    cameras=list(u.GameplayStatics.get_all_actors_of_class(world,u.CameraActor))
+                    if not cameras: raise RuntimeError('No PIE review camera')
+                    camera=cameras[0]; comp=camera.get_component_by_class(u.CameraComponent)
+                    comp.set_editor_property('post_process_blend_weight',0.0); comp.set_field_of_view(55.0)
+                    feet=actor.get_service_feet_location(); position=feet+u.Vector(250,-300,170)
+                    camera.set_actor_location(position,False,True)
+                    camera.set_actor_rotation(u.MathLibrary.find_look_at_rotation(position,feet+u.Vector(0,0,90)),True)
+                    pc.set_view_target_with_blend(camera,0.0)
+                    state.update(visualIndex=index,visualArmedAt=gt)
+                elif gt-state['visualArmedAt']>=2:
+                    path=OUT.parent/('candidate-service-'+STAMP+'-station'+str(index)+'.png')
+                    u.SystemLibrary.execute_console_command(world,'HighResShot 1280x720 filename="'+str(path)+'"',pc)
+                    report.setdefault('visualCaptures',[]).append({'station':index,'seconds':elapsed,'path':str(path),
+                        'camera':xyz(u.GameplayStatics.get_player_camera_manager(world,0).get_camera_location()),'status':'requested_not_reviewed'})
+                    captured.add(index)
         if elapsed-state['lastSample']>=.5:
             body=actor.get_service_body()
             if not body:
@@ -261,6 +318,10 @@ def tick(dt):
                 row['stationIndex']=actor.get_service_current_station_index()
                 row['stationTarget']=xyz(actor.get_service_station_location(row['stationIndex']))
                 row['nativeGrounded']=actor.is_service_grounded()
+                row['movementMode']=actor.get_service_movement_mode()
+                row['walkableSupport']=actor.has_service_walkable_support()
+                row['movementFloorDistance']=actor.get_service_movement_floor_distance()
+                row['movementFloorImpact']=xyz(actor.get_service_movement_floor_impact())
                 row['probePaused']=bool(PAUSE_PROBE and 'pauseAt' in state and not state.get('pauseDone'))
                 report['bodyClass']=body.get_class().get_name()
             row['floorAgreement']=bool(floor and floor['impact'] and abs(floor['impact'][2]-feet.z)<=3.0)
@@ -291,7 +352,11 @@ def tick(dt):
             collision_hits=report['endpointPawnCapsuleHits'] if report.get('groundedMode') else report['capsuleHits']
             report['capsuleObservationScope']='Endpoint Pawn-profile samples; coarse Visibility chords can intersect a curved StepUp path and are not actual motor sweeps' if report.get('groundedMode') else 'Coarse Visibility chords supplement legacy native Pawn sweeps'
             pause_ok=not PAUSE_PROBE or report.get('motorPause',{}).get('passed',False)
-            passed=report['moved'] and not report['floorMisses'] and not collision_hits and not report['nativeBlockedLegs'] and not report['unexpectedInactiveSamples'] and pause_ok
+            arrivals=report.get('observedDwellingStations',[])
+            report['observedStationIndices']=sorted({a['index'] for a in arrivals})
+            report['arrivalFailures']=sum(not a['passed'] for a in arrivals)
+            coverage_ok=not report.get('groundedMode') or (len(arrivals)>1 and (not FULL_ROUTE or report['observedStationIndices']==list(range(18))))
+            passed=report['moved'] and not report['floorMisses'] and not report['floorNormalMisses'] and not collision_hits and not report['nativeBlockedLegs'] and not report['unexpectedInactiveSamples'] and pause_ok and not report['arrivalFailures'] and coverage_ok
             if FULL_ROUTE:
                 finish('natural_sequence_completed_sampled_checks_passed' if passed and report['completedSequences']>0 else 'full_route_findings_or_timeout')
             else:

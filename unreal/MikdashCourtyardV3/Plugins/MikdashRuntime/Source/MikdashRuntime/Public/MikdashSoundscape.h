@@ -192,6 +192,19 @@ struct MIKDASHRUNTIME_API FMikdashAcousticZone
  *   PlayServiceSound(...) for AMikdashServiceActor.
  * Both are BlueprintCallable and both are no-ops until their banks are populated.
  */
+/** Explicit identity, never inferred from a filename or a similar bird species. */
+USTRUCT(BlueprintType)
+struct MIKDASHRUNTIME_API FMikdashBirdSoundBank
+{
+    GENERATED_BODY()
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Birds")
+    FName SpeciesName;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Birds")
+    TArray<TObjectPtr<USoundBase>> Calls;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Birds")
+    TArray<TObjectPtr<USoundBase>> Wingbursts;
+};
+
 UCLASS(Blueprintable, ClassGroup = "Mikdash", meta = (DisplayName = "Mikdash Soundscape"))
 class MIKDASHRUNTIME_API AMikdashSoundscape : public AActor
 {
@@ -207,13 +220,19 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Soundscape")
     TArray<FMikdashAcousticZone> Zones;
 
-    /** Bird one-shots, chosen by the event name the flock broadcast. Empty means the
-     *  hook is bound and ignored, which is a valid state: the flock still flies. */
+    /** Legacy serialized bank retained for compatibility, never used for flock calls.
+     * Unclassified sources must be auditioned before explicit species assignment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Soundscape|Birds")
     TArray<TObjectPtr<USoundBase>> BirdCallSounds;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Soundscape|Birds")
     TArray<TObjectPtr<USoundBase>> BirdWingburstSounds;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Soundscape|Birds")
+    TArray<FMikdashBirdSoundBank> SpeciesBirdBanks;
+    /** False selects diffuse emitters only and ignores all flock events. True
+     * suppresses scheduled bird emitters once a flock hook is connected. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Soundscape|Birds")
+    bool bUseFlockBirdAudio = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Soundscape|Birds")
     TObjectPtr<USoundAttenuation> BirdAttenuation = nullptr;
@@ -339,6 +358,8 @@ public:
     // ---------------------------------------------------------------- API
     UFUNCTION(BlueprintCallable, Category = "Mikdash|Soundscape")
     void RebuildEmitters();
+    UFUNCTION(BlueprintPure, Category="Mikdash|Soundscape")
+    int32 GetBirdSpeciesAudioAdapterVersion() const { return 1; }
 
     UFUNCTION(BlueprintCallable, Category = "Mikdash|Soundscape")
     void SetMasterVolume(float NewVolume);
@@ -430,6 +451,8 @@ protected:
     void DestroyComponents();
     void UpdateAcoustics(const FVector& ListenerCm, double DeltaSeconds);
     void UpdateScheduler(const FVector& ListenerCm, double DeltaSeconds);
+    void SilenceDiffuseBirds();
+    bool bFlockCallsConnected = false;
     void UpdateOcclusion(const FVector& ListenerCm);
     void PruneOneShots();
     bool GetListenerLocation(FVector& OutCm) const;
@@ -459,4 +482,3 @@ protected:
     uint32 OneShotCounter = 0;
     bool   bTimeOfDayBound = false;
 };
-

@@ -1,3 +1,23 @@
+Grounded diagnostics and exact bird-routing fullgate9/9,32math, UBT7actions31.66s PASS
+verify-ubt-0rsfzh51.log; finalPythonquick6/6. Full natural service probe with rawCMC support,
+arrival/pause/resume assertions and optional stills is running; no fullroute acceptance yet.
+
+Grounded90 runtime065856: reaches lamp4/station6, blockedlegs0, endpointcapsulehits0,
+pause2.01s/feetdrift0, maps/saves unchanged. TWO visual-foot floor misses on stair ascent
+(11.71cm and15.88cm); partial_findings, not acceptance. Raw CMCsupport diagnostics and
+stronger arrival/pause+resume observations prepared; fullbuild running with birdroutingfix.
+
+Grounded fresh-process065701 verified exact saved map hash and protected Content hashes,
+plus local reload stability and explicit mode/stance/body guards. Cross-process semantic
+snapshot is not persisted; do not overstate that check. Native90sim motor test now running;
+startupOFF in saved map. Audio species routing is a separate source-only worker change.
+
+Grounded candidate configuration065445 saved/reopened with unchanged strict snapshot checks;
+prior pristine churn did not recur, cause remains unconfirmed. Protected differences empty.
+Map7eda28df84b35e45a6e975d39bebc23817798cc2af2db324b0121e09a30255d2.
+Motor opted in, top-tread legacyX-5269.09, startupOFF. Fresh verification pending.
+Final motor incrementalbuild8/8 passed verify-ubt-zo1g471g.log; source pushed153d88e0.
+
 Grounded configuration064151 refused BEFORE saving: pristine snapshot churn.
 Map0d997 and protectedassets unchanged. Helper now records exact changed keys before
 refusal; diagnose rather than weaken preservation. Dwell-facing source correction is

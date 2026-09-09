@@ -130,11 +130,11 @@ void AMikdashSoundscape::BeginPlay()
 {
     Super::BeginPlay();
     BindTimeOfDay();
-    RebuildEmitters();
-    if (bBindBirdFlocks)
+    if (bBindBirdFlocks && bUseFlockBirdAudio)
     {
         BindBirdFlocks();
     }
+    RebuildEmitters();
 }
 
 void AMikdashSoundscape::EndPlay(const EEndPlayReason::Type Reason)
@@ -283,6 +283,8 @@ void AMikdashSoundscape::BindBirdFlocks()
         ++Bound;
     }
     UE_LOG(LogTemp, Log, TEXT("MikdashSoundscape: bound the bird-sound hook on %d flock actor(s)."), Bound);
+    bFlockCallsConnected = Bound > 0;
+    if (bFlockCallsConnected) SilenceDiffuseBirds();
 }
 
 // ---------------------------------------------------------------------------
@@ -560,6 +562,16 @@ void AMikdashSoundscape::UpdateScheduler(const FVector& ListenerCm, double Delta
         const FMikdashSoundEmitter& E = Emitters[I];
         FEmitterRuntime& R = Runtime[I];
         const MikdashSoundscape::ELayer Layer = ToNative(E.Layer);
+        if (bUseFlockBirdAudio && bFlockCallsConnected && Layer==MikdashSoundscape::ELayer::Bird)
+        {
+            R.bSounding=false; R.SmoothedGain=0;
+            for(int32 Voice=0;Voice<2;++Voice)
+            {
+                R.SlotEnvelope[Voice]=0;
+                if(Components.IsValidIndex(I*2+Voice) && Components[I*2+Voice]) Components[I*2+Voice]->Stop();
+            }
+            continue;
+        }
 
         R.CountdownSeconds -= DeltaSeconds;
         if (R.CountdownSeconds <= 0.0)
@@ -650,6 +662,7 @@ void AMikdashSoundscape::StartEvent(int32 Index, const MikdashSoundscape::Emitte
 {
     if (!Emitters.IsValidIndex(Index) || !Runtime.IsValidIndex(Index)) return;
     const FMikdashSoundEmitter& E = Emitters[Index];
+    if (bUseFlockBirdAudio && bFlockCallsConnected && E.Layer==EMikdashSoundLayer::Bird) return;
     FEmitterRuntime& R = Runtime[Index];
 
     USoundBase* Sound = E.Sources.IsValidIndex(Event.SourceIndex)
@@ -737,14 +750,36 @@ void AMikdashSoundscape::PruneOneShots()
     }
 }
 
-void AMikdashSoundscape::HandleBirdSound(FName EventName, FName /*SpeciesName*/,
+void AMikdashSoundscape::SilenceDiffuseBirds()
+{
+    for(int32 I=0;I<Emitters.Num();++I)
+        if(Emitters[I].Layer==EMikdashSoundLayer::Bird)
+            for(int32 Voice=0;Voice<2;++Voice)
+                if(Components.IsValidIndex(I*2+Voice) && Components[I*2+Voice]) Components[I*2+Voice]->Stop();
+}
+
+void AMikdashSoundscape::HandleBirdSound(FName EventName, FName SpeciesName,
                                          FVector WorldLocationCm, float Intensity)
 {
+    if (!bUseFlockBirdAudio) return;
+    if (!bFlockCallsConnected) { bFlockCallsConnected=true; SilenceDiffuseBirds(); }
+    const bool KnownSpecies = SpeciesName==TEXT("RockDove") || SpeciesName==TEXT("CommonSwift")
+        || SpeciesName==TEXT("HoodedCrow") || SpeciesName==TEXT("CommonKestrel") || SpeciesName==TEXT("GriffonVulture");
+    if (!KnownSpecies) return;
+    const FMikdashBirdSoundBank* SpeciesBank=nullptr;
+    for(const FMikdashBirdSoundBank& Candidate : SpeciesBirdBanks)
+        if(Candidate.SpeciesName==SpeciesName)
+        {
+            if(SpeciesBank) return; // ambiguous duplicate configuration fails silent
+            SpeciesBank=&Candidate;
+        }
+    if(!SpeciesBank) return;
     if (BirdSoundBudget < 1.0) return;   // rate limit, shared across every flock
 
     const bool bBurst = (EventName == TEXT("Wingburst")) || (EventName == TEXT("Startle"))
                      || (EventName == TEXT("Land"));
-    const TArray<TObjectPtr<USoundBase>>& Bank = bBurst ? BirdWingburstSounds : BirdCallSounds;
+    if(!bBurst && EventName!=TEXT("Call")) return;
+    const TArray<TObjectPtr<USoundBase>>& Bank = bBurst ? SpeciesBank->Wingbursts : SpeciesBank->Calls;
     if (Bank.Num() == 0) return;
 
     const MikdashSoundscape::DayAnchors A = CurrentAnchors();

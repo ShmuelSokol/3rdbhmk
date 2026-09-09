@@ -222,6 +222,21 @@ public:
     FVector GetServiceFeetLocation() const;
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     bool IsServiceGrounded() const;
+    /** Raw movement support diagnostics, distinct from visual-foot floor agreement. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceMovementMode() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool HasServiceWalkableSupport() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    float GetServiceMovementFloorDistance() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    FVector GetServiceMovementFloorImpact() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsServicePaused() const { return bPaused; }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsServiceDwelling() const { return Runner.Where().State == MikdashService::Phase::Dwelling; }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    float GetServicePhaseSeconds() const { return static_cast<float>(Runner.Where().InPhaseSeconds); }
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     FVector GetServiceStationLocation(int32 Index) const;
     UFUNCTION(BlueprintPure, Category = "Kohen service")

@@ -30,6 +30,21 @@ That is the whole command. The script:
 7. Writes `checkpoint-receipt.json` into the job folder and copies it to
    `SourceAssets/build-review/checkpoint-<label>-<stamp>.json`.
 
+The smoke lives in its own script so a build that already exists can be re-tested without
+paying for another cook:
+
+```powershell
+powershell -File ...\Smoke-Build.ps1 -Archive C:\Mikdash\Builds\Checkpoint-cp01-<stamp>
+```
+
+**Watch the child, never the stub.** The exe in the archive root is a launcher that spawns the
+real game under `MikdashCourtyardV3\Binaries\Win64` and exits immediately. Polling the handle
+`Start-Process` returns therefore reports failure a second or two in, while the game is still
+loading — that is exactly how cp01's first smoke reported a dead build that was in fact fine.
+`Smoke-Build.ps1` polls for a process by *name* with a real window handle, then waits ten more
+seconds to be sure the window survives its first frames. A healthy build here opens in about
+6 seconds and settles near 1.2 GB.
+
 Terminal status values, in order of goodness:
 
 | status | meaning |

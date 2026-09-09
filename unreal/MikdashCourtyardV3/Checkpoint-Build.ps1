@@ -116,27 +116,22 @@ try {
     Save-Receipt
 }
 
-# --- bounded startup smoke: does the thing this user is meant to double-click open? -----
+# --- bounded startup smoke: does the thing the user double-clicks open? -----------------
+# Delegated to Smoke-Build.ps1 so a build that already exists can be re-tested without paying
+# for another cook - and because getting this right needs more care than it looks: the exe in
+# the archive root is a launcher stub that spawns the real game and exits, so watching the
+# Start-Process handle reports failure while the game is still loading.
 if ($cookOk -and -not $SkipSmoke) {
-    $launcher = Join-Path $archive 'Windows\MikdashCourtyardV3.exe'
-    if (-not (Test-Path -LiteralPath $launcher)) { $launcher = $child }
-    $p = Start-Process -FilePath $launcher -ArgumentList '-windowed -ResX=1280 -ResY=720 -nosplash' -PassThru
-    $up = $false
-    for ($i = 0; $i -lt 24; $i++) {
-        Start-Sleep -Seconds 5
-        $live = Get-Process -Id $p.Id -ErrorAction SilentlyContinue
-        if (-not $live) { break }
-        if ($live.MainWindowHandle -ne 0 -and $i -ge 3) { $up = $true; break }
+    $smokeReceipt = Join-Path $job 'smoke-receipt.json'
+    & (Join-Path $PSScriptRoot 'Smoke-Build.ps1') -Archive $archive -ReceiptPath $smokeReceipt | Out-Null
+    if (Test-Path -LiteralPath $smokeReceipt) {
+        $smoke = Get-Content -LiteralPath $smokeReceipt -Raw | ConvertFrom-Json
+        $r.smoke = $smoke
+        $r.status = if ($smoke.status -eq 'playable') { 'checkpoint_playable' }
+                    else { 'cook_passed_but_smoke_' + $smoke.status }
+    } else {
+        $r.status = 'cook_passed_but_smoke_did_not_report'
     }
-    $r.smokeWindowOpened = $up
-    $child2 = Get-Process MikdashCourtyardV3 -ErrorAction SilentlyContinue
-    if ($child2) { $r.smokePeakWorkingSetMB = [int](($child2 | Measure-Object WorkingSet64 -Maximum).Maximum / 1MB) }
-    foreach ($proc in @($p) + @($child2)) {
-        if ($proc -and (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue)) {
-            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-        }
-    }
-    $r.status = if ($up) { 'checkpoint_playable' } else { 'cook_passed_but_window_never_opened' }
 }
 $r.finishedUtc = (Get-Date).ToUniversalTime().ToString('o')
 Save-Receipt

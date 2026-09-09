@@ -92,6 +92,8 @@ Safety model (the release_place_assets.py model, unchanged):
     mesh path, pose and world bounds numerically.
   * The receipt JSON is written at start and again in finally, so failure receipts are preserved.
 """
+import csv
+import io
 import hashlib
 import json
 import math
@@ -856,11 +858,14 @@ def _zombie_editors():
     symptom. This has cost this project a debugging session before, so the process list is
     captured rather than guessed at."""
     try:
-        out = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq UnrealEditor*.exe', '/NH'],
-                             capture_output=True, text=True, timeout=30).stdout
+        out = subprocess.run(['tasklist', '/FO', 'CSV', '/NH'],
+                             capture_output=True, text=True, timeout=30, check=True).stdout
     except Exception as error:  # noqa: BLE001
         return {'checked': False, 'reason': repr(error)}
-    rows = [line.split()[0] for line in out.splitlines() if 'UnrealEditor' in line]
+    parsed = list(csv.reader(io.StringIO(out)))
+    if not parsed or any(len(row) < 2 for row in parsed):
+        return {'checked': False, 'reason': 'Unparseable process inventory'}
+    rows = [row for row in parsed if row[0].lower() in ('unrealeditor.exe', 'unrealeditor-cmd.exe')]
     return {'checked': True, 'processes': rows, 'count': len(rows)}
 
 
@@ -1361,6 +1366,8 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
     run_state = GateSecurity(ue, spec)
     if run_state.editor.get_game_world():
         raise RuntimeError('A game world is active; never mutate during play')
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages before map load; refusing to discard changes')
     if load_target:
         if not run_state.levels.load_level(TARGET):
             raise RuntimeError('load_level failed for ' + TARGET)
@@ -1541,7 +1548,12 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
                 raise RuntimeError('Reopened bounds differ for %s by %.5f'
                                    % (record['label'], entry['boundsErrorCm']))
             component = row['actor'].get_component_by_class(ue.StaticMeshComponent)
+            if component is None:
+                raise RuntimeError('Reopened static mesh component missing: ' + record['label'])
             entry['collisionProfile'] = str(component.get_collision_profile_name())
+            entry['collisionEnabled'] = str(component.get_collision_enabled())
+            if entry['collisionProfile'] != 'NoCollision' or component.get_collision_enabled() != ue.CollisionEnabled.NO_COLLISION:
+                raise RuntimeError('Reopened collision is not disabled: ' + record['label'])
             if record['sign']:
                 observed = [_asset_path(component.get_material(s))
                             for s in range(component.get_num_materials())]
@@ -1583,6 +1595,8 @@ def verify_in_place(gates=GATE_ORDER, load_target=True):
     run_state = GateSecurity(ue, spec)
     if run_state.editor.get_game_world():
         raise RuntimeError('A game world is active')
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages before map load; refusing to discard changes')
     if load_target and not run_state.levels.load_level(TARGET):
         raise RuntimeError('load_level failed for ' + TARGET)
     run_state.world = run_state.editor.get_editor_world()
@@ -1632,7 +1646,15 @@ def verify_in_place(gates=GATE_ORDER, load_target=True):
                 if rec['boundsErrorCm'] > verify['staticBoundsToleranceCm']:
                     rec['problem'] = 'bounds differ by %.5f cm' % rec['boundsErrorCm']
                 component = row['actor'].get_component_by_class(ue.StaticMeshComponent)
+                if component is None:
+                    rec['problem'] = 'static mesh component missing'
+                    entry['problems'].append(rec['problem'] + ': ' + plan['label'])
+                    entry['actors'].append(rec)
+                    continue
                 rec['collisionProfile'] = str(component.get_collision_profile_name())
+                rec['collisionEnabled'] = str(component.get_collision_enabled())
+                if rec['collisionProfile'] != 'NoCollision' or component.get_collision_enabled() != ue.CollisionEnabled.NO_COLLISION:
+                    rec['problem'] = 'collision must be disabled with NoCollision profile'
                 if plan['sign']:
                     observed = [_asset_path(component.get_material(k)) for k in range(component.get_num_materials())]
                     rec['signMaterialReadback'] = observed

@@ -1,5 +1,18 @@
 # Integration queue — Walkthrough-12
 
+## Latest progress — 2026-09-09 UTC (supersedes historical unchecked rows)
+- Enclosure main/candidate persistence repaired; main gate visible in PIE. NoCollision
+  enclosure segments are a depiction, not a walkability pass.
+- Lighting C adopted; all 24 V3 residents spawn and move on both maps (dcebc3d4).
+- Sky/time-of-day and weather saved/reopened on main, native-place-20260909T030218302603Z.
+  Fresh PIE sees one of each, clear weather, 30000 lux/6500 K, sky 1.3, fog 0.0015 and
+  local-exposure C settings retained. Three-view capture030529Z inspected: preserved detail, dark backlit gate and bright
+  vessel highlights remain. Native functions accepted only for morning; dusk/night unreviewed.
+- Gate-security read-only verification030841758949Z passed90/90, including disabled
+  collision plus NoCollision profile; map unchanged.
+- 48 cm candidate remains isolated; no new cook or release from this continuation yet.
+
+
 Engine jobs run SERIAL and in the FOREGROUND. RTX 2070 / 16 GB will not take two at once.
 Inspect any existing UnrealEditor process and establish ownership before each job. Never kill the user's editor or an active colleague job. An abandoned editor holding the map makes
 saves return False with no other symptom.

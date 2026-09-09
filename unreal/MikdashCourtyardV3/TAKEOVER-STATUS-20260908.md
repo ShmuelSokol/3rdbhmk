@@ -1,3 +1,16 @@
+# Continuing sky/weather integration — 2026-09-09 03:08 UTC
+
+Previous batch is pushed as dcebc3d4. Work continues; this is not a new package.
+Sky/time-of-day and weather now saved/reopened on main: native-place-20260909T030218302603Z.
+Fresh gameplay capture lighting-v3-capture-20260909T030529Z passes all persistence guards;
+all three PNGs inspected. One clock and one clear-weather controller; daylight30000lux/6500K,
+sky1.3/fog0.0015 and C local exposure retained. Gate backlighting, unfinished hillside access,
+repeating surfaces and bright gold vessels remain visual limitations. Dusk/night unreviewed.
+Main hash4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922.
+Gate-security verifier now asserts disabled collision and profile; native check030841758949Z passed90/90, problems[], map unchanged.
+First sky placement failure (enum/actor Python naming collision) and first capture refusal
+(wrong isolated-save prefix for that helper) retained as evidence; neither changed saved map.
+
 # Astra continuation — 9 September 2026 UTC
 
 This section supersedes the older state below. Claude stopped at the five-hour limit,

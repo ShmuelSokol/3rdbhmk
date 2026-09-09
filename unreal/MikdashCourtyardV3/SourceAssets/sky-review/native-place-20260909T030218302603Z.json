@@ -1,0 +1,630 @@
+{
+  "status": "sky_tod_placed_saved_reopened_existing_lighting_unchanged_visual_review_pending",
+  "stamp": "20260909T030218302603Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "7f8e60b88ae5c8c3643304f0fe4c6048d34d2520af1a825e211a1dc38cea1f29",
+  "mapMatchesLastKnownSha256": false,
+  "protectedSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0"
+  },
+  "protectedAssetSha256Before": {
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/MI_Cloud": "bb7ff44a214d5f2b86fca14f3f984bea2b5c93e4435c4fef30823015d4f53d7c",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered": "aeecbfd89cd4770857df2e23a7c0b6f320707ef62169bf8a798e7ec98ca33f7c"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_sky_tod.spec.json",
+  "specSha256": "da4f3d5c5371e76ee8776261607123313ab1277366c78ff79bf898abca45b8e2",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "status": "offline_check",
+    "targetMapExists": true,
+    "targetMapSha256": "7f8e60b88ae5c8c3643304f0fe4c6048d34d2520af1a825e211a1dc38cea1f29",
+    "timeOfDayHeaderExists": true,
+    "weatherHeaderExists": true,
+    "pluginDllExists": true,
+    "pluginDllModified": "2026-09-09T01:23:38.142695+00:00",
+    "uhtHasTimeOfDay": true,
+    "uhtHasWeather": true,
+    "liveEditorProcesses": [
+      [
+        "UnrealEditor-Cmd.exe",
+        "50016",
+        "Console",
+        "1",
+        "1,788,724 K"
+      ]
+    ],
+    "targetMapMatchesLastKnown": false,
+    "problems": []
+  },
+  "switches": {
+    "bake": null,
+    "revert": null
+  },
+  "liveEditorProcessesAtStart": [
+    [
+      "UnrealEditor-Cmd.exe",
+      "50016",
+      "Console",
+      "1",
+      "2,936,036 K"
+    ]
+  ],
+  "weatherClassAvailable": true,
+  "errors": [],
+  "omissions": {},
+  "existingActors": {
+    "DirectionalLight": [
+      {
+        "name": "DirectionalLight_0",
+        "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+      }
+    ],
+    "SkyLight": [
+      {
+        "name": "SkyLight_0",
+        "label": "V2 skylight"
+      }
+    ],
+    "SkyAtmosphere": [
+      {
+        "name": "SkyAtmosphere_0",
+        "label": "V3 daylight sky"
+      }
+    ],
+    "VolumetricCloud": [
+      {
+        "name": "VolumetricCloud_0",
+        "label": "IntegratedReview_VolumetricCloud"
+      }
+    ],
+    "ExponentialHeightFog": [
+      {
+        "name": "ExponentialHeightFog_0",
+        "label": "RELEASE_HeightFog"
+      }
+    ],
+    "PostProcessVolume": [
+      {
+        "name": "PostProcessVolume_0",
+        "label": "V3 cinematic exposure - histogram EV 0-14, filmic"
+      }
+    ]
+  },
+  "wired": {
+    "sun": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+    "skyLight": "V2 skylight",
+    "skyAtmosphere": "V3 daylight sky",
+    "cloud": "IntegratedReview_VolumetricCloud",
+    "fog": "RELEASE_HeightFog",
+    "postProcess": "V3 cinematic exposure - histogram EV 0-14, filmic"
+  },
+  "before": {
+    "sun": {
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 6500.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "volumetric_scattering_intensity": 1.0,
+        "atmosphere_sun_light": true,
+        "atmosphere_sun_light_index": 0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "contact_shadow_length": 0.019999999552965164,
+        "indirect_lighting_intensity": 1.0,
+        "cast_shadows": true,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      }
+    },
+    "skyLight": {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "props": {
+        "intensity": 1.2999999523162842,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cubemap_resolution": 128,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "skyAtmosphere": {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "transmittance_min_light_elevation_angle": -90.0
+      }
+    },
+    "cloud": {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "materialParameters": {
+          "scalars": {
+            "Cloud_GlobalCoverage": 0.15000000596046448,
+            "Cloud_GlobalDensity": 0.00800000037997961,
+            "Layout_CloudGlobalScale": 256.0,
+            "StormClouds": 0.0
+          },
+          "vectors": {
+            "Layout_WindControls": [
+              1.0,
+              1.0,
+              0.5,
+              0.33333298563957214
+            ]
+          }
+        }
+      }
+    },
+    "fog": {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.9399999976158142,
+          0.8199999928474426,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0
+      }
+    },
+    "postProcess": {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "settings": {
+        "auto_exposure_method": "AutoExposureMethod.AEM_HISTOGRAM",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "bloom_intensity": 0.30000001192092896,
+        "vignette_intensity": 0.30000001192092896,
+        "white_temp": 6500.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5
+      },
+      "overrides": {
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true
+      },
+      "unbound": true,
+      "priority": 1000.0
+    }
+  },
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\SkyTOD-20260909T030218302603Z",
+  "oneFilePerActorFoldersCopied": [],
+  "placed": {
+    "timeOfDay": {
+      "label": "RELEASE_SkyTimeOfDay",
+      "settings": {
+        "frozen": true,
+        "rate_multiplier": 0.0,
+        "year": 2026,
+        "month": 9,
+        "day": 8,
+        "start_preset": "MikdashTimePreset.MORNING",
+        "apply_start_preset_on_begin_play": true,
+        "restore_on_end_play": true,
+        "use_israeli_daylight_saving": true,
+        "world_x_axis_compass_bearing_deg": 90.0,
+        "max_fog_density": 0.006000000052154064,
+        "forbid_volumetric_fog": true,
+        "spawn_moon_light_if_missing": true,
+        "drive_sun": true,
+        "drive_moon": true,
+        "drive_sky_light": true,
+        "drive_sky_atmosphere": true,
+        "drive_clouds": true,
+        "drive_fog": true,
+        "drive_exposure": true
+      },
+      "references": {
+        "sun_light": {
+          "name": "DirectionalLight_0",
+          "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30"
+        },
+        "sky_light": {
+          "name": "SkyLight_0",
+          "label": "V2 skylight"
+        },
+        "sky_atmosphere": {
+          "name": "SkyAtmosphere_0",
+          "label": "V3 daylight sky"
+        },
+        "volumetric_cloud": {
+          "name": "VolumetricCloud_0",
+          "label": "IntegratedReview_VolumetricCloud"
+        },
+        "height_fog": {
+          "name": "ExponentialHeightFog_0",
+          "label": "RELEASE_HeightFog"
+        },
+        "post_process_volume": {
+          "name": "PostProcessVolume_0",
+          "label": "V3 cinematic exposure - histogram EV 0-14, filmic"
+        }
+      },
+      "astronomy": {
+        "dawnHours": 5.901707172393799,
+        "sunriseHours": 6.312065124511719,
+        "morningHours": 9.462626457214355,
+        "middayHours": 12.613187789916992,
+        "afternoonHours": 16.38889503479004,
+        "sunsetHours": 18.90603256225586,
+        "duskHours": 19.315576553344727,
+        "nightHours": 0.6131880283355713,
+        "timeZoneOffsetHours": 3.0
+      }
+    },
+    "weather": {
+      "label": "RELEASE_SkyWeather",
+      "settings": {
+        "start_weather": "MikdashWeather.CLEAR",
+        "pick_seasonal_weather_on_begin_play": false,
+        "enforce_season": true,
+        "default_transition_seconds": 20.0,
+        "world_x_axis_compass_bearing_deg": 90.0
+      },
+      "references": {
+        "time_of_day": {
+          "name": "MikdashTimeOfDay_0",
+          "label": "RELEASE_SkyTimeOfDay"
+        }
+      }
+    }
+  },
+  "existingActorDeltaBeforeSave": {},
+  "liveEditorProcessesBeforeSave": [
+    [
+      "UnrealEditor-Cmd.exe",
+      "50016",
+      "Console",
+      "1",
+      "3,555,236 K"
+    ]
+  ],
+  "mapSaved": true,
+  "mapSha256AfterSave": "4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922",
+  "after": {
+    "sun": {
+      "name": "DirectionalLight_0",
+      "label": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "props": {
+        "intensity": 30000.0,
+        "use_temperature": true,
+        "temperature": 6500.0,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "light_source_angle": 0.5,
+        "light_source_soft_angle": 0.0,
+        "volumetric_scattering_intensity": 1.0,
+        "atmosphere_sun_light": true,
+        "atmosphere_sun_light_index": 0,
+        "cast_cloud_shadows": true,
+        "cloud_shadow_strength": 0.6000000238418579,
+        "contact_shadow_length": 0.019999999552965164,
+        "indirect_lighting_intensity": 1.0,
+        "cast_shadows": true,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      }
+    },
+    "skyLight": {
+      "name": "SkyLight_0",
+      "label": "V2 skylight",
+      "props": {
+        "intensity": 1.2999999523162842,
+        "light_color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "source_type": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+        "cubemap": null,
+        "real_time_capture": true,
+        "lower_hemisphere_is_black": false,
+        "lower_hemisphere_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "indirect_lighting_intensity": 1.0,
+        "volumetric_scattering_intensity": 1.0,
+        "cubemap_resolution": 128,
+        "mobility": "ComponentMobility.MOVABLE",
+        "actorRotation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "skyAtmosphere": {
+      "name": "SkyAtmosphere_0",
+      "label": "V3 daylight sky",
+      "props": {
+        "aerial_pespective_view_distance_scale": 1.7999999523162842,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "mie_anisotropy": 0.800000011920929,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "height_fog_contribution": 1.0,
+        "sky_luminance_factor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "multi_scattering_factor": 1.0,
+        "transmittance_min_light_elevation_angle": -90.0
+      }
+    },
+    "cloud": {
+      "name": "VolumetricCloud_0",
+      "label": "IntegratedReview_VolumetricCloud",
+      "props": {
+        "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_Cloud_Scattered.MI_Cloud_Scattered",
+        "layer_bottom_altitude": 1.7999999523162842,
+        "layer_height": 2.4000000953674316,
+        "materialParameters": {
+          "scalars": {
+            "Cloud_GlobalCoverage": 0.15000000596046448,
+            "Cloud_GlobalDensity": 0.00800000037997961,
+            "Layout_CloudGlobalScale": 256.0,
+            "StormClouds": 0.0
+          },
+          "vectors": {
+            "Layout_WindControls": [
+              1.0,
+              1.0,
+              0.5,
+              0.33333298563957214
+            ]
+          }
+        }
+      }
+    },
+    "fog": {
+      "name": "ExponentialHeightFog_0",
+      "label": "RELEASE_HeightFog",
+      "props": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "fog_max_opacity": 0.8500000238418579,
+        "fog_cutoff_distance": 0.0,
+        "fog_inscattering_luminance": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sky_atmosphere_ambient_contribution_color_scale": [
+          1.0,
+          0.9399999976158142,
+          0.8199999928474426,
+          1.0
+        ],
+        "directional_inscattering_luminance": [
+          1500.0,
+          1170.0,
+          750.0,
+          1.0
+        ],
+        "directional_inscattering_exponent": 16.0,
+        "directional_inscattering_start_distance": 5000.0,
+        "enable_volumetric_fog": false,
+        "volumetric_fog_scattering_distribution": 0.30000001192092896,
+        "volumetric_fog_extinction_scale": 1.0,
+        "volumetric_fog_distance": 20000.0
+      }
+    },
+    "postProcess": {
+      "name": "PostProcessVolume_0",
+      "label": "V3 cinematic exposure - histogram EV 0-14, filmic",
+      "settings": {
+        "auto_exposure_method": "AutoExposureMethod.AEM_HISTOGRAM",
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164,
+        "bloom_intensity": 0.30000001192092896,
+        "vignette_intensity": 0.30000001192092896,
+        "white_temp": 6500.0,
+        "lumen_scene_detail": 1.5,
+        "lumen_final_gather_quality": 1.25,
+        "lumen_reflection_quality": 1.5
+      },
+      "overrides": {
+        "override_auto_exposure_bias": true,
+        "override_auto_exposure_min_brightness": true,
+        "override_auto_exposure_max_brightness": true
+      },
+      "unbound": true,
+      "priority": 1000.0
+    }
+  },
+  "existingActorDeltaAfterReopen": {},
+  "authoredTuneReadback": {
+    "fog.fog_density": {
+      "expected": 0.0015,
+      "got": 0.001500000013038516,
+      "ok": true
+    },
+    "fog.fog_height_falloff": {
+      "expected": 0.15,
+      "got": 0.15000000596046448,
+      "ok": true
+    },
+    "fog.start_distance": {
+      "expected": 8000.0,
+      "got": 8000.0,
+      "ok": true
+    },
+    "fog.enable_volumetric_fog": {
+      "expected": false,
+      "got": false,
+      "ok": true
+    },
+    "skyLight.lower_hemisphere_is_black": {
+      "expected": false,
+      "got": false,
+      "ok": true
+    },
+    "skyLight.source_type": {
+      "expected": "SLS_CAPTURED_SCENE",
+      "got": "SkyLightSourceType.SLS_CAPTURED_SCENE",
+      "ok": true
+    },
+    "skyLight.real_time_capture": {
+      "expected": true,
+      "got": true,
+      "ok": true
+    }
+  },
+  "authoredTunePreserved": true,
+  "reopenedReadback": {
+    "timeOfDay": {
+      "frozen": true,
+      "rate_multiplier": 0.0,
+      "year": 2026,
+      "month": 9,
+      "day": 8,
+      "start_preset": "MikdashTimePreset.MORNING",
+      "apply_start_preset_on_begin_play": true,
+      "restore_on_end_play": true,
+      "use_israeli_daylight_saving": true,
+      "world_x_axis_compass_bearing_deg": 90.0,
+      "max_fog_density": 0.006000000052154064,
+      "forbid_volumetric_fog": true,
+      "spawn_moon_light_if_missing": true,
+      "drive_sun": true,
+      "drive_moon": true,
+      "drive_sky_light": true,
+      "drive_sky_atmosphere": true,
+      "drive_clouds": true,
+      "drive_fog": true,
+      "drive_exposure": true
+    },
+    "timeOfDayReferences": {
+      "sun_light": "V3 daylight sun - 30000 lux 5000 K morning az 110 el 30",
+      "sky_light": "V2 skylight",
+      "sky_atmosphere": "V3 daylight sky",
+      "volumetric_cloud": "IntegratedReview_VolumetricCloud",
+      "height_fog": "RELEASE_HeightFog",
+      "post_process_volume": "V3 cinematic exposure - histogram EV 0-14, filmic"
+    },
+    "weather": {
+      "start_weather": "MikdashWeather.CLEAR",
+      "pick_seasonal_weather_on_begin_play": false,
+      "enforce_season": true,
+      "default_transition_seconds": 20.0,
+      "world_x_axis_compass_bearing_deg": 90.0
+    },
+    "weatherTimeOfDayReference": "RELEASE_SkyTimeOfDay"
+  },
+  "mapSha256After": "4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "protectedAssetsUnchanged": true
+}

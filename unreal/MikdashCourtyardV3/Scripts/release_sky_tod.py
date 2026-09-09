@@ -53,6 +53,8 @@ UE 5.8 pitfalls this script is built around:
     a material asset); the cloud parameters are recorded from the assigned instance.
   * Property setters are verified by reading the value back; return values are ignored.
 """
+import csv
+import io
 import hashlib
 import json
 import math
@@ -93,12 +95,13 @@ def load_spec():
 
 def editor_processes():
     """Zombie check. A 'failed' save is often a leftover editor holding the file."""
-    try:
-        out = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq UnrealEditor*.exe', '/NH'],
-                             capture_output=True, text=True, timeout=30).stdout
-    except Exception as error:  # noqa: BLE001
-        return ['tasklist_failed: ' + repr(error)]
-    return [line.strip() for line in out.splitlines() if line.strip() and 'UnrealEditor' in line]
+    result = subprocess.run(['tasklist', '/FO', 'CSV', '/NH'],
+                            capture_output=True, text=True, timeout=30, check=True)
+    rows = list(csv.reader(io.StringIO(result.stdout)))
+    if not rows or any(len(row) < 2 for row in rows):
+        raise RuntimeError('Unparseable process inventory; refusing to assume no editor')
+    return [row for row in rows if row[0].lower() in ('unrealeditor.exe', 'unrealeditor-cmd.exe')]
+
 
 
 def relative_close(a, b, tolerance):
@@ -312,7 +315,12 @@ class Placement:
         ue = self.ue
         if isinstance(value, dict) and '$enum' in value:
             enum_name, member = value['$enum'].split('.')
-            return getattr(getattr(ue, enum_name), member)
+            enum_type = getattr(ue, enum_name)
+            if enum_name == 'MikdashWeather' and not hasattr(enum_type, member):
+                # UE Python exports the actor and enum under the same short name.
+                cls = ue.load_class(None, '/Script/MikdashRuntime.MikdashWeather')
+                enum_type = type(ue.get_default_object(cls).get_editor_property('start_weather'))
+            return getattr(enum_type, member)
         return value
 
     def apply_settings(self, actor, settings, label):
@@ -373,6 +381,8 @@ def place(load_target=True, bake=None, revert=None):
     run = Placement(ue, spec)
     if run.editor.get_game_world():
         raise RuntimeError('A game world is active; never mutate during play')
+    if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+        raise RuntimeError('Dirty packages present before map load; refusing to discard changes')
     if load_target:
         if not run.levels.load_level(TARGET):
             raise RuntimeError('load_level failed for ' + TARGET)
@@ -449,13 +459,10 @@ def place(load_target=True, bake=None, revert=None):
         tod_entry = spec['actors']['timeOfDay']
         weather_entry = spec['actors']['weather']
 
-        if revert:
-            return _revert(run, wired, before, Path(revert), map_file, protected, protected_assets, map_sha_before)
-
-        if run.find_by_label(tod_entry['label']) or run.find_by_label(weather_entry['label']):
+        if not revert and (run.find_by_label(tod_entry['label']) or run.find_by_label(weather_entry['label'])):
             raise RuntimeError('RELEASE_Sky* actors already present; refusing to duplicate (use -SkyToDRevert first)')
         for actor in run.actors.get_all_level_actors():
-            if isinstance(actor, tod_cls) or (weather_cls is not None and isinstance(actor, weather_cls)):
+            if not revert and (isinstance(actor, tod_cls) or (weather_cls is not None and isinstance(actor, weather_cls))):
                 raise RuntimeError('An actor of the time-of-day/weather class already exists: ' + actor.get_actor_label())
 
         # -- checkpoint ----------------------------------------------------------
@@ -474,9 +481,13 @@ def place(load_target=True, bake=None, revert=None):
         run.receipt['oneFilePerActorFoldersCopied'] = external_copied
         run.write_receipt()
 
+        if revert:
+            return _revert(run, wired, before, Path(revert), map_file, protected, protected_assets, map_sha_before)
+
         # -- place -------------------------------------------------------------
         refs = {'sun_light': wired['sun'], 'sky_light': wired['skyLight'], 'sky_atmosphere': wired['skyAtmosphere'],
                 'volumetric_cloud': wired['cloud'], 'height_fog': wired['fog'], 'post_process_volume': wired['postProcess']}
+        expected_ref_labels = {key: actor.get_actor_label() if actor else None for key, actor in refs.items()}
         tod_actor, tod_readback, tod_refs = run.spawn(tod_cls, tod_entry, refs)
         run.receipt['placed'] = {'timeOfDay': {'label': tod_entry['label'], 'settings': tod_readback, 'references': tod_refs}}
 
@@ -601,7 +612,7 @@ def place(load_target=True, bake=None, revert=None):
         for key in refs:
             ref = matches[0].get_editor_property(key)
             readback['timeOfDayReferences'][key] = ref.get_actor_label() if ref else None
-            if refs[key] is not None and (ref is None or ref.get_actor_label() != refs[key].get_actor_label()):
+            if readback['timeOfDayReferences'][key] != expected_ref_labels[key]:
                 raise RuntimeError('Reopened reference %s lost' % key)
         if 'weather' in run.receipt['placed']:
             wm = run.find_by_label(weather_entry['label'])
@@ -621,8 +632,12 @@ def place(load_target=True, bake=None, revert=None):
         return run.receipt
     except Exception as error:
         run.receipt['errors'].append({'stage': 'run', 'error': repr(error)})
-        run.receipt['status'] = 'failed_after_save_checkpoint_available' if saved else 'failed_before_save_map_unchanged'
-        run.receipt['liveEditorProcessesAtFailure'] = editor_processes()
+        changed = sha256_of(map_file) != map_sha_before
+        run.receipt['status'] = 'failed_after_save_checkpoint_available' if saved or run.receipt.get('mapSaved') or changed else 'failed_before_save_map_unchanged'
+        try:
+            run.receipt['liveEditorProcessesAtFailure'] = editor_processes()
+        except Exception as inventory_error:
+            run.receipt['processInventoryError'] = repr(inventory_error)
         raise
     finally:
         run.receipt['mapSha256After'] = sha256_of(map_file)
@@ -710,6 +725,8 @@ def _revert(run, wired, before_now, receipt_path, map_file, protected, protected
     if not run.levels.save_current_level():
         raise RuntimeError('save_current_level returned False during revert; live editors: %s' % run.receipt['liveEditorProcessesBeforeSave'])
     run.receipt['mapSaved'] = True
+    run.receipt['mapSha256AfterSave'] = sha256_of(map_file)
+    run.write_receipt()
     if not run.levels.load_level(TARGET):
         raise RuntimeError('Reopen failed after revert')
     run.world = run.editor.get_editor_world()

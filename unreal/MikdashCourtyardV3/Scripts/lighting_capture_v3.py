@@ -245,6 +245,13 @@ def lighting_snapshot(world):
         snap['postProcess']['unbound'] = volumes[0].get_editor_property('unbound')
     tod = u.load_class(None, '/Script/MikdashRuntime.MikdashTimeOfDay')
     snap['timeOfDayActors'] = len(list(u.GameplayStatics.get_all_actors_of_class(world, tod))) if tod else 'class_unavailable'
+    if tod:
+        snap['timeOfDayState'] = [a.describe_state() for a in u.GameplayStatics.get_all_actors_of_class(world, tod)]
+    weather = u.load_class(None, '/Script/MikdashRuntime.MikdashWeather')
+    weather_actors = list(u.GameplayStatics.get_all_actors_of_class(world, weather)) if weather else []
+    snap['weatherActors'] = len(weather_actors)
+    snap['weatherState'] = [{'state': a.describe_state(), 'windSpeedKph': a.get_wind_speed_kph(),
+                             'windFromDegrees': a.get_wind_from_degrees()} for a in weather_actors]
     return snap
 
 

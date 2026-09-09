@@ -1,0 +1,4161 @@
+{
+  "status": "gate_security_verified_in_place",
+  "mode": "read_only_verify",
+  "stamp": "20260909T030841758949Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapSha256": "4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922",
+  "specSha256": "b1d1e9e363c6157c9ff1a3ed9a9d9e72ff84668be44ba81637cce6038b2135f6",
+  "gatesRequested": [
+    "east",
+    "north",
+    "south"
+  ],
+  "gates": {
+    "east": {
+      "anchors": {
+        "gate": "east",
+        "anchorCm": [
+          9300.0,
+          0.0,
+          0.0
+        ],
+        "actors": [
+          {
+            "role": "firstRiser",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0261_architecture_Outer_E_stair_1",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                9150.0,
+                -250.0,
+                0.0
+              ],
+              "max": [
+                9200.0,
+                250.0,
+                25.0
+              ]
+            },
+            "label": "Outer E stair 1",
+            "name": "StaticMeshActor_261",
+            "observedWorldBoundsCm": {
+              "min": [
+                9150.0,
+                -250.0,
+                -0.0
+              ],
+              "max": [
+                9200.0,
+                250.0,
+                25.0
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0,
+            "status": "confirmed"
+          },
+          {
+            "role": "threshold",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0177_architecture_Outer_E_threshold",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                7800.0,
+                -250.0,
+                280.0000190734863
+              ],
+              "max": [
+                8100.0,
+                250.0,
+                300.0
+              ]
+            },
+            "label": "Outer E threshold",
+            "name": "StaticMeshActor_177",
+            "observedWorldBoundsCm": {
+              "min": [
+                7800.0,
+                -250.0,
+                280.0
+              ],
+              "max": [
+                8100.0,
+                250.0,
+                300.0
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0,
+            "status": "confirmed"
+          }
+        ],
+        "status": "gate_confirmed_against_offline_receipts"
+      },
+      "actors": [
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionL1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              10200.0,
+              235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10020.0,
+              217.60000038146973,
+              -0.6000000238418579
+            ],
+            "max": [
+              10217.39999961853,
+              252.39999961853033,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionL2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              10020.0,
+              235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9840.0,
+              217.60000038146973,
+              -0.6000000238418579
+            ],
+            "max": [
+              10037.39999961853,
+              252.39999961853033,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionL3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              9840.0,
+              235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9660.0,
+              217.60000038146973,
+              -0.6000000238418579
+            ],
+            "max": [
+              9857.39999961853,
+              252.39999961853033,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionL4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              9660.0,
+              235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9480.0,
+              217.60000038146973,
+              -0.6000000238418579
+            ],
+            "max": [
+              9677.39999961853,
+              252.39999961853033,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionR1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              10200.0,
+              -235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10020.0,
+              -252.39999961853027,
+              -0.6000000238418579
+            ],
+            "max": [
+              10217.39999961853,
+              -217.60000038146967,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionR2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              10020.0,
+              -235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9840.0,
+              -252.39999961853027,
+              -0.6000000238418579
+            ],
+            "max": [
+              10037.39999961853,
+              -217.60000038146967,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionR3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              9840.0,
+              -235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9660.0,
+              -252.39999961853027,
+              -0.6000000238418579
+            ],
+            "max": [
+              9857.39999961853,
+              -217.60000038146967,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_StanchionR4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              9660.0,
+              -235.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9480.0,
+              -252.39999961853027,
+              -0.6000000238418579
+            ],
+            "max": [
+              9677.39999961853,
+              -217.60000038146967,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignFar_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              10160.0,
+              170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10149.0,
+              124.00000000000003,
+              0.0
+            ],
+            "max": [
+              10171.0,
+              215.99999999999997,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignFar_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              10160.0,
+              170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10162.599999904633,
+              128.00000000000003,
+              118.0
+            ],
+            "max": [
+              10163.599999904633,
+              211.99999999999997,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignFar_Security_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              10160.0,
+              -170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10149.0,
+              -215.99999999999997,
+              0.0
+            ],
+            "max": [
+              10171.0,
+              -124.00000000000003,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignFar_Security_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              10160.0,
+              -170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              10162.599999904633,
+              -211.99999999999997,
+              118.0
+            ],
+            "max": [
+              10163.599999904633,
+              -128.00000000000003,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Security"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignNear_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              9680.0,
+              170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9669.0,
+              124.00000000000003,
+              0.0
+            ],
+            "max": [
+              9691.0,
+              215.99999999999997,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignNear_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              9680.0,
+              170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9682.599999904633,
+              128.00000000000003,
+              118.0
+            ],
+            "max": [
+              9683.599999904633,
+              211.99999999999997,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignNear_Reverence_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              9680.0,
+              -170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9669.0,
+              -215.99999999999997,
+              0.0
+            ],
+            "max": [
+              9691.0,
+              -124.00000000000003,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_SignNear_Reverence_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              9680.0,
+              -170.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9682.599999904633,
+              -211.99999999999997,
+              118.0
+            ],
+            "max": [
+              9683.599999904633,
+              -128.00000000000003,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Reverence"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_BagScanner",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_BagScanner"
+          ],
+          "pose": {
+            "location": [
+              9860.0,
+              -380.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9770.0,
+              -432.0,
+              0.0
+            ],
+            "max": [
+              9950.0,
+              -342.0,
+              162.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_DetectorArchA",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              9560.0,
+              115.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9538.0,
+              43.699996948242216,
+              0.0
+            ],
+            "max": [
+              9582.0,
+              177.99999999999997,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_DetectorArchB",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              9560.0,
+              -115.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9538.0,
+              -186.30000305175778,
+              0.0
+            ],
+            "max": [
+              9582.0,
+              -52.00000000000003,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_Booth",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Booth"
+          ],
+          "pose": {
+            "location": [
+              9470.0,
+              430.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9364.0,
+              324.0,
+              0.0
+            ],
+            "max": [
+              9586.0,
+              536.0,
+              262.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_BoothPlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              9587.0,
+              370.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9581.400000095367,
+              335.0,
+              132.0
+            ],
+            "max": [
+              9587.899999976158,
+              405.0,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_BoothPlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              9587.0,
+              370.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9586.59999999404,
+              338.0,
+              135.0
+            ],
+            "max": [
+              9587.600000023842,
+              402.0,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_BoothPlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              9587.0,
+              490.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9581.400000095367,
+              455.0,
+              132.0
+            ],
+            "max": [
+              9587.899999976158,
+              525.0,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_BoothPlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              9587.0,
+              490.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9586.59999999404,
+              458.0,
+              135.0
+            ],
+            "max": [
+              9587.600000023842,
+              522.0,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_ShoeRack1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              9330.0,
+              420.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9309.5,
+              336.50000000000006,
+              0.0
+            ],
+            "max": [
+              9350.5,
+              503.49999999999994,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_ShoeRack2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              9330.0,
+              -420.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              9309.5,
+              -503.49999999999994,
+              0.0
+            ],
+            "max": [
+              9350.5,
+              -336.50000000000006,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_VestibulePlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              7800.0,
+              475.0,
+              300.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              7794.400000095367,
+              440.0,
+              432.0
+            ],
+            "max": [
+              7800.899999976158,
+              510.0,
+              478.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_VestibulePlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              7800.0,
+              475.0,
+              300.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              7799.5999999940395,
+              443.0,
+              435.0
+            ],
+            "max": [
+              7800.600000023842,
+              507.0,
+              475.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_VestibulePlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              7800.0,
+              -475.0,
+              300.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              7794.400000095367,
+              -510.0,
+              432.0
+            ],
+            "max": [
+              7800.899999976158,
+              -440.0,
+              478.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_E_VestibulePlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              7800.0,
+              -475.0,
+              300.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              7799.5999999940395,
+              -507.0,
+              435.0
+            ],
+            "max": [
+              7800.600000023842,
+              -443.0,
+              475.0
+            ]
+          },
+          "folder": "Release/GateSecurity/E",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        }
+      ],
+      "problems": [],
+      "verified": 30,
+      "planned": 30
+    },
+    "north": {
+      "anchors": {
+        "gate": "north",
+        "anchorCm": [
+          0.0,
+          -9550.0,
+          0.0
+        ],
+        "actors": [
+          {
+            "role": "firstRiser",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0364_architecture_Outer_N_mount_approach_terrace",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                -400.0,
+                -9450.0,
+                0.0
+              ],
+              "max": [
+                400.0,
+                -9400.0,
+                25.0
+              ]
+            },
+            "label": "Outer N mount approach terrace",
+            "name": "StaticMeshActor_364",
+            "observedWorldBoundsCm": {
+              "min": [
+                -400.0,
+                -9450.0,
+                -0.0015
+              ],
+              "max": [
+                400.0,
+                -9400.0,
+                24.9985
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0015,
+            "status": "confirmed"
+          },
+          {
+            "role": "threshold",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0273_architecture_Outer_N_threshold",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                -250.0,
+                -8100.0,
+                405.0000190734863
+              ],
+              "max": [
+                250.0,
+                -7800.0,
+                425.0
+              ]
+            },
+            "label": "Outer N threshold",
+            "name": "StaticMeshActor_273",
+            "observedWorldBoundsCm": {
+              "min": [
+                -250.0,
+                -8100.0,
+                404.9987
+              ],
+              "max": [
+                250.0,
+                -7800.0,
+                424.9987
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0013,
+            "status": "confirmed"
+          }
+        ],
+        "status": "gate_confirmed_against_offline_receipts"
+      },
+      "actors": [
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionL1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              -10450.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              -10467.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              -10270.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionL2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              -10270.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              -10287.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              -10090.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionL3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              -10090.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              -10107.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              -9910.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionL4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              -9910.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              -9927.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              -9730.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionR1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              -10450.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              -10467.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              -10270.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionR2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              -10270.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              -10287.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              -10090.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionR3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              -10090.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              -10107.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              -9910.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_StanchionR4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              -9910.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              -9927.39999961853,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              -9730.0,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignFar_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              -10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              124.0,
+              -10421.0,
+              0.0
+            ],
+            "max": [
+              216.0,
+              -10399.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignFar_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              -10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              128.0,
+              -10413.599999904633,
+              118.0
+            ],
+            "max": [
+              212.0,
+              -10412.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignFar_Security_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              -10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -216.0,
+              -10421.0,
+              0.0
+            ],
+            "max": [
+              -124.0,
+              -10399.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignFar_Security_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              -10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -212.0,
+              -10413.599999904633,
+              118.0
+            ],
+            "max": [
+              -128.0,
+              -10412.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Security"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignNear_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              -9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              124.0,
+              -9941.0,
+              0.0
+            ],
+            "max": [
+              216.0,
+              -9919.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignNear_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              -9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              128.0,
+              -9933.599999904633,
+              118.0
+            ],
+            "max": [
+              212.0,
+              -9932.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignNear_Reverence_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              -9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -216.0,
+              -9941.0,
+              0.0
+            ],
+            "max": [
+              -124.0,
+              -9919.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_SignNear_Reverence_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              -9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -212.0,
+              -9933.599999904633,
+              118.0
+            ],
+            "max": [
+              -128.0,
+              -9932.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Reverence"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_BagScanner",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_BagScanner"
+          ],
+          "pose": {
+            "location": [
+              -380.0,
+              -10110.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -432.0,
+              -10200.0,
+              0.0
+            ],
+            "max": [
+              -342.0,
+              -10020.0,
+              162.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_DetectorArchA",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              115.0,
+              -9810.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              43.69999694824217,
+              -9832.0,
+              0.0
+            ],
+            "max": [
+              178.0,
+              -9788.0,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_DetectorArchB",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              -115.0,
+              -9810.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -186.3000030517578,
+              -9832.0,
+              0.0
+            ],
+            "max": [
+              -52.0,
+              -9788.0,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_Booth",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Booth"
+          ],
+          "pose": {
+            "location": [
+              430.0,
+              -9720.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              324.0,
+              -9836.0,
+              0.0
+            ],
+            "max": [
+              536.0,
+              -9614.0,
+              262.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_BoothPlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              370.0,
+              -9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              335.0,
+              -9837.899999976158,
+              132.0
+            ],
+            "max": [
+              405.0,
+              -9831.400000095367,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_BoothPlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              370.0,
+              -9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              338.0,
+              -9837.600000023842,
+              135.0
+            ],
+            "max": [
+              402.0,
+              -9836.59999999404,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_BoothPlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              490.0,
+              -9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              455.0,
+              -9837.899999976158,
+              132.0
+            ],
+            "max": [
+              525.0,
+              -9831.400000095367,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_BoothPlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              490.0,
+              -9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              458.0,
+              -9837.600000023842,
+              135.0
+            ],
+            "max": [
+              522.0,
+              -9836.59999999404,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_ShoeRack1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              420.0,
+              -9580.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              336.5,
+              -9600.5,
+              0.0
+            ],
+            "max": [
+              503.5,
+              -9559.5,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_ShoeRack2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              -420.0,
+              -9580.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -503.5,
+              -9600.5,
+              0.0
+            ],
+            "max": [
+              -336.5,
+              -9559.5,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_VestibulePlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              475.0,
+              -7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              440.0,
+              -7800.899999976158,
+              557.0
+            ],
+            "max": [
+              510.0,
+              -7794.400000095367,
+              603.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_VestibulePlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              475.0,
+              -7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              443.0,
+              -7800.600000023842,
+              560.0
+            ],
+            "max": [
+              507.0,
+              -7799.5999999940395,
+              600.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_VestibulePlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              -475.0,
+              -7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -510.0,
+              -7800.899999976158,
+              557.0
+            ],
+            "max": [
+              -440.0,
+              -7794.400000095367,
+              603.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_N_VestibulePlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              -475.0,
+              -7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              89.99999999999999,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -507.0,
+              -7800.600000023842,
+              560.0
+            ],
+            "max": [
+              -443.0,
+              -7799.5999999940395,
+              600.0
+            ]
+          },
+          "folder": "Release/GateSecurity/N",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        }
+      ],
+      "problems": [],
+      "verified": 30,
+      "planned": 30
+    },
+    "south": {
+      "anchors": {
+        "gate": "south",
+        "anchorCm": [
+          0.0,
+          9550.0,
+          0.0
+        ],
+        "actors": [
+          {
+            "role": "firstRiser",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0465_architecture_Outer_S_mount_approach_terrace",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                -400.0,
+                9400.0,
+                0.0
+              ],
+              "max": [
+                400.0,
+                9450.0,
+                25.0
+              ]
+            },
+            "label": "Outer S mount approach terrace",
+            "name": "StaticMeshActor_465",
+            "observedWorldBoundsCm": {
+              "min": [
+                -400.0,
+                9400.0,
+                0.0015
+              ],
+              "max": [
+                400.0,
+                9450.0,
+                25.0015
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0015,
+            "status": "confirmed"
+          },
+          {
+            "role": "threshold",
+            "asset": "/Game/MikdashV3/Architecture/architecture_SM_0374_architecture_Outer_S_threshold",
+            "actorsWithThisMesh": 1,
+            "expectedWorldBoundsCm": {
+              "min": [
+                -250.0,
+                7800.0,
+                405.0000190734863
+              ],
+              "max": [
+                250.0,
+                8100.0,
+                425.0
+              ]
+            },
+            "label": "Outer S threshold",
+            "name": "StaticMeshActor_374",
+            "observedWorldBoundsCm": {
+              "min": [
+                -250.0,
+                7800.0,
+                405.0013
+              ],
+              "max": [
+                250.0,
+                8100.0,
+                425.0013
+              ]
+            },
+            "actorLocation": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "actorLocationIsOriginAsExpected": true,
+            "boundsErrorCm": 0.0013,
+            "status": "confirmed"
+          }
+        ],
+        "status": "gate_confirmed_against_offline_receipts"
+      },
+      "actors": [
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionL1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              10450.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              10270.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              10467.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionL2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              10270.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              10090.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              10287.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionL3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              10090.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              9910.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              10107.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionL4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              -235.0,
+              9910.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -252.39999961853027,
+              9730.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              -217.60000038146973,
+              9927.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionR1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              10450.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              10270.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              10467.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionR2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              10270.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              10090.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              10287.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionR3",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              10090.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              9910.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              10107.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_StanchionR4",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Stanchion"
+          ],
+          "pose": {
+            "location": [
+              235.0,
+              9910.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              180.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              217.60000038146973,
+              9730.0,
+              -0.6000000238418579
+            ],
+            "max": [
+              252.39999961853027,
+              9927.39999961853,
+              100.80000305175781
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignFar_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -216.0,
+              10399.0,
+              0.0
+            ],
+            "max": [
+              -124.0,
+              10421.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignFar_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -212.0,
+              10412.599999904633,
+              118.0
+            ],
+            "max": [
+              -128.0,
+              10413.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignFar_Security_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              124.0,
+              10399.0,
+              0.0
+            ],
+            "max": [
+              216.0,
+              10421.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignFar_Security_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              10410.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              128.0,
+              10412.599999904633,
+              118.0
+            ],
+            "max": [
+              212.0,
+              10413.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Security"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignNear_Shoes_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -216.0,
+              9919.0,
+              0.0
+            ],
+            "max": [
+              -124.0,
+              9941.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignNear_Shoes_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              -170.0,
+              9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -212.0,
+              9932.599999904633,
+              118.0
+            ],
+            "max": [
+              -128.0,
+              9933.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Shoes"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignNear_Reverence_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFrame"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              124.0,
+              9919.0,
+              0.0
+            ],
+            "max": [
+              216.0,
+              9941.0,
+              252.60000610351562
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 1e-05,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_SignNear_Reverence_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPostFace"
+          ],
+          "pose": {
+            "location": [
+              170.0,
+              9930.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              128.0,
+              9932.599999904633,
+              118.0
+            ],
+            "max": [
+              212.0,
+              9933.599999904633,
+              244.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Reverence"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_BagScanner",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_BagScanner"
+          ],
+          "pose": {
+            "location": [
+              380.0,
+              10110.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              342.0,
+              10020.0,
+              0.0
+            ],
+            "max": [
+              432.0,
+              10200.0,
+              162.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_DetectorArchA",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              -115.0,
+              9810.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -178.0,
+              9788.0,
+              0.0
+            ],
+            "max": [
+              -43.69999694824219,
+              9832.0,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_DetectorArchB",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_DetectorArch"
+          ],
+          "pose": {
+            "location": [
+              115.0,
+              9810.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              51.999999999999986,
+              9788.0,
+              0.0
+            ],
+            "max": [
+              186.3000030517578,
+              9832.0,
+              255.1999969482422
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_Booth",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_Booth"
+          ],
+          "pose": {
+            "location": [
+              -430.0,
+              9720.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -536.0,
+              9614.0,
+              0.0
+            ],
+            "max": [
+              -324.0,
+              9836.0,
+              262.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_BoothPlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              -370.0,
+              9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -405.0,
+              9831.400000095367,
+              132.0
+            ],
+            "max": [
+              -335.0,
+              9837.899999976158,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_BoothPlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              -370.0,
+              9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -402.0,
+              9836.59999999404,
+              135.0
+            ],
+            "max": [
+              -338.0,
+              9837.600000023842,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_BoothPlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              -490.0,
+              9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -525.0,
+              9831.400000095367,
+              132.0
+            ],
+            "max": [
+              -455.0,
+              9837.899999976158,
+              178.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_BoothPlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              -490.0,
+              9837.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -522.0,
+              9836.59999999404,
+              135.0
+            ],
+            "max": [
+              -458.0,
+              9837.600000023842,
+              175.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_ShoeRack1",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              -420.0,
+              9580.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -503.5,
+              9559.5,
+              0.0
+            ],
+            "max": [
+              -336.5,
+              9600.5,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_ShoeRack2",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_ShoeRack"
+          ],
+          "pose": {
+            "location": [
+              420.0,
+              9580.0,
+              0.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              336.5,
+              9559.5,
+              0.0
+            ],
+            "max": [
+              503.5,
+              9600.5,
+              156.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_VestibulePlate1_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              -475.0,
+              7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -510.0,
+              7794.400000095367,
+              557.0
+            ],
+            "max": [
+              -440.0,
+              7800.899999976158,
+              603.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_VestibulePlate1_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              -475.0,
+              7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              -507.0,
+              7799.5999999940395,
+              560.0
+            ],
+            "max": [
+              -443.0,
+              7800.600000023842,
+              600.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_VestibulePlate2_Frame",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFrame"
+          ],
+          "pose": {
+            "location": [
+              475.0,
+              7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              440.0,
+              7794.400000095367,
+              557.0
+            ],
+            "max": [
+              510.0,
+              7800.899999976158,
+              603.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>"
+        },
+        {
+          "label": "RELEASE_GateSecurity_S_VestibulePlate2_Face",
+          "found": 1,
+          "meshPath": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Meshes/SM_GateSecurityV1_SignPlateFace"
+          ],
+          "pose": {
+            "location": [
+              475.0,
+              7800.0,
+              425.0
+            ],
+            "rotation": [
+              0.0,
+              -90.00000000000001,
+              0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "worldBoundsCm": {
+            "min": [
+              443.0,
+              7799.5999999940395,
+              560.0
+            ],
+            "max": [
+              507.0,
+              7800.600000023842,
+              600.0
+            ]
+          },
+          "folder": "Release/GateSecurity/S",
+          "class": "StaticMeshActor",
+          "poseErrorCm": 0.0,
+          "boundsErrorCm": 0.0,
+          "collisionProfile": "NoCollision",
+          "collisionEnabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "signMaterialReadback": [
+            "/Game/MikdashV3/MaterialReview/GateSecurityV1/Materials/MI_GateSecurityV1_Sign_Entrance"
+          ]
+        }
+      ],
+      "problems": [],
+      "verified": 30,
+      "planned": 30
+    }
+  },
+  "problems": [],
+  "mapSaved": false,
+  "verifiedActorCount": 90,
+  "plannedActorCount": 90,
+  "mapSha256After": "4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922",
+  "mapBytesChanged": false
+}

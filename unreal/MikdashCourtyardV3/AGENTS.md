@@ -1,4 +1,21 @@
-# Mikdash native Unreal project — current state (2026-09-07, after the Walkthrough-06 release work)
+# Mikdash native Unreal project â€” current state (2026-09-07, after the Walkthrough-06 release work)
+
+## Active continuation â€” 2026-09-09 03:00 UTC
+Pushed checkpoint dcebc3d4 completes enclosure persistence, reviewed lighting C and 24/24
+V3 resident movement on both maps; it is not a stopping point or a new package. User again
+explicitly asked for continuous authorized work. Sky/time-of-day integration is now active:
+helper guards run before map load, process inventory parses checked CSV, references are
+cached as labels before reload, revert checkpoints first, and failure status uses actual
+map bytes. Quick gate 6/6 and focused review pass; first native placement refused before saving: Python MikdashWeather resolves to the
+actor, shadowing the enum. Resolve the enum from the reflected start_weather property
+type instead. Receipt preserves unchanged map/protected assets. Retry saved/reopened successfully: native-place-20260909T030218302603Z, zero errors,
+protected maps/assets and existing saved lighting unchanged. Main SHA
+4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922.
+Fresh PIE capture030529Z reviewed: one clock/one clear-weather actor, settings retained,
+map/materials/saves unchanged. Dark gate backlighting and bright vessels remain.
+Gate receipt030841758949Z verifies90/90 anchors/meshes/poses/signs/disabledcollision with
+no map write. No package or dusk/night acceptance. Earlier pending statements below are chronological and superseded by newer receipts.
+
 
 ## Astra resumed after Claude limit (2026-09-09 UTC)
 
@@ -65,7 +82,7 @@ Latest17:33 UTC group first pass: full8/8gate,30mathsuites,actualUBT54.92sec. Na
 
 Latest17:13 UTC: main8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5 adopts cooler6500K sun and skylight1.3, with sun30000lux/rotation/exposure settings unchanged. All three actual PIE A/B pairs inspected (165802894653,170147884224,170356069458); saved/reopened native-reviewed-daylight-20260908T171157734314Z, protectedtrue. Limited limestone color improvement; Heikhal clipped highlights/Kotel deep shadows remain. Candidate48 now has descriptor+PlayerStart+18tourmarkers+58paving overrides saved/reopened; candidateSHA8dc55f79b3dbcfe0ba7a15c41b3fb2da5be108766aab5a2cf7a9aae46f8a8f89, still baseline lighting and unpromoted. Main same-layout save/load deliberately displaced50cm and restored0cm error in two native probes; cross-layout behavior remains untested.
 
-User crowd direction (2026-09-08): people generally walk in groups, with occasional individuals. Implement stable small visitor parties with shared destinations, matched pace and waiting/regrouping, retaining individual roles. Initial2–6 party size/~15%individuals is authored tuning, not a sourced census. Group behavior is in development, not yet built/native-accepted. Existing instanced field was independent seeding with boundary teleports; don't describe it as group-aware until the new runtime passes. Skeletal resident personalities remain a separate system.
+User crowd direction (2026-09-08): people generally walk in groups, with occasional individuals. Implement stable small visitor parties with shared destinations, matched pace and waiting/regrouping, retaining individual roles. Initial2â€“6 party size/~15%individuals is authored tuning, not a sourced census. Group behavior is in development, not yet built/native-accepted. Existing instanced field was independent seeding with boundary teleports; don't describe it as group-aware until the new runtime passes. Skeletal resident personalities remain a separate system.
 
 Current main (2026-09-08 courtyard paving):480ea53fd3864b7adcaa14a3cc96419768710b8e33bed0dacd90a3731329f1b0. Adds57 exact courtyard/gateway floor component overrides using JerusalemFloorSlabsV1 (same500cm V2 texture on tops, plain limestone edges). Source/geometry/collision/gold floors protected unchanged; saved/reopened receipt native-floor-slabs-20260908T164354150280Z. Actual PIE164034569694 matched all57, shaders ready341pixelinstructions,0errors; root inspected164130/164151. Albedo-only joints, mirror repetition, amber light, side closeup and crowd floating/appearance remain limitations. ExecCmds runpy wrappers must add Scripts to sys.path for sibling helpers; failed setup receipt retained.
 

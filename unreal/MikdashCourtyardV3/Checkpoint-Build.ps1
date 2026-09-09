@@ -20,7 +20,7 @@
 param(
     [Parameter(Mandatory = $true)][ValidatePattern('^[A-Za-z0-9._-]{1,40}$')][string]$Label,
     [int]$WaitMinutes = 60,
-    [double]$NeedGB = 6.0,
+    [double]$NeedGB = 4.0,   # this box idles near 4.3 GB free; 6 GB never arrives and only DEFERs
     [switch]$SkipSmoke
 )
 $ErrorActionPreference = 'Stop'
@@ -59,7 +59,13 @@ $before     = (Get-FileHash -LiteralPath $mapFile  -Algorithm SHA256).Hash.ToLow
 $mainBefore = (Get-FileHash -LiteralPath $mainFile -Algorithm SHA256).Hash.ToLower()
 
 New-Item -ItemType Directory -Path $job -ErrorAction Stop | Out-Null
-$command = 'RunUAT.bat BuildCookRun -project="' + $project + '\MikdashCourtyardV3.uproject" -noP4 -platform=Win64 ' +
+# RunUAT is called by its FULL path, not by name after a cd. This machine has
+# NoDefaultCurrentDirectoryInExePath=1 set, so cmd refuses to run an executable found only in
+# the current directory: `if exist RunUAT.bat` reports FOUND and `call RunUAT.bat` on the very
+# next line reports "is not recognized as an internal or external command". Every historical
+# Astra-Cook-*.ps1 in this tree calls it bare and would fail the same way today.
+$batchFiles = 'C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles'
+$command = '"' + $batchFiles + '\RunUAT.bat" BuildCookRun -project="' + $project + '\MikdashCourtyardV3.uproject" -noP4 -platform=Win64 ' +
            '-clientconfig=Development -build -cook -map=' + $mapPkg + ' ' +
            '-AdditionalCookerOptions=-cookprocesscount=1 -AdditionalIoStoreOptions="-maxPartitionSize=1800000000" ' +
            '-stage -pak -iostore -archive -archivedirectory="' + $archive + '" -utf8output -unattended'
@@ -75,12 +81,25 @@ $r = [ordered]@{
 function Save-Receipt { $r | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $job 'checkpoint-receipt.json') -Encoding utf8 }
 Save-Receipt
 
-Push-Location -LiteralPath 'C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles'
+if (-not (Test-Path -LiteralPath (Join-Path $batchFiles 'RunUAT.bat'))) {
+    throw "RunUAT.bat not found under $batchFiles - is UE 5.8 still installed there?"
+}
+# Written to a .bat rather than passed as a cmd /c string: PowerShell re-quotes any argument
+# containing spaces and cmd then strips quotes from what is already a quoted path, so the
+# nested quoting collapses. A batch file has no such layer, and it leaves an exact record on
+# disk of the command that ran.
+$bat = Join-Path $job 'cook.bat'
+@(
+    '@echo off'
+    'cd /d "' + $batchFiles + '"'
+    'call ' + $command
+    'exit /b %ERRORLEVEL%'
+) | Set-Content -LiteralPath $bat -Encoding ascii
+$r.batFile = $bat
 try {
-    & $env:COMSPEC /d /c $command *> (Join-Path $job 'uat.log')
+    & $env:COMSPEC /d /c $bat *> (Join-Path $job 'uat.log')
     $r.exitCode = $LASTEXITCODE
 } finally {
-    Pop-Location
     $r.candidateSha256After = (Get-FileHash -LiteralPath $mapFile  -Algorithm SHA256).Hash.ToLower()
     $r.mainSha256After       = (Get-FileHash -LiteralPath $mainFile -Algorithm SHA256).Hash.ToLower()
     $child = Join-Path $archive 'Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe'

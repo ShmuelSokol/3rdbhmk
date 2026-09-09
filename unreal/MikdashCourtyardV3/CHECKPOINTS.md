@@ -51,6 +51,17 @@ Every flag was paid for by a failed attempt:
 - `-clientconfig=Development` — Shipping strips the console and the on-screen diagnostics
   that make a preview build useful to look at.
 - Hash the child exe, not the stub.
+- **Call RunUAT by its full path, from a generated `.bat`.** This machine has
+  `NoDefaultCurrentDirectoryInExePath=1`, so cmd will not run an executable it finds only in
+  the current directory: `if exist RunUAT.bat` prints FOUND and `call RunUAT.bat` on the next
+  line prints *"is not recognized as an internal or external command"*. Every historical
+  `Astra-Cook-*.ps1` in this tree calls it bare after a `Push-Location` and would fail today
+  for two independent reasons - that, and the fact that `Push-Location` never changes the
+  process working directory cmd inherits. Passing the command as a `cmd /c` string does not
+  work either: PowerShell re-quotes any argument containing spaces and cmd then strips quotes
+  from an already-quoted path, collapsing the nesting. The `.bat` avoids all of it.
+- **`-NeedGB 4.0`, not 6.** This box idles near 4.3 GB free of 15.9. A 6 GB gate never opens;
+  it just waits the full timeout and DEFERs.
 
 ## Cadence
 

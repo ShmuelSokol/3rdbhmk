@@ -230,10 +230,15 @@ def tick(dt):
    if selected48:
     descriptors=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashSceneUnits))
     assert len(descriptors)==1 and str(descriptors[0].get_editor_property('scene_revision'))=='Selected48.v1','Wrong scene frame'
-    assert abs(state['walkPos'].x-2016)<3 and abs(state['walkPos'].z-576)<5,'Unexpected selected48 starting support'
+    descriptor=descriptors[0];pivot=descriptor.get_editor_property('fixed_architecture_origin_cm')
+    assert xyz(pivot)==[-6200,0,0] and descriptor.get_editor_property('descriptor_schema_version')==1 and int(descriptor.get_editor_property('coordinate_revision').value)==1,'Wrong selected48 pivot/schema'
+    # release_amah48_frame OLD_POSE/support + saved Aron alignment:
+    # architectural support transforms about -6200, while physical 98cm lift stays fixed.
+    expected_start=u.Vector(2100*.96+pivot.x*.04,0,500*.96+98.0001907348633)
+    assert (state['walkPos']-expected_start).length()<3,'Unexpected selected48 starting support'
     crowd=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashCrowdField))[0]
     assert crowd.get_coordinate_status().startswith('Selected48'),'Crowd did not select48 frame'
-    report['selected48']={'descriptor':str(descriptors[0].validate_descriptor()),'crowdStatus':crowd.get_coordinate_status(),'zones':[]}
+    report['selected48']={'descriptor':str(descriptors[0].validate_descriptor()),'expectedWalkingStart':xyz(expected_start),'fixedPivot':xyz(pivot),'crowdStatus':crowd.get_coordinate_status(),'zones':[]}
     for source in crowd.get_editor_property('zones'):
      name=source.get_editor_property('name');runtime=crowd.get_runtime_zone(name)
      if isinstance(runtime,tuple):
@@ -245,7 +250,8 @@ def tick(dt):
      assert abs(actual_z-legacy_z*ratio)<.001,'Wrong runtime crowd support'
      old_poly=source.get_editor_property('polygon_cm');new_poly=runtime.get_editor_property('polygon_cm')
      assert len(old_poly)==len(new_poly)
-     assert all(abs(n.x-o.x*ratio)<.001 and abs(n.y-o.y*ratio)<.001 for o,n in zip(old_poly,new_poly)),'Wrong spatial scope conversion'
+     shift=pivot.x*(1-ratio)
+     assert all(abs(n.x-(o.x*ratio+shift))<.001 and abs(n.y-o.y*ratio)<.001 for o,n in zip(old_poly,new_poly)),'Wrong spatial scope conversion'
      report['selected48']['zones'].append({'name':name,'legacyZ':legacy_z,'runtimeZ':actual_z,'ratio':ratio})
     populations=list(u.GameplayStatics.get_all_actors_of_class(world,u.MikdashResidentPopulation))
     report['selected48']['residents']=[{'living':p.get_living_resident_count(),'status':p.get_directory_status()} for p in populations]

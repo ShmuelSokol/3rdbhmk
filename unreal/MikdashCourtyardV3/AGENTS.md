@@ -1,3 +1,30 @@
+Sanctuary48 native072820 completed10checkpoints29.09wallseconds, floorerrors1.19–2.15cm;
+one explicitinitialPIEplacement thencontinuouswalking, allmaps/originalsaves unchanged.
+Architectural review only: currentopen/NoCollisiondoorway isnotritual access orfunctionalcurtain.
+Candidate eastgate/platform continuousprobe now prepared, exactdeckpointsstaymetric;
+transit-only port prepared, neither applied nor runtimeverified yet.
+
+Sanctuarypreflight072443 safelyrefusedobsoleteIncenseAltarV2assetguard; no walk occurred.
+Candidate documentedonepiece KeilimTIV1 altar/vessels163453 replaces oldBody+Poles. Probe
+candidate-onlyguard now pins exactTIasset,oneBody/noPoles,framepose andside-lanebounds;
+mainhistoricalguard unchanged. Fresh native walk still pending.
+
+Candidatefrontend072223 passes correctedframe: forward2215cm,rise1613cm,pause0,exactwalker
+return,18tour/76codexcontrols,24residentswalking; maps/savesunchanged. Tourroutewalking
+and physicalkeyboard remain outside scope. Sanctuary48 architecturalroundtrip native pending.
+Transit-only candidateport helper preparation underway, noasset/mapmutation yet.
+
+Parityinventory072037 unchangedallmaps: Candidate lacks transit,5birdflocks,boardingbridge,
+surfacemanager/460softdecals presentonmain;18tourmarkers andtour/codex actorsalreadyexist.
+Do not describe candidate feature parity as complete. Frame-correctedflight rerun pending.
+Sanctuary wrapper now supports explicit -SanctuaryWalkProbe to quit onpreflightrefusal.
+
+Candidatefrontend071737: flightforward2131cm/rise1618cm/pause0 andtour18stops76entries
+controls passed, then staleSelected48spawnexpect2016 failed. Actual1768 exactly matches
+Aron alignment220353 receipt PlayerStart2016→1768; main/candidate/saves preserved.
+Probe now asserts pivot[-6200], expected1768 andTemplecrowdX*.96-248 (metriczonesunchanged).
+No map correction needed. Fresh regression pending; parityinventory native running.
+
 Full native service070801 naturally completed1cycle290.62s, all18station arrivals pass,
 0blockedlegs/endpointPawncapsulehits; pauseflags/phase/feetfreeze+resumepass. Maps/saves
 unchanged. Seven centre-foot stair floor misses: rawCMC Walking+walkablesupporttrue at

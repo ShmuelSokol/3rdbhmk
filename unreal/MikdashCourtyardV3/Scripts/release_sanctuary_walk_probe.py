@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +21,11 @@ import unreal
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 TARGET_MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 MAP_FILE = ROOT / 'Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap'
+COMMAND = unreal.SystemLibrary.get_command_line()
+CANDIDATE48 = '-candidate48' in COMMAND.lower().split()
+if CANDIDATE48:
+    TARGET_MAP='/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+    MAP_FILE=ROOT/'Content'/(TARGET_MAP[6:]+'.umap')
 PLAN_FILE = ROOT / 'SourceAssets/FutureMountV1/route-review/route-source-plan.json'
 OUTPUT_DIR = ROOT / 'SourceAssets/IntegratedReviewV2'
 PLAN_ROUTE_NAME = 'Platform to measured outer eastern gate'
@@ -51,11 +57,51 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def temple_point(x,y,z):
+    return (x*.96-248,y*.96,z*.96) if CANDIDATE48 else (x,y,z)
+
+
+def original_saves():
+    folders=[ROOT/'Saved/SaveGames',Path(os.environ.get('LOCALAPPDATA','C:/absent'))/'MikdashCourtyardV3/Saved/SaveGames']
+    return {str(p):sha(p) for folder in folders if folder.exists() for p in folder.glob('*.sav') if not p.name.startswith('AstraProbe_')}
+
+
+all_maps_before={str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')}
+saves_before=original_saves()
+if CANDIDATE48:
+    slot_values=[]
+    for key in ('SlotNamePrefix','SaveSlot'):
+        matches=re.findall(r'\b'+key+r'=(AstraProbe_[A-Za-z0-9_-]+)',COMMAND)
+        if len(matches)!=1: raise RuntimeError('Unique isolated '+key+' override required')
+        slot_values.extend(matches)
+    for folder in (ROOT/'Saved/SaveGames',Path(os.environ.get('LOCALAPPDATA','C:/absent'))/'MikdashCourtyardV3/Saved/SaveGames'):
+        if folder.exists() and any(p.name.startswith(value) for value in slot_values for p in folder.glob('*.sav')):
+            raise RuntimeError('Probe save name already used; require fresh unique overrides')
+
+
+def validate_frame(actors):
+    if not CANDIDATE48: return
+    cls=unreal.load_class(None,'/Script/MikdashRuntime.MikdashSceneUnits')
+    if cls is None: raise RuntimeError('Scene descriptor class missing')
+    descriptors=[a for a in actors if unreal.MathLibrary.class_is_child_of(a.get_class(),cls)]
+    if len(descriptors)!=1: raise RuntimeError('Exactly one candidate scene descriptor required')
+    d=descriptors[0];pivot=d.get_editor_property('fixed_architecture_origin_cm')
+    if d.get_actor_label()!='RELEASE_SceneUnits_Selected48_V1' or int(d.get_editor_property('descriptor_schema_version'))!=1 or int(d.get_editor_property('coordinate_revision').value)!=1 or str(d.get_editor_property('scene_revision'))!='Selected48.v1' or [pivot.x,pivot.y,pivot.z]!=[-6200,0,0]:
+        raise RuntimeError('Candidate frame/schema/pivot mismatch')
+
+
 def build_routes():
-    altar=json.loads((ROOT/'Scripts/release_import_incense_altar.spec.json').read_text(encoding='utf-8-sig'))
-    assert altar['placement']['origin']==[-4650.0,0.0,925.0]
-    assert altar['placement']['yaw']==0 and altar['placement']['scale']==1
-    for rec in altar['source']['meshes']:
+    if CANDIDATE48:
+        altar=json.loads((ROOT/'Scripts/release_import_keilim_ti.spec.json').read_text(encoding='utf-8-sig'))['groups']['altar']
+        assert altar['placement']['origin']==[-4650.0,0.0] and altar['placement']['yaw']==0
+        meshes=altar['meshes']
+        assert len(meshes)==1 and meshes[0]['name']=='SM_KeilimTIV1_IncenseAltar'
+    else:
+        altar=json.loads((ROOT/'Scripts/release_import_incense_altar.spec.json').read_text(encoding='utf-8-sig'))
+        assert altar['placement']['origin']==[-4650.0,0.0,925.0]
+        assert altar['placement']['yaw']==0 and altar['placement']['scale']==1
+        meshes=altar['source']['meshes']
+    for rec in meshes:
         assert max(abs(v) for v in (rec['canonicalBoundsCm']['min'][1],rec['canonicalBoundsCm']['max'][1])) < 60
     return [dict(name='sanctuary_round_trip',
       source='Measured Heikhal floor X[-5600,-3600], Y+-500, Z925; Kodesh threshold X[-5700,-5600], opening Y+-175. IncenseAltarV2 at[-4650,0,925]; 120cm side detour. Endpoint -5900 stays east of Ark at-6200.',
@@ -84,7 +130,8 @@ if unreal.EditorLoadingAndSavingUtils.get_dirty_map_packages() or unreal.EditorL
 
 
 def current_map():
-    return editor.get_editor_world().get_path_name().split('.')[0]
+    world=editor.get_editor_world()
+    return world.get_path_name().split('.')[0] if world else None
 
 
 map_loaded_by_probe = False
@@ -99,21 +146,34 @@ if current_map() != TARGET_MAP:
 map_sha_before = sha(MAP_FILE)
 protected_files=[ROOT/'Content/MikdashV3/Maps/Courtyard.umap', ROOT/'Content/MikdashV3/FutureMountV1/L_FutureMount.umap', ROOT/'Content/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold.umap']
 protected_before={str(p):sha(p) for p in protected_files}
+validate_frame(unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
 # Validate the actual saved altar placement, not merely the stale placement spec.
 altar_actors=[]
 for a in unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors():
     if a.get_actor_label() in ('RELEASE_IncenseAltar_Body','RELEASE_IncenseAltar_Poles'):
         c=a.get_component_by_class(unreal.StaticMeshComponent)
-        assert c and '/IncenseAltarV2/' in c.get_editor_property('static_mesh').get_path_name()
+        if CANDIDATE48:
+            # Exact one-piece TI replacement documented in native vessel/Aron receipts.
+            assert a.get_actor_label()=='RELEASE_IncenseAltar_Body','Unexpected old altar poles'
+            assert c and c.get_editor_property('static_mesh').get_path_name()=='/Game/MikdashV3/MaterialReview/KeilimTIV1/Meshes/SM_KeilimTIV1_IncenseAltar.SM_KeilimTIV1_IncenseAltar'
+        else:
+            assert c and '/IncenseAltarV2/' in c.get_editor_property('static_mesh').get_path_name()
         loc=a.get_actor_location(); rot=a.get_actor_rotation(); scale=a.get_actor_scale3d()
-        assert max(abs(loc.x+4650),abs(loc.y),abs(loc.z-925),abs(rot.pitch),abs(rot.yaw),abs(rot.roll),abs(scale.x-1),abs(scale.y-1),abs(scale.z-1))<.1
+        expected=temple_point(-4650,0,925); expected_scale=.96 if CANDIDATE48 else 1
+        assert max(abs(loc.x-expected[0]),abs(loc.y-expected[1]),abs(loc.z-expected[2]),abs(rot.pitch),abs(rot.yaw),abs(rot.roll),abs(scale.x-expected_scale),abs(scale.y-expected_scale),abs(scale.z-expected_scale))<.1
         origin,extent=a.get_actor_bounds(False)
         assert origin.y+extent.y < 65 and origin.y-extent.y > -65,'Altar blocks reviewed side lane'
         altar_actors.append(dict(label=a.get_actor_label(),boundsMin=[origin.x-extent.x,origin.y-extent.y,origin.z-extent.z],boundsMax=[origin.x+extent.x,origin.y+extent.y,origin.z+extent.z]))
-assert len(altar_actors)==2,'Exact new altar assembly required'
+assert len(altar_actors)==(1 if CANDIDATE48 else 2),'Exact reviewed altar assembly required'
 
 
 ROUTES = build_routes()
+if CANDIDATE48:
+    for route in ROUTES:
+        route['legs']=[(label,*temple_point(x,y,z),checkpoint) for label,x,y,z,checkpoint in route['legs']]
+        route['envelope']={axis:tuple(v*.96+(-248 if axis=='x' else 0) for v in limits) for axis,limits in route['envelope'].items()}
+        route['source']+=' Selected48 conversion applied once; physical pawn dimensions/tolerances unchanged.'
+        route['source']+=' Candidate uses one-piece KeilimTIV1 altar at the same legacy placement, verified by exact asset/pose.'
 if not ROUTES:
     raise RuntimeError('No routes selected')
 
@@ -123,7 +183,7 @@ old_throttle = unreal.SystemLibrary.get_console_variable_int_value('Slate.bAllow
 
 STAMP = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-output = OUTPUT_DIR / ('release-sanctuary-walk-' + STAMP + '.json')
+output = OUTPUT_DIR / ('release-sanctuary-walk-' + ('Candidate48-' if CANDIDATE48 else '') + STAMP + '.json')
 
 report = {
     'status': 'running',
@@ -131,6 +191,7 @@ report = {
              'one initial pawn placement; then no teleport, no flying, no map save. Not physical keyboard, mouse-release, '
              'rendering or packaged acceptance.',
     'map': TARGET_MAP, 'mapSha256Before': map_sha_before, 'mapLoadedByProbe': map_loaded_by_probe,
+    'candidate48':CANDIDATE48,'allMapHashesBefore':all_maps_before,'originalSavesBefore':saves_before,
     'config': dict(limitSeconds=LIMIT_SECONDS, sampleSeconds=SAMPLE_SECONDS, pawnTimeoutSeconds=PAWN_TIMEOUT,
                    routes=ROUTE_NAMES, quitEditor=QUIT_EDITOR, oldThrottle=old_throttle, oldGameGetsMouseControl=old_mouse),
     'routes': [dict(name=r['name'], source=r['source'], envelope=r['envelope'],
@@ -192,6 +253,9 @@ def quit_tick(delta):
     if elapsed<2.0:return
     if editor.get_game_world() is not None and elapsed<10.0:return
     report['pieTeardownConfirmed']=editor.get_game_world() is None
+    report['allMapsUnchanged']={str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')}==all_maps_before
+    report['originalSavesUnchanged']=original_saves()==saves_before
+    if not report['allMapsUnchanged'] or not report['originalSavesUnchanged']: report['errors'].append('All-map/original-save preservation failed')
     if not report['pieTeardownConfirmed']:report['errors'].append('PIE teardown timeout')
     report['status']='failed_cleanup_or_verification' if report['errors'] else state['requested_status']
     try:
@@ -249,7 +313,18 @@ def tick(delta):
             return
         if not isinstance(pawn, unreal.Character):
             raise RuntimeError('Player pawn is not a Character: ' + pawn.get_class().get_name())
+        if CANDIDATE48 and state['pawn_path'] is None:
+            pc=unreal.GameplayStatics.get_player_controller(world,0)
+            if pc and pc.is_walkthrough_menu_open():
+                if report['resumeCalls']>=MAX_RESUME_CALLS: raise RuntimeError('Repeated candidate menu admission')
+                report['resumeCalls']+=1; pc.resume_walkthrough(); return
+            cine=unreal.MikdashCinematics.get(world)
+            if cine and cine.is_playing():
+                cine.skip_intro(); return
+            if unreal.GameplayStatics.is_game_paused(world): return
         if state['pawn_path'] is None:
+            if CANDIDATE48:
+                validate_frame(unreal.GameplayStatics.get_all_actors_of_class(world,unreal.Actor))
             state['pawn_path'] = pawn.get_path_name()
             movement = pawn.get_component_by_class(unreal.CharacterMovementComponent)
             capsule = pawn.get_component_by_class(unreal.CapsuleComponent)
@@ -264,7 +339,8 @@ def tick(delta):
                 pieStartSeconds=round(elapsed, 3))
             assert report['pawn']['capsuleRadiusCm']<=40 and report['pawn']['capsuleHalfHeightCm']<=100
             movement.stop_movement_immediately()
-            destination=unreal.Vector(-3450,0,925+report['pawn']['capsuleHalfHeightCm']+2)
+            start=temple_point(-3450,0,925)
+            destination=unreal.Vector(start[0],start[1],start[2]+report['pawn']['capsuleHalfHeightCm']+2)
             pawn.set_actor_location(destination,False,True)
             placed=pawn.get_actor_location()
             assert max(abs(placed.x-destination.x),abs(placed.y-destination.y),abs(placed.z-destination.z))<.1

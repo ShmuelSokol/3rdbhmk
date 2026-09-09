@@ -54,6 +54,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -63,6 +64,11 @@ import unreal
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 TARGET_MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 MAP_FILE = ROOT / 'Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap'
+COMMAND=unreal.SystemLibrary.get_command_line()
+CANDIDATE48='-candidate48' in COMMAND.lower().split()
+if CANDIDATE48:
+    TARGET_MAP='/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+    MAP_FILE=ROOT/'Content'/(TARGET_MAP[6:]+'.umap')
 PLAN_FILE = ROOT / 'SourceAssets/FutureMountV1/route-review/route-source-plan.json'
 OUTPUT_DIR = ROOT / 'SourceAssets/IntegratedReviewV2'
 PLAN_ROUTE_NAME = 'Platform to measured outer eastern gate'
@@ -94,6 +100,37 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def temple_point(x,y,z):
+    return (x*.96-248,y*.96,z*.96) if CANDIDATE48 else (x,y,z)
+
+
+def original_saves():
+    folders=[ROOT/'Saved/SaveGames',Path(os.environ.get('LOCALAPPDATA','C:/absent'))/'MikdashCourtyardV3/Saved/SaveGames']
+    return {str(p):sha(p) for folder in folders if folder.exists() for p in folder.glob('*.sav') if not p.name.startswith('AstraProbe_')}
+
+
+all_maps_before={str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')}
+saves_before=original_saves()
+if CANDIDATE48:
+    for section,key in [('MikdashSaveSystem','SlotNamePrefix'),('MikdashSettingsSubsystem','SaveSlot')]:
+        found=re.findall(r'\[/Script/MikdashRuntime\.'+section+r'\]:'+key+r'=(AstraProbe_[A-Za-z0-9_]+)',COMMAND)
+        if len(found)!=1: raise RuntimeError('Unique isolated Game override required: '+key)
+        for folder in (ROOT/'Saved/SaveGames',Path(os.environ.get('LOCALAPPDATA','C:/absent'))/'MikdashCourtyardV3/Saved/SaveGames'):
+            if folder.exists() and any(p.name.startswith(found[0]) for p in folder.glob('*.sav')):
+                raise RuntimeError('Require fresh unused probe save prefix')
+
+
+def validate_frame(actors):
+    if not CANDIDATE48: return
+    cls=unreal.load_class(None,'/Script/MikdashRuntime.MikdashSceneUnits')
+    if cls is None: raise RuntimeError('Scene descriptor class absent')
+    ds=[a for a in actors if unreal.MathLibrary.class_is_child_of(a.get_class(),cls)]
+    if len(ds)!=1: raise RuntimeError('Exactly one Selected48 descriptor required')
+    d=ds[0];pivot=d.get_editor_property('fixed_architecture_origin_cm')
+    if str(d.get_editor_property('scene_revision'))!='Selected48.v1' or int(d.get_editor_property('descriptor_schema_version'))!=1 or int(d.get_editor_property('coordinate_revision').value)!=1 or [pivot.x,pivot.y,pivot.z]!=[-6200,0,0]:
+        raise RuntimeError('Selected48 frame/pivot/schema mismatch')
+
+
 def build_routes():
     """Route legs: (label, x, y, expectedFloorZ, checkpoint?). Checkpoints must be reached
     within ENDPOINT_XY_TOLERANCE with foot height within FLOOR_TOLERANCE of the expected
@@ -105,6 +142,11 @@ def build_routes():
         envelope=dict(x=(1900, 5200), y=(-200, 200), z=(250, 800)),
         legs=[('outer court east of gate stairs', 5000.0, 0.0, 300.0, True),
               ('return to spawn', 2100.0, 0.0, 500.0, True)])
+    if CANDIDATE48:
+        r=routes['east_gate']
+        r['legs']=[(label,*temple_point(x,y,z),checkpoint) for label,x,y,z,checkpoint in r['legs']]
+        r['envelope']={axis:tuple(v*.96+(-248 if axis=='x' else 0) for v in limits) for axis,limits in r['envelope'].items()}
+        r['source']+=' Selected48 architectural transform once about fixed Aron pivot; physical tolerances unchanged.'
     plan = json.loads(PLAN_FILE.read_text(encoding='utf-8-sig'))
     plan_route = next(r for r in plan['routes'] if r['name'] == PLAN_ROUTE_NAME)
     # Plan order is platform -> gate; walking order is gate -> platform, so reverse.
@@ -114,6 +156,12 @@ def build_routes():
     legs = []
     for p in points:
         x, y, z = p['expectedFloorCm']
+        if CANDIDATE48:
+            surface=p['sourceSurface']
+            if (surface.startswith('SM_0') and '_architecture_Outer_E_stair_' in surface) or surface=='Measured Outer E floor/threshold Z300':
+                x,y,z=temple_point(x,y,z)
+            elif surface!='Exact deck top Z0':
+                raise RuntimeError('Unclassified route surface '+surface)
         checkpoint = not p.get('staticCapsuleAtStepIsDiagnostic', False)  # stairs are pass-through
         legs.append((p['label'], float(x), float(y), float(z), checkpoint))
     xs = [l[1] for l in legs]
@@ -122,8 +170,9 @@ def build_routes():
         name='outer_court_to_mount_platform_deck',
         source='route-source-plan.json route "%s" (native cm), reversed; stairs pass-through' % PLAN_ROUTE_NAME,
         planSourceHashes=plan['sourceHashes'],
-        envelope=dict(x=(1900, max(xs) + 300), y=(-200, 200), z=(min(zs) - 150, 800)),
+        envelope=dict(x=((1568 if CANDIDATE48 else 1900), max(xs) + 300), y=(-200, 200), z=(min(zs) - 150, 800)),
         legs=legs)
+    if CANDIDATE48: routes['mount_platform']['source']+=' Temple floor/stairs transform once; metric FutureMount deck coordinates retained. Join continuity is tested, not assumed.'
     return [routes[n] for n in ROUTE_NAMES]
 
 
@@ -134,7 +183,7 @@ levels = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
 editor = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 if editor.get_game_world():
     raise RuntimeError('PIE already running; stop it first (user PIE preserved)')
-if unreal.EditorLoadingAndSavingUtils.get_dirty_map_packages():
+if unreal.EditorLoadingAndSavingUtils.get_dirty_map_packages() or unreal.EditorLoadingAndSavingUtils.get_dirty_content_packages():
     raise RuntimeError('Dirty map packages present; save or revert first (nothing is auto-saved)')
 
 
@@ -152,6 +201,7 @@ if current_map() != TARGET_MAP:
 if current_map() != TARGET_MAP:
     raise RuntimeError('Map assertion failed after load: ' + current_map())
 map_sha_before = sha(MAP_FILE)
+validate_frame(unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
 
 ROUTES = build_routes()
 if not ROUTES:
@@ -163,7 +213,7 @@ old_throttle = unreal.SystemLibrary.get_console_variable_int_value('Slate.bAllow
 
 STAMP = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-output = OUTPUT_DIR / ('release-walk-' + STAMP + '.json')
+output = OUTPUT_DIR / ('release-walk-' + ('Candidate48-' if CANDIDATE48 else '') + STAMP + '.json')
 
 report = {
     'status': 'running',
@@ -171,6 +221,7 @@ report = {
              'no teleport, no flying, no map save. Not physical keyboard, mouse-release, '
              'rendering or packaged acceptance.',
     'map': TARGET_MAP, 'mapSha256Before': map_sha_before, 'mapLoadedByProbe': map_loaded_by_probe,
+    'candidate48':CANDIDATE48,'allMapHashesBefore':all_maps_before,'originalSavesBefore':saves_before,
     'config': dict(limitSeconds=LIMIT_SECONDS, sampleSeconds=SAMPLE_SECONDS, pawnTimeoutSeconds=PAWN_TIMEOUT,
                    routes=ROUTE_NAMES, quitEditor=QUIT_EDITOR, oldThrottle=old_throttle, oldGameGetsMouseControl=old_mouse),
     'routes': [dict(name=r['name'], source=r['source'], envelope=r['envelope'],
@@ -234,8 +285,17 @@ def quit_tick(delta):
         return
     if editor.get_game_world() is not None and time.monotonic() - state['end_requested_at'] < 10.0:
         return
-    unreal.unregister_slate_post_tick_callback(state['handle'])
-    unreal.SystemLibrary.quit_editor()
+    try:
+        report['pieTeardownConfirmed']=editor.get_game_world() is None
+        report['allMapsUnchanged']={str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')}==all_maps_before
+        report['originalSavesUnchanged']=original_saves()==saves_before
+        if not report['pieTeardownConfirmed'] or not report['allMapsUnchanged'] or not report['originalSavesUnchanged']:
+            report['errors'].append('PIE teardown or map/save preservation failed')
+        if report['errors']: report['status']='failed_cleanup_or_verification'
+        write_report()
+    finally:
+        unreal.unregister_slate_post_tick_callback(state['handle'])
+        unreal.SystemLibrary.quit_editor()
 
 
 def current_leg():
@@ -285,6 +345,18 @@ def tick(delta):
             return
         if not isinstance(pawn, unreal.Character):
             raise RuntimeError('Player pawn is not a Character: ' + pawn.get_class().get_name())
+        if CANDIDATE48 and state['pawn_path'] is None:
+            pc=unreal.GameplayStatics.get_player_controller(world,0)
+            if pc and pc.is_walkthrough_menu_open():
+                if report['resumeCalls']>=MAX_RESUME_CALLS: raise RuntimeError('Repeated menu admission')
+                report['resumeCalls']+=1;pc.resume_walkthrough();return
+            cine=unreal.MikdashCinematics.get(world)
+            if cine and cine.is_playing(): cine.skip_intro();return
+            if unreal.GameplayStatics.is_game_paused(world): return
+            validate_frame(unreal.GameplayStatics.get_all_actors_of_class(world,unreal.Actor))
+            start=pawn.get_actor_location()
+            if (start-unreal.Vector(1768,0,578.0001907348633)).length()>3:
+                raise RuntimeError('Unexpected natural Selected48 start; no teleport allowed')
         if state['pawn_path'] is None:
             state['pawn_path'] = pawn.get_path_name()
             movement = pawn.get_component_by_class(unreal.CharacterMovementComponent)

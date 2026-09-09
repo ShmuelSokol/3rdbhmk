@@ -1,3 +1,23 @@
+## Movie export lessons — 2026-09-09
+
+V5 capture accepted as a WIP preview: 960 frames at 896x504 avoid the preview downsize,
+upscaled to 1280x720 H.264, 40 s, silent, 7,837,110 bytes. Eleven source frames and five
+encoded samples reviewed; full decode passed. All maps/original saves unchanged.
+Video SHA c44a42486e568a763dc7bb3f9cc655bbfaae94c50021fd1b55425291f4745b41.
+Quick gate 6/6. This does not promote candidate48 or accept unfinished scene visuals.
+
+User requested a shareable actual-scene video. Legacy in-editor capture produced 960
+valid PNG headers but visually invalid repeated right/bottom borders. Header/count
+checks are not visual acceptance. Preserve rejected exports outside Content.
+Standalone capture source supports -game and -RenderOffScreen for a hidden window,
+but both local standalone attempts produced no frames and were terminated; do not claim
+that path verified. Use a saved sequence, isolated
+AstraProbe_ saves and process-only frontend/cinematics/settings overrides. Every comma-
+separated -ini override MUST repeat [Section]:Key; a bare second Key is silently ignored
+by ConfigCacheIni.cpp. Disable bApplyGraphicsToEngine to prevent viewport resizing.
+MovieEndFrame is exclusive (960 at 24 fps gives 40 seconds). Do not claim a video ready
+until rendered shots are inspected and the encoded MP4 fully decodes.
+
 ## Publication checkpoint evidence — 2026-09-09 04:09 UTC
 
 Main saved-scene render 040520Z inspected in both gate views: the softer wear remains

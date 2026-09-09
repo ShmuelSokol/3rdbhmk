@@ -411,7 +411,16 @@
       "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
       "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
       "role": "legacy main, retained",
-      "expectedVariantSlotCount": null
+      "expectedVariantSlotCount": {
+        "Ashlar": 1156,
+        "Trim": 332,
+        "PavingSlabs": 127,
+        "JerusalemFloorSlabs": 57,
+        "JerusalemPaving": 1
+      },
+      "expectedVariantSlotCountSource": "MEASURED, read-only census SourceAssets/material-review/AntiRepeatV1/antirepeat-plan-Main50-20260909T230231854701Z.json (2026-09-09 23:02Z, PLANNED_READ_ONLY, map byte-identical before and after). RE-DERIVED deliberately: between the Candidate48 work and this census the Old City pass retinted 1,498 building components and placed 24 detail groups on this map and the sanctuary pass applied here too, and the map hash did move (c14a7927... -> d97ae2f2...). 11,986 static-mesh material slots now, 1,673 eligible across 1,672 components, 0 skipped by the Kotel guard. The stone counts are unchanged at Ashlar 1,156 + Trim 332 = 1,488 because that work touched building and sanctuary components, not the Mikdash architecture slots these rules match.",
+      "observedMapSha256": "d97ae2f2f8620082",
+      "observedMapSha256Note": "First 16 hex as the census read it. Recorded, not a gate - this map moves often, which is the reason the count is re-derived per run rather than trusted from the spec."
     }
   },
   "applyOrder": {

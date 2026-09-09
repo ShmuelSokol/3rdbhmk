@@ -68,12 +68,22 @@ VESSEL_TARGET = '/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Pa
 VESSEL_SHA = '50d935da7fe496da45c08b32d22d3b8e988000d96b121b1c5364cad71c3a1d43'
 VESSEL_ORIGINALS = {}
 VIEW_FILTER = switch('LightingV3Views')
+# A separate technical angle keeps the axial altar view intact while allowing
+# facade review from the side of the inner court. Floor support is traced in PIE.
+OBLIQUE_VIEW = {
+    'id': 'v9_inner_court_oblique', 'xy': [2100.0, 1700.0],
+    'fallbackFloorZ': 500.0, 'traceTopZ': 900.0, 'traceBottomZ': 200.0,
+    'pitch': 5.0, 'yaw': math.degrees(math.atan2(-1700.0, -5600.0)),
+    'basis': 'Authored technical view from inner court, 17 m beside the axial altar sightline, aimed at the Ulam; ground is traced, not assumed. Not a ritual access claim.'}
+if VIEW_FILTER and 'v9_inner_court_oblique' in VIEW_FILTER.split(','):
+    CAP['views'].append(OBLIQUE_VIEW)
 VIEWS = [v for v in CAP['views'] if not VIEW_FILTER or v['id'] in VIEW_FILTER.split(',')]
 OUT_DIR = ROOT / SPEC['captureFolder']
 RECEIPT = ROOT / SPEC['receiptFolder'] / ('lighting-v3-capture-' + STAMP + '.json')
 INSTANCE_FOLDER = SPEC['instanceFolder']
 NO_BARRIER_SETTLE_SECONDS = float(switch('LightingV3Settle', '30'))
 WARMUP_SECONDS = float(switch('LightingV3Warmup', str(CAP['warmupSeconds'])))
+PERF_SECONDS = float(switch('LightingV3PerfSeconds', '0'))
 REUSE_BASELINE = switch('LightingV3ReuseBaseline')
 TARGET_NAME = switch('LightingV3Target', 'Main50')
 CANDIDATE_ERRORS = []
@@ -83,7 +93,9 @@ if TARGET_NAME == 'Candidate48':
     if switch('LightingV3Variants', 'baseline') != 'baseline' or '-lightingv3wear' in CMD.lower() or VESSEL_AB:
         CANDIDATE_ERRORS.append('Candidate captures permit baseline only, no variants/wear trials')
     VARIANTS = ['baseline']
-    allowed = {'v1_inner_court_ulam_facade', 'v3_heikhal_menorah'}
+    allowed = {'v1_inner_court_ulam_facade', 'v2_outer_court_west_gate',
+               'v3_heikhal_menorah', 'v5_kotel_plaza',
+               'v6_outer_east_gate_shade', 'v9_inner_court_oblique'}
     requested = set(VIEW_FILTER.split(',')) if VIEW_FILTER else set()
     if not requested or not requested <= allowed or len(VIEWS) != len(requested):
         CANDIDATE_ERRORS.append('Candidate requires explicit supported view subset: ' + ','.join(sorted(allowed)))
@@ -91,6 +103,10 @@ if TARGET_NAME == 'Candidate48':
         CANDIDATE_ERRORS.append('Candidate baseline reuse refused; trace its current floor')
     VIEWS = json.loads(json.dumps(VIEWS))
     for view in VIEWS:
+        if view['id'] == 'v5_kotel_plaza':
+            # The photographed Kotel and its modern metric plaza were never
+            # amah-scaled. Preserve their measured coordinates and floor traces.
+            continue
         permitted = {'id','xy','fallbackFloorZ','traceTopZ','traceBottomZ','pitch','yaw','basis'}
         if set(view) != permitted or len(view.get('xy',[])) != 2:
             CANDIDATE_ERRORS.append('Unsupported candidate view schema: '+str(view.get('id')))
@@ -384,6 +400,8 @@ def plan_views(world):
                 pitch, yaw = look_at(position, target)
                 row.update(position=position, pitch=pitch, yaw=yaw, target=target, groundTrace=ground)
                 if ground is None:
+                    if TARGET_NAME == 'Candidate48':
+                        raise RuntimeError('Candidate plaza trace missed; no fallback camera acceptance')
                     failure(v['id'], 'no plaza ground hit; fallback Z used')
             elif 'candidates' in v:
                 chosen = None
@@ -676,8 +694,10 @@ def request_shot(world, view):
     state['shot_path'] = path
     state['shot_started'] = time.monotonic()
     state['shot_record'] = {'variant': variant, 'view': view['id'], 'file': str(path), 'camera': {'position': view['position'], 'pitch': view['pitch'], 'yaw': view['yaw'], 'fov': view['fov']},
-                            'liveCameraCm': xyz(cam_loc), 'warmupSeconds': round(time.monotonic() - state['at'], 2), 'warmupTicks': state['ticks'],
+                            'liveCameraCm': xyz(cam_loc), 'warmupSeconds': round(state['viewWarmupSeconds'], 2), 'warmupTicks': state['viewWarmupTicks'],
                             'gameSeconds': u.GameplayStatics.get_time_seconds(world)}
+    if state.get('viewPerformance') is not None:
+        state['shot_record']['performance'] = state['viewPerformance']
     res = CAP['resolution']
     u.SystemLibrary.execute_console_command(world, 'HighResShot %dx%d filename="%s"' % (res[0], res[1], str(path)), c)
     phase('shot_wait')
@@ -767,6 +787,45 @@ def tick(dt):
             return
         if state['phase'] == 'warming':
             if elapsed >= WARMUP_SECONDS + state.get('extra_settle', 0.0) and state['ticks'] >= CAP['minimumSlateTicks']:
+                state['viewWarmupSeconds'] = elapsed
+                state['viewWarmupTicks'] = state['ticks']
+                state['viewPerformance'] = None
+                if PERF_SECONDS:
+                    state['frameIntervals'] = []
+                    state['lastPerfTick'] = now
+                    state['perfGameStart'] = u.GameplayStatics.get_time_seconds(world)
+                    phase('performance')
+                else:
+                    request_shot(world, state['current'])
+            return
+        if state['phase'] == 'performance':
+            # Real rendered editor/PIE callback intervals, after settling and
+            # before HighResShot. These are not GPU timings or packaged FPS.
+            if u.GameplayStatics.is_game_paused(world):
+                raise RuntimeError('Performance observation paused')
+            manager = u.GameplayStatics.get_player_camera_manager(world, 0)
+            if (manager.get_camera_location()-u.Vector(*state['current']['position'])).length()>1:
+                raise RuntimeError('Performance camera drifted')
+            interval = (now-state['lastPerfTick'])*1000.0
+            if not math.isfinite(interval) or interval<=0:
+                raise RuntimeError('Invalid frame interval')
+            state['frameIntervals'].append(interval)
+            state['lastPerfTick'] = now
+            if elapsed >= PERF_SECONDS:
+                values = sorted(state['frameIntervals'])
+                viewport = list(c.get_viewport_size())
+                advanced = u.GameplayStatics.get_time_seconds(world)-state['perfGameStart']
+                if len(viewport)!=2 or any(v<=0 for v in viewport) or not math.isfinite(advanced) or advanced<=0:
+                    raise RuntimeError('Performance viewport or live simulation clock invalid')
+                def percentile(q):
+                    return values[min(len(values)-1, math.ceil(q*len(values))-1)]
+                state['viewPerformance'] = {
+                    'scope': 'Settled real-RHI PIE Slate callback intervals at the live camera; not GPU/thread breakdown or packaged performance. HighResShot is excluded.',
+                    'seconds': elapsed, 'frames': len(values),
+                    'viewportSize': viewport,
+                    'gameSecondsAdvanced': advanced,
+                    'p50Ms': percentile(.5), 'p95Ms': percentile(.95), 'maxMs': values[-1],
+                    'intervalsMs': state['frameIntervals']}
                 request_shot(world, state['current'])
             return
         if state['phase'] == 'shot_wait':
@@ -805,6 +864,7 @@ def tick(dt):
 
 
 try:
+    assert math.isfinite(PERF_SECONDS) and (PERF_SECONDS == 0 or 1 <= PERF_SECONDS <= 30), 'Performance observation must be disabled or 1..30 seconds'
     assert not CANDIDATE_ERRORS, '; '.join(CANDIDATE_ERRORS)
     if VESSEL_AB:
         assert TARGET_NAME=='Main50' and [v['id'] for v in VIEWS]==['v3_heikhal_menorah'], 'Vessel A/B requires explicit v3 view only'

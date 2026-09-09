@@ -1,3 +1,33 @@
+## Boarding runtime checkpoint — 2026-09-09 08:06 UTC
+
+Candidate bridge runtime080239102318 completed 180.017 simulated seconds: 45 boarded,
+25 alighted, 15 photographer figures, zero overruns; maps/original saves unchanged.
+Receipt retains refusal/trimming counters. Static instanced apron figures only, not
+skeletal resident handover or visual acceptance. The gate and launcher now validate the
+actual configured default/startup/cook map agree and belong to the Main50/Selected48
+allowlist. Config defaults remain Main50. Next native jobs: visual/performance captures
+and Kotel stair roundtrip. No new package or candidate promotion yet.
+
+## Runtime bird evidence — 2026-09-09 08:04 UTC
+
+Bridge fresh075810825396 passes: candidate references, focus, source config and persisted
+unrelated baseline match; protected changes/new Content files empty; map cd3348ec unchanged.
+Bird runtime080014618354 passes 45.0076 simulation seconds: motion observed in 70 pigeons,
+55 swifts, 9 crows and 1 kestrel. Maps/original saves unchanged. This verifies bounded
+activity/counts, not visual species realism, physical perches or audio. Natural bridge
+runtime is in progress. Kotel lower-landing stair roundtrip probe is prepared, not run.
+Optional capture timings measure settled Slate callback intervals at the reported live
+viewport size before HighResShot; they are not GPU timings or packaged performance.
+
+## Boarding connection — 2026-09-09 07:59 UTC
+
+Candidate bridge saved/reopened in receipt075539876162, map SHA
+cd3348ec8c0cf6f40291a5f85e338207d22c7d770a7855be0dd443d88964d1a7.
+Protected changes/new Content files empty. Fresh process verification is running.
+References point to candidate Transit/CrowdField; authored photo focus is [-248,0,288].
+Runtime boarding is still pending; these are the bridge's static figures, not an
+accepted transfer of the 24 skeletal residents. Transit/bird checkpoint pushed d0daaae0.
+
 ## Integration checkpoint — 2026-09-09 07:55 UTC
 
 Four metric bird flocks saved in Candidate48 (074420), independently reloaded in

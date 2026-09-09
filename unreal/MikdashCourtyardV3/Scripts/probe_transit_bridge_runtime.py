@@ -8,6 +8,8 @@ It does not manufacture exchange events or accelerate the game clock.
 import hashlib
 import json
 import os
+import re
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,6 +21,10 @@ MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 STAMP = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 OUT = ROOT / 'SourceAssets/transit-review/TransitBridge' / ('runtime-' + STAMP + '.json')
 CMD = u.SystemLibrary.get_command_line()
+CANDIDATE = bool(re.search(r'(?i)(?:^|\s)-Candidate48(?:\s|$)', CMD))
+if CANDIDATE:
+    MAP = '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+    OUT = OUT.with_name('candidate48-runtime-' + STAMP + '.json')
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
 levels = u.get_editor_subsystem(u.LevelEditorSubsystem)
 settings = u.get_default_object(u.load_class(None, '/Script/UnrealEd.LevelEditorPlaySettings'))
@@ -41,6 +47,7 @@ def saves():
 
 
 report = {'status': 'starting', 'stamp': STAMP, 'samples': [], 'errors': [],
+          'map': MAP, 'candidate48': CANDIDATE,
           'mapsBefore': maps(), 'savesBefore': saves(),
           'scope': 'Observed natural transit events; separate static bridge figures, not skeletal resident transfer. No visual or full-route acceptance.'}
 state = {'start': time.monotonic(), 'stopping': False, 'busy': False,
@@ -68,13 +75,48 @@ def shutdown():
         report['originalSavesUnchanged'] = saves() == report['savesBefore']
         if not report['mapsUnchanged'] or not report['originalSavesUnchanged']:
             report['errors'].append('Persistence guard failed')
-        if report['errors']:
-            report['status'] = 'failed_' + report['status']
-        write()
+        if u.EditorLoadingAndSavingUtils.get_dirty_map_packages() or u.EditorLoadingAndSavingUtils.get_dirty_content_packages():
+            raise RuntimeError('Dirty packages during teardown')
+    except Exception as exc:
+        report['errors'].append('Shutdown failed: ' + repr(exc))
     finally:
-        if state['handle'] is not None:
-            u.unregister_slate_post_tick_callback(state['handle'])
-        u.SystemLibrary.quit_editor()
+        if report['errors']: report['status'] = 'failed_' + report['status']
+        try: write()
+        finally:
+            try:
+                if state['handle'] is not None: u.unregister_slate_post_tick_callback(state['handle'])
+            finally: u.SystemLibrary.quit_editor()
+
+
+def candidate_guard(all_actors):
+    """Editor and PIE admission; never change refs, focus, service or positions."""
+    def unique(class_name):
+        cls = u.load_class(None, '/Script/MikdashRuntime.' + class_name)
+        if cls is None: raise RuntimeError('Missing guard class ' + class_name)
+        found = [a for a in all_actors if u.MathLibrary.class_is_child_of(a.get_class(), cls)]
+        if len(found) != 1: raise RuntimeError('Exactly one ' + class_name + ' required')
+        actor = found[0]
+        if re.sub(r'UEDPIE_\d+_', '', actor.get_outermost().get_name()) != MAP:
+            raise RuntimeError('Actor belongs to another map')
+        return actor
+    descriptor = unique('MikdashSceneUnits')
+    pivot = descriptor.get_editor_property('fixed_architecture_origin_cm')
+    if descriptor.get_actor_label() != 'RELEASE_SceneUnits_Selected48_V1' or int(descriptor.get_editor_property('descriptor_schema_version')) != 1 or int(descriptor.get_editor_property('coordinate_revision').value) != 1 or str(descriptor.get_editor_property('scene_revision')) != 'Selected48.v1' or [pivot.x,pivot.y,pivot.z] != [-6200,0,0]:
+        raise RuntimeError('Selected48 descriptor version/pivot differs')
+    bridge = unique('MikdashTransitBoardingBridge')
+    if bridge.get_actor_label() != 'RELEASE_TransitBridge_Selected48_V1': raise RuntimeError('Candidate bridge identity differs')
+    for prop, name in [('transit','MikdashTransit'),('crowd_field','MikdashCrowdField')]:
+        if bridge.get_editor_property(prop) != unique(name): raise RuntimeError('Bridge reference does not point to unique candidate actor')
+    focus = bridge.get_editor_property('mount_focus_cm')
+    if [focus.x,focus.y,focus.z] != [-248,0,288]: raise RuntimeError('Candidate photographer focus differs')
+    service = unique('MikdashServiceActor')
+    if service.get_editor_property('start_on_begin_play') or service.is_service_active(): raise RuntimeError('Service must remain OFF')
+    coordinator_cls = u.load_class(None, '/Script/MikdashRuntime.MikdashTransitCrowdCoordinator')
+    if coordinator_cls is None: raise RuntimeError('Coordinator guard class missing')
+    if any(a.get_editor_property('activate_on_begin_play') for a in all_actors if u.MathLibrary.class_is_child_of(a.get_class(),coordinator_cls)):
+        raise RuntimeError('Active coordinator duplicates bridge exchanges')
+    state['service'] = service
+    return bridge
 
 
 def sample(bridge, seconds):
@@ -130,9 +172,14 @@ def tick(dt):
             actors = list(u.GameplayStatics.get_all_actors_of_class(world, cls))
             assert len(actors) == 1, 'Exactly one live bridge required'
             state['bridge'] = actors[0]
+            if CANDIDATE:
+                guarded = candidate_guard(list(u.GameplayStatics.get_all_actors_of_class(world,u.Actor)))
+                if guarded != actors[0]: raise RuntimeError('Candidate bridge discovery differs')
             state['sample_start'] = game_time
             report['status'] = 'observing_natural_transit'
         elapsed = game_time - state['sample_start']
+        if CANDIDATE and (state['service'].get_editor_property('start_on_begin_play') or state['service'].is_service_active()):
+            raise RuntimeError('Service unexpectedly activated')
         if elapsed - state['last_sample'] >= 10 or elapsed >= 180:
             row = sample(state['bridge'], elapsed)
             state['last_sample'] = elapsed
@@ -156,6 +203,21 @@ try:
     assert not u.EditorLoadingAndSavingUtils.get_dirty_content_packages()
     assert ed.get_editor_world().get_outermost().get_name() == MAP
     assert 'SlotNamePrefix=AstraProbe_' in CMD and 'SaveSlot=AstraProbe_' in CMD
+    if CANDIDATE:
+        sys.path.insert(0,str(ROOT/'Scripts'))
+        from release_surface_soft import inventory
+        inventory()
+        if '-nullrhi' in CMD.lower() or '-run=pythonscript' in CMD.lower(): raise RuntimeError('Dedicated real-RHI PIE required')
+        game_overrides = ' '.join(a or b for a,b in re.findall(r'(?i)-ini:Game:(?:"([^"]+)"|(\S+))',CMD))
+        for section,key in [('MikdashSaveSystem','SlotNamePrefix'),('MikdashSettingsSubsystem','SaveSlot')]:
+            pattern = r'\[/Script/MikdashRuntime\.' + section + r'\]:' + key + r'=(AstraProbe_[A-Za-z0-9_-]+)(?=[,\s"]|$)'
+            found = re.findall(pattern,game_overrides)
+            if len(found)!=1 or len(re.findall(r'\b'+key+r'=',CMD))!=1:
+                raise RuntimeError('Unique full Game save section override required: '+section)
+            for folder in (ROOT/'Saved/SaveGames',Path(os.environ.get('LOCALAPPDATA','C:/nonexistent'))/'MikdashCourtyardV3/Saved/SaveGames'):
+                if folder.exists() and any(p.stem.startswith(found[0]) for p in folder.glob('*.sav')):
+                    raise RuntimeError('Isolated save prefix already exists')
+        candidate_guard(list(u.get_editor_subsystem(u.EditorActorSubsystem).get_all_level_actors()))
     settings.set_editor_property('GameGetsMouseControl', False)
     u.SystemLibrary.execute_console_command(ed.get_editor_world(), 'Slate.bAllowThrottling 0')
     write()

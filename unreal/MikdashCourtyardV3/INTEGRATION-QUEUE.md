@@ -1,4 +1,16 @@
-## Current continuation — 2026-09-09 07:53 UTC
+## Current continuation — 2026-09-09 08:06 UTC
+
+Candidate48 bridge placement and fresh verification pass; native 180-second exchange
+test reports 45 boarding, 25 alighting and 15 photographer figures, no overruns. This is
+the bridge's separate instanced population, not transfer of the skeletal residents.
+Four metric bird flocks pass 45-second activity/count observation. Both tests preserve
+maps and original visitor saves. Bird visuals/perches/audio are still unaccepted.
+Next: expanded walking-height captures with explicitly scoped viewport timings, and
+the Kotel lower-landing stair roundtrip. These helpers are reviewed but not yet run.
+Gate/launcher now resolve the configured map consistently. Defaults remain Main50;
+Selected48 promotion and a fresh packaged Windows build still follow the remaining gates.
+
+## Historical continuation — 2026-09-09 07:53 UTC
 
 Candidate48 now passes native frontend/dove controls, the 10-point sanctuary round trip,
 and continuous east-gate/platform walking from normal spawn. These are programmatic

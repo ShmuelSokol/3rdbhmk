@@ -82,6 +82,9 @@ public:
      * never animates anything before a visual review. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service")
     bool bStartOnBeginPlay = false;
+    /** Experimental opt-in physical motor; disabled until candidate runtime acceptance. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service")
+    bool bUseGroundedMovement = false;
 
     /** Seconds of standing still between the end of one sequence and the next.
      * 0 restarts immediately. A pacing choice, not a sourced interval. */
@@ -212,6 +215,18 @@ public:
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     int32 GetServiceBodyAdapterVersion() const { return 1; }
     UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceMotorAdapterVersion() const { return 1; }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceGroundedAdapterVersion() const { return 1; }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    FVector GetServiceFeetLocation() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsServiceGrounded() const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    FVector GetServiceStationLocation(int32 Index) const;
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceCurrentStationIndex() const { return static_cast<int32>(Runner.Where().Index); }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
     FString GetServiceStatus() const { return Status; }
     /** Which mesh and which garment material were actually used, and why. */
     UFUNCTION(BlueprintPure, Category = "Kohen service")
@@ -251,6 +266,14 @@ private:
     bool MoveIsPermitted(const FVector& To, FString& OutReason) const;
     void PlaceBody(const FVector& Feet, const FVector& FaceTarget);
     void UpdateBodyAnimation(bool bMoving);
+    void TickGrounded(float DeltaSeconds);
+    bool GroundedDestinationPermitted(const FVector& Feet) const;
+    bool MotorSegmentPermitted(const FVector& From,const FVector& To) const;
+    FVector LastMotorFeet = FVector::ZeroVector;
+    double MotorStallSeconds = 0;
+    bool bMotorRequestBlocked = false;
+    std::size_t MotorBlockedIndex = 0;
+    std::uint64_t MotorBlockedGeneration = 0;
     float ActiveBodyYawDegrees = 0.0f;
     UPROPERTY(Transient) TObjectPtr<UAnimSequence> PlayingBodyAnimation;
     MikdashService::Scenario NativeScenario() const;

@@ -1,4 +1,6 @@
 """90 simulated seconds of actual Candidate48 service; 300-second wall watchdog.
+Optional -ServiceFullRoute stops at one natural completion (600sim/900wall limit).
+-ServiceMotorPauseProbe checks two simulated seconds of service-only pause.
 Dedicated editor ExecCmds script. Requires isolated AstraProbe_ save overrides.
 No map saves, teleports, time acceleration or manufactured service completion.
 Visibility capsule observations supplement native Pawn-channel route admission;
@@ -23,6 +25,10 @@ STAMP = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 OUT = ROOT/'SourceAssets/service-review'/('candidate-runtime-'+STAMP+'.json')
 CMD = u.SystemLibrary.get_command_line()
 LEG_DIAGNOSTIC_ONLY = '-servicelegdiagnosticonly' in CMD.lower()
+FULL_ROUTE = '-servicefullroute' in CMD.lower()
+PAUSE_PROBE = '-servicemotorpauseprobe' in CMD.lower()
+SIM_LIMIT = 600 if FULL_ROUTE else 90
+WALL_LIMIT = 900 if FULL_ROUTE else 300
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
 levels = u.get_editor_subsystem(u.LevelEditorSubsystem)
 settings = u.get_default_object(u.load_class(None, '/Script/UnrealEd.LevelEditorPlaySettings'))
@@ -48,7 +54,7 @@ def xyz(v):
 
 
 report = {'status':'starting','errors':[], 'samples':[], 'mapsBefore':maps(), 'savesBefore':saves(),
-          'coverage':'90 seconds only; not full eighteen-station or visual acceptance',
+          'coverage':'One natural completed sequence, bounded at 600 simulated seconds' if FULL_ROUTE else '90 seconds only; not full eighteen-station or visual acceptance',
           'capsuleChannel':'Visibility; native service independently checks Pawn channel'}
 state = {'wall':time.monotonic(),'busy':False,'stopping':False,'handle':None,'lastSample':-1.0}
 
@@ -176,7 +182,7 @@ def tick(dt):
                 report['errors'].append('PIE teardown timeout')
             shutdown()
             return
-        if now-state['wall']>300:
+        if now-state['wall']>WALL_LIMIT:
             finish('failed_wall_watchdog')
             return
         if not world:
@@ -214,6 +220,7 @@ def tick(dt):
             report['startStatus']=actor.get_service_status()
             report['plannedSeconds']=actor.get_planned_loop_seconds()
             report['stationCount']=actor.get_station_count()
+            report['groundedMode']=bool(actor.get_editor_property('use_grounded_movement')) if hasattr(actor,'get_service_grounded_adapter_version') else False
             if report['stationCount']!=18 or not math.isfinite(report['plannedSeconds']) or report['plannedSeconds']<=0:
                 raise RuntimeError('Expected eighteen stations and finite positive native planned duration')
             if not report['started']:
@@ -221,11 +228,23 @@ def tick(dt):
             state['simStart']=gt
         actor=state['service']
         elapsed=gt-state['simStart']
+        if PAUSE_PROBE and report.get('groundedMode') and not state.get('pauseDone'):
+            if 'pauseAt' not in state and elapsed>12 and actor.get_service_current_station_index()==2:
+                state.update(pauseAt=gt,pauseFeet=xyz(actor.get_service_feet_location()),pauseMaxDrift=0.0)
+                actor.set_service_paused(True)
+            elif 'pauseAt' in state:
+                state['pauseMaxDrift']=max(state['pauseMaxDrift'],math.dist(state['pauseFeet'],xyz(actor.get_service_feet_location())))
+                if gt-state['pauseAt']>=2.0:
+                    actor.set_service_paused(False)
+                    report['motorPause']={'seconds':gt-state['pauseAt'],'maximumFeetDriftCm':state['pauseMaxDrift'],'passed':state['pauseMaxDrift']<.01}
+                    state['pauseDone']=True
         if elapsed-state['lastSample']>=.5:
             body=actor.get_service_body()
             if not body:
                 raise RuntimeError('Service body absent')
-            feet=body.get_actor_location()
+            # Character actor location is capsule centre; the adapter exposes
+            # the physical visual-foot frame and preserves the legacy body frame.
+            feet=actor.get_service_feet_location() if hasattr(actor,'get_service_feet_location') else body.get_actor_location()
             ignored=[body,actor]
             floor=hit_record(u.SystemLibrary.line_trace_single(world,feet+u.Vector(0,0,25),feet-u.Vector(0,0,25),u.TraceTypeQuery.TRACE_TYPE_QUERY1,False,ignored,u.DrawDebugTrace.NONE,True))
             previous=state.get('previousFeet',feet)
@@ -234,6 +253,16 @@ def tick(dt):
                  'action':actor.get_current_action_text(),'status':actor.get_service_status(),
                  'lamp':actor.get_current_lamp(),'completed':actor.get_completed_sequences(),
                  'blockedLegs':actor.get_blocked_leg_count(),'floor':floor,'capsuleHit':capsule}
+            if report.get('groundedMode'):
+                center=feet+u.Vector(0,0,98)
+                row['endpointPawnCapsule']=hit_record(u.SystemLibrary.capsule_trace_single_by_profile(
+                    world_context_object=world,start=center+u.Vector(0,0,.1),end=center,radius=34.0,half_height=96.0,
+                    profile_name='Pawn',trace_complex=False,actors_to_ignore=ignored,draw_debug_type=u.DrawDebugTrace.NONE,ignore_self=True))
+                row['stationIndex']=actor.get_service_current_station_index()
+                row['stationTarget']=xyz(actor.get_service_station_location(row['stationIndex']))
+                row['nativeGrounded']=actor.is_service_grounded()
+                row['probePaused']=bool(PAUSE_PROBE and 'pauseAt' in state and not state.get('pauseDone'))
+                report['bodyClass']=body.get_class().get_name()
             row['floorAgreement']=bool(floor and floor['impact'] and abs(floor['impact'][2]-feet.z)<=3.0)
             report['samples'].append(row)
             state.update(previousFeet=feet,lastSample=elapsed)
@@ -244,7 +273,7 @@ def tick(dt):
                     finish('leg_diagnostic_captured_service_still_blocked');return
             if len(report['samples'])%10==0:
                 write()
-        if elapsed>=90:
+        if elapsed>=SIM_LIMIT or (FULL_ROUTE and actor.get_completed_sequences()>0):
             rows=report['samples']
             report['observedSeconds']=elapsed
             report['bodyStatus']=actor.get_body_status()
@@ -253,10 +282,20 @@ def tick(dt):
             report['moved']=any(sum((r['feet'][i]-rows[0]['feet'][i])**2 for i in range(3))>100 for r in rows)
             report['floorMisses']=sum(not r['floorAgreement'] for r in rows)
             report['capsuleHits']=sum(r['capsuleHit'] is not None for r in rows)
+            report['endpointPawnCapsuleHits']=sum(r.get('endpointPawnCapsule') is not None for r in rows)
+            report['nonGroundedSamplesOutsideProbePause']=sum(r.get('nativeGrounded') is False and not r.get('probePaused',False) for r in rows)
+            report['floorNormalMisses']=sum(not r['floor'] or not r['floor']['normal'] or r['floor']['normal'][2]<.95 for r in rows)
+            report['groundingScope']='Native grounded state logged separately; transient descent can be airborne and requires review, not an automatic continuous-grounding claim.'
             report['nativeBlockedLegs']=actor.get_blocked_leg_count()
             report['unexpectedInactiveSamples']=sum(not r['active'] and r['completed']==0 for r in rows)
-            passed=report['moved'] and not report['floorMisses'] and not report['capsuleHits'] and not report['nativeBlockedLegs'] and not report['unexpectedInactiveSamples']
-            finish('partial_observation_passed_full_route_pending' if passed else 'partial_observation_findings')
+            collision_hits=report['endpointPawnCapsuleHits'] if report.get('groundedMode') else report['capsuleHits']
+            report['capsuleObservationScope']='Endpoint Pawn-profile samples; coarse Visibility chords can intersect a curved StepUp path and are not actual motor sweeps' if report.get('groundedMode') else 'Coarse Visibility chords supplement legacy native Pawn sweeps'
+            pause_ok=not PAUSE_PROBE or report.get('motorPause',{}).get('passed',False)
+            passed=report['moved'] and not report['floorMisses'] and not collision_hits and not report['nativeBlockedLegs'] and not report['unexpectedInactiveSamples'] and pause_ok
+            if FULL_ROUTE:
+                finish('natural_sequence_completed_sampled_checks_passed' if passed and report['completedSequences']>0 else 'full_route_findings_or_timeout')
+            else:
+                finish('partial_observation_passed_full_route_pending' if passed else 'partial_observation_findings')
     except Exception as error:
         report['errors'].append(repr(error))
         if state['stopping']:

@@ -1,3 +1,15 @@
+Grounded configuration064151 refused BEFORE saving: pristine snapshot churn.
+Map0d997 and protectedassets unchanged. Helper now records exact changed keys before
+refusal; diagnose rather than weaken preservation. Dwell-facing source correction is
+under incrementalbuild; no physical motor has been enabled in a saved map yet.
+
+Grounded motor source fullgate9/9,32math, UBT7actions27.98s PASS
+verify-ubt-k2l70ygm.log. NOT opted in yet: sticky stalled leg repeatedly reauthorized
+then refused, inflating BlockedLegs perframe; small counter/state fix pending incrementalbuild.
+Root grounded-config helper prepared (onlymode/top-treadX,startupOFF). Probe now reads
+actualfeet, endpointPawn capsules, optional2sim pause and fullnaturalcompletion600sim/900wall.
+No native motor or fullroute acceptance yet.
+
 External-motion protocol fullgate9/9,32math suites, UBT6actions22.93s PASS
 verify-ubt-4absy7ys.log. API compile-verified only; no native motor wiring yet.
 Legacy runtime behavior unchanged. Next phase must use physical arrival, never bool

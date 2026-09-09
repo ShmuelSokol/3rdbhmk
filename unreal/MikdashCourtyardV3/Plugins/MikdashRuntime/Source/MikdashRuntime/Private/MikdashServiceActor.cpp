@@ -1,5 +1,6 @@
 #include "MikdashSceneUnits.h"
 #include "MikdashServiceActor.h"
+#include "MikdashServiceCharacter.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -165,8 +166,10 @@ bool AMikdashServiceActor::BuildSequence(FString& OutReason)
             + 2.0 * FVector::Dist2D(FVector(SceneGeometry.KodeshLineX, 0, 0), ToUnreal(A.InnerStand)) / FMath::Max(1.f, WalkSpeedCmPerSec);
     }
 
-    if (!Runner.Configure(NativeScenario(), Sequence, WalkSpeedCmPerSec,
-            RepeatIntervalSeconds, MinLoopSeconds, MaxSeconds, SceneGeometry))
+    const bool Configured = bUseGroundedMovement
+        ? Runner.ConfigureExternal(NativeScenario(),Sequence,WalkSpeedCmPerSec,RepeatIntervalSeconds,MinLoopSeconds,MaxSeconds,SceneGeometry)
+        : Runner.Configure(NativeScenario(),Sequence,WalkSpeedCmPerSec,RepeatIntervalSeconds,MinLoopSeconds,MaxSeconds,SceneGeometry);
+    if (!Configured)
     {
         OutReason = FString::Printf(
             TEXT("The sequence was refused at station %d: %s. Nothing moved."),
@@ -192,6 +195,10 @@ bool AMikdashServiceActor::StartService()
 
     FString Reason;
     if (!BuildSequence(Reason)) { Status = Reason; return false; }
+    if (bUseGroundedMovement && (IsValid(AuthoredBody) || !GroundedDestinationPermitted(ToUnreal(Sequence.Items[0].Stand))))
+    { Status=TEXT("Grounded start refused: authored body unsupported or initial floor/capsule/zone invalid."); return false; }
+    if (bUseGroundedMovement && IsValid(Body))
+    { Status=TEXT("Grounded restart refused while an existing body remains; no corrective teleport."); return false; }
     if (!ResolveBody(Reason)) { Status = Reason; return false; }
 
     // Place the body at the first station before the first tick, and only if
@@ -203,10 +210,13 @@ bool AMikdashServiceActor::StartService()
         Status = FString::Printf(TEXT("Refused before starting: %s"), *MoveReason);
         return false;
     }
-    PlaceBody(Start, ToUnreal(Sequence.Items[0].Face));
+    if (!bUseGroundedMovement) PlaceBody(Start, ToUnreal(Sequence.Items[0].Face));
+    LastMotorFeet=GetServiceFeetLocation(); MotorStallSeconds=0;
+    bMotorRequestBlocked=false; MotorBlockedIndex=0; MotorBlockedGeneration=0;
 
     bActive = true;
     bPaused = false;
+    if (auto* Motor=Cast<AMikdashServiceCharacter>(Body)) Motor->Halt();
     bLegBlocked = false;
     ReviewedLegIndex = -1;
     NextReviewAtSeconds = 0.0;
@@ -226,18 +236,22 @@ void AMikdashServiceActor::StopService()
     }
     bActive = false;
     bPaused = false;
+    if (auto* Motor=Cast<AMikdashServiceCharacter>(Body)) Motor->SetServiceFrozen(true);
     UpdateBodyAnimation(false);
 }
 
 void AMikdashServiceActor::SetServicePaused(bool bInPaused)
 {
     bPaused = bInPaused;
+    if (bUseGroundedMovement) Runner.SetExternalPaused(bInPaused);
+    if (auto* Motor=Cast<AMikdashServiceCharacter>(Body)) Motor->SetServiceFrozen(bInPaused || !bActive);
 }
 
 void AMikdashServiceActor::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     if (!bActive || !Runner.IsReady() || !IsValid(Body)) { UpdateBodyAnimation(false); return; }
+    if (bUseGroundedMovement) { TickGrounded(DeltaSeconds); return; }
 
     const UWorld* World = GetWorld();
     const double Now = World ? World->GetTimeSeconds() : 0.0;
@@ -347,6 +361,135 @@ bool AMikdashServiceActor::ReviewLeg(const FVector& From, const FVector& To) con
     FHitResult Obstacle;
     return !World->SweepSingleByChannel(Obstacle, From + CapsuleLift, To + CapsuleLift,
         FQuat::Identity, ECC_Pawn, Capsule, Query);
+}
+
+FVector AMikdashServiceActor::GetServiceFeetLocation() const
+{
+    if (const auto* Motor=Cast<AMikdashServiceCharacter>(Body)) return Motor->ServiceFeet();
+    return IsValid(Body) ? Body->GetActorLocation() : GetActorLocation();
+}
+
+FVector AMikdashServiceActor::GetServiceStationLocation(int32 Index) const
+{
+    return Index>=0 && static_cast<std::size_t>(Index)<Sequence.Count ? ToUnreal(Sequence.Items[Index].Stand) : FVector::ZeroVector;
+}
+
+bool AMikdashServiceActor::GroundedDestinationPermitted(const FVector& Feet) const
+{
+    FString Reason;
+    const UWorld* World=GetWorld();
+    if (!World || !MoveIsPermitted(Feet,Reason)) return false;
+    FCollisionQueryParams Query(SCENE_QUERY_STAT(ServiceMotorDestination),false,this);
+    if (IsValid(Body)) Query.AddIgnoredActor(Body);
+    FHitResult Floor;
+    if (!World->LineTraceSingleByChannel(Floor,Feet+FVector(0,0,30),Feet-FVector(0,0,30),ECC_Visibility,Query)
+        || !Floor.bBlockingHit || FMath::Abs(Floor.ImpactPoint.Z-Feet.Z)>3 || Floor.ImpactNormal.Z<0.95) return false;
+    return !World->OverlapBlockingTestByChannel(Feet+CapsuleLift,FQuat::Identity,ECC_Pawn,
+        FCollisionShape::MakeCapsule(CapsuleRadius,CapsuleHalfHeight),Query);
+}
+
+bool AMikdashServiceActor::IsServiceGrounded() const
+{
+    const auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    return Motor && Motor->GetCharacterMovement()->IsMovingOnGround() && GroundedDestinationPermitted(Motor->ServiceFeet());
+}
+
+bool AMikdashServiceActor::MotorSegmentPermitted(const FVector& From,const FVector& To) const
+{
+    if (From.ContainsNaN() || To.ContainsNaN()) return false;
+    const int32 Samples=FMath::Max(1,FMath::CeilToInt(FVector::Distance(From,To)/25.0));
+    for(int32 I=0;I<=Samples;++I)
+    {
+        FString Reason;
+        if(!MoveIsPermitted(FMath::Lerp(From,To,static_cast<double>(I)/Samples),Reason)) return false;
+    }
+    return true;
+}
+
+void AMikdashServiceActor::TickGrounded(float DeltaSeconds)
+{
+    auto* Motor=Cast<AMikdashServiceCharacter>(Body);
+    if (!Motor || !FMath::IsFinite(DeltaSeconds) || DeltaSeconds<0) { Status=TEXT("Grounded motor unavailable/invalid delta."); return; }
+    if (bPaused) { Motor->Halt(); UpdateBodyAnimation(false); return; }
+    const FVector Feet=Motor->ServiceFeet();
+    const bool Moved=FVector::DistSquared(Feet,LastMotorFeet)>0.0001;
+    UpdateBodyAnimation(Moved);
+    LastMotorFeet=Feet;
+    Sequencer::MotionRequest Request;
+    if (!Runner.PendingMotion(Request))
+    {
+        Motor->Halt();
+        // Dwell facing follows the station's authored task target, not the
+        // previous walking direction. Rotate only; feet and admission stay intact.
+        FVector FaceDirection=ToUnreal(Runner.CurrentFace())-Feet;
+        FaceDirection.Z=0;
+        if (!FaceDirection.IsNearlyZero())
+        {
+            const FRotator TargetFacing(0,FaceDirection.Rotation().Yaw,0);
+            Motor->SetActorRotation(FMath::RInterpConstantTo(Motor->GetActorRotation(),TargetFacing,
+                FMath::Min(DeltaSeconds,0.1f),90.0f));
+        }
+        Runner.TickExternal(DeltaSeconds);
+        MotorStallSeconds=0;
+        return; // never give a newly entered leg leftover time
+    }
+    const FVector Destination=ToUnreal(Request.Destination);
+    // A physical stall/zone refusal stays held. Pause can refresh the token, but
+    // must not silently reauthorize the same blocked leg or inflate its count.
+    if (bMotorRequestBlocked && Request.Index==MotorBlockedIndex)
+    {
+        Motor->Halt();
+        if (Request.Generation!=MotorBlockedGeneration)
+        {
+            Runner.AcknowledgeAdmission(Request,false);
+            MotorBlockedGeneration=Request.Generation;
+        }
+        Runner.TickExternal(DeltaSeconds);
+        return;
+    }
+    if (bMotorRequestBlocked)
+    {
+        bMotorRequestBlocked=false;
+        MotorStallSeconds=0;
+    }
+    const bool Admitted=GroundedDestinationPermitted(Destination) && MotorSegmentPermitted(Feet,Destination);
+    Runner.AcknowledgeAdmission(Request,Admitted);
+    if(!Admitted)
+    {
+        Motor->Halt(); Runner.TickExternal(DeltaSeconds);
+        Status=FString::Printf(TEXT("Holding: destination %d floor/capsule/zone refused at actual feet %s."),static_cast<int32>(Request.Index),*Feet.ToString());
+        return;
+    }
+    // Physical arrival only; motor elapsed time never completes a station.
+    if(FVector::DistSquared2D(Feet,Destination)<=4.0 && FMath::Abs(Feet.Z-Destination.Z)<=3.0 && IsServiceGrounded())
+    {
+        Motor->Halt();
+        if(!Runner.AcknowledgeArrival(Request,true)) Status=TEXT("Arrival token refused.");
+        else Status=FString::Printf(TEXT("Grounded arrival at station %d; dwell begins now."),static_cast<int32>(Request.Index));
+        MotorStallSeconds=0;
+        return;
+    }
+    MotorStallSeconds=Moved ? 0 : MotorStallSeconds+DeltaSeconds;
+    auto* Movement=CastChecked<UMikdashServiceMovement>(Motor->GetCharacterMovement());
+    if(MotorStallSeconds>=2.0 || Movement->bGuardRefused)
+    {
+        bMotorRequestBlocked=true;
+        MotorBlockedIndex=Request.Index;
+        MotorBlockedGeneration=Request.Generation;
+        Motor->Halt(); Runner.AcknowledgeAdmission(Request,false); Runner.TickExternal(DeltaSeconds);
+        Status=FString::Printf(TEXT("Holding: physical motor stalled/zone refused at %s toward station %d; no arrival credited."),*Feet.ToString(),static_cast<int32>(Request.Index));
+        return;
+    }
+    FVector Direction=Destination-Feet; Direction.Z=0;
+    const float Distance=Direction.Size();
+    const float SafeDelta=FMath::Max(DeltaSeconds,0.001f);
+    Movement->MaxWalkSpeed=FMath::Min(WalkSpeedCmPerSec,Distance/SafeDelta);
+    if(!Direction.IsNearlyZero())
+    {
+        Motor->SetActorRotation(Direction.Rotation());
+        Motor->AddMovementInput(Direction.GetSafeNormal(),1.0f,true);
+    }
+    Runner.TickExternal(DeltaSeconds);
 }
 
 void AMikdashServiceActor::PlaceBody(const FVector& Feet, const FVector& FaceTarget)
@@ -527,8 +670,9 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
     FActorSpawnParameters Params;
     Params.Owner = this;
     Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-    ASkeletalMeshActor* Spawned = World->SpawnActor<ASkeletalMeshActor>(
-        ASkeletalMeshActor::StaticClass(), GetActorLocation(), GetActorRotation(), Params);
+    AActor* Spawned = bUseGroundedMovement
+        ? static_cast<AActor*>(World->SpawnActor<AMikdashServiceCharacter>(AMikdashServiceCharacter::StaticClass(),ToUnreal(Sequence.Items[0].Stand)+CapsuleLift,GetActorRotation(),Params))
+        : static_cast<AActor*>(World->SpawnActor<ASkeletalMeshActor>(ASkeletalMeshActor::StaticClass(),GetActorLocation(),GetActorRotation(),Params));
     if (!Spawned) { OutReason = TEXT("Refused: the service body could not be spawned."); return false; }
 
     // A static-mobility actor does not dirty its package on a transform change
@@ -569,15 +713,28 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
     }
     ActiveBodyYawDegrees = Source == EMikdashServiceBodySource::ConfiguredMesh ? ConfiguredBodyYawDegrees
         : Source == EMikdashServiceBodySource::PilgrimRigV3 ? -90.0f : 0.0f;
-    Spawned->SetActorScale3D(FVector(Source == EMikdashServiceBodySource::ConfiguredMesh ? ConfiguredBodyVisualScale : 1.0f));
+    const float VisualScale=Source == EMikdashServiceBodySource::ConfiguredMesh ? ConfiguredBodyVisualScale : 1.0f;
+    if (!bUseGroundedMovement) Spawned->SetActorScale3D(FVector(VisualScale));
     PlayingBodyAnimation = nullptr;
 
-    BodyMesh = Spawned->GetSkeletalMeshComponent();
+    BodyMesh = Spawned->FindComponentByClass<USkeletalMeshComponent>();
     if (BodyMesh)
     {
         BodyMesh->SetMobility(EComponentMobility::Movable);
         BodyMesh->SetSkeletalMeshAsset(Mesh);
-        BodyMesh->SetCollisionProfileName(TEXT("Pawn"));
+        if (!bUseGroundedMovement) BodyMesh->SetCollisionProfileName(TEXT("Pawn"));
+        else
+        {
+            BodyMesh->SetRelativeScale3D(FVector(VisualScale));
+            BodyMesh->SetRelativeRotation(FRotator(0,ActiveBodyYawDegrees,0));
+            auto* Motor=CastChecked<AMikdashServiceCharacter>(Spawned);
+            auto* Movement=CastChecked<UMikdashServiceMovement>(Motor->GetCharacterMovement());
+            Movement->MaxWalkSpeed=WalkSpeedCmPerSec;
+            Movement->MovementGuard=[this](const FVector& From,const FVector& To){return MotorSegmentPermitted(From,To);};
+            Movement->bGuardRefused=false;
+            Movement->AddTickPrerequisiteActor(this);
+            Motor->AddTickPrerequisiteActor(this);
+        }
         UpdateBodyAnimation(false);
     }
 

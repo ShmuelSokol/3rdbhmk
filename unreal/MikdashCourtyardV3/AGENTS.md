@@ -1,3 +1,16 @@
+## Wrap build checkpoint — 2026-09-09 11:25 UTC
+
+Full wrapping gate11/11,32/32math PASS; Editor45.94s/Game53.01s. Same two
+pre-existing C4996 deprecations remain. Fresh Attempt4 cook/render next.
+
+## Runtime checkpoint — 2026-09-09 11:18 UTC
+
+Attempt3 cook PASS, startup strict log PASS (six Nanite warnings gone), staging
+PASS. Real packaged UI: title visible, Begin/intro skip/Pause/Resume/Fdove/Freturn/
+mouseQuit observed. Existing saves unchanged. Preparation label visibly overflows
+Main/Pause; fixing wrap before download. Not a full route/settings/audio acceptance.
+Source checkpoint432cfa37 pushed; Attempt3 childc2742de9... retained.
+
 ## Build checkpoint — 2026-09-09 11:10 UTC
 
 Menu fix passes full11/11 gate and32/32 math. Editor52.85s/Game54.48s both

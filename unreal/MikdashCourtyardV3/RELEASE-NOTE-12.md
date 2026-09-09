@@ -1,27 +1,33 @@
 # Walkthrough-12 — development preview, release acceptance pending
 
-Windows12 Attempt2 cooked and archived successfully on 9 September 2026 at
-10:43 UTC. The configured game/editor/cook map is Selected48, using the exact
+Windows12 Attempt3 cook/archive, staging and packaged startup passed on
+9 September 2026. The configured game/editor/cook map is Selected48, using the exact
 0.48 m amah. Legacy Main50 remains retained. Both map files were unchanged by cook.
 
 The loose-file staging gate passed: distribution help/credits and localisation
 match their source bytes, executables exist, and native IoStore parts meet the
-1.8 GB partition bound. This establishes staging, not usable gameplay or sharing.
+1.8 GB partition bound. Download and extraction verification remain pending.
 
-Packaged startup loaded the correct Selected48 default, but **failed acceptance**:
+Historical Attempt2 startup loaded the correct Selected48 default but failed:
 six original KotelSurfacePolishV2 materials (`M_KotelSurface_0` through `_5`)
-warned that Nanite usage was missing and default material would be used. A narrow
-source repair is being verified; the existing package still contains the defect.
+warned that Nanite usage was missing and default material would be used. The narrow
+source repair passed fresh-process verification and Attempt3 startup passed.
 The five original photo assets and four candidate photo cook clones are separate.
 
-The actual packaged UI review also showed an invisible menu. Source diagnosis:
+Attempt2 UI review also showed an invisible menu. Source diagnosis:
 native menu construction ran in NativeConstruct after Unreal had already captured
-an empty Slate spacer. The RebuildWidget lifecycle fix passes both editor and game compilation,
-**not yet packaged-verified** at this checkpoint. Escape/P on the logical title screen
-being ignored is consistent with the existing title-screen input policy.
+an empty Slate spacer. The RebuildWidget lifecycle fix now passes both compilation
+and bounded actual packaged interaction: Enter activated Begin, Space skipped the
+intro at 18.9 seconds, P opened pause, Escape resumed, F entered dove flight, F
+returned to walking, and mouse Quit closed normally. This does not establish full
+route, settings, preparation lesson or audio acceptance.
 
-Before release: material fresh-process verification and dual-target compilation passed; recook to a fresh reviewed output, repeat staging/startup, and physically verify
-Begin, pause/resume, dove/return and Quit with visible UI. Then prepare ordinary ZIPs,
+Attempt3 screenshots showed the full preparation label overflowing its Main/Pause
+button. A wrapping/width constraint fix is prepared, pending compilation and rendered
+verification; wording and accessible text scaling are preserved.
+
+Before release: compile and verify the wrap fix, recook and repeat the applicable
+packaged gates. Then prepare ordinary ZIPs,
 verify extraction and payload hashes, and verify the authorized download method.
 No downloadable Windows12 release or production-quality completion is claimed.
 

@@ -5,6 +5,7 @@
 #include "Components/Border.h"
 #include "Components/BorderSlot.h"
 #include "Components/Button.h"
+#include "Components/ButtonSlot.h"
 #include "Components/CheckBox.h"
 #include "Components/ComboBoxString.h"
 #include "Components/HorizontalBox.h"
@@ -281,7 +282,18 @@ UButton* UMikdashMenuWidget::AddMenuEntry(UPanelWidget* Parent, const FText& Lab
     Text->SetFont(Font(24.0f));
     Text->SetColorAndOpacity(FSlateColor(P.Text));
     Text->SetJustification(ETextJustify::Center);
+    // Bound desired width on the first Slate prepass, then wrap to the actual
+    // allocation. Keep full labels and grow vertically at larger text scales.
+    // Panel chrome has 34 units per side; the button adds 12 per side below.
+    Text->SetWrapTextAt(FMath::Max(1.0f, GetPanelWidth() - 2.0f * (34.0f + 12.0f)));
+    Text->SetAutoWrapText(true);
     Button->SetContent(Text);
+    if (UButtonSlot* ContentSlot = Cast<UButtonSlot>(Text->Slot))
+    {
+        ContentSlot->SetPadding(FMargin(12.0f, 4.0f));
+        ContentSlot->SetHorizontalAlignment(HAlign_Fill);
+        ContentSlot->SetVerticalAlignment(VAlign_Center);
+    }
 
     UMikdashUiAction* Action = MakeAction();
     Action->Clicked = MoveTemp(OnClicked);

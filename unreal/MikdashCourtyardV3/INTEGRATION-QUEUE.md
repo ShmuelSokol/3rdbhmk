@@ -1,4 +1,16 @@
-## Current continuation — Windows12 Attempt2, 2026-09-09
+## Current continuation — Windows12 Attempt3, 2026-09-09
+
+Attempt3 cook/archive, staging and startup PASS after six-material usage repair
+and menu lifecycle fix. Actual bounded controls PASS: Enter Begin; Space intro skip
+at18.9s; P pause; Escape resume; F dove; F return; mouse normal Quit. Do not extend
+this to full routes, settings, preparation or audio acceptance.
+
+Observed preparation label overflow on Main/Pause has a bounded wrapping fix in
+source, pending compilation/render review. Next compile/verify wrapping, recook
+and repeat applicable packaged gates, then ordinary ZIP/extraction/hash and
+authorized download verification. Root owns native/evidence/publication.
+
+## Historical continuation — Windows12 Attempt2, 2026-09-09
 
 Attempt2 cook/archive PASSED at10:43; known staging files/hash/container gate PASSED.
 Packaged startup loaded Selected48 correctly, but FAILED six original

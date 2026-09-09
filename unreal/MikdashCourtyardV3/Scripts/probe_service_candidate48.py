@@ -119,8 +119,8 @@ def diagnose_stone_leg(world,actor,body):
     for index in range(steps+1):
         point=start+(end-start)*(index/steps)
         supports={}
-        for label,depth in [('nativeRange',30),('diagnosticRange',100)]:
-            supports[label]=hit_record(u.SystemLibrary.line_trace_single(world,point+u.Vector(0,0,depth),point-u.Vector(0,0,depth),u.TraceTypeQuery.TRACE_TYPE_QUERY1,False,[body,actor],u.DrawDebugTrace.NONE,True))
+        for label,depth,complex_trace in [('nativeRange',30,False),('diagnosticRange',100,False),('complexGeometryRange',100,True)]:
+            supports[label]=hit_record(u.SystemLibrary.line_trace_single(world,point+u.Vector(0,0,depth),point-u.Vector(0,0,depth),u.TraceTypeQuery.TRACE_TYPE_QUERY1,complex_trace,[body,actor],u.DrawDebugTrace.NONE,True))
         floor=supports['nativeRange']
         matches=bool(floor and floor['impact'] and floor['normal'] and abs(floor['impact'][2]-point.z)<=3 and floor['normal'][2]>=.95)
         rows.append({'index':index,'plannedFeet':xyz(point),'floorMatchesNative':matches,**supports})

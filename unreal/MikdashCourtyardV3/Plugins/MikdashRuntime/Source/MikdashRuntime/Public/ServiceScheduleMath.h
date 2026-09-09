@@ -581,6 +581,7 @@ public:
         }
         Day_ = Day; Sequence_ = Sequence; Speed = SpeedCmPerSec; Interval = IntervalSeconds;
         State = Progress{};
+        EntryPending = false;
         State.State = Phase::Dwelling;   // begins standing at station 0
         Ready = true; BadStation = 0;
         return true;
@@ -597,6 +598,17 @@ public:
     // LegBlocked is the caller's capsule sweep result for the CURRENT leg.
     // Returns false and changes nothing when not configured or the step is bad.
     bool Tick(double DeltaSeconds, bool LegBlocked, bool Paused = false)
+    {
+        return TickWithAdmission(DeltaSeconds,
+            [LegBlocked](std::size_t, bool) { return !LegBlocked; }, Paused);
+    }
+
+    // Admission is queried BEFORE any distance is consumed, including a leg
+    // entered after dwelling in this same call. Entering distinguishes a new
+    // traversal (including a repeated loop) from a cached active-leg review.
+    // The legacy Tick(bool) API remains for consumers with one global blocker.
+    template<class Admission>
+    bool TickWithAdmission(double DeltaSeconds, Admission Admit, bool Paused = false)
     {
         if (!Ready) return false;
         if (!std::isfinite(DeltaSeconds) || DeltaSeconds < 0.0) return false;
@@ -625,11 +637,14 @@ public:
                 State.LegLengthCm = Distance2D(Sequence_.Items[State.Index - 1].Stand,
                                                Sequence_.Items[State.Index].Stand);
                 State.LegTravelledCm = 0.0;
+                EntryPending = true;
                 continue;
             }
             if (State.State == Phase::Walking || State.State == Phase::Held)
             {
-                if (LegBlocked)
+                const bool Allowed = Admit(State.Index, EntryPending);
+                EntryPending = false;
+                if (!Allowed)
                 {
                     // Hold in place and record. Never advance, never teleport.
                     if (State.State != Phase::Held) { ++State.BlockedLegs; State.State = Phase::Held; }
@@ -743,6 +758,7 @@ private:
     double Speed = 90.0;
     double Interval = 0.0;
     bool Ready = false;
+    bool EntryPending = false;
     Refusal LastRefusal = Refusal::NotConfigured;
     std::size_t BadStation = 0;
 };

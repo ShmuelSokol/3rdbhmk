@@ -294,6 +294,34 @@ int main()
     MikdashSceneUnits::Frame LegacyFrame;Anchors LegacyDecoded;Geometry LegacyGeometry;
     Check(DecodeScene(LegacyFrame,A,LegacyDecoded,LegacyGeometry) && LegacyDecoded.LampZ==A.LampZ && LegacyGeometry.FloorZ==FloorZ, "legacy decode unchanged");
 
+    Sequencer AdmissionRun;
+    Check(AdmissionRun.Configure(Scenario::OrdinaryDay,P,Speed,0), "admission runner configures");
+    int Calls=0;
+    AdmissionRun.TickWithAdmission(P.Items[0].DwellSeconds+1.0,[&](std::size_t Index,bool Entering)
+    { ++Calls; Check(Index==1 && Entering,"new first leg admission before residual movement"); return false; });
+    Check(Calls==1 && AdmissionRun.Where().State==Phase::Held && AdmissionRun.Where().LegTravelledCm==0,"blocked transition consumes no distance");
+    Check(AdmissionRun.Where().BlockedLegs==1,"blocked entry counted once");
+    AdmissionRun.TickWithAdmission(1.0,[&](std::size_t,bool Entering){++Calls;Check(!Entering,"held recheck is not new entry");return false;});
+    Check(AdmissionRun.Where().BlockedLegs==1,"continued hold not recounted");
+    const int BeforePause=Calls;
+    AdmissionRun.TickWithAdmission(100.0,[&](std::size_t,bool){++Calls;return true;},true);
+    Check(Calls==BeforePause && AdmissionRun.Where().LegTravelledCm==0,"pause neither admits nor moves");
+    Check(AdmissionRun.Configure(Scenario::OrdinaryDay,P,Speed,0),"restart resets admission state");
+    AdmissionRun.TickWithAdmission(P.Items[0].DwellSeconds,[](std::size_t,bool){return true;});
+    AdmissionRun.TickWithAdmission(0.1,[](std::size_t Index,bool Entering)
+    {Check(Index==1 && Entering,"exact dwell boundary retains pending admission across ticks");return false;});
+    Check(AdmissionRun.Where().LegTravelledCm==0,"exact boundary refusal no movement");
+    Check(AdmissionRun.Configure(Scenario::OrdinaryDay,P,Speed,0),"large step runner resets");
+    Calls=0;
+    AdmissionRun.TickWithAdmission(1000.0,[&](std::size_t Index,bool Entering)
+    {++Calls;Check(Entering,"each new leg reviewed within large tick");return Index==1;});
+    Check(Calls==2 && AdmissionRun.Where().Index==2 && AdmissionRun.Where().State==Phase::Held && AdmissionRun.Where().LegTravelledCm==0,"leg1 approval cannot leak into leg2");
+    Check(AdmissionRun.Configure(Scenario::OrdinaryDay,P,Speed,0),"loop admission resets");
+    int FirstLegEntries=0;
+    AdmissionRun.TickWithAdmission(PlanLoopSeconds(P,Speed)+20.0,[&](std::size_t Index,bool Entering)
+    {if(Index==1 && Entering)++FirstLegEntries;return FirstLegEntries<2;});
+    Check(FirstLegEntries==2 && AdmissionRun.Where().LegTravelledCm==0,"repeated loop first leg needs fresh approval");
+
     std::cout << "Service schedule: " << Passed
               << " checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, "
                  "five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)\n";

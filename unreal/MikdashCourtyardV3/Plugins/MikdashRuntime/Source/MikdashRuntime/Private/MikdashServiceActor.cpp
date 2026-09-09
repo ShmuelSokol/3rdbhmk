@@ -242,29 +242,21 @@ void AMikdashServiceActor::Tick(float DeltaSeconds)
     const UWorld* World = GetWorld();
     const double Now = World ? World->GetTimeSeconds() : 0.0;
 
-    // Review the leg we are about to walk, once per leg, and again on a slow
-    // cadence while it is held so a door that opens is noticed.
-    const Progress& Before = Runner.Where();
-    const bool bOnALeg = Before.State == Phase::Walking || Before.State == Phase::Held;
-    if (bOnALeg && Before.Index > 0 && Before.Index < Sequence.Count)
+    // The sequencer requests admission inside each walking transition, before
+    // consuming distance. A large tick cannot carry approval into another leg.
+    Runner.TickWithAdmission(DeltaSeconds, [&](std::size_t Index, bool Entering)
     {
-        const int32 LegIndex = static_cast<int32>(Before.Index);
-        if (LegIndex != ReviewedLegIndex || (bLegBlocked && Now >= NextReviewAtSeconds))
+        if (Index == 0 || Index >= Sequence.Count) return false;
+        const int32 LegIndex = static_cast<int32>(Index);
+        if (Entering || LegIndex != ReviewedLegIndex || (bLegBlocked && Now >= NextReviewAtSeconds))
         {
-            const FVector From = ToUnreal(Sequence.Items[Before.Index - 1].Stand);
-            const FVector To = ToUnreal(Sequence.Items[Before.Index].Stand);
-            bLegBlocked = !ReviewLeg(From, To);
+            bLegBlocked = !ReviewLeg(ToUnreal(Sequence.Items[Index - 1].Stand),
+                                    ToUnreal(Sequence.Items[Index].Stand));
             ReviewedLegIndex = LegIndex;
             NextReviewAtSeconds = Now + HeldReviewIntervalSeconds;
         }
-    }
-    else
-    {
-        bLegBlocked = false;
-        ReviewedLegIndex = -1;
-    }
-
-    Runner.Tick(DeltaSeconds, bLegBlocked, bPaused);
+        return !bLegBlocked;
+    }, bPaused);
     if (bPaused) { UpdateBodyAnimation(false); return; }
 
     const FVector Stand = ToUnreal(Runner.CurrentStand());

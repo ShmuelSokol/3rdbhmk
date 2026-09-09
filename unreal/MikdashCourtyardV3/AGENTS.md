@@ -1,3 +1,23 @@
+Admission runtime055924 now holds exactly at[-3560,0,888] before blocked leg2,
+no initial movement into rejected leg. Maps/saves unchanged. Focused tests cover
+large dt; live test covers natural transition only. Stair geometry still unresolved.
+
+Admission full gate9/9,32/32math, actual UBT6actions22.76s passed
+verify-ubt-axhzasun.log. Native blocked-transition probe running against new DLL.
+Stair collision helper preparation is separate and has not mutated assets.
+
+Stair collision diagnosis055245: simple collision is NOT actual tread geometry. At
+index69 simple Z925.811 normalZ.721 versus triangle Z904.000 normalZ1; target endpoint
+simple936.082 versus actual triangle920.000. Planned936 stands16cm above the real
+second tread. Bounding footprint plus maximum Z is not a valid service stance.
+Need a preserved duplicate with tread-faithful collision and grounded stance/path repair,
+not tolerance relaxation. All maps/saves unchanged; admission build is running separately.
+
+Published checkpoint63563d9c after full9/9+32math+UBT and finalquick6/6.
+New per-leg admission repair prepared after that checkpoint: 100256 focused MSVC
+checks pass, native build pending. Root stair simple-versus-complex trace diagnostic
+is running against the prior binary; do not attribute its findings to unbuilt admission code.
+
 Candidate V3 live probe054619: resolved correct V3 mesh, movement observed, garment
 1/1 slot applied/read back. Floor misses0, Visibility capsule hits0, native blocked legs1.
 All maps/original saves unchanged. This confirms body resolution and limited movement,

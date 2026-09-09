@@ -4,9 +4,12 @@
   "startupEnabled": false,
   "defects": [
     "Station XYZ interpolation creates a ramp over flat floor.",
-    "Dwell-to-walking can consume leftover time before reviewing the new leg."
+    "Dwell-to-walking can consume leftover time before reviewing the new leg.",
+    "Importer-generated simple collision bridges visible stair treads with a slope.",
+    "Planned endpoint936 is16cm above actual second tread920; former simple collision falsely agreed."
   ],
   "design": [
+    "Preserve original mesh; use reviewed duplicate with tread-faithful collision and confirm actual stance tread before path admission.",
     "Admit each destination leg before consuming movement time; stale admission cannot authorize another leg.",
     "Share one measured support path between playback and collision review.",
     "Validate stair transitions separately with physical capsule sweeps; refuse unsupported approaches."
@@ -28,5 +31,16 @@
     "Unsupported gap, steep normal, bad floor agreement and blocked capsule refuse.",
     "Decode candidate coordinates once; keep physical capsule dimensions.",
     "30 and 60 fps endpoint agreement; recompute path timing honestly."
-  ]
+  ],
+  "additionalEvidence": "candidate-runtime-20260909T055245994411Z.json",
+  "stairSource": {
+    "manifest": "SourceAssets/vessels-review/MenorahV4/geometry-manifest.json",
+    "objSha256": "e09582b8751a9d27bfb69dd43442b8c47c7dc9d2745df6097047abaea25dae16",
+    "triangles": 192,
+    "authoredLegacyRiseCm": 16.666666666666668,
+    "authoredLegacyTreadCm": 30,
+    "candidateRiseCm": 16,
+    "candidateTreadCm": 28.8,
+    "sizesStatus": "Authored sizes; three-step count sourced separately."
+  }
 }

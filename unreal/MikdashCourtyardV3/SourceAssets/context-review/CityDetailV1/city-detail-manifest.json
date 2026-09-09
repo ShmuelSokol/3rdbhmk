@@ -1,0 +1,805 @@
+{
+  "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+  "version": 1,
+  "stamp": "20260909T224444245511Z",
+  "generatorSha256": "880de4b4c44a43342c465b89b9805da0dab7e606c2c0a429b2422ed79b9a5c71",
+  "facadesModuleSha256": "31d779582708348359e092cb5b0d9d7f217c7d366678595a3e1ad0bda2447dc6",
+  "source": {
+    "jerusalemJson": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+    "jerusalemJsonSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+    "frozenBuildingsManifest": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\buildings-manifest.json",
+    "facadesManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\OldCityFacadesV1\\facades-manifest.json",
+    "facadesManifestSha256": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+    "facadesManifestStatus": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+    "precinctReceipt": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\precinct-Candidate48.json",
+    "precinctReceiptSha256": "201e5b2d4b223690f7398f3d767e7877b1c89f1017f7e845d67e18e4296ed33e",
+    "reuse": "Footprints, terrain heights, the (TX, TZ) alignment, the 100 m cell naming, the wall ring, the exclusion zones and the OBJ adapter are all imported from Scripts/create_oldcity_facades.py, not re-derived."
+  },
+  "reconstructionVerification": {
+    "frozenManifest": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\buildings-manifest.json",
+    "frozenFbxSha256": "271bc9b4e1297421a33dde0b00172ad6111decabdb683e05267d4b972aca5408",
+    "frozenComponentCount": 11400,
+    "reconstructedBuildings": 11405,
+    "exactBoxMatches": 10593,
+    "matchRatio": 0.928803,
+    "worstMatchedBoundsErrorAmot": 0.00020000000040454324,
+    "unmatchedSampleOsmIds": [
+      44168240,
+      44168865,
+      76246867,
+      91623816,
+      91625558,
+      92314625,
+      119441046,
+      126864879,
+      136003352,
+      155220488,
+      155859993,
+      157293762,
+      157551035,
+      157554789,
+      157554812,
+      157558450,
+      157558466,
+      157558489,
+      157744074,
+      157749701
+    ],
+    "unmatchedCount": 812,
+    "note": "Unmatched footprints are almost all members of a connected component that welds two or more touching OSM footprints into one union; the frozen manifest stores the union box, not the individual footprint box."
+  },
+  "buildings": {
+    "extruded": 11405,
+    "skippedBySourceRule": 32,
+    "prepared": 11405,
+    "insideOttomanWallRing": 2073,
+    "wallRingAreaM2": 862629,
+    "withOldCityFacadeShells": 2106,
+    "componentGroupUnmatched": 809,
+    "componentGroupNote": "Unmatched footprints are members of a welded multi-footprint component; those fall back to their own 100 m cell for the zone decision, which is the same cell the actor lives in."
+  },
+  "precinctZones": {
+    "policy": "hide_if_any_inside",
+    "rule": "component/building centroid inside the outer wall faces",
+    "hiddenCellCount": 196,
+    "hiddenLargeGroupCount": 4,
+    "squareOuterFacesCm": {
+      "xWest": -31776.0,
+      "xEast": 112224.0,
+      "yNorth": -31824.0,
+      "ySouth": 112176.0
+    },
+    "why": "The precinct plaza hides whole building actors. Instances are split into a kept actor and a precinct actor per mesh so the precinct half can be hidden with the buildings it decorates and nothing floats over the plaza."
+  },
+  "meshes": [
+    {
+      "file": "SM_CityDetail_Parapet.obj",
+      "sha256": "a942c84729cd61fc73d067c76bc0ee2465db7726174d36b6c408d17872e7fdf5",
+      "bytes": 1798,
+      "triangles": 24,
+      "vertices": 16,
+      "normals": 6,
+      "canonicalBoundsCm": {
+        "min": [
+          -50.0,
+          -14.0,
+          0.0
+        ],
+        "max": [
+          50.0,
+          14.0,
+          100.0
+        ]
+      },
+      "key": "parapet",
+      "assetName": "SM_CityDetail_Parapet",
+      "materialKey": "meleke",
+      "castShadow": true,
+      "cullDistanceCm": 140000.0,
+      "note": "roof parapet rail, 100 cm unit run scaled to each footprint edge",
+      "solids": 2,
+      "yAsymmetricCm": 0.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_SolarTank.obj",
+      "sha256": "915704bb58aa66c9e824a34a8fd337d085b64a053d21751ef8295fe206db0889",
+      "bytes": 4193,
+      "triangles": 64,
+      "vertices": 40,
+      "normals": 18,
+      "canonicalBoundsCm": {
+        "min": [
+          -100.0,
+          -159.0,
+          0.0
+        ],
+        "max": [
+          100.0,
+          62.0,
+          147.0
+        ]
+      },
+      "key": "solar",
+      "assetName": "SM_CityDetail_SolarTank",
+      "materialKey": "darkplant",
+      "castShadow": true,
+      "cullDistanceCm": 62000.0,
+      "note": "solar water heater: horizontal tank plus south-facing collector",
+      "solids": 4,
+      "yAsymmetricCm": 97.0,
+      "yAsymmetric": true
+    },
+    {
+      "file": "SM_CityDetail_WaterTank.obj",
+      "sha256": "a6f9cc373d0d1f4f84e062e156534c9af2cf23f6aee95b3fef54277703320afa",
+      "bytes": 4098,
+      "triangles": 64,
+      "vertices": 36,
+      "normals": 20,
+      "canonicalBoundsCm": {
+        "min": [
+          -46.0,
+          -43.75,
+          0.0
+        ],
+        "max": [
+          46.0,
+          43.75,
+          132.0
+        ]
+      },
+      "key": "water_tank",
+      "assetName": "SM_CityDetail_WaterTank",
+      "materialKey": "darkplant",
+      "castShadow": true,
+      "cullDistanceCm": 52000.0,
+      "note": "vertical black roof water tank on a stand",
+      "solids": 2,
+      "yAsymmetricCm": 0.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_AirCon.obj",
+      "sha256": "99825c4691dade5c18f0c960b31b929479e5fc9ed39b73957d6868e157b62843",
+      "bytes": 3357,
+      "triangles": 52,
+      "vertices": 32,
+      "normals": 14,
+      "canonicalBoundsCm": {
+        "min": [
+          -42.0,
+          -47.0,
+          0.0
+        ],
+        "max": [
+          42.0,
+          28.0,
+          90.0
+        ]
+      },
+      "key": "aircon",
+      "assetName": "SM_CityDetail_AirCon",
+      "materialKey": "metal",
+      "castShadow": true,
+      "cullDistanceCm": 40000.0,
+      "note": "split air-conditioning condenser on a bracket",
+      "solids": 3,
+      "yAsymmetricCm": 19.0,
+      "yAsymmetric": true
+    },
+    {
+      "file": "SM_CityDetail_SatDish.obj",
+      "sha256": "5a17763df377662d5ec5dc79cdfb692945c805d0449a7241b13e59d31577150e",
+      "bytes": 4054,
+      "triangles": 64,
+      "vertices": 40,
+      "normals": 16,
+      "canonicalBoundsCm": {
+        "min": [
+          -28.83,
+          -70.0,
+          0.0
+        ],
+        "max": [
+          28.83,
+          88.0,
+          176.26
+        ]
+      },
+      "key": "satdish",
+      "assetName": "SM_CityDetail_SatDish",
+      "materialKey": "metal",
+      "castShadow": false,
+      "cullDistanceCm": 34000.0,
+      "note": "satellite dish on a roof post",
+      "solids": 4,
+      "yAsymmetricCm": 18.0,
+      "yAsymmetric": true
+    },
+    {
+      "file": "SM_CityDetail_Aerial.obj",
+      "sha256": "78d0626c0c83820291312febe798f4e28050add66a94342aa1ccda05bcfc42fd",
+      "bytes": 3013,
+      "triangles": 48,
+      "vertices": 32,
+      "normals": 6,
+      "canonicalBoundsCm": {
+        "min": [
+          -30.0,
+          -80.0,
+          0.0
+        ],
+        "max": [
+          30.0,
+          78.0,
+          300.0
+        ]
+      },
+      "key": "aerial",
+      "assetName": "SM_CityDetail_Aerial",
+      "materialKey": "metal",
+      "castShadow": false,
+      "cullDistanceCm": 34000.0,
+      "note": "television aerial mast",
+      "solids": 4,
+      "yAsymmetricCm": 2.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_WashLine.obj",
+      "sha256": "a561636eb72a4ccf5218dfb097cb82b452da7f9fe9ec2c19b5b3169833f33d6b",
+      "bytes": 3663,
+      "triangles": 60,
+      "vertices": 40,
+      "normals": 6,
+      "canonicalBoundsCm": {
+        "min": [
+          -157.0,
+          -7.0,
+          0.0
+        ],
+        "max": [
+          157.0,
+          7.0,
+          175.0
+        ]
+      },
+      "key": "washline",
+      "assetName": "SM_CityDetail_WashLine",
+      "materialKey": "laundry",
+      "castShadow": false,
+      "cullDistanceCm": 30000.0,
+      "note": "washing line with hanging cloths",
+      "solids": 5,
+      "yAsymmetricCm": 0.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_StairHead.obj",
+      "sha256": "7a104a8878753cb24622b733cb1010c2e521dcfd3a19d340bcc4577995d6f066",
+      "bytes": 2458,
+      "triangles": 36,
+      "vertices": 24,
+      "normals": 6,
+      "canonicalBoundsCm": {
+        "min": [
+          -118.0,
+          -113.0,
+          0.0
+        ],
+        "max": [
+          118.0,
+          146.0,
+          248.0
+        ]
+      },
+      "key": "stairhead",
+      "assetName": "SM_CityDetail_StairHead",
+      "materialKey": "meleke",
+      "castShadow": true,
+      "cullDistanceCm": 90000.0,
+      "note": "roof stair house with an overhanging slab",
+      "solids": 3,
+      "yAsymmetricCm": 33.0,
+      "yAsymmetric": true
+    },
+    {
+      "file": "SM_CityDetail_Dome.obj",
+      "sha256": "ab0c87fa3ac4d575e3356ef74d739c21fbb865572ba28714cf92d216e8f6690d",
+      "bytes": 5208,
+      "triangles": 78,
+      "vertices": 41,
+      "normals": 41,
+      "canonicalBoundsCm": {
+        "min": [
+          -100.0,
+          -95.11,
+          0.0
+        ],
+        "max": [
+          100.0,
+          95.11,
+          134.0
+        ]
+      },
+      "key": "dome",
+      "assetName": "SM_CityDetail_Dome",
+      "materialKey": "meleke",
+      "castShadow": true,
+      "cullDistanceCm": 160000.0,
+      "note": "small stone quarter dome on a low drum, 100 cm nominal radius",
+      "solids": 1,
+      "yAsymmetricCm": 0.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_Awning.obj",
+      "sha256": "5aa1461eb74ab498852355e9b8a5a7f21e3c77d4a1247e188eea506042bdba90",
+      "bytes": 3206,
+      "triangles": 48,
+      "vertices": 32,
+      "normals": 10,
+      "canonicalBoundsCm": {
+        "min": [
+          -110.0,
+          0.0,
+          -34.0
+        ],
+        "max": [
+          110.0,
+          156.0,
+          40.0
+        ]
+      },
+      "key": "awning",
+      "assetName": "SM_CityDetail_Awning",
+      "materialKey": "canvas",
+      "castShadow": false,
+      "cullDistanceCm": 22000.0,
+      "note": "shop awning cantilevered from a street wall",
+      "solids": 4,
+      "yAsymmetricCm": 156.0,
+      "yAsymmetric": true
+    },
+    {
+      "file": "SM_CityDetail_Arch.obj",
+      "sha256": "c1914755e85074ea071436f8f1467819f39d1d91e7ca26528e6071cffcea06fc",
+      "bytes": 3653,
+      "triangles": 60,
+      "vertices": 32,
+      "normals": 16,
+      "canonicalBoundsCm": {
+        "min": [
+          -50.0,
+          -100.0,
+          0.0
+        ],
+        "max": [
+          50.0,
+          100.0,
+          97.49
+        ]
+      },
+      "key": "arch",
+      "assetName": "SM_CityDetail_Arch",
+      "materialKey": "meleke",
+      "castShadow": true,
+      "cullDistanceCm": 45000.0,
+      "note": "cross-street barrel vault, 100 cm nominal span and 100 cm nominal rise; per-instance scale sets the real span, depth and rise, so the ring thickness scales with the span",
+      "solids": 1,
+      "yAsymmetricCm": 0.0,
+      "yAsymmetric": false
+    },
+    {
+      "file": "SM_CityDetail_Stall.obj",
+      "sha256": "ce4b04155d1a3ea08e83d38627b2807034ddc9e626773346ff57e2e1087d4ee8",
+      "bytes": 5047,
+      "triangles": 84,
+      "vertices": 56,
+      "normals": 10,
+      "canonicalBoundsCm": {
+        "min": [
+          -120.0,
+          -70.72,
+          0.0
+        ],
+        "max": [
+          120.0,
+          78.0,
+          214.0
+        ]
+      },
+      "key": "stall",
+      "assetName": "SM_CityDetail_Stall",
+      "materialKey": "canvas",
+      "castShadow": false,
+      "cullDistanceCm": 22000.0,
+      "note": "souq market stall with a canvas over it",
+      "solids": 7,
+      "yAsymmetricCm": 7.28,
+      "yAsymmetric": true
+    }
+  ],
+  "materials": {
+    "meleke": {
+      "name": "MI_CityDetail_Meleke",
+      "why": "pale dressed Jerusalem limestone for parapets, domes, stair houses and vaults",
+      "vector": {
+        "Tint0": [
+          1.22,
+          1.18,
+          1.08
+        ],
+        "Tint1": [
+          1.16,
+          1.11,
+          1.0
+        ],
+        "Tint2": [
+          1.27,
+          1.22,
+          1.11
+        ],
+        "Tint3": [
+          1.19,
+          1.14,
+          1.03
+        ],
+        "RoofTint": [
+          1.1,
+          1.07,
+          0.99
+        ]
+      },
+      "scalar": {
+        "TileCm": 150.0,
+        "RoughVar": 0.1,
+        "VCInfluence": 0.0,
+        "HashVertexColorWeight": 0.0,
+        "HashObjectWeight": 1.0,
+        "RoofFlatten": 0.25
+      }
+    },
+    "darkplant": {
+      "name": "MI_CityDetail_DarkPlant",
+      "why": "black solar tank, collector glazing and polyethylene water tank",
+      "vector": {
+        "Tint0": [
+          0.1,
+          0.1,
+          0.11
+        ],
+        "Tint1": [
+          0.08,
+          0.08,
+          0.09
+        ],
+        "Tint2": [
+          0.13,
+          0.13,
+          0.14
+        ],
+        "Tint3": [
+          0.09,
+          0.1,
+          0.12
+        ],
+        "RoofTint": [
+          0.11,
+          0.11,
+          0.13
+        ]
+      },
+      "scalar": {
+        "TileCm": 70.0,
+        "RoughVar": 0.03,
+        "VCInfluence": 0.0,
+        "HashVertexColorWeight": 0.0,
+        "HashObjectWeight": 1.0,
+        "RoofFlatten": 0.0
+      }
+    },
+    "metal": {
+      "name": "MI_CityDetail_Metal",
+      "why": "galvanised and painted metal: condensers, dishes, aerials",
+      "vector": {
+        "Tint0": [
+          0.66,
+          0.67,
+          0.69
+        ],
+        "Tint1": [
+          0.6,
+          0.61,
+          0.63
+        ],
+        "Tint2": [
+          0.72,
+          0.73,
+          0.75
+        ],
+        "Tint3": [
+          0.63,
+          0.64,
+          0.67
+        ],
+        "RoofTint": [
+          0.7,
+          0.71,
+          0.73
+        ]
+      },
+      "scalar": {
+        "TileCm": 90.0,
+        "RoughVar": 0.05,
+        "VCInfluence": 0.0,
+        "HashVertexColorWeight": 0.0,
+        "HashObjectWeight": 1.0,
+        "RoofFlatten": 0.0
+      }
+    },
+    "laundry": {
+      "name": "MI_CityDetail_Laundry",
+      "why": "washing on a line: bright cloth against the stone",
+      "vector": {
+        "Tint0": [
+          1.35,
+          1.33,
+          1.28
+        ],
+        "Tint1": [
+          1.1,
+          1.16,
+          1.3
+        ],
+        "Tint2": [
+          1.3,
+          1.14,
+          1.06
+        ],
+        "Tint3": [
+          1.18,
+          1.26,
+          1.14
+        ],
+        "RoofTint": [
+          1.3,
+          1.28,
+          1.24
+        ]
+      },
+      "scalar": {
+        "TileCm": 60.0,
+        "RoughVar": 0.12,
+        "VCInfluence": 0.0,
+        "HashVertexColorWeight": 0.0,
+        "HashObjectWeight": 1.0,
+        "RoofFlatten": 0.0
+      }
+    },
+    "canvas": {
+      "name": "MI_CityDetail_Canvas",
+      "why": "souq awning and stall canvas",
+      "vector": {
+        "Tint0": [
+          1.16,
+          1.08,
+          0.92
+        ],
+        "Tint1": [
+          1.02,
+          0.96,
+          0.84
+        ],
+        "Tint2": [
+          1.1,
+          1.0,
+          0.86
+        ],
+        "Tint3": [
+          0.96,
+          0.94,
+          0.88
+        ],
+        "RoofTint": [
+          1.12,
+          1.05,
+          0.92
+        ]
+      },
+      "scalar": {
+        "TileCm": 110.0,
+        "RoughVar": 0.1,
+        "VCInfluence": 0.0,
+        "HashVertexColorWeight": 0.0,
+        "HashObjectWeight": 1.0,
+        "RoofFlatten": 0.1
+      }
+    }
+  },
+  "retint": {
+    "name": "MI_CityDetail_CityStone",
+    "parentIsContextBuilding": true,
+    "why": "Every building in Jerusalem has been required to be faced in local stone since the 1918 Jerusalem town-planning ordinance under the military governor Ronald Storrs, carried into the Mandate planning schemes and still enforced by the municipality. The city should therefore read as the same pale meleke family as the Temple ashlar, and its flat roofs as pale concrete and whitewash, not as the brown default the aerial frame shows.",
+    "vector": {
+      "Tint0": [
+        1.2,
+        1.16,
+        1.07
+      ],
+      "Tint1": [
+        1.12,
+        1.06,
+        0.96
+      ],
+      "Tint2": [
+        1.26,
+        1.21,
+        1.1
+      ],
+      "Tint3": [
+        1.16,
+        1.12,
+        1.02
+      ],
+      "RoofTint": [
+        0.94,
+        0.93,
+        0.89
+      ]
+    },
+    "scalar": {
+      "TileCm": 420.0,
+      "RoughVar": 0.14,
+      "RoofFlatten": 0.72,
+      "VCInfluence": 0.5,
+      "HashVertexColorWeight": 1.0,
+      "HashObjectWeight": 1.0
+    },
+    "appliesToActorPrefix": "SM_JerusalemBuildings_"
+  },
+  "rules": {
+    "solarShare": 0.82,
+    "solarShareSource": "Solar water heating has been mandatory in new Israeli residential construction since the 1980 amendment to the planning and building regulations, and household coverage is reported at about 85 per cent. The black tank and collector are the normal Jerusalem roof, not an ornament.",
+    "stoneSource": "Every building in Jerusalem has been required to be faced in local stone since the 1918 Jerusalem town-planning ordinance under the military governor Ronald Storrs, carried into the Mandate planning schemes and still enforced by the municipality. The city should therefore read as the same pale meleke family as the Temple ashlar, and its flat roofs as pale concrete and whitewash, not as the brown default the aerial frame shows.",
+    "parapetMinAreaM2": 42.0,
+    "parapetMinEdgeCm": 300.0,
+    "clutterAreaPerItemM2": 56.0,
+    "maxClutterPerRoof": 5,
+    "domeShareInsideWalls": 0.5,
+    "stairHeadShare": 0.24,
+    "souq": {
+      "stationSpacingCm": 420.0,
+      "archMaxWidthCm": 620.0,
+      "archSpringCm": 250.0,
+      "archRiseFraction": [
+        0.46,
+        0.6
+      ],
+      "probeMaxCm": 900.0,
+      "stations": 7215,
+      "arch": 222,
+      "awning": 476,
+      "stall": 159,
+      "tooWide": 360
+    },
+    "sourceConfidence": {
+      "level": "CITED_FROM_GENERAL_KNOWLEDGE_NOT_VERIFIED_AGAINST_A_DOCUMENT",
+      "claims": [
+        "The 1918 Jerusalem town-planning ordinance issued under the military governor Ronald Storrs required stone facing on buildings; the requirement was carried into the British Mandate planning schemes and is still enforced by the Jerusalem municipality.",
+        "Solar water heating has been mandatory in new Israeli residential construction since a 1980 amendment to the planning and building regulations, and household coverage is reported at roughly 85 per cent."
+      ],
+      "note": "Both statements are cited from general knowledge by the agent that wrote this generator. Neither was checked against a primary document in this pass, and no document is quoted or hashed here. They are the REASON the rules look like this, not evidence produced by this project. Everything else in `rules` is authored dressing with no source claim at all."
+    },
+    "duplicateSuppression": "OldCityFacadesV1 already authored a parapet on all 2,106 of its buildings and its own dome/tank/stair-head hash predicates are re-evaluated here and honoured."
+  },
+  "totals": {
+    "unitMeshes": 12,
+    "yAsymmetricMeshes": 6,
+    "instances": 91625,
+    "lod0Triangles": 3626508,
+    "batches": 43,
+    "hismComponents": 24,
+    "actors": 24,
+    "byMesh": {
+      "parapet": 50326,
+      "solar": 8119,
+      "water_tank": 6165,
+      "aircon": 8180,
+      "satdish": 6924,
+      "aerial": 3841,
+      "washline": 4021,
+      "stairhead": 2098,
+      "dome": 1094,
+      "awning": 476,
+      "arch": 222,
+      "stall": 159
+    },
+    "byZone": {
+      "kept": {
+        "instances": 78090,
+        "batches": 29,
+        "byMesh": {
+          "aerial": 3348,
+          "aircon": 7064,
+          "arch": 143,
+          "awning": 320,
+          "dome": 695,
+          "parapet": 43175,
+          "satdish": 5993,
+          "solar": 6647,
+          "stairhead": 1770,
+          "stall": 104,
+          "washline": 3478,
+          "water_tank": 5353
+        }
+      },
+      "precinct": {
+        "instances": 13535,
+        "batches": 14,
+        "byMesh": {
+          "aerial": 493,
+          "aircon": 1116,
+          "arch": 79,
+          "awning": 156,
+          "dome": 399,
+          "parapet": 7151,
+          "satdish": 931,
+          "solar": 1472,
+          "stairhead": 328,
+          "stall": 55,
+          "washline": 543,
+          "water_tank": 812
+        }
+      }
+    },
+    "generationSeconds": 9.46
+  },
+  "budget": {
+    "document": "PERFORMANCE-BUDGET.md (measured 2026-09-08)",
+    "sceneActorsBefore": 7789,
+    "actorsAdded": 24,
+    "actorsAddedPercent": 0.308,
+    "sceneUniqueMeshesBefore": 7519,
+    "uniqueMeshesAdded": 12,
+    "drawCallsAdded": "one per HISM per pass: 24 base pass, plus shadow depth for the 14 shadow-casting components",
+    "lod0TrianglesAdded": 3626508,
+    "sceneTrianglesBefore": 30500000,
+    "trianglesAddedPercent": 11.89,
+    "instanceBudget": 130000,
+    "triangleBudget": 4300000,
+    "why": "The measured bottleneck is the game thread carrying 7,767 actors, not triangles: after the Nanite pass the GPU is 17.0 ms against a 28.7 ms game thread. HISM is therefore the only acceptable shape for this addition - it adds 24 actors, not 11,437. Per-instance cull distances keep the small plant out of the far city view, and the thin items (dish, aerial, washing line, awning, stall) do not cast shadows, so ShadowDepths, which was the single largest GPU cost before Nanite, is only asked to carry parapets, tanks, stair houses, domes and vaults."
+  },
+  "nativePlan": {
+    "namespace": "/Game/MikdashV3/JerusalemContext/CityDetailV1",
+    "importer": "Scripts/release_city_detail.py (+ .spec.json)",
+    "componentClass": "HierarchicalInstancedStaticMeshComponent",
+    "collision": "NoCollision on every component",
+    "nanite": false,
+    "naniteWhy": "These are 12 to 96 triangle props at up to 130,000 instances. Classic HISM gives one draw call per component with per-instance distance culling; Nanite would add always-resident root pages per mesh and does not honour the cull distances this plan depends on. The Nanite pass of 2026-09-08 excluded the existing decorative HISMs for the same reason.",
+    "placement": "per-instance world transforms exactly as written in the plan rows"
+  },
+  "preview": {
+    "file": "preview-plan.png",
+    "sha256": "a8f1152f261423da0a49fe6e2909fa9f7ec9636e6e82d3da98b3065edf5582b8",
+    "bytes": 183306,
+    "widthPx": 1595,
+    "heightPx": 1830,
+    "note": "Plan window is the Ottoman wall ring plus 120 m; the modern city outside it carries the same rules but is not drawn here."
+  },
+  "plan": {
+    "file": "city-detail-plan.json",
+    "sha256": "6a0b7a5d9b03f6da75fae528ced9510f037dfb2fbbd4f53c94d91b61881a4c74",
+    "bytes": 6016513
+  },
+  "limitations": [
+    "AUTHORED: every parapet, tank, collector, condenser, dish, aerial, washing line, stair house, dome, awning, vault and stall placed here is invented massing in the style of the modern city. Only the stone ordinance and the ubiquity of solar water heating are sourced claims; nothing else is surveyed, photogrammetric or a claim about a particular building. Nothing here is halachic.",
+    "No engine work is performed by this script: no import, no placement, no material, no collision, no cook and no visual acceptance. Those belong to Scripts/release_city_detail.py and to a human looking at the result.",
+    "Roof heights come from the same reconstruction the extruded prisms came from, so a parapet sits on the prism top exactly; but the prisms themselves are OSM extrusions with invented heights wherever the OSM feature carried none.",
+    "Souq fittings stand on the terrain height under the street station, not on the street mesh, so an awning or stall on a steeply cambered alley can sit a few centimetres proud of or below the paving.",
+    "The alley-width probe marches outward in 40 cm steps and only sees mapped footprints, so a vault can span a gap that is really a courtyard rather than a street.",
+    "The retint entry is a plan, not an applied change: it is only written to the level if release_city_detail.py is run with -CityDetailRetint, and it is applied as a per-component override that leaves M_Context_Building and the 1,499 building mesh assets untouched.",
+    "Instance counts are transforms, not a frame-time measurement. Nothing in this manifest establishes that the result runs at budget on an RTX 2070."
+  ]
+}

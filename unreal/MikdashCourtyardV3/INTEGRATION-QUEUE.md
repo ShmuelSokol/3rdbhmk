@@ -274,3 +274,32 @@ V2 material slots now use existing world-projected PhotoSurfaceV2 materials. App
 separate fresh090248 both pass with protected Content unchanged. Candidate SHA dcea5bf8.
 Preserve aspect/joint/lighting limitations. Next: exact-height capsule contact diagnostic
 for upper-deck return deflection, then default/cook promotion after access checks.
+
+## Awaiting the native slot — 9 Sep, 22:4x UTC
+
+**Compile then commit `MikdashRuntime`.** Four files are edited and UNCOMPILED, so the module
+is stale and the MetaHuman build commandlet cannot run until UBT has been through it:
+
+- `Public/MikdashResidentCharacter.h`, `Private/MikdashResidentCharacter.cpp`
+- `Public/MikdashResidentPopulation.h`, `Private/MikdashResidentPopulation.cpp`
+
+They carry the locomotion fix: pace derived from the clip instead of an assumed 180 cm/s,
+per-resident deterministic pace/cadence/gait-phase from the stable id, walk/idle hysteresis,
+clip entry at measured mid-stance phase, ~0.45 s accel and 0.35 s braking, 150 deg/s walking
+turns. Do not commit before UBT is green — uncompiled C++ in the tree is worse than none.
+
+Also uncommitted and pending the same slot: `Scripts/release_metahuman_build.py` + `.spec.json`,
+which duplicate the 29 pre-rigged `Optional/Presets` MetaHuman characters (no Epic sign-in
+needed — they already serialise `bHasHighResolutionTextures`) and clear the `Outfits` slot so
+they do not walk the courtyard in `WI_DefaultGarment`, a modern T-shirt and shorts, which is
+the only outfit that exists anywhere in the MetaHuman tree.
+
+**Then set one number.** Once the walk clip is re-authored, `WalkClipGroundSpeedCmPerSec` in
+`MikdashResidentPopulation.cpp` goes from the measured 53.3 to the new measured speed (~122)
+and every resident walks naturally. Until then they amble.
+
+**GUI jobs Python cannot do** (steps written up in the MetaHuman agent's `gui-steps.md`):
+`ABP_MikdashLocomotion` — BlendSpace1D on speed, Idle/Start/Loop/Stop state machine, foot IK,
+head look-at. `GetGroundSpeed()` and `GetCadenceBias()` are already exposed `BlueprintPure` for
+it to read. Epic ships 25 usable locomotion AnimSequences in
+`Optional/Animation/UEFNAnimPreset/Locomotion/`, including foot-phased Start_*/Stop_* clips.

@@ -1,5 +1,189 @@
 # MetaHuman V1 — what needs the user's clicks in UE 5.8.2
 
+> ### SUPERSEDING UPDATE — 2026-09-09
+>
+> **Steps 1, 2 and the summary table below are STALE. Read this box first.**
+>
+> * **MetaHuman Creator Core Data IS installed.** `Engine/Plugins/MetaHuman/MetaHumanCharacter/Content/Optional`
+>   exists with 1,816 files / 5.8 GB, including `Presets` (29), `Grooms` (95 wardrobe items:
+>   **16 beards**, 16 mustaches, 38 hair, 18 eyebrows, 6 eyelashes, 1 peachfuzz), `Clothing`,
+>   `BodyTextures`, `TextureSynthesis` and `Animation`. Step 1 below is DONE; ignore it.
+> * **`MetaHumanCrowd` was deliberately removed** from the .uproject. Step 2's plugin list is stale;
+>   the two enabled are `MetaHumanSDK` and `MetaHumanCharacter`. The rebuild it demands is still real.
+> * **The cloud is no longer on the critical path.** See "Step 0" immediately below.
+> * The garment situation is worse than step 9 implies, and it is now measured: see
+>   "What actually ships as clothing".
+
+---
+
+## Step 0 (NEW, and it replaces steps 3, 5, 6 and 8) — build from the shipped presets, no cloud at all
+
+The 29 assets under `/MetaHumanCharacter/Optional/Presets` **are themselves `UMetaHumanCharacter`
+assets, and they ship already auto-rigged and already carrying high-resolution textures.** Each
+package serialises `bHasHighResolutionTextures` and `SynthesizedFaceTexturesInfo`; that flag
+defaults to `false` (`MetaHumanCharacter.h:402`) and UE only serialises non-default tagged
+properties, so its presence means `true`. They are 8.9–10.0 MB each on disk, which is that
+texture payload.
+
+`CanBuildMetaHuman()` only needs `GetRiggingState()==Rigged` **and** `HasHighResolutionTextures()`
+(`MetaHumanCharacterEditorSubsystem.cpp:2238-2274`). A duplicated preset satisfies both. **So the
+auto-rig and texture-download cloud calls — the entire reason a sign-in was needed — can be
+skipped.**
+
+`Scripts/release_metahuman_build.py` does this, headless, one character per invocation:
+
+```
+"C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" ^
+  "C:\Mikdash\Working-5.8\MikdashCourtyardV3\MikdashCourtyardV3.uproject" ^
+  -run=pythonscript ^
+  -script="C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_metahuman_build.py" ^
+  -MetaHumanBuildRun -unattended -nullrhi ^
+  -NoMetaHumanAccountPortalLoginFallback ^
+  -abslog="C:/Mikdash/Working-5.8/Release-MetaHumanBuild-01.log"
+```
+
+Re-run the same line once per character; `build-progress.json` decides what is next. The script
+**reads `has_high_resolution_textures` and `can_build_meta_human` back and refuses to build**
+rather than trusting the inference above, so if the presets turn out not to be pre-textured the
+receipt says so per character instead of quietly calling a cloud service.
+
+**Never omit `-NoMetaHumanAccountPortalLoginFallback`.** There is no `FApp::IsUnattended()` or
+`IsRunningCommandlet()` guard anywhere in the MetaHuman auth path, so a headless run that does
+touch a service will still try to raise the EOS account-portal window and block on something
+nobody can see. That switch (`MetaHumanCloudAuthentication.cpp:262`) makes it fail loudly instead.
+
+## If the cloud is ever needed — the one-time sign-in, exactly
+
+You are **not** signed in. Checked, not assumed: the Windows Credential Manager holds no
+Epic/EOS/MetaHuman entry, `HKCU\Software\Epic Games\EOS\MainService` is empty, and no
+`EOS_Auth_Login` / `PersistentAuth` / `AccountPortal` line appears anywhere in the editor logs —
+the editor has never once attempted a MetaHuman login. Your Epic Games **Launcher** is signed in,
+but that does not help: `EOSSDKManager.cpp:503-510` disables integrated-platform auth under
+`IsRunningCommandlet()`, so a commandlet cannot borrow the Launcher session.
+
+The mechanism is the **EOS SDK** (`EOS_Auth_Login`), not a browser login flow. It tries
+`EOS_LCT_PersistentAuth` first and escalates to `EOS_LCT_AccountPortal` — a UI inside the closed
+EOS SDK — when there is no stored token. A headless commandlet cannot complete that. **So yes: if
+the cloud route is ever needed, one GUI sign-in is genuinely unavoidable.** Once per Windows user,
+because the EOS SDK then keeps a refresh token in that user's Windows Credential Manager.
+
+1. Launch the **full editor** (`UnrealEditor.exe`, not `-Cmd`) and open this project.
+2. **Content Browser** → `/Game/MetaHumans/Source` → double-click any `UMetaHumanCharacter`.
+3. Top toolbar → **MetaHuman Character** → **Create Joints Only Rig**.
+   *Not* **Create Full Rig**: the toolkit refuses a blend-shape auto-rig below 10 GiB free memory,
+   and this machine has 16 GB total.
+4. The EOS account-portal sign-in appears. Complete it with your Epic account.
+5. Toolbar → **Authentication Menu**. It must now read *"&lt;name&gt; (ID …) is logged in"*.
+   Before sign-in it reads *"No user logged in, please autorig to trigger log-in flow"* —
+   **there is no separate Sign In button; attempting an auto-rig IS the sign-in trigger.**
+6. From then on, headless runs work as the same Windows user.
+
+**Do not trust `UMetaHumanIdentity::IsLoggedInToService()`** — it is a dead stub that
+unconditionally returns `true` (`MetaHumanIdentity.cpp:488-494`). There is no honest
+Python-reachable login probe in 5.8.
+
+## What actually ships as clothing — one T-shirt, and that is all
+
+A search of the entire MetaHuman plugin tree for a non-groom `WI_*` wardrobe item returns
+**exactly one hit: `WI_DefaultGarment`**, and it is a **modern crewneck T-shirt and shorts**
+(meshes `DG_bodyShapeB_LOD3_shirt` / `_shorts`, materials under `Clothing/Common/Materials/Crewneckt`).
+Searching case-insensitively for robe / tunic / gown / cloak / coat across every MetaHuman plugin
+returns only UI icons. **No period garment ships, at any quality, in any pipeline.**
+
+**Every one of the 29 presets selects `WI_DefaultGarment`.** A duplicated preset that is not
+cleared walks the courtyard in streetwear. `release_metahuman_build.py` clears the `Outfits`
+slot first, unconditionally, before anything else:
+
+```python
+character.internal_collection.default_instance.set_single_slot_selection(
+    slot_name="Outfits", item_key=unreal.MetaHumanPaletteItemKey())
+```
+
+So step 9 below still stands as the real clothing work, with one addition: besides
+`ChaosOutfitAsset` (route A) and the skeletal-mesh pipeline (route B), `Config/Editor.ini`
+declares a wardrobe slot `SlotName="SkeletalMesh"` (shown as **Skeletal Clothing**) with
+`ClassesToFilter=("/Script/Engine.SkeletalMesh")`, which takes any skinned robe mesh through the
+same `try_add_item_from_wardrobe_item` / `try_add_slot_selection` calls with no Chaos authoring.
+
+## Beards: 16 ship, and three presets already wear the longest one
+
+`WI_Beard_L_Full` + `WI_Mustache_L_Full` is the fullest pairing available. Presets **Aoi**,
+**Isaiah** and **Omari** ship with that combination already selected; **Walter** ships a wavy
+goatee and mustache, a distinctly mature styling. Those four are the roster's bearded men.
+
+**Age and gender are recorded NOWHERE** in the preset assets — not in source, not in metadata.
+Every age/gender claim in the roster is a guess from the preset's given name, except where the
+preset's own pre-selected facial hair proves the figure is bearded. **Confirm by eye.**
+
+---
+
+## Step L (NEW) — the locomotion Animation Blueprint. This is the stilting cure, and it is a GUI job.
+
+MetaHuman fixes skin, eyes, grooms and the facial rig. **It does not fix how anyone walks.** The
+residents are driven by `USkeletalMeshComponent::PlayAnimation` in `AnimationSingleNode` mode,
+which **cannot cross-fade, cannot foot-IK and cannot head-look-at** — those are anim-graph nodes,
+and 5.8 exposes no way to author an anim graph from Python. Everything reachable from C++ has been
+done in `MikdashResidentPopulation` / `MikdashResidentCharacter`; the rest is this file.
+
+**Easy to miss: Epic ships a full locomotion set with the Core Data.**
+`Optional/Animation/UEFNAnimPreset/Locomotion/` holds **25 AnimSequences on the MetaHuman
+skeleton** — `AS_MH_Neutral_Stand_Idle_Loop`, twelve Walk clips and twelve Run clips, each family
+carrying `Loop_{F,B,LR,RL}` plus **foot-phased `Start_*` and `Stop_*` clips**
+(`Start_F_Rfoot`, `Stop_F_Lfoot`, …). Those start/stop clips are exactly what removes the
+"snaps into full stride" read. They are referenced **only** by the UEFN export pipeline
+(`MetaHumanDefaultEditorPipelineUEFN.cpp:806-896`), so nothing in the normal build wires them up —
+but they are plain `AS_` sequences and can be used directly.
+
+Author **one** `ABP_MikdashLocomotion` and set the resident mesh to
+`EAnimationMode::AnimationBlueprint`:
+
+1. Content Browser → **Add** → **Animation** → **Animation Blueprint**; parent `AnimInstance`,
+   skeleton = the target skeleton (one per PilgrimRigV3 variant, or the MetaHuman skeleton).
+2. **Event Blueprint Update Animation** → `Try Get Pawn Owner` → cast to
+   `MikdashResidentCharacter` → read **`Get Ground Speed`** and **`Get Cadence Bias`**
+   (both already exist as `BlueprintPure` for exactly this purpose) into two float variables.
+3. **BlendSpace 1D** on `Speed` (0 → idle, clip ground speed → walk), used in the AnimGraph in
+   place of the two hard-switched sequences. This alone removes the idle↔walk pop.
+4. **State machine** Idle → Start → Loop → Stop, using the foot-phased `Start_*` / `Stop_*` clips
+   where the skeleton has them.
+5. **Foot IK**: two-bone IK on `foot_l` / `foot_r` driven by a downward line trace, or a Control
+   Rig node in a **post-process AnimBP** on the SkeletalMesh asset (post-process ABPs evaluate
+   even in single-node mode — that is how MetaHuman's own `ABP_Face_PostProcess` and
+   `ABP_Body_PostProcess` work).
+6. **Head look-at**: `Look At` skeletal control on `head`, target = the player camera, clamped
+   cone. Nothing in C++ can do this — `USkeletalMeshComponent` in 5.8 exposes no
+   `SetBoneRotationByName`.
+7. Then change `SetAnimationMode(EAnimationMode::AnimationSingleNode)` to `AnimationBlueprint`
+   plus `SetAnimInstanceClass` in `SpawnAuthoredBody`, and delete the `PlayAnimation` /
+   `SetPlayRate` block in `Tick`. That is a small, named C++ change.
+
+### The PilgrimRigV3 walk clip is measurably wrong, and no AnimBP hides it
+
+Forward kinematics over the source GLBs (all nine variants, byte-identical motion) gives:
+
+| measured | value | natural target |
+|---|---|---|
+| walk cycle | 1.200 s (= 100 steps/min cadence) | 100–120 spm — **the cadence is fine** |
+| step length | **32.0 cm** = 0.178 × stature | ~0.41 × stature ≈ **73 cm** |
+| stride per cycle | 64.0 cm | ~146 cm |
+| **implied ground speed** | **53.3 cm/s** | 130–145 cm/s |
+| pelvis vertical bob | **0.50 cm** | ~4–5 cm |
+| foot lift | 5.0 cm | 10–15 cm |
+| stance plant | **none** — both ball tracks are pure counter-phase sinusoids, so no foot is ever stationary | a real stance hold |
+
+The population was driving these bodies at **180 cm/s**, i.e. **3.375× faster than the clip's own
+stride**. That is the skating. The C++ now derives each body's pace from the clip instead, which
+removes the slide — at the cost that they walk at ~53 cm/s, an amble.
+
+**The real fix is to re-author `A_Pilgrim_Original_Walk` in the PilgrimRigV3 generator** (not a
+file this note owns): raise the ball-joint swing amplitude from 0.16 m to ~0.365 m (step 32 →
+73 cm), the pelvis bob from 0.5 cm to ~4 cm, the foot lift from 5 cm to ~12 cm, and flatten the
+stance half of each foot's curve so the planted foot actually holds still. Keep the 1.200 s cycle.
+Then set `WalkClipGroundSpeedCmPerSec` on the body variants to the new measured value (~122 cm/s)
+— **one number, and every resident walks at a natural pace with no other edit.**
+
+---
+
 Prepared 2026-09-08. Companion to `Scripts/release_metahuman_enable.py` and
 `Scripts/release_metahuman_enable.spec.json`.
 

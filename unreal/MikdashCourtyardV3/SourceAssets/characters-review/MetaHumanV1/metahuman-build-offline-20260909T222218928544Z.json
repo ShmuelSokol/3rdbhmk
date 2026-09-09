@@ -1,0 +1,355 @@
+{
+  "kind": "offline_check",
+  "generatedUtc": "20260909T222218898465Z",
+  "scope": "Static file inspection of the engine plugin tree. No engine, no asset, no map, no visual acceptance.",
+  "purpose": "Build 8 near-camera MetaHuman characters WITHOUT any Epic cloud call, by duplicating shipped MetaHuman Creator Core Data presets (which ship already auto-rigged and already carrying high-resolution textures) instead of creating blank characters and paying for RequestAutoRigging + RequestTextureSources. Companion to release_metahuman_enable.py, which takes the blank-character route and is therefore cloud-blocked.",
+  "cloud": {
+    "signedInOnThisMachine": false,
+    "evidence": [
+      "Windows Credential Manager (cmdkey /list) carries no Epic / EOS / MetaHuman / Unreal target.",
+      "HKCU\\Software\\Epic Games\\EOS\\MainService is present but empty.",
+      "C:/Users/shmue/AppData/Local/UnrealEngine/5.8/Saved/Logs/Unreal.log shows the MetaHuman EOS platform being created but contains no EOS_Auth_Login, PersistentAuth or AccountPortal line: the editor has never attempted a MetaHuman login.",
+      "The Epic Games LAUNCHER is signed in (AppData/Local/EpicGamesLauncher/Saved/Data carries the account-id .dat files), but EOSSDKManager.cpp:503-510 disables integrated-platform auth under IsRunningCommandlet(), so a commandlet cannot piggyback that session."
+    ],
+    "mechanism": "EOS SDK EOS_Auth_Login, not a browser/LoginFlow. MetaHumanCloudAuthentication.cpp FClientState::LoginUsingPersist tries EOS_LCT_PersistentAuth first and escalates to EOS_LCT_AccountPortal on failure. The refresh token is held by the EOS SDK in the Windows Credential Manager for the logged-in Windows user (eos_auth_types.h:42); MetaHuman writes no token of its own to any ini or Saved/ path.",
+    "unattendedTrap": "There is NO FApp::IsUnattended() or IsRunningCommandlet() guard anywhere in the MetaHuman auth path. A -unattended commandlet will still attempt LoginUsingAccountPortal, i.e. a GUI flow inside a headless run. ALWAYS pass -NoMetaHumanAccountPortalLoginFallback (parsed at MetaHumanCloudAuthentication.cpp:262) so it fails loudly instead of blocking on an invisible window.",
+    "doNotTrust": "UMetaHumanIdentity::IsLoggedInToService() is a dead stub that unconditionally returns true (MetaHumanIdentity.cpp:488-494). There is no honest Python-reachable login probe; the real API lives in namespace UE::MetaHuman::ServiceAuthentication and is not reflected."
+  },
+  "textureBudget": {
+    "sourceMapsPerCharacter": 20,
+    "sourceMapsDetail": "9 face maps (EFaceTextureType) + 11 body maps (EBodyTextureType), MetaHumanTypes.h:15-50, synthesised at 2048 by default (FMetaHumanCharacterTextureSourceResolutions, MetaHumanCharacterSkin.h:262-297).",
+    "mediumBuildCeilingPx": 2048,
+    "mediumBuildCeilingSource": "BP_DefaultLegacyPipeline_Medium.uasset name table carries only Res1024/Res2048 (plus one stray Res8192); the exact per-map assignment is Blueprint CDO data and is NOT determinable without opening that Blueprint in the editor.",
+    "onDiskPerPresetMb": [
+      8.9,
+      10.0
+    ],
+    "statedBudget": "Plan 60-110 MB of unique texture per built character at OPTIMIZED/MEDIUM, plus a shared Common folder. Eight near-camera characters is therefore roughly 0.5-0.9 GB of unique character texture on an 8 GB RTX 2070: viable for eight, NOT viable for twenty-four. The 24 PilgrimRigV3 residents stay as the mid and far crowd.",
+    "honesty": "These are figures read out of the plugin's own types and its shipped preset packages. Nothing here has been measured on this GPU."
+  },
+  "optionalCoreDataRoot": {
+    "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional",
+    "exists": true
+  },
+  "characters": [
+    {
+      "name": "MH_Elder_Kohen",
+      "role": "elder, full grey beard; the figure a visitor is most likely to speak to",
+      "preset": "Aoi",
+      "presetEvidence": "ships WI_Beard_L_Full + WI_Mustache_L_Full pre-selected, the fullest facial hair of the 29 presets",
+      "assetPath": "/Game/MetaHumans/Source/MH_Elder_Kohen",
+      "grooms": {
+        "Beard": {
+          "item": "WI_Beard_L_Full",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards/WI_Beard_L_Full.WI_Beard_L_Full",
+          "exists": true
+        },
+        "Mustache": {
+          "item": "WI_Mustache_L_Full",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches/WI_Mustache_L_Full.WI_Mustache_L_Full",
+          "exists": true
+        },
+        "Hair": {
+          "item": "WI_Hair_S_PulledBack",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_S_PulledBack.WI_Hair_S_PulledBack",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Natural",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Natural.WI_Eyebrows_M_Natural",
+          "exists": true
+        }
+      },
+      "clearSlots": [],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Aoi.uasset",
+        "exists": true,
+        "bytes": 9301192
+      }
+    },
+    {
+      "name": "MH_Bearded_Man_A",
+      "role": "bearded man, working age",
+      "preset": "Isaiah",
+      "presetEvidence": "ships WI_Beard_L_Full and long mustaches pre-selected",
+      "assetPath": "/Game/MetaHumans/Source/MH_Bearded_Man_A",
+      "grooms": {
+        "Beard": {
+          "item": "WI_Beard_L_Full",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards/WI_Beard_L_Full.WI_Beard_L_Full",
+          "exists": true
+        },
+        "Mustache": {
+          "item": "WI_Mustache_L_Full",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches/WI_Mustache_L_Full.WI_Mustache_L_Full",
+          "exists": true
+        },
+        "Hair": {
+          "item": "WI_Hair_M_Layered",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_M_Layered.WI_Hair_M_Layered",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Natural",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Natural.WI_Eyebrows_M_Natural",
+          "exists": true
+        }
+      },
+      "clearSlots": [],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Isaiah.uasset",
+        "exists": true,
+        "bytes": 9431332
+      }
+    },
+    {
+      "name": "MH_Bearded_Man_B",
+      "role": "bearded man, curlier, heavier build",
+      "preset": "Omari",
+      "presetEvidence": "ships WI_Beard_L_Full / WI_Beard_S_Curly + long mustaches pre-selected",
+      "assetPath": "/Game/MetaHumans/Source/MH_Bearded_Man_B",
+      "grooms": {
+        "Beard": {
+          "item": "WI_Beard_M_Curly",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards/WI_Beard_M_Curly.WI_Beard_M_Curly",
+          "exists": true
+        },
+        "Mustache": {
+          "item": "WI_Mustache_M_Curly",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches/WI_Mustache_M_Curly.WI_Mustache_M_Curly",
+          "exists": true
+        },
+        "Hair": {
+          "item": "WI_Hair_S_Coil",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_S_Coil.WI_Hair_S_Coil",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Thick",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Thick.WI_Eyebrows_M_Thick",
+          "exists": true
+        }
+      },
+      "clearSlots": [],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Omari.uasset",
+        "exists": true,
+        "bytes": 9718692
+      }
+    },
+    {
+      "name": "MH_Elder_Man",
+      "role": "older man, thinner build",
+      "preset": "Walter",
+      "presetEvidence": "ships WI_Goatee_L_Wavy + WI_Mustache_L_Wavy, a distinctly mature styling",
+      "assetPath": "/Game/MetaHumans/Source/MH_Elder_Man",
+      "grooms": {
+        "Beard": {
+          "item": "WI_Beard_L_Messy",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards/WI_Beard_L_Messy.WI_Beard_L_Messy",
+          "exists": true
+        },
+        "Mustache": {
+          "item": "WI_Mustache_L_Wavy",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches/WI_Mustache_L_Wavy.WI_Mustache_L_Wavy",
+          "exists": true
+        },
+        "Hair": {
+          "item": "WI_Hair_S_RecedeMessy",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_S_RecedeMessy.WI_Hair_S_RecedeMessy",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Thin",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Thin.WI_Eyebrows_M_Thin",
+          "exists": true
+        }
+      },
+      "clearSlots": [],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Walter.uasset",
+        "exists": true,
+        "bytes": 9999940
+      }
+    },
+    {
+      "name": "MH_Man_Young",
+      "role": "younger man, light stubble",
+      "preset": "Mateo",
+      "presetEvidence": "ships WI_Beard_S_Stubble + WI_Mustache_L_Stubble",
+      "assetPath": "/Game/MetaHumans/Source/MH_Man_Young",
+      "grooms": {
+        "Beard": {
+          "item": "WI_Beard_S_Stubble",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Beards/WI_Beard_S_Stubble.WI_Beard_S_Stubble",
+          "exists": true
+        },
+        "Mustache": {
+          "item": "WI_Mustache_S_Stubble",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Mustaches/WI_Mustache_S_Stubble.WI_Mustache_S_Stubble",
+          "exists": true
+        },
+        "Hair": {
+          "item": "WI_Hair_S_Casual",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_S_Casual.WI_Hair_S_Casual",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Natural",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Natural.WI_Eyebrows_M_Natural",
+          "exists": true
+        }
+      },
+      "clearSlots": [],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Mateo.uasset",
+        "exists": true,
+        "bytes": 9070920
+      }
+    },
+    {
+      "name": "MH_Woman_A",
+      "role": "woman, working age",
+      "preset": "Grace",
+      "presetEvidence": "NONE. The presets carry no age or gender tag anywhere in source or asset metadata; this assignment is a guess from the preset's given name and MUST be confirmed by eye.",
+      "assetPath": "/Game/MetaHumans/Source/MH_Woman_A",
+      "grooms": {
+        "Hair": {
+          "item": "WI_Hair_L_Straight",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_L_Straight.WI_Hair_L_Straight",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Thin",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Thin.WI_Eyebrows_M_Thin",
+          "exists": true
+        }
+      },
+      "clearSlots": [
+        "Beard",
+        "Mustache"
+      ],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Grace.uasset",
+        "exists": true,
+        "bytes": 10013752
+      }
+    },
+    {
+      "name": "MH_Woman_B",
+      "role": "woman, younger",
+      "preset": "Sunita",
+      "presetEvidence": "NONE - same caveat as MH_Woman_A.",
+      "assetPath": "/Game/MetaHumans/Source/MH_Woman_B",
+      "grooms": {
+        "Hair": {
+          "item": "WI_Hair_L_StraightBangs",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_L_StraightBangs.WI_Hair_L_StraightBangs",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Natural",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Natural.WI_Eyebrows_M_Natural",
+          "exists": true
+        }
+      },
+      "clearSlots": [
+        "Beard",
+        "Mustache"
+      ],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Sunita.uasset",
+        "exists": true,
+        "bytes": 9521851
+      }
+    },
+    {
+      "name": "MH_Woman_Elder",
+      "role": "older woman",
+      "preset": "Etta",
+      "presetEvidence": "NONE - same caveat. Etta selects a buzz/coil cut, which is overridden here.",
+      "assetPath": "/Game/MetaHumans/Source/MH_Woman_Elder",
+      "grooms": {
+        "Hair": {
+          "item": "WI_Hair_S_Updo",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Hair/WI_Hair_S_Updo.WI_Hair_S_Updo",
+          "exists": true
+        },
+        "Eyebrows": {
+          "item": "WI_Eyebrows_M_Thin",
+          "objectPath": "/MetaHumanCharacter/Optional/Grooms/Bindings/Eyebrows/WI_Eyebrows_M_Thin.WI_Eyebrows_M_Thin",
+          "exists": true
+        }
+      },
+      "clearSlots": [
+        "Beard",
+        "Mustache"
+      ],
+      "missing": [],
+      "presetFile": {
+        "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Presets\\Etta.uasset",
+        "exists": true,
+        "bytes": 9152873
+      }
+    }
+  ],
+  "blockers": [],
+  "limitations": [
+    "MetaHuman Creator is IsBetaVersion=true in 5.8.2.",
+    "Nothing in this spec is visual acceptance (AGENTS.md hard rule 7). No character has been seen in the engine.",
+    "Preset age and gender are NOT recorded anywhere in the shipped assets. Every age/gender claim in the roster above is a guess to be confirmed by eye, except where the preset's own pre-selected facial hair proves the figure is bearded.",
+    "MetaHuman fixes skin, eyes, grooms and facial rig quality. It does NOT fix locomotion: an assembled MetaHuman still needs a locomotion Animation Blueprint, and this project drives residents with a single-node PlayAnimation that cannot cross-fade.",
+    "The face rig on a preset is whatever the preset shipped with. This script requests no auto-rig, so it neither improves nor degrades it."
+  ],
+  "presetsAvailable": [
+    "Ada",
+    "Aera",
+    "Aoi",
+    "Asha",
+    "Bo",
+    "Bruce",
+    "Cameron",
+    "Celeste",
+    "Dominic",
+    "Etta",
+    "Grace",
+    "Isaiah",
+    "Jelena",
+    "Jorge",
+    "Kelvin",
+    "Lani",
+    "Lorenzo",
+    "Mateo",
+    "Mikel",
+    "Omari",
+    "Orlando",
+    "Sook-ja",
+    "Sunita",
+    "Trey",
+    "Tuya",
+    "Victor",
+    "Vivian",
+    "Walter",
+    "Zuri"
+  ],
+  "clothing": {
+    "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Plugins\\MetaHuman\\MetaHumanCharacter\\Content\\Optional\\Clothing",
+    "wardrobeItems": [
+      "WI_DefaultGarment"
+    ],
+    "note": "EVERY shipped preset selects /MetaHumanCharacter/Optional/Clothing/WI_DefaultGarment, and that asset is a modern crewneck T-shirt and shorts (mesh names DG_bodyShapeB_LOD3_shirt / _shorts, material folder Clothing/Common/Materials/Crewneckt/Male). It is the ONLY outfit that ships in the entire MetaHuman plugin tree. A duplicated preset that is not cleared walks the courtyard in streetwear.",
+    "periodGarments": "None ship. A case-insensitive search of the whole MetaHuman plugin tree for robe/tunic/gown/cloak/coat returns only UI icons. Period garments remain modelling work. When a mesh exists, the supported no-Chaos route is the wardrobe slot SlotName=\"SkeletalMesh\" (display name \"Skeletal Clothing\") declared in MetaHumanCharacter/Config/Editor.ini with ClassesToFilter=(\"/Script/Engine.SkeletalMesh\"), driven by the same try_add_item_from_wardrobe_item / try_add_slot_selection calls. ChaosOutfitAsset + UMetaHumanOutfitPipeline remains the better route for the near dozen because it resizes per body and removes the skin underneath."
+  },
+  "marker": {
+    "completed": [],
+    "failed": {}
+  },
+  "status": "offline_ok"
+}

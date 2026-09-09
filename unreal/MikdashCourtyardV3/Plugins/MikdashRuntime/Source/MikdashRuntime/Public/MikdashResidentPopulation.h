@@ -30,6 +30,18 @@ struct MIKDASHRUNTIME_API FMikdashResidentBodyVariant
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") TArray<FName> GarmentMaterialSlots;
     /** Mesh relative yaw so the body faces the actor's +X: -90 for a mesh that faces UE +Y (PilgrimRigV3 per receipt). */
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") double MeshRelativeYaw = -90.0;
+    /** Ground speed in cm/s that this variant's WalkAnimation covers at play rate 1.0 and mesh
+     * scale 1.0, i.e. stride length / cycle duration. MEASURED, not assumed: forward kinematics
+     * over the source GLBs gives 32.0 cm step / 64.0 cm stride per 1.200 s = 53.33 cm/s,
+     * identically for all nine PilgrimRigV3 variants. The default below is that measurement, so
+     * a map saved before this field existed still gets the right number without a re-apply.
+     * The population derives each body's walking pace from this so the stride matches the
+     * translation; 0 falls back to the anthropometric pace and the old play rate of 1.0. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") double WalkClipGroundSpeedCmPerSec = 53.33;
+    /** Normalised time in the walk clip where the two feet pass each other, so the clip can be
+     * entered at the pose closest to the idle stance. Measured: the ball tracks are counter-phase
+     * sinusoids crossing at t = 0.30 s and 0.90 s of a 1.200 s cycle, i.e. 0.25 and 0.75. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|People") double WalkClipNeutralPhase = 0.25;
 };
 
 /** The body actually chosen for one spawned person: a registered variant, or the population's
@@ -43,6 +55,8 @@ struct FMikdashResolvedBody
     TArray<FName> GarmentSlots;
     double MeshRelativeYaw = 90.0;
     double VisualScale = 1.0;
+    double WalkClipGroundSpeedCmPerSec = 0.0;
+    double WalkClipNeutralPhase = 0.0;
     bool bFallback = false;
     FString Note;               // why a fallback happened; empty otherwise
 };
@@ -68,6 +82,10 @@ struct FMikdashResidentRoutePlan
      * Raw pointers are safe: every clip here is also held by a UPROPERTY on this actor. */
     UAnimSequence* IdleClip = nullptr;
     UAnimSequence* WalkClip = nullptr;
+    /** Presentational gait facts carried from the resolved body, so Tick never re-resolves. */
+    double WalkClipGroundSpeedCmPerSec = 0.0;
+    double WalkClipNeutralPhase = 0.0;
+    double VisualScale = 1.0;
 };
 
 /** Opt-in outer-court and Mount-platform inhabitants. Native integration and visual review
@@ -137,6 +155,26 @@ public:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents") TArray<TObjectPtr<AMikdashResidentCharacter>> Bodies;
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents") TObjectPtr<UAnimSequence> IdleAnimation;
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents") TObjectPtr<UAnimSequence> WalkAnimation;
+    /** As FMikdashResidentBodyVariant::WalkClipGroundSpeedCmPerSec, for the default (V2) rig
+     * and for the pilot. The V2 walk clip is the same authored motion, so the same measurement
+     * applies; set 0 to opt the default body out of pace derivation. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Gait") double DefaultWalkClipGroundSpeedCmPerSec = 53.33;
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Gait") double DefaultWalkClipNeutralPhase = 0.25;
+    /** Give every body its own pace, cadence and gait phase from its own stable id, so a group
+     * never marches in step. Off restores one uniform pace for every resident. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Gait") bool bVaryGaitPerResident = true;
+    /** Derive each body's walking pace from its walk clip, and drive that clip's play rate from
+     * the body's actual ground speed, so the stride matches the translation. Off restores the
+     * previous behaviour: one uniform 180 cm/s and a fixed play rate of 1.0. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Gait") bool bMatchWalkClipToGroundSpeed = true;
+    /** OnlyTickPoseWhenRendered on every spawned body's mesh. With two dozen skeletal bodies on
+     * an RTX 2070 this is most of the animation cost; a body off screen holds its last pose.
+     * DEFAULT OFF, deliberately: release_resident_bodies_v3.py -BodiesVerify reads ball_r/ball_l
+     * and head bone world Z out of every spawned body, and an unrendered body would hand it a
+     * stale pose and a false failure. Turn this on only after that verifier has been taught to
+     * either force-render or read the same numbers another way, and measure the frame time
+     * before and after rather than assuming the win. */
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="Residents|Gait") bool bTickPoseOnlyWhenRendered = false;
 
     // Optional authored loop for ONE pilot body (index into Bodies), written by
     // Scripts/release_dove_people_v2.py and validated by ResidentRouteLoop.h at startup.
@@ -167,6 +205,8 @@ private:
     TArray<FMikdashResidentRoutePlan> RoutePlans;
     TArray<FVector> Origins, Destinations;
     TArray<bool> Walking;
+    /** Last play rate written to each body's single-node player; -1 forces the next write. */
+    TArray<double> AppliedPlayRate;
     /** World seconds before which a refused corridor review is not retried. */
     TArray<double> ReviewCooldown;
     double FractionalSeconds = 0.0;

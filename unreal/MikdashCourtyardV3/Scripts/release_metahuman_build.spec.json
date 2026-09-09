@@ -1,0 +1,158 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-09",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "engineDir": "C:\\Program Files\\Epic Games\\UE_5.8",
+  "purpose": "Build 8 near-camera MetaHuman characters WITHOUT any Epic cloud call, by duplicating shipped MetaHuman Creator Core Data presets (which ship already auto-rigged and already carrying high-resolution textures) instead of creating blank characters and paying for RequestAutoRigging + RequestTextureSources. Companion to release_metahuman_enable.py, which takes the blank-character route and is therefore cloud-blocked.",
+
+  "whyPresetsAndNotBlankCharacters": {
+    "gate": "UMetaHumanCharacterEditorSubsystem::CanBuildMetaHuman returns false unless GetRiggingState(character) == Rigged AND character->HasHighResolutionTextures(). MetaHumanCharacterEditorSubsystem.cpp:2238-2274.",
+    "blankCharacterCost": "A character created with MetaHumanCharacterFactoryNew satisfies neither, so it needs RequestAutoRigging + RequestTextureSources, both Epic cloud service calls.",
+    "presetEvidence": "Every asset under /MetaHumanCharacter/Optional/Presets serialises bHasHighResolutionTextures and SynthesizedFaceTexturesInfo. UMetaHumanCharacter::bHasHighResolutionTextures defaults to false (MetaHumanCharacter.h:402) and UE only serialises non-default tagged properties, so its presence in the package means true. The presets are 8.9-10.0 MB each on disk, which is that texture payload.",
+    "verification": "This is INFERENCE from package contents until the script reads has_high_resolution_textures and can_build_meta_human natively and writes both to the receipt. The script refuses to build any character whose readback says otherwise, and records it rather than guessing.",
+    "consequence": "If the readback confirms it, 8 photoreal characters reach the world with zero cloud calls and zero GUI sign-in. If it does not, the receipt says so per character and the cloud route in release_metahuman_enable.py is the fallback, gated on the one-time GUI sign-in in gui-steps.md."
+  },
+
+  "cloud": {
+    "signedInOnThisMachine": false,
+    "evidence": [
+      "Windows Credential Manager (cmdkey /list) carries no Epic / EOS / MetaHuman / Unreal target.",
+      "HKCU\\Software\\Epic Games\\EOS\\MainService is present but empty.",
+      "C:/Users/shmue/AppData/Local/UnrealEngine/5.8/Saved/Logs/Unreal.log shows the MetaHuman EOS platform being created but contains no EOS_Auth_Login, PersistentAuth or AccountPortal line: the editor has never attempted a MetaHuman login.",
+      "The Epic Games LAUNCHER is signed in (AppData/Local/EpicGamesLauncher/Saved/Data carries the account-id .dat files), but EOSSDKManager.cpp:503-510 disables integrated-platform auth under IsRunningCommandlet(), so a commandlet cannot piggyback that session."
+    ],
+    "mechanism": "EOS SDK EOS_Auth_Login, not a browser/LoginFlow. MetaHumanCloudAuthentication.cpp FClientState::LoginUsingPersist tries EOS_LCT_PersistentAuth first and escalates to EOS_LCT_AccountPortal on failure. The refresh token is held by the EOS SDK in the Windows Credential Manager for the logged-in Windows user (eos_auth_types.h:42); MetaHuman writes no token of its own to any ini or Saved/ path.",
+    "unattendedTrap": "There is NO FApp::IsUnattended() or IsRunningCommandlet() guard anywhere in the MetaHuman auth path. A -unattended commandlet will still attempt LoginUsingAccountPortal, i.e. a GUI flow inside a headless run. ALWAYS pass -NoMetaHumanAccountPortalLoginFallback (parsed at MetaHumanCloudAuthentication.cpp:262) so it fails loudly instead of blocking on an invisible window.",
+    "doNotTrust": "UMetaHumanIdentity::IsLoggedInToService() is a dead stub that unconditionally returns true (MetaHumanIdentity.cpp:488-494). There is no honest Python-reachable login probe; the real API lives in namespace UE::MetaHuman::ServiceAuthentication and is not reflected."
+  },
+
+  "targetFolders": {
+    "characterFolder": "/Game/MetaHumans/Source",
+    "buildFolder": "/Game/MetaHumans",
+    "commonFolder": "/Game/MetaHumans/Common",
+    "note": "Nothing is written under any existing /Game/MikdashV3 namespace. No map is opened, spawned into or saved by this script."
+  },
+
+  "presetFolder": "/MetaHumanCharacter/Optional/Presets",
+  "groomBindingFolder": "/MetaHumanCharacter/Optional/Grooms/Bindings",
+
+  "build": {
+    "pipelineType": "OPTIMIZED",
+    "pipelineQuality": "MEDIUM",
+    "enableWardrobeItemValidation": false,
+    "charactersPerInvocation": 1,
+    "why": "FMetaHumanCharacterEditorBuildParameters defaults to Cinematic/Cinematic (MetaHumanCharacterBuild.h:33,40), i.e. the most expensive build, so both are set explicitly. OPTIMIZED+MEDIUM selects BP_DefaultLegacyPipeline_Medium, whose texture-resolution table tops out at 2048 with a number of maps at 1024, and whose Face/Body LOD settings are the Medium sets (3 face LODs; MetaHumanGroomEditorPipeline.cpp:28-47). One character per commandlet invocation with a resume marker, because this machine has ~4.7 GB of free system RAM and a build is the heaviest single step here."
+  },
+
+  "textureBudget": {
+    "sourceMapsPerCharacter": 20,
+    "sourceMapsDetail": "9 face maps (EFaceTextureType) + 11 body maps (EBodyTextureType), MetaHumanTypes.h:15-50, synthesised at 2048 by default (FMetaHumanCharacterTextureSourceResolutions, MetaHumanCharacterSkin.h:262-297).",
+    "mediumBuildCeilingPx": 2048,
+    "mediumBuildCeilingSource": "BP_DefaultLegacyPipeline_Medium.uasset name table carries only Res1024/Res2048 (plus one stray Res8192); the exact per-map assignment is Blueprint CDO data and is NOT determinable without opening that Blueprint in the editor.",
+    "onDiskPerPresetMb": [8.9, 10.0],
+    "statedBudget": "Plan 60-110 MB of unique texture per built character at OPTIMIZED/MEDIUM, plus a shared Common folder. Eight near-camera characters is therefore roughly 0.5-0.9 GB of unique character texture on an 8 GB RTX 2070: viable for eight, NOT viable for twenty-four. The 24 PilgrimRigV3 residents stay as the mid and far crowd.",
+    "honesty": "These are figures read out of the plugin's own types and its shipped preset packages. Nothing here has been measured on this GPU."
+  },
+
+  "wardrobe": {
+    "clearOutfitSlotFirst": true,
+    "whyClear": "EVERY shipped preset selects /MetaHumanCharacter/Optional/Clothing/WI_DefaultGarment, and that asset is a modern crewneck T-shirt and shorts (mesh names DG_bodyShapeB_LOD3_shirt / _shorts, material folder Clothing/Common/Materials/Crewneckt/Male). It is the ONLY outfit that ships in the entire MetaHuman plugin tree. A duplicated preset that is not cleared walks the courtyard in streetwear.",
+    "clearCall": "character.internal_collection.default_instance.set_single_slot_selection(slot_name='Outfits', item_key=unreal.MetaHumanPaletteItemKey())",
+    "periodGarments": "None ship. A case-insensitive search of the whole MetaHuman plugin tree for robe/tunic/gown/cloak/coat returns only UI icons. Period garments remain modelling work. When a mesh exists, the supported no-Chaos route is the wardrobe slot SlotName=\"SkeletalMesh\" (display name \"Skeletal Clothing\") declared in MetaHumanCharacter/Config/Editor.ini with ClassesToFilter=(\"/Script/Engine.SkeletalMesh\"), driven by the same try_add_item_from_wardrobe_item / try_add_slot_selection calls. ChaosOutfitAsset + UMetaHumanOutfitPipeline remains the better route for the near dozen because it resizes per body and removes the skin underneath.",
+    "groomSlots": ["Hair", "Eyebrows", "Beard", "Mustache", "Eyelashes", "Peachfuzz"],
+    "groomFolderForSlot": {
+      "Hair": "Hair", "Eyebrows": "Eyebrows", "Beard": "Beards",
+      "Mustache": "Mustaches", "Eyelashes": "Eyelashes", "Peachfuzz": "Peachfuzz"
+    },
+    "groomFolderNote": "The slot names are singular but two of the folders are plural: slot 'Beard' -> folder 'Beards', slot 'Mustache' -> folder 'Mustaches'. test_set_character_grooms.py:11."
+  },
+
+  "characters": [
+    {
+      "name": "MH_Elder_Kohen",
+      "role": "elder, full grey beard; the figure a visitor is most likely to speak to",
+      "preset": "Aoi",
+      "presetEvidence": "ships WI_Beard_L_Full + WI_Mustache_L_Full pre-selected, the fullest facial hair of the 29 presets",
+      "grooms": {"Beard": "WI_Beard_L_Full", "Mustache": "WI_Mustache_L_Full", "Hair": "WI_Hair_S_PulledBack", "Eyebrows": "WI_Eyebrows_M_Natural"},
+      "groomMelanin": {"Beard": 0.06, "Mustache": 0.06, "Hair": 0.1},
+      "melaninNote": "Low melanin greys the groom. Best effort: it needs assemble_for_preview and a named 'Melanin' instance parameter, and a failure is recorded, not raised."
+    },
+    {
+      "name": "MH_Bearded_Man_A",
+      "role": "bearded man, working age",
+      "preset": "Isaiah",
+      "presetEvidence": "ships WI_Beard_L_Full and long mustaches pre-selected",
+      "grooms": {"Beard": "WI_Beard_L_Full", "Mustache": "WI_Mustache_L_Full", "Hair": "WI_Hair_M_Layered", "Eyebrows": "WI_Eyebrows_M_Natural"}
+    },
+    {
+      "name": "MH_Bearded_Man_B",
+      "role": "bearded man, curlier, heavier build",
+      "preset": "Omari",
+      "presetEvidence": "ships WI_Beard_L_Full / WI_Beard_S_Curly + long mustaches pre-selected",
+      "grooms": {"Beard": "WI_Beard_M_Curly", "Mustache": "WI_Mustache_M_Curly", "Hair": "WI_Hair_S_Coil", "Eyebrows": "WI_Eyebrows_M_Thick"}
+    },
+    {
+      "name": "MH_Elder_Man",
+      "role": "older man, thinner build",
+      "preset": "Walter",
+      "presetEvidence": "ships WI_Goatee_L_Wavy + WI_Mustache_L_Wavy, a distinctly mature styling",
+      "grooms": {"Beard": "WI_Beard_L_Messy", "Mustache": "WI_Mustache_L_Wavy", "Hair": "WI_Hair_S_RecedeMessy", "Eyebrows": "WI_Eyebrows_M_Thin"},
+      "groomMelanin": {"Beard": 0.08, "Mustache": 0.08, "Hair": 0.12}
+    },
+    {
+      "name": "MH_Man_Young",
+      "role": "younger man, light stubble",
+      "preset": "Mateo",
+      "presetEvidence": "ships WI_Beard_S_Stubble + WI_Mustache_L_Stubble",
+      "grooms": {"Beard": "WI_Beard_S_Stubble", "Mustache": "WI_Mustache_S_Stubble", "Hair": "WI_Hair_S_Casual", "Eyebrows": "WI_Eyebrows_M_Natural"}
+    },
+    {
+      "name": "MH_Woman_A",
+      "role": "woman, working age",
+      "preset": "Grace",
+      "presetEvidence": "NONE. The presets carry no age or gender tag anywhere in source or asset metadata; this assignment is a guess from the preset's given name and MUST be confirmed by eye.",
+      "grooms": {"Hair": "WI_Hair_L_Straight", "Eyebrows": "WI_Eyebrows_M_Thin"},
+      "clearSlots": ["Beard", "Mustache"]
+    },
+    {
+      "name": "MH_Woman_B",
+      "role": "woman, younger",
+      "preset": "Sunita",
+      "presetEvidence": "NONE - same caveat as MH_Woman_A.",
+      "grooms": {"Hair": "WI_Hair_L_StraightBangs", "Eyebrows": "WI_Eyebrows_M_Natural"},
+      "clearSlots": ["Beard", "Mustache"]
+    },
+    {
+      "name": "MH_Woman_Elder",
+      "role": "older woman",
+      "preset": "Etta",
+      "presetEvidence": "NONE - same caveat. Etta selects a buzz/coil cut, which is overridden here.",
+      "grooms": {"Hair": "WI_Hair_S_Updo", "Eyebrows": "WI_Eyebrows_M_Thin"},
+      "groomMelanin": {"Hair": 0.1},
+      "clearSlots": ["Beard", "Mustache"]
+    }
+  ],
+
+  "receipts": {
+    "folder": "SourceAssets/characters-review/MetaHumanV1",
+    "prefix": "metahuman-build-",
+    "marker": "SourceAssets/characters-review/MetaHumanV1/build-progress.json"
+  },
+
+  "guards": [
+    "Refuses unless Paths.project_dir() is this project.",
+    "Refuses if a PIE/game world is running, or if any map or content package is dirty.",
+    "Refuses unless unreal.MetaHumanCharacter, MetaHumanCharacterEditorSubsystem and MetaHumanWardrobeItem are all reflected (plugins enabled and the editor target rebuilt).",
+    "Refuses to overwrite an existing character asset unless -MetaHumanForce is passed.",
+    "Refuses to build a character whose can_build_meta_human readback is false, and records why instead of calling any cloud service.",
+    "Never opens, spawns into or saves a map. Placement into the Walkthrough map is a separate, checkpointed job."
+  ],
+
+  "limitations": [
+    "MetaHuman Creator is IsBetaVersion=true in 5.8.2.",
+    "Nothing in this spec is visual acceptance (AGENTS.md hard rule 7). No character has been seen in the engine.",
+    "Preset age and gender are NOT recorded anywhere in the shipped assets. Every age/gender claim in the roster above is a guess to be confirmed by eye, except where the preset's own pre-selected facial hair proves the figure is bearded.",
+    "MetaHuman fixes skin, eyes, grooms and facial rig quality. It does NOT fix locomotion: an assembled MetaHuman still needs a locomotion Animation Blueprint, and this project drives residents with a single-node PlayAnimation that cannot cross-fade.",
+    "The face rig on a preset is whatever the preset shipped with. This script requests no auto-rig, so it neither improves nor degrades it."
+  ]
+}

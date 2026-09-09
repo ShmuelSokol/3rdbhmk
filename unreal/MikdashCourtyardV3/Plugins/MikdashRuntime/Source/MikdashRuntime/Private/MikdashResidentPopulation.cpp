@@ -144,6 +144,7 @@ bool AMikdashResidentPopulation::BindConfiguredBodies(const std::vector<MikdashC
     if (!Crowd->Configure(Plans, Routes)) { Crowd.Reset(); return false; }
     Walking.Init(false, ActiveBodies.Num());
     ReviewCooldown.Init(0.0, ActiveBodies.Num());
+    AppliedPlayRate.Init(-1.0, ActiveBodies.Num());
     TWeakObjectPtr<AMikdashResidentPopulation> WeakOwner(this);
     for (int32 Index = 0; Index < ActiveBodies.Num(); ++Index)
     {
@@ -154,7 +155,19 @@ bool AMikdashResidentPopulation::BindConfiguredBodies(const std::vector<MikdashC
         { StopPopulation(); Status = TEXT("Binding failed; stopped; restart world before retry"); return false; }
         ActiveBodies[Index]->AddTickPrerequisiteActor(this);
         UAnimSequence* Idle = RoutePlans.IsValidIndex(Index) && RoutePlans[Index].IdleClip ? RoutePlans[Index].IdleClip : IdleAnimation.Get();
-        ActiveBodies[Index]->GetMesh()->PlayAnimation(Idle, true);
+        USkeletalMeshComponent* BodyMesh = ActiveBodies[Index]->GetMesh();
+        BodyMesh->PlayAnimation(Idle, true);
+        // Every body previously entered the shared idle at time 0 and ran at rate 1.0, so two
+        // dozen figures breathed in perfect unison. Each now enters at its own phase and runs
+        // at its own cadence.
+        if (Idle)
+        {
+            const double Length = Idle->GetPlayLength();
+            if (Length > UE_KINDA_SMALL_NUMBER)
+                BodyMesh->SetPosition(static_cast<float>(ActiveBodies[Index]->GetGaitPhase01() * Length), false);
+        }
+        BodyMesh->SetPlayRate(static_cast<float>(ActiveBodies[Index]->GetCadenceBias()));
+        if (AppliedPlayRate.IsValidIndex(Index)) AppliedPlayRate[Index] = ActiveBodies[Index]->GetCadenceBias();
     }
     return true;
 }
@@ -244,6 +257,15 @@ bool AMikdashResidentPopulation::InitializeReviewedPilot()
         Plan.bLooping = IsExtendedBody(Index);
         Plan.CorridorCm = IsExtendedBody(Index) ? ExtendedLegCorridorCm : 100.0;
         Plan.FloorZ = Positions[Index].Z;
+        // The pilot bodies are placed in the map, not spawned here, so they never pass through
+        // SpawnAuthoredBody. Give them the same presentational gait treatment on the default rig.
+        Plan.WalkClipGroundSpeedCmPerSec = DefaultWalkClipGroundSpeedCmPerSec;
+        Plan.WalkClipNeutralPhase = DefaultWalkClipNeutralPhase;
+        Plan.VisualScale = 1.0;
+        Body->ConfigureGait(bVaryGaitPerResident ? GetTypeHash(Plan.Key) : 1u, 1.0,
+            bMatchWalkClipToGroundSpeed ? DefaultWalkClipGroundSpeedCmPerSec : 0.0);
+        if (bTickPoseOnlyWhenRendered)
+            Body->GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
         if (IsExtendedBody(Index))
         {
             Plan.Waypoints = RuntimeExtendedWaypoints;
@@ -361,6 +383,8 @@ FMikdashResolvedBody AMikdashResidentPopulation::ResolveBody(const MikdashPeople
     FMikdashResolvedBody Body;
     Body.Mesh = ResidentMesh.Get(); Body.Idle = IdleAnimation.Get(); Body.Walk = WalkAnimation.Get();
     Body.GarmentSlots = GarmentMaterialSlots; Body.MeshRelativeYaw = DefaultMeshRelativeYaw; Body.VisualScale = 1.0;
+    Body.WalkClipGroundSpeedCmPerSec = DefaultWalkClipGroundSpeedCmPerSec;
+    Body.WalkClipNeutralPhase = DefaultWalkClipNeutralPhase;
     if (Individual.BodyVariant.empty()) return Body; // legacy directory: the default body, no note
     const FString Wanted(UTF8_TO_TCHAR(Individual.BodyVariant.c_str()));
     auto Fallback = [&Body, &Wanted](const TCHAR* Why)
@@ -390,6 +414,13 @@ FMikdashResolvedBody AMikdashResidentPopulation::ResolveBody(const MikdashPeople
     Body.Idle = Variant->IdleAnimation.Get(); Body.Walk = Variant->WalkAnimation.Get();
     Body.GarmentSlots = Variant->GarmentMaterialSlots; Body.MeshRelativeYaw = Variant->MeshRelativeYaw;
     Body.VisualScale = MikdashResidentBody::VisualScaleReviewed(Scale) ? Scale : 1.0;
+    // Gait facts are presentational and never a reason to fall back: a variant carrying a
+    // nonsensical clip speed simply loses pace derivation and plays at rate 1.0 as before.
+    Body.WalkClipGroundSpeedCmPerSec = FMath::IsFinite(Variant->WalkClipGroundSpeedCmPerSec)
+        && Variant->WalkClipGroundSpeedCmPerSec > 1.0 && Variant->WalkClipGroundSpeedCmPerSec < 400.0
+        ? Variant->WalkClipGroundSpeedCmPerSec : 0.0;
+    Body.WalkClipNeutralPhase = FMath::IsFinite(Variant->WalkClipNeutralPhase)
+        ? FMath::Frac(FMath::Clamp(Variant->WalkClipNeutralPhase, 0.0, 1.0)) : 0.0;
     return Body;
 }
 
@@ -417,8 +448,23 @@ AMikdashResidentCharacter* AMikdashResidentPopulation::SpawnAuthoredBody(
     Mesh->SetRelativeScale3D(FVector(Chosen.VisualScale));
     Mesh->SetCollisionProfileName(TEXT("NoCollision"));
     Mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+    if (bTickPoseOnlyWhenRendered)
+    {
+        // Two dozen skeletal bodies is most of the animation cost on this GPU. A body nobody
+        // is looking at holds its last pose; its capsule, route, reviews and access are all
+        // unaffected, because none of them read the pose.
+        Mesh->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;
+    }
     Body->GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
     Body->SetResidentBody(Chosen.VariantId, Chosen.VisualScale, Chosen.bFallback);
+    // Presentational gait: pace, cadence and gait phase seeded from this person's stable id, so
+    // the same resident always walks the same way and no two neighbours are ever in step. The
+    // pace is derived from what the walk clip can actually carry (see MikdashGait), which is
+    // the whole point: a body translating faster than its own stride is a body whose feet skate.
+    const uint32 Seed = bVaryGaitPerResident
+        ? GetTypeHash(FString(UTF8_TO_TCHAR(Individual.Id.c_str()))) : 1u;
+    Body->ConfigureGait(Seed, Chosen.VisualScale,
+        bMatchWalkClipToGroundSpeed ? Chosen.WalkClipGroundSpeedCmPerSec : 0.0);
     // Garment: one material instance per authored variant key, applied only to the body's
     // named garment slots. A missing variant or slot leaves the rig's own material in place.
     if (UMaterialInterface* Garment = GarmentFor(FString(UTF8_TO_TCHAR(Individual.Garment.c_str()))))
@@ -517,6 +563,9 @@ bool AMikdashResidentPopulation::InitializeAuthoredPeople()
         FMikdashResidentRoutePlan Plan;
         Plan.Key = FString(UTF8_TO_TCHAR(Individual.Id.c_str()));
         Plan.IdleClip = Chosen.Idle; Plan.WalkClip = Chosen.Walk;
+        Plan.WalkClipGroundSpeedCmPerSec = Chosen.WalkClipGroundSpeedCmPerSec;
+        Plan.WalkClipNeutralPhase = Chosen.WalkClipNeutralPhase;
+        Plan.VisualScale = Chosen.VisualScale;
         Plan.bLooping = true;
         Plan.bPilotBox = false;
         Plan.bMountDeck = Individual.Where == MikdashPeople::Zone::MountDeck;
@@ -662,13 +711,53 @@ void AMikdashResidentPopulation::Tick(float DeltaSeconds)
             ReviewCooldown[Index] = Started ? 0.0 : Now + 0.25;
         }
         // In-place walking is tied to actual velocity, never to an assigned goal alone.
-        const bool Moving = Body->GetVelocity().SizeSquared2D() > 25.0;
+        // Three presentational things happen here, and none of them touches the capsule, the
+        // route, the segment review, access or any save:
+        //  1. the walk/idle decision now has hysteresis. The old code used one 5 cm/s threshold
+        //     in both directions, so a body decelerating through it flipped clips on
+        //     consecutive frames - a visible twitch at the end of every leg;
+        //  2. the walk clip play rate follows the body actual ground speed, so the stride
+        //     matches the translation. This is the foot-slide fix;
+        //  3. each body enters a clip at its own phase, offset from the frame where the feet
+        //     pass each other, which is the pose closest to the idle stance. Single-node
+        //     playback cannot cross-fade, so entering at the nearest pose is the whole of what
+        //     is available here - see the handoff note about a locomotion Animation Blueprint.
+        USkeletalMeshComponent* BodyMesh = Body->GetMesh();
+        const double Speed2D = Body->GetVelocity().Size2D();
+        const bool Moving = Walking[Index]
+            ? Speed2D > MikdashGait::WalkExitSpeedCm
+            : Speed2D > MikdashGait::WalkEnterSpeedCm;
         if (Moving != Walking[Index])
         {
-            UAnimSequence* Walk = Plan.WalkClip ? Plan.WalkClip : WalkAnimation.Get();
-            UAnimSequence* Idle = Plan.IdleClip ? Plan.IdleClip : IdleAnimation.Get();
-            Body->GetMesh()->PlayAnimation(Moving ? Walk : Idle, true);
+            UAnimSequence* const Next = Moving
+                ? (Plan.WalkClip ? Plan.WalkClip : WalkAnimation.Get())
+                : (Plan.IdleClip ? Plan.IdleClip : IdleAnimation.Get());
+            BodyMesh->PlayAnimation(Next, true);
+            if (Next)
+            {
+                const double Length = Next->GetPlayLength();
+                if (Length > UE_KINDA_SMALL_NUMBER)
+                {
+                    const double Base = Moving ? Plan.WalkClipNeutralPhase : 0.0;
+                    const double Phase = FMath::Frac(Base + Body->GetGaitPhase01());
+                    BodyMesh->SetPosition(static_cast<float>(Phase * Length), false);
+                }
+            }
             Walking[Index] = Moving;
+            AppliedPlayRate[Index] = -1.0;
+        }
+        double WantRate = Body->GetCadenceBias();
+        if (Moving && bMatchWalkClipToGroundSpeed)
+        {
+            const double Carried = Plan.WalkClipGroundSpeedCmPerSec * FMath::Max(0.1, Plan.VisualScale);
+            if (Carried > 1.0)
+                WantRate = FMath::Clamp(Speed2D / Carried,
+                    MikdashGait::MinWalkPlayRate, MikdashGait::MaxWalkPlayRate);
+        }
+        if (FMath::Abs(WantRate - AppliedPlayRate[Index]) > 0.02)
+        {
+            BodyMesh->SetPlayRate(static_cast<float>(WantRate));
+            AppliedPlayRate[Index] = WantRate;
         }
         // StopRequested keeps its reservation. No automatic passage-clear claim.
     }

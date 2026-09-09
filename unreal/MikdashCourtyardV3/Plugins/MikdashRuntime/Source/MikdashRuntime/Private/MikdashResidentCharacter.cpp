@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Math/RandomStream.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 
@@ -18,10 +19,50 @@ AMikdashResidentCharacter::AMikdashResidentCharacter()
     UCharacterMovementComponent* Movement = GetCharacterMovement();
     Movement->bRunPhysicsWithNoController = true;
     Movement->bOrientRotationToMovement = true;
-    Movement->MaxWalkSpeed = 180.f; // authored walking pace; native tuning pending
+    // Presentational locomotion tuning. See the MikdashGait note in the header for why every
+    // one of these differs from what was here before. The capsule, the route, the segment
+    // review, access and the amah frame are untouched.
+    Movement->MaxWalkSpeed = static_cast<float>(MikdashGait::BaseWalkSpeedCm); // was a uniform 180
     Movement->MaxStepHeight = 45.f; // matches current walkthrough capability
-    Movement->RotationRate = FRotator(0.f, 240.f, 0.f);
+    Movement->RotationRate = FRotator(0.f, static_cast<float>(MikdashGait::WalkTurnRateDegPerSec), 0.f);
+    // A person does not reach walking pace in one frame and does not stop dead. The engine
+    // defaults (2048 cm/s^2 both ways) put a body at full pace in 0.09 s, which is precisely
+    // what makes the in-place walk clip snap on at full stride.
+    Movement->MaxAcceleration = static_cast<float>(MikdashGait::MaxAccelerationCm);
+    Movement->BrakingDecelerationWalking = static_cast<float>(MikdashGait::BrakingDecelerationCm);
+    Movement->bUseSeparateBrakingFriction = true;
+    Movement->BrakingFriction = 1.5f;
+    Movement->GroundFriction = 5.f;
     bUseControllerRotationYaw = false;
+}
+
+void AMikdashResidentCharacter::ConfigureGait(uint32 Seed, double InVisualScale, double ClipGroundSpeedCmPerSec)
+{
+    // One deterministic stream per person: the same resident always walks the same way across
+    // runs and builds, and two neighbours spawned from the same directory never share a pace,
+    // a cadence or a gait phase. Nothing here is random at runtime.
+    FRandomStream Stream(static_cast<int32>((Seed | 1u) & 0x7fffffffu));
+    const double Scale = (FMath::IsFinite(InVisualScale) && InVisualScale > 0.1) ? InVisualScale : 1.0;
+    CadenceBias = 1.0 + Stream.FRandRange(-MikdashGait::CadenceSpread, MikdashGait::CadenceSpread);
+    GaitPhase01 = Stream.FRand();
+    // Pace is DERIVED FROM THE CLIP whenever the caller knows what the clip supports, because
+    // a body that translates faster than its own stride is the single loudest puppet tell in
+    // the scene. Doing it this way also means the day the walk clip is re-authored with a
+    // natural 70-73 cm step, changing one measured number makes every resident walk at a
+    // natural pace with no other edit. A taller person covers more ground per step, so the
+    // body's visual scale multiplies through; the per-person cadence bias then IS the play
+    // rate, and stays within a few percent of 1.0.
+    const bool bDerived = FMath::IsFinite(ClipGroundSpeedCmPerSec) && ClipGroundSpeedCmPerSec > 1.0;
+    const double Wanted = bDerived
+        ? ClipGroundSpeedCmPerSec * Scale * CadenceBias
+        : (MikdashGait::BaseWalkSpeedCm
+            + Stream.FRandRange(-MikdashGait::WalkSpeedSpreadCm, MikdashGait::WalkSpeedSpreadCm)) * Scale;
+    PreferredWalkSpeedCm = FMath::Clamp(Wanted, MikdashGait::MinWalkSpeedCm, MikdashGait::MaxWalkSpeedCm);
+    UCharacterMovementComponent* Movement = GetCharacterMovement();
+    Movement->MaxWalkSpeed = static_cast<float>(PreferredWalkSpeedCm);
+    // A slower walker also takes a corner more slowly.
+    const double TurnRate = MikdashGait::WalkTurnRateDegPerSec * FMath::Clamp(CadenceBias, 0.85, 1.15);
+    Movement->RotationRate = FRotator(0.f, static_cast<float>(TurnRate), 0.f);
 }
 
 bool AMikdashResidentCharacter::BindResident(const TSharedPtr<MikdashCrowd::Runtime>& SharedRuntime,
@@ -207,7 +248,32 @@ void AMikdashResidentCharacter::Tick(float DeltaSeconds)
     if (Recovery.Advance(DeltaSeconds, MovedCm, true) && TrySidestep(Feet, Target)) Target = RoutePoints[PointIndex];
     FVector Direction = Target - Feet; Direction.Z = 0.0;
     if (Direction.IsNearlyZero()) { FailRoute(); return; }
-    AddMovementInput(Direction.GetSafeNormal(), 1.f, true);
+    const FVector Heading = Direction.GetSafeNormal();
+    // Ease the input down into the final stop and into a corner. Driving full-scale input up
+    // to the last centimetre and then releasing it is what makes an arrival read as a machine
+    // halting; holding walking pace through a 90 degree turn is what makes a corner read as a
+    // turret. Neither eases past the reviewed waypoint tolerance: the floor of MinInputScale
+    // still closes the remaining distance.
+    double InputScale = 1.0;
+    if (PointIndex == RoutePoints.Num() - 1)
+    {
+        InputScale = FMath::Clamp(FVector::Dist2D(Feet, Target) / MikdashGait::ArrivalEaseCm,
+            MikdashGait::MinInputScale, 1.0);
+    }
+    const FVector Velocity2D(GetVelocity().X, GetVelocity().Y, 0.0);
+    if (Velocity2D.SizeSquared() > FMath::Square(MikdashGait::CornerSlowSpeedCm))
+    {
+        const double Alignment = FVector::DotProduct(Velocity2D.GetSafeNormal(), Heading);
+        InputScale = FMath::Min(InputScale, FMath::GetMappedRangeValueClamped(
+            FVector2D(MikdashGait::CornerHardCos, MikdashGait::CornerSoftCos),
+            FVector2D(MikdashGait::CornerMinScale, 1.0), Alignment));
+    }
+    // Never ease below what the two-second block watchdog reads as stuck; a body deliberately
+    // slowing for a corner or a stop is not a body being obstructed.
+    InputScale = FMath::Max(InputScale, FMath::Min(1.0,
+        MikdashRoute::BlockedSpeedCmPerSecond * MikdashGait::BlockWatchdogMargin
+            / FMath::Max(1.0, PreferredWalkSpeedCm)));
+    AddMovementInput(Heading, static_cast<float>(InputScale), true);
 }
 
 bool AMikdashResidentCharacter::TrySidestep(const FVector& Feet, const FVector& Target)
@@ -241,7 +307,12 @@ void AMikdashResidentCharacter::UpdateStandingFacing(float DeltaSeconds)
     const FVector Feet = GetCharacterMovement()->GetActorFeetLocation();
     if (FVector::DistSquared2D(Feet, FacingTarget) < FMath::Square(50.0)) return;
     const double TargetYaw = MikdashRoute::YawTowardDegrees({Feet.X, Feet.Y}, {FacingTarget.X, FacingTarget.Y});
-    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds);
+    // A standing turn has no turn-in-place clip behind it, so it is always a frozen-feet
+    // pivot. Slowing it and refusing to chase a few degrees is the most that can be done from
+    // here; the cure is a locomotion Animation Blueprint with turn-in-place.
+    if (FMath::Abs(FMath::FindDeltaAngleDegrees(GetActorRotation().Yaw, TargetYaw)) < MikdashGait::StandingTurnDeadZoneDeg) return;
+    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds,
+        MikdashGait::StandingTurnRateDegPerSec);
     SetActorRotation(FRotator(0.0, Yaw, 0.0));
 }
 
@@ -275,7 +346,9 @@ void AMikdashResidentCharacter::UpdateConversationFacing(float DeltaSeconds)
     const FVector Feet = GetCharacterMovement()->GetActorFeetLocation();
     if (FVector::DistSquared2D(Feet, ConversationFacing) < FMath::Square(30.0)) return;
     const double TargetYaw = MikdashRoute::YawTowardDegrees({Feet.X, Feet.Y}, {ConversationFacing.X, ConversationFacing.Y});
-    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds);
+    if (FMath::Abs(FMath::FindDeltaAngleDegrees(GetActorRotation().Yaw, TargetYaw)) < MikdashGait::StandingTurnDeadZoneDeg) return;
+    const double Yaw = MikdashRoute::TurnToward(GetActorRotation().Yaw, TargetYaw, DeltaSeconds,
+        MikdashGait::StandingTurnRateDegPerSec);
     SetActorRotation(FRotator(0.0, Yaw, 0.0));
 }
 

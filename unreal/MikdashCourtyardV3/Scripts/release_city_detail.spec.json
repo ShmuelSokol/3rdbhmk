@@ -1,0 +1,130 @@
+{
+ "specVersion": 1,
+ "prepared": "2026-09-09",
+ "purpose": "Guarded, resumable import of the twelve CityDetailV1 unit meshes and instancing of the roofscape plan into HierarchicalInstancedStaticMeshComponents. Every number a human should review before the run lives here or in the hash-pinned city-detail-manifest.json; the per-instance transforms live in the hash-pinned city-detail-plan.json.",
+ "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+ "targetMaps": {
+  "candidate": {
+   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+   "why": "The 0.48 m amah candidate, which is the configured default/editor-startup/cook map. Do this one first: precinct-Candidate48.json records that the candidate conversion moved the Temple about the origin only and left the city and terrain 'metric and unmoved', so the same world-centimetre plan is correct on both maps."
+  },
+  "main": {
+   "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "why": "Legacy Main50 combined map, retained. Run only after the candidate is accepted."
+  }
+ },
+ "protectedMaps": [
+  "/Game/MikdashV3/Maps/Courtyard",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough"
+ ],
+ "protectedMapsNote": "The requested target is removed from this list at run time; every other map here is hashed before and after and reported unchanged.",
+ "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+ "checkpointPrefix": "CityDetail-",
+ "receiptFolder": "SourceAssets/context-review/CityDetailV1",
+ "receiptPrefix": "native-city-detail-",
+ "actorTag": "ReleaseCityDetailV1",
+ "zoneTagPrefix": "CityDetailZone_",
+ "labelPrefix": "RELEASE_",
+ "group": "CityDetail",
+ "folder": "Release/CityDetail",
+ "source": {
+  "folder": "SourceAssets/context-review/CityDetailV1",
+  "objFolder": "SourceAssets/context-review/CityDetailV1/obj",
+  "manifest": "SourceAssets/context-review/CityDetailV1/city-detail-manifest.json",
+  "manifestSha256": "d93fca5f94fed345e09699123fa73c47f454dc33366594b0bcf67958158ee8fb",
+  "manifestStatusRequired": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+  "plan": "SourceAssets/context-review/CityDetailV1/city-detail-plan.json",
+  "planSha256": "6a0b7a5d9b03f6da75fae528ced9510f037dfb2fbbd4f53c94d91b61881a4c74",
+  "authoringScript": "Scripts/create_city_detail.py",
+  "authoringScriptSha256": "880de4b4c44a43342c465b89b9805da0dab7e606c2c0a429b2422ed79b9a5c71",
+  "hashNote": "Pinned so a silently re-authored geometry set or instance plan cannot be imported under a reviewed spec. Re-running the generator means re-reviewing and updating these three hashes.",
+  "objAdapter": "Canonical vertices are UE cm; every OBJ is written with Y reflected and triangle winding reversed (the create_sanctuary_doors.export adapter, shared with the keilim, keruvim, Aron, relief and Old City facade imports). The importer reflects Y back, so the imported StaticMesh must reproduce the manifest canonicalBoundsCm. These unit meshes sit at the origin, so only the Y-ASYMMETRIC ones can prove the reflection; verification.minimumYAsymmetricMeshes is the guard on that.",
+  "boundsToleranceCm": 0.5,
+  "boundsToleranceNote": "The OBJ stores centimetres to 2 dp and these meshes are within a few metres of the origin, so 0.5 cm is far looser than float32 error and still catches any reflection, scale or unit mistake."
+ },
+ "namespace": "/Game/MikdashV3/JerusalemContext/CityDetailV1",
+ "meshFolder": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Meshes",
+ "materialFolder": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials",
+ "namespaceRule": "Only this namespace may be written. Nothing outside it is created, renamed or deleted, with one explicit and reversible exception: -CityDetailRetint sets a per-COMPONENT material override on the SM_JerusalemBuildings_* actors in the target map, which is level data, not an asset edit.",
+ "doNotTouch": {
+  "assets": [
+   "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+   "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+   "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+  ],
+  "assetPathPrefixes": [
+   "/Game/MikdashV3/MaterialReview/AntiRepeatV1"
+  ],
+  "why": "A concurrent job in this wave owns the anti-repeat materials, the shared M_PBR_Tiled parent and the nine Nanite-repaired MI_PBR_* instances. This job only ever CREATES MaterialInstanceConstants of its own under CityDetailV1, with M_Context_Building as their parent, so it inherits that job's improvements instead of fighting them."
+ },
+ "importSettings": {
+  "note": "The reviewed OBJ adapter path, with build_nanite OFF and normals taken from the file. The OBJs carry hard-edged per-face normals and no smoothing groups.",
+  "factory": "FbxFactory",
+  "fbxImportUI": {
+   "automated_import_should_detect_type": false,
+   "mesh_type_to_import": "FBXIT_STATIC_MESH",
+   "import_as_skeletal": false,
+   "import_mesh": true,
+   "import_animations": false,
+   "import_materials": false,
+   "import_textures": false,
+   "create_physics_asset": false
+  },
+  "staticMeshImportData": {
+   "combine_meshes": true,
+   "transform_vertex_to_absolute": true,
+   "bake_pivot_in_vertex": false,
+   "convert_scene": false,
+   "convert_scene_unit": false,
+   "force_front_x_axis": false,
+   "import_uniform_scale": 1.0,
+   "auto_generate_collision": false,
+   "build_nanite": false,
+   "generate_lightmap_u_vs": false,
+   "remove_degenerates": true,
+   "normal_import_method": "FBXNIM_IMPORT_NORMALS"
+  },
+  "naniteWhy": "Deliberately off. These are 24 to 84 triangle props at tens of thousands of instances. Classic HISM gives one draw call per component and honours the per-instance cull distances this plan depends on; Nanite adds always-resident root pages per mesh and does not. The 2026-09-08 Nanite pass excluded the existing decorative HISMs for the same reason (PERFORMANCE-BUDGET.md)."
+ },
+ "materials": {
+  "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+  "parentWhy": "The context triplanar limestone already on the 1,499 building meshes. Parenting here puts the new geometry in the same stone family as the city and as the Herodian ashlar, and inherits any fix the concurrent material job makes to that graph.",
+  "rule": "Every material is a MaterialInstanceConstant created under materialFolder if missing. Its parameter values come from the hash-pinned manifest and are verified by readback, because MaterialEditingLibrary setters return False even on success in UE 5.8."
+ },
+ "collision": {
+  "profile": "NoCollision",
+  "why": "Roof plant, parapets and souq fittings are decoration on and above buildings that already collide. Giving tens of thousands of instances collision would add narrow ledges a walker could catch on and a large physics scene for nothing."
+ },
+ "lod": {
+  "cullStartFraction": 0.75,
+  "why": "Per-mesh cull distances live in the manifest. They run from 220 m for a souq stall to 1,600 m for a quarter dome, so the far city view carries parapets and domes and not thousands of aerials."
+ },
+ "verification": {
+  "instanceToleranceCm": 0.01,
+  "minimumMatchRatio": 0.9,
+  "minimumYAsymmetricMeshes": 6,
+  "requireTriangleMatch": true,
+  "requireReopenReadback": true,
+  "compareRule": "Numeric translation/rotation/scale fields and AABB corners only; str(Transform) is never compared (it contains memory addresses).",
+  "whyTransformsAreSampled": "unreal.Transform's positional constructor order is (rotation, translation, scale). A location passed first yields instances at the origin with a nonsense rotation, and an instance-COUNT check cannot see that. Five instances per component are read back numerically against the plan before the save, and the last instance of every component again after the reopen."
+ },
+ "limitations": [
+  "Import and instancing are geometric only. No visual, lighting, walking, packaged or cook acceptance is established by this script.",
+  "Every parapet, tank, collector, condenser, dish, aerial, washing line, stair house, dome, awning, vault and stall is AUTHORED massing in the style of the modern Jerusalem roofscape. Only the stone ordinance and the ubiquity of solar water heating are sourced; nothing here is surveyed, photogrammetric, a claim about a particular building, or halachic.",
+  "Instances are placed in two zones so the Yechezkel precinct plaza can hide the half it covers together with the buildings it covers. This script does not itself teach the precinct system about the two new actor labels; that is a one-line addition to the precinct hide set and is recorded in the receipt as an open item.",
+  "Souq fittings stand on the terrain height under the street station, not on the street mesh.",
+  "The retint is off by default and, when on, is a per-component override in the level, not an asset edit. It is reversible with -CityDetailRetintClear.",
+  "Actor count rises by up to 24. That is deliberate: the measured bottleneck is the game thread carrying 7,767 actors, so this addition is instanced, not per-building."
+ ]
+}

@@ -88,49 +88,18 @@ FVector AimAt(float Alpha, const TArray<FVector>& Points)
 
 TArray<FVector> UMikdashCinematics::IntroControlPoints()
 {
-    // The approach is from the EAST, through the east gate of the 3,000-amah precinct wall:
-    // Yechezkel 43:1-4 (the prophet is brought to the gate facing east; the glory comes from
-    // the way of the east and enters the House by that gate). The direction and the gate are
-    // sourced; the camera choreography is authored. Sources for every number are in
-    // Scripts/release_intro_sequence.spec.json and
-    // SourceAssets/cinematics-review/INTRO-EAST-GATE-SOURCE-20260908.md. In short: the E
-    // gate at (116900, 0) with its 500 x 2500 opening and plinth 3551 (enclosure-review
-    // receipts), the Mount of Olives ridge and the Kidron from the DEM, the Mount platform
-    // deck at Z 0, the court's east gate lintel top 3300 (architecture manifest, union
-    // decomposition), and Mikdash_PlayerStart with its 168 cm eye height.
-    return {
-        FVector(140000.0, 4200.0, 8600.0),  // over the eastern slope of the Mount of Olives, looking west
-        FVector(129500.0, 1600.0, 6500.0),  // descending toward the gate
-        FVector(122500.0,  300.0, 5300.0),  // settling onto the axis
-        FVector(116720.0,    0.0, 4800.0),  // THROUGH the east gate: module centre, mid-opening
-        FVector(111500.0,    0.0, 5000.0),  // inside the precinct
-        FVector(103500.0,    0.0, 6500.0),  // climbing over the Olives ridge (modern tops to 4993 here)
-        FVector( 92000.0,    0.0, 7000.0),
-        FVector( 81000.0,    0.0, 7300.0),  // the crest, modern tops 5543
-        FVector( 66000.0,    0.0, 5900.0),  // over the west slope
-        FVector( 50000.0,    0.0, 3800.0),  // out over the Kidron, floor about -6000 at X 26-32 k
-        FVector( 34000.0,    0.0, 2900.0),
-        FVector( 20000.0,    0.0, 3300.0),  // rising to the Mount platform, deck top 0 to X 14953
-        FVector( 12500.0,    0.0, 3950.0),  // over the deck
-        FVector(  8300.0,    0.0, 3800.0),  // over the court's east gate, lintel and jamb tops 3300
-        FVector(  7300.0,    0.0, 3450.0),  // over the vestibule pillars and palm fronds, top 3346
-        FVector(  6200.0,    0.0, 2650.0),  // the dive across the outer court, floor top 300
-        FVector(  5000.0,    0.0, 1800.0),
-        FVector(  3800.0,    0.0, 1100.0),  // level at the inner eastern vestibule, landings and stairs top 500
-        FVector(  2100.0,    0.0,  668.0),  // the visitor's eye at Mikdash_PlayerStart
-    };
+    // Authored east approach: Yechezkel 43:1-4 direction; choreography is authored.
+    // The same canonical list feeds BuildIntroForWorld; do not maintain a second path.
+    TArray<FVector> Result;
+    for (const auto& P : MikdashSceneUnits::LegacyIntroPoints()) Result.Add(FVector(P.X,P.Y,P.Z));
+    return Result;
 }
 
 TArray<FVector> UMikdashCinematics::IntroAimPoints()
 {
-    return {
-        FVector(-4900.0, 0.0, 3200.0),  // the House, down the axis: gate, ridge and House line up
-        FVector(-4900.0, 0.0, 3200.0),  // held through the gate, so the opening frames the axis
-        FVector(-4900.0, 0.0, 3200.0),  // held over the ridge; the Kidron and the Old City below
-        FVector( 8000.0, 0.0, 2000.0),  // the court's east gate as the platform comes up
-        FVector(-2450.0, 0.0, 2200.0),  // the Ulam facade on the run up the axis
-        FVector(-2450.0, 0.0, 1400.0),  // the Ulam doorway, where the visitor is left
-    };
+    TArray<FVector> Result;
+    for (const auto& P : MikdashSceneUnits::LegacyAimPoints()) Result.Add(FVector(P.X,P.Y,P.Z));
+    return Result;
 }
 
 TArray<float> UMikdashCinematics::IntroAimAlphas()

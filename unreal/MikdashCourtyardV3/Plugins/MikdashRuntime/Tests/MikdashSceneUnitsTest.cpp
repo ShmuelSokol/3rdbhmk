@@ -35,14 +35,16 @@ int main()
     const IntroPoints ExpectedLegacy = LegacyIntroPoints();
     for (std::size_t I = 0; I < LegacyPath.size(); ++I)
         Expect(Equal(LegacyPath[I],ExpectedLegacy[I]), "legacy coordinates unchanged");
-    for (std::size_t I = 0; I < 5; ++I)
-        Expect(Equal(SelectedPath[I],LegacyPath[I]), "geographic city/approach point fixed");
-    Expect(Equal(SelectedPath[6],{2496,6912,3763}), "wall support shrinks;475cm camera clearance preserved");
-    Expect(Equal(SelectedPath[7],{6144,4032,2888}), "court floor shrinks;2600cm camera height preserved");
+    Expect(LegacyPath.size()==19 && LegacyPath.front().X==140000, "active intro starts east with canonical19points");
+    for (std::size_t I = 0; I <= 12; ++I)
+        if (I != 3) Expect(Equal(SelectedPath[I],LegacyPath[I]), "geographic ridge/Kidron/deck fixed");
+    Expect(Equal(SelectedPath[3],{112051.2,0,4800}), "precinct gate crossing uses precinct origin");
+    Expect(Equal(SelectedPath[13],{7968,0,3668}), "gate lintel scales;500cm clearance preserved");
+    Expect(Equal(SelectedPath[14],{7008,0,3316.16}), "pillar support scales;104cm clearance preserved");
     Expect(Equal(SelectedPath.back(),{2016,0,648}), "selected final eye is480+168");
     Expect(!Near(SelectedPath.back().Z,668*.96), "no scaling of human eye height");
     Expect(TryAimPoints(Legacy,LegacyAim) && TryAimPoints(Selected,SelectedAim), "both aim revisions accepted");
-    Expect(Equal(SelectedAim[0],LegacyAim[0]), "Kotel target fixed");
+    Expect(Equal(SelectedAim[0],{-4704,0,3072}), "eastern approach aims at converted House");
     Expect(Equal(SelectedAim.back(),{-2352,0,1344}), "Temple target follows geometry");
     // Interleaved worlds cannot inherit the previously selected scene's path.
     IntroPoints LegacyAgain;
@@ -58,6 +60,11 @@ int main()
         const auto P = SelectedSpline.PointAtEasedAlpha(static_cast<double>(I)/100);
         Expect(std::isfinite(P.X) && std::isfinite(P.Y) && std::isfinite(P.Z), "selected spline finite throughout");
     }
+    Frame Pivot = Selected; Pivot.FixedOrigin = {-6200,0,0};
+    IntroPoints PivotPath;
+    Expect(TryIntroPoints(Pivot,PivotPath), "reviewed Aron pivot accepted");
+    Expect(Equal(PivotPath.back(),{1768,0,648}), "pivot final eye follows temple floor with168cm height");
+    Expect(Equal(PivotPath[3],SelectedPath[3]), "sanctuary pivot does not move precinct gate");
     Frame Offset = Selected; Offset.FixedOrigin = {100,200,50};
     MikdashUnits::PointCm P{7,8,9};
     Expect(TryLegacyTempleSupport(Offset,{2100,0,500},168,P) && Equal(P,{2020,8,650}), "nonzero origin plus physical eye");

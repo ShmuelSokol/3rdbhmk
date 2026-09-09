@@ -31,12 +31,12 @@
     "class": "/Script/MikdashRuntime.MikdashTransitCrowdCoordinator",
     "pythonName": "MikdashTransitCrowdCoordinator",
     "refuseIfActivateOnBeginPlay": true,
-    "note": "AMikdashTransitCrowdCoordinator is the earlier transfer renderer bound to OnPassengerExchange. Both running would animate every exchange twice, so placement is refused while a coordinator with activate_on_begin_play is present, and the bridge itself refuses to start in that case (b_refuse_if_coordinator_active)."
+    "note": "AMikdashTransitCrowdCoordinator is the earlier transfer renderer bound to OnPassengerExchange. Both running would animate every exchange twice, so placement is refused while a coordinator with activate_on_begin_play is present, and the bridge itself refuses to start in that case (refuse_if_coordinator_active)."
   },
   "bridgeActor": {
-    "b_activate_on_begin_play": true,
-    "b_auto_find_actors": true,
-    "b_refuse_if_coordinator_active": true,
+    "activate_on_begin_play": true,
+    "auto_find_actors": true,
+    "refuse_if_coordinator_active": true,
     "max_concurrent_groups": 6,
     "max_figures": 240,
     "max_people_per_group": 40,
@@ -58,12 +58,12 @@
     "dispersal_max_cm": 1400.0,
     "photo_spot_min_cm": 300.0,
     "photo_spot_max_cm": 520.0,
-    "b_trace_ground": true,
+    "trace_ground": true,
     "ground_trace_tolerance_cm": 150.0,
-    "b_sweep_static_obstacles": true,
+    "sweep_static_obstacles": true,
     "figure_scale_min": 0.92,
     "figure_scale_max": 1.08,
-    "b_cast_shadows": false,
+    "cast_shadows": false,
     "seed": 20260908
   },
   "mountFocusCm": [0.0, 0.0, 300.0],

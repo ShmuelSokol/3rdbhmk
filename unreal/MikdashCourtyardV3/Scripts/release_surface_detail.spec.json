@@ -1,7 +1,7 @@
 {
   "specVersion": 1,
   "prepared": "2026-09-08",
-  "purpose": "Human-reviewable plan consumed by Scripts/release_surface_detail.py: import eleven procedural wear textures, build ONE deferred-decal master material with eleven instances, create the quantised meleke stone-variant instances, place the authored wear decals as ADecalActors in the combined Walkthrough map and spawn one AMikdashSurfaceDetail to budget and fade them. DECALS AND MATERIAL PARAMETERS ONLY: no existing actor is moved, rescaled, retagged or deleted, and no shared material asset is edited. Nothing here claims visual acceptance.",
+  "purpose": "Bounded V2 wear assets then decals and manager; no stone overrides or existing material writes. Source plan remains immutable and its V1 destination namespace is explicitly rebased in memory to V2.",
   "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
   "targetMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
   "targetMapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
@@ -19,10 +19,10 @@
   "planStatusRequired": "surface_wear_plan_generated_no_map_touched",
   "generator": "Scripts/create_decals.py",
   "mathHeader": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/SurfaceWearMath.h",
-  "namespace": "/Game/MikdashV3/SurfaceDetailV1",
-  "textureFolder": "/Game/MikdashV3/SurfaceDetailV1/Textures",
-  "materialFolder": "/Game/MikdashV3/SurfaceDetailV1/Materials",
-  "stoneVariantFolder": "/Game/MikdashV3/SurfaceDetailV1/StoneVariants",
+  "namespace": "/Game/MikdashV3/SurfaceDetailV2",
+  "textureFolder": "/Game/MikdashV3/SurfaceDetailV2/Textures",
+  "materialFolder": "/Game/MikdashV3/SurfaceDetailV2/Materials",
+  "stoneVariantFolder": "/Game/MikdashV3/SurfaceDetailV2/StoneVariants",
   "labelPrefix": "SURFACEWEAR_",
   "folder": "SurfaceDetail/Wear",
   "managerFolder": "SurfaceDetail",
@@ -41,7 +41,7 @@
     "name": "M_SurfaceWear_Decal",
     "domain": "MD_DeferredDecal",
     "blendMode": "DBM_Translucent",
-    "decalBlendMode": "DBUFFER_ColorRoughness",
+    "decalBlendMode": "deprecated_not_written",
     "decalBlendModeNote": "DBuffer colour+roughness, not the normal-writing variant: the wear must tint and smooth what it lands on without fighting the world-space normals the triplanar architecture material outputs (the meshes carry no UVs, so tangents are undefined).",
     "textureParameters": {
       "WearMask": "WearMask"
@@ -283,7 +283,8 @@
       "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
       "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs"
     ],
-    "instancedStaticMeshComponentsExcluded": true
+    "instancedStaticMeshComponentsExcluded": true,
+    "enabled": false
   },
   "protectedMaterials": [
     "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
@@ -305,7 +306,10 @@
     "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1/",
     "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/",
     "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV1/",
-    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/"
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/",
+    "/Game/MikdashV3/Materials/PBR/",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/",
+    "/Game/MikdashV3/SurfaceDetailV1/"
   ],
   "protectedMaterialRule": "Every path in protectedMaterials must exist on disk with an unchanged SHA-256 after the run, and no asset under protectedMaterialPrefixes may be written at all. This exists because the 2026-09-07 sanctuary rebalance flattened the frieze wall relief by editing a shared parent and had to be reverted from a checkpoint. A shared parent is never edited by this script; only child MaterialInstanceConstants are created.",
   "geometryRule": "The script snapshots every pre-existing actor's transform, mesh list and world bounds before it mutates anything, and refuses to save if any of them differs. It spawns only ADecalActor and the AMikdashSurfaceDetail manager, and destroys only actors it spawned in this run. It never calls destroy_actor on an actor it did not spawn.",
@@ -321,6 +325,8 @@
     "Placement is geometric. No trace confirms that a decal's projection box actually reaches a surface.",
     "No visual, performance, walking or packaged acceptance is established by this script.",
     "The stone variation is quantised into a palette, not continuous per instance.",
-    "The manager actor is only spawned if the compiled MikdashRuntime module exposes the class; otherwise the run records an omission and the decals are placed unmanaged."
-  ]
+    "The manager actor is only spawned if the compiled MikdashRuntime module exposes the class; otherwise the run records an omission and the decals are placed unmanaged.",
+    "Stone stage is disabled. V2 is create-once; partial asset failure requires a new reviewed namespace, never overwrite."
+  ],
+  "sourceNamespace": "/Game/MikdashV3/SurfaceDetailV1"
 }

@@ -31,13 +31,13 @@
     "note": "250 MB ceiling on the shipped source recordings. The set currently occupies about 110 MB."
   },
   "namespace": {
-    "root": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2",
-    "waves": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Waves",
-    "cues": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Cues",
-    "support": "/Game/MikdashV3/Runtime/Audio/SoundscapeV2/Support",
+    "root": "/Game/MikdashV3/Runtime/Audio/SoundscapeV3",
+    "waves": "/Game/MikdashV3/Runtime/Audio/SoundscapeV3/Waves",
+    "cues": "/Game/MikdashV3/Runtime/Audio/SoundscapeV3/Cues",
+    "support": "/Game/MikdashV3/Runtime/Audio/SoundscapeV3/Support",
     "wavePrefix": "SW_SSV2_",
     "cuePrefix": "SC_SSV2_",
-    "rule": "The namespace must not exist when an apply run starts, so an interrupted run is never silently extended. -SoundscapeRevertAssets deletes it; otherwise the assets are left in place because they are inert once no actor references them."
+    "rule": "Create once. Existing namespace refuses without deletion or overwrite. All older audio assets stay hash-protected."
   },
   "geometry": {
     "axes": "UE centimetres, +X east, +Y south, +Z up. Basis: Scripts/release_lighting_polish.spec.json worldFrame, itself derived from capture receipt b_courtyard_spawn_west and the Batei Mahase bus placement at +Y 46855.",
@@ -1424,5 +1424,6 @@
       "birdWingburstSources": "EMPTY ON PURPOSE. AMikdashBirdFlock announces Wingburst, Startle and Land as well as Call, and this actor is bound to all four. No wingbeat or flock-clatter recording was found whose licence could be verified against a captured publisher page, so those three events are received and not heard. Dressing a cloth-swing sample up as wingbeats would be a fabrication in the one place this project has been most careful. Fill this bank the moment a verified recording exists; nothing else has to change.",
       "serviceSources": "EMPTY ON PURPOSE. The Service layer, its day curve and PlayServiceSound are all wired, and AMikdashServiceActor can drive them without either file being edited. No recording of the service exists and none can be sourced -- there is nothing to record. What belongs here is authored or performed material, which is a decision for the user, not a search result. Until then the layer is silent and says so."
     }
-  }
+  },
+  "importReviewHold": "Import only until source audition and species/crowd runtime wiring acceptance. Imported raw takes are nonlooping for the C++ scheduler."
 }

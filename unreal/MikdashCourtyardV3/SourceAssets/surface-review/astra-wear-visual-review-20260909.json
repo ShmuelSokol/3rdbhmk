@@ -1,0 +1,44 @@
+{
+  "status": "visual_rejected_repair_in_progress",
+  "captureReceipt": "SourceAssets/lighting-review/lighting-v3-capture-20260909T033450Z.json",
+  "viewsReviewed": 6,
+  "findings": [
+    "All three hidden/visible pairs visually inspected. Floor anchor shows little obvious improvement.",
+    "Visible wear in the two gateway views overlays conspicuous beige patches on paving and steps; does not meet realism acceptance.",
+    "Base paving repetition, simplified people, dark internal opening and bright gold remain visible limitations."
+  ],
+  "preservation": {
+    "mapsUnchanged": true,
+    "materialInstancesUnchanged": true,
+    "originalSavesUnchanged": true
+  },
+  "next": "PIE-only opacity 0.12 comparison before any material or map repair is saved. Existing V2 assets are preserved.",
+  "softComparison": {
+    "captureReceipt": "SourceAssets/lighting-review/lighting-v3-capture-20260909T034248Z.json",
+    "opacity": 0.12,
+    "reviewedViews": [
+      "v2_outer_court_west_gate",
+      "v6_outer_east_gate_shade"
+    ],
+    "verdict": "Lower-opacity PIE variant removes conspicuous beige overlays in these two views while retaining visible paving joints. Suitable for bounded adoption; not all-surface acceptance.",
+    "limits": [
+      "Plan per-entry opacity was ignored by original placement; this global visual attenuation does not repair that planner binding.",
+      "Opaque mask edges in some wear textures still require later category-specific refinement.",
+      "Other weather/time/views and performance remain unverified."
+    ],
+    "mapsUnchanged": true,
+    "originalSavesUnchanged": true,
+    "materialInstancesUnchanged": true
+  },
+  "adoption": {
+    "applyReceipt": "surface-soft-apply-20260909T035040427136Z.json",
+    "freshVerifyReceipt": "surface-soft-verify-20260909T035243997344Z.json",
+    "verifiedDecals": 460,
+    "newChildMaterials": 9,
+    "oldAssetsPreserved": true,
+    "mainMapSha256": "478d326fc715e6690272e07043dd1238912d1c53a47066fb18cb432b0027e76c",
+    "status": "saved, fresh-process numeric verified, and two saved-scene gate views inspected",
+    "savedRenderReceipt": "lighting-v3-capture-20260909T040520Z.json",
+    "visualVerdict": "Bounded pass: conspicuous beige patches suppressed; paving joints retained. Broader scene realism and texture repetition remain open."
+  }
+}

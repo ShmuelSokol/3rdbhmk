@@ -20,6 +20,9 @@ and dirty-package guards, exactly like release_place_assets.py. Importing it ins
 editor does nothing; call place(load_target=False) there after opening the map.
 
 Optional switches (read from the engine command line):
+  -SkyToDTarget=Candidate48
+        Explicit reviewed48cm map; main remains default. Placement-only, no bake/revert.
+        Input map hash and Selected48 descriptor/pivot must match the reviewed checkpoint.
   -SkyToDBake=<dawn|sunrise|morning|midday|afternoon|sunset|dusk|night>
         Also write that one preset into the existing lighting actors for editor preview.
         Default: none. Without it NO existing actor property is written by this pass.
@@ -60,12 +63,15 @@ import json
 import math
 import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_sky_tod.spec.json'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+CANDIDATE = '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+CANDIDATE_SHA = 'd494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785'
 
 PRESET_NAMES = ('dawn', 'sunrise', 'morning', 'midday', 'afternoon', 'sunset', 'dusk', 'night')
 
@@ -84,12 +90,26 @@ def disk_path(asset_path, extension='uasset'):
     return ROOT / 'Content' / (asset_path[6:] + '.' + extension)
 
 
-def load_spec():
+def load_spec(target_name="Main50"):
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
     if spec['targetMap'] != TARGET:
         raise RuntimeError('Spec target differs from script target')
     if Path(spec['projectDir']).resolve() != ROOT:
         raise RuntimeError('Spec project directory differs from script root')
+    if target_name not in ('Main50', 'Candidate48'):
+        raise RuntimeError('Unknown sky target: ' + target_name)
+    if target_name == 'Candidate48':
+        spec['targetMap'] = CANDIDATE
+        spec['targetMapFile'] = 'Content/' + CANDIDATE[6:] + '.umap'
+        spec['lastKnownMapSha256'] = CANDIDATE_SHA
+        spec['checkpointPrefix'] += 'Candidate48-'
+        spec['receiptPrefix'] += 'Candidate48-'
+    spec['targetName'] = target_name
+    maps = set(spec['protectedMaps'])
+    maps.update('/Game/' + p.relative_to(ROOT / 'Content').with_suffix('').as_posix()
+                for p in (ROOT / 'Content').rglob('*.umap'))
+    maps.discard(spec['targetMap'])
+    spec['protectedMaps'] = sorted(maps)
     return spec
 
 
@@ -368,10 +388,15 @@ def _preset_enum(ue, name):
     return getattr(ue.MikdashTimePreset, name.upper())
 
 
-def place(load_target=True, bake=None, revert=None):
+def place(load_target=True, bake=None, revert=None, target_name="Main50"):
     """Run the guarded placement. Returns the receipt dict; raises on guard failure."""
     import unreal as ue
-    spec = load_spec()
+    spec = load_spec(target_name)
+    target = spec['targetMap']
+    if target_name == 'Candidate48' and (bake is not None or revert is not None):
+        raise RuntimeError('Candidate port is placement-only; preserve its existing lighting, no bake/revert')
+    if target_name == 'Candidate48' and sha256_of(disk_path(target, 'umap')) != CANDIDATE_SHA:
+        raise RuntimeError('Candidate differs from reviewed24resident checkpoint; refresh evidence before port')
     offline = offline_check(spec)
     if Path(ue.Paths.project_dir()).resolve() != ROOT:
         raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
@@ -384,12 +409,12 @@ def place(load_target=True, bake=None, revert=None):
     if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
         raise RuntimeError('Dirty packages present before map load; refusing to discard changes')
     if load_target:
-        if not run.levels.load_level(TARGET):
-            raise RuntimeError('load_level failed for ' + TARGET)
+        if not run.levels.load_level(target):
+            raise RuntimeError('load_level failed for ' + target)
     run.world = run.editor.get_editor_world()
-    loaded = run.world.get_outermost().get_name()
-    if loaded != TARGET:
-        raise RuntimeError('Loaded world %s is not the combined map %s' % (loaded, TARGET))
+    loaded = run.world.get_outermost().get_name() if run.world is not None else ''
+    if loaded != target:
+        raise RuntimeError('Loaded world %s is not the combined map %s' % (loaded, target))
     if ue.EditorLoadingAndSavingUtils.get_dirty_map_packages() or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages():
         raise RuntimeError('Dirty packages present; resolve before checkpointed placement')
 
@@ -404,9 +429,9 @@ def place(load_target=True, bake=None, revert=None):
         except Exception:  # noqa: BLE001
             weather_cls = None
 
-    map_file = disk_path(TARGET, 'umap')
+    map_file = disk_path(target, 'umap')
     map_sha_before = sha256_of(map_file)
-    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps'] if disk_path(m, 'umap').exists()}
+    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps']}
     protected_assets = {a: sha256_of(disk_path(a)) for a in spec['protectedAssets'] if disk_path(a).exists()}
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
@@ -419,7 +444,9 @@ def place(load_target=True, bake=None, revert=None):
     run.receipt = {
         'status': 'started',
         'stamp': stamp,
-        'map': TARGET,
+        'map': target,
+        'targetName': target_name,
+        'targetMetadata': {'reviewedInputSha256': spec['lastKnownMapSha256'], 'fixedArchitectureOriginCm': [-6200,0,0] if target_name == 'Candidate48' else None, 'geometryMutation': False},
         'mapFile': str(map_file),
         'mapSha256Before': map_sha_before,
         'mapMatchesLastKnownSha256': map_sha_before == spec['lastKnownMapSha256'],
@@ -439,6 +466,20 @@ def place(load_target=True, bake=None, revert=None):
 
     saved = False
     try:
+        if target_name == 'Candidate48':
+            descriptors = [a for a in run.actors.get_all_level_actors()
+                           if a.get_actor_label() == 'RELEASE_SceneUnits_Selected48_V1']
+            if len(descriptors) != 1:
+                raise RuntimeError('Expected exactly one reviewed Selected48 descriptor')
+            descriptor = descriptors[0]
+            pivot = descriptor.get_editor_property('fixed_architecture_origin_cm')
+            revision = descriptor.get_editor_property('coordinate_revision')
+            if (int(descriptor.get_editor_property('descriptor_schema_version')) != 1
+                    or int(revision.value) != 1
+                    or str(descriptor.get_editor_property('scene_revision')) != 'Selected48.v1'
+                    or [pivot.x,pivot.y,pivot.z] != [-6200,0,0]):
+                raise RuntimeError('Candidate descriptor differs from reviewed schema/revision/pivot')
+            run.receipt['candidateDescriptorVerified'] = True
         # -- inventory and BEFORE snapshot (nothing has been touched yet) -------
         found = run.find_existing()
         run.check_counts(found)
@@ -454,6 +495,12 @@ def place(load_target=True, bake=None, revert=None):
         run.receipt['wired'] = {k: (v.get_actor_label() if v else None) for k, v in wired.items()}
         before = run.snapshot(wired)
         run.receipt['before'] = before
+        if target_name == 'Candidate48':
+            # Preserve THIS map's existing tune, not main's later cooler daylight.
+            tune = spec['authoredTuneThatMustSurvive']
+            for section, snapshot_key in (('ExponentialHeightFog','fog'),('SkyLight','skyLight')):
+                tune[section] = {k: before[snapshot_key]['props'][k] for k in tune[section]}
+            run.receipt['candidateTunePreserved'] = tune
         run.write_receipt()
 
         tod_entry = spec['actors']['timeOfDay']
@@ -473,9 +520,9 @@ def place(load_target=True, bake=None, revert=None):
             raise RuntimeError('Checkpoint copy hash differs')
         external_copied = []
         for folder_name in ('__ExternalActors__', '__ExternalObjects__'):
-            external = ROOT / 'Content' / folder_name / TARGET[6:]
+            external = ROOT / 'Content' / folder_name / target[6:]
             if external.exists():
-                shutil.copytree(external, checkpoint / folder_name / TARGET[6:])
+                shutil.copytree(external, checkpoint / folder_name / target[6:])
                 external_copied.append(str(external))
         run.receipt['checkpoint'] = str(checkpoint)
         run.receipt['oneFilePerActorFoldersCopied'] = external_copied
@@ -559,7 +606,7 @@ def place(load_target=True, bake=None, revert=None):
         run.write_receipt()
 
         # -- reopen and read back ---------------------------------------------------
-        if not run.levels.load_level(TARGET):
+        if not run.levels.load_level(target):
             raise RuntimeError('Reopen failed')
         run.world = run.editor.get_editor_world()
         found2 = run.find_existing()
@@ -644,7 +691,13 @@ def place(load_target=True, bake=None, revert=None):
         run.receipt['mapBytesChanged'] = run.receipt['mapSha256After'] != map_sha_before
         run.receipt['protectedMapsUnchanged'] = all(sha256_of(disk_path(m, 'umap')) == v for m, v in protected.items())
         run.receipt['protectedAssetsUnchanged'] = all(sha256_of(disk_path(a)) == v for a, v in protected_assets.items())
+        protection_failed = not (run.receipt['protectedMapsUnchanged'] and run.receipt['protectedAssetsUnchanged'])
+        if protection_failed:
+            run.receipt['status'] = 'failed_protected_files_changed_checkpoint_available'
+            run.receipt['errors'].append({'stage': 'final_protection', 'error': 'Protected map or asset bytes changed'})
         run.write_receipt()
+        if protection_failed:
+            raise RuntimeError('Protected map or asset bytes changed; see sky receipt')
 
 
 def _delta(before, after, tolerance):
@@ -678,6 +731,8 @@ def _revert(run, wired, before_now, receipt_path, map_file, protected, protected
     """Write every 'before' value of an earlier receipt back and destroy the placed actors."""
     ue = run.ue
     earlier = json.loads(receipt_path.read_text(encoding='utf-8'))
+    if earlier.get('map') != run.spec['targetMap']:
+        raise RuntimeError('Revert receipt belongs to another map')
     source = earlier.get('before') or {}
     tol = run.spec['verification']['floatRelativeTolerance']
     run.receipt['revertSource'] = str(receipt_path)
@@ -727,7 +782,7 @@ def _revert(run, wired, before_now, receipt_path, map_file, protected, protected
     run.receipt['mapSaved'] = True
     run.receipt['mapSha256AfterSave'] = sha256_of(map_file)
     run.write_receipt()
-    if not run.levels.load_level(TARGET):
+    if not run.levels.load_level(run.spec['targetMap']):
         raise RuntimeError('Reopen failed after revert')
     run.world = run.editor.get_editor_world()
     found = run.find_existing()
@@ -765,16 +820,19 @@ def _main():
     import unreal as ue
     command_line = ue.SystemLibrary.get_command_line()
     bake, revert = None, None
+    target_name = "Main50"
     for token in command_line.split():
         low = token.lower()
-        if low.startswith('-skytodbake='):
+        if low.startswith('-skytodtarget='):
+            target_name = token.split('=',1)[1].strip('"')
+        elif low.startswith('-skytodbake='):
             bake = token.split('=', 1)[1].strip('"').lower()
             if bake in ('', 'none'):
                 bake = None
         elif low.startswith('-skytodrevert='):
             revert = token.split('=', 1)[1].strip('"')
     try:
-        receipt = place(load_target=True, bake=bake, revert=revert)
+        receipt = place(load_target=True, bake=bake, revert=revert, target_name=target_name)
         ue.log('release_sky_tod: %s receipt %s' % (receipt['status'], receipt.get('stamp')))
     except Exception as error:
         ue.log_error('release_sky_tod failed: ' + repr(error))
@@ -788,6 +846,7 @@ if __name__ == '__main__':
     if _unreal_available():
         _main()
     else:
-        print(json.dumps(offline_check(), indent=2))
+        args = [arg.split('=',1)[1] for arg in sys.argv[1:] if arg.startswith('-SkyToDTarget=')]
+        print(json.dumps(offline_check(load_spec(args[0] if args else 'Main50')), indent=2))
 elif _invoked_as_native_script():
     _main()

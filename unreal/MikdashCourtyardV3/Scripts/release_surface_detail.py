@@ -20,8 +20,8 @@ Commandlet invocation (serial, never while another native job is running):
       -abslog="C:/Mikdash/Working-5.8/Release-SurfaceDetail-01.log"
 
 Optional switches (read from the engine command line):
-  -SurfaceStages=assets,decals,stone,manager
-        comma-separated subset of the four stages. Default: all four.
+  -SurfaceStages=assets OR -SurfaceStages=decals,manager
+        comma-separated subset of the four stages. Default: assets only; fresh-process decals,manager follows verified asset receipt.
         assets   import textures, build the master material and the instances
         decals   place the decal actors
         stone    create and apply the meleke stone variants
@@ -38,7 +38,7 @@ Offline, with no engine at all:
         anything.
 
 WHAT THIS SCRIPT IS ALLOWED TO CHANGE
-  * new assets under /Game/MikdashV3/SurfaceDetailV1 (textures, one master material,
+  * new assets under /Game/MikdashV3/SurfaceDetailV2 (textures, one master material,
     material instances)
   * new ADecalActor actors and one AMikdashSurfaceDetail actor in the target map
   * slot-0 material overrides on StaticMeshComponents whose current slot-0 material is
@@ -80,7 +80,10 @@ from pathlib import Path
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_surface_detail.spec.json'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
-STAGE_ORDER = ('assets', 'decals', 'stone', 'manager')
+import sys
+sys.path.insert(0, str(ROOT / 'Scripts'))
+STAGE_ORDER = ('assets', 'decals', 'manager')
+DEFAULT_STAGES = ('assets',)
 
 
 # --------------------------------------------------------------------------
@@ -111,7 +114,19 @@ def load_plan(spec):
     plan = json.loads(path.read_text(encoding='utf-8'))
     if plan['status'] != spec['planStatusRequired']:
         raise RuntimeError('Plan status is %r, expected %r' % (plan['status'], spec['planStatusRequired']))
-    return plan
+    # Preserve source manifest bytes; namespace rebasing is explicit and receipted.
+    source = spec['sourceNamespace']
+    if plan['namespace'] != source:
+        raise RuntimeError('Unexpected source namespace')
+    def rebase(value):
+        if isinstance(value, str):
+            return spec['namespace'] + value[len(source):] if value.startswith(source) else value
+        if isinstance(value, list):
+            return [rebase(v) for v in value]
+        if isinstance(value, dict):
+            return {k: rebase(v) for k, v in value.items()}
+        return value
+    return rebase(plan)
 
 
 def normalise_stages(stages):
@@ -245,10 +260,10 @@ def offline_check(spec=None):
         for instance in family['instances']:
             touched.add(instance['parent'])
     overlap = sorted(touched & protected)
-    if overlap:
+    if overlap and 'stone' in STAGE_ORDER:
         report['problems'].append('the stone variant plan parents onto protected materials: %s' % overlap)
     bad_prefix = sorted(p for p in touched if p.startswith(prefixes))
-    if bad_prefix:
+    if bad_prefix and 'stone' in STAGE_ORDER:
         report['problems'].append('the stone variant plan touches protected namespaces: %s' % bad_prefix)
     # Parenting ONTO an instance is allowed and is the whole point; editing one is not.
     report['stoneVariantParents'] = sorted(touched)
@@ -333,6 +348,7 @@ class SurfacePass:
         self.snapshot = []
         self.receipt = {}
         self.receipt_path = None
+        self.excluded_names = set()
         self.spawned = []            # actor handles this run created, for revert only
 
     # -- receipt ---------------------------------------------------------------
@@ -365,46 +381,26 @@ class SurfacePass:
     # -- snapshot --------------------------------------------------------------
 
     def take_snapshot(self):
-        """Every actor's identity, pose, meshes and world bounds. This is the evidence that
-        nothing moved; it is taken before any mutation and compared twice afterwards."""
-        ue = self.ue
-        rows = []
-        for actor in self.actors.get_all_level_actors():
-            if not actor:
-                continue
-            origin, extent = actor.get_actor_bounds(False)
-            meshes = []
-            for component in actor.get_components_by_class(ue.StaticMeshComponent):
-                mesh = component.get_editor_property('static_mesh')
-                if mesh:
-                    meshes.append(_asset_path(mesh))
-            rows.append({
-                'actor': actor,
-                'name': actor.get_name(),
-                'label': actor.get_actor_label(),
-                'folder': str(actor.get_folder_path()),
-                'class': actor.get_class().get_name(),
-                'meshes': sorted(meshes),
-                'pose': {
-                    'location': _vector_list(actor.get_actor_location()),
-                    'rotation': _rotator_list(actor.get_actor_rotation()),
-                    'scale': _vector_list(actor.get_actor_scale3d()),
-                },
-                'bounds': {
-                    'min': [round(float(origin.x - extent.x), 4), round(float(origin.y - extent.y), 4),
-                            round(float(origin.z - extent.z), 4)],
-                    'max': [round(float(origin.x + extent.x), 4), round(float(origin.y + extent.y), 4),
-                            round(float(origin.z + extent.z), 4)],
-                },
-            })
-        self.snapshot = rows
-        return rows
+        import release_place_assets as h
+        package = self.world.get_outermost().get_name()
+        self.snapshot = [h.snapshot_row(self.ue, actor, package)
+                         for actor in self.actors.get_all_level_actors() if actor]
+        return self.snapshot
 
-    @staticmethod
-    def numeric_baseline(rows):
-        return {row['name']: {'pose': row['pose'], 'bounds': row['bounds'],
-                              'meshes': row['meshes'], 'class': row['class']}
-                for row in rows}
+    def numeric_baseline(self, rows):
+        import release_place_assets as h
+        return h.numeric_baseline_rows(rows, strict=True, exclude=self.excluded_names)
+
+    def probe_load_churn(self):
+        import release_place_assets as h
+        first = self.take_snapshot()
+        if not self.levels.load_level(TARGET):
+            raise RuntimeError('Pristine reload failed')
+        self.world = self.editor.get_editor_world()
+        second = self.take_snapshot()
+        churn = h.diff_baselines(first, second, strict=True)
+        self.excluded_names = {row['name'] for row in churn}
+        return {'evidence': churn, 'excludedNames': sorted(self.excluded_names)}
 
     def component_baseline(self):
         """Slot-0 material of every StaticMeshComponent, so an override that was applied to
@@ -435,8 +431,7 @@ class SurfacePass:
             path = folder + '/' + texture['name']
             record = {'asset': path, 'source': texture['file'], 'sourceSha256': texture['sha256']}
             if self.assets.does_asset_exist(path):
-                asset = ue.load_asset(path)
-                record['created'] = False
+                raise OmissionError('Refuse existing texture: ' + path)
             else:
                 task = ue.AssetImportTask()
                 task.set_editor_property('filename', str(source))
@@ -494,12 +489,7 @@ class SurfacePass:
         record = {'asset': path, 'graph': []}
 
         if self.assets.does_asset_exist(path):
-            material = ue.load_asset(path)
-            if not isinstance(material, ue.Material):
-                raise OmissionError('existing asset at %s is not a Material' % path)
-            record['created'] = False
-            record['reused'] = True
-            return material, record
+            raise OmissionError('Refuse existing master; choose a fresh namespace: ' + path)
 
         material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
             cfg['name'], folder, ue.Material, ue.MaterialFactoryNew())
@@ -509,14 +499,12 @@ class SurfacePass:
 
         domain, domain_name = _enum_value(ue, 'MaterialDomain', ['MD_DEFERRED_DECAL'])
         blend, blend_name = _enum_value(ue, 'BlendMode', ['BLEND_TRANSLUCENT'])
-        decal_blend, decal_blend_name = _enum_value(
-            ue, 'DecalBlendMode',
-            ['DBM_DBUFFER_COLOR_ROUGHNESS', 'DBM_DBuffer_ColorRoughness', 'DBM_TRANSLUCENT'])
+        # UE5.8 Material.h: DecalBlendMode is DeprecatedProperty, no longer used.
+        # Domain + translucent blend + connected color/roughness/opacity outputs determine this decal.
         material.set_editor_property('material_domain', domain)
         material.set_editor_property('blend_mode', blend)
-        material.set_editor_property('decal_blend_mode', decal_blend)
         record.update({'materialDomain': domain_name, 'blendMode': blend_name,
-                       'decalBlendMode': decal_blend_name})
+                       'decalBlendMode': 'deprecated_not_written_no_normal_output'})
 
         def node(cls, x, y):
             return ml.create_material_expression(material, cls, x, y)
@@ -631,6 +619,10 @@ class SurfacePass:
         link_property(rough_clamp, '', mp_rough, 'MP_ROUGHNESS')
 
         ml.recompile_material(material)
+        stats = ml.get_statistics(material)
+        record['pixelInstructions'] = int(stats.get_editor_property('num_pixel_shader_instructions'))
+        if record['pixelInstructions'] <= 0:
+            raise OmissionError('No compiled render resource; use real RHI editor, not NullRHI')
         if not self.assets.save_loaded_asset(material, only_if_is_dirty=False):
             raise OmissionError('save_loaded_asset failed for ' + path)
         record['uassetSha256'] = sha256_of(disk_path(path))
@@ -695,10 +687,7 @@ class SurfacePass:
         folder, _, name = path.rpartition('/')
         record = {'asset': path, 'parent': parent_path}
         if self.assets.does_asset_exist(path):
-            instance = ue.load_asset(path)
-            if not isinstance(instance, ue.MaterialInstanceConstant):
-                raise OmissionError('existing asset at %s is not a MaterialInstanceConstant' % path)
-            record['created'] = False
+            raise OmissionError('Refuse existing instance: ' + path)
         else:
             instance = ue.AssetToolsHelpers.get_asset_tools().create_asset(
                 name, folder, ue.MaterialInstanceConstant, ue.MaterialInstanceConstantFactoryNew())
@@ -772,9 +761,9 @@ class SurfacePass:
             if material is None:
                 raise OmissionError('decal material not built: ' + material_path)
             location = ue.Vector(*[float(v) for v in entry['locationCm']])
-            rotation = ue.Rotator(float(entry['rotation']['roll']),
-                                  float(entry['rotation']['pitch']),
-                                  float(entry['rotation']['yaw']))
+            rotation = ue.Rotator(pitch=float(entry['rotation']['pitch']),
+                                  yaw=float(entry['rotation']['yaw']),
+                                  roll=float(entry['rotation']['roll']))
             actor = self.actors.spawn_actor_from_class(ue.DecalActor, location, rotation)
             if actor is None:
                 raise OmissionError('spawn_actor_from_class returned None for ' + entry['label'])
@@ -786,7 +775,7 @@ class SurfacePass:
                     ue.Name(spec['importanceTagPrefix'] + str(int(round(entry['importance'] * 1000.0))))]
             actor.set_editor_property('tags', tags)
 
-            decal = actor.get_decal()
+            decal = actor.get_component_by_class(ue.DecalComponent)
             if decal is None:
                 raise OmissionError('DecalActor has no decal component: ' + entry['label'])
             decal.set_decal_material(material)
@@ -929,7 +918,7 @@ class SurfacePass:
             if len(rows) != 1:
                 raise OmissionError('reopened actor count for %s is %d' % (record['label'], len(rows)))
             actor = rows[0]['actor']
-            decal = actor.get_decal()
+            decal = actor.get_component_by_class(ue.DecalComponent)
             if decal is None:
                 raise OmissionError('reopened decal component missing for ' + record['label'])
             location = _vector_list(actor.get_actor_location())
@@ -938,10 +927,8 @@ class SurfacePass:
             material = _asset_path(decal.get_decal_material())
             pose_error = max(abs(location[i] - float(record['plannedLocationCm'][i])) for i in range(3))
             size_error = max(abs(size[i] - float(record['plannedSizeCm'][i])) for i in range(3))
-            rotation_error = max(
-                abs(rotation[0] - float(record['plannedRotation']['pitch'])),
-                abs(rotation[1] - float(record['plannedRotation']['yaw'])),
-                abs(rotation[2] - float(record['plannedRotation']['roll'])))
+            rotation_error = max(abs((rotation[i] - float(record['plannedRotation'][key]) + 180.0) % 360.0 - 180.0)
+                                 for i, key in enumerate(('pitch', 'yaw', 'roll')))
             if pose_error > verify['transformToleranceCm']:
                 raise OmissionError('reopened location for %s differs by %.4f cm'
                                     % (record['label'], pose_error))
@@ -996,7 +983,7 @@ def _strip_handles(record):
     return {k: v for k, v in record.items() if k != 'actor'}
 
 
-def place(load_target=True, stages=STAGE_ORDER):
+def place(load_target=True, stages=DEFAULT_STAGES):
     """Run the guarded pass. Returns the receipt dict; raises on guard failure."""
     import unreal as ue
     stages = normalise_stages(stages)
@@ -1012,6 +999,40 @@ def place(load_target=True, stages=STAGE_ORDER):
     run = SurfacePass(ue, spec, plan)
     if run.editor.get_game_world():
         raise RuntimeError('A game world is active; never mutate during play')
+    if (ue.EditorLoadingAndSavingUtils.get_dirty_map_packages()
+            or ue.EditorLoadingAndSavingUtils.get_dirty_content_packages()):
+        raise RuntimeError('Dirty packages present before target load')
+    if 'assets' in stages and len(stages) != 1:
+        raise RuntimeError('Build assets alone, then fresh-process decals,manager')
+    if 'assets' in stages:
+        namespace_disk = ROOT / 'Content' / spec['namespace'][6:]
+        if namespace_disk.exists() and any(namespace_disk.rglob('*.uasset')):
+            raise RuntimeError('Fresh namespace required; never overwrite existing assets')
+    if 'assets' not in stages:
+        receipts = sorted((ROOT / spec['receiptFolder']).glob(spec['receiptPrefix'] + '*.json'), reverse=True)
+        ready = None
+        for receipt_file in receipts:
+            candidate = json.loads(receipt_file.read_text(encoding='utf-8-sig'))
+            if (candidate.get('status') == 'assets_created_shader_readback_complete_map_unchanged'
+                    and candidate.get('specSha256') == sha256_of(SPEC_PATH)):
+                ready = candidate
+                break
+        if ready is None:
+            raise RuntimeError('No successful assets-only receipt for this exact spec')
+        def verify_asset_records(value):
+            if isinstance(value, dict):
+                if 'asset' in value and 'uassetSha256' in value:
+                    file = disk_path(value['asset'])
+                    if not file.exists() or sha256_of(file) != value['uassetSha256']:
+                        raise RuntimeError('Saved asset differs from successful receipt: ' + str(file))
+                for child in value.values():
+                    verify_asset_records(child)
+            elif isinstance(value, list):
+                for child in value:
+                    verify_asset_records(child)
+        verify_asset_records(ready['assets'])
+        if 'manager' in stages and not hasattr(ue, spec['managerClass']):
+            raise RuntimeError('Required compiled manager class is absent')
     if load_target:
         if not run.levels.load_level(TARGET):
             raise RuntimeError('load_level failed for ' + TARGET)
@@ -1025,10 +1046,13 @@ def place(load_target=True, stages=STAGE_ORDER):
 
     map_file = disk_path(TARGET, 'umap')
     map_sha_before = sha256_of(map_file)
-    protected_maps = {m: sha256_of(disk_path(m, 'umap'))
-                      for m in spec['protectedMaps'] if disk_path(m, 'umap').exists()}
+    protected_maps = {'/Game/' + f.relative_to(ROOT / 'Content').as_posix()[:-5]: sha256_of(f)
+                      for f in (ROOT / 'Content').rglob('*.umap') if f != map_file}
     protected_materials = {p: sha256_of(disk_path(p))
                            for p in spec['protectedMaterials'] if disk_path(p).exists()}
+    for prefix in spec['protectedMaterialPrefixes']:
+        for f in (ROOT / 'Content' / prefix[6:]).rglob('*.uasset'):
+            protected_materials['/Game/' + f.relative_to(ROOT / 'Content').as_posix()[:-7]] = sha256_of(f)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
     checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + stamp)
@@ -1063,6 +1087,7 @@ def place(load_target=True, stages=STAGE_ORDER):
         'specSha256': sha256_of(SPEC_PATH),
         'plan': spec['plan'],
         'planSha256': sha256_of(ROOT / spec['plan']),
+        'namespaceRemap': {'source': spec['sourceNamespace'], 'target': spec['namespace'], 'sourceManifestUnmodified': True},
         'offlineCheck': offline,
         'engineVersion': ue.SystemLibrary.get_engine_version(),
         'stagesRequested': list(stages),
@@ -1079,7 +1104,7 @@ def place(load_target=True, stages=STAGE_ORDER):
 
     saved = False
     try:
-        run.take_snapshot()
+        run.receipt['loadChurnProbe'] = run.probe_load_churn()
         baseline = run.numeric_baseline(run.snapshot)
         component_before = run.component_baseline()
         run.receipt['actorCountBefore'] = len(run.snapshot)
@@ -1146,10 +1171,12 @@ def place(load_target=True, stages=STAGE_ORDER):
                 run.receipt['errors'].append({'stage': 'manager', 'error': repr(error)})
             run.write_receipt()
 
+        if run.receipt['omissions'] or run.receipt['errors']:
+            raise RuntimeError('Requested stage incomplete; refuse map save')
         mutated = bool(run.receipt['placed'].get('decals') or run.receipt['placed'].get('manager')
                        or run.receipt['placed'].get('stone', {}).get('appliedCount'))
         if not mutated:
-            run.receipt['status'] = 'nothing_placed_map_unchanged'
+            run.receipt['status'] = 'assets_created_shader_readback_complete_map_unchanged'
             return run.receipt
 
         # --- nothing existing may have moved ---------------------------------
@@ -1223,6 +1250,20 @@ def place(load_target=True, stages=STAGE_ORDER):
         if mismatched:
             raise RuntimeError('Component overrides did not survive the reopen: %s' % mismatched[:5])
 
+        manager_record = run.receipt['placed'].get('manager')
+        if manager_record:
+            managers = [row['actor'] for row in reopened if row['label'] == spec['managerLabel']]
+            if len(managers) != 1:
+                raise RuntimeError('Manager missing or duplicated after reopen')
+            manager = managers[0]
+            observed = {'decalBudget': int(manager.get_editor_property('decal_budget')),
+                        'surfaceWearTag': str(manager.get_editor_property('surface_wear_tag')),
+                        'dustPuffMaterial': _asset_path(manager.get_editor_property('dust_puff_material')),
+                        'rippleMaterial': _asset_path(manager.get_editor_property('ripple_material'))}
+            if any(observed[k] != manager_record[k] for k in observed):
+                raise RuntimeError('Manager configuration did not persist')
+            run.receipt['reopenedManagerReadback'] = observed
+
         run.receipt['status'] = 'surface_detail_saved_reopened_visual_runtime_acceptance_pending'
         return run.receipt
     except Exception as error:  # noqa: BLE001
@@ -1243,6 +1284,7 @@ def place(load_target=True, stages=STAGE_ORDER):
 
 
 def revert(receipt_path=None):
+    raise RuntimeError('Legacy label-based revert disabled; restore reviewed checkpoint explicitly')
     """Undo the last run: destroy the actors it placed and restore the slot-0 materials it
     overrode. Reads the receipt, so it can only ever touch what that run recorded."""
     import unreal as ue
@@ -1319,7 +1361,7 @@ def _invoked_as_native_script():
 def _main():
     import unreal as ue
     command_line = ue.SystemLibrary.get_command_line().lower()
-    stages = STAGE_ORDER
+    stages = DEFAULT_STAGES
     do_revert = '-surfacerevert' in command_line
     for token in command_line.split():
         if token.startswith('-surfacestages='):

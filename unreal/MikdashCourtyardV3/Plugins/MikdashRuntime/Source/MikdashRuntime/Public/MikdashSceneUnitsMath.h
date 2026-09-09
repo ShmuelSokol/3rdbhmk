@@ -40,34 +40,41 @@ inline bool TryMetricPoint(const Frame& F, const MikdashUnits::PointCm& Input,
     Output = MikdashUnits::PreserveMetricContext(Input); return true;
 }
 
-using IntroPoints = std::array<MikdashUnits::PointCm, 12>;
-using AimPoints = std::array<MikdashUnits::PointCm, 5>;
+// One canonical authored east approach, shared by editor tooling and live playback.
+using IntroPoints = std::array<MikdashUnits::PointCm, 19>;
+using AimPoints = std::array<MikdashUnits::PointCm, 6>;
 inline IntroPoints LegacyIntroPoints()
 {
-    return {{{-38600,48200,4200}, {-31200,39800,5100}, {-23800,30200,5900},
-             {-16600,16200,5400}, {-10200,10600,4900}, {-3800,9200,4400},
-             {2600,7200,3900}, {6400,4200,2900}, {7000,1200,1900},
-             {5200,200,1300}, {3600,0,950}, {2100,0,668}}};
+    return {{{140000,4200,8600}, {129500,1600,6500}, {122500,300,5300},
+             {116720,0,4800}, {111500,0,5000}, {103500,0,6500},
+             {92000,0,7000}, {81000,0,7300}, {66000,0,5900},
+             {50000,0,3800}, {34000,0,2900}, {20000,0,3300},
+             {12500,0,3950}, {8300,0,3800}, {7300,0,3450},
+             {6200,0,2650}, {5000,0,1800}, {3800,0,1100}, {2100,0,668}}};
 }
 inline AimPoints LegacyAimPoints()
 {
-    return {{{-14800,13900,400}, {-6000,4000,2000}, {-2000,0,2600},
-             {-2450,0,2200}, {-2450,0,1400}}};
+    return {{{-4900,0,3200}, {-4900,0,3200}, {-4900,0,3200},
+             {8000,0,2000}, {-2450,0,2200}, {-2450,0,1400}}};
 }
-// City/approach controls 0..4 stay fixed. Remaining XY coordinates follow the
-// authored Temple shot; height is floor/feature support plus physical clearance.
-// Index 5 is abeam the House over the geographic deck (support Z0). The remaining
-// supports are wall3425, outer court300, inner floor500. Eye is ALWAYS168cm.
 inline bool TryIntroPoints(const Frame& F, IntroPoints& Output)
 {
     if (!Valid(F)) return false;
     const IntroPoints Legacy = LegacyIntroPoints();
     IntroPoints Candidate = Legacy;
-    const double SupportZ[7] = {0,3425,300,300,300,500,500};
-    for (std::size_t I = 5; I < Legacy.size(); ++I)
+    // Ridge, Kidron and geographic deck controls 0..12 remain metric, except the
+    // precinct gate crossing (3): precinct placement scales about its own zero
+    // origin, NOT the sanctuary's later Aron pivot. Elevation stays geographic;
+    // actual gate-opening clearance remains a native ground-profile acceptance.
+    if (F.CoordinateRevision == Revision::Selected48V1)
+        Candidate[3].X = Legacy[3].X * (48.0 / 50.0);
+    // Temple supports follow measured architecture; clearance above each support
+    // remains physical. In particular the final eye is floor+168cm, never *.96.
+    const double SupportZ[6] = {3300,3346,300,300,500,500};
+    for (std::size_t I = 13; I < Legacy.size(); ++I)
     {
         const auto& P = Legacy[I];
-        if (!TryLegacyTempleSupport(F, {P.X,P.Y,SupportZ[I-5]}, P.Z-SupportZ[I-5], Candidate[I])) return false;
+        if (!TryLegacyTempleSupport(F, {P.X,P.Y,SupportZ[I-13]}, P.Z-SupportZ[I-13], Candidate[I])) return false;
     }
     Output = Candidate; return true;
 }
@@ -76,9 +83,7 @@ inline bool TryAimPoints(const Frame& F, AimPoints& Output)
     if (!Valid(F)) return false;
     const AimPoints Legacy = LegacyAimPoints();
     AimPoints Candidate = Legacy;
-    // First target is the real Kotel. Second is an authored Temple-facing target
-    // during the Mount reveal, not a geographically surveyed landmark.
-    for (std::size_t I = 1; I < Legacy.size(); ++I)
+    for (std::size_t I = 0; I < Legacy.size(); ++I)
         if (!TryLegacyTemplePoint(F, Legacy[I], Candidate[I])) return false;
     Output = Candidate; return true;
 }

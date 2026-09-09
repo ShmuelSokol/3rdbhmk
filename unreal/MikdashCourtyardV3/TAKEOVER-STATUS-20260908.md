@@ -1,3 +1,43 @@
+## Publication checkpoint evidence — 2026-09-09 04:09 UTC
+
+Main saved-scene render 040520Z inspected in both gate views: the softer wear remains
+subtle and paver joints remain visible. All maps/material instances/original saves unchanged.
+Candidate C applied035717263399Z and fresh-verified035912952876Z, protected differences
+empty, map d3c66fea6d550233304bf5b1d5d0ab57de728150b99f47d0fc60bd09207563f3.
+Candidate render040128Z: interior paroches/reliefs readable, gold vessels still too bright;
+exterior camera blocked by altar, so facade-quality acceptance remains open. All19maps
+unchanged during capture. Gold-vessel PIE-only material A/B is being prepared.
+The four new service-adapter C++ files have focused 100240-check math coverage but are
+NOT in the prior Unreal build and are excluded from the preceding publication batch until
+separate build acceptance. Runtime placement on candidate is still pending. No new package.
+
+## Verified continuation — 2026-09-09 03:58 UTC
+
+Full gate 9/9, 31/31 standalone math suites and Unreal compile/link passed (38.69 s).
+Intro now shares the 19-point eastern route between live playback and editor tooling;
+runtime clearance is still pending. Surface wear was visually rejected at full strength.
+Two lower-opacity PIE views reviewed: conspicuous beige overlays are suppressed at 0.12.
+Nine new SurfaceDetailSoftV1 child materials preserve V2; all 460 bindings saved/reopened
+and independently verified, old assets unchanged. Main hash 478d326fc715e6690272e07043dd1238912d1c53a47066fb18cb432b0027e76c.
+This is global attenuation, not a repair of ignored per-entry authored opacity or opaque
+mask edges. Candidate48 sky/weather saved/reopened (035500097589Z), all other maps and
+protected assets unchanged, hash e3794bc08c8f84e4d81bd20fee57123cebc3b8c59e851311d12fed0d644fbd73.
+Candidate map-level lighting C port is underway. No promotion or new packaged release.
+
+## Active update — 2026-09-09 03:43 UTC
+
+Transit bridge observed 45 boarded and 35 alighted over 180 simulated seconds, with 20
+photographers. Separate static apron figures; no verified transfer of the 24 residents.
+One geometry refusal and 222 trimmed requests remain recorded. Maps and original saves
+unchanged. Surface V2: all 23 saved asset hashes checked, and fresh process verified all
+460 decals plus manager. The asset job crashed during shutdown after saving; preserved
+exit receipt distinguishes this from a clean process exit. Placement readback falsely
+rejected equivalent angles differing by 360 degrees; comparisons now wrap angular deltas.
+Actual six-image wear comparison was visually REJECTED: beige patches over paving/stairs.
+A lower-opacity PIE comparison is underway; do not call surface visual acceptance complete.
+Soundscape importer is repaired for create-once V3 import only; no native import or audition.
+No new packaged release. Exact 48 cm remains approved but candidate not yet promoted.
+
 # Continuing sky/weather integration — 2026-09-09 03:08 UTC
 
 Previous batch is pushed as dcebc3d4. Work continues; this is not a new package.

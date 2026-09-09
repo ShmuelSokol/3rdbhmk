@@ -1,0 +1,450 @@
+{
+  "status": "bridge_saved_reopened_runtime_visual_acceptance_pending",
+  "stamp": "20260909T031750944507Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "4deefbcf1279c9b6bcd93f0b2507d9a5c93940bc6214da647da9094af1cf0922",
+  "mapLoadedByJob": true,
+  "protectedMapSha256Before": {
+    "/Game/FirstPerson/Lvl_FirstPerson": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "d494549bc433bacfec672d456a2e871258537cbb6d558562ac2b96810c7fa785",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/MaterialReview/BusVisualAuditV1/Maps/Walkthrough": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "/Game/MikdashV3/MaterialReview/CheckpointAudit/BeforePlatform": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV1/L_IncenseSmokeReview": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV2/L_IncenseSmokeReview": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "/Game/MikdashV3/MaterialReview/IncenseSmokeReviewV3/L_IncenseSmokeReview": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "/Game/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/Maps/Walkthrough": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1/Maps/Walkthrough": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Maps/Walkthrough": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "/Game/MikdashV3/ResidentCrowdReview/20260907T222556423474Z/Walkthrough": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.spec.json",
+  "specSha256": "d79c80ed4b9e0657c83ff682ca069391d38be618f4179f8631e95d013c573880",
+  "offlineCheck": {
+    "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_transit_bridge.spec.json",
+    "specSha256": "d79c80ed4b9e0657c83ff682ca069391d38be618f4179f8631e95d013c573880",
+    "invariants": {
+      "poolCoversCap": {
+        "ok": true,
+        "detail": "240 >= 6 * 40"
+      },
+      "capRange": {
+        "ok": true,
+        "detail": "6"
+      },
+      "poolRange": {
+        "ok": true,
+        "detail": "240"
+      },
+      "perGroupRange": {
+        "ok": true,
+        "detail": "40"
+      },
+      "minGroupRange": {
+        "ok": true,
+        "detail": "1"
+      },
+      "budgetRange": {
+        "ok": true,
+        "detail": "64"
+      },
+      "doorsRange": {
+        "ok": true,
+        "detail": "2"
+      },
+      "gatherClearance": {
+        "ok": true,
+        "detail": "110.0 - 25 >= 60.0"
+      },
+      "gatherOrder": {
+        "ok": true,
+        "detail": "far >= near"
+      },
+      "fanClearance": {
+        "ok": true,
+        "detail": "0.34 * 600.0 >= 60.0"
+      },
+      "photoClearance": {
+        "ok": true,
+        "detail": "0.34 * 300.0 >= 60.0"
+      },
+      "dispersalOrder": {
+        "ok": true,
+        "detail": "max >= min"
+      },
+      "photoOrder": {
+        "ok": true,
+        "detail": "max >= min"
+      },
+      "walkSpeeds": {
+        "ok": true,
+        "detail": "min <= max, positive"
+      },
+      "holds": {
+        "ok": true,
+        "detail": "min <= max"
+      },
+      "closeMargin": {
+        "ok": true,
+        "detail": "1.0"
+      },
+      "secondsPerPerson": {
+        "ok": true,
+        "detail": "0.8"
+      },
+      "scales": {
+        "ok": true,
+        "detail": "min <= max"
+      },
+      "mountFocusFinite": {
+        "ok": true,
+        "detail": "[0.0, 0.0, 300.0]"
+      },
+      "bool:activate_on_begin_play": {
+        "ok": true,
+        "detail": "True"
+      },
+      "bool:auto_find_actors": {
+        "ok": true,
+        "detail": "True"
+      },
+      "bool:refuse_if_coordinator_active": {
+        "ok": true,
+        "detail": "True"
+      },
+      "bool:trace_ground": {
+        "ok": true,
+        "detail": "True"
+      },
+      "bool:sweep_static_obstacles": {
+        "ok": true,
+        "detail": "True"
+      },
+      "bool:cast_shadows": {
+        "ok": true,
+        "detail": "False"
+      }
+    },
+    "routesSha256": "f9a5f55832eb3906b159a494cf6d97b37b01be6a62a3e8535d9d50294cdde430",
+    "stops": [
+      {
+        "route": "rail_red_line_jaffa",
+        "stop": "Jaffa Road (red line corridor) stop 1",
+        "dwellMinSeconds": 20.0,
+        "requestedMax": 70,
+        "boardersAnimatedAtMinDwell": 24,
+        "alightersAnimatedAtMinDwell": 22,
+        "windowUsable": true
+      },
+      {
+        "route": "rail_red_line_jaffa",
+        "stop": "Jaffa Road (red line corridor) stop 2",
+        "dwellMinSeconds": 20.0,
+        "requestedMax": 70,
+        "boardersAnimatedAtMinDwell": 24,
+        "alightersAnimatedAtMinDwell": 22,
+        "windowUsable": true
+      },
+      {
+        "route": "rail_red_line_jaffa",
+        "stop": "Jaffa Road (red line corridor) stop 3",
+        "dwellMinSeconds": 20.0,
+        "requestedMax": 70,
+        "boardersAnimatedAtMinDwell": 24,
+        "alightersAnimatedAtMinDwell": 22,
+        "windowUsable": true
+      },
+      {
+        "route": "rail_red_line_jaffa",
+        "stop": "Jaffa Road (red line corridor) stop 4",
+        "dwellMinSeconds": 20.0,
+        "requestedMax": 70,
+        "boardersAnimatedAtMinDwell": 24,
+        "alightersAnimatedAtMinDwell": 22,
+        "windowUsable": true
+      },
+      {
+        "route": "rail_red_line_jaffa",
+        "stop": "Jaffa Road (red line corridor) stop 5",
+        "dwellMinSeconds": 20.0,
+        "requestedMax": 70,
+        "boardersAnimatedAtMinDwell": 24,
+        "alightersAnimatedAtMinDwell": 22,
+        "windowUsable": true
+      },
+      {
+        "route": "road_hativat_yerushalayim",
+        "stop": "Hativat Yerushalayim stop 1",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 26,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_hatsanhanim",
+        "stop": "HaTsanhanim stop 1",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 26,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_hatsanhanim",
+        "stop": "HaTsanhanim stop 2",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 26,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_hatsanhanim",
+        "stop": "HaTsanhanim stop 3",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 26,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_sultan_suleiman",
+        "stop": "Sultan Suleiman stop 1",
+        "dwellMinSeconds": 16.0,
+        "requestedMax": 34,
+        "boardersAnimatedAtMinDwell": 18,
+        "alightersAnimatedAtMinDwell": 18,
+        "windowUsable": true
+      },
+      {
+        "route": "road_sultan_suleiman",
+        "stop": "Sultan Suleiman stop 2",
+        "dwellMinSeconds": 16.0,
+        "requestedMax": 34,
+        "boardersAnimatedAtMinDwell": 18,
+        "alightersAnimatedAtMinDwell": 18,
+        "windowUsable": true
+      },
+      {
+        "route": "road_maale_hashalom",
+        "stop": "Maale HaShalom stop 1",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 22,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_ir_david_ophel",
+        "stop": "Ma'alot Ir David and HaOfel stop 1",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 22,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_ir_david_ophel",
+        "stop": "Ma'alot Ir David and HaOfel stop 2",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 22,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_ir_david_ophel",
+        "stop": "Ma'alot Ir David and HaOfel stop 3",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 22,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      },
+      {
+        "route": "road_batei_mahase",
+        "stop": "Batei Mahase stop 1",
+        "dwellMinSeconds": 14.0,
+        "requestedMax": 20,
+        "boardersAnimatedAtMinDwell": 16,
+        "alightersAnimatedAtMinDwell": 14,
+        "windowUsable": true
+      }
+    ],
+    "stopCount": 16
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_transit_bridge.py -unattended -nullrhi -abslog=C:/Mikdash/Working-5.8/Astra-Transit-Bridge-20260909.log",
+  "dryRun": false,
+  "scope": "Placement, checkpoint, save, reopen and numeric readback of one bridge actor. NOT visual acceptance, NOT proof that any figure appears: that needs a real-RHI PIE run with the transit actor active, read through GetBridgeSummary().",
+  "events": [
+    {
+      "folder": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ReleaseTransitBridge-20260909T031750944507Z",
+      "kind": "checkpoint",
+      "at": "2026-09-09T03:17:58.220694+00:00"
+    },
+    {
+      "label": "RELEASE_TransitBridgeV1_Bridge",
+      "kind": "spawned",
+      "at": "2026-09-09T03:17:58.238714+00:00"
+    },
+    {
+      "sha256": "ac651b57577aab3791086ee3682d91c3347b5ce1f4831ec9ad38596cca47f62a",
+      "kind": "saved",
+      "at": "2026-09-09T03:18:16.078992+00:00"
+    },
+    {
+      "ok": true,
+      "kind": "readback",
+      "at": "2026-09-09T03:18:18.350618+00:00"
+    }
+  ],
+  "errors": [],
+  "guards": {
+    "actorCountBefore": 7891,
+    "existingBridgeActors": [],
+    "transit": [
+      "RELEASE_TransitV3_Transit"
+    ],
+    "crowdField": [
+      "RELEASE_CrowdField"
+    ],
+    "coordinators": [],
+    "coordinatorsActivateOnBeginPlay": [],
+    "snapshotExclusions": []
+  },
+  "placed": {
+    "label": "RELEASE_TransitBridgeV1_Bridge",
+    "class": "/Script/MikdashRuntime.MikdashTransitBoardingBridge",
+    "folder": "Release/TransitBridgeV1",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {
+      "activate_on_begin_play": true,
+      "auto_find_actors": true,
+      "refuse_if_coordinator_active": true,
+      "max_concurrent_groups": 6,
+      "max_figures": 240,
+      "max_people_per_group": 40,
+      "min_people_per_group": 1,
+      "update_budget": 64,
+      "doors_per_vehicle": 2,
+      "seconds_per_person_per_door": 0.800000011920929,
+      "close_margin_seconds": 1.0,
+      "walk_speed_min_cm_per_second": 90.0,
+      "walk_speed_max_cm_per_second": 130.0,
+      "photographer_hold_min_seconds": 4.0,
+      "photographer_hold_max_seconds": 9.0,
+      "max_stop_projection_error_cm": 250.0,
+      "door_clearance_cm": 60.0,
+      "gather_near_cm": 110.0,
+      "gather_far_cm": 520.0,
+      "gather_half_width_cm": 450.0,
+      "dispersal_min_cm": 600.0,
+      "dispersal_max_cm": 1400.0,
+      "photo_spot_min_cm": 300.0,
+      "photo_spot_max_cm": 520.0,
+      "trace_ground": true,
+      "ground_trace_tolerance_cm": 150.0,
+      "sweep_static_obstacles": true,
+      "figure_scale_min": 0.9200000166893005,
+      "figure_scale_max": 1.0800000429153442,
+      "cast_shadows": false,
+      "seed": 20260908,
+      "mount_focus_cm": [
+        0.0,
+        0.0,
+        300.0
+      ]
+    },
+    "references": {
+      "transit": "MikdashTransit_0",
+      "crowd_field": "MikdashCrowdField_0"
+    }
+  },
+  "mapSaved": true,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\ReleaseTransitBridge-20260909T031750944507Z",
+  "oneFilePerActorFoldersCopied": [],
+  "mapSha256AfterSave": "ac651b57577aab3791086ee3682d91c3347b5ce1f4831ec9ad38596cca47f62a",
+  "reopenedReadback": {
+    "label": "RELEASE_TransitBridgeV1_Bridge",
+    "folder": "Release/TransitBridgeV1",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "locationErrorCm": 0.0,
+    "rotationErrorDegrees": 0.0,
+    "properties": {
+      "activate_on_begin_play": true,
+      "auto_find_actors": true,
+      "refuse_if_coordinator_active": true,
+      "max_concurrent_groups": 6,
+      "max_figures": 240,
+      "max_people_per_group": 40,
+      "min_people_per_group": 1,
+      "update_budget": 64,
+      "doors_per_vehicle": 2,
+      "seconds_per_person_per_door": 0.800000011920929,
+      "close_margin_seconds": 1.0,
+      "walk_speed_min_cm_per_second": 90.0,
+      "walk_speed_max_cm_per_second": 130.0,
+      "photographer_hold_min_seconds": 4.0,
+      "photographer_hold_max_seconds": 9.0,
+      "max_stop_projection_error_cm": 250.0,
+      "door_clearance_cm": 60.0,
+      "gather_near_cm": 110.0,
+      "gather_far_cm": 520.0,
+      "gather_half_width_cm": 450.0,
+      "dispersal_min_cm": 600.0,
+      "dispersal_max_cm": 1400.0,
+      "photo_spot_min_cm": 300.0,
+      "photo_spot_max_cm": 520.0,
+      "trace_ground": true,
+      "ground_trace_tolerance_cm": 150.0,
+      "sweep_static_obstacles": true,
+      "figure_scale_min": 0.9200000166893005,
+      "figure_scale_max": 1.0800000429153442,
+      "cast_shadows": false,
+      "seed": 20260908,
+      "mount_focus_cm": [
+        0.0,
+        0.0,
+        300.0
+      ]
+    },
+    "references": {
+      "transit": "MikdashTransit_0",
+      "crowd_field": "MikdashCrowdField_0"
+    },
+    "tags": [
+      "ReleasePlacementV1",
+      "ReleaseTransitBridgeV1"
+    ],
+    "actorCountAfter": 7892,
+    "actorCountDelta": 1,
+    "bridgeActorCount": 1
+  },
+  "unrelatedActorDifferences": [],
+  "unrelatedPersistentActorsUnchanged": true,
+  "mapSha256After": "ac651b57577aab3791086ee3682d91c3347b5ce1f4831ec9ad38596cca47f62a",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true
+}

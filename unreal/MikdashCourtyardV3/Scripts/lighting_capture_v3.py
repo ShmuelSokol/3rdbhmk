@@ -48,6 +48,25 @@ def switch(name, default=None):
 
 TAG = re.sub(r'[^A-Za-z0-9_-]', '', switch('LightingV3Tag', 'review'))
 VARIANTS = [v for v in switch('LightingV3Variants', ','.join(SPEC['variants'])).split(',') if v]
+if '-lightingv3wearab' in CMD.lower():
+    SPEC['variants']['wear_hidden'] = {'surfaceWearVisible': False}
+    SPEC['variants']['wear_visible'] = {'surfaceWearVisible': True}
+    VARIANTS = ['wear_hidden', 'wear_visible']
+if '-lightingv3wearsoft' in CMD.lower():
+    SPEC['variants']['wear_hidden'] = {'surfaceWearVisible': False}
+    SPEC['variants']['wear_soft'] = {'surfaceWearVisible': True, 'surfaceWearOpacity': 0.12}
+    VARIANTS = ['wear_hidden', 'wear_soft']
+VESSEL_AB = '-lightingv3vesselab' in CMD.lower()
+if VESSEL_AB:
+    SPEC['variants']['original_vessels'] = {'vesselMatte': False}
+    SPEC['variants']['matte_vessels'] = {'vesselMatte': True}
+    VARIANTS = ['original_vessels','matte_vessels']
+VESSEL_MESHES = {'/Game/MikdashV3/MaterialReview/KeilimTIV1/Meshes/SM_KeilimTIV1_'+name:count
+    for name,count in [('IncenseAltar',607),('Shulchan_Bazichin',2),('Shulchan_Kanim',28),
+                       ('Shulchan_Rings',4),('Shulchan_Snifim',248),('Shulchan_Table',224)]}
+VESSEL_TARGET = '/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition'
+VESSEL_SHA = '50d935da7fe496da45c08b32d22d3b8e988000d96b121b1c5364cad71c3a1d43'
+VESSEL_ORIGINALS = {}
 VIEW_FILTER = switch('LightingV3Views')
 VIEWS = [v for v in CAP['views'] if not VIEW_FILTER or v['id'] in VIEW_FILTER.split(',')]
 OUT_DIR = ROOT / SPEC['captureFolder']
@@ -56,6 +75,35 @@ INSTANCE_FOLDER = SPEC['instanceFolder']
 NO_BARRIER_SETTLE_SECONDS = float(switch('LightingV3Settle', '30'))
 WARMUP_SECONDS = float(switch('LightingV3Warmup', str(CAP['warmupSeconds'])))
 REUSE_BASELINE = switch('LightingV3ReuseBaseline')
+TARGET_NAME = switch('LightingV3Target', 'Main50')
+CANDIDATE_ERRORS = []
+if TARGET_NAME == 'Candidate48':
+    MAP = '/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough'
+    MAP_FILE = ROOT / 'Content' / (MAP[6:] + '.umap')
+    if switch('LightingV3Variants', 'baseline') != 'baseline' or '-lightingv3wear' in CMD.lower() or VESSEL_AB:
+        CANDIDATE_ERRORS.append('Candidate captures permit baseline only, no variants/wear trials')
+    VARIANTS = ['baseline']
+    allowed = {'v1_inner_court_ulam_facade', 'v3_heikhal_menorah'}
+    requested = set(VIEW_FILTER.split(',')) if VIEW_FILTER else set()
+    if not requested or not requested <= allowed or len(VIEWS) != len(requested):
+        CANDIDATE_ERRORS.append('Candidate requires explicit supported view subset: ' + ','.join(sorted(allowed)))
+    if REUSE_BASELINE:
+        CANDIDATE_ERRORS.append('Candidate baseline reuse refused; trace its current floor')
+    VIEWS = json.loads(json.dumps(VIEWS))
+    for view in VIEWS:
+        permitted = {'id','xy','fallbackFloorZ','traceTopZ','traceBottomZ','pitch','yaw','basis'}
+        if set(view) != permitted or len(view.get('xy',[])) != 2:
+            CANDIDATE_ERRORS.append('Unsupported candidate view schema: '+str(view.get('id')))
+            continue
+        old_floor = view['fallbackFloorZ']
+        view['xy'] = [view['xy'][0]*.96-248,view['xy'][1]*.96]
+        # Trace clearance above/below support remains physical, as does CAP eyeHeightCm.
+        view['fallbackFloorZ'] = old_floor*.96
+        view['traceTopZ'] = old_floor*.96 + view['traceTopZ']-old_floor
+        view['traceBottomZ'] = old_floor*.96 + view['traceBottomZ']-old_floor
+elif TARGET_NAME != 'Main50':
+    CANDIDATE_ERRORS.append('Unknown LightingV3Target '+TARGET_NAME)
+
 
 
 def sha(path):
@@ -159,10 +207,12 @@ def png_metrics(data, grid=(96, 54), max_seconds=25.0):
 # ----------------------------------------------------------------------------- receipt
 report = {'status': 'starting', 'stamp': STAMP, 'tag': TAG, 'map': MAP, 'mapShaBefore': sha(MAP_FILE),
           'specSha256': sha(ROOT / 'Scripts/release_lighting_v3.spec.json'),
+          'targetName': TARGET_NAME, 'allMapHashesBefore': {str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')},
           'variantsRequested': VARIANTS, 'viewsRequested': [v['id'] for v in VIEWS],
           'instanceShaBefore': {n: sha(ROOT / 'Content' / (INSTANCE_FOLDER[6:] + n + '.uasset')) for n in SPEC['editableInstances']},
           'errors': [], 'failures': [], 'events': [], 'captures': [], 'liveLighting': {},
           'scope': 'Actual PIE walking-height stills; variants applied in the PIE world only; nothing saved. Visual acceptance is a separate human decision.'}
+report['captureScriptSha256'] = sha(Path(__file__))
 state = dict(start=time.monotonic(), phase='world', at=time.monotonic(), stopping=False, variant_index=0, view_index=-1,
              ticks=0, camera=None, current=None, shot_path=None, shot_started=None, barrier_done_for_variant=None)
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
@@ -291,6 +341,14 @@ def sightline_blocker(world, start, end, ignore=()):
 
 
 def plan_views(world):
+    if TARGET_NAME == 'Candidate48':
+        cls=u.load_class(None,'/Script/MikdashRuntime.MikdashSceneUnits')
+        descriptors=list(u.GameplayStatics.get_all_actors_of_class(world,cls))
+        assert len(descriptors)==1, 'Expected one candidate frame'
+        d=descriptors[0];pivot=d.get_editor_property('fixed_architecture_origin_cm')
+        assert int(d.get_editor_property('descriptor_schema_version'))==1 and int(d.get_editor_property('coordinate_revision').value)==1, 'Wrong candidate frame revision'
+        assert str(d.get_editor_property('scene_revision'))=='Selected48.v1' and xyz(pivot)==[-6200,0,0], 'Wrong candidate frame/pivot'
+        report['candidateFrame']={'revision':'Selected48.v1','pivot':xyz(pivot),'legacyXYScale':.96,'xTranslationCm':-248,'eyeHeightPreserved':True}
     eye = CAP['eyeHeightCm']
     planned = []
     reuse = {}
@@ -351,6 +409,8 @@ def plan_views(world):
                 floor_z = ground['point'][2] if ground else v['fallbackFloorZ']
                 row.update(position=[v['xy'][0], v['xy'][1], floor_z + eye], pitch=v['pitch'], yaw=v['yaw'], groundTrace=ground)
                 if ground is None:
+                    if TARGET_NAME == 'Candidate48':
+                        raise RuntimeError('Candidate floor trace missed; no fallback camera acceptance')
                     failure(v['id'], 'no Pawn-profile floor hit; manifest floor used')
         except Exception as exc:
             failure(v['id'], 'plan: ' + repr(exc))
@@ -380,6 +440,55 @@ def spec_value(raw):
 def apply_variant(world, name):
     v = resolve_variant(name)
     applied = {'variant': name}
+    if 'vesselMatte' in v:
+        assert TARGET_NAME == 'Main50', 'Vessel A/B is main only'
+        target_file=ROOT/'Content'/(VESSEL_TARGET[6:]+'.uasset')
+        assert sha(target_file)==VESSEL_SHA, 'Reviewed matte gold asset changed'
+        target=u.load_asset(VESSEL_TARGET);assert target, 'Missing reviewed matte material'
+        found={}
+        for actor in u.GameplayStatics.get_all_actors_of_class(world,u.Actor):
+            for component in actor.get_components_by_class(u.StaticMeshComponent):
+                mesh=component.get_editor_property('static_mesh')
+                package=mesh.get_path_name().split('.')[0] if mesh else None
+                if package in VESSEL_MESHES:
+                    assert package not in found, 'Duplicate vessel mesh '+package
+                    assert component.get_num_materials()==VESSEL_MESHES[package], 'Vessel slot count changed '+package
+                    found[package]=component
+        assert set(found)==set(VESSEL_MESHES), 'Missing exact six TI vessel meshes'
+        if not VESSEL_ORIGINALS:
+            for package,component in found.items():
+                originals=[component.get_material(i) for i in range(component.get_num_materials())]
+                assert all(m and m.get_path_name().split('.')[0]=='/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold' for m in originals), 'Unexpected before gold '+package
+                VESSEL_ORIGINALS[package]=originals
+        count=0
+        for package,component in found.items():
+            for slot,original in enumerate(VESSEL_ORIGINALS[package]):
+                desired=target if v['vesselMatte'] else original
+                component.set_material(slot,desired)
+                assert component.get_material(slot)==desired, 'Vessel material readback differs'
+                count+=1
+        assert count==1113, 'Expected1113vessel slots'
+        applied['vessels']={'components':6,'slots':count,'matte':v['vesselMatte'],
+            'targetSha256':VESSEL_SHA,'meshSlots':VESSEL_MESHES,'scope':'PIE component slots only'}
+
+    if 'surfaceWearVisible' in v:
+        decals = [a for a in u.GameplayStatics.get_all_actors_of_class(world, u.DecalActor)
+                  if 'MikdashSurfaceWearV1' in [str(t) for t in a.get_editor_property('tags')]]
+        assert len(decals) == 460, 'Wear A/B requires the reviewed460 decal set'
+        hidden = not v['surfaceWearVisible']
+        for actor in decals:
+            actor.set_actor_hidden_in_game(hidden)
+            assert bool(actor.get_editor_property('hidden')) == hidden
+            if 'surfaceWearOpacity' in v:
+                component = actor.get_component_by_class(u.DecalComponent)
+                assert component
+                dynamic = component.create_dynamic_material_instance()
+                assert dynamic
+                dynamic.set_scalar_parameter_value('Opacity', v['surfaceWearOpacity'])
+                assert abs(dynamic.get_scalar_parameter_value('Opacity') - v['surfaceWearOpacity']) < 0.0001
+        applied['surfaceWear'] = {'actorCount': len(decals), 'hidden': hidden, 'scope': 'PIE actors only'}
+        if 'surfaceWearOpacity' in v:
+            applied['surfaceWear']['opacity'] = v['surfaceWearOpacity']
     if 'instances' in v:
         counts = {}
         for actor in u.GameplayStatics.get_all_actors_of_class(world, u.Actor):
@@ -481,10 +590,14 @@ def shutdown():
         except Exception as exc:
             report['errors'].append('Cleanup: ' + repr(exc))
     report['throttleRestored'] = u.SystemLibrary.get_console_variable_int_value('Slate.bAllowThrottling') == old_throttle
+    if VESSEL_AB:
+        report['vesselMaterialUnchanged'] = sha(ROOT/'Content'/(VESSEL_TARGET[6:]+'.uasset'))==VESSEL_SHA
+        if not report['vesselMaterialUnchanged']: report['errors'].append('Vessel target asset changed')
     report['mapBytesUnchanged'] = sha(MAP_FILE) == report['mapShaBefore']
+    report['allMapsUnchanged'] = {str(p):sha(p) for p in (ROOT/'Content').rglob('*.umap')} == report['allMapHashesBefore']
     report['instanceBytesUnchanged'] = all(sha(ROOT / 'Content' / (INSTANCE_FOLDER[6:] + n + '.uasset')) == h for n, h in report['instanceShaBefore'].items())
     report['originalSavesUnchanged'] = user_save_hashes() == original_saves
-    if not report['mapBytesUnchanged'] or not report['instanceBytesUnchanged'] or not report['originalSavesUnchanged']:
+    if not report['allMapsUnchanged'] or not report['mapBytesUnchanged'] or not report['instanceBytesUnchanged'] or not report['originalSavesUnchanged']:
         report['errors'].append('Persistence check failed: map/instances/user saves changed during capture')
     if report['errors']:
         report['status'] = 'failed_' + report['status'] if not report['status'].startswith('failed') else report['status']
@@ -692,11 +805,15 @@ def tick(dt):
 
 
 try:
+    assert not CANDIDATE_ERRORS, '; '.join(CANDIDATE_ERRORS)
+    if VESSEL_AB:
+        assert TARGET_NAME=='Main50' and [v['id'] for v in VIEWS]==['v3_heikhal_menorah'], 'Vessel A/B requires explicit v3 view only'
+        assert not REUSE_BASELINE and '-lightingv3wear' not in CMD.lower(), 'Do not combine vessel A/B with wear or reuse'
     assert Path(u.Paths.project_dir()).resolve() == ROOT, 'Wrong project'
     assert ed.get_game_world() is None, 'PIE already running'
     assert not u.EditorLoadingAndSavingUtils.get_dirty_map_packages(), 'Dirty map packages'
     assert not u.EditorLoadingAndSavingUtils.get_dirty_content_packages(), 'Dirty content packages'
-    assert ed.get_editor_world().get_outermost().get_name() == MAP, 'Main map must be the loaded world'
+    assert ed.get_editor_world().get_outermost().get_name() == MAP, 'Selected target map must be the loaded world'
     assert 'SlotNamePrefix=AstraProbe_' in CMD and 'SaveSlot=AstraProbe_' in CMD, 'Require the isolated save-slot ini overrides'
     for name in VARIANTS:
         assert name in SPEC['variants'], 'Unknown variant ' + name

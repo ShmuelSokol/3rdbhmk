@@ -29,6 +29,7 @@ import json
 import math
 import os
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -36,6 +37,8 @@ ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_transit_bridge.spec.json'
 TARGET_MAP = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 MAP_FILE = ROOT / 'Content' / 'MikdashV3' / 'IntegratedReviewV2' / 'Maps' / 'Walkthrough.umap'
+sys.path.insert(0, str(ROOT / 'Scripts'))
+from release_place_assets import snapshot_row, diff_baselines, baseline_exclusions
 
 
 # --------------------------------------------------------------------------
@@ -115,8 +118,8 @@ def offline_check(spec=None):
     require('scales', 0.5 <= bridge['figure_scale_min'] <= bridge['figure_scale_max'] <= 1.5, 'min <= max')
     focus = spec['mountFocusCm']
     require('mountFocusFinite', len(focus) == 3 and all(math.isfinite(v) for v in focus), str(focus))
-    for key in ('b_activate_on_begin_play', 'b_auto_find_actors', 'b_refuse_if_coordinator_active',
-                'b_trace_ground', 'b_sweep_static_obstacles', 'b_cast_shadows'):
+    for key in ('activate_on_begin_play', 'auto_find_actors', 'refuse_if_coordinator_active',
+                'trace_ground', 'sweep_static_obstacles', 'cast_shadows'):
         require('bool:' + key, isinstance(bridge[key], bool), repr(bridge[key]))
 
     # Per-stop report: what the transit layer can ask for versus what the bridge animates
@@ -173,6 +176,7 @@ class BridgeJob(object):
         self.reference_names = {}
         self.placed = None
         self.actor_count_before = None
+        self.before_rows = []
 
     # -- receipt -------------------------------------------------------------
 
@@ -185,7 +189,8 @@ class BridgeJob(object):
         self.write_receipt()
 
     def current_map(self):
-        return self.editor.get_editor_world().get_path_name().split('.')[0]
+        world = self.editor.get_editor_world()
+        return world.get_path_name().split('.')[0] if world is not None else ''
 
     def load_class(self, python_name, path):
         cls = getattr(self.ue, python_name, None)
@@ -195,9 +200,43 @@ class BridgeJob(object):
 
     # -- guards --------------------------------------------------------------
 
+    def all_protected_maps(self):
+        # Protect every other map, including maps added after the authored spec.
+        maps = set(self.spec['protectedMaps'])
+        maps.update('/Game/' + p.relative_to(ROOT / 'Content').with_suffix('').as_posix()
+                    for p in (ROOT / 'Content').rglob('*.umap'))
+        maps.discard(TARGET_MAP)
+        return sorted(maps)
+
+    def begin_receipt(self):
+        ue = self.ue
+        spec = self.spec
+        self.map_sha_before = sha256_of(MAP_FILE)
+        self.protected_before = {m: sha256_of(disk_path(m, 'umap'))
+                                 for m in self.all_protected_maps()}
+        folder = ROOT / spec['receiptFolder']
+        folder.mkdir(parents=True, exist_ok=True)
+        self.receipt_path = folder / (spec['receiptPrefix'] + self.stamp + '.json')
+        if self.receipt_path.exists():
+            raise RuntimeError('Receipt already exists: ' + str(self.receipt_path))
+        self.receipt = {
+            'status': 'running', 'stamp': self.stamp, 'map': TARGET_MAP, 'mapFile': str(MAP_FILE),
+            'mapSha256Before': self.map_sha_before, 'mapLoadedByJob': False,
+            'protectedMapSha256Before': self.protected_before,
+            'specFile': str(SPEC_PATH), 'specSha256': sha256_of(SPEC_PATH),
+            'offlineCheck': None,
+            'engineVersion': ue.SystemLibrary.get_engine_version(),
+            'commandLine': ue.SystemLibrary.get_command_line(),
+            'dryRun': self.dry_run,
+            'scope': spec['scope'],
+            'events': [], 'errors': [], 'guards': {}, 'placed': None, 'mapSaved': False,
+        }
+        self.write_receipt()
+
     def preflight(self):
         ue = self.ue
         spec = self.spec
+        self.receipt['offlineCheck'] = offline_check(spec)
         if Path(ue.Paths.project_dir()).resolve() != ROOT:
             raise RuntimeError('Wrong project: ' + ue.Paths.project_dir())
         if self.editor.get_game_world():
@@ -214,27 +253,7 @@ class BridgeJob(object):
         if self.current_map() != TARGET_MAP:
             raise RuntimeError('Map assertion failed after load: ' + self.current_map())
 
-        self.map_sha_before = sha256_of(MAP_FILE)
-        self.protected_before = {m: sha256_of(disk_path(m, 'umap'))
-                                 for m in spec['protectedMaps'] if disk_path(m, 'umap').exists()}
-        folder = ROOT / spec['receiptFolder']
-        folder.mkdir(parents=True, exist_ok=True)
-        self.receipt_path = folder / (spec['receiptPrefix'] + self.stamp + '.json')
-        if self.receipt_path.exists():
-            raise RuntimeError('Receipt already exists: ' + str(self.receipt_path))
-        self.receipt = {
-            'status': 'running', 'stamp': self.stamp, 'map': TARGET_MAP, 'mapFile': str(MAP_FILE),
-            'mapSha256Before': self.map_sha_before, 'mapLoadedByJob': loaded_by_job,
-            'protectedMapSha256Before': self.protected_before,
-            'specFile': str(SPEC_PATH), 'specSha256': sha256_of(SPEC_PATH),
-            'offlineCheck': offline_check(spec),
-            'engineVersion': ue.SystemLibrary.get_engine_version(),
-            'commandLine': ue.SystemLibrary.get_command_line(),
-            'dryRun': self.dry_run,
-            'scope': spec['scope'],
-            'events': [], 'errors': [], 'guards': {}, 'placed': None, 'mapSaved': False,
-        }
-        self.write_receipt()
+        self.receipt['mapLoadedByJob'] = loaded_by_job
         self.check_level()
 
     def check_level(self):
@@ -250,7 +269,7 @@ class BridgeJob(object):
         guards = self.receipt['guards']
         guards['actorCountBefore'] = len(actors)
 
-        existing = [a for a in actors if a.get_class() == bridge_class or a.get_actor_label() == spec['actorLabel']]
+        existing = [a for a in actors if ue.MathLibrary.class_is_child_of(a.get_class(), bridge_class) or a.get_actor_label() == spec['actorLabel']]
         guards['existingBridgeActors'] = [a.get_actor_label() for a in existing]
         if existing:
             raise RuntimeError('A bridge actor is already placed; do not duplicate: ' + ', '.join(guards['existingBridgeActors']))
@@ -259,7 +278,7 @@ class BridgeJob(object):
             cls = self.load_class(required['pythonName'], required['class'])
             if cls is None:
                 raise RuntimeError('Class not loaded: ' + required['class'])
-            matches = [a for a in actors if a.get_class() == cls]
+            matches = [a for a in actors if ue.MathLibrary.class_is_child_of(a.get_class(), cls)]
             guards[key] = [a.get_actor_label() for a in matches]
             if required.get('exactlyOne') and len(matches) != 1:
                 raise RuntimeError('Exactly one placed %s is required, found %d' % (required['pythonName'], len(matches)))
@@ -268,19 +287,23 @@ class BridgeJob(object):
 
         guard = spec['coordinatorGuard']
         coordinator_class = self.load_class(guard['pythonName'], guard['class'])
-        coordinators = [a for a in actors if coordinator_class is not None and a.get_class() == coordinator_class]
+        if coordinator_class is None:
+            raise RuntimeError('Coordinator guard class missing: ' + guard['class'])
+        coordinators = [a for a in actors if ue.MathLibrary.class_is_child_of(a.get_class(), coordinator_class)]
         active = []
         for actor in coordinators:
             try:
-                if bool(actor.get_editor_property('b_activate_on_begin_play')):
+                if bool(actor.get_editor_property('activate_on_begin_play')):
                     active.append(actor.get_actor_label())
             except Exception as error:  # noqa: BLE001
-                self.receipt['errors'].append('coordinator readback: ' + repr(error))
+                raise RuntimeError('Coordinator activation readback failed for ' + actor.get_actor_label()) from error
         guards['coordinators'] = [a.get_actor_label() for a in coordinators]
         guards['coordinatorsActivateOnBeginPlay'] = active
         if active and guard.get('refuseIfActivateOnBeginPlay', True):
             raise RuntimeError('An active AMikdashTransitCrowdCoordinator is placed (%s); both would animate every exchange twice'
                                % ', '.join(active))
+        self.before_rows = [snapshot_row(ue, a, TARGET_MAP) for a in actors]
+        guards['snapshotExclusions'] = baseline_exclusions(self.before_rows)
         self.write_receipt()
 
     # -- mutation ------------------------------------------------------------
@@ -397,9 +420,13 @@ class BridgeJob(object):
         bridge_class = self.load_class(spec['actorPythonName'], spec['actorClass'])
         actors = list(self.actors.get_all_level_actors())
         matches = [a for a in actors if a.get_actor_label() == spec['actorLabel']]
-        if len(matches) != 1 or matches[0].get_class() != bridge_class:
+        if bridge_class is None or len(matches) != 1 or not ue.MathLibrary.class_is_child_of(matches[0].get_class(), bridge_class):
             raise RuntimeError('Reopened actor mismatch: %d matches' % len(matches))
         actor = matches[0]
+        if str(actor.get_folder_path()) != spec['folder']:
+            raise RuntimeError('Reopened bridge folder differs')
+        if set(str(t) for t in actor.get_editor_property('tags')) != {spec['actorTag'], spec['groupTag']}:
+            raise RuntimeError('Reopened bridge tags differ')
         verify = spec['verification']
         location = actor.get_actor_location()
         rotation = actor.get_actor_rotation()
@@ -439,8 +466,16 @@ class BridgeJob(object):
             'tags': [str(t) for t in actor.get_editor_property('tags')],
             'actorCountAfter': len(actors), 'actorCountDelta': len(actors) - self.actor_count_before,
         }
-        if self.receipt['reopenedReadback']['actorCountDelta'] != 1:
-            raise RuntimeError('Actor count delta %d, expected 1' % self.receipt['reopenedReadback']['actorCountDelta'])
+        bridges = [a for a in actors if ue.MathLibrary.class_is_child_of(a.get_class(), bridge_class)]
+        self.receipt['reopenedReadback']['bridgeActorCount'] = len(bridges)
+        if len(bridges) != 1:
+            raise RuntimeError('Expected exactly one bridge including subclasses, found %d' % len(bridges))
+        rows = [snapshot_row(ue, a, TARGET_MAP) for a in actors]
+        differences = diff_baselines(self.before_rows, rows, strict=True, exclude=[actor.get_name()])
+        self.receipt['unrelatedActorDifferences'] = differences
+        self.receipt['unrelatedPersistentActorsUnchanged'] = not differences
+        if differences:
+            raise RuntimeError('Unrelated persistent actor snapshot changed: %d differences' % len(differences))
         self.event('readback', ok=True)
 
     def finalize(self, status):
@@ -456,6 +491,8 @@ class BridgeJob(object):
 
     def run(self):
         try:
+            self.begin_receipt()
+            self.preflight()
             self.place_and_save()
             if self.dry_run:
                 self.finalize('dry_run_guards_passed_nothing_placed')
@@ -472,10 +509,9 @@ class BridgeJob(object):
 
 def _main():
     import unreal as ue
-    spec = load_spec()
-    job = BridgeJob(ue, spec)
-    job.preflight()
     try:
+        spec = load_spec()
+        job = BridgeJob(ue, spec)
         receipt = job.run()
         ue.log('release_transit_bridge: %s receipt %s' % (receipt['status'], job.receipt_path))
     except Exception as error:  # noqa: BLE001

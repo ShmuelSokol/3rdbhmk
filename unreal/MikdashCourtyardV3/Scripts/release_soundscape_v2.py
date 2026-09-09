@@ -1,4 +1,14 @@
-"""Layered morning soundscape (SoundscapeV2) for the combined IntegratedReviewV2 map.
+"""SoundscapeV3 create-once IMPORT-ONLY repair, 2026-09-09.
+
+Current hold supersedes the historical instructions below: use -SoundscapeImportOnly.
+No map adoption, ambient fallback or revert is permitted through this entry point.
+DryRun only inventories/validates and writes its receipt; it never repairs the pilot,
+probes cues, checkpoints, deletes namespaces or saves content. Existing audio assets
+and all other maps are hashed. Source recordings and provenance are unchanged and
+remain UNAUDITIONED. Runtime takes import nonlooping because C++ owns scheduling.
+Saved asset hashes/readback do not establish fresh-process or audible acceptance.
+
+Historical design: layered morning soundscape for the combined IntegratedReviewV2 map.
 
 Replaces nothing by force: the rejected pilot ambience
 (/Game/MikdashV3/Runtime/Audio/SW_CourtyardOriginal_Pilot01, already
@@ -77,6 +87,8 @@ Safety model (release_lighting_polish.py / release_place_assets.py pattern):
     receipt at start, after each stage and in finally.
 """
 import hashlib
+import csv
+import io
 import json
 import math
 import os
@@ -100,6 +112,8 @@ PACKAGE = ROOT / 'SourceAssets' / 'soundscape-review' / 'SoundscapeV2'
 SOURCES = PACKAGE / 'sources'
 EVIDENCE = PACKAGE / 'evidence'
 TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+sys.path.insert(0, str(ROOT / 'Scripts'))
+from release_place_assets import snapshot_row, numeric_baseline_rows
 
 APPLIED_STATUS = 'soundscape_v2_placed_saved_reopened_LISTENING_ACCEPTANCE_PENDING'
 IMPORT_ONLY_STATUS = 'soundscape_v2_assets_imported_map_untouched_LISTENING_ACCEPTANCE_PENDING'
@@ -462,19 +476,20 @@ def zombie_editor_processes():
     already lost a full session to that once, which is why Scripts/verify.py checks it
     first and why this is consulted before any save failure is believed.
     """
-    try:
-        proc = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq UnrealEditor*.exe', '/NH'],
-                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
-        out = proc.stdout.decode('utf-8', 'replace')
-    except Exception as error:
-        return {'checked': False, 'error': repr(error), 'processes': []}
-    rows = [line.split() for line in out.splitlines() if 'UnrealEditor' in line]
-    return {'checked': True,
-            'processes': [{'image': r[0], 'pid': r[1]} for r in rows if len(r) >= 2],
-            'note': ('When this runs inside a commandlet, this process is one of the listed '
-                     'ones, so the expected count is 1 and TWO OR MORE means another editor '
-                     'holds the map -- that, not a bug in this script, is why a save failed. '
-                     'Run offline from a plain Python interpreter the expected count is 0.')}
+    proc = subprocess.run(['tasklist', '/FO', 'CSV', '/NH'],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+    if proc.returncode:
+        raise RuntimeError('Process inventory failed: ' + proc.stderr.decode('utf-8', 'replace'))
+    rows = list(csv.reader(io.StringIO(proc.stdout.decode('utf-8', 'replace'))))
+    if not rows or any(len(row) < 2 or not row[1].isdigit() for row in rows):
+        raise RuntimeError('Empty or malformed process inventory; refusing to assume no editor')
+    processes = [{'image': row[0], 'pid': int(row[1])} for row in rows
+                 if len(row) >= 2 and row[0].lower() in ('unrealeditor.exe', 'unrealeditor-cmd.exe')]
+    others = [row for row in processes if row['pid'] != os.getpid()]
+    if others:
+        raise RuntimeError('Another editor owns the machine: ' + repr(others))
+    return {'checked': True, 'processes': processes, 'otherEditors': others}
+
 
 
 def sha256_of(path):
@@ -1427,6 +1442,7 @@ class Soundscape(object):
         self.submix = None
         self.runtime_actor = None
         self.use_cues = True
+        self.runtime_mode = True
 
     # -- receipt -----------------------------------------------------------
 
@@ -1506,47 +1522,15 @@ class Soundscape(object):
         self.world = self.editor.get_editor_world()
         if not require_target:
             return
-        loaded = self.world.get_outermost().get_name()
+        loaded = self.world.get_outermost().get_name() if self.world is not None else ''
         if loaded != TARGET:
             raise RuntimeError('Loaded world %s is not the combined map %s' % (loaded, TARGET))
 
     def guard_namespace(self):
         root = self.spec['namespace']['root']
-        if not self.assets.does_directory_exist(root):
+        if not self.assets.does_directory_exist(root) and not disk_path(root).with_suffix('').exists():
             return
-        # A run that failed BEFORE the map save leaves its already-saved support assets
-        # behind (Release-Soundscape-01.log did: the sound class and the reverb effect).
-        # -SoundscapeRevertAssets cannot clear them, because revert only accepts a receipt
-        # whose map was saved. So: if the newest receipt is exactly that kind of failure,
-        # the map is unchanged, and EVERY asset now in the namespace is one that receipt
-        # records creating, remove them and continue. Anything else still refuses.
-        folder = ROOT / self.spec['receiptFolder']
-        candidates = sorted(folder.glob(self.spec['receiptPrefix'] + '*.json'))
-        # the receipt for THIS run is already on disk; skip it
-        candidates = [c for c in candidates if c != self.receipt_path]
-        previous = json.loads(candidates[-1].read_text(encoding='utf-8-sig')) if candidates else {}
-        status = str(previous.get('status', ''))
-        recorded = set(str(a).split('.')[0] for a in previous.get('createdAssetPaths', []))
-        present = set(str(a).split('.')[0] for a in self.assets.list_assets(root, True, False))
-        healable = (status.startswith('failed_before_save') and not previous.get('mapBytesChanged')
-                    and present and present <= recorded)
-        if not healable:
-            raise RuntimeError(
-                'Namespace %s already exists with %s; previous receipt status %r, created %s. '
-                'Refusing to touch assets this script cannot account for. Remove the folder by '
-                'hand or run -SoundscapeRevertAssets against a saved receipt.'
-                % (root, sorted(present), status, sorted(recorded)))
-        if not self.assets.delete_directory(root):
-            raise RuntimeError('Could not remove the leftover namespace ' + root)
-        if self.assets.does_directory_exist(root):
-            raise RuntimeError('Namespace %s still exists after delete_directory' % root)
-        self.receipt['leftoverNamespaceRemoved'] = {
-            'fromReceipt': candidates[-1].name, 'previousStatus': status,
-            'assets': sorted(present)}
-        self.note('Removed %d leftover asset(s) from %s that the failed-before-save run %s '
-                  'recorded creating. Nothing else was touched.'
-                  % (len(present), root, candidates[-1].name))
-        self.write_receipt()
+        raise RuntimeError('Create-once namespace already exists; preserve it and use a new reviewed namespace: ' + root)
 
     def discover(self, require_clean=True):
         ue = self.ue
@@ -1601,18 +1585,9 @@ class Soundscape(object):
         return actor
 
     def snapshot_actors(self, exclude_names):
-        rows = {}
-        for actor in self.actors.get_all_level_actors():
-            name = actor.get_name()
-            if name in exclude_names:
-                continue
-            loc = actor.get_actor_location()
-            rot = actor.get_actor_rotation()
-            scale = actor.get_actor_scale3d()
-            rows[name] = (actor.get_actor_label(), round(loc.x, 3), round(loc.y, 3), round(loc.z, 3),
-                          round(rot.pitch, 3), round(rot.yaw, 3), round(rot.roll, 3),
-                          round(scale.x, 4), round(scale.y, 4), round(scale.z, 4))
-        return rows
+        rows = [snapshot_row(self.ue, actor, TARGET)
+                for actor in self.actors.get_all_level_actors() if actor is not None]
+        return numeric_baseline_rows(rows, strict=True, exclude=exclude_names)
 
     # -- SoundCue probe ----------------------------------------------------
 
@@ -1624,6 +1599,7 @@ class Soundscape(object):
         kills the process instead of raising. Doing this first means the map is still
         untouched when that happens.
         """
+        raise RuntimeError('Legacy SoundCue probing disabled; use runtime raw-take import only')
         ue = self.ue
         report = {'audioEditorClassVisible': hasattr(ue, 'SoundCueGraph'),
                   'factoryVisible': hasattr(ue, 'SoundCueFactoryNew'),
@@ -1694,7 +1670,7 @@ class Soundscape(object):
         ue = self.ue
         namespace = self.spec['namespace']['waves']
         prefix = self.spec['namespace']['wavePrefix']
-        looping = self.looping_sources()
+        looping = set() if self.runtime_mode else self.looping_sources()
         frozen = self.spec['frozen']['sources']
         for entry in SOURCE_TABLE:
             key = entry['key']
@@ -1736,6 +1712,29 @@ class Soundscape(object):
                 'looping': key in looping, 'sourceSha256': digest,
                 'licence': entry['licence'][0], 'licenceUrl': entry['licence'][1],
                 'author': entry['author'], 'publisherPage': entry['page']})
+        self.write_receipt()
+
+    def verify_imported_assets(self):
+        rows = []
+        for object_path in self.created_assets:
+            package = object_path.split('.')[0]
+            path = disk_path(package)
+            if not path.exists():
+                raise RuntimeError('Imported package absent on disk: ' + package)
+            digest = sha256_of(path)
+            loaded = self.assets.load_asset(package)
+            if loaded is None or loaded.get_path_name() != object_path:
+                raise RuntimeError('Imported asset readback differs: ' + object_path)
+            row = {'path': object_path, 'sha256': digest, 'bytes': path.stat().st_size}
+            if isinstance(loaded, self.ue.SoundWave):
+                row['looping'] = bool(loaded.get_editor_property('looping'))
+                if self.runtime_mode and row['looping']:
+                    raise RuntimeError('Runtime take unexpectedly loops: ' + object_path)
+            if sha256_of(path) != digest:
+                raise RuntimeError('Package bytes changed during readback: ' + package)
+            rows.append(row)
+        self.receipt['savedAssetReadback'] = rows
+        self.receipt['freshProcessVerification'] = 'PENDING; this is same-process package/hash readback only'
         self.write_receipt()
 
     def create_sound_class(self):
@@ -2459,7 +2458,10 @@ def _checkpoint(spec, prefix, stamp, map_file, map_sha_before):
 
 def _protected_hashes(spec):
     hashes = {}
-    for asset in spec['protectedMaps']:
+    all_maps = set(spec['protectedMaps'])
+    all_maps.update('/Game/' + p.relative_to(ROOT / 'Content').with_suffix('').as_posix()
+                    for p in (ROOT / 'Content').rglob('*.umap') if p != ROOT / spec['targetMapFile'])
+    for asset in sorted(all_maps):
         path = disk_path(asset, 'umap')
         if not path.exists():
             raise RuntimeError('Required protected map missing: ' + str(path))
@@ -2469,6 +2471,10 @@ def _protected_hashes(spec):
         if not path.exists():
             raise RuntimeError('Required protected asset missing: ' + str(path))
         hashes[asset] = sha256_of(path)
+    fresh_root = disk_path(spec['namespace']['root']).with_suffix('')
+    for path in (ROOT / 'Content' / 'MikdashV3' / 'Runtime' / 'Audio').rglob('*'):
+        if path.is_file() and fresh_root not in path.parents:
+            hashes['file:' + str(path)] = sha256_of(path)
     return hashes
 
 
@@ -2512,9 +2518,9 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
         raise RuntimeError('Offline check failed: %s' % offline['problems'][:8])
 
     scape = Soundscape(ue, spec)
+    scape.runtime_mode = bool(runtime_actor)
     # -SoundscapeImportOnly never touches the map, so it neither loads it nor demands that
     # it be the world already open.
-    scape.guard_world(load_target and not import_only, require_target=not import_only)
     map_file = ROOT / spec['targetMapFile']
     map_sha_before = sha256_of(map_file)
     protected = _protected_hashes(spec)
@@ -2546,6 +2552,11 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
     scape.write_receipt()
 
     try:
+        scape.guard_world(load_target and not import_only, require_target=not import_only)
+        if not import_only and not dry_run:
+            raise RuntimeError('Map adoption held pending source audition and runtime species/crowd fixes; use -SoundscapeImportOnly')
+        if ambient_fallback or not runtime_actor:
+            raise RuntimeError('This import pass requires the C++ runtime scheduler; ambient fallback is not accepted')
         if import_only:
             scape.note('-SoundscapeImportOnly: the map is neither loaded nor inspected, so no '
                        'actor discovery, no pilot-ambience guard and no checkpoint are performed. '
@@ -2554,21 +2565,12 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
             found, summary = scape.discover(require_clean=True)
             scape.receipt['actorsBefore'] = summary
             scape.receipt['actorCountBefore'] = len(scape.actors.get_all_level_actors())
-            scape.guard_pilot(found['AmbientSound'])
+            # Discovery is read-only. Pilot remains untouched throughout the held importer.
         scape.guard_namespace()
 
-        scape.use_cues = bool(use_cues) and scape.probe_soundcue()
-        if use_cues and not scape.use_cues:
-            scape.note('SoundCue construction is NOT available in this process (%s). Every layer '
-                       'fell back to a plain looping SoundWave, which has no randomisation and '
-                       'WOULD read as a loop. Treat this run as diagnostic, not as the design.'
-                       % (scape.receipt['soundCueProbe'] or {}).get('error'))
-        elif not use_cues:
-            scape.note('-SoundscapeNoCue was requested; the randomised cue graphs were skipped and '
-                       'every layer is a plain looping SoundWave. This is the fallback, not the '
-                       'design.')
-        scape.write_receipt()
-
+        # The C++ runtime schedules raw takes; no SoundCue graph or looping fallback.
+        scape.use_cues = False
+        scape.note('Runtime scheduler mode: SoundCue probing omitted; every imported SoundWave is nonlooping.')
         if dry_run:
             scape.receipt['status'] = 'dry_run_no_mutation_map_unchanged'
             return scape.receipt
@@ -2593,6 +2595,7 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
         scape.write_receipt()
 
         if import_only:
+            scape.verify_imported_assets()
             scape.receipt['status'] = IMPORT_ONLY_STATUS
             scape.receipt['mapBytesChanged'] = sha256_of(map_file) != map_sha_before
             if scape.receipt['mapBytesChanged']:
@@ -2666,6 +2669,7 @@ def run(load_target=True, import_only=False, use_cues=True, make_volume=True, dr
 
 def revert(receipt_path=None, load_target=True, delete_assets=False):
     """Destroy every tagged actor, restore the recorded before-values, save, reopen."""
+    raise RuntimeError('Legacy destructive revert disabled; use reviewed checkpoint recovery')
     import unreal as ue
     spec = load_spec()
     if receipt_path:
@@ -2809,10 +2813,7 @@ def _main():
     switches = parse_switches(command_line.split())
     try:
         if switches['revert']:
-            receipt = revert(receipt_path=switches['revert_receipt'], load_target=True,
-                             delete_assets=switches['delete_assets'])
-            ue.log('release_soundscape_v2 revert: %s destroyed %d'
-                   % (receipt['status'], len(receipt['destroyed'])))
+            raise RuntimeError('Revert is disabled in this create-once import pass; preserve historical assets and maps')
         else:
             receipt = run(load_target=True, import_only=switches['import_only'],
                           use_cues=switches['use_cues'], make_volume=switches['make_volume'],

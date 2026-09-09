@@ -282,6 +282,10 @@ def main() -> int:
     else:
         run_math_tests()
     if args.build:
+        # Math suites can take several minutes. A user may open the editor after the
+        # initial inventory; recheck immediately before allowing the serial UBT job.
+        if all(ok for _, ok, _ in results):
+            check_no_stray_editor()
         if all(ok for _, ok, _ in results):
             run_build()
         else:

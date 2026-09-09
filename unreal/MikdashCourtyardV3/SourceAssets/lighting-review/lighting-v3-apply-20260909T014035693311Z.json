@@ -1,0 +1,1347 @@
+{
+  "status": "APPLIED_SAVED_REOPENED_VISUAL_REVIEW_PENDING",
+  "mode": "apply",
+  "stamp": "20260909T014035693311Z",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "specSha256": "e87ae514f55a2840135d6fe75fa9de101e27cd33cd9f97a3ba19dc8676c52a83",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "errors": [],
+  "stages": [
+    {
+      "stage": "discovered"
+    },
+    {
+      "stage": "checkpointed"
+    },
+    {
+      "stage": "instances_saved"
+    },
+    {
+      "stage": "components_overridden",
+      "count": 4
+    },
+    {
+      "stage": "map_saved"
+    }
+  ],
+  "variant": "C_facade_partition_materials",
+  "variantResolved": {
+    "instances": {
+      "MI_PBR_LimestoneAshlar": {
+        "scalars": {
+          "NormalStrength": 2.5,
+          "RoughnessScale": 1.6
+        }
+      },
+      "MI_PBR_LimestoneTrim": {
+        "scalars": {
+          "NormalStrength": 2.0,
+          "RoughnessScale": 1.5
+        }
+      }
+    },
+    "postProcess": {
+      "local_exposure_method": {
+        "$enum": "LocalExposureMethod.BILATERAL"
+      },
+      "local_exposure_highlight_contrast_scale": 0.7,
+      "local_exposure_shadow_contrast_scale": 0.85,
+      "local_exposure_detail_strength": 1.0,
+      "local_exposure_blurred_luminance_blend": 0.6,
+      "local_exposure_blurred_luminance_kernel_size_percent": 50.0,
+      "local_exposure_middle_grey_bias": 0.0
+    },
+    "why": "A only scales the limestone instances the side walls use; the two surfaces the coordinator flagged (Ulam facade, Kodesh partition) do not use them. C keeps A and fixes those two surfaces at the component level. Expected in v1: facade radiance -1.2 stops (luma 0.69 -> 0.30 at the same irradiance), so it lands near the side walls instead of at sRGB 232.",
+    "componentOverrides": [
+      {
+        "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_2630_union_Derived_union_of_source_House_walls_and_",
+        "slot": 0,
+        "expectedBefore": "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue",
+        "material": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "why": "The whole Ulam east face (X -2500, Y +-2500, Z 925..6075) is ONE union mesh still carrying the FinishPilot procedural stone (census: 1 slot, native-scale-inventory-20260908T133142). Its base colour is the canonical 'blue' pale stone [0.776,0.680,0.497] -> luma 0.69 linear vs 0.30 for MI_PBR_LimestoneAshlar: +1.2 stops brighter than the side walls under the same 35 deg sun, so it sits at sRGB 232 (p95) while the meter sits on the shaded court. Re-pointing the component to the V3 limestone instance (map-level override, like the PBR pass) is the material fix; no shared material is edited."
+      },
+      {
+        "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+        "slot": 0,
+        "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+        "material": "$new:MI_PBR_GoldMatte_Partition"
+      },
+      {
+        "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+        "slot": 0,
+        "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+        "material": "$new:MI_PBR_GoldMatte_Partition"
+      },
+      {
+        "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+        "slot": 0,
+        "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+        "material": "$new:MI_PBR_GoldMatte_Partition",
+        "why": "The Kodesh partition (X -5600 face) carries M_Sanctuary_gold: metallic 1, constant colour, roughness 0.34 (build_sanctuary_finishes.py; the asset bytes differ from the pre-balance checkpoint so the live roughness may be 0.46 with noise). A near-mirror metal facing the open 5 x 25 m doorway reflects the 24 klux sunlit court: that reflection, not direct sun, is the cream-white. Geometry check: at az 110 the beam through the doorway (Y +-250) lands 727 cm north over the 2000 cm to the partition, i.e. on the north side wall (Y -500), not on the partition. Exposure cannot fix a specular image of the sun-lit exterior; roughness can. A NEW instance (child of the untouched M_PBR_Tiled, parameters copied from MI_PBR_GoldHammered, RoughnessScale 2.1 -> mean roughness 0.285 x 2.1 = 0.60) is assigned to the three partition components only; the nine repaired instances and M_Sanctuary_gold are not edited."
+      }
+    ],
+    "newInstances": {
+      "MI_PBR_GoldMatte_Partition": {
+        "package": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+        "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+        "copyParametersFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+        "scalars": {
+          "TilingCm": 250.0,
+          "NormalStrength": 0.6,
+          "RoughnessScale": 2.1,
+          "Metallic": 1.0,
+          "AlbedoFlatness": 1.0
+        },
+        "tint": [
+          0.6105,
+          0.39157,
+          0.0865,
+          1.0
+        ],
+        "pieProxy": "dynamic instance of MI_PBR_GoldHammered with RoughnessScale 2.1 (identical shading in the PIE A/B; the asset is created only by the apply script)"
+      }
+    }
+  },
+  "protectedBefore": {
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": "14b62b4a9fa0946c681b2efb7c9e1ba5093ce682b3bde5e1c8d7a362bc62e730",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2": "8d81b1823dc9add21fce4846044ad34890999cccbd194ec4f1c99688eff2458c",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "8464e582b87592eb05ad2e621eac634d6b27aaf1efab42989a6d0039fca74dff"
+  },
+  "mapSha256Before": "b297185f2ff20a374699123accc448fbcb490e0699d1bd4c73e6c87914d398de",
+  "instanceSha256Before": {
+    "MI_PBR_LimestoneAshlar": "286eada8f7b2ed97869b282e846af779930fedec047c1096af5ebb512acf3986",
+    "MI_PBR_LimestoneTrim": "6c949b6606862abbaa86c895f4cd7cba6f3253629f6578f95e94916db01e342a"
+  },
+  "guardValuesBefore": {
+    "fog": {
+      "fog_density": 0.001500000013038516,
+      "fog_height_falloff": 0.15000000596046448,
+      "start_distance": 8000.0,
+      "enable_volumetric_fog": false
+    },
+    "skyLight": {
+      "intensity": 1.2999999523162842,
+      "lower_hemisphere_is_black": false
+    },
+    "sun": {
+      "intensity": 30000.0,
+      "temperature": 6500.0,
+      "use_temperature": true,
+      "rotation": [
+        -30.000000000000004,
+        -160.0,
+        -0.0
+      ]
+    },
+    "exposure": {
+      "auto_exposure_method": {
+        "$enum": "AutoExposureMethod.AEM_HISTOGRAM"
+      },
+      "auto_exposure_min_brightness": 1.0,
+      "auto_exposure_max_brightness": 16384.0,
+      "auto_exposure_bias": 0.0,
+      "auto_exposure_low_percent": 10.0,
+      "auto_exposure_high_percent": 95.0,
+      "film_slope": 0.8999999761581421,
+      "film_toe": 0.550000011920929,
+      "film_shoulder": 0.30000001192092896,
+      "film_white_clip": 0.019999999552965164
+    }
+  },
+  "instancesBefore": {
+    "MI_PBR_LimestoneAshlar": {
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+      },
+      "naniteUsage": {
+        "enabled": true,
+        "explicitlyOverridden": true
+      },
+      "otherUsage": {
+        "MATUSAGE_BEAM_TRAILS": [
+          false,
+          false
+        ],
+        "MATUSAGE_CLOTHING": [
+          false,
+          false
+        ],
+        "MATUSAGE_CURVES": [
+          false,
+          false
+        ],
+        "MATUSAGE_EDITOR_COMPOSITING": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_CACHE": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_COLLECTIONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HAIR_STRANDS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_SKINNED_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_STATIC_MESHES": [
+          true,
+          true
+        ],
+        "MATUSAGE_LIDAR_POINT_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_DEFORMER": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_MORPH_TARGETS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NEURAL_NETWORKS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_RIBBONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_PARTICLE_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_SKELETAL_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_SPLINE_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_LIGHTING": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_MESH": [
+          true,
+          false
+        ],
+        "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOLUMETRIC_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOXELS": [
+          false,
+          false
+        ],
+        "MATUSAGE_WATER": [
+          false,
+          false
+        ]
+      }
+    },
+    "MI_PBR_LimestoneTrim": {
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 0.800000011920929,
+        "RoughnessScale": 0.949999988079071,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0800000429153442,
+        1.059999942779541,
+        1.0199999809265137,
+        1.0
+      ],
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+      },
+      "naniteUsage": {
+        "enabled": true,
+        "explicitlyOverridden": true
+      },
+      "otherUsage": {
+        "MATUSAGE_BEAM_TRAILS": [
+          false,
+          false
+        ],
+        "MATUSAGE_CLOTHING": [
+          false,
+          false
+        ],
+        "MATUSAGE_CURVES": [
+          false,
+          false
+        ],
+        "MATUSAGE_EDITOR_COMPOSITING": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_CACHE": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_COLLECTIONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HAIR_STRANDS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_SKINNED_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_STATIC_MESHES": [
+          false,
+          false
+        ],
+        "MATUSAGE_LIDAR_POINT_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_DEFORMER": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_MORPH_TARGETS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NEURAL_NETWORKS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_RIBBONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_PARTICLE_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_SKELETAL_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_SPLINE_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_LIGHTING": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_MESH": [
+          true,
+          false
+        ],
+        "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOLUMETRIC_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOXELS": [
+          false,
+          false
+        ],
+        "MATUSAGE_WATER": [
+          false,
+          false
+        ]
+      }
+    }
+  },
+  "postProcessBefore": {
+    "local_exposure_method": {
+      "value": {
+        "$enum": "LocalExposureMethod.BILATERAL"
+      },
+      "override": false
+    },
+    "local_exposure_highlight_contrast_scale": {
+      "value": 1.0,
+      "override": false
+    },
+    "local_exposure_shadow_contrast_scale": {
+      "value": 1.0,
+      "override": false
+    },
+    "local_exposure_detail_strength": {
+      "value": 1.0,
+      "override": false
+    },
+    "local_exposure_blurred_luminance_blend": {
+      "value": 0.6000000238418579,
+      "override": false
+    },
+    "local_exposure_blurred_luminance_kernel_size_percent": {
+      "value": 50.0,
+      "override": false
+    },
+    "local_exposure_middle_grey_bias": {
+      "value": 0.0,
+      "override": false
+    }
+  },
+  "sunBefore": {
+    "rotation": [
+      -30.000000000000004,
+      -160.0,
+      -0.0
+    ]
+  },
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\LightingV3-20260909T014035693311Z",
+  "instancesAfterSave": {
+    "MI_PBR_LimestoneAshlar": {
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+      },
+      "naniteUsage": {
+        "enabled": true,
+        "explicitlyOverridden": true
+      },
+      "otherUsage": {
+        "MATUSAGE_BEAM_TRAILS": [
+          false,
+          false
+        ],
+        "MATUSAGE_CLOTHING": [
+          false,
+          false
+        ],
+        "MATUSAGE_CURVES": [
+          false,
+          false
+        ],
+        "MATUSAGE_EDITOR_COMPOSITING": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_CACHE": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_COLLECTIONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HAIR_STRANDS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_SKINNED_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_STATIC_MESHES": [
+          true,
+          true
+        ],
+        "MATUSAGE_LIDAR_POINT_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_DEFORMER": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_MORPH_TARGETS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NEURAL_NETWORKS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_RIBBONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_PARTICLE_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_SKELETAL_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_SPLINE_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_LIGHTING": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_MESH": [
+          true,
+          false
+        ],
+        "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOLUMETRIC_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOXELS": [
+          false,
+          false
+        ],
+        "MATUSAGE_WATER": [
+          false,
+          false
+        ]
+      }
+    },
+    "MI_PBR_LimestoneTrim": {
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.0,
+        "RoughnessScale": 1.5,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "Tint": [
+        1.0800000429153442,
+        1.059999942779541,
+        1.0199999809265137,
+        1.0
+      ],
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+      },
+      "naniteUsage": {
+        "enabled": true,
+        "explicitlyOverridden": true
+      },
+      "otherUsage": {
+        "MATUSAGE_BEAM_TRAILS": [
+          false,
+          false
+        ],
+        "MATUSAGE_CLOTHING": [
+          false,
+          false
+        ],
+        "MATUSAGE_CURVES": [
+          false,
+          false
+        ],
+        "MATUSAGE_EDITOR_COMPOSITING": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_CACHE": [
+          false,
+          false
+        ],
+        "MATUSAGE_GEOMETRY_COLLECTIONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HAIR_STRANDS": [
+          false,
+          false
+        ],
+        "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_SKINNED_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_INSTANCED_STATIC_MESHES": [
+          false,
+          false
+        ],
+        "MATUSAGE_LIDAR_POINT_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_DEFORMER": [
+          false,
+          false
+        ],
+        "MATUSAGE_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_MORPH_TARGETS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NEURAL_NETWORKS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_RIBBONS": [
+          false,
+          false
+        ],
+        "MATUSAGE_NIAGARA_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_PARTICLE_SPRITES": [
+          false,
+          false
+        ],
+        "MATUSAGE_SKELETAL_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_SPLINE_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_LIGHTING": [
+          false,
+          false
+        ],
+        "MATUSAGE_STATIC_MESH": [
+          true,
+          false
+        ],
+        "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOLUMETRIC_CLOUD": [
+          false,
+          false
+        ],
+        "MATUSAGE_VOXELS": [
+          false,
+          false
+        ],
+        "MATUSAGE_WATER": [
+          false,
+          false
+        ]
+      }
+    }
+  },
+  "instanceSha256After": {
+    "MI_PBR_LimestoneAshlar": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+    "MI_PBR_LimestoneTrim": "debd00b106923949f0d017c6410823acfa1a4c5f17b51466b237fd594e2229df"
+  },
+  "newInstancesCreated": {
+    "MI_PBR_GoldMatte_Partition": {
+      "package": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "values": {
+        "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+        "scalars": {
+          "TilingCm": 250.0,
+          "NormalStrength": 0.6000000238418579,
+          "RoughnessScale": 2.0999999046325684,
+          "Metallic": 1.0,
+          "AlbedoFlatness": 1.0
+        },
+        "Tint": [
+          0.6104999780654907,
+          0.39157000184059143,
+          0.08649999648332596,
+          1.0
+        ],
+        "textures": {
+          "Albedo": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Albedo.T_ScratchedMetal_Albedo",
+          "Normal": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Normal.T_ScratchedMetal_Normal",
+          "ARM": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_ARM.T_ScratchedMetal_ARM"
+        },
+        "naniteUsage": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "otherUsage": {
+          "MATUSAGE_BEAM_TRAILS": [
+            false,
+            false
+          ],
+          "MATUSAGE_CLOTHING": [
+            false,
+            false
+          ],
+          "MATUSAGE_CURVES": [
+            false,
+            false
+          ],
+          "MATUSAGE_EDITOR_COMPOSITING": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_CACHE": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_COLLECTIONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HAIR_STRANDS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_SKINNED_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_STATIC_MESHES": [
+            false,
+            false
+          ],
+          "MATUSAGE_LIDAR_POINT_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_DEFORMER": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_MORPH_TARGETS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NEURAL_NETWORKS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_RIBBONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_PARTICLE_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_SKELETAL_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_SPLINE_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_LIGHTING": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_MESH": [
+            true,
+            false
+          ],
+          "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOLUMETRIC_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOXELS": [
+            false,
+            false
+          ],
+          "MATUSAGE_WATER": [
+            false,
+            false
+          ]
+        }
+      },
+      "diskSha256": "50d935da7fe496da45c08b32d22d3b8e988000d96b121b1c5364cad71c3a1d43"
+    }
+  },
+  "componentOverrides": [
+    {
+      "actorName": "StaticMeshActor_142",
+      "actorLabel": "Kodesh partition shoulder",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "before": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "after": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition"
+    },
+    {
+      "actorName": "StaticMeshActor_143",
+      "actorLabel": "Kodesh partition shoulder",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "before": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "after": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition"
+    },
+    {
+      "actorName": "StaticMeshActor_144",
+      "actorLabel": "Kodesh partition lintel",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+      "slot": 0,
+      "before": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "after": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition"
+    },
+    {
+      "actorName": "StaticMeshActor_2630",
+      "actorLabel": "Derived union of source House walls and roofs",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2630_union_Derived_union_of_source_House_walls_and_",
+      "slot": 0,
+      "before": "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue",
+      "after": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar"
+    }
+  ],
+  "postProcessAfter": {
+    "local_exposure_method": {
+      "value": {
+        "$enum": "LocalExposureMethod.BILATERAL"
+      },
+      "override": true
+    },
+    "local_exposure_highlight_contrast_scale": {
+      "value": 0.699999988079071,
+      "override": true
+    },
+    "local_exposure_shadow_contrast_scale": {
+      "value": 0.8500000238418579,
+      "override": true
+    },
+    "local_exposure_detail_strength": {
+      "value": 1.0,
+      "override": true
+    },
+    "local_exposure_blurred_luminance_blend": {
+      "value": 0.6000000238418579,
+      "override": true
+    },
+    "local_exposure_blurred_luminance_kernel_size_percent": {
+      "value": 50.0,
+      "override": true
+    },
+    "local_exposure_middle_grey_bias": {
+      "value": 0.0,
+      "override": true
+    }
+  },
+  "mapSaved": true,
+  "mapSha256AfterSave": "80de42a54d544c5fd4884fea5109ac669108c3c0f987e55c0f8887aa2ea7f43c",
+  "reopened": {
+    "postProcess": {
+      "local_exposure_method": {
+        "value": {
+          "$enum": "LocalExposureMethod.BILATERAL"
+        },
+        "override": true
+      },
+      "local_exposure_highlight_contrast_scale": {
+        "value": 0.699999988079071,
+        "override": true
+      },
+      "local_exposure_shadow_contrast_scale": {
+        "value": 0.8500000238418579,
+        "override": true
+      },
+      "local_exposure_detail_strength": {
+        "value": 1.0,
+        "override": true
+      },
+      "local_exposure_blurred_luminance_blend": {
+        "value": 0.6000000238418579,
+        "override": true
+      },
+      "local_exposure_blurred_luminance_kernel_size_percent": {
+        "value": 50.0,
+        "override": true
+      },
+      "local_exposure_middle_grey_bias": {
+        "value": 0.0,
+        "override": true
+      }
+    },
+    "sun": {
+      "rotation": [
+        -30.000000000000004,
+        -160.0,
+        -0.0
+      ]
+    },
+    "guardValues": {
+      "fog": {
+        "fog_density": 0.001500000013038516,
+        "fog_height_falloff": 0.15000000596046448,
+        "start_distance": 8000.0,
+        "enable_volumetric_fog": false
+      },
+      "skyLight": {
+        "intensity": 1.2999999523162842,
+        "lower_hemisphere_is_black": false
+      },
+      "sun": {
+        "intensity": 30000.0,
+        "temperature": 6500.0,
+        "use_temperature": true,
+        "rotation": [
+          -30.000000000000004,
+          -160.0,
+          -0.0
+        ]
+      },
+      "exposure": {
+        "auto_exposure_method": {
+          "$enum": "AutoExposureMethod.AEM_HISTOGRAM"
+        },
+        "auto_exposure_min_brightness": 1.0,
+        "auto_exposure_max_brightness": 16384.0,
+        "auto_exposure_bias": 0.0,
+        "auto_exposure_low_percent": 10.0,
+        "auto_exposure_high_percent": 95.0,
+        "film_slope": 0.8999999761581421,
+        "film_toe": 0.550000011920929,
+        "film_shoulder": 0.30000001192092896,
+        "film_white_clip": 0.019999999552965164
+      }
+    },
+    "instances": {
+      "MI_PBR_LimestoneAshlar": {
+        "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 2.5,
+          "RoughnessScale": 1.600000023841858,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "Tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "textures": {
+          "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+          "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+          "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+        },
+        "naniteUsage": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "otherUsage": {
+          "MATUSAGE_BEAM_TRAILS": [
+            false,
+            false
+          ],
+          "MATUSAGE_CLOTHING": [
+            false,
+            false
+          ],
+          "MATUSAGE_CURVES": [
+            false,
+            false
+          ],
+          "MATUSAGE_EDITOR_COMPOSITING": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_CACHE": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_COLLECTIONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HAIR_STRANDS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_SKINNED_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_STATIC_MESHES": [
+            true,
+            true
+          ],
+          "MATUSAGE_LIDAR_POINT_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_DEFORMER": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_MORPH_TARGETS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NEURAL_NETWORKS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_RIBBONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_PARTICLE_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_SKELETAL_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_SPLINE_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_LIGHTING": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_MESH": [
+            true,
+            false
+          ],
+          "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOLUMETRIC_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOXELS": [
+            false,
+            false
+          ],
+          "MATUSAGE_WATER": [
+            false,
+            false
+          ]
+        }
+      },
+      "MI_PBR_LimestoneTrim": {
+        "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled.M_PBR_Tiled",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 2.0,
+          "RoughnessScale": 1.5,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "Tint": [
+          1.0800000429153442,
+          1.059999942779541,
+          1.0199999809265137,
+          1.0
+        ],
+        "textures": {
+          "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo.T_LimestoneAshlar_Albedo",
+          "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal.T_LimestoneAshlar_Normal",
+          "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM.T_LimestoneAshlar_ARM"
+        },
+        "naniteUsage": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "otherUsage": {
+          "MATUSAGE_BEAM_TRAILS": [
+            false,
+            false
+          ],
+          "MATUSAGE_CLOTHING": [
+            false,
+            false
+          ],
+          "MATUSAGE_CURVES": [
+            false,
+            false
+          ],
+          "MATUSAGE_EDITOR_COMPOSITING": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_CACHE": [
+            false,
+            false
+          ],
+          "MATUSAGE_GEOMETRY_COLLECTIONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HAIR_STRANDS": [
+            false,
+            false
+          ],
+          "MATUSAGE_HETEROGENEOUS_VOLUMES": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_SKINNED_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_INSTANCED_STATIC_MESHES": [
+            false,
+            false
+          ],
+          "MATUSAGE_LIDAR_POINT_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_DEFORMER": [
+            false,
+            false
+          ],
+          "MATUSAGE_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_MORPH_TARGETS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NEURAL_NETWORKS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_MESH_PARTICLES": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_RIBBONS": [
+            false,
+            false
+          ],
+          "MATUSAGE_NIAGARA_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_PARTICLE_SPRITES": [
+            false,
+            false
+          ],
+          "MATUSAGE_SKELETAL_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_SPLINE_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_LIGHTING": [
+            false,
+            false
+          ],
+          "MATUSAGE_STATIC_MESH": [
+            true,
+            false
+          ],
+          "MATUSAGE_VIRTUAL_HEIGHTFIELD_MESH": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOLUMETRIC_CLOUD": [
+            false,
+            false
+          ],
+          "MATUSAGE_VOXELS": [
+            false,
+            false
+          ],
+          "MATUSAGE_WATER": [
+            false,
+            false
+          ]
+        }
+      }
+    },
+    "sceneUnchanged": true,
+    "componentOverrides": {
+      "StaticMeshActor_142.StaticMeshComponent0[0]": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "StaticMeshActor_143.StaticMeshComponent0[0]": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "StaticMeshActor_144.StaticMeshComponent0[0]": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "StaticMeshActor_2630.StaticMeshComponent0[0]": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar"
+    }
+  },
+  "protectedAfter": {
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold": "14b62b4a9fa0946c681b2efb7c9e1ba5093ce682b3bde5e1c8d7a362bc62e730",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2": "8d81b1823dc9add21fce4846044ad34890999cccbd194ec4f1c99688eff2458c",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "8464e582b87592eb05ad2e621eac634d6b27aaf1efab42989a6d0039fca74dff"
+  },
+  "protectedUnchanged": true,
+  "mapSha256Final": "80de42a54d544c5fd4884fea5109ac669108c3c0f987e55c0f8887aa2ea7f43c"
+}

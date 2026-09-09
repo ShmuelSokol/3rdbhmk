@@ -2,6 +2,32 @@
 
 ## Astra resumed after Claude limit (2026-09-09 UTC)
 
+Latest native results: enclosure diagnostic native-enclosure-runtime-Main50-20260909T013502474817Z
+completed with zero errors and unchanged maps/saves; all five assets persist and limestone
+instancing usage is true. Six baseline/C images from lighting-v3-capture-20260909T013656Z
+were inspected: gate visible, facade stone/partition detail improved, bright highlights and
+terrain/access/detail limitations remain. C saved/reopened014035693311Z and fresh-verified
+014209573438Z including the new gold instance hash, parameters and explicit Nanite usage.
+When copying a material instance's visual parameters onto a new child, copy its usage
+overrides too; a shared parent does not carry an instance's repaired Nanite bits.
+
+Bodies candidate012656713742Z and013228827902Z: all24 correct V3 variants, scales, capsules,
+feet/head/garments and static routes;23 moved. Miryam's whole-leg admission was blocked by
+old RELEASE_Resident_authored-outer-visitor-01/-02, proved by live dynamic sweeps. The five
+pilot actors remain saved but are now hidden/collision-disabled and their old spawner
+startup is false on both maps (retire-pilot receipts014311446956Z/014418427990Z). No actors
+were deleted. Post-retirement candidate receipt resident-bodies-v3-verify-Candidate48-20260909T014551106415Z
+passes all24 spawned/variant/mesh/scale/capsule/feet/head/garment/static-route/movement checks,
+with both maps and original saves unchanged. Main final receipt resident-bodies-v3-verify-Main50-20260909T014759299455Z also passes
+all24 on the same checks, zero errors, unchanged maps and original saves.
+
+
+Verification concurrency correction: a user opened the GUI midway through standalone math
+tests. The coordinator stopped its own verifier before UBT and preserved the GUI; user
+authorized normal closure, and the GUI then exited. verify.py now repeats the editor
+inventory immediately before UBT, not just before the multi-minute math phase.
+
+
 Published checkpoint 9f3b5404 supersedes the historical status below: V15 on both maps,
 1490 limestone overrides, nine V3 variants imported, transit/birds/security/service placed.
 No fresh package accepted. Six interrupted source/script files were preserved under

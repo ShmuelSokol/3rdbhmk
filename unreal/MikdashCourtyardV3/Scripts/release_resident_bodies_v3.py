@@ -505,6 +505,13 @@ def run_verify(target_key):
                 row['legsBlocked'] = sum(1 for l in row['legs'] if l['sweepBlocked']); row['legsWithFloorFailures'] = sum(1 for l in row['legs'] if l['floorFailureCount'])
                 motion = state['motion'].get(label); row['motion'] = motion
                 row['walkedInPie'] = bool(motion and motion.get('movedCm') is not None and motion['movedCm'] >= V['movedThresholdCm'])
+                row['runtimeState'] = body.get_resident_state()
+                row['runtimeRouteDiagnostic'] = body.get_route_diagnostic()
+                if not row['walkedInPie']:
+                    # The geometric route pass ignores residents; the runtime correctly does
+                    # not. Preserve separate evidence of real bodies holding a route closed.
+                    row['dynamicLegsAtEnd'] = [leg(world, u.Vector(*pts[i]), u.Vector(*pts[(i + 1) % len(pts)]), [body]) for i in range(len(pts))]
+
             else:
                 row['capsuleBlockers'] = capsule_blockers(world, feet, ignore)
                 row['floorOk'], row['floorTrace'] = floor_ok(world, feet, ignore)

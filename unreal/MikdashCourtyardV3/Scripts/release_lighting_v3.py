@@ -329,6 +329,10 @@ class Native:
         files = self.instance_files()
         r['instanceSha256Before'] = {n: sha(p) for n, p in files.items()}
         world = self.guard_world()
+        # Refuse a used namespace before saving any existing instance changes.
+        for block in variant.get('newInstances', {}).values():
+            if u.EditorAssetLibrary.does_asset_exist(block['package']) or disk(block['package']).exists():
+                raise RuntimeError('New instance namespace already exists: ' + block['package'])
         scene = self.find_scene()
         r['guardValuesBefore'] = self.guard_values(scene)
         fog = r['guardValuesBefore']['fog']
@@ -393,6 +397,19 @@ class Native:
             ml = u.MaterialEditingLibrary
             ml.set_material_instance_parent(inst, parent)
             src = u.load_asset(block['copyParametersFrom'])
+            if src is None:
+                raise RuntimeError('Missing instance parameter source: ' + block['copyParametersFrom'])
+            # Usage overrides belong to instances in UE5.8. Copy them as well as textures;
+            # inheriting only the shared parent loses the source's explicit Nanite repair.
+            for usage_name in dir(u.MaterialUsage):
+                if usage_name.startswith('MATUSAGE_') and usage_name != 'MATUSAGE_MAX':
+                    usage = getattr(u.MaterialUsage, usage_name)
+                    enabled = bool(ml.has_material_usage(src, usage))
+                    overridden = bool(ml.has_material_usage_override(src, usage))
+                    if overridden:
+                        ml.set_material_usage_override(inst, usage, enabled, True)
+                    if bool(ml.has_material_usage(inst, usage)) != enabled:
+                        raise RuntimeError('New instance usage differs from source: ' + usage_name)
             for t in ('Albedo', 'Normal', 'ARM'):
                 tex = ml.get_material_instance_texture_parameter_value(src, t)
                 ml.set_material_instance_texture_parameter_value(inst, t, tex)
@@ -513,6 +530,13 @@ class Native:
         r['protectedNow'] = self.protected_hashes()
         r['protectedUnchangedSinceApply'] = r['protectedNow'] == prior.get('protectedBefore')
         ok = r['mapMatchesApplyAfter'] and r['instancesMatchApplyAfter'] and r['protectedUnchangedSinceApply'] and r.get('componentOverridesMatch', True)
+        r['newInstances'] = {}
+        for name, entry in prior.get('newInstancesCreated', {}).items():
+            inst = u.load_asset(entry['package'])
+            values = self.instance_values(inst) if inst else None
+            matched = inst is not None and sha(disk(entry['package'])) == entry['diskSha256'] and close(values, entry['values'])
+            r['newInstances'][name] = dict(values=values, matchesApply=matched)
+            ok = ok and matched
         for k, raw in variant.get('postProcess', {}).items():
             ok = ok and close(r['postProcess'][k]['value'], raw) and r['postProcess'][k]['override']
         for n, block in variant.get('instances', {}).items():

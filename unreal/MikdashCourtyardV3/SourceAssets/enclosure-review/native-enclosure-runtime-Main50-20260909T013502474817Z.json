@@ -1,0 +1,765 @@
+{
+ "status": "measured_pie_diagnostic",
+ "stamp": "20260909T013502474817Z",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "errors": [],
+ "scope": "Diagnostic only. Real-RHI PIE; nothing written to the map or to user save slots. Enclosure HISMs have NoCollision, so traces report obstructions and ground, never the wall.",
+ "mapShaBefore": "b297185f2ff20a374699123accc448fbcb490e0699d1bd4c73e6c87914d398de",
+ "saveIsolation": {
+  "testPrefix": "FableProbe_AstraEnclosure05",
+  "originalSaveFileCount": 0,
+  "originalSavesUnchanged": true
+ },
+ "meshPackages": {
+  "SM_EnclosureV2_WallSegment": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "6873b010c42fad61b48c6a0acc9fc3f96e57a100240626e927edb1e95022bf8e"
+  },
+  "SM_EnclosureV2_Gate": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "c956277a225d4343464495af41b635ccbd2c7310a66476e6472ef508e0403d91"
+  },
+  "SM_EnclosureV2_Corner": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "34cb82ba3124ab3cc28791d58a85549deea442072718dfdb3b946c5044f0106d"
+  },
+  "SM_EnclosureV2_OverlaySlab": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "f84b518e0f084b16cca4617b27d7fd4e6958483ff312e1af0e474ca2d211cdbc"
+  },
+  "SM_EnclosureV2_Foundation": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "43bd2dc393a1a7db17af3fcb2458b023b16357f3e14c2a3cc9107439f050c311"
+  }
+ },
+ "editorWorldActors": [
+  {
+   "label": "RELEASE_EnclosureV2_Precinct",
+   "name": "MikdashEnclosure_0",
+   "meshProperties": {
+    "WallModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+    "GateModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+    "CornerModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+    "FoundationModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+    "OverlayQuadMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab"
+   },
+   "wallMaterial": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar.MI_PBR_LimestoneAshlar",
+   "overlayMaterial": null,
+   "initialState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "worldCmPerAmah": 50.0,
+   "courtPlatformHalfExtentCm": 8100.0,
+   "groundProfileStepsPerSide": 600,
+   "groundProfileHighCount": 2404,
+   "groundProfileLowCount": 2404,
+   "explicitHideLabels": 278,
+   "explicitHideMeshNames": 278,
+   "hidden": false,
+   "level": "Walkthrough"
+  }
+ ],
+ "pieActorCount": 1,
+ "pieActors": [
+  {
+   "label": "RELEASE_EnclosureV2_Precinct",
+   "name": "MikdashEnclosure_0",
+   "precinctState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "isTransitioning": false,
+   "actorHidden": false,
+   "rootVisible": true,
+   "instanceCounts": {
+    "wall": 467,
+    "gate": 5,
+    "corner": 4,
+    "foundation": 476,
+    "overlay": 480
+   },
+   "outerFacesCm": {
+    "west": -33100.0,
+    "north": -33150.0,
+    "east": 116900.0,
+    "south": 116850.0
+   },
+   "wallBaseZRangeCm": {
+    "north": [
+     -4861.17822265625,
+     5679.80322265625
+    ],
+    "east": [
+     -14627.6025390625,
+     6058.76123046875
+    ],
+    "south": [
+     -14670.4033203125,
+     -2906.2080078125
+    ],
+    "west": [
+     -8851.8837890625,
+     1691.1580200195312
+    ]
+   },
+   "deepestFoundationCm": {
+    "north": 655.703125,
+    "east": 828.5079345703125,
+    "south": 1043.2001953125,
+    "west": 852.14990234375
+   },
+   "groundProfileStatus": "profile",
+   "hideListResolution": {
+    "found": 278,
+    "missing": 0,
+    "duplicated": 0
+   },
+   "hideSetFingerprint": "8408294c98e43a15",
+   "modernBuildingsSelected": 278,
+   "meshProperties": {
+    "WallModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+    "GateModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+    "CornerModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+    "FoundationModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+    "OverlayQuadMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab"
+   },
+   "wallMaterial": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar.MI_PBR_LimestoneAshlar",
+   "wallMaterialInstancingUsage": true,
+   "worldCmPerAmah": 50.0,
+   "initialState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "hisms": [
+    {
+     "name": "WallInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+     "instanceCount": 467,
+     "material0": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      41900.0,
+      41850.0,
+      -4155.821044921875
+     ],
+     "componentBoundsExtent": [
+      75180.0,
+      75180.0,
+      10514.582275390625
+     ],
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -32475.0,
+        -33150.0,
+        1616.8699951171875
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9999999999999996,
+        0.9999999999999996,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -33100.0,
+        -33330.0,
+        1616.8699951171875
+       ],
+       "approxWorldBoundsMax": [
+        -31850.0,
+        -32970.0,
+        1916.8699951171875
+       ]
+      },
+      {
+       "index": 233,
+       "location": [
+        116900.0,
+        116225.0,
+        -14627.6025390625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1.0000000000000002,
+        1.0000000000000002,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        116275.0,
+        116045.0,
+        -14627.6025390625
+       ],
+       "approxWorldBoundsMax": [
+        117525.0,
+        116405.0,
+        -14327.6025390625
+       ]
+      },
+      {
+       "index": 466,
+       "location": [
+        -33100.0,
+        -32525.0,
+        1545.27001953125
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        1.0000000000000002,
+        1.0000000000000002,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -33725.0,
+        -32705.0,
+        1545.27001953125
+       ],
+       "approxWorldBoundsMax": [
+        -32475.0,
+        -32345.0,
+        1845.27001953125
+       ]
+      }
+     ]
+    },
+    {
+     "name": "GateInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+     "instanceCount": 5,
+     "material0": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      41900.0,
+      41850.0,
+      56.884033203125
+     ],
+     "componentBoundsExtent": [
+      75180.0,
+      75180.0,
+      6506.467041015625
+     ],
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        0.0,
+        -33150.0,
+        -453.97800903320314
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9999999999999996,
+        0.9999999999999996,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -779.9999999999997,
+        -33321.0,
+        -453.97800903320314
+       ],
+       "approxWorldBoundsMax": [
+        779.9999999999997,
+        -32970.0,
+        2546.0219909667967
+       ]
+      },
+      {
+       "index": 2,
+       "location": [
+        16900.0,
+        116850.0,
+        -6449.5828125
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1.0,
+        1.0,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        16120.0,
+        116679.0,
+        -6449.5828125
+       ],
+       "approxWorldBoundsMax": [
+        17680.0,
+        117030.0,
+        -3449.5828125
+       ]
+      },
+      {
+       "index": 4,
+       "location": [
+        -33100.0,
+        0.0,
+        329.9389953613281
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        1.0000000000000002,
+        1.0000000000000002,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -33880.0,
+        -171.00000000000003,
+        329.9389953613281
+       ],
+       "approxWorldBoundsMax": [
+        -32320.0,
+        180.00000000000003,
+        3329.938995361328
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CornerInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+     "instanceCount": 4,
+     "material0": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      41900.0,
+      41850.0,
+      -5331.85400390625
+     ],
+     "componentBoundsExtent": [
+      75278.3984375,
+      75278.3984375,
+      9299.18212890625
+     ],
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -33100.0,
+        -33150.0,
+        1578.0059951171875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1.0,
+        1.0,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -33378.399993896484,
+        -33428.399993896484,
+        1578.0059951171875
+       ],
+       "approxWorldBoundsMax": [
+        -32821.600006103516,
+        -32871.600006103516,
+        2100.0059951171875
+       ]
+      },
+      {
+       "index": 2,
+       "location": [
+        116900.0,
+        116850.0,
+        -14631.0361328125
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1.0,
+        1.0,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        116621.60000610352,
+        116571.60000610352,
+        -14631.0361328125
+       ],
+       "approxWorldBoundsMax": [
+        117178.39999389648,
+        117128.39999389648,
+        -14109.0361328125
+       ]
+      },
+      {
+       "index": 3,
+       "location": [
+        -33100.0,
+        116850.0,
+        -6031.774875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1.0,
+        1.0,
+        1.0
+       ],
+       "approxWorldBoundsMin": [
+        -33378.399993896484,
+        116571.60000610352,
+        -6031.774875
+       ],
+       "approxWorldBoundsMax": [
+        -32821.600006103516,
+        117128.39999389648,
+        -5509.774875
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FoundationInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+     "instanceCount": 476,
+     "material0": "/Game/MikdashV3/IntegratedReviewV2/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      41900.0,
+      41850.0,
+      -4350.322021484375
+     ],
+     "componentBoundsExtent": [
+      75278.3984375,
+      75278.3984375,
+      10409.083251953125
+     ],
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -32475.0,
+        -33150.0,
+        1459.27001953125
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9999999999999996,
+        0.9999999999999996,
+        1.575999755859375
+       ],
+       "approxWorldBoundsMin": [
+        -33100.0,
+        -33330.0,
+        1459.27001953125
+       ],
+       "approxWorldBoundsMax": [
+        -31850.0,
+        -32970.0,
+        1616.8699951171875
+       ]
+      },
+      {
+       "index": 238,
+       "location": [
+        111275.0,
+        116850.0,
+        -14640.388671875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1.0,
+        1.0,
+        1.6627734375
+       ],
+       "approxWorldBoundsMin": [
+        110650.0,
+        116670.0,
+        -14640.388671875
+       ],
+       "approxWorldBoundsMax": [
+        111900.0,
+        117030.0,
+        -14474.111328125
+       ]
+      },
+      {
+       "index": 475,
+       "location": [
+        -33100.0,
+        116850.0,
+        -6173.454875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.44543999999999995,
+        1.5466666666666666,
+        1.416800000000003
+       ],
+       "approxWorldBoundsMin": [
+        -33378.4,
+        116571.6,
+        -6173.454875
+       ],
+       "approxWorldBoundsMax": [
+        -32821.6,
+        117128.4,
+        -6031.774875
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OverlayInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab",
+     "instanceCount": 480,
+     "material0": "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial",
+     "visible": false,
+     "hiddenInGame": false,
+     "castShadow": false,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      41900.0,
+      41850.0,
+      -4162.071044921875
+     ],
+     "componentBoundsExtent": [
+      75625.0,
+      75625.0,
+      10508.332275390625
+     ],
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -33100.0,
+        -33150.0,
+        1616.8699951171875
+       ],
+       "yaw": 180.0,
+       "scale": [
+        1249.9999999999995,
+        0.9999999999999996,
+        300.0
+       ],
+       "approxWorldBoundsMin": [
+        -33725.0,
+        -33150.01999999955,
+        1616.8699951171875
+       ],
+       "approxWorldBoundsMax": [
+        -32475.0,
+        -33149.98000000045,
+        1916.8699951171875
+       ]
+      },
+      {
+       "index": 240,
+       "location": [
+        116900.0,
+        116850.0,
+        -14638.236328125
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1250.0,
+        1.0,
+        300.0
+       ],
+       "approxWorldBoundsMin": [
+        116275.0,
+        116849.98000000045,
+        -14638.236328125
+       ],
+       "approxWorldBoundsMax": [
+        117525.0,
+        116850.01999999955,
+        -14338.236328125
+       ]
+      },
+      {
+       "index": 479,
+       "location": [
+        -33100.0,
+        -31900.0,
+        1545.27001953125
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        1250.0000000000002,
+        1.0000000000000002,
+        300.0
+       ],
+       "approxWorldBoundsMin": [
+        -33725.0,
+        -31900.019999999553,
+        1545.27001953125
+       ],
+       "approxWorldBoundsMax": [
+        -32475.0,
+        -31899.980000000447,
+        1845.27001953125
+       ]
+      }
+     ]
+    }
+   ],
+   "hideListSample": {
+    "labels": [
+     "RELEASE_OldCityFacades_Grid_N001_N002",
+     "RELEASE_OldCityFacades_Grid_N001_N003",
+     "RELEASE_OldCityFacades_Grid_N001_N004",
+     "SM_JerusalemBuildings_Grid_P000_P009",
+     "SM_JerusalemBuildings_Grid_P000_P010",
+     "SM_JerusalemBuildings_Grid_P000_P011",
+     "SM_JerusalemBuildings_Large_06766",
+     "SM_JerusalemBuildings_Large_07718",
+     "SM_JerusalemBuildings_Large_09515"
+    ],
+    "hiddenInGame": {
+     "SM_JerusalemBuildings_Grid_P000_P009": true,
+     "SM_JerusalemBuildings_Grid_P000_P010": true,
+     "SM_JerusalemBuildings_Grid_P000_P011": true,
+     "SM_JerusalemBuildings_Large_06766": true,
+     "SM_JerusalemBuildings_Large_07718": true,
+     "SM_JerusalemBuildings_Large_09515": true,
+     "RELEASE_OldCityFacades_Grid_N001_N004": true,
+     "RELEASE_OldCityFacades_Grid_N001_N002": true,
+     "RELEASE_OldCityFacades_Grid_N001_N003": true
+    }
+   }
+  }
+ ],
+ "traces": {
+  "groundZ": {
+   "v7": 3657.8121792816455,
+   "v8": 2199.4864063686327,
+   "gate": 3236.089024161556
+  },
+  "rows": [
+   {
+    "label": "ground",
+    "start": [
+     112900.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     112900.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 26342.1875,
+    "location": [
+     112900.0,
+     0.0,
+     3657.8121792816455
+    ],
+    "hitActor": "SM_JerusalemTerrain_10_08",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Terrain/SM_JerusalemTerrain_10_08.SM_JerusalemTerrain_10_08"
+   },
+   {
+    "label": "ground",
+    "start": [
+     122900.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     122900.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 27800.513671875,
+    "location": [
+     122900.0,
+     0.0,
+     2199.4864063686327
+    ],
+    "hitActor": "SM_JerusalemTerrain_11_08",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Terrain/SM_JerusalemTerrain_11_08.SM_JerusalemTerrain_11_08"
+   },
+   {
+    "label": "ground",
+    "start": [
+     116900.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     116900.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 26763.91015625,
+    "location": [
+     116900.0,
+     0.0,
+     3236.089024161556
+    ],
+    "hitActor": "SM_Jerusalem_StonePaths_03_Grid_P011_N001",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Streets/SM_Jerusalem_StonePaths_03_Grid_P011_N001.SM_Jerusalem_StonePaths_03_Grid_P011_N001"
+   },
+   {
+    "label": "v7_camera_to_gate_opening",
+    "start": [
+     112900.0,
+     0.0,
+     3825.8121792816455
+    ],
+    "end": [
+     116900.0,
+     0.0,
+     4736.089024161556
+    ],
+    "blockingHit": false
+   },
+   {
+    "label": "v7_camera_level_east_20000cm",
+    "start": [
+     112900.0,
+     0.0,
+     3825.8121792816455
+    ],
+    "end": [
+     136900.0,
+     0.0,
+     3825.8121792816455
+    ],
+    "blockingHit": false
+   },
+   {
+    "label": "v8_camera_to_gate_opening",
+    "start": [
+     122900.0,
+     0.0,
+     2367.4864063686327
+    ],
+    "end": [
+     116900.0,
+     0.0,
+     4736.089024161556
+    ],
+    "blockingHit": false
+   }
+  ],
+  "note": "Enclosure HISMs are NoCollision: a hit on the wall is impossible by design; these show what else is in the line of sight and the ground under each camera."
+ },
+ "pieEnded": true,
+ "mapBytesUnchanged": true,
+ "mainBytesUnchanged": true
+}

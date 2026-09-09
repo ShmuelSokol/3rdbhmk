@@ -1,3 +1,44 @@
+# Astra continuation — 9 September 2026 UTC
+
+This section supersedes the older state below. Claude stopped at the five-hour limit,
+initially at published checkpoint `9f3b5404` and six unpublished source/script files.
+Claude subsequently published evening handoff `06514361`, including the main repairs and
+source edits already made by this continuation. Do not attribute those main repairs solely
+to the old 18:28 state or replay them. Their originals
+are preserved in `C:/Mikdash/Working-5.8/ReviewCheckpoints/AstraResume-20260909T010506Z`.
+
+Current continuation:
+- Full initial gate: 31 suites and Unreal build succeeded. After the route fix, the focused
+  PopulationSceneMath test passed 356 checks and `verify.py --quick --build` passed 8/8.
+  The intervening full rerun was stopped when a user GUI appeared; never present it as passed.
+- Main enclosure repair saved five previously missing packages, rebound the existing actor,
+  saved/reopened, and preserved other map bytes. Fresh PIE loaded them and generated 467
+  wall, 5 gate, 4 corner and 476 foundation instances. Fresh complete diagnostic 013502474817Z passed with zero errors and unchanged maps/saves.
+- Main V3 body variants bound/saved/reopened; main new-body movement passed all24 after pilot retirement (014759299455Z).
+- LimestoneAshlar instancing override saved/compiled, with 389 pixel instructions and
+  unrelated assets/maps preserved. Fresh diagnostic confirms usage; actual east-gate image now shows the previously missing gate.
+- Candidate Chananel route refusal traced to Claude's Aron pivot change. Extension now
+  accepts only zero or the reviewed (-6200,0,0) pivot, with original safety checks retained.
+  Candidate enclosure/body integration saved/reopened successfully (012444078054Z and
+  012510128898Z receipts). Live body test 012656713742Z: all24 spawned with24 correct
+  variant bodies; all24 passed mesh/scale/capsule/feet/head/garment and static-route checks;
+  23/24 moved during24 simulated seconds. Miryam remained stationary; dynamic-blocker
+  follow-up confirmed old pilot actors blocked her whole leg. Both maps now retain those
+  five actors hidden/noncolliding with pilot startup disabled; candidate post-retirement test014551106415Z passed all24 on every body/route/movement check; main014759299455Z also passed all24 checks with unchanged maps/saves. No maps or original saves changed during the probe.
+- Lighting C applied/saved/reopened014035693311Z and fresh verified014209573438Z;
+  six A/B captures reviewed (013656Z), incremental facade/partition improvement accepted.
+  No fresh package/cook or candidate promotion yet.
+
+The active integrated map still defaults to Main50. The Selected48 candidate is isolated.
+Sky/weather, water, soundscape, surface wear, intro and remaining integration
+items from Claude's queue are not claimed complete by this continuation.
+Read-only review of sky/gate helpers found additional pending safety/readback repairs:
+load-before-dirty guards, sky post-reopen stale references and uncheckpointed revert,
+gate collision-verification omission, invalid tasklist wildcard inventories. Do not run
+those helpers as if they have completed native acceptance.
+
+---
+
 # Astra takeover after Claude finished
 
 ## Latest candidate runtime/render check

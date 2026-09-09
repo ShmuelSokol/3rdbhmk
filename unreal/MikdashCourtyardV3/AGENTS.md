@@ -1,4 +1,44 @@
+Candidate V3 live probe054619: resolved correct V3 mesh, movement observed, garment
+1/1 slot applied/read back. Floor misses0, Visibility capsule hits0, native blocked legs1.
+All maps/original saves unchanged. This confirms body resolution and limited movement,
+not animation visual quality or full service. Startup stays OFF until grounded route repair.
+
+Candidate saved-gold render054410 reviewed: altar detail and paroches/reliefs readable,
+no clipped-white vessel glare in this view. Strong saturated gold, flat floor and vessel
+geometry remain unfinished. All maps/material instances/original saves unchanged.
+Candidate V3 service live90-second probe is running; route still expected to refuse.
+
+Candidate V3 body fresh process054200 verified all configured fields and unchanged
+map0099080d, no protected differences. Fresh candidate interior capture is running next.
+
+Candidate V3 body configuration054004 saved/reopened, protected differences empty,
+map0099080da4e350b387e75ad49160976582ed73f26d5d9f29500a097f9ba9e8cb.
+Correct V3 mesh, idle/walk clips, Mantle slot, scale1 and yaw-90 are hard references.
+Startup remains OFF; garments are explicitly stand-ins. Fresh-process verification running.
+
+Service body V3 full gate PASS9/9,32/32math suites, UBT6actions35.47s
+(verify-ubt-gqbx1ndq.log). Candidate configuration is now being applied; not runtime acceptance.
+
+## Current continuation — 2026-09-09 05:36 UTC
+
+Candidate service placement051407 and fresh verification051542 succeeded with startup OFF.
+Runtime051751 observed movement but one native blocked leg; no full service acceptance.
+Diagnostic052655 confirms the doorway-to-stone linear height interpolation leaves the floor:
+index3 planned Z890.057 versus measured887.040; endpoint floor936.082 matches planned936.
+Do not relax floor tolerance: grounded path interpolation and pre-movement admission both
+need repair. Diagnostic changed no maps or original saves. Body V3 correction is under
+full build verification, not yet configured in the map.
+Candidate gold apply052235 and fresh052452 verified1113 slots; protected differences empty.
+Candidate hash62c825bd16586626b3d765355c394ed190f7689cbefcb29105b7878c61984b47.
+Saved candidate gold visual review remains pending.
+
 ## Current integration — 2026-09-09 04:53 UTC
+
+Candidate intro051013435717Z also starts at0.0, finishes naturally, restores controls,
+and reports zero continuous sweep/headroom hits with unchanged maps/saves. Gate images
+reviewed with the same limited two-still acceptance; terrain/road transitions unfinished.
+Published edc1fcf5 includes main gold and clock/service compile evidence. Candidate service
+placement is now being attempted with startup off; runtime is still pending.
 
 Main intro050722047734Z now observes playback from0.0s through natural completion,
 602samples, zero continuous sweep/headroom hits, controls restored, no map/save changes.

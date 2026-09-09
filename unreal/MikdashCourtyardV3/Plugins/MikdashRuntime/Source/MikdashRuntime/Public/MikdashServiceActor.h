@@ -153,7 +153,7 @@ public:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Kohen service|Body")
     TObjectPtr<AActor> AuthoredBody;
 
-    /** Optional explicit mesh. Tried after MetaHumans, before the pilgrim rigs. */
+    /** Optional explicit mesh. Takes priority over automatic MetaHuman/pilgrim discovery. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
     TObjectPtr<USkeletalMesh> ConfiguredMesh;
 
@@ -181,6 +181,11 @@ public:
     TObjectPtr<UAnimSequence> IdleAnimation;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
     TObjectPtr<UAnimSequence> WalkAnimation;
+    /** Physical visual scale/facing for the explicitly configured body, never amah-scaled. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
+    float ConfiguredBodyVisualScale = 1.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
+    float ConfiguredBodyYawDegrees = 0.0f;
 
     // ---- runtime control -------------------------------------------------
     UFUNCTION(BlueprintCallable, Category = "Kohen service")
@@ -204,6 +209,8 @@ public:
     /** Versioned placement guard: anchors remain legacy50 and decode once at runtime. */
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     int32 GetServiceSceneFrameAdapterVersion() const { return 1; }
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    int32 GetServiceBodyAdapterVersion() const { return 1; }
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     FString GetServiceStatus() const { return Status; }
     /** Which mesh and which garment material were actually used, and why. */
@@ -243,6 +250,9 @@ private:
      * If it ever fails the sequence stops; it never clamps and continues. */
     bool MoveIsPermitted(const FVector& To, FString& OutReason) const;
     void PlaceBody(const FVector& Feet, const FVector& FaceTarget);
+    void UpdateBodyAnimation(bool bMoving);
+    float ActiveBodyYawDegrees = 0.0f;
+    UPROPERTY(Transient) TObjectPtr<UAnimSequence> PlayingBodyAnimation;
     MikdashService::Scenario NativeScenario() const;
 
     UPROPERTY(Transient) TObjectPtr<AActor> Body;

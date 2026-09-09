@@ -1,0 +1,32 @@
+{
+  "status": "diagnosed_not_implemented",
+  "evidence": "candidate-runtime-20260909T052655736627Z.json",
+  "startupEnabled": false,
+  "defects": [
+    "Station XYZ interpolation creates a ramp over flat floor.",
+    "Dwell-to-walking can consume leftover time before reviewing the new leg."
+  ],
+  "design": [
+    "Admit each destination leg before consuming movement time; stale admission cannot authorize another leg.",
+    "Share one measured support path between playback and collision review.",
+    "Validate stair transitions separately with physical capsule sweeps; refuse unsupported approaches."
+  ],
+  "preservedConstraints": {
+    "floorToleranceCm": 3,
+    "minimumNormalZ": 0.95,
+    "capsuleRadiusCm": 34,
+    "capsuleHalfHeightCm": 96,
+    "bodyLiftCm": 98,
+    "ritualStations": 18
+  },
+  "tests": [
+    "Blocked next leg after dwell consumes no travel.",
+    "Large delta crossing multiple legs requires separate admissions.",
+    "Pause and restart invalidate stale admission.",
+    "Flat floor remains flat until measured stair treads.",
+    "Forward and reverse follow same admitted supports.",
+    "Unsupported gap, steep normal, bad floor agreement and blocked capsule refuse.",
+    "Decode candidate coordinates once; keep physical capsule dimensions.",
+    "30 and 60 fps endpoint agreement; recompute path timing honestly."
+  ]
+}

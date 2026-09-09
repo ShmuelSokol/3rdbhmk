@@ -50,8 +50,7 @@ const TCHAR* RefusalText(Refusal Why)
 // Fallbacks, most preferred first. MetaHumans are looked for on disk before any
 // of these; see FindMetaHumanMesh.
 const TCHAR* const MeshFallbacks[] = {
-    TEXT("/Game/MikdashV3/CharacterReview/PilgrimRigV3/PilgrimRigV3/SkeletalMeshes/PilgrimRigV3.PilgrimRigV3"),
-    TEXT("/Game/MikdashV3/CharacterReview/PilgrimRigV3/SkeletalMeshes/PilgrimRigV3.PilgrimRigV3"),
+    TEXT("/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.V3_Pilgrim_Man_Standard"),
     TEXT("/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2"),
 };
 
@@ -227,6 +226,7 @@ void AMikdashServiceActor::StopService()
     }
     bActive = false;
     bPaused = false;
+    UpdateBodyAnimation(false);
 }
 
 void AMikdashServiceActor::SetServicePaused(bool bInPaused)
@@ -237,7 +237,7 @@ void AMikdashServiceActor::SetServicePaused(bool bInPaused)
 void AMikdashServiceActor::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    if (!bActive || !Runner.IsReady() || !IsValid(Body)) return;
+    if (!bActive || !Runner.IsReady() || !IsValid(Body)) { UpdateBodyAnimation(false); return; }
 
     const UWorld* World = GetWorld();
     const double Now = World ? World->GetTimeSeconds() : 0.0;
@@ -265,7 +265,7 @@ void AMikdashServiceActor::Tick(float DeltaSeconds)
     }
 
     Runner.Tick(DeltaSeconds, bLegBlocked, bPaused);
-    if (bPaused) return;
+    if (bPaused) { UpdateBodyAnimation(false); return; }
 
     const FVector Stand = ToUnreal(Runner.CurrentStand());
     FString MoveReason;
@@ -274,10 +274,13 @@ void AMikdashServiceActor::Tick(float DeltaSeconds)
         // Defence in depth. The plan was validated before it started, so this
         // cannot normally happen; if it ever does we stop rather than clamp.
         bActive = false;
+        UpdateBodyAnimation(false);
         Status = FString::Printf(TEXT("Stopped: %s The figure was left standing where it was."), *MoveReason);
         return;
     }
+    const FVector PreviousBodyLocation = Body->GetActorLocation();
     PlaceBody(Stand, ToUnreal(Runner.CurrentFace()));
+    UpdateBodyAnimation(FVector::DistSquared(PreviousBodyLocation, Body->GetActorLocation()) > 0.0001);
 
     if (bLegBlocked)
     {
@@ -362,8 +365,23 @@ void AMikdashServiceActor::PlaceBody(const FVector& Feet, const FVector& FaceTar
     if (Delta.SizeSquared2D() > 1.0)
     {
         Facing = FRotationMatrix::MakeFromX(FVector(Delta.X, Delta.Y, 0.0)).Rotator();
+        Facing.Yaw += ActiveBodyYawDegrees;
     }
     Body->SetActorLocationAndRotation(Feet, Facing, /*bSweep=*/false, nullptr, ETeleportType::None);
+}
+
+void AMikdashServiceActor::UpdateBodyAnimation(bool bMoving)
+{
+    // Authored bodies keep their own animation setup. Switch only on real movement,
+    // so a held/paused body never walks in place and clips do not restart each tick.
+    if (!bBodyWasSpawned || !IsValid(BodyMesh)) return;
+    UAnimSequence* Desired = bMoving && IsValid(WalkAnimation) ? WalkAnimation.Get() : IdleAnimation.Get();
+    if (!IsValid(Desired) || Desired == PlayingBodyAnimation) return;
+    if (!BodyMesh->GetSkeletalMeshAsset() || Desired->GetSkeleton() != BodyMesh->GetSkeletalMeshAsset()->GetSkeleton()) return;
+    BodyMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+    BodyMesh->SetAnimation(Desired);
+    BodyMesh->Play(true);
+    PlayingBodyAnimation = Desired;
 }
 
 // ---------------------------------------------------------------------------
@@ -399,18 +417,18 @@ USkeletalMesh* AMikdashServiceActor::FindMetaHumanMesh(FString& OutPath) const
 
 USkeletalMesh* AMikdashServiceActor::FindBestMesh(EMikdashServiceBodySource& OutSource, FString& OutPath) const
 {
+    if (IsValid(ConfiguredMesh))
+    {
+        OutSource = EMikdashServiceBodySource::ConfiguredMesh;
+        OutPath = ConfiguredMesh->GetPathName();
+        return ConfiguredMesh;
+    }
     FString Path;
     if (USkeletalMesh* Meta = FindMetaHumanMesh(Path))
     {
         OutSource = EMikdashServiceBodySource::MetaHuman;
         OutPath = Path;
         return Meta;
-    }
-    if (IsValid(ConfiguredMesh))
-    {
-        OutSource = EMikdashServiceBodySource::ConfiguredMesh;
-        OutPath = ConfiguredMesh->GetPathName();
-        return ConfiguredMesh;
     }
     for (const FSoftObjectPath& Candidate : ExtraMeshCandidates)
     {
@@ -442,7 +460,6 @@ bool AMikdashServiceActor::ApplyGarment(USkeletalMeshComponent* Mesh, FString& O
     if (!Mesh) { OutReason = TEXT("no mesh component to dress"); return false; }
 
     UMaterialInterface* Chosen = IsValid(GarmentMaterial) ? GarmentMaterial.Get() : nullptr;
-    bool bDedicatedVariant = IsValid(GarmentMaterial);
     if (!Chosen)
     {
         for (const FSoftObjectPath& Candidate : GarmentFallbacks)
@@ -451,7 +468,6 @@ bool AMikdashServiceActor::ApplyGarment(USkeletalMeshComponent* Mesh, FString& O
             if (UMaterialInterface* Found = Cast<UMaterialInterface>(Candidate.TryLoad()))
             {
                 Chosen = Found;
-                bDedicatedVariant = Candidate.ToString().Contains(TEXT("KohenGadol"));
                 break;
             }
         }
@@ -478,9 +494,7 @@ bool AMikdashServiceActor::ApplyGarment(USkeletalMeshComponent* Mesh, FString& O
     OutReason = FString::Printf(
         TEXT("garment %s applied to %d of %d named slots, %d verified by read-back; %s"),
         *ResolvedGarmentPath, Applied, GarmentMaterialSlots.Num(), Verified,
-        bDedicatedVariant
-            ? TEXT("this is the Kohen Gadol variant")
-            : TEXT("this is a STAND-IN, not the eight golden garments: no Kohen Gadol variant exists yet (see SourceAssets/runtime-review/kohen-service/sources.md)"));
+        TEXT("this is a STAND-IN, not the eight golden garments (see SourceAssets/runtime-review/kohen-service/sources.md)"));
     return Verified > 0;
 }
 
@@ -489,6 +503,7 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
     if (IsValid(AuthoredBody))
     {
         Body = AuthoredBody;
+        ActiveBodyYawDegrees = 0.0f;
         bBodyWasSpawned = false;
         BodySource = EMikdashServiceBodySource::AuthoredActor;
         BodyMesh = Body->FindComponentByClass<USkeletalMeshComponent>();
@@ -514,6 +529,8 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
 
     UWorld* World = GetWorld();
     if (!World) { OutReason = TEXT("Refused: no world to spawn the body in."); return false; }
+    if (!FMath::IsFinite(ConfiguredBodyVisualScale) || ConfiguredBodyVisualScale <= 0.0f || !FMath::IsFinite(ConfiguredBodyYawDegrees))
+    { OutReason = TEXT("Refused: invalid physical body scale/facing."); return false; }
 
     FActorSpawnParameters Params;
     Params.Owner = this;
@@ -535,6 +552,33 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
     bBodyWasSpawned = true;
     BodySource = Source;
     ResolvedMeshPath = Path;
+    FString AnimationResolution;
+    if (Source == EMikdashServiceBodySource::PilgrimRigV3)
+    {
+        // Automatic standard-V3 fallback must not inherit incompatible V2 clips.
+        // Compatible authored clips remain intact; explicit mesh/body paths never enter here.
+        const FString ClipRoot = TEXT("/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/");
+        auto ResolveClip = [&](TObjectPtr<UAnimSequence>& Clip, const TCHAR* ClipName)
+        {
+            if (IsValid(Clip) && Clip->GetSkeleton() == Mesh->GetSkeleton())
+                return FString::Printf(TEXT("retained compatible %s"), *Clip->GetPathName());
+            const FString AssetPath = ClipRoot + ClipName + TEXT(".") + ClipName;
+            UAnimSequence* Fallback = LoadObject<UAnimSequence>(nullptr, *AssetPath);
+            if (IsValid(Fallback) && Fallback->GetSkeleton() == Mesh->GetSkeleton())
+            {
+                Clip = Fallback;
+                return FString::Printf(TEXT("automatic V3 clip %s"), *Fallback->GetPathName());
+            }
+            Clip = nullptr;
+            return FString::Printf(TEXT("MISSING compatible V3 clip %s; animation unavailable"), *AssetPath);
+        };
+        AnimationResolution = ResolveClip(IdleAnimation, TEXT("V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle"))
+            + TEXT("; ") + ResolveClip(WalkAnimation, TEXT("V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk"));
+    }
+    ActiveBodyYawDegrees = Source == EMikdashServiceBodySource::ConfiguredMesh ? ConfiguredBodyYawDegrees
+        : Source == EMikdashServiceBodySource::PilgrimRigV3 ? -90.0f : 0.0f;
+    Spawned->SetActorScale3D(FVector(Source == EMikdashServiceBodySource::ConfiguredMesh ? ConfiguredBodyVisualScale : 1.0f));
+    PlayingBodyAnimation = nullptr;
 
     BodyMesh = Spawned->GetSkeletalMeshComponent();
     if (BodyMesh)
@@ -542,12 +586,7 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
         BodyMesh->SetMobility(EComponentMobility::Movable);
         BodyMesh->SetSkeletalMeshAsset(Mesh);
         BodyMesh->SetCollisionProfileName(TEXT("Pawn"));
-        if (IsValid(IdleAnimation))
-        {
-            BodyMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
-            BodyMesh->SetAnimation(IdleAnimation);
-            BodyMesh->Play(true);
-        }
+        UpdateBodyAnimation(false);
     }
 
     FString GarmentReason;
@@ -560,6 +599,7 @@ bool AMikdashServiceActor::ResolveBody(FString& OutReason)
         : TEXT("the PilgrimRigV2 skeletal mesh (no MetaHuman and no V3 rig were available)");
     BodyStatus = FString::Printf(TEXT("Body: %s at %s. Garment: %s."),
         SourceText, *ResolvedMeshPath, *GarmentReason);
+    if (!AnimationResolution.IsEmpty()) BodyStatus += TEXT(" Animation: ") + AnimationResolution;
     return true;
 }
 

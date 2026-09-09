@@ -1,11 +1,22 @@
-## Attempt4 safe checkpoint — 2026-09-09 11:31 UTC
+## Published checkpoint — 2026-09-09; stop requested
+
+Public: https://github.com/ShmuelSokol/3rdbhmk/releases/tag/walkthrough-12-preview
+Attempt4 and App+twoData ZIPs are published. Local and anonymous remote verification
+pass63payloads/59original files. Downloaded child startup is passed_startup_smoke_only,
+exit0, original saves unchanged; SHA329a2d910a531779f07721c0d978693d3fd50b57350d15a0465eed53b542bb63.
+Evidence: SourceAssets/build-review/windows12-download-{manifest,local,remote}.json
+and windows12-downloaded-startup.json. No full-route/settings/preparation/audio
+acceptance implied. Heartbeat PAUSED, no native work. User requested handoff/stop;
+do not start another feature wave. Read HANDOFF-WINDOWS12-PUBLISHED-20260909.md.
+
+## Historical Attempt4 safe checkpoint — 2026-09-09 11:31 UTC
 
 Cook/staging/startup passed; Main/Pause wrapped text fits at1920x1080. UI process
 quit normally; no native work in flight. Read HANDOFF-20260909-READY-TO-PAUSE.md.
 ZIP creation, extraction verification and release upload remain next. User choosing
 pause versus continuation; no full-production/route/audio certification implied.
 
-## Current continuation — Windows12 Attempt3, 2026-09-09
+## Historical continuation — Windows12 Attempt3, 2026-09-09
 
 Attempt3 cook/archive, staging and startup PASS after six-material usage repair
 and menu lifecycle fix. Actual bounded controls PASS: Enter Begin; Space intro skip

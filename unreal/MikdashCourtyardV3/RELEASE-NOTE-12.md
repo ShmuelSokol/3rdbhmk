@@ -1,4 +1,6 @@
-# Walkthrough-12 — development preview, release acceptance pending
+# Walkthrough-12 — published Windows development preview
+
+Public release: https://github.com/ShmuelSokol/3rdbhmk/releases/tag/walkthrough-12-preview
 
 Windows12 Attempt4 cook/archive, staging and packaged startup passed on
 9 September 2026. The configured game/editor/cook map is Selected48, using the exact
@@ -6,7 +8,9 @@ Windows12 Attempt4 cook/archive, staging and packaged startup passed on
 
 The loose-file staging gate passed: distribution help/credits and localisation
 match their source bytes, executables exist, and native IoStore parts meet the
-1.8 GB partition bound. Download and extraction verification remain pending.
+1.8 GB partition bound. Local and anonymous remote download/extraction verification
+passed63payloads with byte coverage of59original packaged files. The downloaded
+child passed bounded startup, exited0 and preserved original saves.
 
 Historical Attempt2 startup loaded the correct Selected48 default but failed:
 six original KotelSurfacePolishV2 materials (`M_KotelSurface_0` through `_5`)
@@ -26,9 +30,9 @@ Attempt3 screenshots showed the full preparation label overflowing its Main/Paus
 button. The wrapping/width constraint fix passes both compilation and Attempt4 Main/Pause
 rendered verification at observed1920x1080; wording and text scaling are preserved.
 
-Before release: prepare ordinary ZIPs,
-verify extraction and payload hashes, and verify the authorized download method.
-No downloadable Windows12 release or production-quality completion is claimed.
+The App and two Data ZIPs are published. Extract all three into the same directory
+with their internal paths intact. Production-quality completion is not claimed.
+The scheduled heartbeat is paused; this is the requested publication/handoff stop.
 
 Known limitations remain: sparse/simple people, unfinished paving/haze and broad
 visual polish; Kotel photo aspect/joint mismatch; bird audio/perch visuals not
@@ -38,6 +42,11 @@ and service animation review. This is an architectural development preview, not
 halachic certification or a claim of a fully sourced future reconstruction.
 
 Evidence:
+- `SourceAssets/build-review/windows12-download-manifest.json`
+- `SourceAssets/build-review/windows12-download-local.json`
+- `SourceAssets/build-review/windows12-download-remote.json`
+- `SourceAssets/build-review/windows12-downloaded-startup.json`
+- Downloaded child SHA256: `329a2d910a531779f07721c0d978693d3fd50b57350d15a0465eed53b542bb63`.
 - `SourceAssets/build-review/windows12-attempt2-cook-20260909T104356.json`
 - `SourceAssets/build-review/windows12-staging-20260909.json`
 - `SourceAssets/build-review/windows12-attempt2-startup-failed-20260909T104532.json`

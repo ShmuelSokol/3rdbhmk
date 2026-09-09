@@ -1,3 +1,20 @@
+## Published handoff — 2026-09-09
+
+Windows12 is public at ShmuelSokol/3rdbhmk release walkthrough-12-preview.
+Anonymous downloads and clean extraction passed63payload/59original files.
+Downloadedcopy startup smoke passed, normal exit and original saves unchanged.
+Current handoff: HANDOFF-WINDOWS12-PUBLISHED-20260909.md. Heartbeat PAUSED.
+User requested publication then handoff/stop; no new feature wave. Broader quality
+goal remains incomplete. Final documentation verification and push only.
+
+## Historical distribution in progress — 2026-09-09
+
+User authorized Windows download publication then handoff/stop. Three ordinary
+ZIPs prepared in C:/Mikdash/Working-5.8/Walkthrough12-Distribution; CRC/payload
+hashes passed. Clean local extraction verification running; no release yet.
+Archive source is Attempt4 child329a2d910a53... . After published-download verification,
+write final handoff and pause recurring heartbeat; do not start new feature work.
+
 ## Safe checkpoint — 2026-09-09 11:31 UTC
 
 Attempt4 cook/staging/strictstartup PASS. Main/Pause preparation text wraps/fits

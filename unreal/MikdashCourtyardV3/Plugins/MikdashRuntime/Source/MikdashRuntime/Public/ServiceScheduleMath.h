@@ -568,10 +568,21 @@ struct Progress
 class Sequencer
 {
 public:
+    struct MotionRequest
+    {
+        std::size_t Index = 0;
+        std::uint64_t Generation = 0;
+        Point3 Destination{};
+    };
     bool Configure(Scenario Day, const Plan& Sequence, double SpeedCmPerSec,
                    double IntervalSeconds, double MinLoopSeconds = DefaultMinLoopSeconds,
                    double MaxLoopSeconds = DefaultMaxLoopSeconds, const Geometry& G = Geometry{})
     {
+        ++MotionGeneration;
+        ExternalMotion = false;
+        ExternalPaused = false;
+        MotionAdmitted = false;
+        LastArrivedIndex = 0;
         std::size_t Bad = 0;
         LastRefusal = ValidatePlan(Day, Sequence, SpeedCmPerSec, MinLoopSeconds, MaxLoopSeconds, Bad, G);
         if (LastRefusal != Refusal::None) { BadStation = Bad; Ready = false; return false; }
@@ -595,6 +606,98 @@ public:
     Scenario Day() const { return Day_; }
     double LoopSeconds() const { return PlanLoopSeconds(Sequence_, Speed); }
 
+    // Opt-in motor mode. The caller owns movement and validates physical arrival;
+    // this class cannot prove floor/capsule clearance. No native actor uses it yet.
+    bool ConfigureExternal(Scenario Day, const Plan& Sequence, double SpeedCmPerSec,
+                           double IntervalSeconds, double MinLoopSeconds = DefaultMinLoopSeconds,
+                           double MaxLoopSeconds = DefaultMaxLoopSeconds, const Geometry& G = Geometry{})
+    {
+        if (!Configure(Day, Sequence, SpeedCmPerSec, IntervalSeconds, MinLoopSeconds, MaxLoopSeconds, G)) return false;
+        ExternalMotion = true;
+        return true;
+    }
+    bool PendingMotion(MotionRequest& Out) const
+    {
+        if (!Ready || !ExternalMotion || ExternalPaused ||
+            (State.State != Phase::Walking && State.State != Phase::Held)) return false;
+        Out = MotionRequest{State.Index, MotionGeneration, Sequence_.Items[State.Index].Stand};
+        return true;
+    }
+    bool AcknowledgeAdmission(const MotionRequest& Request, bool Allowed)
+    {
+        if (!MatchesMotion(Request)) return false;
+        MotionAdmitted = Allowed;
+        State.BlockedNow = !Allowed;
+        if (!Allowed)
+        {
+            if (State.State != Phase::Held) ++State.BlockedLegs;
+            State.State = Phase::Held;
+        }
+        else State.State = Phase::Walking;
+        return true;
+    }
+    bool AcknowledgeArrival(const MotionRequest& Request, bool PhysicallyValidated)
+    {
+        if (!MatchesMotion(Request) || !MotionAdmitted || !PhysicallyValidated) return false;
+        LastArrivedIndex = State.Index;
+        State.State = Phase::Dwelling;
+        State.InPhaseSeconds = 0.0;
+        State.BlockedNow = false;
+        MotionAdmitted = false;
+        ++MotionGeneration; // duplicate arrival/admission cannot affect this dwell
+        return true;
+    }
+    void SetExternalPaused(bool Paused)
+    {
+        if (!ExternalMotion || Paused == ExternalPaused) return;
+        ExternalPaused = Paused;
+        ++MotionGeneration; // pre-pause acknowledgments remain stale after resume
+        MotionAdmitted = false;
+    }
+    bool TickExternal(double DeltaSeconds)
+    {
+        if (!Ready || !ExternalMotion || !std::isfinite(DeltaSeconds) || DeltaSeconds < 0) return false;
+        if (ExternalPaused) return true;
+        if (State.State == Phase::Walking || State.State == Phase::Held)
+        {
+            if (State.State == Phase::Held) State.HeldSeconds += DeltaSeconds;
+            return true; // no synthetic travel, arrival, or dwell-time credit
+        }
+        double Remaining = DeltaSeconds;
+        for (int Guard=0; Remaining>0 && Guard<4096; ++Guard)
+        {
+            if (State.State == Phase::Waiting)
+            {
+                const double Need = Interval-State.InPhaseSeconds;
+                if (Remaining<Need) { State.InPhaseSeconds+=Remaining; return true; }
+                Remaining-=Need>0 ? Need : 0;
+                State.Index=0; LastArrivedIndex=0; State.State=Phase::Dwelling; State.InPhaseSeconds=0;
+            }
+            else if (State.State == Phase::Dwelling)
+            {
+                const double Need=Sequence_.Items[State.Index].DwellSeconds-State.InPhaseSeconds;
+                if (Remaining<Need) { State.InPhaseSeconds+=Remaining; return true; }
+                Remaining-=Need>0 ? Need : 0;
+                State.InPhaseSeconds=0;
+                if (State.Index+1>=Sequence_.Count)
+                {
+                    ++State.CompletedLoops;
+                    State.State=Interval>0 ? Phase::Waiting : Phase::Dwelling;
+                    if (Interval==0) { State.Index=0; LastArrivedIndex=0; }
+                    continue;
+                }
+                ++State.Index; ++MotionGeneration;
+                MotionAdmitted=false;
+                State.State=Phase::Walking;
+                State.LegLengthCm=Distance2D(Sequence_.Items[State.Index-1].Stand,Sequence_.Items[State.Index].Stand);
+                State.LegTravelledCm=0;
+                return true; // discard remaining dt: motor has not moved yet
+            }
+            else return false;
+        }
+        return true;
+    }
+
     // LegBlocked is the caller's capsule sweep result for the CURRENT leg.
     // Returns false and changes nothing when not configured or the step is bad.
     bool Tick(double DeltaSeconds, bool LegBlocked, bool Paused = false)
@@ -610,6 +713,7 @@ public:
     template<class Admission>
     bool TickWithAdmission(double DeltaSeconds, Admission Admit, bool Paused = false)
     {
+        if (ExternalMotion) return false;
         if (!Ready) return false;
         if (!std::isfinite(DeltaSeconds) || DeltaSeconds < 0.0) return false;
         if (Paused) return true;
@@ -690,6 +794,8 @@ public:
     Point3 CurrentStand() const
     {
         if (!Ready || Sequence_.Count == 0) return Point3{};
+        // Motor mode exposes only the last confirmed station, never invented motion.
+        if (ExternalMotion) return Sequence_.Items[LastArrivedIndex].Stand;
         if (State.State == Phase::Walking || State.State == Phase::Held)
         {
             const Point3& A = Sequence_.Items[State.Index - 1].Stand;
@@ -737,6 +843,13 @@ public:
     }
 
 private:
+    bool MatchesMotion(const MotionRequest& Request) const
+    {
+        MotionRequest Current;
+        return PendingMotion(Current) && Request.Index==Current.Index && Request.Generation==Current.Generation
+            && Request.Destination.X==Current.Destination.X && Request.Destination.Y==Current.Destination.Y
+            && Request.Destination.Z==Current.Destination.Z;
+    }
     static const char* WalkingTextFor(StationKind Kind)
     {
         switch (Kind)
@@ -759,6 +872,11 @@ private:
     double Interval = 0.0;
     bool Ready = false;
     bool EntryPending = false;
+    bool ExternalMotion = false;
+    bool ExternalPaused = false;
+    bool MotionAdmitted = false;
+    std::uint64_t MotionGeneration = 0;
+    std::size_t LastArrivedIndex = 0;
     Refusal LastRefusal = Refusal::NotConfigured;
     std::size_t BadStation = 0;
 };

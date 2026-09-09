@@ -322,6 +322,54 @@ int main()
     {if(Index==1 && Entering)++FirstLegEntries;return FirstLegEntries<2;});
     Check(FirstLegEntries==2 && AdmissionRun.Where().LegTravelledCm==0,"repeated loop first leg needs fresh approval");
 
+    Sequencer Motor;
+    Check(Motor.ConfigureExternal(Scenario::OrdinaryDay,P,Speed,0),"external config");
+    Sequencer::MotionRequest Request;
+    Check(!Motor.PendingMotion(Request),"no motion while initial dwell");
+    Check(!Motor.Tick(1000,false),"legacy tick cannot drive external motor");
+    Check(Motor.TickExternal(1000000),"external huge initial dt");
+    Check(Motor.PendingMotion(Request) && Request.Index==1,"huge dt stops at first pending destination");
+    Check(!Motor.AcknowledgeArrival(Request,true),"arrival requires admission");
+    Check(Motor.AcknowledgeAdmission(Request,false),"motor refusal recorded");
+    Motor.TickExternal(1000000);
+    Check(Motor.Where().State==Phase::Held && Motor.Where().LegTravelledCm==0 && Motor.Where().CompletedLoops==0,"blocked motor cannot outrun actual body");
+    auto Wrong=Request; ++Wrong.Index;
+    Check(!Motor.AcknowledgeAdmission(Wrong,true),"wrong leg rejected");
+    Wrong=Request; Wrong.Destination.Z+=1;
+    Check(!Motor.AcknowledgeAdmission(Wrong,true),"tampered destination rejected");
+    Check(Motor.AcknowledgeAdmission(Request,true),"current admission accepted");
+    Check(!Motor.AcknowledgeArrival(Request,false),"unvalidated arrival refused");
+    Motor.SetExternalPaused(true);
+    Check(!Motor.AcknowledgeArrival(Request,true) && !Motor.PendingMotion(Wrong),"paused acknowledgments refused");
+    Motor.TickExternal(1000000);
+    Motor.SetExternalPaused(false);
+    Check(!Motor.AcknowledgeAdmission(Request,true),"prepause token remains stale on resume");
+    Check(Motor.PendingMotion(Request) && Motor.AcknowledgeAdmission(Request,true),"resume requires fresh admission");
+    Motor.TickExternal(1000000);
+    Check(Motor.Where().State==Phase::Walking && Motor.Where().InPhaseSeconds==0,"travel time never becomes dwell");
+    Check(Motor.AcknowledgeArrival(Request,true),"validated actual arrival accepted");
+    Check(Motor.Where().State==Phase::Dwelling && Motor.Where().InPhaseSeconds==0,"arrival begins fresh zero dwell");
+    Check(!Motor.AcknowledgeArrival(Request,true),"duplicate arrival rejected");
+    Motor.TickExternal(0.25);
+    Check(Motor.Where().InPhaseSeconds==0.25,"only subsequent dt counts toward dwell");
+    auto OldGeneration=Request;
+    Check(Motor.ConfigureExternal(Scenario::OrdinaryDay,P,Speed,0),"restart motor");
+    Motor.TickExternal(1000);
+    Check(!Motor.AcknowledgeAdmission(OldGeneration,true),"restart invalidates old generation");
+    int Arrivals=0;
+    while(Motor.Where().CompletedLoops<2 && Arrivals<100)
+    {
+        if(Motor.PendingMotion(Request))
+        {
+            Check(Motor.AcknowledgeAdmission(Request,true) && Motor.AcknowledgeArrival(Request,true),"each loop leg acknowledged");
+            ++Arrivals;
+        }
+        Motor.TickExternal(1000);
+    }
+    Check(Motor.Where().CompletedLoops==2 && Arrivals==static_cast<int>(2*(P.Count-1)),"two loops require every actual arrival");
+    Check(!Motor.AcknowledgeArrival(OldGeneration,true),"old loop token remains stale");
+    Check(!Motor.TickExternal(NaN) && !Motor.TickExternal(-1),"invalid external dt refused");
+
     std::cout << "Service schedule: " << Passed
               << " checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, "
                  "five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)\n";

@@ -134,7 +134,32 @@ def diagnose_stone_leg(world,actor,body):
         floor=supports['nativeRange']
         matches=bool(floor and floor['impact'] and floor['normal'] and abs(floor['impact'][2]-point.z)<=3 and floor['normal'][2]>=.95)
         rows.append({'index':index,'plannedFeet':xyz(point),'floorMatchesNative':matches,**supports})
-    return {'from':xyz(start),'to':xyz(end),'samples':rows,'firstMismatch':next((r['index'] for r in rows if not r['floorMatchesNative']),None),'scope':'Read-only support traces and stationary physical capsule samples using Pawn profile; no continuous step traversal acceptance'}
+    # Authored stance proposals only; never move the figure or rewrite its anchors.
+    manifest_path = ROOT/'SourceAssets/vessels-review/MenorahV4/geometry-manifest.json'
+    placement_path = ROOT/'Scripts/release_import_menorah_v4.spec.json'
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8-sig'))
+    placement = json.loads(placement_path.read_text(encoding='utf-8-sig'))['placement']
+    stone = manifest['parameters']['stone']
+    part = next(m for m in manifest['meshes'] if m['name']=='SM_MenorahV4_StepStone')
+    if stone['steps'] != 3 or placement['yaw'] != -90.0:
+        raise RuntimeError('Unsupported top-tread proposal source geometry')
+    origin = placement['fixedOrigin']
+    local_y = part['bounds_cm']['min'][1] + stone['tread']/2
+    proposal = u.Vector((origin[0]+local_y)*.96-248,origin[1]*.96,(origin[2]+stone['steps']*stone['rise'])*.96)
+    proposals = []
+    for offset in (-20.0,0.0,20.0):
+        point = proposal + u.Vector(0,offset,0)
+        floor = hit_record(u.SystemLibrary.line_trace_single(world,point+u.Vector(0,0,30),point-u.Vector(0,0,30),u.TraceTypeQuery.TRACE_TYPE_QUERY1,False,[body,actor],u.DrawDebugTrace.NONE,True))
+        center = point+u.Vector(0,0,98)
+        capsule = hit_record(u.SystemLibrary.capsule_trace_single_by_profile(
+            world_context_object=world,start=center+u.Vector(0,0,.1),end=center,
+            radius=34.0,half_height=96.0,profile_name='Pawn',trace_complex=False,
+            actors_to_ignore=[body,actor],draw_debug_type=u.DrawDebugTrace.NONE,ignore_self=True))
+        proposals.append({'proposedFeet':xyz(point),'floor':floor,'pawnProfileCapsule':capsule,
+                          'floorAgreement':bool(floor and floor['impact'] and floor['normal'] and abs(floor['impact'][2]-point.z)<=3 and floor['normal'][2]>=.95)})
+    return {'from':xyz(start),'to':xyz(end),'samples':rows,'firstMismatch':next((r['index'] for r in rows if not r['floorMatchesNative']),None),
+            'topTreadProposals':proposals,'proposalSourceHashes':{str(manifest_path):sha(manifest_path),str(placement_path):sha(placement_path)},
+            'scope':'Read-only support traces and stationary physical capsule samples using Pawn profile; top-tread points are authored proposals, no anchor edits or continuous step traversal acceptance'}
 
 
 def tick(dt):

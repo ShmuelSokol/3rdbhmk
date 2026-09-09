@@ -1,3 +1,19 @@
+External-motion protocol fullgate9/9,32math suites, UBT6actions22.93s PASS
+verify-ubt-4absy7ys.log. API compile-verified only; no native motor wiring yet.
+Legacy runtime behavior unchanged. Next phase must use physical arrival, never bool
+validation without actual floor/capsule/zone evidence.
+
+Top-tread probe061945: all three authored candidate points have actual floor936.00006,
+normal1 and no stationary Pawn-profile capsule hit; centreX-5306.3264. Maps/saves
+unchanged. This validates standing samples only, not travel. No anchors changed.
+Pure external-motion API100315 focusedchecks passed; fullgate currently running.
+
+Published collision checkpoint6ad4e09b. Next bounded wave: worker prepares pure
+external-motion sequencing API/tests (NOT runtime-wired); current DLL remains prior
+admission build. Root top-tread proposal probe uses prior binary and read-only geometry
+queries. Proposed centre[-5306.3264,302.5689587,936.0000586] is authored from the existing
+mesh top tread; no station anchors changed. Native PID47180 owned by root; requery first.
+
 Stair V2 fresh060918 verified; live061102 simple/complex supports agree at all71
 sampled positions. Endpoint actual920 vs planned936 remains wrong. Four stationary
 Pawn-profile capsule samples blocked; full grounded stair path still unresolved.

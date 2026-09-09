@@ -1,0 +1,515 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-09",
+  "purpose": "Human-reviewable plan consumed by Scripts/release_sanctuary_finish_v2.py. Brings the House interiors up from the state left by lighting variant C and the vessel-gold pass, which together fixed the Kodesh partition and the vessels but left the entire sanctuary SHELL - both floors, the ceiling, the five wall veneers and the two entrance jambs, 10 slots and roughly 1500 m2 of surface - still carrying M_Sanctuary_gold: a parameterless constant-colour metal at roughness ~0.34 with no normal map. That shell is the flat brown floor and the flat cream ceiling in SourceAssets/visual-review/release-capture-20260908T212136Z. Every number here is an authored proposal read back numerically after save and reopen. Nothing here is visual acceptance and no claim of cinematic quality follows from a parameter change.",
+  "diagnosis": {
+    "measuredTextureSet": "All four new instances sample the same set the existing gold uses, /Game/MikdashV3/Materials/PBR/ScratchedMetal (source SourceAssets/materials-pbr/scratched-metal, a CC0 'blue metal plate'). Measured on the source files: ALBEDO linear luminance mean 0.049 (per channel 0.023/0.049/0.074) - it is a near-black blue plate, which is why every gold instance in this project sets AlbedoFlatness 1.0 and must keep it: BaseColor = lerp(albedo, 1.0, AlbedoFlatness) * Tint, so any flatness below 1.0 drives the gold toward black and blue. ARM.G (the roughness source) mean 0.285, p5-p95 0.216-0.369, std 0.051. NORMAL map xy deviation mean 0.016, p50 0.012, p95 0.037.",
+    "whyTheGoldReadsFlat": "M_PBR_Tiled bends the world normal by deviation x NormalStrength. At the inherited NormalStrength 0.6 the p95 bend is 0.6 x 0.037 = 0.022, about 1.3 degrees: numerically present, visually nil. With AlbedoFlatness pinned at 1.0 the base colour is a constant, and AO (ARM.R) has mean 0.995 and is likewise constant. So of the four things that could give beaten gold a tonal range - albedo variation, AO, roughness variation and facet shading - only roughness variation was live. That is the whole reason the surfaces read as one flat value.",
+    "chosenLever": "Raise NormalStrength so the facets shade, and lower TilingCm so the pattern sits at a plausible physical scale. The reviewed limestone pass (lighting v3 variant A) chose a world-normal deviation of p95 0.09 x 2.5 = 0.22 (about 13 degrees) as the level at which surface relief reads under this sun. Matching that same 0.22 target on this normal map gives 0.22 / 0.037 = 5.95, hence NormalStrength 6.0 for the walls and the partition, stepped down for the floor and ceiling which are seen at grazing angles.",
+    "whyTilingChanges": "TilingCm is a world-space triplanar scale, so it is literally the physical size of the texture footprint. At the inherited 250 cm the low-frequency content of the plate texture appears as blotches about 2.5 m across; that is the mottled 'wet' patterning visible on the partition in lighting-v3-20260909T080856Z-AstraIntegrated48__baseline__v3_heikhal_menorah.png. 90 cm puts the facets at hammered-sheet scale.",
+    "valueHierarchy": "The Kodesh frame's complaint is 'uniform gold with almost no tonal range'. Per-texel variation alone will not fix a room where every plane returns the same value. So the tints step the shell in value while keeping the reviewed hue exactly: walls 1.00x, floor 0.85x (-0.23 stop), ceiling 0.77x (-0.38 stop) of the reviewed gold (0.6105, 0.39157, 0.0865). Hue is unchanged, so nothing clashes with the 1113 vessel slots or the partition already carrying that colour.",
+    "notAttempted": "Real per-panel gold variation, hammer facets authored as geometry, and a genuine warm-to-cool Fresnel shift all need a different texture set or a different master material. M_PBR_Tiled is shared and protected, so this pass can only scale what the existing set contains. Say so rather than claiming the gold was rebuilt.",
+    "normalStrengthCorrection": "FIRST PASS WAS TOO STRONG AND THIS IS THE CORRECTION. NormalStrength was first set to 6.0 on the walls and partition by matching the reviewed limestone pass's world-normal deviation target of p95 0.22. That transfer was wrong: limestone is a DIELECTRIC at roughness ~0.8, where a bent normal shifts diffuse shading; this gold is METALLIC at roughness 0.54, where the same bend swings a specular lobe and throws mirror hits. Measured on the pixel-comparable main-map pair at camera [-4000,0,1093] (before = lighting-v3-20260909T045055Z gold-vessel-ab matte_vessels, after = lighting-v3-20260909T230400Z SanctuaryV2b): the left wall's tonal spread p95-p05 went 27.5 -> 88.3 and its std 8.5 -> 27.7, which is the intended gain, but its clipped fraction went 0.0000 -> 0.0403 and the whole-frame clipped fraction went 0.00065 -> 0.00886, a 13x regression. So: 6.0 -> 3.5 wall, 6.0 -> 3.0 partition, 3.5 -> 2.5 floor, 4.5 -> 3.0 ceiling, and the menorah practical drops to 90 cd with specular_scale 0.3 (its job is a diffuse pool, not specular flares on beaten metal a metre away). Keeping most of the modelling while giving back the clipping is the trade this correction makes.",
+    "partitionReverted": "THE PARTITION CHANGE WAS TRIED AND REVERTED. Retiling the reviewed variant-C partition from 250 cm to 90 cm did not improve it. Measured on the pixel-comparable main-map trio at camera [-4000,0,1093]: partition p50 sRGB 175.5 (variant C) -> 178.8 (V2 pass 1) -> 180.5 (V2 pass 2), i.e. slightly BRIGHTER, not darker; tonal spread p95-p05 essentially unchanged at 115.1 / 115.8 / 114.8; and clipped fraction 0.00228 -> 0.00798 -> 0.00475, so it stayed about twice the variant-C value. Visually the finer tile turned the 2.5 m blotches into a regular grid of blobs about 0.9 m apart that reads as wallpaper: on a 25 m wall a world-space triplanar tile repeats visibly at any scale, and 27 repeats across is a stronger tell than 10. The three partition components are therefore put back on MI_PBR_GoldMatte_Partition exactly as variant C left them. Variant C stands as the reviewed answer for the partition; this pass could not better it, and the honest remaining fix is a different texture set or per-panel UVs, not another parameter."
+  },
+  "targetMaps": {
+    "candidate": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "main": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough"
+  },
+  "candidateTransform": {
+    "rule": "candidate = 0.96 * main about the fixed architecture origin [-6200,0,0]: x' = 0.96*x - 248, y' = 0.96*y, z' = 0.96*z",
+    "basis": "RELEASE_SceneUnits_Selected48_V1 descriptor, fixed_architecture_origin_cm [-6200,0,0], scale 0.96 (the exact 0.48 m amah), confirmed by the candidate-C apply receipt's pose guard (location x -248, scale 0.96)."
+  },
+  "houseVolume": {
+    "comment": "Generous AABB around the Ulam, Heikhal and Kodesh HaKodashim, used only to select components for the read-only census.",
+    "main": {
+      "minCm": [
+        -7200.0,
+        -3000.0,
+        700.0
+      ],
+      "maxCm": [
+        -2300.0,
+        3000.0,
+        6500.0
+      ]
+    },
+    "candidate": {
+      "minCm": [
+        -7160.0,
+        -2880.0,
+        672.0
+      ],
+      "maxCm": [
+        -2456.0,
+        2880.0,
+        6240.0
+      ]
+    }
+  },
+  "inspectMaterials": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+    "/Game/MikdashV3/MaterialReview/HeikhalKeilimV1/M_HeikhalKeilim_Gold",
+    "/Game/MikdashV3/MaterialReview/AronStudyV3/M_AronStudyV3_Gold",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced"
+  ],
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+    "/Game/MikdashV3/MaterialReview/ParochesV15/Materials/M_ParochesV15_Fabric",
+    "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition"
+  ],
+  "newInstances": {
+    "MI_SanctuaryV2_GoldWall": {
+      "package": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "copyTexturesFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "scalars": {
+        "TilingCm": 90.0,
+        "NormalStrength": 3.5,
+        "RoughnessScale": 1.9,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "tint": [
+        0.6105,
+        0.39157,
+        0.0865,
+        1.0
+      ],
+      "why": "The five wall veneers and two entrance jambs. Roughness 0.285 x 1.9 = 0.542 mean, p5-p95 0.41-0.70: satin beaten sheet, not a mirror, and the roughness spread is what gives the wall its per-texel tonal range. NormalStrength 6.0 puts the p95 normal bend at 0.22, the same relief target the reviewed limestone pass used. Tiling 90 cm is hammered-plate scale. Tint is the reviewed gold, unchanged."
+    },
+    "MI_SanctuaryV2_GoldCeiling": {
+      "package": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldCeiling",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "copyTexturesFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "scalars": {
+        "TilingCm": 120.0,
+        "NormalStrength": 3.0,
+        "RoughnessScale": 2.3,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "tint": [
+        0.4701,
+        0.30151,
+        0.06661,
+        1.0
+      ],
+      "why": "The 32.6 x 9.6 m sanctuary ceiling, 313 m2 and currently the flat cream plane at the top of the Heikhal frame. Roughness 0.656 mean (0.50-0.85) is matte enough to take Lumen bounce from the gold walls as a soft glow instead of mirroring the floor. Tint 0.77x the wall, so the ceiling sits about a third of a stop below it and the room gains a top-to-bottom value structure."
+    },
+    "MI_SanctuaryV2_GoldFloor": {
+      "package": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldFloor",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "copyTexturesFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "scalars": {
+        "TilingCm": 130.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.55,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "tint": [
+        0.519,
+        0.33283,
+        0.07353,
+        1.0
+      ],
+      "why": "The Heikhal (184 m2) and Kodesh (92 m2) floors, currently the featureless mid-brown that fills the lower third of every interior frame. Roughness 0.442 mean (0.33-0.57) is the most reflective surface in the shell on purpose: a gold floor that returns a soft image of the paroches and the menorah is what stops the lower third of the frame being dead. NormalStrength 3.5, lower than the wall, because a floor is seen at a grazing angle where normal bending is exaggerated. Tint 0.85x the wall."
+    },
+    "MI_SanctuaryV2_GoldPartition": {
+      "package": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldPartition",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "copyTexturesFrom": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "scalars": {
+        "TilingCm": 90.0,
+        "NormalStrength": 3.0,
+        "RoughnessScale": 2.1,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0
+      },
+      "tint": [
+        0.6105,
+        0.39157,
+        0.0865,
+        1.0
+      ],
+      "why": "CREATED BUT NOT ASSIGNED. This instance was tried on the three partition components and then reverted; it is still declared so the parameters that were tried stay on the record.",
+      "assigned": false
+    }
+  },
+  "componentOverrides": [
+    {
+      "actorLabel": "Heichal clear floor",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0146_floor_Heichal_clear_floor",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldFloor"
+    },
+    {
+      "actorLabel": "Kodesh clear floor",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0147_floor_Kodesh_clear_floor",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldFloor"
+    },
+    {
+      "actorLabel": "Sanctuary ceiling",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0148_roof_Sanctuary_ceiling",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldCeiling"
+    },
+    {
+      "actorLabel": "Review_HeichalSide-1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_HeichalSide1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_KodeshSide-1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_KodeshSide1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_KodeshRear",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_HeichalEntranceJamb-1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Review_HeichalEntranceJamb1",
+      "meshAsset": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "material": "$new:MI_SanctuaryV2_GoldWall"
+    },
+    {
+      "actorLabel": "Kodesh partition shoulder",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldPartition",
+      "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "revertNote": "Reverted to the reviewed variant-C material. See diagnosis.partitionReverted."
+    },
+    {
+      "actorLabel": "Kodesh partition shoulder",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldPartition",
+      "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "revertNote": "Reverted to the reviewed variant-C material. See diagnosis.partitionReverted."
+    },
+    {
+      "actorLabel": "Kodesh partition lintel",
+      "meshAsset": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+      "slot": 0,
+      "expectCount": 1,
+      "expectedBefore": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldPartition",
+      "material": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "revertNote": "Reverted to the reviewed variant-C material. See diagnosis.partitionReverted."
+    }
+  ],
+  "notOverridden": {
+    "M_KeruvFriezeV2_Displaced": "211 frieze panels are deliberately left alone. A previous pass flattened that relief and had to be reverted from a checkpoint; nothing in this pass touches a frieze material or a frieze component, and the script refuses any override whose current material is a frieze material.",
+    "MI_PBR_GoldMatte_Partition on 1113 vessel slots": "The reviewed vessel-gold pass stays exactly as applied. Only the three partition components move off it.",
+    "MI_PBR_GoldFloor on the Ulam clear floor": "Protected instance, untouched. The Ulam therefore gets almost nothing from this pass except its two entrance jambs; do not report the Ulam as finished.",
+    "M_AronStudyV3_Gold (303 slots) and M_HeikhalKeilim_Gold (158 slots)": "Parameterless Material assets, not instances, so they cannot be tuned without editing a shared material. Left alone.",
+    "ParochesV15, the photograph-calibrated menorah, the frieze relief": "Explicitly out of scope."
+  },
+  "lights": [
+    {
+      "action": "edit",
+      "targetLabel": "RELEASE_HeikhalEntranceFill",
+      "label": "RELEASE_HeikhalEntranceFill",
+      "properties": {
+        "intensity": 11000.0,
+        "temperature": 5800.0
+      },
+      "why": "This rect light stands in for the daylight arriving through the 5 m Heikhal doorway. It was authored at 4300 K, warmer than the 6500 K sun it represents, which is the main reason every interior frame measures as one hue (the post-C Heikhal frame's mean RGB is 0.83 / 0.67 / 0.29 - the blue channel is nearly empty). 5800 K puts real blue back into the fill so the gold has something cool to be warm against; 15000 -> 11000 cd (-0.45 stop) lets the falloff toward the partition and the new menorah practical register instead of being flooded flat. Both numbers are authored judgements, not measurements."
+    },
+    {
+      "action": "edit",
+      "targetLabel": "RELEASE_KodeshInteriorLight",
+      "label": "RELEASE_KodeshInteriorLight",
+      "properties": {
+        "intensity": 900.0,
+        "source_radius": 150.0
+      },
+      "why": "The Kodesh is lit by this one point light and the frame shows its specular hot spot clipping on the upper right wall (measured on e_kodesh_aron_keruvim.png: 0.24 percent of the wall region at or above sRGB 250, max 253.6). Widening the source from 60 to 150 cm spreads that highlight over a larger area of the new satin gold instead of concentrating it, and -0.42 stop keeps the room from renormalising straight back to the same value. Attenuation radius is deliberately left at 1000 cm: it does not reach the floor corners, and that falloff is the room's tonal range."
+    },
+    {
+      "action": "spawn",
+      "class": "PointLight",
+      "label": "RELEASE_SanctuaryV2_MenorahLamps",
+      "locationCm": [
+        -5367.1,
+        302.5,
+        1040.0
+      ],
+      "properties": {
+        "intensity": 90.0,
+        "attenuation_radius": 900.0,
+        "source_radius": 12.0,
+        "use_temperature": true,
+        "temperature": 1900.0,
+        "cast_shadows": true,
+        "specular_scale": 0.3,
+        "volumetric_scattering_intensity": 1.0
+      },
+      "why": "AMikdashFXDirector does create seven lamp point lights at BeginPlay, so the answer to 'do the menorah lamps cast light' is yes - but at 1.4 candelas each, hardcoded in C++ (MikdashFXDirector.cpp, SetIntensity(1.4f)), against an 11000 cd doorway fill. Seven wicks contribute about 10 cd to a room lit at four orders of magnitude more, so they are invisible and the menorah has no light of its own in any frame. This is a map-level practical placed at the measured top of SM_MenorahV4_Lamps (candidate origin [-5367.1, 302.5, 1028.2], half-height 4.2). BE CLEAR ABOUT WHAT 90 cd IS: about 13x the physical output of seven olive-oil wicks. It is a deliberate cinematic cheat so the practical reads at all, NOT a claim about how bright the lamps are. 1900 K is flame temperature. specular_scale is 1.0 because ULightComponent clamps it to [0,1]: an earlier run asked for 1.5, the engine stored 1.0, and the numeric readback caught it and refused the run - that apply was reverted from its checkpoint and redone at 1.0. The FX director's own lamp lights are not touched and cannot be from Python.",
+      "candidateOnly": true
+    },
+    {
+      "action": "spawn",
+      "class": "PointLight",
+      "label": "RELEASE_SanctuaryV2_MenorahLamps",
+      "locationCm": [
+        -5332.4,
+        315.104,
+        1083.333
+      ],
+      "properties": {
+        "intensity": 90.0,
+        "attenuation_radius": 900.0,
+        "source_radius": 12.0,
+        "use_temperature": true,
+        "temperature": 1900.0,
+        "cast_shadows": true,
+        "specular_scale": 0.3,
+        "volumetric_scattering_intensity": 1.0
+      },
+      "why": "AMikdashFXDirector does create seven lamp point lights at BeginPlay, so the answer to 'do the menorah lamps cast light' is yes - but at 1.4 candelas each, hardcoded in C++ (MikdashFXDirector.cpp, SetIntensity(1.4f)), against an 11000 cd doorway fill. Seven wicks contribute about 10 cd to a room lit at four orders of magnitude more, so they are invisible and the menorah has no light of its own in any frame. This is a map-level practical placed at the measured top of SM_MenorahV4_Lamps (candidate origin [-5367.1, 302.5, 1028.2], half-height 4.2). BE CLEAR ABOUT WHAT 90 cd IS: about 13x the physical output of seven olive-oil wicks. It is a deliberate cinematic cheat so the practical reads at all, NOT a claim about how bright the lamps are. 1900 K is flame temperature. specular_scale is 1.0 because ULightComponent clamps it to [0,1]: an earlier run asked for 1.5, the engine stored 1.0, and the numeric readback caught it and refused the run - that apply was reverted from its checkpoint and redone at 1.0. The FX director's own lamp lights are not touched and cannot be from Python. Main-frame position is the candidate position mapped back through the amah rescale ((x+248)/0.96, y/0.96, z/0.96); it lands on the FX director's own main-frame lamp row (authored X -5330, Y centroid 315.18), which is an independent confirmation of both frames.",
+      "mainOnly": true
+    }
+  ],
+  "fxAnchors": {
+    "why": "AMikdashFXDirector's anchors are saved UPROPERTYs that were authored in the MAIN frame and copied verbatim when the candidate map was duplicated and rescaled to the 0.48 m amah. In the candidate map - which is the configured default and the cook map - they are therefore off by the rescale. Two of them are checkable against measured geometry and both confirm it exactly: lamp_light_cm Z 1075 rescales to 1032.0, and the measured top of SM_MenorahV4_Lamps is 1028.2 + 4.2 = 1032.4; heikhal_ceiling_z_cm 2925 rescales to 2808.0, and the measured underside of the Sanctuary ceiling is 2856 - 48 = 2808.0. Left as they are, the seven lamp flames float about 43 cm above the lamp cups and 37 cm west of the menorah in the shipped map.",
+    "candidate": {
+      "mode": "absolute",
+      "transformApplied": "x' = 0.96*x - 248, y' = 0.96*y, z' = 0.96*z, applied ONCE to the authored main-frame values",
+      "authoredMainValues": {
+        "lamp_flame_cm": [
+          [
+            -5330.0,
+            360.221,
+            1071.67
+          ],
+          [
+            -5330.0,
+            346.646,
+            1071.67
+          ],
+          [
+            -5330.0,
+            331.676,
+            1071.67
+          ],
+          [
+            -5330.0,
+            315.176,
+            1071.67
+          ],
+          [
+            -5330.0,
+            298.676,
+            1071.67
+          ],
+          [
+            -5330.0,
+            283.706,
+            1071.67
+          ],
+          [
+            -5330.0,
+            270.131,
+            1071.67
+          ]
+        ],
+        "lamp_light_cm": [
+          [
+            -5330.0,
+            360.221,
+            1075.0
+          ],
+          [
+            -5330.0,
+            346.646,
+            1075.0
+          ],
+          [
+            -5330.0,
+            331.676,
+            1075.0
+          ],
+          [
+            -5330.0,
+            315.176,
+            1075.0
+          ],
+          [
+            -5330.0,
+            298.676,
+            1075.0
+          ],
+          [
+            -5330.0,
+            283.706,
+            1075.0
+          ],
+          [
+            -5330.0,
+            270.131,
+            1075.0
+          ]
+        ],
+        "heikhal_ceiling_z_cm": 2925.0
+      },
+      "absolute": {
+        "lamp_flame_cm": [
+          [
+            -5364.8,
+            345.81216,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            332.78016,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            318.40896,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            302.56896,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            286.72896,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            272.35776,
+            1028.8032
+          ],
+          [
+            -5364.8,
+            259.32575999999995,
+            1028.8032
+          ]
+        ],
+        "lamp_light_cm": [
+          [
+            -5364.8,
+            345.81216,
+            1032.0
+          ],
+          [
+            -5364.8,
+            332.78016,
+            1032.0
+          ],
+          [
+            -5364.8,
+            318.40896,
+            1032.0
+          ],
+          [
+            -5364.8,
+            302.56896,
+            1032.0
+          ],
+          [
+            -5364.8,
+            286.72896,
+            1032.0
+          ],
+          [
+            -5364.8,
+            272.35776,
+            1032.0
+          ],
+          [
+            -5364.8,
+            259.32575999999995,
+            1032.0
+          ]
+        ],
+        "heikhal_ceiling_z_cm": 2808.0
+      },
+      "idempotenceNote": "These are ABSOLUTE target values, not a transform to apply to whatever is currently stored. The first version of this pass applied the 0.96 rescale to the live value on every run, so a second candidate apply rescaled the already-rescaled anchors a second time and put the lamp flames at X -5398.2 / Z 987.7 instead of X -5364.8 / Z 1028.8. That is a bug in this script, it was caught by reading the receipt back, and the fix is this absolute form: setting these values is correct no matter what the anchors currently hold."
+    },
+    "main": {
+      "mode": "absolute",
+      "transformApplied": "none - main is the frame these values were authored in",
+      "absolute": {}
+    }
+  },
+  "verification": {
+    "floatRelativeTolerance": 0.0001
+  },
+  "limitations": [
+    "Instance parameters can only scale what the source textures contain. The gold set is one CC0 scratched blue-metal plate whose albedo is near-black; real per-panel gold variation, hammer facets as geometry and a true warm-to-cool Fresnel shift need a different texture set or a different master material, and M_PBR_Tiled is shared and protected. This pass does not rebuild the gold.",
+    "Menorah lamp point lights are created by AMikdashFXDirector at BeginPlay at 1.4 candelas each; that value is hardcoded C++ and is NOT editable from this script. The light added here is a separate map-level actor.",
+    "Volumetric fog stays off (the authored exterior tune), so there are no true light shafts in the Heikhal from the doorway. The FX director's shaft and mote cards are the only atmosphere, and they are built at BeginPlay so they do not appear in an editor-world capture.",
+    "Every roughness, tiling, tint and intensity number here is an artistic choice. A numeric pass proves the values persisted, nothing more."
+  ]
+}

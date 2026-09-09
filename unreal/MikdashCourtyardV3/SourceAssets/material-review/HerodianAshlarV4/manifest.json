@@ -1,0 +1,1279 @@
+{
+  "status": "OFFLINE_GENERATED_NATIVE_IMPORT_PENDING",
+  "iteration": "V4-Herodian",
+  "instruction": "Shmuel, verbatim: \"I want the temple stones used for wall wherever you are using stones to be the large style stones used for the 2nd temple outer wall.\" = Herodian ashlar, the masonry of the Second Temple outer retaining wall (the Kotel). This overrides the V2/V3 decision to omit drafted margins.",
+  "generator": "Scripts/create_herodian_ashlar_v4.py",
+  "generatorSha256": "6a7202da4159c26fba9d733c70b4e519cbfff57b3c47de5eb606f0bf17e4a4c7",
+  "startedUtc": "2026-09-09T12:40:48Z",
+  "tileCm": 300.0,
+  "size": 2048,
+  "pxPerCm": 6.8267,
+  "sources": "SourceAssets/material-review/HerodianAshlarV4/sources.md (measured vs authored is marked there)",
+  "conventions": {
+    "uv": "u = world X|Y / TilingCm, v = world Z / TilingCm; image row 0 = v 0, image down = world up on vertical faces",
+    "normal": "normalize(-dh/du, -dh/dv, 1), u = column, v = row (DirectX / UE default; flip_green_channel False)",
+    "arm": "R ambient occlusion, G roughness, B metallic (0)",
+    "heightsCm": "physical centimetres, slopes unscaled",
+    "litPreview": "rows flipped to world orientation (world up = image up), light from the upper left of that view, albedo-preserving",
+    "courseSetback": "authored as a local ledge at the top of each stone, because an accumulating per-course setback cannot wrap in a tiling texture; see sources.md"
+  },
+  "importSettings": {
+    "Albedo": {
+      "compression": "TC_Default",
+      "srgb": true
+    },
+    "Normal": {
+      "compression": "TC_Normalmap",
+      "srgb": false,
+      "flipGreenChannel": false
+    },
+    "ARM": {
+      "compression": "TC_Masks",
+      "srgb": false
+    },
+    "notImported": [
+      "Roughness",
+      "AO",
+      "Height"
+    ]
+  },
+  "diagnosisBaseline_sandstone_blocks_08": {
+    "albedoMeanSRGB": [
+      0.647,
+      0.574,
+      0.456
+    ],
+    "albedoStdPerChannel": 0.021,
+    "albedoR_p5_p95": [
+      0.62,
+      0.68
+    ],
+    "normalXyDeviationP95": 0.09,
+    "roughness": "0.50 +- 0.02 (uniform)"
+  },
+  "photoReference": {
+    "file": "SourceAssets/kotel-detail/PhotoSurfaceV1/kotel-wall-cleaned.png",
+    "meanSRGB": [
+      0.728,
+      0.635,
+      0.515
+    ],
+    "medianSRGB": [
+      0.761,
+      0.663,
+      0.533
+    ],
+    "chromaGoverR_p5_p50_p95": [
+      0.788,
+      0.875,
+      0.928
+    ],
+    "chromaBoverR_p5_p50_p95": [
+      0.537,
+      0.71,
+      0.82
+    ],
+    "luminance_p25_p50_p75": [
+      0.584,
+      0.671,
+      0.733
+    ],
+    "note": "AI-cleaned photo derivative with lighting partly baked in (PROVENANCE.md); used for warmth and value spread, not copied."
+  },
+  "previousIterationV3": {
+    "Ashlar": {
+      "albedoMeanSRGB": [
+        0.7447,
+        0.6491,
+        0.5259
+      ],
+      "albedoStdPerChannelMean": 0.0549,
+      "albedoR_p5_p95": [
+        0.6196,
+        0.8314
+      ],
+      "GoverR": 0.872,
+      "BoverR": 0.706,
+      "normalXy_p50_p95": [
+        0.099,
+        0.451
+      ],
+      "normalFaceXy_p50_p95": [
+        0.099,
+        0.368
+      ],
+      "roughness_p5_p50_p95": [
+        0.5882,
+        0.651,
+        0.7961
+      ],
+      "courses": 6,
+      "blocks": 19,
+      "courseHeightsCm": [
+        41.4,
+        56.6
+      ],
+      "blockLengthCm": [
+        71.97,
+        115.54
+      ]
+    },
+    "Trim": {
+      "albedoMeanSRGB": [
+        0.7896,
+        0.6971,
+        0.5743
+      ],
+      "albedoStdPerChannelMean": 0.0466,
+      "albedoR_p5_p95": [
+        0.6824,
+        0.851
+      ],
+      "GoverR": 0.883,
+      "BoverR": 0.727,
+      "normalXy_p50_p95": [
+        0.044,
+        0.278
+      ],
+      "normalFaceXy_p50_p95": [
+        0.043,
+        0.193
+      ],
+      "roughness_p5_p50_p95": [
+        0.5529,
+        0.5922,
+        0.7176
+      ],
+      "courses": 8,
+      "blocks": 25,
+      "courseHeightsCm": [
+        32.17,
+        41.39
+      ],
+      "blockLengthCm": [
+        75.0,
+        113.01
+      ]
+    }
+  },
+  "variants": {
+    "Ashlar": {
+      "iteration": "V4-Herodian",
+      "seed": 6120,
+      "parameters": {
+        "seed": 6120,
+        "courses": 3,
+        "course_h_cm": [
+          88.0,
+          116.0
+        ],
+        "blocks_per_course": {
+          "1": 0.55,
+          "2": 0.45
+        },
+        "length_ratio": [
+          1.25,
+          3.2
+        ],
+        "min_joint_stagger_cm": 45.0,
+        "joint_cm": 0.8,
+        "joint_depth_cm": 1.05,
+        "arris_cm": 0.26,
+        "margin_cm": [
+          8.0,
+          12.0
+        ],
+        "margin_top_factor": 1.25,
+        "margin_bottom_factor": 0.92,
+        "margin_side_jitter": 0.12,
+        "boss_proud_cm": [
+          1.4,
+          1.95
+        ],
+        "boss_edge_cm": 0.4,
+        "setback_cm": 1.5,
+        "setback_extra_cm": 6.0,
+        "boss_stria_amp_cm": [
+          0.07,
+          0.115
+        ],
+        "boss_stria_across_cm": [
+          0.4,
+          0.7
+        ],
+        "boss_stria_along_cm": [
+          0.5,
+          0.9
+        ],
+        "margin_stria_amp_cm": [
+          0.014,
+          0.026
+        ],
+        "margin_stria_across_cm": [
+          0.26,
+          0.42
+        ],
+        "margin_stria_along_cm": [
+          1.2,
+          2.2
+        ],
+        "stroke_dir": {
+          "vertical": 0.55,
+          "horizontal": 0.45
+        },
+        "stroke_wobble_deg": 5.0,
+        "stria_patch_cm": 11.0,
+        "base_offset_cm": 0.3,
+        "tilt": 0.0026,
+        "undulation_cm": 0.1,
+        "boss_dish_cm": 0.06,
+        "grain_cm": 0.06,
+        "edge_wobble_cm": 0.13,
+        "edge_wobble_scale_cm": 55.0,
+        "margin_wobble_cm": 0.42,
+        "margin_wobble_scale_cm": 48.0,
+        "chip_chance": 0.85,
+        "chips_per_block": [
+          2,
+          5
+        ],
+        "chip_radius_cm": [
+          1.8,
+          5.5
+        ],
+        "chip_depth_cm": [
+          0.25,
+          0.75
+        ],
+        "pore_density_per_cm2": 0.0055,
+        "pore_radius_cm": [
+          0.14,
+          0.9
+        ],
+        "weathering": [
+          0.35,
+          1.0
+        ],
+        "weather_dark": 0.15,
+        "weather_band": 0.38,
+        "streak": 0.045,
+        "bio_amount": 0.24,
+        "bio_band": 0.28,
+        "bio_grid": 6,
+        "bio_tint": [
+          0.72,
+          0.78,
+          0.68
+        ],
+        "bio_rough": 0.05,
+        "patina": 0.04,
+        "patina_scale_cm": 34.0,
+        "patina_fine": 0.03,
+        "patina_fine_scale_cm": 3.2,
+        "base_srgb": [
+          0.7026,
+          0.6106,
+          0.4867
+        ],
+        "value_jitter": 0.125,
+        "gr_jitter": 0.012,
+        "br_jitter": 0.038,
+        "families": [
+          [
+            "base",
+            0.44,
+            1.0,
+            0.0
+          ],
+          [
+            "cream",
+            0.2,
+            1.12,
+            0.018
+          ],
+          [
+            "honey",
+            0.22,
+            0.9,
+            -0.058
+          ],
+          [
+            "greygold",
+            0.14,
+            0.95,
+            0.05
+          ]
+        ],
+        "margin_light": 0.035,
+        "mottle": [
+          0.045,
+          0.055,
+          0.052
+        ],
+        "joint_factor": 0.46,
+        "joint_grey": 0.22,
+        "rough": {
+          "boss": 0.56,
+          "margin": 0.615,
+          "joint": 0.8,
+          "chip": 0.75,
+          "pore": 0.8
+        },
+        "rough_jitter": 0.028,
+        "rough_grain": 0.022,
+        "rough_clamp": [
+          0.45,
+          0.85
+        ],
+        "ao_gain": 0.7,
+        "ao_floor": 0.52,
+        "ao_wide_cm": 6.0,
+        "ao_wide_gain": 0.55
+      },
+      "schedule": {
+        "tileCm": 300.0,
+        "courseHeightsCm": [
+          101.52,
+          92.04,
+          106.44
+        ],
+        "courses": 3,
+        "blocks": 5,
+        "blocksPerCourse": [
+          1,
+          2,
+          2
+        ],
+        "blockLengthCmMinMax": [
+          136.05,
+          300.0
+        ],
+        "blockLengthCmMean": 180.0,
+        "blockSizeCmPerCourse": [
+          [
+            [
+              300.0,
+              101.5
+            ]
+          ],
+          [
+            [
+              163.9,
+              92.0
+            ],
+            [
+              136.1,
+              92.0
+            ]
+          ],
+          [
+            [
+              143.1,
+              106.4
+            ],
+            [
+              156.9,
+              106.4
+            ]
+          ]
+        ],
+        "lengthToHeightMinMax": [
+          1.34,
+          2.96
+        ],
+        "draftedMarginCmMinMax": [
+          7.68,
+          13.54
+        ],
+        "draftedMarginCmMean": 10.39,
+        "marginOrderLeftRightBottomTop": [
+          [
+            10.72,
+            12.82,
+            10.34,
+            13.54
+          ],
+          [
+            11.35,
+            9.46,
+            9.59,
+            13.19
+          ],
+          [
+            8.48,
+            7.68,
+            8.32,
+            9.51
+          ],
+          [
+            9.78,
+            9.17,
+            10.13,
+            13.18
+          ],
+          [
+            9.8,
+            9.01,
+            9.2,
+            12.59
+          ]
+        ],
+        "bossProudCmMinMax": [
+          1.47,
+          1.95
+        ],
+        "bossEdgeBevelCm": 0.4,
+        "courseSetbackCm": 1.5,
+        "courseSetbackReachCm": 18.4,
+        "familyCounts": {
+          "base": 2,
+          "greygold": 1,
+          "cream": 2
+        },
+        "chips": 20,
+        "pores": 499,
+        "jointCm": 0.8,
+        "jointDepthCm": 1.05,
+        "arrisCm": 0.26,
+        "heightRangeCm": [
+          -1.194,
+          2.455
+        ],
+        "pixelFraction": {
+          "joint": 0.0116,
+          "arris": 0.0089,
+          "margin": 0.2977,
+          "bossBevel": 0.0104,
+          "boss": 0.6714
+        },
+        "facePixelFraction": 0.9795
+      },
+      "generationSeconds": 144.0,
+      "files": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Albedo.png",
+          "sha256": "03b3887f427d4b1a918f96113cb8affce567de18596263507446e3833b3ed0e1",
+          "bytes": 3228252,
+          "imported": true
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Normal.png",
+          "sha256": "06542cbce827a92675973c74c1b1135a2557e39d9a0dc482ccb7c734ff07c632",
+          "bytes": 6980210,
+          "imported": true
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_ARM.png",
+          "sha256": "247e7d1afdd8e61a6283874b8608ccb80d9ac3722667ec041b49dc112dbf196c",
+          "bytes": 3748921,
+          "imported": true
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Roughness.png",
+          "sha256": "51a65ebe74db68b21585ed5646a82edd11b25b80ab53fb07c382c3a7dfec0870",
+          "bytes": 1963449,
+          "imported": false
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_AO.png",
+          "sha256": "292513965b4495e4600cff1f5bfe7934f960c74ee0945bad852f08d5d2b6a08d",
+          "bytes": 1987770,
+          "imported": false
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Height.png",
+          "sha256": "6913d1b2cecce3fe17ce45e097f14baf534f05a0bde07ef24abfec2a96f4a061",
+          "bytes": 1608886,
+          "imported": false
+        }
+      },
+      "previews": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_Albedo_1024.png",
+          "sha256": "59c8e4d26319b8b3795b5bd0ce863be4238f92c8f92183dc3bb12f3ee10c666f"
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_Normal_1024.png",
+          "sha256": "0de7fe0fa650fa9ab4b06522d8448ef0679c10956c9835443b336739d5bf3765"
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_ARM_1024.png",
+          "sha256": "1f1c76d906ed29f4c0ba94b3a42ce270185536107ecb6a7b2cb79a1fd6456398"
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_Roughness_1024.png",
+          "sha256": "dc3abe9a066bf5da696be7b720b42cc02b3aceed1ec67a6ac967de9b3e247250"
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_AO_1024.png",
+          "sha256": "3aa3103c326faa0b1bae527473f74729ff76b82d8f8306dcaad83ed2ab0db057"
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Ashlar_Height_1024.png",
+          "sha256": "7fab25a8dcb4ad022641c62acfe2d71dfe6f1359bfd45c46eee28947ac1d96a7"
+        },
+        "Lit": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\Lit_Ashlar_1024.png",
+          "sha256": "8bc096a52205a8ac723552776fa66dd7b8bb8bd103830d364e1dbdb2d4d382bb",
+          "orientation": "world (rows flipped)",
+          "albedoPreserving": true
+        }
+      },
+      "statistics": {
+        "albedoSRGB": {
+          "R": {
+            "mean": 0.7471,
+            "std": 0.0759,
+            "p5": 0.6471,
+            "p50": 0.7569,
+            "p95": 0.8392,
+            "min": 0.3098,
+            "max": 0.9412
+          },
+          "G": {
+            "mean": 0.6526,
+            "std": 0.0608,
+            "p5": 0.5804,
+            "p50": 0.6588,
+            "p95": 0.7294,
+            "min": 0.2902,
+            "max": 0.8157
+          },
+          "B": {
+            "mean": 0.5315,
+            "std": 0.0478,
+            "p5": 0.4745,
+            "p50": 0.5333,
+            "p95": 0.5922,
+            "min": 0.2471,
+            "max": 0.6627
+          }
+        },
+        "albedoStdPerChannelMean": 0.0615,
+        "albedoChroma": {
+          "GoverR_mean": 0.874,
+          "BoverR_mean": 0.711
+        },
+        "normal": {
+          "xyDeviation": {
+            "mean": 0.1132,
+            "p50": 0.077,
+            "p95": 0.278,
+            "p99": 0.968,
+            "max": 0.999
+          },
+          "absX_p95": 0.16,
+          "absY_p95": 0.207,
+          "pixels": 4194304
+        },
+        "roughness": {
+          "mean": 0.5805,
+          "std": 0.0446,
+          "p5": 0.5294,
+          "p50": 0.5725,
+          "p95": 0.651,
+          "min": 0.4863,
+          "max": 0.8
+        },
+        "ambientOcclusion": {
+          "mean": 0.9419,
+          "std": 0.1184,
+          "p5": 0.5216,
+          "p50": 0.9922,
+          "p95": 1.0,
+          "min": 0.5216,
+          "max": 1.0
+        },
+        "normalFaceOnly": {
+          "xyDeviation": {
+            "mean": 0.1047,
+            "p50": 0.075,
+            "p95": 0.248,
+            "p99": 0.906,
+            "max": 0.989
+          },
+          "absX_p95": 0.16,
+          "absY_p95": 0.192,
+          "pixels": 4108453
+        },
+        "normalBossOnly": {
+          "xyDeviation": {
+            "mean": 0.1025,
+            "p50": 0.083,
+            "p95": 0.24,
+            "p99": 0.378,
+            "max": 0.917
+          },
+          "absX_p95": 0.168,
+          "absY_p95": 0.192,
+          "pixels": 2815956
+        },
+        "normalMarginOnly": {
+          "xyDeviation": {
+            "mean": 0.0799,
+            "p50": 0.054,
+            "p95": 0.176,
+            "p99": 0.672,
+            "max": 0.984
+          },
+          "absX_p95": 0.066,
+          "absY_p95": 0.16,
+          "pixels": 1248744
+        },
+        "normalBossEdgeOnly": {
+          "xyDeviation": {
+            "mean": 0.9539,
+            "p50": 0.968,
+            "p95": 0.984,
+            "p99": 0.984,
+            "max": 0.989
+          },
+          "absX_p95": 0.976,
+          "absY_p95": 0.984,
+          "pixels": 43753
+        },
+        "normalJointAndArrisOnly": {
+          "xyDeviation": {
+            "mean": 0.5208,
+            "p50": 0.741,
+            "p95": 0.992,
+            "p99": 0.992,
+            "max": 0.999
+          },
+          "absX_p95": 0.976,
+          "absY_p95": 0.992,
+          "pixels": 85851
+        },
+        "photoDelta": {
+          "meanR": 0.0191,
+          "meanG": 0.0176,
+          "meanB": 0.0165,
+          "GoverR": -0.001,
+          "BoverR": 0.001
+        }
+      }
+    },
+    "Trim": {
+      "iteration": "V4-Herodian",
+      "seed": 6121,
+      "parameters": {
+        "seed": 6121,
+        "courses": 5,
+        "course_h_cm": [
+          52.0,
+          68.0
+        ],
+        "blocks_per_course": {
+          "2": 0.55,
+          "3": 0.45
+        },
+        "length_ratio": [
+          1.45,
+          2.7
+        ],
+        "min_joint_stagger_cm": 26.0,
+        "joint_cm": 0.5,
+        "joint_depth_cm": 0.7,
+        "arris_cm": 0.18,
+        "margin_cm": [
+          6.0,
+          9.0
+        ],
+        "margin_top_factor": 1.22,
+        "margin_bottom_factor": 0.94,
+        "margin_side_jitter": 0.1,
+        "boss_proud_cm": [
+          1.0,
+          1.45
+        ],
+        "boss_edge_cm": 0.28,
+        "setback_cm": 1.05,
+        "setback_extra_cm": 4.0,
+        "boss_stria_amp_cm": [
+          0.048,
+          0.082
+        ],
+        "boss_stria_across_cm": [
+          0.32,
+          0.54
+        ],
+        "boss_stria_along_cm": [
+          0.4,
+          0.72
+        ],
+        "margin_stria_amp_cm": [
+          0.01,
+          0.02
+        ],
+        "margin_stria_across_cm": [
+          0.22,
+          0.34
+        ],
+        "margin_stria_along_cm": [
+          1.0,
+          1.9
+        ],
+        "stroke_dir": {
+          "vertical": 0.4,
+          "horizontal": 0.6
+        },
+        "stroke_wobble_deg": 4.0,
+        "stria_patch_cm": 9.0,
+        "base_offset_cm": 0.16,
+        "tilt": 0.0018,
+        "undulation_cm": 0.065,
+        "boss_dish_cm": 0.04,
+        "grain_cm": 0.042,
+        "edge_wobble_cm": 0.08,
+        "edge_wobble_scale_cm": 40.0,
+        "margin_wobble_cm": 0.26,
+        "margin_wobble_scale_cm": 34.0,
+        "chip_chance": 0.55,
+        "chips_per_block": [
+          1,
+          3
+        ],
+        "chip_radius_cm": [
+          1.0,
+          3.0
+        ],
+        "chip_depth_cm": [
+          0.16,
+          0.45
+        ],
+        "pore_density_per_cm2": 0.0034,
+        "pore_radius_cm": [
+          0.11,
+          0.6
+        ],
+        "weathering": [
+          0.2,
+          0.8
+        ],
+        "weather_dark": 0.095,
+        "weather_band": 0.34,
+        "streak": 0.028,
+        "bio_amount": 0.14,
+        "bio_band": 0.24,
+        "bio_grid": 8,
+        "bio_tint": [
+          0.74,
+          0.8,
+          0.7
+        ],
+        "bio_rough": 0.035,
+        "patina": 0.028,
+        "patina_scale_cm": 24.0,
+        "patina_fine": 0.022,
+        "patina_fine_scale_cm": 2.8,
+        "base_srgb": [
+          0.7745,
+          0.6799,
+          0.5486
+        ],
+        "value_jitter": 0.1,
+        "gr_jitter": 0.01,
+        "br_jitter": 0.028,
+        "families": [
+          [
+            "base",
+            0.54,
+            1.0,
+            0.0
+          ],
+          [
+            "cream",
+            0.22,
+            1.09,
+            0.014
+          ],
+          [
+            "honey",
+            0.14,
+            0.925,
+            -0.042
+          ],
+          [
+            "greygold",
+            0.1,
+            0.955,
+            0.042
+          ]
+        ],
+        "margin_light": 0.028,
+        "mottle": [
+          0.03,
+          0.036,
+          0.038
+        ],
+        "joint_factor": 0.5,
+        "joint_grey": 0.22,
+        "rough": {
+          "boss": 0.53,
+          "margin": 0.585,
+          "joint": 0.78,
+          "chip": 0.72,
+          "pore": 0.78
+        },
+        "rough_jitter": 0.022,
+        "rough_grain": 0.018,
+        "rough_clamp": [
+          0.45,
+          0.85
+        ],
+        "ao_gain": 0.75,
+        "ao_floor": 0.58,
+        "ao_wide_cm": 5.0,
+        "ao_wide_gain": 0.55
+      },
+      "schedule": {
+        "tileCm": 300.0,
+        "courseHeightsCm": [
+          57.23,
+          62.1,
+          58.72,
+          63.26,
+          58.69
+        ],
+        "courses": 5,
+        "blocks": 14,
+        "blocksPerCourse": [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "blockLengthCmMinMax": [
+          83.87,
+          158.18
+        ],
+        "blockLengthCmMean": 107.14,
+        "blockSizeCmPerCourse": [
+          [
+            [
+              101.4,
+              57.2
+            ],
+            [
+              83.9,
+              57.2
+            ],
+            [
+              114.8,
+              57.2
+            ]
+          ],
+          [
+            [
+              97.1,
+              62.1
+            ],
+            [
+              107.1,
+              62.1
+            ],
+            [
+              95.8,
+              62.1
+            ]
+          ],
+          [
+            [
+              90.8,
+              58.7
+            ],
+            [
+              96.6,
+              58.7
+            ],
+            [
+              112.6,
+              58.7
+            ]
+          ],
+          [
+            [
+              104.8,
+              63.3
+            ],
+            [
+              94.0,
+              63.3
+            ],
+            [
+              101.2,
+              63.3
+            ]
+          ],
+          [
+            [
+              141.8,
+              58.7
+            ],
+            [
+              158.2,
+              58.7
+            ]
+          ]
+        ],
+        "lengthToHeightMinMax": [
+          1.47,
+          2.7
+        ],
+        "draftedMarginCmMinMax": [
+          5.56,
+          10.68
+        ],
+        "draftedMarginCmMean": 7.52,
+        "marginOrderLeftRightBottomTop": [
+          [
+            7.37,
+            7.66,
+            7.37,
+            8.38
+          ],
+          [
+            6.22,
+            6.78,
+            5.67,
+            7.95
+          ],
+          [
+            6.02,
+            6.55,
+            6.13,
+            6.88
+          ],
+          [
+            7.47,
+            6.93,
+            6.32,
+            8.46
+          ],
+          [
+            6.03,
+            5.84,
+            5.79,
+            8.14
+          ],
+          [
+            6.82,
+            6.24,
+            5.71,
+            8.29
+          ],
+          [
+            9.53,
+            8.38,
+            8.66,
+            10.68
+          ],
+          [
+            5.81,
+            5.77,
+            6.5,
+            7.61
+          ],
+          [
+            6.27,
+            6.11,
+            5.56,
+            6.77
+          ],
+          [
+            7.81,
+            7.94,
+            7.26,
+            9.74
+          ],
+          [
+            9.12,
+            7.64,
+            7.7,
+            10.22
+          ],
+          [
+            8.52,
+            8.09,
+            7.62,
+            8.95
+          ],
+          [
+            8.58,
+            7.83,
+            7.57,
+            10.17
+          ],
+          [
+            8.65,
+            7.87,
+            7.63,
+            9.37
+          ]
+        ],
+        "bossProudCmMinMax": [
+          1.06,
+          1.45
+        ],
+        "bossEdgeBevelCm": 0.28,
+        "courseSetbackCm": 1.05,
+        "courseSetbackReachCm": 12.7,
+        "familyCounts": {
+          "base": 10,
+          "cream": 3,
+          "honey": 1
+        },
+        "chips": 21,
+        "pores": 302,
+        "jointCm": 0.5,
+        "jointDepthCm": 0.7,
+        "arrisCm": 0.18,
+        "heightRangeCm": [
+          -0.718,
+          1.894
+        ],
+        "pixelFraction": {
+          "joint": 0.0133,
+          "arris": 0.0096,
+          "margin": 0.3477,
+          "bossBevel": 0.0118,
+          "boss": 0.6177
+        },
+        "facePixelFraction": 0.9776
+      },
+      "generationSeconds": 144.7,
+      "files": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Albedo.png",
+          "sha256": "377c9d3dcd0d9dc2f7b7f5cb83b01cdbc1ee4d670f2b4581b2eb45d5a60d66da",
+          "bytes": 3024686,
+          "imported": true
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Normal.png",
+          "sha256": "950f8342bf80470c50ebdb0628907d0cb52622e7e0591e17de819758fd9276ce",
+          "bytes": 6225736,
+          "imported": true
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_ARM.png",
+          "sha256": "bf8efe240e5d9e21bc26eb6a482a26130247474aeec5799a34b26cb9caee51fe",
+          "bytes": 3739998,
+          "imported": true
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Roughness.png",
+          "sha256": "f91c04047b8e8898c4b55fb0f257f443c3db3a57eceae526b9267db732be30d2",
+          "bytes": 2055246,
+          "imported": false
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_AO.png",
+          "sha256": "ca8922af7ec5c62cdc73f2a49ca158ff647a70fd8adb2856366ee935110eaf73",
+          "bytes": 1837897,
+          "imported": false
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Height.png",
+          "sha256": "d90867bde67919e2528e7b952c20cde00849a2b0d1ec4568e51eff68ba5f3a30",
+          "bytes": 1686776,
+          "imported": false
+        }
+      },
+      "previews": {
+        "Albedo": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_Albedo_1024.png",
+          "sha256": "b69ba602a84b605e5fa79c6a888eb1c610a561a9ca1dd57a2c5a21bb3c3dd4ee"
+        },
+        "Normal": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_Normal_1024.png",
+          "sha256": "4e7b9c0690b10e4b3a4de57d311b3ee0d6df06e57db8d8b8ca67aa79339caff1"
+        },
+        "ARM": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_ARM_1024.png",
+          "sha256": "ab6d6b6d70bc830f9f435df5a2291a4f08f0aa7d2e7f67bead312b5054d8acc3"
+        },
+        "Roughness": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_Roughness_1024.png",
+          "sha256": "e4eb6c1f0efbd91825703ffe943e2b02ac363317e8805be01246a3e58dd95209"
+        },
+        "AO": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_AO_1024.png",
+          "sha256": "aa328ff1ab1ec959bee93a83c408a616004b224858f577870dbdc37fb98021a1"
+        },
+        "Height": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\T_HerodianV4_Trim_Height_1024.png",
+          "sha256": "1d842f46443407b5232722e7d3af9a34c269ba3f85b367eaac2487ecaf38ea6f"
+        },
+        "Lit": {
+          "path": "SourceAssets\\material-review\\HerodianAshlarV4\\previews\\Lit_Trim_1024.png",
+          "sha256": "ab4889e0475658271582c1462589320280b59edf77d38eab3868a6d39af4610d",
+          "orientation": "world (rows flipped)",
+          "albedoPreserving": true
+        }
+      },
+      "statistics": {
+        "albedoSRGB": {
+          "R": {
+            "mean": 0.7943,
+            "std": 0.0836,
+            "p5": 0.6902,
+            "p50": 0.8078,
+            "p95": 0.9059,
+            "min": 0.3451,
+            "max": 1.0
+          },
+          "G": {
+            "mean": 0.695,
+            "std": 0.0743,
+            "p5": 0.6039,
+            "p50": 0.7059,
+            "p95": 0.7961,
+            "min": 0.3059,
+            "max": 0.8863
+          },
+          "B": {
+            "mean": 0.5591,
+            "std": 0.0647,
+            "p5": 0.4784,
+            "p50": 0.5608,
+            "p95": 0.651,
+            "min": 0.2627,
+            "max": 0.7255
+          }
+        },
+        "albedoStdPerChannelMean": 0.0742,
+        "albedoChroma": {
+          "GoverR_mean": 0.875,
+          "BoverR_mean": 0.704
+        },
+        "normal": {
+          "xyDeviation": {
+            "mean": 0.1022,
+            "p50": 0.059,
+            "p95": 0.242,
+            "p99": 0.968,
+            "max": 0.994
+          },
+          "absX_p95": 0.129,
+          "absY_p95": 0.168,
+          "pixels": 4194304
+        },
+        "roughness": {
+          "mean": 0.5558,
+          "std": 0.0433,
+          "p5": 0.5137,
+          "p50": 0.5412,
+          "p95": 0.6196,
+          "min": 0.4706,
+          "max": 0.7804
+        },
+        "ambientOcclusion": {
+          "mean": 0.9379,
+          "std": 0.1171,
+          "p5": 0.5804,
+          "p50": 0.9922,
+          "p95": 1.0,
+          "min": 0.5804,
+          "max": 1.0
+        },
+        "normalFaceOnly": {
+          "xyDeviation": {
+            "mean": 0.091,
+            "p50": 0.059,
+            "p95": 0.2,
+            "p99": 0.952,
+            "max": 0.989
+          },
+          "absX_p95": 0.129,
+          "absY_p95": 0.152,
+          "pixels": 4100177
+        },
+        "normalBossOnly": {
+          "xyDeviation": {
+            "mean": 0.0817,
+            "p50": 0.066,
+            "p95": 0.189,
+            "p99": 0.312,
+            "max": 0.952
+          },
+          "absX_p95": 0.137,
+          "absY_p95": 0.145,
+          "pixels": 2590654
+        },
+        "normalMarginOnly": {
+          "xyDeviation": {
+            "mean": 0.077,
+            "p50": 0.044,
+            "p95": 0.161,
+            "p99": 0.851,
+            "max": 0.989
+          },
+          "absX_p95": 0.05,
+          "absY_p95": 0.152,
+          "pixels": 1458362
+        },
+        "normalBossEdgeOnly": {
+          "xyDeviation": {
+            "mean": 0.9587,
+            "p50": 0.961,
+            "p95": 0.976,
+            "p99": 0.976,
+            "max": 0.984
+          },
+          "absX_p95": 0.976,
+          "absY_p95": 0.976,
+          "pixels": 49545
+        },
+        "normalJointAndArrisOnly": {
+          "xyDeviation": {
+            "mean": 0.5918,
+            "p50": 0.882,
+            "p95": 0.984,
+            "p99": 0.984,
+            "max": 0.994
+          },
+          "absX_p95": 0.937,
+          "absY_p95": 0.984,
+          "pixels": 94127
+        },
+        "photoDelta": {
+          "meanR": 0.0663,
+          "meanG": 0.06,
+          "meanB": 0.0441,
+          "GoverR": 0.0,
+          "BoverR": -0.006
+        }
+      }
+    }
+  },
+  "measuredBaselineNormal": {
+    "file": "SourceAssets\\materials-pbr\\limestone-ashlar\\sandstone_blocks_08_normal_2k.png",
+    "size": [
+      2048,
+      2048
+    ],
+    "xyDeviation": {
+      "mean": 0.0887,
+      "p50": 0.088,
+      "p95": 0.122,
+      "p99": 0.183,
+      "max": 0.776
+    },
+    "absX_p95": 0.09,
+    "absY_p95": 0.098,
+    "pixels": 4194304,
+    "note": "same statistic code as the V2/V3/V4 maps; compare with diagnosis 0.09",
+    "seconds": 5.5
+  },
+  "previousRuns": [
+    {
+      "iteration": "V4-Herodian",
+      "startedUtc": "2026-09-09T12:18:24Z",
+      "finishedUtc": "2026-09-09T12:25:35Z",
+      "generatorSha256": "297fc818e16f4c4fad2c6cd928ea218b3dfc3be7ec1ab2e437d2ea673f02a196"
+    }
+  ],
+  "finishedUtc": "2026-09-09T12:46:55Z"
+}

@@ -771,6 +771,18 @@ def readback_actor(ue, placed, offline, spec):
         if asset is None or not meshes[prop]['packageOnDisk']:
             raise RuntimeError('Reopened actor property %s is %s; the mesh package is not on disk, so the '
                                'ring would draw nothing at run time' % (prop, path or 'null'))
+    # Same rule for the wall material. A null one is less severe than a null mesh - the ring
+    # would draw in the mesh's default grey rather than vanish - but the spec names an asset,
+    # so a reopened actor that lost it is a regression, not a choice.
+    wall_material_path = _asset_path(placed.get_editor_property('WallMaterial'))
+    wall_material_package = wall_material_path.split('.')[0] if wall_material_path else None
+    wall_material_disk = disk_path(wall_material_package) if wall_material_package else None
+    material_reference = dict(asset=wall_material_path, expected=spec.get('wallMaterial'),
+                              packageOnDisk=bool(wall_material_disk and wall_material_disk.exists()),
+                              packageSha256=sha256_of(wall_material_disk) if wall_material_disk and wall_material_disk.exists() else None)
+    if spec.get('wallMaterial') and not material_reference['packageOnDisk']:
+        raise RuntimeError('Reopened actor WallMaterial is %s; the spec names %s and its package is not on '
+                           'disk, so the ring would draw untextured' % (wall_material_path or 'null', spec['wallMaterial']))
     placed.measure_without_hiding()
     tolerance = float(spec['verification']['groundZAgreementToleranceCm'])
     clearances = placed.get_measured_clearances_amot()
@@ -794,6 +806,7 @@ def readback_actor(ue, placed, offline, spec):
         sides.append(row)
     result = dict(
         meshReferences=meshes,
+        wallMaterialReference=material_reference,
         measuredClearancesAmot=dict(west=float(clearances.x), north=float(clearances.y),
                                     east=float(clearances.z), south=float(clearances.w)),
         outerFacesCm=dict(west=float(faces.x), north=float(faces.y), east=float(faces.z), south=float(faces.w)),

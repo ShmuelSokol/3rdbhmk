@@ -7,6 +7,13 @@ transforms and world bounds), a sample of the hide list's actors, and two line t
 lighting agent's v7/v8 camera positions toward the east gate. Writes a receipt to
 SourceAssets/enclosure-review/native-enclosure-runtime-<stamp>.json and quits the editor.
 
+It also RENDERS the question. The HISMs are NoCollision, so no trace can ever reach the wall;
+only a frame can say whether it draws. After the dump the probe reuses the level's CameraActor,
+hides the pawn, and shoots the lighting agent's exact v7 camera plus an overview of the whole
+ring, three times: as BeginPlay left it, after a visibility toggle (forces a render-state
+rebuild), and after switching the four wall components to Movable. Comparing those frames
+separates "no geometry" from "geometry the Static render proxy never picked up".
+
 Launch (one process; never while another native job runs; the map is the first argument):
 
   "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe"
@@ -53,6 +60,14 @@ GATE_XY = (112224.0, 0.0) if CANDIDATE else (116900.0, 0.0)
 V7_XY = (GATE_XY[0] - 4000.0, 0.0)
 V8_XY = (GATE_XY[0] + 6000.0, 0.0)
 EYE_CM = 168.0
+# Precinct centre, for the overview frame that shows whether ANY of the ring draws.
+CENTRE_XY = (40224.0, 40176.0) if CANDIDATE else (41900.0, 41850.0)
+NEAR_RADIUS_CM = 9000.0     # instances counted as "at the east gate"
+NEAR_LIMIT = 24             # per component, to keep the receipt readable
+SHOT_PREFIX = OUT_DIR / ('enclosure-runtime-%s-%s' % ('Candidate48' if CANDIDATE else 'Main50', STAMP))
+# Screenshots are the only way to answer "does it draw": the HISMs are NoCollision, so no
+# trace can ever reach them. Each experiment re-shoots the SAME v7 camera.
+SHOTS = []
 
 ed = u.get_editor_subsystem(u.UnrealEditorSubsystem)
 levels = u.get_editor_subsystem(u.LevelEditorSubsystem)
@@ -172,7 +187,63 @@ def ground_z(world, x, y):
     return (row['location'][2] if row['blockingHit'] else None), row
 
 
-def dump_hism(component, mesh_bounds_cache):
+def _per_instance_count(component):
+    try:
+        return len(component.get_editor_property('per_instance_sm_data'))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def mesh_facts(mesh):
+    """Does the asset actually carry renderable geometry? The earlier probe only proved the
+    path resolved; a mesh that cooked to zero sections resolves and draws nothing."""
+    if mesh is None:
+        return None
+    facts = dict(path=asset_path(mesh))
+    for key, call in (('numLods', lambda: int(mesh.get_num_lods())),
+                      ('numTrianglesLod0', lambda: int(mesh.get_num_triangles(0))),
+                      ('numVerticesLod0', lambda: int(mesh.get_num_vertices(0))),
+                      ('numSectionsLod0', lambda: int(mesh.get_num_sections(0))),
+                      ('numMaterialSlots', lambda: len(mesh.get_editor_property('static_materials'))),
+                      ('materialSlots', lambda: [asset_path(m.material_interface) for m in mesh.get_editor_property('static_materials')]),
+                      ('naniteEnabled', lambda: bool(mesh.get_editor_property('nanite_settings').enabled)),
+                      ('minLod', lambda: str(mesh.get_editor_property('min_lod'))),
+                      ('boundsOrigin', lambda: xyz(mesh.get_bounds().origin)),
+                      ('boundsExtent', lambda: xyz(mesh.get_bounds().box_extent))):
+        try:
+            facts[key] = call()
+        except Exception as exc:  # noqa: BLE001
+            facts[key] = 'unavailable: ' + repr(exc)
+    return facts
+
+
+def near_gate_instances(component, count, origin, extent, world):
+    """Every instance of this component standing at the east gate, with the live ground under
+    it. baseZ - groundZ is the number that decides 'buried' versus 'floating' versus correct."""
+    rows = []
+    for index in range(count):
+        transform = component.get_instance_transform(index, True)
+        if isinstance(transform, tuple):
+            transform = transform[1] if transform[0] else None
+        if transform is None:
+            continue
+        loc = transform.translation
+        if abs(loc.x - GATE_XY[0]) > NEAR_RADIUS_CM or abs(loc.y - GATE_XY[1]) > NEAR_RADIUS_CM:
+            continue
+        scale = transform.scale3d
+        gz, _row = ground_z(world, float(loc.x), float(loc.y))
+        rows.append(dict(index=index, location=xyz(loc), yaw=float(transform.rotation.rotator().yaw),
+                         scale=xyz(scale),
+                         worldTopZ=float(loc.z + (origin[2] + extent[2]) * scale.z),
+                         worldBottomZ=float(loc.z + (origin[2] - extent[2]) * scale.z),
+                         groundZ=gz,
+                         baseMinusGroundCm=(None if gz is None else float(loc.z) - gz)))
+        if len(rows) >= NEAR_LIMIT:
+            break
+    return rows
+
+
+def dump_hism(component, mesh_bounds_cache, world=None):
     mesh = component.static_mesh
     count = int(component.get_instance_count())
     bounds_origin, bounds_extent, _ = u.SystemLibrary.get_component_bounds(component)
@@ -186,7 +257,15 @@ def dump_hism(component, mesh_bounds_cache):
                instanceEndCullDistance=int(component.get_editor_property('instance_end_cull_distance')),
                componentBoundsOrigin=xyz(bounds_origin) if count else None,
                componentBoundsExtent=xyz(bounds_extent) if count else None,
-               sampleInstances=[])
+               mobility=str(component.get_editor_property('mobility')),
+               minDrawDistance=float(component.get_editor_property('min_draw_distance')),
+               ldMaxDrawDistance=float(component.get_editor_property('ld_max_draw_distance')),
+               cachedMaxDrawDistance=float(component.get_editor_property('cached_max_draw_distance')),
+               boundsScale=float(component.get_editor_property('bounds_scale')),
+               perInstanceDataCount=_per_instance_count(component),
+               componentVisibleInSceneCapture=None,
+               meshFacts=mesh_facts(mesh),
+               sampleInstances=[], nearEastGateInstances=[])
     if mesh is not None and count:
         if asset_path(mesh) not in mesh_bounds_cache:
             b = mesh.get_bounds()
@@ -206,6 +285,8 @@ def dump_hism(component, mesh_bounds_cache):
                                       loc.z + (origin[2] - extent[2]) * scale.z],
                 approxWorldBoundsMax=[loc.x + (origin[0] + extent[0]) * scale.x, loc.y + (origin[1] + extent[1]) * scale.y,
                                       loc.z + (origin[2] + extent[2]) * scale.z]))
+        if world is not None:
+            row['nearEastGateInstances'] = near_gate_instances(component, count, origin, extent, world)
     return row
 
 
@@ -223,6 +304,8 @@ def dump_world(world):
             precinctState=str(actor.get_precinct_state()),
             isTransitioning=bool(actor.is_transitioning()),
             actorHidden=bool(actor.get_editor_property('hidden')),
+            actorLocation=xyz(actor.get_actor_location()),
+            actorScale=xyz(actor.get_actor_scale3d()),
             rootVisible=bool(actor.get_editor_property('root_component').is_visible()) if actor.get_editor_property('root_component') else None,
             instanceCounts=dict(wall=int(counts.x), gate=int(counts.y), corner=int(counts.z),
                                 foundation=int(counts.w), overlay=int(actor.get_overlay_instance_count())),
@@ -242,7 +325,7 @@ def dump_world(world):
             initialState=str(actor.get_editor_property('InitialState')),
             hisms=[])
         for component in actor.get_components_by_class(u.HierarchicalInstancedStaticMeshComponent):
-            row['hisms'].append(dump_hism(component, mesh_bounds_cache))
+            row['hisms'].append(dump_hism(component, mesh_bounds_cache, world))
         # A sample of the hide list: are those actors hidden in the game world right now?
         labels = list(actor.get_editor_property('ExplicitHideLabels'))
         sample = labels[:3] + labels[len(labels) // 2: len(labels) // 2 + 3] + labels[-3:]
@@ -272,6 +355,95 @@ def dump_world(world):
                                  'these show what else is in the line of sight and the ground under each camera.')
 
 
+# ---------------------------------------------------------------------------
+# Experiments. Only a rendered frame can answer "does the wall draw": NoCollision
+# means no trace ever reaches it. Each step runs an action once, settles, and shoots
+# the SAME cameras, so the frames are directly comparable.
+# ---------------------------------------------------------------------------
+WALL_HISMS = ('WallInstances', 'GateInstances', 'CornerInstances', 'FoundationInstances')
+PNG_MAGIC = bytes([137, 80, 78, 71, 13, 10, 26, 10])
+
+
+def wall_components(world):
+    out = []
+    for actor in u.GameplayStatics.get_all_actors_of_class(world, u.MikdashEnclosure):
+        for c in actor.get_components_by_class(u.HierarchicalInstancedStaticMeshComponent):
+            if str(c.get_name()) in WALL_HISMS:
+                out.append(c)
+    return out
+
+
+def act_none(world):
+    return 'no change; the actor exactly as BeginPlay left it'
+
+
+def act_toggle_visibility(world):
+    # SetVisibility(false) then (true) forces MarkRenderStateDirty on each component.
+    for c in wall_components(world):
+        c.set_visibility(False, True)
+        c.set_visibility(True, True)
+    return 'SetVisibility false/true on the four wall components (forces a render-state rebuild)'
+
+
+def act_movable(world):
+    # A Static-mobility component builds its render proxy when it registers, which for an actor
+    # saved in the level happens BEFORE BeginPlay adds any instance. Movable rebuilds on change.
+    for c in wall_components(world):
+        try:
+            c.set_mobility(u.ComponentMobility.MOVABLE)
+        except Exception as exc:  # noqa: BLE001
+            report['errors'].append('set_mobility: ' + repr(exc))
+        c.set_visibility(False, True)
+        c.set_visibility(True, True)
+    return 'mobility -> Movable on the four wall components, then a visibility toggle'
+
+
+CAMERAS = {
+    'v7': dict(position=None, pitch=14.0, yaw=0.0, fov=75.0,
+               note='the lighting agent v7 frame: 40 m west of the east gate, eye = ground + 168'),
+    'overview': dict(position=[CENTRE_XY[0], CENTRE_XY[1] - 204000.0, 60000.0], pitch=-25.0,
+                     yaw=90.0, fov=90.0,
+                     note='north of the precinct at 600 m, looking south over the whole ring'),
+}
+STEPS = [('A_asis', act_none, ('v7', 'overview')),
+         ('B_visibility_toggle', act_toggle_visibility, ('v7',)),
+         ('C_movable', act_movable, ('v7', 'overview'))]
+
+
+def arm_camera(world, key):
+    view = dict(CAMERAS[key])
+    if view['position'] is None:
+        view['position'] = [V7_XY[0], V7_XY[1], (report['traces']['groundZ']['v7'] or 0.0) + EYE_CM]
+    camera = state['camera']
+    comp = camera.get_component_by_class(u.CameraComponent)
+    comp.set_field_of_view(float(view['fov']))
+    comp.set_constraint_aspect_ratio(False)
+    camera.set_actor_location(u.Vector(*view['position']), False, True)
+    camera.set_actor_rotation(u.Rotator(pitch=view['pitch'], yaw=view['yaw'], roll=0.0), True)
+    u.GameplayStatics.get_player_controller(world, 0).set_view_target_with_blend(camera, 0.0)
+    return view
+
+
+def request_shot(world, name, view):
+    path = Path(str(SHOT_PREFIX) + '__' + name + '.png')
+    assert not path.exists(), 'Output exists: ' + str(path)
+    controller = u.GameplayStatics.get_player_controller(world, 0)
+    manager = u.GameplayStatics.get_player_camera_manager(world, 0)
+    live = manager.get_camera_location()
+    drift = (live - u.Vector(*view['position'])).length()
+    state['shot'] = dict(name=name, file=str(path), camera=view, liveCameraCm=xyz(live),
+                         driftCm=float(drift), started=time.monotonic())
+    u.SystemLibrary.execute_console_command(world, 'HighResShot 1920x1080 filename="%s"' % str(path), controller)
+
+
+def shot_complete(path):
+    try:
+        data = Path(path).read_bytes()
+    except OSError:
+        return False
+    return len(data) > 1024 and data[:8] == PNG_MAGIC and data[-8:-4] == b'IEND'
+
+
 def finish(status):
     if state['stopping']:
         return
@@ -283,6 +455,9 @@ def finish(status):
 
 
 def tick(dt):
+    if state.get('busy'):   # traces and HighResShot pump Slate; never re-enter
+        return
+    state['busy'] = True
     try:
         now = time.monotonic()
         world = ed.get_game_world()
@@ -309,7 +484,7 @@ def tick(dt):
                 u.unregister_slate_post_tick_callback(handle)
                 u.SystemLibrary.quit_editor()
             return
-        if now - state['start'] > 240:
+        if now - state['start'] > 900:
             finish('failed_watchdog')
             return
         if not world:
@@ -329,13 +504,66 @@ def tick(dt):
             state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
             return
         # Give BeginPlay, the intro and streaming a few seconds of real game time.
-        if u.GameplayStatics.get_time_seconds(world) - state['gameAt'] < 6.0:
+        if not state['done'] and u.GameplayStatics.get_time_seconds(world) - state['gameAt'] < 6.0:
             return
         if not state['done']:
             state['done'] = True
             dump_world(world)
             write()
-            finish('measured_pie_diagnostic')
+            cameras = list(u.GameplayStatics.get_all_actors_of_class(world, u.CameraActor))
+            if not cameras:
+                report['errors'].append('No CameraActor in the PIE world; screenshots skipped')
+                finish('measured_pie_diagnostic')
+                return
+            state['camera'] = cameras[0]
+            pawn = u.GameplayStatics.get_player_pawn(world, 0)
+            if pawn:
+                pawn.set_actor_hidden_in_game(True)
+                report['pawnHidden'] = True
+            state['queue'] = [(name, action, cam) for name, action, cams in STEPS for cam in cams]
+            state['applied'] = set()
+            report['experiments'] = []
+            report['screenshots'] = []
+            state['phase'] = 'experiment'
+            state['at'] = now
+            return
+        if state['phase'] == 'experiment':
+            if state.get('shot'):
+                shot = state['shot']
+                if shot_complete(shot['file']):
+                    data = Path(shot['file']).read_bytes()
+                    shot.update(bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+                    shot.pop('started', None)
+                    report['screenshots'].append(shot)
+                    state['shot'] = None
+                    state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
+                    write()
+                elif now - shot['started'] > 90:
+                    report['errors'].append('screenshot timed out: ' + shot['file'])
+                    state['shot'] = None
+                    state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
+                return
+            if not state['queue']:
+                finish('measured_pie_diagnostic')
+                return
+            name, action, cam = state['queue'][0]
+            if name not in state['applied']:
+                state['applied'].add(name)
+                report['experiments'].append(dict(step=name, action=action(world)))
+                state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
+                state['armed'] = None
+                write()
+                return
+            if state.get('armed') != (name, cam):
+                state['armedView'] = arm_camera(world, cam)
+                state['armed'] = (name, cam)
+                state['gameAt'] = u.GameplayStatics.get_time_seconds(world)
+                return
+            if u.GameplayStatics.get_time_seconds(world) - state['gameAt'] < 5.0:
+                return
+            state['queue'].pop(0)
+            request_shot(world, name + '__' + cam, state['armedView'])
+            return
     except Exception:  # noqa: BLE001
         report['errors'].append(traceback.format_exc())
         if state['stopping']:
@@ -347,6 +575,8 @@ def tick(dt):
                 u.SystemLibrary.quit_editor()
         else:
             finish('failed_exception')
+    finally:
+        state['busy'] = False
 
 
 handle = None

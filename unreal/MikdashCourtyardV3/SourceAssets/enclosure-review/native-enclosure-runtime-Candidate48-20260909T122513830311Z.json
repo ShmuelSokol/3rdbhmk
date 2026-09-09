@@ -1,0 +1,1804 @@
+{
+ "status": "measured_pie_diagnostic",
+ "stamp": "20260909T122513830311Z",
+ "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "errors": [],
+ "scope": "Diagnostic only. Real-RHI PIE; nothing written to the map or to user save slots. Enclosure HISMs have NoCollision, so traces report obstructions and ground, never the wall.",
+ "mapShaBefore": "114a6130cde60efabef34e30d0437fe6f1746d30737295d608245e55ee79ff77",
+ "saveIsolation": {
+  "testPrefix": "FableProbe_EnclRt02",
+  "originalSaveFileCount": 0,
+  "originalSavesUnchanged": true
+ },
+ "meshPackages": {
+  "SM_EnclosureV2_WallSegment": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "6873b010c42fad61b48c6a0acc9fc3f96e57a100240626e927edb1e95022bf8e"
+  },
+  "SM_EnclosureV2_Gate": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "c956277a225d4343464495af41b635ccbd2c7310a66476e6472ef508e0403d91"
+  },
+  "SM_EnclosureV2_Corner": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "34cb82ba3124ab3cc28791d58a85549deea442072718dfdb3b946c5044f0106d"
+  },
+  "SM_EnclosureV2_OverlaySlab": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "f84b518e0f084b16cca4617b27d7fd4e6958483ff312e1af0e474ca2d211cdbc"
+  },
+  "SM_EnclosureV2_Foundation": {
+   "assetRegistryExists": true,
+   "fileOnDisk": true,
+   "fileSha256": "43bd2dc393a1a7db17af3fcb2458b023b16357f3e14c2a3cc9107439f050c311"
+  }
+ },
+ "editorWorldActors": [
+  {
+   "label": "RELEASE_EnclosureV2_Precinct",
+   "name": "MikdashEnclosure_0",
+   "meshProperties": {
+    "WallModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+    "GateModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+    "CornerModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+    "FoundationModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+    "OverlayQuadMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab"
+   },
+   "wallMaterial": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar.MI_PBR_LimestoneAshlar",
+   "overlayMaterial": null,
+   "initialState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "worldCmPerAmah": 48.0,
+   "courtPlatformHalfExtentCm": 7776.0,
+   "groundProfileStepsPerSide": 600,
+   "groundProfileHighCount": 2404,
+   "groundProfileLowCount": 2404,
+   "explicitHideLabels": 269,
+   "explicitHideMeshNames": 269,
+   "hidden": false,
+   "level": "Walkthrough"
+  }
+ ],
+ "pieActorCount": 1,
+ "pieActors": [
+  {
+   "label": "RELEASE_EnclosureV2_Precinct",
+   "name": "MikdashEnclosure_0",
+   "precinctState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "isTransitioning": false,
+   "actorHidden": false,
+   "actorLocation": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "actorScale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "rootVisible": true,
+   "instanceCounts": {
+    "wall": 467,
+    "gate": 5,
+    "corner": 4,
+    "foundation": 476,
+    "overlay": 480
+   },
+   "outerFacesCm": {
+    "west": -31776.0,
+    "north": -31824.0,
+    "east": 112224.0,
+    "south": 112176.0
+   },
+   "wallBaseZRangeCm": {
+    "north": [
+     -4832.44091796875,
+     5732.55517578125
+    ],
+    "east": [
+     -13185.384765625,
+     6212.9912109375
+    ],
+    "south": [
+     -13633.6708984375,
+     -1950.2510223388672
+    ],
+    "west": [
+     -8763.212890625,
+     1690.8834075927734
+    ]
+   },
+   "deepestFoundationCm": {
+    "north": 507.648193359375,
+    "east": 947.6060180664062,
+    "south": 766.4169921875,
+    "west": 826.4130859375
+   },
+   "groundProfileStatus": "profile",
+   "hideListResolution": {
+    "found": 269,
+    "missing": 0,
+    "duplicated": 0
+   },
+   "hideSetFingerprint": "add1b55da3535d53",
+   "modernBuildingsSelected": 269,
+   "meshProperties": {
+    "WallModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+    "GateModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+    "CornerModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+    "FoundationModuleMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+    "OverlayQuadMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab"
+   },
+   "wallMaterial": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar.MI_PBR_LimestoneAshlar",
+   "wallMaterialInstancingUsage": true,
+   "worldCmPerAmah": 48.0,
+   "initialState": "<MikdashPrecinctState.YECHEZKEL: 1>",
+   "hisms": [
+    {
+     "name": "WallInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+     "instanceCount": 467,
+     "material0": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      40223.998046875,
+      40175.998046875,
+      -3566.33984375
+     ],
+     "componentBoundsExtent": [
+      72172.798828125,
+      72172.798828125,
+      10067.3310546875
+     ],
+     "mobility": "<ComponentMobility.STATIC: 0>",
+     "minDrawDistance": 0.0,
+     "ldMaxDrawDistance": 0.0,
+     "cachedMaxDrawDistance": 0.0,
+     "boundsScale": 1.0,
+     "perInstanceDataCount": 467,
+     "componentVisibleInSceneCapture": null,
+     "meshFacts": {
+      "path": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_WallSegment.SM_EnclosureV2_WallSegment",
+      "numLods": 1,
+      "numTrianglesLod0": 228,
+      "numVerticesLod0": 570,
+      "numSectionsLod0": 1,
+      "numMaterialSlots": 1,
+      "materialSlots": [
+       "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"
+      ],
+      "naniteEnabled": true,
+      "minLod": "unavailable: Exception(\"StaticMesh: Failed to find property 'min_lod' for attribute 'min_lod' on 'StaticMesh'\")",
+      "boundsOrigin": [
+       0.0,
+       0.0,
+       150.0
+      ],
+      "boundsExtent": [
+       625.0,
+       180.0,
+       150.0
+      ]
+     },
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -31176.0,
+        -31824.0,
+        1538.9200439453125
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9599999999999995,
+        0.9599999999999995,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -31776.0,
+        -31996.8,
+        1538.9200439453125
+       ],
+       "approxWorldBoundsMax": [
+        -30576.0,
+        -31651.2,
+        1826.9200439453125
+       ]
+      },
+      {
+       "index": 233,
+       "location": [
+        112224.0,
+        111576.0,
+        -13185.384765625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        111624.0,
+        111403.2,
+        -13185.384765625
+       ],
+       "approxWorldBoundsMax": [
+        112824.0,
+        111748.8,
+        -12897.384765625
+       ]
+      },
+      {
+       "index": 466,
+       "location": [
+        -31776.0,
+        -31224.0,
+        1442.9200439453125
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -32376.0,
+        -31396.8,
+        1442.9200439453125
+       ],
+       "approxWorldBoundsMax": [
+        -31176.0,
+        -31051.2,
+        1730.9200439453125
+       ]
+      }
+     ],
+     "nearEastGateInstances": [
+      {
+       "index": 136,
+       "location": [
+        112224.0,
+        -8424.000000000004,
+        6097.7822265625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 6385.7822265625,
+       "worldBottomZ": 6097.7822265625,
+       "groundZ": 5960.478912693205,
+       "baseMinusGroundCm": 137.30331386929538
+      },
+      {
+       "index": 137,
+       "location": [
+        112224.0,
+        -7224.0,
+        5905.7822265625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 6193.7822265625,
+       "worldBottomZ": 5905.7822265625,
+       "groundZ": 5710.870830015669,
+       "baseMinusGroundCm": 194.91139654683138
+      },
+      {
+       "index": 138,
+       "location": [
+        112224.0,
+        -6024.000000000004,
+        5533.06787109375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 5821.06787109375,
+       "worldBottomZ": 5533.06787109375,
+       "groundZ": 5240.5269501691655,
+       "baseMinusGroundCm": 292.5409209245845
+      },
+      {
+       "index": 139,
+       "location": [
+        112224.0,
+        -4824.0,
+        5024.901855468752
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 5312.901855468752,
+       "worldBottomZ": 5024.901855468752,
+       "groundZ": 4839.676282887416,
+       "baseMinusGroundCm": 185.22557258133565
+      },
+      {
+       "index": 140,
+       "location": [
+        112224.0,
+        -3623.9999999999964,
+        4721.900878906249
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 5009.900878906249,
+       "worldBottomZ": 4721.900878906249,
+       "groundZ": 4638.98946379255,
+       "baseMinusGroundCm": 82.91141511369915
+      },
+      {
+       "index": 141,
+       "location": [
+        112224.0,
+        -2424.0,
+        4529.90087890625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 4817.90087890625,
+       "worldBottomZ": 4529.90087890625,
+       "groundZ": 4438.702345104975,
+       "baseMinusGroundCm": 91.1985338012746
+      },
+      {
+       "index": 142,
+       "location": [
+        112224.0,
+        2376.0,
+        3121.759033203125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 3409.759033203125,
+       "worldBottomZ": 3121.759033203125,
+       "groundZ": 2826.219026469047,
+       "baseMinusGroundCm": 295.5400067340779
+      },
+      {
+       "index": 143,
+       "location": [
+        112224.0,
+        3576.0,
+        2674.330078125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 2962.330078125,
+       "worldBottomZ": 2674.330078125,
+       "groundZ": 2464.8578421452985,
+       "baseMinusGroundCm": 209.4722359797015
+      },
+      {
+       "index": 144,
+       "location": [
+        112224.0,
+        4776.0,
+        2307.987060546875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 2595.987060546875,
+       "worldBottomZ": 2307.987060546875,
+       "groundZ": 2036.6913358993734,
+       "baseMinusGroundCm": 271.29572464750163
+      },
+      {
+       "index": 145,
+       "location": [
+        112224.0,
+        5976.0,
+        1730.7030029296825
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 2018.7030029296825,
+       "worldBottomZ": 1730.7030029296825,
+       "groundZ": 1253.516285833186,
+       "baseMinusGroundCm": 477.1867170964965
+      },
+      {
+       "index": 146,
+       "location": [
+        112224.0,
+        7176.000000000007,
+        900.2169799804688
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 1188.2169799804688,
+       "worldBottomZ": 900.2169799804688,
+       "groundZ": 488.95481923873376,
+       "baseMinusGroundCm": 411.262160741735
+      },
+      {
+       "index": 147,
+       "location": [
+        112224.0,
+        8376.0,
+        253.072998046875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 541.072998046875,
+       "worldBottomZ": 253.072998046875,
+       "groundZ": 5.312329978100024,
+       "baseMinusGroundCm": 247.76066806877498
+      }
+     ]
+    },
+    {
+     "name": "GateInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+     "instanceCount": 5,
+     "material0": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      40223.998046875,
+      40175.998046875,
+      423.51708984375
+     ],
+     "componentBoundsExtent": [
+      72172.798828125,
+      72172.798828125,
+      6443.69189453125
+     ],
+     "mobility": "<ComponentMobility.STATIC: 0>",
+     "minDrawDistance": 0.0,
+     "ldMaxDrawDistance": 0.0,
+     "cachedMaxDrawDistance": 0.0,
+     "boundsScale": 1.0,
+     "perInstanceDataCount": 5,
+     "componentVisibleInSceneCapture": null,
+     "meshFacts": {
+      "path": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Gate.SM_EnclosureV2_Gate",
+      "numLods": 1,
+      "numTrianglesLod0": 84,
+      "numVerticesLod0": 210,
+      "numSectionsLod0": 1,
+      "numMaterialSlots": 1,
+      "materialSlots": [
+       "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"
+      ],
+      "naniteEnabled": true,
+      "minLod": "unavailable: Exception(\"StaticMesh: Failed to find property 'min_lod' for attribute 'min_lod' on 'StaticMesh'\")",
+      "boundsOrigin": [
+       0.0,
+       4.5,
+       1500.0
+      ],
+      "boundsExtent": [
+       780.0,
+       175.5,
+       1500.0
+      ]
+     },
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        0.0,
+        -31824.0,
+        -437.5290051269531
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9599999999999995,
+        0.9599999999999995,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -748.7999999999996,
+        -31988.16,
+        -437.5290051269531
+       ],
+       "approxWorldBoundsMax": [
+        748.7999999999996,
+        -31651.2,
+        2442.470994873047
+       ]
+      },
+      {
+       "index": 2,
+       "location": [
+        16224.0,
+        112176.0,
+        -6020.1748046875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.96,
+        0.96,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        15475.2,
+        112011.84,
+        -6020.1748046875
+       ],
+       "approxWorldBoundsMax": [
+        16972.8,
+        112348.8,
+        -3140.1748046875
+       ]
+      },
+      {
+       "index": 4,
+       "location": [
+        -31776.0,
+        0.0,
+        223.4429931640625
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -32524.8,
+        -164.16000000000003,
+        223.4429931640625
+       ],
+       "approxWorldBoundsMax": [
+        -31027.2,
+        172.80000000000004,
+        3103.4429931640625
+       ]
+      }
+     ],
+     "nearEastGateInstances": [
+      {
+       "index": 1,
+       "location": [
+        112224.0,
+        0.0,
+        3987.2089746093757
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000002,
+        0.96
+       ],
+       "worldTopZ": 6867.208974609375,
+       "worldBottomZ": 3987.2089746093757,
+       "groundZ": 3734.899888947086,
+       "baseMinusGroundCm": 252.30908566228982
+      }
+     ]
+    },
+    {
+     "name": "CornerInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+     "instanceCount": 4,
+     "material0": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      40224.0009765625,
+      40176.0009765625,
+      -4030.651611328125
+     ],
+     "componentBoundsExtent": [
+      72267.2646484375,
+      72267.2646484375,
+      9313.021240234375
+     ],
+     "mobility": "<ComponentMobility.STATIC: 0>",
+     "minDrawDistance": 0.0,
+     "ldMaxDrawDistance": 0.0,
+     "cachedMaxDrawDistance": 0.0,
+     "boundsScale": 1.0,
+     "perInstanceDataCount": 4,
+     "componentVisibleInSceneCapture": null,
+     "meshFacts": {
+      "path": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Corner.SM_EnclosureV2_Corner",
+      "numLods": 1,
+      "numTrianglesLod0": 72,
+      "numVerticesLod0": 180,
+      "numSectionsLod0": 1,
+      "numMaterialSlots": 1,
+      "materialSlots": [
+       "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"
+      ],
+      "naniteEnabled": true,
+      "minLod": "unavailable: Exception(\"StaticMesh: Failed to find property 'min_lod' for attribute 'min_lod' on 'StaticMesh'\")",
+      "boundsOrigin": [
+       0.0,
+       0.0,
+       261.0
+      ],
+      "boundsExtent": [
+       278.3999938964844,
+       278.3999938964844,
+       261.0
+      ]
+     },
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -31776.0,
+        -31824.0,
+        1464.3011095703125
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.96,
+        0.96,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -32043.263994140623,
+        -32091.263994140623,
+        1464.3011095703125
+       ],
+       "approxWorldBoundsMax": [
+        -31508.736005859377,
+        -31556.736005859377,
+        1965.4211095703126
+       ]
+      },
+      {
+       "index": 2,
+       "location": [
+        112224.0,
+        112176.0,
+        -13343.6731765625
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.96,
+        0.96,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        111956.73600585938,
+        111908.73600585938,
+        -13343.6731765625
+       ],
+       "approxWorldBoundsMax": [
+        112491.26399414062,
+        112443.26399414062,
+        -12842.5531765625
+       ]
+      },
+      {
+       "index": 3,
+       "location": [
+        -31776.0,
+        112176.0,
+        -6321.1669921875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.96,
+        0.96,
+        0.96
+       ],
+       "approxWorldBoundsMin": [
+        -32043.263994140623,
+        111908.73600585938,
+        -6321.1669921875
+       ],
+       "approxWorldBoundsMax": [
+        -31508.736005859377,
+        112443.26399414062,
+        -5820.0469921875
+       ]
+      }
+     ],
+     "nearEastGateInstances": []
+    },
+    {
+     "name": "FoundationInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+     "instanceCount": 476,
+     "material0": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/UEDPIE_0_Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.MID_MI_PBR_LimestoneAshlar_0",
+     "visible": true,
+     "hiddenInGame": false,
+     "castShadow": true,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      40224.0009765625,
+      40176.0009765625,
+      -3765.251953125
+     ],
+     "componentBoundsExtent": [
+      72267.2646484375,
+      72267.2646484375,
+      9978.2431640625
+     ],
+     "mobility": "<ComponentMobility.STATIC: 0>",
+     "minDrawDistance": 0.0,
+     "ldMaxDrawDistance": 0.0,
+     "cachedMaxDrawDistance": 0.0,
+     "boundsScale": 1.0,
+     "perInstanceDataCount": 476,
+     "componentVisibleInSceneCapture": null,
+     "meshFacts": {
+      "path": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_Foundation.SM_EnclosureV2_Foundation",
+      "numLods": 1,
+      "numTrianglesLod0": 12,
+      "numVerticesLod0": 30,
+      "numSectionsLod0": 1,
+      "numMaterialSlots": 1,
+      "materialSlots": [
+       "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"
+      ],
+      "naniteEnabled": true,
+      "minLod": "unavailable: Exception(\"StaticMesh: Failed to find property 'min_lod' for attribute 'min_lod' on 'StaticMesh'\")",
+      "boundsOrigin": [
+       0.0,
+       0.0,
+       50.0
+      ],
+      "boundsExtent": [
+       625.0,
+       180.0,
+       50.0
+      ]
+     },
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -31176.0,
+        -31824.0,
+        1373.3310546875
+       ],
+       "yaw": 180.0,
+       "scale": [
+        0.9599999999999995,
+        0.9599999999999994,
+        1.655889892578125
+       ],
+       "approxWorldBoundsMin": [
+        -31776.0,
+        -31996.8,
+        1373.3310546875
+       ],
+       "approxWorldBoundsMax": [
+        -30576.0,
+        -31651.2,
+        1538.9200439453125
+       ]
+      },
+      {
+       "index": 238,
+       "location": [
+        106824.0,
+        112176.0,
+        -13111.8330078125
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.96,
+        0.9599999999999999,
+        1.651201171875
+       ],
+       "approxWorldBoundsMin": [
+        106224.0,
+        112003.2,
+        -13111.8330078125
+       ],
+       "approxWorldBoundsMax": [
+        107424.0,
+        112348.8,
+        -12946.712890625
+       ]
+      },
+      {
+       "index": 475,
+       "location": [
+        -31776.0,
+        112176.0,
+        -6467.502604687501
+       ],
+       "yaw": 0.0,
+       "scale": [
+        0.4276223999999999,
+        1.4847999999999997,
+        1.4633561250000093
+       ],
+       "approxWorldBoundsMin": [
+        -32043.264,
+        111908.736,
+        -6467.502604687501
+       ],
+       "approxWorldBoundsMax": [
+        -31508.736,
+        112443.264,
+        -6321.1669921875
+       ]
+      }
+     ],
+     "nearEastGateInstances": [
+      {
+       "index": 136,
+       "location": [
+        112224.0,
+        -8424.000000000004,
+        5843.9580078125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        2.5382421875
+       ],
+       "worldTopZ": 6097.7822265625,
+       "worldBottomZ": 5843.9580078125,
+       "groundZ": 5960.478912693205,
+       "baseMinusGroundCm": -116.52090488070462
+      },
+      {
+       "index": 137,
+       "location": [
+        112224.0,
+        -7224.0,
+        5471.244140625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        4.345380859375
+       ],
+       "worldTopZ": 5905.7822265625,
+       "worldBottomZ": 5471.244140625,
+       "groundZ": 5710.870830015669,
+       "baseMinusGroundCm": -239.62668939066862
+      },
+      {
+       "index": 138,
+       "location": [
+        112224.0,
+        -6024.000000000004,
+        4963.078125000002
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        5.699897460937482
+       ],
+       "worldTopZ": 5533.06787109375,
+       "worldBottomZ": 4963.078125000002,
+       "groundZ": 5240.5269501691655,
+       "baseMinusGroundCm": -277.4488251691637
+      },
+      {
+       "index": 139,
+       "location": [
+        112224.0,
+        -4824.0,
+        4660.077148437499
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        3.6482470703125274
+       ],
+       "worldTopZ": 5024.901855468752,
+       "worldBottomZ": 4660.077148437499,
+       "groundZ": 4839.676282887416,
+       "baseMinusGroundCm": -179.59913444991707
+      },
+      {
+       "index": 140,
+       "location": [
+        112224.0,
+        -3623.9999999999964,
+        4468.0771484375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        2.538237304687491
+       ],
+       "worldTopZ": 4721.900878906249,
+       "worldBottomZ": 4468.0771484375,
+       "groundZ": 4638.98946379255,
+       "baseMinusGroundCm": -170.91231535504994
+      },
+      {
+       "index": 141,
+       "location": [
+        112224.0,
+        -2424.0,
+        4219.791015625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        3.1010986328125
+       ],
+       "worldTopZ": 4529.90087890625,
+       "worldBottomZ": 4219.791015625,
+       "groundZ": 4438.702345104975,
+       "baseMinusGroundCm": -218.9113294799754
+      },
+      {
+       "index": 142,
+       "location": [
+        112224.0,
+        2376.0,
+        2543.385986328125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        5.78373046875
+       ],
+       "worldTopZ": 3121.759033203125,
+       "worldBottomZ": 2543.385986328125,
+       "groundZ": 2826.219026469047,
+       "baseMinusGroundCm": -282.8330401409221
+      },
+      {
+       "index": 143,
+       "location": [
+        112224.0,
+        3576.0,
+        2149.39501953125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        5.2493505859375
+       ],
+       "worldTopZ": 2674.330078125,
+       "worldBottomZ": 2149.39501953125,
+       "groundZ": 2464.8578421452985,
+       "baseMinusGroundCm": -315.4628226140485
+      },
+      {
+       "index": 144,
+       "location": [
+        112224.0,
+        4776.0,
+        1572.1109619140575
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        7.358760986328175
+       ],
+       "worldTopZ": 2307.987060546875,
+       "worldBottomZ": 1572.1109619140575,
+       "groundZ": 2036.6913358993734,
+       "baseMinusGroundCm": -464.5803739853159
+      },
+      {
+       "index": 145,
+       "location": [
+        112224.0,
+        5976.0,
+        783.0969848632812
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        9.476060180664012
+       ],
+       "worldTopZ": 1730.7030029296825,
+       "worldBottomZ": 783.0969848632812,
+       "groundZ": 1253.516285833186,
+       "baseMinusGroundCm": -470.4193009699047
+      },
+      {
+       "index": 146,
+       "location": [
+        112224.0,
+        7176.000000000007,
+        135.9530029296875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        7.642639770507812
+       ],
+       "worldTopZ": 900.2169799804688,
+       "worldBottomZ": 135.9530029296875,
+       "groundZ": 488.95481923873376,
+       "baseMinusGroundCm": -353.00181630904626
+      },
+      {
+       "index": 147,
+       "location": [
+        112224.0,
+        8376.0,
+        -254.0570068359375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        0.9600000000000002,
+        0.9600000000000001,
+        5.071300048828125
+       ],
+       "worldTopZ": 253.07299804687494,
+       "worldBottomZ": -254.0570068359375,
+       "groundZ": 5.312329978100024,
+       "baseMinusGroundCm": -259.3693368140375
+      },
+      {
+       "index": 468,
+       "location": [
+        112224.0,
+        0.0,
+        3418.504990234375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1.1980800000000003,
+        0.9600000000000001,
+        5.687039843750008
+       ],
+       "worldTopZ": 3987.2089746093757,
+       "worldBottomZ": 3418.504990234375,
+       "groundZ": 3734.899888947086,
+       "baseMinusGroundCm": -316.394898712711
+      }
+     ]
+    },
+    {
+     "name": "OverlayInstances",
+     "staticMesh": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab",
+     "instanceCount": 480,
+     "material0": "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial",
+     "visible": false,
+     "hiddenInGame": false,
+     "castShadow": false,
+     "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+     "instanceStartCullDistance": 0,
+     "instanceEndCullDistance": 0,
+     "componentBoundsOrigin": [
+      40224.0,
+      40176.0,
+      -3567.161376953125
+     ],
+     "componentBoundsExtent": [
+      72600.0,
+      72600.0,
+      10066.509521484375
+     ],
+     "mobility": "<ComponentMobility.STATIC: 0>",
+     "minDrawDistance": 0.0,
+     "ldMaxDrawDistance": 0.0,
+     "cachedMaxDrawDistance": 0.0,
+     "boundsScale": 1.0,
+     "perInstanceDataCount": 480,
+     "componentVisibleInSceneCapture": null,
+     "meshFacts": {
+      "path": "/Game/MikdashV3/FutureMountV1/EnclosureV2/Meshes/SM_EnclosureV2_OverlaySlab.SM_EnclosureV2_OverlaySlab",
+      "numLods": 1,
+      "numTrianglesLod0": 12,
+      "numVerticesLod0": 28,
+      "numSectionsLod0": 1,
+      "numMaterialSlots": 1,
+      "materialSlots": [
+       "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"
+      ],
+      "naniteEnabled": true,
+      "minLod": "unavailable: Exception(\"StaticMesh: Failed to find property 'min_lod' for attribute 'min_lod' on 'StaticMesh'\")",
+      "boundsOrigin": [
+       0.0,
+       0.0,
+       0.5
+      ],
+      "boundsExtent": [
+       0.5,
+       0.019999999552965164,
+       0.5
+      ]
+     },
+     "sampleInstances": [
+      {
+       "index": 0,
+       "location": [
+        -31776.0,
+        -31824.0,
+        1538.9200439453125
+       ],
+       "yaw": 180.0,
+       "scale": [
+        1199.9999999999995,
+        0.9599999999999995,
+        288.0
+       ],
+       "approxWorldBoundsMin": [
+        -32376.0,
+        -31824.01919999957,
+        1538.9200439453125
+       ],
+       "approxWorldBoundsMax": [
+        -31176.0,
+        -31823.98080000043,
+        1826.9200439453125
+       ]
+      },
+      {
+       "index": 240,
+       "location": [
+        112224.0,
+        112176.0,
+        -13144.296875
+       ],
+       "yaw": 0.0,
+       "scale": [
+        1200.0,
+        0.96,
+        288.0
+       ],
+       "approxWorldBoundsMin": [
+        111624.0,
+        112175.98080000043,
+        -13144.296875
+       ],
+       "approxWorldBoundsMax": [
+        112824.0,
+        112176.01919999957,
+        -12856.296875
+       ]
+      },
+      {
+       "index": 479,
+       "location": [
+        -31776.0,
+        -30624.0,
+        1442.9200439453125
+       ],
+       "yaw": 90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "approxWorldBoundsMin": [
+        -32376.0,
+        -30624.01919999957,
+        1442.9200439453125
+       ],
+       "approxWorldBoundsMax": [
+        -31176.0,
+        -30623.98080000043,
+        1730.9200439453125
+       ]
+      }
+     ],
+     "nearEastGateInstances": [
+      {
+       "index": 140,
+       "location": [
+        112224.0,
+        -7824.0,
+        5905.7822265625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 6193.7822265625,
+       "worldBottomZ": 5905.7822265625,
+       "groundZ": 5865.745918580662,
+       "baseMinusGroundCm": 40.036307981838036
+      },
+      {
+       "index": 141,
+       "location": [
+        112224.0,
+        -6624.0,
+        5533.06787109375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 5821.06787109375,
+       "worldBottomZ": 5533.06787109375,
+       "groundZ": 5475.698890092415,
+       "baseMinusGroundCm": 57.36898100133476
+      },
+      {
+       "index": 142,
+       "location": [
+        112224.0,
+        -5424.000000000004,
+        5024.901855468752
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 5312.901855468752,
+       "worldBottomZ": 5024.901855468752,
+       "groundZ": 5005.355010245916,
+       "baseMinusGroundCm": 19.546845222836055
+      },
+      {
+       "index": 143,
+       "location": [
+        112224.0,
+        -4223.999999999996,
+        4721.900878906249
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 5009.900878906249,
+       "worldBottomZ": 4721.900878906249,
+       "groundZ": 4739.020280381825,
+       "baseMinusGroundCm": -17.119401475575614
+      },
+      {
+       "index": 144,
+       "location": [
+        112224.0,
+        -3024.0,
+        4529.90087890625
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 4817.90087890625,
+       "worldBottomZ": 4529.90087890625,
+       "groundZ": 4535.580405475972,
+       "baseMinusGroundCm": -5.679526569721929
+      },
+      {
+       "index": 145,
+       "location": [
+        112224.0,
+        -1824.0,
+        4281.615234375
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 4569.615234375,
+       "worldBottomZ": 4281.615234375,
+       "groundZ": 4267.365794623773,
+       "baseMinusGroundCm": 14.249439751227328
+      },
+      {
+       "index": 146,
+       "location": [
+        112224.0,
+        -624.0,
+        3947.27294921875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 4235.27294921875,
+       "worldBottomZ": 3947.27294921875,
+       "groundZ": 3934.4773330384123,
+       "baseMinusGroundCm": 12.795616180337674
+      },
+      {
+       "index": 147,
+       "location": [
+        112224.0,
+        576.0,
+        3563.27294921875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 3851.27294921875,
+       "worldBottomZ": 3563.27294921875,
+       "groundZ": 3550.5800758376936,
+       "baseMinusGroundCm": 12.692873381056415
+      },
+      {
+       "index": 148,
+       "location": [
+        112224.0,
+        1776.0,
+        3121.759033203125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 3409.759033203125,
+       "worldBottomZ": 3121.759033203125,
+       "groundZ": 3152.0168001884813,
+       "baseMinusGroundCm": -30.257766985356284
+      },
+      {
+       "index": 149,
+       "location": [
+        112224.0,
+        2976.0,
+        2674.330078125
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 2962.330078125,
+       "worldBottomZ": 2674.330078125,
+       "groundZ": 2632.857783551546,
+       "baseMinusGroundCm": 41.47229457345384
+      },
+      {
+       "index": 150,
+       "location": [
+        112224.0,
+        4176.0,
+        2307.987060546875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 2595.987060546875,
+       "worldBottomZ": 2307.987060546875,
+       "groundZ": 2252.6912480087485,
+       "baseMinusGroundCm": 55.295812538126484
+      },
+      {
+       "index": 151,
+       "location": [
+        112224.0,
+        5376.000000000007,
+        1730.7030029296825
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 2018.7030029296825,
+       "worldBottomZ": 1730.7030029296825,
+       "groundZ": 1695.4072023393928,
+       "baseMinusGroundCm": 35.29580059028967
+      },
+      {
+       "index": 152,
+       "location": [
+        112224.0,
+        6576.0,
+        900.2169799804688
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 1188.2169799804688,
+       "worldBottomZ": 900.2169799804688,
+       "groundZ": 827.5603342993672,
+       "baseMinusGroundCm": 72.65664568110151
+      },
+      {
+       "index": 153,
+       "location": [
+        112224.0,
+        7776.0,
+        253.072998046875
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 541.072998046875,
+       "worldBottomZ": 253.072998046875,
+       "groundZ": 211.49189270842908,
+       "baseMinusGroundCm": 41.58110533844592
+      },
+      {
+       "index": 154,
+       "location": [
+        112224.0,
+        8976.0,
+        -164.5850067138672
+       ],
+       "yaw": -90.00000000000001,
+       "scale": [
+        1200.0000000000002,
+        0.9600000000000002,
+        288.0
+       ],
+       "worldTopZ": 123.41499328613281,
+       "worldBottomZ": -164.5850067138672,
+       "groundZ": -200.86723275223267,
+       "baseMinusGroundCm": 36.28222603836548
+      }
+     ]
+    }
+   ],
+   "hideListSample": {
+    "labels": [
+     "RELEASE_OldCityFacades_Grid_N001_N002",
+     "RELEASE_OldCityFacades_Grid_N001_N003",
+     "RELEASE_OldCityFacades_Grid_N001_N004",
+     "SM_JerusalemBuildings_Grid_P000_P007",
+     "SM_JerusalemBuildings_Grid_P000_P008",
+     "SM_JerusalemBuildings_Grid_P000_P009",
+     "SM_JerusalemBuildings_Large_06766",
+     "SM_JerusalemBuildings_Large_07718",
+     "SM_JerusalemBuildings_Large_09515"
+    ],
+    "hiddenInGame": {
+     "SM_JerusalemBuildings_Grid_P000_P007": true,
+     "SM_JerusalemBuildings_Grid_P000_P008": true,
+     "SM_JerusalemBuildings_Grid_P000_P009": true,
+     "SM_JerusalemBuildings_Large_06766": true,
+     "SM_JerusalemBuildings_Large_07718": true,
+     "SM_JerusalemBuildings_Large_09515": true,
+     "RELEASE_OldCityFacades_Grid_N001_N004": true,
+     "RELEASE_OldCityFacades_Grid_N001_N002": true,
+     "RELEASE_OldCityFacades_Grid_N001_N003": true
+    }
+   }
+  }
+ ],
+ "traces": {
+  "groundZ": {
+   "v7": 3805.5838042670002,
+   "v8": 3012.974436425786,
+   "gate": 3734.899888947086
+  },
+  "rows": [
+   {
+    "label": "ground",
+    "start": [
+     108224.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     108224.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 26194.416015625,
+    "location": [
+     108224.0,
+     0.0,
+     3805.5838042670002
+    ],
+    "hitActor": "SM_JerusalemTerrain_10_08",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Terrain/SM_JerusalemTerrain_10_08.SM_JerusalemTerrain_10_08"
+   },
+   {
+    "label": "ground",
+    "start": [
+     118224.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     118224.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 26987.025390625,
+    "location": [
+     118224.0,
+     0.0,
+     3012.974436425786
+    ],
+    "hitActor": "SM_JerusalemTerrain_10_08",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Terrain/SM_JerusalemTerrain_10_08.SM_JerusalemTerrain_10_08"
+   },
+   {
+    "label": "ground",
+    "start": [
+     112224.0,
+     0.0,
+     30000.0
+    ],
+    "end": [
+     112224.0,
+     0.0,
+     -30000.0
+    ],
+    "blockingHit": true,
+    "distanceCm": 26265.099609375,
+    "location": [
+     112224.0,
+     0.0,
+     3734.899888947086
+    ],
+    "hitActor": "SM_JerusalemTerrain_10_08",
+    "hitActorClass": "StaticMeshActor",
+    "hitComponent": "StaticMeshComponent0",
+    "hitMesh": "/Game/MikdashV3/JerusalemContext/Terrain/SM_JerusalemTerrain_10_08.SM_JerusalemTerrain_10_08"
+   },
+   {
+    "label": "v7_camera_to_gate_opening",
+    "start": [
+     108224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "end": [
+     112224.0,
+     0.0,
+     5234.899888947086
+    ],
+    "blockingHit": false
+   },
+   {
+    "label": "v7_camera_level_east_20000cm",
+    "start": [
+     108224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "end": [
+     132224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "blockingHit": false
+   },
+   {
+    "label": "v8_camera_to_gate_opening",
+    "start": [
+     118224.0,
+     0.0,
+     3180.974436425786
+    ],
+    "end": [
+     112224.0,
+     0.0,
+     5234.899888947086
+    ],
+    "blockingHit": false
+   }
+  ],
+  "note": "Enclosure HISMs are NoCollision: a hit on the wall is impossible by design; these show what else is in the line of sight and the ground under each camera."
+ },
+ "pawnHidden": true,
+ "experiments": [
+  {
+   "step": "A_asis",
+   "action": "no change; the actor exactly as BeginPlay left it"
+  },
+  {
+   "step": "B_visibility_toggle",
+   "action": "SetVisibility false/true on the four wall components (forces a render-state rebuild)"
+  },
+  {
+   "step": "C_movable",
+   "action": "mobility -> Movable on the four wall components, then a visibility toggle"
+  }
+ ],
+ "screenshots": [
+  {
+   "name": "A_asis__v7",
+   "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\enclosure-runtime-Candidate48-20260909T122513830311Z__A_asis__v7.png",
+   "camera": {
+    "position": [
+     108224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "pitch": 14.0,
+    "yaw": 0.0,
+    "fov": 75.0,
+    "note": "the lighting agent v7 frame: 40 m west of the east gate, eye = ground + 168"
+   },
+   "liveCameraCm": [
+    108224.0,
+    0.0,
+    3973.5838042670002
+   ],
+   "driftCm": 0.0,
+   "bytes": 2028550,
+   "sha256": "be4880aa9fc54638a278c6aafbef826920e95a5a7b5ee24f73e0ef078d397c7f"
+  },
+  {
+   "name": "A_asis__overview",
+   "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\enclosure-runtime-Candidate48-20260909T122513830311Z__A_asis__overview.png",
+   "camera": {
+    "position": [
+     40224.0,
+     -163824.0,
+     60000.0
+    ],
+    "pitch": -25.0,
+    "yaw": 90.0,
+    "fov": 90.0,
+    "note": "north of the precinct at 600 m, looking south over the whole ring"
+   },
+   "liveCameraCm": [
+    40224.0,
+    -163824.0,
+    60000.0
+   ],
+   "driftCm": 0.0,
+   "bytes": 3269209,
+   "sha256": "d3127d2dbee8c0ea217f13735b2a956b475ec9d324a1dfaee08d3b863f055657"
+  },
+  {
+   "name": "B_visibility_toggle__v7",
+   "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\enclosure-runtime-Candidate48-20260909T122513830311Z__B_visibility_toggle__v7.png",
+   "camera": {
+    "position": [
+     108224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "pitch": 14.0,
+    "yaw": 0.0,
+    "fov": 75.0,
+    "note": "the lighting agent v7 frame: 40 m west of the east gate, eye = ground + 168"
+   },
+   "liveCameraCm": [
+    108224.0,
+    0.0,
+    3973.5838042670002
+   ],
+   "driftCm": 0.0,
+   "bytes": 2032298,
+   "sha256": "4aaa5d526ca39bb2cd7db76b3b5af1230aa89c93e312176f9d0989d03240bc5d"
+  },
+  {
+   "name": "C_movable__v7",
+   "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\enclosure-runtime-Candidate48-20260909T122513830311Z__C_movable__v7.png",
+   "camera": {
+    "position": [
+     108224.0,
+     0.0,
+     3973.5838042670002
+    ],
+    "pitch": 14.0,
+    "yaw": 0.0,
+    "fov": 75.0,
+    "note": "the lighting agent v7 frame: 40 m west of the east gate, eye = ground + 168"
+   },
+   "liveCameraCm": [
+    108224.0,
+    0.0,
+    3973.5838042670002
+   ],
+   "driftCm": 0.0,
+   "bytes": 2022858,
+   "sha256": "2ce4fe51a82b8fa629100284d18ec130f377e91d61f0f0dafbb6b90832d1c79b"
+  },
+  {
+   "name": "C_movable__overview",
+   "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\enclosure-runtime-Candidate48-20260909T122513830311Z__C_movable__overview.png",
+   "camera": {
+    "position": [
+     40224.0,
+     -163824.0,
+     60000.0
+    ],
+    "pitch": -25.0,
+    "yaw": 90.0,
+    "fov": 90.0,
+    "note": "north of the precinct at 600 m, looking south over the whole ring"
+   },
+   "liveCameraCm": [
+    40224.0,
+    -163824.0,
+    60000.0
+   ],
+   "driftCm": 0.0,
+   "bytes": 3253217,
+   "sha256": "8dcdec465c5267517ef802b9791dcb6ab4259cda74a7851a2abaab593cb30855"
+  }
+ ],
+ "pieEnded": true,
+ "mapBytesUnchanged": true,
+ "mainBytesUnchanged": true
+}

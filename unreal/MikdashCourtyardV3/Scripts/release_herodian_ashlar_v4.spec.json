@@ -1,0 +1,432 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-09",
+  "purpose": "Consumed by Scripts/release_herodian_ashlar_v4.py. Imports the authored Herodian ashlar set V4 (Scripts/create_herodian_ashlar_v4.py -> SourceAssets/material-review/HerodianAshlarV4/), creates THREE NEW material instances parented on the existing limestone instances, and reassigns every static-mesh material slot whose effective material is one of the listed source materials to the new instances at the COMPONENT OVERRIDE level. Nothing shared is edited: not M_PBR_Tiled, not the ten MI_PBR_* instances (including their Nanite/ISM usage flags), not the LimestoneV2 instances or textures, not the Kotel photo or KotelStoneV2 materials, not the paving or floor-slab materials, not the gold/cedar/marble/plaster/frieze materials. Every number here is read back numerically; nothing claims visual acceptance.",
+  "instruction": "Shmuel, verbatim, 2026-09-09: \"I want the temple stones used for wall wherever you are using stones to be the large style stones used for the 2nd temple outer wall.\" That is Herodian ashlar, the masonry of the Second Temple outer retaining wall (the Kotel). It overrides the V2/V3 decision to omit drafted margins. Sources and the measured-versus-authored split are in SourceAssets/material-review/HerodianAshlarV4/sources.md.",
+  "targets": {
+    "Main50": {
+      "flag": "-Main50",
+      "amahCm": 50.0,
+      "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+      "role": "legacy main, retained (HANDOFF-WINDOWS12-PUBLISHED-20260909.md)",
+      "observedMapSha256": "93483d25ff23e01ee1462845b958d9c2139f2cd2e7177cf5e3e3141dd4ae1432",
+      "observedMapSha256Provenance": "Read from disk by the V4 authoring agent on 2026-09-09 with sha256sum, BEFORE any V4 run. It is a record of what the map was when this spec was written, NOT a gate: the map is saved by many passes and this hash goes stale. The script records mapSha256Before in every receipt and refuses only if the hash moves DURING a run. Earlier values for the same file: 8e78923f5ffb76c044693f6c74faaedb64648698945bb0ba927f3395be7f21c5 (lighting-v3 inventory 20260908T183719554035Z), 78693b71e12f6b013b009698bd227d370f5f0114b5541d3c74c9ad518ee9e553 (limestone V2 apply 20260908T211947874060Z).",
+      "expectedVariantSlotCount": {
+        "Ashlar": 1156,
+        "Trim": 332
+      },
+      "expectedVariantSlotCountSource": "MEASURED by SourceAssets/material-review/HerodianAshlarV4/herodian-v4-plan-Main50-20260909T123638751436Z.json (read-only census, 2026-09-09): countsByRule MI_LimestoneV2_Ashlar 1155 + MI_PBR_LimestoneAshlar 1 = Ashlar 1156, MI_LimestoneV2_Trim 335. Trim expectation is 335 minus the 3 Release/MenorahV4 slots excluded below = 332, which is exactly the LimestoneTrim count the lighting-v3 inventory recorded for Measured architecture. NOTE: the M_StonePilot_Vertical_Pilot01_blue rule matched ZERO slots on both maps - the Ulam facade union SM_2630 now carries MI_PBR_LimestoneAshlar (that is the 1 slot above), so the blown-out pilot material is already off it and the facade is still picked up and sent to V4 Ashlar by the LimestoneAshlar rule. The pilot rule stays in as a safety net."
+    },
+    "Candidate48": {
+      "flag": "-Candidate48",
+      "amahCm": 48.0,
+      "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+      "role": "configured default and cook map (HANDOFF-WINDOWS12-PUBLISHED-20260909.md: the Selected48 map is the configured default)",
+      "observedMapSha256": "114a6130cde60efabef34e30d0437fe6f1746d30737295d608245e55ee79ff77",
+      "observedMapSha256Provenance": "Read from disk by the V4 authoring agent on 2026-09-09 with sha256sum, BEFORE any V4 run. Same status as Main50: a record, not a gate. Earlier value for the same file: 20e8903694e5d61c8b47c8303f37fe0825b359d94b5ba73543c5c6700c4d0a1a (release_paroches_v15.spec.json lastKnownMapSha256).",
+      "expectedVariantSlotCount": {
+        "Ashlar": 1156,
+        "Trim": 332
+      },
+      "expectedVariantSlotCountSource": "MEASURED by SourceAssets/material-review/HerodianAshlarV4/herodian-v4-plan-Candidate48-20260909T123543763311Z.json (read-only census, 2026-09-09): countsByRule MI_PBR_LimestoneAshlar 1156, MI_PBR_LimestoneTrim 335; Trim expectation is 335 minus the 3 Release/MenorahV4 slots excluded below = 332. THE FINDING THAT MATTERS: this map is still on the ORIGINAL flat set - the ~2 % albedo contrast stand-in that release_lighting_v3.spec.json diagnosed - because the V3 upgrade was only ever applied to the legacy Main50. Candidate48 is the configured default and the cook map, so the published Walkthrough-12 build has the old walls. See applyOrder."
+    }
+  },
+  "applyOrder": {
+    "first": "Candidate48",
+    "then": "Main50",
+    "note": "Apply to Candidate48 FIRST. It is the configured default and the cook map (HANDOFF-WINDOWS12-PUBLISHED-20260909.md), and its census proves it never received the V3 upgrade: it still carries MI_PBR_LimestoneAshlar / MI_PBR_LimestoneTrim, the original flat stand-in measured at about 2 % albedo contrast, normal xy p95 0.09 and uniform 0.50 roughness. Main50 is the legacy map and already has V3, so it is the less urgent of the two. Every apply receipt records targetRole and this note.",
+    "evidence": [
+      "SourceAssets/material-review/HerodianAshlarV4/herodian-v4-plan-Candidate48-20260909T123543763311Z.json",
+      "SourceAssets/material-review/HerodianAshlarV4/herodian-v4-plan-Main50-20260909T123638751436Z.json"
+    ]
+  },
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "HerodianV4-",
+  "receiptFolder": "SourceAssets/material-review/HerodianAshlarV4",
+  "receiptPrefix": "herodian-v4-",
+  "sourceFolder": "SourceAssets/material-review/HerodianAshlarV4",
+  "sourceManifest": "SourceAssets/material-review/HerodianAshlarV4/manifest.json",
+  "sourceManifestStatusRequired": "OFFLINE_GENERATED_NATIVE_IMPORT_PENDING",
+  "sourcesDocument": "SourceAssets/material-review/HerodianAshlarV4/sources.md",
+  "requiredSize": 2048,
+  "requiredTileCm": 300.0,
+  "namespace": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4",
+  "textureFolder": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures",
+  "textures": {
+    "Albedo": {
+      "compression": "TC_DEFAULT",
+      "srgb": true,
+      "lodGroup": "TEXTUREGROUP_WORLD",
+      "parameter": "Albedo"
+    },
+    "Normal": {
+      "compression": "TC_NORMALMAP",
+      "srgb": false,
+      "flipGreenChannel": false,
+      "lodGroup": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+      "parameter": "Normal",
+      "why": "The maps encode normalize(-dh/du, -dh/dv, 1) with v = image row; M_PBR_Tiled adds decoded (R,G) along world (u,v) axes, so no green flip - identical to the V2/V3 set being replaced."
+    },
+    "ARM": {
+      "compression": "TC_MASKS",
+      "srgb": false,
+      "lodGroup": "TEXTUREGROUP_WORLD",
+      "parameter": "ARM",
+      "channels": "R ambient occlusion, G roughness, B metallic (0)"
+    }
+  },
+  "virtualTextureStreaming": false,
+  "tiling": {
+    "tilingCm": 300.0,
+    "why": "Unchanged from V2/V3 and from the shared parents, so course lines keep falling on the same world-Z levels on every wall and no other pass has to be re-derived. One 2048 tile therefore spans 300 x 300 cm at 6.827 px/cm.",
+    "resultingBlockSizeCm": {
+      "Ashlar": {
+        "courseHeightsCm": [
+          101.52,
+          92.04,
+          106.44
+        ],
+        "blocksPerCourse": [
+          1,
+          2,
+          2
+        ],
+        "blockLengthCmMinMax": [
+          136.05,
+          300.0
+        ],
+        "blockSizeCmPerCourse": [
+          [
+            [
+              300.0,
+              101.5
+            ]
+          ],
+          [
+            [
+              163.9,
+              92.0
+            ],
+            [
+              136.1,
+              92.0
+            ]
+          ],
+          [
+            [
+              143.1,
+              106.4
+            ],
+            [
+              156.9,
+              106.4
+            ]
+          ]
+        ],
+        "draftedMarginCmMinMax": [
+          7.68,
+          13.54
+        ],
+        "bossProudCmMinMax": [
+          1.47,
+          1.95
+        ],
+        "jointCm": 0.8,
+        "jointDepthCm": 1.05,
+        "courseSetbackCm": 1.5,
+        "bossEdgeBevelCm": 0.4,
+        "courseSetbackReachCm": 18.4
+      },
+      "Trim": {
+        "courseHeightsCm": [
+          57.23,
+          62.1,
+          58.72,
+          63.26,
+          58.69
+        ],
+        "blocksPerCourse": [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "blockLengthCmMinMax": [
+          83.87,
+          158.18
+        ],
+        "draftedMarginCmMinMax": [
+          5.56,
+          10.68
+        ],
+        "bossProudCmMinMax": [
+          1.06,
+          1.45
+        ],
+        "jointCm": 0.5,
+        "jointDepthCm": 0.7,
+        "courseSetbackCm": 1.05,
+        "bossEdgeBevelCm": 0.28,
+        "courseSetbackReachCm": 12.7
+      }
+    },
+    "consistencyRule": "TilingCm here, the TilingCm scalar on every V4 instance below, and TILE_CM in Scripts/create_herodian_ashlar_v4.py must all be 300.0. The script refuses to run if the manifest's tileCm or any variant's TilingCm scalar disagrees, because the block sizes above are only true at 300 cm."
+  },
+  "variants": {
+    "Ashlar": {
+      "sourcePrefix": "T_HerodianV4_Ashlar_",
+      "parentInstance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "manifestVariant": "Ashlar",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "applyByDefault": true
+    },
+    "Trim": {
+      "sourcePrefix": "T_HerodianV4_Trim_",
+      "parentInstance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "newInstance": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+      "manifestVariant": "Trim",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "applyByDefault": true
+    },
+    "AshlarWeathered": {
+      "sourcePrefix": "T_HerodianV4_Ashlar_",
+      "parentInstance": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered",
+      "manifestVariant": "Ashlar",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.15,
+        "RoughnessScale": 1.18,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "tint": [
+        0.94,
+        0.94,
+        0.93,
+        1.0
+      ],
+      "applyByDefault": false,
+      "why": "Built at import so it exists if wanted, but assigned to nothing unless -HerodianV4IncludeRoughStone is passed. Same Herodian textures as Ashlar, read back rougher, deeper-relief and a shade darker/greyer, for surfaces that should be weathered rather than freshly dressed."
+    }
+  },
+  "whyScalarsExplicit": "The new instances override every scalar and the Tint themselves, so a later change on the parent (lighting-v3 variant A proposes NormalStrength 2.5 / RoughnessScale 1.6 on MI_PBR_LimestoneAshlar to compensate for the WEAK original maps) cannot double-apply to maps that already carry physical relief and 0.45-0.85 roughness. Trim lightness is baked into its albedo, so its Tint is neutral instead of the parent's 1.08/1.06/1.02.",
+  "reassign": [
+    {
+      "from": "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Ashlar",
+      "variant": "Ashlar",
+      "why": "The V3 wall surface currently on 1,155 component slot overrides (limestone-v2-apply-20260908T211947874060Z.json). This is the main wall.",
+      "requiresSwitch": null
+    },
+    {
+      "from": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "variant": "Ashlar",
+      "why": "The same 1,155 slots if the V3 apply has been reverted since. On a map where V3 is live this rule matches nothing; that is expected, not a fault.",
+      "requiresSwitch": null
+    },
+    {
+      "from": "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Trim",
+      "variant": "Trim",
+      "why": "The V3 trim surface currently on 335 slots (332 in Measured architecture, 3 in Release).",
+      "requiresSwitch": null
+    },
+    {
+      "from": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "variant": "Trim",
+      "why": "The same 335 slots if the V3 apply has been reverted since.",
+      "requiresSwitch": null
+    },
+    {
+      "from": "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue",
+      "variant": "Ashlar",
+      "expectedSlotCount": {
+        "Main50": 1
+      },
+      "expectedMeshContains": "SM_2630",
+      "why": "OPEN DEFECT 2 (HANDOFF-FOR-ASTRA-20260908-EVENING.md): the Ulam facade union mesh SM_2630 (House walls and roofs) carries a procedural pilot material at 0.69 linear albedo, about 1.2 stops brighter than the limestone, skipped by the PBR pass, and it blows out in every frame. It is the front of the House and the most-looked-at wall in the build, so it should be the same Herodian stone as the rest. The mesh guard refuses if the single slot is not on the SM_2630 union.",
+      "requiresSwitch": null
+    },
+    {
+      "from": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+      "variant": "AshlarWeathered",
+      "expectedSlotCount": {
+        "Main50": 25
+      },
+      "why": "NOT REASSIGNED BY DEFAULT, and here is why. release_pbr_architecture.spec.json assigns MI_PBR_RoughStone by profileMapping.ground and by sourceNameOverrides {contains: 'foundation' -> 'foundations read as rough-hewn masonry'}. It is the ground/foundation profile, at TilingCm 250 with the castle_wall_slates texture set - not a finished wall face. Herodian drafted-margin ashlar is the dressed outer face of a retaining wall; putting it on foundations and ground would claim dressing where the model means rubble. Every RoughStone slot is enumerated into the plan and every receipt (actor label, folder, mesh) so a human can look; pass -HerodianV4IncludeRoughStone to send them to AshlarWeathered if the inspection says they are wall.",
+      "requiresSwitch": "-HerodianV4IncludeRoughStone"
+    }
+  ],
+  "excludeSlots": [
+    {
+      "name": "MenorahStoneOfThreeSteps",
+      "folderEquals": "Release/MenorahV4",
+      "excludeByDefault": true,
+      "cancelSwitch": "-HerodianV4IncludeMenorahStone",
+      "measuredSlots": {
+        "Main50": 3,
+        "Candidate48": 3
+      },
+      "why": "The menorah's stone of three steps inside the Heikhal, on which the kohen stands to dress the lamps (Rambam, Hilkhot Beit HaBechirah 3:11). Two reasons to leave it on the existing Trim. (1) Idiom: drafted-margin work is the dressing of a monumental retaining wall - it is what the Temple Mount's outer faces were given, not what a small dressed furnishing inside the sanctuary was given. No source I found treats the menorah's step-stone as ashlar work, and Shmuel's instruction is about 'the temple stones used for wall'. (2) Scale: the Trim drafted margin is 5.6-10.7 cm wide, so on a tread of roughly 50-60 cm the margin would cover most of the surface and the boss would be a sliver. Recorded per slot in every plan and apply receipt under excludedSlots.",
+      "source": "Rambam, Mishneh Torah, Hilkhot Beit HaBechirah 3:11; coordinator instruction 2026-09-09. Slot count measured by the two plan receipts (countsByFolder 'Release/MenorahV4': 3)."
+    },
+    {
+      "name": "NarrowFaceTrimMouldings",
+      "meshNameContains": [
+        "detail_Court_string_course_and_cornice",
+        "detail_Hearth_stone_surround",
+        "Facade_recessed_field_rail"
+      ],
+      "excludeByDefault": false,
+      "enableSwitch": "-HerodianV4ExcludeNarrowTrim",
+      "measuredSlots": {
+        "CourtStringCourseAndCornice": 72,
+        "HearthStoneSurround": 48,
+        "FacadeRecessedFieldRail": 16,
+        "total": 136
+      },
+      "why": "REPORTED, NOT DECIDED - included by default, one switch away from excluded. Measured from SourceAssets/architecture-manifest.json expectedBoundsUnrealCm: of the 309 Trim slots in the measured architecture, three members have a visible face only 14-15 cm wide - Court string course and cornice (8 x 15 x 7850 cm at its narrowest, 72 slots), Hearth stone surround (8 x 15 x 110 cm, 48 slots) and Facade recessed field rail (7.5 x 14 x 525 cm, 16 slots across the detail and architecture folders). Two Trim drafted margins are 11-21 cm, so on a 14-15 cm face the margin can consume the whole member and no boss ever appears; because the master is triplanar world-space, such a member also samples an arbitrary 15 cm strip of the 300 cm tile and will cross joints and margins along its length. Every other Trim member is 30 cm or wider and carries the drafting comfortably. RECOMMENDATION: include them anyway. On Candidate48 - the map that ships - these 136 slots currently carry the original flat stand-in, and a slightly busy 15 cm cornice seen from the court floor is a smaller defect than a measurably flat one. The proper fix is a future non-drafted fine-limestone moulding variant, which is out of this pass's scope.",
+      "source": "SourceAssets/architecture-manifest.json meshes[].expectedBoundsUnrealCm and materialSlots[].sourceMaterialKey == 'trim'; coordinator instruction 2026-09-09 to report rather than silently include."
+    }
+  ],
+  "excludeSlotsNote": "Checked and NOT excluded: the other 173 Trim slots in Measured architecture/detail are all architectural mouldings with faces 30 cm or wider - splayed high window stone reveal (72, face 30 cm), high window sill and lintel (72, face 40 cm), facade pilaster base and capital (12, 35-70 cm), Ulam nested stone door frame (6, 30-50 cm), Ulam lintel moulding (6, 50 cm), sanctuary roof stone moulding (6, 50 cm), layered Ulam roof cornice (4, 30-90 cm), facade pilaster shaft (3, 125 cm). None of them is furniture; the 'detail' folder in this project means architectural detail, not furnishings. The only furnishing that appeared in the census at all was Release/MenorahV4, excluded above.",
+  "doNotTouch": {
+    "materials": [
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+      "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+      "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced"
+    ],
+    "assetPathPrefixes": [
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV1",
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV1",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2",
+      "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1",
+      "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2"
+    ],
+    "why": "Floors and paving: Shmuel approved the Jerusalem paving. The Kotel keeps its own accepted photo material and its 1,704 real ashlar blocks. Gold, cedar, marble, plaster and the frieze are other passes' work. The script refuses if any planned slot's before-material is in this list or under these prefixes, and refuses if any actor whose folder or label matches kotelActorGuard would be touched."
+  },
+  "kotelActorGuard": {
+    "labelOrFolderContains": [
+      "Kotel",
+      "KotelStone",
+      "KotelPhoto",
+      "PhotoFace"
+    ],
+    "why": "Belt and braces on top of doNotTouch: even if a Kotel actor somehow carried a limestone instance on a slot, it is not reassigned."
+  },
+  "actorMaterialProperties": [
+    {
+      "property": "WallMaterial",
+      "from": [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Ashlar"
+      ],
+      "variant": "Ashlar",
+      "expectedActorCount": null,
+      "why": "CORRECTION TO THE BRIEF. The 1.44 km Yechezkel precinct wall does NOT inherit the change from component slot overrides: release_enclosure.spec.json sets wallMaterial as an OBJECT PROPERTY on the enclosure actor (release_enclosure.py sets actor.WallMaterial, and the actor builds its HISM instances from it in BeginPlay - see diagnose_enclosure_runtime.py, which reads WallMaterial and its InstancedStaticMeshes usage bit). Reassigning slot 0 on static-mesh components leaves the enclosure on the old material. So this pass also sets that property, reversibly, recording the before value per actor. If no actor exposes WallMaterial the rule matches nothing and that is recorded, not an error.",
+      "requiresSwitch": null
+    }
+  ],
+  "usage": {
+    "requireExplicitNaniteOverride": true,
+    "requireExplicitInstancedStaticMeshOverride": true,
+    "why": "Nanite: the nine repaired instances persist explicit Nanite usage overrides (release_nanite_instance_usage.py); 7,632 of 7,767 mesh components are Nanite, so a child without the flag returns 'missing usage flag Nanite' at runtime. InstancedStaticMeshes: MI_PBR_LimestoneAshlar carries an explicit MATUSAGE_INSTANCED_STATIC_MESHES override that was added specifically because the enclosure's HISMs logged 'missing usage flag InstancedStaticMeshes' (release_enclosure_material_usage.py). The V4 children must set and read back BOTH or the precinct wall renders wrong. The children set their OWN overrides; the parents' flags are never written.",
+    "verifiedBy": "MaterialEditingLibrary.has_material_usage + has_material_usage_override on each new instance, before and after save, and again after reload from disk."
+  },
+  "countPolicy": {
+    "refuseOnMismatch": true,
+    "allowSwitch": "-HerodianV4AllowCountDrift",
+    "why": "A count different from the target's expectedVariantSlotCount means the scene moved since the census; look before reassigning. Candidate48 has no census yet - run -HerodianV4Plan=Candidate48 first."
+  },
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+    "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Ashlar",
+    "/Game/MikdashV3/MaterialReview/LimestoneV2/MI_LimestoneV2_Trim",
+    "/Game/MikdashV3/MaterialReview/FinishPilot/M_StonePilot_Vertical_Pilot01_blue",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+    "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+    "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2"
+  ],
+  "protectedGlobs": [
+    "Content/MikdashV3/Materials/PBR/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/LimestoneV2/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/KotelStoneV2/**/*.uasset"
+  ],
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedMapsNote": "The two targets are deliberately NOT in this list - one of them is the map being edited. The other target IS protected during a run: the script adds the non-selected target's .umap to the protected set at start-up, so an apply on Candidate48 cannot disturb Main50 and vice versa.",
+  "verification": {
+    "floatRelativeTolerance": 0.0001
+  },
+  "commandlet": {
+    "note": "Strictly serial. Check Get-Process UnrealEditor,UnrealEditor-Cmd first. Unique -abslog per run. -nullrhi is fine for plan/import/apply/revert/verify (no shader evidence is claimed); a real-RHI PIE capture (lighting_capture_v3.py views) is the visual review. The enclosure builds its HISMs in BeginPlay, so an editor-world capture cannot show the precinct wall - use the PIE capture for it.",
+    "plan": "UnrealEditor-Cmd.exe <uproject> -run=pythonscript -unattended -nullrhi -abslog=<unique> -script=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_herodian_ashlar_v4.py\" -HerodianV4Plan -Candidate48",
+    "import": "... -HerodianV4Import",
+    "apply": "... -HerodianV4Apply=<import receipt path> -Candidate48",
+    "verify": "... -HerodianV4Verify=<apply receipt path>",
+    "revert": "... -HerodianV4Revert=<apply receipt path>"
+  },
+  "limitations": [
+    "Procedural authored set, not a photographic scan of meleke; the statistics prove that the drafted margin, boss projection, joint depth and palette exist at the stated centimetre sizes, not that the wall looks right. Visual acceptance is the coordinator's real-RHI capture.",
+    "Course lines are world-aligned by the triplanar master, so every wall shares the same course levels (which is what coursed masonry does); block boundaries do not know where a real wall ends.",
+    "The wall's cumulative Herodian batter is geometry, not texture: V4 carries the per-course setback only as a local ledge at each bed joint (sources.md section 3).",
+    "Biological darkening is applied per stone, not by height above ground, because a world-tiling texture repeats every 3 m. True low-on-the-wall darkening would need material or vertex-colour work.",
+    "Revert restores the map's slot overrides and the enclosure actors' WallMaterial; the imported textures and the three new instances stay on disk (unreferenced) unless removed deliberately."
+  ]
+}

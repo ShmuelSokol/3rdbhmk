@@ -1,0 +1,1858 @@
+{
+  "status": "IMPORTED_SAVED_READBACK_APPLY_PENDING",
+  "mode": "import",
+  "stamp": "20260909T125023339332Z",
+  "target": null,
+  "map": null,
+  "specSha256": "6fa4b89cbccccc64cb6899927ce2b6338d30d542b2400e479adc660b17eb9b21",
+  "scriptSha256": "fe8fd907191e37f127cdd3d003c6815cdcf3af83f6d7c99d29546fba67743d28",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -abslog=C:/Mikdash/Working-5.8/Release-HerodianV4-Import-02.log -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_herodian_ashlar_v4.py -HerodianV4Import",
+  "includeRoughStone": false,
+  "allowCountDrift": false,
+  "switches": [],
+  "exclusionsInForce": [
+    {
+      "name": "MenorahStoneOfThreeSteps",
+      "why": "The menorah's stone of three steps inside the Heikhal, on which the kohen stands to dress the lamps (Rambam, Hilkhot Beit HaBechirah 3:11). Two reasons to leave it on the existing Trim. (1) Idiom: drafted-margin work is the dressing of a monumental retaining wall - it is what the Temple Mount's outer faces were given, not what a small dressed furnishing inside the sanctuary was given. No source I found treats the menorah's step-stone as ashlar work, and Shmuel's instruction is about 'the temple stones used for wall'. (2) Scale: the Trim drafted margin is 5.6-10.7 cm wide, so on a tread of roughly 50-60 cm the margin would cover most of the surface and the boss would be a sliver. Recorded per slot in every plan and apply receipt under excludedSlots."
+    }
+  ],
+  "errors": [],
+  "stages": [
+    {
+      "stage": "discovered",
+      "utc": "2026-09-09T12:50:24.842032+00:00"
+    },
+    {
+      "stage": "textures_saved_Ashlar",
+      "utc": "2026-09-09T12:50:25.950736+00:00"
+    },
+    {
+      "stage": "instance_saved_Ashlar",
+      "utc": "2026-09-09T12:50:25.962738+00:00"
+    },
+    {
+      "stage": "textures_saved_Trim",
+      "utc": "2026-09-09T12:50:26.456801+00:00"
+    },
+    {
+      "stage": "instance_saved_Trim",
+      "utc": "2026-09-09T12:50:26.464800+00:00"
+    },
+    {
+      "stage": "textures_saved_AshlarWeathered",
+      "utc": "2026-09-09T12:50:26.703438+00:00"
+    },
+    {
+      "stage": "instance_saved_AshlarWeathered",
+      "utc": "2026-09-09T12:50:26.711594+00:00"
+    }
+  ],
+  "sourceManifest": {
+    "path": "SourceAssets/material-review/HerodianAshlarV4/manifest.json",
+    "sha256": "ab6133972dfe3178ccf134862cc26b798c17ffdf09690a86456b44683ad3584b",
+    "generatorSha256": "6a7202da4159c26fba9d733c70b4e519cbfff57b3c47de5eb606f0bf17e4a4c7",
+    "iteration": "V4-Herodian",
+    "tileCm": 300.0
+  },
+  "sourcesDocumentSha256": "3c5944d234d86d4d25af31d0fc5215638d84cbead19f9a2e15f52f9320300db2",
+  "sourceStatistics": {
+    "Ashlar": {
+      "albedoSRGB": {
+        "R": {
+          "mean": 0.7471,
+          "std": 0.0759,
+          "p5": 0.6471,
+          "p50": 0.7569,
+          "p95": 0.8392,
+          "min": 0.3098,
+          "max": 0.9412
+        },
+        "G": {
+          "mean": 0.6526,
+          "std": 0.0608,
+          "p5": 0.5804,
+          "p50": 0.6588,
+          "p95": 0.7294,
+          "min": 0.2902,
+          "max": 0.8157
+        },
+        "B": {
+          "mean": 0.5315,
+          "std": 0.0478,
+          "p5": 0.4745,
+          "p50": 0.5333,
+          "p95": 0.5922,
+          "min": 0.2471,
+          "max": 0.6627
+        }
+      },
+      "albedoStdPerChannelMean": 0.0615,
+      "albedoChroma": {
+        "GoverR_mean": 0.874,
+        "BoverR_mean": 0.711
+      },
+      "normal": {
+        "xyDeviation": {
+          "mean": 0.1132,
+          "p50": 0.077,
+          "p95": 0.278,
+          "p99": 0.968,
+          "max": 0.999
+        },
+        "absX_p95": 0.16,
+        "absY_p95": 0.207,
+        "pixels": 4194304
+      },
+      "roughness": {
+        "mean": 0.5805,
+        "std": 0.0446,
+        "p5": 0.5294,
+        "p50": 0.5725,
+        "p95": 0.651,
+        "min": 0.4863,
+        "max": 0.8
+      },
+      "ambientOcclusion": {
+        "mean": 0.9419,
+        "std": 0.1184,
+        "p5": 0.5216,
+        "p50": 0.9922,
+        "p95": 1.0,
+        "min": 0.5216,
+        "max": 1.0
+      },
+      "normalFaceOnly": {
+        "xyDeviation": {
+          "mean": 0.1047,
+          "p50": 0.075,
+          "p95": 0.248,
+          "p99": 0.906,
+          "max": 0.989
+        },
+        "absX_p95": 0.16,
+        "absY_p95": 0.192,
+        "pixels": 4108453
+      },
+      "normalBossOnly": {
+        "xyDeviation": {
+          "mean": 0.1025,
+          "p50": 0.083,
+          "p95": 0.24,
+          "p99": 0.378,
+          "max": 0.917
+        },
+        "absX_p95": 0.168,
+        "absY_p95": 0.192,
+        "pixels": 2815956
+      },
+      "normalMarginOnly": {
+        "xyDeviation": {
+          "mean": 0.0799,
+          "p50": 0.054,
+          "p95": 0.176,
+          "p99": 0.672,
+          "max": 0.984
+        },
+        "absX_p95": 0.066,
+        "absY_p95": 0.16,
+        "pixels": 1248744
+      },
+      "normalBossEdgeOnly": {
+        "xyDeviation": {
+          "mean": 0.9539,
+          "p50": 0.968,
+          "p95": 0.984,
+          "p99": 0.984,
+          "max": 0.989
+        },
+        "absX_p95": 0.976,
+        "absY_p95": 0.984,
+        "pixels": 43753
+      },
+      "normalJointAndArrisOnly": {
+        "xyDeviation": {
+          "mean": 0.5208,
+          "p50": 0.741,
+          "p95": 0.992,
+          "p99": 0.992,
+          "max": 0.999
+        },
+        "absX_p95": 0.976,
+        "absY_p95": 0.992,
+        "pixels": 85851
+      },
+      "photoDelta": {
+        "meanR": 0.0191,
+        "meanG": 0.0176,
+        "meanB": 0.0165,
+        "GoverR": -0.001,
+        "BoverR": 0.001
+      }
+    },
+    "Trim": {
+      "albedoSRGB": {
+        "R": {
+          "mean": 0.7943,
+          "std": 0.0836,
+          "p5": 0.6902,
+          "p50": 0.8078,
+          "p95": 0.9059,
+          "min": 0.3451,
+          "max": 1.0
+        },
+        "G": {
+          "mean": 0.695,
+          "std": 0.0743,
+          "p5": 0.6039,
+          "p50": 0.7059,
+          "p95": 0.7961,
+          "min": 0.3059,
+          "max": 0.8863
+        },
+        "B": {
+          "mean": 0.5591,
+          "std": 0.0647,
+          "p5": 0.4784,
+          "p50": 0.5608,
+          "p95": 0.651,
+          "min": 0.2627,
+          "max": 0.7255
+        }
+      },
+      "albedoStdPerChannelMean": 0.0742,
+      "albedoChroma": {
+        "GoverR_mean": 0.875,
+        "BoverR_mean": 0.704
+      },
+      "normal": {
+        "xyDeviation": {
+          "mean": 0.1022,
+          "p50": 0.059,
+          "p95": 0.242,
+          "p99": 0.968,
+          "max": 0.994
+        },
+        "absX_p95": 0.129,
+        "absY_p95": 0.168,
+        "pixels": 4194304
+      },
+      "roughness": {
+        "mean": 0.5558,
+        "std": 0.0433,
+        "p5": 0.5137,
+        "p50": 0.5412,
+        "p95": 0.6196,
+        "min": 0.4706,
+        "max": 0.7804
+      },
+      "ambientOcclusion": {
+        "mean": 0.9379,
+        "std": 0.1171,
+        "p5": 0.5804,
+        "p50": 0.9922,
+        "p95": 1.0,
+        "min": 0.5804,
+        "max": 1.0
+      },
+      "normalFaceOnly": {
+        "xyDeviation": {
+          "mean": 0.091,
+          "p50": 0.059,
+          "p95": 0.2,
+          "p99": 0.952,
+          "max": 0.989
+        },
+        "absX_p95": 0.129,
+        "absY_p95": 0.152,
+        "pixels": 4100177
+      },
+      "normalBossOnly": {
+        "xyDeviation": {
+          "mean": 0.0817,
+          "p50": 0.066,
+          "p95": 0.189,
+          "p99": 0.312,
+          "max": 0.952
+        },
+        "absX_p95": 0.137,
+        "absY_p95": 0.145,
+        "pixels": 2590654
+      },
+      "normalMarginOnly": {
+        "xyDeviation": {
+          "mean": 0.077,
+          "p50": 0.044,
+          "p95": 0.161,
+          "p99": 0.851,
+          "max": 0.989
+        },
+        "absX_p95": 0.05,
+        "absY_p95": 0.152,
+        "pixels": 1458362
+      },
+      "normalBossEdgeOnly": {
+        "xyDeviation": {
+          "mean": 0.9587,
+          "p50": 0.961,
+          "p95": 0.976,
+          "p99": 0.976,
+          "max": 0.984
+        },
+        "absX_p95": 0.976,
+        "absY_p95": 0.976,
+        "pixels": 49545
+      },
+      "normalJointAndArrisOnly": {
+        "xyDeviation": {
+          "mean": 0.5918,
+          "p50": 0.882,
+          "p95": 0.984,
+          "p99": 0.984,
+          "max": 0.994
+        },
+        "absX_p95": 0.937,
+        "absY_p95": 0.984,
+        "pixels": 94127
+      },
+      "photoDelta": {
+        "meanR": 0.0663,
+        "meanG": 0.06,
+        "meanB": 0.0441,
+        "GoverR": 0.0,
+        "BoverR": -0.006
+      }
+    }
+  },
+  "sourceSchedule": {
+    "Ashlar": {
+      "tileCm": 300.0,
+      "courseHeightsCm": [
+        101.52,
+        92.04,
+        106.44
+      ],
+      "courses": 3,
+      "blocks": 5,
+      "blocksPerCourse": [
+        1,
+        2,
+        2
+      ],
+      "blockLengthCmMinMax": [
+        136.05,
+        300.0
+      ],
+      "blockLengthCmMean": 180.0,
+      "blockSizeCmPerCourse": [
+        [
+          [
+            300.0,
+            101.5
+          ]
+        ],
+        [
+          [
+            163.9,
+            92.0
+          ],
+          [
+            136.1,
+            92.0
+          ]
+        ],
+        [
+          [
+            143.1,
+            106.4
+          ],
+          [
+            156.9,
+            106.4
+          ]
+        ]
+      ],
+      "lengthToHeightMinMax": [
+        1.34,
+        2.96
+      ],
+      "draftedMarginCmMinMax": [
+        7.68,
+        13.54
+      ],
+      "draftedMarginCmMean": 10.39,
+      "marginOrderLeftRightBottomTop": [
+        [
+          10.72,
+          12.82,
+          10.34,
+          13.54
+        ],
+        [
+          11.35,
+          9.46,
+          9.59,
+          13.19
+        ],
+        [
+          8.48,
+          7.68,
+          8.32,
+          9.51
+        ],
+        [
+          9.78,
+          9.17,
+          10.13,
+          13.18
+        ],
+        [
+          9.8,
+          9.01,
+          9.2,
+          12.59
+        ]
+      ],
+      "bossProudCmMinMax": [
+        1.47,
+        1.95
+      ],
+      "bossEdgeBevelCm": 0.4,
+      "courseSetbackCm": 1.5,
+      "courseSetbackReachCm": 18.4,
+      "familyCounts": {
+        "base": 2,
+        "greygold": 1,
+        "cream": 2
+      },
+      "chips": 20,
+      "pores": 499,
+      "jointCm": 0.8,
+      "jointDepthCm": 1.05,
+      "arrisCm": 0.26,
+      "heightRangeCm": [
+        -1.194,
+        2.455
+      ],
+      "pixelFraction": {
+        "joint": 0.0116,
+        "arris": 0.0089,
+        "margin": 0.2977,
+        "bossBevel": 0.0104,
+        "boss": 0.6714
+      },
+      "facePixelFraction": 0.9795
+    },
+    "Trim": {
+      "tileCm": 300.0,
+      "courseHeightsCm": [
+        57.23,
+        62.1,
+        58.72,
+        63.26,
+        58.69
+      ],
+      "courses": 5,
+      "blocks": 14,
+      "blocksPerCourse": [
+        3,
+        3,
+        3,
+        3,
+        2
+      ],
+      "blockLengthCmMinMax": [
+        83.87,
+        158.18
+      ],
+      "blockLengthCmMean": 107.14,
+      "blockSizeCmPerCourse": [
+        [
+          [
+            101.4,
+            57.2
+          ],
+          [
+            83.9,
+            57.2
+          ],
+          [
+            114.8,
+            57.2
+          ]
+        ],
+        [
+          [
+            97.1,
+            62.1
+          ],
+          [
+            107.1,
+            62.1
+          ],
+          [
+            95.8,
+            62.1
+          ]
+        ],
+        [
+          [
+            90.8,
+            58.7
+          ],
+          [
+            96.6,
+            58.7
+          ],
+          [
+            112.6,
+            58.7
+          ]
+        ],
+        [
+          [
+            104.8,
+            63.3
+          ],
+          [
+            94.0,
+            63.3
+          ],
+          [
+            101.2,
+            63.3
+          ]
+        ],
+        [
+          [
+            141.8,
+            58.7
+          ],
+          [
+            158.2,
+            58.7
+          ]
+        ]
+      ],
+      "lengthToHeightMinMax": [
+        1.47,
+        2.7
+      ],
+      "draftedMarginCmMinMax": [
+        5.56,
+        10.68
+      ],
+      "draftedMarginCmMean": 7.52,
+      "marginOrderLeftRightBottomTop": [
+        [
+          7.37,
+          7.66,
+          7.37,
+          8.38
+        ],
+        [
+          6.22,
+          6.78,
+          5.67,
+          7.95
+        ],
+        [
+          6.02,
+          6.55,
+          6.13,
+          6.88
+        ],
+        [
+          7.47,
+          6.93,
+          6.32,
+          8.46
+        ],
+        [
+          6.03,
+          5.84,
+          5.79,
+          8.14
+        ],
+        [
+          6.82,
+          6.24,
+          5.71,
+          8.29
+        ],
+        [
+          9.53,
+          8.38,
+          8.66,
+          10.68
+        ],
+        [
+          5.81,
+          5.77,
+          6.5,
+          7.61
+        ],
+        [
+          6.27,
+          6.11,
+          5.56,
+          6.77
+        ],
+        [
+          7.81,
+          7.94,
+          7.26,
+          9.74
+        ],
+        [
+          9.12,
+          7.64,
+          7.7,
+          10.22
+        ],
+        [
+          8.52,
+          8.09,
+          7.62,
+          8.95
+        ],
+        [
+          8.58,
+          7.83,
+          7.57,
+          10.17
+        ],
+        [
+          8.65,
+          7.87,
+          7.63,
+          9.37
+        ]
+      ],
+      "bossProudCmMinMax": [
+        1.06,
+        1.45
+      ],
+      "bossEdgeBevelCm": 0.28,
+      "courseSetbackCm": 1.05,
+      "courseSetbackReachCm": 12.7,
+      "familyCounts": {
+        "base": 10,
+        "cream": 3,
+        "honey": 1
+      },
+      "chips": 21,
+      "pores": 302,
+      "jointCm": 0.5,
+      "jointDepthCm": 0.7,
+      "arrisCm": 0.18,
+      "heightRangeCm": [
+        -0.718,
+        1.894
+      ],
+      "pixelFraction": {
+        "joint": 0.0133,
+        "arris": 0.0096,
+        "margin": 0.3477,
+        "bossBevel": 0.0118,
+        "boss": 0.6177
+      },
+      "facePixelFraction": 0.9776
+    }
+  },
+  "previousIterationV3": {
+    "Ashlar": {
+      "albedoMeanSRGB": [
+        0.7447,
+        0.6491,
+        0.5259
+      ],
+      "albedoStdPerChannelMean": 0.0549,
+      "albedoR_p5_p95": [
+        0.6196,
+        0.8314
+      ],
+      "GoverR": 0.872,
+      "BoverR": 0.706,
+      "normalXy_p50_p95": [
+        0.099,
+        0.451
+      ],
+      "normalFaceXy_p50_p95": [
+        0.099,
+        0.368
+      ],
+      "roughness_p5_p50_p95": [
+        0.5882,
+        0.651,
+        0.7961
+      ],
+      "courses": 6,
+      "blocks": 19,
+      "courseHeightsCm": [
+        41.4,
+        56.6
+      ],
+      "blockLengthCm": [
+        71.97,
+        115.54
+      ]
+    },
+    "Trim": {
+      "albedoMeanSRGB": [
+        0.7896,
+        0.6971,
+        0.5743
+      ],
+      "albedoStdPerChannelMean": 0.0466,
+      "albedoR_p5_p95": [
+        0.6824,
+        0.851
+      ],
+      "GoverR": 0.883,
+      "BoverR": 0.727,
+      "normalXy_p50_p95": [
+        0.044,
+        0.278
+      ],
+      "normalFaceXy_p50_p95": [
+        0.043,
+        0.193
+      ],
+      "roughness_p5_p50_p95": [
+        0.5529,
+        0.5922,
+        0.7176
+      ],
+      "courses": 8,
+      "blocks": 25,
+      "courseHeightsCm": [
+        32.17,
+        41.39
+      ],
+      "blockLengthCm": [
+        75.0,
+        113.01
+      ]
+    }
+  },
+  "photoReference": {
+    "file": "SourceAssets/kotel-detail/PhotoSurfaceV1/kotel-wall-cleaned.png",
+    "meanSRGB": [
+      0.728,
+      0.635,
+      0.515
+    ],
+    "medianSRGB": [
+      0.761,
+      0.663,
+      0.533
+    ],
+    "chromaGoverR_p5_p50_p95": [
+      0.788,
+      0.875,
+      0.928
+    ],
+    "chromaBoverR_p5_p50_p95": [
+      0.537,
+      0.71,
+      0.82
+    ],
+    "luminance_p25_p50_p75": [
+      0.584,
+      0.671,
+      0.733
+    ],
+    "note": "AI-cleaned photo derivative with lighting partly baked in (PROVENANCE.md); used for warmth and value spread, not copied."
+  },
+  "diagnosisBaseline": {
+    "albedoMeanSRGB": [
+      0.647,
+      0.574,
+      0.456
+    ],
+    "albedoStdPerChannel": 0.021,
+    "albedoR_p5_p95": [
+      0.62,
+      0.68
+    ],
+    "normalXyDeviationP95": 0.09,
+    "roughness": "0.50 +- 0.02 (uniform)"
+  },
+  "measuredBaselineNormal": {
+    "file": "SourceAssets\\materials-pbr\\limestone-ashlar\\sandstone_blocks_08_normal_2k.png",
+    "size": [
+      2048,
+      2048
+    ],
+    "xyDeviation": {
+      "mean": 0.0887,
+      "p50": 0.088,
+      "p95": 0.122,
+      "p99": 0.183,
+      "max": 0.776
+    },
+    "absX_p95": 0.09,
+    "absY_p95": 0.098,
+    "pixels": 4194304,
+    "note": "same statistic code as the V2/V3/V4 maps; compare with diagnosis 0.09",
+    "seconds": 5.5
+  },
+  "tilingCm": 300.0,
+  "resultingBlockSizeCm": {
+    "Ashlar": {
+      "courseHeightsCm": [
+        101.52,
+        92.04,
+        106.44
+      ],
+      "blocksPerCourse": [
+        1,
+        2,
+        2
+      ],
+      "blockLengthCmMinMax": [
+        136.05,
+        300.0
+      ],
+      "blockSizeCmPerCourse": [
+        [
+          [
+            300.0,
+            101.5
+          ]
+        ],
+        [
+          [
+            163.9,
+            92.0
+          ],
+          [
+            136.1,
+            92.0
+          ]
+        ],
+        [
+          [
+            143.1,
+            106.4
+          ],
+          [
+            156.9,
+            106.4
+          ]
+        ]
+      ],
+      "draftedMarginCmMinMax": [
+        7.68,
+        13.54
+      ],
+      "bossProudCmMinMax": [
+        1.47,
+        1.95
+      ],
+      "jointCm": 0.8,
+      "jointDepthCm": 1.05,
+      "courseSetbackCm": 1.5,
+      "bossEdgeBevelCm": 0.4,
+      "courseSetbackReachCm": 18.4
+    },
+    "Trim": {
+      "courseHeightsCm": [
+        57.23,
+        62.1,
+        58.72,
+        63.26,
+        58.69
+      ],
+      "blocksPerCourse": [
+        3,
+        3,
+        3,
+        3,
+        2
+      ],
+      "blockLengthCmMinMax": [
+        83.87,
+        158.18
+      ],
+      "draftedMarginCmMinMax": [
+        5.56,
+        10.68
+      ],
+      "bossProudCmMinMax": [
+        1.06,
+        1.45
+      ],
+      "jointCm": 0.5,
+      "jointDepthCm": 0.7,
+      "courseSetbackCm": 1.05,
+      "bossEdgeBevelCm": 0.28,
+      "courseSetbackReachCm": 12.7
+    }
+  },
+  "protectedBefore": {
+    "Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content\\MikdashV3\\MaterialReview\\FinishPilot\\M_StonePilot_Vertical_Pilot01_blue.uasset": "eeab8569fbd01ce21cd1860a52f523ac3b22aed5bb02b435438c02ee468e8a16",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemFloorSlabsV1\\M_JerusalemFloorSlabs_500cm.uasset": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\M_JerusalemPaving_500cm.uasset": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "Content\\MikdashV3\\MaterialReview\\KeruvFriezeV2\\Materials\\M_KeruvFriezeV2.uasset": "8d81b1823dc9add21fce4846044ad34890999cccbd194ec4f1c99688eff2458c",
+    "Content\\MikdashV3\\MaterialReview\\KeruvFriezeV2\\Materials\\M_KeruvFriezeV2_Displaced.uasset": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_0.uasset": "42306c15084ad019f38fb26bf79463cdea85c7264ee84d53496ff5a0ccf3211a",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_1.uasset": "f95bedcb6a2e972f325908000c0b52fe9d18f86a074ff12aa7189686048a6679",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_24.uasset": "21e679104ac983ca62d315b077e19b16bd6826ef680e551b7ea9f7dce411cacb",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_25.uasset": "3c99ebe16a7ec2cf1f997e770755e8461575fde5135e9f868f803cf3300fc1ca",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\T_KotelWallPhoto.uasset": "1bdef650c131a0fa42dbecb51002b793fba009d724e0eb5c6b8650c6fbe07ce0",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\M_KotelAshlarV2.uasset": "4002f954eace044b085c2dc624a1ca4952d2f962021bd62b8eb51adfb96775b3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E0.uasset": "bbd600c069448aea36210f64494b66b957dfca3f3d82adc484218bbab436ca06",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E1.uasset": "d94bda840d3024e86559bd877cfff5cb844e638a7b4595ef2465a0b68cff98e3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E24.uasset": "45f7e2074c3dffc26600c6a6e94a4813e583e7ae4506b56c707ee66b6fae78bf",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E25.uasset": "b9d2b74cdeddb6671cd3e028a4d2c57f7d86e2eb7cbc8c57f73bb7f5350cb1e5",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Ashlar.uasset": "8df8e5501cbd587493c0674ff4f872940b4f4c2e3ec7b0ed64da0f10d260da2c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Trim.uasset": "29298e46b7a958ea007992981aaf96093e4a762b9f6dd002b92ae43d5dd49186",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Albedo.uasset": "0f5b1cb1c549b221fe12c835f6e19648fe8f9730e28f54b9322cd1498919901d",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_ARM.uasset": "0482693acf9a4739de724f37b9e7b59fa0c56a6dc3beac24b3758ab976baf54c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Normal.uasset": "2f68e42efd59bd8f6fa33d094ee8a228f9aa1496350dfa8fe41f1b249535cf80",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Albedo.uasset": "6b8b164d6b63bd8352e5c85178a23f783af52a00b1bffd654edc5fee556a11c8",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_ARM.uasset": "b1b665dd38581b6e0daff22c3a4f5a2b59c1b01bfeb59c4ef92d0cc6b2b7b7d1",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Normal.uasset": "818c60b4f5306dec621f45e580221d3020ecb4fb020e5d2676c74022f0e48ebb",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\M_Sanctuary_gold.uasset": "14b62b4a9fa0946c681b2efb7c9e1ba5093ce682b3bde5e1c8d7a362bc62e730",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Albedo.uasset": "1eda131c2accd37572871fddeb8c84112b4b29adc0b0870eb01869cccc3165f1",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_ARM.uasset": "032a1819c27bbdd049639707ea6ce486f06b67fce3e8d85a62ba860dcfb79424",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Height.uasset": "13840299ead16d898d0d6ae79c6afe1a37e75d0974df6efc1bb11c35309f2370",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Normal.uasset": "d6c641e0954950aa35c0593011a1fc432ee8e04fefa7961606b997f49eeb4fd5",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_CedarPlanks.uasset": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldFloor.uasset": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldHammered.uasset": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneAshlar.uasset": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneTrim.uasset": "debd00b106923949f0d017c6410823acfa1a4c5f17b51466b237fd594e2229df",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Marble.uasset": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingInner.uasset": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingSlabs.uasset": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Plaster.uasset": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_RoughStone.uasset": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Albedo.uasset": "70ebaf05acccfcd8c9f97defaec21184c0e0d7940f5c55eaf9a13939ab5064a8",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_ARM.uasset": "a60241b01f6392748ae82aa33a4865698e87e1c4e467055727a6abf6c0f22370",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Height.uasset": "d60910ca6d16727d284aee1101a81a7e612b8ec6c03e56c825c445e4d0dadc25",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Normal.uasset": "4367db165b77d28c3344182bfabbb9c525def9ea0ae9eddc26b3407275136a3d",
+    "Content\\MikdashV3\\Materials\\PBR\\M_PBR_Tiled.uasset": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Albedo.uasset": "e24886d7dc7a92dbff6fb47e5a413572d8b83ae96287775f0b86f5b295e222f2",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_ARM.uasset": "5460ce33c0d4e78c395c46451caec915470621fca1294010b306b647c284785d",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Height.uasset": "8caf7472a30220cfd9261692a35746c392bb054aeaa28a55539d05a666525c2a",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Normal.uasset": "4e5a16c4f2bbb28e815d21df5ecf2a9709f5d98702b68039dc43edac222e14fa",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Albedo.uasset": "04b5fe066dcf3afc065bd41daba5d857490b1fdbc7e02c432152574ea6e658a1",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_ARM.uasset": "7468dcddf77e67ad10f7e4a6cfc6efea8f133e48d0e3c67124707085283acbe6",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Height.uasset": "e2cee6661055a12018ae5f287a6d6615f46cc8b80dc4cf6100f28f99c47f02ee",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Normal.uasset": "9e44a6ab31a1a3cec82ad497dc1dda2add41b901916b9b4380c6d64f5feff58c",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Albedo.uasset": "055043611ed797c2db4f17543cd059ef765daa92cbbdc106b6e8bd9377ee8b1d",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_ARM.uasset": "ef45a0067f1e06f1a080e1f15552f90c2e88aa7fb47dfa7b750f21ecdf632a88",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Height.uasset": "29da4790064c27b05745010b4a4de1f20d091bc2ef9326e6b6a9a05ea53a2300",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Normal.uasset": "00cca8c06e4eaa364f915208d9be42a6b144d28a959f487adf036b1a3fe904c0",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Albedo.uasset": "84a42fb842ca351a73bf0b9f240fbbaafecb118eb5e660a3deee00da3de68709",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_ARM.uasset": "4f7c3a1037ca8775523cbd488d5646fc9ccaf329f2fee7e76d9cb5a3160636f8",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Height.uasset": "178ead4e26e183ce77991e8cc4b1c2ef18fad4483feec390d5937710f29435c1",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Normal.uasset": "be1e0b21d430928afa927d53f46528bcde69c3e326e2d77fa282ad82ee02a2be",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Albedo.uasset": "d982037860d79a1ae7cbf21a1014b40f4da36f2b0e944370c95426cce9fdf45d",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_ARM.uasset": "a916d3bc6acbdef093ed5ffb93b22d02eaadafbf8b61632b891d0593ac8c0db2",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Height.uasset": "32b3766c8c6ceb5f045fefe0dfbf94bb205257ca246ef0b764cadc6ee99cedce",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Normal.uasset": "329247b7dee8bd17bafe7e05cac15e5899860aaca4bddc15f17ca0ed01c8a173"
+  },
+  "parentInstancesBefore": {
+    "Ashlar": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858
+      }
+    },
+    "Trim": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.0,
+        "RoughnessScale": 1.5,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0800000429153442,
+        1.059999942779541,
+        1.0199999809265137,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": false,
+          "explicitlyOverridden": false
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.0,
+        "RoughnessScale": 1.5
+      }
+    },
+    "AshlarWeathered": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858
+      }
+    }
+  },
+  "textures": {
+    "Ashlar": {
+      "Albedo": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Albedo.png",
+        "sourceSha256": "03b3887f427d4b1a918f96113cb8affce567de18596263507446e3833b3ed0e1",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "73d3ef4904d1f243d9ae480abf93da0821090c8fc28abf86760dda7303db781b"
+      },
+      "Normal": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Normal.png",
+        "sourceSha256": "06542cbce827a92675973c74c1b1135a2557e39d9a0dc482ccb7c734ff07c632",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "e2791e21a81e4bb4b2cdc74249de33366592a23da584346bb3531cce63d81472"
+      },
+      "ARM": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_ARM.png",
+        "sourceSha256": "247e7d1afdd8e61a6283874b8608ccb80d9ac3722667ec041b49dc112dbf196c",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "0a5bed1a4ec2af97580827e4452db3802262edd52385a40e7b95c5e7cbd87e2b"
+      }
+    },
+    "Trim": {
+      "Albedo": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Albedo.png",
+        "sourceSha256": "377c9d3dcd0d9dc2f7b7f5cb83b01cdbc1ee4d670f2b4581b2eb45d5a60d66da",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "f74860664cea66dece556f7e0b14ca02b3752d6f0ae32a79c230efd5c6e50384"
+      },
+      "Normal": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Normal.png",
+        "sourceSha256": "950f8342bf80470c50ebdb0628907d0cb52622e7e0591e17de819758fd9276ce",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "633bd1e9eb184c7346e8b2b117f7d61a55e3328876e2d42a39f7578b19e71049"
+      },
+      "ARM": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_ARM.png",
+        "sourceSha256": "bf8efe240e5d9e21bc26eb6a482a26130247474aeec5799a34b26cb9caee51fe",
+        "reused": false,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "89bc70409296561bc51253adef991525262471c3c44aedc0b77885e02778f078"
+      }
+    },
+    "AshlarWeathered": {
+      "Albedo": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Albedo.png",
+        "sourceSha256": "03b3887f427d4b1a918f96113cb8affce567de18596263507446e3833b3ed0e1",
+        "reused": true,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "73d3ef4904d1f243d9ae480abf93da0821090c8fc28abf86760dda7303db781b"
+      },
+      "Normal": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Normal.png",
+        "sourceSha256": "06542cbce827a92675973c74c1b1135a2557e39d9a0dc482ccb7c734ff07c632",
+        "reused": true,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "e2791e21a81e4bb4b2cdc74249de33366592a23da584346bb3531cce63d81472"
+      },
+      "ARM": {
+        "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+        "source": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_ARM.png",
+        "sourceSha256": "247e7d1afdd8e61a6283874b8608ccb80d9ac3722667ec041b49dc112dbf196c",
+        "reused": true,
+        "readback": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "uassetSha256": "0a5bed1a4ec2af97580827e4452db3802262edd52385a40e7b95c5e7cbd87e2b"
+      }
+    }
+  },
+  "instances": {
+    "Ashlar": {
+      "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "applyByDefault": true,
+      "reused": false,
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM"
+        },
+        "tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "uassetSha256": "2ba89ed24de6a9456850a9d3e9bff72c0317e68d3fca187ae8f492e2c43f0e61"
+    },
+    "Trim": {
+      "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+      "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "applyByDefault": true,
+      "reused": false,
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM"
+        },
+        "tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "uassetSha256": "5d53a41a461bf33d049627904063cbbfd1dadc26fcdb1af5a094b9388c79a333"
+    },
+    "AshlarWeathered": {
+      "asset": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered",
+      "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "applyByDefault": false,
+      "reused": false,
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.149999976158142,
+          "RoughnessScale": 1.1799999475479126,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM"
+        },
+        "tint": [
+          0.9399999976158142,
+          0.9399999976158142,
+          0.9300000071525574,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.149999976158142,
+          "RoughnessScale": 1.1799999475479126,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "uassetSha256": "b45463df525b50762d266da74f8e3cf1ae634c23e0dfaf3455becfb58b6ef331"
+    }
+  },
+  "parentInstancesAfter": {
+    "Ashlar": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858
+      }
+    },
+    "Trim": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.0,
+        "RoughnessScale": 1.5,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0800000429153442,
+        1.059999942779541,
+        1.0199999809265137,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": false,
+          "explicitlyOverridden": false
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.0,
+        "RoughnessScale": 1.5
+      }
+    },
+    "AshlarWeathered": {
+      "path": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/LimestoneAshlar/T_LimestoneAshlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "explicitScalarOverrides": {
+        "TilingCm": 300.0,
+        "NormalStrength": 2.5,
+        "RoughnessScale": 1.600000023841858
+      }
+    }
+  },
+  "reloaded": {
+    "Ashlar": {
+      "instance": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM"
+        },
+        "tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        }
+      }
+    },
+    "Trim": {
+      "instance": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM"
+        },
+        "tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.0,
+          "RoughnessScale": 1.0,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        }
+      }
+    },
+    "AshlarWeathered": {
+      "instance": {
+        "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered",
+        "class": "MaterialInstanceConstant",
+        "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+        "scalars": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.149999976158142,
+          "RoughnessScale": 1.1799999475479126,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        },
+        "textures": {
+          "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM"
+        },
+        "tint": [
+          0.9399999976158142,
+          0.9399999976158142,
+          0.9300000071525574,
+          1.0
+        ],
+        "usage": {
+          "MATUSAGE_NANITE": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          },
+          "MATUSAGE_INSTANCED_STATIC_MESHES": {
+            "enabled": true,
+            "explicitlyOverridden": true
+          }
+        },
+        "explicitScalarOverrides": {
+          "TilingCm": 300.0,
+          "NormalStrength": 1.149999976158142,
+          "RoughnessScale": 1.1799999475479126,
+          "Metallic": 0.0,
+          "AlbedoFlatness": 0.0
+        }
+      },
+      "textures": {
+        "Albedo": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+          "class": "Texture2D",
+          "srgb": true,
+          "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "Normal": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP: 1>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        },
+        "ARM": {
+          "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+          "class": "Texture2D",
+          "srgb": false,
+          "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+          "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+          "size": [
+            2048,
+            2048
+          ],
+          "virtualTextureStreaming": false,
+          "flipGreenChannel": false
+        }
+      }
+    }
+  },
+  "newAssetHashes": {
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar": "2ba89ed24de6a9456850a9d3e9bff72c0317e68d3fca187ae8f492e2c43f0e61",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo": "73d3ef4904d1f243d9ae480abf93da0821090c8fc28abf86760dda7303db781b",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal": "e2791e21a81e4bb4b2cdc74249de33366592a23da584346bb3531cce63d81472",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM": "0a5bed1a4ec2af97580827e4452db3802262edd52385a40e7b95c5e7cbd87e2b",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim": "5d53a41a461bf33d049627904063cbbfd1dadc26fcdb1af5a094b9388c79a333",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo": "f74860664cea66dece556f7e0b14ca02b3752d6f0ae32a79c230efd5c6e50384",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal": "633bd1e9eb184c7346e8b2b117f7d61a55e3328876e2d42a39f7578b19e71049",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM": "89bc70409296561bc51253adef991525262471c3c44aedc0b77885e02778f078",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered": "b45463df525b50762d266da74f8e3cf1ae634c23e0dfaf3455becfb58b6ef331"
+  },
+  "protectedAfter": {
+    "Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content\\MikdashV3\\MaterialReview\\FinishPilot\\M_StonePilot_Vertical_Pilot01_blue.uasset": "eeab8569fbd01ce21cd1860a52f523ac3b22aed5bb02b435438c02ee468e8a16",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemFloorSlabsV1\\M_JerusalemFloorSlabs_500cm.uasset": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\M_JerusalemPaving_500cm.uasset": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "Content\\MikdashV3\\MaterialReview\\KeruvFriezeV2\\Materials\\M_KeruvFriezeV2.uasset": "8d81b1823dc9add21fce4846044ad34890999cccbd194ec4f1c99688eff2458c",
+    "Content\\MikdashV3\\MaterialReview\\KeruvFriezeV2\\Materials\\M_KeruvFriezeV2_Displaced.uasset": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_0.uasset": "42306c15084ad019f38fb26bf79463cdea85c7264ee84d53496ff5a0ccf3211a",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_1.uasset": "f95bedcb6a2e972f325908000c0b52fe9d18f86a074ff12aa7189686048a6679",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_24.uasset": "21e679104ac983ca62d315b077e19b16bd6826ef680e551b7ea9f7dce411cacb",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_25.uasset": "3c99ebe16a7ec2cf1f997e770755e8461575fde5135e9f868f803cf3300fc1ca",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\T_KotelWallPhoto.uasset": "1bdef650c131a0fa42dbecb51002b793fba009d724e0eb5c6b8650c6fbe07ce0",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\M_KotelAshlarV2.uasset": "4002f954eace044b085c2dc624a1ca4952d2f962021bd62b8eb51adfb96775b3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E0.uasset": "bbd600c069448aea36210f64494b66b957dfca3f3d82adc484218bbab436ca06",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E1.uasset": "d94bda840d3024e86559bd877cfff5cb844e638a7b4595ef2465a0b68cff98e3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E24.uasset": "45f7e2074c3dffc26600c6a6e94a4813e583e7ae4506b56c707ee66b6fae78bf",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E25.uasset": "b9d2b74cdeddb6671cd3e028a4d2c57f7d86e2eb7cbc8c57f73bb7f5350cb1e5",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Ashlar.uasset": "8df8e5501cbd587493c0674ff4f872940b4f4c2e3ec7b0ed64da0f10d260da2c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Trim.uasset": "29298e46b7a958ea007992981aaf96093e4a762b9f6dd002b92ae43d5dd49186",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Albedo.uasset": "0f5b1cb1c549b221fe12c835f6e19648fe8f9730e28f54b9322cd1498919901d",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_ARM.uasset": "0482693acf9a4739de724f37b9e7b59fa0c56a6dc3beac24b3758ab976baf54c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Normal.uasset": "2f68e42efd59bd8f6fa33d094ee8a228f9aa1496350dfa8fe41f1b249535cf80",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Albedo.uasset": "6b8b164d6b63bd8352e5c85178a23f783af52a00b1bffd654edc5fee556a11c8",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_ARM.uasset": "b1b665dd38581b6e0daff22c3a4f5a2b59c1b01bfeb59c4ef92d0cc6b2b7b7d1",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Normal.uasset": "818c60b4f5306dec621f45e580221d3020ecb4fb020e5d2676c74022f0e48ebb",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\M_Sanctuary_gold.uasset": "14b62b4a9fa0946c681b2efb7c9e1ba5093ce682b3bde5e1c8d7a362bc62e730",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Albedo.uasset": "1eda131c2accd37572871fddeb8c84112b4b29adc0b0870eb01869cccc3165f1",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_ARM.uasset": "032a1819c27bbdd049639707ea6ce486f06b67fce3e8d85a62ba860dcfb79424",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Height.uasset": "13840299ead16d898d0d6ae79c6afe1a37e75d0974df6efc1bb11c35309f2370",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Normal.uasset": "d6c641e0954950aa35c0593011a1fc432ee8e04fefa7961606b997f49eeb4fd5",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_CedarPlanks.uasset": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldFloor.uasset": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldHammered.uasset": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneAshlar.uasset": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneTrim.uasset": "debd00b106923949f0d017c6410823acfa1a4c5f17b51466b237fd594e2229df",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Marble.uasset": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingInner.uasset": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingSlabs.uasset": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Plaster.uasset": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_RoughStone.uasset": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Albedo.uasset": "70ebaf05acccfcd8c9f97defaec21184c0e0d7940f5c55eaf9a13939ab5064a8",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_ARM.uasset": "a60241b01f6392748ae82aa33a4865698e87e1c4e467055727a6abf6c0f22370",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Height.uasset": "d60910ca6d16727d284aee1101a81a7e612b8ec6c03e56c825c445e4d0dadc25",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Normal.uasset": "4367db165b77d28c3344182bfabbb9c525def9ea0ae9eddc26b3407275136a3d",
+    "Content\\MikdashV3\\Materials\\PBR\\M_PBR_Tiled.uasset": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Albedo.uasset": "e24886d7dc7a92dbff6fb47e5a413572d8b83ae96287775f0b86f5b295e222f2",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_ARM.uasset": "5460ce33c0d4e78c395c46451caec915470621fca1294010b306b647c284785d",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Height.uasset": "8caf7472a30220cfd9261692a35746c392bb054aeaa28a55539d05a666525c2a",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Normal.uasset": "4e5a16c4f2bbb28e815d21df5ecf2a9709f5d98702b68039dc43edac222e14fa",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Albedo.uasset": "04b5fe066dcf3afc065bd41daba5d857490b1fdbc7e02c432152574ea6e658a1",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_ARM.uasset": "7468dcddf77e67ad10f7e4a6cfc6efea8f133e48d0e3c67124707085283acbe6",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Height.uasset": "e2cee6661055a12018ae5f287a6d6615f46cc8b80dc4cf6100f28f99c47f02ee",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Normal.uasset": "9e44a6ab31a1a3cec82ad497dc1dda2add41b901916b9b4380c6d64f5feff58c",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Albedo.uasset": "055043611ed797c2db4f17543cd059ef765daa92cbbdc106b6e8bd9377ee8b1d",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_ARM.uasset": "ef45a0067f1e06f1a080e1f15552f90c2e88aa7fb47dfa7b750f21ecdf632a88",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Height.uasset": "29da4790064c27b05745010b4a4de1f20d091bc2ef9326e6b6a9a05ea53a2300",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Normal.uasset": "00cca8c06e4eaa364f915208d9be42a6b144d28a959f487adf036b1a3fe904c0",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Albedo.uasset": "84a42fb842ca351a73bf0b9f240fbbaafecb118eb5e660a3deee00da3de68709",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_ARM.uasset": "4f7c3a1037ca8775523cbd488d5646fc9ccaf329f2fee7e76d9cb5a3160636f8",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Height.uasset": "178ead4e26e183ce77991e8cc4b1c2ef18fad4483feec390d5937710f29435c1",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Normal.uasset": "be1e0b21d430928afa927d53f46528bcde69c3e326e2d77fa282ad82ee02a2be",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Albedo.uasset": "d982037860d79a1ae7cbf21a1014b40f4da36f2b0e944370c95426cce9fdf45d",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_ARM.uasset": "a916d3bc6acbdef093ed5ffb93b22d02eaadafbf8b61632b891d0593ac8c0db2",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Height.uasset": "32b3766c8c6ceb5f045fefe0dfbf94bb205257ca246ef0b764cadc6ee99cedce",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Normal.uasset": "329247b7dee8bd17bafe7e05cac15e5899860aaca4bddc15f17ca0ed01c8a173"
+  },
+  "protectedUnchanged": true
+}

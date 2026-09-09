@@ -30,7 +30,10 @@ PLUGIN = ROOT / "Plugins" / "MikdashRuntime"
 MODULE = PLUGIN / "Source" / "MikdashRuntime"
 TESTS = PLUGIN / "Tests"
 PUBLIC = MODULE / "Public"
-MAP = ROOT / "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap"
+ALLOWED_MAPS = {
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+}
 VCVARS = Path(
     r"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 )
@@ -91,15 +94,54 @@ def check_security_token() -> None:
           f"{len(nonempty)} non-empty token(s)" if nonempty else "")
 
 
+def selected_map(root: Path = ROOT) -> tuple[str, Path]:
+    """Resolve one explicitly allowed map; refuse ambiguous or divergent defaults."""
+    def values(path: Path, section: str, key: str) -> list[str]:
+        found, current = [], None
+        for raw in path.read_text(encoding="utf-8-sig").splitlines():
+            line = raw.strip()
+            if not line or line.startswith((";", "#")):
+                continue
+            if line.startswith("[") and line.endswith("]"):
+                current = line[1:-1]
+                continue
+            if current == section and "=" in line:
+                name, value = line.split("=", 1)
+                if name.strip().lstrip("+-.!") == key:
+                    if name.strip() not in (key, "+" + key):
+                        raise ValueError(f"Unsupported config operator for {key}")
+                    found.append(value.strip())
+        return found
+    engine = root / "Config/DefaultEngine.ini"
+    game = root / "Config/DefaultGame.ini"
+    default = values(engine, "/Script/EngineSettings.GameMapsSettings", "GameDefaultMap")
+    startup = values(engine, "/Script/EngineSettings.GameMapsSettings", "EditorStartupMap")
+    cooks = values(game, "/Script/UnrealEd.ProjectPackagingSettings", "MapsToCook")
+    if len(default) != 1 or len(startup) != 1 or len(cooks) != 1:
+        raise ValueError("Require exactly one GameDefaultMap, EditorStartupMap and MapsToCook entry")
+    match = re.fullmatch(r'\(FilePath="([^"]+)"\)', cooks[0])
+    if not match or default[0] != startup[0] or default[0] != match.group(1):
+        raise ValueError("GameDefaultMap, EditorStartupMap and MapsToCook disagree")
+    package = default[0]
+    if package not in ALLOWED_MAPS:
+        raise ValueError("Configured map is outside the explicit Main50/Selected48 allowlist")
+    return package, root / "Content" / (package[6:] + ".umap")
+
+
 def check_map() -> None:
-    if not MAP.exists():
-        check("map present", False, str(MAP))
+    try:
+        package, map_file = selected_map()
+    except (OSError, ValueError) as exc:
+        check("configured map consistency", False, str(exc))
         return
-    size = MAP.stat().st_size
+    if not map_file.is_file():
+        check("map present", False, str(map_file))
+        return
+    size = map_file.stat().st_size
     # The accepted combined map has been about 23 MB. An order of magnitude either way
     # means something replaced it.
     check("map present and plausible size", 2_000_000 < size < 400_000_000,
-          f"{size/1_048_576:.1f} MB")
+          f"{package}; defaults/cook agree; {size/1_048_576:.1f} MB")
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,491 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-09",
+  "purpose": "Consumed by Scripts/release_antirepeat.py. Builds TWO NEW master materials and FIVE NEW material instances under /Game/MikdashV3/MaterialReview/AntiRepeatV1/ that render the SAME approved textures through a repetition-breaking UV and macro-variation layer, and reassigns component material slot overrides onto them. Nothing existing is edited: not M_PBR_Tiled, not the ten MI_PBR_* instances, not the three MI_HerodianV4_* instances (including their Nanite / InstancedStaticMeshes usage overrides), not one texel of any approved texture, not the paving or floor-slab materials, not the Kotel materials, not the frieze, gold, cedar, marble or plaster.",
+  "instruction": "Shmuel, verbatim, 2026-09-09: \"I don't wanna see, like, repeating patterns all over.\" The Herodian ashlar is a 300 cm tile, so on a 60 m wall the same five stones appear 20 times in a grid; the Jerusalem paving is a 500 cm tile over the courts and the mount platform. The textures are accepted and are NOT re-authored: the repetition is broken in the material graph.",
+  "measurement": {
+    "manifest": "SourceAssets/material-review/AntiRepeatV1/manifest.json",
+    "manifestStatusRequired": "OFFLINE_MEASURED_NATIVE_BUILD_PENDING",
+    "generator": "Scripts/create_antirepeat_materials.py",
+    "why": "The scheme parameters below are cross-checked against manifest.scheme.variants field by field, the way release_herodian_ashlar_v4.py cross-checks TilingCm against the generator. The measured before/after numbers in that manifest describe EXACTLY the transform the HLSL below applies; if the two drift apart the receipt would quote a measurement of something that is not being shipped."
+  },
+  "technique": {
+    "uvBandOffset": "Each course band (one tile high in the plane's v axis) is slid along u by a hash of its own band index alone. Because the shift does not depend on u, it is constant along the whole wall and introduces NO vertical seam anywhere; it appears only across a bed joint, which is what running bond is. Cost: about 6 ALU. It is the single most effective free technique here: it takes the one-tile vertical autocorrelation from 1.000 to 0.211 on the Ashlar.",
+    "uvCellMirror": "Each tile cell is mirrored in u by a hash of its cell index. A mirrored cell still meets its neighbours edge to edge because the tile is periodic, so this is seamless too, and mirroring only in u leaves the bed joints, the per-course setback ledge (which leans out at the TOP of each stone) and the downward weather run-off exactly where they were. The sampled normal's u component is negated to match. Cost: about 5 ALU.",
+    "macroVariation": "Two very-low-frequency noise bands at deliberately non-harmonic periods multiply albedo brightness and shift it slightly warm or cool over tens of metres, so no two stretches of a long wall read the same even where the tile itself repeats. Cost: 2 texture fetches in the albedo node.",
+    "detailBreakup": "The second (mid) band also modulates roughness in the ARM node at a period non-harmonic with both the tile and the macro band, so the specular response stops repeating with the albedo. Cost: 1 texture fetch in the ARM node.",
+    "perInstanceRandom": "PerInstanceRandom (NOT PerInstanceCustomData) drives a per-instance value jitter. PerInstanceCustomData is the right tool when the spawner can be taught to write it - Scripts/release_crowd_tint_fix.py is this project's precedent - but the 1.44 km precinct wall's HISM instances are built in the enclosure actor's BeginPlay from its WallMaterial property, and teaching that spawner to write custom data would mean editing another pass's script or C++, which this pass may not do. PerInstanceRandom needs no spawner change at all. It returns exactly 0.0 on non-instanced components, so the HLSL treats 0.0 as 'not instanced' and applies no jitter there. Cost: about 3 ALU.",
+    "rejectedStochastic": "Stochastic / texture-bombing sampling (per-cell random offset, three taps blended over a triangle grid; Heitz & Neyret 2018) was implemented and MEASURED, in both the linear and the variance-preserving blend, and is NOT shipped on these materials. It removes the grid almost completely - the tile-comb energy fraction falls from 1.000 to 0.009 - but it blends three differently-offset copies of a STRUCTURED coursed-ashlar tile, and the horizontal bed joints triplicate and smear: the row-profile contrast that expresses the coursing drops to 0.12x of baseline on the Ashlar and 0.10x on the paving. That is not less repetitive masonry, it is destroyed masonry. Texture bombing is for stochastic source images. The numbers are in the manifest under measurement.<variant>.schemes.stochastic and .stochasticVP so the judgement can be re-argued from data.",
+    "triplanarAxisCheck": "The master keeps M_PBR_Tiled's explicit triplanar projection and its blendExponent of 4.0 unchanged, so no surface changes which plane it samples. The world-space projection does put every wall on the same global 300 cm grid - that is what makes coursing continue around a corner and it is deliberate - and the band offset and mirror hashes are computed from GLOBAL cell indices, so two faces meeting at a corner still agree.",
+    "samplingMode": "Texture2DSampleGrad with derivatives taken from the CONTINUOUS pre-warp UV (with the mirror sign applied to the u component). Without this, the one-pixel row where the band offset jumps would select the coarsest mip and draw a blurred line at every bed joint. The UV handed to the sampler is wrapped into [0,1), so the result does not depend on the texture's address mode - which matters because T_JerusalemPaving_BaseColor is imported TA_MIRROR while the architecture textures are TA_WRAP."
+  },
+  "namespace": "/Game/MikdashV3/MaterialReview/AntiRepeatV1",
+  "textureFolder": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures",
+  "noiseTexture": {
+    "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise",
+    "source": "SourceAssets/material-review/AntiRepeatV1/T_AntiRepeat_MacroNoise.png",
+    "compression": "TC_DEFAULT",
+    "srgb": false,
+    "lodGroup": "TEXTUREGROUP_WORLD",
+    "parameter": "MacroNoise",
+    "size": 512,
+    "why": "A new NOISE texture is not a re-authoring of an approved surface texture. It is periodic by construction and every channel is rank-transformed to exactly uniform, so MacroAmount means exactly peak-to-peak MacroAmount."
+  },
+  "masters": {
+    "Triplanar": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/M_AntiRepeat_Triplanar",
+      "modelledOn": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "blendExponent": 4.0,
+      "tangentSpaceNormal": false,
+      "textureParameters": {
+        "Albedo": "SAMPLERTYPE_COLOR",
+        "Normal": "SAMPLERTYPE_NORMAL",
+        "ARM": "SAMPLERTYPE_MASKS",
+        "MacroNoise": "SAMPLERTYPE_LINEAR_COLOR"
+      },
+      "scalarParameters": [
+        "TilingCm",
+        "NormalStrength",
+        "RoughnessScale",
+        "Metallic",
+        "AlbedoFlatness",
+        "BlendExponent",
+        "MirrorEnable",
+        "BandOffsetEnable",
+        "MacroCm",
+        "MacroAmount",
+        "MacroWarm",
+        "MidCm",
+        "MidAmount",
+        "MidRoughness",
+        "PerInstanceJitter"
+      ],
+      "vectorParameters": [
+        "Tint"
+      ],
+      "why": "Parity with M_PBR_Tiled: same parameter names, same defaults, same triplanar projection, same UDN-style world-space normal assembly, same AlbedoFlatness/Tint tail. The five new scalars are all neutral at 0, so setting MirrorEnable, BandOffsetEnable, MacroAmount, MidAmount, MidRoughness and PerInstanceJitter to 0 on an instance reproduces M_PBR_Tiled's output.",
+      "textureFetchesPerPixel": {
+        "before": 9,
+        "after": 12
+      }
+    },
+    "Planar": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/M_AntiRepeat_Planar",
+      "modelledOn": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm and /Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+      "tangentSpaceNormal": false,
+      "textureParameters": {
+        "Albedo": "SAMPLERTYPE_COLOR",
+        "MacroNoise": "SAMPLERTYPE_LINEAR_COLOR"
+      },
+      "scalarParameters": [
+        "TilingCm",
+        "Roughness",
+        "Metallic",
+        "MirrorEnable",
+        "BandOffsetEnable",
+        "MacroCm",
+        "MacroAmount",
+        "MacroWarm",
+        "MidCm",
+        "MidAmount",
+        "SlopeTintEnable",
+        "PerInstanceJitter"
+      ],
+      "vectorParameters": [
+        "Tint",
+        "SlopeTint"
+      ],
+      "why": "Both source materials are the same graph: world XY / tile centimetres -> one sRGB base-colour sample -> constant roughness 0.8, metallic 0, no normal. The floor-slab one adds lerp(SlopeTint, C, smoothstep(0.85, 0.98, N.z)) so a non-upward face falls back to a flat tint; SlopeTintEnable reproduces or disables that per instance.",
+      "textureFetchesPerPixel": {
+        "before": 1,
+        "after": 3
+      }
+    }
+  },
+  "variants": {
+    "Ashlar": {
+      "master": "Triplanar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_Ashlar",
+      "replaces": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "replacesSha256": "2ba89ed24de6a9456850a9d3e9bff72c0317e68d3fca187ae8f492e2c43f0e61",
+      "schemeVariant": "Ashlar",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM"
+      },
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0,
+        "BlendExponent": 4.0,
+        "MirrorEnable": 1.0,
+        "BandOffsetEnable": 1.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.045,
+        "MidCm": 1063.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "PerInstanceJitter": 0.06
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "parityWith": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "priority": 1,
+      "why": "The most-seen surface in the build and the newest: 1,156 Ashlar slots on each map, accepted today. Same textures, same tiling, same tint, same normal strength and roughness scale as MI_HerodianV4_Ashlar; only the anti-repeat layer is added."
+    },
+    "Trim": {
+      "master": "Triplanar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_Trim",
+      "replaces": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+      "replacesSha256": "5d53a41a461bf33d049627904063cbbfd1dadc26fcdb1af5a094b9388c79a333",
+      "schemeVariant": "Trim",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM"
+      },
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0,
+        "BlendExponent": 4.0,
+        "MirrorEnable": 1.0,
+        "BandOffsetEnable": 1.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.1,
+        "MacroWarm": 0.035,
+        "MidCm": 1063.0,
+        "MidAmount": 0.055,
+        "MidRoughness": 0.04,
+        "PerInstanceJitter": 0.05
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "parityWith": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "priority": 1,
+      "why": "The 332 architectural moulding slots that go with the Ashlar. Amounts are pulled back a little because these members are narrow and close to the eye."
+    },
+    "PavingSlabs": {
+      "master": "Triplanar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_PavingSlabs",
+      "replaces": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+      "replacesSha256": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+      "schemeVariant": "PavingSlabs",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_ARM"
+      },
+      "scalars": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0,
+        "BlendExponent": 4.0,
+        "MirrorEnable": 1.0,
+        "BandOffsetEnable": 1.0,
+        "MacroCm": 4441.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.04,
+        "MidCm": 1279.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "PerInstanceJitter": 0.06
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "parityWith": {
+        "TilingCm": 200.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "priority": 2,
+      "why": "The court paving: 127 slots on a 200 cm tile, walked over at close range for the whole route."
+    },
+    "JerusalemPaving": {
+      "master": "Planar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemPaving",
+      "replaces": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+      "replacesSha256": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+      "schemeVariant": "JerusalemPaving",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor"
+      },
+      "scalars": {
+        "TilingCm": 500.0,
+        "Roughness": 0.8,
+        "Metallic": 0.0,
+        "MirrorEnable": 1.0,
+        "BandOffsetEnable": 1.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14,
+        "MacroWarm": 0.04,
+        "MidCm": 1783.0,
+        "MidAmount": 0.075,
+        "SlopeTintEnable": 0.0,
+        "PerInstanceJitter": 0.0
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "slopeTint": [
+        0.58,
+        0.55,
+        0.48,
+        1.0
+      ],
+      "priority": 2,
+      "why": "The mount platform surface - the 1.44 km plaza, the largest single surface in the build and the one seen from the air, where a 5 m tile reads as wallpaper most strongly."
+    },
+    "JerusalemFloorSlabs": {
+      "master": "Planar",
+      "newInstance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemFloorSlabs",
+      "replaces": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+      "replacesSha256": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+      "schemeVariant": "JerusalemPaving",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor"
+      },
+      "scalars": {
+        "TilingCm": 500.0,
+        "Roughness": 0.8,
+        "Metallic": 0.0,
+        "MirrorEnable": 1.0,
+        "BandOffsetEnable": 1.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14,
+        "MacroWarm": 0.04,
+        "MidCm": 1783.0,
+        "MidAmount": 0.075,
+        "SlopeTintEnable": 1.0,
+        "PerInstanceJitter": 0.0
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "slopeTint": [
+        0.58,
+        0.55,
+        0.48,
+        1.0
+      ],
+      "priority": 2,
+      "why": "The 57 exact court-floor components adopted by release_jerusalem_floor_slabs.py, which share the paving texture and add the slope fallback tint."
+    }
+  },
+  "reassign": [
+    {
+      "from": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "variant": "Ashlar",
+      "priority": 1
+    },
+    {
+      "from": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+      "variant": "Trim",
+      "priority": 1
+    },
+    {
+      "from": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+      "variant": "PavingSlabs",
+      "priority": 2
+    },
+    {
+      "from": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+      "variant": "JerusalemPaving",
+      "priority": 2
+    },
+    {
+      "from": "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+      "variant": "JerusalemFloorSlabs",
+      "priority": 2
+    }
+  ],
+  "reassignNote": "-AntiRepeatPriority=1 applies the stone only; =2 adds the paving. Default is 1 then 2 in separate runs, stone first, because the stone is the most-seen surface and the newest.",
+  "actorMaterialProperties": [
+    {
+      "property": "WallMaterial",
+      "from": [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar"
+      ],
+      "variant": "Ashlar",
+      "priority": 1,
+      "why": "Same correction release_herodian_ashlar_v4.spec.json records: the 1.44 km Yechezkel precinct wall builds its HISM instances in BeginPlay from the enclosure actor's WallMaterial object property, so it does not inherit a component slot override. This is also the only place PerInstanceRandom does any work, because those HISM instances are the only instanced geometry carrying this material."
+    }
+  ],
+  "doNotTouch": {
+    "materials": [
+      "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+      "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+      "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/M_Sanctuary_gold",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2",
+      "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+      "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered"
+    ],
+    "assetPathPrefixes": [
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV1",
+      "/Game/MikdashV3/MaterialReview/KotelPhotoSurfaceV2",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV1",
+      "/Game/MikdashV3/MaterialReview/KotelStoneV2",
+      "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV1",
+      "/Game/MikdashV3/MaterialReview/KotelSurfacePolishV2",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1"
+    ],
+    "why": "The Kotel keeps its accepted photo material and its real ashlar blocks. The Old City context materials (M_Context_Building / _CityWall / _Terrain / _Asphalt / _StonePath) are deliberately out of scope for this pass: release_context_materials.py ALREADY gives them per-building hash tints picked from ObjectPositionWS and vertex colour, and two-octave macro value noise at 6000 cm on the terrain and paths - i.e. two of the three techniques asked for here are already in them, and they are assigned at the ASSET level on 1,498 building meshes and 2,877 street meshes, which is a different and much larger mutation than a component slot override. They are measured and reported, not rewritten."
+  },
+  "kotelActorGuard": {
+    "labelOrFolderContains": [
+      "Kotel",
+      "KotelStone",
+      "KotelPhoto",
+      "PhotoFace"
+    ],
+    "why": "Belt and braces: even if a Kotel actor somehow carried one of the source materials on a slot, it is not reassigned."
+  },
+  "targets": {
+    "Candidate48": {
+      "flag": "-Candidate48",
+      "amahCm": 48.0,
+      "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+      "role": "configured default and cook map (HANDOFF-WINDOWS12-PUBLISHED-20260909.md)",
+      "expectedVariantSlotCount": {
+        "Ashlar": 1156,
+        "Trim": 332,
+        "PavingSlabs": 127,
+        "JerusalemFloorSlabs": 57,
+        "JerusalemPaving": 1
+      },
+      "expectedVariantSlotCountSource": "MEASURED, read-only census SourceAssets/material-review/AntiRepeatV1/antirepeat-plan-Candidate48-20260909T225042582236Z.json (2026-09-09, status PLANNED_READ_ONLY, map byte-identical before and after). 10,605 static-mesh material slots on the map, 1,673 eligible across 1,672 components, 0 skipped by the Kotel actor guard. Ashlar 1,156 + Trim 332 = the 1,488 stone slots the brief names. One actor exposes WallMaterial: RELEASE_EnclosureV2_Precinct (Release/EnclosureV2), currently MI_HerodianV4_Ashlar.",
+      "observedMapSha256": "78d9df3dd96c5121",
+      "observedMapSha256Note": "First 16 hex of the map as the census read it. Recorded, not a gate: this map is saved by many passes and the hash goes stale. Every receipt records the live mapSha256Before and the run refuses only if the hash moves DURING a run."
+    },
+    "Main50": {
+      "flag": "-Main50",
+      "amahCm": 50.0,
+      "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+      "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+      "role": "legacy main, retained",
+      "expectedVariantSlotCount": null
+    }
+  },
+  "applyOrder": {
+    "first": "Candidate48",
+    "then": "Main50",
+    "note": "Candidate48 is the configured default and the map that cooks, so it gets the fix first. expectedVariantSlotCount is null on both targets until -AntiRepeatPlan has censused them; the script refuses to apply against a null census unless -AntiRepeatAllowCountDrift is passed, exactly as the Herodian pass does.",
+    "stagedByPriority": "Priority 1 (the stone: Ashlar + Trim, 1,488 slots plus the precinct wall actor property) is applied FIRST and on its own, because its parity is machine-checked: every scalar, the Tint and all three texture pointers are compared against the MI_HerodianV4_* instance being replaced and the build refuses if one would change. Priority 2 (the paving) is deliberately NOT applied in the same run: M_JerusalemPaving_500cm and M_JerusalemFloorSlabs_500cm are Materials, not instances, so their graph was reconstructed from release_jerusalem_paving.py and release_jerusalem_floor_slabs.py rather than read parameter-for-parameter off the asset, and no automatic check can prove the reconstruction is faithful. The instances are built and verified on disk; assigning them is one command (-AntiRepeatPriority=2) and wants a human look first.",
+    "pavingRecensusRequired": "BEFORE assigning priority 2, RE-CENSUS. Another agent is building a flat plaza across the expanded precinct area, which changes what paving exists and where; the 127 / 57 / 1 counts in targets.Candidate48.expectedVariantSlotCount were measured on 2026-09-09 before that work and will be stale if it lands first. Run -AntiRepeatPlan again, put the new numbers in the spec, and only then apply: countPolicy.refuseOnMismatch already refuses a drifted count, so this is a note about coordinating rather than a hole in the guard."
+  },
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "AntiRepeat-",
+  "receiptFolder": "SourceAssets/material-review/AntiRepeatV1",
+  "receiptPrefix": "antirepeat-",
+  "usage": {
+    "requireExplicitNaniteOverride": true,
+    "requireExplicitInstancedStaticMeshOverride": true,
+    "why": "7,420 of 7,519 meshes are Nanite, and the precinct wall is HISM. The two new MASTERS set base material usage for both, and each new INSTANCE sets and reads back its own explicit override, the way the nine repaired instances and the three MI_HerodianV4_* instances do. No existing instance's usage flags are read-modified-written."
+  },
+  "countPolicy": {
+    "refuseOnMismatch": true,
+    "allowSwitch": "-AntiRepeatAllowCountDrift"
+  },
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneTrim",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingSlabs",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_PavingInner",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_RoughStone",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Plaster",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_Marble",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_CedarPlanks",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldFloor",
+    "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal",
+    "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/M_JerusalemPaving_500cm",
+    "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
+    "/Game/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/M_JerusalemFloorSlabs_500cm",
+    "/Game/MikdashV3/MaterialReview/KotelStoneV2/M_KotelAshlarV2"
+  ],
+  "protectedGlobs": [
+    "Content/MikdashV3/Materials/PBR/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/HerodianAshlarV4/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/LimestoneV2/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/JerusalemPavingV2/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/JerusalemFloorSlabsV1/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/**/*.uasset",
+    "Content/MikdashV3/MaterialReview/KotelStoneV2/**/*.uasset",
+    "Content/MikdashV3/JerusalemContext/ContextMaterialsV1/**/*.uasset"
+  ],
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold",
+    "/Game/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere"
+  ],
+  "protectedMapsNote": "The non-selected target's .umap is added to the protected set for the duration of a run, so an apply on Candidate48 cannot disturb Main50 and vice versa.",
+  "verification": {
+    "floatRelativeTolerance": 0.0001
+  },
+  "limitations": [
+    "The measurement is a spectral measurement of the ALBEDO field over a simulated flat region, not a rendered frame: it proves the tile period is far less dominant, not that a human stops seeing a pattern. Visual acceptance is a real-RHI capture, which this machine cannot run (about 4 GB free; real-RHI captures get killed).",
+    "The shader cost stated in the receipt is a texture-fetch and instruction count, not a measured frame time. The GPU passes that would carry it are the ones PERFORMANCE-BUDGET.md measured at Basepass 0.28 ms + NaniteBasePass 0.56 ms; shadow depth passes do not evaluate base colour, and the frame is currently game-thread bound at 28.7 ms against a 17.1 ms GPU.",
+    "One tile cell is still one tile cell: the same five stones are still there, mirrored and slid. What is removed is the LATTICE - the measured one-tile autocorrelation and the spectral comb - not the fact that the source is a 3 m tile. Removing that entirely needs either more source tiles or stochastic sampling, and stochastic sampling is measured here to destroy the coursing.",
+    "PerInstanceRandom does nothing on non-instanced components, which is almost everything: it works on the enclosure's HISM precinct wall only. It is included because that wall is 1.44 km long and is the worst repetition case in the build.",
+    "The Old City facades are reported, not changed. See doNotTouch.why.",
+    "Revert restores the map's slot overrides and the enclosure actors' WallMaterial. The new masters, instances and the noise texture stay on disk unreferenced unless removed deliberately."
+  ]
+}

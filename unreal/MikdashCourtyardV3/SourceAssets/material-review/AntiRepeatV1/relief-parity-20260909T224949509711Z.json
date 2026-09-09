@@ -1,0 +1,96 @@
+{
+  "status": "RELIEF_PARITY_MEASURED",
+  "measuredUtc": "2026-09-09T22:49:35.809162+00:00",
+  "generatorSha256": "9c032f91df260b3ff3942233d90923398b4d59b4dbf6e05abdfd7903a6444b19",
+  "measurementGrid": {
+    "tilesU": 20,
+    "tilesV": 6,
+    "tilePx": 256,
+    "seed": 4242
+  },
+  "method": "Does the anti-repeat UV transform reduce visible RELIEF anywhere? Measured, not argued.\n\n    This project has already had a pass flatten the Keruv frieze and need reverting from a\n    checkpoint, so \"the normals are fine\" is not something to assert. The same wall region is built\n    from the APPROVED normal map twice - once plain-tiled, once through the shipped mirror + band\n    offset - and the tangent-space deviation magnitude sqrt(x^2 + y^2) is compared over the whole\n    region, at the median, the 95th and the 99th percentile. Those are the same statistics\n    SourceAssets/material-review/HerodianAshlarV4/manifest.json quotes for the source maps, so the\n    rows here can be read against it directly.\n\n    The transform cannot change relief and this says so with numbers: a per-cell mirror negates the\n    u component of the sampled normal, and |-x| = |x|, so the deviation magnitude is invariant; a\n    band offset only slides which texel is read. Both maps are sampled with Texture2DSampleGrad at\n    the pre-warp derivatives, so the mip chain is the same too. Anything other than equality here is\n    a bug in the warp, not a stylistic choice. NormalStrength is carried across unchanged and is\n    checked separately, per instance, by release_antirepeat.py's parity check.",
+  "variants": {
+    "Ashlar": {
+      "baseline": {
+        "xyDeviationMean": 0.04832,
+        "xyDeviationP50": 0.02,
+        "xyDeviationP95": 0.22356,
+        "xyDeviationP99": 0.34904,
+        "xyDeviationMax": 0.57349
+      },
+      "shipped": {
+        "xyDeviationMean": 0.04833,
+        "xyDeviationP50": 0.02,
+        "xyDeviationP95": 0.22356,
+        "xyDeviationP99": 0.34904,
+        "xyDeviationMax": 0.57349
+      },
+      "deltaShippedMinusBaseline": {
+        "xyDeviationMean": 1e-05,
+        "xyDeviationP50": 0.0,
+        "xyDeviationP95": 0.0,
+        "xyDeviationP99": 0.0,
+        "xyDeviationMax": 0.0
+      },
+      "worstAbsoluteDelta": 1e-05,
+      "reliefPreserved": true,
+      "tile": "SourceAssets/material-review/HerodianAshlarV4/T_HerodianV4_Ashlar_Normal.png",
+      "tileSha256": "06542cbce827a92675973c74c1b1135a2557e39d9a0dc482ccb7c734ff07c632"
+    },
+    "Trim": {
+      "baseline": {
+        "xyDeviationMean": 0.04746,
+        "xyDeviationP50": 0.0124,
+        "xyDeviationP95": 0.20788,
+        "xyDeviationP99": 0.30983,
+        "xyDeviationMax": 0.38873
+      },
+      "shipped": {
+        "xyDeviationMean": 0.04746,
+        "xyDeviationP50": 0.0124,
+        "xyDeviationP95": 0.20788,
+        "xyDeviationP99": 0.30983,
+        "xyDeviationMax": 0.38873
+      },
+      "deltaShippedMinusBaseline": {
+        "xyDeviationMean": 0.0,
+        "xyDeviationP50": 0.0,
+        "xyDeviationP95": 0.0,
+        "xyDeviationP99": 0.0,
+        "xyDeviationMax": 0.0
+      },
+      "worstAbsoluteDelta": 0.0,
+      "reliefPreserved": true,
+      "tile": "SourceAssets/material-review/HerodianAshlarV4/T_HerodianV4_Trim_Normal.png",
+      "tileSha256": "950f8342bf80470c50ebdb0628907d0cb52622e7e0591e17de819758fd9276ce"
+    },
+    "OldCityFacade": {
+      "baseline": {
+        "xyDeviationMean": 0.40298,
+        "xyDeviationP50": 0.39376,
+        "xyDeviationP95": 0.67871,
+        "xyDeviationP99": 0.78048,
+        "xyDeviationMax": 0.9599
+      },
+      "shipped": {
+        "xyDeviationMean": 0.40298,
+        "xyDeviationP50": 0.39376,
+        "xyDeviationP95": 0.67871,
+        "xyDeviationP99": 0.78048,
+        "xyDeviationMax": 0.9599
+      },
+      "deltaShippedMinusBaseline": {
+        "xyDeviationMean": 0.0,
+        "xyDeviationP50": 0.0,
+        "xyDeviationP95": 0.0,
+        "xyDeviationP99": 0.0,
+        "xyDeviationMax": 0.0
+      },
+      "worstAbsoluteDelta": 0.0,
+      "reliefPreserved": true,
+      "tile": "SourceAssets/materials-context/facade-limestone/sandstone_blocks_05_nor_dx_2k.png",
+      "tileSha256": "7d3ece27f634f8a2ab712bbd52fc6c6bdbfd9e57d1b0ee8d1371f90bfe1ba1b9"
+    }
+  },
+  "allReliefPreserved": true
+}

@@ -1,0 +1,648 @@
+{
+  "status": "OFFLINE_MEASURED_NATIVE_BUILD_PENDING",
+  "iteration": "AntiRepeatV1",
+  "instruction": "Shmuel, verbatim, 2026-09-09: \"I don't wanna see, like, repeating patterns all over.\"",
+  "generator": "Scripts/create_antirepeat_materials.py",
+  "generatorSha256": "8a6b3d7f36238ae1ad3a1430f524f9e9b9386c15033754b731710ef26059c568",
+  "startedUtc": "2026-09-09T22:31:05.352101+00:00",
+  "texturesReAuthored": "NONE. The Herodian ashlar and Jerusalem paving images are read only; every change is in the material graph.",
+  "scheme": {
+    "noise": {
+      "size": 512,
+      "seed": 20260909,
+      "channels": {
+        "R": "macro value band, ~2.5 cycles across the texture, rank-transformed to exactly uniform [0,1)",
+        "G": "decorrelated field of the same band, drives the warm/cool shift",
+        "B": "mid band, ~6 cycles across the texture, drives the second (non-harmonic) breakup and roughness"
+      },
+      "why": "A rank transform makes every channel exactly uniform, mean 0.5, std 1/sqrt(12) = 0.288675, so an Amount parameter has an exact meaning: peak-to-peak Amount, std 0.288675 * Amount."
+    },
+    "variants": {
+      "Ashlar": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.045,
+        "MidCm": 1063.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.06
+      },
+      "Trim": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.1,
+        "MacroWarm": 0.035,
+        "MidCm": 1063.0,
+        "MidAmount": 0.055,
+        "MidRoughness": 0.04,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.05
+      },
+      "PavingSlabs": {
+        "tilingCm": 200.0,
+        "MacroCm": 4441.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.04,
+        "MidCm": 1279.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.06
+      },
+      "OldCityFacade": {
+        "tilingCm": 400.0,
+        "MacroCm": 5171.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.04,
+        "MidCm": 1471.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0,
+        "reportedNotShipped": "MEASURED FOR THE RECORD, NOT APPLIED BY THIS PASS. M_Context_Building already carries a per-object hashed tint (4 warm tints from ObjectPositionWS and vertex colour) and a hashed roughness offset, which is the per-object technique - but its UV is a plain 400 cm world triplanar with no mirror, no band offset and no macro noise, so the tile grid inside and across every one of the 1,498 building meshes is identical. The baseline row below is that grid; the shipped row is what the same treatment would buy. Applying it means ASSET-level reassignment on 1,498 building and 2,877 street meshes, which is a much larger mutation than a component slot override and is out of scope here."
+      },
+      "JerusalemPaving": {
+        "tilingCm": 500.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14,
+        "MacroWarm": 0.04,
+        "MidCm": 1783.0,
+        "MidAmount": 0.075,
+        "MidRoughness": 0.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0
+      }
+    },
+    "whyNonHarmonic": "MacroCm and MidCm are deliberately non-harmonic with the tile and with each other. Ashlar: 3733/300 = 12.443, 1063/300 = 3.543, 3733/1063 = 3.512 - every ratio at least 0.1 away from a whole number, which release_antirepeat.py refuses to ship without. A harmonic ratio would not remove the grid, it would build a bigger one.",
+    "whyNoStochastic": "Measured and rejected for these materials: see measurement.schemes.stochastic* in this manifest. Texture bombing is for stochastic (noise-like) source images; on a structured coursed-ashlar tile it blends three differently-offset copies and the bed joints triplicate and smear."
+  },
+  "measurementGrid": {
+    "tilesU": 20,
+    "tilesV": 6,
+    "tilePx": 256,
+    "seed": 4242
+  },
+  "noise": {
+    "path": "SourceAssets\\material-review\\AntiRepeatV1\\T_AntiRepeat_MacroNoise.png",
+    "sha256": "9ecdb1dba5ad75b9c660d68dc20e1b84307a1fe43221ea9eb47719bd94aa9b07",
+    "bytes": 233807,
+    "size": 512,
+    "seed": 20260909,
+    "seamless": "periodic by construction (shaped in the Fourier domain of a periodic grid)",
+    "measuredMean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "measuredStd": [
+      0.28868,
+      0.28868,
+      0.28868
+    ],
+    "rgCorrelation": 0.04863,
+    "channels": {
+      "R": "macro value band, ~2.5 cycles across the texture, rank-transformed to exactly uniform [0,1)",
+      "G": "decorrelated field of the same band, drives the warm/cool shift",
+      "B": "mid band, ~6 cycles across the texture, drives the second (non-harmonic) breakup and roughness"
+    },
+    "importSettings": {
+      "compression": "TC_DEFAULT",
+      "srgb": false,
+      "lodGroup": "TEXTUREGROUP_WORLD",
+      "why": "Linear data, not colour: sRGB off. Small and always sampled at an enormous world scale, so it is one cache-resident fetch."
+    }
+  },
+  "measurement": {
+    "Ashlar": {
+      "tile": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Ashlar_Albedo.png",
+      "tileSha256": "03b3887f427d4b1a918f96113cb8affce567de18596263507446e3833b3ed0e1",
+      "parameters": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.045,
+        "MidCm": 1063.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.06
+      },
+      "regionCm": [
+        6000.0,
+        1800.0
+      ],
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.031285,
+          "edgeEnergy": 0.016442,
+          "lumaMean": 0.66416,
+          "lumaStd": 0.05301,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "mirror": {
+          "combEnergyFraction": 0.7598,
+          "acPeakU": 0.65091,
+          "acPeakV": 0.66076,
+          "courseProfileStd": 0.031285,
+          "edgeEnergy": 0.016434,
+          "lumaMean": 0.66416,
+          "lumaStd": 0.05301,
+          "combEnergyVsBaseline": 0.7598,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 0.9995
+        },
+        "bandOffset": {
+          "combEnergyFraction": 0.56694,
+          "acPeakU": 1.0,
+          "acPeakV": 0.21102,
+          "courseProfileStd": 0.031285,
+          "edgeEnergy": 0.016442,
+          "lumaMean": 0.66416,
+          "lumaStd": 0.05301,
+          "combEnergyVsBaseline": 0.5669,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "mirrorBand": {
+          "combEnergyFraction": 0.54455,
+          "acPeakU": 0.6558,
+          "acPeakV": 0.28051,
+          "courseProfileStd": 0.031293,
+          "edgeEnergy": 0.016435,
+          "lumaMean": 0.66413,
+          "lumaStd": 0.05301,
+          "combEnergyVsBaseline": 0.5445,
+          "courseProfileVsBaseline": 1.0003,
+          "edgeEnergyVsBaseline": 0.9996
+        },
+        "macro": {
+          "combEnergyFraction": 0.82188,
+          "acPeakU": 0.87488,
+          "acPeakV": 0.858,
+          "courseProfileStd": 0.032295,
+          "edgeEnergy": 0.016352,
+          "lumaMean": 0.6596,
+          "lumaStd": 0.05904,
+          "combEnergyVsBaseline": 0.8219,
+          "courseProfileVsBaseline": 1.0323,
+          "edgeEnergyVsBaseline": 0.9945
+        },
+        "shipped": {
+          "combEnergyFraction": 0.44649,
+          "acPeakU": 0.6013,
+          "acPeakV": 0.28057,
+          "courseProfileStd": 0.032277,
+          "edgeEnergy": 0.016344,
+          "lumaMean": 0.65956,
+          "lumaStd": 0.05875,
+          "combEnergyVsBaseline": 0.4465,
+          "courseProfileVsBaseline": 1.0317,
+          "edgeEnergyVsBaseline": 0.994
+        },
+        "stochastic": {
+          "combEnergyFraction": 0.00888,
+          "acPeakU": 0.00063,
+          "acPeakV": 0.00074,
+          "courseProfileStd": 0.00373,
+          "edgeEnergy": 0.014224,
+          "lumaMean": 0.66369,
+          "lumaStd": 0.04064,
+          "combEnergyVsBaseline": 0.0089,
+          "courseProfileVsBaseline": 0.1192,
+          "edgeEnergyVsBaseline": 0.8651
+        },
+        "stochasticVP": {
+          "combEnergyFraction": 0.00896,
+          "acPeakU": 0.00015,
+          "acPeakV": 0.00059,
+          "courseProfileStd": 0.005329,
+          "edgeEnergy": 0.020224,
+          "lumaMean": 0.66339,
+          "lumaStd": 0.05793,
+          "combEnergyVsBaseline": 0.009,
+          "courseProfileVsBaseline": 0.1703,
+          "edgeEnergyVsBaseline": 1.23
+        }
+      },
+      "previews": {
+        "baseline": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Ashlar_baseline.png",
+          "sha256": "ae904a020e2a34a0da71d00086c50b3ddf7ccc04b14f90c3986b54659c23df66"
+        },
+        "shipped": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Ashlar_shipped.png",
+          "sha256": "ee91de3ceef1d3aaef39939898f6f9653d0e9eb5acff0eee319b3dbf70adeec2"
+        },
+        "stochasticVP": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Ashlar_stochasticVP.png",
+          "sha256": "6ef267f6d45888e068169dcda90e093cd8fba8477d1402016d29b7823a00eb7f"
+        }
+      }
+    },
+    "Trim": {
+      "tile": "SourceAssets\\material-review\\HerodianAshlarV4\\T_HerodianV4_Trim_Albedo.png",
+      "tileSha256": "377c9d3dcd0d9dc2f7b7f5cb83b01cdbc1ee4d670f2b4581b2eb45d5a60d66da",
+      "parameters": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.1,
+        "MacroWarm": 0.035,
+        "MidCm": 1063.0,
+        "MidAmount": 0.055,
+        "MidRoughness": 0.04,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.05
+      },
+      "regionCm": [
+        6000.0,
+        1800.0
+      ],
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.033964,
+          "edgeEnergy": 0.014068,
+          "lumaMean": 0.70655,
+          "lumaStd": 0.06422,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "mirror": {
+          "combEnergyFraction": 0.7229,
+          "acPeakU": 0.61785,
+          "acPeakV": 0.62862,
+          "courseProfileStd": 0.033964,
+          "edgeEnergy": 0.014043,
+          "lumaMean": 0.70655,
+          "lumaStd": 0.06422,
+          "combEnergyVsBaseline": 0.7229,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 0.9982
+        },
+        "bandOffset": {
+          "combEnergyFraction": 0.47676,
+          "acPeakU": 1.0,
+          "acPeakV": 0.06436,
+          "courseProfileStd": 0.033964,
+          "edgeEnergy": 0.014051,
+          "lumaMean": 0.70655,
+          "lumaStd": 0.06422,
+          "combEnergyVsBaseline": 0.4768,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 0.9988
+        },
+        "mirrorBand": {
+          "combEnergyFraction": 0.45486,
+          "acPeakU": 0.6236,
+          "acPeakV": 0.12257,
+          "courseProfileStd": 0.033968,
+          "edgeEnergy": 0.014049,
+          "lumaMean": 0.70654,
+          "lumaStd": 0.06423,
+          "combEnergyVsBaseline": 0.4549,
+          "courseProfileVsBaseline": 1.0001,
+          "edgeEnergyVsBaseline": 0.9986
+        },
+        "macro": {
+          "combEnergyFraction": 0.90481,
+          "acPeakU": 0.93509,
+          "acPeakV": 0.92492,
+          "courseProfileStd": 0.034494,
+          "edgeEnergy": 0.01401,
+          "lumaMean": 0.70281,
+          "lumaStd": 0.06749,
+          "combEnergyVsBaseline": 0.9048,
+          "courseProfileVsBaseline": 1.0156,
+          "edgeEnergyVsBaseline": 0.9959
+        },
+        "shipped": {
+          "combEnergyFraction": 0.41068,
+          "acPeakU": 0.59834,
+          "acPeakV": 0.13871,
+          "courseProfileStd": 0.034456,
+          "edgeEnergy": 0.013993,
+          "lumaMean": 0.70279,
+          "lumaStd": 0.06745,
+          "combEnergyVsBaseline": 0.4107,
+          "courseProfileVsBaseline": 1.0145,
+          "edgeEnergyVsBaseline": 0.9947
+        },
+        "stochastic": {
+          "combEnergyFraction": 0.01028,
+          "acPeakU": 0.01132,
+          "acPeakV": -0.00011,
+          "courseProfileStd": 0.004632,
+          "edgeEnergy": 0.013102,
+          "lumaMean": 0.70617,
+          "lumaStd": 0.04902,
+          "combEnergyVsBaseline": 0.0103,
+          "courseProfileVsBaseline": 0.1364,
+          "edgeEnergyVsBaseline": 0.9313
+        },
+        "stochasticVP": {
+          "combEnergyFraction": 0.01019,
+          "acPeakU": 0.01226,
+          "acPeakV": -0.0016,
+          "courseProfileStd": 0.006711,
+          "edgeEnergy": 0.018525,
+          "lumaMean": 0.70584,
+          "lumaStd": 0.06983,
+          "combEnergyVsBaseline": 0.0102,
+          "courseProfileVsBaseline": 0.1976,
+          "edgeEnergyVsBaseline": 1.3168
+        }
+      },
+      "previews": {
+        "baseline": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Trim_baseline.png",
+          "sha256": "bb60ddc72780c37ea0b0cc645fbb628525c16733880313695ab8626e532866be"
+        },
+        "shipped": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Trim_shipped.png",
+          "sha256": "a5d644acf1fe8878cc2ab5f861db8851c0ddfcd387f587414da6901af05914fe"
+        },
+        "stochasticVP": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_Trim_stochasticVP.png",
+          "sha256": "580d9bce089f37c21015eb93fb5b96ad1ceac258b2ee92cb3f588511745b3498"
+        }
+      }
+    },
+    "JerusalemPaving": {
+      "tile": "SourceAssets\\visual-review\\JerusalemPavingV1\\jerusalem-paving-albedo.png",
+      "tileSha256": "d3c9f895f72105e812654550e2fc05c29b0e769ebce6026ecf31fa32a71921f6",
+      "parameters": {
+        "tilingCm": 500.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14,
+        "MacroWarm": 0.04,
+        "MidCm": 1783.0,
+        "MidAmount": 0.075,
+        "MidRoughness": 0.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0
+      },
+      "regionCm": [
+        10000.0,
+        3000.0
+      ],
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.051351,
+          "edgeEnergy": 0.045601,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "mirror": {
+          "combEnergyFraction": 0.76712,
+          "acPeakU": 0.65523,
+          "acPeakV": 0.66495,
+          "courseProfileStd": 0.051351,
+          "edgeEnergy": 0.04561,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 0.7671,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0002
+        },
+        "bandOffset": {
+          "combEnergyFraction": 0.62397,
+          "acPeakU": 1.0,
+          "acPeakV": 0.36842,
+          "courseProfileStd": 0.051351,
+          "edgeEnergy": 0.045668,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 0.624,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0015
+        },
+        "mirrorBand": {
+          "combEnergyFraction": 0.58707,
+          "acPeakU": 0.66042,
+          "acPeakV": 0.37795,
+          "courseProfileStd": 0.051353,
+          "edgeEnergy": 0.045634,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 0.5871,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0007
+        },
+        "macro": {
+          "combEnergyFraction": 0.8955,
+          "acPeakU": 0.92317,
+          "acPeakV": 0.91204,
+          "courseProfileStd": 0.052295,
+          "edgeEnergy": 0.045285,
+          "lumaMean": 0.72099,
+          "lumaStd": 0.08919,
+          "combEnergyVsBaseline": 0.8955,
+          "courseProfileVsBaseline": 1.0184,
+          "edgeEnergyVsBaseline": 0.9931
+        },
+        "shipped": {
+          "combEnergyFraction": 0.5265,
+          "acPeakU": 0.63034,
+          "acPeakV": 0.36848,
+          "courseProfileStd": 0.05231,
+          "edgeEnergy": 0.045313,
+          "lumaMean": 0.72098,
+          "lumaStd": 0.08914,
+          "combEnergyVsBaseline": 0.5265,
+          "courseProfileVsBaseline": 1.0187,
+          "edgeEnergyVsBaseline": 0.9937
+        },
+        "stochastic": {
+          "combEnergyFraction": 0.00868,
+          "acPeakU": -0.00047,
+          "acPeakV": -0.00201,
+          "courseProfileStd": 0.005053,
+          "edgeEnergy": 0.036811,
+          "lumaMean": 0.72617,
+          "lumaStd": 0.06413,
+          "combEnergyVsBaseline": 0.0087,
+          "courseProfileVsBaseline": 0.0984,
+          "edgeEnergyVsBaseline": 0.8072
+        },
+        "stochasticVP": {
+          "combEnergyFraction": 0.00869,
+          "acPeakU": -0.00052,
+          "acPeakV": -0.00235,
+          "courseProfileStd": 0.00733,
+          "edgeEnergy": 0.052672,
+          "lumaMean": 0.726,
+          "lumaStd": 0.0915,
+          "combEnergyVsBaseline": 0.0087,
+          "courseProfileVsBaseline": 0.1427,
+          "edgeEnergyVsBaseline": 1.1551
+        }
+      },
+      "previews": {
+        "baseline": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_JerusalemPaving_baseline.png",
+          "sha256": "3deb5c32193677fac21fa7c9a1aa7e527cd83069999e4c47c90458a7f05abdd0"
+        },
+        "shipped": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_JerusalemPaving_shipped.png",
+          "sha256": "71b4e8fda72d8576a289de66fda899f8ac75a5c1bb1bc0325b04d16cfe76eb04"
+        },
+        "stochasticVP": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_JerusalemPaving_stochasticVP.png",
+          "sha256": "8d881507a49b468783d20b43cc60390edc7a708784b95b02bc5cf4bde8942731"
+        }
+      }
+    },
+    "OldCityFacade": {
+      "tile": "SourceAssets\\materials-context\\facade-limestone\\sandstone_blocks_05_diff_2k.png",
+      "tileSha256": "f533a9e478bf329530d227023df0f7146182d72f7b0d07eec7744b2c8878d11c",
+      "parameters": {
+        "tilingCm": 400.0,
+        "MacroCm": 5171.0,
+        "MacroAmount": 0.13,
+        "MacroWarm": 0.04,
+        "MidCm": 1471.0,
+        "MidAmount": 0.07,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0,
+        "reportedNotShipped": "MEASURED FOR THE RECORD, NOT APPLIED BY THIS PASS. M_Context_Building already carries a per-object hashed tint (4 warm tints from ObjectPositionWS and vertex colour) and a hashed roughness offset, which is the per-object technique - but its UV is a plain 400 cm world triplanar with no mirror, no band offset and no macro noise, so the tile grid inside and across every one of the 1,498 building meshes is identical. The baseline row below is that grid; the shipped row is what the same treatment would buy. Applying it means ASSET-level reassignment on 1,498 building and 2,877 street meshes, which is a much larger mutation than a component slot override and is out of scope here."
+      },
+      "regionCm": [
+        8000.0,
+        2400.0
+      ],
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.072601,
+          "edgeEnergy": 0.048333,
+          "lumaMean": 0.61864,
+          "lumaStd": 0.10826,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "mirror": {
+          "combEnergyFraction": 0.80943,
+          "acPeakU": 0.70224,
+          "acPeakV": 0.71064,
+          "courseProfileStd": 0.072601,
+          "edgeEnergy": 0.048329,
+          "lumaMean": 0.61864,
+          "lumaStd": 0.10826,
+          "combEnergyVsBaseline": 0.8094,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 0.9999
+        },
+        "bandOffset": {
+          "combEnergyFraction": 0.68257,
+          "acPeakU": 1.0,
+          "acPeakV": 0.42397,
+          "courseProfileStd": 0.072601,
+          "edgeEnergy": 0.048357,
+          "lumaMean": 0.61864,
+          "lumaStd": 0.10826,
+          "combEnergyVsBaseline": 0.6826,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0005
+        },
+        "mirrorBand": {
+          "combEnergyFraction": 0.65298,
+          "acPeakU": 0.70733,
+          "acPeakV": 0.43787,
+          "courseProfileStd": 0.072608,
+          "edgeEnergy": 0.048339,
+          "lumaMean": 0.61865,
+          "lumaStd": 0.10826,
+          "combEnergyVsBaseline": 0.653,
+          "courseProfileVsBaseline": 1.0001,
+          "edgeEnergyVsBaseline": 1.0001
+        },
+        "macro": {
+          "combEnergyFraction": 0.95903,
+          "acPeakU": 0.96822,
+          "acPeakV": 0.96696,
+          "courseProfileStd": 0.07291,
+          "edgeEnergy": 0.048009,
+          "lumaMean": 0.61433,
+          "lumaStd": 0.11054,
+          "combEnergyVsBaseline": 0.959,
+          "courseProfileVsBaseline": 1.0043,
+          "edgeEnergyVsBaseline": 0.9933
+        },
+        "shipped": {
+          "combEnergyFraction": 0.62729,
+          "acPeakU": 0.69422,
+          "acPeakV": 0.43594,
+          "courseProfileStd": 0.072919,
+          "edgeEnergy": 0.048016,
+          "lumaMean": 0.61434,
+          "lumaStd": 0.11056,
+          "combEnergyVsBaseline": 0.6273,
+          "courseProfileVsBaseline": 1.0044,
+          "edgeEnergyVsBaseline": 0.9934
+        },
+        "stochastic": {
+          "combEnergyFraction": 0.00954,
+          "acPeakU": 0.00406,
+          "acPeakV": -0.00026,
+          "courseProfileStd": 0.007981,
+          "edgeEnergy": 0.039233,
+          "lumaMean": 0.6192,
+          "lumaStd": 0.08267,
+          "combEnergyVsBaseline": 0.0095,
+          "courseProfileVsBaseline": 0.1099,
+          "edgeEnergyVsBaseline": 0.8117
+        },
+        "stochasticVP": {
+          "combEnergyFraction": 0.00964,
+          "acPeakU": 0.00417,
+          "acPeakV": -0.00029,
+          "courseProfileStd": 0.011502,
+          "edgeEnergy": 0.055953,
+          "lumaMean": 0.61938,
+          "lumaStd": 0.11788,
+          "combEnergyVsBaseline": 0.0096,
+          "courseProfileVsBaseline": 0.1584,
+          "edgeEnergyVsBaseline": 1.1577
+        }
+      },
+      "previews": {
+        "baseline": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_OldCityFacade_baseline.png",
+          "sha256": "18d19e8c7d14b3ac2122606c26481531317b80e8d4e7daa4f9c34174c6a53c64"
+        },
+        "shipped": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_OldCityFacade_shipped.png",
+          "sha256": "0c706f949f40bd79c5cb1b760cbf0cb297fe8aca6b867ee51033fb40fef6795d"
+        },
+        "stochasticVP": {
+          "path": "SourceAssets\\material-review\\AntiRepeatV1\\previews\\wall_OldCityFacade_stochasticVP.png",
+          "sha256": "e613cb693ecb93fa023576156d76c5c785868f5d7bf0ab94275af1bf445cebf8"
+        }
+      }
+    },
+    "PavingSlabs": {
+      "skipped": "no source PNG in the repository (engine texture only); the same scheme and the same HLSL are applied"
+    }
+  },
+  "finishedUtc": "2026-09-09T22:34:35.105219+00:00"
+}

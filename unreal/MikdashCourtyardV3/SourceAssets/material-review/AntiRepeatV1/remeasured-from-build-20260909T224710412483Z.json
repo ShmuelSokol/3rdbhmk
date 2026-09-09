@@ -1,0 +1,298 @@
+{
+  "status": "REMEASURED_FROM_BUILT_MATERIAL_PARAMETERS",
+  "buildReceipt": "SourceAssets/material-review/AntiRepeatV1/antirepeat-build-20260909T224541441779Z.json",
+  "buildReceiptSha256": "14a7e93badde922c329e5a8d7df6efbb04dada8428083dd20f823bd063402693",
+  "generatorSha256": "9ad5073948534fa5be20556e8ef248ee9acc509b91303c7c7ece3ea386826d11",
+  "measuredUtc": "2026-09-09T22:46:40.643345+00:00",
+  "provenance": "Re-run the measurement using the parameters READ BACK FROM THE BUILT MATERIAL ON DISK.\n\n    This is as close to \"measured from the actual shipped material\" as is possible without a\n    renderer: the numbers below are produced by the same transform the HLSL compiles, driven by the\n    scalar values Scripts/release_antirepeat.py read back out of the saved .uasset after save and\n    reopen - not by the values written in this file. If the engine had silently dropped or altered a\n    parameter, these rows would move. It is still a spectral model of an albedo field, NOT a\n    rendered frame; this machine cannot run a real-RHI capture and none is claimed.",
+  "measurementGrid": {
+    "tilesU": 20,
+    "tilesV": 6,
+    "tilePx": 256,
+    "seed": 4242
+  },
+  "variants": {
+    "Ashlar": {
+      "schemeVariant": "Ashlar",
+      "parametersReadBackFromDisk": {
+        "AlbedoFlatness": 0.0,
+        "BandOffsetEnable": 1.0,
+        "BlendExponent": 4.0,
+        "MacroAmount": 0.12999999523162842,
+        "MacroCm": 3733.0,
+        "MacroWarm": 0.04500000178813934,
+        "Metallic": 0.0,
+        "MidAmount": 0.07000000029802322,
+        "MidCm": 1063.0,
+        "MidRoughness": 0.05000000074505806,
+        "MirrorEnable": 1.0,
+        "NormalStrength": 1.0,
+        "PerInstanceJitter": 0.05999999865889549,
+        "RoughnessScale": 1.0,
+        "TilingCm": 300.0
+      },
+      "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_Ashlar",
+      "textures": {
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_ARM",
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Albedo",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Ashlar_Normal"
+      },
+      "parametersUsed": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.12999999523162842,
+        "MacroWarm": 0.04500000178813934,
+        "MidCm": 1063.0,
+        "MidAmount": 0.07000000029802322,
+        "MidRoughness": 0.05,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.06
+      },
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.031285,
+          "edgeEnergy": 0.016442,
+          "lumaMean": 0.66416,
+          "lumaStd": 0.05301,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "shipped": {
+          "combEnergyFraction": 0.44649,
+          "acPeakU": 0.6013,
+          "acPeakV": 0.28057,
+          "courseProfileStd": 0.032277,
+          "edgeEnergy": 0.016344,
+          "lumaMean": 0.65956,
+          "lumaStd": 0.05875,
+          "combEnergyVsBaseline": 0.4465,
+          "courseProfileVsBaseline": 1.0317,
+          "edgeEnergyVsBaseline": 0.994
+        }
+      },
+      "tile": "SourceAssets/material-review/HerodianAshlarV4/T_HerodianV4_Ashlar_Albedo.png",
+      "tileSha256": "03b3887f427d4b1a918f96113cb8affce567de18596263507446e3833b3ed0e1"
+    },
+    "Trim": {
+      "schemeVariant": "Trim",
+      "parametersReadBackFromDisk": {
+        "AlbedoFlatness": 0.0,
+        "BandOffsetEnable": 1.0,
+        "BlendExponent": 4.0,
+        "MacroAmount": 0.10000000149011612,
+        "MacroCm": 3733.0,
+        "MacroWarm": 0.03500000014901161,
+        "Metallic": 0.0,
+        "MidAmount": 0.054999999701976776,
+        "MidCm": 1063.0,
+        "MidRoughness": 0.03999999910593033,
+        "MirrorEnable": 1.0,
+        "NormalStrength": 1.0,
+        "PerInstanceJitter": 0.05000000074505806,
+        "RoughnessScale": 1.0,
+        "TilingCm": 300.0
+      },
+      "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_Trim",
+      "textures": {
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_ARM",
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Albedo",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV4_Trim_Normal"
+      },
+      "parametersUsed": {
+        "tilingCm": 300.0,
+        "MacroCm": 3733.0,
+        "MacroAmount": 0.10000000149011612,
+        "MacroWarm": 0.03500000014901161,
+        "MidCm": 1063.0,
+        "MidAmount": 0.054999999701976776,
+        "MidRoughness": 0.04,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.05
+      },
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.033964,
+          "edgeEnergy": 0.014068,
+          "lumaMean": 0.70655,
+          "lumaStd": 0.06422,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "shipped": {
+          "combEnergyFraction": 0.41068,
+          "acPeakU": 0.59834,
+          "acPeakV": 0.13871,
+          "courseProfileStd": 0.034456,
+          "edgeEnergy": 0.013993,
+          "lumaMean": 0.70279,
+          "lumaStd": 0.06745,
+          "combEnergyVsBaseline": 0.4107,
+          "courseProfileVsBaseline": 1.0145,
+          "edgeEnergyVsBaseline": 0.9947
+        }
+      },
+      "tile": "SourceAssets/material-review/HerodianAshlarV4/T_HerodianV4_Trim_Albedo.png",
+      "tileSha256": "377c9d3dcd0d9dc2f7b7f5cb83b01cdbc1ee4d670f2b4581b2eb45d5a60d66da"
+    },
+    "PavingSlabs": {
+      "schemeVariant": "PavingSlabs",
+      "parametersReadBackFromDisk": {
+        "AlbedoFlatness": 0.0,
+        "BandOffsetEnable": 1.0,
+        "BlendExponent": 4.0,
+        "MacroAmount": 0.12999999523162842,
+        "MacroCm": 4441.0,
+        "MacroWarm": 0.03999999910593033,
+        "Metallic": 0.0,
+        "MidAmount": 0.07000000029802322,
+        "MidCm": 1279.0,
+        "MidRoughness": 0.05000000074505806,
+        "MirrorEnable": 1.0,
+        "NormalStrength": 1.0,
+        "PerInstanceJitter": 0.05999999865889549,
+        "RoughnessScale": 1.0,
+        "TilingCm": 200.0
+      },
+      "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_PavingSlabs",
+      "textures": {
+        "ARM": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_ARM",
+        "Albedo": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Albedo",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise",
+        "Normal": "/Game/MikdashV3/Materials/PBR/PavingSlabs/T_PavingSlabs_Normal"
+      },
+      "skipped": "no source PNG for scheme 'PavingSlabs'; the same HLSL and the same parameters apply"
+    },
+    "JerusalemPaving": {
+      "schemeVariant": "JerusalemPaving",
+      "parametersReadBackFromDisk": {
+        "BandOffsetEnable": 1.0,
+        "MacroAmount": 0.14000000059604645,
+        "MacroCm": 6229.0,
+        "MacroWarm": 0.03999999910593033,
+        "Metallic": 0.0,
+        "MidAmount": 0.07500000298023224,
+        "MidCm": 1783.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0,
+        "Roughness": 0.800000011920929,
+        "SlopeTintEnable": 0.0,
+        "TilingCm": 500.0
+      },
+      "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemPaving",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise"
+      },
+      "parametersUsed": {
+        "tilingCm": 500.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14000000059604645,
+        "MacroWarm": 0.03999999910593033,
+        "MidCm": 1783.0,
+        "MidAmount": 0.07500000298023224,
+        "MidRoughness": 0.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0
+      },
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.051351,
+          "edgeEnergy": 0.045601,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "shipped": {
+          "combEnergyFraction": 0.5265,
+          "acPeakU": 0.63034,
+          "acPeakV": 0.36848,
+          "courseProfileStd": 0.05231,
+          "edgeEnergy": 0.045313,
+          "lumaMean": 0.72098,
+          "lumaStd": 0.08914,
+          "combEnergyVsBaseline": 0.5265,
+          "courseProfileVsBaseline": 1.0187,
+          "edgeEnergyVsBaseline": 0.9937
+        }
+      },
+      "tile": "SourceAssets/visual-review/JerusalemPavingV1/jerusalem-paving-albedo.png",
+      "tileSha256": "d3c9f895f72105e812654550e2fc05c29b0e769ebce6026ecf31fa32a71921f6"
+    },
+    "JerusalemFloorSlabs": {
+      "schemeVariant": "JerusalemPaving",
+      "parametersReadBackFromDisk": {
+        "BandOffsetEnable": 1.0,
+        "MacroAmount": 0.14000000059604645,
+        "MacroCm": 6229.0,
+        "MacroWarm": 0.03999999910593033,
+        "Metallic": 0.0,
+        "MidAmount": 0.07500000298023224,
+        "MidCm": 1783.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0,
+        "Roughness": 0.800000011920929,
+        "SlopeTintEnable": 1.0,
+        "TilingCm": 500.0
+      },
+      "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemFloorSlabs",
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise"
+      },
+      "parametersUsed": {
+        "tilingCm": 500.0,
+        "MacroCm": 6229.0,
+        "MacroAmount": 0.14000000059604645,
+        "MacroWarm": 0.03999999910593033,
+        "MidCm": 1783.0,
+        "MidAmount": 0.07500000298023224,
+        "MidRoughness": 0.0,
+        "MirrorEnable": 1.0,
+        "PerInstanceJitter": 0.0
+      },
+      "schemes": {
+        "baseline": {
+          "combEnergyFraction": 1.0,
+          "acPeakU": 1.0,
+          "acPeakV": 1.0,
+          "courseProfileStd": 0.051351,
+          "edgeEnergy": 0.045601,
+          "lumaMean": 0.72623,
+          "lumaStd": 0.08401,
+          "combEnergyVsBaseline": 1.0,
+          "courseProfileVsBaseline": 1.0,
+          "edgeEnergyVsBaseline": 1.0
+        },
+        "shipped": {
+          "combEnergyFraction": 0.5265,
+          "acPeakU": 0.63034,
+          "acPeakV": 0.36848,
+          "courseProfileStd": 0.05231,
+          "edgeEnergy": 0.045313,
+          "lumaMean": 0.72098,
+          "lumaStd": 0.08914,
+          "combEnergyVsBaseline": 0.5265,
+          "courseProfileVsBaseline": 1.0187,
+          "edgeEnergyVsBaseline": 0.9937
+        }
+      },
+      "tile": "SourceAssets/visual-review/JerusalemPavingV1/jerusalem-paving-albedo.png",
+      "tileSha256": "d3c9f895f72105e812654550e2fc05c29b0e769ebce6026ecf31fa32a71921f6"
+    }
+  }
+}

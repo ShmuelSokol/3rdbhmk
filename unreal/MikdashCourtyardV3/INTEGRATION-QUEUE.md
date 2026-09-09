@@ -1,3 +1,14 @@
+## Verified continuation — 2026-09-09 06:13 UTC
+
+Main gold and intro clock fixes are published; candidate intro opening and finish tested.
+Candidate48 has saved/fresh-verified gold materials and V3 service body, with native
+limited movement evidence. Service stays startupOFF: its stair path and stance are invalid.
+Per-leg admission now prevents initial movement into rejected legs (34c8b3ad).
+Candidate stair collision V2 matches visible geometry in71 native floor samples; four
+stationary capsule positions still block and endpoint is16cm above actual tread.
+No full service acceptance, candidate promotion, or new package. Latest exact receipts
+and map hashes are at the top of AGENTS.md; historical unchecked rows below are not current state.
+
 ## Publication checkpoint evidence — 2026-09-09 04:09 UTC
 
 Main saved-scene render 040520Z inspected in both gate views: the softer wear remains

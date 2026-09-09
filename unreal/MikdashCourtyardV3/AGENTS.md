@@ -1,3 +1,19 @@
+Stair V2 fresh060918 verified; live061102 simple/complex supports agree at all71
+sampled positions. Endpoint actual920 vs planned936 remains wrong. Four stationary
+Pawn-profile capsule samples blocked; full grounded stair path still unresolved.
+Map and original saves unchanged; keep service startupOFF. Collision-only acceptance.
+
+Stair collision V2 apply060704 saved/reopened successfully; protected differences empty.
+Candidate map0d997af5802b99fbecfe77f09d94c52b6f62bb3f2900a9b6682b8025be0773cf.
+Fresh-process verification running; no real collision acceptance yet. V1 preserved.
+Service station anchors and startupOFF unchanged.
+
+Stair helper060240 safely failed before map save; map009908 and protected originals
+unchanged. V1 collision clone exists and must remain preserved. snapshot_row meshes
+are PACKAGE paths (_asset_path strips object suffix); normalize exact CLONE package to
+SOURCE package, not object paths. Retry must use fresh V2 namespace and record compact
+snapshot mismatch evidence before refusal. Do not weaken unrelated-state comparison.
+
 Admission runtime055924 now holds exactly at[-3560,0,888] before blocked leg2,
 no initial movement into rejected leg. Maps/saves unchanged. Focused tests cover
 large dt; live test covers natural transition only. Stair geometry still unresolved.

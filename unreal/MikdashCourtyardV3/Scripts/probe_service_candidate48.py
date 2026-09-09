@@ -121,10 +121,20 @@ def diagnose_stone_leg(world,actor,body):
         supports={}
         for label,depth,complex_trace in [('nativeRange',30,False),('diagnosticRange',100,False),('complexGeometryRange',100,True)]:
             supports[label]=hit_record(u.SystemLibrary.line_trace_single(world,point+u.Vector(0,0,depth),point-u.Vector(0,0,depth),u.TraceTypeQuery.TRACE_TYPE_QUERY1,complex_trace,[body,actor],u.DrawDebugTrace.NONE,True))
+        actual = supports['complexGeometryRange']
+        if actual and actual['impact'] and actual['normal'] and actual['normal'][2] >= .95:
+            center = u.Vector(*actual['impact']) + u.Vector(0,0,98)
+            supports['groundedPawnProfileCapsule'] = hit_record(u.SystemLibrary.capsule_trace_single_by_profile(
+                world_context_object=world,start=center+u.Vector(0,0,.1),end=center,
+                radius=34.0,half_height=96.0,profile_name='Pawn',trace_complex=False,
+                actors_to_ignore=[body,actor],draw_debug_type=u.DrawDebugTrace.NONE,ignore_self=True))
+            supports['groundedPawnProfileCapsuleTested'] = True
+        else:
+            supports['groundedPawnProfileCapsuleTested'] = False
         floor=supports['nativeRange']
         matches=bool(floor and floor['impact'] and floor['normal'] and abs(floor['impact'][2]-point.z)<=3 and floor['normal'][2]>=.95)
         rows.append({'index':index,'plannedFeet':xyz(point),'floorMatchesNative':matches,**supports})
-    return {'from':xyz(start),'to':xyz(end),'samples':rows,'firstMismatch':next((r['index'] for r in rows if not r['floorMatchesNative']),None),'scope':'Read-only line-trace support diagnosis; no Pawn-channel capsule or stair traversal acceptance'}
+    return {'from':xyz(start),'to':xyz(end),'samples':rows,'firstMismatch':next((r['index'] for r in rows if not r['floorMatchesNative']),None),'scope':'Read-only support traces and stationary physical capsule samples using Pawn profile; no continuous step traversal acceptance'}
 
 
 def tick(dt):

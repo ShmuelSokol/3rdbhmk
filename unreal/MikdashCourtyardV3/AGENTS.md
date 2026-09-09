@@ -1,3 +1,10 @@
+Full native service070801 naturally completed1cycle290.62s, all18station arrivals pass,
+0blockedlegs/endpointPawncapsulehits; pauseflags/phase/feetfreeze+resumepass. Maps/saves
+unchanged. Seven centre-foot stair floor misses: rawCMC Walking+walkablesupporttrue at
+every miss; capsule support is not visual foot planting. Three closeups reject placeholder
+garments/idle servicepose; startupOFF retained. db6435e1 pushed. Nextcandidate promotion
+work: inventory bridge/wear parity, actual player/tour/dove/connectivity, broadvisual/perf.
+
 Grounded diagnostics and exact bird-routing fullgate9/9,32math, UBT7actions31.66s PASS
 verify-ubt-0rsfzh51.log; finalPythonquick6/6. Full natural service probe with rawCMC support,
 arrival/pause/resume assertions and optional stills is running; no fullroute acceptance yet.

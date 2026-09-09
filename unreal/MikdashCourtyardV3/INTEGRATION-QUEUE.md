@@ -1,3 +1,13 @@
+## Current continuation — 2026-09-09 07:14 UTC
+
+Candidate48 grounded service completes all18stations naturally, physical destination checks pass.
+Visual foot planting on stairs and authentic garments/service animation remain unaccepted; startupOFF.
+Candidate map7eda28df84b35e45a6e975d39bebc23817798cc2af2db324b0121e09a30255d2.
+Next: inventory candidate transit-bridge/soft-wear parity; native player/tour/dove connections;
+broader visual/performance review, then explicit default/cook map promotion and fresh Windows build.
+Sound species routing compiled; V3 recordings still unimported/unauditioned. Prepared fresh importer
+verifier is read-only; do not treat it as completed import. Video preview already shared.
+
 ## Verified continuation — 2026-09-09 06:13 UTC
 
 Main gold and intro clock fixes are published; candidate intro opening and finish tested.

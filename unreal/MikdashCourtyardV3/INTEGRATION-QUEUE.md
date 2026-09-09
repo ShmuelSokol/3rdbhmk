@@ -1,4 +1,20 @@
-## Current continuation — 2026-09-09 07:14 UTC
+## Current continuation — 2026-09-09 07:53 UTC
+
+Candidate48 now passes native frontend/dove controls, the 10-point sanctuary round trip,
+and continuous east-gate/platform walking from normal spawn. These are programmatic
+movement checks, not physical keyboard, visual, ritual-access, or packaged acceptance.
+Transit is saved and independently reloaded: 15 stops and all 75 road-support samples
+pass; a 60-second PIE observation saw 240 road vehicles and one active train moving.
+Full-route driving and boarding remain unverified. Four metric bird flocks are saved;
+fresh verification is running. Temple Plaza pigeons await perch calibration.
+The boarding bridge helper is reviewed but unapplied. Surface wear remains absent on
+Candidate48; do not blindly rescale modern city decals. Kotel continuous access, broad
+visual/performance review, default/cook promotion, and a fresh Windows build remain.
+Grounded service completed all 18 stations naturally but stays startupOFF because
+foot planting, authentic garments and service animation remain visually unaccepted.
+Latest map hashes and exact evidence are in AGENTS.md and the receipts, not old rows below.
+
+## Historical continuation — 2026-09-09 07:14 UTC
 
 Candidate48 grounded service completes all18stations naturally, physical destination checks pass.
 Visual foot planting on stairs and authentic garments/service animation remain unaccepted; startupOFF.

@@ -1,3 +1,30 @@
+## Integration checkpoint — 2026-09-09 07:55 UTC
+
+Four metric bird flocks saved in Candidate48 (074420), independently reloaded in
+fresh process (075232): both receipts pass with no protected changes/new Content files.
+Candidate SHA b74b4c21dc7633e05644b7a81ffe66cd78f7a8d95410e7b4579b1a7df70805bc.
+Main SHA 93483d25ff23e01ee1462845b958d9c2139f2cd2e7177cf5e3e3141dd4ae1432 unchanged.
+Bird runtime/perch/visual/audio acceptance is pending; Temple Plaza flock is deferred.
+Transit bridge helper is reviewed, not applied. Service remains startupOFF. The candidate
+is still not the default/cook map, and no new Windows package is claimed.
+
+CandidateTransit07414660simPASS:15stops/75supportsamplespass;240roadvehicles+1activetrain,
+245paintinstancesmoved (NOT245vehicles). Maps/savesunchanged, nofullroute/boarding/perf
+acceptance. Fourmetricbirdport nowrunning; PlazaTempleflock stilldeferred.
+
+Transit fresh073717 verifies sourceconfig/15stops and persistedcanonicalcandidatebaseline,
+protected/newContentempty, candidate89a68853 unchanged. Runtime60sim probe prepared;
+reviewing hiddenPIE throttle/mouse cleanup beforeexecution. No bridge/birds yet.
+
+Transit-only candidateport073522 saved/reopened: all15stop/config/sourceworldcoordinates
+unchanged, protecteddifferencesempty/newContentFilesempty. Candidate89a68853eb364d0a02979ff0044fc1b5b434117caf923f3290f07921f30ce868.
+Freshprocessverification pending; no movement/roads acceptance yet. Main93483 unchanged.
+
+Candidate platformwalk073330 completedbothroutes46.28wallseconds, no teleport: naturalspawn
+→eastgatedown/up→outerthreshold/stairs→unchangedmetricdeck.10checkpointsfloorerrors~2.15cm,
+allmaps/originalsaves unchanged. Kotelaccess and physicalkeyboard/visualstairacceptance remain
+separate. Nextserialjobtransit-onlyport, candidatehashstill7eda28df.
+
 Sanctuary48 native072820 completed10checkpoints29.09wallseconds, floorerrors1.19–2.15cm;
 one explicitinitialPIEplacement thencontinuouswalking, allmaps/originalsaves unchanged.
 Architectural review only: currentopen/NoCollisiondoorway isnotritual access orfunctionalcurtain.

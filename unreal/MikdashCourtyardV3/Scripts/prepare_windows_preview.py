@@ -51,8 +51,11 @@ def prepare(archive_root,output_dir,version,project=PROJECT):
         payload[relative]=source
     folded=[name.casefold() for name in payload]
     if len(set(folded))!=len(folded):raise ValueError('Case-insensitive payload collision')
-    data=sorted(name for name in payload if re.search(r'\.ucas(?:_s\d+)?$',name,re.I))
-    if not data:raise ValueError('No native UCAS files found')
+    ucas=sorted(name for name in payload if re.search(r'\.ucas(?:_s\d+)?$',name,re.I))
+    if not ucas:raise ValueError('No native UCAS files found')
+    # The small global container travels with its UTOC in App; game partitions
+    # remain separate ordinary ZIPs. The same strict archive-size guard applies.
+    data=[name for name in ucas if name!='MikdashCourtyardV3/Content/Paks/global.ucas']
     groups=[('App',[name for name in sorted(payload) if name not in data])]+[(f'Data{i:02d}',[name]) for i,name in enumerate(data,1)]
     rows={name:{'path':name,'bytes':path.stat().st_size,'sha256':digest(path)} for name,path in payload.items()}
     out.mkdir(parents=True,exist_ok=False)

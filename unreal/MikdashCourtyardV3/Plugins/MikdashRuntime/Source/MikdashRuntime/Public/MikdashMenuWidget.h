@@ -2,7 +2,7 @@
 //
 // There is no UMG designer step anywhere in this pipeline, so each screen is a
 // UUserWidget subclass that builds its own tree with WidgetTree->ConstructWidget in
-// NativeConstruct. Nothing here needs a .uasset, a Blueprint, or a font import: text
+// RebuildWidget. Nothing here needs a .uasset, a Blueprint, or a font import: text
 // uses FCoreStyle's default font, or a .ttf read straight off disk for Hebrew.
 //
 // Screens:
@@ -104,7 +104,10 @@ public:
     MIKDASHRUNTIME_API void Rebuild();
 
 protected:
-    /** Subclasses fill the body column. Called from NativeConstruct and Rebuild. */
+    /** Build the native tree before UUserWidget captures its Slate root. */
+    MIKDASHRUNTIME_API virtual TSharedRef<SWidget> RebuildWidget() override;
+
+    /** Subclasses fill the body column. Called from tree construction and Rebuild. */
     virtual void BuildBody(UVerticalBox* Body) {}
 
     /** Heading shown at the top of the panel. */

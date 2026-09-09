@@ -1,4 +1,19 @@
-## Current continuation — 2026-09-09 10:14 UTC
+## Current continuation — Windows12 Attempt2, 2026-09-09
+
+Attempt2 cook/archive PASSED at10:43; known staging files/hash/container gate PASSED.
+Packaged startup loaded Selected48 correctly, but FAILED six original
+KotelSurfacePolishV2 Nanite-usage/default-material warnings. Existing package is not
+accepted. Exact-six source usage repair requires fresh verification and recook.
+Actual UI review also found invisible menus: native chrome was constructed after
+Slate selected an empty spacer. RebuildWidget source fix is prepared, not compiled
+or packaged-tested at this checkpoint. Root owns serial material/build/native work.
+
+Next: verify material repair; compile UI lifecycle fix; fresh cook/stage/startup;
+visible Begin/pause/dove/return/Quit acceptance; ordinary ZIP/extraction/hash and
+authorized download verification. See RELEASE-NOTE-12.md and copied Attempt2
+receipts in SourceAssets/build-review. Preserve prior failures and limitations.
+
+## Historical continuation — 2026-09-09 10:14 UTC
 
 Update10:38: shared cooked/editor mesh identity passes full11/11gate,32math,bothbuilds
 and native103614 exact269set/FNV restoration, protectedKotel and saves/maps unchanged.

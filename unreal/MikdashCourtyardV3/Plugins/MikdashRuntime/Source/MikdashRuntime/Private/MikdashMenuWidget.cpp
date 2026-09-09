@@ -114,15 +114,29 @@ UMikdashUiAction* UMikdashMenuWidget::MakeAction()
     return Action;
 }
 
+TSharedRef<SWidget> UMikdashMenuWidget::RebuildWidget()
+{
+    // UE selects RootWidget (or an empty SSpacer) in Super::RebuildWidget, then
+    // calls NativeConstruct afterward. Building there is too late for Slate.
+    // Initialize is idempotent and supplies the native widget's transient tree.
+    Initialize();
+    if (WidgetTree && !WidgetTree->RootWidget)
+    {
+        ValueLabels.Reset();
+        Actions.Reset();
+        FirstEntry = nullptr;
+        BuildChrome();
+    }
+    // Reusing an existing tree avoids duplicate controls/delegates when Slate
+    // resources are rebuilt or the same screen is removed and added again.
+    UE_LOG(LogMikdashMenu, Log, TEXT("Native menu Slate root: %s ready=%d"),
+        *GetClass()->GetName(), WidgetTree && WidgetTree->RootWidget ? 1 : 0);
+    return Super::RebuildWidget();
+}
+
 void UMikdashMenuWidget::NativeConstruct()
 {
     Super::NativeConstruct();
-
-    // Initialize() normally built the tree already; this covers a path where it did not.
-    if (WidgetTree && !WidgetTree->RootWidget)
-    {
-        BuildChrome();
-    }
 
     RefreshValues();
 

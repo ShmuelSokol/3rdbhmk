@@ -1,0 +1,27 @@
+{
+  "status": "source_and_dual_target_build_passed",
+  "materialApply": "SourceAssets/perf-review/packaged-material-usage-20260909T110127656871Z.json",
+  "materialFresh": "SourceAssets/perf-review/packaged-material-usage-20260909T110252111955Z.json",
+  "menuFinding": "Build native widget tree before Super::RebuildWidget captures Slate root; NativeConstruct occurs afterward",
+  "offlineChecks": [
+    "three Python AST checks",
+    "six pinned source hashes",
+    "Windows path normalization fixture",
+    "empty UTOC rejection",
+    "global container App ZIP CRC and payload hash fixture"
+  ],
+  "limitations": [
+    "Menu correction not yet rendered in new package",
+    "Existing archive still defective; new cook required"
+  ],
+  "checksPassed": 11,
+  "mathPassed": 32,
+  "editorSeconds": 52.85,
+  "gameSeconds": 54.48,
+  "editorLog": "C:\\Mikdash\\Working-5.8\\verify-ubt-MikdashCourtyardV3Editor-jkc4e_90.log",
+  "gameLog": "C:\\Mikdash\\Working-5.8\\verify-ubt-MikdashCourtyardV3-wo77n2xt.log",
+  "warnings": [
+    "Existing C4996 font constructor",
+    "Existing C4996 Virtual_Back"
+  ]
+}

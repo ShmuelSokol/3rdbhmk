@@ -1,3 +1,30 @@
+## Build checkpoint — 2026-09-09 11:10 UTC
+
+Menu fix passes full11/11 gate and32/32 math. Editor52.85s/Game54.48s both
+Succeeded; two existing C4996 menu deprecations retained (font/Virtual_Back).
+Fresh six-material usage verified. Next fresh Attempt3 archive still required;
+no packaged menu interaction acceptance yet.
+
+## Current verification — 2026-09-09 11:03 UTC
+
+Six old KotelSurfacePolishV2 Nanite flags repaired: apply110127656871 changed
+exactly six assets; fresh110252111955 verified persisted flags in distinct process
+with zero writes. All19 maps and other Content unchanged; originals checkpointed.
+First105939 failure was path-key separator mismatch (Windows str vs slash plan),
+no mutation. Use relative_to(...).as_posix() for manifest/hash dictionary keys.
+Menu lifecycle fix now builds WidgetTree before Super::RebuildWidget selects its
+Slate root; NativeConstruct is too late. Source reviewed; full Editor+Game gate
+running, packaged visible controls still pending. Attempt2 archive preserved.
+
+## Current continuation — 2026-09-09 10:59 UTC
+
+Windows12 Attempt2 cooked successfully; staging file/hash gate passed. Startup smoke
+failed on six older KotelSurfacePolishV2 Nanite usage flags (photo Cook clones clean).
+Reviewed exact-six checkpointed repair running serially. UI game41088 closed normally;
+scene rendered but Escape/P showed no menu, so packaged controls remain unverified.
+Original recorded saves unchanged. Worker investigating front-end initialization before
+next cook. Current archive retained; do not publish it as runtime-verified.
+
 ## Current verified state — 2026-09-09 10:38 UTC
 
 Runtime identity fix now passes native103614713103: exact same269actor set as083903,

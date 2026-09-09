@@ -1,0 +1,46 @@
+{
+  "status": "failed",
+  "childExe": "C:\\Mikdash\\Builds\\Walkthrough-12\\Windows\\MikdashCourtyardV3\\Binaries\\Win64\\MikdashCourtyardV3.exe",
+  "childSha256": "0d349b4b13facbda61537728aa297a040507f9cef43096fb5d288980241bdb76",
+  "expectedDefaultMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "savePrefix": "AstraProbe_Package_4e354ff727ea4691a615dc1aae652feb",
+  "originalSaveHashesBefore": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolPaving01_00.sav": "2421bebe0c8defb701f8806806ae0709dd5c79ee8afe98111b3fdecd3d66fce3",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolKotel01_00.sav": "72c9076f833759b2a560a2190bcf87487e3fe359eb04f496dce8a9fc226d15b9",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_Candidate48_01_00.sav": "acb7677bd4240b37eb0f30adeed7625339f8b752dc5ca33d924c7e52ab11e99a",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolHeikhal01_00.sav": "1691ea74bcf66911733b26e431f2a2fe84bbf852b618f845278fa2d50b370835"
+  },
+  "errors": [
+    "Fatal/shader/default-material warning detected"
+  ],
+  "scope": "Bounded startup/default-map/log smoke only. Controls, Kotel walking, rendered photo quality and audio are not verified.",
+  "screenshotAcceptance": "Not reviewed",
+  "startedUtc": "2026-09-09T10:45:00.6709517Z",
+  "arguments": "-windowed -ResX=1280 -ResY=720 -log -abslog=\"C:\\Mikdash\\Working-5.8\\RuntimeBuild-12-Attempt2\\StartupSmoke\\runtime.log\" \"-ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=AstraProbe_Package_4e354ff727ea4691a615dc1aae652feb,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=AstraProbe_Package_4e354ff727ea4691a615dc1aae652feb\"",
+  "pid": 39532,
+  "readySeconds": 6.1431823,
+  "exitCode": 0,
+  "originalSaveHashesAfter": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolPaving01_00.sav": "2421bebe0c8defb701f8806806ae0709dd5c79ee8afe98111b3fdecd3d66fce3",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolKotel01_00.sav": "72c9076f833759b2a560a2190bcf87487e3fe359eb04f496dce8a9fc226d15b9",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_Candidate48_01_00.sav": "acb7677bd4240b37eb0f30adeed7625339f8b752dc5ca33d924c7e52ab11e99a",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Saved\\SaveGames\\AstraProbe_CoolHeikhal01_00.sav": "1691ea74bcf66911733b26e431f2a2fe84bbf852b618f845278fa2d50b370835"
+  },
+  "originalSavesUnchanged": true,
+  "saveDifferences": [],
+  "defaultMapLoadLines": [
+    "[2026.09.09-10.45.19:342][  0]LogLoad: LoadMap: /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough?Name=Player"
+  ],
+  "correctDefaultMap": true,
+  "rejectedLogLines": [
+    "[2026.09.09-10.45.21:173][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_0.M_KotelSurface_0 missing usage flag Nanite! Default Material will be used in game.",
+    "[2026.09.09-10.45.21:174][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_1.M_KotelSurface_1 missing usage flag Nanite! Default Material will be used in game.",
+    "[2026.09.09-10.45.21:174][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_2.M_KotelSurface_2 missing usage flag Nanite! Default Material will be used in game.",
+    "[2026.09.09-10.45.21:174][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_3.M_KotelSurface_3 missing usage flag Nanite! Default Material will be used in game.",
+    "[2026.09.09-10.45.21:175][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_4.M_KotelSurface_4 missing usage flag Nanite! Default Material will be used in game.",
+    "[2026.09.09-10.45.21:175][  0]LogMaterial: Warning: Material /Game/MikdashV3/MaterialReview/KotelSurfacePolishV2/Materials/M_KotelSurface_5.M_KotelSurface_5 missing usage flag Nanite! Default Material will be used in game."
+  ],
+  "menuAndControlsAcceptance": "Not established by logs; current FrontEnd emits no legacy menu markers. Requires separate UI observation.",
+  "logSha256": "600635f25818db91aa419bb3f6be453714d3cbaefdc297ce9ba1851e35e6ceea",
+  "finishedUtc": "2026-09-09T10:45:32.5486246Z"
+}

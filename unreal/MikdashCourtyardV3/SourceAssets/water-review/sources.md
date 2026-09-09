@@ -281,6 +281,73 @@ square kilometres = 432 dunam". Both halves are internally inconsistent and disa
 
 ---
 
+## 5a. Where this water actually sits, on each of the two maps
+
+Released 9 September 2026 onto **both** integrated maps, one target per run
+(`release_water.py -Candidate48` / `-Main50`). The geometry is a single set of frozen OBJs
+authored once, in the 50 cm modelling amah, in the legacy main map's world centimetres. It
+reaches the 48 cm candidate under a **similarity transform**, not by re-export:
+
+| Target | Amah | Placement of every water actor | Receipt |
+|---|---|---|---|
+| `Amah48Candidate_.../Maps/Walkthrough` — the configured default and the cook map | 48 cm | uniform scale **0.96**, translation **(-248, 0, 0) cm**, no rotation | `native-release-water-Candidate48-20260909T173650147007Z.json` |
+| `IntegratedReviewV2/Maps/Walkthrough` — legacy main | 50 cm | the identity | `native-release-water-Main50-20260909T173944440978Z.json` |
+
+The candidate transform is not a choice made here; it is the one its architecture already
+carries. `release_amah48_candidate.py` rescaled all 2,633 architecture actors by 48/50 = 0.96
+about the world origin, and `release_aron_alignment.py` then translated the temple by
+(-248, 0, 0) so that the Aron stands over the rock. The composition is
+`p_candidate = 0.96 · p_main50 + (-248, 0, 0)`, and the release **measures it off the live level
+before it spawns anything**: every actor whose mesh resolves to the architecture manifest is
+compared, in centimetres, with its manifest bounds carried through the declared placement.
+On the candidate 2,578 of 2,579 non-vessel actors matched to 0.0000 cm. Placed at the identity
+instead, the stream would have been 4% oversized and **2.48 m east of its own channel**.
+
+**Two consequences that are this section's whole reason for existing.**
+
+1. On the candidate the water is 4% *smaller* than the geometry `create_water_geometry.py`
+   authored, because it wears the same 0.96 as the building around it. That is the right answer
+   visually — but `AMikdashWater` and `WaterFlowMath.h` still compute in the 50 cm frame
+   (`ProjectAmahCm = 50.0`). **The depths, velocities and forty-se'ah volumes the driver reports
+   describe the authored channel, not the placed one**: lengths high by 1/0.96, volumes by
+   1/0.96³ ≈ 13%. Nothing corrects this, and no mikveh verdict on the candidate should be quoted
+   until it does.
+2. The FutureMountV1 terrain and the metric Jerusalem context were **not** rescaled with the
+   architecture. So on the candidate the four measured stages, which are laid out east in
+   authored amot, end 4% short against unscaled ground — 1,996 m rather than 2,079 m. This is
+   inherited from the candidate itself, not introduced by the water, and it is the same 4%
+   rounding §5 already owns, now visible as a physical gap.
+
+### What the live clearance established, and what it did not
+
+On both levels: **0 blockers in the built Temple**, and 42 host engagements — the conduit cut
+into Ulam stair, Ezras Kohanim floor, the Raised priest court foundation, the twelve Outer E
+stair treads and the rest. The tightest genuine clearance is between `Court_Trough_01` and the
+House-and-Ulam foundation union: **5.13 cm on Main50, 4.92 cm on the candidate** — the same
+number times 0.96, which is itself a check that the transform landed. Deepest deliberate
+engagement into a host: 100.56 cm into the Ulam stair on Main50, 96.53 cm on the candidate.
+
+Three things are **explicitly not cleared** by that number, and are recorded rather than
+rounded away:
+
+* **316 terrain tiles** were excluded by name. A heightfield cannot be decomposed into boxes,
+  and a conduit sunk into the mount is meant to meet it.
+* **3 modern city stone paths** are genuinely intersected — deepest 1.86 m on Main50, 1.95 m on
+  the candidate — where the stages run ~2 km east across the metric Jerusalem depiction. The
+  stream cannot avoid the city it runs through; nobody has looked at these by eye yet.
+* **All 13 instanced static-mesh actors** in the level — the five `JCTX_ISM_` city layers,
+  `RELEASE_CrowdField` and the rest — are neither cleared nor blocked. An ISM bounds every
+  instance it holds in a single box that encloses the site: on one run six of them reported a
+  contact against nearly every one of the 2,307 sub-boxes; on the next, the same six had not
+  rebuilt their instances, bounded a point, and never reached the broad phase. Both readings are
+  worthless, so the receipt counts every instanced actor in the level (13), how many overlapped
+  the water (6) and how many held no instances at all (7), and calls all of them untested.
+
+Geometry and material wiring only. No visual acceptance, no walking, no lighting build, no
+cook, no halachic acceptance is established by any of this.
+
+---
+
 ## 6. Summary: depicted versus asserted
 
 **Depicted** — geometry exists and can be walked up to: the channel from under the Ulam

@@ -1,0 +1,4119 @@
+{
+  "status": "water_saved_reopened_visual_and_runtime_acceptance_pending",
+  "stamp": "20260909T173650147007Z",
+  "target": "Candidate48",
+  "targetRole": "the configured default and the COOK map (Config/DefaultEngine.ini GameDefaultMap). Place here first; this is the one that ships.",
+  "amahCm": 48.0,
+  "placement": {
+    "uniformScale": 0.96,
+    "translationCm": [
+      -248.0,
+      0.0,
+      0.0
+    ],
+    "rotationDegrees": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+    "evidence": [
+      "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+      "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+      "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+    ]
+  },
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapSha256RecordedInSpec": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+  "mapMatchesSpecRecord": true,
+  "mapHashProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:32:43.913011+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Water-Candidate48-20260909T173650147007Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/IntegratedReviewV1/Maps/Walkthrough": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_water.spec.json",
+  "specSha256": "b968d07b14706e20fd71bae07ace1f545cf527d68867b6f70719cc34fb65d7af",
+  "geometryManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\water-review\\MikdashWaterV1\\geometry-manifest.json",
+  "geometryManifestSha256": "2c849356daa610aee7f0adc839b1fda80a2d0a457bee97b48a43e4b0242c6fd2",
+  "geometryStatus": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+  "offlineCheck": {
+    "checkedUtc": "2026-09-09T17:36:41.849520+00:00",
+    "target": "Candidate48",
+    "errors": [],
+    "warnings": [],
+    "spec": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_water.spec.json",
+    "specSha256": "b968d07b14706e20fd71bae07ace1f545cf527d68867b6f70719cc34fb65d7af",
+    "geometryManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\water-review\\MikdashWaterV1\\geometry-manifest.json",
+    "geometryManifestSha256": "2c849356daa610aee7f0adc839b1fda80a2d0a457bee97b48a43e4b0242c6fd2",
+    "geometryStatus": "OFFLINE_VALIDATED_NATIVE_AND_VISUAL_PENDING",
+    "offlineClearance": {
+      "blockers": 0,
+      "hosts": [
+        "Duchan rise",
+        "Ezras Kohanim floor",
+        "Inner E cell supporting plinth",
+        "Inner E continuous cell doorway floor",
+        "Inner court clear floor",
+        "Inner court supporting platform",
+        "Outer E cell access landing",
+        "Outer E stair",
+        "Outer E threshold",
+        "Outer E vestibule floor",
+        "Outer court floor",
+        "Outer court supporting platform",
+        "Raised priest court foundation",
+        "Ulam stair"
+      ],
+      "wholePartAabbHits": 56,
+      "subBoxHits": 42,
+      "falsePositivesEliminated": 14,
+      "namedClearancesCm": [
+        {
+          "feature": "Song chamber",
+          "found": true,
+          "meshCount": 7,
+          "isHost": false,
+          "clearanceCm": 839.312,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0042_architecture_Song_chamber_side",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "Ulam entrance pillar",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 18.0,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0172_architecture_Ulam_entrance_pillar",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "altar (yesod, the widest course)",
+          "found": true,
+          "meshCount": 4,
+          "isHost": false,
+          "clearanceCm": 203.796,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0156_architecture_Altar_yesod_west",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "altar ramp (kevesh)",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 18.0,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0166_architecture_Southern_kevesh_ascend_north",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "duchan rise",
+          "found": true,
+          "meshCount": 4,
+          "isHost": true,
+          "clearanceCm": 0.0,
+          "nearestGeneratedPart": "Court_Trough_02",
+          "nearestArchitectureAsset": "SM_1669_architecture_Duchan_rise_1",
+          "intersects": true,
+          "deepestInterpenetrationCm": 25.0
+        },
+        {
+          "feature": "inner E cell connecting doorway",
+          "found": true,
+          "meshCount": 18,
+          "isHost": false,
+          "clearanceCm": 15.8,
+          "nearestGeneratedPart": "Court_Conduit_02",
+          "nearestArchitectureAsset": "SM_0554_architecture_Inner_E_connecting_doorway_back",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "inner eastern gate wall jamb",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 15.0,
+          "nearestGeneratedPart": "Court_Conduit_02",
+          "nearestArchitectureAsset": "SM_0138_architecture_Inner_eastern_gate_wall_jamb_1",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "kiyor basin",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 422.331,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0073_vessel_Hollow_basin_with_inner_wall",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "kiyor pedestal",
+          "found": true,
+          "meshCount": 1,
+          "isHost": false,
+          "clearanceCm": 480.851,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_0072_vessel_Turned_pedestal",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "outer east gate vestibule wall",
+          "found": true,
+          "meshCount": 2,
+          "isHost": false,
+          "clearanceCm": 99.639,
+          "nearestGeneratedPart": "Court_Trough_03",
+          "nearestArchitectureAsset": "SM_0187_architecture_Outer_E_vestibule_wall",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        },
+        {
+          "feature": "stone slaughter tables",
+          "found": true,
+          "meshCount": 8,
+          "isHost": false,
+          "clearanceCm": 2419.388,
+          "nearestGeneratedPart": "Court_Trough_01",
+          "nearestArchitectureAsset": "SM_1610_architecture_Stone_slaughter_table",
+          "intersects": false,
+          "deepestInterpenetrationCm": 0.0
+        }
+      ]
+    },
+    "meshes": [
+      {
+        "name": "SM_MikdashWaterV1_CourtChannel",
+        "file": "SM_MikdashWaterV1_CourtChannel.obj",
+        "group": "court",
+        "role": "stone",
+        "triangles": 2228,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_CourtWater",
+        "file": "SM_MikdashWaterV1_CourtWater.obj",
+        "group": "court",
+        "role": "water",
+        "triangles": 1020,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageChannel",
+        "file": "SM_MikdashWaterV1_StageChannel.obj",
+        "group": "stages",
+        "role": "stone",
+        "triangles": 1376,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageWater",
+        "file": "SM_MikdashWaterV1_StageWater.obj",
+        "group": "stages",
+        "role": "water",
+        "triangles": 672,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_StageMarks",
+        "file": "SM_MikdashWaterV1_StageMarks.obj",
+        "group": "stages",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily",
+        "file": "SM_MikdashWaterV1_Mikveh_KohanimDaily.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohanimDaily.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+        "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYear.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+        "file": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 108,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+        "file": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_Mikveh_Metzoraim",
+        "file": "SM_MikdashWaterV1_Mikveh_Metzoraim.obj",
+        "group": "mikvaot",
+        "role": "stone",
+        "triangles": 96,
+        "exists": true,
+        "sha256Matches": true
+      },
+      {
+        "name": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+        "file": "SM_MikdashWaterV1_MikvehWater_Metzoraim.obj",
+        "group": "mikvaot",
+        "role": "water",
+        "triangles": 12,
+        "exists": true,
+        "sha256Matches": true
+      }
+    ],
+    "totalTriangles": 5836,
+    "clearanceBoxes": 2307,
+    "runtimeContract": {
+      "header": "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashWater.h",
+      "exists": true,
+      "parametersDeclaredInHeader": [
+        "WaterFlowSpeed",
+        "WaterScrollTiles",
+        "WaterDepth",
+        "WaterOpacity",
+        "WaterFoam",
+        "WaterFroude",
+        "WaterSurfaceRise",
+        "WaterRipple",
+        "WaterStage",
+        "WaterDemoProgress"
+      ],
+      "parametersMissingFromHeader": [],
+      "classDeclared": true,
+      "sourceExists": true
+    },
+    "liveIdentificationSelfTest": {
+      "ok": true,
+      "failures": [],
+      "cases": {
+        "architecture_SM_0000_architecture_Ulam_stair_6": {
+          "sourceName": "Ulam stair 6",
+          "class": "host"
+        },
+        "architecture_SM_0006_architecture_Ulam_stair_12": {
+          "sourceName": "Ulam stair 12",
+          "class": "host"
+        },
+        "architecture_SM_0261_architecture_Outer_E_stair_1": {
+          "sourceName": "Outer E stair 1",
+          "class": "host"
+        },
+        "architecture_SM_1669_architecture_Duchan_rise_1": {
+          "sourceName": "Duchan rise 1",
+          "class": "host"
+        },
+        "architecture_SM_0494_architecture_Inner_E_cell_supporting_plinth": {
+          "sourceName": "Inner E cell supporting plinth",
+          "class": "host"
+        },
+        "architecture_SM_0166_architecture_Southern_kevesh_ascend_north": {
+          "sourceName": "Southern kevesh \u2014 ascend north",
+          "class": "other"
+        },
+        "architecture_SM_0138_architecture_Inner_eastern_gate_wall_jamb_1": {
+          "sourceName": "Inner eastern gate wall jamb 1",
+          "class": "other"
+        },
+        "architecture_SM_0073_vessel_Hollow_basin_with_inner_wall": {
+          "sourceName": "Hollow basin with inner wall",
+          "class": "other"
+        },
+        "architecture_SM_1676_union_Derived_union_of_House_and_Ulam_foundati": {
+          "sourceName": "Derived union of House and Ulam foundations",
+          "class": "union",
+          "constituentBoxes": 2,
+          "recomposedOk": true,
+          "recomposeErrorCm": 2.288818359375e-05
+        },
+        "architecture_SM_2629_union_Derived_union_of_source_outer_envelope_w": {
+          "sourceName": "Derived union of source outer envelope walls",
+          "class": "union",
+          "constituentBoxes": 116,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        },
+        "architecture_SM_2630_union_Derived_union_of_source_House_walls_and_": {
+          "sourceName": "Derived union of source House walls and roofs",
+          "class": "union",
+          "constituentBoxes": 27,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        },
+        "architecture_SM_2631_union_Derived_union_of_source_raised_gallery_s": {
+          "sourceName": "Derived union of source raised gallery slabs",
+          "class": "union",
+          "constituentBoxes": 6,
+          "recomposedOk": true,
+          "recomposeErrorCm": 0.0
+        }
+      }
+    },
+    "sourcesRecord": {
+      "path": "SourceAssets/water-review/sources.md",
+      "exists": true
+    },
+    "maps": {
+      "Candidate48": {
+        "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+        "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+        "exists": true,
+        "role": "the configured default and the COOK map (Config/DefaultEngine.ini GameDefaultMap). Place here first; this is the one that ships.",
+        "amahCm": 48.0,
+        "placement": {
+          "uniformScale": 0.96,
+          "translationCm": [
+            -248.0,
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+          "evidence": [
+            "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+            "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+            "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+          ]
+        },
+        "recordedSha256": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+        "recordedProvenance": "sha256 read off Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:32:43.913011+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+        "sha256Now": "97556e02e5ceaa6c53ea73dd2ebaf9280467265055724555fd4b1e6625f66fd0",
+        "matchesRecorded": true
+      },
+      "Main50": {
+        "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+        "mapFile": "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap",
+        "exists": true,
+        "role": "the legacy 50 cm main map, retained for comparison. Place here only after the candidate has gone cleanly.",
+        "amahCm": 50.0,
+        "placement": {
+          "uniformScale": 1.0,
+          "translationCm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "derivation": "The identity. The OBJs are authored directly in this map world centimetres from SourceAssets/architecture-manifest.json, whose architecture actors sit at the origin at unit scale.",
+          "evidence": [
+            "SourceAssets/architecture-manifest.json meshes[*].spawnLocationUnrealCm [0,0,0], spawnScale [1,1,1], objectTransformIdentity true"
+          ]
+        },
+        "recordedSha256": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+        "recordedProvenance": "sha256 read off Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap by release_water.write_spec() at 2026-09-09T17:32:43.913011+00:00. RECORDED, NEVER REQUIRED: every release script in this project saves these maps, so the hash is stale within hours. offline_check() reports the recorded and the current hash and warns on a difference; the receipt records the hash actually released against.",
+        "sha256Now": "7214046fa3454907784efeae0a20b7a32ac8853179bcac13a5eb79a5e6ab89fd",
+        "matchesRecorded": true
+      }
+    },
+    "targetMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "targetMapExists": true,
+    "targetPlacement": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "rotationDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+      "evidence": [
+        "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+        "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+        "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+      ]
+    },
+    "targetPlacedBounds": {
+      "SM_MikdashWaterV1_CourtChannel": {
+        "min": [
+          -2643.0771360584163,
+          127.67999999999999,
+          -47.04
+        ],
+        "max": [
+          8584.0,
+          1053.12,
+          870.7199999999999
+        ]
+      },
+      "SM_MikdashWaterV1_CourtWater": {
+        "min": [
+          -2635.495497903413,
+          148.79999999999998,
+          -33.024
+        ],
+        "max": [
+          8584.0,
+          1032.0,
+          863.04
+        ]
+      },
+      "SM_MikdashWaterV1_StageChannel": {
+        "min": [
+          7528.0,
+          -1171.2,
+          -4983.36
+        ],
+        "max": [
+          199528.0,
+          1516.8,
+          -5.760000000000002
+        ]
+      },
+      "SM_MikdashWaterV1_StageWater": {
+        "min": [
+          7528.0,
+          -1027.2,
+          -4963.584
+        ],
+        "max": [
+          199528.0,
+          1372.8,
+          -19.2
+        ]
+      },
+      "SM_MikdashWaterV1_StageMarks": {
+        "min": [
+          55504.0,
+          217.92,
+          -4944.96
+        ],
+        "max": [
+          199552.0,
+          1468.8,
+          -1161.6
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohanimDaily": {
+        "min": [
+          -4212.799999999999,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3963.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohanimDaily": {
+        "min": [
+          -4184.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -4016.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohenGadolYear": {
+        "min": [
+          -3252.7999999999997,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3003.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohenGadolYear": {
+        "min": [
+          -3224.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -3056.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur": {
+        "min": [
+          -1668.8,
+          1975.6799999999998,
+          480.0
+        ],
+        "max": [
+          -1419.2,
+          2140.7999999999997,
+          840.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur": {
+        "min": [
+          -1640.0,
+          2016.0,
+          504.47999999999996
+        ],
+        "max": [
+          -1472.0,
+          2112.0,
+          596.16
+        ]
+      },
+      "SM_MikdashWaterV1_Mikveh_Metzoraim": {
+        "min": [
+          -7092.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -6843.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "SM_MikdashWaterV1_MikvehWater_Metzoraim": {
+        "min": [
+          -7064.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -6896.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      }
+    },
+    "ok": true
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "groupsRequested": [
+    "court",
+    "stages",
+    "mikvaot"
+  ],
+  "importOnly": false,
+  "skipActor": false,
+  "sourcesRecord": "SourceAssets/water-review/sources.md",
+  "materials": {
+    "water": {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "nodes": [
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -1500,
+            -600
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1500,
+            -500
+          ]
+        },
+        {
+          "class": "MaterialExpressionAppendVector",
+          "position": [
+            -1300,
+            -560
+          ]
+        },
+        {
+          "class": "MaterialExpressionTextureCoordinate",
+          "position": [
+            -1500,
+            -400
+          ]
+        },
+        {
+          "class": "MaterialExpressionAdd",
+          "position": [
+            -1100,
+            -480
+          ]
+        },
+        {
+          "class": "MaterialExpressionTextureSampleParameter2D",
+          "position": [
+            -800,
+            -480
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1100,
+            -260
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -950,
+            -300
+          ]
+        },
+        {
+          "class": "MaterialExpressionTextureSampleParameter2D",
+          "position": [
+            -800,
+            -220
+          ]
+        },
+        {
+          "class": "MaterialExpressionAdd",
+          "position": [
+            -520,
+            -360
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -700,
+            -120
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -340,
+            -360
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -1500,
+            100
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1500,
+            200
+          ]
+        },
+        {
+          "class": "MaterialExpressionDivide",
+          "position": [
+            -1300,
+            140
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1300,
+            260
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1300,
+            340
+          ]
+        },
+        {
+          "class": "MaterialExpressionClamp",
+          "position": [
+            -1100,
+            200
+          ]
+        },
+        {
+          "class": "MaterialExpressionVectorParameter",
+          "position": [
+            -1100,
+            420
+          ]
+        },
+        {
+          "class": "MaterialExpressionVectorParameter",
+          "position": [
+            -1100,
+            520
+          ]
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -800,
+            460
+          ]
+        },
+        {
+          "class": "MaterialExpressionComponentMask",
+          "position": [
+            -1500,
+            700
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1500,
+            800
+          ]
+        },
+        {
+          "class": "MaterialExpressionSubtract",
+          "position": [
+            -1300,
+            720
+          ]
+        },
+        {
+          "class": "MaterialExpressionAbs",
+          "position": [
+            -1150,
+            720
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1300,
+            860
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -980,
+            760
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -980,
+            880
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -820,
+            800
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -980,
+            980
+          ]
+        },
+        {
+          "class": "MaterialExpressionMax",
+          "position": [
+            -640,
+            860
+          ]
+        },
+        {
+          "class": "MaterialExpressionVectorParameter",
+          "position": [
+            -640,
+            620
+          ]
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -360,
+            560
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -1500,
+            1100
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -1500,
+            1180
+          ]
+        },
+        {
+          "class": "MaterialExpressionMax",
+          "position": [
+            -1200,
+            1120
+          ]
+        },
+        {
+          "class": "MaterialExpressionMax",
+          "position": [
+            -900,
+            1120
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -900,
+            1280
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -900,
+            1360
+          ]
+        },
+        {
+          "class": "MaterialExpressionLinearInterpolate",
+          "position": [
+            -640,
+            1300
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -640,
+            1440
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant",
+          "position": [
+            -640,
+            1520
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -640,
+            1600
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -900,
+            1900
+          ]
+        },
+        {
+          "class": "MaterialExpressionScalarParameter",
+          "position": [
+            -900,
+            1980
+          ]
+        },
+        {
+          "class": "MaterialExpressionAdd",
+          "position": [
+            -700,
+            1940
+          ]
+        },
+        {
+          "class": "MaterialExpressionConstant3Vector",
+          "position": [
+            -700,
+            2060
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -500,
+            1980
+          ]
+        },
+        {
+          "class": "MaterialExpressionComponentMask",
+          "position": [
+            -520,
+            1720
+          ]
+        },
+        {
+          "class": "MaterialExpressionOneMinus",
+          "position": [
+            -520,
+            1820
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -340,
+            1760
+          ]
+        },
+        {
+          "class": "MaterialExpressionVectorParameter",
+          "position": [
+            -340,
+            1880
+          ]
+        },
+        {
+          "class": "MaterialExpressionMultiply",
+          "position": [
+            -160,
+            1800
+          ]
+        }
+      ],
+      "connections": [
+        "MaterialExpressionScalarParameter -> MaterialExpressionAppendVector.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionAppendVector.'B'",
+        "MaterialExpressionTextureCoordinate -> MaterialExpressionAdd.'A'",
+        "MaterialExpressionAppendVector -> MaterialExpressionAdd.'B'",
+        "MaterialExpressionAdd -> MaterialExpressionTextureSampleParameter2D.'UVs'",
+        "MaterialExpressionAdd -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MaterialExpressionTextureSampleParameter2D.'UVs'",
+        "MaterialExpressionTextureSampleParameter2D -> MaterialExpressionAdd.'A'",
+        "MaterialExpressionTextureSampleParameter2D -> MaterialExpressionAdd.'B'",
+        "MaterialExpressionAdd -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MP_NORMAL",
+        "MaterialExpressionScalarParameter -> MaterialExpressionDivide.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionDivide.'B'",
+        "MaterialExpressionDivide -> MaterialExpressionClamp.''",
+        "MaterialExpressionConstant -> MaterialExpressionClamp.'Min'",
+        "MaterialExpressionConstant -> MaterialExpressionClamp.'Max'",
+        "MaterialExpressionVectorParameter -> MaterialExpressionLinearInterpolate.'A'",
+        "MaterialExpressionVectorParameter -> MaterialExpressionLinearInterpolate.'B'",
+        "MaterialExpressionClamp -> MaterialExpressionLinearInterpolate.'Alpha'",
+        "MaterialExpressionTextureCoordinate -> MaterialExpressionComponentMask.''",
+        "MaterialExpressionComponentMask -> MaterialExpressionSubtract.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionSubtract.'B'",
+        "MaterialExpressionSubtract -> MaterialExpressionAbs.''",
+        "MaterialExpressionAbs -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MaterialExpressionMax.'A'",
+        "MaterialExpressionScalarParameter -> MaterialExpressionMax.'B'",
+        "MaterialExpressionLinearInterpolate -> MaterialExpressionLinearInterpolate.'A'",
+        "MaterialExpressionVectorParameter -> MaterialExpressionLinearInterpolate.'B'",
+        "MaterialExpressionMax -> MaterialExpressionLinearInterpolate.'Alpha'",
+        "MaterialExpressionLinearInterpolate -> MP_BASE_COLOR",
+        "MaterialExpressionScalarParameter -> MaterialExpressionMax.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionMax.'B'",
+        "MaterialExpressionMax -> MaterialExpressionMax.'A'",
+        "MaterialExpressionMax -> MaterialExpressionMax.'B'",
+        "MaterialExpressionMax -> MP_OPACITY",
+        "MaterialExpressionConstant -> MaterialExpressionLinearInterpolate.'A'",
+        "MaterialExpressionConstant -> MaterialExpressionLinearInterpolate.'B'",
+        "MaterialExpressionMax -> MaterialExpressionLinearInterpolate.'Alpha'",
+        "MaterialExpressionLinearInterpolate -> MP_ROUGHNESS",
+        "MaterialExpressionConstant -> MP_SPECULAR",
+        "MaterialExpressionConstant -> MP_METALLIC",
+        "MaterialExpressionScalarParameter -> MP_REFRACTION",
+        "MaterialExpressionScalarParameter -> MaterialExpressionAdd.'A'",
+        "MaterialExpressionScalarParameter -> MaterialExpressionAdd.'B'",
+        "MaterialExpressionConstant3Vector -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionAdd -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MP_WORLD_POSITION_OFFSET",
+        "MaterialExpressionTextureSampleParameter2D -> MaterialExpressionComponentMask.''",
+        "MaterialExpressionClamp -> MaterialExpressionOneMinus.''",
+        "MaterialExpressionComponentMask -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionOneMinus -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MaterialExpressionMultiply.'A'",
+        "MaterialExpressionVectorParameter -> MaterialExpressionMultiply.'B'",
+        "MaterialExpressionMultiply -> MP_EMISSIVE_COLOR"
+      ],
+      "kind": "water_translucent",
+      "status": "saved",
+      "replacedExisting": true,
+      "expressionsBeforeClear": 53,
+      "expressionsRemainingAfterClear": 0,
+      "expressionClearPasses": [
+        {
+          "method": "per-expression over a get_material_expressions snapshot",
+          "remaining": 0
+        }
+      ],
+      "expressionCountMethod": "UMaterial's 'Expressions' UPROPERTY carries neither EditAnywhere nor a Blueprint accessor, so PropertyAccessUtil::CanGetPropertyValue denies it and UE 5.8 Python raises \"Property 'Expressions' ... is protected and cannot be read\" (PyUtil.cpp:897). The graph is counted through MaterialEditingLibrary.get_num_material_expressions instead, falling back to len(get_material_expressions(...)); -1 means neither was exposed and the count proves nothing.",
+      "enumPropertiesSet": {
+        "translucency_lighting_mode": "TLM_SURFACE_PER_PIXEL_LIGHTING"
+      },
+      "normalTexture": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Textures/T_Water_Normal",
+      "normalTextureNote": "authored tiling water normal (create_water_normal.py): 3 swell + 5 wind trains + periodic ripple fBm, moderate amplitude; source SourceAssets/water-review/textures/T_Water_Normal.png sha256 6e29c0471a143057be1dbc39d8c6deba4706a08274c3fb593daec7a14d4ad54b",
+      "normalLayers": 2,
+      "propertyConnectReturned": {
+        "MP_NORMAL": true,
+        "MP_BASE_COLOR": true,
+        "MP_OPACITY": true,
+        "MP_ROUGHNESS": true,
+        "MP_SPECULAR": true,
+        "MP_METALLIC": true,
+        "MP_REFRACTION": true,
+        "MP_WORLD_POSITION_OFFSET": true,
+        "MP_EMISSIVE_COLOR": true
+      },
+      "refractionConnected": true,
+      "caustics": "shimmer keyed to the scrolling normal, masked to shallow water; a cheap stand-in that reads as caustics, NOT projected caustics",
+      "savedInputReadback": {
+        "MP_BASE_COLOR": "MaterialExpressionLinearInterpolate",
+        "MP_OPACITY": "MaterialExpressionMax",
+        "MP_ROUGHNESS": "MaterialExpressionLinearInterpolate",
+        "MP_NORMAL": "MaterialExpressionMultiply",
+        "MP_SPECULAR": "MaterialExpressionConstant",
+        "MP_METALLIC": "MaterialExpressionConstant",
+        "MP_REFRACTION": "MaterialExpressionScalarParameter",
+        "MP_EMISSIVE_COLOR": "MaterialExpressionMultiply",
+        "MP_WORLD_POSITION_OFFSET": "MaterialExpressionMultiply"
+      },
+      "blendMode": "<BlendMode.BLEND_TRANSLUCENT: 2>",
+      "twoSided": true,
+      "uassetSha256": "3e85b7455bc627e69fe1dd6b30c9615f6246b75c53b5af478c2a0466f3f79459",
+      "scalarParameterNames": [
+        "WaterScrollTiles",
+        "WaterDepth",
+        "WaterFoam",
+        "WaterOpacity",
+        "WaterIOR",
+        "WaterSurfaceRise",
+        "WaterRipple"
+      ],
+      "scalarParametersAbsent": []
+    },
+    "stone": {
+      "asset": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "nodes": [],
+      "connections": [],
+      "kind": "stone",
+      "tried": [
+        {
+          "path": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+          "kind": "the reviewed paving stone: the channel is cut into this paving",
+          "exists": true,
+          "loaded": true
+        }
+      ],
+      "status": "reused_existing",
+      "created": false
+    }
+  },
+  "imported": [
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtChannel",
+      "name": "SM_MikdashWaterV1_CourtChannel",
+      "group": "court",
+      "role": "stone",
+      "triangles": 2228,
+      "vertices": 6684,
+      "localBoundsCm": {
+        "min": [
+          -2494.8720703125,
+          133.0,
+          -49.0
+        ],
+        "max": [
+          9200.0,
+          1097.0,
+          907.0
+        ]
+      },
+      "boundsErrorCm": 5.3584983106702566e-05,
+      "boundsErrorIfImporterHadNotReflectedY": 1230.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 5,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "b1dbadffc3304a937c83923af24af8f46119028bfee4231a6c2c36d387c3aff0",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -2494.872016727517,
+          133.0,
+          -49.0
+        ],
+        "max": [
+          9200.0,
+          1097.0,
+          907.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtWater",
+      "name": "SM_MikdashWaterV1_CourtWater",
+      "group": "court",
+      "role": "water",
+      "triangles": 1020,
+      "vertices": 3060,
+      "localBoundsCm": {
+        "min": [
+          -2486.974609375,
+          155.0,
+          -34.400001525878906
+        ],
+        "max": [
+          9200.0,
+          1075.0,
+          899.0
+        ]
+      },
+      "boundsErrorCm": 0.00013239227837402723,
+      "boundsErrorIfImporterHadNotReflectedY": 1230.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 3,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "38072d232c16983d1faea967590b45ae4a2243343406171fe7b18bdd8ac2b800",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -2486.9744769827216,
+          155.0,
+          -34.4
+        ],
+        "max": [
+          9200.0,
+          1075.0,
+          899.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageChannel",
+      "name": "SM_MikdashWaterV1_StageChannel",
+      "group": "stages",
+      "role": "stone",
+      "triangles": 1376,
+      "vertices": 4122,
+      "localBoundsCm": {
+        "min": [
+          8100.0,
+          -1220.0,
+          -5191.0
+        ],
+        "max": [
+          208100.0,
+          1580.0,
+          -6.0
+        ]
+      },
+      "boundsErrorCm": 1.7763568394002505e-15,
+      "boundsErrorIfImporterHadNotReflectedY": 360.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "b1495f3052f2065fe830e25a4dba8e663d65020ebe1ea0eb40aa9cfc0d673aa7",
+      "plannedWorldBoundsCm": {
+        "min": [
+          8100.0,
+          -1220.0,
+          -5191.0
+        ],
+        "max": [
+          208100.0,
+          1580.0,
+          -6.000000000000002
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageWater",
+      "name": "SM_MikdashWaterV1_StageWater",
+      "group": "stages",
+      "role": "water",
+      "triangles": 672,
+      "vertices": 2016,
+      "localBoundsCm": {
+        "min": [
+          8100.0,
+          -1070.0,
+          -5170.39990234375
+        ],
+        "max": [
+          208100.0,
+          1430.0,
+          -20.0
+        ]
+      },
+      "boundsErrorCm": 9.765624963620212e-05,
+      "boundsErrorIfImporterHadNotReflectedY": 360.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "e1014392eeae2e94c74cb4f7e42579dc845854a018fccf8a4f3491e07a040334",
+      "plannedWorldBoundsCm": {
+        "min": [
+          8100.0,
+          -1070.0,
+          -5170.4
+        ],
+        "max": [
+          208100.0,
+          1430.0,
+          -20.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageMarks",
+      "name": "SM_MikdashWaterV1_StageMarks",
+      "group": "stages",
+      "role": "stone",
+      "triangles": 96,
+      "vertices": 288,
+      "localBoundsCm": {
+        "min": [
+          58075.0,
+          227.0,
+          -5151.0
+        ],
+        "max": [
+          208125.0,
+          1530.0,
+          -1210.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 1757.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "250e35d53c85fda7bc927ffcddef01b3448fbbc07d351bd0cdba79e78f5b994f",
+      "plannedWorldBoundsCm": {
+        "min": [
+          58075.0,
+          227.0,
+          -5151.0
+        ],
+        "max": [
+          208125.0,
+          1530.0,
+          -1210.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohanimDaily",
+      "name": "SM_MikdashWaterV1_Mikveh_KohanimDaily",
+      "group": "mikvaot",
+      "role": "stone",
+      "triangles": 96,
+      "vertices": 288,
+      "localBoundsCm": {
+        "min": [
+          -4130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -3870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "3b22f3e536640f445effb56ce20674b0934e6cfb94582574563af16b8ce9b1f3",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -3870.0,
+          -4320.0,
+          425.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+      "name": "SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+      "group": "mikvaot",
+      "role": "water",
+      "triangles": 12,
+      "vertices": 36,
+      "localBoundsCm": {
+        "min": [
+          -4100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -3925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "5185010ad187072e74d460721c5d9dbf04105abae9085e93fbb9f4c80c18ed15",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -3925.0,
+          -4350.0,
+          421.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+      "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+      "group": "mikvaot",
+      "role": "stone",
+      "triangles": 96,
+      "vertices": 288,
+      "localBoundsCm": {
+        "min": [
+          -3130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -2870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "b55102b02c0929fc3d85e4095d8f46a0a18c13d0c91e3900b953d5497a4898fa",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -3130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -2870.0,
+          -4320.0,
+          425.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+      "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+      "group": "mikvaot",
+      "role": "water",
+      "triangles": 12,
+      "vertices": 36,
+      "localBoundsCm": {
+        "min": [
+          -3100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -2925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "cf4bfc8407a90c271a718486474650d707565fc7a6aa8fc7291d4171a9483022",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -3100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -2925.0,
+          -4350.0,
+          421.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+      "name": "SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+      "group": "mikvaot",
+      "role": "stone",
+      "triangles": 108,
+      "vertices": 324,
+      "localBoundsCm": {
+        "min": [
+          -1480.0,
+          2058.0,
+          500.0
+        ],
+        "max": [
+          -1220.0,
+          2230.0,
+          875.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 4288.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 9,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "1210a40bbd30db85d4a309c2fce066e02e137208b0b975d4c58f3b697061402e",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -1480.0,
+          2058.0,
+          500.0
+        ],
+        "max": [
+          -1220.0,
+          2230.0,
+          875.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+      "name": "SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+      "group": "mikvaot",
+      "role": "water",
+      "triangles": 12,
+      "vertices": 36,
+      "localBoundsCm": {
+        "min": [
+          -1450.0,
+          2100.0,
+          525.5
+        ],
+        "max": [
+          -1275.0,
+          2200.0,
+          621.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 4300.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "21ad2fc3dde70a71b81d98b1725e6da68e71da4f017b4c1fb54e98bffe5cbbd2",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -1450.0,
+          2100.0,
+          525.5
+        ],
+        "max": [
+          -1275.0,
+          2200.0,
+          621.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_Metzoraim",
+      "name": "SM_MikdashWaterV1_Mikveh_Metzoraim",
+      "group": "mikvaot",
+      "role": "stone",
+      "triangles": 96,
+      "vertices": 288,
+      "localBoundsCm": {
+        "min": [
+          -7130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -6870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 8,
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview",
+      "uassetSha256": "a87585375fa56656d52d873e3dbbf4a5fbd461086dac48273cc7a696ae52eadb",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -7130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -6870.0,
+          -4320.0,
+          425.0
+        ]
+      }
+    },
+    {
+      "asset": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_Metzoraim",
+      "name": "SM_MikdashWaterV1_MikvehWater_Metzoraim",
+      "group": "mikvaot",
+      "role": "water",
+      "triangles": 12,
+      "vertices": 36,
+      "localBoundsCm": {
+        "min": [
+          -7100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -6925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "boundsErrorCm": 0.0,
+      "boundsErrorIfImporterHadNotReflectedY": 8800.0,
+      "importerReflectedYAsExpected": true,
+      "ambiguousReflection": false,
+      "materialSlots": 1,
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+      "uassetSha256": "1616c527142ff89f9b98987f704a550ba796906f4ac3c4cd8c37ae83199153e8",
+      "plannedWorldBoundsCm": {
+        "min": [
+          -7100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -6925.0,
+          -4350.0,
+          421.0
+        ]
+      }
+    }
+  ],
+  "placed": [
+    {
+      "label": "RELEASE_Water_CourtChannel",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtChannel",
+      "role": "stone",
+      "group": "court",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -2494.872016727517,
+          133.0,
+          -49.0
+        ],
+        "max": [
+          9200.0,
+          1097.0,
+          907.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -2643.0771360584163,
+          127.67999999999999,
+          -47.04
+        ],
+        "max": [
+          8584.0,
+          1053.12,
+          870.7199999999999
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_CourtWater",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtWater",
+      "role": "water",
+      "group": "court",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -2486.9744769827216,
+          155.0,
+          -34.4
+        ],
+        "max": [
+          9200.0,
+          1075.0,
+          899.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -2635.495497903413,
+          148.79999999999998,
+          -33.024
+        ],
+        "max": [
+          8584.0,
+          1032.0,
+          863.04
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_StageChannel",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageChannel",
+      "role": "stone",
+      "group": "stages",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          8100.0,
+          -1220.0,
+          -5191.0
+        ],
+        "max": [
+          208100.0,
+          1580.0,
+          -6.000000000000002
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          7528.0,
+          -1171.2,
+          -4983.36
+        ],
+        "max": [
+          199528.0,
+          1516.8,
+          -5.760000000000002
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_StageWater",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageWater",
+      "role": "water",
+      "group": "stages",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          8100.0,
+          -1070.0,
+          -5170.4
+        ],
+        "max": [
+          208100.0,
+          1430.0,
+          -20.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          7528.0,
+          -1027.2,
+          -4963.584
+        ],
+        "max": [
+          199528.0,
+          1372.8,
+          -19.2
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_StageMarks",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageMarks",
+      "role": "stone",
+      "group": "stages",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          58075.0,
+          227.0,
+          -5151.0
+        ],
+        "max": [
+          208125.0,
+          1530.0,
+          -1210.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          55504.0,
+          217.92,
+          -4944.96
+        ],
+        "max": [
+          199552.0,
+          1468.8,
+          -1161.6
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohanimDaily",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohanimDaily",
+      "role": "stone",
+      "group": "mikvaot",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -4130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -3870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4212.799999999999,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3963.2,
+          -4147.2,
+          408.0
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohanimDaily",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohanimDaily",
+      "role": "water",
+      "group": "mikvaot",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -4100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -3925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -4184.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -4016.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohenGadolYear",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYear",
+      "role": "stone",
+      "group": "mikvaot",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -3130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -2870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -3252.7999999999997,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3003.2,
+          -4147.2,
+          408.0
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohenGadolYear",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYear",
+      "role": "water",
+      "group": "mikvaot",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -3100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -2925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -3224.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -3056.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohenGadolYomKippur",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur",
+      "role": "stone",
+      "group": "mikvaot",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -1480.0,
+          2058.0,
+          500.0
+        ],
+        "max": [
+          -1220.0,
+          2230.0,
+          875.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -1668.8,
+          1975.6799999999998,
+          480.0
+        ],
+        "max": [
+          -1419.2,
+          2140.7999999999997,
+          840.0
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohenGadolYomKippur",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur",
+      "role": "water",
+      "group": "mikvaot",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -1450.0,
+          2100.0,
+          525.5
+        ],
+        "max": [
+          -1275.0,
+          2200.0,
+          621.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -1640.0,
+          2016.0,
+          504.47999999999996
+        ],
+        "max": [
+          -1472.0,
+          2112.0,
+          596.16
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_Metzoraim",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_Metzoraim",
+      "role": "stone",
+      "group": "mikvaot",
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -7130.0,
+          -4480.0,
+          300.0
+        ],
+        "max": [
+          -6870.0,
+          -4320.0,
+          425.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -7092.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -6843.2,
+          -4147.2,
+          408.0
+        ]
+      }
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_Metzoraim",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_Metzoraim",
+      "role": "water",
+      "group": "mikvaot",
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "authoredWorldBoundsCm": {
+        "min": [
+          -7100.0,
+          -4450.0,
+          325.5
+        ],
+        "max": [
+          -6925.0,
+          -4350.0,
+          421.0
+        ]
+      },
+      "plannedWorldBoundsCm": {
+        "min": [
+          -7064.0,
+          -4272.0,
+          312.47999999999996
+        ],
+        "max": [
+          -6896.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      }
+    }
+  ],
+  "omissions": {},
+  "errors": [],
+  "mapSaved": true,
+  "depicted": [
+    "the stream issuing from under the threshold of the House, eastward (47:1)",
+    "its descent on the right (south) side of the House and its passage SOUTH OF THE ALTAR (47:1)",
+    "its emergence at the right (south) shoulder of the outer east gate (47:2)",
+    "the four measured thousands, as literal distances, with the depth at each (47:3-5)",
+    "four mikvaot with steps down, and a linen screen at the Kohen Gadol's (Yoma 3:4)"
+  ],
+  "assertedNotDepicted": [
+    "the descent to the Aravah and into the sea, and the healing of the sea's waters (47:8)",
+    "the fishermen standing from Ein Gedi to Ein Eglayim (47:10)",
+    "the marshes and swamps that are not healed, being given to salt (47:11)",
+    "the trees on both banks, leaf unwithering and fruit unfailing, new fruit monthly, the fruit for food and the leaf for healing, because the water issues from the Mikdash (47:12)",
+    "reason: all of these lie tens of kilometres east of the map; the built channel stops at the fourth measurement, 2.000 km east of the outer gate."
+  ],
+  "limitations": [
+    "A courtyard channel is a CUT in paving this script does not own and cannot boolean. The generated masonry therefore occupies the paving, platform and stair meshes listed in clearance.hosts; those are intended, and every non-paving contact is a blocker that fails the export.",
+    "No terrain east of the mount is checked here: the architecture manifest ends at X 9200. The far-field segments are checked against the live level by Scripts/release_water.py.",
+    "Widths, depths, grades and every mikveh dimension are authored. The prophet gives four depths in body parts and no widths at all.",
+    "The forty-se'ah figures are arithmetic, not a ruling.",
+    "The route is disputed: the book takes the stream out by the inner court's SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is built; the south is available as group \"southgate\". Neither is asserted over the other.",
+    "Geometry and material wiring only. No visual, walking, lighting, cook or halachic acceptance is established by this receipt.",
+    "The four stages are built as LITERAL distances; the schematic reading is recorded in SourceAssets/water-review/sources.md and is not built.",
+    "The route is disputed: the book (p. 340) takes the water out by the inner court SOUTH gate, the plain sense of 47:1-2 by the outer EAST gate. The east route is placed.",
+    "Every width, depth, grade and mikveh dimension is AUTHORED. The prophet gives four depths as parts of a body and no widths at all.",
+    "Terrain tiles are excluded from the live clearance test by name because a heightfield cannot be decomposed into boxes; the architecture-manifest clearance is the authority.",
+    "On the 48 cm candidate the water carries the same 0.96 similarity transform as the architecture, so it is 4 per cent smaller than the authored geometry in every linear dimension. AMikdashWater and WaterFlowMath.h compute in the 50 cm authoring frame (ProjectAmahCm = 50.0), so the depths, velocities and forty-seah volumes the driver reports describe the AUTHORED channel, not the placed one: lengths are high by 1/0.96, volumes by 1/0.96^3. Nothing in this release corrects that.",
+    "The FutureMountV1 terrain and the metric city context were NOT rescaled with the architecture, so on this map the four stages of Yechezkel 47:3-5, measured east in authored amot, end 4 per cent short against unscaled ground. That is true of every 48 cm placement on this map and is not introduced here.",
+    "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water existed from an earlier run; its graph was cleared and rebuilt",
+    "The four measured stages run 1996 m east of the precinct and cross the metric Jerusalem city depiction on the way: 3 context actors are intersected, deepest 195.0 cm (SM_Jerusalem_StonePaths_03_Grid_P001_P000, SM_Jerusalem_StonePaths_03_Grid_P017_P000, SM_Jerusalem_StonePaths_03_Grid_P018_P000). Those are outside the architecture manifest, so they do not stop this release, but nobody has looked at them and they need visual review."
+  ],
+  "preExistingReleaseActors": [],
+  "placementProof": {
+    "target": "Candidate48",
+    "declared": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "rotationDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+      "evidence": [
+        "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+        "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+        "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+      ]
+    },
+    "sampled": 2579,
+    "agreeing": 2578,
+    "excludedSemantics": [
+      "vessel"
+    ],
+    "excludedSampled": 54,
+    "excludedAgreeing": 48,
+    "worstBoundsErrorCm": 40.80011718750029,
+    "worstAgreeingBoundsErrorCm": 0.05414062499949068,
+    "disagreeing": [
+      {
+        "actor": "Turned pedestal",
+        "sourceName": "Turned pedestal",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 2.7502,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 2.5074,
+            "allowanceCm": 0.5058,
+            "spanCm": 115.2
+          },
+          {
+            "axis": "Y",
+            "errorCm": 2.7502,
+            "allowanceCm": 0.5058,
+            "spanCm": 115.2
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.3034,
+            "allowanceCm": 0.5034,
+            "spanCm": 68.16
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.988275,
+            -192.0533
+          ],
+          [
+            0.990396,
+            -46.5203
+          ],
+          [
+            0.964933,
+            -3.1296
+          ]
+        ]
+      },
+      {
+        "actor": "Hollow basin with inner wall",
+        "sourceName": "Hollow basin with inner wall",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 5.225,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 5.225,
+            "allowanceCm": 0.51,
+            "spanCm": 199.68
+          },
+          {
+            "axis": "Y",
+            "errorCm": 1.901,
+            "allowanceCm": 0.51,
+            "spanCm": 199.68
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.6912,
+            "allowanceCm": 0.5029,
+            "spanCm": 57.6
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.995919,
+            -179.4478
+          ],
+          [
+            0.96932,
+            -14.9116
+          ],
+          [
+            0.979936,
+            -14.2605
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 1.2773,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.5512,
+            "allowanceCm": 0.51,
+            "spanCm": 199.296
+          },
+          {
+            "axis": "Y",
+            "errorCm": 1.2773,
+            "allowanceCm": 0.51,
+            "spanCm": 199.296
+          },
+          {
+            "axis": "Z",
+            "errorCm": 1.269,
+            "allowanceCm": 0.5002,
+            "spanCm": 3.287
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.962813,
+            -242.7735
+          ],
+          [
+            0.968762,
+            -13.5112
+          ],
+          [
+            1.666871,
+            -529.3287
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.7666,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.0294,
+            "allowanceCm": 0.5057,
+            "spanCm": 114.72
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.7088,
+            "allowanceCm": 0.5057,
+            "spanCm": 114.72
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.7666,
+            "allowanceCm": 0.5002,
+            "spanCm": 3.196
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.960461,
+            -247.0989
+          ],
+          [
+            0.96605,
+            -9.4221
+          ],
+          [
+            1.395267,
+            -274.696
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.7124,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.7124,
+            "allowanceCm": 0.5036,
+            "spanCm": 72.384
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.2956,
+            "allowanceCm": 0.5036,
+            "spanCm": 72.384
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.4397,
+            "allowanceCm": 0.5001,
+            "spanCm": 2.191
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.973988,
+            -220.9091
+          ],
+          [
+            0.964416,
+            -6.7534
+          ],
+          [
+            1.301114,
+            -223.3096
+          ]
+        ]
+      },
+      {
+        "actor": "Copper fitting",
+        "sourceName": "Copper fitting",
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "boundsErrorCm": 0.5217,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.2576,
+            "allowanceCm": 0.5035,
+            "spanCm": 69.312
+          },
+          {
+            "axis": "Y",
+            "errorCm": 0.2907,
+            "allowanceCm": 0.5035,
+            "spanCm": 69.312
+          },
+          {
+            "axis": "Z",
+            "errorCm": 0.5217,
+            "allowanceCm": 0.5001,
+            "spanCm": 2.009
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.965247,
+            -237.7008
+          ],
+          [
+            0.966057,
+            -9.1569
+          ],
+          [
+            1.357648,
+            -269.3007
+          ]
+        ]
+      },
+      {
+        "actor": "Derived union of source House walls and roofs",
+        "sourceName": "Derived union of source House walls and roofs",
+        "class": "union",
+        "semantic": "union",
+        "excludedFromFraction": false,
+        "boundsErrorCm": 40.8001,
+        "perAxis": [
+          {
+            "axis": "X",
+            "errorCm": 0.0,
+            "allowanceCm": 0.716,
+            "spanCm": 4320.0
+          },
+          {
+            "axis": "Y",
+            "errorCm": 40.8001,
+            "allowanceCm": 0.74,
+            "spanCm": 4800.0
+          },
+          {
+            "axis": "Z",
+            "errorCm": 16.3233,
+            "allowanceCm": 0.7472,
+            "spanCm": 4944.0
+          }
+        ],
+        "diagnosticScaleTranslationPerAxis": [
+          [
+            0.96,
+            -248.0
+          ],
+          [
+            0.96816,
+            20.3996
+          ],
+          [
+            0.96317,
+            -19.2551
+          ]
+        ]
+      }
+    ],
+    "disagreeingHosts": [],
+    "disagreeingBySourceName": {
+      "Turned pedestal": {
+        "count": 1,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 2.7502
+      },
+      "Hollow basin with inner wall": {
+        "count": 1,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 5.225
+      },
+      "Copper fitting": {
+        "count": 4,
+        "class": "other",
+        "semantic": "vessel",
+        "excludedFromFraction": true,
+        "worstBoundsErrorCm": 1.2773
+      },
+      "Derived union of source House walls and roofs": {
+        "count": 1,
+        "class": "union",
+        "semantic": "union",
+        "excludedFromFraction": false,
+        "worstBoundsErrorCm": 40.8001
+      }
+    },
+    "method": "for every level actor whose mesh resolves to SourceAssets/architecture-manifest.json, the manifest bounds carried through the declared placement are compared with the actor world bounds, per axis, IN CENTIMETRES. Allowance per axis is 0.50 cm plus 5.0e-05 of that axis span, which covers float32 map storage and mesh bound rounding on a 150 m channel and is still two orders of magnitude tighter than the 248 cm this exists to catch.",
+    "disagreeingCount": 7,
+    "agreeingFraction": 0.9996122528111672,
+    "excludedAgreeingFraction": 0.8888888888888888
+  },
+  "driver": {
+    "label": "RELEASE_Water_Driver",
+    "class": "MikdashWater",
+    "streamMeshTag": "MikdashWaterSurface",
+    "sampleDistanceAmot": 0.0,
+    "bedSlope": 0.009999999776482582,
+    "manningN": 0.014999999664723873
+  },
+  "liveClearance": {
+    "method": "Broad phase on actor bounds, narrow phase on the 2307 published sub-boxes of the generated geometry. Terrain tiles are excluded by mesh-name prefix; hollow derived unions are decomposed into their constituent boxes and are trusted only when the recomposed union reproduces their manifest bounds.",
+    "subBoxesTested": 2307,
+    "target": "Candidate48",
+    "placement": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "rotationDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin (fixedOriginCm [0,0,0]); Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0] so the Aron sits over the rock in the Dome of the Rock. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0), and it is measured off the level itself before anything is spawned.",
+      "evidence": [
+        "SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json: ratio 0.96, architectureCoverage 2633/2633, absent [], duplicates {}",
+        "ReviewCheckpoints/Amah48-20260908T144034771385Z/receipt.json changes[*]: pose after = [0,0,0, 0,0,0, 0.96,0.96,0.96]",
+        "SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json: deltaCm [-248,0,0], wouldMoveCount 2917, aronAfter.locationCm [-6200, 0, 888.00005859375]"
+      ]
+    },
+    "generatedOverallBoundsCm": {
+      "min": [
+        -7092.8,
+        -4300.8,
+        -4983.36
+      ],
+      "max": [
+        199552.0,
+        2140.7999999999997,
+        870.7199999999999
+      ]
+    },
+    "terrainActorsExcluded": 316,
+    "unionsDecomposed": 2,
+    "unionsUndecomposable": [],
+    "actorsBroadPhaseHits": 592,
+    "actorsNarrowPhaseTested": 592,
+    "actorsSkippedOwn": 14,
+    "instancedActorsUntested": [],
+    "unmatchedActors": [
+      {
+        "actor": "V3 daylight sky",
+        "assets": []
+      },
+      {
+        "actor": "V2 skylight",
+        "assets": []
+      },
+      {
+        "actor": "V3 cinematic exposure - histogram EV 0-14, filmic",
+        "assets": []
+      },
+      {
+        "actor": "Mikdash_PlayerStart",
+        "assets": []
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P001_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P001_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P001_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P001_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P003_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P003_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P005_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P005_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P010_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P010_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P011_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P011_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P012_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P012_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P013_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P013_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P013_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P013_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P014_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P014_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P014_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P014_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P015_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P015_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P015_P000",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P015_P000"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Grid_P016_N001",
+        "assets": [
+          "SM_JerusalemBuildings_Grid_P016_N001"
+        ]
+      },
+      {
+        "actor": "SM_JerusalemBuildings_Large_07718",
+        "assets": [
+          "SM_JerusalemBuildings_Large_07718"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P001_N001",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P001_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P001_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P001_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P003_N001",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P003_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P003_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P003_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P004_N001",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P004_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P004_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P004_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P005_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P005_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P013_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P013_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P014_N001",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P014_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P014_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P014_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P015_N001",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P015_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_Asphalt_02_Grid_P015_P000",
+        "assets": [
+          "SM_Jerusalem_Asphalt_02_Grid_P015_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_N001_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_N001_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P001_N001",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P001_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P001_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P001_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P002_N001",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P002_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P002_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P002_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P003_N001",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P003_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P003_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P003_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P005_N001",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P005_N001"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P005_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P005_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P017_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P017_P000"
+        ]
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P018_P000",
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P018_P000"
+        ]
+      },
+      {
+        "actor": "IntegratedReview_GentleVariableWind",
+        "assets": []
+      },
+      {
+        "actor": "RELEASE_OldCityFacades_Grid_P001_P000",
+        "assets": [
+          "SM_OldCityFacades_Grid_P001_P000"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_01_mount-and-house",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_02_immersion",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_03_soreg-and-cheil",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_04_east-outer-gate",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_05_outer-court",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_06_north-gate-and-inner-wall",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_07_east-inner-gate",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_08_ezras-yisroel",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_09_duchan",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_10_outer-altar",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_11_kiyor",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_12_twelve-steps",
+        "assets": [
+          "Cylinder"
+        ]
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-01",
+        "assets": []
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-02",
+        "assets": []
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-03",
+        "assets": []
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-04",
+        "assets": []
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-05",
+        "assets": []
+      }
+    ],
+    "blockers": [],
+    "contextIntersections": [
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P001_P000",
+        "sourceName": null,
+        "baseSourceName": null,
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P001_P000"
+        ],
+        "contacts": 72,
+        "deepestInterpenetrationCm": 60.462
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P017_P000",
+        "sourceName": null,
+        "baseSourceName": null,
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P017_P000"
+        ],
+        "contacts": 32,
+        "deepestInterpenetrationCm": 178.44
+      },
+      {
+        "actor": "SM_Jerusalem_StonePaths_03_Grid_P018_P000",
+        "sourceName": null,
+        "baseSourceName": null,
+        "assets": [
+          "SM_Jerusalem_StonePaths_03_Grid_P018_P000"
+        ],
+        "contacts": 64,
+        "deepestInterpenetrationCm": 195.038
+      }
+    ],
+    "hosts": [
+      {
+        "actor": "Ulam stair 6",
+        "sourceName": "Ulam stair 6",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0000_architecture_Ulam_stair_6"
+        ],
+        "contacts": 4,
+        "deepestInterpenetrationCm": 76.877
+      },
+      {
+        "actor": "Ulam stair 7",
+        "sourceName": "Ulam stair 7",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0001_architecture_Ulam_stair_7"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Ulam stair 8",
+        "sourceName": "Ulam stair 8",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0002_architecture_Ulam_stair_8"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Ulam stair 9",
+        "sourceName": "Ulam stair 9",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0003_architecture_Ulam_stair_9"
+        ],
+        "contacts": 5,
+        "deepestInterpenetrationCm": 96.533
+      },
+      {
+        "actor": "Ulam stair 10",
+        "sourceName": "Ulam stair 10",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0004_architecture_Ulam_stair_10"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Ulam stair 11",
+        "sourceName": "Ulam stair 11",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0005_architecture_Ulam_stair_11"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Ulam stair 12",
+        "sourceName": "Ulam stair 12",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0006_architecture_Ulam_stair_12"
+        ],
+        "contacts": 12,
+        "deepestInterpenetrationCm": 89.52
+      },
+      {
+        "actor": "Raised priest court foundation",
+        "sourceName": "Raised priest court foundation",
+        "baseSourceName": "Raised priest court foundation",
+        "assets": [
+          "architecture_SM_0070_architecture_Raised_priest_court_foundation"
+        ],
+        "contacts": 39,
+        "deepestInterpenetrationCm": 91.68
+      },
+      {
+        "actor": "Ezras Kohanim floor",
+        "sourceName": "Ezras Kohanim floor",
+        "baseSourceName": "Ezras Kohanim floor",
+        "assets": [
+          "architecture_SM_0071_floor_Ezras_Kohanim_floor"
+        ],
+        "contacts": 24,
+        "deepestInterpenetrationCm": 19.201
+      },
+      {
+        "actor": "Outer court supporting platform",
+        "sourceName": "Outer court supporting platform",
+        "baseSourceName": "Outer court supporting platform",
+        "assets": [
+          "architecture_SM_0127_architecture_Outer_court_supporting_platform"
+        ],
+        "contacts": 57,
+        "deepestInterpenetrationCm": 46.081
+      },
+      {
+        "actor": "Inner court supporting platform",
+        "sourceName": "Inner court supporting platform",
+        "baseSourceName": "Inner court supporting platform",
+        "assets": [
+          "architecture_SM_0128_architecture_Inner_court_supporting_platform"
+        ],
+        "contacts": 12,
+        "deepestInterpenetrationCm": 47.808
+      },
+      {
+        "actor": "Outer court floor",
+        "sourceName": "Outer court floor",
+        "baseSourceName": "Outer court floor",
+        "assets": [
+          "architecture_SM_0129_floor_Outer_court_floor"
+        ],
+        "contacts": 29,
+        "deepestInterpenetrationCm": 19.202
+      },
+      {
+        "actor": "Inner court clear floor",
+        "sourceName": "Inner court clear floor",
+        "baseSourceName": "Inner court clear floor",
+        "assets": [
+          "architecture_SM_0130_floor_Inner_court_clear_floor"
+        ],
+        "contacts": 4,
+        "deepestInterpenetrationCm": 1.92
+      },
+      {
+        "actor": "Ulam stair 4",
+        "sourceName": "Ulam stair 4",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0152_architecture_Ulam_stair_4"
+        ],
+        "contacts": 1,
+        "deepestInterpenetrationCm": 5.569
+      },
+      {
+        "actor": "Ulam stair 5",
+        "sourceName": "Ulam stair 5",
+        "baseSourceName": "Ulam stair",
+        "assets": [
+          "architecture_SM_0153_architecture_Ulam_stair_5"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 39.169
+      },
+      {
+        "actor": "Outer E threshold",
+        "sourceName": "Outer E threshold",
+        "baseSourceName": "Outer E threshold",
+        "assets": [
+          "architecture_SM_0177_architecture_Outer_E_threshold"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 1.92
+      },
+      {
+        "actor": "Outer E cell access landing",
+        "sourceName": "Outer E cell access landing",
+        "baseSourceName": "Outer E cell access landing",
+        "assets": [
+          "architecture_SM_0178_architecture_Outer_E_cell_access_landing"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 1.92
+      },
+      {
+        "actor": "Outer E vestibule floor",
+        "sourceName": "Outer E vestibule floor",
+        "baseSourceName": "Outer E vestibule floor",
+        "assets": [
+          "architecture_SM_0179_floor_Outer_E_vestibule_floor"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 1.92
+      },
+      {
+        "actor": "Outer E stair 1",
+        "sourceName": "Outer E stair 1",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0261_architecture_Outer_E_stair_1"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 24.0
+      },
+      {
+        "actor": "Outer E stair 2",
+        "sourceName": "Outer E stair 2",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0262_architecture_Outer_E_stair_2"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 3",
+        "sourceName": "Outer E stair 3",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0263_architecture_Outer_E_stair_3"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 4",
+        "sourceName": "Outer E stair 4",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0264_architecture_Outer_E_stair_4"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 5",
+        "sourceName": "Outer E stair 5",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0265_architecture_Outer_E_stair_5"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 6",
+        "sourceName": "Outer E stair 6",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0266_architecture_Outer_E_stair_6"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 7",
+        "sourceName": "Outer E stair 7",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0267_architecture_Outer_E_stair_7"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 8",
+        "sourceName": "Outer E stair 8",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0268_architecture_Outer_E_stair_8"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 9",
+        "sourceName": "Outer E stair 9",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0269_architecture_Outer_E_stair_9"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 10",
+        "sourceName": "Outer E stair 10",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0270_architecture_Outer_E_stair_10"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 11",
+        "sourceName": "Outer E stair 11",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0271_architecture_Outer_E_stair_11"
+        ],
+        "contacts": 3,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Outer E stair 12",
+        "sourceName": "Outer E stair 12",
+        "baseSourceName": "Outer E stair",
+        "assets": [
+          "architecture_SM_0272_architecture_Outer_E_stair_12"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 48.0
+      },
+      {
+        "actor": "Inner E cell supporting plinth",
+        "sourceName": "Inner E cell supporting plinth",
+        "baseSourceName": "Inner E cell supporting plinth",
+        "assets": [
+          "architecture_SM_0527_architecture_Inner_E_cell_supporting_plinth"
+        ],
+        "contacts": 5,
+        "deepestInterpenetrationCm": 90.24
+      },
+      {
+        "actor": "Inner E continuous cell doorway floor",
+        "sourceName": "Inner E continuous cell doorway floor",
+        "baseSourceName": "Inner E continuous cell doorway floor",
+        "assets": [
+          "architecture_SM_0528_floor_Inner_E_continuous_cell_doorway_floor"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 2.496
+      },
+      {
+        "actor": "Priestly chamber precinct",
+        "sourceName": "Priestly chamber precinct",
+        "baseSourceName": "Priestly chamber precinct",
+        "assets": [
+          "architecture_SM_1264_architecture_Priestly_chamber_precinct"
+        ],
+        "contacts": 15,
+        "deepestInterpenetrationCm": 19.2
+      },
+      {
+        "actor": "Priestly room floor",
+        "sourceName": "Priestly room floor",
+        "baseSourceName": "Priestly room floor",
+        "assets": [
+          "architecture_SM_1265_floor_Priestly_room_floor"
+        ],
+        "contacts": 5,
+        "deepestInterpenetrationCm": 19.2
+      },
+      {
+        "actor": "Priestly room floor",
+        "sourceName": "Priestly room floor",
+        "baseSourceName": "Priestly room floor",
+        "assets": [
+          "architecture_SM_1289_floor_Priestly_room_floor"
+        ],
+        "contacts": 5,
+        "deepestInterpenetrationCm": 19.2
+      },
+      {
+        "actor": "Priestly room floor",
+        "sourceName": "Priestly room floor",
+        "baseSourceName": "Priestly room floor",
+        "assets": [
+          "architecture_SM_1297_floor_Priestly_room_floor"
+        ],
+        "contacts": 5,
+        "deepestInterpenetrationCm": 19.2
+      },
+      {
+        "actor": "Duchan rise 1",
+        "sourceName": "Duchan rise 1",
+        "baseSourceName": "Duchan rise",
+        "assets": [
+          "architecture_SM_1669_architecture_Duchan_rise_1"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 24.0
+      },
+      {
+        "actor": "Duchan rise 2",
+        "sourceName": "Duchan rise 2",
+        "baseSourceName": "Duchan rise",
+        "assets": [
+          "architecture_SM_1670_architecture_Duchan_rise_2"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 24.0
+      },
+      {
+        "actor": "Duchan rise 3",
+        "sourceName": "Duchan rise 3",
+        "baseSourceName": "Duchan rise",
+        "assets": [
+          "architecture_SM_1671_architecture_Duchan_rise_3"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 24.0
+      },
+      {
+        "actor": "Duchan rise 4",
+        "sourceName": "Duchan rise 4",
+        "baseSourceName": "Duchan rise",
+        "assets": [
+          "architecture_SM_1672_architecture_Duchan_rise_4"
+        ],
+        "contacts": 2,
+        "deepestInterpenetrationCm": 24.0
+      },
+      {
+        "actor": "Western outer court foundation",
+        "sourceName": "Western outer court foundation",
+        "baseSourceName": "Western outer court foundation",
+        "assets": [
+          "architecture_SM_1673_architecture_Western_outer_court_foundation"
+        ],
+        "contacts": 24,
+        "deepestInterpenetrationCm": 91.68
+      },
+      {
+        "actor": "Derived union of source western paving and transition",
+        "sourceName": "Derived union of source western paving and transition",
+        "baseSourceName": "Derived union of source western paving and transition",
+        "assets": [
+          "architecture_SM_2632_union_Derived_union_of_source_western_paving_a"
+        ],
+        "contacts": 24,
+        "deepestInterpenetrationCm": 91.68
+      }
+    ],
+    "nearest": [
+      {
+        "actor": "Derived union of House and Ulam foundations",
+        "sourceName": "Derived union of House and Ulam foundations",
+        "clearanceCm": 4.923,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_01"
+      },
+      {
+        "actor": "Inner eastern gate wall jamb 1",
+        "sourceName": "Inner eastern gate wall jamb 1",
+        "clearanceCm": 14.4,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Inner E connecting doorway back",
+        "sourceName": "Inner E connecting doorway back",
+        "clearanceCm": 15.168,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Southern kevesh \u2014 ascend north",
+        "sourceName": "Southern kevesh \u2014 ascend north",
+        "clearanceCm": 17.28,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_01"
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-01",
+        "sourceName": null,
+        "clearanceCm": 17.28,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-03",
+        "sourceName": null,
+        "clearanceCm": 17.28,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Inner E connecting doorway front",
+        "sourceName": "Inner E connecting doorway front",
+        "clearanceCm": 17.472,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-02",
+        "sourceName": null,
+        "clearanceCm": 27.776,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Ulam stair 3",
+        "sourceName": "Ulam stair 3",
+        "clearanceCm": 28.031,
+        "nearestMesh": "SM_MikdashWaterV1_CourtWater",
+        "nearestPart": "SM_MikdashWaterV1_CourtWater_01"
+      },
+      {
+        "actor": "Derived union of source outer envelope walls",
+        "sourceName": "Derived union of source outer envelope walls",
+        "clearanceCm": 28.038,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Outer E open gate leaf",
+        "sourceName": "Outer E open gate leaf",
+        "clearanceCm": 36.508,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_03_soreg-and-cheil",
+        "sourceName": null,
+        "clearanceCm": 37.106,
+        "nearestMesh": "SM_MikdashWaterV1_StageChannel",
+        "nearestPart": "SM_MikdashWaterV1_StageChannel_01"
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_04_east-outer-gate",
+        "sourceName": null,
+        "clearanceCm": 51.064,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Court string course and cornice",
+        "sourceName": "Court string course and cornice",
+        "clearanceCm": 51.097,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Court string course and cornice",
+        "sourceName": "Court string course and cornice",
+        "clearanceCm": 51.097,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_01_mount-and-house",
+        "sourceName": null,
+        "clearanceCm": 52.212,
+        "nearestMesh": "SM_MikdashWaterV1_StageChannel",
+        "nearestPart": "SM_MikdashWaterV1_StageChannel_01"
+      },
+      {
+        "actor": "Outer E pillar collar",
+        "sourceName": "Outer E pillar collar",
+        "clearanceCm": 61.393,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-05",
+        "sourceName": null,
+        "clearanceCm": 61.985,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Gate leaf upright border",
+        "sourceName": "Gate leaf upright border",
+        "clearanceCm": 62.404,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Gate leaf upright border",
+        "sourceName": "Gate leaf upright border",
+        "clearanceCm": 62.404,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "RELEASE_TOUR_Marker_10_outer-altar",
+        "sourceName": null,
+        "clearanceCm": 69.333,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_02"
+      },
+      {
+        "actor": "Outer E pillar",
+        "sourceName": "Outer E pillar",
+        "clearanceCm": 69.725,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      },
+      {
+        "actor": "Inner E cell floor 1 0",
+        "sourceName": "Inner E cell floor 1 0",
+        "clearanceCm": 74.88,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Inner E cell floor 1 1",
+        "sourceName": "Inner E cell floor 1 1",
+        "clearanceCm": 74.88,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Inner E cell rear wall",
+        "sourceName": "Inner E cell rear wall",
+        "clearanceCm": 76.401,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      }
+    ],
+    "unionLiveBoundsErrorCm": {
+      "Derived union of House and Ulam foundations": 0.0004,
+      "Derived union of source outer envelope walls": 0.0541
+    }
+  },
+  "mapSha256AfterSave": "5d0785c44d55c53707c203af87cd384349e04d3f85690d2bdc1c828f25a33436",
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_Water_CourtChannel",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtChannel"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -2643.0771874999996,
+          127.67999999999995,
+          -47.04000000000002
+        ],
+        "max": [
+          8584.0,
+          1053.12,
+          870.72
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 5.144158330949722e-05,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_CourtWater",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtWater"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -2635.495625,
+          148.80000000000007,
+          -33.024001464843764
+        ],
+        "max": [
+          8584.0,
+          1032.0,
+          863.04
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 0.00012709658722087624,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    },
+    {
+      "label": "RELEASE_Water_StageChannel",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageChannel"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          7528.0,
+          -1171.2,
+          -4983.36
+        ],
+        "max": [
+          199528.0,
+          1516.8,
+          -5.760000000000218
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 2.1671553440683056e-13,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_StageWater",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageWater"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          7528.0,
+          -1027.2,
+          -4963.58390625
+        ],
+        "max": [
+          199528.0,
+          1372.8,
+          -19.199999999999818
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 9.374999990541255e-05,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    },
+    {
+      "label": "RELEASE_Water_StageMarks",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_StageMarks"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          55504.0,
+          217.92000000000007,
+          -4944.959999999999
+        ],
+        "max": [
+          199552.0,
+          1468.8,
+          -1161.6000000000001
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 9.094947017729282e-13,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohanimDaily",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohanimDaily"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -4212.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3963.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 9.094947017729282e-13,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohanimDaily",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohanimDaily"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -4184.0,
+          -4272.0,
+          312.48
+        ],
+        "max": [
+          -4016.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 5.684341886080802e-14,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohenGadolYear",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYear"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -3252.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -3003.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 4.547473508864641e-13,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohenGadolYear",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYear"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -3224.0,
+          -4272.0,
+          312.48
+        ],
+        "max": [
+          -3056.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 5.684341886080802e-14,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_KohenGadolYomKippur",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_KohenGadolYomKippur"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -1668.8,
+          1975.6799999999998,
+          480.0
+        ],
+        "max": [
+          -1419.2,
+          2140.7999999999997,
+          840.0
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 0.0,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_KohenGadolYomKippur",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_KohenGadolYomKippur"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -1640.0,
+          2016.0,
+          504.4799999999999
+        ],
+        "max": [
+          -1472.0,
+          2112.0,
+          596.16
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 5.684341886080802e-14,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    },
+    {
+      "label": "RELEASE_Water_Mikveh_Metzoraim",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_Mikveh_Metzoraim"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -7092.8,
+          -4300.8,
+          288.0
+        ],
+        "max": [
+          -6843.2,
+          -4147.2,
+          408.0
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 0.0,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "BlockAll",
+      "material": "/Game/MikdashV3/MaterialReview/JerusalemStoneV2/M_JerusalemStoneV2_PavingReview"
+    },
+    {
+      "label": "RELEASE_Water_MikvehWater_Metzoraim",
+      "folder": "Release/Water",
+      "meshPath": [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_MikvehWater_Metzoraim"
+      ],
+      "worldBoundsCm": {
+        "min": [
+          -7064.0,
+          -4272.0,
+          312.48
+        ],
+        "max": [
+          -6896.0,
+          -4176.0,
+          404.15999999999997
+        ]
+      },
+      "poseLocationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "poseScale": [
+        0.96,
+        0.96,
+        0.96
+      ],
+      "boundsErrorCm": 5.684341886080802e-14,
+      "poseErrorCm": 0.0,
+      "componentTags": [
+        "MikdashWaterSurface",
+        "ReleaseMikdashWaterV1"
+      ],
+      "collisionProfile": "NoCollision",
+      "material": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water"
+    }
+  ],
+  "driverAfterReopen": {
+    "class": "MikdashWater",
+    "streamMeshTag": "MikdashWaterSurface",
+    "taggedSurfaceComponents": 6
+  },
+  "clearanceSummary": {
+    "blockers": 0,
+    "contextIntersections": 3,
+    "instancedActorsUntested": 0,
+    "hosts": [
+      "Derived union of source western paving and transition",
+      "Duchan rise 1",
+      "Duchan rise 2",
+      "Duchan rise 3",
+      "Duchan rise 4",
+      "Ezras Kohanim floor",
+      "Inner E cell supporting plinth",
+      "Inner E continuous cell doorway floor",
+      "Inner court clear floor",
+      "Inner court supporting platform",
+      "Outer E cell access landing",
+      "Outer E stair 1",
+      "Outer E stair 10",
+      "Outer E stair 11",
+      "Outer E stair 12",
+      "Outer E stair 2",
+      "Outer E stair 3",
+      "Outer E stair 4",
+      "Outer E stair 5",
+      "Outer E stair 6",
+      "Outer E stair 7",
+      "Outer E stair 8",
+      "Outer E stair 9",
+      "Outer E threshold",
+      "Outer E vestibule floor",
+      "Outer court floor",
+      "Outer court supporting platform",
+      "Priestly chamber precinct",
+      "Priestly room floor",
+      "Raised priest court foundation",
+      "Ulam stair 10",
+      "Ulam stair 11",
+      "Ulam stair 12",
+      "Ulam stair 4",
+      "Ulam stair 5",
+      "Ulam stair 6",
+      "Ulam stair 7",
+      "Ulam stair 8",
+      "Ulam stair 9",
+      "Western outer court foundation"
+    ],
+    "nearestFive": [
+      {
+        "actor": "Derived union of House and Ulam foundations",
+        "sourceName": "Derived union of House and Ulam foundations",
+        "clearanceCm": 4.923,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_01"
+      },
+      {
+        "actor": "Inner eastern gate wall jamb 1",
+        "sourceName": "Inner eastern gate wall jamb 1",
+        "clearanceCm": 14.4,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Inner E connecting doorway back",
+        "sourceName": "Inner E connecting doorway back",
+        "clearanceCm": 15.168,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Conduit_02"
+      },
+      {
+        "actor": "Southern kevesh \u2014 ascend north",
+        "sourceName": "Southern kevesh \u2014 ascend north",
+        "clearanceCm": 17.28,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_01"
+      },
+      {
+        "actor": "RELEASE_Resident_authored-outer-visitor-01",
+        "sourceName": null,
+        "clearanceCm": 17.28,
+        "nearestMesh": "SM_MikdashWaterV1_CourtChannel",
+        "nearestPart": "Court_Trough_03"
+      }
+    ],
+    "terrainActorsExcluded": 316,
+    "unionsDecomposed": 2
+  },
+  "mapSha256After": "5d0785c44d55c53707c203af87cd384349e04d3f85690d2bdc1c828f25a33436",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "placedActorCount": 13
+}

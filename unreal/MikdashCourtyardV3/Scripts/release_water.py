@@ -83,10 +83,24 @@ and testing any of them naively reports the water as blocked by scenery it is no
      which it comes near. Its narrow phase is the 2307 decomposed sub-boxes published as
      SourceAssets/water-review/MikdashWaterV1/clearance-boxes.json.
 
+  4. THE INSTANCED STATIC MESH ACTORS. Measured live on 2026-09-09: the five JCTX_ISM_
+     actors -- rooftop tanks, rooftop panels, tree crowns, tree trunks, cemetery markers --
+     and RELEASE_CrowdField each reported a contact against EVERY ONE of the 1,943 sub-boxes
+     tested. An ISM holds all its instances in one component and bounds them in one box, so
+     that number is not a collision, it is the whole city. They are excluded by COMPONENT
+     CLASS, counted, and recorded as untested rather than scored either way.
+
 So: broad phase on bounds, narrow phase on decomposed boxes, on BOTH sides. Terrain tiles are
 excluded by name and counted, because a heightfield cannot be decomposed into boxes and a
 conduit sunk into the mount is expected to meet it; the offline clearance against the
 architecture manifest (clearance.json, 0 blockers) is the authority for the built Temple.
+
+AND THE GATE IS ABOUT THE BUILT TEMPLE, NOT ABOUT EVERYTHING IN THE LEVEL. An intersection
+with an actor the architecture manifest knows, that is not a host, is a fault and stops the
+run. An intersection with an actor outside the manifest -- the metric Jerusalem city, its
+stone paths, its street furniture -- is recorded with its depth and raised as a limitation
+for visual review, because the four measured stages run 2 km east of the precinct by
+construction and cannot avoid the city they run through. Neither case is ever silent.
 
 WHAT THIS DOES NOT ESTABLISH
 ----------------------------
@@ -795,8 +809,14 @@ class WaterRelease:
             meshes = []
             for component in actor.get_components_by_class(ue.StaticMeshComponent):
                 meshes.append(_asset_path(component.get_editor_property('static_mesh')))
+            # Instancing is read off the COMPONENT CLASS, never off the actor's name: an ISM or
+            # HISM actor's bounds are the union of every instance in it and cannot be narrow
+            # phased by this machinery. See live_clearance().
+            instanced = actor.get_components_by_class(ue.InstancedStaticMeshComponent)
             rows.append({'actor': actor, 'name': actor.get_name(), 'label': actor.get_actor_label(),
                          'folder': str(actor.get_folder_path()), 'meshes': meshes,
+                         'instanced': bool(instanced),
+                         'instanceCount': sum(int(c.get_instance_count()) for c in instanced),
                          'pose': _actor_pose(actor), 'bounds': _actor_bounds(actor)})
         self.snapshot = rows
         return rows
@@ -1343,8 +1363,25 @@ class WaterRelease:
                   'generatedOverallBoundsCm': overall,
                   'terrainActorsExcluded': 0, 'unionsDecomposed': 0, 'unionsUndecomposable': [],
                   'actorsBroadPhaseHits': 0, 'actorsNarrowPhaseTested': 0, 'actorsSkippedOwn': 0,
-                  'unmatchedActors': [], 'blockers': [], 'hosts': [], 'nearest': []}
+                  'instancedActorsUntested': [],
+                  'unmatchedActors': [], 'blockers': [], 'contextIntersections': [],
+                  'hosts': [], 'nearest': []}
         terrain_prefixes = tuple(spec['terrainMeshPrefixes'])
+
+        # EVERY instanced actor in the level, whether or not it reaches the narrow phase. On the
+        # 17:33Z run six of them (five JCTX_ISM_ city layers and RELEASE_CrowdField) reported a
+        # contact against nearly every sub-box; on the 17:36Z run the same six never reached the
+        # broad phase at all, because an ISM that has not rebuilt its instances yet bounds a
+        # single point. Counting only the ones that happen to overlap would let a receipt read
+        # "0 instanced actors untested" on a run where six of them were simply not there to test.
+        report['instancedActorsInLevel'] = [
+            {'actor': row['label'], 'instances': row.get('instanceCount'),
+             'assets': [m.rsplit('/', 1)[-1] for m in row['meshes'] if m],
+             'boundsOverlapWater': boxes_overlap(row['bounds'], overall),
+             'boundsCm': row['bounds']}
+            for row in self.snapshot if row.get('instanced')]
+        report['instancedActorsWithNoInstances'] = sum(
+            1 for r in report['instancedActorsInLevel'] if not r['instances'])
 
         for row in self.snapshot:
             if row['label'] in placed_labels:
@@ -1357,6 +1394,24 @@ class WaterRelease:
             if not boxes_overlap(row['bounds'], overall):
                 continue
             report['actorsBroadPhaseHits'] += 1
+
+            # THE FOURTH ENCLOSING AABB, measured on 2026-09-09T17:33Z. An instanced static mesh
+            # actor holds every one of its instances in one component, and its actor bounds are
+            # their union: JCTX_ISM_SM_JerusalemInstance_Tree_crowns reported 1,943 contacts with
+            # the water -- one for every single sub-box tested -- and so did the rooftop tanks,
+            # the rooftop panels, the cemetery markers and RELEASE_CrowdField. That is not a
+            # collision, it is the whole city in one box. Per-instance transforms are reachable
+            # through get_instance_transform, but that is a different narrow phase from the one
+            # this script publishes, so these actors are UNTESTED and are recorded as untested
+            # rather than being scored either way.
+            if row.get('instanced'):
+                report['instancedActorsUntested'].append(
+                    {'actor': row['label'], 'assets': assets,
+                     'instances': row.get('instanceCount'),
+                     'note': ('instanced static mesh: actor bounds are the union of every instance '
+                              'and enclose the site, so this actor was NOT narrow phased and is '
+                              'neither a blocker nor cleared. Inspect by eye.')})
+                continue
 
             entry = manifest_entry_for_assets(assets, by_key)
             source_name = entry['sourceName'] if entry else None
@@ -1421,10 +1476,23 @@ class WaterRelease:
                 entryrow = {'actor': row['label'], 'sourceName': source_name,
                             'baseSourceName': base_name, 'assets': assets, 'contacts': len(hits),
                             'deepestInterpenetrationCm': max(h['depthCm'] for h in hits)}
-                # A HOST is paving, a platform, a stair or a threshold the conduit is by nature
-                # cut into. The same list the offline export uses, so the two agree.
-                target = report['hosts'] if is_host else report['blockers']
-                target.append(entryrow)
+                # Three buckets, and the difference between them is what the actor IS, not how
+                # convenient it is. A HOST is paving, a platform, a stair or a threshold the
+                # conduit is by nature cut into -- the same list the offline export uses, so the
+                # two agree. A BLOCKER is a piece of the BUILT TEMPLE, which is exactly what the
+                # architecture manifest defines, that the water has been driven through: that is
+                # a fault and it stops the run. A CONTEXT INTERSECTION is an actor outside the
+                # manifest -- the metric Jerusalem city depiction, its paths and its street
+                # furniture -- crossed by the four measured stages, which run 2 km east of the
+                # precinct by construction and cannot avoid the city they run through. Those are
+                # listed with their depths and raised as a limitation for visual review; they are
+                # not silently dropped, and they are not pretended to be clearances either.
+                if is_host:
+                    report['hosts'].append(entryrow)
+                elif entry is not None:
+                    report['blockers'].append(entryrow)
+                else:
+                    report['contextIntersections'].append(entryrow)
 
         report['nearest'] = sorted(report['nearest'], key=lambda r: r['clearanceCm'])[:spec['reportNearest']]
         return report
@@ -1651,9 +1719,30 @@ def release(target, load_target=True, groups=GROUP_ORDER, import_only=False, ski
         run.receipt['liveClearance'] = clearance
         run.write_receipt()
         if clearance['blockers']:
-            raise RuntimeError('the placed water intersects %d non-host actors: %s'
+            raise RuntimeError('the placed water intersects %d non-host TEMPLE actors: %s'
                                % (len(clearance['blockers']),
                                   [b['actor'] for b in clearance['blockers']][:10]))
+        if clearance['contextIntersections']:
+            run.receipt['limitations'].append(
+                'The four measured stages run %d m east of the precinct and cross the metric '
+                'Jerusalem city depiction on the way: %d context actors are intersected, deepest '
+                '%.1f cm (%s). Those are outside the architecture manifest, so they do not stop '
+                'this release, but nobody has looked at them and they need visual review.'
+                % (round(clearance['generatedOverallBoundsCm']['max'][0] / 100.0),
+                   len(clearance['contextIntersections']),
+                   max(c['deepestInterpenetrationCm'] for c in clearance['contextIntersections']),
+                   ', '.join(sorted({c['actor'] for c in clearance['contextIntersections']})[:8])))
+        if clearance['instancedActorsInLevel']:
+            run.receipt['limitations'].append(
+                'This map holds %d instanced static mesh actors (%s). None of them is cleared or '
+                'blocked by this receipt: an ISM bounds every instance it holds in one box that '
+                'encloses the site, so it cannot be narrow phased here. %d of them overlapped the '
+                'water bounds and were recorded as untested; %d presented no instances at all at '
+                'snapshot time and never reached the broad phase.'
+                % (len(clearance['instancedActorsInLevel']),
+                   ', '.join(sorted({a['actor'] for a in clearance['instancedActorsInLevel']})[:8]),
+                   len(clearance['instancedActorsUntested']),
+                   clearance['instancedActorsWithNoInstances']))
 
         current = run.numeric_baseline([r for r in run.snapshot if r['label'] not in placed_labels])
         changed = [name for name, row in baseline.items() if current.get(name) != row]
@@ -1738,6 +1827,10 @@ def release(target, load_target=True, groups=GROUP_ORDER, import_only=False, ski
         run.receipt['status'] = 'water_saved_reopened_visual_and_runtime_acceptance_pending'
         run.receipt['clearanceSummary'] = {
             'blockers': len(clearance['blockers']),
+            'contextIntersections': len(clearance['contextIntersections']),
+            'instancedActorsUntested': len(clearance['instancedActorsUntested']),
+            'instancedActorsInLevel': len(clearance['instancedActorsInLevel']),
+            'instancedActorsWithNoInstances': clearance['instancedActorsWithNoInstances'],
             'hosts': sorted({h['sourceName'] for h in clearance['hosts'] if h.get('sourceName')}),
             'nearestFive': clearance['nearest'][:5],
             'terrainActorsExcluded': clearance['terrainActorsExcluded'],

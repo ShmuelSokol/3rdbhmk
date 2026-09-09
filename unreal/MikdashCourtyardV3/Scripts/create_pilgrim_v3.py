@@ -37,6 +37,13 @@ A_Pilgrim_Original_Idle / _Walk clips are rotation curves plus one pelvis
 translation track. A joint-local rotation curve does not depend on the child
 bone's length, and pelvis did not move, so those clips remain valid motion.
 assert_rig_matches_v2() asserts every part of that rather than asserting it.
+
+The Walk clip itself is no longer V2's. Measured by forward kinematics off the
+source GLB, the inherited walk had 32.0 cm of ankle excursion, 0.50 cm of pelvis
+bob, 5.0 cm of foot lift and NO stance plant - the planted foot slid 6.46 cm
+inside every stance because both foot tracks were counter-phase sinusoids. It is
+re-authored in Scripts/pilgrim_walk_v2.py on the same joints at the same 1.2 s /
+100 spm cadence; walk_pose_v1() below still reproduces the old motion exactly.
 Two original clips are added for the "people taking pictures" request:
 A_Pilgrim_V3_PhotoCamera and A_Pilgrim_V3_PhotoPhone.
 
@@ -53,6 +60,9 @@ import struct
 import sys
 import zlib
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import pilgrim_walk_v2                                     # noqa: E402
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
@@ -1329,10 +1339,16 @@ def assembly(variant):
 
 
 # ---------------------------------------------------------------------------
-# clips (Idle/Walk reproduced from PilgrimRigV2; two original photo clips added)
+# clips (Idle reproduced from PilgrimRigV2; Walk re-authored in pilgrim_walk_v2;
+# two original photo clips added)
 # ---------------------------------------------------------------------------
 
 CLIPS = {'Idle': 3.2, 'Walk': 1.2, 'PhotoCamera': 4.0, 'PhotoPhone': 3.6}
+# Export key rate per clip. Walk is sampled at 60 because its stance rockers are
+# curved and glTF/UE keys are linear: at 30 the chords cut the corner off the
+# heel and toe rolls and the planted foot picks up a few mm of measurable drift.
+CLIP_FPS = {'Walk': 60}
+DEFAULT_CLIP_FPS = 30
 ARM_CHAIN = {side: (s,
                     tuple(round(v, 4) for v in sub(arm_point(s, ARM_UPPER),
                                                    (s * ARM_SHOULDER_X, 0., ARM_SHOULDER_Z))),
@@ -1405,11 +1421,58 @@ def apply_stance(q, stance):
     return q
 
 
+def walk_pose_v1(bones, time):
+    """The ORIGINAL PilgrimRigV2 walk, kept verbatim so the shipped clip stays
+    reproducible as evidence. It is two counter-phase sinusoids on the ankles:
+    32.0 cm of ankle excursion, 0.50 cm of pelvis bob, 5.0 cm of foot lift, no
+    stance plant at all - measured stance drift 6.46 cm. Superseded by
+    pilgrim_walk_v2.walk_pose; see SourceAssets/characters-review/PilgrimRigV3/
+    walk-v2/WALK-V2-RECEIPT.md for the before/after table."""
+    q = {b['name']: (0., 0., 0., 1.) for b in bones}
+    translations = {}
+    phase = math.tau * time / 1.2
+    breathing = math.sin(phase) * .003
+    q['spine_02'] = qaxis((1, 0, 0), breathing)
+    q['neck_01'] = qaxis((0, 0, 1), math.sin(phase) * .009)
+    q['head'] = qaxis((1, 0, 0), -breathing * .6)
+    for s, side in [(-1, 'r'), (1, 'l')]:
+        swing = math.sin(phase + (math.pi if s > 0 else 0)) * .12
+        q['upperarm_' + side] = qmul(qaxis((0, 1, 0), s * math.radians(24)), qaxis((1, 0, 0), swing))
+        q['lowerarm_' + side] = qaxis((1, 0, 0), -.045)
+    pelvis_z = 95.8 - .25 * math.cos(phase * 2)
+    translations['pelvis'] = (0, 0, pelvis_z)
+    for s, side in [(-1, 'r'), (1, 'l')]:
+        a = phase + (math.pi if s > 0 else 0)
+        target_y = 16 * math.cos(a)
+        lift = 5 * max(0, math.sin(a)) ** 2
+        drop = (pelvis_z - 10) - (6 + lift)
+        distance = math.hypot(target_y, drop)
+        assert distance < 82
+        angle = math.atan2(target_y, drop)
+        knee = math.acos(distance / 82)
+        thigh = angle - knee
+        q['thigh_' + side] = qaxis((1, 0, 0), thigh)
+        q['calf_' + side] = qaxis((1, 0, 0), 2 * knee)
+        q['foot_' + side] = qaxis((1, 0, 0), -angle - knee)
+        q['skirt_' + side] = qaxis((1, 0, 0), thigh * .25)
+    q['mantle_front'] = qaxis((1, 0, 0), math.sin(phase) * .015)
+    q['mantle_back'] = qaxis((1, 0, 0), math.sin(phase + .3) * .012)
+    return q, translations
+
+
 def pose(bones, clip, time, stance=None):
-    """Joint-local rotations/translations. Idle and Walk are V2's motion verbatim."""
+    """Joint-local rotations/translations.
+
+    Idle is PilgrimRigV2's motion verbatim. Walk is NOT: it is re-authored in
+    pilgrim_walk_v2 with a real stance plant, because the inherited one had none
+    (see walk_pose_v1 above, which still reproduces it byte for byte).
+    """
     q = {b['name']: (0., 0., 0., 1.) for b in bones}
     translations = {}
     if clip == 'Bind':
+        return apply_stance(q, stance), translations
+    if clip == 'Walk':
+        q, translations = pilgrim_walk_v2.walk_pose(bones, time)
         return apply_stance(q, stance), translations
     if clip in ('Idle', 'Walk'):
         period = 3.2 if clip == 'Idle' else 1.2
@@ -1739,7 +1802,7 @@ def export_glb(path, variant, parts, bones, index, colours):
     doc['nodes'].append({'name': variant['id'] + '_Mesh', 'mesh': 0, 'skin': 0})
     doc['scenes'] = [{'name': 'PilgrimRigV3', 'nodes': [0, len(bones)]}]
     for clip, duration in CLIPS.items():
-        count = round(duration * 30) + 1
+        count = round(duration * CLIP_FPS.get(clip, DEFAULT_CLIP_FPS)) + 1
         times = [i * duration / (count - 1) for i in range(count)]
         time_accessor = asset.accessor(times, 'SCALAR', bounds_=True)
         anim = {'name': ('A_Pilgrim_Original_' + clip) if clip in ('Idle', 'Walk') else ('A_Pilgrim_V3_' + clip),
@@ -1762,7 +1825,9 @@ def export_glb(path, variant, parts, bones, index, colours):
     doc['extras'] = {
         'variant': variant['id'],
         'provenance': 'Original geometry, weights and clips authored in this project; no downloaded or generated character.',
-        'rig': 'Joint names, hierarchy and rest pose identical to PilgrimRigV2; existing Idle/Walk assets remain valid.',
+        'rig': ('Joint names, hierarchy and rest pose identical to PilgrimRigV2. Idle is V2 motion '
+                'verbatim; Walk is re-authored (pilgrim_walk_v2) on the same joints, so the existing '
+                'A_Pilgrim_Original_Walk asset must be RE-IMPORTED to pick up the new motion.'),
         'coordinates': 'Author centimetres XYZ, front -Y, Z up; glTF metres X,Z,-Y.',
         'colour': 'Per-material baseColorFactor and matching COLOR_0 vertex colour carry the variant palette.'}
     asset.save(path)
@@ -2097,7 +2162,10 @@ def build(previews=True, only=None):
                 'previousVersionMeasured': V3A_MEASURED,
                 'clips': [{'name': ('A_Pilgrim_Original_' + c) if c in ('Idle', 'Walk') else ('A_Pilgrim_V3_' + c),
                            'duration_s': d,
-                           'origin': 'reproduced from PilgrimRigV2 verbatim' if c in ('Idle', 'Walk')
+                           'fps': CLIP_FPS.get(c, DEFAULT_CLIP_FPS),
+                           'origin': 'reproduced from PilgrimRigV2 verbatim' if c == 'Idle'
+                                     else 're-authored 2026-09-09 with a real stance plant; see '
+                                          'walk-v2/WALK-V2-RECEIPT.md' if c == 'Walk'
                                      else 'new original clip authored for the photo request'}
                           for c, d in CLIPS.items()],
                 'variants': [],

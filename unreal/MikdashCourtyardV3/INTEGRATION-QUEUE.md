@@ -362,3 +362,23 @@ instance counts is what says the receipt describes the plaza actually in the lev
 - **The outside approaches are not built.** The deck stands up to 61 m above the modern street
   at the south-west gate. Huldah-stairway or Robinson's-Arch scale structures, over buildings
   this project deliberately leaves visible. Recorded, not built.
+
+## Rig geometry — found by the walk-v2 pass, 9 Sep
+
+Two findings that cap how good the walk can get, both geometry rather than animation:
+
+1. **The leg is 6.9 cm short.** `thigh_*` sits at z=88 and the ankle at 6, so hip-to-ankle is
+   82.0 cm on a 179.4 cm figure — 0.457 of stature where `create_pilgrim_v3.py`'s own
+   `PROPORTIONS` table asks for 0.53. A 72 cm step needs ~78 cm of ankle travel, which 82 cm of
+   leg reaches only by carrying the pelvis at 93.4 cm with a ~32 degree mid-stance knee (a real
+   walk holds 15–20). This is also why the clip is authored at 120 cm/s rather than the
+   anthropometric 130–145: at a fixed 1.2 s cycle, 135 would need an 81 cm step this leg cannot
+   make. Raising `thigh_*` is the fix and it changes the body, not the animation.
+
+2. **The sandal sole is weighted entirely to `foot_*`; `ball_*` carries no weight.** The foot is
+   therefore one rigid plate, so the forefoot rocker pivots on the toe tip instead of rolling
+   over the ball. Re-weighting the forefoot to `ball_*` would let the toe-off read correctly.
+
+Also: Idle holds the pelvis at 98.0 while walk-v2 carries it at 93.4, so Idle→Walk now sinks
+4.6 cm where it used to sink 2.2. Cross-blend it in `ABP_MikdashLocomotion` rather than
+flattening the walk to hide it.

@@ -28,16 +28,26 @@ using FMikdashResidentSegmentReview = TFunction<bool(const FString&, const FVect
  */
 namespace MikdashGait
 {
-/** MEASURED, not assumed. Forward kinematics run over the source GLB
- * (SourceAssets/characters-review/PilgrimRigV3/meshes/*.glb) at 120 Hz gives, identically for
- * all nine variants, an A_Pilgrim_Original_Walk clip of 1.200 s carrying 32.0 cm of step
- * length, i.e. 64.0 cm of stride per 1.2 s cycle = 53.33 cm/s of ground speed at play rate
- * 1.0 and mesh scale 1.0. Two independent measurements (peak foot separation, and single-foot
- * peak-to-trough excursion) agree to 0%.
+/** MEASURED, not assumed. Forward kinematics over the source GLBs, identically for all nine
+ * variants, on a 1.200 s A_Pilgrim_Original_Walk clip at play rate 1.0 and mesh scale 1.0.
  *
- * THIS IS THE STILTING. The population drove every body at 180 cm/s while the clip supports
- * 53.33: the feet slide backwards at ~127 cm/s on average, which is the skating read. */
-constexpr double MeasuredWalkClipGroundSpeedCm = 53.33;
+ * The clip was re-authored on 9 Sep 2026 (Scripts/pilgrim_walk_v2.py) and this number moved
+ * with it. The old clip carried 32.0 cm of step length = 53.33 cm/s, and THAT WAS THE
+ * STILTING: the population drove every body at 180 cm/s, so the feet slid backwards at about
+ * 127 cm/s. The v2 clip carries 71.93 cm of step = 119.89 cm/s, authored to 120.0.
+ *
+ * What makes it a walk rather than a glide is the stance plant. The stance foot is now a rigid
+ * plate that only rotates about points already on the ground - heel rocker, foot flat, toe
+ * rocker - and rotating a body about its own contact point cannot slide it, so the plant is
+ * exact by construction rather than by tuning. Measured world drift of the planted foot fell
+ * from 4.572 cm to 0.019 cm; two counter-phase sinusoids, which is what the old clip was,
+ * cannot produce a plant at all.
+ *
+ * 120 and not the anthropometric 130-145 because the rig's leg is short: hip-to-ankle is
+ * 82.0 cm on a 179.4 cm figure (0.457 H against the 0.53 H the generator's own PROPORTIONS
+ * asks for), and at a fixed 1.2 s cycle 135 cm/s would need an 81 cm step this leg cannot
+ * reach. Raising thigh_* is the real fix and is a geometry change, not a number change. */
+constexpr double MeasuredWalkClipGroundSpeedCm = 120.0;
 
 /** Anthropometric target, kept as the fallback pace and as the number the source clip should
  * be re-authored to support. Free adult walking speed is roughly 1.2-1.45 m/s (Bohannon &

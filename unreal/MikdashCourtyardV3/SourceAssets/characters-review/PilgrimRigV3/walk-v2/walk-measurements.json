@@ -1,0 +1,3369 @@
+{
+  "status": "offline_clip_reauthored_measured_native_import_pending",
+  "generatedUtc": "2026-09-09T23:16:30Z",
+  "clip": "A_Pilgrim_Original_Walk",
+  "measurementRateHz": 240.0,
+  "method": "forward kinematics over the GLB joint hierarchy, glTF LINEAR sampling (lerp on translation, slerp on rotation), Scripts/measure_pilgrim_walk.py",
+  "authoring": {
+    "module": "Scripts/pilgrim_walk_v2.py",
+    "cycleSeconds": 1.2,
+    "cadenceStepsPerMin": 100.0,
+    "stepLengthCm": 72.0,
+    "groundSpeedCmPerSec": 120.0,
+    "stanceDutyFactor": 0.58,
+    "pelvisHeightCm": 93.4,
+    "anchor0Cm": -35.1,
+    "swingLiftCm": 5.436,
+    "exportFps": 60
+  },
+  "walkPoseV1MaxErrorVsShippedCm": 4e-06,
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "file": "walk-v2/meshes/V3_Pilgrim_Man_Standard.glb",
+      "sha256": "e362b72cc2c6f3e4b13930068426f560eef129b973fa796729738009ca2fffda",
+      "previousFile": "meshes/V3_Pilgrim_Man_Standard.glb",
+      "previousSha256": "decf5cfebe49e6fce24f8e4d5f74dce8c8c1dd801f7f3aac84d9983ca0fb7002",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 61,
+        "totalBlocks": 61,
+        "maxNormalDiff": 0.0,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_Standard.glb",
+        "bytes": 977980,
+        "decodedTriangles": 19600,
+        "decodedVertices": 9924,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 6.85
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "file": "walk-v2/meshes/V3_Pilgrim_Man_Heavy.glb",
+      "sha256": "8591ab42761c5ba283cd9135e519c2c78b095e3e3a00063ff2a1d325c7f6c84f",
+      "previousFile": "meshes/V3_Pilgrim_Man_Heavy.glb",
+      "previousSha256": "3114a1eed02f17aede1d3252fe83830dd5082113aafe7080b725c701f84d347e",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 59,
+        "totalBlocks": 61,
+        "maxNormalDiff": 1.7833325792373633e-17,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_Heavy.glb",
+        "bytes": 999652,
+        "decodedTriangles": 20084,
+        "decodedVertices": 10172,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 6.23
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "file": "walk-v2/meshes/V3_Pilgrim_Man_Elder.glb",
+      "sha256": "be5f80a99ea65e69f6c3e3083f8886c4b54c44272ebe6dbdfa096c9fc2fd434b",
+      "previousFile": "meshes/V3_Pilgrim_Man_Elder.glb",
+      "previousSha256": "bdba5440feacbb5e2702443272063dd0016e7927b2c421be4bcb61508938a1f7",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 61,
+        "totalBlocks": 61,
+        "maxNormalDiff": 0.0,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Man_Elder.glb",
+        "bytes": 987196,
+        "decodedTriangles": 19804,
+        "decodedVertices": 10030,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 7.8
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "file": "walk-v2/meshes/V3_Pilgrim_Woman_Young.glb",
+      "sha256": "69cd152a92431354461e7a9419b77d884a0c74acc24c48a0bd50a22ca3741a88",
+      "previousFile": "meshes/V3_Pilgrim_Woman_Young.glb",
+      "previousSha256": "2860a95c681e33542700ed0fce02a3cb31dc2f9707e7a9bd756df60771dfca73",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 59,
+        "totalBlocks": 61,
+        "maxNormalDiff": 7.232541697874573e-17,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Woman_Young.glb",
+        "bytes": 968620,
+        "decodedTriangles": 19396,
+        "decodedVertices": 9816,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 5.17
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "file": "walk-v2/meshes/V3_Pilgrim_Woman_Elder.glb",
+      "sha256": "a8730f2c12c478fbe90f17718cced1ee87df4c941a39311ec565d862d5ac7878",
+      "previousFile": "meshes/V3_Pilgrim_Woman_Elder.glb",
+      "previousSha256": "cb697508e8ef5251e9a70b784f3154bb4336ef75f256c3d0eb65bac366152771",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 60,
+        "totalBlocks": 61,
+        "maxNormalDiff": 5.78756370860733e-17,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Woman_Elder.glb",
+        "bytes": 970980,
+        "decodedTriangles": 19444,
+        "decodedVertices": 9844,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 4.6
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "file": "walk-v2/meshes/V3_Pilgrim_Youth.glb",
+      "sha256": "da41cc9a00c3aa2a7852acc3f8ad63cb74cc496a95bc69ca78ef27d6a1136d83",
+      "previousFile": "meshes/V3_Pilgrim_Youth.glb",
+      "previousSha256": "d4d1a5039b48c3b3151ed76d036705c5e9738151b801a12f7a33bd5851343b45",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 55,
+        "totalBlocks": 55,
+        "maxNormalDiff": 0.0,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Pilgrim_Youth.glb",
+        "bytes": 706132,
+        "decodedTriangles": 13476,
+        "decodedVertices": 6844,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 3.56
+    },
+    {
+      "id": "V3_Kohen_White",
+      "file": "walk-v2/meshes/V3_Kohen_White.glb",
+      "sha256": "fdee435d7247740c5d41d8b6abefe0a08e3e05d18df36e38e0473fed67340f2b",
+      "previousFile": "meshes/V3_Kohen_White.glb",
+      "previousSha256": "f8afc7d6d6a6da81317a1cf6c048805149cf17535661072fb7f6e8cc92aaace8",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 49,
+        "totalBlocks": 49,
+        "maxNormalDiff": 0.0,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.25,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Kohen_White.glb",
+        "bytes": 807184,
+        "decodedTriangles": 15796,
+        "decodedVertices": 8006,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 3.94
+    },
+    {
+      "id": "V3_Visitor_Camera",
+      "file": "walk-v2/meshes/V3_Visitor_Camera.glb",
+      "sha256": "eef12a8a372ae9a56b7d366ae0d33b054a42b64c17ca983f14d9c8e1a625fe0b",
+      "previousFile": "meshes/V3_Visitor_Camera.glb",
+      "previousSha256": "64e3c84085894968c4d77a50229384fae8286ccb18b672de1bf38a6bf68836d5",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 66,
+        "totalBlocks": 67,
+        "maxNormalDiff": 9.027617594832229e-18,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Visitor_Camera.glb",
+        "bytes": 707292,
+        "decodedTriangles": 13440,
+        "decodedVertices": 6832,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 2.9802322387695312e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 3.49
+    },
+    {
+      "id": "V3_Visitor_Phone",
+      "file": "walk-v2/meshes/V3_Visitor_Phone.glb",
+      "sha256": "791c75af639756e0a619cbb177a26c6070e671213c5847afc60a08abe1e8fd9f",
+      "previousFile": "meshes/V3_Visitor_Phone.glb",
+      "previousSha256": "632399a074e2c734aaa3146246540ec307cad0a19e71e81933d3b4f76b3eff91",
+      "geometryIdenticalToShipped": true,
+      "geometryComparison": {
+        "identical": true,
+        "exactBlocks": 61,
+        "totalBlocks": 61,
+        "maxNormalDiff": 0.0,
+        "restPoseIdentical": true,
+        "jointNamesIdentical": true
+      },
+      "walkLoopVertexErrorCm": 0.0,
+      "walkMinimumSoleZCm": 0.0,
+      "animations": [
+        "A_Pilgrim_Original_Idle",
+        "A_Pilgrim_Original_Walk",
+        "A_Pilgrim_V3_PhotoCamera",
+        "A_Pilgrim_V3_PhotoPhone"
+      ],
+      "glbDecodeChecks": {
+        "file": "V3_Visitor_Phone.glb",
+        "bytes": 682460,
+        "decodedTriangles": 12920,
+        "decodedVertices": 6560,
+        "joints": 27,
+        "jointNamesMatchRig": true,
+        "inverseBindMatricesMatchRestPose": true,
+        "accessorBoundsVerified": true,
+        "maxWeightSumError": 4.470348358154297e-08,
+        "animations": [
+          {
+            "name": "A_Pilgrim_Original_Idle",
+            "channels": 9,
+            "samplers": 9
+          },
+          {
+            "name": "A_Pilgrim_Original_Walk",
+            "channels": 23,
+            "samplers": 23
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoCamera",
+            "channels": 10,
+            "samplers": 10
+          },
+          {
+            "name": "A_Pilgrim_V3_PhotoPhone",
+            "channels": 10,
+            "samplers": 10
+          }
+        ],
+        "limitation": "Structural decode of the delivered bytes only; not the Khronos validator (node.js is not installed here) and not a native Unreal import."
+      },
+      "buildSeconds": 3.26
+    }
+  ],
+  "before": [
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Man_Standard.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Man_Heavy.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Man_Elder.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Woman_Young.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Woman_Elder.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Pilgrim_Youth.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Kohen_White.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Visitor_Camera.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/meshes/V3_Visitor_Phone.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 59.97,
+      "strideLengthCmFromSpeed": 71.96,
+      "stepLengthCmFromSpeed": 35.98,
+      "maxStanceDriftCm": 4.572,
+      "footFlatPlantDriftCm": 4.572,
+      "footFlatFraction": 0.566,
+      "ankleExcursionCm": 32.0,
+      "peakFootSeparationCm": 32.0,
+      "stanceDutyFactor": 0.566,
+      "doubleSupportFraction": 0.132,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 0.5,
+      "pelvisMeanHeightCm": 95.8,
+      "pelvisLateralSwayCm": 0.0,
+      "headBobCm": 0.5,
+      "armSwingCm": 12.35,
+      "armToLegPhaseDeg": 90.0,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 0.0,
+      "pelvisYawRangeDeg": 0.0,
+      "trunkCounterRotates": false,
+      "footLiftCm": {
+        "r": 5.01,
+        "l": 5.01
+      },
+      "lowestSolePointCm": -0.012,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 53.33,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.469,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.969,
+          "contactDurationFrac": 0.566,
+          "maxWorldDriftCm": 4.572,
+          "maxForeAftDriftCm": 4.572,
+          "maxLateralDriftCm": 0.0
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 6.464,
+          "fittedGroundSpeedCmPerSec": 53.58,
+          "stanceDutyFactor": 0.649
+        },
+        "0.50": {
+          "maxStanceDriftCm": 5.334,
+          "fittedGroundSpeedCmPerSec": 57.35,
+          "stanceDutyFactor": 0.601
+        },
+        "0.20": {
+          "maxStanceDriftCm": 4.572,
+          "fittedGroundSpeedCmPerSec": 59.97,
+          "stanceDutyFactor": 0.566
+        },
+        "0.10": {
+          "maxStanceDriftCm": 4.04,
+          "fittedGroundSpeedCmPerSec": 61.99,
+          "stanceDutyFactor": 0.538
+        },
+        "0.05": {
+          "maxStanceDriftCm": 3.634,
+          "fittedGroundSpeedCmPerSec": 63.48,
+          "stanceDutyFactor": 0.517
+        }
+      }
+    }
+  ],
+  "after": [
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Standard.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Heavy.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Elder.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Woman_Young.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Woman_Elder.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Youth.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Kohen_White.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Visitor_Camera.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    },
+    {
+      "file": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Visitor_Phone.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "sampleRateHz": 240.0,
+      "contactThresholdCm": 0.2,
+      "cycleSeconds": 1.2,
+      "cadenceStepsPerMin": 100.0,
+      "fittedGroundSpeedCmPerSec": 119.89,
+      "strideLengthCmFromSpeed": 143.87,
+      "stepLengthCmFromSpeed": 71.93,
+      "maxStanceDriftCm": 0.786,
+      "footFlatPlantDriftCm": 0.019,
+      "footFlatFraction": 0.278,
+      "ankleExcursionCm": 78.36,
+      "peakFootSeparationCm": 64.77,
+      "stanceDutyFactor": 0.618,
+      "doubleSupportFraction": 0.236,
+      "flightFraction": 0.0,
+      "pelvisBobCm": 3.99,
+      "pelvisMeanHeightCm": 93.4,
+      "pelvisLateralSwayCm": 4.4,
+      "headBobCm": 3.93,
+      "armSwingCm": 42.4,
+      "armToLegPhaseDeg": 165.9,
+      "armToArmPhaseDeg": 180.0,
+      "shoulderYawRangeDeg": 9.96,
+      "pelvisYawRangeDeg": 8.0,
+      "trunkCounterRotates": true,
+      "footLiftCm": {
+        "r": 12.01,
+        "l": 12.01
+      },
+      "lowestSolePointCm": -0.03,
+      "namingNote": "the earlier diagnosis reported ankleExcursionCm as \"step length\"; on a clip with no plant the two coincide, on a real gait the excursion exceeds the step by the duty factor, so stepLengthCmFromSpeed - derived from the plant itself - is the comparable number, and it reproduces 32.0 on the old clip",
+      "legacyImpliedGroundSpeedCmPerSec": 130.61,
+      "worstContactWindows": [
+        {
+          "foot": "r",
+          "marker": "sole4",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "l",
+          "marker": "sole4",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.545,
+          "maxWorldDriftCm": 0.786,
+          "maxForeAftDriftCm": 0.786,
+          "maxLateralDriftCm": 0.003
+        },
+        {
+          "foot": "r",
+          "marker": "sole0",
+          "contactStartFrac": 0.983,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "l",
+          "marker": "sole0",
+          "contactStartFrac": 0.483,
+          "contactDurationFrac": 0.351,
+          "maxWorldDriftCm": 0.715,
+          "maxForeAftDriftCm": 0.715,
+          "maxLateralDriftCm": 0.002
+        },
+        {
+          "foot": "r",
+          "marker": "sole3",
+          "contactStartFrac": 0.056,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole3",
+          "contactStartFrac": 0.556,
+          "contactDurationFrac": 0.299,
+          "maxWorldDriftCm": 0.02,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole1",
+          "contactStartFrac": 0.049,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "r",
+          "marker": "sole2",
+          "contactStartFrac": 0.052,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole1",
+          "contactStartFrac": 0.549,
+          "contactDurationFrac": 0.288,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        },
+        {
+          "foot": "l",
+          "marker": "sole2",
+          "contactStartFrac": 0.552,
+          "contactDurationFrac": 0.292,
+          "maxWorldDriftCm": 0.019,
+          "maxForeAftDriftCm": 0.019,
+          "maxLateralDriftCm": 0.001
+        }
+      ],
+      "contactWindowCount": 10,
+      "driftByContactThresholdCm": {
+        "1.00": {
+          "maxStanceDriftCm": 3.485,
+          "fittedGroundSpeedCmPerSec": 119.28,
+          "stanceDutyFactor": 0.66
+        },
+        "0.50": {
+          "maxStanceDriftCm": 1.771,
+          "fittedGroundSpeedCmPerSec": 119.72,
+          "stanceDutyFactor": 0.635
+        },
+        "0.20": {
+          "maxStanceDriftCm": 0.786,
+          "fittedGroundSpeedCmPerSec": 119.89,
+          "stanceDutyFactor": 0.618
+        },
+        "0.10": {
+          "maxStanceDriftCm": 0.602,
+          "fittedGroundSpeedCmPerSec": 119.94,
+          "stanceDutyFactor": 0.608
+        },
+        "0.05": {
+          "maxStanceDriftCm": 0.219,
+          "fittedGroundSpeedCmPerSec": 119.98,
+          "stanceDutyFactor": 0.597
+        }
+      }
+    }
+  ],
+  "allVariantsIdenticalMotion": {
+    "before": true,
+    "after": true
+  }
+}

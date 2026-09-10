@@ -1,0 +1,76 @@
+# Overnight state — 9→10 September 2026
+
+Twenty-six commits. Four playable checkpoint builds. Written for whoever picks this up next,
+including Shmuel: it says what is *verified*, what is merely *placed*, and what is *blocked*,
+because the difference is the whole story of the night.
+
+## Use this build
+
+```
+C:\Mikdash\Builds\Checkpoint-cp04-20260910T035436Z\Windows\MikdashCourtyardV3.exe
+```
+
+3.92 GB, opens in 18 seconds. Earlier ones (cp01, cp02b, cp03) are kept on disk as fallbacks.
+`Checkpoint-Build.ps1 -Label cpNN` makes another; `Smoke-Build.ps1 -Archive <dir>` re-tests one
+without re-cooking. See `CHECKPOINTS.md`.
+
+## The one thing to know before looking at it
+
+**No rendered frame has been possible since midnight**, so almost nothing below has been seen by
+anybody. The cause is not VRAM despite what D3D12 says — it is the Windows **commit limit**.
+Baseline commit is ~44 GB of a 63.9 GB limit before any engine starts, `mc-fw-host` holding
+8.8→11 GB and growing with uptime; a real-RHI editor on this map reserves ~19.9 GB of address
+space and fails by about 19 MB. `-nullrhi` commandlets are unaffected, which is why every
+commandlet pass succeeded and every capture died. A reboot recovers it.
+
+## Landed and verified numerically
+
+| | evidence |
+|---|---|
+| Precinct plaza, both maps | 34,741 instances, 7 draw calls, deck at the Temple's own datum |
+| Terrain cut under it | max terrain above deck underside **7.1e-15 cm**, unchanged outside to 0.001 cm |
+| Kotel plaza | 1,029/1,029, coverage 99.2% by area and 97.8% by station, 0 stations pierced |
+| Approaches | head meets deck **0.00 cm**, foot meets ground within **14.5 cm** |
+| Walk clip re-authored | planted-foot drift **4.572 → 0.019 cm**, step 35.98 → 71.93 cm |
+| Walk imported | measured in engine: 71.97 cm step, drift 0.053 cm, 6/6 variants both maps |
+| Kohen Gadol | 1.49× foot slide → 1.000, clip and speed moved together |
+| Old City | 1,498 components retinted, 24 detail groups, both maps |
+| MODERN restores | proven by state-switching and counting, not by reading code |
+| Gates / decals / trees on the COOK map | 90 / 460 / 225,780 — none had ever been in a build |
+| Sanctuary shell | 10 slots no pass had ever touched; floor tonal spread 38.3 → 67.6 |
+
+## Placed but NOT seen
+
+Everything above except the walk numbers is geometry and readback. The plaza, its terrain cut,
+the Kotel plaza, the approaches and the sanctuary have no visual acceptance at all.
+
+## Open, in priority order
+
+1. **Vegetation materials.** 225,780 instances currently render as engine-default grey — the
+   most visible defect in the shipping build. In progress.
+2. **Anti-repetition on the walls: reverted.** Comb energy had gone 1.000 → 0.447, but the
+   material was accepted under `-nullrhi` and had never drawn a pixel; an in-frame control later
+   measured it dropping detail 3–4 mips, which on the ashlar means losing the drafted margins and
+   proud bosses. The fix is written (`-AntiRepeatSampling=implicit`) and `do_apply` now REFUSES a
+   non-default build receipt without frame evidence. Needs one frame.
+3. **Gate-stair yaw defect**, `MikdashEnclosure.cpp:1186` — treads run along the direction of
+   travel on 215 modules. In progress.
+4. **Approaches not wired to the state toggle** — a monumental stair stands in present-day
+   Jerusalem. Same two lines. In progress.
+5. `resident-routes-v2-verify` has still never run on the shipping map (needs real RHI).
+6. Soundscape adoption — blocked on a human listening to 29 files.
+7. Rig geometry: the leg is 6.9 cm short (0.457 of stature against the generator's own 0.53), and
+   the sandal sole carries no weight on `ball_*`, so the toe rocker pivots on the tip. Both cap
+   how good the walk can get and both change the body, not the animation.
+
+## Rules added tonight, both now enforced rather than remembered
+
+- **A material is not accepted until a frame shows it**, with an in-frame control on the
+  unmodified parent. `-nullrhi` is what makes a build possible on this box and what makes it
+  unverifiable; state both halves. (`AGENTS.md`)
+- **Never put author-written HLSL between per-instance custom data and the output.** It is
+  hoisted into the vertex stage where a non-instanced factory has no instance data, and the
+  shader compiler crashes with an access violation rather than failing cleanly. This blocked all
+  packaging for hours. (`EnclosureMath.h` §6b)
+- The parity gate counted receipt *existence*, so two crash reports cleared a warning without the
+  pass running. It now requires a status that says the work landed. (`scripts/verify.py`)

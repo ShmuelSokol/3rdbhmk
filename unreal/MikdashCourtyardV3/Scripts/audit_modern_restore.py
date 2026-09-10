@@ -17,6 +17,10 @@ came out byte-identical.
       -Candidate48 -unattended -nullrhi
       -abslog="C:/Mikdash/Working-5.8/Audit-ModernRestore-01.log"
 
+It also measures two things added on 10 September 2026: the RELEASE_PrecinctApproachV1 actor
+(tag PrecinctApproachV1) across the three states, and the ORIENTATION of the inside gate
+flights' step modules, read back off the placed instances rather than off the C++ source.
+
 SAVES NOTHING. Refuses on a game world, the wrong project or dirty packages, hashes the
 target map and every protected map before and after, and reloads the level at the end so the
 transient hidden flags this audit sets are discarded rather than written.
@@ -27,6 +31,7 @@ mount-platform-design.json, not authored here.
 """
 import hashlib
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -69,6 +74,11 @@ STATE_TAGS = [
     'KotelPlazaCutOriginal',      # overlaps PrecinctCutOriginal on one tile: hidden always
     'CityDetailZone_Precinct',    # roofscape over the hidden buildings: never in YECHEZKEL
     'CityDetailZone_Kept',        # decorates buildings that stay: visible in every state
+    # Written by Scripts/release_precinct_approaches.py onto RELEASE_PrecinctApproachV1: the
+    # monumental stairs from the modern street up to the plaza deck. Part of the built
+    # precinct, so it follows the plaza exactly - visible in YECHEZKEL, gone in MODERN (which
+    # must restore today's city untouched) and gone in OVERLAY.
+    'PrecinctApproachV1',         # expected visible in YECHEZKEL only
 ]
 
 PLAZA_COMPONENTS = ['PlazaDeckInstances', 'PlazaWayInstances', 'PlazaRibInstances',
@@ -212,6 +222,93 @@ def component_state(ue, actor, names):
     return out
 
 
+def step_orientation(ue, actor):
+    """Read PlazaStepInstances back out of the built actor and ask, IN NUMBERS, whether the
+    tread of the inside gate flights runs ACROSS the direction of travel or ALONG it.
+
+    SM_PlazaV1_Step (Scripts/create_precinct_plaza.py step_module) is 50 amot along local +X -
+    the WIDTH of the flight - and 2 amot along local +Y, which is the tread and, by that
+    module's own docstring, "the direction of ascent". A UE yaw t maps local +X to
+    (cos t, sin t) and local +Y to (-sin t, cos t). MikdashEnclosure::BuildPlaza lays a flight
+    by advancing along -Out, so travel is DESCENT and local +Y must point the OTHER way.
+
+    Nothing here is read from the C++ source: the instances are measured as placed.
+
+      widthDotTravel   |cos| between the 50-amah width axis and the direction of travel.
+                       0.0 is correct - the width lies across the flight. 1.0 is the defect:
+                       fifty amot laid along the direction of travel, treads running the
+                       wrong way.
+      ascentDotUphill  cos between local +Y and the uphill direction (-travel). +1.0 is
+                       correct; 0.0 means the tread axis is across the flight instead.
+    """
+    by_name = {}
+    for component in list(actor.get_components_by_class(
+            ue.HierarchicalInstancedStaticMeshComponent)):
+        by_name[str(component.get_name())] = component
+    component = by_name.get('PlazaStepInstances')
+    if component is None:
+        return dict(present=False)
+    count = int(component.get_instance_count())
+    samples = []
+    for index in range(count):
+        transform = component.get_instance_transform(index, world_space=True)
+        location = transform.translation
+        rotation = transform.rotation
+        yaw = float(rotation.rotator().yaw if hasattr(rotation, 'rotator') else rotation.yaw)
+        samples.append((float(location.x), float(location.y), float(location.z), yaw))
+
+    # Split into runs: a new flight starts when the yaw changes or the instance jumps far
+    # from the previous one. Landings repeat a Z but still advance by one tread, so spacing
+    # alone separates gates without splitting a flight at its landings.
+    runs = []
+    for sample in samples:
+        if runs:
+            prev = runs[-1][-1]
+            gap = math.hypot(sample[0] - prev[0], sample[1] - prev[1])
+            same_yaw = abs(((sample[3] - prev[3]) + 180.0) % 360.0 - 180.0) < 0.5
+            if same_yaw and gap < 2000.0:
+                runs[-1].append(sample)
+                continue
+        runs.append([sample])
+
+    rows = []
+    for run in runs:
+        if len(run) < 2:
+            continue
+        first, last = run[0], run[-1]
+        dx, dy = last[0] - first[0], last[1] - first[1]
+        length = math.hypot(dx, dy)
+        if length <= 0.0:
+            continue
+        travel = (dx / length, dy / length)
+        yaw = math.radians(first[3])
+        width_axis = (math.cos(yaw), math.sin(yaw))       # local +X, the 50-amah width
+        tread_axis = (-math.sin(yaw), math.cos(yaw))      # local +Y, the tread / ascent
+        width_dot = abs(width_axis[0] * travel[0] + width_axis[1] * travel[1])
+        ascent_dot = tread_axis[0] * -travel[0] + tread_axis[1] * -travel[1]
+        spacings = [math.hypot(run[i + 1][0] - run[i][0], run[i + 1][1] - run[i][1])
+                    for i in range(len(run) - 1)]
+        rows.append(dict(
+            modules=len(run),
+            yawDegrees=round(first[3], 3),
+            firstXYZcm=[round(v, 1) for v in first[:3]],
+            travelUnitXY=[round(v, 4) for v in travel],
+            widthAxisXY=[round(v, 4) for v in width_axis],
+            treadAxisXY=[round(v, 4) for v in tread_axis],
+            widthDotTravel=round(width_dot, 6),
+            ascentDotUphill=round(ascent_dot, 6),
+            meanStepSpacingCm=round(sum(spacings) / len(spacings), 3),
+            dropCm=round(first[2] - last[2], 1),
+            verdict=('ok: tread runs across the direction of travel' if width_dot < 0.02
+                     else 'DEFECT: the 50-amah width lies along the direction of travel')))
+    rows.sort(key=lambda r: -r['modules'])
+    return dict(present=True, instances=count, flights=len(rows), flightsMeasured=rows,
+                worstWidthDotTravel=(max(r['widthDotTravel'] for r in rows) if rows else None),
+                worstAscentDotUphill=(min(r['ascentDotUphill'] for r in rows) if rows else None),
+                passed=bool(rows) and all(r['widthDotTravel'] < 0.02 and r['ascentDotUphill'] > 0.98
+                                          for r in rows))
+
+
 def find_enclosure(ue, actors):
     found = []
     for actor in actors:
@@ -232,6 +329,7 @@ EXPECTED = {
     'KotelPlazaCutOriginal':   (False, False, False),
     'CityDetailZone_Precinct': (False, True,  True),
     'CityDetailZone_Kept':     (True,  True,  True),
+    'PrecinctApproachV1':      (True,  False, False),
 }
 
 
@@ -266,11 +364,19 @@ def acceptance(receipt):
             else:
                 verdict.append('ok')
         rows[tag] = dict(counted=counted, expected=list(expected), verdict=verdict)
+    steps = receipt['states']['Yechezkel'].get('stepOrientation', {})
+    steps_ok = bool(steps.get('passed'))
+    if not steps_ok:
+        ok = False
     hide = receipt.get('hideList', {})
     hide_ok = (int(hide.get('missing', -1)) == 0 and int(hide.get('duplicated', -1)) == 0)
     if not hide_ok:
         ok = False
     return dict(passed=bool(ok), tags=rows,
+                stepOrientation=dict(
+                    flights=steps.get('flights'), instances=steps.get('instances'),
+                    worstWidthDotTravel=steps.get('worstWidthDotTravel'),
+                    worstAscentDotUphill=steps.get('worstAscentDotUphill'), ok=steps_ok),
                 hideList=dict(found=hide.get('found'), missing=hide.get('missing'),
                               duplicated=hide.get('duplicated'), ok=hide_ok),
                 restoredToAsFound=(receipt.get('afterRestoreCensus', {}).get('hiddenTotal')
@@ -393,6 +499,7 @@ def run(target_name):
             entry = census(ue, all_actors, plaza_bbox)
             entry['reportedState'] = str(enclosure.get_precinct_state())
             entry['plazaComponents'] = component_state(ue, enclosure, PLAZA_COMPONENTS)
+            entry['stepOrientation'] = step_orientation(ue, enclosure)
             entry['ringComponents'] = component_state(ue, enclosure, RING_COMPONENTS)
             entry['tagCensus'] = tag_census(ue, all_actors)
             receipt['states'][state_name] = entry

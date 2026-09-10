@@ -287,14 +287,25 @@ N by 1.35 m, E by 9.67 m, S1 by 9.76 m. Main50 reads the same shape: S2 leaves 1
 ## 6. Open, and named
 
 1. **NO VISUAL ACCEPTANCE.** Nobody has looked at the approaches, or the plaza, in a frame.
-2. **THE APPROACHES ARE NOT WIRED INTO THE STATE TOGGLE.** They are a new actor
-   (`RELEASE_PrecinctApproachV1`, tag `PrecinctApproachV1`), not components on
-   `AMikdashEnclosure`, because that class has no `UPROPERTY` for them and this pass may not
-   rebuild the plugin. `GatherModernBuildings` resolves an identity label only for meshes under
-   `JerusalemContext/Buildings/` or `OldCityFacadesV1/Meshes/` (`MikdashEnclosure.cpp:22-42`),
-   so no value in `ExplicitHideLabels` can reach a `PlazaV1` mesh either. **Until the plugin is
-   rebuilt the approaches stand in MODERN and OVERLAY too** — the *same* pending two lines the
-   terrain cut already needs (`PLAZA-DESIGN-20260909.md` section 6 item 1).
+2. ~~**THE APPROACHES ARE NOT WIRED INTO THE STATE TOGGLE.**~~ **WIRED, 10 September 2026.**
+   `PrecinctApproachV1` now stands in `HideWhileModernCityStandsTags` alongside
+   `PrecinctCutTwin`, so `ApplyStateTaggedActors` drives the whole actor by TAG exactly as it
+   drives the terrain twins and the roofscape zones. `BuildingIdentityLabel` was deliberately
+   **not** widened — its narrowness is what keeps the audited building hide list from drifting,
+   and the hide list still reads 269/0/0 on Candidate48 and 278/0/0 on Main50 afterwards.
+
+   Counted, not read off the source, by `Scripts/audit_modern_restore.py` switching the state
+   in a `-nullrhi` editor and counting what carries the tag:
+
+   | | YECHEZKEL | MODERN | OVERLAY |
+   |---|---|---|---|
+   | before | 1 visible | **1 visible (the defect)** | **1 visible (the defect)** |
+   | after, Candidate48 | **1 visible** | 0 visible / 1 hidden | 0 visible / 1 hidden |
+   | after, Main50 | **1 visible** | 0 visible / 1 hidden | 0 visible / 1 hidden |
+
+   Receipts `modern-restore-audit-Candidate48-20260910T040825871835Z.json` and
+   `modern-restore-audit-Main50-20260910T040850078133Z.json`, both
+   `acceptance.passed: true`, `mapBytesChanged: false`.
 3. **NO TERRAIN IS CUT OUTSIDE THE PRECINCT SQUARE.** Where the natural cross-fall runs above a
    tread the hillside still rises through the stair; the worst case measured is 2.5 m at one
    edge of the south-west flight's last tread. Head-landing tiles under higher ground are
@@ -313,9 +324,9 @@ N by 1.35 m, E by 9.67 m, S1 by 9.76 m. Main50 reads the same shape: S2 leaves 1
 
 ---
 
-## 7. A defect found in the runtime while doing this, which this pass cannot fix
+## 7. A defect found in the runtime while doing this — **FIXED, 10 September 2026**
 
-`MikdashEnclosure.cpp:1186` yaws the **inside** gate flights by
+`MikdashEnclosure.cpp:1186` yawed the **inside** gate flights by
 `SideOutwardYawDegrees(Side)` while advancing them along `-Out`. The step module is 50 amot
 along local X and 2 amot along local Y, and a UE yaw *t* maps local +Y to `(-sin t, cos t)`, so
 that yaw lays the **50-amah width along the direction of travel** and the 2-amah tread across
@@ -325,9 +336,37 @@ follow. On Candidate48 this affects the **205 step modules of the east gate's in
 the 10 of the west**.
 
 **Found by reading, not seen in a frame** — consistent with the plaza's own "nobody has looked
-at it" note. It is C++ and needs a plugin rebuild, which this pass may not run. Nothing in the
-approaches depends on it: they are placed from Python with the band convention, and the receipt
-carries this under `runtimeDefectsObserved`.
+at it" note. Nothing in the approaches depended on it: they are placed from Python with the band
+convention, and the receipt carries the original observation under `runtimeDefectsObserved`.
+
+### The fix, and the numbers that show it
+
+The line now reads `SideOutwardYawDegrees(Square, Gate.Side) - 90.0`, the bands' own convention.
+
+`Scripts/audit_modern_restore.py` was extended with `step_orientation()`, which reads
+`PlazaStepInstances` back out of the built actor — **not** out of the source — splits it into
+runs of consecutive instances sharing a yaw, and reports two dot products per flight:
+`widthDotTravel`, the |cos| between the module's 50-amah local +X and the direction the flight
+travels (**0 is correct, 1 is the defect**), and `ascentDotUphill`, the cos between local +Y and
+uphill (**+1 is correct**).
+
+| map | flight | modules | yaw before | yaw after | travel | widthDotTravel before → after | ascentDotUphill before → after |
+|---|---|---:|---:|---:|---|---|---|
+| Candidate48 | east gate | **205** | 0.0 | **−90.0** | (−1, 0) | **1.0 → 0.0** | **−0.0 → 1.0** |
+| Candidate48 | west gate | **10** | 180.0 | **90.0** | (+1, 0) | **1.0 → 0.0** | **−0.0 → 1.0** |
+| Main50 | east gate | **176** | — | **−90.0** | (−1, 0) | — → **0.0** | — → **1.0** |
+| Main50 | west gate | **14** | — | **90.0** | (+1, 0) | — → **0.0** | — → **1.0** |
+
+Read the east gate row straight: the flight travels along −X; before the fix the module's
+fifty-amah width axis was (1, 0) — parallel to travel — and after it is (0, −1), square across
+it, with the tread axis (1, 0) pointing uphill toward the gate. Step spacing is 96.0 cm on both
+maps' east flights, one 2-amah tread at the target's own amah, before and after: the fix rotates
+the modules and moves nothing.
+
+Before receipt `modern-restore-audit-Candidate48-20260910T040644982957Z.json`
+(`stepOrientation.ok: false`), after
+`...-20260910T040825871835Z.json` and `modern-restore-audit-Main50-20260910T040850078133Z.json`
+(`stepOrientation.ok: true`). **Still not seen in a frame.**
 
 ---
 

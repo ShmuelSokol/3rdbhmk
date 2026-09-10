@@ -211,6 +211,17 @@ AMikdashEnclosure::AMikdashEnclosure()
         FName(TEXT("PrecinctCutTwin")),
         // While today's city stands, the Kotel-cut twin of this tile is the one on show.
         FName(TEXT("KotelPlazaCutOriginal")),
+        // The ways UP from the modern street onto the deck - RELEASE_PrecinctApproachV1,
+        // placed by Scripts/release_precinct_approaches.py. They are part of the built
+        // precinct and follow the plaza exactly: present in YECHEZKEL, gone in MODERN (which
+        // must restore today's city untouched) and gone in OVERLAY (which exists to show the
+        // standing city under the boundary line). They cannot be reached any other way:
+        // BuildingIdentityLabel returns an EMPTY label for any mesh outside the two audited
+        // building folders, and PlazaV1 meshes are outside both - which is exactly the
+        // narrowness that keeps the audited building hide list from drifting, so it is
+        // preserved rather than widened, and the actor is driven by TAG like every other
+        // whole-actor member of a state.
+        FName(TEXT("PrecinctApproachV1")),
     };
 }
 
@@ -1186,7 +1197,14 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
             const int Landings = PlazaFlightLandings(Steps);
             const FVec2 At = PointAt(Gate.Side, T);
             const FVec2 Out = OutwardOf(Square, Gate.Side);
-            const double Yaw = SideOutwardYawDegrees(Square, Gate.Side);
+            // The SAME convention the retaining bands use forty lines up, and for the same
+            // reason. SM_PlazaV1_Step is 50 amot along local +X - the WIDTH of the flight -
+            // and 2 amot along local +Y, which is the tread and the direction of ascent. A UE
+            // yaw t maps local +X to (cos t, sin t), so the bare outward yaw laid the fifty
+            // amot ALONG -Out, the direction this loop travels, and ran the treads across the
+            // flight instead of across the walker. Minus ninety puts the width along the side
+            // and points local +Y outward, which is uphill: the flight descends from the gate.
+            const double Yaw = SideOutwardYawDegrees(Square, Gate.Side) - 90.0;
             const FVector ScaleXYZ(Scale, Scale, Scale);
             double Distance = WallThickCm;
             double Z = Base;

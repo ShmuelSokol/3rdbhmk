@@ -428,10 +428,11 @@ origin, tint) — 14,641 × 5 × 4 bytes ≈ 293 KB. That is what buys five cour
    see a terrain actor — `BuildingIdentityLabel` (MikdashEnclosure.cpp:22-42) returns an empty
    label for any mesh outside `JerusalemContext/Buildings/` and `OldCityFacadesV1/Meshes/`, and
    an empty label is skipped before the hide list is consulted — so no value in
-   `ExplicitHideLabels` can reach one. The pair is placed and tagged so the hook is two lines in
-   `ApplyWeights` beside the plaza components, but **it needs a plugin rebuild, and until it is
-   compiled MODERN and OVERLAY show the cut hillside too.** That is the one regression this
-   pass leaves, and it is named here rather than buried in a receipt.
+   `ExplicitHideLabels` can reach one. **The hook is compiled and counted as of 10 September
+   2026:** `ApplyStateTaggedActors` drives these actors by TAG, and `Scripts/audit_modern_restore.py`
+   counts 11 `PrecinctCutTwin` visible in YECHEZKEL only and 12 `CityDetailZone_Precinct` visible
+   in MODERN and OVERLAY only, on both maps, with the building hide list still at 269/0/0 and
+   278/0/0.
 2. ~~**THE OUTSIDE APPROACHES ARE NOT BUILT.**~~ **BUILT, 10 September 2026.**
    `Scripts/release_precinct_approaches.py`, receipts `native-approach-apply-<Target>-*.json`,
    design record **`APPROACH-DESIGN-20260910.md`**.
@@ -466,8 +467,9 @@ origin, tint) — 14,641 × 5 × 4 bytes ≈ 293 KB. That is what buys five cour
    past 719 m would be descending into rising ground. The west gate gets no approach at all -
    its threshold stands 11 cm above the grade outside it, which is less than one riser. The
    south-west approach's flanking retaining reaches **112.8 m** where it crosses the Hinnom. And
-   the approaches are a new actor, so like the terrain cut they are **not yet wired into the
-   state toggle** and stand in MODERN too until the plugin is rebuilt.
+   the approaches are a new actor — **now wired into the state toggle**, tag `PrecinctApproachV1`
+   in `HideWhileModernCityStandsTags`, counted visible in YECHEZKEL only on both maps; see
+   `APPROACH-DESIGN-20260910.md` section 6 item 2.
 3. **THE FILL IS NOT MODELLED.** Under the deck there is a void closed by the retaining ring —
    no vaults, no cisterns. No viewer can see into it. The real Temple Mount solves the same
    problem with vaults.

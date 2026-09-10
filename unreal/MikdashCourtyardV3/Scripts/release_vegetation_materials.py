@@ -538,14 +538,29 @@ def build_master(ue, spec, name, sample_textures, receipt, variant=None, force_r
         record['subsurfaceWired'] = 'SubsurfaceTint' in names
         return material
     if assets.does_asset_exist(path):
-        # Rebuild IN PLACE. Deleting and recreating the asset would orphan every material
-        # instance's parent pointer; emptying the graph keeps the same object and the same
-        # parameter names, so the 14 leaf instances stay wired and keep their species colours.
-        material = ue.load_asset(path)
-        if not isinstance(material, ue.Material):
+        # DELETE AND RECREATE, and the reason is a bug this file shipped.
+        #
+        # The first version rebuilt "in place" with delete_all_material_expressions() to avoid
+        # orphaning the instances' parent pointer. That call DID NOT EMPTY THE GRAPH: the leaf
+        # master came back with 35 expressions where 24 had been created - two LeafAtlas
+        # samplers, seven ScalarParameters where there should be four - i.e. the old graph and
+        # the new one superimposed, with duplicate parameter names. That material is what
+        # checkpoint cp05b cooked, and the frames from it show solid opaque cards.
+        #
+        # A fresh asset is the only way to be sure the graph is exactly what was authored. The
+        # instances are re-parented and re-verified immediately afterwards by build_instances,
+        # which is what makes this safe.
+        existing = ue.load_asset(path)
+        if existing is not None and not isinstance(existing, ue.Material):
             raise RuntimeError('Existing asset at %s is not a Material' % path)
-        ml.delete_all_material_expressions(material)
-        record.update(created=False, rebuiltInPlace=True)
+        before = len(ml.get_material_expressions(existing)) if existing is not None else None
+        if not ue.EditorAssetLibrary.delete_asset(path):
+            raise RuntimeError('delete_asset failed for ' + path)
+        material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
+            name, folder, ue.Material, ue.MaterialFactoryNew())
+        if not isinstance(material, ue.Material):
+            raise RuntimeError('Material factory failed after delete for ' + path)
+        record.update(created=True, rebuiltFresh=True, expressionsBeforeDelete=before)
     else:
         material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
             name, folder, ue.Material, ue.MaterialFactoryNew())
@@ -572,6 +587,32 @@ def build_master(ue, spec, name, sample_textures, receipt, variant=None, force_r
     material.set_editor_property('shading_model', shading)
     if 'opacityMaskClipValue' in cfg:
         material.set_editor_property('opacity_mask_clip_value', float(cfg['opacityMaskClipValue']))
+
+    # ---- USAGE FLAGS. THE BUG THAT PUT CARDBOARD IN THE BUILD. -------------
+    #
+    # All 225,780 instances live on HierarchicalInstancedStaticMeshComponents. A material
+    # without bUsedWithInstancedStaticMeshes CANNOT be used on an instanced static mesh, and a
+    # COOKED build silently falls back to WorldGridMaterial - opaque, one-sided, no opacity mask,
+    # no species colour. That is exactly what checkpoint cp05b rendered.
+    #
+    # WHY EVERY EARLIER CHECK STAYED GREEN, and this is the part worth remembering: the EDITOR
+    # adds a missing usage flag on the fly and only warns that the asset needs resaving. So
+    # parameter parity, the save/reopen readback and every -nullrhi receipt all passed while the
+    # shipped build drew the default material. The packaged build's own log named the fault:
+    # "Material ... needs to be recompiled ... bUsedWithInstancedStaticMeshes". Flags are set
+    # HERE, before the first compile, alongside blend mode and two-sidedness, and read back off
+    # the saved asset below.
+    usage = {}
+    for flag in spec.get('usageFlags', ['used_with_instanced_static_meshes']):
+        try:
+            material.set_editor_property(flag, True)
+            usage[flag] = bool(material.get_editor_property(flag))
+        except Exception as error:                                       # noqa: BLE001
+            usage[flag] = 'UNAVAILABLE: %r' % (error,)
+    record['usageFlags'] = usage
+    missing = [k for k, v in usage.items() if v is not True]
+    if missing:
+        raise RuntimeError('%s could not set usage flags %s (%s)' % (name, missing, usage))
     record.update(blendModeRequested=cfg['blendMode'], blendModeApplied=blend_name,
                   shadingModelRequested=wanted_shading, shadingModelApplied=shading_name,
                   shadingModelIsFallback=shading_name != wanted_shading,
@@ -691,6 +732,33 @@ def build_master(ue, spec, name, sample_textures, receipt, variant=None, force_r
         raise RuntimeError('save_loaded_asset failed for ' + path)
 
     record['nodeCount'] = len(record['nodes'])
+    # THE CHECK WHOSE ABSENCE LET A DUPLICATED GRAPH REACH A COOK. The saved material must hold
+    # exactly the expressions this function created - no leftovers from a previous graph, which
+    # would give duplicate parameter names and an unpredictable material.
+    live = list(ml.get_material_expressions(material))
+    record['expressionsInAsset'] = len(live)
+    if len(live) != len(record['nodes']):
+        classes = {}
+        for e in live:
+            key = e.get_class().get_name()
+            classes[key] = classes.get(key, 0) + 1
+        record['expressionClasses'] = classes
+        raise RuntimeError('%s holds %d expressions but %d were created; the graph is duplicated '
+                           '(classes %s)' % (name, len(live), len(record['nodes']), classes))
+    parameter_classes = (ue.MaterialExpressionTextureSampleParameter2D,
+                         ue.MaterialExpressionScalarParameter,
+                         ue.MaterialExpressionVectorParameter)
+    seen = set()
+    dupes = set()
+    for expression in live:
+        if isinstance(expression, parameter_classes):
+            pname = str(expression.get_editor_property('parameter_name'))
+            if pname in seen:
+                dupes.add(pname)
+            seen.add(pname)
+    record['parameterNamesInAsset'] = sorted(seen)
+    if dupes:
+        raise RuntimeError('%s has duplicate parameter names %s' % (name, sorted(dupes)))
     record['scalarParameters'] = sorted(str(n) for n in ml.get_scalar_parameter_names(material))
     record['vectorParameters'] = sorted(str(n) for n in ml.get_vector_parameter_names(material))
     record['textureParameters'] = sorted(str(n) for n in ml.get_texture_parameter_names(material))
@@ -980,8 +1048,12 @@ def assign_mesh_slots(ue, spec, instances, receipt):
     return receipt['meshSummary']
 
 
-def ensure_assets(ue, spec, receipt):
-    """Textures, masters, instances, mesh slots. Map-independent: no level is loaded."""
+def ensure_assets(ue, spec, receipt, force_rebuild=False, variant=None):
+    """Textures, masters, instances, mesh slots. Map-independent: no level is loaded.
+
+    force_rebuild deletes and recreates every master from scratch, then re-parents and
+    re-verifies all 40 instances against it.
+    """
     textures = fix_textures(ue, spec, receipt)
     sample = {}
     first = sorted(spec['species'])[0]
@@ -994,7 +1066,9 @@ def ensure_assets(ue, spec, receipt):
             if key not in textures:
                 raise RuntimeError('Sample texture %s missing for %s' % (key, parameter))
             sample[parameter] = textures[key]
-    masters = {name: build_master(ue, spec, name, sample, receipt) for name in spec['masters']}
+    masters = {name: build_master(ue, spec, name, sample, receipt, variant=variant,
+                                  force_rebuild=force_rebuild)
+               for name in spec['masters']}
     instances = build_instances(ue, spec, masters, textures, receipt)
     assign_mesh_slots(ue, spec, instances, receipt)
     return masters, instances
@@ -1013,8 +1087,18 @@ def reopen_material_readback(ue, spec, receipt):
             'shadingModel': _enum_name(material.get_editor_property('shading_model')),
             'opacityMaskClipValue': round(float(material.get_editor_property('opacity_mask_clip_value')), 4),
         }
+        # The flag whose absence made the cooked build draw WorldGridMaterial while every
+        # in-editor check passed. Read it off the SAVED asset, and fail if it is not there.
+        for flag in spec.get('usageFlags', ['used_with_instanced_static_meshes']):
+            try:
+                out[name][flag] = bool(material.get_editor_property(flag))
+            except Exception as error:                                   # noqa: BLE001
+                out[name][flag] = 'UNAVAILABLE: %r' % (error,)
         want = spec['masters'][name]
         problems = []
+        for flag in spec.get('usageFlags', ['used_with_instanced_static_meshes']):
+            if out[name].get(flag) is not True:
+                problems.append('%s is %r, not True' % (flag, out[name].get(flag)))
         if not out[name]['blendMode'].endswith(want['blendMode'].split('_')[-1]):
             problems.append('blendMode %s != %s' % (out[name]['blendMode'], want['blendMode']))
         if out[name]['twoSided'] != bool(want['twoSided']):
@@ -1433,7 +1517,7 @@ def rebuild_leaf(variant_name, spec=None):
         receipt['receiptPath'] = str(receipt_path)
 
 
-def assets_only(spec=None):
+def assets_only(spec=None, force_rebuild=False):
     """Create the materials and point the mesh slots at them. NO LEVEL IS LOADED OR SAVED."""
     import unreal as ue
     spec = spec or load_spec()
@@ -1465,7 +1549,8 @@ def assets_only(spec=None):
             shutil.copytree(source, checkpoint / folder)
 
     receipt = {
-        'status': 'started', 'stamp': stamp, 'stage': 'assets',
+        'status': 'started', 'stamp': stamp,
+        'stage': 'assets_force_rebuild' if force_rebuild else 'assets',
         'targetIndependent': True,
         'targetIndependentNote': ('A material has no coordinates. This stage touches no map and is '
                                   'shared by both. It deliberately carries no "target" key: '
@@ -1490,7 +1575,8 @@ def assets_only(spec=None):
     try:
         assets = _assets(ue)
         receipt['materialFolderExistedBefore'] = assets.does_directory_exist(spec['materialFolder'])
-        ensure_assets(ue, spec, receipt)
+        receipt['forceRebuild'] = bool(force_rebuild)
+        ensure_assets(ue, spec, receipt, force_rebuild=force_rebuild)
         write()
         reopen_material_readback(ue, spec, receipt)
         receipt['summary'] = {
@@ -1541,7 +1627,11 @@ def _main():
     import unreal as ue
     lowered = ue.SystemLibrary.get_command_line().lower()
     try:
-        if '-vegmatrebuildleaf' in lowered:
+        if '-vegmatforcerebuild' in lowered:
+            receipt = assets_only(force_rebuild=True)
+            ue.log('release_vegetation_materials [assets force]: %s, %d mesh slots assigned'
+                   % (receipt['status'], receipt['summary']['meshSlotsAssigned']))
+        elif '-vegmatrebuildleaf' in lowered:
             name = leaf_variant_from_command_line(ue.SystemLibrary.get_command_line())
             receipt = rebuild_leaf(name)
             ue.log('release_vegetation_materials [leaf %s]: %s' % (name, receipt['status']))

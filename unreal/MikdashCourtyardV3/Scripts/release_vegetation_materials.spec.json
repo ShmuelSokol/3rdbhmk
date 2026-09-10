@@ -661,6 +661,7 @@
   },
   "limitations": [
     "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "A material that renders correctly in the editor can still fall back to the DEFAULT material in a cooked build if a usage flag is missing. Editor readbacks cannot catch it. Only a frame from a packaged build can.",
     "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
     "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
     "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
@@ -670,5 +671,9 @@
     "Nothing here is halachic."
   ],
   "slotRoleFromNameMeasured": "Run 20260910T042239243857Z: 105 meshes, 105 slots, every imported slot name 'WorldGridMaterial', so every slot took the fallback to the mesh's own role.",
-  "protectedAssetsMustExist": true
+  "protectedAssetsMustExist": true,
+  "usageFlags": [
+    "used_with_instanced_static_meshes"
+  ],
+  "usageFlagsNote": "THE BUG THAT PUT CARDBOARD IN THE BUILD, and the reason every earlier check passed. All 225,780 instances live on HierarchicalInstancedStaticMeshComponents. A material without bUsedWithInstancedStaticMeshes cannot be used on an instanced static mesh, so a COOKED build falls back to WorldGridMaterial: opaque, one-sided, no opacity mask, no species colour - which is precisely how checkpoint cp05b rendered. The EDITOR adds the flag on the fly and only warns that the asset needs resaving, so parameter parity, the save/reopen readback and every -nullrhi receipt stayed green while the shipped build drew the default material. The flag is now set before the first compile, alongside blend mode and two-sidedness, and is read back off the saved asset. These are flags on THIS pass's own three masters; the nine Nanite-repaired instances' usage flags are not touched."
 }

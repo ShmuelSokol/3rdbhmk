@@ -1,0 +1,3374 @@
+{
+  "status": "failed_assets_stage",
+  "stamp": "20260910T060726835476Z",
+  "stage": "assets_force_rebuild",
+  "targetIndependent": true,
+  "targetIndependentNote": "A material has no coordinates. This stage touches no map and is shared by both. It deliberately carries no \"target\" key: verify.py check_map_parity buckets any receipt with one as a pass that ran on that map only.",
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+  "specSha256": "21cd35631e2aac4b7d0edb2f25b390e34cec65bdc9d6e7136d377118d3434ebe",
+  "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\VegetationMaterials-assets-20260910T060726835476Z",
+  "offlineCheck": {
+    "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+    "specSha256": "21cd35631e2aac4b7d0edb2f25b390e34cec65bdc9d6e7136d377118d3434ebe",
+    "errors": [],
+    "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+    "meshRoleCounts": {
+      "bark": 45,
+      "leaf": 47,
+      "billboard": 13
+    },
+    "colourSpread": {
+      "distinctLeafTargets": 14,
+      "distinctLeafRoughness": 14,
+      "darkestLeaf": "Cypress",
+      "lightestLeaf": "DryGrass",
+      "greenestLeaf": "Pomegranate",
+      "leafTargetLumaRange": [
+        58.0,
+        161.33333333333334
+      ]
+    },
+    "plan": {
+      "Almond": {
+        "species": "Almond",
+        "form": "tree",
+        "reading": "Fresh mid-green leaning yellow, on dark grey bark. The lightest of the trees, deliberately, so an almond stands out against the olive terraces.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Almond_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Almond_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9820202280335006,
+                0.9497889302135999,
+                0.895,
+                1.0
+              ],
+              "LeafTintB": [
+                1.358909993738849,
+                1.2590225353994233,
+                1.105,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.3613067797835095,
+                0.43415363617474895,
+                0.1946178304415758,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.66,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              104,
+              128,
+              76
+            ],
+            "targetSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tint": [
+              1.1704651108861748,
+              1.1044057328065116,
+              1.0
+            ],
+            "predictedSrgb": [
+              112,
+              134,
+              76
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Almond_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Almond_Bark_BC",
+              "BarkNormal": "T_Almond_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.7970734633584665,
+                0.8750767348589988,
+                0.9845225666040214,
+                1.0
+              ],
+              "BarkTintB": [
+                0.9675346025225752,
+                1.0355711578462388,
+                1.1169130077909013,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.84,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              104,
+              92,
+              82
+            ],
+            "targetSrgb": [
+              98,
+              90,
+              84
+            ],
+            "tint": [
+              0.8823040329405208,
+              0.9553239463526187,
+              1.0507177871974613
+            ],
+            "predictedSrgb": [
+              98,
+              90,
+              84
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Almond_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Almond_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9820202280335006,
+                0.9497889302135999,
+                0.895,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.358909993738849,
+                1.2590225353994233,
+                1.105,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.66,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              104,
+              128,
+              76
+            ],
+            "targetSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tint": [
+              1.1704651108861748,
+              1.1044057328065116,
+              1.0
+            ],
+            "predictedSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Carob": {
+        "species": "Carob",
+        "form": "tree",
+        "reading": "Very dark, very glossy pinnate leaves. Reads nearly as dark as cypress but with a broad round crown rather than a spike.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Carob_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Carob_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.6515986303476964,
+                0.7174885819688354,
+                0.7771694796913594,
+                1.0
+              ],
+              "LeafTintB": [
+                0.9016758162499112,
+                0.9510895156331074,
+                0.9595220950379354,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.11697066775851084,
+                0.20155625379439707,
+                0.07618538148130785,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.5,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              66,
+              96,
+              56
+            ],
+            "targetSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tint": [
+              0.7766372232988038,
+              0.8342890488009713,
+              0.8683457873646474
+            ],
+            "predictedSrgb": [
+              58,
+              88,
+              52
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Carob_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Carob_Bark_BC",
+              "BarkNormal": "T_Carob_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8693730180593822,
+                0.916,
+                0.9825957809412661,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0552960500375455,
+                1.084,
+                1.1147271239493766,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              112,
+              100,
+              86
+            ],
+            "targetSrgb": [
+              110,
+              100,
+              88
+            ],
+            "tint": [
+              0.9623345340484638,
+              1.0,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              110,
+              100,
+              88
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Carob_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Carob_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.6515986303476964,
+                0.7174885819688354,
+                0.7771694796913594,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.9016758162499112,
+                0.9510895156331074,
+                0.9595220950379354,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.5,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              66,
+              96,
+              56
+            ],
+            "targetSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tint": [
+              0.7766372232988038,
+              0.8342890488009713,
+              0.8683457873646474
+            ],
+            "predictedSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Cypress": {
+        "species": "Cypress",
+        "form": "tree",
+        "reading": "The darkest thing on the hillside. A cypress column is a near-black green spike and that contrast is what makes it legible at distance.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Cypress_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Cypress_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.5860873870540562,
+                0.6286215194184825,
+                0.6853811048026501,
+                1.0
+              ],
+              "LeafTintB": [
+                0.811021998056924,
+                0.8332889908570583,
+                0.846196783024501,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.08437621154414882,
+                0.13843161503245183,
+                0.07618538148130785,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.7,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              58,
+              84,
+              62
+            ],
+            "targetSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tint": [
+              0.6985546925554901,
+              0.7309552551377704,
+              0.7657889439135755
+            ],
+            "predictedSrgb": [
+              48,
+              72,
+              54
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Cypress_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Cypress_Bark_BC",
+              "BarkNormal": "T_Cypress_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8106989174859801,
+                0.916,
+                0.9845225666040214,
+                1.0
+              ],
+              "BarkTintB": [
+                0.9840739793171639,
+                1.084,
+                1.1169130077909013,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              122,
+              100,
+              82
+            ],
+            "targetSrgb": [
+              116,
+              100,
+              84
+            ],
+            "tint": [
+              0.897386448401572,
+              1.0,
+              1.0507177871974613
+            ],
+            "predictedSrgb": [
+              116,
+              100,
+              84
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Cypress_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Cypress_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.5860873870540562,
+                0.6286215194184825,
+                0.6853811048026501,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.811021998056924,
+                0.8332889908570583,
+                0.846196783024501,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.7,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              58,
+              84,
+              62
+            ],
+            "targetSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tint": [
+              0.6985546925554901,
+              0.7309552551377704,
+              0.7657889439135755
+            ],
+            "predictedSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "DatePalm": {
+        "species": "DatePalm",
+        "form": "palm",
+        "reading": "YELLOW-green, which is the point: a date frond is nothing like an olive leaf, and the palms line the Kidron where the difference is visible in one frame. Fibrous tan trunk, the roughest bark in the set.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_DatePalm_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_DatePalm_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                1.2077034772073914,
+                1.0081825923109669,
+                0.7983526550625089,
+                1.0
+              ],
+              "LeafTintB": [
+                1.6712082682214318,
+                1.3364280874819796,
+                0.9856756244067846,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.44520119451622786,
+                0.4910208498478356,
+                0.17464740365558504,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.6,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              108,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tint": [
+              1.4394558727144116,
+              1.1723053398964731,
+              0.8920141397346467
+            ],
+            "predictedSrgb": [
+              128,
+              142,
+              68
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_DatePalm_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_DatePalm_Bark_BC",
+              "BarkNormal": "T_DatePalm_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9937904997258523,
+                0.9850923851504916,
+                0.9808191279800128,
+                1.0
+              ],
+              "BarkTintB": [
+                1.206321299534392,
+                1.165764350985953,
+                1.11271156141169,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              134,
+              116,
+              90
+            ],
+            "targetSrgb": [
+              140,
+              120,
+              92
+            ],
+            "tint": [
+              1.1000558996301222,
+              1.0754283680682222,
+              1.0467653446958514
+            ],
+            "predictedSrgb": [
+              140,
+              120,
+              92
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_DatePalm_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_DatePalm_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                1.2077034772073914,
+                1.0081825923109669,
+                0.7983526550625089,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.6712082682214318,
+                1.3364280874819796,
+                0.9856756244067846,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.6,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              108,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tint": [
+              1.4394558727144116,
+              1.1723053398964731,
+              0.8920141397346467
+            ],
+            "predictedSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "DryGrass": {
+        "species": "DryGrass",
+        "form": "grass",
+        "reading": "STRAW. Not green at all. Hordeum spontaneum in a Judean summer is bleached, and the ground cover being straw is what makes the trees read as green.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_DryGrass_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_DryGrass_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9389064985302356,
+                0.9101909625433178,
+                0.865,
+                1.0
+              ],
+              "LeafTintB": [
+                1.4290796263883914,
+                1.3097869948794083,
+                1.135,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.7454042095403874,
+                0.6307571363461468,
+                0.33245153634617935,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.92,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              178,
+              166,
+              118
+            ],
+            "targetSrgb": [
+              192,
+              174,
+              118
+            ],
+            "tint": [
+              1.1839930624593134,
+              1.109988978711363,
+              1.0
+            ],
+            "predictedSrgb": [
+              192,
+              174,
+              118
+            ]
+          }
+        }
+      },
+      "Fig": {
+        "species": "Fig",
+        "form": "tree",
+        "reading": "Big waxy dark-green leaves on smooth PALE grey bark. The lowest leaf roughness in the set after pomegranate: a fig leaf is genuinely glossy, and the pale trunk against dark foliage is the whole silhouette of the tree.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Fig_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Fig_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.6868713459457235,
+                0.6890260696282264,
+                0.6950903148524294,
+                1.0
+              ],
+              "LeafTintB": [
+                0.9504858553551668,
+                0.9133601388095095,
+                0.8581841317451782,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.2232279573168085,
+                0.3419144249086609,
+                0.11697066775851084,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.52,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              86,
+              122,
+              66
+            ],
+            "targetSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tint": [
+              0.8186786006504452,
+              0.8011931042188679,
+              0.7766372232988038
+            ],
+            "predictedSrgb": [
+              78,
+              110,
+              58
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Fig_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Fig_Bark_BC",
+              "BarkNormal": "T_Fig_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                1.0141773203628806,
+                1.0327935715915757,
+                1.1032148645181925,
+                1.0
+              ],
+              "BarkTintB": [
+                1.231068020267805,
+                1.2222142266433058,
+                1.2515660629486005,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              148,
+              142,
+              128
+            ],
+            "targetSrgb": [
+              156,
+              150,
+              138
+            ],
+            "tint": [
+              1.1226226703153428,
+              1.1275038991174406,
+              1.1773904637333965
+            ],
+            "predictedSrgb": [
+              156,
+              150,
+              138
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Fig_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Fig_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.6868713459457235,
+                0.6890260696282264,
+                0.6950903148524294,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.9504858553551668,
+                0.9133601388095095,
+                0.8581841317451782,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.52,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              86,
+              122,
+              66
+            ],
+            "targetSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tint": [
+              0.8186786006504452,
+              0.8011931042188679,
+              0.7766372232988038
+            ],
+            "predictedSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Hyssop": {
+        "species": "Hyssop",
+        "form": "shrub",
+        "reading": "Paler and dustier still. The palest living thing in the set.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Hyssop_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Hyssop_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9878674541987531,
+                0.9245531972763014,
+                1.0760157461846653,
+                1.0
+              ],
+              "LeafTintB": [
+                1.5036015349532095,
+                1.3304546009585798,
+                1.4118819328550234,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.6038273388553378,
+                0.6038273388553378,
+                0.4793201831008268,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              132,
+              142,
+              112
+            ],
+            "targetSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tint": [
+              1.2457344945759812,
+              1.1275038991174406,
+              1.2439488395198444
+            ],
+            "predictedSrgb": [
+              146,
+              150,
+              124
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Hyssop_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Hyssop_Bark_BC",
+              "BarkNormal": "T_Hyssop_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8758,
+                0.892,
+                0.9603655146898242,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1242,
+                1.108,
+                1.1296573682042437,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              122,
+              112,
+              94
+            ],
+            "targetSrgb": [
+              122,
+              112,
+              96
+            ],
+            "tint": [
+              1.0,
+              1.0,
+              1.045011441447034
+            ],
+            "predictedSrgb": [
+              122,
+              112,
+              96
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Hyssop_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Hyssop_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9878674541987531,
+                0.9245531972763014,
+                1.0760157461846653,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.5036015349532095,
+                1.3304546009585798,
+                1.4118819328550234,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              132,
+              142,
+              112
+            ],
+            "targetSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tint": [
+              1.2457344945759812,
+              1.1275038991174406,
+              1.2439488395198444
+            ],
+            "predictedSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "JerusalemPine": {
+        "species": "JerusalemPine",
+        "form": "tree",
+        "reading": "Dark blue-green needles on red-brown plated bark. Darker than the atlas; Pinus halepensis reads almost black against the sky at midday.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_JerusalemPine_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.590205033490177,
+                0.6585581144846843,
+                0.7458431247818734,
+                1.0
+              ],
+              "LeafTintB": [
+                0.816719956951246,
+                0.8729723843169072,
+                0.9208454222167265,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.11697066775851084,
+                0.1946178304415758,
+                0.08865558628577294,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.72,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              74,
+              100,
+              68
+            ],
+            "targetSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tint": [
+              0.7034624952207115,
+              0.7657652494007957,
+              0.8333442734993
+            ],
+            "predictedSrgb": [
+              62,
+              88,
+              62
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_JerusalemPine_Bark_BC",
+              "BarkNormal": "T_JerusalemPine_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                1.0050875128909373,
+                0.8750767348589988,
+                0.7909628457084014,
+                1.0
+              ],
+              "BarkTintB": [
+                1.2200342778793467,
+                1.0355711578462388,
+                0.8973249786425087,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.85,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              118,
+              92,
+              74
+            ],
+            "targetSrgb": [
+              124,
+              90,
+              68
+            ],
+            "tint": [
+              1.112560895385142,
+              0.9553239463526187,
+              0.844143912175455
+            ],
+            "predictedSrgb": [
+              124,
+              90,
+              68
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_JerusalemPine_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.590205033490177,
+                0.6585581144846843,
+                0.7458431247818734,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.816719956951246,
+                0.8729723843169072,
+                0.9208454222167265,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.72,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              74,
+              100,
+              68
+            ],
+            "targetSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tint": [
+              0.7034624952207115,
+              0.7657652494007957,
+              0.8333442734993
+            ],
+            "predictedSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Olive": {
+        "species": "Olive",
+        "form": "tree",
+        "reading": "Grey-green with a pale silvery underside. Pulled off the yellow-green the atlas painted and towards grey; the silver is carried by the subsurface tint on the back face, which is what an olive grove does in wind.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Olive_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Olive_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.992933760556192,
+                0.9269724489856537,
+                1.3987768274648544,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3740120333799035,
+                1.2287774323763319,
+                1.7269814461996245,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5149176653765214,
+                0.5520114015120001,
+                0.44520119451622786,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.78,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              96,
+              112,
+              74
+            ],
+            "targetSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tint": [
+              1.1834728969680477,
+              1.0778749406809927,
+              1.5628791368322394
+            ],
+            "predictedSrgb": [
+              104,
+              116,
+              92
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Olive_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Olive_Bark_BC",
+              "BarkNormal": "T_Olive_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8727408513705545,
+                0.8830496459769231,
+                0.9769294047908803,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0593841239904251,
+                1.0450063496058786,
+                1.108298780461799,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              126,
+              118,
+              100
+            ],
+            "targetSrgb": [
+              124,
+              116,
+              102
+            ],
+            "tint": [
+              0.9660624876804897,
+              0.9640279977914008,
+              1.0426140926263396
+            ],
+            "predictedSrgb": [
+              124,
+              116,
+              102
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Olive_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Olive_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.992933760556192,
+                0.9269724489856537,
+                1.3987768274648544,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3740120333799035,
+                1.2287774323763319,
+                1.7269814461996245,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.78,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              96,
+              112,
+              74
+            ],
+            "targetSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tint": [
+              1.1834728969680477,
+              1.0778749406809927,
+              1.5628791368322394
+            ],
+            "predictedSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Pomegranate": {
+        "species": "Pomegranate",
+        "form": "tree",
+        "reading": "Small bright glossy leaves, red-brown bark. The glossiest leaf in the set.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Pomegranate_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Pomegranate_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.839,
+                0.9472599252810074,
+                0.8458712243174397,
+                1.0
+              ],
+              "LeafTintB": [
+                1.161,
+                1.2556701335120333,
+                1.0443438020902467,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.3049873140698863,
+                0.44520119451622786,
+                0.14412847085805777,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.48,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              96,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tint": [
+              1.0,
+              1.1014650293965202,
+              0.9451075132038431
+            ],
+            "predictedSrgb": [
+              96,
+              138,
+              70
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Pomegranate_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Pomegranate_Bark_BC",
+              "BarkNormal": "T_Pomegranate_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9607338261732302,
+                0.8508012782101492,
+                0.8190130546346347,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1661951669045432,
+                1.0068434340390848,
+                0.9291471473603164,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.8,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              140,
+              118,
+              96
+            ],
+            "targetSrgb": [
+              144,
+              114,
+              90
+            ],
+            "tint": [
+              1.0634644965388866,
+              0.9288223561246169,
+              0.8740801009974756
+            ],
+            "predictedSrgb": [
+              144,
+              114,
+              90
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Pomegranate_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Pomegranate_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.839,
+                0.9472599252810074,
+                0.8458712243174397,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.161,
+                1.2556701335120333,
+                1.0443438020902467,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.48,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              96,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tint": [
+              1.0,
+              1.1014650293965202,
+              0.9451075132038431
+            ],
+            "predictedSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Rockrose": {
+        "species": "Rockrose",
+        "form": "shrub",
+        "reading": "Dull sage-green, matte, crinkled. Sits between the grey shrubs and the green trees.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Rockrose_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Rockrose_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.8590386906338933,
+                0.7633148512026058,
+                0.9070921563652029,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3075153841048035,
+                1.0984286883159449,
+                1.1902307485254398,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.39157247774972326,
+                0.43415363617474895,
+                0.2704977910130658,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              104,
+              122,
+              86
+            ],
+            "targetSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tint": [
+              1.0832770373693483,
+              0.9308717697592753,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              108,
+              118,
+              88
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Rockrose_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Rockrose_Bark_BC",
+              "BarkNormal": "T_Rockrose_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8438163843348863,
+                0.8549102938500246,
+                0.8746401852120662,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0831449866057081,
+                1.0619289300289543,
+                1.0288205007771964,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              116,
+              100,
+              84
+            ],
+            "targetSrgb": [
+              114,
+              98,
+              82
+            ],
+            "tint": [
+              0.9634806854702971,
+              0.9584196119394894,
+              0.9517303429946313
+            ],
+            "predictedSrgb": [
+              114,
+              98,
+              82
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Rockrose_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Rockrose_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.8590386906338933,
+                0.7633148512026058,
+                0.9070921563652029,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3075153841048035,
+                1.0984286883159449,
+                1.1902307485254398,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              104,
+              122,
+              86
+            ],
+            "targetSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tint": [
+              1.0832770373693483,
+              0.9308717697592753,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Sage": {
+        "species": "Sage",
+        "form": "shrub",
+        "reading": "GREY AND DUSTY, not green. Salvia fruticosa is felted white-grey; roughness 0.88 kills the specular that would otherwise make it look like a wet garden shrub.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Sage_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Sage_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9357773242255144,
+                0.8727379926367592,
+                1.0449939378685578,
+                1.0
+              ],
+              "LeafTintB": [
+                1.4243168100128574,
+                1.2558912576967998,
+                1.3711770167408246,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5520114015120001,
+                0.5647115057049292,
+                0.43415363617474895,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              126,
+              138,
+              108
+            ],
+            "targetSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tint": [
+              1.1800470671191858,
+              1.0643146251667794,
+              1.2080854773046912
+            ],
+            "predictedSrgb": [
+              136,
+              142,
+              118
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Sage_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Sage_Bark_BC",
+              "BarkNormal": "T_Sage_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8758,
+                0.8578667746977704,
+                0.8779427066980566,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1242,
+                1.0656013300057507,
+                1.0327051860071808,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              120,
+              110,
+              92
+            ],
+            "targetSrgb": [
+              120,
+              108,
+              90
+            ],
+            "tint": [
+              1.0,
+              0.9617340523517606,
+              0.9553239463526187
+            ],
+            "predictedSrgb": [
+              120,
+              108,
+              90
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Sage_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Sage_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9357773242255144,
+                0.8727379926367592,
+                1.0449939378685578,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.4243168100128574,
+                1.2558912576967998,
+                1.3711770167408246,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              126,
+              138,
+              108
+            ],
+            "targetSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tint": [
+              1.1800470671191858,
+              1.0643146251667794,
+              1.2080854773046912
+            ],
+            "predictedSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Terebinth": {
+        "species": "Terebinth",
+        "form": "tree",
+        "reading": "Mid-dark green with a red-brown cast in the new growth, on grey bark.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Terebinth_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Terebinth_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9201232129841135,
+                0.7978662157751427,
+                0.8435167293940641,
+                1.0
+              ],
+              "LeafTintB": [
+                1.273257509266455,
+                1.0576366116089102,
+                1.0414368558440679,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.2874408377269175,
+                0.31398871337571754,
+                0.13843161503245183,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              88,
+              116,
+              68
+            ],
+            "targetSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tint": [
+              1.0966903611252843,
+              0.9277514136920264,
+              0.942476792619066
+            ],
+            "predictedSrgb": [
+              92,
+              112,
+              66
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Terebinth_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Terebinth_Bark_BC",
+              "BarkNormal": "T_Terebinth_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9393449236729069,
+                0.9964680364930011,
+                1.025810906323402,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1402320603273297,
+                1.1792263663301454,
+                1.1637534614960257,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.8,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              108,
+              98,
+              90
+            ],
+            "targetSrgb": [
+              110,
+              102,
+              94
+            ],
+            "tint": [
+              1.0397884920001184,
+              1.0878472014115732,
+              1.0947821839097138
+            ],
+            "predictedSrgb": [
+              110,
+              102,
+              94
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Terebinth_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Terebinth_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9201232129841135,
+                0.7978662157751427,
+                0.8435167293940641,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.273257509266455,
+                1.0576366116089102,
+                1.0414368558440679,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              88,
+              116,
+              68
+            ],
+            "targetSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tint": [
+              1.0966903611252843,
+              0.9277514136920264,
+              0.942476792619066
+            ],
+            "predictedSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "ThornyBurnet": {
+        "species": "ThornyBurnet",
+        "form": "shrub",
+        "reading": "Grey-olive going straw. Sarcopoterium is half dead by summer and should look it: the least green of the shrubs.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_ThornyBurnet_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9132543715248903,
+                0.8488063768719715,
+                0.865,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3900353422831557,
+                1.2214530789133247,
+                1.135,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5028864580325687,
+                0.4793201831008268,
+                0.31398871337571754,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              118,
+              124,
+              96
+            ],
+            "targetSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tint": [
+              1.151644856904023,
+              1.0351297278926481,
+              1.0
+            ],
+            "predictedSrgb": [
+              126,
+              126,
+              96
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_ThornyBurnet_Bark_BC",
+              "BarkNormal": "T_ThornyBurnet_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9361700468172542,
+                0.9592821043168542,
+                1.0012358701939499,
+                1.0
+              ],
+              "BarkTintB": [
+                1.2016925857866605,
+                1.1915746318195903,
+                1.1777322912727526,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              128,
+              116,
+              96
+            ],
+            "targetSrgb": [
+              132,
+              120,
+              100
+            ],
+            "tint": [
+              1.0689313163019574,
+              1.0754283680682222,
+              1.0894840807333512
+            ],
+            "predictedSrgb": [
+              132,
+              120,
+              100
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_ThornyBurnet_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9132543715248903,
+                0.8488063768719715,
+                0.865,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3900353422831557,
+                1.2214530789133247,
+                1.135,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              118,
+              124,
+              96
+            ],
+            "targetSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tint": [
+              1.151644856904023,
+              1.0351297278926481,
+              1.0
+            ],
+            "predictedSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      }
+    },
+    "instancesPlanned": 40,
+    "passed": true
+  },
+  "protectedSha256Before": {
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34"
+  },
+  "mapSha256Before": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  },
+  "materialFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials",
+  "textures": {
+    "T_Almond_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Almond_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "297538ee97df2e792de39467fa53138a8580592513d633d2bda27103529e804f"
+    },
+    "T_Almond_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Almond_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "98ecc81a37b8d3821f55cf92b1aae4bdb0699a17d833e27d39e725f1704f2e9b"
+    },
+    "T_Almond_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Almond_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "ccfcb2d06eaa81aea387581473c43f57a8994696c7575087c2db8734904171a8"
+    },
+    "T_Almond_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Almond_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "257907126a8a04dcbd2077788343281a4e9c3a120a7068fff395e0125cfa5770"
+    },
+    "T_Carob_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Carob_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "392f4499425477c8be71c43e3c88a790b5407076ef8039c3b2bdcf219568c6d8"
+    },
+    "T_Carob_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Carob_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "9328bd176e9447a562482513ec9460c0cc678ecf71022d0a86e7de39a4c04af3"
+    },
+    "T_Carob_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Carob_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "67261fd295f5470de9c59da85ea03a01f5d7fe69b4e4b84688eeb44ecfcd5e44"
+    },
+    "T_Carob_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Carob_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "bdd96e975a16ca670f3fa22c97b6a3836263fea5a102d3774500771de30fdec3"
+    },
+    "T_Cypress_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Cypress_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "b5fb0fdb5929ad1d0c28ed78a1f8077516e35826eef39a857ee742a356916968"
+    },
+    "T_Cypress_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Cypress_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "5e25c8253aed7a7146c24fbc80fef8c069b8801c3b599dad2ead3aedc604e12b"
+    },
+    "T_Cypress_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Cypress_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "c9b515468ca37d3893a77ecbc245d28f4d29f574d82937a8e9531c756fae42bf"
+    },
+    "T_Cypress_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Cypress_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "f64384b6bf8f342b7d2d8deb49b7f58bc5f4c7ef75a1b67857faa68b1f169843"
+    },
+    "T_DatePalm_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DatePalm_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "3c06383218255dd99255595d57d5522016e962bf77d743480fae8546252703e3"
+    },
+    "T_DatePalm_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DatePalm_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "7a275ffe24ea8df0cb17a6473f651a298573c62a575aeba0a3e83624e7798242"
+    },
+    "T_DatePalm_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DatePalm_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "14cecec5e3aad13fcaad0f3f268c26c60aab742a8586901638157112ac40359f"
+    },
+    "T_DatePalm_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DatePalm_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "8ece8b6516d296c7359473719774e120d7f5b3f56ac972758dbd20e6daa54c83"
+    },
+    "T_DryGrass_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DryGrass_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "7c417de434fbd482cf5ea45f0fc817fb3abf07c5c7b2ef0848efbcddf4259883"
+    },
+    "T_DryGrass_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DryGrass_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "e72bfab3ec9f0c8cc2df01356fc39c3180869ed0281abd87d1401d5c7a48c43f"
+    },
+    "T_DryGrass_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_DryGrass_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "2250570030077852f739a1bd87fe522f22709212faf057e9822bc1cc0390f21d"
+    },
+    "T_Fig_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Fig_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "84b04206e16bfa1d010e9604d542d4d6ec58646dd4b2552cbfd12c4c471d67e8"
+    },
+    "T_Fig_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Fig_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "540e105f69637f2991150ccf57eab67f062bff2139d2a16bb97497bd4c74ce04"
+    },
+    "T_Fig_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Fig_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "b5d263d52683e5472634de4bc639e15c209d4b8a2e5d556f9fc81601e44d19fb"
+    },
+    "T_Fig_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Fig_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "d867849a2a656f36977aa5eebc1299091e2db0fd88e344e786ff4f0fc2ec69f0"
+    },
+    "T_Hyssop_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Hyssop_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "635fe57d74bb19e741dda19c5e135a6b5652f4be835940a212ce236fafd3b5ec"
+    },
+    "T_Hyssop_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Hyssop_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "b30cfbb07a77a9b202b04f31335a853261d5acf5c8bddb08d94598b9cf95ad5d"
+    },
+    "T_Hyssop_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Hyssop_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "49ff76f1590f286f6578c284b5640a92c3cacb00c517623cda52ca0092035916"
+    },
+    "T_Hyssop_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Hyssop_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "fa57519f496ab899c5ce4cf99633912e20b4485a3573ef529c66401491b13fda"
+    },
+    "T_JerusalemPine_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_JerusalemPine_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "b50f6bf78860289e954f3979274db537a0d6a6d77ac066d13fbd876a0344f572"
+    },
+    "T_JerusalemPine_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_JerusalemPine_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "e618574607dd0f1e84ea2dd523f0aef061f24085532e3f1aa6302da6bda40b7e"
+    },
+    "T_JerusalemPine_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_JerusalemPine_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "4bbcc19b8dbb767de62614bddd0a5712a6e6648df7fe70507edcb56a6cefc2e1"
+    },
+    "T_JerusalemPine_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_JerusalemPine_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "f319b809a90eadb240fc5b6f1b8e1e0b85fdd849b2a0820256efb466dc065179"
+    },
+    "T_Olive_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Olive_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "8786f0a2d6ed80e78b9372bffdd0bd71117452e76decbcd9d53b5dbd7b11c2f2"
+    },
+    "T_Olive_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Olive_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "20573b8e2886fb1ecf1de5a9f8e80f1ba2b5a0966713bf59cca8423a54f119e3"
+    },
+    "T_Olive_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Olive_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "020cb927a67701a7c2dcdbc7576dddc83f80c7ac63ca11ffcc357743a4ba7718"
+    },
+    "T_Olive_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Olive_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "55523bae4de3320bc80520a45847736e2ea266442f33030d9c57e7db4f61290d"
+    },
+    "T_Pomegranate_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Pomegranate_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "2d984e2ce708883677c3d9eeecc710c3be567fdb1876be00701d0e551fb31980"
+    },
+    "T_Pomegranate_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Pomegranate_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "97bce31331a1a0cab9928989ea294dfd3a4dd3adbb19b04345086c3478fff2cc"
+    },
+    "T_Pomegranate_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Pomegranate_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "e811772ab38c1b640e4b38835e82f33cbb5c10bf3d9ab7b3e615e57bca203f4c"
+    },
+    "T_Pomegranate_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Pomegranate_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "816a5eec7ffccfdd42501afa792ef9bd4bcdb2a65c2bcd4cabdbbd69170f489c"
+    },
+    "T_Rockrose_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Rockrose_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "76201157c5bd0526bd8d95950c36004173e7e0053838efd8676fa783a625d419"
+    },
+    "T_Rockrose_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Rockrose_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "4b510bcd2e345b17f2cb4e35e99df3addfde83ab04df7cde3f11e8574f7bbccc"
+    },
+    "T_Rockrose_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Rockrose_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "cbf67a3d61052b09e2379620fa65d7931145d9c6a742ff37df704476db00d34d"
+    },
+    "T_Rockrose_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Rockrose_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "2ec91d001464a5c5ba68c436174523dd4c4a256dfd2e07853b92e702258441ae"
+    },
+    "T_Sage_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Sage_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "4d37b0a378dadaa3c1011946015f31fa28c73d94ad618500f9bddb0f66501557"
+    },
+    "T_Sage_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Sage_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "e0ae2cdb24e01fa2dd4514877ec7c461650230efa2195ad09b204817fde4222f"
+    },
+    "T_Sage_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Sage_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "32c446ee36f01a88ab73dfcf1fa82ad778daa4c07344fba191c47483bcbdad6a"
+    },
+    "T_Sage_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Sage_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "8a26e06bd333d46108d0e1fe729374ab3cb93327b0b18516ca49d4feb26524e0"
+    },
+    "T_Terebinth_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Terebinth_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "7cbdd51deba4e0e3d7e8eae67ec347d746f5e9c469313f1e860ee911c6a1679d"
+    },
+    "T_Terebinth_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Terebinth_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "161977fa6a7d6f1dd7ee6dd7a3a354a24f145dbb30883ecdbceddc12eab7c718"
+    },
+    "T_Terebinth_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Terebinth_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "6acf7f89cfd9b6a337f43353cd31b35cef0ca2a5a6de3e63dfbbdcf970dbbebb"
+    },
+    "T_Terebinth_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Terebinth_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "511d32959862148e943bd7e3803e734cf21db2667bf7b935df58a4c76dbc7d6a"
+    },
+    "T_ThornyBurnet_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_ThornyBurnet_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "f07fc14b5976f5ed7ec0732bc7bb2d68128b4464dc641cc5149f7c532cd7a397"
+    },
+    "T_ThornyBurnet_Bark_N": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_ThornyBurnet_Bark_N",
+      "role": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects.",
+      "before": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": false,
+        "compression": "TC_NORMALMAP",
+        "addressX": "TA_WRAP",
+        "addressY": "TA_WRAP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "724a4fd66b20cc9952e6e9efa81fc6f309e716f029fdfeff915dab4feb8bebcc"
+    },
+    "T_ThornyBurnet_Billboard_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_ThornyBurnet_Billboard_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "7506e1220a51861cfc3cacb6f14fe28ab6fad09fdb7814de16978b0ff215ccae"
+    },
+    "T_ThornyBurnet_Leaf_BCA": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_ThornyBurnet_Leaf_BCA",
+      "role": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT",
+        "addressX": "TA_CLAMP",
+        "addressY": "TA_CLAMP",
+        "compressionNoAlpha": false
+      },
+      "changed": [],
+      "stillWrong": null,
+      "uassetSha256": "755115bcc122724d0201f0174e1d4b57b2d5d7011a7ec59f41da854844c14a66"
+    }
+  },
+  "masters": {
+    "M_JudeanFlora_Bark": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+      "role": "bark",
+      "nodes": [
+        "MaterialExpressionPerInstanceRandom",
+        "MaterialExpressionTextureCoordinate",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant3Vector",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant"
+      ],
+      "connections": [
+        "MaterialExpressionTextureCoordinate.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionMultiply.out -> MaterialExpressionTextureSampleParameter2D.UVs",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionPerInstanceRandom.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionMultiply.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_BASE_COLOR",
+        "MaterialExpressionConstant3Vector.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionLinearInterpolate.out -> MP_NORMAL",
+        "MaterialExpressionScalarParameter.out -> MP_ROUGHNESS",
+        "MaterialExpressionScalarParameter.out -> MP_SPECULAR",
+        "MaterialExpressionConstant.out -> MP_METALLIC"
+      ],
+      "status": "started",
+      "created": true,
+      "rebuiltFresh": true,
+      "expressionsBeforeDelete": 16,
+      "variant": {
+        "perInstanceRandom": true,
+        "spatialBrightness": false,
+        "twoSidedFoliage": false,
+        "note": "bark and billboard are not on the bisect ladder"
+      },
+      "blendModeRequested": "BLEND_OPAQUE",
+      "blendModeApplied": "BLEND_OPAQUE",
+      "shadingModelRequested": "MSM_DEFAULT_LIT",
+      "shadingModelApplied": "MSM_DEFAULT_LIT",
+      "shadingModelIsFallback": false,
+      "twoSided": false,
+      "opacityMaskClipValue": 0.3333,
+      "perInstanceRandom": true,
+      "recompileMessages": [],
+      "nodeCount": 16,
+      "expressionsInAsset": 16
+    }
+  },
+  "instances": {},
+  "meshes": {},
+  "errors": [
+    "NameError(\"cannot access free variable 'seen' where it is not associated with a value in enclosing scope\")"
+  ],
+  "limitations": [
+    "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
+    "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
+    "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
+    "MEASURED, NOT ASSUMED: every one of the 105 static meshes came back with exactly ONE material slot, imported name 'WorldGridMaterial'. set_lod_from_static_mesh folded each species' L1/L2/Billboard meshes into the L0 asset and collapsed them all onto that one slot, so the BILLBOARD LOD of a leaf ladder renders with the LEAF material and the leaf atlas rather than with the billboard impostor texture. The standalone SM_*_Billboard assets do carry MI_*_Billboard. Splitting the far LOD onto its own slot needs StaticMeshEditorSubsystem and a re-LOD pass; it is recorded here rather than fixed.",
+    "No leaf normal map exists in the set, so leaf shading comes from the vertex normal and the subsurface transmission only.",
+    "No cook, package, collision or performance acceptance.",
+    "Nothing here is halachic."
+  ],
+  "materialFolderExistedBefore": true,
+  "forceRebuild": true,
+  "textureSummary": {
+    "inspected": 55,
+    "changed": [],
+    "unchanged": 55
+  },
+  "protectedSha256After": {
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34"
+  },
+  "protectedUnchanged": true,
+  "mapSha256After": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  },
+  "mapsUnchanged": true
+}

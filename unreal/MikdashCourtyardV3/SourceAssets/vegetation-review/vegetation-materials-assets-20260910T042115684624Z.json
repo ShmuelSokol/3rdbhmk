@@ -1,0 +1,2183 @@
+{
+  "status": "failed_assets_stage",
+  "stamp": "20260910T042115684624Z",
+  "stage": "assets",
+  "targetIndependent": true,
+  "targetIndependentNote": "A material has no coordinates. This stage touches no map and is shared by both. It deliberately carries no \"target\" key: verify.py check_map_parity buckets any receipt with one as a pass that ran on that map only.",
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+  "specSha256": "fea96799b172b0e6966cfcf11086a43e5d9560dfc6a45fafa2ebdba045df4e81",
+  "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\VegetationMaterials-assets-20260910T042115684624Z",
+  "offlineCheck": {
+    "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+    "specSha256": "fea96799b172b0e6966cfcf11086a43e5d9560dfc6a45fafa2ebdba045df4e81",
+    "errors": [],
+    "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+    "meshRoleCounts": {
+      "bark": 45,
+      "leaf": 47,
+      "billboard": 13
+    },
+    "colourSpread": {
+      "distinctLeafTargets": 14,
+      "distinctLeafRoughness": 14,
+      "darkestLeaf": "Cypress",
+      "lightestLeaf": "DryGrass",
+      "greenestLeaf": "Pomegranate",
+      "leafTargetLumaRange": [
+        58.0,
+        161.33333333333334
+      ]
+    },
+    "plan": {
+      "Almond": {
+        "species": "Almond",
+        "form": "tree",
+        "reading": "Fresh mid-green leaning yellow, on dark grey bark. The lightest of the trees, deliberately, so an almond stands out against the olive terraces.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Almond_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Almond_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9820202280335006,
+                0.9497889302135999,
+                0.895,
+                1.0
+              ],
+              "LeafTintB": [
+                1.358909993738849,
+                1.2590225353994233,
+                1.105,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.3613067797835095,
+                0.43415363617474895,
+                0.1946178304415758,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.66,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              104,
+              128,
+              76
+            ],
+            "targetSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tint": [
+              1.1704651108861748,
+              1.1044057328065116,
+              1.0
+            ],
+            "predictedSrgb": [
+              112,
+              134,
+              76
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Almond_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Almond_Bark_BC",
+              "BarkNormal": "T_Almond_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.7970734633584665,
+                0.8750767348589988,
+                0.9845225666040214,
+                1.0
+              ],
+              "BarkTintB": [
+                0.9675346025225752,
+                1.0355711578462388,
+                1.1169130077909013,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.84,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              104,
+              92,
+              82
+            ],
+            "targetSrgb": [
+              98,
+              90,
+              84
+            ],
+            "tint": [
+              0.8823040329405208,
+              0.9553239463526187,
+              1.0507177871974613
+            ],
+            "predictedSrgb": [
+              98,
+              90,
+              84
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Almond_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Almond_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9820202280335006,
+                0.9497889302135999,
+                0.895,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.358909993738849,
+                1.2590225353994233,
+                1.105,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.66,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              104,
+              128,
+              76
+            ],
+            "targetSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tint": [
+              1.1704651108861748,
+              1.1044057328065116,
+              1.0
+            ],
+            "predictedSrgb": [
+              112,
+              134,
+              76
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Carob": {
+        "species": "Carob",
+        "form": "tree",
+        "reading": "Very dark, very glossy pinnate leaves. Reads nearly as dark as cypress but with a broad round crown rather than a spike.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Carob_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Carob_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.6515986303476964,
+                0.7174885819688354,
+                0.7771694796913594,
+                1.0
+              ],
+              "LeafTintB": [
+                0.9016758162499112,
+                0.9510895156331074,
+                0.9595220950379354,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.11697066775851084,
+                0.20155625379439707,
+                0.07618538148130785,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.5,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              66,
+              96,
+              56
+            ],
+            "targetSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tint": [
+              0.7766372232988038,
+              0.8342890488009713,
+              0.8683457873646474
+            ],
+            "predictedSrgb": [
+              58,
+              88,
+              52
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Carob_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Carob_Bark_BC",
+              "BarkNormal": "T_Carob_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8693730180593822,
+                0.916,
+                0.9825957809412661,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0552960500375455,
+                1.084,
+                1.1147271239493766,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              112,
+              100,
+              86
+            ],
+            "targetSrgb": [
+              110,
+              100,
+              88
+            ],
+            "tint": [
+              0.9623345340484638,
+              1.0,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              110,
+              100,
+              88
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Carob_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Carob_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.6515986303476964,
+                0.7174885819688354,
+                0.7771694796913594,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.9016758162499112,
+                0.9510895156331074,
+                0.9595220950379354,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.5,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              66,
+              96,
+              56
+            ],
+            "targetSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tint": [
+              0.7766372232988038,
+              0.8342890488009713,
+              0.8683457873646474
+            ],
+            "predictedSrgb": [
+              58,
+              88,
+              52
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Cypress": {
+        "species": "Cypress",
+        "form": "tree",
+        "reading": "The darkest thing on the hillside. A cypress column is a near-black green spike and that contrast is what makes it legible at distance.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Cypress_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Cypress_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.5860873870540562,
+                0.6286215194184825,
+                0.6853811048026501,
+                1.0
+              ],
+              "LeafTintB": [
+                0.811021998056924,
+                0.8332889908570583,
+                0.846196783024501,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.08437621154414882,
+                0.13843161503245183,
+                0.07618538148130785,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.7,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              58,
+              84,
+              62
+            ],
+            "targetSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tint": [
+              0.6985546925554901,
+              0.7309552551377704,
+              0.7657889439135755
+            ],
+            "predictedSrgb": [
+              48,
+              72,
+              54
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Cypress_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Cypress_Bark_BC",
+              "BarkNormal": "T_Cypress_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8106989174859801,
+                0.916,
+                0.9845225666040214,
+                1.0
+              ],
+              "BarkTintB": [
+                0.9840739793171639,
+                1.084,
+                1.1169130077909013,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              122,
+              100,
+              82
+            ],
+            "targetSrgb": [
+              116,
+              100,
+              84
+            ],
+            "tint": [
+              0.897386448401572,
+              1.0,
+              1.0507177871974613
+            ],
+            "predictedSrgb": [
+              116,
+              100,
+              84
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Cypress_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Cypress_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.5860873870540562,
+                0.6286215194184825,
+                0.6853811048026501,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.811021998056924,
+                0.8332889908570583,
+                0.846196783024501,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.7,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              58,
+              84,
+              62
+            ],
+            "targetSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tint": [
+              0.6985546925554901,
+              0.7309552551377704,
+              0.7657889439135755
+            ],
+            "predictedSrgb": [
+              48,
+              72,
+              54
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "DatePalm": {
+        "species": "DatePalm",
+        "form": "palm",
+        "reading": "YELLOW-green, which is the point: a date frond is nothing like an olive leaf, and the palms line the Kidron where the difference is visible in one frame. Fibrous tan trunk, the roughest bark in the set.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_DatePalm_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_DatePalm_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                1.2077034772073914,
+                1.0081825923109669,
+                0.7983526550625089,
+                1.0
+              ],
+              "LeafTintB": [
+                1.6712082682214318,
+                1.3364280874819796,
+                0.9856756244067846,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.44520119451622786,
+                0.4910208498478356,
+                0.17464740365558504,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.6,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              108,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tint": [
+              1.4394558727144116,
+              1.1723053398964731,
+              0.8920141397346467
+            ],
+            "predictedSrgb": [
+              128,
+              142,
+              68
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_DatePalm_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_DatePalm_Bark_BC",
+              "BarkNormal": "T_DatePalm_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9937904997258523,
+                0.9850923851504916,
+                0.9808191279800128,
+                1.0
+              ],
+              "BarkTintB": [
+                1.206321299534392,
+                1.165764350985953,
+                1.11271156141169,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              134,
+              116,
+              90
+            ],
+            "targetSrgb": [
+              140,
+              120,
+              92
+            ],
+            "tint": [
+              1.1000558996301222,
+              1.0754283680682222,
+              1.0467653446958514
+            ],
+            "predictedSrgb": [
+              140,
+              120,
+              92
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_DatePalm_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_DatePalm_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                1.2077034772073914,
+                1.0081825923109669,
+                0.7983526550625089,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.6712082682214318,
+                1.3364280874819796,
+                0.9856756244067846,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.6,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              108,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tint": [
+              1.4394558727144116,
+              1.1723053398964731,
+              0.8920141397346467
+            ],
+            "predictedSrgb": [
+              128,
+              142,
+              68
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "DryGrass": {
+        "species": "DryGrass",
+        "form": "grass",
+        "reading": "STRAW. Not green at all. Hordeum spontaneum in a Judean summer is bleached, and the ground cover being straw is what makes the trees read as green.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_DryGrass_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_DryGrass_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9389064985302356,
+                0.9101909625433178,
+                0.865,
+                1.0
+              ],
+              "LeafTintB": [
+                1.4290796263883914,
+                1.3097869948794083,
+                1.135,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.7454042095403874,
+                0.6307571363461468,
+                0.33245153634617935,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.92,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              178,
+              166,
+              118
+            ],
+            "targetSrgb": [
+              192,
+              174,
+              118
+            ],
+            "tint": [
+              1.1839930624593134,
+              1.109988978711363,
+              1.0
+            ],
+            "predictedSrgb": [
+              192,
+              174,
+              118
+            ]
+          }
+        }
+      },
+      "Fig": {
+        "species": "Fig",
+        "form": "tree",
+        "reading": "Big waxy dark-green leaves on smooth PALE grey bark. The lowest leaf roughness in the set after pomegranate: a fig leaf is genuinely glossy, and the pale trunk against dark foliage is the whole silhouette of the tree.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Fig_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Fig_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.6868713459457235,
+                0.6890260696282264,
+                0.6950903148524294,
+                1.0
+              ],
+              "LeafTintB": [
+                0.9504858553551668,
+                0.9133601388095095,
+                0.8581841317451782,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.2232279573168085,
+                0.3419144249086609,
+                0.11697066775851084,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.52,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              86,
+              122,
+              66
+            ],
+            "targetSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tint": [
+              0.8186786006504452,
+              0.8011931042188679,
+              0.7766372232988038
+            ],
+            "predictedSrgb": [
+              78,
+              110,
+              58
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Fig_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Fig_Bark_BC",
+              "BarkNormal": "T_Fig_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                1.0141773203628806,
+                1.0327935715915757,
+                1.1032148645181925,
+                1.0
+              ],
+              "BarkTintB": [
+                1.231068020267805,
+                1.2222142266433058,
+                1.2515660629486005,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              148,
+              142,
+              128
+            ],
+            "targetSrgb": [
+              156,
+              150,
+              138
+            ],
+            "tint": [
+              1.1226226703153428,
+              1.1275038991174406,
+              1.1773904637333965
+            ],
+            "predictedSrgb": [
+              156,
+              150,
+              138
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Fig_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Fig_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.6868713459457235,
+                0.6890260696282264,
+                0.6950903148524294,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.9504858553551668,
+                0.9133601388095095,
+                0.8581841317451782,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.52,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              86,
+              122,
+              66
+            ],
+            "targetSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tint": [
+              0.8186786006504452,
+              0.8011931042188679,
+              0.7766372232988038
+            ],
+            "predictedSrgb": [
+              78,
+              110,
+              58
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Hyssop": {
+        "species": "Hyssop",
+        "form": "shrub",
+        "reading": "Paler and dustier still. The palest living thing in the set.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Hyssop_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Hyssop_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9878674541987531,
+                0.9245531972763014,
+                1.0760157461846653,
+                1.0
+              ],
+              "LeafTintB": [
+                1.5036015349532095,
+                1.3304546009585798,
+                1.4118819328550234,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.6038273388553378,
+                0.6038273388553378,
+                0.4793201831008268,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              132,
+              142,
+              112
+            ],
+            "targetSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tint": [
+              1.2457344945759812,
+              1.1275038991174406,
+              1.2439488395198444
+            ],
+            "predictedSrgb": [
+              146,
+              150,
+              124
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Hyssop_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Hyssop_Bark_BC",
+              "BarkNormal": "T_Hyssop_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8758,
+                0.892,
+                0.9603655146898242,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1242,
+                1.108,
+                1.1296573682042437,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              122,
+              112,
+              94
+            ],
+            "targetSrgb": [
+              122,
+              112,
+              96
+            ],
+            "tint": [
+              1.0,
+              1.0,
+              1.045011441447034
+            ],
+            "predictedSrgb": [
+              122,
+              112,
+              96
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Hyssop_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Hyssop_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9878674541987531,
+                0.9245531972763014,
+                1.0760157461846653,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.5036015349532095,
+                1.3304546009585798,
+                1.4118819328550234,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.9,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              132,
+              142,
+              112
+            ],
+            "targetSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tint": [
+              1.2457344945759812,
+              1.1275038991174406,
+              1.2439488395198444
+            ],
+            "predictedSrgb": [
+              146,
+              150,
+              124
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "JerusalemPine": {
+        "species": "JerusalemPine",
+        "form": "tree",
+        "reading": "Dark blue-green needles on red-brown plated bark. Darker than the atlas; Pinus halepensis reads almost black against the sky at midday.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_JerusalemPine_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.590205033490177,
+                0.6585581144846843,
+                0.7458431247818734,
+                1.0
+              ],
+              "LeafTintB": [
+                0.816719956951246,
+                0.8729723843169072,
+                0.9208454222167265,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.11697066775851084,
+                0.1946178304415758,
+                0.08865558628577294,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.72,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              74,
+              100,
+              68
+            ],
+            "targetSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tint": [
+              0.7034624952207115,
+              0.7657652494007957,
+              0.8333442734993
+            ],
+            "predictedSrgb": [
+              62,
+              88,
+              62
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_JerusalemPine_Bark_BC",
+              "BarkNormal": "T_JerusalemPine_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                1.0050875128909373,
+                0.8750767348589988,
+                0.7909628457084014,
+                1.0
+              ],
+              "BarkTintB": [
+                1.2200342778793467,
+                1.0355711578462388,
+                0.8973249786425087,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.85,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              118,
+              92,
+              74
+            ],
+            "targetSrgb": [
+              124,
+              90,
+              68
+            ],
+            "tint": [
+              1.112560895385142,
+              0.9553239463526187,
+              0.844143912175455
+            ],
+            "predictedSrgb": [
+              124,
+              90,
+              68
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_JerusalemPine_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_JerusalemPine_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.590205033490177,
+                0.6585581144846843,
+                0.7458431247818734,
+                1.0
+              ],
+              "BillboardTintB": [
+                0.816719956951246,
+                0.8729723843169072,
+                0.9208454222167265,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.72,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              74,
+              100,
+              68
+            ],
+            "targetSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tint": [
+              0.7034624952207115,
+              0.7657652494007957,
+              0.8333442734993
+            ],
+            "predictedSrgb": [
+              62,
+              88,
+              62
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Olive": {
+        "species": "Olive",
+        "form": "tree",
+        "reading": "Grey-green with a pale silvery underside. Pulled off the yellow-green the atlas painted and towards grey; the silver is carried by the subsurface tint on the back face, which is what an olive grove does in wind.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Olive_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Olive_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.992933760556192,
+                0.9269724489856537,
+                1.3987768274648544,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3740120333799035,
+                1.2287774323763319,
+                1.7269814461996245,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5149176653765214,
+                0.5520114015120001,
+                0.44520119451622786,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.78,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              96,
+              112,
+              74
+            ],
+            "targetSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tint": [
+              1.1834728969680477,
+              1.0778749406809927,
+              1.5628791368322394
+            ],
+            "predictedSrgb": [
+              104,
+              116,
+              92
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Olive_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Olive_Bark_BC",
+              "BarkNormal": "T_Olive_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8727408513705545,
+                0.8830496459769231,
+                0.9769294047908803,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0593841239904251,
+                1.0450063496058786,
+                1.108298780461799,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              126,
+              118,
+              100
+            ],
+            "targetSrgb": [
+              124,
+              116,
+              102
+            ],
+            "tint": [
+              0.9660624876804897,
+              0.9640279977914008,
+              1.0426140926263396
+            ],
+            "predictedSrgb": [
+              124,
+              116,
+              102
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Olive_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Olive_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.992933760556192,
+                0.9269724489856537,
+                1.3987768274648544,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3740120333799035,
+                1.2287774323763319,
+                1.7269814461996245,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.78,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              96,
+              112,
+              74
+            ],
+            "targetSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tint": [
+              1.1834728969680477,
+              1.0778749406809927,
+              1.5628791368322394
+            ],
+            "predictedSrgb": [
+              104,
+              116,
+              92
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Pomegranate": {
+        "species": "Pomegranate",
+        "form": "tree",
+        "reading": "Small bright glossy leaves, red-brown bark. The glossiest leaf in the set.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Pomegranate_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Pomegranate_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.839,
+                0.9472599252810074,
+                0.8458712243174397,
+                1.0
+              ],
+              "LeafTintB": [
+                1.161,
+                1.2556701335120333,
+                1.0443438020902467,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.3049873140698863,
+                0.44520119451622786,
+                0.14412847085805777,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.48,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              96,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tint": [
+              1.0,
+              1.1014650293965202,
+              0.9451075132038431
+            ],
+            "predictedSrgb": [
+              96,
+              138,
+              70
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Pomegranate_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Pomegranate_Bark_BC",
+              "BarkNormal": "T_Pomegranate_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9607338261732302,
+                0.8508012782101492,
+                0.8190130546346347,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1661951669045432,
+                1.0068434340390848,
+                0.9291471473603164,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.8,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              140,
+              118,
+              96
+            ],
+            "targetSrgb": [
+              144,
+              114,
+              90
+            ],
+            "tint": [
+              1.0634644965388866,
+              0.9288223561246169,
+              0.8740801009974756
+            ],
+            "predictedSrgb": [
+              144,
+              114,
+              90
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Pomegranate_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Pomegranate_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.839,
+                0.9472599252810074,
+                0.8458712243174397,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.161,
+                1.2556701335120333,
+                1.0443438020902467,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.48,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              96,
+              132,
+              72
+            ],
+            "targetSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tint": [
+              1.0,
+              1.1014650293965202,
+              0.9451075132038431
+            ],
+            "predictedSrgb": [
+              96,
+              138,
+              70
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Rockrose": {
+        "species": "Rockrose",
+        "form": "shrub",
+        "reading": "Dull sage-green, matte, crinkled. Sits between the grey shrubs and the green trees.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Rockrose_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Rockrose_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.8590386906338933,
+                0.7633148512026058,
+                0.9070921563652029,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3075153841048035,
+                1.0984286883159449,
+                1.1902307485254398,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.39157247774972326,
+                0.43415363617474895,
+                0.2704977910130658,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              104,
+              122,
+              86
+            ],
+            "targetSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tint": [
+              1.0832770373693483,
+              0.9308717697592753,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              108,
+              118,
+              88
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Rockrose_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Rockrose_Bark_BC",
+              "BarkNormal": "T_Rockrose_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8438163843348863,
+                0.8549102938500246,
+                0.8746401852120662,
+                1.0
+              ],
+              "BarkTintB": [
+                1.0831449866057081,
+                1.0619289300289543,
+                1.0288205007771964,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              116,
+              100,
+              84
+            ],
+            "targetSrgb": [
+              114,
+              98,
+              82
+            ],
+            "tint": [
+              0.9634806854702971,
+              0.9584196119394894,
+              0.9517303429946313
+            ],
+            "predictedSrgb": [
+              114,
+              98,
+              82
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Rockrose_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Rockrose_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.8590386906338933,
+                0.7633148512026058,
+                0.9070921563652029,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3075153841048035,
+                1.0984286883159449,
+                1.1902307485254398,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.82,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              104,
+              122,
+              86
+            ],
+            "targetSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tint": [
+              1.0832770373693483,
+              0.9308717697592753,
+              1.0486614524453213
+            ],
+            "predictedSrgb": [
+              108,
+              118,
+              88
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Sage": {
+        "species": "Sage",
+        "form": "shrub",
+        "reading": "GREY AND DUSTY, not green. Salvia fruticosa is felted white-grey; roughness 0.88 kills the specular that would otherwise make it look like a wet garden shrub.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Sage_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Sage_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9357773242255144,
+                0.8727379926367592,
+                1.0449939378685578,
+                1.0
+              ],
+              "LeafTintB": [
+                1.4243168100128574,
+                1.2558912576967998,
+                1.3711770167408246,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5520114015120001,
+                0.5647115057049292,
+                0.43415363617474895,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              126,
+              138,
+              108
+            ],
+            "targetSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tint": [
+              1.1800470671191858,
+              1.0643146251667794,
+              1.2080854773046912
+            ],
+            "predictedSrgb": [
+              136,
+              142,
+              118
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Sage_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Sage_Bark_BC",
+              "BarkNormal": "T_Sage_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.8758,
+                0.8578667746977704,
+                0.8779427066980566,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1242,
+                1.0656013300057507,
+                1.0327051860071808,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              120,
+              110,
+              92
+            ],
+            "targetSrgb": [
+              120,
+              108,
+              90
+            ],
+            "tint": [
+              1.0,
+              0.9617340523517606,
+              0.9553239463526187
+            ],
+            "predictedSrgb": [
+              120,
+              108,
+              90
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Sage_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Sage_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9357773242255144,
+                0.8727379926367592,
+                1.0449939378685578,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.4243168100128574,
+                1.2558912576967998,
+                1.3711770167408246,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              126,
+              138,
+              108
+            ],
+            "targetSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tint": [
+              1.1800470671191858,
+              1.0643146251667794,
+              1.2080854773046912
+            ],
+            "predictedSrgb": [
+              136,
+              142,
+              118
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "Terebinth": {
+        "species": "Terebinth",
+        "form": "tree",
+        "reading": "Mid-dark green with a red-brown cast in the new growth, on grey bark.",
+        "variationSpread": 0.14,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_Terebinth_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_Terebinth_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9201232129841135,
+                0.7978662157751427,
+                0.8435167293940641,
+                1.0
+              ],
+              "LeafTintB": [
+                1.273257509266455,
+                1.0576366116089102,
+                1.0414368558440679,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.2874408377269175,
+                0.31398871337571754,
+                0.13843161503245183,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              88,
+              116,
+              68
+            ],
+            "targetSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tint": [
+              1.0966903611252843,
+              0.9277514136920264,
+              0.942476792619066
+            ],
+            "predictedSrgb": [
+              92,
+              112,
+              66
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_Terebinth_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_Terebinth_Bark_BC",
+              "BarkNormal": "T_Terebinth_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9393449236729069,
+                0.9964680364930011,
+                1.025810906323402,
+                1.0
+              ],
+              "BarkTintB": [
+                1.1402320603273297,
+                1.1792263663301454,
+                1.1637534614960257,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.8,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              108,
+              98,
+              90
+            ],
+            "targetSrgb": [
+              110,
+              102,
+              94
+            ],
+            "tint": [
+              1.0397884920001184,
+              1.0878472014115732,
+              1.0947821839097138
+            ],
+            "predictedSrgb": [
+              110,
+              102,
+              94
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_Terebinth_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_Terebinth_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9201232129841135,
+                0.7978662157751427,
+                0.8435167293940641,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.273257509266455,
+                1.0576366116089102,
+                1.0414368558440679,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.62,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              88,
+              116,
+              68
+            ],
+            "targetSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tint": [
+              1.0966903611252843,
+              0.9277514136920264,
+              0.942476792619066
+            ],
+            "predictedSrgb": [
+              92,
+              112,
+              66
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      },
+      "ThornyBurnet": {
+        "species": "ThornyBurnet",
+        "form": "shrub",
+        "reading": "Grey-olive going straw. Sarcopoterium is half dead by summer and should look it: the least green of the shrubs.",
+        "variationSpread": 0.18,
+        "roles": {
+          "leaf": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Leaf",
+            "master": "M_JudeanFlora_Leaf",
+            "textureParameters": {
+              "LeafAtlas": "T_ThornyBurnet_Leaf_BCA"
+            },
+            "vectors": {
+              "LeafTintA": [
+                0.9132543715248903,
+                0.8488063768719715,
+                0.865,
+                1.0
+              ],
+              "LeafTintB": [
+                1.3900353422831557,
+                1.2214530789133247,
+                1.135,
+                1.0
+              ],
+              "SubsurfaceTint": [
+                0.5028864580325687,
+                0.4793201831008268,
+                0.31398871337571754,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.25,
+              "SubsurfaceStrength": 0.55,
+              "BrightnessSpread": 0.1
+            },
+            "atlasSrgb": [
+              118,
+              124,
+              96
+            ],
+            "targetSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tint": [
+              1.151644856904023,
+              1.0351297278926481,
+              1.0
+            ],
+            "predictedSrgb": [
+              126,
+              126,
+              96
+            ]
+          },
+          "bark": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Bark",
+            "master": "M_JudeanFlora_Bark",
+            "textureParameters": {
+              "BarkBaseColour": "T_ThornyBurnet_Bark_BC",
+              "BarkNormal": "T_ThornyBurnet_Bark_N"
+            },
+            "vectors": {
+              "BarkTintA": [
+                0.9361700468172542,
+                0.9592821043168542,
+                1.0012358701939499,
+                1.0
+              ],
+              "BarkTintB": [
+                1.2016925857866605,
+                1.1915746318195903,
+                1.1777322912727526,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.88,
+              "Specular": 0.2,
+              "Tiling": 1.0,
+              "NormalStrength": 1.0
+            },
+            "atlasSrgb": [
+              128,
+              116,
+              96
+            ],
+            "targetSrgb": [
+              132,
+              120,
+              100
+            ],
+            "tint": [
+              1.0689313163019574,
+              1.0754283680682222,
+              1.0894840807333512
+            ],
+            "predictedSrgb": [
+              132,
+              120,
+              100
+            ]
+          },
+          "billboard": {
+            "instance": "MI_JudeanFlora_ThornyBurnet_Billboard",
+            "master": "M_JudeanFlora_Billboard",
+            "textureParameters": {
+              "BillboardAtlas": "T_ThornyBurnet_Billboard_BCA"
+            },
+            "vectors": {
+              "BillboardTintA": [
+                0.9132543715248903,
+                0.8488063768719715,
+                0.865,
+                1.0
+              ],
+              "BillboardTintB": [
+                1.3900353422831557,
+                1.2214530789133247,
+                1.135,
+                1.0
+              ]
+            },
+            "scalars": {
+              "Roughness": 0.86,
+              "Specular": 0.25
+            },
+            "atlasSrgb": [
+              118,
+              124,
+              96
+            ],
+            "targetSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tint": [
+              1.151644856904023,
+              1.0351297278926481,
+              1.0
+            ],
+            "predictedSrgb": [
+              126,
+              126,
+              96
+            ],
+            "tintSource": "the leaf correction, so the LOD swap does not change hue"
+          }
+        }
+      }
+    },
+    "instancesPlanned": 40,
+    "passed": true
+  },
+  "protectedSha256Before": {},
+  "mapSha256Before": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "d4f0f5e29a370f90fa8270e96c88c30c6e6a13592bf2b8757efb8aacd9623ead",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "c23b16185c50d32deb7aa57a5a2b767cd3c6eceb9ea66770fe9dac44068ab90d"
+  },
+  "materialFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials",
+  "textures": {
+    "T_Almond_Bark_BC": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures/T_Almond_Bark_BC",
+      "role": "Bark base colour tiles up a trunk.",
+      "before": {
+        "srgb": true,
+        "compression": "TC_DEFAULT: 0>",
+        "addressX": "TA_WRAP: 0>",
+        "addressY": "TA_WRAP: 0>",
+        "compressionNoAlpha": false
+      },
+      "after": {
+        "srgb": true,
+        "compression": "TC_DEFAULT: 0>",
+        "addressX": "TA_WRAP: 0>",
+        "addressY": "TA_WRAP: 0>",
+        "compressionNoAlpha": false
+      },
+      "changed": [
+        "compression",
+        "addressX",
+        "addressY"
+      ],
+      "stillWrong": {
+        "compression": [
+          "TC_DEFAULT: 0>",
+          "TC_DEFAULT"
+        ],
+        "addressX": [
+          "TA_WRAP: 0>",
+          "TA_WRAP"
+        ],
+        "addressY": [
+          "TA_WRAP: 0>",
+          "TA_WRAP"
+        ]
+      },
+      "uassetSha256": "297538ee97df2e792de39467fa53138a8580592513d633d2bda27103529e804f"
+    }
+  },
+  "masters": {},
+  "instances": {},
+  "meshes": {},
+  "errors": [
+    "RuntimeError(\"Texture T_Almond_Bark_BC did not take its flags: {'compression': ('TC_DEFAULT: 0>', 'TC_DEFAULT'), 'addressX': ('TA_WRAP: 0>', 'TA_WRAP'), 'addressY': ('TA_WRAP: 0>', 'TA_WRAP')}\")"
+  ],
+  "limitations": [
+    "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
+    "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
+    "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
+    "No leaf normal map exists in the set, so leaf shading comes from the vertex normal and the subsurface transmission only.",
+    "No cook, package, collision or performance acceptance.",
+    "Nothing here is halachic."
+  ],
+  "materialFolderExistedBefore": false,
+  "protectedSha256After": {},
+  "protectedUnchanged": true,
+  "mapSha256After": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "d4f0f5e29a370f90fa8270e96c88c30c6e6a13592bf2b8757efb8aacd9623ead",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "c23b16185c50d32deb7aa57a5a2b767cd3c6eceb9ea66770fe9dac44068ab90d"
+  },
+  "mapsUnchanged": true
+}

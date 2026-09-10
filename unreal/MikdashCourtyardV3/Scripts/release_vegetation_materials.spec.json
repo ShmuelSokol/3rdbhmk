@@ -1,0 +1,674 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-10",
+  "purpose": "Bark, leaf and billboard materials for JudeanFloraV1, and their assignment to the placed vegetation on both maps. Consumed by Scripts/release_vegetation_materials.py. release_vegetation.spec.json records the gap this closes: 'Materials are created unassigned unless a material is already present at the expected path.' Every colour, roughness and flag a reviewer would want to argue with is a number in this file rather than a literal in the script.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "VegetationMaterials-",
+  "receiptFolder": "SourceAssets/vegetation-review",
+  "receiptPrefix": "vegetation-materials-",
+  "vegetationSpec": "Scripts/release_vegetation.spec.json",
+  "manifest": "SourceAssets/vegetation-review/JudeanFloraV1/vegetation-manifest.json",
+  "manifestStatusRequired": "offline_geometry_and_textures_generated_native_pending",
+  "generator": "Scripts/create_vegetation.py",
+  "assetFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1",
+  "meshFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes",
+  "textureAssetFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Textures",
+  "materialFolder": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials",
+  "materialFolderIsNew": true,
+  "materialFolderNote": "A NEW namespace. AGENTS.md hard rule 4 forbids rerunning a creator into an existing asset folder, so nothing is written into Meshes/ or Textures/ except the material-slot pointers and the texture import flags listed below, each of which is recorded before and after.",
+  "meshPrefix": "SM_JudeanFloraV1_",
+  "masterPrefix": "M_JudeanFlora_",
+  "instancePrefix": "MI_JudeanFlora_",
+  "protectedAssets": [
+    "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled"
+  ],
+  "protectedAssetsNote": "The shared PBR parent is hashed before and after and must not move. This pass never touches it and never touches the usage flags of the nine Nanite-repaired instances: it only creates new materials under its own folder and points slots at them. THE PATH WAS WRONG on the first run of this spec (it guessed /Game/MikdashV3/PBRArchitecture/M_PBR_Tiled, which does not exist, so the hash silently resolved to nothing and the guard watched an empty set). The real path is the one above; it hashed 7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34 and was last written 2026-09-07, days before this pass. A protected path that does not exist must be treated as a spec error, not as 'nothing to protect'.",
+  "customNodePolicy": {
+    "allowed": false,
+    "rule": "EnclosureMath.h section 6b. A Custom node taking per-instance data as an argument is hoisted into the vertex stage, where a non-instanced vertex factory has no instance data, and ShaderCompileWorker dies with an access violation instead of a clean error. The whole package failed for hours on 9 September because of it. Every node in every graph below is a stock node; the script refuses to create a MaterialExpressionCustom at all.",
+    "perInstanceRandomIsExempt": "MaterialExpressionPerInstanceRandom is a plain float supplied by every vertex factory (zero on the non-instanced ones) and is not per-instance CUSTOM data. It is the only per-instance input used here, and it feeds nothing but stock Lerp/Multiply nodes."
+  },
+  "masters": {
+    "M_JudeanFlora_Bark": {
+      "role": "bark",
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "twoSidedReason": "A trunk is a closed solid (the manifest proves signed volume > 0 on every bark part). Two-sided on a solid doubles the shading cost and lets backfaces leak light.",
+      "textureParameters": {
+        "baseColour": "BarkBaseColour",
+        "normal": "BarkNormal"
+      },
+      "vectorParameters": [
+        "BarkTintA",
+        "BarkTintB"
+      ],
+      "scalarParameters": [
+        "Roughness",
+        "Specular",
+        "Tiling",
+        "NormalStrength"
+      ]
+    },
+    "M_JudeanFlora_Leaf": {
+      "role": "leaf",
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE",
+      "shadingModelFallback": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.5,
+      "reason": "A leaf card rendered OPAQUE is a solid rectangle and rendered ONE-SIDED it vanishes from half the angles. Masked plus two-sided is the single thing that decides whether the mesh reads as a plant. The manifest's own material plan says the same: 'MASKED alpha test at 0.5, TWO-SIDED, subsurface tint for the back face'. The atlas alpha edge is hard by construction, so 0.5 is unambiguous.",
+      "shadingModelReason": "MSM_TWO_SIDED_FOLIAGE is the engine's foliage transmission model: it lights the back face through the leaf from the Subsurface Colour input, which is where the pale underside of an olive comes from. If the enum is absent the script falls back to MSM_DEFAULT_LIT, still masked and still two-sided, and RECORDS the fallback rather than implying the transmission is there.",
+      "textureParameters": {
+        "atlas": "LeafAtlas"
+      },
+      "vectorParameters": [
+        "LeafTintA",
+        "LeafTintB",
+        "SubsurfaceTint"
+      ],
+      "scalarParameters": [
+        "Roughness",
+        "Specular",
+        "SubsurfaceStrength",
+        "BrightnessSpread"
+      ]
+    },
+    "M_JudeanFlora_Billboard": {
+      "role": "billboard",
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.5,
+      "reason": "The impostor is a single open quad (the manifest exempts it from the closed-shell check for exactly that reason), so it is invisible from behind unless it is two-sided, and a solid rectangle unless it is masked. It is DEFAULT_LIT rather than two-sided foliage because the billboard is an orthographic render of the whole tree including the trunk, and running transmission over a picture of a trunk makes the far LOD glow.",
+      "textureParameters": {
+        "atlas": "BillboardAtlas"
+      },
+      "vectorParameters": [
+        "BillboardTintA",
+        "BillboardTintB"
+      ],
+      "scalarParameters": [
+        "Roughness",
+        "Specular"
+      ]
+    }
+  },
+  "perInstanceVariation": {
+    "node": "MaterialExpressionPerInstanceRandom",
+    "use": "BaseColour is TextureRGB * Lerp(TintA, TintB, PerInstanceRandom). TintA and TintB straddle the species tint in BOTH value and hue, so the mean instance lands exactly on the authored target colour and the spread is a genuine hue+brightness spread rather than a brightness ramp.",
+    "why": "The standing complaint is 'I don't wanna see, like, repeating patterns all over'. 225,780 instances of fourteen meshes is the worst case for that, and a hillside of one green is the repetition. Per-instance random costs nothing on a vertex factory that already carries it.",
+    "hueShift": {
+      "r": 1.15,
+      "g": 1.0,
+      "b": 0.75,
+      "note": "TintB is warmer/yellower and TintA cooler/greener by these per-channel multipliers on the spread, so instances differ in hue, not just in exposure."
+    },
+    "spatialBrightness": {
+      "node": "MaterialExpressionObjectPositionWS",
+      "use": "Leaf only. Frac(dot(ObjectPositionWS.xy, k)) drives a second, decorrelated brightness lerp of +-BrightnessSpread, so two neighbours that happen to draw the same PerInstanceRandom still differ.",
+      "kPerCm": [
+        0.0007123,
+        0.0009377
+      ],
+      "optional": true,
+      "note": "Stock nodes only (ObjectPositionWS, ComponentMask, DotProduct, Frac, Lerp). If MaterialExpressionObjectPositionWS is unavailable the leaf graph drops this branch and the receipt records it."
+    }
+  },
+  "textureFlags": {
+    "note": "release_vegetation.py imported these PNGs with default settings and never revisited them. Read every flag back, fix only what is wrong for the map's role, and record before and after for each one.",
+    "baseColour": {
+      "match": "_BC",
+      "srgb": true,
+      "compression": "TC_DEFAULT",
+      "addressX": "TA_WRAP",
+      "addressY": "TA_WRAP",
+      "reason": "Bark base colour tiles up a trunk."
+    },
+    "normal": {
+      "match": "_N",
+      "srgb": false,
+      "compression": "TC_NORMALMAP",
+      "addressX": "TA_WRAP",
+      "addressY": "TA_WRAP",
+      "reason": "A normal map is not colour. sRGB on a normal map bends every surface. TC_NORMALMAP also gets the two-channel BC5 encoding the sampler expects."
+    },
+    "alphaAtlas": {
+      "match": "_BCA",
+      "srgb": true,
+      "compression": "TC_DEFAULT",
+      "addressX": "TA_CLAMP",
+      "addressY": "TA_CLAMP",
+      "compressionNoAlpha": false,
+      "reason": "Leaf atlases and billboards are ATLASES: wrapping bleeds the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. Clamp. The alpha must survive compression, so compressionNoAlpha stays false."
+    }
+  },
+  "speciesDefaults": {
+    "leafSpecular": 0.25,
+    "barkSpecular": 0.2,
+    "barkTiling": 1.0,
+    "barkNormalStrength": 1.0,
+    "subsurfaceStrength": 0.55,
+    "variationSpread": 0.14,
+    "shrubVariationSpread": 0.18,
+    "brightnessSpread": 0.1
+  },
+  "colourNote": "atlasSrgb is the colour create_vegetation.py actually painted into the atlas (its SPECIES table's leafColour / barkColour, 8-bit sRGB). targetSrgb is what this pass wants the species to READ AS. The tint parameter is targetLinear / atlasLinear per channel, clamped, so the material corrects the atlas onto the target instead of tinting an already-tinted texture a second time. Both numbers, the derived tint and the predicted result are in the receipt.",
+  "tintClamp": [
+    0.3,
+    2.2
+  ],
+  "species": {
+    "Olive": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        96,
+        112,
+        74
+      ],
+      "leafTargetSrgb": [
+        104,
+        116,
+        92
+      ],
+      "barkAtlasSrgb": [
+        126,
+        118,
+        100
+      ],
+      "barkTargetSrgb": [
+        124,
+        116,
+        102
+      ],
+      "subsurfaceSrgb": [
+        190,
+        196,
+        178
+      ],
+      "leafRoughness": 0.78,
+      "barkRoughness": 0.88,
+      "reading": "Grey-green with a pale silvery underside. Pulled off the yellow-green the atlas painted and towards grey; the silver is carried by the subsurface tint on the back face, which is what an olive grove does in wind."
+    },
+    "JerusalemPine": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        74,
+        100,
+        68
+      ],
+      "leafTargetSrgb": [
+        62,
+        88,
+        62
+      ],
+      "barkAtlasSrgb": [
+        118,
+        92,
+        74
+      ],
+      "barkTargetSrgb": [
+        124,
+        90,
+        68
+      ],
+      "subsurfaceSrgb": [
+        96,
+        122,
+        84
+      ],
+      "leafRoughness": 0.72,
+      "barkRoughness": 0.85,
+      "reading": "Dark blue-green needles on red-brown plated bark. Darker than the atlas; Pinus halepensis reads almost black against the sky at midday."
+    },
+    "Cypress": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        58,
+        84,
+        62
+      ],
+      "leafTargetSrgb": [
+        48,
+        72,
+        54
+      ],
+      "barkAtlasSrgb": [
+        122,
+        100,
+        82
+      ],
+      "barkTargetSrgb": [
+        116,
+        100,
+        84
+      ],
+      "subsurfaceSrgb": [
+        82,
+        104,
+        78
+      ],
+      "leafRoughness": 0.7,
+      "barkRoughness": 0.86,
+      "reading": "The darkest thing on the hillside. A cypress column is a near-black green spike and that contrast is what makes it legible at distance."
+    },
+    "Almond": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        104,
+        128,
+        76
+      ],
+      "leafTargetSrgb": [
+        112,
+        134,
+        76
+      ],
+      "barkAtlasSrgb": [
+        104,
+        92,
+        82
+      ],
+      "barkTargetSrgb": [
+        98,
+        90,
+        84
+      ],
+      "subsurfaceSrgb": [
+        162,
+        176,
+        122
+      ],
+      "leafRoughness": 0.66,
+      "barkRoughness": 0.84,
+      "reading": "Fresh mid-green leaning yellow, on dark grey bark. The lightest of the trees, deliberately, so an almond stands out against the olive terraces."
+    },
+    "Fig": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        86,
+        122,
+        66
+      ],
+      "leafTargetSrgb": [
+        78,
+        110,
+        58
+      ],
+      "barkAtlasSrgb": [
+        148,
+        142,
+        128
+      ],
+      "barkTargetSrgb": [
+        156,
+        150,
+        138
+      ],
+      "subsurfaceSrgb": [
+        130,
+        158,
+        96
+      ],
+      "leafRoughness": 0.52,
+      "barkRoughness": 0.62,
+      "reading": "Big waxy dark-green leaves on smooth PALE grey bark. The lowest leaf roughness in the set after pomegranate: a fig leaf is genuinely glossy, and the pale trunk against dark foliage is the whole silhouette of the tree."
+    },
+    "Pomegranate": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        96,
+        132,
+        72
+      ],
+      "leafTargetSrgb": [
+        96,
+        138,
+        70
+      ],
+      "barkAtlasSrgb": [
+        140,
+        118,
+        96
+      ],
+      "barkTargetSrgb": [
+        144,
+        114,
+        90
+      ],
+      "subsurfaceSrgb": [
+        150,
+        178,
+        106
+      ],
+      "leafRoughness": 0.48,
+      "barkRoughness": 0.8,
+      "reading": "Small bright glossy leaves, red-brown bark. The glossiest leaf in the set."
+    },
+    "DatePalm": {
+      "form": "palm",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        108,
+        132,
+        72
+      ],
+      "leafTargetSrgb": [
+        128,
+        142,
+        68
+      ],
+      "barkAtlasSrgb": [
+        134,
+        116,
+        90
+      ],
+      "barkTargetSrgb": [
+        140,
+        120,
+        92
+      ],
+      "subsurfaceSrgb": [
+        178,
+        186,
+        116
+      ],
+      "leafRoughness": 0.6,
+      "barkRoughness": 0.9,
+      "reading": "YELLOW-green, which is the point: a date frond is nothing like an olive leaf, and the palms line the Kidron where the difference is visible in one frame. Fibrous tan trunk, the roughest bark in the set."
+    },
+    "Carob": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        66,
+        96,
+        56
+      ],
+      "leafTargetSrgb": [
+        58,
+        88,
+        52
+      ],
+      "barkAtlasSrgb": [
+        112,
+        100,
+        86
+      ],
+      "barkTargetSrgb": [
+        110,
+        100,
+        88
+      ],
+      "subsurfaceSrgb": [
+        96,
+        124,
+        78
+      ],
+      "leafRoughness": 0.5,
+      "barkRoughness": 0.82,
+      "reading": "Very dark, very glossy pinnate leaves. Reads nearly as dark as cypress but with a broad round crown rather than a spike."
+    },
+    "Terebinth": {
+      "form": "tree",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        88,
+        116,
+        68
+      ],
+      "leafTargetSrgb": [
+        92,
+        112,
+        66
+      ],
+      "barkAtlasSrgb": [
+        108,
+        98,
+        90
+      ],
+      "barkTargetSrgb": [
+        110,
+        102,
+        94
+      ],
+      "subsurfaceSrgb": [
+        146,
+        152,
+        104
+      ],
+      "leafRoughness": 0.62,
+      "barkRoughness": 0.8,
+      "reading": "Mid-dark green with a red-brown cast in the new growth, on grey bark."
+    },
+    "Sage": {
+      "form": "shrub",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        126,
+        138,
+        108
+      ],
+      "leafTargetSrgb": [
+        136,
+        142,
+        118
+      ],
+      "barkAtlasSrgb": [
+        120,
+        110,
+        92
+      ],
+      "barkTargetSrgb": [
+        120,
+        108,
+        90
+      ],
+      "subsurfaceSrgb": [
+        196,
+        198,
+        176
+      ],
+      "leafRoughness": 0.88,
+      "barkRoughness": 0.88,
+      "reading": "GREY AND DUSTY, not green. Salvia fruticosa is felted white-grey; roughness 0.88 kills the specular that would otherwise make it look like a wet garden shrub."
+    },
+    "Hyssop": {
+      "form": "shrub",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        132,
+        142,
+        112
+      ],
+      "leafTargetSrgb": [
+        146,
+        150,
+        124
+      ],
+      "barkAtlasSrgb": [
+        122,
+        112,
+        94
+      ],
+      "barkTargetSrgb": [
+        122,
+        112,
+        96
+      ],
+      "subsurfaceSrgb": [
+        204,
+        204,
+        184
+      ],
+      "leafRoughness": 0.9,
+      "barkRoughness": 0.88,
+      "reading": "Paler and dustier still. The palest living thing in the set."
+    },
+    "Rockrose": {
+      "form": "shrub",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        104,
+        122,
+        86
+      ],
+      "leafTargetSrgb": [
+        108,
+        118,
+        88
+      ],
+      "barkAtlasSrgb": [
+        116,
+        100,
+        84
+      ],
+      "barkTargetSrgb": [
+        114,
+        98,
+        82
+      ],
+      "subsurfaceSrgb": [
+        168,
+        176,
+        142
+      ],
+      "leafRoughness": 0.82,
+      "barkRoughness": 0.86,
+      "reading": "Dull sage-green, matte, crinkled. Sits between the grey shrubs and the green trees."
+    },
+    "ThornyBurnet": {
+      "form": "shrub",
+      "hasBark": true,
+      "hasBillboard": true,
+      "leafAtlasSrgb": [
+        118,
+        124,
+        96
+      ],
+      "leafTargetSrgb": [
+        126,
+        126,
+        96
+      ],
+      "barkAtlasSrgb": [
+        128,
+        116,
+        96
+      ],
+      "barkTargetSrgb": [
+        132,
+        120,
+        100
+      ],
+      "subsurfaceSrgb": [
+        188,
+        184,
+        152
+      ],
+      "leafRoughness": 0.86,
+      "barkRoughness": 0.88,
+      "reading": "Grey-olive going straw. Sarcopoterium is half dead by summer and should look it: the least green of the shrubs."
+    },
+    "DryGrass": {
+      "form": "grass",
+      "hasBark": false,
+      "hasBillboard": false,
+      "leafAtlasSrgb": [
+        178,
+        166,
+        118
+      ],
+      "leafTargetSrgb": [
+        192,
+        174,
+        118
+      ],
+      "barkAtlasSrgb": [
+        170,
+        158,
+        116
+      ],
+      "barkTargetSrgb": [
+        176,
+        160,
+        116
+      ],
+      "subsurfaceSrgb": [
+        224,
+        208,
+        156
+      ],
+      "leafRoughness": 0.92,
+      "barkRoughness": 0.92,
+      "reading": "STRAW. Not green at all. Hordeum spontaneum in a Judean summer is bleached, and the ground cover being straw is what makes the trees read as green.",
+      "hasBarkNote": "DryGrass ships two meshes, L0_Leaf and L1_Leaf, and no bark part. No bark material instance is created for it and no slot asks for one; the T_DryGrass_Bark_* textures the generator wrote are left unused and unmodified."
+    }
+  },
+  "slotRoleFromName": {
+    "billboard": [
+      "billboard"
+    ],
+    "bark": [
+      "bark",
+      "trunk"
+    ],
+    "leaf": [
+      "leaf",
+      "frond",
+      "blade",
+      "needle"
+    ],
+    "note": "set_lod_from_static_mesh folded each species' L1/L2/Billboard meshes into the L0 asset with bReuseExistingMaterialSlots=True. How many material slots that left on the base asset is NOT knowable offline, so the script reads static_materials back, decides each slot's role from its imported slot name, and falls back to the component's own mesh role when the name says nothing. Whatever it finds is recorded per mesh, including the case where the billboard LOD shares the leaf slot."
+  },
+  "verification": {
+    "reopenRequired": true,
+    "everySlotMustBeAssigned": true,
+    "engineDefaultMaterials": [
+      "/Engine/EngineMaterials/WorldGridMaterial",
+      "/Engine/EngineMaterials/DefaultMaterial",
+      "/Engine/EngineMaterials/DefaultDeferredDecalMaterial"
+    ],
+    "readBackAfterReopen": [
+      "blendMode",
+      "twoSided",
+      "shadingModel",
+      "opacityMaskClipValue",
+      "tintA",
+      "tintB",
+      "roughness"
+    ],
+    "note": "The acceptance is read off the SAVED AND REOPENED assets and the SAVED AND REOPENED level, never off the in-memory objects this run created. The per-species colour is read back off the material instance the placed component actually points at, resolved through the component, not off the spec."
+  },
+  "limitations": [
+    "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
+    "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
+    "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
+    "MEASURED, NOT ASSUMED: every one of the 105 static meshes came back with exactly ONE material slot, imported name 'WorldGridMaterial'. set_lod_from_static_mesh folded each species' L1/L2/Billboard meshes into the L0 asset and collapsed them all onto that one slot, so the BILLBOARD LOD of a leaf ladder renders with the LEAF material and the leaf atlas rather than with the billboard impostor texture. The standalone SM_*_Billboard assets do carry MI_*_Billboard. Splitting the far LOD onto its own slot needs StaticMeshEditorSubsystem and a re-LOD pass; it is recorded here rather than fixed.",
+    "No leaf normal map exists in the set, so leaf shading comes from the vertex normal and the subsurface transmission only.",
+    "No cook, package, collision or performance acceptance.",
+    "Nothing here is halachic."
+  ],
+  "slotRoleFromNameMeasured": "Run 20260910T042239243857Z: 105 meshes, 105 slots, every imported slot name 'WorldGridMaterial', so every slot took the fallback to the mesh's own role.",
+  "protectedAssetsMustExist": true
+}

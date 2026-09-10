@@ -1,0 +1,2666 @@
+{
+  "status": "vegetation_materials_assigned_saved_reopened_visual_acceptance_pending",
+  "stamp": "20260910T042529067639Z",
+  "stage": "apply",
+  "target": "Candidate48",
+  "targetRole": "the configured GameDefaultMap and the COOK map: the only map in the build the user downloads.",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "d4f0f5e29a370f90fa8270e96c88c30c6e6a13592bf2b8757efb8aacd9623ead",
+  "protectedSha256Before": {
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "c23b16185c50d32deb7aa57a5a2b767cd3c6eceb9ea66770fe9dac44068ab90d"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+  "specSha256": "c3ffe3ba7351d3efd75af0f22fb28228105cf3d39437c6c4c11a6b832464a1d1",
+  "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "offlineCheck": {
+    "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+    "specSha256": "c3ffe3ba7351d3efd75af0f22fb28228105cf3d39437c6c4c11a6b832464a1d1",
+    "errors": [],
+    "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+    "meshRoleCounts": {
+      "bark": 45,
+      "leaf": 47,
+      "billboard": 13
+    },
+    "colourSpread": {
+      "distinctLeafTargets": 14,
+      "distinctLeafRoughness": 14,
+      "darkestLeaf": "Cypress",
+      "lightestLeaf": "DryGrass",
+      "greenestLeaf": "Pomegranate",
+      "leafTargetLumaRange": [
+        58.0,
+        161.33333333333334
+      ]
+    },
+    "instancesPlanned": 40,
+    "passed": true
+  },
+  "materialsAreMapIndependent": "A material has no coordinates, so unlike a placement this pass is indifferent to the 0.96 similarity between the two maps: the same instance assets are assigned on both.",
+  "unresolvedComponents": [],
+  "errors": [],
+  "mapSaved": true,
+  "limitations": [
+    "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
+    "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
+    "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
+    "MEASURED, NOT ASSUMED: every one of the 105 static meshes came back with exactly ONE material slot, imported name 'WorldGridMaterial'. set_lod_from_static_mesh folded each species' L1/L2/Billboard meshes into the L0 asset and collapsed them all onto that one slot, so the BILLBOARD LOD of a leaf ladder renders with the LEAF material and the leaf atlas rather than with the billboard impostor texture. The standalone SM_*_Billboard assets do carry MI_*_Billboard. Splitting the far LOD onto its own slot needs StaticMeshEditorSubsystem and a re-LOD pass; it is recorded here rather than fixed.",
+    "No leaf normal map exists in the set, so leaf shading comes from the vertex normal and the subsurface transmission only.",
+    "No cook, package, collision or performance acceptance.",
+    "Nothing here is halachic."
+  ],
+  "instancesLoaded": [
+    "MI_JudeanFlora_Almond_Bark",
+    "MI_JudeanFlora_Almond_Billboard",
+    "MI_JudeanFlora_Almond_Leaf",
+    "MI_JudeanFlora_Carob_Bark",
+    "MI_JudeanFlora_Carob_Billboard",
+    "MI_JudeanFlora_Carob_Leaf",
+    "MI_JudeanFlora_Cypress_Bark",
+    "MI_JudeanFlora_Cypress_Billboard",
+    "MI_JudeanFlora_Cypress_Leaf",
+    "MI_JudeanFlora_DatePalm_Bark",
+    "MI_JudeanFlora_DatePalm_Billboard",
+    "MI_JudeanFlora_DatePalm_Leaf",
+    "MI_JudeanFlora_DryGrass_Leaf",
+    "MI_JudeanFlora_Fig_Bark",
+    "MI_JudeanFlora_Fig_Billboard",
+    "MI_JudeanFlora_Fig_Leaf",
+    "MI_JudeanFlora_Hyssop_Bark",
+    "MI_JudeanFlora_Hyssop_Billboard",
+    "MI_JudeanFlora_Hyssop_Leaf",
+    "MI_JudeanFlora_JerusalemPine_Bark",
+    "MI_JudeanFlora_JerusalemPine_Billboard",
+    "MI_JudeanFlora_JerusalemPine_Leaf",
+    "MI_JudeanFlora_Olive_Bark",
+    "MI_JudeanFlora_Olive_Billboard",
+    "MI_JudeanFlora_Olive_Leaf",
+    "MI_JudeanFlora_Pomegranate_Bark",
+    "MI_JudeanFlora_Pomegranate_Billboard",
+    "MI_JudeanFlora_Pomegranate_Leaf",
+    "MI_JudeanFlora_Rockrose_Bark",
+    "MI_JudeanFlora_Rockrose_Billboard",
+    "MI_JudeanFlora_Rockrose_Leaf",
+    "MI_JudeanFlora_Sage_Bark",
+    "MI_JudeanFlora_Sage_Billboard",
+    "MI_JudeanFlora_Sage_Leaf",
+    "MI_JudeanFlora_Terebinth_Bark",
+    "MI_JudeanFlora_Terebinth_Billboard",
+    "MI_JudeanFlora_Terebinth_Leaf",
+    "MI_JudeanFlora_ThornyBurnet_Bark",
+    "MI_JudeanFlora_ThornyBurnet_Billboard",
+    "MI_JudeanFlora_ThornyBurnet_Leaf"
+  ],
+  "savedMaterialReadback": {
+    "M_JudeanFlora_Bark": {
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.3333,
+      "problems": null
+    },
+    "M_JudeanFlora_Leaf": {
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE",
+      "opacityMaskClipValue": 0.5,
+      "problems": null
+    },
+    "M_JudeanFlora_Billboard": {
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.5,
+      "problems": null
+    }
+  },
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\VegetationMaterials-Candidate48-20260910T042529067639Z",
+  "oneFilePerActorFoldersCopied": [],
+  "actorCountBefore": 8433,
+  "before": {
+    "components": 27,
+    "slots": 27,
+    "slotsOnEngineDefault": 0,
+    "slotsWithNoOverrideBefore": 27,
+    "effectiveBeforeNote": "component.get_material() resolves through the MESH slot, and the assets stage has already pointed those at the new instances -- so slotsOnEngineDefault reads 0 here even though the defect was real. The untouched evidence of the defect is slotsWithNoOverrideBefore (no component carried any override at all) plus the assets receipt, which records every mesh slot's material BEFORE this pass changed it.",
+    "instanceTotal": 225780,
+    "perSpecies": {
+      "Olive_bark": {
+        "label": "RELEASE_Vegetation_Olive_Bark",
+        "instances": 10909,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Bark"
+        ]
+      },
+      "Olive_leaf": {
+        "label": "RELEASE_Vegetation_Olive_Leaf",
+        "instances": 10909,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Leaf"
+        ]
+      },
+      "JerusalemPine_bark": {
+        "label": "RELEASE_Vegetation_JerusalemPine_Bark",
+        "instances": 5216,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Bark"
+        ]
+      },
+      "JerusalemPine_leaf": {
+        "label": "RELEASE_Vegetation_JerusalemPine_Leaf",
+        "instances": 5216,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Leaf"
+        ]
+      },
+      "Cypress_bark": {
+        "label": "RELEASE_Vegetation_Cypress_Bark",
+        "instances": 2397,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Bark"
+        ]
+      },
+      "Cypress_leaf": {
+        "label": "RELEASE_Vegetation_Cypress_Leaf",
+        "instances": 2397,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Leaf"
+        ]
+      },
+      "Almond_bark": {
+        "label": "RELEASE_Vegetation_Almond_Bark",
+        "instances": 3490,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Bark"
+        ]
+      },
+      "Almond_leaf": {
+        "label": "RELEASE_Vegetation_Almond_Leaf",
+        "instances": 3490,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Leaf"
+        ]
+      },
+      "Fig_bark": {
+        "label": "RELEASE_Vegetation_Fig_Bark",
+        "instances": 1772,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Bark"
+        ]
+      },
+      "Fig_leaf": {
+        "label": "RELEASE_Vegetation_Fig_Leaf",
+        "instances": 1772,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Leaf"
+        ]
+      },
+      "Pomegranate_bark": {
+        "label": "RELEASE_Vegetation_Pomegranate_Bark",
+        "instances": 1941,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Bark"
+        ]
+      },
+      "Pomegranate_leaf": {
+        "label": "RELEASE_Vegetation_Pomegranate_Leaf",
+        "instances": 1941,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Leaf"
+        ]
+      },
+      "DatePalm_bark": {
+        "label": "RELEASE_Vegetation_DatePalm_Bark",
+        "instances": 238,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Bark"
+        ]
+      },
+      "DatePalm_leaf": {
+        "label": "RELEASE_Vegetation_DatePalm_Leaf",
+        "instances": 238,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Leaf"
+        ]
+      },
+      "Carob_bark": {
+        "label": "RELEASE_Vegetation_Carob_Bark",
+        "instances": 2460,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Bark"
+        ]
+      },
+      "Carob_leaf": {
+        "label": "RELEASE_Vegetation_Carob_Leaf",
+        "instances": 2460,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Leaf"
+        ]
+      },
+      "Terebinth_bark": {
+        "label": "RELEASE_Vegetation_Terebinth_Bark",
+        "instances": 2753,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Bark"
+        ]
+      },
+      "Terebinth_leaf": {
+        "label": "RELEASE_Vegetation_Terebinth_Leaf",
+        "instances": 2753,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Leaf"
+        ]
+      },
+      "Sage_bark": {
+        "label": "RELEASE_Vegetation_Sage_Bark",
+        "instances": 15511,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Bark"
+        ]
+      },
+      "Sage_leaf": {
+        "label": "RELEASE_Vegetation_Sage_Leaf",
+        "instances": 15511,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Leaf"
+        ]
+      },
+      "Hyssop_bark": {
+        "label": "RELEASE_Vegetation_Hyssop_Bark",
+        "instances": 9338,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Bark"
+        ]
+      },
+      "Hyssop_leaf": {
+        "label": "RELEASE_Vegetation_Hyssop_Leaf",
+        "instances": 9338,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Leaf"
+        ]
+      },
+      "Rockrose_bark": {
+        "label": "RELEASE_Vegetation_Rockrose_Bark",
+        "instances": 11408,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Bark"
+        ]
+      },
+      "Rockrose_leaf": {
+        "label": "RELEASE_Vegetation_Rockrose_Leaf",
+        "instances": 11408,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Leaf"
+        ]
+      },
+      "ThornyBurnet_bark": {
+        "label": "RELEASE_Vegetation_ThornyBurnet_Bark",
+        "instances": 28427,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Bark"
+        ]
+      },
+      "ThornyBurnet_leaf": {
+        "label": "RELEASE_Vegetation_ThornyBurnet_Leaf",
+        "instances": 28427,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Leaf"
+        ]
+      },
+      "DryGrass_leaf": {
+        "label": "RELEASE_Vegetation_DryGrass_Leaf",
+        "instances": 34060,
+        "slots": 1,
+        "materialBefore": [
+          "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DryGrass_Leaf"
+        ]
+      }
+    }
+  },
+  "appliedSlots": 27,
+  "restore": [
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_5.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_6.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_7.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_8.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_9.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_10.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_11.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_12.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_13.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_14.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_15.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_16.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_17.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_18.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_19.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_20.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_21.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_22.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_23.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_24.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_25.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_26.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_27.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_28.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_53.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Bark"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_54.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Leaf"
+      ]
+    },
+    {
+      "component": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_55.HierarchicalInstancedStaticMesh",
+      "overrideBefore": [
+        "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DryGrass_Leaf"
+      ]
+    }
+  ],
+  "mapSha256AfterSave": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+  "actorCountAfter": 8433,
+  "reopenedReadback": [
+    {
+      "label": "RELEASE_Vegetation_Almond_Bark",
+      "species": "Almond",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.79707,
+            0.87508,
+            0.98452
+          ],
+          "BarkTintB": [
+            0.96753,
+            1.03557,
+            1.11691
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.84,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 3490
+    },
+    {
+      "label": "RELEASE_Vegetation_Almond_Leaf",
+      "species": "Almond",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.98202,
+            0.94979,
+            0.895
+          ],
+          "LeafTintB": [
+            1.35891,
+            1.25902,
+            1.105
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.36131,
+            0.43415,
+            0.19462
+          ],
+          "Roughness": 0.66,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 3490
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Bark",
+      "species": "Carob",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.86937,
+            0.916,
+            0.9826
+          ],
+          "BarkTintB": [
+            1.0553,
+            1.084,
+            1.11473
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.82,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 2460
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Leaf",
+      "species": "Carob",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.6516,
+            0.71749,
+            0.77717
+          ],
+          "LeafTintB": [
+            0.90168,
+            0.95109,
+            0.95952
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.11697,
+            0.20156,
+            0.07619
+          ],
+          "Roughness": 0.5,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 2460
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Bark",
+      "species": "Cypress",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.8107,
+            0.916,
+            0.98452
+          ],
+          "BarkTintB": [
+            0.98407,
+            1.084,
+            1.11691
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.86,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 2397
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Leaf",
+      "species": "Cypress",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.58609,
+            0.62862,
+            0.68538
+          ],
+          "LeafTintB": [
+            0.81102,
+            0.83329,
+            0.8462
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.08438,
+            0.13843,
+            0.07619
+          ],
+          "Roughness": 0.7,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 2397
+    },
+    {
+      "label": "RELEASE_Vegetation_DatePalm_Bark",
+      "species": "DatePalm",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.99379,
+            0.98509,
+            0.98082
+          ],
+          "BarkTintB": [
+            1.20632,
+            1.16576,
+            1.11271
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.9,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 238
+    },
+    {
+      "label": "RELEASE_Vegetation_DatePalm_Leaf",
+      "species": "DatePalm",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            1.2077,
+            1.00818,
+            0.79835
+          ],
+          "LeafTintB": [
+            1.67121,
+            1.33643,
+            0.98568
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.4452,
+            0.49102,
+            0.17465
+          ],
+          "Roughness": 0.6,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 238
+    },
+    {
+      "label": "RELEASE_Vegetation_DryGrass_Leaf",
+      "species": "DryGrass",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DryGrass_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DryGrass_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.93891,
+            0.91019,
+            0.865
+          ],
+          "LeafTintB": [
+            1.42908,
+            1.30979,
+            1.135
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.7454,
+            0.63076,
+            0.33245
+          ],
+          "Roughness": 0.92,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 34060
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Bark",
+      "species": "Fig",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            1.01418,
+            1.03279,
+            1.10321
+          ],
+          "BarkTintB": [
+            1.23107,
+            1.22221,
+            1.25157
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.62,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 1772
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Leaf",
+      "species": "Fig",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.68687,
+            0.68903,
+            0.69509
+          ],
+          "LeafTintB": [
+            0.95049,
+            0.91336,
+            0.85818
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.22323,
+            0.34191,
+            0.11697
+          ],
+          "Roughness": 0.52,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 1772
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Bark",
+      "species": "Hyssop",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.8758,
+            0.892,
+            0.96037
+          ],
+          "BarkTintB": [
+            1.1242,
+            1.108,
+            1.12966
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.88,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 9338
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Leaf",
+      "species": "Hyssop",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.98787,
+            0.92455,
+            1.07602
+          ],
+          "LeafTintB": [
+            1.5036,
+            1.33045,
+            1.41188
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.60383,
+            0.60383,
+            0.47932
+          ],
+          "Roughness": 0.9,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 9338
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Bark",
+      "species": "JerusalemPine",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            1.00509,
+            0.87508,
+            0.79096
+          ],
+          "BarkTintB": [
+            1.22003,
+            1.03557,
+            0.89732
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.85,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 5216
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Leaf",
+      "species": "JerusalemPine",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.59021,
+            0.65856,
+            0.74584
+          ],
+          "LeafTintB": [
+            0.81672,
+            0.87297,
+            0.92085
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.11697,
+            0.19462,
+            0.08866
+          ],
+          "Roughness": 0.72,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 5216
+    },
+    {
+      "label": "RELEASE_Vegetation_Olive_Bark",
+      "species": "Olive",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.87274,
+            0.88305,
+            0.97693
+          ],
+          "BarkTintB": [
+            1.05938,
+            1.04501,
+            1.1083
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.88,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 10909
+    },
+    {
+      "label": "RELEASE_Vegetation_Olive_Leaf",
+      "species": "Olive",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.99293,
+            0.92697,
+            1.39878
+          ],
+          "LeafTintB": [
+            1.37401,
+            1.22878,
+            1.72698
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.51492,
+            0.55201,
+            0.4452
+          ],
+          "Roughness": 0.78,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 10909
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Bark",
+      "species": "Pomegranate",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.96073,
+            0.8508,
+            0.81901
+          ],
+          "BarkTintB": [
+            1.1662,
+            1.00684,
+            0.92915
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.8,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 1941
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Leaf",
+      "species": "Pomegranate",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.839,
+            0.94726,
+            0.84587
+          ],
+          "LeafTintB": [
+            1.161,
+            1.25567,
+            1.04434
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.30499,
+            0.4452,
+            0.14413
+          ],
+          "Roughness": 0.48,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 1941
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Bark",
+      "species": "Rockrose",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.84382,
+            0.85491,
+            0.87464
+          ],
+          "BarkTintB": [
+            1.08315,
+            1.06193,
+            1.02882
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.86,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 11408
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Leaf",
+      "species": "Rockrose",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.85904,
+            0.76331,
+            0.90709
+          ],
+          "LeafTintB": [
+            1.30752,
+            1.09843,
+            1.19023
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.39157,
+            0.43415,
+            0.2705
+          ],
+          "Roughness": 0.82,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 11408
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Bark",
+      "species": "Sage",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.8758,
+            0.85787,
+            0.87794
+          ],
+          "BarkTintB": [
+            1.1242,
+            1.0656,
+            1.03271
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.88,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 15511
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Leaf",
+      "species": "Sage",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.93578,
+            0.87274,
+            1.04499
+          ],
+          "LeafTintB": [
+            1.42432,
+            1.25589,
+            1.37118
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.55201,
+            0.56471,
+            0.43415
+          ],
+          "Roughness": 0.88,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 15511
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Bark",
+      "species": "Terebinth",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.93934,
+            0.99647,
+            1.02581
+          ],
+          "BarkTintB": [
+            1.14023,
+            1.17923,
+            1.16375
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.8,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 2753
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Leaf",
+      "species": "Terebinth",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.92012,
+            0.79787,
+            0.84352
+          ],
+          "LeafTintB": [
+            1.27326,
+            1.05764,
+            1.04144
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.28744,
+            0.31399,
+            0.13843
+          ],
+          "Roughness": 0.62,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 2753
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Bark",
+      "species": "ThornyBurnet",
+      "meshRole": "bark",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Bark",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Bark",
+          "LeafTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "LeafTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintA": [
+            0.93617,
+            0.95928,
+            1.00124
+          ],
+          "BarkTintB": [
+            1.20169,
+            1.19157,
+            1.17773
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Roughness": 0.88,
+          "blendMode": "BLEND_OPAQUE",
+          "twoSided": false,
+          "shadingModel": "MSM_DEFAULT_LIT"
+        }
+      ],
+      "instances": 28427
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Leaf",
+      "species": "ThornyBurnet",
+      "meshRole": "leaf",
+      "mesh": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+      "slots": [
+        {
+          "slot": 0,
+          "material": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Leaf",
+          "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+          "LeafTintA": [
+            0.91325,
+            0.84881,
+            0.865
+          ],
+          "LeafTintB": [
+            1.39004,
+            1.22145,
+            1.135
+          ],
+          "BarkTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BarkTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintA": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "BillboardTintB": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "SubsurfaceTint": [
+            0.50289,
+            0.47932,
+            0.31399
+          ],
+          "Roughness": 0.86,
+          "blendMode": "BLEND_MASKED",
+          "twoSided": true,
+          "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+        }
+      ],
+      "instances": 28427
+    }
+  ],
+  "after": {
+    "components": 27,
+    "slots": 27,
+    "slotsAssigned": 27,
+    "slotsStillOnEngineDefault": [],
+    "instanceTotal": 225780
+  },
+  "reopenedPerSpecies": {
+    "Olive_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.87274,
+        0.88305,
+        0.97693
+      ],
+      "BarkTintB": [
+        1.05938,
+        1.04501,
+        1.1083
+      ],
+      "Roughness": 0.88,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Olive_leaf": {
+      "LeafTintA": [
+        0.99293,
+        0.92697,
+        1.39878
+      ],
+      "LeafTintB": [
+        1.37401,
+        1.22878,
+        1.72698
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.78,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "JerusalemPine_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        1.00509,
+        0.87508,
+        0.79096
+      ],
+      "BarkTintB": [
+        1.22003,
+        1.03557,
+        0.89732
+      ],
+      "Roughness": 0.85,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "JerusalemPine_leaf": {
+      "LeafTintA": [
+        0.59021,
+        0.65856,
+        0.74584
+      ],
+      "LeafTintB": [
+        0.81672,
+        0.87297,
+        0.92085
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.72,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Cypress_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.8107,
+        0.916,
+        0.98452
+      ],
+      "BarkTintB": [
+        0.98407,
+        1.084,
+        1.11691
+      ],
+      "Roughness": 0.86,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Cypress_leaf": {
+      "LeafTintA": [
+        0.58609,
+        0.62862,
+        0.68538
+      ],
+      "LeafTintB": [
+        0.81102,
+        0.83329,
+        0.8462
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.7,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Almond_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.79707,
+        0.87508,
+        0.98452
+      ],
+      "BarkTintB": [
+        0.96753,
+        1.03557,
+        1.11691
+      ],
+      "Roughness": 0.84,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Almond_leaf": {
+      "LeafTintA": [
+        0.98202,
+        0.94979,
+        0.895
+      ],
+      "LeafTintB": [
+        1.35891,
+        1.25902,
+        1.105
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.66,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Fig_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        1.01418,
+        1.03279,
+        1.10321
+      ],
+      "BarkTintB": [
+        1.23107,
+        1.22221,
+        1.25157
+      ],
+      "Roughness": 0.62,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Fig_leaf": {
+      "LeafTintA": [
+        0.68687,
+        0.68903,
+        0.69509
+      ],
+      "LeafTintB": [
+        0.95049,
+        0.91336,
+        0.85818
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.52,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Pomegranate_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.96073,
+        0.8508,
+        0.81901
+      ],
+      "BarkTintB": [
+        1.1662,
+        1.00684,
+        0.92915
+      ],
+      "Roughness": 0.8,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Pomegranate_leaf": {
+      "LeafTintA": [
+        0.839,
+        0.94726,
+        0.84587
+      ],
+      "LeafTintB": [
+        1.161,
+        1.25567,
+        1.04434
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.48,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "DatePalm_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.99379,
+        0.98509,
+        0.98082
+      ],
+      "BarkTintB": [
+        1.20632,
+        1.16576,
+        1.11271
+      ],
+      "Roughness": 0.9,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "DatePalm_leaf": {
+      "LeafTintA": [
+        1.2077,
+        1.00818,
+        0.79835
+      ],
+      "LeafTintB": [
+        1.67121,
+        1.33643,
+        0.98568
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.6,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Carob_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.86937,
+        0.916,
+        0.9826
+      ],
+      "BarkTintB": [
+        1.0553,
+        1.084,
+        1.11473
+      ],
+      "Roughness": 0.82,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Carob_leaf": {
+      "LeafTintA": [
+        0.6516,
+        0.71749,
+        0.77717
+      ],
+      "LeafTintB": [
+        0.90168,
+        0.95109,
+        0.95952
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.5,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Terebinth_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.93934,
+        0.99647,
+        1.02581
+      ],
+      "BarkTintB": [
+        1.14023,
+        1.17923,
+        1.16375
+      ],
+      "Roughness": 0.8,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Terebinth_leaf": {
+      "LeafTintA": [
+        0.92012,
+        0.79787,
+        0.84352
+      ],
+      "LeafTintB": [
+        1.27326,
+        1.05764,
+        1.04144
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.62,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Sage_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.8758,
+        0.85787,
+        0.87794
+      ],
+      "BarkTintB": [
+        1.1242,
+        1.0656,
+        1.03271
+      ],
+      "Roughness": 0.88,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Sage_leaf": {
+      "LeafTintA": [
+        0.93578,
+        0.87274,
+        1.04499
+      ],
+      "LeafTintB": [
+        1.42432,
+        1.25589,
+        1.37118
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.88,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Hyssop_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.8758,
+        0.892,
+        0.96037
+      ],
+      "BarkTintB": [
+        1.1242,
+        1.108,
+        1.12966
+      ],
+      "Roughness": 0.88,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Hyssop_leaf": {
+      "LeafTintA": [
+        0.98787,
+        0.92455,
+        1.07602
+      ],
+      "LeafTintB": [
+        1.5036,
+        1.33045,
+        1.41188
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.9,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "Rockrose_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.84382,
+        0.85491,
+        0.87464
+      ],
+      "BarkTintB": [
+        1.08315,
+        1.06193,
+        1.02882
+      ],
+      "Roughness": 0.86,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "Rockrose_leaf": {
+      "LeafTintA": [
+        0.85904,
+        0.76331,
+        0.90709
+      ],
+      "LeafTintB": [
+        1.30752,
+        1.09843,
+        1.19023
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.82,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "ThornyBurnet_bark": {
+      "LeafTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LeafTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintA": [
+        0.93617,
+        0.95928,
+        1.00124
+      ],
+      "BarkTintB": [
+        1.20169,
+        1.19157,
+        1.17773
+      ],
+      "Roughness": 0.88,
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT"
+    },
+    "ThornyBurnet_leaf": {
+      "LeafTintA": [
+        0.91325,
+        0.84881,
+        0.865
+      ],
+      "LeafTintB": [
+        1.39004,
+        1.22145,
+        1.135
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.86,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    },
+    "DryGrass_leaf": {
+      "LeafTintA": [
+        0.93891,
+        0.91019,
+        0.865
+      ],
+      "LeafTintB": [
+        1.42908,
+        1.30979,
+        1.135
+      ],
+      "BarkTintA": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "BarkTintB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Roughness": 0.92,
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE"
+    }
+  },
+  "mapSha256After": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+  "mapBytesChanged": true,
+  "protectedSha256After": {
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "c23b16185c50d32deb7aa57a5a2b767cd3c6eceb9ea66770fe9dac44068ab90d"
+  },
+  "protectedUnchanged": true
+}

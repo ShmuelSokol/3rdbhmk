@@ -53,13 +53,16 @@ the Kotel plaza, the approaches and the sanctuary have no visual acceptance at a
    measured it dropping detail 3–4 mips, which on the ashlar means losing the drafted margins and
    proud bosses. The fix is written (`-AntiRepeatSampling=implicit`) and `do_apply` now REFUSES a
    non-default build receipt without frame evidence. Needs one frame.
-3. **Gate-stair yaw defect**, `MikdashEnclosure.cpp:1186` — treads run along the direction of
-   travel on 215 modules. In progress.
-4. **Approaches not wired to the state toggle** — a monumental stair stands in present-day
-   Jerusalem. Same two lines. In progress.
-5. `resident-routes-v2-verify` has still never run on the shipping map (needs real RHI).
-6. Soundscape adoption — blocked on a human listening to 29 files.
-7. Rig geometry: the leg is 6.9 cm short (0.457 of stature against the generator's own 0.53), and
+3. ~~**Gate-stair yaw defect**~~ **FIXED** (e178fb97). Treads now run across the direction of
+   travel: widthDotTravel 1.0 → 0.0 on 205 east and 10 west modules, spacing unchanged at 96.0 cm.
+4. ~~**Approaches not wired to the state toggle**~~ **WIRED** (e178fb97). 1 visible in YECHEZKEL,
+   0 in MODERN and OVERLAY, on both maps, with the other five tag families re-counted for
+   regression.
+5. **No collision or navmesh** on the Kotel plaza or the approaches, so the crowd system cannot
+   path over either — people cannot walk up the stairs they were built to walk up.
+6. `resident-routes-v2-verify` has still never run on the shipping map (needs real RHI).
+7. Soundscape adoption — blocked on a human listening to 29 files.
+8. Rig geometry: the leg is 6.9 cm short (0.457 of stature against the generator's own 0.53), and
    the sandal sole carries no weight on `ball_*`, so the toe rocker pivots on the tip. Both cap
    how good the walk can get and both change the body, not the animation.
 

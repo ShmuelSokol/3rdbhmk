@@ -352,13 +352,23 @@ instance counts is what says the receipt describes the plaza actually in the lev
 
 **Two things the plaza does NOT yet do, and both are visible:**
 
-- **The terrain is not cut.** On the fifth of the footprint standing above the deck (the Mount
-  of Olives slope in the north-east, strips north and west) the DEM tiles still rise through
-  the paving. The precinct overlaps **16 terrain tiles**, 4 wholly inside and 12 straddling.
-  The fix is the FutureMountV1 precedent extended: generate `*_PrecinctCut` twins of the twelve
-  and swap them by visibility with the state, never deleting.
-  `Scripts/import_future_mount_terrain.py` already does exactly this for four tiles against a
-  185-vertex polygon; a rectangle is simpler. **Until that runs the NE quadrant is unfinished.**
+- ~~**The terrain is not cut.**~~ **CUT, 10 September 2026** by
+  `Scripts/release_precinct_terrain_cut.py` (`-CutAssets` / `-CutApply` / `-CutVerify` /
+  `-CutRevert=<receipt>`). Inside the precinct square the terrain is clamped to the deck
+  UNDERSIDE; outside it nothing moves. Candidate48 acceptance: **max terrain height above the
+  deck underside 7.1e-15 cm** over 20,736 stations on a 1,003 cm grid, 0 stations above.
+  Main50: **7.1e-15 cm** over 22,500 stations, 0 above. `-CutRevert` exercised and re-applied.
+  Eleven `*_PrecinctCut` twins placed as tagged actors, originals hidden by
+  `SetActorHiddenInGame` with collision off and never deleted. The Western Wall Plaza cut
+  (`KotelPlazaCutV1`, tile 07_08, 146 merged deck-cell regions at two levels) rides the same
+  pass: **max 5.9e-06 cm above its deck underside** over 5,533 stations at 100 cm.
+  **STILL OPEN: the state toggle.** `AMikdashEnclosure` cannot hide a terrain actor
+  (`BuildingIdentityLabel`, MikdashEnclosure.cpp:22-42, returns an empty label for any mesh
+  outside `JerusalemContext/Buildings/` and `OldCityFacadesV1/Meshes/`). Two lines in
+  `ApplyWeights` beside the plaza components - show `PrecinctCutTwin`, hide
+  `PrecinctCutOriginal` when the wall is shown, and the reverse otherwise; show
+  `KotelPlazaCutTwin` only when it is not - and a plugin rebuild. Until then MODERN and
+  OVERLAY show the cut hillside, and the Kotel plaza cut is placed but hidden.
 - **The outside approaches are not built.** The deck stands up to 61 m above the modern street
   at the south-west gate. Huldah-stairway or Robinson's-Arch scale structures, over buildings
   this project deliberately leaves visible. Recorded, not built.
@@ -382,3 +392,59 @@ Two findings that cap how good the walk can get, both geometry rather than anima
 Also: Idle holds the pelvis at 98.0 while walk-v2 carries it at 93.4, so Idle→Walk now sinks
 4.6 cm where it used to sink 2.2. Cross-blend it in `ABP_MikdashLocomotion` rather than
 flattening the walk to hide it.
+
+### The plaza paving material crashed the cook — 10 Sep, 00:2x UTC
+
+**`M_PrecinctPlaza_Paving` is why checkpoint cp02 failed.** ShaderCompileWorker died with
+return code `-1073741819` (0xC0000005, access violation) on `FLocalVertexFactory` base-pass
+permutations of that material; the cook had otherwise finished all 8,594 packages, and the only
+two jobs in the crashed worker's batch were this material's.
+`Checkpoint-cp02-20260909T235427Z/uat.log` 6215-6218, summary 6560, `ExitCode=25`. Not memory
+(peak 7,532 MB, 9.1 GB free), and both maps byte-identical before and after.
+
+**The rule this bought, worth keeping for every material in this project:** do not put
+author-written HLSL between per-instance custom data and the output. Per-instance data on its
+own is fine - `M_CrowdFigure_P*`, `M_CrowdGarmentPaletteV1` and `M_VehiclesV3_*` all read it
+with stock nodes and all shipped in Walkthrough-12. A `Custom` node on its own is fine - the
+approved `M_JerusalemPaving_500cm` is one. The COMBINATION crashed: HLSL taking per-instance
+floats as function arguments, hoisted into the vertex stage where a non-instanced vertex
+factory has no instance data to give it.
+
+**Fix, written and offline-verified, NOT YET APPLIED.** The two `Custom` nodes are gone; the
+five per-instance reads stay; the same rotation is now stock `Subtract`/`Multiply`/`Add`/
+`Append`/`Divide`, with identity defaults (Cs = 1, rest 0) so the very permutation that crashed
+degrades to the approved unrotated mapping. `paving_graph()` refuses the run if a `Custom` node
+returns. **The full anti-repetition design is preserved** - per-panel course, per-panel UV
+origin, per-instance drift - and **no C++ change and no rebuild are needed**: the actor already
+points at the same asset path, which is rebuilt in place. A clamp bug went with it: the old
+tint used `saturate(1 + T*0.04)`, which could only ever darken.
+
+**FIXED AND COOKED.** Applied 10 Sep 00:37
+(`native-plaza-assets-Candidate48-20260910T003719041028Z.json`): the material was rebuilt in
+place - old graph `[WorldPosition, 5x PerInstanceCustomData, Custom, TextureSample, Custom,
+2x Constant]`, new graph `[WorldPosition, 3x ComponentMask, 5x PerInstanceCustomData,
+3x Subtract, 6x Multiply, 2x Add, AppendVector, Divide, TextureSample, 5x Constant]`, **zero
+Custom nodes**, custom-data defaults `{0:1, 1:0, 2:0, 3:0, 4:0}`, both usages set, zero
+compiler errors, map and protected maps byte-identical.
+
+**`Checkpoint-Build.ps1 -Label cp02b` then cooked clean:**
+`Checkpoint-cp02b-20260910T003728Z/uat.log` ends `LogInit: Display: Success - 0 error(s),
+0 warning(s)`, `BUILD SUCCESSFUL`, `AutomationTool exiting with ExitCode=0 (Success)`.
+`M_PrecinctPlaza_Paving` compiled fresh (missing shadermap -> compiled) in both SM5 and SM6
+with no error. Child exe produced, archive 3.86 GB:
+`C:\Mikdash\Builds\Checkpoint-cp02b-20260910T003728Z`.
+
+**Read the cp02b receipt carefully: it says `failed`, and that is NOT the cook.**
+`Checkpoint-Build.ps1` computes
+`cookOk = exitCode -eq 0 -and childExists -and candidateAfter -eq candidateBefore -and mainAfter -eq mainBefore`.
+The first three all hold. The fourth does not: `mainSha256` went
+`532cd8d6...` -> `0779526e...` DURING the five-minute build, because another agent saved
+`/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` while it ran. The main map is not even
+the cook map (`-map=` is the candidate, whose hash is identical before and after). So the
+guard tripped on unrelated concurrent work and, because `cookOk` was false, the bounded
+startup smoke was skipped. A re-run for a clean `checkpoint_playable` receipt needs the main
+map to sit still for about six minutes.
+
+Also worth knowing while the material is being rebuilt: rebuilding a material graph in place
+needs the material OUTPUTS disconnected first, because `delete_all_material_expressions` will
+not remove a node still wired to an output (measured: the bulk call left five nodes of eleven).

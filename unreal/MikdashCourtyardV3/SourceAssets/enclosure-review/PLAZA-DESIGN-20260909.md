@@ -235,6 +235,26 @@ away; the stock version has no clamp. And rebuilding the material in place needs
 **outputs disconnected first**, because `delete_all_material_expressions` will not remove a node
 still wired to an output — measured: the bulk call alone left five nodes of eleven.
 
+**Fixed and cooked, 10 September 2026.** The rebuilt material is receipted in
+`native-plaza-assets-Candidate48-20260910T003719041028Z.json`: old graph
+`[WorldPosition, 5x PerInstanceCustomData, Custom, TextureSample, Custom, 2x Constant]`, new
+graph `[WorldPosition, 3x ComponentMask, 5x PerInstanceCustomData, 3x Subtract, 6x Multiply,
+2x Add, AppendVector, Divide, TextureSample, 5x Constant]` — **zero `Custom` nodes**,
+custom-data defaults `{0:1, 1:0, 2:0, 3:0, 4:0}`, both usages set, zero compiler errors, map
+and protected maps byte-identical. `Checkpoint-Build.ps1 -Label cp02b` then cooked clean:
+`Checkpoint-cp02b-20260910T003728Z/uat.log` ends `Success - 0 error(s), 0 warning(s)`,
+`BUILD SUCCESSFUL`, `AutomationTool exiting with ExitCode=0 (Success)`, with
+`M_PrecinctPlaza_Paving` compiling fresh in both SM5 and SM6. Child exe produced, 3.86 GB
+archived.
+
+That receipt's own `status` field nonetheless reads `failed`, and it is worth knowing why
+before anyone re-opens this: `Checkpoint-Build.ps1` requires the MAIN map's hash to be
+unchanged across the build as well, and another agent saved
+`/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` during the five minutes it ran. The main
+map is not the cook map — the candidate's hash is identical before and after — so the guard
+tripped on unrelated concurrent work, and the bounded startup smoke was skipped as a
+consequence. A re-run needs the main map to sit still for about six minutes.
+
 **Built and receipted, 9 September 2026**
 (`native-plaza-assets-Candidate48-20260909T225412198686Z.json`): all three materials created,
 the graph read back node for node — one WorldPosition, **five PerInstanceCustomData at slots

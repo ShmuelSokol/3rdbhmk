@@ -125,41 +125,47 @@
  "materials": {
   "deck": {
    "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
-   "kind": "new master",
+   "kind": "new master, stock nodes only",
    "texture": "/Game/MikdashV3/MaterialReview/JerusalemPavingV2/T_JerusalemPaving_BaseColor",
    "tileCm": 500.0,
    "roughness": 0.8,
    "metallic": 0.0,
-   "why": "The approved M_JerusalemPaving_500cm CANNOT be varied as it stands. Its mapping is a frozen unparameterised Custom node, `return float2(P.x,P.y)/500.0;`, with MIRROR addressing on both axes, and Scripts/release_jerusalem_paving.py asserts that graph node for node. Over 1.44 km that is a 5 m tile with a 10 m mirror period and axis-aligned symmetry lines - the strongest grid cue there is, and precisely the thing the decision above was made to avoid. This master samples THE SAME APPROVED TEXTURE at the same 500 cm with the same roughness and metallic, and adds only a rotation and an origin taken from per-instance custom data, so one draw call can lay fourteen thousand tiles in five directions with no two panels starting the pattern in the same place. The approved material is never edited.",
+   "why": "The approved M_JerusalemPaving_500cm cannot be varied as it stands: its mapping is a frozen unparameterised Custom node, `return float2(P.x,P.y)/500.0;`, with MIRROR addressing on both axes, asserted node for node by Scripts/release_jerusalem_paving.py. Over 1.44 km that is a 5 m tile with a 10 m mirror period and axis-aligned symmetry lines - the grid the plaza was built to get rid of. This master samples THE SAME APPROVED TEXTURE at the same 500 cm with the same roughness and metallic, and rotates the world-XY mapping per super-panel about that panel's own origin, from per-instance custom data. The approved material is never edited.",
+   "tintAmplitude": 0.04,
+   "whyStockNodesOnly": "THE FIX FOR A REAL COOK FAILURE. The first version did the same rotation with two Custom nodes of author-written HLSL whose arguments were the five PerInstanceCustomData reads. It compiled clean in the editor and CRASHED ShaderCompileWorker at cook time - return code -1073741819, an access violation - on FLocalVertexFactory base-pass permutations, failing the package with Error_UnknownCookFailure (checkpoint cp02; the cook had otherwise finished all 8,594 packages and the only jobs in the crashed worker's batch were this material's). PER-INSTANCE DATA IS NOT THE CULPRIT and is kept: M_CrowdFigure_P*, M_CrowdGarmentPaletteV1 and M_VehiclesV3_* all read it with stock nodes and no Custom node, and all shipped in Walkthrough-12. Custom nodes alone are not the culprit either - the approved paving master is one. The COMBINATION was unique to this material: author-written HLSL taking per-instance data as function arguments, hoisted into the vertex stage where a non-instanced vertex factory has no instance data to give it. So the Custom nodes go, the per-instance data stays, and paving_graph() refuses the run if a Custom node ever returns.",
    "customData": [
     {
      "index": 0,
      "name": "Cs",
+     "default": 1.0,
      "meaning": "cosine of the panel's course angle"
     },
     {
      "index": 1,
      "name": "Sn",
+     "default": 0.0,
      "meaning": "sine of the panel's course angle"
     },
     {
      "index": 2,
      "name": "U0",
+     "default": 0.0,
      "meaning": "the panel's UV origin along X, world cm"
     },
     {
      "index": 3,
      "name": "V0",
+     "default": 0.0,
      "meaning": "the panel's UV origin along Y, world cm"
     },
     {
      "index": 4,
      "name": "Tn",
+     "default": 0.0,
      "meaning": "tonal offset, -1..1, from a 120 m value-noise lattice"
     }
    ],
-   "tintAmplitude": 0.04,
-   "tintNote": "Four per cent of lightness, which is at the edge of visibility on a single tile and clearly readable as slow drift across a kilometre. More than that and the plaza looks patched rather than weathered."
+   "customDataDefaultsNote": "The defaults are the IDENTITY - no rotation, no origin shift, no tint - so a permutation with no instance data, which is exactly the FLocalVertexFactory base pass that crashed, degrades to the approved unrotated 500 cm mapping instead of collapsing the paving."
   },
   "way": {
    "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_WaySlabs",

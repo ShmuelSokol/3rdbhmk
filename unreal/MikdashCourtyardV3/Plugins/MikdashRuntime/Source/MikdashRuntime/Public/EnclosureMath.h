@@ -981,6 +981,695 @@ inline FWallPlan PlanWall(const FSquare& Square, double NominalSegmentLengthUnre
 }
 
 // ---------------------------------------------------------------------------
+// 6b. The plaza - the built deck the precinct encloses
+// ---------------------------------------------------------------------------
+//
+// WHY THERE IS A PLAZA AT ALL. Until 9 September 2026 the YECHEZKEL state hid the modern
+// buildings inside the ring and left the raw DEM terrain showing, so the precinct read as a
+// bald patch cut out of the city. Shmuel's decision that day was to build it instead:
+// "either you put it as a platform, like a flat flat platform that's built out into those
+// dimensions to just expand the plaza, or you have to restore the buildings that are there
+// now. I would say make it a flat plaza for the dimensions of the area that has call sets,
+// that expanded area."
+//
+// So: A FLAT BUILT DECK ACROSS THE WHOLE 3000-AMAH FOOTPRINT. That decision is the USER'S;
+// Yechezkel gives the extent and nothing else. Every dimension below is AUTHORED, and the
+// retaining, the paving layout, the channels and the stairs are this project's design.
+//
+// THE DATUM: THE DECK TOP IS Z 0, THE TEMPLE'S OWN DATUM. Not chosen for tidiness - it is
+// the only height at which the deck meets what is already built:
+//   * SM_0127_architecture_Outer_court_supporting_platform, the measured outer court
+//     supporting platform, has its UNDERSIDE at Z 0 exactly and rises to Z 299 over
+//     +-8100 cm (architecture-manifest.json expectedBoundsUnrealCm). A deck any lower
+//     leaves a gap under a 162 m square platform; any higher buries its plinth.
+//   * The project's own precedent for a built platform on this site, FutureMountV1, put
+//     its deck at Z 0 too: every surface vertex in mount-platform.mesh.json is Z = 0.0,
+//     with a skirt to 40 m. The plaza is that platform continued to the precinct wall.
+//   * That mesh is NOT placed in either Walkthrough map (the Nanite census of 7,519 meshes
+//     lists no platform category), so nothing on the deck plane can z-fight it.
+// Z 0 is 748.0 m above sea level in this level's frame. The ground under the precinct runs
+// from 611.6 m in the Kidron gorge to 810.5 m on the Mount of Olives, so a flat deck at the
+// Temple's datum is deep fill on the south and east and a cut on the north-east. Both are
+// measured and reported by Scripts/create_precinct_plaza.py; neither is tuned away.
+//
+// THE GRID IS SET OUT FROM THE TEMPLE, NOT FROM THE WALL. Cells are 25 amot - the same
+// module as the wall - stepping from the world origin, so the world axes (which carry the
+// north, east and west gates) fall on cell boundaries and a two-cell processional way is
+// exactly symmetric about them. The cells at the ring are partial and are scaled to fit.
+//
+// ANTI-REPETITION. 1.44 km of a 5 m paving tile reads as a grid from the air, which is
+// exactly what the decision was made to avoid. Seven devices, all authored, all here so the
+// generator and the runtime produce the same layout: irregular super-panels from a frozen
+// recursive split (never a lattice); a course direction per panel from a five-value set,
+// never equal to the panel west or north of it; per-instance UV origin so no two panels
+// start the pattern at the same place; an ashlar rib on every panel joint so the seam is
+// deliberate; processional ways in the other approved paving, laid across the direction of
+// travel; a channel network on a non-periodic spacing; and a slow tonal drift far coarser
+// than the tile.
+//
+// HOW THE SHADER-SIDE DEVICES REACH THE SHADER, and one hard-won rule. The course direction
+// from PlazaPanelCourseIndex, the origin from PlazaPanelUvOriginAmot and the drift from
+// PlazaTintAt are baked onto the deck component as five per-instance custom data floats and
+// read by M_PrecinctPlaza_Paving with STOCK NODES ONLY. The first version of that material did
+// the same arithmetic in two `Custom` nodes of author-written HLSL taking those five floats as
+// arguments; it compiled clean in the editor and CRASHED ShaderCompileWorker at cook time with
+// an access violation (-1073741819) on FLocalVertexFactory base-pass permutations, failing the
+// whole package. Per-instance custom data was NOT at fault - the shipped crowd and vehicle
+// materials read it with stock nodes - and neither is a Custom node on its own; the
+// combination was. Never put author-written HLSL between per-instance data and the output
+// here. See Scripts/release_precinct_plaza.py::build_paving_master for the full account.
+
+/** Deck top, in amot ABOVE the Temple court datum. ZERO, and the note above is why: the
+ *  measured court supporting platform stands on this plane and the FutureMountV1 platform
+ *  deck is this plane. Kept as a named constant rather than a bare 0.0 so that moving the
+ *  deck is one edit in one place, with a test that follows it. */
+constexpr double PlazaDeckDatumOffsetAmot = 0.0;
+/** Deck slab thickness in amot. The underside is never seen: the retaining ring closes the
+ *  perimeter and the fill beneath it is not modelled (see the limitation in sources.md). */
+constexpr double PlazaSlabThicknessAmot = 1.0;
+/** Paving cell, in amot. The wall module, so the plaza and the wall share one setting-out. */
+constexpr double PlazaCellAmot = 25.0;
+/** Processional way width in amot: two cells. */
+constexpr double PlazaWayWidthAmot = 50.0;
+/** Drainage channel: a two-amah invert half an amah deep, with lipped rims standing an eighth
+ *  of an amah proud of the deck - so no face is ever coplanar with the paving - and lapping a
+ *  fifth of an amah over the invert on each side, leaving a 1.6-amah opening. */
+constexpr double PlazaChannelWidthAmot = 2.0;
+constexpr double PlazaChannelDepthAmot = 0.5;
+constexpr double PlazaChannelRimProudAmot = 0.125;
+/** The perimeter channel runs this far inside the deck edge. */
+constexpr double PlazaPerimeterChannelInsetAmot = 10.0;
+/** Panel rib: one amah wide, a quarter proud. */
+constexpr double PlazaRibWidthAmot = 1.0;
+constexpr double PlazaRibProudAmot = 0.25;
+/** Way kerb: one amah wide, half an amah proud. */
+constexpr double PlazaKerbWidthAmot = 1.0;
+constexpr double PlazaKerbProudAmot = 0.5;
+/** Retaining band: one wall module long, five amot high, three amot thick. Bands are NEVER
+ *  scaled in Z, because MI_HerodianV4_Ashlar maps v = world Z / 300 cm and a scaled band
+ *  would stretch its courses off the world-Z levels every other stone sits on. The lowest
+ *  band simply over-runs into the ground, which is free and correct. */
+constexpr double PlazaRetainingBandHeightAmot = 5.0;
+constexpr double PlazaRetainingBandThicknessAmot = 3.0;
+/** BATTER, not setback, and the direction matters. A Herodian retaining wall is widest at
+ *  its foot: each course stands a little PROUD of the one above it, so the face leans back
+ *  as it rises. The precinct's measured outer face is therefore the face at DECK level - the
+ *  3000 amot are measured where the wall stands - and every band below it steps one amah
+ *  further out per five bands, 1 in 25. On the 137 m south face that is 5.5 m of spread at
+ *  the foot, which is both what a wall that tall needs and what gives the face a horizontal
+ *  ledge line every 25 amot of height instead of one unbroken plane.
+ *  The scarp on a cut side uses the same function upward: a revetment leans into its hill. */
+constexpr int PlazaRetainingBatterEveryBands = 5;
+constexpr double PlazaRetainingBatterAmot = 1.0;
+/** Monumental stair from the deck up to a gate threshold that stands above it. */
+constexpr double PlazaStepRiserAmot = 0.5;
+constexpr double PlazaStepTreadAmot = 2.0;
+constexpr double PlazaStepWidthAmot = 50.0;
+constexpr int PlazaStepsPerFlight = 20;
+constexpr double PlazaLandingDepthAmot = 10.0;
+/** Super-panel size bounds, in cells. Max must be at least 2*Min - 1 or the split cannot
+ *  always terminate; 3 and 8 give panels of 36 m to 96 m a side. */
+constexpr int PlazaMinPanelCells = 3;
+constexpr int PlazaMaxPanelCells = 8;
+/** Chance out of 256 that a panel already inside the size bounds splits again anyway. */
+constexpr int PlazaSplitChance256 = 96;
+/** Frozen. Changing this re-lays the whole plaza, so it is a constant and not a parameter. */
+constexpr std::uint32_t PlazaPanelSeed = 0x5EED5A17u;
+/** The five course directions, degrees. Not multiples of 45 alone: 22.5 and 67.5 are what
+ *  stop the eye finding the world axes in the field paving. */
+constexpr int PlazaCourseCount = 5;
+inline double PlazaCourseAngleDegrees(int Index)
+{
+    static const double Angles[PlazaCourseCount] = {0.0, 22.5, 45.0, 67.5, 90.0};
+    return Angles[((Index % PlazaCourseCount) + PlazaCourseCount) % PlazaCourseCount];
+}
+
+/** Deck top in level units: the Temple court datum itself. */
+inline double PlazaDeckTopZUnrealCm(double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    return AmotToUnrealCm(PlazaDeckDatumOffsetAmot, WorldCmPerAmah);
+}
+inline double PlazaDeckUndersideZUnrealCm(double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    return PlazaDeckTopZUnrealCm(WorldCmPerAmah) - AmotToUnrealCm(PlazaSlabThicknessAmot, WorldCmPerAmah);
+}
+
+/** FNV-1a over four bytes. The one hash the generator and the runtime share; if these two
+ *  ever disagree the plaza is laid differently in Python and in C++ and every panel moves. */
+inline std::uint32_t PlazaHash(std::uint32_t Value)
+{
+    std::uint32_t H = 2166136261u;
+    for (int Byte = 0; Byte < 4; ++Byte)
+    {
+        H ^= (Value >> (Byte * 8)) & 0xFFu;
+        H *= 16777619u;
+    }
+    return H;
+}
+
+/** The paved rectangle and its cell grid, set out from the world origin. Cells run
+ *  [I0, I1) x [J0, J1); cell I spans x in [I * Cell, (I+1) * Cell) before clipping, and the
+ *  first and last cell on each axis are clipped to the deck edge. */
+struct FPlazaGrid
+{
+    double CellUnrealCm = 0.0;
+    int I0 = 0, I1 = 0, J0 = 0, J1 = 0;
+    double XMinUnrealCm = 0.0, XMaxUnrealCm = 0.0;
+    double YMinUnrealCm = 0.0, YMaxUnrealCm = 0.0;
+    double DeckTopZUnrealCm = 0.0;
+    int CellsX() const { return I1 - I0; }
+    int CellsY() const { return J1 - J0; }
+};
+
+/** The deck runs to the INNER face of the wall on every side: on a fill side the retaining
+ *  face is coplanar with the precinct's outer face and the wall stands on the deck behind
+ *  it; on a cut side the scarp face is the wall's inner face and the wall stands on the
+ *  crest. Either way the paving stops one wall thickness inside the square. */
+inline FPlazaGrid PlanPlazaGrid(const FSquare& Square, double WallThicknessAmot,
+                                double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    FPlazaGrid Grid;
+    const double H = Square.HalfSideUnrealCm;
+    const double Inset = AmotToUnrealCm(WallThicknessAmot, WorldCmPerAmah);
+    Grid.CellUnrealCm = AmotToUnrealCm(PlazaCellAmot, WorldCmPerAmah);
+    if (!(Grid.CellUnrealCm > 0.0) || !(H > 0.0)) return Grid;
+    Grid.XMinUnrealCm = Square.CentreUnrealCm.X - H + Inset;
+    Grid.XMaxUnrealCm = Square.CentreUnrealCm.X + H - Inset;
+    Grid.YMinUnrealCm = Square.CentreUnrealCm.Y - H + Inset;
+    Grid.YMaxUnrealCm = Square.CentreUnrealCm.Y + H - Inset;
+    Grid.I0 = static_cast<int>(std::floor(Grid.XMinUnrealCm / Grid.CellUnrealCm));
+    Grid.I1 = static_cast<int>(std::ceil(Grid.XMaxUnrealCm / Grid.CellUnrealCm));
+    Grid.J0 = static_cast<int>(std::floor(Grid.YMinUnrealCm / Grid.CellUnrealCm));
+    Grid.J1 = static_cast<int>(std::ceil(Grid.YMaxUnrealCm / Grid.CellUnrealCm));
+    Grid.DeckTopZUnrealCm = PlazaDeckTopZUnrealCm(WorldCmPerAmah);
+    return Grid;
+}
+
+/** The clipped extent of one cell, in world cm. A cell at the ring is a partial cell and the
+ *  tile instance is scaled to it, so the paving reaches the wall without overhanging it. */
+inline void PlazaCellExtent(const FPlazaGrid& Grid, int I, int J,
+                            double& OutX0, double& OutY0, double& OutX1, double& OutY1)
+{
+    OutX0 = std::max(Grid.XMinUnrealCm, static_cast<double>(I) * Grid.CellUnrealCm);
+    OutX1 = std::min(Grid.XMaxUnrealCm, static_cast<double>(I + 1) * Grid.CellUnrealCm);
+    OutY0 = std::max(Grid.YMinUnrealCm, static_cast<double>(J) * Grid.CellUnrealCm);
+    OutY1 = std::min(Grid.YMaxUnrealCm, static_cast<double>(J + 1) * Grid.CellUnrealCm);
+}
+
+/** One super-panel: a rectangle of cells, laid in one course direction. */
+struct FPlazaPanel
+{
+    int I0 = 0, J0 = 0, I1 = 0, J1 = 0;
+    std::uint32_t Id = 0u;
+};
+
+/** Which super-panel a cell belongs to. A frozen recursive binary split of the whole grid,
+ *  NOT a lattice: panel sizes and offsets both vary, which is what makes the plaza read as
+ *  laid stone rather than as a checkerboard. Walks down from the root every call, which is
+ *  a few dozen integer operations - deliberately stateless so the generator, the runtime
+ *  and the test cannot drift apart through a cache. */
+inline FPlazaPanel PlazaPanelAt(const FPlazaGrid& Grid, int I, int J)
+{
+    FPlazaPanel Panel;
+    Panel.I0 = Grid.I0; Panel.J0 = Grid.J0; Panel.I1 = Grid.I1; Panel.J1 = Grid.J1;
+    if (Grid.CellsX() <= 0 || Grid.CellsY() <= 0) return Panel;
+    const int CI = std::max(Grid.I0, std::min(Grid.I1 - 1, I));
+    const int CJ = std::max(Grid.J0, std::min(Grid.J1 - 1, J));
+    for (int Depth = 0; Depth < 64; ++Depth)
+    {
+        const int W = Panel.I1 - Panel.I0;
+        const int Ht = Panel.J1 - Panel.J0;
+        const std::uint32_t Node = PlazaHash(PlazaPanelSeed
+            ^ (static_cast<std::uint32_t>(Panel.I0) * 73856093u)
+            ^ (static_cast<std::uint32_t>(Panel.J0) * 19349663u)
+            ^ (static_cast<std::uint32_t>(W) * 83492791u)
+            ^ (static_cast<std::uint32_t>(Ht) * 2654435761u));
+        const bool bCanX = (W >= 2 * PlazaMinPanelCells);
+        const bool bCanY = (Ht >= 2 * PlazaMinPanelCells);
+        const bool bMust = (W > PlazaMaxPanelCells) || (Ht > PlazaMaxPanelCells);
+        if (!bCanX && !bCanY) break;
+        if (!bMust && static_cast<int>(Node & 255u) >= PlazaSplitChance256) break;
+        bool bSplitX = bCanX;
+        if (bCanX && bCanY) bSplitX = (W >= Ht);
+        if (bMust)
+        {
+            // The axis that is over size must be the one that splits, when it can be.
+            if (W > PlazaMaxPanelCells && bCanX) bSplitX = true;
+            else if (Ht > PlazaMaxPanelCells && bCanY) bSplitX = false;
+        }
+        if (bSplitX)
+        {
+            const int Span = W - 2 * PlazaMinPanelCells + 1;
+            const int Cut = Panel.I0 + PlazaMinPanelCells
+                          + static_cast<int>((Node >> 8) % static_cast<std::uint32_t>(Span));
+            if (CI < Cut) Panel.I1 = Cut; else Panel.I0 = Cut;
+        }
+        else
+        {
+            const int Span = Ht - 2 * PlazaMinPanelCells + 1;
+            const int Cut = Panel.J0 + PlazaMinPanelCells
+                          + static_cast<int>((Node >> 8) % static_cast<std::uint32_t>(Span));
+            if (CJ < Cut) Panel.J1 = Cut; else Panel.J0 = Cut;
+        }
+    }
+    Panel.Id = PlazaHash(PlazaHash(static_cast<std::uint32_t>(Panel.I0) * 2246822519u
+                                 ^ static_cast<std::uint32_t>(Panel.J0) * 3266489917u)
+                       ^ static_cast<std::uint32_t>(Panel.I1) * 668265263u
+                       ^ static_cast<std::uint32_t>(Panel.J1) * 374761393u);
+    return Panel;
+}
+
+inline bool PlazaSamePanel(const FPlazaPanel& A, const FPlazaPanel& B)
+{
+    return A.I0 == B.I0 && A.J0 == B.J0 && A.I1 == B.I1 && A.J1 == B.J1;
+}
+
+inline int PlazaRawCourseIndex(const FPlazaPanel& Panel)
+{
+    return static_cast<int>(PlazaHash(Panel.Id ^ 0x9E3779B9u) % static_cast<std::uint32_t>(PlazaCourseCount));
+}
+
+/** Course direction for a panel: greedy five-colouring against everything already laid to
+ *  its west and north.
+ *
+ *  Two neighbours laid the same way merge into one bigger panel to the eye, and a run of
+ *  them is the grid coming back - so the panel takes the first direction, walking up from
+ *  its own hashed preference, that no panel along its west or north joint is using. EVERY
+ *  panel on those joints is checked, not just the one at the corner: a panel eight cells
+ *  deep can abut four shorter ones, and a match anywhere along the joint is a match.
+ *
+ *  The neighbours are compared by their OWN hashed preference rather than by their final
+ *  colour. Doing otherwise would make each panel's colour depend on its neighbour's, which
+ *  depends on its neighbour's, all the way back to the north-west corner - a hundred-deep
+ *  recursion per cell, in a function called fourteen thousand times at load. The residual is
+ *  a small number of joints where two panels do end up alike; EnclosureMathTest.cpp measures
+ *  it rather than assuming it away, and those joints still carry a rib and still start their
+ *  paving at different origins, so they do not read as one panel. */
+inline int PlazaPanelCourseIndex(const FPlazaGrid& Grid, const FPlazaPanel& Panel)
+{
+    bool Taken[PlazaCourseCount] = {};
+    if (Panel.I0 > Grid.I0)
+    {
+        for (int J = Panel.J0; J < Panel.J1; ++J)
+        {
+            Taken[PlazaRawCourseIndex(PlazaPanelAt(Grid, Panel.I0 - 1, J))] = true;
+        }
+    }
+    if (Panel.J0 > Grid.J0)
+    {
+        for (int I = Panel.I0; I < Panel.I1; ++I)
+        {
+            Taken[PlazaRawCourseIndex(PlazaPanelAt(Grid, I, Panel.J0 - 1))] = true;
+        }
+    }
+    const int Wanted = PlazaRawCourseIndex(Panel);
+    for (int Offset = 0; Offset < PlazaCourseCount; ++Offset)
+    {
+        const int Candidate = (Wanted + Offset) % PlazaCourseCount;
+        if (!Taken[Candidate]) return Candidate;
+    }
+    // Every direction is already in use along this panel's joints. Keep its own preference
+    // rather than picking arbitrarily; the rib and the UV origin still separate it.
+    return Wanted;
+}
+
+/** Where a panel's paving pattern starts, in amot, so no two panels begin the 5 m tile at
+ *  the same place. Two values in [0, 25). */
+inline void PlazaPanelUvOriginAmot(const FPlazaPanel& Panel, double& OutU, double& OutV)
+{
+    const std::uint32_t H = PlazaHash(Panel.Id ^ 0x85EBCA6Bu);
+    OutU = static_cast<double>(H & 1023u) / 1024.0 * PlazaCellAmot;
+    OutV = static_cast<double>((H >> 10) & 1023u) / 1024.0 * PlazaCellAmot;
+}
+
+/** Slow tonal drift, -1..1, at a wavelength far coarser than the tile: value noise on a
+ *  lattice of PlazaTintCells cells (about 120 m), smoothstep-interpolated. This is the
+ *  variation every photograph of a real esplanade has and a tiled texture never does. */
+constexpr int PlazaTintCells = 10;
+inline double PlazaTintLatticeValue(int LI, int LJ)
+{
+    const std::uint32_t H = PlazaHash(static_cast<std::uint32_t>(LI) * 374761393u
+                                    ^ static_cast<std::uint32_t>(LJ) * 668265263u ^ 0xC2B2AE35u);
+    return static_cast<double>(H & 0xFFFFu) / 32767.5 - 1.0;
+}
+inline double PlazaTintAt(int I, int J)
+{
+    const double FX = static_cast<double>(I) / static_cast<double>(PlazaTintCells);
+    const double FY = static_cast<double>(J) / static_cast<double>(PlazaTintCells);
+    const int LI = static_cast<int>(std::floor(FX));
+    const int LJ = static_cast<int>(std::floor(FY));
+    // Hermite ease, written out rather than calling SmoothStep01: that lives in section 7,
+    // below this one, and the plaza belongs beside the wall it paves.
+    const double UX = FX - static_cast<double>(LI);
+    const double UY = FY - static_cast<double>(LJ);
+    const double TX = UX * UX * (3.0 - 2.0 * UX);
+    const double TY = UY * UY * (3.0 - 2.0 * UY);
+    const double A = PlazaTintLatticeValue(LI, LJ);
+    const double B = PlazaTintLatticeValue(LI + 1, LJ);
+    const double C = PlazaTintLatticeValue(LI, LJ + 1);
+    const double D = PlazaTintLatticeValue(LI + 1, LJ + 1);
+    const double Top = A + (B - A) * TX;
+    const double Bottom = C + (D - C) * TX;
+    return Top + (Bottom - Top) * TY;
+}
+
+/** A processional way: an axis-aligned band of cells from one gate towards the Mount, paved
+ *  in the other approved material and laid ACROSS the direction of travel. */
+struct FPlazaWay
+{
+    /** True when the way runs north-south (its band is a range of I). */
+    bool bNorthSouth = true;
+    int Band0 = 0, Band1 = 0;      // cell indices across the way, [Band0, Band1)
+    int Along0 = 0, Along1 = 0;    // cell indices along the way, [Along0, Along1)
+    int Gate = 0;                  // index into the gate list, for the receipt
+};
+
+/** Cell classes. A way overrides the field paving; nothing else does. There is deliberately
+ *  NO hole under the court supporting platform: that platform is a solid box standing on
+ *  Z 0, so the deck simply runs under it, costing about 970 tiles of hidden paving (12
+ *  triangles each) and buying a deck with no edge condition to get wrong. */
+enum class EPlazaCell : int { Deck = 0, Way = 1 };
+
+/** Non-periodic cross-channel spacing, in cells. A periodic spacing is a grid by another
+ *  name; this sequence sums to 62 cells over five terms, so it repeats only after 1,550
+ *  amot - longer than any run on the plaza. */
+inline int PlazaChannelStrideCells(int Index)
+{
+    static const int Strides[5] = {11, 14, 9, 16, 12};
+    return Strides[((Index % 5) + 5) % 5];
+}
+
+/** Is there a cross channel on the cell boundary at index K? Walks the stride sequence from
+ *  the grid origin so both axes and every consumer agree without storing a list. */
+inline bool PlazaHasChannelLine(int Origin, int K, int Limit)
+{
+    if (K <= Origin || K >= Limit) return false;
+    int At = Origin;
+    for (int Step = 0; Step < 4096; ++Step)
+    {
+        At += PlazaChannelStrideCells(Step);
+        if (At == K) return true;
+        if (At > K || At >= Limit) return false;
+    }
+    return false;
+}
+
+/** Triangles per plaza module, exactly as Scripts/create_precinct_plaza.py writes them.
+ *  Same contract as FModuleBudget: the export refuses to run if a module differs. */
+struct FPlazaModuleBudget
+{
+    /** One closed slab, scaled in X and Y for a partial cell at the ring. */
+    int DeckTileTriangles = 12;
+    /** The same slab in the other approved paving, for the processional ways. */
+    int WayTileTriangles = 12;
+    /** Panel rib: one closed box standing a quarter of an amah proud. */
+    int RibTriangles = 12;
+    /** Way kerb: one closed box, scaled in X to its run. */
+    int KerbTriangles = 12;
+    /** Drainage channel: floor and two rims, three boxes. */
+    int ChannelTriangles = 36;
+    /** Retaining/scarp band: one closed box, never scaled in Z. */
+    int RetainingBandTriangles = 12;
+    /** One step, scaled in X to the flight width. */
+    int StepTriangles = 12;
+};
+
+/** The whole plaza, counted. Mirrors FWallPlan: the generator writes these numbers into
+ *  SourceAssets/enclosure-review/plaza-<Target>.json and the release script proves the
+ *  placed actor's own build produced exactly them. */
+struct FPlazaPlan
+{
+    int DeckTiles = 0;
+    int WayTiles = 0;
+    int RibModules = 0;
+    int KerbModules = 0;
+    int ChannelModules = 0;
+    int RetainingBands = 0;
+    int ScarpBands = 0;
+    int StepModules = 0;
+    long long DeckTriangles = 0;
+    long long WayTriangles = 0;
+    long long RibTriangles = 0;
+    long long KerbTriangles = 0;
+    long long ChannelTriangles = 0;
+    long long RetainingTriangles = 0;
+    long long ScarpTriangles = 0;
+    long long StepTriangles = 0;
+    long long TotalTriangles = 0;
+    int TotalInstances = 0;
+    /** Tallest retaining and scarp stack on each side, in level units. Reported. */
+    double RetainingMaxUnrealCm[4] = {0.0, 0.0, 0.0, 0.0};
+    double ScarpMaxUnrealCm[4] = {0.0, 0.0, 0.0, 0.0};
+};
+
+inline void PlazaFinishPlan(FPlazaPlan& Plan, const FPlazaModuleBudget& Budget)
+{
+    Plan.DeckTriangles = static_cast<long long>(Plan.DeckTiles) * Budget.DeckTileTriangles;
+    Plan.WayTriangles = static_cast<long long>(Plan.WayTiles) * Budget.WayTileTriangles;
+    Plan.RibTriangles = static_cast<long long>(Plan.RibModules) * Budget.RibTriangles;
+    Plan.KerbTriangles = static_cast<long long>(Plan.KerbModules) * Budget.KerbTriangles;
+    Plan.ChannelTriangles = static_cast<long long>(Plan.ChannelModules) * Budget.ChannelTriangles;
+    Plan.RetainingTriangles = static_cast<long long>(Plan.RetainingBands) * Budget.RetainingBandTriangles;
+    Plan.ScarpTriangles = static_cast<long long>(Plan.ScarpBands) * Budget.RetainingBandTriangles;
+    Plan.StepTriangles = static_cast<long long>(Plan.StepModules) * Budget.StepTriangles;
+    Plan.TotalTriangles = Plan.DeckTriangles + Plan.WayTriangles + Plan.RibTriangles + Plan.KerbTriangles
+                        + Plan.ChannelTriangles + Plan.RetainingTriangles + Plan.ScarpTriangles
+                        + Plan.StepTriangles;
+    Plan.TotalInstances = Plan.DeckTiles + Plan.WayTiles + Plan.RibModules + Plan.KerbModules
+                        + Plan.ChannelModules + Plan.RetainingBands + Plan.ScarpBands + Plan.StepModules;
+}
+
+/** How many fixed-height bands face a drop of HeightUnrealCm. Bands are never scaled in Z,
+ *  so the answer is a count and the lowest band over-runs into the ground. */
+inline int PlazaBandCount(double HeightUnrealCm, double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    const double Band = AmotToUnrealCm(PlazaRetainingBandHeightAmot, WorldCmPerAmah);
+    if (!(Band > 0.0) || !(HeightUnrealCm > 0.0) || !std::isfinite(HeightUnrealCm)) return 0;
+    return static_cast<int>(std::ceil(HeightUnrealCm / Band - 1e-9));
+}
+
+/** How far band B stands PROUD of the deck-level face, in level units. B is 0 at the deck
+ *  and increases away from it - downward for a retaining stack, upward for a scarp - so the
+ *  return value is always the outward offset of that band's face. Never negative: nothing
+ *  overhangs. */
+inline double PlazaBandBatterUnrealCm(int Band, double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    if (Band <= 0 || PlazaRetainingBatterEveryBands <= 0) return 0.0;
+    const int Steps = Band / PlazaRetainingBatterEveryBands;
+    return AmotToUnrealCm(PlazaRetainingBatterAmot * static_cast<double>(Steps), WorldCmPerAmah);
+}
+
+/** Wall base with a deck present: the wall stands on whichever is higher, the deck or the
+ *  ground OUTSIDE it. On a fill side that is the deck, and the retaining wall carries it;
+ *  on a cut side that is the outside grade, and the wall stands on the crest of the scarp
+ *  with the plaza a storey below its inner face. With bDeck false this is the old behaviour
+ *  exactly, which is why the deck can be switched off without touching the wall code. */
+inline double PlazaWallBaseZUnrealCm(double GroundHighZUnrealCm, double DeckTopZUnrealCm, bool bDeck)
+{
+    return bDeck ? std::max(GroundHighZUnrealCm, DeckTopZUnrealCm) : GroundHighZUnrealCm;
+}
+
+/** A flight from the deck up to a gate threshold above it: number of steps, and how many
+ *  landings break it. Zero steps when the gate sits on the deck. */
+inline int PlazaFlightSteps(double RiseUnrealCm, double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    const double Riser = AmotToUnrealCm(PlazaStepRiserAmot, WorldCmPerAmah);
+    if (!(Riser > 0.0) || !(RiseUnrealCm > 0.0) || !std::isfinite(RiseUnrealCm)) return 0;
+    return static_cast<int>(std::ceil(RiseUnrealCm / Riser - 1e-9));
+}
+inline int PlazaFlightLandings(int Steps)
+{
+    if (Steps <= PlazaStepsPerFlight) return 0;
+    return (Steps - 1) / PlazaStepsPerFlight;
+}
+
+/** The five processional ways, two cells wide, from each gate to the court platform.
+ *
+ *  The grid is set out from the world origin, so the north, east and west gates - which
+ *  stand on the Temple's own axes - fall exactly on a cell boundary and their ways are
+ *  symmetric about them to the centimetre. The two south gates are at thirds of the south
+ *  wall and do NOT fall on a boundary; their bands are snapped to the nearest one, and the
+ *  snap is at most half a cell (about 6 m on a 24 m road), which the receipt records per way
+ *  rather than leaving a reader to discover it in a screenshot.
+ */
+inline void MakePlazaWays(const FSquare& Square, const FPlazaGrid& Grid,
+                          double CourtHalfExtentUnrealCm, const std::vector<FGateOpening>& Gates,
+                          std::vector<FPlazaWay>& OutWays)
+{
+    OutWays.clear();
+    if (!(Grid.CellUnrealCm > 0.0)) return;
+    FVec2 Corners[4];
+    SquareCorners(Square, Corners);
+    const int CourtCells = static_cast<int>(std::ceil(CourtHalfExtentUnrealCm / Grid.CellUnrealCm));
+    for (std::size_t Index = 0; Index < Gates.size(); ++Index)
+    {
+        const FGateOpening& Gate = Gates[Index];
+        const int Side = ((Gate.Side % 4) + 4) % 4;
+        const FVec2& From = Corners[Side];
+        const FVec2& To = Corners[(Side + 1) % 4];
+        const FVec2 At{From.X + (To.X - From.X) * Gate.CentreFractionAlongSide,
+                       From.Y + (To.Y - From.Y) * Gate.CentreFractionAlongSide};
+        FPlazaWay Way;
+        Way.Gate = static_cast<int>(Index);
+        Way.bNorthSouth = (Side == 0 || Side == 2);
+        const double Axis = Way.bNorthSouth ? At.X : At.Y;
+        const int Centre = static_cast<int>(std::floor(Axis / Grid.CellUnrealCm + 0.5));
+        if (Way.bNorthSouth)
+        {
+            Way.Band0 = std::max(Grid.I0, Centre - 1);
+            Way.Band1 = std::min(Grid.I1, Centre + 1);
+            Way.Along0 = (Side == 0) ? Grid.J0 : std::max(Grid.J0, CourtCells);
+            Way.Along1 = (Side == 0) ? std::min(Grid.J1, -CourtCells) : Grid.J1;
+        }
+        else
+        {
+            Way.Band0 = std::max(Grid.J0, Centre - 1);
+            Way.Band1 = std::min(Grid.J1, Centre + 1);
+            Way.Along0 = (Side == 1) ? std::max(Grid.I0, CourtCells) : Grid.I0;
+            Way.Along1 = (Side == 1) ? Grid.I1 : std::min(Grid.I1, -CourtCells);
+        }
+        OutWays.push_back(Way);
+    }
+}
+
+/** Is this cell part of a processional way? Linear over five ways, which is cheaper than any
+ *  set for five, and stateless, which is what keeps the generator and the runtime in step. */
+inline bool PlazaCellIsWay(const std::vector<FPlazaWay>& Ways, int I, int J)
+{
+    for (std::size_t Index = 0; Index < Ways.size(); ++Index)
+    {
+        const FPlazaWay& Way = Ways[Index];
+        const int Band = Way.bNorthSouth ? I : J;
+        const int Along = Way.bNorthSouth ? J : I;
+        if (Band >= Way.Band0 && Band < Way.Band1 && Along >= Way.Along0 && Along < Way.Along1)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+/** The ground-INDEPENDENT part of the plaza: how many deck tiles, way tiles, panel ribs,
+ *  way kerbs and channel modules the layout produces, and how many distinct super-panels the
+ *  frozen split made. Called by the runtime for its readback, by the standalone test, and
+ *  mirrored in Scripts/create_precinct_plaza.py; if any two of those three disagree the
+ *  plaza is laid differently in the receipt and in the level. */
+inline FPlazaPlan PlanPlazaField(const FPlazaGrid& Grid, const std::vector<FPlazaWay>& Ways,
+                                 int* OutPanelCount = nullptr, int* OutCulverted = nullptr)
+{
+    FPlazaPlan Plan;
+    if (OutPanelCount != nullptr) *OutPanelCount = 0;
+    if (OutCulverted != nullptr) *OutCulverted = 0;
+    if (Grid.CellsX() <= 0 || Grid.CellsY() <= 0) return Plan;
+
+    std::vector<unsigned long long> PanelKeys;
+    PanelKeys.reserve(2048);
+    for (int I = Grid.I0; I < Grid.I1; ++I)
+    {
+        for (int J = Grid.J0; J < Grid.J1; ++J)
+        {
+            const FPlazaPanel Panel = PlazaPanelAt(Grid, I, J);
+            if (OutPanelCount != nullptr)
+            {
+                auto Field = [](int Value) { return static_cast<unsigned long long>(static_cast<std::uint32_t>(Value + 1000) & 0xFFFFu); };
+                PanelKeys.push_back((Field(Panel.I0) << 48) | (Field(Panel.J0) << 32)
+                                  | (Field(Panel.I1) << 16) | Field(Panel.J1));
+            }
+            if (PlazaCellIsWay(Ways, I, J)) ++Plan.WayTiles; else ++Plan.DeckTiles;
+            if (I > Grid.I0 && !PlazaSamePanel(PlazaPanelAt(Grid, I - 1, J), Panel)) ++Plan.RibModules;
+            if (J > Grid.J0 && !PlazaSamePanel(PlazaPanelAt(Grid, I, J - 1), Panel)) ++Plan.RibModules;
+        }
+    }
+    if (OutPanelCount != nullptr)
+    {
+        std::sort(PanelKeys.begin(), PanelKeys.end());
+        PanelKeys.erase(std::unique(PanelKeys.begin(), PanelKeys.end()), PanelKeys.end());
+        *OutPanelCount = static_cast<int>(PanelKeys.size());
+    }
+
+    for (std::size_t Index = 0; Index < Ways.size(); ++Index)
+    {
+        const FPlazaWay& Way = Ways[Index];
+        Plan.KerbModules += 2 * std::max(0, Way.Along1 - Way.Along0);
+    }
+
+    // The perimeter ring, then the cross channels. A cross channel is CULVERTED under a
+    // processional way rather than cut across it - a road with an open trench in it is not a
+    // road - and the omitted modules are counted so the receipt can say how many.
+    Plan.ChannelModules += 2 * Grid.CellsX() + 2 * Grid.CellsY();
+    for (int K = Grid.I0 + 1; K < Grid.I1; ++K)
+    {
+        if (!PlazaHasChannelLine(Grid.I0, K, Grid.I1)) continue;
+        for (int J = Grid.J0; J < Grid.J1; ++J)
+        {
+            if (PlazaCellIsWay(Ways, K, J) || PlazaCellIsWay(Ways, K - 1, J))
+            {
+                if (OutCulverted != nullptr) ++(*OutCulverted);
+            }
+            else ++Plan.ChannelModules;
+        }
+    }
+    for (int K = Grid.J0 + 1; K < Grid.J1; ++K)
+    {
+        if (!PlazaHasChannelLine(Grid.J0, K, Grid.J1)) continue;
+        for (int I = Grid.I0; I < Grid.I1; ++I)
+        {
+            if (PlazaCellIsWay(Ways, I, K) || PlazaCellIsWay(Ways, I, K - 1))
+            {
+                if (OutCulverted != nullptr) ++(*OutCulverted);
+            }
+            else ++Plan.ChannelModules;
+        }
+    }
+    return Plan;
+}
+
+/** The ground-DEPENDENT part: retaining bands where the ground is below the deck, scarp bands
+ *  where it is above, and the gate stairs. Adds into Plan so the two halves compose. */
+inline void PlanPlazaFaces(const FSquare& Square, const FPlazaGrid& Grid, const FGroundProfile& Profile,
+                           int SegmentsPerSide, const std::vector<FGateOpening>& Gates,
+                           double WorldCmPerAmah, FPlazaPlan& Plan)
+{
+    const double SideLength = SquareSideUnrealCm(Square);
+    if (!(SideLength > 0.0) || SegmentsPerSide <= 0) return;
+    const double DeckZ = Grid.DeckTopZUnrealCm;
+    for (int Side = 0; Side < 4; ++Side)
+    {
+        for (int Step = 0; Step < SegmentsPerSide; ++Step)
+        {
+            const double F0 = static_cast<double>(Step) / static_cast<double>(SegmentsPerSide);
+            const double F1 = static_cast<double>(Step + 1) / static_cast<double>(SegmentsPerSide);
+            const FGrounding G = GroundSpan(Profile, Side, F0, F1, 0.0);
+            const double Fill = DeckZ - G.GroundLowZUnrealCm;
+            if (Fill > 0.0)
+            {
+                Plan.RetainingBands += PlazaBandCount(Fill, WorldCmPerAmah);
+                Plan.RetainingMaxUnrealCm[Side] = std::max(Plan.RetainingMaxUnrealCm[Side], Fill);
+            }
+            const double Cut = G.GroundHighZUnrealCm - DeckZ;
+            if (Cut > 0.0)
+            {
+                Plan.ScarpBands += PlazaBandCount(Cut, WorldCmPerAmah);
+                Plan.ScarpMaxUnrealCm[Side] = std::max(Plan.ScarpMaxUnrealCm[Side], Cut);
+            }
+        }
+    }
+    const int LandingUnits = std::max(1, static_cast<int>(std::floor(
+        PlazaLandingDepthAmot / PlazaStepTreadAmot + 0.5)));
+    const double HalfCell = Grid.CellUnrealCm * 0.5 / SideLength;
+    for (std::size_t Index = 0; Index < Gates.size(); ++Index)
+    {
+        const FGateOpening& Gate = Gates[Index];
+        const double T = Gate.CentreFractionAlongSide;
+        const FGrounding G = GroundSpan(Profile, Gate.Side, std::max(0.0, T - HalfCell),
+                                        std::min(1.0, T + HalfCell), 0.0);
+        const double Base = PlazaWallBaseZUnrealCm(G.GroundHighZUnrealCm, DeckZ, true);
+        const int Steps = PlazaFlightSteps(Base - DeckZ, WorldCmPerAmah);
+        Plan.StepModules += Steps + PlazaFlightLandings(Steps) * LandingUnits;
+    }
+}
+
+// ---------------------------------------------------------------------------
 // 7. The three states and the dissolve between them
 // ---------------------------------------------------------------------------
 

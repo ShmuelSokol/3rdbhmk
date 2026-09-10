@@ -73,16 +73,6 @@ TARGET_FLAGS = {'-candidate48': 'Candidate48', '-main50': 'Main50'}
 TARGET_ORDER = ('Candidate48', 'Main50')
 MODE_FLAGS = {'-plazaassets': 'assets', '-plazaapply': 'apply', '-plazaverify': 'verify'}
 
-# The UV mapping of the new master, verbatim, so the graph check compares strings and not
-# intentions. P is world position; Cs/Sn are the panel's course direction and U0/V0 its own
-# origin, both from per-instance custom data; 500 is the approved tile, unchanged.
-UV_CODE = ('float2 d = float2(P.x - U0, P.y - V0);'
-           ' return float2(d.x * Cs + d.y * Sn, d.y * Cs - d.x * Sn) / 500.0;')
-# Four per cent of lightness, driven by the tonal lattice. Visible as drift across a
-# kilometre, invisible on one tile, which is the point.
-TINT_CODE = 'return C * saturate(1.0 + T * 0.04);'
-
-
 def sha256_of(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -371,9 +361,8 @@ class Native(object):
         if slots != 1 or wrong:
             raise RuntimeError('%s has %d material slots (want exactly 1) and %s unassigned'
                                % (entry['name'], slots, wrong))
-        if not self.assets.save_loaded_asset(mesh, only_if_is_dirty=False):
-            raise RuntimeError('save_loaded_asset failed for ' + entry['name'])
         asset = self.spec['meshFolder'] + '/' + entry['name']
+        self.save_asset(mesh, asset)
         return dict(name=entry['name'], asset=asset, triangles=triangles,
                     importedBoundsCm=box, canonicalBoundsCm=canonical,
                     boundsErrorCm=round(error, 6), unreflectedBoundsErrorCm=round(unreflected, 6),
@@ -383,101 +372,199 @@ class Native(object):
                     uassetSha256=sha256_of(disk_path(asset)))
 
     # -- materials ---------------------------------------------------------
-    def _custom(self, material, code, output_type, input_names):
-        ue = self.ue
-        node = self.ml.create_material_expression(material, ue.MaterialExpressionCustom)
-        node.set_editor_property('Code', code)
-        node.set_editor_property('OutputType', output_type)
-        pins = []
-        for name in input_names:
-            pin = ue.CustomInput()
-            pin.set_editor_property('InputName', name)
-            pins.append(pin)
-        node.set_editor_property('Inputs', pins)
-        got = [str(pin.get_editor_property('InputName')) for pin in node.get_editor_property('Inputs')]
-        if got != list(input_names):
-            raise RuntimeError('Custom node inputs read back as %r, wanted %r' % (got, input_names))
-        if node.get_editor_property('Code') != code:
-            raise RuntimeError('Custom node code did not take')
-        return node
+    def save_asset(self, asset, path):
+        """Save, with retries.
 
-    def _per_instance(self, material, index, default=0.0):
-        """A per-instance custom data float. 5.8 setters return False even on success, and
-        the property name for the slot has moved between versions, so every candidate is
-        tried and the value is proved by readback rather than trusted."""
-        ue = self.ue
-        node = self.ml.create_material_expression(material, ue.MaterialExpressionPerInstanceCustomData)
-        for name in ('DataIndex', 'data_index'):
+        UE saves a .uasset by moving the existing file aside and writing a new one. On this
+        box that move intermittently fails - `MoveFile was unable to move ... to temp
+        directory` - because the previous editor in the serial slot, or a scanner, still holds
+        a handle for a second or two after the process is gone. The file is neither read-only
+        nor corrupted when it happens, and the next attempt succeeds, so this retries rather
+        than failing a run that did all its work correctly.
+        """
+        import time
+        errors = []
+        for attempt in range(6):
             try:
-                node.set_editor_property(name, index)
-            except Exception:                                          # noqa: BLE001
-                continue
+                if self.assets.save_loaded_asset(asset, only_if_is_dirty=False):
+                    return attempt
+            except Exception as error:                                 # noqa: BLE001
+                errors.append(repr(error))
             try:
-                if int(node.get_editor_property(name)) == index:
-                    break
-            except Exception:                                          # noqa: BLE001
-                continue
-        else:
-            raise RuntimeError('Could not set the custom-data slot index on a '
-                               'MaterialExpressionPerInstanceCustomData; the property has moved')
-        for name in ('const_default_value', 'ConstDefaultValue', 'DefaultValue'):
-            try:
-                node.set_editor_property(name, default)
-                break
-            except Exception:                                          # noqa: BLE001
-                continue
-        return node
+                if self.ue.EditorAssetLibrary.save_asset(path, only_if_is_dirty=False):
+                    return attempt
+            except Exception as error:                                 # noqa: BLE001
+                errors.append(repr(error))
+            time.sleep(3.0)
+        raise RuntimeError('Could not save %s after 6 attempts over 18 s; the file is locked by '
+                           'another process. %r' % (path, errors[-2:]))
 
     def build_paving_master(self):
-        """The one new material. It samples the APPROVED texture at the approved 500 cm with
-        the approved roughness and metallic, and adds only a rotation and an origin taken from
-        per-instance custom data. The approved M_JerusalemPaving_500cm is never edited: its
-        graph is asserted node for node by release_jerusalem_paving.py, and its mapping is a
-        frozen unparameterised Custom node with MIRROR addressing, which over 1.44 km is a 5 m
-        tile with a 10 m mirror period and axis-aligned symmetry lines - the grid the decision
-        was made to get rid of."""
+        """The plaza paving master. STOCK NODES ONLY - and that restriction is the fix for a
+        real cook failure, not a style preference.
+
+        WHAT WENT WRONG. The first version rotated the world-XY mapping per super-panel with
+        two `Custom` nodes carrying author-written HLSL, whose inputs came from five
+        `PerInstanceCustomData` reads. It compiled clean in the editor - `recompile_material`,
+        zero errors - and it CRASHED ShaderCompileWorker at cook time: return code
+        -1073741819, an access violation, on `FLocalVertexFactory` base-pass permutations,
+        failing the package with `Error_UnknownCookFailure` (checkpoint cp02). The cook had
+        otherwise finished all 8,594 packages and the only two jobs in the crashed worker's
+        batch were this material's. An access violation is the compiler DYING rather than
+        rejecting a graph, so there is no message to read.
+
+        WHICH HALF WAS GUILTY, and this matters because it decides how much of the design
+        survives. Per-instance custom data is NOT the problem: `M_CrowdFigure_P*`,
+        `M_CrowdGarmentPaletteV1` and `M_VehiclesV3_*` all read it, all with stock nodes and
+        no `Custom` node between them, and all of them cooked and shipped in Walkthrough-12.
+        `Custom` nodes on their own are not the problem either - the approved
+        `M_JerusalemPaving_500cm` is one. What was unique to this material was the COMBINATION:
+        author-written HLSL taking per-instance custom data as function arguments, hoisted into
+        the vertex stage where a non-instanced vertex factory has no instance data to give it.
+
+        So the `Custom` nodes go and the per-instance data stays, and the whole designed
+        anti-repetition scheme survives: the per-panel course direction, the per-panel UV
+        origin and the per-instance tonal drift are all still read, now through the same stock
+        arithmetic the crowd material uses. `paving_graph()` refuses the run if a `Custom` node
+        ever comes back.
+
+        THE ROTATION, in stock nodes: with d = worldXY - (U0, V0),
+            u =  d.x * Cs + d.y * Sn
+            v =  d.y * Cs - d.x * Sn
+        then divided by the approved 500 cm tile. Cs and Sn default to 1 and 0 and U0, V0 and
+        the tint to 0, so on any non-instanced use - which is exactly the `FLocalVertexFactory`
+        permutation that crashed - this degrades to the approved unrotated mapping rather than
+        to nonsense.
+        """
         ue = self.ue
         cfg = self.spec['materials']['deck']
         asset = cfg['asset']
         folder, name = asset.rsplit('/', 1)
+        texture = ue.load_asset(cfg['texture'])
+        if texture is None:
+            raise RuntimeError('The approved paving texture is missing: ' + cfg['texture'])
+
+        rebuilt = False
         if self.assets.does_asset_exist(asset):
             material = ue.load_asset(asset)
             if not isinstance(material, ue.Material):
                 raise RuntimeError('Existing asset at %s is not a Material' % asset)
-            return material, dict(asset=asset, reused=True,
-                                  readback=self.paving_graph(material),
-                                  uassetSha256=sha256_of(disk_path(asset)))
-        texture = ue.load_asset(cfg['texture'])
-        if texture is None:
-            raise RuntimeError('The approved paving texture is missing: ' + cfg['texture'])
-        material = self.tools.create_asset(name, folder, ue.Material, ue.MaterialFactoryNew())
-        if material is None:
-            raise RuntimeError('Material creation failed for ' + asset)
+            # ALWAYS wipe and rebuild in place. The asset already on disk is the one that
+            # crashed the shader compiler; renaming around it would leave the broken material
+            # in Content, and an unreferenced material is only safe until someone references
+            # it again. Order matters: delete_all_material_expressions will not remove a node
+            # still wired to a material OUTPUT, so the outputs come off first (measured: the
+            # bulk call alone left five of eleven), then a per-node sweep for the remainder.
+            before = [n.get_class().get_name() for n in list(self.ml.get_material_expressions(material))]
+            for prop in ('MP_BASE_COLOR', 'MP_ROUGHNESS', 'MP_METALLIC', 'MP_NORMAL',
+                         'MP_SPECULAR', 'MP_OPACITY', 'MP_EMISSIVE_COLOR',
+                         'MP_WORLD_POSITION_OFFSET', 'MP_AMBIENT_OCCLUSION'):
+                try:
+                    self.ml.disconnect_material_property(material, getattr(ue.MaterialProperty, prop))
+                except Exception:                                      # noqa: BLE001
+                    pass
+            if hasattr(self.ml, 'delete_all_material_expressions'):
+                self.ml.delete_all_material_expressions(material)
+            remaining = list(self.ml.get_material_expressions(material))
+            for _ in range(16):
+                if not remaining:
+                    break
+                for node in remaining:
+                    try:
+                        self.ml.delete_material_expression(material, node)
+                    except Exception:                                  # noqa: BLE001
+                        pass
+                after = list(self.ml.get_material_expressions(material))
+                if len(after) >= len(remaining):
+                    remaining = after
+                    break
+                remaining = after
+            if remaining:
+                raise RuntimeError(
+                    'Could not clear the old plaza paving graph; %d of %d nodes remain (%r). '
+                    'The broken material must not be left half-rebuilt, so nothing is saved.'
+                    % (len(remaining), len(before), [n.get_class().get_name() for n in remaining]))
+            rebuilt = True
+        else:
+            before = []
+            material = self.tools.create_asset(name, folder, ue.Material, ue.MaterialFactoryNew())
+            if material is None:
+                raise RuntimeError('Material creation failed for ' + asset)
         material.set_editor_property('blend_mode', ue.BlendMode.BLEND_OPAQUE)
 
-        world = self.ml.create_material_expression(material, ue.MaterialExpressionWorldPosition)
-        data = [self._per_instance(material, index) for index in range(5)]
-        uv = self._custom(material, UV_CODE, ue.CustomMaterialOutputType.CMOT_FLOAT2,
-                          ['P', 'Cs', 'Sn', 'U0', 'V0'])
-        sample = self.ml.create_material_expression(material, ue.MaterialExpressionTextureSample)
-        sample.set_editor_property('Texture', texture)
-        tint = self._custom(material, TINT_CODE, ue.CustomMaterialOutputType.CMOT_FLOAT3, ['C', 'T'])
-        rough = self.ml.create_material_expression(material, ue.MaterialExpressionConstant)
-        rough.set_editor_property('R', float(cfg['roughness']))
-        metal = self.ml.create_material_expression(material, ue.MaterialExpressionConstant)
-        metal.set_editor_property('R', float(cfg['metallic']))
+        make = lambda cls: self.ml.create_material_expression(material, cls)
+        connect = self.ml.connect_material_expressions
 
-        wiring = [
-            (world, '', uv, 'P'),
-            (data[0], '', uv, 'Cs'), (data[1], '', uv, 'Sn'),
-            (data[2], '', uv, 'U0'), (data[3], '', uv, 'V0'),
-            (uv, '', sample, 'UVs'),
-            (sample, '', tint, 'C'), (data[4], '', tint, 'T'),
-        ]
-        for source, source_pin, dest, dest_pin in wiring:
-            # 5.8 returns False even on success; the graph snapshot below is the proof.
-            self.ml.connect_material_expressions(source, source_pin, dest, dest_pin)
-        for node, prop in ((tint, ue.MaterialProperty.MP_BASE_COLOR),
+        def constant(value):
+            node = make(ue.MaterialExpressionConstant)
+            node.set_editor_property('R', float(value))
+            return node
+
+        def mask(red, green):
+            node = make(ue.MaterialExpressionComponentMask)
+            for channel, on in (('R', red), ('G', green), ('B', False), ('A', False)):
+                node.set_editor_property(channel, bool(on))
+            return node
+
+        def custom_data(index, default):
+            """Property names taken from Scripts/release_crowd_tint_fix.py, which builds the
+            shipped crowd material the same way; both are proved by readback there and here."""
+            node = make(ue.MaterialExpressionPerInstanceCustomData)
+            node.set_editor_property('data_index', int(index))
+            node.set_editor_property('const_default_value', float(default))
+            if int(node.get_editor_property('data_index')) != int(index):
+                raise RuntimeError('PerInstanceCustomData data_index did not take')
+            return node
+
+        def binary(cls, a, b):
+            node = make(cls)
+            connect(a, '', node, 'A')
+            connect(b, '', node, 'B')
+            return node
+
+        world = make(ue.MaterialExpressionWorldPosition)
+        plan = mask(True, True)
+        connect(world, '', plan, '')
+        wx = mask(True, False)
+        wy = mask(False, True)
+        connect(plan, '', wx, '')
+        connect(plan, '', wy, '')
+
+        # Defaults are the identity: no rotation, no origin shift, no tint. A permutation with
+        # no instance data - FLocalVertexFactory, the one that crashed - therefore falls back
+        # to exactly the approved unrotated 500 cm mapping.
+        course_cos = custom_data(0, 1.0)
+        course_sin = custom_data(1, 0.0)
+        origin_u = custom_data(2, 0.0)
+        origin_v = custom_data(3, 0.0)
+        tint = custom_data(4, 0.0)
+
+        dx = binary(ue.MaterialExpressionSubtract, wx, origin_u)
+        dy = binary(ue.MaterialExpressionSubtract, wy, origin_v)
+        u = binary(ue.MaterialExpressionAdd,
+                   binary(ue.MaterialExpressionMultiply, dx, course_cos),
+                   binary(ue.MaterialExpressionMultiply, dy, course_sin))
+        v = binary(ue.MaterialExpressionSubtract,
+                   binary(ue.MaterialExpressionMultiply, dy, course_cos),
+                   binary(ue.MaterialExpressionMultiply, dx, course_sin))
+        turned = binary(ue.MaterialExpressionAppendVector, u, v)
+        uv = binary(ue.MaterialExpressionDivide, turned, constant(float(cfg['tileCm'])))
+
+        sample = make(ue.MaterialExpressionTextureSample)
+        sample.set_editor_property('Texture', texture)
+        connect(uv, '', sample, 'UVs')
+
+        # Tonal drift: tint runs -1..1, so this is 1 +- tintAmplitude. Not clamped to 1, which
+        # the first version's saturate() silently did - it could only ever darken.
+        drift = binary(ue.MaterialExpressionAdd,
+                       binary(ue.MaterialExpressionMultiply, tint,
+                              constant(float(cfg['tintAmplitude']))),
+                       constant(1.0))
+        base_colour = binary(ue.MaterialExpressionMultiply, sample, drift)
+
+        rough = constant(cfg['roughness'])
+        metal = constant(cfg['metallic'])
+        for node, prop in ((base_colour, ue.MaterialProperty.MP_BASE_COLOR),
                            (rough, ue.MaterialProperty.MP_ROUGHNESS),
                            (metal, ue.MaterialProperty.MP_METALLIC)):
             self.ml.connect_material_property(node, '', prop)
@@ -487,15 +574,15 @@ class Native(object):
         if errors:
             raise RuntimeError('Material compiler on %s: %r' % (asset, errors))
         readback = self.paving_graph(material)
-        if not self.assets.save_loaded_asset(material, only_if_is_dirty=False):
-            raise RuntimeError('save_loaded_asset failed for ' + asset)
-        return material, dict(asset=asset, reused=False, readback=readback,
+        save_attempts = self.save_asset(material, asset)
+        return material, dict(asset=asset, rebuiltInPlace=rebuilt, previousNodeKinds=before,
+                              saveAttempts=save_attempts, readback=readback,
                               compileErrors=errors, uassetSha256=sha256_of(disk_path(asset)))
 
     def paving_graph(self, material):
-        """Prove the graph is what the spec says, by reading it back. The two Custom nodes'
-        code is compared as a STRING: a rotation that silently became an identity would look
-        exactly like a working plaza until someone flew over the repeat."""
+        """Read the graph back, and refuse on the one thing whose ABSENCE is load-bearing: a
+        `Custom` node. Author-written HLSL fed by per-instance custom data is what crashed
+        ShaderCompileWorker and failed the cook, so its return is a refusal and not a note."""
         ue = self.ue
         kinds = {}
         rows = {}
@@ -503,41 +590,54 @@ class Native(object):
             kind = node.get_class().get_name()
             kinds[kind] = kinds.get(kind, 0) + 1
             row = dict(kind=kind)
-            if isinstance(node, ue.MaterialExpressionCustom):
-                row['code'] = node.get_editor_property('Code')
-                row['inputNames'] = [str(p.get_editor_property('InputName'))
-                                     for p in node.get_editor_property('Inputs')]
             if isinstance(node, ue.MaterialExpressionConstant):
-                row['value'] = node.get_editor_property('R')
+                row['value'] = round(float(node.get_editor_property('R')), 6)
             if isinstance(node, ue.MaterialExpressionTextureSample):
-                texture = node.get_editor_property('Texture')
-                row['texture'] = _asset_path(texture)
-                row['srgb'] = texture.get_editor_property('srgb')
+                sampled = node.get_editor_property('Texture')
+                row['texture'] = _asset_path(sampled)
+                row['srgb'] = bool(sampled.get_editor_property('srgb'))
             if isinstance(node, ue.MaterialExpressionPerInstanceCustomData):
-                for name in ('DataIndex', 'data_index'):
-                    try:
-                        row['dataIndex'] = int(node.get_editor_property(name))
-                        break
-                    except Exception:                                  # noqa: BLE001
-                        continue
+                row['dataIndex'] = int(node.get_editor_property('data_index'))
+                row['constDefaultValue'] = round(float(node.get_editor_property('const_default_value')), 6)
             rows[node.get_name()] = row
-        codes = sorted(r['code'] for r in rows.values() if 'code' in r)
-        if codes != sorted([UV_CODE, TINT_CODE]):
-            raise RuntimeError('The plaza paving graph no longer carries the two expected '
-                               'Custom nodes; found %r' % codes)
+
+        banned = [k for k in kinds if 'Custom' in k and 'PerInstanceCustomData' not in k]
+        if banned:
+            raise RuntimeError(
+                'The plaza paving graph carries %r. Author-written HLSL is banned in this '
+                'material: a Custom node taking per-instance custom data as arguments is what '
+                'crashed ShaderCompileWorker with an access violation at cook time (cp02, '
+                'Error_UnknownCookFailure). Per-instance data itself is fine - the shipped '
+                'crowd and vehicle materials read it with stock nodes.' % banned)
+
+        cfg = self.spec['materials']['deck']
+        textures = sorted({r['texture'] for r in rows.values() if 'texture' in r})
+        if textures != [cfg['texture']]:
+            raise RuntimeError('The plaza paving no longer samples exactly the approved '
+                               'texture: %r' % textures)
         slots = sorted(r['dataIndex'] for r in rows.values() if 'dataIndex' in r)
         if slots != [0, 1, 2, 3, 4]:
             raise RuntimeError('Per-instance custom data slots read back as %r, wanted 0..4; '
-                               'without all five the plaza cannot rotate its panels' % slots)
-        texture = [r.get('texture') for r in rows.values() if 'texture' in r]
-        if texture != [self.spec['materials']['deck']['texture']]:
-            raise RuntimeError('The plaza paving no longer samples the approved texture: %r' % texture)
+                               'without all five the plaza cannot lay its panels' % slots)
+        # The identity defaults are what make a non-instanced permutation degrade to the
+        # approved unrotated mapping instead of collapsing the paving to a point.
+        defaults = {r['dataIndex']: r['constDefaultValue'] for r in rows.values() if 'dataIndex' in r}
+        if abs(defaults[0] - 1.0) > 1e-6 or any(abs(defaults[i]) > 1e-6 for i in (1, 2, 3, 4)):
+            raise RuntimeError('Per-instance defaults are %r; slot 0 must default to 1 and the '
+                               'rest to 0, or a non-instanced draw has no valid mapping' % defaults)
+        values = sorted(r['value'] for r in rows.values() if 'value' in r)
+        for wanted in (float(cfg['tileCm']), float(cfg['tintAmplitude']), 1.0,
+                       float(cfg['roughness']), float(cfg['metallic'])):
+            if not any(abs(v - wanted) < 1e-6 for v in values):
+                raise RuntimeError('The plaza paving graph is missing the constant %g; found %r'
+                                   % (wanted, values))
         usages = {}
         for usage in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
             usages[usage] = bool(self.ml.has_material_usage(material, getattr(ue.MaterialUsage, usage)))
             if not usages[usage]:
                 raise RuntimeError('%s is not set on the plaza paving master' % usage)
-        return dict(nodes=rows, kinds=kinds, usages=usages,
+        return dict(nodes=rows, kinds=kinds, usages=usages, constants=values,
+                    customDataDefaults=defaults,
                     blendMode=str(material.get_editor_property('blend_mode')))
 
     def build_instance(self, role):
@@ -570,8 +670,7 @@ class Native(object):
         for usage in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
             self.ml.set_material_usage_override(instance, getattr(ue.MaterialUsage, usage), True, True)
         self.ml.update_material_instance(instance)
-        if not self.assets.save_loaded_asset(instance, only_if_is_dirty=False):
-            raise RuntimeError('save_loaded_asset failed for ' + asset)
+        self.save_asset(instance, asset)
         after = sha256_of(disk_path(cfg['parent']))
         if after != parent_sha:
             raise RuntimeError('The approved parent %s CHANGED while its instance was built' % cfg['parent'])

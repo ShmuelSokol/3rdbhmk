@@ -362,13 +362,45 @@ instance counts is what says the receipt describes the plaza actually in the lev
   `SetActorHiddenInGame` with collision off and never deleted. The Western Wall Plaza cut
   (`KotelPlazaCutV1`, tile 07_08, 146 merged deck-cell regions at two levels) rides the same
   pass: **max 5.9e-06 cm above its deck underside** over 5,533 stations at 100 cm.
-  **STILL OPEN: the state toggle.** `AMikdashEnclosure` cannot hide a terrain actor
-  (`BuildingIdentityLabel`, MikdashEnclosure.cpp:22-42, returns an empty label for any mesh
-  outside `JerusalemContext/Buildings/` and `OldCityFacadesV1/Meshes/`). Two lines in
-  `ApplyWeights` beside the plaza components - show `PrecinctCutTwin`, hide
-  `PrecinctCutOriginal` when the wall is shown, and the reverse otherwise; show
-  `KotelPlazaCutTwin` only when it is not - and a plugin rebuild. Until then MODERN and
-  OVERLAY show the cut hillside, and the Kotel plaza cut is placed but hidden.
+  ~~**STILL OPEN: the state toggle.**~~ **WIRED, 10 September 2026.** `ApplyWeights` now
+  drives whole ACTORS by TAG, beside the eight plaza HISM components and on the same
+  `bShowWall` predicate. `BuildingIdentityLabel` was deliberately left alone - its narrowness
+  is what keeps the audited hide list from drifting, and widening it was the wrong fix three
+  separate agents each reached for. Two new `TArray<FName>` properties on `AMikdashEnclosure`
+  carry the contract, defaulted in the constructor to the tags the release scripts write:
+
+  | property | default tags | effect |
+  |---|---|---|
+  | `HideWhileWallStandsTags` | `PrecinctCutOriginal`, `KotelPlazaCutTwin`, `CityDetailZone_Precinct` | hidden in YECHEZKEL, shown in MODERN + OVERLAY |
+  | `HideWhileModernCityStandsTags` | `PrecinctCutTwin`, `KotelPlazaCutOriginal` | shown in YECHEZKEL, hidden in MODERN + OVERLAY |
+
+  The rule is one line and it composes: an actor is hidden when ANY tag it carries appears in
+  the list for the phase now standing. Tile 07_08 carries a tag from BOTH lists - it is at once
+  the precinct's original and the Kotel plaza's original, because a twin of it stands in every
+  state - so it is hidden in every state with no special case. `SetActorHiddenInGame` and
+  `SetActorEnableCollision` only; nothing is spawned, destroyed or reparented, collision
+  follows visibility in game worlds only, and `EndPlay` restores the booleans each actor
+  carried when first seen. Gathered inside the `GatherModernBuildings` pass but read BEFORE
+  the building-identity test, which is the point.
+
+  Verified by state-switching and counting, not by reading the source:
+  `Scripts/audit_modern_restore.py` (extended with a per-tag census and a pass/fail block)
+  reports `pass=True` on **both** maps -
+  `modern-restore-audit-Candidate48-20260910T010747966079Z.json`,
+  `modern-restore-audit-Main50-20260910T010902233605Z.json`. Per map: 11 `PrecinctCutTwin`
+  visible in YECHEZKEL / 0 in MODERN and OVERLAY; 10 of the 11 originals visible in MODERN and
+  OVERLAY (the eleventh is 07_08, replaced there by the Kotel twin) / 0 in YECHEZKEL;
+  `KotelPlazaCutTwin` visible in MODERN and OVERLAY only; all 12 `RELEASE_CityDetail_Precinct_*`
+  hidden in YECHEZKEL and visible in MODERN and OVERLAY, while the 12 `_Kept_` actors stay
+  visible in all three. Building hide list unchanged: Candidate48 **269 found / 0 missing /
+  0 duplicated**, Main50 **278 / 0 / 0**. Both maps byte-identical after the audit, every
+  protected map unchanged, nothing dirty at the end.
+
+  One pre-existing hole in the audit was closed in the same pass: `SetPrecinctStateOver`
+  returns without applying anything when asked for the state it is already in, and the actor is
+  saved in YECHEZKEL, so the old sequence counted its first entry off the level as it sits on
+  disk. That is why the 9 Sep receipts show 0 hidden buildings in `Yechezkel` and 307 in
+  `Yechezkel_again`. The audit now primes with a different state first.
 - **The outside approaches are not built.** The deck stands up to 61 m above the modern street
   at the south-west gate. Huldah-stairway or Robinson's-Arch scale structures, over buildings
   this project deliberately leaves visible. Recorded, not built.

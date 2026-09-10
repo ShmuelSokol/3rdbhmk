@@ -97,6 +97,25 @@ constexpr double ModuleLengthBakedCm = 1250.0;
 constexpr double ModuleAcrossBakedCm = 360.0;
 constexpr double GateWidthBakedCm = 1560.0;      // 30 amot plus the 4% cornice overhang
 constexpr double CornerBakedCm = 556.8;          // 2 x 278.4
+
+/** Plaza modules are baked at ProjectCmPerAmah like every other module here. Only the two
+ *  paving tiles are ever scaled non-uniformly, and only to clip a partial cell at the ring. */
+constexpr double PlazaCellBakedCm = 1250.0;      // 25 amot at 50 cm/amah
+
+/** A super-panel packed into one integer, so a TSet can count distinct panels without
+ *  allocating. The grid indices run about -30..+95, so a 1000 offset is generous. */
+uint64 PackPanel(const FPlazaPanel& Panel)
+{
+    auto Field = [](int Value) { return static_cast<uint64>(static_cast<uint32>(Value + 1000) & 0xFFFFu); };
+    return (Field(Panel.I0) << 48) | (Field(Panel.J0) << 32) | (Field(Panel.I1) << 16) | Field(Panel.J1);
+}
+
+/** Unit outward vector of a side, in world XY. */
+FVec2 OutwardOf(const FSquare& Square, int Side)
+{
+    const double Radians = DegToRad(SideOutwardYawDegrees(Square, Side));
+    return FVec2{std::cos(Radians), std::sin(Radians)};
+}
 }
 
 AMikdashEnclosure::AMikdashEnclosure()
@@ -132,6 +151,25 @@ AMikdashEnclosure::AMikdashEnclosure()
     // would put a grey stripe across the whole Old City for no gain.
     OverlayInstances = MakeInstances(TEXT("OverlayInstances"), false);
 
+    // The plaza. Deck, way and rib are FLAT and are excluded from shadow casting outright:
+    // a ground plane casts nothing, and ShadowDepths was the single most expensive pass in
+    // this build before the Nanite pass (8.62 ms - PERFORMANCE-BUDGET.md). That one decision
+    // keeps about 20,000 instances out of the virtual shadow map every frame.
+    PlazaDeckInstances = MakeInstances(TEXT("PlazaDeckInstances"), false);
+    PlazaWayInstances = MakeInstances(TEXT("PlazaWayInstances"), false);
+    PlazaRibInstances = MakeInstances(TEXT("PlazaRibInstances"), false);
+    PlazaKerbInstances = MakeInstances(TEXT("PlazaKerbInstances"), true);
+    PlazaChannelInstances = MakeInstances(TEXT("PlazaChannelInstances"), true);
+    PlazaRetainingInstances = MakeInstances(TEXT("PlazaRetainingInstances"), true);
+    PlazaScarpInstances = MakeInstances(TEXT("PlazaScarpInstances"), true);
+    PlazaStepInstances = MakeInstances(TEXT("PlazaStepInstances"), true);
+    // Five floats per paving instance: cos and sin of its panel's course angle, the panel's
+    // UV origin in cm on both axes, and its tonal offset. This is what lets ONE draw call
+    // lay fourteen thousand tiles in five directions with no two panels starting the pattern
+    // in the same place, which is the whole anti-repetition scheme.
+    PlazaDeckInstances->NumCustomDataFloats = 5;
+    PlazaWayInstances->NumCustomDataFloats = 5;
+
     // Defaults that match what is actually in the level. release_enclosure.py overwrites
     // them from its spec, but a hand-placed actor in the editor should still behave.
     ModernBuildingLabelPrefixes = {
@@ -152,6 +190,27 @@ AMikdashEnclosure::AMikdashEnclosure()
         TEXT("JCTX_ISM_"),
         // Never hide the precinct, or anything the release scripts placed as part of it.
         TEXT("RELEASE_Enclosure"),
+    };
+
+    // Tagged state actors (see HideWhileWallStandsTags in the header). These strings are the
+    // tags Scripts/release_precinct_terrain_cut.py and Scripts/release_city_detail.py write
+    // onto the actors they place; they are the contract between those scripts and this one.
+    HideWhileWallStandsTags = {
+        // The real hillside inside the precinct. The quarried twin stands in its place while
+        // the deck is there, and the deck is opaque, so nobody ever sees the quarry floor.
+        FName(TEXT("PrecinctCutOriginal")),
+        // The Western Wall Plaza cut is a MODERN feature whose decks sit 11 m BELOW the
+        // precinct deck: buried and pointless in Yechezkel, so it is the opposite sense.
+        FName(TEXT("KotelPlazaCutTwin")),
+        // Roofscape that decorates the buildings the precinct hides. Left standing it floats
+        // over the deck with nothing under it.
+        FName(TEXT("CityDetailZone_Precinct")),
+    };
+    HideWhileModernCityStandsTags = {
+        // Present-day Jerusalem must not have a quarry in it.
+        FName(TEXT("PrecinctCutTwin")),
+        // While today's city stands, the Kotel-cut twin of this tile is the one on show.
+        FName(TEXT("KotelPlazaCutOriginal")),
     };
 }
 
@@ -253,8 +312,92 @@ bool AMikdashEnclosure::IsModernBuildingLabel(const FString& Label) const
     return false;
 }
 
+void AMikdashEnclosure::ConsiderStateTaggedActor(AActor* Actor)
+{
+    if (Actor == nullptr || Actor->Tags.Num() == 0) return;
+    bool bHideWithWall = false;
+    bool bHideWithCity = false;
+    for (const FName& Tag : Actor->Tags)
+    {
+        if (HideWhileWallStandsTags.Contains(Tag)) bHideWithWall = true;
+        if (HideWhileModernCityStandsTags.Contains(Tag)) bHideWithCity = true;
+    }
+    if (!bHideWithWall && !bHideWithCity) return;
+    StateTaggedActors.Add(Actor);
+    StateTaggedHideWithWall.Add(bHideWithWall);
+    StateTaggedHideWithCity.Add(bHideWithCity);
+    StateTaggedPriorHidden.Add(Actor->IsHidden());
+    StateTaggedPriorCollision.Add(Actor->GetActorEnableCollision());
+}
+
+void AMikdashEnclosure::ApplyStateTaggedActors(bool bWallStands)
+{
+    // Collision follows visibility here rather than a recorded prior, and that is the point:
+    // these actors are placed on disk in ONE state's configuration, so their "prior" is the
+    // Yechezkel answer, not a neutral one. An invisible hillside must never block a walker on
+    // the deck, and a visible one must always carry the walker. Editor worlds are left alone
+    // so a preview cannot bake disabled collision into a map that is later saved.
+    const bool bGameWorld = GetWorld() != nullptr && GetWorld()->IsGameWorld();
+    for (int32 Index = 0; Index < StateTaggedActors.Num(); ++Index)
+    {
+        AActor* Actor = StateTaggedActors[Index].Get();
+        if (Actor == nullptr) continue;
+        const bool bHide = bWallStands ? StateTaggedHideWithWall[Index]
+                                       : StateTaggedHideWithCity[Index];
+        Actor->SetActorHiddenInGame(bHide);
+        if (bGameWorld) Actor->SetActorEnableCollision(!bHide);
+    }
+}
+
+void AMikdashEnclosure::RestoreStateTaggedActors()
+{
+    const bool bGameWorld = GetWorld() != nullptr && GetWorld()->IsGameWorld();
+    for (int32 Index = 0; Index < StateTaggedActors.Num(); ++Index)
+    {
+        AActor* Actor = StateTaggedActors[Index].Get();
+        if (Actor == nullptr) continue;
+        if (StateTaggedPriorHidden.IsValidIndex(Index))
+        {
+            Actor->SetActorHiddenInGame(StateTaggedPriorHidden[Index]);
+        }
+        if (bGameWorld && StateTaggedPriorCollision.IsValidIndex(Index))
+        {
+            Actor->SetActorEnableCollision(StateTaggedPriorCollision[Index]);
+        }
+    }
+    StateTaggedActors.Reset();
+    StateTaggedHideWithWall.Reset();
+    StateTaggedHideWithCity.Reset();
+    StateTaggedPriorHidden.Reset();
+    StateTaggedPriorCollision.Reset();
+}
+
+void AMikdashEnclosure::GetStateTaggedCounts(int32& OutMatched, int32& OutHiddenWithWall,
+                                             int32& OutHiddenWithCity) const
+{
+    OutMatched = StateTaggedActors.Num();
+    OutHiddenWithWall = 0;
+    OutHiddenWithCity = 0;
+    for (int32 Index = 0; Index < StateTaggedActors.Num(); ++Index)
+    {
+        if (StateTaggedHideWithWall.IsValidIndex(Index) && StateTaggedHideWithWall[Index])
+        {
+            ++OutHiddenWithWall;
+        }
+        if (StateTaggedHideWithCity.IsValidIndex(Index) && StateTaggedHideWithCity[Index])
+        {
+            ++OutHiddenWithCity;
+        }
+    }
+}
+
 void AMikdashEnclosure::GatherModernBuildings()
 {
+    StateTaggedActors.Reset();
+    StateTaggedHideWithWall.Reset();
+    StateTaggedHideWithCity.Reset();
+    StateTaggedPriorHidden.Reset();
+    StateTaggedPriorCollision.Reset();
     BuildingActors.Reset();
     BuildingIdentityLabels.Reset();
     BuildingRefs.clear();
@@ -286,6 +429,9 @@ void AMikdashEnclosure::GatherModernBuildings()
     {
         AActor* Actor = *It;
         if (Actor == nullptr || Actor == this) continue;
+        // Tags are read FIRST, and deliberately: the empty label two lines below is exactly
+        // why a terrain twin or a roofscape batch can never enter the building hide list.
+        ConsiderStateTaggedActor(Actor);
         const FString Label = BuildingIdentityLabel(Actor);
         if (Label.IsEmpty()) continue; // no unverified actor-name or mesh-name fallback
         const bool bExcluded = IsExcludedLabel(Label);
@@ -523,6 +669,26 @@ void AMikdashEnclosure::BuildRing()
         return FVec2{From.X + (To.X - From.X) * Fraction, From.Y + (To.Y - From.Y) * Fraction};
     };
     auto AlongYaw = [&](int Side) { return SideOutwardYawDegrees(Square, Side) - 90.0; };
+
+    // THE WALL STANDS ON THE PLAZA. With a deck present a module's plinth is the HIGHER of
+    // the deck and the ground outside it (PlazaWallBaseZUnrealCm): on a fill side that is the
+    // deck, and the retaining wall below carries it; on a cut side it is the outside grade,
+    // and the wall stands on the crest of the scarp with the plaza a storey below its inner
+    // face. Without a deck this is a no-op and the wall grounds exactly as it always did.
+    //
+    // The substructure is capped at the deck underside for the same reason: below that there
+    // is no ground, only the retaining ring, and a foundation box reaching a hundred metres
+    // into a void would be visible from the Kidron as a row of dropped teeth.
+    const bool bDeck = PlazaEnabled();
+    const double DeckTopZ = PlazaDeckTopZUnrealCm(CmPerAmah);
+    const double DeckUndersideZ = PlazaDeckUndersideZUnrealCm(CmPerAmah);
+    auto SeatOnDeck = [&](FGrounding& G)
+    {
+        if (!bDeck) return;
+        G.BaseZUnrealCm = PlazaWallBaseZUnrealCm(G.GroundHighZUnrealCm, DeckTopZ, true);
+        G.FoundationBottomZUnrealCm = std::max(G.FoundationBottomZUnrealCm, DeckUndersideZ);
+        G.FoundationDepthUnrealCm = std::max(0.0, G.BaseZUnrealCm - G.FoundationBottomZUnrealCm);
+    };
     // One substructure box under a module: its top at the module's plinth, its bottom below
     // the lowest ground the module crosses. XY scale is the module's footprint over the box's
     // baked 1250 x 360.
@@ -551,7 +717,8 @@ void AMikdashEnclosure::BuildRing()
                 }
                 const double F0 = Start / SideLength;
                 const double F1 = (Start + Plan.SegmentLengthUnrealCm) / SideLength;
-                const FGrounding G = GroundSpan(Profile, Side, F0, F1, FootingCm);
+                FGrounding G = GroundSpan(Profile, Side, F0, F1, FootingCm);
+                SeatOnDeck(G);
                 const FVec2 At = PointAt(Side, (F0 + F1) * 0.5);
                 if (WallModuleMesh != nullptr)
                 {
@@ -578,7 +745,8 @@ void AMikdashEnclosure::BuildRing()
     {
         const FGateOpening& Gate = Gates[Index];
         const double T = Gate.CentreFractionAlongSide;
-        const FGrounding G = GroundSpan(Profile, Gate.Side, T - GateHalfCm / SideLength, T + GateHalfCm / SideLength, FootingCm);
+        FGrounding G = GroundSpan(Profile, Gate.Side, T - GateHalfCm / SideLength, T + GateHalfCm / SideLength, FootingCm);
+        SeatOnDeck(G);
         const FVec2 At = PointAt(Gate.Side, T);
         const double Yaw = AlongYaw(Gate.Side);
         if (GateModuleMesh != nullptr)
@@ -595,8 +763,10 @@ void AMikdashEnclosure::BuildRing()
     const double CornerHalfCm = CornerBakedCm * Scale * 0.5;
     for (int Index = 0; Index < 4; ++Index)
     {
-        const FGrounding G1 = GroundSpan(Profile, Index, 0.0, CornerHalfCm / SideLength, FootingCm);
-        const FGrounding G0 = GroundSpan(Profile, (Index + 3) % 4, 1.0 - CornerHalfCm / SideLength, 1.0, FootingCm);
+        FGrounding G1 = GroundSpan(Profile, Index, 0.0, CornerHalfCm / SideLength, FootingCm);
+        FGrounding G0 = GroundSpan(Profile, (Index + 3) % 4, 1.0 - CornerHalfCm / SideLength, 1.0, FootingCm);
+        SeatOnDeck(G1);
+        SeatOnDeck(G0);
         FGrounding G = G1;
         G.BaseZUnrealCm = std::max(G0.BaseZUnrealCm, G1.BaseZUnrealCm);
         G.FoundationBottomZUnrealCm = std::min(G0.FoundationBottomZUnrealCm, G1.FoundationBottomZUnrealCm);
@@ -627,6 +797,8 @@ void AMikdashEnclosure::BuildRing()
                 const FBoundarySample& Sample = Samples[Index];
                 const double F0 = static_cast<double>(Sample.IndexOnSide) / static_cast<double>(PerSide);
                 const double F1 = static_cast<double>(Sample.IndexOnSide + 1) / static_cast<double>(PerSide);
+                // The overlay band is drawn over the STANDING modern city, so it follows the
+                // real ground and never the deck: in OVERLAY there is no deck to stand on.
                 const FGrounding G = GroundSpan(Profile, Sample.Side, F0, F1, 0.0, 3);
                 const FVector Location(Sample.PositionUnrealCm.X, Sample.PositionUnrealCm.Y, G.BaseZUnrealCm);
                 const FRotator Rotation(0.0, Sample.OutwardYawDegrees - 90.0, 0.0);
@@ -682,7 +854,448 @@ void AMikdashEnclosure::BuildRing()
         FoundationInstances->SetMaterial(0, WallDynamic);
     }
 
+    BuildPlaza(Square, Profile);
+
     bRingBuilt = true;
+}
+
+// ---------------------------------------------------------------------------
+// The plaza
+// ---------------------------------------------------------------------------
+
+bool AMikdashEnclosure::PlazaEnabled() const
+{
+    return bBuildPlaza && PlazaDeckTileMesh != nullptr;
+}
+
+/** The deck, its processional ways, its panel ribs, its kerbs, its drainage, its retaining
+ *  and scarp faces and its gate stairs.
+ *
+ *  EVERY POSITION HERE COMES OUT OF EnclosureMath.h section 6b, and so does the copy in
+ *  Scripts/create_precinct_plaza.py. That is not tidiness: the plaza is 34,000 instances laid
+ *  out by a hash function, and the only way to know that the receipt describes what the
+ *  runtime built is for both to call the same arithmetic and for the release script to
+ *  compare the counts afterwards. A cached panel table would break that the first time one
+ *  side rebuilt and the other did not, which is why PlazaPanelAt walks from the root instead.
+ *
+ *  The retaining stacks are driven by the SAME ground profile the wall was just grounded on,
+ *  passed in rather than re-sampled, because two independent samplings of the same terrain is
+ *  exactly how a wall ends up floating a few centimetres above its own retaining wall.
+ */
+void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& Profile)
+{
+    UHierarchicalInstancedStaticMeshComponent* const Components[8] = {
+        PlazaDeckInstances, PlazaWayInstances, PlazaRibInstances, PlazaKerbInstances,
+        PlazaChannelInstances, PlazaRetainingInstances, PlazaScarpInstances, PlazaStepInstances};
+    UStaticMesh* const Meshes[8] = {
+        PlazaDeckTileMesh, PlazaWayTileMesh, PlazaRibMesh, PlazaKerbMesh,
+        PlazaChannelMesh, PlazaRetainingBandMesh, PlazaRetainingBandMesh, PlazaStepMesh};
+    for (int Index = 0; Index < 8; ++Index)
+    {
+        if (Components[Index] == nullptr) continue;
+        Components[Index]->ClearInstances();
+        Components[Index]->SetStaticMesh(Meshes[Index]);
+    }
+    for (int Side = 0; Side < 4; ++Side)
+    {
+        PlazaRetainingMax[Side] = 0.0;
+        PlazaScarpMax[Side] = 0.0;
+    }
+    PlazaCellsX = PlazaCellsY = PlazaPanels = 0;
+
+    if (!bBuildPlaza)
+    {
+        PlazaStatus = TEXT("disabled");
+        return;
+    }
+    if (PlazaDeckTileMesh == nullptr)
+    {
+        // The honest failure mode for a missing asset: say so, build nothing, and leave the
+        // wall standing on the terrain exactly as it did before the plaza existed.
+        PlazaStatus = TEXT("no-deck-mesh");
+        return;
+    }
+
+    const double CmPerAmah = static_cast<double>(WorldCmPerAmah);
+    const double Scale = ModuleScaleFor(CmPerAmah);
+    const FPlazaGrid Grid = PlanPlazaGrid(Square, static_cast<double>(WallThicknessAmot), CmPerAmah);
+    if (Grid.CellsX() <= 0 || Grid.CellsY() <= 0)
+    {
+        PlazaStatus = TEXT("empty-grid");
+        return;
+    }
+    const double DeckZ = Grid.DeckTopZUnrealCm;
+    const double CellCm = Grid.CellUnrealCm;
+    const double WallThickCm = AmotToUnrealCm(static_cast<double>(WallThicknessAmot), CmPerAmah);
+    const double SideLength = SquareSideUnrealCm(Square);
+    PlazaCellsX = Grid.CellsX();
+    PlazaCellsY = Grid.CellsY();
+
+    FVec2 Corners[4];
+    SquareCorners(Square, Corners);
+    auto PointAt = [&](int Side, double Fraction)
+    {
+        const FVec2& From = Corners[Side];
+        const FVec2& To = Corners[(Side + 1) % 4];
+        return FVec2{From.X + (To.X - From.X) * Fraction, From.Y + (To.Y - From.Y) * Fraction};
+    };
+
+    // --- the five processional ways ---------------------------------------------------
+    // MakePlazaWays and PlazaCellIsWay live in EnclosureMath.h so that this actor, the
+    // standalone test and Scripts/create_precinct_plaza.py cannot lay them differently.
+    const std::vector<FGateOpening> Gates = MakeGates(Square);
+    std::vector<FPlazaWay> Ways;
+    MakePlazaWays(Square, Grid, static_cast<double>(CourtPlatformHalfExtentCm), Gates, Ways);
+
+    // --- the deck field, the ways and the panel ribs -----------------------------------
+    TSet<uint64> Panels;
+    Panels.Reserve(1024);
+    for (int I = Grid.I0; I < Grid.I1; ++I)
+    {
+        for (int J = Grid.J0; J < Grid.J1; ++J)
+        {
+            double X0, Y0, X1, Y1;
+            PlazaCellExtent(Grid, I, J, X0, Y0, X1, Y1);
+            const double DX = X1 - X0;
+            const double DY = Y1 - Y0;
+            if (!(DX > 0.0) || !(DY > 0.0)) continue;
+
+            const FPlazaPanel Panel = PlazaPanelAt(Grid, I, J);
+            Panels.Add(PackPanel(Panel));
+            const int Course = PlazaPanelCourseIndex(Grid, Panel);
+            const double Radians = DegToRad(PlazaCourseAngleDegrees(Course));
+            double OriginU = 0.0, OriginV = 0.0;
+            PlazaPanelUvOriginAmot(Panel, OriginU, OriginV);
+
+            const bool bWay = PlazaCellIsWay(Ways, I, J);
+            UHierarchicalInstancedStaticMeshComponent* Target = bWay ? PlazaWayInstances : PlazaDeckInstances;
+            UStaticMesh* Mesh = bWay ? PlazaWayTileMesh.Get() : PlazaDeckTileMesh.Get();
+            if (Target != nullptr && Mesh != nullptr)
+            {
+                const FVector Location((X0 + X1) * 0.5, (Y0 + Y1) * 0.5, DeckZ);
+                const FVector ScaleXYZ(DX / PlazaCellBakedCm, DY / PlazaCellBakedCm, Scale);
+                const int32 At = Target->AddInstance(
+                    FTransform(FRotator(0.0, Square.YawDegrees, 0.0), Location, ScaleXYZ), true);
+                // cos, sin, the panel's UV origin in cm on both axes, and the tonal offset.
+                Target->SetCustomDataValue(At, 0, static_cast<float>(std::cos(Radians)), false);
+                Target->SetCustomDataValue(At, 1, static_cast<float>(std::sin(Radians)), false);
+                Target->SetCustomDataValue(At, 2, static_cast<float>(AmotToUnrealCm(OriginU, CmPerAmah)), false);
+                Target->SetCustomDataValue(At, 3, static_cast<float>(AmotToUnrealCm(OriginV, CmPerAmah)), false);
+                Target->SetCustomDataValue(At, 4, static_cast<float>(PlazaTintAt(I, J)), false);
+            }
+
+            // A rib wherever this cell's panel differs from the one west or north of it. The
+            // ribs ARE the panel outlines, so no separate edge list can go stale.
+            if (PlazaRibInstances != nullptr && PlazaRibMesh != nullptr)
+            {
+                if (I > Grid.I0 && !PlazaSamePanel(PlazaPanelAt(Grid, I - 1, J), Panel))
+                {
+                    PlazaRibInstances->AddInstance(
+                        FTransform(FRotator(0.0, Square.YawDegrees + 90.0, 0.0),
+                                   FVector(X0, (Y0 + Y1) * 0.5, DeckZ),
+                                   FVector(DY / PlazaCellBakedCm, Scale, Scale)), true);
+                }
+                if (J > Grid.J0 && !PlazaSamePanel(PlazaPanelAt(Grid, I, J - 1), Panel))
+                {
+                    PlazaRibInstances->AddInstance(
+                        FTransform(FRotator(0.0, Square.YawDegrees, 0.0),
+                                   FVector((X0 + X1) * 0.5, Y0, DeckZ),
+                                   FVector(DX / PlazaCellBakedCm, Scale, Scale)), true);
+                }
+            }
+        }
+    }
+    PlazaPanels = Panels.Num();
+
+    // --- way kerbs: both long edges of every way ---------------------------------------
+    if (PlazaKerbInstances != nullptr && PlazaKerbMesh != nullptr)
+    {
+        for (const FPlazaWay& Run : Ways)
+        {
+            for (int Edge = 0; Edge < 2; ++Edge)
+            {
+                const double Line = static_cast<double>(Edge == 0 ? Run.Band0 : Run.Band1) * CellCm;
+                for (int Along = Run.Along0; Along < Run.Along1; ++Along)
+                {
+                    double X0, Y0, X1, Y1;
+                    PlazaCellExtent(Grid, Run.bNorthSouth ? Run.Band0 : Along,
+                                    Run.bNorthSouth ? Along : Run.Band0, X0, Y0, X1, Y1);
+                    if (Run.bNorthSouth)
+                    {
+                        PlazaKerbInstances->AddInstance(
+                            FTransform(FRotator(0.0, Square.YawDegrees + 90.0, 0.0),
+                                       FVector(Line, (Y0 + Y1) * 0.5, DeckZ),
+                                       FVector((Y1 - Y0) / PlazaCellBakedCm, Scale, Scale)), true);
+                    }
+                    else
+                    {
+                        PlazaKerbInstances->AddInstance(
+                            FTransform(FRotator(0.0, Square.YawDegrees, 0.0),
+                                       FVector((X0 + X1) * 0.5, Line, DeckZ),
+                                       FVector((X1 - X0) / PlazaCellBakedCm, Scale, Scale)), true);
+                    }
+                }
+            }
+        }
+    }
+
+    // --- drainage: a perimeter ring, then cross channels on a non-periodic stride -------
+    // Culverted, not cut, where a channel meets a processional way: a road with an open
+    // trench across it is not a road. The culvert itself is not modelled, and the receipt
+    // counts how many modules were left out for it.
+    if (PlazaChannelInstances != nullptr && PlazaChannelMesh != nullptr)
+    {
+        const double Inset = AmotToUnrealCm(PlazaPerimeterChannelInsetAmot, CmPerAmah);
+        for (int I = Grid.I0; I < Grid.I1; ++I)
+        {
+            double X0, Y0, X1, Y1;
+            PlazaCellExtent(Grid, I, Grid.J0, X0, Y0, X1, Y1);
+            if (!(X1 > X0)) continue;
+            const FVector ScaleXYZ((X1 - X0) / PlazaCellBakedCm, Scale, Scale);
+            const FRotator Rotation(0.0, Square.YawDegrees, 0.0);
+            PlazaChannelInstances->AddInstance(
+                FTransform(Rotation, FVector((X0 + X1) * 0.5, Grid.YMinUnrealCm + Inset, DeckZ), ScaleXYZ), true);
+            PlazaChannelInstances->AddInstance(
+                FTransform(Rotation, FVector((X0 + X1) * 0.5, Grid.YMaxUnrealCm - Inset, DeckZ), ScaleXYZ), true);
+        }
+        for (int J = Grid.J0; J < Grid.J1; ++J)
+        {
+            double X0, Y0, X1, Y1;
+            PlazaCellExtent(Grid, Grid.I0, J, X0, Y0, X1, Y1);
+            if (!(Y1 > Y0)) continue;
+            const FVector ScaleXYZ((Y1 - Y0) / PlazaCellBakedCm, Scale, Scale);
+            const FRotator Rotation(0.0, Square.YawDegrees + 90.0, 0.0);
+            PlazaChannelInstances->AddInstance(
+                FTransform(Rotation, FVector(Grid.XMinUnrealCm + Inset, (Y0 + Y1) * 0.5, DeckZ), ScaleXYZ), true);
+            PlazaChannelInstances->AddInstance(
+                FTransform(Rotation, FVector(Grid.XMaxUnrealCm - Inset, (Y0 + Y1) * 0.5, DeckZ), ScaleXYZ), true);
+        }
+        for (int K = Grid.I0 + 1; K < Grid.I1; ++K)
+        {
+            if (!PlazaHasChannelLine(Grid.I0, K, Grid.I1)) continue;
+            for (int J = Grid.J0; J < Grid.J1; ++J)
+            {
+                if (PlazaCellIsWay(Ways, K, J) || PlazaCellIsWay(Ways, K - 1, J)) continue;
+                double X0, Y0, X1, Y1;
+                PlazaCellExtent(Grid, K, J, X0, Y0, X1, Y1);
+                if (!(Y1 > Y0)) continue;
+                PlazaChannelInstances->AddInstance(
+                    FTransform(FRotator(0.0, Square.YawDegrees + 90.0, 0.0),
+                               FVector(static_cast<double>(K) * CellCm, (Y0 + Y1) * 0.5, DeckZ),
+                               FVector((Y1 - Y0) / PlazaCellBakedCm, Scale, Scale)), true);
+            }
+        }
+        for (int K = Grid.J0 + 1; K < Grid.J1; ++K)
+        {
+            if (!PlazaHasChannelLine(Grid.J0, K, Grid.J1)) continue;
+            for (int I = Grid.I0; I < Grid.I1; ++I)
+            {
+                if (PlazaCellIsWay(Ways, I, K) || PlazaCellIsWay(Ways, I, K - 1)) continue;
+                double X0, Y0, X1, Y1;
+                PlazaCellExtent(Grid, I, K, X0, Y0, X1, Y1);
+                if (!(X1 > X0)) continue;
+                PlazaChannelInstances->AddInstance(
+                    FTransform(FRotator(0.0, Square.YawDegrees, 0.0),
+                               FVector((X0 + X1) * 0.5, static_cast<double>(K) * CellCm, DeckZ),
+                               FVector((X1 - X0) / PlazaCellBakedCm, Scale, Scale)), true);
+            }
+        }
+    }
+
+    // --- retaining (fill) and scarp (cut), module by module round the ring --------------
+    // Two faces of the same wall. Where the ground is BELOW the deck the retaining wall runs
+    // down from the deck edge, its outer face coplanar with the precinct's own outer face, so
+    // the 3000 amot are measured where the wall stands - as Yechezkel 42:15 measures them,
+    // from outside. Where the ground is ABOVE the deck the plaza is a cut and the same bands
+    // rise from the deck to the outside grade as a revetment, facing inward, with the wall on
+    // the crest. A single module can carry both when the ground crosses the deck under it.
+    const double BandHeightCm = AmotToUnrealCm(PlazaRetainingBandHeightAmot, CmPerAmah);
+    const int SegmentsPerSide = (SideLength > 0.0 && CellCm > 0.0)
+        ? std::max(1, static_cast<int>(std::floor(SideLength / CellCm + 0.5))) : 0;
+    for (int Side = 0; Side < 4 && SegmentsPerSide > 0; ++Side)
+    {
+        const FVec2 Out = OutwardOf(Square, Side);
+        const double Yaw = SideOutwardYawDegrees(Square, Side) - 90.0;
+        for (int Step = 0; Step < SegmentsPerSide; ++Step)
+        {
+            const double F0 = static_cast<double>(Step) / static_cast<double>(SegmentsPerSide);
+            const double F1 = static_cast<double>(Step + 1) / static_cast<double>(SegmentsPerSide);
+            const FGrounding G = GroundSpan(Profile, Side, F0, F1, 0.0);
+            const FVec2 At = PointAt(Side, (F0 + F1) * 0.5);
+
+            const double Fill = DeckZ - G.GroundLowZUnrealCm;
+            if (Fill > 0.0 && PlazaRetainingInstances != nullptr && PlazaRetainingBandMesh != nullptr)
+            {
+                const int Bands = PlazaBandCount(Fill, CmPerAmah);
+                for (int Band = 0; Band < Bands; ++Band)
+                {
+                    const double Batter = PlazaBandBatterUnrealCm(Band, CmPerAmah);
+                    PlazaRetainingInstances->AddInstance(
+                        FTransform(FRotator(0.0, Yaw, 0.0),
+                                   FVector(At.X + Out.X * Batter, At.Y + Out.Y * Batter,
+                                           DeckZ - static_cast<double>(Band) * BandHeightCm),
+                                   FVector(Scale, Scale, Scale)), true);
+                }
+                PlazaRetainingMax[Side] = std::max(PlazaRetainingMax[Side], Fill);
+            }
+
+            const double Cut = G.GroundHighZUnrealCm - DeckZ;
+            if (Cut > 0.0 && PlazaScarpInstances != nullptr && PlazaRetainingBandMesh != nullptr)
+            {
+                const int Bands = PlazaBandCount(Cut, CmPerAmah);
+                const FVec2 Inner{At.X - Out.X * WallThickCm, At.Y - Out.Y * WallThickCm};
+                for (int Band = 0; Band < Bands; ++Band)
+                {
+                    const double Batter = PlazaBandBatterUnrealCm(Band, CmPerAmah);
+                    // Yaw + 180 turns the band's face inward, toward the plaza, with its body
+                    // in the hillside: a revetment, not a free-standing wall.
+                    PlazaScarpInstances->AddInstance(
+                        FTransform(FRotator(0.0, Yaw + 180.0, 0.0),
+                                   FVector(Inner.X + Out.X * Batter, Inner.Y + Out.Y * Batter,
+                                           DeckZ + static_cast<double>(Band + 1) * BandHeightCm),
+                                   FVector(Scale, Scale, Scale)), true);
+                }
+                PlazaScarpMax[Side] = std::max(PlazaScarpMax[Side], Cut);
+            }
+        }
+    }
+
+    // --- gate stairs, INSIDE the ring ---------------------------------------------------
+    // Only where the gate threshold stands above the deck, which is the cut sides: the east
+    // gate is about forty metres up on the Mount of Olives slope and needs a monumental
+    // flight down to the plaza, the west gate a short one. Where the deck stands ABOVE the
+    // outside ground - up to sixty metres at the south-west gate - the approach is OUTSIDE
+    // the precinct, over modern buildings this project deliberately leaves standing, and it
+    // is recorded as unbuilt rather than invented. See the limitations in the receipt.
+    if (PlazaStepInstances != nullptr && PlazaStepMesh != nullptr && SideLength > 0.0)
+    {
+        const double Riser = AmotToUnrealCm(PlazaStepRiserAmot, CmPerAmah);
+        const double Tread = AmotToUnrealCm(PlazaStepTreadAmot, CmPerAmah);
+        const int LandingUnits = std::max(1, static_cast<int>(std::floor(
+            PlazaLandingDepthAmot / PlazaStepTreadAmot + 0.5)));
+        const double HalfCell = CellCm * 0.5 / SideLength;
+        for (std::size_t Index = 0; Index < Gates.size(); ++Index)
+        {
+            const FGateOpening& Gate = Gates[Index];
+            const double T = Gate.CentreFractionAlongSide;
+            const FGrounding G = GroundSpan(Profile, Gate.Side,
+                                            std::max(0.0, T - HalfCell), std::min(1.0, T + HalfCell), 0.0);
+            const double Base = PlazaWallBaseZUnrealCm(G.GroundHighZUnrealCm, DeckZ, true);
+            const int Steps = PlazaFlightSteps(Base - DeckZ, CmPerAmah);
+            if (Steps <= 0) continue;
+            const int Landings = PlazaFlightLandings(Steps);
+            const FVec2 At = PointAt(Gate.Side, T);
+            const FVec2 Out = OutwardOf(Square, Gate.Side);
+            const double Yaw = SideOutwardYawDegrees(Square, Gate.Side);
+            const FVector ScaleXYZ(Scale, Scale, Scale);
+            double Distance = WallThickCm;
+            double Z = Base;
+            int LandingsPlaced = 0;
+            for (int Step = 0; Step < Steps; ++Step)
+            {
+                Z -= Riser;
+                Distance += Tread;
+                PlazaStepInstances->AddInstance(
+                    FTransform(FRotator(0.0, Yaw, 0.0),
+                               FVector(At.X - Out.X * Distance, At.Y - Out.Y * Distance, Z),
+                               ScaleXYZ), true);
+                if ((Step + 1) % PlazaStepsPerFlight == 0 && LandingsPlaced < Landings)
+                {
+                    for (int Unit = 0; Unit < LandingUnits; ++Unit)
+                    {
+                        Distance += Tread;
+                        PlazaStepInstances->AddInstance(
+                            FTransform(FRotator(0.0, Yaw, 0.0),
+                                       FVector(At.X - Out.X * Distance, At.Y - Out.Y * Distance, Z),
+                                       ScaleXYZ), true);
+                    }
+                    ++LandingsPlaced;
+                }
+            }
+        }
+    }
+
+    if (PlazaPavingMaterial != nullptr && PlazaDeckInstances != nullptr)
+    {
+        PlazaDeckInstances->SetMaterial(0, PlazaPavingMaterial);
+    }
+    if (PlazaSlabMaterial != nullptr && PlazaWayInstances != nullptr)
+    {
+        PlazaWayInstances->SetMaterial(0, PlazaSlabMaterial);
+    }
+    if (PlazaAshlarMaterial != nullptr)
+    {
+        UHierarchicalInstancedStaticMeshComponent* const Stone[5] = {
+            PlazaRibInstances, PlazaKerbInstances, PlazaChannelInstances,
+            PlazaRetainingInstances, PlazaScarpInstances};
+        for (UHierarchicalInstancedStaticMeshComponent* Component : Stone)
+        {
+            if (Component != nullptr) Component->SetMaterial(0, PlazaAshlarMaterial);
+        }
+        if (PlazaStepInstances != nullptr) PlazaStepInstances->SetMaterial(0, PlazaAshlarMaterial);
+    }
+
+    PlazaStatus = TEXT("built");
+}
+
+void AMikdashEnclosure::GetPlazaCounts(int32& OutDeckTiles, int32& OutWayTiles, int32& OutRibs,
+                                       int32& OutKerbs, int32& OutChannels, int32& OutRetainingBands,
+                                       int32& OutScarpBands, int32& OutSteps) const
+{
+    auto Count = [](const UHierarchicalInstancedStaticMeshComponent* Component)
+    {
+        return Component != nullptr ? Component->GetInstanceCount() : 0;
+    };
+    OutDeckTiles = Count(PlazaDeckInstances);
+    OutWayTiles = Count(PlazaWayInstances);
+    OutRibs = Count(PlazaRibInstances);
+    OutKerbs = Count(PlazaKerbInstances);
+    OutChannels = Count(PlazaChannelInstances);
+    OutRetainingBands = Count(PlazaRetainingInstances);
+    OutScarpBands = Count(PlazaScarpInstances);
+    OutSteps = Count(PlazaStepInstances);
+}
+
+int32 AMikdashEnclosure::GetPlazaTriangleCount() const
+{
+    int32 Deck = 0, Way = 0, Rib = 0, Kerb = 0, Channel = 0, Retaining = 0, Scarp = 0, Step = 0;
+    GetPlazaCounts(Deck, Way, Rib, Kerb, Channel, Retaining, Scarp, Step);
+    const FPlazaModuleBudget Budget;
+    return Deck * Budget.DeckTileTriangles + Way * Budget.WayTileTriangles
+         + Rib * Budget.RibTriangles + Kerb * Budget.KerbTriangles
+         + Channel * Budget.ChannelTriangles
+         + (Retaining + Scarp) * Budget.RetainingBandTriangles
+         + Step * Budget.StepTriangles;
+}
+
+float AMikdashEnclosure::GetPlazaDeckTopZCm() const
+{
+    return static_cast<float>(PlazaDeckTopZUnrealCm(static_cast<double>(WorldCmPerAmah)));
+}
+
+FVector4 AMikdashEnclosure::GetPlazaExtentCm() const
+{
+    const FPlazaGrid Grid = PlanPlazaGrid(GetSquare(), static_cast<double>(WallThicknessAmot),
+                                          static_cast<double>(WorldCmPerAmah));
+    return FVector4(Grid.XMinUnrealCm, Grid.YMinUnrealCm, Grid.XMaxUnrealCm, Grid.YMaxUnrealCm);
+}
+
+void AMikdashEnclosure::GetPlazaGrid(int32& OutCellsX, int32& OutCellsY, int32& OutPanels) const
+{
+    OutCellsX = PlazaCellsX;
+    OutCellsY = PlazaCellsY;
+    OutPanels = PlazaPanels;
+}
+
+FVector2D AMikdashEnclosure::GetPlazaFaceHeightsCm(int32 Side) const
+{
+    const int Index = ((Side % 4) + 4) % 4;
+    return FVector2D(PlazaRetainingMax[Index], PlazaScarpMax[Index]);
+}
+
+FString AMikdashEnclosure::GetPlazaStatus() const
+{
+    return PlazaStatus;
 }
 
 // ---------------------------------------------------------------------------
@@ -697,6 +1310,21 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
     CornerInstances->SetVisibility(bShowWall, true);
     FoundationInstances->SetVisibility(bShowWall, true);
     OverlayInstances->SetVisibility(Weights.OverlayBand > 1e-4, true);
+    // The plaza is part of the built precinct, so it follows the wall exactly: present in
+    // YECHEZKEL, gone in MODERN (which must restore today's city untouched) and gone in
+    // OVERLAY (whose whole point is the standing city seen under the boundary line - a deck
+    // laid over it would hide the thing the overlay exists to show).
+    UHierarchicalInstancedStaticMeshComponent* const PlazaComponents[8] = {
+        PlazaDeckInstances, PlazaWayInstances, PlazaRibInstances, PlazaKerbInstances,
+        PlazaChannelInstances, PlazaRetainingInstances, PlazaScarpInstances, PlazaStepInstances};
+    for (UHierarchicalInstancedStaticMeshComponent* Component : PlazaComponents)
+    {
+        if (Component != nullptr) Component->SetVisibility(bShowWall, true);
+    }
+    // Beside the plaza and for the same reason: parts of the built precinct - and parts of
+    // today's city - that are whole ACTORS rather than instances on this one. Terrain twins,
+    // the hillside they replace, the Kotel plaza cut and the precinct roofscape all move here.
+    ApplyStateTaggedActors(bShowWall);
 
     if (WallDynamic != nullptr)
     {
@@ -724,7 +1352,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
 
     if (!bHardHide && !bDissolving)
     {
-        RestoreAllModernBuildings();
+        RestoreHiddenBuildings();
         return;
     }
 
@@ -757,6 +1385,18 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
 }
 
 void AMikdashEnclosure::RestoreAllModernBuildings()
+{
+    RestoreHiddenBuildings();
+    // Same contract, one call further: whatever this actor moved, it puts back. EndPlay,
+    // RebuildPrecinct and MeasureWithoutHiding all reach the tagged terrain and roofscape
+    // actors through here. ApplyWeights deliberately does NOT - see RestoreHiddenBuildings.
+    RestoreStateTaggedActors();
+}
+
+/** Buildings only. ApplyWeights calls THIS, not RestoreAllModernBuildings, on the path where
+ *  no building is hidden: the tagged state actors were set a few lines earlier in the same
+ *  call and restoring them here would immediately undo the swap this function exists to make. */
+void AMikdashEnclosure::RestoreHiddenBuildings()
 {
     for (int32 Index = 0; Index < HiddenBuildings.Num(); ++Index)
     {

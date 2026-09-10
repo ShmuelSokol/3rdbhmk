@@ -51,10 +51,26 @@ FAMILIES = [
     ('oldCityInfill', 'RELEASE_OldCityInfill_'),
     ('cityDetailKept', 'RELEASE_CityDetail_Kept_'),
     ('cityDetailPrecinct', 'RELEASE_CityDetail_Precinct_'),
+    ('precinctCutTwins', 'RELEASE_PrecinctCut_'),
+    ('kotelPlazaCutTwins', 'RELEASE_KotelPlazaCut_'),
     ('terrain', 'SM_JerusalemTerrain_'),
     ('streets', 'SM_Jerusalem_'),
     ('enclosure', 'RELEASE_Enclosure'),
 ]
+# The actor TAGS the precinct state machine drives, written by
+# Scripts/release_precinct_terrain_cut.py (the terrain twins and the hillside they replace)
+# and Scripts/release_city_detail.py (the roofscape zones). These are the strings the C++
+# HideWhileWallStandsTags / HideWhileModernCityStandsTags defaults carry; this audit does not
+# read that source, it switches state and counts what carries each tag.
+STATE_TAGS = [
+    'PrecinctCutTwin',            # expected visible in YECHEZKEL only
+    'PrecinctCutOriginal',        # expected hidden in YECHEZKEL; see the 07_08 tag overlap
+    'KotelPlazaCutTwin',          # expected visible in MODERN and OVERLAY only
+    'KotelPlazaCutOriginal',      # overlaps PrecinctCutOriginal on one tile: hidden always
+    'CityDetailZone_Precinct',    # roofscape over the hidden buildings: never in YECHEZKEL
+    'CityDetailZone_Kept',        # decorates buildings that stay: visible in every state
+]
+
 PLAZA_COMPONENTS = ['PlazaDeckInstances', 'PlazaWayInstances', 'PlazaRibInstances',
                     'PlazaKerbInstances', 'PlazaChannelInstances', 'PlazaRetainingInstances',
                     'PlazaScarpInstances', 'PlazaStepInstances']
@@ -141,6 +157,39 @@ def census(ue, actors, plaza_bbox):
                 overPlazaHiddenActors=sorted(over_plaza_hidden, key=lambda r: r['label'])[:40])
 
 
+def tag_census(ue, actors):
+    """Per tag: how many actors carrying it are visible, how many hidden, and their labels.
+    Counted from the live world, never from the receipt that placed them."""
+    out = {}
+    for tag in STATE_TAGS:
+        out[tag] = dict(visible=0, hidden=0, visibleLabels=[], hiddenLabels=[])
+    for actor in actors:
+        if actor is None:
+            continue
+        try:
+            tags = [str(t) for t in actor.get_editor_property('tags')]
+        except Exception:                                             # noqa: BLE001
+            continue
+        if not tags:
+            continue
+        is_hidden = bool(actor.get_editor_property('hidden'))
+        label = str(actor.get_actor_label())
+        for tag in tags:
+            entry = out.get(tag)
+            if entry is None:
+                continue
+            if is_hidden:
+                entry['hidden'] += 1
+                entry['hiddenLabels'].append(label)
+            else:
+                entry['visible'] += 1
+                entry['visibleLabels'].append(label)
+    for entry in out.values():
+        entry['visibleLabels'] = sorted(entry['visibleLabels'])
+        entry['hiddenLabels'] = sorted(entry['hiddenLabels'])
+    return out
+
+
 def component_state(ue, actor, names):
     out = {}
     by_name = {}
@@ -173,6 +222,59 @@ def find_enclosure(ue, actors):
     if len(found) != 1:
         raise RuntimeError('Expected exactly one AMikdashEnclosure, found %d' % len(found))
     return found[0]
+
+
+EXPECTED = {
+    # tag: (visible in Yechezkel, visible in Modern, visible in Overlay)
+    'PrecinctCutTwin':         (True,  False, False),
+    'PrecinctCutOriginal':     (False, None,  None),   # 07_08 is also a Kotel original
+    'KotelPlazaCutTwin':       (False, True,  True),
+    'KotelPlazaCutOriginal':   (False, False, False),
+    'CityDetailZone_Precinct': (False, True,  True),
+    'CityDetailZone_Kept':     (True,  True,  True),
+}
+
+
+def acceptance(receipt):
+    """Pass/fail straight off the counted states. A None in EXPECTED means the tag overlaps
+    another one on at least one actor, so the per-tag total is not a clean expectation; those
+    are reported with their labels rather than judged."""
+    states = receipt['states']
+    order = ('Yechezkel', 'Modern', 'Overlay')
+    rows = {}
+    ok = True
+    for tag, expected in EXPECTED.items():
+        counted = []
+        for name in order:
+            entry = states[name]['tagCensus'][tag]
+            counted.append(dict(state=name, visible=entry['visible'], hidden=entry['hidden'],
+                                visibleLabels=entry['visibleLabels']))
+        verdict = []
+        for index, want in enumerate(expected):
+            total = counted[index]['visible'] + counted[index]['hidden']
+            if want is None:
+                verdict.append('unjudged')
+            elif total == 0:
+                verdict.append('NO ACTORS CARRY THIS TAG')
+                ok = False
+            elif want and counted[index]['hidden'] > 0:
+                verdict.append('FAIL: %d hidden that should be visible' % counted[index]['hidden'])
+                ok = False
+            elif (not want) and counted[index]['visible'] > 0:
+                verdict.append('FAIL: %d visible that should be hidden' % counted[index]['visible'])
+                ok = False
+            else:
+                verdict.append('ok')
+        rows[tag] = dict(counted=counted, expected=list(expected), verdict=verdict)
+    hide = receipt.get('hideList', {})
+    hide_ok = (int(hide.get('missing', -1)) == 0 and int(hide.get('duplicated', -1)) == 0)
+    if not hide_ok:
+        ok = False
+    return dict(passed=bool(ok), tags=rows,
+                hideList=dict(found=hide.get('found'), missing=hide.get('missing'),
+                              duplicated=hide.get('duplicated'), ok=hide_ok),
+                restoredToAsFound=(receipt.get('afterRestoreCensus', {}).get('hiddenTotal')
+                                   == receipt.get('asFoundCensus', {}).get('hiddenTotal')))
 
 
 def run(target_name):
@@ -238,6 +340,7 @@ def run(target_name):
         if hasattr(enclosure, 'get_plaza_status'):
             receipt['enclosure']['plazaStatus'] = str(enclosure.get_plaza_status())
         receipt['asFoundCensus'] = census(ue, all_actors, plaza_bbox)
+        receipt['asFoundTagCensus'] = tag_census(ue, all_actors)
         write()
 
         # Gather WITHOUT hiding first, so the counts below are the state machine's own and
@@ -254,7 +357,32 @@ def run(target_name):
                               enclosure.get_editor_property('excluded_label_prefixes')],
             countInside=int(enclosure.count_modern_buildings_inside()),
             fingerprint=str(enclosure.get_hide_set_fingerprint()))
+        if hasattr(enclosure, 'get_state_tagged_counts'):
+            matched, with_wall, with_city = enclosure.get_state_tagged_counts()
+            receipt['stateTagged'] = dict(
+                matched=int(matched), hiddenWhileWallStands=int(with_wall),
+                hiddenWhileModernCityStands=int(with_city),
+                hideWhileWallStandsTags=[str(t) for t in enclosure.get_editor_property(
+                    'hide_while_wall_stands_tags')],
+                hideWhileModernCityStandsTags=[str(t) for t in enclosure.get_editor_property(
+                    'hide_while_modern_city_stands_tags')])
+        else:
+            receipt['stateTagged'] = dict(
+                matched=0, note='This build predates the tagged-state-actor hook')
         write()
+
+        # SetPrecinctStateOver returns without applying anything when asked for the state it
+        # is already in. The actor is saved in YECHEZKEL, so an unprimed sequence counts its
+        # first entry off the level as it sits on disk rather than off an apply - which is
+        # how an earlier run of this audit reported 0 hidden buildings in YECHEZKEL and 307
+        # in 'Yechezkel_again'. Prime with a state that is NOT the first one counted, and
+        # keep every consecutive pair in the sequence different for the same reason.
+        primed_from = str(enclosure.get_precinct_state())
+        prime = (ue.MikdashPrecinctState.OVERLAY if 'MODERN' in primed_from.upper()
+                 else ue.MikdashPrecinctState.MODERN)
+        enclosure.set_precinct_state_over(prime, 0.0)
+        receipt['primedFrom'] = primed_from
+        receipt['primedWith'] = str(enclosure.get_precinct_state())
 
         sequence = (('Yechezkel', ue.MikdashPrecinctState.YECHEZKEL),
                     ('Modern', ue.MikdashPrecinctState.MODERN),
@@ -266,6 +394,7 @@ def run(target_name):
             entry['reportedState'] = str(enclosure.get_precinct_state())
             entry['plazaComponents'] = component_state(ue, enclosure, PLAZA_COMPONENTS)
             entry['ringComponents'] = component_state(ue, enclosure, RING_COMPONENTS)
+            entry['tagCensus'] = tag_census(ue, all_actors)
             receipt['states'][state_name] = entry
             write()
 
@@ -276,6 +405,7 @@ def run(target_name):
         if not levels.load_level(target_map):
             raise RuntimeError('Reload failed')
         receipt['reloadedWithoutSaving'] = True
+        receipt['acceptance'] = acceptance(receipt)
         receipt['status'] = 'audited_read_only'
     except Exception as error:                                        # noqa: BLE001
         receipt['errors'].append(repr(error))
@@ -307,7 +437,8 @@ def _main():
     if len(chosen) != 1:
         raise RuntimeError('Choose exactly one of -Candidate48 / -Main50')
     receipt = run(chosen[0])
-    ue.log('AUDIT-MODERN-RESTORE status=%s' % receipt['status'])
+    ue.log('AUDIT-MODERN-RESTORE status=%s pass=%s' % (
+        receipt['status'], receipt.get('acceptance', {}).get('passed')))
 
 
 if __name__ == '__main__':

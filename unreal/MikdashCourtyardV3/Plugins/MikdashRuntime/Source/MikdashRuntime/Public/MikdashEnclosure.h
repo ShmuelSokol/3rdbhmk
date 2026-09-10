@@ -177,9 +177,59 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Wall")
     float FoundationFootingAmot = 1.0f;
 
+    /** Wall thickness in amot. Yechezkel 40:5: a reed. The paved deck stops one of these
+     *  inside the outer face, so the wall stands at the plaza's edge and not on it. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Wall")
+    float WallThicknessAmot = 6.0f;
+
     /** Spacing of the overlay ribbon quads and of the ground line of light, in amot (25). */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Overlay")
     float OverlaySpacingAmot = 25.0f;
+
+    // ---------------------------------------------------------------------
+    // The plaza (Shmuel's decision of 9 September 2026 - see EnclosureMath.h section 6b)
+    // ---------------------------------------------------------------------
+
+    /** Build the flat paved deck that fills the precinct, its retaining walls where the
+     *  ground falls away and its scarp where the ground rises. TRUE by decision: the
+     *  YECHEZKEL state used to hide the modern buildings and leave bald DEM terrain, which
+     *  read as a patch cut out of the city rather than as a place. Turning this off restores
+     *  exactly the previous behaviour, wall grounding included, and is the honest fallback
+     *  when the plaza meshes are missing. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza")
+    bool bBuildPlaza = true;
+
+    /** The seven plaza modules. Any of them null simply omits that component's instances;
+     *  a plaza with no deck tile is not built at all and GetPlazaStatus() says so. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaDeckTileMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaWayTileMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaRibMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaKerbMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaChannelMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaRetainingBandMesh;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UStaticMesh> PlazaStepMesh;
+
+    /** Field paving. Wants five per-instance custom data floats - cos and sin of the panel's
+     *  course angle, the panel's UV origin in cm on both axes, and a tonal offset - so that
+     *  one component can lay 14,000 tiles in five directions from one draw call. A material
+     *  without those parameters still renders; it simply repeats, which is the defect the
+     *  plaza exists to fix, so the release script proves the parameters are there. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UMaterialInterface> PlazaPavingMaterial;
+    /** Large dressed slabs, for the five processional ways. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UMaterialInterface> PlazaSlabMaterial;
+    /** Herodian ashlar, for the ribs, kerbs, channels, retaining bands and steps - the same
+     *  family as the precinct wall and the Kotel. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")
+    TObjectPtr<UMaterialInterface> PlazaAshlarMaterial;
 
     /** Seconds a state change takes. Zero is an immediate cut, which is what a load or a
      *  console command wants. */
@@ -247,6 +297,32 @@ public:
      *  Applied to the explicit list too, as a last guard. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
     TArray<FString> ExcludedLabelPrefixes;
+
+    /** ------------------------------------------------------------------------------------
+     *  TAGGED STATE ACTORS. Some things the precinct must swap are not buildings and can
+     *  never be. A terrain tile carries no building identity - BuildingIdentityLabel returns
+     *  an EMPTY label for any mesh outside the two audited building folders, and an actor
+     *  whose single component is instanced is refused outright - and that narrowness is
+     *  load-bearing: it is what keeps the 269-entry audited hide list from drifting. A
+     *  roofscape batch is one actor holding a single HISM, refused by the same two rules. So
+     *  no value in ExplicitHideLabels, ExplicitHideMeshNames or ModernBuildingLabelPrefixes
+     *  can ever reach either of them. They are driven by ACTOR TAG instead, which the release
+     *  scripts write when they place the actor, and never by mesh path or actor name.
+     *
+     *  The rule is one line and it composes: an actor is hidden when ANY tag it carries
+     *  appears in the list for the phase now standing. An actor carrying a tag from BOTH
+     *  lists - the one terrain tile that is at once the precinct's original and the Kotel
+     *  plaza's original, because a twin of it stands in every state - is hidden in every
+     *  state, which is exactly right and needs no special case.
+     *
+     *  Hidden while the Yechezkel precinct stands (SolidWall > 0), shown otherwise. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
+    TArray<FName> HideWhileWallStandsTags;
+
+    /** The reverse phase: hidden while today's city stands (MODERN and OVERLAY), shown while
+     *  the precinct does. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Selection")
+    TArray<FName> HideWhileModernCityStandsTags;
 
     // ---------------------------------------------------------------------
     // Run-time API
@@ -342,6 +418,51 @@ public:
     UFUNCTION(BlueprintPure, Category = "Precinct")
     int32 GetOverlayInstanceCount() const;
 
+    /** How many tagged state actors the last gather matched, split by which phase hides them.
+     *  A zero here means the tags in the level and the tags in these lists do not agree,
+     *  which is otherwise completely silent. For the receipt. */
+    UFUNCTION(BlueprintPure, Category = "Precinct")
+    void GetStateTaggedCounts(int32& OutMatched, int32& OutHiddenWithWall,
+                              int32& OutHiddenWithCity) const;
+
+    /** Instances per plaza component after the last build, in the order the receipt lists
+     *  them. Eight numbers rather than a struct so a Blueprint or a Python readback can pull
+     *  them without a reflected type. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    void GetPlazaCounts(int32& OutDeckTiles, int32& OutWayTiles, int32& OutRibs, int32& OutKerbs,
+                        int32& OutChannels, int32& OutRetainingBands, int32& OutScarpBands,
+                        int32& OutSteps) const;
+
+    /** Triangles the plaza adds at LOD0 over all its instances, from the module budget in
+     *  EnclosureMath.h times the counts above. The generator writes the same number. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    int32 GetPlazaTriangleCount() const;
+
+    /** Deck top in world cm. Zero, and section 6b of EnclosureMath.h is why. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    float GetPlazaDeckTopZCm() const;
+
+    /** The paved rectangle in world cm as (XMin, YMin, XMax, YMax): the precinct square
+     *  inset by one wall thickness on every side. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    FVector4 GetPlazaExtentCm() const;
+
+    /** Paving cells across and down, and how many distinct super-panels the frozen split
+     *  produced over them. The panel count is the single number that proves the runtime and
+     *  Scripts/create_precinct_plaza.py laid the same plaza. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    void GetPlazaGrid(int32& OutCellsX, int32& OutCellsY, int32& OutPanels) const;
+
+    /** Tallest retaining stack (fill) and scarp (cut) on one side, world cm, as (Retaining,
+     *  Scarp). Both zero when the plaza has not been built. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    FVector2D GetPlazaFaceHeightsCm(int32 Side) const;
+
+    /** "built", "disabled" when bBuildPlaza is false, "no-deck-mesh" when the deck tile is
+     *  missing. Never a silent nothing: a plaza that did not build must say why. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    FString GetPlazaStatus() const;
+
     UPROPERTY(BlueprintAssignable, Category = "Precinct")
     FMikdashPrecinctStateSignature OnPrecinctStateChanged;
 
@@ -360,8 +481,23 @@ public:
 
 private:
     void BuildRing();
+    /** The deck, its ways, ribs, kerbs, channels, retaining/scarp faces and gate stairs.
+     *  Called by BuildRing with the square and the ground profile it already has, because
+     *  the plaza's retaining stacks must be driven by the SAME profile the wall stands on -
+     *  two independent samplings of the ground is how a wall ends up floating over its own
+     *  retaining wall. */
+    void BuildPlaza(const MikdashEnclosure::FSquare& Square,
+                    const MikdashEnclosure::FGroundProfile& Profile);
+    bool PlazaEnabled() const;
     void ApplyWeights(const MikdashEnclosure::FStateWeights& Weights);
     void GatherModernBuildings();
+    /** Called from inside the GatherModernBuildings pass, BEFORE the building-identity test
+     *  whose empty label is the whole reason these actors need their own channel. */
+    void ConsiderStateTaggedActor(AActor* Actor);
+    void ApplyStateTaggedActors(bool bWallStands);
+    void RestoreStateTaggedActors();
+    /** The buildings half of RestoreAllModernBuildings, on its own. */
+    void RestoreHiddenBuildings();
     bool IsExcludedLabel(const FString& Label) const;
     bool IsModernBuildingLabel(const FString& Label) const;
     MikdashEnclosure::FGroundProfile MakeGroundProfile() const;
@@ -374,6 +510,18 @@ private:
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> CornerInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> FoundationInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> OverlayInstances;
+    /** The plaza, in the order GetPlazaCounts reports: deck, way, rib, kerb, channel,
+     *  retaining, scarp, step. Retaining and scarp share one mesh and one material but are
+     *  separate components so the receipt can count fill and cut apart, which is the number
+     *  that says how much of the precinct is a platform and how much is a quarry. */
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaDeckInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaWayInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaRibInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaKerbInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaChannelInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaRetainingInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaScarpInstances;
+    UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaStepInstances;
     UPROPERTY(Transient) TArray<TObjectPtr<UPointLightComponent>> MarkerLights;
     UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> OverlayDynamic;
     UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> WallDynamic;
@@ -384,6 +532,15 @@ private:
     UPROPERTY(Transient) TArray<bool> HiddenBuildingsPriorHidden;
     UPROPERTY(Transient) TArray<bool> HiddenBuildingsPriorCollision;
     UPROPERTY(Transient) TArray<bool> HiddenBuildingsKeepCollision;
+
+    /** Actors matched by HideWhileWallStandsTags / HideWhileModernCityStandsTags, with the
+     *  two booleans each carried when first seen, so EndPlay puts the level back as found.
+     *  Never spawned, never destroyed, never reparented here - only the booleans move. */
+    UPROPERTY(Transient) TArray<TWeakObjectPtr<AActor>> StateTaggedActors;
+    UPROPERTY(Transient) TArray<bool> StateTaggedHideWithWall;
+    UPROPERTY(Transient) TArray<bool> StateTaggedHideWithCity;
+    UPROPERTY(Transient) TArray<bool> StateTaggedPriorHidden;
+    UPROPERTY(Transient) TArray<bool> StateTaggedPriorCollision;
 
     /** Candidates found by GatherModernBuildings. */
     TArray<TWeakObjectPtr<AActor>> BuildingActors;
@@ -401,6 +558,15 @@ private:
     double WallBaseZMax[4] = {0.0, 0.0, 0.0, 0.0};
     double DeepestFoundation[4] = {0.0, 0.0, 0.0, 0.0};
     bool bGroundFromProfile = false;
+
+    /** Per-side readback from the last BuildPlaza: tallest retaining stack (fill) and
+     *  tallest scarp (cut), world cm. */
+    double PlazaRetainingMax[4] = {0.0, 0.0, 0.0, 0.0};
+    double PlazaScarpMax[4] = {0.0, 0.0, 0.0, 0.0};
+    int32 PlazaCellsX = 0;
+    int32 PlazaCellsY = 0;
+    int32 PlazaPanels = 0;
+    FString PlazaStatus = TEXT("not-built");
 
     EMikdashPrecinctState CurrentState = EMikdashPrecinctState::Yechezkel;
     MikdashEnclosure::FDissolve Transition;

@@ -76,21 +76,107 @@ def _hash(x, y, salt):
             % (x, y, salt))
 
 
-def _warp(uv_expr, tag):
-    """The whole anti-repeat UV transform for one sampling plane.
+# ---------------------------------------------------------------------------------------------
+# SAMPLING MODE - added 2026-09-10 after the revert. READ THIS BEFORE CHANGING THE HLSL.
+#
+# WHAT HAPPENED. The pass was applied to 1,488 slots on both maps on 2026-09-09 and reverted the
+# same night: high-frequency detail did not reach the screen on Nanite meshes. The control is in
+# the frame itself (release_sanctuary_antirepeat.spec.json): the 1,113 vessel slots still on
+# MI_PBR_GoldMatte_Partition, a child of M_PBR_Tiled, using THE SAME ScratchedMetal textures at
+# THE SAME 250 cm tiling, lit by the same lights at the same exposure in the same image, held
+# their gradient energy (incense altar face x1.03, shulchan legs x0.95, paroches x1.03), while
+# every surface moved onto this master collapsed (partition x0.20, floor x0.24). Only the parent
+# material differs. The loss is in this graph and nowhere else, and x0.20 brackets 3-4 mips.
+#
+# WHAT IS ESTABLISHED, AND WHAT IS NOT.
+#   * ESTABLISHED from this file: the shipped path does NOT differentiate a warped UV. _warp took
+#     ddx/ddy of the CONTINUOUS pre-warp uv and only flipped the sign of u for a mirrored cell.
+#     Analytically that gradient is exactly right - the band offset is constant within a band, the
+#     wrap is an integer translation, the mirror is a reflection. "Gradients from a warped UV" is
+#     therefore NOT the defect. Supplying EXPLICIT gradients at all is the thing under suspicion.
+#   * ESTABLISHED from the engine (C:/Program Files/Epic Games/UE_5.8/Engine/Shaders/Private):
+#       - Definitions.usf:158-162 - USES_EXPLICIT_DERIVATIVES is "set by the material translator
+#         and signifies whether the material is using the DDX or DDY material graph NODES". A raw
+#         ddx() written inside a Custom node is invisible to the translator, so it never enters
+#         the derivative system; it is a bare hardware quad derivative.
+#       - MaterialTemplate.ush:513-514 - FMaterialPixelParameters carries WorldPosition_DDX/DDY,
+#         and NaniteVertexFactory.ush:869-870 fills them with ANALYTIC derivatives taken from the
+#         visbuffer gradients. Nothing in this graph reads them.
+#       - NaniteVertexFactory.ush:1243 - "because of quad shading the CS shading can produce OOB
+#         pixels that need to return a safe value". Lanes of a quad in the Nanite shading pass are
+#         not guaranteed to sit on the same triangle, instance, or on valid geometry at all, so a
+#         hardware ddx of a reconstructed world position there can be arbitrarily large - and an
+#         arbitrarily large EXPLICIT gradient pins every pixel of that quad to the coarsest mip,
+#         where an implicit sample is at least bounded by the sampler's own footprint logic.
+#       - HLSLMaterialTranslator.cpp:14338 - a Custom node body is emitted as
+#         CustomExpression<N>(FMaterial{Pixel|Vertex}Parameters Parameters, ...), so "Parameters"
+#         IS in scope inside author-written HLSL. Which struct it is depends on the stage.
+#   * NOT ESTABLISHED offline: which of the two mechanisms above dominates, or by how much.
+#     Only a frame settles that, which is the whole point of the switch.
+#
+# THE SWITCH. -AntiRepeatSampling=<mode> changes how the texture taps select their mip and
+# NOTHING ELSE. The hash, the band offset, the mirror, the macro bands, the per-instance jitter,
+# every parameter name, every default and every instance value are identical across modes, so a
+# capture with the in-frame control isolates exactly one variable.
+#
+#   grad      DEFAULT. Byte-identical to what was built, measured and reverted on 2026-09-09 -
+#             deliberately kept as its own literal template rather than generated from the others,
+#             so the A side of the A/B cannot drift from the asset the manifest describes.
+#   implicit  THE PROPOSED FIX. No ddx/ddy anywhere; the sampler takes its own derivatives. The
+#             warp is re-expressed so the UV handed to the sampler is smooth WITHIN a cell and
+#             differs from a smooth function only by an INTEGER across cells: an unmirrored cell
+#             samples uu, a mirrored cell samples (2*ci + 1) - uu, which is the same reflection
+#             the wrapped form performed (frac(ci + 1 - fu) == 1 - fu). Hardware mip selection is
+#             then correct on every pixel except the one row where the band offset steps - a bed
+#             joint, i.e. a mortar line - and the one column where the mirror flag flips. That one
+#             pixel is the seam guard Texture2DSampleGrad existed to provide, and it is much the
+#             smaller defect than losing the drafted margins and proud bosses everywhere.
+#             REQUIRES WRAP ADDRESSING. The UV is no longer wrapped into [0,1) by hand, so a
+#             TA_MIRROR texture would flip alternate tiles on top of our own mirror hash and stop
+#             being the transform the manifest measured. do_build refuses in this mode if any
+#             variant texture is not TA_WRAP unless -AntiRepeatAllowMirrorAddress is passed, and
+#             records every address mode either way. T_JerusalemPaving_BaseColor is the one
+#             TA_MIRROR texture in the set (spec technique.samplingMode says so).
+#   analytic  The same wrapped UV as 'grad' - seam guard intact - but the gradients come from
+#             Nanite's analytic Parameters.WorldPosition_DDX/DDY instead of ddx(P), with a runtime
+#             fallback to ddx/ddy for factories that leave them at zero (only Nanite, ray tracing
+#             and the volumetric paths fill them; FLocalVertexFactory does not). Strictly the most
+#             correct of the three and the only one that keeps the seam guard. It is an experiment
+#             arm, not the shipping candidate: it still reads FMaterialPixelParameters fields from
+#             author-written HLSL, and if these nodes ever reached the vertex stage the struct
+#             would be FMaterialVertexParameters, which has no such fields, and it would not
+#             compile. They are wired to BaseColor/Normal/Roughness/AO only, never to WPO.
+#
+# EnclosureMath.h 6b DOES NOT APPLY TO THIS MASTER - checked so nobody checks it twice. 6b is per
+# instance data into author-written HLSL, which crashed the cook on M_PrecinctPlaza_Paving. This
+# master takes PerInstanceRandom, not PerInstanceCustomData, and PerInstanceRandom is a plain
+# float member of BOTH FMaterialVertexParameters and FMaterialPixelParameters, filled by every
+# vertex factory including the non-instanced FLocalVertexFactory (LocalVertexFactory.ush 555, 657,
+# 701; NaniteVertexFactory.ush 224, 943). There is no instanced-only payload that can be absent.
+# ---------------------------------------------------------------------------------------------
+SAMPLING_MODES = ('grad', 'implicit', 'analytic')
+DEFAULT_SAMPLING_MODE = 'grad'
 
-    1. Band offset: the course band (one tile high in v) slides along u by a hash of its OWN index,
-       so the shift does not vary along the wall - no vertical seam exists anywhere, and the shift
-       shows up only across a bed joint, which is what running bond is.
-    2. Cell mirror: the cell is mirrored in u by a hash of its cell index. A mirrored cell still meets
-       its neighbours edge to edge because the tile is periodic, and mirroring only in u leaves the
-       bed joints, the per-course setback ledge and the downward weather run-off where they were.
-    3. The uv handed to the sampler is WRAPPED into [0,1), so the texture address mode cannot change
-       the result - T_JerusalemPaving_BaseColor is TA_MIRROR, the architecture textures are TA_WRAP.
-    4. The derivatives come from the CONTINUOUS pre-warp uv with the mirror sign applied to u.
-       Sampling with implicit derivatives instead would give the one pixel row where the band offset
-       jumps a huge gradient, the coarsest mip, and a blurred line along every bed joint."""
-    return """
+# One sentence per mode, copied into every receipt so a measurement is never orphaned from the
+# graph that produced it. The 2026-09-09 pass could not say which sampling path it had measured
+# because there was only one; there are three now.
+SAMPLING_MODE_RECEIPT_NOTE = {
+    'grad': 'Texture2DSampleGrad with hardware ddx/ddy of the continuous pre-warp UV. This is the '
+            '2026-09-09 build that was applied to 1,488 slots and reverted: its high-frequency '
+            'detail measured x0.20 against an in-frame M_PBR_Tiled control at x1.03. Kept as the '
+            'A side of the A/B, not as a candidate to ship.',
+    'implicit': 'No ddx/ddy anywhere; the sampler takes its own derivatives from a UV that is smooth '
+                'within a cell and an integer away from smooth across one. Gives up the one-pixel '
+                'seam guard at each bed joint and at each mirror flip; keeps hardware mip selection. '
+                'Needs TA_WRAP on every variant texture.',
+    'analytic': "The 'grad' UV, seam guard intact, with Nanite's analytic "
+                'Parameters.WorldPosition_DDX/DDY in place of ddx(P) and a hardware fallback where '
+                'the vertex factory leaves them at zero. Experiment arm: it still reads pixel-parameter '
+                'fields from author-written HLSL.',
+}
+
+# The 2026-09-09 template, kept verbatim. Do not regenerate it from the others.
+_WARP_GRAD = """
 float2 d0_{t} = ddx({uv});
 float2 d1_{t} = ddy({uv});
 float bj_{t} = floor(({uv}).y);
@@ -102,17 +188,95 @@ fu_{t} = (s_{t} < 0.0) ? (1.0 - fu_{t}) : fu_{t};
 float2 uv_{t} = float2(fu_{t}, ({uv}).y - bj_{t});
 float2 dx_{t} = float2(d0_{t}.x * s_{t}, d0_{t}.y);
 float2 dy_{t} = float2(d1_{t}.x * s_{t}, d1_{t}.y);
-""".format(t=tag, uv=uv_expr, hband=_hash('bj_' + tag, '0.0', '5.71'),
-           hmirror=_hash('ci_' + tag, 'bj_' + tag, '0.0'))
+"""
+
+# Same cell arithmetic, but the sampler is handed a coordinate that is smooth inside a cell and an
+# integer away from smooth across one, so hardware mip selection is correct. v is passed through
+# unwrapped for the same reason. Nothing here calls ddx or ddy.
+# The price of not wrapping is fp32 range: the widest case in this scene is the 1.44 km precinct on
+# a 300 cm tile, so |uv| <= 480 tiles, and against a 2048 px texture that is ~1e6 texels where the
+# fp32 ulp is about 0.06 texel. Below a sixteenth of a texel, so it does not move a mip; it is the
+# reason this mode is bounded to world-space tiling and not to anything larger.
+_WARP_IMPLICIT = """
+float bj_{t} = floor(({uv}).y);
+float uu_{t} = ({uv}).x + BandOffsetEnable * {hband};
+float ci_{t} = floor(uu_{t});
+float s_{t} = ((MirrorEnable > 0.5) && ({hmirror} > 0.5)) ? -1.0 : 1.0;
+float2 uv_{t} = float2((s_{t} < 0.0) ? ((2.0 * ci_{t} + 1.0) - uu_{t}) : uu_{t}, ({uv}).y);
+"""
+
+# The wrapped UV of 'grad' with Nanite's analytic world-position gradients in place of ddx/ddy.
+_WARP_ANALYTIC = """
+float2 d0_{t} = {ddx};
+float2 d1_{t} = {ddy};
+if (dot(d0_{t}, d0_{t}) + dot(d1_{t}, d1_{t}) <= 0.0) {{ d0_{t} = ddx({uv}); d1_{t} = ddy({uv}); }}
+float bj_{t} = floor(({uv}).y);
+float uu_{t} = ({uv}).x + BandOffsetEnable * {hband};
+float ci_{t} = floor(uu_{t});
+float fu_{t} = uu_{t} - ci_{t};
+float s_{t} = ((MirrorEnable > 0.5) && ({hmirror} > 0.5)) ? -1.0 : 1.0;
+fu_{t} = (s_{t} < 0.0) ? (1.0 - fu_{t}) : fu_{t};
+float2 uv_{t} = float2(fu_{t}, ({uv}).y - bj_{t});
+float2 dx_{t} = float2(d0_{t}.x * s_{t}, d0_{t}.y);
+float2 dy_{t} = float2(d1_{t}.x * s_{t}, d1_{t}.y);
+"""
+
+
+def _warp(uv_expr, tag, sampling=DEFAULT_SAMPLING_MODE, ddx_expr=None, ddy_expr=None):
+    """The whole anti-repeat UV transform for one sampling plane, in one sampling mode.
+
+    1. Band offset: the course band (one tile high in v) slides along u by a hash of its OWN index,
+       so the shift does not vary along the wall - no vertical seam exists anywhere, and the shift
+       shows up only across a bed joint, which is what running bond is.
+    2. Cell mirror: the cell is mirrored in u by a hash of its cell index. A mirrored cell still meets
+       its neighbours edge to edge because the tile is periodic, and mirroring only in u leaves the
+       bed joints, the per-course setback ledge and the downward weather run-off where they were.
+    3. What reaches the sampler, and how the mip is chosen, is the ONLY thing the mode changes.
+       See the SAMPLING MODE block above; 'grad' is the 2026-09-09 text unchanged."""
+    if sampling not in SAMPLING_MODES:
+        raise RuntimeError('unknown sampling mode %r (want one of %s)' % (sampling, SAMPLING_MODES))
+    if sampling == 'analytic' and not (ddx_expr and ddy_expr):
+        raise RuntimeError('sampling mode analytic needs the analytic gradient expressions for plane ' + tag)
+    template = {'grad': _WARP_GRAD, 'implicit': _WARP_IMPLICIT, 'analytic': _WARP_ANALYTIC}[sampling]
+    return template.format(t=tag, uv=uv_expr, ddx=ddx_expr, ddy=ddy_expr,
+                           hband=_hash('bj_' + tag, '0.0', '5.71'),
+                           hmirror=_hash('ci_' + tag, 'bj_' + tag, '0.0'))
+
+
+def _tap(texture, tag, sampling=DEFAULT_SAMPLING_MODE):
+    """One texture read on plane <tag>. Explicit gradients only where the mode asks for them."""
+    if sampling == 'implicit':
+        return 'Texture2DSample(%s, %sSampler, uv_%s)' % (texture, texture, tag)
+    return 'Texture2DSampleGrad(%s, %sSampler, uv_%s, dx_%s, dy_%s)' % (texture, texture, tag, tag, tag)
 
 
 # Identical projection and blend exponent to M_PBR_Tiled, so no surface changes which plane it samples.
-HLSL_TRIPLANAR_SETUP = """
+_TRIPLANAR_HEAD = """
 float3 ar_n = normalize(N);
 float3 ar_a = pow(abs(ar_n), max(BlendExponent, 0.001));
 float3 ar_w = ar_a / max(dot(ar_a, float3(1.0, 1.0, 1.0)), 1e-6);
 float3 ar_q = P / max(TilingCm, 1.0);
-""" + _warp('ar_q.yz', 'X') + _warp('ar_q.xz', 'Y') + _warp('ar_q.xy', 'Z')
+"""
+
+# Nanite's analytic world-position gradients, scaled into tile units once for all three planes.
+_TRIPLANAR_ANALYTIC_HEAD = """
+float3 ar_qdx = Parameters.WorldPosition_DDX / max(TilingCm, 1.0);
+float3 ar_qdy = Parameters.WorldPosition_DDY / max(TilingCm, 1.0);
+"""
+
+TRIPLANAR_PLANES = (('ar_q.yz', 'X', 'yz'), ('ar_q.xz', 'Y', 'xz'), ('ar_q.xy', 'Z', 'xy'))
+
+
+def hlsl_triplanar_setup(sampling=DEFAULT_SAMPLING_MODE):
+    code = _TRIPLANAR_HEAD
+    if sampling == 'analytic':
+        code += _TRIPLANAR_ANALYTIC_HEAD
+    for uv_expr, tag, swizzle in TRIPLANAR_PLANES:
+        code += _warp(uv_expr, tag, sampling,
+                      'ar_qdx.%s' % swizzle if sampling == 'analytic' else None,
+                      'ar_qdy.%s' % swizzle if sampling == 'analytic' else None)
+    return code
+
 
 # Two decorrelated oblique projections of world position. No axis is degenerate on a wall or a floor,
 # and the periods are non-harmonic with the tile and with each other, so nothing realigns.
@@ -137,55 +301,75 @@ ar_c.b *= 1.0 - ar_warm;
 return max(ar_c, 0.0);
 """
 
-HLSL_ALBEDO = HLSL_TRIPLANAR_SETUP + HLSL_MACRO_UV + """
-float3 ar_c = Texture2DSampleGrad(Albedo, AlbedoSampler, uv_X, dx_X, dy_X).rgb * ar_w.x
-            + Texture2DSampleGrad(Albedo, AlbedoSampler, uv_Y, dx_Y, dy_Y).rgb * ar_w.y
-            + Texture2DSampleGrad(Albedo, AlbedoSampler, uv_Z, dx_Z, dy_Z).rgb * ar_w.z;
-""" + HLSL_MACRO_APPLY
 
-HLSL_ARM = HLSL_TRIPLANAR_SETUP + HLSL_MID_UV + """
-float3 ar_v = Texture2DSampleGrad(ARM, ARMSampler, uv_X, dx_X, dy_X).rgb * ar_w.x
-            + Texture2DSampleGrad(ARM, ARMSampler, uv_Y, dx_Y, dy_Y).rgb * ar_w.y
-            + Texture2DSampleGrad(ARM, ARMSampler, uv_Z, dx_Z, dy_Z).rgb * ar_w.z;
+def hlsl_albedo(sampling=DEFAULT_SAMPLING_MODE):
+    return hlsl_triplanar_setup(sampling) + HLSL_MACRO_UV + """
+float3 ar_c = %s.rgb * ar_w.x
+            + %s.rgb * ar_w.y
+            + %s.rgb * ar_w.z;
+""" % tuple(_tap('Albedo', t, sampling) for t in ('X', 'Y', 'Z')) + HLSL_MACRO_APPLY
+
+
+def hlsl_arm(sampling=DEFAULT_SAMPLING_MODE):
+    return hlsl_triplanar_setup(sampling) + HLSL_MID_UV + """
+float3 ar_v = %s.rgb * ar_w.x
+            + %s.rgb * ar_w.y
+            + %s.rgb * ar_w.z;
 float ar_n2 = Texture2DSampleLevel(MacroNoise, MacroNoiseSampler, ar_mb, 0).b;
 ar_v.g = saturate(ar_v.g * (1.0 + MidRoughness * (ar_n2 - 0.5) * 2.0));
 return ar_v;
-"""
+""" % tuple(_tap('ARM', t, sampling) for t in ('X', 'Y', 'Z'))
+
 
 # Per-plane tangent deviations swizzled into world axes exactly as M_PBR_Tiled does, with the mirror
 # sign applied to the u component of each plane (u is world Y on the X plane, world X on the others).
 # A TC_NORMALMAP sample inside a Custom node is raw, so it is decoded here rather than by the sampler.
-HLSL_NORMAL = HLSL_TRIPLANAR_SETUP + """
-float2 ar_nx = Texture2DSampleGrad(Normal, NormalSampler, uv_X, dx_X, dy_X).rg * 2.0 - 1.0;
-float2 ar_ny = Texture2DSampleGrad(Normal, NormalSampler, uv_Y, dx_Y, dy_Y).rg * 2.0 - 1.0;
-float2 ar_nz = Texture2DSampleGrad(Normal, NormalSampler, uv_Z, dx_Z, dy_Z).rg * 2.0 - 1.0;
+def hlsl_normal(sampling=DEFAULT_SAMPLING_MODE):
+    return hlsl_triplanar_setup(sampling) + """
+float2 ar_nx = %s.rg * 2.0 - 1.0;
+float2 ar_ny = %s.rg * 2.0 - 1.0;
+float2 ar_nz = %s.rg * 2.0 - 1.0;
 float3 ar_dev = float3(0.0, ar_nx.x * s_X, ar_nx.y) * ar_w.x
               + float3(ar_ny.x * s_Y, 0.0, ar_ny.y) * ar_w.y
               + float3(ar_nz.x * s_Z, ar_nz.y, 0.0) * ar_w.z;
 return normalize(ar_n + ar_dev * NormalStrength);
-"""
+""" % tuple(_tap('Normal', t, sampling) for t in ('X', 'Y', 'Z'))
 
-HLSL_PLANAR = HLSL_MACRO_UV + """
+
+def hlsl_planar(sampling=DEFAULT_SAMPLING_MODE):
+    code = HLSL_MACRO_UV + """
 float2 ar_uv0 = float2(P.x, P.y) / max(TilingCm, 1.0);
-""" + _warp('ar_uv0', 'P') + """
-float3 ar_c = Texture2DSampleGrad(Albedo, AlbedoSampler, uv_P, dx_P, dy_P).rgb;
+"""
+    if sampling == 'analytic':
+        code += """
+float2 ar_qdx = Parameters.WorldPosition_DDX.xy / max(TilingCm, 1.0);
+float2 ar_qdy = Parameters.WorldPosition_DDY.xy / max(TilingCm, 1.0);
+"""
+    code += _warp('ar_uv0', 'P', sampling,
+                  'ar_qdx' if sampling == 'analytic' else None,
+                  'ar_qdy' if sampling == 'analytic' else None)
+    return code + """
+float3 ar_c = %s.rgb;
 float ar_t = lerp(1.0, smoothstep(0.85, 0.98, normalize(N).z), saturate(SlopeTintEnable));
 ar_c = lerp(SlopeTint.rgb, ar_c, ar_t);
-""" + HLSL_MACRO_APPLY
+""" % _tap('Albedo', 'P', sampling) + HLSL_MACRO_APPLY
 
 
-TRIPLANAR_NODES = {
-    'Albedo': {'code': HLSL_ALBEDO, 'output': 'CMOT_FLOAT3',
-               'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'MacroCm',
-                           'MacroAmount', 'MacroWarm', 'MidCm', 'MidAmount', 'PerInstanceJitter'],
-               'textures': ['Albedo', 'MacroNoise'], 'perInstanceRandom': True},
-    'ARM': {'code': HLSL_ARM, 'output': 'CMOT_FLOAT3',
-            'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'MidCm', 'MidRoughness'],
-            'textures': ['ARM', 'MacroNoise'], 'perInstanceRandom': False},
-    'Normal': {'code': HLSL_NORMAL, 'output': 'CMOT_FLOAT3',
-               'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'NormalStrength'],
-               'textures': ['Normal'], 'perInstanceRandom': False},
-}
+def triplanar_nodes(sampling=DEFAULT_SAMPLING_MODE):
+    """The three Custom nodes of the Triplanar master, built for one sampling mode."""
+    return {
+        'Albedo': {'code': hlsl_albedo(sampling), 'output': 'CMOT_FLOAT3',
+                   'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'MacroCm',
+                               'MacroAmount', 'MacroWarm', 'MidCm', 'MidAmount', 'PerInstanceJitter'],
+                   'textures': ['Albedo', 'MacroNoise'], 'perInstanceRandom': True},
+        'ARM': {'code': hlsl_arm(sampling), 'output': 'CMOT_FLOAT3',
+                'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'MidCm', 'MidRoughness'],
+                'textures': ['ARM', 'MacroNoise'], 'perInstanceRandom': False},
+        'Normal': {'code': hlsl_normal(sampling), 'output': 'CMOT_FLOAT3',
+                   'scalars': ['TilingCm', 'BlendExponent', 'MirrorEnable', 'BandOffsetEnable', 'NormalStrength'],
+                   'textures': ['Normal'], 'perInstanceRandom': False},
+    }
+
 
 SCALAR_DEFAULTS = {
     'TilingCm': 300.0, 'NormalStrength': 1.0, 'RoughnessScale': 1.0, 'Metallic': 0.0, 'AlbedoFlatness': 0.0,
@@ -357,7 +541,8 @@ def offline_check(spec=None):
 
 # ------------------------------------------------------------------------------------------ native
 class Native:
-    def __init__(self, ue, spec, mode, stamp, target=None, allow_drift=False, priority=1, rebuild=False):
+    def __init__(self, ue, spec, mode, stamp, target=None, allow_drift=False, priority=1, rebuild=False,
+                 sampling=DEFAULT_SAMPLING_MODE, allow_mirror_address=False, frame_evidence=None):
         self.u = ue
         self.spec = spec
         self.mode = mode
@@ -366,6 +551,11 @@ class Native:
         self.allow_drift = allow_drift
         self.priority = int(priority)
         self.rebuild = rebuild
+        if sampling not in SAMPLING_MODES:
+            raise RuntimeError('-AntiRepeatSampling must be one of %s, not %r' % (list(SAMPLING_MODES), sampling))
+        self.sampling = sampling
+        self.allow_mirror_address = bool(allow_mirror_address)
+        self.frame_evidence = frame_evidence
         self.ed = ue.get_editor_subsystem(ue.UnrealEditorSubsystem)
         self.levels = ue.get_editor_subsystem(ue.LevelEditorSubsystem)
         self.actors = ue.get_editor_subsystem(ue.EditorActorSubsystem)
@@ -386,7 +576,10 @@ class Native:
                        'specSha256': sha(SPEC_PATH), 'scriptSha256': sha(Path(__file__)),
                        'engineVersion': ue.SystemLibrary.get_engine_version(),
                        'commandLine': ue.SystemLibrary.get_command_line(),
-                       'allowCountDrift': allow_drift, 'errors': [], 'stages': []}
+                       'allowCountDrift': allow_drift, 'errors': [], 'stages': [],
+                       'samplingMode': self.sampling,
+                       'samplingModeNote': SAMPLING_MODE_RECEIPT_NOTE[self.sampling],
+                       'allowMirrorAddress': self.allow_mirror_address}
         self.write()
 
     def write(self):
@@ -592,12 +785,43 @@ class Native:
                                % (source.get_class().get_name(), target.get_class().get_name(), pin, resolved,
                                   [str(n) for n in self.ml.get_material_expression_output_names(source)]))
 
+    def texture_address_modes(self):
+        """Address mode of every variant texture, and a refusal when a mode needs TA_WRAP.
+
+        Sampling mode 'implicit' stops wrapping the UV into [0,1) by hand - that hand wrap is
+        exactly what made the address mode irrelevant. A TA_MIRROR texture sampled with an
+        unwrapped UV flips alternate tiles on top of this master's own mirror hash, which is no
+        longer the transform the manifest measured. The spec says T_JerusalemPaving_BaseColor is
+        imported TA_MIRROR while the architecture textures are TA_WRAP, so this is read off the
+        assets rather than trusted."""
+        u = self.u
+        rows, offenders = {}, []
+        for name, cfg in self.spec['variants'].items():
+            for kind, path in cfg['textures'].items():
+                tex = u.load_asset(path)
+                if tex is None:
+                    raise RuntimeError('variant %s texture %s missing: %s' % (name, kind, path))
+                row = rows.setdefault(path, {'addressX': str(tex.get_editor_property('address_x')),
+                                             'addressY': str(tex.get_editor_property('address_y')),
+                                             'usedBy': []})
+                row['usedBy'].append('%s.%s' % (name, kind))
+                row['wrap'] = row['addressX'].endswith('TA_WRAP') and row['addressY'].endswith('TA_WRAP')
+                if not row['wrap'] and path not in offenders:
+                    offenders.append(path)
+        for row in rows.values():
+            row['usedBy'] = sorted(set(row['usedBy']))
+        if offenders and self.sampling == 'implicit' and not self.allow_mirror_address:
+            raise RuntimeError('sampling mode implicit needs TA_WRAP on every variant texture; these are not: %s. '
+                               'Re-import them as TA_WRAP, or pass -AntiRepeatAllowMirrorAddress and say in the '
+                               'receipt why a mirrored address mode is acceptable here.' % offenders)
+        return {'textures': rows, 'nonWrap': offenders}
+
     def build_master(self, key, noise_texture, defaults):
         u, ml = self.u, self.ml
         cfg = self.spec['masters'][key]
         path = cfg['asset']
         folder, name = path.rsplit('/', 1)
-        record = {'asset': path, 'kind': key}
+        record = {'asset': path, 'kind': key, 'samplingMode': self.sampling}
         if self.assets.does_asset_exist(path):
             if not self.rebuild:
                 raise RuntimeError('%s already exists; pass -AntiRepeatRebuild to rebuild its graph' % path)
@@ -664,7 +888,7 @@ class Native:
 
         if key == 'Triplanar':
             outs = {}
-            for node_name, node_cfg in TRIPLANAR_NODES.items():
+            for node_name, node_cfg in triplanar_nodes(self.sampling).items():
                 pins = ['P', 'N'] + node_cfg['scalars'] + node_cfg['textures'] + (['PerInstanceRand'] if node_cfg['perInstanceRandom'] else [])
                 node = self._custom(material, node_cfg['code'], node_cfg['output'], pins)
                 feed(node, node_cfg['scalars'], node_cfg['textures'], node_cfg['perInstanceRandom'])
@@ -691,7 +915,7 @@ class Native:
             pins = ['P', 'N', 'TilingCm', 'MirrorEnable', 'BandOffsetEnable', 'MacroCm', 'MacroAmount',
                     'MacroWarm', 'MidCm', 'MidAmount', 'SlopeTintEnable', 'PerInstanceJitter',
                     'SlopeTint', 'Albedo', 'MacroNoise', 'PerInstanceRand']
-            node = self._custom(material, HLSL_PLANAR, 'CMOT_FLOAT3', pins)
+            node = self._custom(material, hlsl_planar(self.sampling), 'CMOT_FLOAT3', pins)
             feed(node, ['TilingCm', 'MirrorEnable', 'BandOffsetEnable', 'MacroCm', 'MacroAmount', 'MacroWarm',
                         'MidCm', 'MidAmount', 'SlopeTintEnable', 'PerInstanceJitter'],
                  ['Albedo', 'MacroNoise'], True)
@@ -885,6 +1109,7 @@ class Native:
                             'schemes': {name: block.get('schemes') for name, block in manifest.get('measurement', {}).items()
                                         if 'schemes' in block}}
         r['technique'] = spec['technique']
+        r['textureAddressModes'] = self.texture_address_modes()
         r['protectedBefore'] = self.protected()
         r['parityBefore'] = {n: self.parity_row(c['replaces']) for n, c in spec['variants'].items()}
         r['parityChecks'] = {n: self.check_parity(r['parityBefore'][n], n, c) for n, c in spec['variants'].items()}
@@ -1222,6 +1447,18 @@ class Native:
         for asset, digest in prior['newAssetHashes'].items():
             if not disk(asset).exists() or sha(disk(asset)) != digest:
                 raise RuntimeError('Built asset changed or missing since the build receipt: ' + asset)
+        r['builtSamplingMode'] = prior.get('samplingMode', 'grad')
+        r['frameEvidence'] = self.frame_evidence
+        if r['builtSamplingMode'] != 'grad' and not self.frame_evidence:
+            # spec.status2026_09_10.acceptanceGateForNextAttempt: a mip-selection fault is
+            # invisible to parameter parity and to an offline spectral simulation by
+            # construction. A build in a NEW sampling mode does not reach a map until a
+            # rendered in-frame comparison against a control surface on M_PBR_Tiled exists.
+            raise RuntimeError('build receipt was made in sampling mode %r; apply refuses without '
+                               '-AntiRepeatFrameEvidence=<path to the rendered in-frame A/B> because offline '
+                               'numbers cannot see a mip-selection fault' % r['builtSamplingMode'])
+        if self.frame_evidence and not Path(self.frame_evidence).exists():
+            raise RuntimeError('-AntiRepeatFrameEvidence points at a file that does not exist: %s' % self.frame_evidence)
         r['measurement'] = prior.get('measurement')
         r['shaderCost'] = prior.get('shaderCost')
         r['technique'] = prior.get('technique')
@@ -1485,9 +1722,16 @@ def _native_main():
     verify_m = re.search(r'-AntiRepeatVerify=(?:"([^"]+)"|([^\s]+))', cmd)
     revert_m = re.search(r'-AntiRepeatRevert=(?:"([^"]+)"|([^\s]+))', cmd)
     priority_m = re.search(r'-AntiRepeatPriority=(\d+)', cmd)
+    sampling_m = re.search(r'-AntiRepeatSampling=([A-Za-z]+)', cmd)
+    evidence_m = re.search(r'-AntiRepeatFrameEvidence=(?:"([^"]+)"|([^\s]+))', cmd)
     lower = cmd.lower()
     allow_drift = '-antirepeatallowcountdrift' in lower
     rebuild = '-antirepeatrebuild' in lower
+    allow_mirror_address = '-antirepeatallowmirroraddress' in lower
+    sampling = sampling_m.group(1).lower() if sampling_m else DEFAULT_SAMPLING_MODE
+    if sampling not in SAMPLING_MODES:
+        raise RuntimeError('-AntiRepeatSampling must be one of %s' % list(SAMPLING_MODES))
+    frame_evidence = (evidence_m.group(1) or evidence_m.group(2)) if evidence_m else None
     priority = int(priority_m.group(1)) if priority_m else 1
     modes = [m for m, hit in (('plan', plan_m), ('build', build_m), ('apply', apply_m),
                               ('verify', verify_m), ('revert', revert_m)) if hit]
@@ -1507,7 +1751,8 @@ def _native_main():
     target = None
     if mode != 'build':
         target = _target_from_command_line(spec, cmd, receipt if mode in ('verify', 'revert') else None)
-    native = Native(ue, spec, mode, stamp, target, allow_drift, priority, rebuild)
+    native = Native(ue, spec, mode, stamp, target, allow_drift, priority, rebuild,
+                    sampling, allow_mirror_address, frame_evidence)
     protected_before = native.protected()
     try:
         if mode == 'plan':

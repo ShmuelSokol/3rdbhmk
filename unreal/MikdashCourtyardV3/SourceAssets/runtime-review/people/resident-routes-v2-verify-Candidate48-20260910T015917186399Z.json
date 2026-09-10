@@ -1,0 +1,53 @@
+{
+  "status": "failed_editor_crashed_out_of_commit_before_pie",
+  "mode": "verify",
+  "target": "Candidate48",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "frame": "Selected48.v1",
+  "ratio": 0.96,
+  "mapShaBefore": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123",
+  "otherMapsBefore": {
+    "Main50": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77"
+  },
+  "stagedDirectory": {
+    "path": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\Distribution\\People\\people-candidate48.json",
+    "sha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8"
+  },
+  "errors": [
+    {
+      "stage": "pie",
+      "error": "Editor process died before PIE: D3D12Util.cpp:815 'Out of video memory trying to allocate a rendering resource'. The real cause was the Windows COMMIT limit, not VRAM: Local(VRAM) Budget 7238 MB / Used 4276 MB, while system Virtual Memory read 65370.78 MB used of 65389.91 MB total (19.13 MB free). The script's finally-block never ran, so this receipt was left at 'starting'; status corrected here so the abandoned attempt is not mistaken for a pass."
+    }
+  ],
+  "scope": "Real-RHI PIE: spawner-equivalent capsule/floor queries per resident, leg sweeps, motion samples, log skip reasons; no map writes; not navmesh or visual acceptance",
+  "commandLine": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough -ExecCmds=\"r.Streaming.PoolSize 400,r.Shadow.Virtual.Enable 0,py C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_resident_routes_v2.py\" -RoutesV2Verify -RoutesV2Target=Candidate48 -TestSavePrefix=FableProbe_RoutesV2C48_215815 -ini:Game:[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableProbe_RoutesV2C48_215815,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableProbe_RoutesV2C48_215815_Settings -windowed -ResX=640 -ResY=360 -unattended -NoSplash -abslog=C:\\Mikdash\\Working-5.8\\Opus-RoutesV2-Verify-Candidate48-04.log",
+  "abslog": "C:/Mikdash/Working-5.8/Opus-RoutesV2-Verify-Candidate48-04.log",
+  "saveIsolation": {
+    "testPrefix": "FableProbe_RoutesV2C48_215815",
+    "originalSaveFileCount": 0
+  },
+  "editorPopulations": [
+    {
+      "name": "MikdashResidentPopulation_0",
+      "label": "RELEASE_ResidentPopulation",
+      "spawn_authored_people_on_begin_play": "False",
+      "people_directory_file": "Distribution/People/people.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "False",
+      "extended_route_body_index": "3"
+    },
+    {
+      "name": "MikdashResidentPopulation_1",
+      "label": "RELEASE_PeopleV3Population",
+      "spawn_authored_people_on_begin_play": "True",
+      "people_directory_file": "Distribution/People/people-candidate48.json",
+      "source_coordinate_revision": "Legacy50.v1",
+      "activate_reviewed_pilot_on_begin_play": "False",
+      "extended_route_body_index": "-1"
+    }
+  ],
+  "populationPointedAtTarget": true,
+  "mapBytesUnchanged": true,
+  "mapShaAfter": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123",
+  "scopeNote": "No PIE evidence was gathered. Map bytes verified unchanged out of process."
+}

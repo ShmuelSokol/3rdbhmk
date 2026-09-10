@@ -197,6 +197,44 @@ material is never edited**, and the release script re-hashes it to prove so.
 The two instances exist for one reason: a HISM needs `MATUSAGE_INSTANCED_STATIC_MESHES`, and
 setting it on a child leaves the approved parent byte-identical.
 
+### The first version crashed the cook — read this before touching the material
+
+The graph described above compiled clean in the editor (`recompile_material`, zero errors) and
+then **crashed ShaderCompileWorker at cook time**: return code `-1073741819`, an access
+violation, on `FLocalVertexFactory` base-pass permutations, failing the package with
+`Error_UnknownCookFailure`. The cook had otherwise finished all 8,594 packages; the only two
+jobs in the crashed worker's batch were this material's. Checkpoint `cp02`,
+`Checkpoint-cp02-20260909T235427Z/uat.log` lines 6215–6218, summary at 6560. Not memory —
+peak 7,532 MB with 9.1 GB free, and both maps byte-identical before and after.
+
+**Which half was guilty, and it is not the obvious one.** Per-instance custom data is fine:
+`M_CrowdFigure_P*`, `M_CrowdGarmentPaletteV1` and `M_VehiclesV3_*` all read it, all with stock
+nodes and no `Custom` node between them, and all of them cooked and shipped in Walkthrough-12.
+`Custom` nodes alone are fine too — the approved `M_JerusalemPaving_500cm` is one. What was
+unique to this material was the **combination**: author-written HLSL taking per-instance custom
+data as function arguments, hoisted into the vertex stage where a non-instanced vertex factory
+has no instance data to give it.
+
+**So the `Custom` nodes went and the per-instance data stayed, and the whole design survives.**
+The rotation is now the same arithmetic in stock nodes:
+
+```
+d = worldXY - (U0, V0)
+u =  d.x * Cs + d.y * Sn
+v =  d.y * Cs - d.x * Sn      then / 500 cm
+```
+
+Five `PerInstanceCustomData` reads — Cs, Sn, U0, V0 and the tint — with **identity defaults**
+(Cs = 1, everything else 0), so the very permutation that crashed, a non-instanced draw with no
+instance data, now degrades to exactly the approved unrotated 500 cm mapping instead of to
+nonsense. `paving_graph()` refuses the run if a `Custom` node ever reappears.
+
+Two things were fixed on the way past. The old tint used `saturate(1 + T*0.04)`, which clamped
+at 1 and could therefore only ever *darken* — half the tonal range was being silently thrown
+away; the stock version has no clamp. And rebuilding the material in place needs the material
+**outputs disconnected first**, because `delete_all_material_expressions` will not remove a node
+still wired to an output — measured: the bulk call alone left five nodes of eleven.
+
 **Built and receipted, 9 September 2026**
 (`native-plaza-assets-Candidate48-20260909T225412198686Z.json`): all three materials created,
 the graph read back node for node — one WorldPosition, **five PerInstanceCustomData at slots
@@ -322,17 +360,54 @@ origin, tint) — 14,641 × 5 × 4 bytes ≈ 293 KB. That is what buys five cour
 
 **Open, and named:**
 
-1. **THE TERRAIN IS NOT CUT.** On the fifth of the footprint where the ground stands above the
-   deck — the Mount of Olives slope in the north-east, strips on the north and west — the
-   existing DEM terrain tiles still rise through the paving. The plaza is correct there and
-   the terrain is not. The fix is the FutureMountV1 precedent extended: the precinct overlaps
-   **16 terrain tiles** (columns 7–10 by rows 7–10 of the 16 × 16 grid), of which **4 lie
-   wholly inside** (30.9% of the area) and **12 straddle** the wall line. Generate
-   `*_PrecinctCut` twins of the twelve, hide the originals and show the twins by visibility
-   with the state — exactly as the buildings are swapped, and by the same never-delete
-   contract. `Scripts/import_future_mount_terrain.py` already does this for four tiles against
-   a 185-vertex polygon; a rectangle is simpler. **Until that pass runs, the north-east
-   quadrant of the plaza is not finished.**
+1. ~~**THE TERRAIN IS NOT CUT.**~~ **CUT, 10 September 2026.** `Scripts/release_precinct_terrain_cut.py`,
+   receipts `native-terrain-cut-apply-<Target>-*.json`.
+
+   Inside the precinct square the terrain surface is now **clamped to the deck UNDERSIDE**
+   (Z −48 on Candidate48, −50 on Main50) — cut to the underside, not the top, so the one-amah
+   slab hides the quarry floor and there is no lip. Outside the square nothing moves. Terrain
+   already below the underside is untouched, so the operation removes exactly the 12.45 Mm³
+   the table above measures and nothing else.
+
+   The **acceptance number, Candidate48: the highest any terrain vertex stands above the deck
+   underside anywhere in the precinct interior is 7.1 × 10⁻¹⁵ cm** — floating-point zero — over
+   **20,736 stations on a 1,003 cm (10 m) grid** across the paved rectangle, 19,346 of which
+   carry terrain and **0 of which are above the underside**. (The 1,390 stations with no
+   terrain are the FutureMountV1 platform hole, which predates this pass.) Per tile the twins
+   read back 0.0 cm at their vertices and ≤ 1.4 × 10⁻¹⁴ cm on their own 500 cm grids, and the
+   surface **outside** the square is unchanged to ≤ 0.001 cm — float32 source-model
+   quantisation — over 12,819 stations.
+
+   The mechanism is the FutureMountV1 precedent extended, and the swap is by VISIBILITY:
+   eleven `*_PrecinctCut` twin meshes are placed as their own actors tagged `PrecinctCutTwin`,
+   and the original tile actors are hidden with `SetActorHiddenInGame` with actor collision
+   disabled and tagged `PrecinctCutOriginal`. **Nothing is deleted and no original asset is
+   opened for write.** Five of the sixteen tiles needed no cut at all — they stand entirely
+   below the underside inside the square — and were left alone. Four of the eleven are cut
+   from the `*_FutureMountCut` meshes those actors actually render, not from the pristine
+   originals, so the platform hole is preserved.
+
+   **Main50, the same pass:** max **7.1 × 10⁻¹⁵ cm** above the deck underside (Z −50) over
+   **22,500 stations on a 1,003 cm grid**, 21,108 with terrain, **0 above**. Outside the square
+   the twelve twins are unchanged to ≤ 0.0013 cm over 125,826 stations. `-CutRevert` was
+   exercised on Candidate48 and re-applied: 12 actors restored, then all 12 twins reused,
+   re-verified corner for corner and the same number measured again.
+
+   **The Western Wall Plaza cut rides the same pass** (`KotelPlazaCutV1`, tile 07_08, driven by
+   the 926 deck cells of `SourceAssets/context-review/KotelPlazaV1/kotel-plaza-plan.json` merged
+   to 146 rectangles at two levels, undersides Z −1034.594 and −1284.594): **max 5.9 × 10⁻⁶ cm**
+   above its deck underside over **5,533 stations at 100 cm**, 0 above, outside the polygon
+   unchanged to 0.00036 cm over 116,577 stations. Its twin is placed HIDDEN and tagged
+   `KotelPlazaCutTwin`, because that plaza is a MODERN feature sitting 11 m below this deck.
+
+   **What is NOT wired: the state toggle.** `AMikdashEnclosure::GatherModernBuildings` cannot
+   see a terrain actor — `BuildingIdentityLabel` (MikdashEnclosure.cpp:22-42) returns an empty
+   label for any mesh outside `JerusalemContext/Buildings/` and `OldCityFacadesV1/Meshes/`, and
+   an empty label is skipped before the hide list is consulted — so no value in
+   `ExplicitHideLabels` can reach one. The pair is placed and tagged so the hook is two lines in
+   `ApplyWeights` beside the plaza components, but **it needs a plugin rebuild, and until it is
+   compiled MODERN and OVERLAY show the cut hillside too.** That is the one regression this
+   pass leaves, and it is named here rather than buried in a receipt.
 2. **THE OUTSIDE APPROACHES ARE NOT BUILT.** Where the deck stands above the ground outside
    the wall — 60.6 m at the south-west gate, 50.4 m at the south-east — a visitor arriving
    from the modern street has no way up. The real precedent is a monumental stair (the Huldah
@@ -357,6 +432,9 @@ origin, tint) — 14,641 × 5 × 4 bytes ≈ 293 KB. That is what buys five cour
 | standalone C++ test | `tests.json` (`plaza_*` keys) | PASS. 121x121 cells, 713 panels, 14,039 + 602 tiles, 6,166 ribs, 2,616 channels, panel bounds 3-8 cells, batter monotone and never negative, band stacks always reach past the bottom, channel stride non-periodic |
 | `-Candidate48 -PlazaAssets` | `native-plaza-assets-Candidate48-20260909T225412198686Z.json` | 7 meshes imported at bounds error 0.0; 3 materials built and read back node for node; map and all four protected maps byte-identical |
 | `-Candidate48 -PlazaApply` | `native-plaza-apply-Candidate48-20260909T225822507573Z.json` | **placed, saved, reopened and read back.** Status `built`, deck Z **0.0**, extent −31488/−31536/111936/111888, **121x121 cells, 713 panels**, all eight instance counts equal to the receipt, per-side retaining and scarp maxima equal to the receipt, **478,620 triangles**. Protected maps unchanged; checkpoint `ReviewCheckpoints/PrecinctPlaza-Candidate48-20260909T225822507573Z` |
+| `-Candidate48 -CutApply` | `native-terrain-cut-apply-Candidate48-20260910T003830057450Z.json` | **terrain cut, saved, reopened, measured.** 12 twins, max terrain height above the deck underside **7.1e-15 cm** over 20,736 stations at 1,003 cm; outside the square unchanged to 0.001 cm. Protected maps and all original tile assets byte-identical; checkpoint `ReviewCheckpoints/PrecinctTerrainCut-Candidate48-20260910T003830057450Z` |
+| `-Candidate48 -CutRevert` then `-CutApply` | `native-terrain-cut-revert-Candidate48-20260910T003738093004Z.json` | revert restored all 12 actors and removed the twin actors; the re-apply reused and re-verified all 12 twins and reproduced the same number |
+| `-Main50 -CutApply` | `native-terrain-cut-apply-Main50-20260910T003556215362Z.json` | **terrain cut, saved, reopened, measured.** max **7.1e-15 cm** over 22,500 stations at 1,003 cm, 0 above; outside unchanged to 0.0013 cm over 125,826 stations |
 | `-Main50 -PlazaApply` | `native-plaza-apply-Main50-20260909T230017414502Z.json` | **placed, saved, reopened and read back.** Status `built`, deck Z **0.0**, extent −32800/−32850/116600/116550, **121x121 cells, 713 panels**, counts 14,039 / 602 / 6,166 / 602 / 2,616 / 8,758 / 1,768 / 190, per-side faces equal to the receipt, **479,676 triangles**. Protected maps unchanged; checkpoint `ReviewCheckpoints/PrecinctPlaza-Main50-20260909T230017414502Z` |
 
 **The 713-panel agreement is the load-bearing one.** The generator lays the plaza in Python

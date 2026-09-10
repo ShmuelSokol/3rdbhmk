@@ -1,3 +1,274 @@
+## cp10/cp11: leaf cards are LEAF-SIZED, and the LOD schedule was 2x wrong — 2026-09-10 08:2x UTC
+
+**SHIPPED BUILD: `C:\Mikdash\Builds\Checkpoint-cp11-20260910T080907Z`** (`checkpoint_playable`,
+exit 0, 3.92 GB). cp10 is the same fix WITHOUT the palm-crown correction; prefer cp11.
+
+**The frame verdict, first: the cards are fixed and the canopy now reads as canopy.**
+`SourceAssets/visual-review/cp11g-veg-grove-*.png` (four views inside a real Kidron grove) show
+an olive with a gnarled bole carrying a crown of small leaves, a fig with correctly large leaves,
+and dwarf shrubs at dwarf-shrub scale. **No paddles anywhere.** At 7 m the camera is among leaves
+instead of inside one. The cp10 cook is `checkpoint_playable`, exit 0,
+`C:\Mikdash\Builds\Checkpoint-cp10-20260910T074110Z`, smoke playable at 18 s.
+
+**WATCH OUT — the three standard cameras in `capture_vegetation_frames.ps1` no longer see any
+vegetation.** `cp10-veg-*.png` are three frames of an empty plaza. That is NOT a regression: the
+Candidate48 map changed under this pass (cp08 `9144cc15` -> cp09 `1e98e257` -> cp10 `7d1e1af6`)
+when the plaza keep-out landed, and those cameras were framing exactly the on-deck trees it
+removed. Any future vegetation review needs cameras in the groves, not on the deck. The four that
+work are in the scratchpad copy; grove centre is about (25491, -43474, -2300) cm, which carries
+olive, carob, cypress and date palm together.
+
+### The palm needed a second pass: a crown is a SHUTTLECOCK, not a parasol
+
+The first version of `build_palm` set `droop = -0.16 - 0.62*r**1.6` — always negative — so every
+frond pointed out and DOWN. Measured offline: only **25%** of frond vertices sat above the bole
+top and the crown was **275 cm** deep. cp10's grove frames caught it as a flat starburst. Now
+`rank = hash**1.25; droop = 0.90 - 1.65*rank` spans +0.90 (upright inner fronds) to -0.75 (hanging
+outer ones), with `length` tied to the same rank so the hanging fronds are the longest: **51%**
+above the bole top, crown **463 cm** deep, mesh top 1556 cm against a 1700 cm species height.
+The offline `render_billboard_texture` render of the mesh is the cheap check — it shows a
+recognisable date palm, and it costs no engine.
+
+**A leaning striped shaft with a starburst crown in these frames is NOT this palm.** Checked:
+DatePalm instance tilt across all 239 is mean 2.9 deg, max 4.9 deg, and the mesh itself leans
+3.6 deg. That shaft, and the long thin dark "sticks" crossing the grove frames, are also present
+in the cp08 BEFORE frames — they belong to the pre-existing OSM lollipop-tree / fallen-log assets,
+not to JudeanFloraV1. Do not chase them here.
+
+### Defect 1: the cards were world-scale, not plant-scale
+
+`create_vegetation.py` sized every leaf card from the CROWN — `cluster_radius = crown * 0.16`, a
+**1.92 x 1.63 m** card for an olive — then drew ~7 leaves into it at `LEAF_FIT = 0.62` of the cell
+each. A 6 cm olive leaf rendered at roughly a metre; the date-palm card was **4.02 x 1.17 m**
+carrying three rotated pinnate shapes stretched across it.
+
+**The rule now: a card is a leaf SPRAY at the size a real spray is, and the atlas cell depicts
+exactly that spray.** Three tables drive it:
+- `CARD_SPAN_CM` — physical span of one atlas cell. Olive 42, carob 46, terebinth 44, almond 48,
+  fig 62, pomegranate 34, pine 55, cypress 30, sage 20, rockrose 18, thorny burnet 13, hyssop 12.
+  **Not one global factor** — the species differ by 5x and a single scale would have fixed the
+  olive and ruined the fig.
+- `LEAF_AREA_INDEX` — `cards_for_crown()` turns it into a card COUNT, so density comes from the
+  plant, not from a fixed 90 clusters.
+- `CELL_COVERAGE` — needles and thorny twigs cover far less of a cell than a broadleaf spray.
+
+`LEAVES_PER_CELL` (the fixed table of 7) is **gone**; the count is derived by Poisson coverage
+against a MEASURED per-shape fill (`shape_fill()` samples `leaf_alpha` rather than asserting a
+number). Olive 7 -> 148 leaves per cell, pine -> 373, cypress -> 420, fig -> 18. `build_leaf_masks`
+rasterises each leaf over ITS OWN bounding box, which is what makes a 150-leaf spray affordable.
+
+Two traps worth keeping:
+- Cards are now SQUARE, because the atlas cell is square. Any other aspect stretches the leaves.
+- **A palm is not a spray.** Its card is ONE FROND, so `build_frond_masks()` draws one frond per
+  cell in cm — a sagging rachis with 86 pinnae — onto a 375 x 78 cm card (`FROND_WIDTH_RATIO`).
+
+Higher LODs **TILE** the atlas instead of stretching it (`LOD_CARD_MULTIPLE = [1, 2, 4]`), so
+leaves stay the same size IN THE WORLD at every LOD. Because `cards_for_crown` falls as 1/span^2,
+each LOD needs a quarter as many cards and carries the SAME leaf area.
+
+### Defect 2: the LOD screen sizes were exactly 2x too large
+
+`release_vegetation.py:lod_screen_size()` returned `2 * radius / distance`. The engine computes
+`ScreenSize = 2 * (0.5 * P[0][0]) * R / d`, and `P[0][0] = 1/tan(hFOV/2) = 1.0` at 90 degrees — so
+**ScreenSize is R/d, half what the script assumed**. A threshold twice too large is crossed at half
+the distance: LOD1 at 20 m instead of 40, LOD2 at 60 instead of 120, billboard at 150 instead of
+300. That was the whole "faceted low-poly blobs at 15-30 m" complaint. Verified in the receipt:
+Olive bark ladder went `[1.0, 0.36199, 0.12066]` -> `[1.0, 0.18099, 0.06033]`,
+`lodScreenSizesApplied: true` on all 27 ladders.
+
+**NOT fixed, deliberately:** `set_lod_from_static_mesh(..., bReuseExistingMaterialSlots=True)`
+still collapses a ladder onto one material slot, so the billboard rung renders with the leaf
+material. Flipping it to `False` appends a slot per LOD and `assign_mesh_slots` would have to name
+each new slot's role from an imported slot name that `import_materials=False` never supplies. That
+is a separate experiment and was not worth risking cp08's material fix on the same cook.
+
+### Budget: triangles UP, fill DOWN — and fill is the one that matters
+
+Per tree at LOD0: olive 1768 -> 4876 tri, carob/terebinth/pine 1768 -> 5488, almond 1768 -> 2248,
+palm 256 -> 336. Asset total 30,894 -> 71,942. Estimated foliage load
+**162,020 -> 453,326 triangles per frame against the 3.5 M ceiling; headroom 21.6x -> 7.7x.**
+
+But card AREA per tree — what alpha-tested foliage actually pays for — **falls 4-6x**: carob
+1504 -> 254 m2, pine 1152 -> 363, olive 846 -> 184, fig 993 -> 159, almond 476 -> 90.
+`budget_report()`'s own docstring says foliage "is fill-bound long before it is triangle-bound", so
+this trade spends the resource there is 7.7x of to buy back the scarce one. The old comment
+"cards are kept few and large rather than many and small" is the assumption this pass reverses,
+and it was wrong: few-and-large is exactly what made a 6 cm leaf render at a metre.
+
+### Pipeline facts paid for on this run
+
+- **Placement did NOT need redoing.** `release_vegetation.py` replays `placement-plan.json`
+  transforms verbatim; nothing reads mesh bounds at placement time. The plan stayed byte-identical
+  (sha `39b7c15e6ed8b6d0...`), so the 697 batches stand. The ONLY gate a regenerated mesh trips is
+  `offline_check()` lines 314-330, which compares each OBJ/PNG against the sha in the manifest.
+  `hashParity` and `generatorSha256` are **never read** by the release script — provenance only.
+- A re-run of `-VegetationImportOnly` still trips the clash guard at line 1025, so it needs
+  `-VegetationResume=<a 697/697 receipt for the same map>`.
+- **A re-import puts every mesh slot back on WorldGridMaterial.** Always follow with
+  `release_vegetation_materials.py -VegMatAssetsOnly`, or cp08's fix is silently undone. After the
+  new ladders it reported **118 mesh slots** assigned, 0 errors, 55 textures unchanged.
+- **`UnrealEditor.exe -ExecutePythonScript` exits non-zero even when the script SUCCEEDED**: the
+  teardown asserts `Object is not packaged: ModeManagerInteractiveToolsContext` in `quit_editor`.
+  Judge these runs by the receipt and the `LogPython:` summary line, NEVER by the exit code — a
+  wrapper that trusted exit 3 skipped the material step and nearly shipped grey foliage.
+- `create_vegetation.py` had a latent `dict | dict` in `write_manifest` — **3.9+ syntax, and the
+  interpreter on PATH here is 3.8.1**. It ran all 14 species (11 minutes) and then died on the last
+  line. Validate a long generator's TAIL before spending the wall clock on its body.
+- New: **`--reuse-textures-except SPECIES`** re-exports geometry while keeping the PNGs already on
+  disk (re-hashing them, so the manifest still states what is there). A geometry-only re-export
+  went from 11 minutes to **25 seconds**. Any species whose geometry changed must be listed,
+  because its billboard is a render OF the mesh.
+
+## cp08: usage flag fixed for CityDetail too, and the cooked log is now CLEAN — 2026-09-10 06:3x UTC
+
+**`checkpoint_playable`, exit 0, three frames captured, and the packaged build's own log now
+reports ZERO usage-flag faults for JudeanFlora and ZERO for CityDetail** (cp05b had five outright
+fallbacks plus ~22 recovered-with-a-hitch). Receipt
+`vegetation-materials-visual-acceptance-cp08-20260910T063630328255Z.json`, frames
+`SourceAssets/visual-review/cp08-veg-*.png`.
+
+**One flag fixed six instances.** All six `MI_CityDetail_*` share the parent
+`M_Context_Building`, which was `False`. This is the same parent-level fact as the vegetation and
+is worth stating plainly: **`UMaterialInstance` has NO usage-flag property.** Do not go looking for
+one on the instance; find the base `UMaterial` and set it there.
+
+**The only usage-flag warning left is `MI_SanctuaryV2_Gold*` missing Nanite**, deliberately
+untouched: different flag, the nine protected Nanite-repaired instances, and they render correctly
+despite the warning — which is exactly why the warning's PRESENCE is not a valid test. The
+FALLBACK is. Test by reading the cooked build's log for "Default Material will be used in game",
+and then by looking at a frame.
+
+## THE VEGETATION RENDERS. Root cause was a missing usage flag, and a frame was the only thing that could find it — 2026-09-10 06:2x UTC
+
+**cp05b shipped every leaf card as a solid opaque quad. The cause was not the atlas, the alpha,
+the clip value or the graph: `M_JudeanFlora_*` lacked `bUsedWithInstancedStaticMeshes`.** All
+225,780 instances live on HISM components, and a material without that flag CANNOT be used on an
+instanced static mesh, so the COOKED build silently substituted `WorldGridMaterial` — opaque,
+one-sided, no opacity mask, no colour. Fixed, cooked as cp07, and **proven with three frames from
+the packaged build**: `SourceAssets/visual-review/cp07-veg-*.png`, receipt
+`vegetation-materials-visual-acceptance-20260910T062438179776Z.json`.
+
+**THE FLAG LIVES ON THE PARENT `UMaterial`, NOT ON THE INSTANCE.** `UMaterialInstance` has no such
+property; it resolves usage through its base. Setting it on the three `M_JudeanFlora_*` parents
+alone fixed all 40 instances and all 225,780 plants — that is measured, not assumed. The same
+one-line fix on `M_Context_Building` covers all six `MI_CityDetail_*` instances, which share it.
+
+**WHY EVERY CHECK IN THIS PROJECT STAYED GREEN AND HONEST.** The EDITOR sets a missing usage flag
+on the fly when it meets an instanced component and only warns that the asset needs resaving. So
+parameter parity, save-and-reopen readbacks and every `-nullrhi` receipt saw a correct material —
+because in the editor it WAS correct. **No editor-side check can catch this class of fault.** The
+acceptance now reads the flag off the SAVED asset and refuses if it is false, but the real lesson
+is that only a frame from a packaged build closes it. Caution: `MI_SanctuaryV2_Gold*` logs the same
+warning and renders correctly, so the warning's PRESENCE is not the test — the fallback is.
+
+**What the frames show.** Cut-out foliage: serrated leaf edges, pinnate carob and terebinth
+leaflets, cypress needles, straw grass tufts, bark trunks, and clear per-species colour separation.
+The precinct deck, city and sky in the same frames are the unchanged control.
+
+**A second, self-inflicted defect found on the way, and the check that now prevents it.**
+`MaterialEditingLibrary.delete_all_material_expressions()` DOES NOT empty the graph. The
+"rebuild in place" used during the cook-crash diagnosis left `M_JudeanFlora_Leaf` holding **35
+expressions where 24 had been created** — two `LeafAtlas` samplers, seven `ScalarParameter`s
+instead of four, duplicate parameter names. `build_master()` now deletes and recreates the asset
+and asserts that the saved material holds exactly the expressions it created with no repeated
+parameter name.
+
+**What was ruled out first, so nobody repeats it:** the source atlases DO carry a correct binary
+cutout (`T_Olive_Leaf_BCA` decoded texel by texel: exactly two alpha values, 67.2 per cent fully
+transparent, cut texels RGB 0,0,0); the meshes DO have UVs (2160 `vt` for 2160 `v`, card UVs
+spanning atlas cell 0); and the graph was correctly wired throughout. No atlas re-authoring was
+needed.
+
+**Capture recipe, now a script:** `Scripts/capture_vegetation_frames.ps1`. One trap paid for —
+photo mode writes `MikdashPhotos/` under the process WORKING DIRECTORY, not under the exe, so
+`Start-Process` must be given `-WorkingDirectory`; without it the run reports "no PNG produced"
+while three good frames sit in whatever folder the shell happened to be in.
+
+**Still wrong, and now clearly visible with the right material on screen:**
+- **The cards are world-scale, not plant-scale.** A carob leaflet reads as tens of centimetres and
+  date-palm fronds fill the frame at 2.4 m. Mesh authoring in `create_vegetation.py`.
+- **The LOD ladder collapses**: trees at 15-30 m are faceted low-poly blobs. Needs a re-LOD pass
+  with `StaticMeshEditorSubsystem`, which is None in commandlets — use the hidden-editor recipe.
+- The overall read is greener and lusher than the authored dry-Judean targets.
+- Vegetation stands ON the paved precinct deck: no plaza keep-out. Pre-existing.
+- The pre-existing OSM lollipop trees sit alongside the new flora; the two art styles do not match.
+
+## cp05b PASSES: checkpoint_playable, leaf material intact — 2026-09-10 05:14 UTC
+
+**`Checkpoint-Build.ps1 -Label cp05b` -> `status: checkpoint_playable`, `exitCode: 0`.**
+Cook 8,708 / 8,708 with no shader error, `BUILD SUCCESSFUL`, `AutomationTool exiting with
+ExitCode=0`, 3.92 GB archive at `C:\Mikdash\Builds\Checkpoint-cp05b-20260910T051017Z`, child exe
+`432bcbf4558adbae...`. Both maps byte-unchanged across the build
+(Candidate48 `9144cc15...`, Main50 `85bb51a1...`). **No vegetation feature was removed to get
+this** - the leaf master still carries PerInstanceRandom, ObjectPositionWS, MSM_TWO_SIDED_FOLIAGE
+and the subsurface output. See the entry below for why that was the right call.
+
+**NEW AND WORTH ACTING ON: the PACKAGED BUILD starts on this box.** The smoke test launched it for
+real, with a real RHI: `windowOpened=True`, `secondsToWindow=18`, `stillAliveAfterWindow=True`,
+**`peakWorkingSetMB=2852`**. That is 2.8 GB against the ~19.9 GB a real-RHI EDITOR reserves on this
+map - which is why editors have been impossible all night while the shipped exe is not. The
+project's standing rule that "a material is not accepted until a rendered frame with an in-frame
+control shows it" has therefore been out of reach for the wrong reason: it was inferred from the
+editor's footprint. **A frame of the vegetation is now obtainable from the packaged build**, and
+that is the cheapest outstanding path to the visual acceptance every vegetation receipt is still
+missing. Not attempted here; flagged deliberately.
+
+## cp05's cook crash was NOT the leaf material - and the test that proved it — 2026-09-10 05:1x UTC
+
+**Checkpoint cp05 failed with `Error_UnknownCookFailure`: ShaderCompileWorker return code
+-1073741819 (0xC0000005) on `M_JudeanFlora_Leaf` / `FLocalVertexFactory`, no HLSL diagnostic.
+Identical signature to the cp02 plaza crash. It was not the graph, and the material was left
+intact.** Diagnosis receipt
+`SourceAssets/vegetation-review/vegetation-materials-cook-diagnosis-20260910T051144319249Z.json`.
+
+**THE CONTROL, which is the part worth keeping.** `M_JudeanFlora_Leaf` was rebuilt IN PLACE with
+a byte-identical 24-node graph. Rebuilding gives every expression a fresh FGuid and therefore a
+fresh shader-map DDC key, so the next cook had to recompile from COLD exactly the permutations
+that had crashed. Proof it was really cold: the cook logged `Missing cached shadermap ...
+PCD3D_SM6` and `... PCD3D_SM5` for it with NEW key hashes `b7...`/`1c...` against cp05's
+`d07f4421...`/`efda51f1...`. Result: **8,708 / 8,708 packages, `Success - 0 error(s), 0
+warning(s)`, no crash.** PerInstanceRandom, ObjectPositionWS, MSM_TWO_SIDED_FOLIAGE, subsurface,
+masked and two-sided all survive.
+
+**Three things that mislead, all cheap to check before amputating a feature:**
+1. **`SCW N Queued Jobs, Unknown number of processed jobs!` means the N jobs listed are the
+   CONTENTS OF THE DEAD WORKER'S BATCH**, not N independent failures. "Four of five in the vertex
+   stage" is that batch's composition and carries no signal about which stage was at fault. It
+   does tell you which MATERIAL was in flight.
+2. **`Falling back to directly compiling which will be very slow` means the engine recompiled
+   those same jobs in process.** A later cook showing NO `Missing cached shadermap` line for that
+   material proves every one of its jobs - including the ones printed as Failed - succeeded, since
+   a shader map only reaches the DDC complete. cp05 finished all 8,708 packages and returned
+   non-zero only because the 5 job errors had already been recorded.
+3. **Memory is a CONSTANT here, not a variable.** Free physical memory measured DURING a cook on
+   this box: 80 MiB / 529 / 1052 / 1445 in cp05, and 109 MiB in the cook that PASSED. The cook
+   drives the box to the floor every run, pass or fail. Free RAM at cook START does not
+   discriminate either - the night's two SCW crashes were at 9.1 and 8.2 GB free, three passes at
+   5.2, 6.9 and 8.8 GB. So memory explains neither the failures nor the passes on its own.
+
+**THE DISCRIMINATING TEST, one cook:** force a cold shader map for the suspect material (rebuild
+its graph in place so the DDC key changes) and cook again. Compiles cold => valid graph, the crash
+was a worker process death. Crashes cold => the graph is implicated, bisect. **Do this before
+removing features:** the "obvious" fix here would have deleted per-instance colour variation from
+225,780 plants to cure a fault that was never in the material.
+
+**`EnclosureMath.h` section 6b now has a `6b-ii`** recording exactly that, because the rule as
+written ("no author-written HLSL between per-instance data and the output") is a real rule that
+did not apply to this material, and reading `-1073741819` as automatic proof of a graph defect is
+what cost the time. The plaza rule STANDS: a Custom node fed by per-instance data is still
+forbidden, and rebuilding the plaza without one did fix cp02. What is corrected is the diagnosis -
+the compiler DYING is not the compiler REJECTING a graph, and only the cold-recompile test
+separates them. The cp02 case has no such control, so it is not relitigated here.
+
+**A bisect ladder now exists even though it was not needed.**
+`Scripts/release_vegetation_materials.py` carries `LEAF_VARIANTS` (`full` / `noSpatial` /
+`noVariation` / `noFoliage` / `minimal`) and `-VegMatRebuildLeaf -VegMatLeafVariant=<name>`, which
+rebuilds the master in place - instances keep their parent and their species colours because the
+graph is emptied and refilled rather than the asset replaced. About three minutes per rung.
+
+**Still not established:** no rendered frame of this vegetation exists, and one clean cold compile
+does not make an intermittent worker crash impossible.
+
 ## The vegetation is no longer grey — 2026-09-10 04:2x UTC
 
 **225,780 instances across 27 components on BOTH maps went from `WorldGridMaterial` to authored
@@ -1179,3 +1450,39 @@ So, for any material change:
 - `-nullrhi` is what makes a build possible on this box and what makes it unverifiable. State
   both halves with equal weight.
 - If the machine cannot render, the honest status is *unverified*, not green.
+
+---
+
+## Herodian ashlar V5, 10 Sep — four things that cost time, written down so they cost nothing again
+
+**1. A commandlet's flags are NOT in `sys.argv`.** UE consumes them. Read them off
+`unreal.SystemLibrary.get_command_line()` and regex for your switch, exactly as
+`Scripts/release_herodian_ashlar_v4.py:1017` does. A script that parses `sys.argv` finds no mode, exits
+0 in 0.09 s, writes no receipt, and the UAT log says *"Python script executed successfully"*. It looks
+exactly like a pass. **If no mode flag matches, raise — never return quietly.**
+
+**2. `release_herodian_ashlar_v4.py`'s importer REUSES an existing asset path** without re-reading the
+file (`import_texture`, `does_asset_exist` → `record['reused'] = True`). Regenerating the source PNGs in
+place and re-running `-HerodianV4Import` therefore keeps the OLD pixels and still passes every readback
+and hash check. To change a texture's content, import to a NEW asset name and repoint the material
+instance's texture parameter.
+
+**3. The ashlar blocks are NOT instanced, and no brief should say they are.**
+`SM_0138_architecture_Inner_eastern_gate_wall_jamb_1` — the wall the walking-height frame is aimed at —
+is one box: **8 vertices, 12 triangles, `uvLayers: []`** (`SourceAssets/architecture-manifest.json`).
+The whole 2,633-mesh measured-architecture set averages ~20 verts, carries no UVs at all, and even the
+Blender arris bevel is listed under `excludedRenderOnlyModifiers`. Every course, joint, drafted margin
+and boss is triplanar texture from `M_PBR_Tiled`. There is no per-block instance array to jitter, and
+"make the boss geometry" means building a HISM ashlar system from scratch.
+
+**4. High-frequency texture metrics are meaningless until the images are at the SAME px/cm.** The wall
+is authored at 6.83 px/cm and the approved paving at 2.51. Compared natively the micro-grain gap looked
+like 18x; box-downsampled to a common 2.5 px/cm by `Scripts/measure_stone_grain.py` the honest gap is
+7.8x. Match the resolution first, then quote the number.
+
+**And the design lesson underneath all of it:** a boss fails to read as raised not because the relief is
+too shallow but because the *ramp* is too narrow to survive mipping. V4's boss-edge bevel was 0.40 cm =
+2.7 texels at mip 0 and under one texel at mip 2, which is the mip actually sampled at 4 m — so a
+near-vertical arris (normal deviation p50 0.968) mipped down to a flat grey line and the wall read as
+engraved. Width beats depth. Check the ramp against `TilingCm / textureSize × 2^mip`, not against the
+measured centimetres alone.

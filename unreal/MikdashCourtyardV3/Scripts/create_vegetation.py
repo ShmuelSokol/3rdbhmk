@@ -452,6 +452,53 @@ SPECIES = [
 ]
 SPECIES_BY_KEY = {s['key']: s for s in SPECIES}
 
+# ------------------------------------------------------ leaf card scale (LEAF-SIZED CARDS)
+# THE RULE: a card carries a leaf SPRAY at the size a real spray is. It is never one leaf blown
+# up to the size of a crown. cardSpanCm is the physical span, in cm, of what ONE atlas cell
+# depicts - an olive shoot carrying a couple of dozen 6 cm leaves is about 42 cm across, so that
+# is the LOD0 card. The atlas is then written with each leaf at leafLengthCm / cardSpanCm of the
+# cell, and that is what makes a depicted leaf come out at its real size once the card is in the
+# world.
+#
+# The first version of this file sized the card from the CROWN (crown * 0.16, a 1.92 m card for
+# an olive) and drew about seven leaves into it at 0.62 of the cell each. That put a single olive
+# leaf on screen at roughly a metre, a carob leaflet at tens of centimetres and a date-palm card
+# at 4 m wide, and it is why a hillside read as heaped cardboard rather than as canopy.
+CARD_SPAN_CM = {
+    'Olive': 42.0, 'JerusalemPine': 55.0, 'Cypress': 30.0, 'Almond': 48.0, 'Fig': 62.0,
+    'Pomegranate': 34.0, 'DatePalm': 375.0, 'Carob': 46.0, 'Terebinth': 44.0, 'Sage': 20.0,
+    'Hyssop': 12.0, 'Rockrose': 18.0, 'ThornyBurnet': 13.0, 'DryGrass': 50.0,
+}
+# Leaf area index: one-sided leaf area over the ground area under the crown. Once a card is
+# spray-sized this is what decides HOW MANY cards a crown needs, so canopy density is derived
+# from the plant instead of from whatever number of billboard-sized paddles looked full.
+LEAF_AREA_INDEX = {
+    'Olive': 3.0, 'JerusalemPine': 3.5, 'Cypress': 4.5, 'Almond': 2.6, 'Fig': 2.4,
+    'Pomegranate': 2.6, 'DatePalm': 1.5, 'Carob': 3.6, 'Terebinth': 2.8, 'Sage': 2.0,
+    'Hyssop': 2.0, 'Rockrose': 2.0, 'ThornyBurnet': 1.2, 'DryGrass': 1.0,
+}
+# How much of an atlas cell the spray actually covers. Needles and thorny twigs cover far less of
+# a cell than a broadleaf spray does, and pretending otherwise turns a pine into a bush.
+CELL_COVERAGE = {'palmate': 0.50, 'pinnate': 0.44, 'blade': 0.30, 'needle': 0.32,
+                 'scale': 0.42, 'lanceolate': 0.46, 'ovate': 0.46}
+# A card at LOD n carries this many atlas cells across, so the leaves it depicts stay the same
+# SIZE IN THE WORLD while the card itself gets bigger and rarer with distance. The 2x2 atlas
+# tiles, so a 2-cell card is uv 0..1 (all four sprays) and a 4-cell card is uv 0..2.
+LOD_CARD_MULTIPLE = [1, 2, 4]
+# Ceiling on cards per plant per LOD. The leaf-area arithmetic below asks for about 1900 cards on
+# a big carob; the cap trades the last of that density for triangles. See budget_report().
+MAX_CARDS_PER_LEVEL = {'tree': [1200, 300, 75], 'shrub': [140, 40], 'palm': [40, 18, 8]}
+# A date palm's card is one FROND, not a spray, so it is described by the frond instead. A 375 cm
+# frond is about 78 cm across its pinnae, and a pinna is about 26 cm at 8 cm spacing - which is
+# the real thing, and is roughly a tenth of what the old card drew.
+FROND_WIDTH_RATIO = 0.208
+FROND_PINNA_RATIO = 0.069
+FROND_PINNA_SPACING_RATIO = 0.021
+
+for _entry in SPECIES:
+    _entry['cardSpanCm'] = CARD_SPAN_CM[_entry['key']]
+    _entry['leafAreaIndex'] = LEAF_AREA_INDEX[_entry['key']]
+
 # LOD ladder per form: (distance at which the step takes over in cm, triangle target).
 # Distances are the same ladder the ScatterMath test asserts for trees.
 LOD_DISTANCES = {
@@ -719,15 +766,57 @@ def card(part, centre, axis_u, axis_v, half_u, half_v, uv_rect):
     part.quad(e, h, g, f)
 
 
-def cross_cluster(part, centre, radius, height, seed, index, uv_rect, cards=2, tilt=0.0):
-    """A leaf cluster as `cards` intersecting vertical cards rotated about the vertical."""
+def cross_cluster(part, centre, span, seed, index, uv_rect, cards=2, tilt=0.0):
+    """A leaf spray as `cards` intersecting SQUARE cards rotated about the vertical.
+
+    Square, because the atlas cell is square. A card of any other aspect stretches the leaves it
+    depicts along one axis, which is the other half of how a 6 cm olive leaf became a paddle.
+    """
+    half = 0.5 * span
     base_angle = 2.0 * math.pi * hash_unit(seed, index, 41)
     lean = tilt * (hash_unit(seed, index, 42) - 0.5)
     for k in range(cards):
         angle = base_angle + math.pi * k / cards
         axis_u = (math.cos(angle), math.sin(angle), 0.0)
         axis_v = norm((lean * math.cos(angle + 1.57), lean * math.sin(angle + 1.57), 1.0))
-        card(part, centre, axis_u, axis_v, radius, height * 0.5, uv_rect)
+        card(part, centre, axis_u, axis_v, half, half, uv_rect)
+
+
+def card_span(species, level):
+    """Span in cm of one card at this LOD: the spray size times the cells it tiles."""
+    multiple = LOD_CARD_MULTIPLE[min(level, len(LOD_CARD_MULTIPLE) - 1)]
+    return species['cardSpanCm'] * multiple
+
+
+def card_uv(level, index):
+    """UV rect for a card at this LOD.
+
+    LOD0 takes one of the four sprays in the 2x2 atlas. Beyond it the card is wider, so it TILES
+    the atlas rather than stretching one cell over it: the leaves stay leaf-sized at every LOD and
+    only their texel density falls off, which is the one thing distance is entitled to take.
+    """
+    multiple = LOD_CARD_MULTIPLE[min(level, len(LOD_CARD_MULTIPLE) - 1)]
+    if multiple <= 1:
+        return leaf_uv_cell(index)
+    extent = 0.5 * multiple
+    return (0.0, 0.0, extent, extent)
+
+
+def cards_for_crown(species, crown_cm, span_cm, form, level):
+    """How many spray cards a crown of this size needs to carry a plausible leaf area.
+
+    N = LAI * crown ground area / (card area * the fraction of a card the spray covers). Because N
+    falls as 1 / span^2, a LOD whose cards are twice as wide needs a quarter as many of them and
+    still carries the SAME leaf area. That is what keeps a tree the same weight of green at 10 m
+    and at 200 m instead of thinning into a diagram as it recedes.
+    """
+    lai = species.get('leafAreaIndex', 2.5)
+    coverage = CELL_COVERAGE.get(species['leafShape'], 0.45)
+    leaf_area = lai * math.pi * (0.5 * crown_cm) ** 2
+    per_card = max(1.0, span_cm * span_cm * coverage)
+    ladder = MAX_CARDS_PER_LEVEL[form]
+    cap = ladder[min(level, len(ladder) - 1)]
+    return int(clamp(round(leaf_area / per_card), 4, cap))
 
 
 # =====================================================================================
@@ -759,13 +848,17 @@ def mid(range_pair):
     return 0.5 * (range_pair[0] + range_pair[1])
 
 
-def leaf_uv(species, index):
-    """Pick one of the four leaf silhouettes in this species' 2x2 atlas."""
+def leaf_uv_cell(index):
+    """Pick one of the four leaf silhouettes in a species' 2x2 atlas."""
     cell = index % 4
     u0 = 0.5 * (cell % 2)
     v0 = 0.5 * (cell // 2)
     inset = 0.002
     return (u0 + inset, v0 + inset, u0 + 0.5 - inset, v0 + 0.5 - inset)
+
+
+def leaf_uv(species, index):
+    return leaf_uv_cell(index)
 
 
 def build_tree(species, level, seed, gnarled=False):
@@ -828,22 +921,36 @@ def build_tree(species, level, seed, gnarled=False):
     if not limb_tips:
         limb_tips = [top]
 
-    # --- canopy. Clusters are hung on the limb tips, so the leaves sit where wood ends.
+    # --- canopy. Cards are LEAF-SPRAY sized (CARD_SPAN_CM), and how many of them a crown gets
+    # comes from the species' leaf area index rather than from a fixed cluster count. The clusters
+    # are then distributed through a crown-shaped envelope with a shell bias, because foliage
+    # lives on the outside of a crown; the old version filled a cylinder, which is survivable at
+    # 90 huge cards and reads as a drum once the cards are small enough to see the shape they make.
     columnar = species['key'] == 'Cypress'
-    clusters = setup['clusters']
-    cluster_radius = crown * (0.16 if level == 0 else (0.26 if level == 1 else 0.44))
+    umbrella = species['key'] == 'JerusalemPine'
+    span = card_span(species, level)
+    per_cluster = setup['cards']
+    clusters = max(1, int(math.ceil(
+        cards_for_crown(species, crown, span, 'tree', level) / float(per_cluster))))
+    canopy_base = height * 0.14 if columnar else clear
+    canopy_rise = max(1.0, height - canopy_base)
     for c in range(clusters):
-        anchor = limb_tips[c % len(limb_tips)]
-        spread = crown * 0.5 * (0.35 + 0.65 * hash_unit(seed, c, 61) ** 0.5)
-        theta = 2.0 * math.pi * hash_unit(seed, c, 62)
+        t = hash_unit(seed, c, 63)
         if columnar:
-            spread *= 0.34
-        z = clear + (height - clear) * (0.10 + 0.85 * hash_unit(seed, c, 63))
-        centre = (anchor[0] * 0.55 + spread * math.cos(theta),
-                  anchor[1] * 0.55 + spread * math.sin(theta),
-                  min(z, height - cluster_radius * 0.4))
-        cross_cluster(leaf, centre, cluster_radius, cluster_radius * (2.4 if columnar else 1.7),
-                      seed, c, leaf_uv(species, c), cards=setup['cards'], tilt=0.35)
+            profile = (1.0 - t) ** 0.42
+        elif umbrella:
+            profile = math.sqrt(max(0.0, 1.0 - (2.0 * t - 1.0) ** 2)) * (0.55 + 0.60 * t)
+        else:
+            profile = math.sqrt(max(0.0, 1.0 - (2.0 * t - 1.0) ** 2))
+        rho = (0.30 + 0.70 * hash_unit(seed, c, 61)) ** 0.5
+        theta = 2.0 * math.pi * hash_unit(seed, c, 62)
+        reach = crown * 0.5 * min(1.0, profile) * rho * (0.34 if columnar else 1.0)
+        anchor = limb_tips[c % len(limb_tips)]
+        centre = (reach * math.cos(theta) + anchor[0] * 0.18,
+                  reach * math.sin(theta) + anchor[1] * 0.18,
+                  canopy_base + canopy_rise * t)
+        cross_cluster(leaf, centre, span, seed, c, card_uv(level, c),
+                      cards=per_cluster, tilt=0.35)
     return [bark], [leaf]
 
 
@@ -865,18 +972,32 @@ def build_palm(species, level, seed):
         ripple = 1.0 + (0.10 if level == 0 else 0.0) * math.sin(9.0 * math.pi * t)
         radii.append(radius * ripple * (1.18 - 0.30 * t))
     tapered_tube(bark, spine, radii, setup['sides'], flute=0.06)
+    # --- fronds. ONE card is ONE frond, and the atlas cell draws that one frond with its pinnae
+    # at the 20-30 cm they really are (build_frond_masks). The card is therefore as long as a
+    # frond and as WIDE AS A FROND - 0.208 of its length, not the 0.29 the old card used, and
+    # carrying one frond instead of three overlapping ones stretched across it.
     top = spine[-1]
-    fronds = 20 if level == 0 else (10 if level == 1 else 4)
+    fronds = MAX_CARDS_PER_LEVEL['palm'][min(level, 2)]
     for f in range(fronds):
-        angle = 2.0 * math.pi * f / fronds + hash_unit(seed, f, 71) * 0.3
-        droop = -0.30 - 0.45 * hash_unit(seed, f, 72)
-        axis_u = (math.cos(angle), math.sin(angle), 0.0)
-        axis_v = norm((-droop * math.cos(angle), -droop * math.sin(angle), 1.0))
-        length = crown * 0.5 * (0.85 + 0.25 * hash_unit(seed, f, 73))
-        centre = (top[0] + axis_u[0] * length * 0.55 + axis_v[0] * length * 0.20,
-                  top[1] + axis_u[1] * length * 0.55 + axis_v[1] * length * 0.20,
-                  top[2] + axis_v[2] * length * 0.20 + droop * length * 0.30)
-        card(leaf, centre, axis_u, axis_v, length * 0.55, length * 0.16, leaf_uv(species, f))
+        angle = 2.0 * math.pi * f / fronds + hash_unit(seed, f, 71) * 0.5
+        # A palm crown is a SHUTTLECOCK, not a parasol: the youngest fronds stand nearly
+        # upright out of the crown shaft, the middle ones fan out at 30-45 degrees and only
+        # the oldest outer ones arch over and hang down. The first version of this made every
+        # droop negative, so every frond pointed out and DOWN and the crown collapsed into a
+        # flat starburst about 2.7 m deep - which is what the cp10 grove frames caught.
+        rank = hash_unit(seed, f, 72) ** 1.25
+        droop = 0.90 - 1.65 * rank                       # +0.90 (upright) to -0.75 (hanging)
+        length = crown * 0.5 * (0.70 + 0.42 * rank)      # the hanging outer fronds are longest
+        axis_u = norm((math.cos(angle), math.sin(angle), droop))
+        side = norm(cross(axis_u, (0.0, 0.0, 1.0)))
+        axis_v = norm(cross(side, axis_u))
+        if axis_v[2] < 0.0:
+            axis_v = (-axis_v[0], -axis_v[1], -axis_v[2])
+        centre = (top[0] + axis_u[0] * length * 0.5,
+                  top[1] + axis_u[1] * length * 0.5,
+                  top[2] + axis_u[2] * length * 0.5)
+        card(leaf, centre, axis_u, axis_v, length * 0.5,
+             length * FROND_WIDTH_RATIO * 0.5, leaf_uv(species, f))
     return [bark], [leaf]
 
 
@@ -896,15 +1017,18 @@ def build_shrub(species, level, seed):
         tip = (reach * math.cos(angle), reach * math.sin(angle), tip_z)
         tapered_tube(bark, [(0.0, 0.0, 0.0), (tip[0] * 0.4, tip[1] * 0.4, tip_z * 0.5), tip],
                      [radius * 1.6, radius, radius * 0.4], 4)
-    for c in range(setup['clusters']):
+    span = card_span(species, level)
+    per_cluster = setup['cards']
+    clusters = max(1, int(math.ceil(
+        cards_for_crown(species, crown, span, 'shrub', level) / float(per_cluster))))
+    for c in range(clusters):
         theta = 2.0 * math.pi * hash_unit(seed, c, 84)
         r = crown * 0.5 * hash_unit(seed, c, 85) ** 0.5
         z = height * (0.25 + 0.65 * hash_unit(seed, c, 86))
         if dome:
             z = height * math.sqrt(max(0.0, 1.0 - (2.0 * r / max(1.0, crown)) ** 2)) * 0.9
-        size = crown * (0.24 if level == 0 else 0.40)
-        cross_cluster(leaf, (r * math.cos(theta), r * math.sin(theta), z), size, size * 1.4,
-                      seed, c, leaf_uv(species, c), cards=setup['cards'], tilt=0.5)
+        cross_cluster(leaf, (r * math.cos(theta), r * math.sin(theta), z), span,
+                      seed, c, card_uv(level, c), cards=per_cluster, tilt=0.5)
     return [bark], [leaf]
 
 
@@ -1042,15 +1166,42 @@ def leaf_alpha(shape, u, v):
     return 0.0
 
 
-# How many leaves go into one atlas cell. A card carries a SPRAY of leaves, not one leaf: a
-# single 6 cm olive leaf blown up to fill a 2 m card reads as a green paddle, and no amount of
-# canopy density hides it. Big compound or lobed leaves need fewer per cell than small simple
-# ones, because one fig leaf already fills the frame.
-LEAVES_PER_CELL = {'palmate': 3, 'pinnate': 3, 'blade': 6, 'needle': 9, 'scale': 8,
-                   'lanceolate': 7, 'ovate': 7}
-# Leaves are drawn at this fraction of the cell so a rotated leaf cannot run off the edge and
-# get sliced by the atlas boundary.
-LEAF_FIT = 0.62
+# How many leaves go into one atlas cell is now DERIVED, not chosen. A cell depicts a spray of
+# span cardSpanCm, so a leaf of leafLengthCm occupies leafLengthCm / cardSpanCm of it, and the
+# number of leaves needed to reach CELL_COVERAGE at that size follows from how much of its own
+# cell one leaf silhouette actually fills. The old fixed table (7 lanceolate leaves at 0.62 of
+# the cell each) is what put a single olive leaf across half a two-metre card.
+_SHAPE_FILL_CACHE = {}
+
+
+def shape_fill(shape, samples=96):
+    """Opaque fraction of ONE leaf's own unit cell. Measured off leaf_alpha, not asserted."""
+    if shape not in _SHAPE_FILL_CACHE:
+        hits = 0
+        for j in range(samples):
+            v = (j + 0.5) / samples
+            for i in range(samples):
+                if leaf_alpha(shape, (i + 0.5) / samples, v) > 0.0:
+                    hits += 1
+        _SHAPE_FILL_CACHE[shape] = max(1e-4, hits / float(samples * samples))
+    return _SHAPE_FILL_CACHE[shape]
+
+
+def leaf_cell_scale(species):
+    """A leaf's size as a fraction of the atlas cell: its real length over the spray's span."""
+    return clamp(species['leafLengthCm'] / max(1.0, species['cardSpanCm']), 0.02, 0.98)
+
+
+def leaves_per_cell(species):
+    """Leaves needed to cover CELL_COVERAGE of a cell, treating overlap as Poisson."""
+    if species['form'] == 'palm':
+        return 2 * max(4, int(0.92 / FROND_PINNA_SPACING_RATIO))   # pinnae per frond, both sides
+    shape = species['leafShape']
+    scale = leaf_cell_scale(species)
+    per_leaf = shape_fill(shape) * scale * scale
+    coverage = CELL_COVERAGE.get(shape, 0.45)
+    count = -math.log(max(1e-3, 1.0 - coverage)) / max(1e-9, per_leaf)
+    return int(clamp(round(count), 3, 420))
 
 
 def build_leaf_masks(species, cell):
@@ -1059,33 +1210,104 @@ def build_leaf_masks(species, cell):
     Built ONCE per species and then shared by the atlas writer and the billboard renderer, so
     the impostor's silhouette is by construction the same silhouette the runtime alpha test
     will cut. Two independent implementations of "where is there a leaf" would drift.
+
+    Each leaf is rasterised over ITS OWN bounding box rather than by testing every leaf at every
+    pixel. That is what makes a hundred-and-fifty-leaf spray affordable offline, and a spray of
+    that many small leaves is the whole point: it is what lets the card be 42 cm instead of 2 m.
     """
+    if species['form'] == 'palm':
+        return build_frond_masks(species, cell)
     shape = species['leafShape']
-    count = LEAVES_PER_CELL.get(shape, 7)
+    count = leaves_per_cell(species)
+    base_scale = leaf_cell_scale(species)
     seed = hash_int(sum(ord(c) for c in species['key']) * 22695477) & MASK32
     masks = []
     for index in range(4):
-        leaves = []
-        for k in range(count):
-            lane = index * 32 + k
-            angle = hash_range(seed, lane, 201, -math.pi, math.pi)
-            scale = hash_range(seed, lane, 202, 0.72, 1.15) * LEAF_FIT
-            cx = hash_range(seed, lane, 203, 0.22, 0.78)
-            cy = hash_range(seed, lane, 204, 0.22, 0.78)
-            leaves.append((angle, scale, cx, cy))
         mask = bytearray(cell * cell)
-        for py in range(cell):
-            v = (py + 0.5) / cell
-            for px in range(cell):
-                u = (px + 0.5) / cell
-                for angle, scale, cx, cy in leaves:
-                    du = (u - cx) / scale
-                    dv = (v - cy) / scale
-                    lu = du * math.cos(angle) - dv * math.sin(angle) + 0.5
-                    lv = du * math.sin(angle) + dv * math.cos(angle) + 0.5
+        for k in range(count):
+            lane = index * 512 + k
+            angle = hash_range(seed, lane, 201, -math.pi, math.pi)
+            scale = min(0.98, base_scale * hash_range(seed, lane, 202, 0.78, 1.18))
+            low, high = 0.5 * scale, 1.0 - 0.5 * scale
+            if low >= high:
+                low = high = 0.5
+            cx = hash_range(seed, lane, 203, low, high)
+            cy = hash_range(seed, lane, 204, low, high)
+            reach = 0.7072 * scale          # a rotated unit square reaches half its diagonal
+            lo_x = max(0, int((cx - reach) * cell))
+            hi_x = min(cell - 1, int((cx + reach) * cell) + 1)
+            lo_y = max(0, int((cy - reach) * cell))
+            hi_y = min(cell - 1, int((cy + reach) * cell) + 1)
+            cos_a, sin_a = math.cos(angle), math.sin(angle)
+            for py in range(lo_y, hi_y + 1):
+                row = py * cell
+                dv = ((py + 0.5) / cell - cy) / scale
+                for px in range(lo_x, hi_x + 1):
+                    if mask[row + px]:
+                        continue
+                    du = ((px + 0.5) / cell - cx) / scale
+                    lu = du * cos_a - dv * sin_a + 0.5
+                    lv = du * sin_a + dv * cos_a + 0.5
                     if 0.0 <= lu <= 1.0 and 0.0 <= lv <= 1.0 and leaf_alpha(shape, lu, lv) > 0.0:
-                        mask[py * cell + px] = 1
-                        break
+                        mask[row + px] = 1
+        masks.append(mask)
+    return masks
+
+
+def build_frond_masks(species, cell):
+    """One date-palm frond per atlas cell, drawn in cm and mapped onto the square cell.
+
+    The unit here is a FROND, not a leaf, because the palm's card is one frond. So the cell has
+    to depict exactly one frond, and the pinnae on it have to come out at the 20-30 cm they are.
+    Drawing three randomly rotated pinnate leaves into a cell and then stretching that cell over
+    a 4 m card - which is what the shared spray path did - is what produced the 2 m green blades
+    that fill the frame in the cp08 review shots.
+
+    Everything is in cm along a frond of length 1.0 * L and width FROND_WIDTH_RATIO * L, so the
+    cell is anisotropic on purpose: it is stretched exactly as the card will stretch it back.
+    """
+    length = species['cardSpanCm']
+    width = length * FROND_WIDTH_RATIO
+    pinna = length * FROND_PINNA_RATIO
+    spacing = length * FROND_PINNA_SPACING_RATIO
+    seed = hash_int(sum(ord(c) for c in species['key']) * 22695477) & MASK32
+    masks = []
+    for index in range(4):
+        sag = hash_range(seed, index, 211, 0.20, 0.40)
+        sweep = math.radians(hash_range(seed, index, 212, 33.0, 46.0))
+        segments = []
+        steps = 40
+        rachis = [(0.02 * length + (i / float(steps)) * 0.96 * length,
+                   sag * width * (i / float(steps)) ** 2) for i in range(steps + 1)]
+        for i in range(steps):
+            segments.append((rachis[i], rachis[i + 1], 0.010 * width * (1.0 - 0.55 * i / steps)
+                             + 0.006 * width))
+        pairs = max(4, int(0.92 * length / spacing))
+        for i in range(pairs):
+            t = (i + 0.5) / pairs
+            base = (0.04 * length + t * 0.94 * length, sag * width * t * t)
+            taper = math.sin(math.pi * min(1.0, 0.10 + 0.96 * t)) ** 0.42
+            reach = pinna * (0.42 + 0.72 * taper)
+            angle = sweep + 0.28 * t
+            for side in (-1.0, 1.0):
+                tip = (base[0] + reach * math.cos(angle),
+                       base[1] + side * reach * math.sin(angle))
+                segments.append((base, tip, 0.016 * width))
+        mask = bytearray(cell * cell)
+        for a, b, half in segments:
+            lo_x = max(0, int((min(a[0], b[0]) - half) / length * cell))
+            hi_x = min(cell - 1, int((max(a[0], b[0]) + half) / length * cell) + 1)
+            lo_y = max(0, int(((min(a[1], b[1]) - half) / width + 0.5) * cell))
+            hi_y = min(cell - 1, int(((max(a[1], b[1]) + half) / width + 0.5) * cell) + 1)
+            for py in range(lo_y, hi_y + 1):
+                row = py * cell
+                y = ((py + 0.5) / cell - 0.5) * width
+                for px in range(lo_x, hi_x + 1):
+                    if mask[row + px]:
+                        continue
+                    x = (px + 0.5) / cell * length
+                    if point_segment_distance(x, y, a[0], a[1], b[0], b[1]) < half:
+                        mask[row + px] = 1
         masks.append(mask)
     return masks
 
@@ -2177,6 +2399,39 @@ def budget_report(species_stats, mesh_records):
 # =====================================================================================
 # 11. EXPORT
 # =====================================================================================
+REUSE_TEXTURES_EXCEPT = None        # None = regenerate everything; a set = reuse all but these
+
+
+def _carried_texture_entry(species):
+    """Texture record for a species whose textures are UNCHANGED on disk.
+
+    The files are re-hashed rather than trusted, so the manifest still states what is actually
+    there. Only `billboardCoverage` is carried across from the previous manifest, and only for a
+    species whose geometry did not change - the billboard is a render OF the mesh, so carrying it
+    for a species that did change would be a quiet lie.
+    """
+    previous = {}
+    if MANIFEST_PATH.exists():
+        for entry in json.loads(MANIFEST_PATH.read_text(encoding='utf-8')).get('textures', []):
+            if entry.get('species') == species['key']:
+                previous = entry
+                break
+    entry = dict(previous)
+    entry.update({'species': species['key'],
+                  'leafShape': species['leafShape'],
+                  'leavesPerAtlasCell': leaves_per_cell(species),
+                  'cardSpanCm': species['cardSpanCm'],
+                  'leafLengthCm': species['leafLengthCm'],
+                  'leafFractionOfCell': round(leaf_cell_scale(species), 4),
+                  'alphaTest': True,
+                  'texturesCarriedForward': True})
+    for key in ('leafAtlas', 'barkBaseColour', 'barkNormal', 'billboardTexture'):
+        name = entry.get(key)
+        if name and (TEX_DIR / name).exists():
+            entry[key + 'Sha256'] = sha256_of(TEX_DIR / name)
+    return entry
+
+
 def export_meshes(write_previews=True):
     """Every species' LOD ladder, billboard and textures, plus the geometry manifest."""
     OBJ_DIR.mkdir(parents=True, exist_ok=True)
@@ -2253,6 +2508,9 @@ def export_meshes(write_previews=True):
             readbacks.append(readback_obj(OBJ_DIR / (name + '.obj'), record))
             triangle_counts['%s_Billboard' % species['key']] = record['triangles']
         # textures
+        if REUSE_TEXTURES_EXCEPT is not None and species['key'] not in REUSE_TEXTURES_EXCEPT:
+            textures.append(_carried_texture_entry(species))
+            continue
         mask_cell = 256
         masks = build_leaf_masks(species, mask_cell)
         leaf_path = write_leaf_atlas(species, masks)
@@ -2262,14 +2520,20 @@ def export_meshes(write_previews=True):
                  'barkBaseColour': bark_path.name, 'barkBaseColourSha256': sha256_of(bark_path),
                  'barkNormal': normal_path.name, 'barkNormalSha256': sha256_of(normal_path),
                  'leafShape': species['leafShape'],
-                 'leavesPerAtlasCell': LEAVES_PER_CELL.get(species['leafShape'], 7),
+                 'leavesPerAtlasCell': leaves_per_cell(species),
+                 'cardSpanCm': species['cardSpanCm'],
+                 'leafLengthCm': species['leafLengthCm'],
+                 'leafFractionOfCell': round(leaf_cell_scale(species), 4),
                  'alphaTest': True,
                  'note': ('Generated procedurally with the standard library only - no PIL, no '
-                          'numpy, no photograph. The atlas is 2x2 and each cell holds a SPRAY of '
-                          'leaves rather than one leaf, because a single leaf blown up to fill a '
-                          '2 m card reads as a green paddle. The alpha edge is hard so an '
-                          'alpha-test threshold of 0.5 is unambiguous, and the billboard render '
-                          'cuts its silhouette from the same mask the atlas was written from.')}
+                          'numpy, no photograph. The atlas is 2x2 and each cell depicts a spray '
+                          'of leaves spanning cardSpanCm in the world, with each leaf drawn at '
+                          'leafLengthCm / cardSpanCm of the cell - so a 6 cm olive leaf renders '
+                          'at 6 cm rather than at whatever fraction of a crown-sized card it '
+                          'used to land on. A palm cell depicts ONE frond with its pinnae, since '
+                          'a palm card is one frond. The alpha edge is hard so an alpha-test '
+                          'threshold of 0.5 is unambiguous, and the billboard render cuts its '
+                          'silhouette from the same mask the atlas was written from.')}
         if species['form'] != 'grass' and lod1_parts is not None:
             billboard_path, coverage = render_billboard_texture(species, lod1_parts[0], lod1_parts[1],
                                                                 masks, mask_cell)
@@ -2594,7 +2858,8 @@ def write_manifest(meshes, readbacks, textures, tests):
         'meshes': meshes,
         'readback': readbacks,
         'textures': textures,
-        'species': [{k: v for k, v in s.items() if k not in ('band',)} | {'band': s['band']}
+        # dict | dict is 3.9+; this file has to run on the 3.8 interpreter that is on PATH here.
+        'species': [dict([(k, v) for k, v in s.items() if k != 'band'] + [('band', s['band'])])
                     for s in SPECIES],
         'lodLadderCm': LOD_DISTANCES,
         'cullDistanceCm': CULL_DISTANCE_CM,
@@ -2623,6 +2888,12 @@ def main(argv=None):
     parser.add_argument('--plan', action='store_true', help='the rule-derived placement plan')
     parser.add_argument('--tests', action='store_true', help='compile and run ScatterMathTest.cpp')
     parser.add_argument('--no-preview', action='store_true', help='skip the preview PNGs')
+    parser.add_argument('--reuse-textures-except', metavar='SPECIES',
+                        help='comma-separated species whose textures are regenerated; every '
+                             'other species keeps the PNGs already on disk and the manifest '
+                             're-hashes them. For a GEOMETRY-ONLY change: the atlases do not '
+                             'depend on the mesh, but a billboard render does, so any species '
+                             'whose geometry changed must be listed here.')
     args = parser.parse_args(argv)
     do_export = args.export or not (args.export or args.plan or args.tests)
     do_plan = args.plan or not (args.export or args.plan or args.tests)
@@ -2635,6 +2906,14 @@ def main(argv=None):
             print('  ' + line)
         if tests['exitCode'] != 0:
             return 1
+
+    if args.reuse_textures_except is not None:
+        global REUSE_TEXTURES_EXCEPT
+        REUSE_TEXTURES_EXCEPT = {s.strip() for s in args.reuse_textures_except.split(',') if s.strip()}
+        unknown = REUSE_TEXTURES_EXCEPT - set(SPECIES_BY_KEY)
+        if unknown:
+            raise SystemExit('unknown species for --reuse-textures-except: %s' % sorted(unknown))
+        print('reusing textures for every species except %s' % sorted(REUSE_TEXTURES_EXCEPT))
 
     if do_export:
         print('exporting meshes and textures...')

@@ -1,0 +1,3119 @@
+{
+ "status": "meshes_imported_no_placement",
+ "stamp": "20260910T073341404756Z",
+ "target": "Candidate48",
+ "targetRole": "the configured GameDefaultMap and the COOK map: the only map in the build the user downloads.",
+ "placement": {
+  "uniformScale": 0.96,
+  "translationCm": [
+   -248.0,
+   0.0,
+   0.0
+  ],
+  "appliedTo": "the Mount keep-out only; the instances stand at identity",
+  "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin; Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0]. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0). Evidence: SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json and SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json. It is measured off the level itself by prove_placement() before anything is spawned."
+ },
+ "groundRule": {
+  "instances": "identity: the terrain was never rescaled",
+  "keepOut": "blocked in BOTH the authored and the target frame",
+  "placement": {
+   "uniformScale": 0.96,
+   "translationCm": [
+    -248.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "authoringMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+ "mapSha256Before": "7d1e1af619555644853861d1208c36c762797b7e4b8b880183bbc2d8e8c41197",
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Vegetation-Candidate48-20260910T073341404756Z",
+ "oneFilePerActorFoldersCopied": [],
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "cc80633741cb383495b46747e53c72765fc65967124806fce388d285d2410820"
+ },
+ "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation.spec.json",
+ "specSha256": "964d0b416b097ed570cf15108c5191b53f78953d1ac7308a8ee0c10248f861e3",
+ "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+ "manifestSha256": "50216b18d0e9451d4bd51030c0aaee1365fcc795412353bab75dd9227a32dcee",
+ "offlineCheck": {
+  "specSha256": "964d0b416b097ed570cf15108c5191b53f78953d1ac7308a8ee0c10248f861e3",
+  "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+  "manifestSha256": "50216b18d0e9451d4bd51030c0aaee1365fcc795412353bab75dd9227a32dcee",
+  "meshFiles": 105,
+  "textureSets": 14,
+  "plannedInstances": 132598,
+  "batches": 697,
+  "instanceCapTotal": 360000,
+  "target": "Candidate48",
+  "targetMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "placement": {
+   "uniformScale": 0.96,
+   "translationCm": [
+    -248.0,
+    0.0,
+    0.0
+   ]
+  },
+  "groundRule": {
+   "instances": "identity: the terrain was never rescaled",
+   "keepOut": "blocked in BOTH the authored and the target frame",
+   "placement": {
+    "uniformScale": 0.96,
+    "translationCm": [
+     -248.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "mountEnclosureRingPoints": 66,
+  "mountEnclosureFramesTested": [
+   "Candidate48",
+   "authored"
+  ],
+  "plannedInstancesInsidePrecinct": 0,
+  "plannedInstancesInsidePrecinctByFrame": {
+   "authored": 0,
+   "Candidate48": 0
+  },
+  "hollowUnionsVerified": 5,
+  "hollowUnionConstituentBoxes": 162,
+  "note": "Every planned instance was re-tested against the Mount enclosure ring here, offline, before any engine was launched, and every hollow union decomposition was verified against the architecture manifest bounds."
+ },
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "seed": 20260908,
+ "resumeReceipt": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/vegetation-review/release-vegetation-Candidate48-20260910T024536144980Z.json",
+ "batchesAlreadyComplete": 697,
+ "batchesPending": 0,
+ "batchesSelectedThisRun": 0,
+ "batchesRemainingAfterThisRun": 0,
+ "speciesFilter": null,
+ "completedBatchIds": [
+  "Olive_N001_N001_00",
+  "Olive_N001_N002_00",
+  "Olive_N001_N003_00",
+  "Olive_N001_N004_00",
+  "Olive_N001_N005_00",
+  "Olive_N001_P000_00",
+  "Olive_N001_P001_00",
+  "Olive_N001_P002_00",
+  "Olive_N001_P003_00",
+  "Olive_N001_P004_00",
+  "Olive_N002_N001_00",
+  "Olive_N002_N002_00",
+  "Olive_N002_N003_00",
+  "Olive_N002_N004_00",
+  "Olive_N002_P000_00",
+  "Olive_N002_P001_00",
+  "Olive_N002_P002_00",
+  "Olive_N002_P003_00",
+  "Olive_N003_N001_00",
+  "Olive_N003_N002_00",
+  "Olive_N003_N003_00",
+  "Olive_N003_N004_00",
+  "Olive_N003_P000_00",
+  "Olive_N003_P001_00",
+  "Olive_N003_P002_00",
+  "Olive_N003_P003_00",
+  "Olive_N004_N001_00",
+  "Olive_N004_N002_00",
+  "Olive_N004_N003_00",
+  "Olive_N004_P000_00",
+  "Olive_N004_P001_00",
+  "Olive_N004_P002_00",
+  "Olive_N004_P003_00",
+  "Olive_P000_N001_00",
+  "Olive_P000_N002_00",
+  "Olive_P000_N003_00",
+  "Olive_P000_N004_00",
+  "Olive_P000_P000_00",
+  "Olive_P000_P001_00",
+  "Olive_P000_P002_00",
+  "Olive_P000_P003_00",
+  "Olive_P001_N001_00",
+  "Olive_P001_N002_00",
+  "Olive_P001_N003_00",
+  "Olive_P001_N004_00",
+  "Olive_P001_P000_00",
+  "Olive_P001_P001_00",
+  "Olive_P001_P002_00",
+  "Olive_P001_P003_00",
+  "Olive_P002_N001_00",
+  "Olive_P002_N002_00",
+  "Olive_P002_N003_00",
+  "Olive_P002_N004_00",
+  "Olive_P002_P000_00",
+  "Olive_P002_P001_00",
+  "Olive_P002_P002_00",
+  "Olive_P002_P003_00",
+  "Olive_P003_N001_00",
+  "Olive_P003_N002_00",
+  "Olive_P003_N003_00",
+  "Olive_P003_N004_00",
+  "Olive_P003_N005_00",
+  "Olive_P003_P000_00",
+  "Olive_P003_P001_00",
+  "Olive_P003_P002_00",
+  "Olive_P003_P003_00",
+  "Olive_P004_N001_00",
+  "Olive_P004_N003_00",
+  "Olive_P004_P000_00",
+  "JerusalemPine_N001_N001_00",
+  "JerusalemPine_N001_N002_00",
+  "JerusalemPine_N001_N003_00",
+  "JerusalemPine_N001_N004_00",
+  "JerusalemPine_N001_P000_00",
+  "JerusalemPine_N001_P001_00",
+  "JerusalemPine_N001_P002_00",
+  "JerusalemPine_N002_N001_00",
+  "JerusalemPine_N002_N002_00",
+  "JerusalemPine_N002_N003_00",
+  "JerusalemPine_N002_N004_00",
+  "JerusalemPine_N002_P000_00",
+  "JerusalemPine_N002_P001_00",
+  "JerusalemPine_N002_P002_00",
+  "JerusalemPine_N002_P003_00",
+  "JerusalemPine_N003_N001_00",
+  "JerusalemPine_N003_N002_00",
+  "JerusalemPine_N003_N003_00",
+  "JerusalemPine_N003_N004_00",
+  "JerusalemPine_N003_P000_00",
+  "JerusalemPine_N003_P001_00",
+  "JerusalemPine_N003_P002_00",
+  "JerusalemPine_N003_P003_00",
+  "JerusalemPine_N004_N001_00",
+  "JerusalemPine_N004_N002_00",
+  "JerusalemPine_N004_N003_00",
+  "JerusalemPine_N004_N004_00",
+  "JerusalemPine_N004_P000_00",
+  "JerusalemPine_N004_P001_00",
+  "JerusalemPine_N004_P002_00",
+  "JerusalemPine_N004_P003_00",
+  "JerusalemPine_P000_N001_00",
+  "JerusalemPine_P000_N002_00",
+  "JerusalemPine_P000_N003_00",
+  "JerusalemPine_P000_N004_00",
+  "JerusalemPine_P000_P000_00",
+  "JerusalemPine_P000_P001_00",
+  "JerusalemPine_P000_P002_00",
+  "JerusalemPine_P001_N001_00",
+  "JerusalemPine_P001_N002_00",
+  "JerusalemPine_P001_N003_00",
+  "JerusalemPine_P001_N004_00",
+  "JerusalemPine_P001_P000_00",
+  "JerusalemPine_P001_P001_00",
+  "JerusalemPine_P001_P002_00",
+  "JerusalemPine_P002_N001_00",
+  "JerusalemPine_P002_N002_00",
+  "JerusalemPine_P002_N003_00",
+  "JerusalemPine_P002_N004_00",
+  "JerusalemPine_P002_P000_00",
+  "JerusalemPine_P002_P001_00",
+  "JerusalemPine_P003_N001_00",
+  "JerusalemPine_P003_N002_00",
+  "JerusalemPine_P003_N003_00",
+  "JerusalemPine_P003_N004_00",
+  "JerusalemPine_P003_P000_00",
+  "JerusalemPine_P003_P001_00",
+  "Cypress_N001_N001_00",
+  "Cypress_N001_N002_00",
+  "Cypress_N001_N003_00",
+  "Cypress_N001_N004_00",
+  "Cypress_N001_P000_00",
+  "Cypress_N001_P001_00",
+  "Cypress_N001_P002_00",
+  "Cypress_N002_N001_00",
+  "Cypress_N002_N002_00",
+  "Cypress_N002_N003_00",
+  "Cypress_N002_N004_00",
+  "Cypress_N002_P000_00",
+  "Cypress_N002_P001_00",
+  "Cypress_N002_P002_00",
+  "Cypress_N002_P003_00",
+  "Cypress_N003_N001_00",
+  "Cypress_N003_N002_00",
+  "Cypress_N003_N003_00",
+  "Cypress_N003_N004_00",
+  "Cypress_N003_P000_00",
+  "Cypress_N003_P001_00",
+  "Cypress_N003_P002_00",
+  "Cypress_N003_P003_00",
+  "Cypress_N004_N001_00",
+  "Cypress_N004_N002_00",
+  "Cypress_N004_N003_00",
+  "Cypress_N004_P000_00",
+  "Cypress_N004_P001_00",
+  "Cypress_N004_P002_00",
+  "Cypress_N004_P003_00",
+  "Cypress_P000_N001_00",
+  "Cypress_P000_N002_00",
+  "Cypress_P000_N003_00",
+  "Cypress_P000_N004_00",
+  "Cypress_P000_P000_00",
+  "Cypress_P000_P001_00",
+  "Cypress_P000_P002_00",
+  "Cypress_P001_N001_00",
+  "Cypress_P001_N002_00",
+  "Cypress_P001_N003_00",
+  "Cypress_P001_N004_00",
+  "Cypress_P001_P000_00",
+  "Cypress_P001_P001_00",
+  "Cypress_P001_P002_00",
+  "Cypress_P002_N001_00",
+  "Cypress_P002_N002_00",
+  "Cypress_P002_N003_00",
+  "Cypress_P002_N004_00",
+  "Cypress_P002_P000_00",
+  "Cypress_P002_P001_00",
+  "Cypress_P003_N001_00",
+  "Cypress_P003_N002_00",
+  "Cypress_P003_N003_00",
+  "Cypress_P003_N004_00",
+  "Cypress_P003_P000_00",
+  "Cypress_P003_P001_00",
+  "Cypress_P003_P002_00",
+  "Almond_N001_N001_00",
+  "Almond_N001_N002_00",
+  "Almond_N001_N003_00",
+  "Almond_N001_N004_00",
+  "Almond_N001_N005_00",
+  "Almond_N001_P000_00",
+  "Almond_N001_P001_00",
+  "Almond_N001_P002_00",
+  "Almond_N001_P003_00",
+  "Almond_N002_N001_00",
+  "Almond_N002_N002_00",
+  "Almond_N002_N003_00",
+  "Almond_N002_N004_00",
+  "Almond_N002_P000_00",
+  "Almond_N002_P001_00",
+  "Almond_N002_P002_00",
+  "Almond_N002_P003_00",
+  "Almond_N003_N001_00",
+  "Almond_N003_N002_00",
+  "Almond_N003_N003_00",
+  "Almond_N003_N004_00",
+  "Almond_N003_P000_00",
+  "Almond_N003_P001_00",
+  "Almond_N003_P002_00",
+  "Almond_N003_P003_00",
+  "Almond_N004_N001_00",
+  "Almond_N004_N002_00",
+  "Almond_N004_N003_00",
+  "Almond_N004_P000_00",
+  "Almond_N004_P001_00",
+  "Almond_N004_P002_00",
+  "Almond_N004_P003_00",
+  "Almond_P000_N001_00",
+  "Almond_P000_N002_00",
+  "Almond_P000_N003_00",
+  "Almond_P000_N004_00",
+  "Almond_P000_P000_00",
+  "Almond_P000_P001_00",
+  "Almond_P000_P002_00",
+  "Almond_P000_P003_00",
+  "Almond_P001_N001_00",
+  "Almond_P001_N002_00",
+  "Almond_P001_N003_00",
+  "Almond_P001_N004_00",
+  "Almond_P001_P000_00",
+  "Almond_P001_P001_00",
+  "Almond_P001_P002_00",
+  "Almond_P001_P003_00",
+  "Almond_P002_N001_00",
+  "Almond_P002_N002_00",
+  "Almond_P002_N003_00",
+  "Almond_P002_N004_00",
+  "Almond_P002_P000_00",
+  "Almond_P002_P001_00",
+  "Almond_P003_N001_00",
+  "Almond_P003_N002_00",
+  "Almond_P003_N003_00",
+  "Almond_P003_N004_00",
+  "Almond_P003_P000_00",
+  "Almond_P003_P001_00",
+  "Almond_P003_P002_00",
+  "Almond_P003_P003_00",
+  "Almond_P004_P000_00",
+  "Almond_P004_P001_00",
+  "Fig_N001_N001_00",
+  "Fig_N001_N002_00",
+  "Fig_N001_N003_00",
+  "Fig_N001_N004_00",
+  "Fig_N001_P000_00",
+  "Fig_N001_P001_00",
+  "Fig_N001_P002_00",
+  "Fig_N001_P003_00",
+  "Fig_N002_N001_00",
+  "Fig_N002_N002_00",
+  "Fig_N002_N003_00",
+  "Fig_N002_N004_00",
+  "Fig_N002_P000_00",
+  "Fig_N002_P001_00",
+  "Fig_N002_P002_00",
+  "Fig_N002_P003_00",
+  "Fig_N003_N001_00",
+  "Fig_N003_N002_00",
+  "Fig_N003_N003_00",
+  "Fig_N003_N004_00",
+  "Fig_N003_P000_00",
+  "Fig_N003_P001_00",
+  "Fig_N003_P002_00",
+  "Fig_N003_P003_00",
+  "Fig_N004_N001_00",
+  "Fig_N004_N002_00",
+  "Fig_N004_N003_00",
+  "Fig_N004_P000_00",
+  "Fig_N004_P001_00",
+  "Fig_N004_P002_00",
+  "Fig_N004_P003_00",
+  "Fig_P000_N001_00",
+  "Fig_P000_N002_00",
+  "Fig_P000_N003_00",
+  "Fig_P000_N004_00",
+  "Fig_P000_P000_00",
+  "Fig_P000_P001_00",
+  "Fig_P000_P002_00",
+  "Fig_P000_P003_00",
+  "Fig_P001_N001_00",
+  "Fig_P001_N002_00",
+  "Fig_P001_N003_00",
+  "Fig_P001_N004_00",
+  "Fig_P001_P000_00",
+  "Fig_P001_P001_00",
+  "Fig_P001_P002_00",
+  "Fig_P001_P003_00",
+  "Fig_P002_N001_00",
+  "Fig_P002_N002_00",
+  "Fig_P002_N003_00",
+  "Fig_P002_N004_00",
+  "Fig_P002_P000_00",
+  "Fig_P002_P001_00",
+  "Fig_P002_P002_00",
+  "Fig_P002_P003_00",
+  "Fig_P003_N001_00",
+  "Fig_P003_N002_00",
+  "Fig_P003_N003_00",
+  "Fig_P003_N004_00",
+  "Fig_P003_P000_00",
+  "Fig_P003_P001_00",
+  "Fig_P003_P002_00",
+  "Fig_P003_P003_00",
+  "Fig_P004_P000_00",
+  "Fig_P004_P003_00",
+  "Pomegranate_N001_N001_00",
+  "Pomegranate_N001_N002_00",
+  "Pomegranate_N001_N003_00",
+  "Pomegranate_N001_N004_00",
+  "Pomegranate_N001_P000_00",
+  "Pomegranate_N001_P001_00",
+  "Pomegranate_N001_P002_00",
+  "Pomegranate_N001_P003_00",
+  "Pomegranate_N002_N001_00",
+  "Pomegranate_N002_N002_00",
+  "Pomegranate_N002_N003_00",
+  "Pomegranate_N002_N004_00",
+  "Pomegranate_N002_P000_00",
+  "Pomegranate_N002_P001_00",
+  "Pomegranate_N002_P002_00",
+  "Pomegranate_N002_P003_00",
+  "Pomegranate_N003_N001_00",
+  "Pomegranate_N003_N002_00",
+  "Pomegranate_N003_N003_00",
+  "Pomegranate_N003_N004_00",
+  "Pomegranate_N003_P000_00",
+  "Pomegranate_N003_P001_00",
+  "Pomegranate_N003_P002_00",
+  "Pomegranate_N003_P003_00",
+  "Pomegranate_N004_N001_00",
+  "Pomegranate_N004_N002_00",
+  "Pomegranate_N004_N003_00",
+  "Pomegranate_N004_P000_00",
+  "Pomegranate_N004_P001_00",
+  "Pomegranate_N004_P002_00",
+  "Pomegranate_N004_P003_00",
+  "Pomegranate_N005_P002_00",
+  "Pomegranate_P000_N001_00",
+  "Pomegranate_P000_N002_00",
+  "Pomegranate_P000_N003_00",
+  "Pomegranate_P000_N004_00",
+  "Pomegranate_P000_P000_00",
+  "Pomegranate_P000_P001_00",
+  "Pomegranate_P000_P002_00",
+  "Pomegranate_P000_P003_00",
+  "Pomegranate_P001_N001_00",
+  "Pomegranate_P001_N002_00",
+  "Pomegranate_P001_N003_00",
+  "Pomegranate_P001_N004_00",
+  "Pomegranate_P001_P000_00",
+  "Pomegranate_P001_P001_00",
+  "Pomegranate_P001_P002_00",
+  "Pomegranate_P001_P003_00",
+  "Pomegranate_P002_N001_00",
+  "Pomegranate_P002_N002_00",
+  "Pomegranate_P002_N003_00",
+  "Pomegranate_P002_N004_00",
+  "Pomegranate_P002_P000_00",
+  "Pomegranate_P002_P001_00",
+  "Pomegranate_P002_P002_00",
+  "Pomegranate_P002_P003_00",
+  "Pomegranate_P003_N001_00",
+  "Pomegranate_P003_N002_00",
+  "Pomegranate_P003_N003_00",
+  "Pomegranate_P003_N004_00",
+  "Pomegranate_P003_P000_00",
+  "Pomegranate_P003_P001_00",
+  "Pomegranate_P003_P002_00",
+  "Pomegranate_P003_P003_00",
+  "Pomegranate_P004_N003_00",
+  "Pomegranate_P004_P000_00",
+  "DatePalm_N001_N001_00",
+  "DatePalm_N001_P000_00",
+  "DatePalm_N001_P001_00",
+  "DatePalm_P000_N001_00",
+  "DatePalm_P000_N002_00",
+  "DatePalm_P000_P000_00",
+  "DatePalm_P000_P001_00",
+  "DatePalm_P001_N001_00",
+  "DatePalm_P001_N002_00",
+  "DatePalm_P001_P000_00",
+  "DatePalm_P001_P001_00",
+  "Carob_N001_N001_00",
+  "Carob_N001_N002_00",
+  "Carob_N001_N003_00",
+  "Carob_N001_N004_00",
+  "Carob_N001_P000_00",
+  "Carob_N001_P001_00",
+  "Carob_N001_P002_00",
+  "Carob_N001_P003_00",
+  "Carob_N002_N001_00",
+  "Carob_N002_N002_00",
+  "Carob_N002_N003_00",
+  "Carob_N002_N004_00",
+  "Carob_N002_P000_00",
+  "Carob_N002_P001_00",
+  "Carob_N002_P002_00",
+  "Carob_N002_P003_00",
+  "Carob_N003_N001_00",
+  "Carob_N003_N002_00",
+  "Carob_N003_N003_00",
+  "Carob_N003_N004_00",
+  "Carob_N003_P000_00",
+  "Carob_N003_P001_00",
+  "Carob_N003_P002_00",
+  "Carob_N003_P003_00",
+  "Carob_N004_N001_00",
+  "Carob_N004_N002_00",
+  "Carob_N004_N003_00",
+  "Carob_N004_P000_00",
+  "Carob_N004_P001_00",
+  "Carob_N004_P002_00",
+  "Carob_N004_P003_00",
+  "Carob_P000_N001_00",
+  "Carob_P000_N002_00",
+  "Carob_P000_N003_00",
+  "Carob_P000_N004_00",
+  "Carob_P000_P000_00",
+  "Carob_P000_P001_00",
+  "Carob_P000_P002_00",
+  "Carob_P000_P003_00",
+  "Carob_P001_N001_00",
+  "Carob_P001_N002_00",
+  "Carob_P001_N003_00",
+  "Carob_P001_N004_00",
+  "Carob_P001_P000_00",
+  "Carob_P001_P001_00",
+  "Carob_P001_P002_00",
+  "Carob_P001_P003_00",
+  "Carob_P002_N001_00",
+  "Carob_P002_N002_00",
+  "Carob_P002_N003_00",
+  "Carob_P002_N004_00",
+  "Carob_P002_P000_00",
+  "Carob_P002_P001_00",
+  "Carob_P002_P002_00",
+  "Carob_P002_P003_00",
+  "Carob_P003_N001_00",
+  "Carob_P003_N002_00",
+  "Carob_P003_N003_00",
+  "Carob_P003_N004_00",
+  "Carob_P003_P000_00",
+  "Carob_P003_P001_00",
+  "Carob_P003_P002_00",
+  "Carob_P003_P003_00",
+  "Terebinth_N001_N002_00",
+  "Terebinth_N001_N003_00",
+  "Terebinth_N001_N004_00",
+  "Terebinth_N001_P000_00",
+  "Terebinth_N001_P001_00",
+  "Terebinth_N001_P002_00",
+  "Terebinth_N001_P003_00",
+  "Terebinth_N002_N001_00",
+  "Terebinth_N002_N002_00",
+  "Terebinth_N002_N004_00",
+  "Terebinth_N002_P000_00",
+  "Terebinth_N002_P001_00",
+  "Terebinth_N002_P002_00",
+  "Terebinth_N002_P003_00",
+  "Terebinth_N003_N001_00",
+  "Terebinth_N003_N002_00",
+  "Terebinth_N003_N003_00",
+  "Terebinth_N003_N004_00",
+  "Terebinth_N003_P000_00",
+  "Terebinth_N003_P001_00",
+  "Terebinth_N003_P002_00",
+  "Terebinth_N003_P003_00",
+  "Terebinth_N004_N001_00",
+  "Terebinth_N004_N002_00",
+  "Terebinth_N004_N003_00",
+  "Terebinth_N004_P000_00",
+  "Terebinth_N004_P001_00",
+  "Terebinth_N004_P002_00",
+  "Terebinth_N004_P003_00",
+  "Terebinth_P000_N001_00",
+  "Terebinth_P000_N002_00",
+  "Terebinth_P000_N003_00",
+  "Terebinth_P000_N004_00",
+  "Terebinth_P000_P000_00",
+  "Terebinth_P000_P001_00",
+  "Terebinth_P000_P002_00",
+  "Terebinth_P000_P003_00",
+  "Terebinth_P001_N001_00",
+  "Terebinth_P001_N002_00",
+  "Terebinth_P001_N003_00",
+  "Terebinth_P001_N004_00",
+  "Terebinth_P001_P000_00",
+  "Terebinth_P001_P001_00",
+  "Terebinth_P001_P002_00",
+  "Terebinth_P001_P003_00",
+  "Terebinth_P002_N001_00",
+  "Terebinth_P002_N002_00",
+  "Terebinth_P002_N003_00",
+  "Terebinth_P002_N004_00",
+  "Terebinth_P002_P000_00",
+  "Terebinth_P002_P001_00",
+  "Terebinth_P002_P002_00",
+  "Terebinth_P002_P003_00",
+  "Terebinth_P003_N001_00",
+  "Terebinth_P003_N002_00",
+  "Terebinth_P003_N003_00",
+  "Terebinth_P003_N004_00",
+  "Terebinth_P003_P000_00",
+  "Terebinth_P003_P001_00",
+  "Terebinth_P003_P002_00",
+  "Terebinth_P003_P003_00",
+  "Sage_N001_N001_00",
+  "Sage_N001_N002_00",
+  "Sage_N001_N003_00",
+  "Sage_N001_P000_00",
+  "Sage_N001_P001_00",
+  "Sage_N001_P002_00",
+  "Sage_N002_N001_00",
+  "Sage_N002_N002_00",
+  "Sage_N002_N003_00",
+  "Sage_N002_P000_00",
+  "Sage_N002_P001_00",
+  "Sage_N002_P002_00",
+  "Sage_N003_N001_00",
+  "Sage_N003_N002_00",
+  "Sage_N003_N003_00",
+  "Sage_N003_P000_00",
+  "Sage_N003_P001_00",
+  "Sage_N003_P002_00",
+  "Sage_P000_N001_00",
+  "Sage_P000_N002_00",
+  "Sage_P000_N003_00",
+  "Sage_P000_P000_00",
+  "Sage_P000_P001_00",
+  "Sage_P000_P002_00",
+  "Sage_P001_N001_00",
+  "Sage_P001_N002_00",
+  "Sage_P001_N003_00",
+  "Sage_P001_P000_00",
+  "Sage_P001_P001_00",
+  "Sage_P001_P002_00",
+  "Sage_P002_N001_00",
+  "Sage_P002_N002_00",
+  "Sage_P002_N003_00",
+  "Sage_P002_P000_00",
+  "Sage_P002_P001_00",
+  "Sage_P002_P002_00",
+  "Sage_P003_N001_00",
+  "Sage_P003_N002_00",
+  "Sage_P003_N003_00",
+  "Sage_P003_P000_00",
+  "Sage_P003_P001_00",
+  "Sage_P003_P002_00",
+  "Hyssop_N001_N001_00",
+  "Hyssop_N001_N002_00",
+  "Hyssop_N001_N003_00",
+  "Hyssop_N001_P000_00",
+  "Hyssop_N001_P001_00",
+  "Hyssop_N001_P002_00",
+  "Hyssop_N002_N001_00",
+  "Hyssop_N002_N002_00",
+  "Hyssop_N002_N003_00",
+  "Hyssop_N002_P000_00",
+  "Hyssop_N002_P001_00",
+  "Hyssop_N002_P002_00",
+  "Hyssop_N003_N001_00",
+  "Hyssop_N003_N002_00",
+  "Hyssop_N003_N003_00",
+  "Hyssop_N003_P000_00",
+  "Hyssop_N003_P001_00",
+  "Hyssop_N003_P002_00",
+  "Hyssop_P000_N001_00",
+  "Hyssop_P000_N002_00",
+  "Hyssop_P000_N003_00",
+  "Hyssop_P000_P000_00",
+  "Hyssop_P000_P001_00",
+  "Hyssop_P000_P002_00",
+  "Hyssop_P001_N001_00",
+  "Hyssop_P001_N002_00",
+  "Hyssop_P001_N003_00",
+  "Hyssop_P001_P000_00",
+  "Hyssop_P001_P001_00",
+  "Hyssop_P001_P002_00",
+  "Hyssop_P002_N001_00",
+  "Hyssop_P002_N002_00",
+  "Hyssop_P002_N003_00",
+  "Hyssop_P002_P000_00",
+  "Hyssop_P002_P001_00",
+  "Hyssop_P002_P002_00",
+  "Hyssop_P003_N001_00",
+  "Hyssop_P003_N002_00",
+  "Hyssop_P003_N003_00",
+  "Hyssop_P003_P000_00",
+  "Hyssop_P003_P001_00",
+  "Hyssop_P003_P002_00",
+  "Rockrose_N001_N001_00",
+  "Rockrose_N001_N002_00",
+  "Rockrose_N001_N003_00",
+  "Rockrose_N001_P000_00",
+  "Rockrose_N001_P001_00",
+  "Rockrose_N001_P002_00",
+  "Rockrose_N002_N001_00",
+  "Rockrose_N002_N002_00",
+  "Rockrose_N002_N003_00",
+  "Rockrose_N002_P000_00",
+  "Rockrose_N002_P001_00",
+  "Rockrose_N002_P002_00",
+  "Rockrose_N003_N001_00",
+  "Rockrose_N003_N002_00",
+  "Rockrose_N003_N003_00",
+  "Rockrose_N003_P000_00",
+  "Rockrose_N003_P001_00",
+  "Rockrose_N003_P002_00",
+  "Rockrose_P000_N001_00",
+  "Rockrose_P000_N002_00",
+  "Rockrose_P000_N003_00",
+  "Rockrose_P000_P000_00",
+  "Rockrose_P000_P001_00",
+  "Rockrose_P000_P002_00",
+  "Rockrose_P001_N001_00",
+  "Rockrose_P001_N002_00",
+  "Rockrose_P001_N003_00",
+  "Rockrose_P001_P000_00",
+  "Rockrose_P001_P001_00",
+  "Rockrose_P001_P002_00",
+  "Rockrose_P002_N001_00",
+  "Rockrose_P002_N002_00",
+  "Rockrose_P002_N003_00",
+  "Rockrose_P002_P000_00",
+  "Rockrose_P002_P001_00",
+  "Rockrose_P002_P002_00",
+  "Rockrose_P003_N001_00",
+  "Rockrose_P003_N002_00",
+  "Rockrose_P003_N003_00",
+  "Rockrose_P003_P000_00",
+  "Rockrose_P003_P001_00",
+  "Rockrose_P003_P002_00",
+  "ThornyBurnet_N001_N001_00",
+  "ThornyBurnet_N001_N002_00",
+  "ThornyBurnet_N001_N003_00",
+  "ThornyBurnet_N001_P000_00",
+  "ThornyBurnet_N001_P001_00",
+  "ThornyBurnet_N001_P002_00",
+  "ThornyBurnet_N002_N001_00",
+  "ThornyBurnet_N002_N002_00",
+  "ThornyBurnet_N002_N003_00",
+  "ThornyBurnet_N002_P000_00",
+  "ThornyBurnet_N002_P001_00",
+  "ThornyBurnet_N002_P002_00",
+  "ThornyBurnet_N003_N001_00",
+  "ThornyBurnet_N003_N002_00",
+  "ThornyBurnet_N003_N003_00",
+  "ThornyBurnet_N003_P000_00",
+  "ThornyBurnet_N003_P001_00",
+  "ThornyBurnet_N003_P002_00",
+  "ThornyBurnet_P000_N001_00",
+  "ThornyBurnet_P000_N002_00",
+  "ThornyBurnet_P000_N003_00",
+  "ThornyBurnet_P000_P000_00",
+  "ThornyBurnet_P000_P001_00",
+  "ThornyBurnet_P000_P002_00",
+  "ThornyBurnet_P001_N001_00",
+  "ThornyBurnet_P001_N002_00",
+  "ThornyBurnet_P001_N003_00",
+  "ThornyBurnet_P001_P000_00",
+  "ThornyBurnet_P001_P001_00",
+  "ThornyBurnet_P001_P002_00",
+  "ThornyBurnet_P002_N001_00",
+  "ThornyBurnet_P002_N002_00",
+  "ThornyBurnet_P002_N003_00",
+  "ThornyBurnet_P002_P000_00",
+  "ThornyBurnet_P002_P001_00",
+  "ThornyBurnet_P002_P002_00",
+  "ThornyBurnet_P003_N001_00",
+  "ThornyBurnet_P003_N002_00",
+  "ThornyBurnet_P003_N003_00",
+  "ThornyBurnet_P003_P000_00",
+  "ThornyBurnet_P003_P001_00",
+  "ThornyBurnet_P003_P002_00",
+  "DryGrass_N001_N001_00",
+  "DryGrass_N001_N002_00",
+  "DryGrass_N001_P000_00",
+  "DryGrass_N001_P001_00",
+  "DryGrass_P000_N001_00",
+  "DryGrass_P000_N002_00",
+  "DryGrass_P000_P000_00",
+  "DryGrass_P000_P001_00",
+  "DryGrass_P001_N001_00",
+  "DryGrass_P001_N002_00",
+  "DryGrass_P001_P000_00",
+  "DryGrass_P001_P001_00",
+  "DryGrass_P002_N001_00",
+  "DryGrass_P002_N002_00",
+  "DryGrass_P002_P000_00",
+  "DryGrass_P002_P001_00"
+ ],
+ "importOnly": true,
+ "errors": [],
+ "mapSaved": false,
+ "limitations": [
+  "Geometric placement only: no visual, collision, cook, performance or packaged acceptance is established.",
+  "Materials are created unassigned unless a material is already present at the expected path. CLOSED 2026-09-10 by Scripts/release_vegetation_materials.py, which authored M_JudeanFlora_{Bark,Leaf,Billboard} plus 40 species instances under /Game/MikdashV3/Vegetation/JudeanFloraV1/Materials and assigned all 105 mesh slots and all 27 placed component slots on BOTH maps. A re-import through this script would put the mesh slots back on WorldGridMaterial; re-run release_vegetation_materials.py -VegMatAssetsOnly after any re-import.",
+  "Nothing here is halachic.",
+  "On Candidate48 the plants stand at IDENTICAL coordinates to Main50, because the FutureMountV1 terrain they grow out of was never rescaled by the 48 cm migration. What does change is the keep-out: the enclosure ring and the architecture blockers are tested in BOTH frames, so no instance lands inside either map interpretation of the Mount.",
+  "Geometric placement only. No visual, collision, cook or performance acceptance on Candidate48, and the species materials remain unassigned on both maps."
+ ],
+ "importedMeshes": 105,
+ "importedMeshList": [
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -227.04168595199766,
+     -425.70276950322443,
+     -5.394737263990349
+    ],
+    "max": [
+     400.61514806010535,
+     330.49300808294913,
+     1057.9822527307667
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Leaf",
+   "triangles": 4188,
+   "canonicalBoundsCm": {
+    "min": [
+     -311.16668470430375,
+     -348.05172389462416,
+     303.3310841890909
+    ],
+    "max": [
+     312.9141683912312,
+     313.0382374362702,
+     869.5101852176997
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -159.1329930651499,
+     -235.2911744934227,
+     -5.725098871152707
+    ],
+    "max": [
+     235.15335666161735,
+     186.90420216418562,
+     837.2795398951192
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L1_Leaf",
+   "triangles": 1048,
+   "canonicalBoundsCm": {
+    "min": [
+     -312.52009306234675,
+     -336.11245971221945,
+     283.0962231502161
+    ],
+    "max": [
+     321.1324722538759,
+     298.3308967760415,
+     890.2381087303734
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -40.10232585339396,
+     -45.2138540992897,
+     -7.293943842234256
+    ],
+    "max": [
+     65.30807316361327,
+     70.41960140950901,
+     325.8971950612486
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L2_Leaf",
+   "triangles": 260,
+   "canonicalBoundsCm": {
+    "min": [
+     -306.0026111264755,
+     -311.01593162455197,
+     241.68672074228346
+    ],
+    "max": [
+     286.99012767496157,
+     302.6068459686317,
+     931.6939557557207
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_Gnarled_L0_Bark",
+   "triangles": 780,
+   "canonicalBoundsCm": {
+    "min": [
+     -113.64520573123471,
+     -395.83203517908265,
+     -22.661914222043496
+    ],
+    "max": [
+     483.6042338621354,
+     325.8538823621074,
+     902.7452143357413
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_Gnarled_L0_Leaf",
+   "triangles": 4188,
+   "canonicalBoundsCm": {
+    "min": [
+     -295.69726774221476,
+     -353.52058688230545,
+     167.42491297044907
+    ],
+    "max": [
+     377.0988819619808,
+     302.7260642602266,
+     870.2162884148481
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_Gnarled_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -79.91542225992946,
+     -272.1791776128858,
+     -22.93669888250009
+    ],
+    "max": [
+     359.5789802508911,
+     48.99603772568218,
+     713.0834736924731
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Gnarled_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_Gnarled_L1_Leaf",
+   "triangles": 1048,
+   "canonicalBoundsCm": {
+    "min": [
+     -288.1619773074739,
+     -360.3151854672144,
+     153.28461600321063
+    ],
+    "max": [
+     347.27721662544883,
+     302.0647673224126,
+     890.8388874190899
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Olive_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -300.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     300.0,
+     0.0,
+     850.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -455.00449927473187,
+     -465.5347681044387,
+     -1.6174839014496418
+    ],
+    "max": [
+     267.82926355584334,
+     234.3761852688133,
+     1828.1297200053584
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "triangles": 4800,
+   "canonicalBoundsCm": {
+    "min": [
+     -391.7817884360405,
+     -356.78802893128716,
+     543.539152856295
+    ],
+    "max": [
+     368.99859853064686,
+     347.5075862430969,
+     1526.7604900042822
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -264.03071733510325,
+     -314.90420378278907,
+     -1.4397751475708587
+    ],
+    "max": [
+     146.61846773446766,
+     61.87232919898311,
+     1301.9454660566869
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L1_Leaf",
+   "triangles": 1200,
+   "canonicalBoundsCm": {
+    "min": [
+     -381.681351043331,
+     -366.24597747432387,
+     525.6148117313872
+    ],
+    "max": [
+     335.45050673657096,
+     345.18923565265175,
+     1553.9927724927325
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -76.09498976374891,
+     -107.0942065760413,
+     -3.7477567858133054
+    ],
+    "max": [
+     61.823864540262576,
+     65.89531187934095,
+     573.952000260245
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L2_Leaf",
+   "triangles": 300,
+   "canonicalBoundsCm": {
+    "min": [
+     -394.92713608883804,
+     -372.2500996087398,
+     494.94391943026426
+    ],
+    "max": [
+     329.4574127421944,
+     365.97160658622045,
+     1591.280720180272
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -350.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     350.0,
+     0.0,
+     1500.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -286.1048449313108,
+     -275.19561851027777,
+     -16.54755391683814
+    ],
+    "max": [
+     60.01781792294382,
+     172.4953374913482,
+     1486.7714039144364
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "triangles": 4584,
+   "canonicalBoundsCm": {
+    "min": [
+     -116.71433275163484,
+     -101.64003390045828,
+     230.41889538083734
+    ],
+    "max": [
+     80.16232299526719,
+     97.6718871465205,
+     1713.489415095296
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -257.58629855308385,
+     -172.93341351536873,
+     -16.99137372895227
+    ],
+    "max": [
+     56.970621066490686,
+     58.18460185016584,
+     1115.94699687949
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L1_Leaf",
+   "triangles": 1144,
+   "canonicalBoundsCm": {
+    "min": [
+     -125.8803439593357,
+     -100.17424287920572,
+     216.36252324883378
+    ],
+    "max": [
+     74.35260182214533,
+     86.31898882225832,
+     1728.2870724724908
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -124.0507347903665,
+     -41.038805413542306,
+     -22.094983107175754
+    ],
+    "max": [
+     48.56661081652971,
+     58.32867871632922,
+     177.80834210231683
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L2_Leaf",
+   "triangles": 288,
+   "canonicalBoundsCm": {
+    "min": [
+     -126.23848798059538,
+     -118.62403854756147,
+     186.56624282420645
+    ],
+    "max": [
+     80.6165210482684,
+     102.06489060117353,
+     1757.8823872268804
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Cypress_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -297.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     297.5,
+     0.0,
+     1700.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -253.91963365464846,
+     -204.34514865096293,
+     -0.8504638453140527
+    ],
+    "max": [
+     301.4736509452262,
+     282.7812285606336,
+     724.1068126526694
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Leaf",
+   "triangles": 1560,
+   "canonicalBoundsCm": {
+    "min": [
+     -248.20393508931443,
+     -253.03728245322506,
+     196.99598441541403
+    ],
+    "max": [
+     281.9427984150709,
+     252.65695979919565,
+     597.8945265363278
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -108.54110826937443,
+     -196.65604505390354,
+     -0.7837905127123502
+    ],
+    "max": [
+     211.07531086551782,
+     155.8427271274634,
+     459.7738927503291
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L1_Leaf",
+   "triangles": 392,
+   "canonicalBoundsCm": {
+    "min": [
+     -207.18276146067313,
+     -264.81236983330575,
+     173.3518771419902
+    ],
+    "max": [
+     293.3548718050913,
+     218.96420429004837,
+     621.7412861829773
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -15.693010891881686,
+     -18.300903166540344,
+     -1.7595350541570305
+    ],
+    "max": [
+     36.195281140166074,
+     35.11784676983351,
+     219.45557572052957
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L2_Leaf",
+   "triangles": 96,
+   "canonicalBoundsCm": {
+    "min": [
+     -287.83275952500577,
+     -295.80677524126725,
+     135.76314015349328
+    ],
+    "max": [
+     308.81668179844644,
+     218.298827697492,
+     669.4348054762762
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_Gnarled_L0_Bark",
+   "triangles": 780,
+   "canonicalBoundsCm": {
+    "min": [
+     -148.44317287624892,
+     -275.54250407145065,
+     -15.157364390981108
+    ],
+    "max": [
+     387.3597189239501,
+     237.19548441717558,
+     564.8764479847625
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_Gnarled_L0_Leaf",
+   "triangles": 1560,
+   "canonicalBoundsCm": {
+    "min": [
+     -246.93013728459232,
+     -265.10833617776973,
+     103.22264349027715
+    ],
+    "max": [
+     261.6948910487388,
+     247.78384886144468,
+     597.0431473125944
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_Gnarled_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -15.484505335248413,
+     -196.30648158152493,
+     -13.27464409387267
+    ],
+    "max": [
+     317.88179180404967,
+     134.45196259412583,
+     384.8984007553883
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Gnarled_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_Gnarled_L1_Leaf",
+   "triangles": 392,
+   "canonicalBoundsCm": {
+    "min": [
+     -218.0827144977835,
+     -199.37276473173122,
+     79.24903382938712
+    ],
+    "max": [
+     268.68037062771924,
+     222.25889147258755,
+     620.7773723137814
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Almond_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -225.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     225.0,
+     0.0,
+     575.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -253.23094393248311,
+     -332.3400474520539,
+     -4.326509580081242
+    ],
+    "max": [
+     450.14087048257153,
+     358.297547579424,
+     641.9138314716228
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Leaf",
+   "triangles": 1656,
+   "canonicalBoundsCm": {
+    "min": [
+     -374.36368786664514,
+     -329.13563044902935,
+     179.14338723668578
+    ],
+    "max": [
+     368.20890995486525,
+     373.31167835101604,
+     579.2330829030124
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -167.7053505142999,
+     -181.59345335869543,
+     -4.70557456231025
+    ],
+    "max": [
+     296.50972803157794,
+     133.72169188569055,
+     514.6902088130472
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L1_Leaf",
+   "triangles": 416,
+   "canonicalBoundsCm": {
+    "min": [
+     -323.6604479472584,
+     -272.5008448420595,
+     148.39959925237545
+    ],
+    "max": [
+     361.84784725343735,
+     354.4279414367104,
+     609.8469136635284
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -30.540321981814763,
+     -34.42970823936261,
+     -3.781958709261315
+    ],
+    "max": [
+     40.19407125561088,
+     43.240647982786655,
+     210.47638809163223
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L2_Leaf",
+   "triangles": 104,
+   "canonicalBoundsCm": {
+    "min": [
+     -349.71240391745687,
+     -301.1285945499989,
+     86.91202328375475
+    ],
+    "max": [
+     388.9575056028551,
+     306.8454832017835,
+     660.1912720356836
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_Gnarled_L0_Bark",
+   "triangles": 780,
+   "canonicalBoundsCm": {
+    "min": [
+     -509.52508024043925,
+     -166.55279326134075,
+     -9.664846260637814
+    ],
+    "max": [
+     239.10657764612662,
+     468.4698152873727,
+     504.19864053397197
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_Gnarled_L0_Leaf",
+   "triangles": 1656,
+   "canonicalBoundsCm": {
+    "min": [
+     -392.35859867121144,
+     -321.522312294164,
+     91.70372152977804
+    ],
+    "max": [
+     265.20695783454096,
+     380.5562588470618,
+     578.6803893433478
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_Gnarled_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -305.80803575223274,
+     -133.52023772340763,
+     -13.654327100605016
+    ],
+    "max": [
+     84.54773294317283,
+     288.1314760655511,
+     407.4544577300767
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Gnarled_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_Gnarled_L1_Leaf",
+   "triangles": 416,
+   "canonicalBoundsCm": {
+    "min": [
+     -404.92980596400054,
+     -353.2695302124601,
+     60.79615803080973
+    ],
+    "max": [
+     280.79748065763795,
+     355.22516453959787,
+     608.9628621330496
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Fig_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -325.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     325.0,
+     0.0,
+     550.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -166.1857360391443,
+     -156.03884330238165,
+     -0.3946122772283854
+    ],
+    "max": [
+     215.9911374202591,
+     199.3999546189434,
+     450.53495369095623
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "triangles": 1392,
+   "canonicalBoundsCm": {
+    "min": [
+     -190.81002074301088,
+     -168.89775968088367,
+     117.85741384879996
+    ],
+    "max": [
+     160.20345064529758,
+     173.85322784666604,
+     365.63441004619625
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -126.09496942790415,
+     -111.93208262883196,
+     -0.5798106042978084
+    ],
+    "max": [
+     96.38798623287569,
+     61.57713517535713,
+     350.55484684339393
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L1_Leaf",
+   "triangles": 344,
+   "canonicalBoundsCm": {
+    "min": [
+     -189.98245232848535,
+     -199.61509837839083,
+     100.99874356702591
+    ],
+    "max": [
+     154.93068420039035,
+     161.511370928995,
+     382.56999125339405
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -9.290209420127889,
+     -10.83051442257275,
+     -0.7399425875261628
+    ],
+    "max": [
+     20.498727246431113,
+     21.21103678583306,
+     133.62008696538592
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L2_Leaf",
+   "triangles": 88,
+   "canonicalBoundsCm": {
+    "min": [
+     -196.41952664785669,
+     -199.07690438733871,
+     69.5679084252827
+    ],
+    "max": [
+     140.93674016298715,
+     177.8685779139443,
+     416.4411536677896
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Pomegranate_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -150.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     150.0,
+     0.0,
+     350.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "triangles": 176,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.27783575013086,
+     -26.571197797704695,
+     -0.6593887930227095
+    ],
+    "max": [
+     103.72379432297822,
+     51.57250944856198,
+     1362.3459096719453
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "triangles": 160,
+   "canonicalBoundsCm": {
+    "min": [
+     -307.4626961285259,
+     -382.4298294538167,
+     1087.3672076614698
+    ],
+    "max": [
+     481.36084483358195,
+     424.89239502239474,
+     1402.7126709660154
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L1_Bark",
+   "triangles": 68,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.016725231539603,
+     -26.571197797704695,
+     -0.6196693320158384
+    ],
+    "max": [
+     102.05881168235896,
+     51.57250944856198,
+     1361.920451234909
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L1_Leaf",
+   "triangles": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -297.6894792263212,
+     -374.64842179035026,
+     1100.1915547868916
+    ],
+    "max": [
+     472.6579846128349,
+     411.4282473153805,
+     1401.7681979571853
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.559006567549204,
+     -26.5711977977047,
+     -0.7357591057947909
+    ],
+    "max": [
+     102.50130604594642,
+     53.81580852710181,
+     1361.639722615173
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L2_Leaf",
+   "triangles": 32,
+   "canonicalBoundsCm": {
+    "min": [
+     -242.82517795205968,
+     -315.20368357324816,
+     1100.1915547868916
+    ],
+    "max": [
+     459.25490568339677,
+     338.6226938001401,
+     1401.021880412413
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DatePalm_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -375.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     375.0,
+     0.0,
+     1700.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -386.9399939861647,
+     -500.2619672178531,
+     -3.2221281051674886
+    ],
+    "max": [
+     411.79434359977205,
+     452.8368738708973,
+     1075.3364789400698
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Leaf",
+   "triangles": 4800,
+   "canonicalBoundsCm": {
+    "min": [
+     -440.53301199195454,
+     -441.2762880800396,
+     319.3327653628444
+    ],
+    "max": [
+     455.21399179765433,
+     476.7223004796741,
+     921.8441824066454
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -226.374582644667,
+     -323.70278311047997,
+     -2.693490531272145
+    ],
+    "max": [
+     255.1507297355196,
+     250.97200610194255,
+     878.2662816984692
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L1_Leaf",
+   "triangles": 1200,
+   "canonicalBoundsCm": {
+    "min": [
+     -425.14573537390766,
+     -454.3402409296004,
+     302.1034259161519
+    ],
+    "max": [
+     428.81550695286006,
+     423.4141844532809,
+     937.2026922902741
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -38.955644565668855,
+     -82.32314134963455,
+     -3.7535598568839457
+    ],
+    "max": [
+     57.68788866748809,
+     62.652833714919154,
+     347.72533649562547
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L2_Leaf",
+   "triangles": 300,
+   "canonicalBoundsCm": {
+    "min": [
+     -410.0168508182251,
+     -455.8632961590429,
+     256.6742575035575
+    ],
+    "max": [
+     441.1930628230345,
+     367.8075283085897,
+     982.959325719568
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_Gnarled_L0_Bark",
+   "triangles": 780,
+   "canonicalBoundsCm": {
+    "min": [
+     -725.7786175294765,
+     -410.30407889856195,
+     -19.959318443528428
+    ],
+    "max": [
+     204.57116437820164,
+     611.5991349851924,
+     913.6840413766244
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_Gnarled_L0_Leaf",
+   "triangles": 4800,
+   "canonicalBoundsCm": {
+    "min": [
+     -534.2192066531828,
+     -470.47251042743153,
+     176.28797467208884
+    ],
+    "max": [
+     440.4903888221152,
+     460.38648662802507,
+     920.9449985713427
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_Gnarled_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -461.67998958226474,
+     -287.30970722051336,
+     -14.871301946916324
+    ],
+    "max": [
+     56.72096516702814,
+     219.85497530957306,
+     629.7467047615972
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Gnarled_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_Gnarled_L1_Leaf",
+   "triangles": 1200,
+   "canonicalBoundsCm": {
+    "min": [
+     -497.25389217686444,
+     -481.1252296876737,
+     157.11137457676966
+    ],
+    "max": [
+     419.79818099002244,
+     443.9964851927386,
+     943.9437034016865
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Carob_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -400.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     400.0,
+     0.0,
+     900.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "triangles": 688,
+   "canonicalBoundsCm": {
+    "min": [
+     -505.34256711936393,
+     -510.2646827862313,
+     -1.3037685325996615
+    ],
+    "max": [
+     590.9033969131901,
+     464.8594100957618,
+     799.3424591548693
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "triangles": 4800,
+   "canonicalBoundsCm": {
+    "min": [
+     -480.0039767724796,
+     -424.00085353340114,
+     282.2278836282791
+    ],
+    "max": [
+     452.0714292035458,
+     420.8077635953368,
+     819.2765274900829
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -270.10352761148187,
+     -388.5958003636946,
+     -2.076989024869047
+    ],
+    "max": [
+     417.39131653134984,
+     126.92647932774729,
+     665.8776839350571
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L1_Leaf",
+   "triangles": 1200,
+   "canonicalBoundsCm": {
+    "min": [
+     -427.0086037166962,
+     -417.84506453636226,
+     260.38782005140206
+    ],
+    "max": [
+     487.9739142994389,
+     419.58427794717204,
+     840.9572469547163
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L2_Bark",
+   "triangles": 20,
+   "canonicalBoundsCm": {
+    "min": [
+     -37.1645009820444,
+     -44.16243864408884,
+     -3.0518923851798037
+    ],
+    "max": [
+     59.30475908013271,
+     64.44264047353538,
+     307.628461566651
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_L2_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L2_Leaf",
+   "triangles": 300,
+   "canonicalBoundsCm": {
+    "min": [
+     -412.55627858711125,
+     -415.6710306290829,
+     218.60471943516526
+    ],
+    "max": [
+     470.6423414471645,
+     430.4860555591315,
+     884.3186858839831
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_Gnarled_L0_Bark",
+   "triangles": 780,
+   "canonicalBoundsCm": {
+    "min": [
+     -737.7144466708917,
+     -476.93007921370344,
+     -12.018001650137057
+    ],
+    "max": [
+     277.0730481956407,
+     413.79758280947055,
+     901.4149825044241
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_Gnarled_L0_Leaf",
+   "triangles": 4800,
+   "canonicalBoundsCm": {
+    "min": [
+     -512.5969599843639,
+     -464.1280750348689,
+     154.72281192768205
+    ],
+    "max": [
+     432.7115040881031,
+     388.1531125352439,
+     819.4259604955637
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_Gnarled_L1_Bark",
+   "triangles": 116,
+   "canonicalBoundsCm": {
+    "min": [
+     -460.3955725386066,
+     -418.32866862046797,
+     -10.099947267165486
+    ],
+    "max": [
+     94.17484263107043,
+     224.077013096213,
+     679.0372582498258
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Gnarled_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_Gnarled_L1_Leaf",
+   "triangles": 1200,
+   "canonicalBoundsCm": {
+    "min": [
+     -492.08603321977046,
+     -495.2058307148778,
+     133.0448675186155
+    ],
+    "max": [
+     419.1272094275592,
+     388.22157991540286,
+     838.5935588226479
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Terebinth_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -400.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     400.0,
+     0.0,
+     800.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Bark",
+   "triangles": 180,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.558880417337722,
+     -27.420772940601257,
+     -1.293614974644742
+    ],
+    "max": [
+     24.971568165635123,
+     35.55515693647722,
+     70.6036790395334
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Leaf",
+   "triangles": 280,
+   "canonicalBoundsCm": {
+    "min": [
+     -45.81561248874388,
+     -52.052753734428016,
+     9.480406256909323
+    ],
+    "max": [
+     50.4453117717209,
+     53.073983157580265,
+     76.2998305344114
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L1_Bark",
+   "triangles": 80,
+   "canonicalBoundsCm": {
+    "min": [
+     -23.41606445000879,
+     -27.30089596411865,
+     -0.9288510296220789
+    ],
+    "max": [
+     21.31277761423229,
+     27.613674729748304,
+     70.56244850547843
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L1_Leaf",
+   "triangles": 68,
+   "canonicalBoundsCm": {
+    "min": [
+     -56.03640800483122,
+     -57.39535823762104,
+     -0.3587781742823708
+    ],
+    "max": [
+     49.17216334209532,
+     41.65786829013718,
+     86.28586893727264
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Sage_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -44.99999999999999,
+     0.0,
+     0.0
+    ],
+    "max": [
+     44.99999999999999,
+     0.0,
+     75.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "triangles": 180,
+   "canonicalBoundsCm": {
+    "min": [
+     -16.77997353876436,
+     -15.85845551588197,
+     -0.562490807655526
+    ],
+    "max": [
+     15.715294463133668,
+     11.680916839069413,
+     45.47856548006352
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "triangles": 240,
+   "canonicalBoundsCm": {
+    "min": [
+     -30.039300137667034,
+     -26.032265632807476,
+     7.139217729961695
+    ],
+    "max": [
+     29.834394416124383,
+     26.911222256357682,
+     49.97514489259424
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L1_Bark",
+   "triangles": 80,
+   "canonicalBoundsCm": {
+    "min": [
+     -10.669047140978124,
+     -8.901784244399842,
+     -0.47296959451825055
+    ],
+    "max": [
+     15.715294463133668,
+     6.71570500657046,
+     45.44874254333657
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L1_Leaf",
+   "triangles": 60,
+   "canonicalBoundsCm": {
+    "min": [
+     -32.101415282161334,
+     -31.895888567414595,
+     1.1739454385632833
+    ],
+    "max": [
+     27.645697702282494,
+     32.24810291141771,
+     55.819313720708564
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Hyssop_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -25.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     25.0,
+     0.0,
+     50.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "triangles": 180,
+   "canonicalBoundsCm": {
+    "min": [
+     -27.56967139302659,
+     -30.997359490999347,
+     -1.1519996061341427
+    ],
+    "max": [
+     34.436777652117186,
+     32.783123408714225,
+     80.76131867272908
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "triangles": 384,
+   "canonicalBoundsCm": {
+    "min": [
+     -49.241609368517175,
+     -55.54112522915809,
+     12.599142696279893
+    ],
+    "max": [
+     49.52479779814262,
+     50.788653493142796,
+     84.39493945679916
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L1_Bark",
+   "triangles": 80,
+   "canonicalBoundsCm": {
+    "min": [
+     -19.924590400835005,
+     -32.73819622420563,
+     -0.962531720356516
+    ],
+    "max": [
+     21.71993228458995,
+     30.16202603482563,
+     80.76131867272908
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L1_Leaf",
+   "triangles": 96,
+   "canonicalBoundsCm": {
+    "min": [
+     -56.12925261517084,
+     -49.0420215586163,
+     3.810397387148999
+    ],
+    "max": [
+     53.754406640239516,
+     55.428332762503594,
+     89.21569217852587
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_Rockrose_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -47.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     47.5,
+     0.0,
+     85.0
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "triangles": 180,
+   "canonicalBoundsCm": {
+    "min": [
+     -16.531828776774002,
+     -16.712939598187937,
+     -1.2168630421959943
+    ],
+    "max": [
+     16.2223878655495,
+     20.8177741172234,
+     25.127302751517853
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "triangles": 296,
+   "canonicalBoundsCm": {
+    "min": [
+     -33.5479527366964,
+     -37.695263548957854,
+     -1.6979701695668856
+    ],
+    "max": [
+     36.69669672399194,
+     37.940237523196025,
+     46.89313637676426
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Bark",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L1_Bark",
+   "triangles": 80,
+   "canonicalBoundsCm": {
+    "min": [
+     -12.092260383287526,
+     -24.046833424428556,
+     -1.2168630421959943
+    ],
+    "max": [
+     11.612522310681715,
+     16.767138743476387,
+     25.127302751517853
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L1_Leaf",
+   "triangles": 72,
+   "canonicalBoundsCm": {
+    "min": [
+     -34.19103214862007,
+     -43.39273772690007,
+     -8.084177388043994
+    ],
+    "max": [
+     31.709875191513138,
+     36.07358057772737,
+     53.35059292407024
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_Billboard",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_Billboard",
+   "triangles": 2,
+   "canonicalBoundsCm": {
+    "min": [
+     -32.5,
+     0.0,
+     0.0
+    ],
+    "max": [
+     32.5,
+     0.0,
+     44.99999999999999
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "triangles": 44,
+   "canonicalBoundsCm": {
+    "min": [
+     -48.44478972801014,
+     -26.477490075506765,
+     1.1061061692789167
+    ],
+    "max": [
+     40.51025753394231,
+     41.539835609181644,
+     59.4352440682224
+    ]
+   }
+  },
+  {
+   "mesh": "SM_JudeanFloraV1_DryGrass_L1_Leaf",
+   "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DryGrass_L1_Leaf",
+   "triangles": 16,
+   "canonicalBoundsCm": {
+    "min": [
+     -33.13814049498194,
+     -26.477490075506765,
+     2.3837498101743826
+    ],
+    "max": [
+     40.51025753394231,
+     40.92197042874847,
+     51.65561710815028
+    ]
+   }
+  }
+ ],
+ "lodLadders": [
+  {
+   "species": "Almond",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.12938,
+    0.04313
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 517.52,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Almond",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Almond_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.1044,
+    0.0348,
+    0.01392
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 417.58,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Carob",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.20576,
+    0.06859
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 823.05,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Carob",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Carob_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.17713,
+    0.05904,
+    0.02362
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 708.54,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Cypress",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.20079,
+    0.06693
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 803.15,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Cypress",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.18866,
+    0.06289,
+    0.02515
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 754.65,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "DatePalm",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.17142,
+    0.05714
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 685.66,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "DatePalm",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.14649,
+    0.04883,
+    0.01953
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 585.97,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "DryGrass",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "lodCount": 2,
+   "lodStartDistanceCm": [
+    0.0,
+    1500.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.04209
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 63.13,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Fig",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.14734,
+    0.04911
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 589.35,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Fig",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Fig_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.13721,
+    0.04574,
+    0.01829
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 548.84,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Hyssop",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "lodCount": 2,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.01254
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 31.36,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Hyssop",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0,
+    8000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.01814,
+    0.00567
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 45.34,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "JerusalemPine",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.26102,
+    0.08701
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 1044.07,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "JerusalemPine",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.1786,
+    0.05953,
+    0.02381
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 714.41,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Olive",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.18099,
+    0.06033
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 723.97,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Olive",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Olive_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.13388,
+    0.04463,
+    0.01785
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 535.51,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Pomegranate",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.08622,
+    0.02874
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 344.87,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Pomegranate",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.0687,
+    0.0229,
+    0.00916
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 274.81,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Rockrose",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "lodCount": 2,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.02418
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 60.46,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Rockrose",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0,
+    8000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.03238,
+    0.01012
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 80.96,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Sage",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Bark",
+   "lodCount": 2,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.02162
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 54.06,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Sage",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Sage_L0_Leaf",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0,
+    8000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.03149,
+    0.00984
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 78.71,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Terebinth",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.20893,
+    0.06964
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 835.71,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "Terebinth",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "lodCount": 4,
+   "lodStartDistanceCm": [
+    0.0,
+    4000.0,
+    12000.0,
+    30000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.17098,
+    0.05699,
+    0.0228
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 683.9,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "ThornyBurnet",
+   "role": "bark",
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "lodCount": 2,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.01127
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 28.18,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  },
+  {
+   "species": "ThornyBurnet",
+   "role": "leaf",
+   "mesh": "SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "lodCount": 3,
+   "lodStartDistanceCm": [
+    0.0,
+    2500.0,
+    8000.0
+   ],
+   "lodScreenSizes": [
+    1.0,
+    0.02282,
+    0.00713
+   ],
+   "lodScreenSizesApplied": true,
+   "boundsSphereRadiusCm": 57.04,
+   "screenSizeRule": "ScreenSize for the LOD that takes over at distance d is 2 * (0.5 / tan(hFOV/2)) * mesh bounds sphere radius / d, which is the engine's own ComputeBoundsScreenSize and equals radius / d at the default 90 degree horizontal field of view. The earlier rule here said 2 * radius / d, twice the real screen size, so every threshold was twice too large and every LOD engaged at half its intended distance (LOD1 at 20 m, LOD2 at 60 m, billboard at 150 m). Corrected 2026-09-10 after the cp08 review frames showed faceted low-poly trees at 15-30 m."
+  }
+ ],
+ "mapSha256After": "7d1e1af619555644853861d1208c36c762797b7e4b8b880183bbc2d8e8c41197",
+ "mapBytesChanged": false,
+ "protectedMapsUnchanged": true
+}

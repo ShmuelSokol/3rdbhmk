@@ -1,13 +1,13 @@
 {
-  "status": "revert_saved_reopened_readback_pie_review_pending",
-  "mode": "revert",
+  "status": "apply_no_change_needed",
+  "mode": "apply",
   "target": "Candidate48",
   "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
-  "utc": "2026-09-10T01:38:39.050803+00:00",
-  "stamp": "20260910T013839046285Z",
-  "mapBeforeSha256": "d4bb2c3ca6f07d9340c40469273c8b627b65e8b8e30be004008fd7e830f55e4d",
+  "utc": "2026-09-10T01:49:53.799488+00:00",
+  "stamp": "20260910T014953791271Z",
+  "mapBeforeSha256": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123",
   "otherMapsBefore": {
-    "Main50": "039920b7e2f4e86c33f9b4fc0ab93396c3b39e52eb8ef134d8587bce0b27ef99"
+    "Main50": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77"
   },
   "errors": [],
   "editorProcesses": {
@@ -71,10 +71,10 @@
     "Content/MikdashV3/Characters/PilgrimRigV3/V3_Visitor_Phone/V3_Visitor_Phone/SkeletalMeshes/V3_Visitor_Phone_Skeleton.uasset": "edbe9317f06e1085454c8d2b74abac22f20c77c5a08d7c1a5cde5ba3d681ec0f",
     "Content/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.uasset": "2c2a88c4be80039b8d11d0b1ffeea047497fffbd03ffe15b4a0ac52f8f011603",
     "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.uasset": "9f6fa7d8605282e5acc7eb5b018b4f359118478330127cce9f358b9738b2f075",
-    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "039920b7e2f4e86c33f9b4fc0ab93396c3b39e52eb8ef134d8587bce0b27ef99",
-    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "d4bb2c3ca6f07d9340c40469273c8b627b65e8b8e30be004008fd7e830f55e4d"
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123"
   },
-  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\WalkV2Finish-Candidate48-20260910T013839046285Z",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\WalkV2Finish-Candidate48-20260910T014953791271Z",
   "before": {
     "kohen": {
       "walk_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
@@ -200,15 +200,104 @@
     }
   },
   "notes": {
-    "revertSource": "walkv2-finish-apply-Candidate48-20260910T013156570573Z.json",
-    "revertSourceSha256": "2d73843e85a2b91ee1354678121cbb1fab29b8cef663d96d8c68449f3df27079"
+    "kohen": {
+      "bodyMeshResolvedFrom": "configured_mesh",
+      "bodyMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.V3_Pilgrim_Man_Standard",
+      "bodySkeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.V3_Pilgrim_Man_Standard_Skeleton",
+      "matchedVariant": "V3_Pilgrim_Man_Standard",
+      "walkAnimationBefore": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+      "walkAnimationAfter": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+      "walkSpeedBefore": 119.94999694824219,
+      "walkSpeedAfter": 119.95,
+      "whyThisSpeed": "AMikdashServiceActor never sets a play rate: UpdateBodyAnimation calls SetAnimation + Play(true) and the clip runs at 1.0. Its stride therefore matches its translation only when WalkSpeedCmPerSec equals the speed the clip carries, which is the in-engine fitted 119.95 cm/s."
+    },
+    "neutralPhase": {
+      "measuredInEngine": 0.285,
+      "offlineClaim": [
+        0.285,
+        0.785
+      ],
+      "measuredOldClip": 0.25,
+      "perVariant": [],
+      "variantsChanged": 0
+    },
+    "defaultBody": {
+      "peopleV3": {
+        "populationWalkAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.PilgrimRigV2A_Pilgrim_Original_Walk",
+        "groundSpeedBefore": 60.48,
+        "groundSpeedAfter": 60.48,
+        "neutralPhaseBefore": 0.25,
+        "neutralPhaseAfter": 0.25
+      },
+      "pilot": {
+        "populationWalkAnimation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.PilgrimRigV2A_Pilgrim_Original_Walk",
+        "groundSpeedBefore": 60.48,
+        "groundSpeedAfter": 60.48,
+        "neutralPhaseBefore": 0.25,
+        "neutralPhaseAfter": 0.25
+      }
+    },
+    "defaultBodyEvidence": {
+      "directory": {
+        "file": "Content/Distribution/People/people-candidate48.json",
+        "sha256": "d2045f022799f339376bc6e9671414186751fafa9f9c5d3e1b36f1a67fb9d6d8",
+        "version": "people-v3",
+        "people": 24,
+        "variantCounts": {
+          "V3_Pilgrim_Man_Standard": 5,
+          "V3_Pilgrim_Woman_Young": 5,
+          "V3_Pilgrim_Man_Heavy": 4,
+          "V3_Pilgrim_Woman_Elder": 4,
+          "V3_Pilgrim_Man_Elder": 4,
+          "V3_Pilgrim_Youth": 2
+        },
+        "peopleWithNoVariant": [],
+        "peopleWithNoVariantCount": 0
+      },
+      "registeredVariantIds": [
+        "V3_Pilgrim_Man_Elder",
+        "V3_Pilgrim_Man_Heavy",
+        "V3_Pilgrim_Man_Standard",
+        "V3_Pilgrim_Woman_Elder",
+        "V3_Pilgrim_Woman_Young",
+        "V3_Pilgrim_Youth"
+      ],
+      "variantsUsableByResolveBody": [
+        "V3_Pilgrim_Man_Elder",
+        "V3_Pilgrim_Man_Heavy",
+        "V3_Pilgrim_Man_Standard",
+        "V3_Pilgrim_Woman_Elder",
+        "V3_Pilgrim_Woman_Young",
+        "V3_Pilgrim_Youth"
+      ],
+      "variantsRefusedByResolveBody": {},
+      "directoryVariantsWithNoUsableRegistration": [],
+      "peopleThatWouldTakeTheDefaultBody": 0,
+      "peopleThatWouldTakeAVariantBody": 24,
+      "pilotStartupEnabled": false,
+      "pilotPlacedBodies": [
+        "RELEASE_Resident_authored-outer-visitor-01",
+        "RELEASE_Resident_authored-outer-visitor-02",
+        "RELEASE_Resident_authored-outer-visitor-03",
+        "RELEASE_Resident_authored-outer-visitor-04",
+        "RELEASE_Resident_authored-outer-visitor-05"
+      ],
+      "pilotPlacedBodyCount": 5,
+      "peopleV3StartupEnabled": true,
+      "note": "The pilot drives its five PLACED bodies through BindConfiguredBodies, which always uses the population-level WalkAnimation and DefaultWalkClipGroundSpeedCmPerSec -- it never consults BodyVariants. Those five are the only bodies in either map that read the default gait numbers, and only if pilot startup is on."
+    },
+    "measureReceipt": {
+      "file": "walkv2-finish-measure-20260910T013032732487Z.json",
+      "sha256": "4036aa39cc1e40a02503a8ae1fa3e11da932a98aab2cde8f92c9a17ff66c0b49",
+      "stamp": "20260910T013032732487Z"
+    }
   },
   "wanted": {
     "kohen": {
-      "walk_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+      "walk_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
       "idle_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
       "configured_mesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.V3_Pilgrim_Man_Standard",
-      "walk_speed_cm_per_sec": 90.0,
+      "walk_speed_cm_per_sec": 119.95,
       "use_grounded_movement": true,
       "start_on_begin_play": false,
       "authored_body": null,
@@ -223,7 +312,7 @@
       "idle_animation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.PilgrimRigV2A_Pilgrim_Original_Idle",
       "resident_mesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
       "people_directory_file": "Distribution/People/people-candidate48.json",
-      "default_walk_clip_ground_speed_cm_per_sec": 120.0,
+      "default_walk_clip_ground_speed_cm_per_sec": 60.48,
       "default_walk_clip_neutral_phase": 0.25,
       "default_mesh_relative_yaw": 90.0,
       "match_walk_clip_to_ground_speed": true,
@@ -241,7 +330,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Man_Heavy",
@@ -253,7 +342,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Man_Standard",
@@ -265,7 +354,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Woman_Elder",
@@ -277,7 +366,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Woman_Young",
@@ -289,7 +378,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Youth",
@@ -301,7 +390,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         }
       ]
     },
@@ -310,7 +399,7 @@
       "idle_animation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.PilgrimRigV2A_Pilgrim_Original_Idle",
       "resident_mesh": null,
       "people_directory_file": "Distribution/People/people.json",
-      "default_walk_clip_ground_speed_cm_per_sec": 120.0,
+      "default_walk_clip_ground_speed_cm_per_sec": 60.48,
       "default_walk_clip_neutral_phase": 0.25,
       "default_mesh_relative_yaw": 90.0,
       "match_walk_clip_to_ground_speed": true,
@@ -328,14 +417,14 @@
     }
   },
   "sceneChanges": [],
-  "mapSaved": true,
-  "mapAfterSha256": "1be87bb2bf065e4ee73f30a2f506dfc39f64922e0f65946f084275af045fa7bc",
+  "mapSaved": false,
+  "mapAfterSha256": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123",
   "readbackAfterReopen": {
     "kohen": {
-      "walk_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+      "walk_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
       "idle_animation": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
       "configured_mesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.V3_Pilgrim_Man_Standard",
-      "walk_speed_cm_per_sec": 90.0,
+      "walk_speed_cm_per_sec": 119.94999694824219,
       "use_grounded_movement": true,
       "start_on_begin_play": false,
       "authored_body": null,
@@ -350,7 +439,7 @@
       "idle_animation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.PilgrimRigV2A_Pilgrim_Original_Idle",
       "resident_mesh": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2.PilgrimRigV2",
       "people_directory_file": "Distribution/People/people-candidate48.json",
-      "default_walk_clip_ground_speed_cm_per_sec": 120.0,
+      "default_walk_clip_ground_speed_cm_per_sec": 60.48,
       "default_walk_clip_neutral_phase": 0.25,
       "default_mesh_relative_yaw": 90.0,
       "match_walk_clip_to_ground_speed": true,
@@ -368,7 +457,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Man_Heavy",
@@ -380,7 +469,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Man_Standard",
@@ -392,7 +481,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Woman_Elder",
@@ -404,7 +493,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Woman_Young",
@@ -416,7 +505,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         },
         {
           "id": "V3_Pilgrim_Youth",
@@ -428,7 +517,7 @@
           ],
           "mesh_relative_yaw": -90.0,
           "walk_clip_ground_speed_cm_per_sec": 120.0,
-          "walk_clip_neutral_phase": 0.25
+          "walk_clip_neutral_phase": 0.285
         }
       ]
     },
@@ -437,7 +526,7 @@
       "idle_animation": "/Game/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Idle.PilgrimRigV2A_Pilgrim_Original_Idle",
       "resident_mesh": null,
       "people_directory_file": "Distribution/People/people.json",
-      "default_walk_clip_ground_speed_cm_per_sec": 120.0,
+      "default_walk_clip_ground_speed_cm_per_sec": 60.48,
       "default_walk_clip_neutral_phase": 0.25,
       "default_mesh_relative_yaw": 90.0,
       "match_walk_clip_to_ground_speed": true,
@@ -462,11 +551,11 @@
     "idleClipSkeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.V3_Pilgrim_Man_Standard_Skeleton",
     "idleOnBodySkeleton": true,
     "walkLengthSec": 1.2,
-    "walkNumKeys": 37,
-    "walkSpeedCmPerSec": 90.0
+    "walkNumKeys": 73,
+    "walkSpeedCmPerSec": 119.94999694824219
   },
   "otherMapsAfter": {
-    "Main50": "039920b7e2f4e86c33f9b4fc0ab93396c3b39e52eb8ef134d8587bce0b27ef99"
+    "Main50": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77"
   },
   "otherMapsUnchanged": true,
   "protectedAfter": {
@@ -526,8 +615,8 @@
     "Content/MikdashV3/Characters/PilgrimRigV3/V3_Visitor_Phone/V3_Visitor_Phone/SkeletalMeshes/V3_Visitor_Phone_Skeleton.uasset": "edbe9317f06e1085454c8d2b74abac22f20c77c5a08d7c1a5cde5ba3d681ec0f",
     "Content/MikdashV3/CharacterReview/PilgrimRigV2/PilgrimRigV2/SkeletalMeshes/PilgrimRigV2A_Pilgrim_Original_Walk.uasset": "2c2a88c4be80039b8d11d0b1ffeea047497fffbd03ffe15b4a0ac52f8f011603",
     "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.uasset": "9f6fa7d8605282e5acc7eb5b018b4f359118478330127cce9f358b9738b2f075",
-    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "039920b7e2f4e86c33f9b4fc0ab93396c3b39e52eb8ef134d8587bce0b27ef99",
-    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "1be87bb2bf065e4ee73f30a2f506dfc39f64922e0f65946f084275af045fa7bc"
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "a43374681f8446e50988273ded9a68f184b0fa66203fc46181a86d32f2b22123"
   },
   "protectedChangedExcludingThisMap": []
 }

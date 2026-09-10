@@ -158,20 +158,35 @@ back to 53.33. Repointing the clip alone would therefore have driven a 120 cm/s 
 
 * **Nobody has looked at the new walk in a frame.** No PIE, no render, no cook, no frame
   time. Every number above is a static readback off an asset or a map.
-* **The Kohen Gadol service body still plays the old walk.** On Candidate48,
+* ~~**The Kohen Gadol service body still plays the old walk.**~~ **CLOSED 2026-09-10** by
+  `Scripts/release_walk_v2_finish.py`; see `WALK-V2-FINISH-RECEIPT.md`. He is on the WalkV2
+  clip at 119.95 cm/s on both maps. His stilt was 1.49x and was the only number in this whole
+  effort ever OBSERVED in a frame (196 moving PIE intervals, all at exactly 90.00 cm/s,
+  against a 60.48 cm/s clip). Original note follows. On Candidate48,
   `RELEASE_KohenGadolService_Selected48_V1` (`MikdashServiceActor`) points at
   `…/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk`;
   on Main50 `RELEASE_KohenGadolService` has no walk clip set at all. That actor belongs to
   another system (`Scripts/configure_service_body_v3.py`) and was deliberately not touched.
   If he walks in the candidate map, he still stilts.
-* **The V2 pilot population still plays the V2 walk.** `RELEASE_ResidentPopulation` on both
+* ~~**The V2 pilot population still plays the V2 walk.**~~ **CLOSED 2026-09-10.** It still
+  plays the V2 clip -- there is still nothing to repoint it at -- but its per-actor
+  `DefaultWalkClipGroundSpeedCmPerSec` is now the measured 60.48, on both populations and both
+  maps. Two corrections to the note below: the field serialized **120.0**, not 53.33, so the
+  over-drive was live; and the V2 clip carries a plant-fitted **60.48 cm/s**, not 53.33, so it
+  was 1.98x rather than 2.25x. Zero of the 24 residents can reach it (observed off both
+  directories and the reopened actor); only the pilot's five placed bodies can, and pilot
+  startup reads back false. Original note follows. `RELEASE_ResidentPopulation` on both
   maps points at `PilgrimRigV2A_Pilgrim_Original_Walk`. The V2 GLB was not re-exported by
   the re-author run, so there is nothing to repoint it at. Note that
   `DefaultWalkClipGroundSpeedCmPerSec` in the header is now 120.0 while the default (V2)
   body's clip still carries 53.33 — any resident that falls back to the default body would
   be driven at more than twice its clip speed. The bodies-V3 apply put all 24 residents on
   variant bodies, so nothing should be taking that path, but it has not been observed in PIE.
-* **`WalkClipNeutralPhase` is stale by 0.035 of a cycle and was NOT changed.** It is 0.25 on
+* ~~**`WalkClipNeutralPhase` is stale by 0.035 of a cycle and was NOT changed.**~~ **CLOSED
+  2026-09-10.** Measured in engine at 240 Hz through `AnimPoseExtensions.get_anim_pose_at_time`:
+  the new clip crosses at **0.285034 / 0.785033**, confirming the offline claim exactly; the
+  same routine returns 0.250000 / 0.750000 on the OLD clip, reproducing the stale value it
+  replaced. **0.285** is now written on all six variants on both maps. Original note follows. It is 0.25 on
   every variant, measured from the old clip's counter-phase sinusoids crossing at 0.30 s
   and 0.90 s. On the new clip the `ball_r`/`ball_l` fore-aft tracks cross at 0.285 and
   0.785 (measured offline over the GLB at 2400 samples, not in engine). That is 42 ms of

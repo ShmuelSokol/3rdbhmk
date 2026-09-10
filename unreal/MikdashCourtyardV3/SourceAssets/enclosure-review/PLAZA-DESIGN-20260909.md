@@ -247,13 +247,17 @@ and protected maps byte-identical. `Checkpoint-Build.ps1 -Label cp02b` then cook
 `M_PrecinctPlaza_Paving` compiling fresh in both SM5 and SM6. Child exe produced, 3.86 GB
 archived.
 
-That receipt's own `status` field nonetheless reads `failed`, and it is worth knowing why
-before anyone re-opens this: `Checkpoint-Build.ps1` requires the MAIN map's hash to be
-unchanged across the build as well, and another agent saved
-`/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` during the five minutes it ran. The main
-map is not the cook map — the candidate's hash is identical before and after — so the guard
-tripped on unrelated concurrent work, and the bounded startup smoke was skipped as a
-consequence. A re-run needs the main map to sit still for about six minutes.
+The build is green end to end: `status: checkpoint_playable`, and the bounded startup smoke
+passed — window open in 18 s, peak 832 MB, still alive at the end of the window.
+
+That receipt first read `failed`, which is worth keeping on the record because it was not the
+cook. `Checkpoint-Build.ps1` used to require the MAIN map to be byte-identical across the
+build as well as the cooked one, and another agent saved
+`/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` during the five minutes it ran. Main50
+is not the cooked map and the candidate's hash was identical before and after, so the guard was
+tripping on unrelated concurrent work; it has since been narrowed to the cooked map only, the
+smoke was re-run, and the receipt carries `mainMapChangedDuringCook: true` with a
+`statusCorrectionNote`. Nothing about the plaza differed between the two readings.
 
 **Built and receipted, 9 September 2026**
 (`native-plaza-assets-Candidate48-20260909T225412198686Z.json`): all three materials created,

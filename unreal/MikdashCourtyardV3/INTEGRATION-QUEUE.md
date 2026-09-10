@@ -497,17 +497,50 @@ compiler errors, map and protected maps byte-identical.
 with no error. Child exe produced, archive 3.86 GB:
 `C:\Mikdash\Builds\Checkpoint-cp02b-20260910T003728Z`.
 
-**Read the cp02b receipt carefully: it says `failed`, and that is NOT the cook.**
-`Checkpoint-Build.ps1` computes
-`cookOk = exitCode -eq 0 -and childExists -and candidateAfter -eq candidateBefore -and mainAfter -eq mainBefore`.
-The first three all hold. The fourth does not: `mainSha256` went
-`532cd8d6...` -> `0779526e...` DURING the five-minute build, because another agent saved
-`/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` while it ran. The main map is not even
-the cook map (`-map=` is the candidate, whose hash is identical before and after). So the
-guard tripped on unrelated concurrent work and, because `cookOk` was false, the bounded
-startup smoke was skipped. A re-run for a clean `checkpoint_playable` receipt needs the main
-map to sit still for about six minutes.
+**cp02b is GREEN, including the bounded startup smoke.** Final receipt
+`Checkpoint-cp02b-20260910T003728Z/checkpoint-receipt.json`: `status: checkpoint_playable`,
+`exitCode: 0`, `childExists: true`, `archiveBytes: 3,864,632,189`, smoke `playable` - window
+open in 18 s, peak 832 MB, still alive at the end of the window.
+
+It first reported `failed`, and the reason is worth keeping. `Checkpoint-Build.ps1` used to
+require the MAIN map to be byte-identical across the build as well as the cooked one; another
+agent saved `/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough` during the five minutes it
+ran, so the guard tripped on work that had nothing to do with the cook - Main50 is not the
+cooked map, and the candidate's hash was identical before and after. That guard has since been
+narrowed to the cooked map only (`Checkpoint-Build.ps1:117`), the smoke was re-run at 00:54,
+and the receipt carries `mainMapChangedDuringCook: true` and a `statusCorrectionNote`. Nothing
+about the plaza changed between the two readings.
 
 Also worth knowing while the material is being rebuilt: rebuilding a material graph in place
 needs the material OUTPUTS disconnected first, because `delete_all_material_expressions` will
 not remove a node still wired to an output (measured: the bulk call left five nodes of eleven).
+
+## Unverified after later saves — one idempotent run settles it
+
+`release_walk_v2.py` set `WalkClipGroundSpeedCmPerSec = 120.0` on the six cast variants at
+19:43–19:48 on 9 Sep. Both maps were re-saved by other passes afterwards (Main50 at 22:10,
+Candidate48 at 22:46), so the receipts' `mapAfterSha256` no longer matches disk.
+
+A byte scan of both `.umap` import tables confirms the WalkV2 package is still referenced for
+**6 of 6** cast variants on **both** maps, with the original `SkeletalMeshes` folder still
+referenced twice per variant — the mesh and the idle clip, which correctly did not move. So the
+clip repoint demonstrably survived.
+
+What that cannot prove: `WalkClipGroundSpeedCmPerSec` is a numeric property and leaves no string
+in the file, so it cannot be grepped. It is also the field that matters most — a per-variant
+value in (1.0, 400.0) OVERRIDES the C++ default, which is exactly how a 53.33 hid in the map and
+silently defeated raising the header default to 120.
+
+The later `walkv2-finish` receipts read back `apply_no_change_needed` on both maps, but they
+cover the kohen and the two population actors' `default_walk_clip_ground_speed_cm_per_sec` — NOT
+the six per-variant entries.
+
+Resolution, when the box has an engine slot. The apply is idempotent and read-only when the
+state is intact: it reports `repointed 0 / alreadyPointed 6`, status `apply_no_change_needed`,
+and saves nothing. If a later save clobbered the speed it restores it and says so.
+
+```
+UnrealEditor.exe <uproject> <map> -ExecutePythonScript=".../Scripts/release_walk_v2.py"
+    -WalkV2Apply -WalkV2Target=Candidate48   (then Main50)
+    -unattended -nullrhi -NoSplash -abslog=<unique>
+```

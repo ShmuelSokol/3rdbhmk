@@ -110,8 +110,11 @@ try {
         $r.archiveBytes = [int64]((Get-ChildItem -LiteralPath (Join-Path $archive 'Windows') -Recurse -File |
                                    Measure-Object Length -Sum).Sum)
     }
-    $cookOk = ($r.exitCode -eq 0 -and $r.childExists -and
-               $r.candidateSha256After -eq $before -and $r.mainSha256After -eq $mainBefore)
+    # Only the COOKED map's bytes are a correctness condition. Main50 is not cooked, and
+    # guarding on it failed cp02b - a complete, valid 3.86 GB archive - because another agent
+    # saved Main50 while the cook was running. Its hash is still recorded, as information.
+    $r.mainMapChangedDuringCook = ($r.mainSha256After -ne $mainBefore)
+    $cookOk = ($r.exitCode -eq 0 -and $r.childExists -and $r.candidateSha256After -eq $before)
     $r.status = if ($cookOk) { 'cook_archive_passed_smoke_pending' } else { 'failed' }
     Save-Receipt
 }

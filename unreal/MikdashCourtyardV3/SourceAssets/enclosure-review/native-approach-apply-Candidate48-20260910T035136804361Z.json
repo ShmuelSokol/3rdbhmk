@@ -1,0 +1,1645 @@
+{
+ "status": "approaches_placed_saved_reopened_measured_visual_acceptance_pending",
+ "mode": "apply",
+ "stamp": "20260910T035136804361Z",
+ "target": "Candidate48",
+ "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+ "mapSha256Before": "ef5ed521ee682b296437b7f827e960d803da33563cb305b19a97f38df069f613",
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctApproach-Candidate48-20260910T035136804361Z",
+ "oneFilePerActorFoldersCopied": [],
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "e249a312b6b9acd272be4441373c6080dfc5bbe97708203ac6bcfc858fc9b437",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+ },
+ "scriptSha256": "521889164aac1d43a8cfb179ce33ed0435a50537504022e42e6328e9400d6d07",
+ "enclosureMathSha256": "5f575d51d4425ab715f906137b122dc5caa375e7dae35f1050ef4b44d30d197b",
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "actorLabel": "RELEASE_PrecinctApproachV1",
+ "actorTag": "PrecinctApproachV1",
+ "targetConfig": {
+  "target": "Candidate48",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap",
+  "protectedMaps": [
+   "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+   "/Game/MikdashV3/Maps/Courtyard",
+   "/Game/MikdashV3/FutureMountV1/L_FutureMount",
+   "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold"
+  ],
+  "amahCm": 48.0,
+  "deckZcm": 0.0,
+  "outerFacesCm": {
+   "xWest": -31776.0,
+   "xEast": 112224.0,
+   "yNorth": -31824.0,
+   "ySouth": 112176.0
+  },
+  "wallThicknessCm": 288.0,
+  "gates": [
+   {
+    "id": "N",
+    "side": 0,
+    "positionCm": [
+     0.0,
+     -31824.0
+    ],
+    "openingCm": {
+     "width": 480.0,
+     "height": 2400.0,
+     "depth": 288.0
+    },
+    "source": "count: Mishkenei Elyon 196 m.2 (one north); position AUTHORED - the Temple north-south axis (world X 0)",
+    "thresholdZcm": 0.0,
+    "thresholdSource": "plaza-Candidate48.json gates[N].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on"
+   },
+   {
+    "id": "E",
+    "side": 1,
+    "positionCm": [
+     112224.0,
+     0.0
+    ],
+    "openingCm": {
+     "width": 480.0,
+     "height": 2400.0,
+     "depth": 288.0
+    },
+    "source": "count: Mishkenei Elyon 196 m.2 (one east); Yechezkel 42:15 measures out through the east gate; position AUTHORED - the Temple east-west axis (world Y 0), the axis of the court east gate at X 8600 and of the walking start [2016, 0], so the tour approach passes through it",
+    "thresholdZcm": 3939.9999999999977,
+    "thresholdSource": "plaza-Candidate48.json gates[E].thresholdMetresAsl = 787.4 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on"
+   },
+   {
+    "id": "S1",
+    "side": 2,
+    "positionCm": [
+     16223.999999999985,
+     112176.0
+    ],
+    "openingCm": {
+     "width": 480.0,
+     "height": 2400.0,
+     "depth": 288.0
+    },
+    "source": "count: Mishkenei Elyon 196 m.2 (two south); position AUTHORED - one third along the south wall from the SW corner",
+    "thresholdZcm": 0.0,
+    "thresholdSource": "plaza-Candidate48.json gates[S1].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on"
+   },
+   {
+    "id": "S2",
+    "side": 2,
+    "positionCm": [
+     64223.99999999999,
+     112176.0
+    ],
+    "openingCm": {
+     "width": 480.0,
+     "height": 2400.0,
+     "depth": 288.0
+    },
+    "source": "count: Mishkenei Elyon 196 m.2 (two south); position AUTHORED - two thirds along the south wall from the SW corner",
+    "thresholdZcm": 0.0,
+    "thresholdSource": "plaza-Candidate48.json gates[S2].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on"
+   },
+   {
+    "id": "W",
+    "side": 3,
+    "positionCm": [
+     -31776.0,
+     0.0
+    ],
+    "openingCm": {
+     "width": 480.0,
+     "height": 2400.0,
+     "depth": 288.0
+    },
+    "source": "count: Mishkenei Elyon 196 m.2 (one west); position AUTHORED - the Temple east-west axis (world Y 0)",
+    "thresholdZcm": 223.00000000000182,
+    "thresholdSource": "plaza-Candidate48.json gates[W].thresholdMetresAsl = 750.23 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on"
+   }
+  ],
+  "precinctReceipt": "SourceAssets/enclosure-review/precinct-Candidate48.json",
+  "precinctReceiptSha256": "201e5b2d4b223690f7398f3d767e7877b1c89f1017f7e845d67e18e4296ed33e",
+  "plazaReceipt": "SourceAssets/enclosure-review/plaza-Candidate48.json",
+  "plazaReceiptSha256": "7c89c3e58a5b12846485a7447884a4bf4bfa562800ca06446926cfc9cf8189b4"
+ },
+ "sourcedVersusAuthored": {
+  "sourced": "The gate count and side only (Mishkenei Elyon 196 m.2: two south, one each north, east and west) and the precinct extent (Yechezkel 42:15-20 with 40:5). NOTHING in Yechezkel, the Mishnah or the book describes an approach to the precinct from outside.",
+  "derivedFromMeasuredGeometry": "Every gate position, read from precinct-<Target>.json. The deck datum and paved extent, read from plaza-<Target>.json and re-read live off the placed AMikdashEnclosure actor. The ground outside the wall, measured triangle by triangle off the VISIBLE terrain meshes in this level, which is what decides each approach's direction, length, step count and where it stops.",
+  "authored": "That the approach is a raking monumental stair at all; the 50-amah square head landing outside each gate; the rule that a flight goes straight out where the ground rises to meet it and rakes along the face where it does not; the landing rhythm (a 10-amah landing every 20 risers, a 50-amah terrace every fifth landing); the flanking retaining and kerbs; and that the wedge under the stair is left void, as the wedge under the deck already is."
+ },
+ "limitations": [
+  "GEOMETRY ONLY. NOBODY HAS SEEN ANY OF THIS IN A FRAME. Nothing here establishes visual, walking, collision, navigation or packaged acceptance.",
+  "THE APPROACHES ARE NOT WIRED INTO THE STATE TOGGLE. They are a new actor, not components on AMikdashEnclosure, because that class has no UPROPERTY for them and this pass may not rebuild the plugin. GatherModernBuildings resolves an identity label only for meshes under JerusalemContext/Buildings/ or OldCityFacadesV1/Meshes/ (MikdashEnclosure.cpp:22-42), so no value in ExplicitHideLabels can reach a PlazaV1 mesh either. Until the plugin is rebuilt the approaches stand in MODERN and OVERLAY too - the SAME pending two lines the terrain cut already needs.",
+  "THE WEDGE UNDER EACH STAIR IS VOID, closed by its flanking retaining. No vaults, no substructure, exactly as under the deck.",
+  "THE APPROACHES CROSS GROUND THAT STILL CARRIES VISIBLE MODERN BUILDINGS. Nothing outside the precinct ring is hidden by this pass and no building is ever deleted. Which building actors stand under each approach is measured and listed in buildingsUnderApproach, not resolved.",
+  "NO COLLISION OR NAVMESH PASS. The HISM components take the meshes' own collision settings; nothing here has been walked."
+ ],
+ "runtimeDefectsObserved": [
+  "MikdashEnclosure.cpp:1186 yaws the INSIDE gate flights by SideOutwardYawDegrees(Side) while advancing them along -Out. The step module is 50 amot along local X and 2 amot along local Y, so that yaw lays the 50-amah WIDTH along the direction of travel: at the south side, yaw 90 with travel along -Y. The retaining bands four lines earlier use SideOutwardYawDegrees - 90, which is the correct convention. On Candidate48 that affects the 205 step modules of the east gate flight and the 10 of the west. FOUND BY READING, NOT SEEN IN A FRAME (the design record notes nobody has looked at the plaza yet). It is C++ and cannot be fixed without a plugin rebuild, which this pass may not run. Nothing in this file depends on it: the approaches are placed from Python with the band convention."
+ ],
+ "omissions": [],
+ "errors": [],
+ "mapSaved": true,
+ "terrainTilesRead": [
+  {
+   "actor": "SM_JerusalemTerrain_05_06",
+   "mesh": "SM_JerusalemTerrain_05_06",
+   "triangles": 512,
+   "boundsCm": [
+    -119131.07,
+    -80028.66,
+    -79123.87,
+    -40027.28
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_05_07",
+   "mesh": "SM_JerusalemTerrain_05_07",
+   "triangles": 512,
+   "boundsCm": [
+    -119125.32,
+    -40040.44,
+    -79121.96,
+    -13.39
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_05_08",
+   "mesh": "SM_JerusalemTerrain_05_08",
+   "triangles": 512,
+   "boundsCm": [
+    -119130.84,
+    -40.4,
+    -79122.31,
+    39973.5
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_05_09",
+   "mesh": "SM_JerusalemTerrain_05_09",
+   "triangles": 512,
+   "boundsCm": [
+    -119125.09,
+    39972.23,
+    -79120.32,
+    79972.43
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_05",
+   "mesh": "SM_JerusalemTerrain_06_05",
+   "triangles": 512,
+   "boundsCm": [
+    -79126.71,
+    -120031.0,
+    -39124.29,
+    -80026.7
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_06",
+   "mesh": "SM_JerusalemTerrain_06_06",
+   "triangles": 512,
+   "boundsCm": [
+    -79125.6,
+    -80031.62,
+    -39123.26,
+    -40024.27
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_07",
+   "mesh": "SM_JerusalemTerrain_06_07",
+   "triangles": 512,
+   "boundsCm": [
+    -79126.78,
+    -40027.57,
+    -39119.29,
+    -26.89
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_08",
+   "mesh": "SM_JerusalemTerrain_06_08",
+   "triangles": 512,
+   "boundsCm": [
+    -79136.33,
+    -28.82,
+    -39117.98,
+    39974.86
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_09",
+   "mesh": "SM_JerusalemTerrain_06_09",
+   "triangles": 512,
+   "boundsCm": [
+    -79143.3,
+    39969.82,
+    -39110.2,
+    79977.12
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_10",
+   "mesh": "SM_JerusalemTerrain_06_10",
+   "triangles": 512,
+   "boundsCm": [
+    -79150.65,
+    79958.42,
+    -39113.18,
+    120017.18
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_11",
+   "mesh": "SM_JerusalemTerrain_06_11",
+   "triangles": 512,
+   "boundsCm": [
+    -79129.23,
+    119967.84,
+    -39109.35,
+    159973.73
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_06_12",
+   "mesh": "SM_JerusalemTerrain_06_12",
+   "triangles": 512,
+   "boundsCm": [
+    -79161.28,
+    159971.12,
+    -39124.44,
+    199983.0
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_07_05",
+   "mesh": "SM_JerusalemTerrain_07_05",
+   "triangles": 512,
+   "boundsCm": [
+    -39125.64,
+    -120041.98,
+    876.92,
+    -80025.25
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_07_06",
+   "mesh": "SM_JerusalemTerrain_07_06",
+   "triangles": 512,
+   "boundsCm": [
+    -39125.28,
+    -80028.52,
+    877.37,
+    -40026.77
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_07_10",
+   "mesh": "SM_JerusalemTerrain_07_10",
+   "triangles": 512,
+   "boundsCm": [
+    -39127.48,
+    79960.48,
+    880.48,
+    119979.68
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_07_11",
+   "mesh": "SM_JerusalemTerrain_07_11",
+   "triangles": 512,
+   "boundsCm": [
+    -39126.54,
+    119966.14,
+    889.84,
+    159993.86
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_07_12",
+   "mesh": "SM_JerusalemTerrain_07_12",
+   "triangles": 512,
+   "boundsCm": [
+    -39127.22,
+    159967.2,
+    881.0,
+    199981.2
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_05",
+   "mesh": "SM_JerusalemTerrain_08_05",
+   "triangles": 512,
+   "boundsCm": [
+    874.17,
+    -120030.16,
+    40882.8,
+    -80027.22
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_06",
+   "mesh": "SM_JerusalemTerrain_08_06",
+   "triangles": 512,
+   "boundsCm": [
+    872.8,
+    -80027.72,
+    40891.22,
+    -40024.64
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_09",
+   "mesh": "SM_JerusalemTerrain_08_09",
+   "triangles": 512,
+   "boundsCm": [
+    825.37,
+    39967.79,
+    40880.43,
+    79974.73
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_10",
+   "mesh": "SM_JerusalemTerrain_08_10",
+   "triangles": 512,
+   "boundsCm": [
+    865.23,
+    79971.6,
+    40881.17,
+    119986.55
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_11",
+   "mesh": "SM_JerusalemTerrain_08_11",
+   "triangles": 512,
+   "boundsCm": [
+    834.29,
+    119963.16,
+    40905.18,
+    160003.0
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_08_12",
+   "mesh": "SM_JerusalemTerrain_08_12",
+   "triangles": 512,
+   "boundsCm": [
+    849.28,
+    159965.36,
+    40876.82,
+    199983.36
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_09_05",
+   "mesh": "SM_JerusalemTerrain_09_05",
+   "triangles": 512,
+   "boundsCm": [
+    40875.29,
+    -120036.87,
+    80889.65,
+    -80013.85
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_09_06",
+   "mesh": "SM_JerusalemTerrain_09_06",
+   "triangles": 512,
+   "boundsCm": [
+    40867.77,
+    -80032.92,
+    80875.48,
+    -40026.87
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_09_10",
+   "mesh": "SM_JerusalemTerrain_09_10",
+   "triangles": 512,
+   "boundsCm": [
+    40864.04,
+    79957.09,
+    80889.6,
+    120046.08
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_09_11",
+   "mesh": "SM_JerusalemTerrain_09_11",
+   "triangles": 512,
+   "boundsCm": [
+    40872.97,
+    119955.82,
+    80894.45,
+    159995.36
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_09_12",
+   "mesh": "SM_JerusalemTerrain_09_12",
+   "triangles": 512,
+   "boundsCm": [
+    40870.27,
+    159969.66,
+    80879.36,
+    199986.62
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_10_06",
+   "mesh": "SM_JerusalemTerrain_10_06",
+   "triangles": 512,
+   "boundsCm": [
+    80872.16,
+    -80032.67,
+    120883.62,
+    -40026.59
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_10_10",
+   "mesh": "SM_JerusalemTerrain_10_10",
+   "triangles": 512,
+   "boundsCm": [
+    80874.83,
+    79954.67,
+    120882.82,
+    119979.8
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_10_11",
+   "mesh": "SM_JerusalemTerrain_10_11",
+   "triangles": 512,
+   "boundsCm": [
+    80871.87,
+    119971.58,
+    120880.76,
+    159994.98
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_10_12",
+   "mesh": "SM_JerusalemTerrain_10_12",
+   "triangles": 512,
+   "boundsCm": [
+    80874.88,
+    159964.32,
+    120880.03,
+    199978.55
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_06",
+   "mesh": "SM_JerusalemTerrain_11_06",
+   "triangles": 512,
+   "boundsCm": [
+    120867.63,
+    -80032.15,
+    160881.46,
+    -40021.88
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_07",
+   "mesh": "SM_JerusalemTerrain_11_07",
+   "triangles": 512,
+   "boundsCm": [
+    120851.0,
+    -40055.45,
+    160885.62,
+    6.23
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_08",
+   "mesh": "SM_JerusalemTerrain_11_08",
+   "triangles": 512,
+   "boundsCm": [
+    120868.07,
+    -36.74,
+    160917.36,
+    39986.9
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_09",
+   "mesh": "SM_JerusalemTerrain_11_09",
+   "triangles": 512,
+   "boundsCm": [
+    120873.54,
+    39964.97,
+    160878.96,
+    79973.0
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_10",
+   "mesh": "SM_JerusalemTerrain_11_10",
+   "triangles": 512,
+   "boundsCm": [
+    120865.12,
+    79963.41,
+    160875.76,
+    119983.68
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_11",
+   "mesh": "SM_JerusalemTerrain_11_11",
+   "triangles": 512,
+   "boundsCm": [
+    120862.16,
+    119962.43,
+    160890.4,
+    159990.13
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_11_12",
+   "mesh": "SM_JerusalemTerrain_11_12",
+   "triangles": 512,
+   "boundsCm": [
+    120839.14,
+    159970.98,
+    160879.27,
+    199989.33
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_12_06",
+   "mesh": "SM_JerusalemTerrain_12_06",
+   "triangles": 512,
+   "boundsCm": [
+    160866.1,
+    -80032.31,
+    200893.21,
+    -40025.6
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_12_07",
+   "mesh": "SM_JerusalemTerrain_12_07",
+   "triangles": 512,
+   "boundsCm": [
+    160874.11,
+    -40035.23,
+    200876.77,
+    -21.5
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_12_08",
+   "mesh": "SM_JerusalemTerrain_12_08",
+   "triangles": 512,
+   "boundsCm": [
+    160870.99,
+    -31.29,
+    200920.45,
+    39979.73
+   ]
+  },
+  {
+   "actor": "SM_JerusalemTerrain_12_09",
+   "mesh": "SM_JerusalemTerrain_12_09",
+   "triangles": 512,
+   "boundsCm": [
+    160872.78,
+    39971.3,
+    200899.88,
+    79973.51
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_07_07",
+   "mesh": "SM_JerusalemTerrain_07_07_FutureMountCut_PrecinctCut",
+   "triangles": 619,
+   "boundsCm": [
+    -39124.52,
+    -40027.57,
+    875.49,
+    -27.57
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_07_08",
+   "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut_PrecinctCut",
+   "triangles": 706,
+   "boundsCm": [
+    -39124.52,
+    -27.57,
+    875.49,
+    39972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_07_09",
+   "mesh": "SM_JerusalemTerrain_07_09_PrecinctCut",
+   "triangles": 584,
+   "boundsCm": [
+    -39124.52,
+    39972.43,
+    875.49,
+    79972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_08_07",
+   "mesh": "SM_JerusalemTerrain_08_07_FutureMountCut_PrecinctCut",
+   "triangles": 572,
+   "boundsCm": [
+    875.49,
+    -40027.57,
+    40875.48,
+    -27.57
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_08_08",
+   "mesh": "SM_JerusalemTerrain_08_08_FutureMountCut_PrecinctCut",
+   "triangles": 470,
+   "boundsCm": [
+    875.49,
+    -27.57,
+    40875.48,
+    39972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_09_07",
+   "mesh": "SM_JerusalemTerrain_09_07_PrecinctCut",
+   "triangles": 638,
+   "boundsCm": [
+    40875.48,
+    -40027.57,
+    80875.48,
+    -27.57
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_09_08",
+   "mesh": "SM_JerusalemTerrain_09_08_PrecinctCut",
+   "triangles": 608,
+   "boundsCm": [
+    40875.48,
+    -27.57,
+    80875.48,
+    39972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_09_09",
+   "mesh": "SM_JerusalemTerrain_09_09_PrecinctCut",
+   "triangles": 540,
+   "boundsCm": [
+    40875.48,
+    39972.43,
+    80875.48,
+    79972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_10_07",
+   "mesh": "SM_JerusalemTerrain_10_07_PrecinctCut",
+   "triangles": 614,
+   "boundsCm": [
+    80875.48,
+    -40027.57,
+    120875.48,
+    -27.57
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_10_08",
+   "mesh": "SM_JerusalemTerrain_10_08_PrecinctCut",
+   "triangles": 640,
+   "boundsCm": [
+    80875.48,
+    -27.57,
+    120875.48,
+    39972.43
+   ]
+  },
+  {
+   "actor": "RELEASE_PrecinctCut_10_09",
+   "mesh": "SM_JerusalemTerrain_10_09_PrecinctCut",
+   "triangles": 606,
+   "boundsCm": [
+    80875.48,
+    39972.43,
+    120875.48,
+    79972.43
+   ]
+  }
+ ],
+ "terrainTrianglesRead": 28613,
+ "plan": {
+  "summary": {
+   "amahCm": 48.0,
+   "moduleScale": 0.96,
+   "deckZcm": 0.0,
+   "riserCm": 24.0,
+   "treadCm": 96.0,
+   "stepWidthCm": 2400.0,
+   "rakeRunOverRise": 4.0,
+   "bandHeightCm": 240.0,
+   "stepsPerFlight": 20,
+   "landingDepthCm": 480.0,
+   "terraceDepthCm": 2400.0,
+   "terraceEveryLandings": 5,
+   "approachesBuilt": 4,
+   "approachesNotBuilt": [
+    {
+     "id": "W",
+     "reason": "the ground outside stands within one riser (24.0 cm) of the threshold; a visitor already walks in at grade"
+    }
+   ],
+   "maxUnbrokenRiseCm": 480.0,
+   "maxUnbrokenRiseMetres": 4.8,
+   "worstFootResidualCm": 14.489,
+   "worstBuriedCm": 14.49,
+   "counts": {
+    "steps": 696,
+    "paving": 14,
+    "bands": 1599,
+    "kerbs": 82,
+    "total": 2391
+   },
+   "triangles": 28692
+  },
+  "approaches": [
+   {
+    "id": "N",
+    "side": 0,
+    "sideName": "north",
+    "gateCm": [
+     0.0,
+     -31824.0
+    ],
+    "groundAtFaceZcm": -467.486,
+    "groundAtFaceMetresAsl": 743.33,
+    "headGroundHighZcm": -419.486,
+    "headGroundLowZcm": -583.344,
+    "thresholdZcm": 0.0,
+    "thresholdMetresAsl": 748.0,
+    "thresholdSource": "plaza-Candidate48.json gates[N].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on",
+    "measuredFaceHeightCm": 467.49,
+    "measuredFaceHeightMetres": 4.67,
+    "candidates": [
+     {
+      "converged": true,
+      "runCm": 2880.0,
+      "risers": 25,
+      "landings": 1,
+      "terraces": 0,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 600.0,
+      "maxBuriedCm": 0.0,
+      "name": "outward",
+      "compass": "north",
+      "direction": [
+       0.0,
+       -1.0
+      ],
+      "startCm": [
+       0.0,
+       -34224.0
+      ],
+      "alongWall": false,
+      "capCm": 57600.0
+     },
+     {
+      "converged": true,
+      "runCm": 3456.0,
+      "risers": 31,
+      "landings": 1,
+      "terraces": 0,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 744.0,
+      "maxBuriedCm": 0.0,
+      "name": "along+",
+      "compass": "east",
+      "direction": [
+       1.0,
+       0.0
+      ],
+      "startCm": [
+       1200.0,
+       -33024.0
+      ],
+      "alongWall": true,
+      "capCm": 57600.0
+     },
+     {
+      "converged": true,
+      "runCm": 1440.0,
+      "risers": 15,
+      "landings": 0,
+      "terraces": 0,
+      "maxUnbrokenRisers": 16,
+      "maxUnbrokenRiseCm": 384.0,
+      "dropCm": 360.0,
+      "maxBuriedCm": 0.0,
+      "name": "along-",
+      "compass": "west",
+      "direction": [
+       -1.0,
+       -0.0
+      ],
+      "startCm": [
+       -1200.0,
+       -33024.0
+      ],
+      "alongWall": true,
+      "capCm": 29376.0
+     }
+    ],
+    "chosen": "outward",
+    "chosenCompass": "north",
+    "chosenWhy": "straight out through the gate converges and lands within 10 amot of the lowest foot any direction reaches",
+    "built": true,
+    "headLanding": {
+     "tilesLaid": 4,
+     "tilesSkippedUnderHigherGround": 0
+    },
+    "remainingFallBelowFootMetres": -1.35,
+    "remainingWalkOnNaturalGroundMetres": 52.3,
+    "remainingWalkWorstGrade": 0.08,
+    "remainingWalkWorstGradeVersusStair": 0.32,
+    "headLandingCentreCm": [
+     0.0,
+     -33024.0
+    ],
+    "headLandingTopZcm": 0.0,
+    "headLandingSideCm": 2400.0,
+    "runCm": 2880.0,
+    "runMetres": 28.8,
+    "risers": 25,
+    "landings": 1,
+    "terraces": 0,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8,
+    "totalClimbCm": 600.0,
+    "totalClimbMetres": 6.0,
+    "footZcm": -600.0,
+    "footMetresAsl": 742.0,
+    "footGroundZcm": -602.506,
+    "footGroundMetresAsl": 741.97,
+    "footPointCm": [
+     0.0,
+     -37056.0
+    ],
+    "footResidualCm": 2.506,
+    "maxBuriedCm": 0.0,
+    "tallestFlankBands": 3,
+    "tallestFlankMetres": 7.2,
+    "instances": {
+     "steps": 30,
+     "paving": 4,
+     "bands": 25,
+     "kerbs": 12
+    }
+   },
+   {
+    "id": "E",
+    "side": 1,
+    "sideName": "east",
+    "gateCm": [
+     112224.0,
+     0.0
+    ],
+    "groundAtFaceZcm": 3726.856,
+    "groundAtFaceMetresAsl": 785.27,
+    "headGroundHighZcm": 4110.856,
+    "headGroundLowZcm": 2957.489,
+    "thresholdZcm": 3940.0,
+    "thresholdMetresAsl": 787.4,
+    "thresholdSource": "plaza-Candidate48.json gates[E].thresholdMetresAsl = 787.4 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on",
+    "measuredFaceHeightCm": 213.14,
+    "measuredFaceHeightMetres": 2.13,
+    "candidates": [
+     {
+      "converged": true,
+      "runCm": 5664.0,
+      "risers": 49,
+      "landings": 2,
+      "terraces": 0,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 1176.0,
+      "maxBuriedCm": 0.0,
+      "name": "outward",
+      "compass": "east",
+      "direction": [
+       1.0,
+       0.0
+      ],
+      "startCm": [
+       114624.0,
+       0.0
+      ],
+      "alongWall": false,
+      "capCm": 57600.0
+     },
+     {
+      "converged": false,
+      "reason": "diverges: the ground falls away faster than a 1:4 stair descends",
+      "runCm": 58080.0,
+      "risers": 420,
+      "name": "along+",
+      "compass": "south",
+      "direction": [
+       -0.0,
+       1.0
+      ],
+      "startCm": [
+       113424.0,
+       1200.0
+      ],
+      "alongWall": true,
+      "capCm": 57600.0
+     },
+     {
+      "converged": true,
+      "runCm": 96.0,
+      "risers": 1,
+      "landings": 0,
+      "terraces": 0,
+      "maxUnbrokenRisers": 1,
+      "maxUnbrokenRiseCm": 24.0,
+      "dropCm": 24.0,
+      "maxBuriedCm": 72.03784761143743,
+      "name": "along-",
+      "compass": "north",
+      "direction": [
+       0.0,
+       -1.0
+      ],
+      "startCm": [
+       113424.0,
+       -1200.0
+      ],
+      "alongWall": true,
+      "capCm": 29424.0
+     }
+    ],
+    "chosen": "outward",
+    "chosenCompass": "east",
+    "chosenWhy": "straight out through the gate converges and lands within 10 amot of the lowest foot any direction reaches",
+    "built": true,
+    "headLanding": {
+     "tilesLaid": 2,
+     "tilesSkippedUnderHigherGround": 2
+    },
+    "remainingFallBelowFootMetres": -9.67,
+    "remainingWalkOnNaturalGroundMetres": 80.2,
+    "remainingWalkWorstGrade": 0.16,
+    "remainingWalkWorstGradeVersusStair": 0.64,
+    "headLandingCentreCm": [
+     113424.0,
+     0.0
+    ],
+    "headLandingTopZcm": 3940.0,
+    "headLandingSideCm": 2400.0,
+    "runCm": 5664.0,
+    "runMetres": 56.64,
+    "risers": 49,
+    "landings": 2,
+    "terraces": 0,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8,
+    "totalClimbCm": 1176.0,
+    "totalClimbMetres": 11.76,
+    "footZcm": 2764.0,
+    "footMetresAsl": 775.64,
+    "footGroundZcm": 2759.423,
+    "footGroundMetresAsl": 775.59,
+    "footPointCm": [
+     120240.0,
+     0.0
+    ],
+    "footResidualCm": 4.577,
+    "maxBuriedCm": 0.0,
+    "tallestFlankBands": 5,
+    "tallestFlankMetres": 12.0,
+    "instances": {
+     "steps": 59,
+     "paving": 2,
+     "bands": 36,
+     "kerbs": 9
+    }
+   },
+   {
+    "id": "S1",
+    "side": 2,
+    "sideName": "south",
+    "gateCm": [
+     16223.999999999985,
+     112176.0
+    ],
+    "groundAtFaceZcm": -6257.468,
+    "groundAtFaceMetresAsl": 685.43,
+    "headGroundHighZcm": -5921.468,
+    "headGroundLowZcm": -7097.681,
+    "thresholdZcm": 0.0,
+    "thresholdMetresAsl": 748.0,
+    "thresholdSource": "plaza-Candidate48.json gates[S1].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on",
+    "measuredFaceHeightCm": 6257.47,
+    "measuredFaceHeightMetres": 62.57,
+    "candidates": [
+     {
+      "converged": false,
+      "reason": "diverges: the ground falls away faster than a 1:4 stair descends",
+      "runCm": 58080.0,
+      "risers": 420,
+      "name": "outward",
+      "compass": "south",
+      "direction": [
+       0.0,
+       1.0
+      ],
+      "startCm": [
+       16223.999999999985,
+       114576.0
+      ],
+      "alongWall": false,
+      "capCm": 57600.0
+     },
+     {
+      "converged": true,
+      "runCm": 41952.0,
+      "risers": 302,
+      "landings": 15,
+      "terraces": 3,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 7248.0,
+      "maxBuriedCm": 14.488924133303954,
+      "name": "along+",
+      "compass": "west",
+      "direction": [
+       -1.0,
+       0.0
+      ],
+      "startCm": [
+       15023.999999999985,
+       113376.0
+      ],
+      "alongWall": true,
+      "capCm": 45599.999999999985
+     },
+     {
+      "converged": true,
+      "runCm": 15360.0,
+      "risers": 115,
+      "landings": 5,
+      "terraces": 1,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 2760.0,
+      "maxBuriedCm": 15.30594332427745,
+      "name": "along-",
+      "compass": "east",
+      "direction": [
+       1.0,
+       -0.0
+      ],
+      "startCm": [
+       17423.999999999985,
+       113376.0
+      ],
+      "alongWall": true,
+      "capCm": 57600.0
+     }
+    ],
+    "chosen": "along+",
+    "chosenCompass": "west",
+    "chosenWhy": "straight out diverges: diverges: the ground falls away faster than a 1:4 stair descends; the converging rake whose foot lands lowest is taken instead (west, foot 675.5 m a.s.l., against 720.4 m for the shortest converging rake)",
+    "built": true,
+    "headLanding": {
+     "tilesLaid": 4,
+     "tilesSkippedUnderHigherGround": 0
+    },
+    "remainingFallBelowFootMetres": -9.76,
+    "remainingWalkOnNaturalGroundMetres": 431.3,
+    "remainingWalkWorstGrade": 0.5653,
+    "remainingWalkWorstGradeVersusStair": 2.261,
+    "headLandingCentreCm": [
+     16224.0,
+     113376.0
+    ],
+    "headLandingTopZcm": 0.0,
+    "headLandingSideCm": 2400.0,
+    "runCm": 41952.0,
+    "runMetres": 419.52,
+    "risers": 302,
+    "landings": 15,
+    "terraces": 3,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8,
+    "totalClimbCm": 7248.0,
+    "totalClimbMetres": 72.48,
+    "footZcm": -7248.0,
+    "footMetresAsl": 675.52,
+    "footGroundZcm": -7233.511,
+    "footGroundMetresAsl": 675.66,
+    "footPointCm": [
+     -26880.0,
+     113664.0
+    ],
+    "footResidualCm": -14.489,
+    "maxBuriedCm": 14.49,
+    "tallestFlankBands": 47,
+    "tallestFlankMetres": 112.8,
+    "instances": {
+     "steps": 437,
+     "paving": 4,
+     "bands": 1262,
+     "kerbs": 41
+    }
+   },
+   {
+    "id": "S2",
+    "side": 2,
+    "sideName": "south",
+    "gateCm": [
+     64223.99999999999,
+     112176.0
+    ],
+    "groundAtFaceZcm": -5116.162,
+    "groundAtFaceMetresAsl": 696.84,
+    "headGroundHighZcm": -4904.067,
+    "headGroundLowZcm": -5260.161,
+    "thresholdZcm": 0.0,
+    "thresholdMetresAsl": 748.0,
+    "thresholdSource": "plaza-Candidate48.json gates[S2].thresholdMetresAsl = 748 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on",
+    "measuredFaceHeightCm": 5116.16,
+    "measuredFaceHeightMetres": 51.16,
+    "candidates": [
+     {
+      "converged": false,
+      "reason": "diverges: the ground falls away faster than a 1:4 stair descends",
+      "runCm": 58080.0,
+      "risers": 420,
+      "name": "outward",
+      "compass": "south",
+      "direction": [
+       0.0,
+       1.0
+      ],
+      "startCm": [
+       64223.99999999999,
+       114576.0
+      ],
+      "alongWall": false,
+      "capCm": 57600.0
+     },
+     {
+      "converged": true,
+      "runCm": 16320.0,
+      "risers": 120,
+      "landings": 6,
+      "terraces": 1,
+      "maxUnbrokenRisers": 20,
+      "maxUnbrokenRiseCm": 480.0,
+      "dropCm": 2880.0,
+      "maxBuriedCm": 7.224755773927427,
+      "name": "along+",
+      "compass": "west",
+      "direction": [
+       -1.0,
+       0.0
+      ],
+      "startCm": [
+       63023.99999999999,
+       113376.0
+      ],
+      "alongWall": true,
+      "capCm": 57600.0
+     },
+     {
+      "converged": false,
+      "reason": "diverges: the ground falls away faster than a 1:4 stair descends",
+      "runCm": 45696.0,
+      "risers": 336,
+      "name": "along-",
+      "compass": "east",
+      "direction": [
+       1.0,
+       -0.0
+      ],
+      "startCm": [
+       65423.99999999999,
+       113376.0
+      ],
+      "alongWall": true,
+      "capCm": 45600.00000000001
+     }
+    ],
+    "chosen": "along+",
+    "chosenCompass": "west",
+    "chosenWhy": "straight out diverges: diverges: the ground falls away faster than a 1:4 stair descends; the converging rake whose foot lands lowest is taken instead (west, foot 719.2 m a.s.l., against 719.2 m for the shortest converging rake)",
+    "built": true,
+    "headLanding": {
+     "tilesLaid": 4,
+     "tilesSkippedUnderHigherGround": 0
+    },
+    "remainingFallBelowFootMetres": 22.43,
+    "remainingWalkOnNaturalGroundMetres": 175.2,
+    "remainingWalkWorstGrade": 0.2792,
+    "remainingWalkWorstGradeVersusStair": 1.117,
+    "headLandingCentreCm": [
+     64224.0,
+     113376.0
+    ],
+    "headLandingTopZcm": 0.0,
+    "headLandingSideCm": 2400.0,
+    "runCm": 16320.0,
+    "runMetres": 163.2,
+    "risers": 120,
+    "landings": 6,
+    "terraces": 1,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8,
+    "totalClimbCm": 2880.0,
+    "totalClimbMetres": 28.8,
+    "footZcm": -2880.0,
+    "footMetresAsl": 719.2,
+    "footGroundZcm": -2872.775,
+    "footGroundMetresAsl": 719.27,
+    "footPointCm": [
+     46752.0,
+     113472.0
+    ],
+    "footResidualCm": -7.225,
+    "maxBuriedCm": 7.22,
+    "tallestFlankBands": 22,
+    "tallestFlankMetres": 52.8,
+    "instances": {
+     "steps": 170,
+     "paving": 4,
+     "bands": 276,
+     "kerbs": 20
+    }
+   },
+   {
+    "id": "W",
+    "side": 3,
+    "sideName": "west",
+    "gateCm": [
+     -31776.0,
+     0.0
+    ],
+    "groundAtFaceZcm": 209.619,
+    "groundAtFaceMetresAsl": 750.1,
+    "headGroundHighZcm": 403.678,
+    "headGroundLowZcm": 166.576,
+    "thresholdZcm": 223.0,
+    "thresholdMetresAsl": 750.23,
+    "thresholdSource": "plaza-Candidate48.json gates[W].thresholdMetresAsl = 750.23 - the wall base PlazaWallBaseZUnrealCm this gate was actually built on",
+    "measuredFaceHeightCm": 13.38,
+    "measuredFaceHeightMetres": 0.13,
+    "built": false,
+    "reason": "the ground outside stands within one riser (24.0 cm) of the threshold; a visitor already walks in at grade"
+   }
+  ]
+ },
+ "placed": {
+  "ApproachStepInstances": {
+   "component": "HierarchicalInstancedStaticMesh",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "castShadow": true,
+   "instances": 696
+  },
+  "ApproachPavingInstances": {
+   "component": "HierarchicalInstancedStaticMesh1",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_WayTile",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_WaySlabs",
+   "castShadow": false,
+   "instances": 14
+  },
+  "ApproachRetainingInstances": {
+   "component": "HierarchicalInstancedStaticMesh2",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "castShadow": true,
+   "instances": 1599
+  },
+  "ApproachKerbInstances": {
+   "component": "HierarchicalInstancedStaticMesh3",
+   "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+   "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "castShadow": true,
+   "instances": 82
+  }
+ },
+ "mapSha256AfterSave": "d4f0f5e29a370f90fa8270e96c88c30c6e6a13592bf2b8757efb8aacd9623ead",
+ "terrainTilesReadAfterReopen": 54,
+ "readback": {
+  "components": {
+   "SM_PlazaV1_Step": {
+    "instances": 696,
+    "expected": 696,
+    "component": "HierarchicalInstancedStaticMesh"
+   },
+   "SM_PlazaV1_WayTile": {
+    "instances": 14,
+    "expected": 14,
+    "component": "HierarchicalInstancedStaticMesh1"
+   },
+   "SM_PlazaV1_RetainingBand": {
+    "instances": 1599,
+    "expected": 1599,
+    "component": "HierarchicalInstancedStaticMesh2"
+   },
+   "SM_PlazaV1_Kerb": {
+    "instances": 82,
+    "expected": 82,
+    "component": "HierarchicalInstancedStaticMesh3"
+   }
+  },
+  "worstScaleDeviationFromUniform": 0.0,
+  "liveDeck": {
+   "plazaDeckTopZcm": 0.0,
+   "plazaStatus": "built",
+   "outerFacesCm": [
+    -31776.0,
+    -31824.0,
+    112224.0,
+    112176.0
+   ]
+  },
+  "liveDeckTileComponent": "PlazaDeckInstances",
+  "approaches": [
+   {
+    "id": "N",
+    "side": 0,
+    "chosen": "outward",
+    "nearestLiveDeckTile": {
+     "index": 2985,
+     "locationCm": [
+      -1800.0,
+      -31368.0,
+      0.0
+     ],
+     "distanceCm": 1856.86
+    },
+    "headLandingTopZcm": 0.0,
+    "headLandingMinusLiveDeckCm": 0.0,
+    "headLandingMinusNearestDeckTileCm": 0.0,
+    "footZcm": -600.0,
+    "footGroundZcmAfterReopen": -602.506,
+    "footResidualCmAfterReopen": 2.506,
+    "footResidualAcrossWidthCm": [
+     2.51,
+     2.51,
+     2.51,
+     2.51,
+     2.51
+    ],
+    "measuredFaceHeightMetres": 4.67,
+    "totalClimbMetres": 6.0,
+    "climbVersusFaceHeightMetres": 1.33,
+    "maxUnbrokenRiseMetres": 4.8,
+    "runMetres": 28.8,
+    "risers": 25,
+    "landings": 1,
+    "terraces": 0,
+    "maxBuriedCm": 0.0
+   },
+   {
+    "id": "E",
+    "side": 1,
+    "chosen": "outward",
+    "nearestLiveDeckTile": {
+     "index": 13827,
+     "locationCm": [
+      111000.0,
+      1800.0,
+      0.0
+     ],
+     "distanceCm": 2176.74
+    },
+    "headLandingTopZcm": 3940.0,
+    "headLandingMinusLiveDeckCm": 3940.0,
+    "headLandingMinusNearestDeckTileCm": 3940.0,
+    "footZcm": 2764.0,
+    "footGroundZcmAfterReopen": 2759.423,
+    "footResidualCmAfterReopen": 4.577,
+    "footResidualAcrossWidthCm": [
+     -525.63,
+     -261.63,
+     4.58,
+     316.58,
+     581.21
+    ],
+    "measuredFaceHeightMetres": 2.13,
+    "totalClimbMetres": 11.76,
+    "climbVersusFaceHeightMetres": 9.63,
+    "maxUnbrokenRiseMetres": 4.8,
+    "runMetres": 56.64,
+    "risers": 49,
+    "landings": 2,
+    "terraces": 0,
+    "maxBuriedCm": 0.0
+   },
+   {
+    "id": "S1",
+    "side": 2,
+    "chosen": "along+",
+    "nearestLiveDeckTile": {
+     "index": 4746,
+     "locationCm": [
+      15000.0,
+      111000.0,
+      0.0
+     ],
+     "distanceCm": 1697.4
+    },
+    "headLandingTopZcm": 0.0,
+    "headLandingMinusLiveDeckCm": 0.0,
+    "headLandingMinusNearestDeckTileCm": 0.0,
+    "footZcm": -7248.0,
+    "footGroundZcmAfterReopen": -7233.511,
+    "footResidualCmAfterReopen": -14.489,
+    "footResidualAcrossWidthCm": [
+     194.52,
+     105.51,
+     -14.49,
+     -134.49,
+     -254.49
+    ],
+    "measuredFaceHeightMetres": 62.57,
+    "totalClimbMetres": 72.48,
+    "climbVersusFaceHeightMetres": 9.91,
+    "maxUnbrokenRiseMetres": 4.8,
+    "runMetres": 419.52,
+    "risers": 302,
+    "landings": 15,
+    "terraces": 3,
+    "maxBuriedCm": 14.49
+   },
+   {
+    "id": "S2",
+    "side": 2,
+    "chosen": "along+",
+    "nearestLiveDeckTile": {
+     "index": 9333,
+     "locationCm": [
+      63000.0,
+      111744.0,
+      0.0
+     ],
+     "distanceCm": 1298.0
+    },
+    "headLandingTopZcm": 0.0,
+    "headLandingMinusLiveDeckCm": 0.0,
+    "headLandingMinusNearestDeckTileCm": 0.0,
+    "footZcm": -2880.0,
+    "footGroundZcmAfterReopen": -2872.775,
+    "footResidualCmAfterReopen": -7.225,
+    "footResidualAcrossWidthCm": [
+     -183.19,
+     -103.22,
+     -7.22,
+     88.78,
+     161.73
+    ],
+    "measuredFaceHeightMetres": 51.16,
+    "totalClimbMetres": 28.8,
+    "climbVersusFaceHeightMetres": -22.36,
+    "maxUnbrokenRiseMetres": 4.8,
+    "runMetres": 163.2,
+    "risers": 120,
+    "landings": 6,
+    "terraces": 1,
+    "maxBuriedCm": 7.22
+   },
+   {
+    "id": "W",
+    "built": false,
+    "reason": "the ground outside stands within one riser (24.0 cm) of the threshold; a visitor already walks in at grade"
+   }
+  ],
+  "maxUnbrokenRisePerApproach": {
+   "N": {
+    "steps": 30,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8
+   },
+   "E": {
+    "steps": 59,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8
+   },
+   "S1": {
+    "steps": 437,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8
+   },
+   "S2": {
+    "steps": 170,
+    "maxUnbrokenRisers": 20,
+    "maxUnbrokenRiseCm": 480.0,
+    "maxUnbrokenRiseMetres": 4.8
+   }
+  },
+  "maxUnbrokenRisersFromPlacedInstances": 20,
+  "maxUnbrokenRiseCmFromPlacedInstances": 480.0,
+  "maxUnbrokenRiseMetresFromPlacedInstances": 4.8,
+  "placedStepZRangeCm": [
+   -7248.0,
+   3916.0
+  ],
+  "worstFootResidualCmAfterReopen": 14.489
+ },
+ "buildingsUnderApproach": {
+  "footprintBoxesCm": [
+   {
+    "id": "N",
+    "boxCm": [
+     -2400.0,
+     -39456.0,
+     2400.0,
+     -29424.0
+    ]
+   },
+   {
+    "id": "E",
+    "boxCm": [
+     109824.0,
+     -2400.0,
+     122640.0,
+     2400.0
+    ]
+   },
+   {
+    "id": "S1",
+    "boxCm": [
+     -29280.0,
+     109776.0,
+     18624.0,
+     116064.0
+    ]
+   },
+   {
+    "id": "S2",
+    "boxCm": [
+     44352.0,
+     109776.0,
+     66624.0,
+     115872.0
+    ]
+   }
+  ],
+  "visibleBuildingActorsOverlapping": 25,
+  "labels": [
+   "RELEASE_OldCityFacades_Grid_N001_N003",
+   "RELEASE_OldCityFacades_Grid_N001_N004",
+   "RELEASE_OldCityFacades_Grid_P000_N003",
+   "RELEASE_OldCityFacades_Grid_P000_N004",
+   "SM_JerusalemBuildings_Grid_N001_N003",
+   "SM_JerusalemBuildings_Grid_N001_N004",
+   "SM_JerusalemBuildings_Grid_N001_P010",
+   "SM_JerusalemBuildings_Grid_N001_P011",
+   "SM_JerusalemBuildings_Grid_N003_P010",
+   "SM_JerusalemBuildings_Grid_N003_P011",
+   "SM_JerusalemBuildings_Grid_P000_N003",
+   "SM_JerusalemBuildings_Grid_P000_N004",
+   "SM_JerusalemBuildings_Grid_P000_P010",
+   "SM_JerusalemBuildings_Grid_P000_P011",
+   "SM_JerusalemBuildings_Grid_P001_P010",
+   "SM_JerusalemBuildings_Grid_P001_P011",
+   "SM_JerusalemBuildings_Grid_P004_P011",
+   "SM_JerusalemBuildings_Grid_P005_P010",
+   "SM_JerusalemBuildings_Grid_P005_P011",
+   "SM_JerusalemBuildings_Grid_P006_P010",
+   "SM_JerusalemBuildings_Grid_P006_P011",
+   "SM_JerusalemBuildings_Grid_P010_P000",
+   "SM_JerusalemBuildings_Grid_P011_N001",
+   "SM_JerusalemBuildings_Grid_P011_P000",
+   "SM_JerusalemBuildings_Grid_P012_P000"
+  ],
+  "note": "Reported, not hidden. Nothing outside the precinct ring is hidden by this pass and no actor is ever deleted."
+ },
+ "mapSha256After": "d4f0f5e29a370f90fa8270e96c88c30c6e6a13592bf2b8757efb8aacd9623ead",
+ "mapBytesChanged": true,
+ "protectedMapsUnchanged": true
+}

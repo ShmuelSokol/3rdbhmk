@@ -432,11 +432,42 @@ origin, tint) — 14,641 × 5 × 4 bytes ≈ 293 KB. That is what buys five cour
    `ApplyWeights` beside the plaza components, but **it needs a plugin rebuild, and until it is
    compiled MODERN and OVERLAY show the cut hillside too.** That is the one regression this
    pass leaves, and it is named here rather than buried in a receipt.
-2. **THE OUTSIDE APPROACHES ARE NOT BUILT.** Where the deck stands above the ground outside
-   the wall — 60.6 m at the south-west gate, 50.4 m at the south-east — a visitor arriving
-   from the modern street has no way up. The real precedent is a monumental stair (the Huldah
-   stairway) or a bridge on arches (Robinson's Arch); both would be large authored structures
-   standing over modern buildings this project deliberately leaves visible.
+2. ~~**THE OUTSIDE APPROACHES ARE NOT BUILT.**~~ **BUILT, 10 September 2026.**
+   `Scripts/release_precinct_approaches.py`, receipts `native-approach-apply-<Target>-*.json`,
+   design record **`APPROACH-DESIGN-20260910.md`**.
+
+   Four raking monumental stairs, one at each gate that needs one, laid entirely from the
+   approved PrecinctPlazaV1 modules - `SM_PlazaV1_Step`, `SM_PlazaV1_RetainingBand`,
+   `SM_PlazaV1_WayTile`, `SM_PlazaV1_Kerb` - at the frozen 0.5-amah riser and 2-amah tread,
+   with a 50-amah square head landing outside every gate, a 10-amah landing every 20 risers and
+   a 50-amah terrace every fifth landing. **2,391 instances in four HISM components on one new
+   actor** on Candidate48, 2,377 on Main50. Nothing is scaled in Z: the readback measures the
+   scale of EVERY instance and the worst deviation from the uniform module scale is **0.0**.
+
+   **The finding that decided the shape.** A stair on this project's tread descends at 1:4, and
+   outside the two south gates the ground falls away *faster than that* - 685 m at the wall,
+   592 m 384 m further south, against 652 m for the stair. A stair driven straight out from
+   either south gate **never meets the ground**. So the approach turns at the gate and rakes
+   **along the face of the retaining wall**, which is what Robinson's Arch did on the same hill.
+   The direction is not asserted: all three candidates are simulated against the terrain the
+   level actually renders, every candidate's run is in the receipt, and the one whose foot lands
+   lowest wins.
+
+   **The acceptance numbers, Candidate48**, all measured after save AND reopen against live
+   geometry: max unbroken rise between landings **20 risers = 4.80 m** on every approach; head
+   landing to live deck **0.00 cm** at all three fill gates, and exactly the built wall base at
+   the cut east gate; worst foot residual against the reopened terrain **14.5 cm, under one
+   riser**. Total climb against the measured face height: N 6.00 m of 4.67, E 11.76 of 2.13,
+   **S1 72.48 of 62.57**, S2 28.80 of 51.16.
+
+   **What it does not solve, and it is in the record rather than smoothed:** the south-east
+   approach closes 28.80 m of a 51.16 m face and leaves 22.43 m of natural hillside at 0.279
+   grade, because the ground west of that gate rises to a 724 m shoulder and a stair continuing
+   past 719 m would be descending into rising ground. The west gate gets no approach at all -
+   its threshold stands 11 cm above the grade outside it, which is less than one riser. The
+   south-west approach's flanking retaining reaches **112.8 m** where it crosses the Hinnom. And
+   the approaches are a new actor, so like the terrain cut they are **not yet wired into the
+   state toggle** and stand in MODERN too until the plugin is rebuilt.
 3. **THE FILL IS NOT MODELLED.** Under the deck there is a void closed by the retaining ring —
    no vaults, no cisterns. No viewer can see into it. The real Temple Mount solves the same
    problem with vaults.

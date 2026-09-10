@@ -317,11 +317,20 @@ against about 45 m at the Herodian Temple Mount's south-east corner. Neither fig
 historical claim. They are the arithmetic consequence of the decision on this terrain, and
 they are reported rather than tuned away.
 
-**Not finished, and named:** the existing terrain tiles are NOT cut, so on the fifth of the
-footprint that stands above the deck — the Mount of Olives slope in the north-east — the
-terrain still rises through the paving; and the approaches OUTSIDE the gates, where the deck
-stands up to 61 m above the modern street, are not built. Both are in
-`PLAZA-DESIGN-20260909.md` section 6 with the named fix.
+**Both of the plaza's original omissions are now closed, 10 September 2026.** The terrain
+inside the square is CUT to the deck underside (`Scripts/release_precinct_terrain_cut.py`), and
+the approaches OUTSIDE the gates are BUILT (`Scripts/release_precinct_approaches.py`, design
+record `APPROACH-DESIGN-20260910.md`). The approaches are four raking monumental stairs from
+the same approved modules the plaza uses, 2,391 instances in four instanced components on
+Candidate48 and 2,377 on Main50. Their shape is a measured result, not a preference: outside
+the two south gates the ground falls away faster than a 1:4 stair descends, so a stair driven
+straight out never meets it, and the approach instead turns at the gate and rakes along the
+face of the retaining wall - Robinson's Arch's answer on the same hill. Max unbroken rise
+between landings 4.80 m; head landing to live deck 0.00 cm; worst foot residual against the
+reopened terrain 14.5 cm. **AUTHORED in full**, and two things are still named: the south-east
+approach leaves 22.43 m of natural hillside below its foot, and the approaches are a new actor
+and so are not yet wired into the state toggle - the same pending plugin rebuild the terrain
+cut needs. **Nobody has seen any of it in a frame.**
 
 ## 5. The three states, and what happens to the modern city
 

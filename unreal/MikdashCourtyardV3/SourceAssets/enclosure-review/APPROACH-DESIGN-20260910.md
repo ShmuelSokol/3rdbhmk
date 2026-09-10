@@ -340,7 +340,11 @@ carries this under `runtimeDefectsObserved`.
 | `-Candidate48 -ApproachRevert` | `native-approach-revert-Candidate48-20260910T035039704274Z.json` | actor found, destroyed, saved, reopened, **absent**; protected maps unchanged |
 | `-Candidate48 -ApproachApply` | `native-approach-apply-Candidate48-20260910T035136804361Z.json` | **placed, saved, reopened, measured.** All four counts read back, worst scale deviation 0.0, max unbroken rise 20 risers, worst foot residual 14.5 cm, protected maps unchanged. Checkpoint `ReviewCheckpoints/PrecinctApproach-Candidate48-20260910T035136804361Z` |
 | `-Main50 -ApproachApply` | `native-approach-apply-Main50-20260910T035257844953Z.json` | **placed, saved, reopened, measured.** 2,377 instances, worst scale deviation 0.0, max unbroken rise 20 risers, worst foot residual 30.1 cm, protected maps unchanged. Checkpoint `ReviewCheckpoints/PrecinctApproach-Main50-20260910T035257844953Z` |
+| `-Candidate48 -ApproachVerify` | `native-approach-verify-Candidate48-20260910T040044282151Z.json` | **a fresh process reopened the saved map, re-extracted the terrain, re-derived the whole plan from scratch and matched the saved instances exactly** — 696 / 14 / 1,599 / 82, max unbroken rise 4.80 m, worst foot residual 14.489 cm, worst scale deviation 0.0 — with `mapBytesChanged: false`. |
 
-`-ApproachVerify` reopens and re-derives the whole plan from the live terrain without saving
-anything, which is the cheapest way to prove the saved instances are the ones the measurement
-implies.
+`-ApproachVerify` saves nothing. It is the strongest statement available without a frame: the
+instances in the level are not merely *recorded* as matching the measurement, they are
+re-derived from the measurement in a separate process and found to be the same.
+
+`python scripts/verify.py`: **7/7 checks passed, `verify: green`** (32/32 standalone C++ math
+tests, 269 scripts parse, 1,112 receipts parse).

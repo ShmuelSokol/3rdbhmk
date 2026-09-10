@@ -1,0 +1,836 @@
+{
+ "status": "vegetation_batch_placed_saved_reopened_resume_required",
+ "stamp": "20260910T020423125789Z",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+ "mapSha256Before": "4a32a6483e6ce2e12e28391ecc164e06344011b9c29ca7803465fc936f399c77",
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Vegetation-20260910T020423125789Z",
+ "oneFilePerActorFoldersCopied": [],
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c"
+ },
+ "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation.spec.json",
+ "specSha256": "92c8685b906b0eaeeb8a329186be2f0240401dba5376a41e929536cd685acdfe",
+ "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+ "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+ "offlineCheck": {
+  "specSha256": "92c8685b906b0eaeeb8a329186be2f0240401dba5376a41e929536cd685acdfe",
+  "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+  "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+  "meshFiles": 105,
+  "textureSets": 14,
+  "plannedInstances": 132598,
+  "batches": 697,
+  "instanceCapTotal": 360000,
+  "mountEnclosureRingPoints": 66,
+  "plannedInstancesInsidePrecinct": 0,
+  "hollowUnionsVerified": 5,
+  "hollowUnionConstituentBoxes": 162,
+  "note": "Every planned instance was re-tested against the Mount enclosure ring here, offline, before any engine was launched, and every hollow union decomposition was verified against the architecture manifest bounds."
+ },
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "seed": 20260908,
+ "resumeReceipt": null,
+ "batchesAlreadyComplete": 0,
+ "batchesPending": 697,
+ "batchesSelectedThisRun": 60,
+ "batchesRemainingAfterThisRun": 637,
+ "speciesFilter": null,
+ "completedBatchIds": [
+  "Olive_N001_N001_00",
+  "Olive_N001_N002_00",
+  "Olive_N001_N003_00",
+  "Olive_N001_N004_00",
+  "Olive_N001_N005_00",
+  "Olive_N001_P000_00",
+  "Olive_N001_P001_00",
+  "Olive_N001_P002_00",
+  "Olive_N001_P003_00",
+  "Olive_N001_P004_00",
+  "Olive_N002_N001_00",
+  "Olive_N002_N002_00",
+  "Olive_N002_N003_00",
+  "Olive_N002_N004_00",
+  "Olive_N002_P000_00",
+  "Olive_N002_P001_00",
+  "Olive_N002_P002_00",
+  "Olive_N002_P003_00",
+  "Olive_N003_N001_00",
+  "Olive_N003_N002_00",
+  "Olive_N003_N003_00",
+  "Olive_N003_N004_00",
+  "Olive_N003_P000_00",
+  "Olive_N003_P001_00",
+  "Olive_N003_P002_00",
+  "Olive_N003_P003_00",
+  "Olive_N004_N001_00",
+  "Olive_N004_N002_00",
+  "Olive_N004_N003_00",
+  "Olive_N004_P000_00",
+  "Olive_N004_P001_00",
+  "Olive_N004_P002_00",
+  "Olive_N004_P003_00",
+  "Olive_P000_N001_00",
+  "Olive_P000_N002_00",
+  "Olive_P000_N003_00",
+  "Olive_P000_N004_00",
+  "Olive_P000_P000_00",
+  "Olive_P000_P001_00",
+  "Olive_P000_P002_00",
+  "Olive_P000_P003_00",
+  "Olive_P001_N001_00",
+  "Olive_P001_N002_00",
+  "Olive_P001_N003_00",
+  "Olive_P001_N004_00",
+  "Olive_P001_P000_00",
+  "Olive_P001_P001_00",
+  "Olive_P001_P002_00",
+  "Olive_P001_P003_00",
+  "Olive_P002_N001_00",
+  "Olive_P002_N002_00",
+  "Olive_P002_N003_00",
+  "Olive_P002_N004_00",
+  "Olive_P002_P000_00",
+  "Olive_P002_P001_00",
+  "Olive_P002_P002_00",
+  "Olive_P002_P003_00",
+  "Olive_P003_N001_00",
+  "Olive_P003_N002_00",
+  "Olive_P003_N003_00"
+ ],
+ "importOnly": false,
+ "errors": [],
+ "mapSaved": true,
+ "limitations": [
+  "Geometric placement only: no visual, collision, cook, performance or packaged acceptance is established.",
+  "Materials are created unassigned unless a material is already present at the expected path; assigning and tuning them is a separate reviewed step.",
+  "Nothing here is halachic."
+ ],
+ "clearance": {
+  "terrainActorsSkippedAsGround": 268,
+  "terrainMeshPrefixes": [
+   "SM_JerusalemTerrain_"
+  ],
+  "terrainNote": "THE TRAP. The 256 terrain tiles are 400 m squares whose AABBs are 400-800 m tall boxes enclosing the whole Temple. They are the ground the plants stand on and are never blockers. The placer counts how many actors it skipped for this reason and records the count, so a rename cannot silently turn the exclusion back on and re-create the 100 per cent false-blocker result.",
+  "hollowUnionConstituentBoxes": 162,
+  "hollowUnionNote": "Hollow derived-union meshes have AABBs spanning +-8100 XY and Z 300..3425 that enclose the entire outer court. They are decomposed into their constituent boxes from source_elements_json and the recomposition is verified against expectedBoundsUnrealCm before the boxes are trusted, exactly as release_place_assets.py does.",
+  "existingTreeInstancesRead": 17060,
+  "existingTreeProximityCm": 400.0,
+  "existingTreeNote": "The 4265 retained illustrative OSM-derived trees are never touched. Their instance transforms are read numerically from the level and used as keep-out circles, which is a check only the editor can do because the offline generator has no access to their placed transforms.",
+  "mountEnclosureRingPoints": 66,
+  "mountEnclosureNote": "No living plant inside the Mount enclosure ring or within the margin of it. Devarim 16:21. Every planned instance is re-tested against this ring in the editor before it is spawned, so a plan error cannot put a tree in the Azarah."
+ },
+ "refusedByClearance": {
+  "existing_tree_instance": 252
+ },
+ "batchesPlaced": [
+  {
+   "batchId": "Olive_N001_N001_00",
+   "species": "Olive",
+   "cell": "N001_N001",
+   "planned": 11,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N002_00",
+   "species": "Olive",
+   "cell": "N001_N002",
+   "planned": 35,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N003_00",
+   "species": "Olive",
+   "cell": "N001_N003",
+   "planned": 26,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N004_00",
+   "species": "Olive",
+   "cell": "N001_N004",
+   "planned": 300,
+   "placed": 299,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N005_00",
+   "species": "Olive",
+   "cell": "N001_N005",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P000_00",
+   "species": "Olive",
+   "cell": "N001_P000",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P001_00",
+   "species": "Olive",
+   "cell": "N001_P001",
+   "planned": 111,
+   "placed": 110,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P002_00",
+   "species": "Olive",
+   "cell": "N001_P002",
+   "planned": 153,
+   "placed": 148,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P003_00",
+   "species": "Olive",
+   "cell": "N001_P003",
+   "planned": 80,
+   "placed": 80,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P004_00",
+   "species": "Olive",
+   "cell": "N001_P004",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N001_00",
+   "species": "Olive",
+   "cell": "N002_N001",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N002_00",
+   "species": "Olive",
+   "cell": "N002_N002",
+   "planned": 64,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N003_00",
+   "species": "Olive",
+   "cell": "N002_N003",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N004_00",
+   "species": "Olive",
+   "cell": "N002_N004",
+   "planned": 106,
+   "placed": 105,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P000_00",
+   "species": "Olive",
+   "cell": "N002_P000",
+   "planned": 25,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P001_00",
+   "species": "Olive",
+   "cell": "N002_P001",
+   "planned": 274,
+   "placed": 268,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P002_00",
+   "species": "Olive",
+   "cell": "N002_P002",
+   "planned": 511,
+   "placed": 507,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P003_00",
+   "species": "Olive",
+   "cell": "N002_P003",
+   "planned": 76,
+   "placed": 68,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N001_00",
+   "species": "Olive",
+   "cell": "N003_N001",
+   "planned": 43,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N002_00",
+   "species": "Olive",
+   "cell": "N003_N002",
+   "planned": 42,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N003_00",
+   "species": "Olive",
+   "cell": "N003_N003",
+   "planned": 22,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N004_00",
+   "species": "Olive",
+   "cell": "N003_N004",
+   "planned": 80,
+   "placed": 74,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P000_00",
+   "species": "Olive",
+   "cell": "N003_P000",
+   "planned": 113,
+   "placed": 110,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P001_00",
+   "species": "Olive",
+   "cell": "N003_P001",
+   "planned": 296,
+   "placed": 256,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P002_00",
+   "species": "Olive",
+   "cell": "N003_P002",
+   "planned": 147,
+   "placed": 144,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P003_00",
+   "species": "Olive",
+   "cell": "N003_P003",
+   "planned": 39,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N001_00",
+   "species": "Olive",
+   "cell": "N004_N001",
+   "planned": 38,
+   "placed": 37,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N002_00",
+   "species": "Olive",
+   "cell": "N004_N002",
+   "planned": 17,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N003_00",
+   "species": "Olive",
+   "cell": "N004_N003",
+   "planned": 14,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P000_00",
+   "species": "Olive",
+   "cell": "N004_P000",
+   "planned": 69,
+   "placed": 64,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P001_00",
+   "species": "Olive",
+   "cell": "N004_P001",
+   "planned": 65,
+   "placed": 59,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P002_00",
+   "species": "Olive",
+   "cell": "N004_P002",
+   "planned": 142,
+   "placed": 130,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P003_00",
+   "species": "Olive",
+   "cell": "N004_P003",
+   "planned": 26,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N001_00",
+   "species": "Olive",
+   "cell": "P000_N001",
+   "planned": 309,
+   "placed": 300,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N002_00",
+   "species": "Olive",
+   "cell": "P000_N002",
+   "planned": 403,
+   "placed": 399,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N003_00",
+   "species": "Olive",
+   "cell": "P000_N003",
+   "planned": 131,
+   "placed": 131,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N004_00",
+   "species": "Olive",
+   "cell": "P000_N004",
+   "planned": 93,
+   "placed": 93,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P000_00",
+   "species": "Olive",
+   "cell": "P000_P000",
+   "planned": 320,
+   "placed": 317,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P001_00",
+   "species": "Olive",
+   "cell": "P000_P001",
+   "planned": 98,
+   "placed": 97,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P002_00",
+   "species": "Olive",
+   "cell": "P000_P002",
+   "planned": 95,
+   "placed": 87,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P003_00",
+   "species": "Olive",
+   "cell": "P000_P003",
+   "planned": 30,
+   "placed": 30,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N001_00",
+   "species": "Olive",
+   "cell": "P001_N001",
+   "planned": 572,
+   "placed": 563,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N002_00",
+   "species": "Olive",
+   "cell": "P001_N002",
+   "planned": 408,
+   "placed": 395,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N003_00",
+   "species": "Olive",
+   "cell": "P001_N003",
+   "planned": 352,
+   "placed": 351,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N004_00",
+   "species": "Olive",
+   "cell": "P001_N004",
+   "planned": 349,
+   "placed": 346,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P000_00",
+   "species": "Olive",
+   "cell": "P001_P000",
+   "planned": 531,
+   "placed": 531,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P001_00",
+   "species": "Olive",
+   "cell": "P001_P001",
+   "planned": 253,
+   "placed": 249,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P002_00",
+   "species": "Olive",
+   "cell": "P001_P002",
+   "planned": 127,
+   "placed": 122,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P003_00",
+   "species": "Olive",
+   "cell": "P001_P003",
+   "planned": 66,
+   "placed": 66,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N001_00",
+   "species": "Olive",
+   "cell": "P002_N001",
+   "planned": 166,
+   "placed": 160,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N002_00",
+   "species": "Olive",
+   "cell": "P002_N002",
+   "planned": 142,
+   "placed": 140,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N003_00",
+   "species": "Olive",
+   "cell": "P002_N003",
+   "planned": 469,
+   "placed": 450,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N004_00",
+   "species": "Olive",
+   "cell": "P002_N004",
+   "planned": 368,
+   "placed": 356,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P000_00",
+   "species": "Olive",
+   "cell": "P002_P000",
+   "planned": 405,
+   "placed": 403,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P001_00",
+   "species": "Olive",
+   "cell": "P002_P001",
+   "planned": 212,
+   "placed": 212,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P002_00",
+   "species": "Olive",
+   "cell": "P002_P002",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P003_00",
+   "species": "Olive",
+   "cell": "P002_P003",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N001_00",
+   "species": "Olive",
+   "cell": "P003_N001",
+   "planned": 132,
+   "placed": 132,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N002_00",
+   "species": "Olive",
+   "cell": "P003_N002",
+   "planned": 135,
+   "placed": 135,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N003_00",
+   "species": "Olive",
+   "cell": "P003_N003",
+   "planned": 675,
+   "placed": 660,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  }
+ ],
+ "mapSha256AfterSave": "c80e2c6405930d96ed1dfabc74877dc2853275602baa44dcccab19ba257d6a62",
+ "reopenedReadback": [
+  {
+   "label": "RELEASE_Vegetation_Olive_Bark",
+   "species": "Olive",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Bark.SM_JudeanFloraV1_Olive_L0_Bark",
+   "expectedInstances": 9602,
+   "readbackInstances": 9602,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    -68.9921875,
+    -84.046875,
+    -360.09130859375
+   ],
+   "worldBoundsExtentCm": [
+    160773.3046875,
+    160525.734375,
+    9776.84912109375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Olive_Leaf",
+   "species": "Olive",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Leaf.SM_JudeanFloraV1_Olive_L0_Leaf",
+   "expectedInstances": 9602,
+   "readbackInstances": 9602,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    -6.359375,
+    -42.2578125,
+    -301.736328125
+   ],
+   "worldBoundsExtentCm": [
+    160728.5625,
+    160664.7109375,
+    9683.1171875
+   ]
+  }
+ ],
+ "reopenedInstanceTotal": 19204,
+ "batchesPlacedThisRun": 60,
+ "instancesPlacedThisRun": 19204,
+ "mapSha256After": "c80e2c6405930d96ed1dfabc74877dc2853275602baa44dcccab19ba257d6a62",
+ "mapBytesChanged": true,
+ "protectedMapsUnchanged": true
+}

@@ -404,8 +404,13 @@ class Release:
                     continue
                 count = int(component.get_instance_count())
                 for index in range(count):
-                    ok, transform = component.get_instance_transform(index, True)
-                    if not ok:
+                    # 5.8 returns the Transform directly, not the (ok, transform) tuple the
+                    # older binding produced; a missing instance raises rather than flagging.
+                    try:
+                        transform = component.get_instance_transform(index, True)
+                    except Exception:  # noqa: BLE001 - skip an instance the component cannot resolve
+                        continue
+                    if transform is None:
                         continue
                     location = transform.translation
                     tree_grid.insert(float(location.x), float(location.y))
@@ -538,6 +543,44 @@ class Release:
 
     # -- placement ---------------------------------------------------------
 
+    def new_hism(self, actor):
+        """Instance-owned HISM on a plain editor actor.
+
+        UE 5.8 declares AActor::AddComponentByClass with meta=(ScriptNoExport,
+        BlueprintInternalUseOnly), so it is deliberately absent from the Python bindings and
+        actor.add_component_by_class raises AttributeError. That is exactly how the placement
+        stage of this script failed in receipt release-vegetation-20260909T174529264332Z.json,
+        and it is the same failure release_city_detail.py hit and solved; this is that solution,
+        the editor's own subobject path, with ownership verified three ways before any instance
+        is added. Merely constructing HierarchicalInstancedStaticMeshComponent(outer=actor)
+        would produce a component the level never owns.
+        """
+        ue = self.ue
+        subsystem = ue.get_engine_subsystem(ue.SubobjectDataSubsystem)
+        library = ue.SubobjectDataBlueprintFunctionLibrary
+        handles = subsystem.k2_gather_subobject_data_for_instance(actor)
+        parent = next((handle for handle in handles
+                       if library.get_associated_object(library.get_data(handle)) == actor), None)
+        if parent is None:
+            raise RuntimeError('Editor actor subobject handle missing')
+        params = ue.AddNewSubobjectParams(
+            parent_handle=parent,
+            new_class=ue.HierarchicalInstancedStaticMeshComponent,
+            blueprint_context=None, conform_transform_to_parent=True)
+        handle, reason = subsystem.add_new_subobject(params)
+        if not library.is_handle_valid(handle):
+            raise RuntimeError('Persistent HISM creation failed: ' + str(reason))
+        data = library.get_data(handle)
+        component = library.get_associated_object(data)
+        if not isinstance(component, ue.HierarchicalInstancedStaticMeshComponent):
+            raise RuntimeError('Subobject is a %s, not a HISM' % type(component).__name__)
+        if component.get_owner() != actor or not library.is_instanced_component(data):
+            raise RuntimeError('HISM ownership/instance creation not verified')
+        if component not in actor.get_components_by_class(
+                ue.HierarchicalInstancedStaticMeshComponent):
+            raise RuntimeError('HISM absent from the actor component readback')
+        return component
+
     def component_for(self, species, role):
         """One hierarchical instanced component per species and material role."""
         ue = self.ue
@@ -550,21 +593,50 @@ class Release:
         if mesh is None:
             raise RuntimeError('Mesh not imported: ' + mesh_name)
         label = '%s%s_%s_%s' % (spec['labelPrefix'], spec['group'], species, role.capitalize())
+        form = species_form(self.manifest, species)
+        cull = float(spec['lod']['cullDistanceCm'][form])
+
+        # RESUME MUST ADOPT, NOT DUPLICATE. A resumed run meets the actors the previous run
+        # saved; spawning a second actor under the same label is what made receipt
+        # release-vegetation-20260910T020616142404Z fail its own reopen readback with
+        # "Reopened actor count for RELEASE_Vegetation_Olive_Bark is 2" AFTER the save.
+        # The clash check in place() already assumes these actors exist on a resume; this is
+        # the other half of that contract. `added` starts at the instances already on the
+        # component, so the post-reopen count check stays exact rather than being relaxed.
+        existing = [row['actor'] for row in (self.snapshot or []) if row['label'] == label]
+        if len(existing) > 1:
+            raise RuntimeError('%d actors already carry the label %s; refusing to guess'
+                               % (len(existing), label))
+        if existing:
+            actor = existing[0]
+            components = actor.get_components_by_class(ue.HierarchicalInstancedStaticMeshComponent)
+            if len(components) != 1:
+                raise RuntimeError('%s has %d instanced components, expected exactly 1'
+                                   % (label, len(components)))
+            component = components[0]
+            found_mesh = _asset_path(component.get_editor_property('static_mesh')) or ''
+            if mesh_name not in found_mesh:
+                raise RuntimeError('%s carries mesh %s, not %s' % (label, found_mesh, mesh_name))
+            already = int(component.get_instance_count())
+            self.components[key] = {'actor': actor, 'component': component, 'label': label,
+                                    'mesh': mesh_name, 'species': species, 'role': role,
+                                    'added': already, 'preexistingInstances': already,
+                                    'adopted': True, 'cullDistanceCm': cull}
+            return self.components[key]
+
         actor = self.actors.spawn_actor_from_class(ue.Actor, ue.Vector(0.0, 0.0, 0.0))
         actor.set_actor_label(label)
         actor.set_folder_path(spec['folder'])
         actor.set_editor_property('tags', [ue.Name(spec['actorTag'])])
-        component = actor.add_component_by_class(ue.HierarchicalInstancedStaticMeshComponent,
-                                                 False, ue.Transform(), False)
+        component = self.new_hism(actor)
         component.set_editor_property('static_mesh', mesh)
         component.set_mobility(ue.ComponentMobility.STATIC)
         component.set_collision_profile_name('NoCollision')
-        form = species_form(self.manifest, species)
-        cull = float(spec['lod']['cullDistanceCm'][form])
         component.set_cull_distances(int(cull * spec['lod']['cullStartFraction']), int(cull))
         self.components[key] = {'actor': actor, 'component': component, 'label': label,
                                 'mesh': mesh_name, 'species': species, 'role': role,
-                                'added': 0, 'cullDistanceCm': cull}
+                                'added': 0, 'preexistingInstances': 0, 'adopted': False,
+                                'cullDistanceCm': cull}
         return self.components[key]
 
     def place_batches(self, batches, clearance):

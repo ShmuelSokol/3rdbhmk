@@ -1,3 +1,80 @@
+## Backlog verification pass — 2026-09-10 02:1x UTC
+
+**Candidate48 real-RHI PIE is not possible on this box right now — that is the headline.**
+`release_resident_routes_v2.py -RoutesV2Verify -RoutesV2Target=Candidate48` requires real RHI
+(it refuses NullRHI as evidence) and the editor died twice at frames 7 and 17 with
+D3D12Util.cpp:815 "Out of video memory". It is NOT video memory: local VRAM budget 7238 MB with
+only 4276 MB used, while system Virtual Memory read **65370.78 MB used of 65389.91 MB, 19.13 MB
+free**. The Windows COMMIT limit is the wall. Measured with no editor running, baseline commit is
+**45,171 MB of 65,390 MB** consumed by non-Unreal processes (`mc-fw-host` PID 4704 alone holds
+11,014 MB), leaving ~20 GB; a real-RHI editor on this map reserves ~19.9 GB of process virtual
+address space (18,377 MB of it D3D12 "Reserved Buffer Memory (Uncommitted)"). So it fails right at
+the edge. Candidate48 .umap verified byte-identical after both crashes (a4337468...). Receipts
+resident-routes-v2-verify-Candidate48-20260910T015552005900Z.json and -20260910T015917186399Z.json
+were left at 'starting' because the crash skipped the finally-block; their status has been corrected
+to failed_editor_crashed_out_of_commit_before_pie so they cannot be misread as a pass.
+A -nullrhi commandlet is unaffected: it never takes the D3D12 reserved-buffer path.
+
+**verify.py check_map_parity has a blind spot, and it now reads falsely green.** It buckets receipts
+by `target` and counts EXISTENCE, not status, so the two crashed Candidate48 receipts above cleared
+the long-standing "resident-routes-v2-verify ran on the LEGACY map only" WARN without the pass ever
+having run on the shipping map. Separately it is blind to 351 receipts that record `map` but no
+`target` (229 of them Main50-pinned) - which is exactly why gate security, surface detail and
+vegetation have never appeared in it.
+
+**Three release scripts are structurally Main50-only.** `release_gate_security.py`,
+`release_surface_detail.py` and `release_vegetation.py` all hardcode
+TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough' with no target switch, and none of
+them contains the Amah48Candidate path anywhere. There is no port_candidate_* helper for any of the
+three. The shipping/cook map therefore has no gate security, no surface wear and no vegetation, and
+cannot get them without adding a target parameter.
+
+**Gate security: already complete, re-verified against the CURRENT map.** The verify helper WAS
+re-run after its 03:05 UTC fix (receipt 030841758949Z, 90/90). Re-run now on the post-plaza,
+post-terrain-cut Main50: native-gate-security-verify-20260910T020232145559Z.json,
+**90/90 actors, east 30/30, north 30/30, south 30/30, zero problems**, map 4a32a648... byte-identical,
+mapSaved false.
+
+**Surface detail: complete on Main50, absent on Candidate48, numerically.**
+candidate-parity-20260910T020232999990Z.json: Main50 **460 tagged wear decals, all 460 on
+SurfaceDetailSoftV1 materials, 1 MikdashSurfaceDetail manager**; Candidate48 **0 and 0**. Both maps
+byte-identical during the inventory. Note `verify_surface_saved.py` can no longer be re-run: it
+asserts the live map still hashes to the receipt's `mapSha256AfterSave`, which moved on 2026-09-09.
+
+**Vegetation: 697/697 batches placed, and it needed TWO real fixes.** The premise that ~60 batches
+had run was wrong - 0 had, and the pass could never have worked:
+1. `AActor::AddComponentByClass` is declared `meta=(ScriptNoExport, BlueprintInternalUseOnly)` in
+   Actor.h:1973, so it is deliberately absent from the UE 5.8 Python bindings and
+   `actor.add_component_by_class` raises AttributeError - the exact failure of receipt
+   174529264332Z. `release_city_detail.py` had already hit and solved this; its
+   SubobjectDataSubsystem.add_new_subobject recipe (ownership verified three ways) is now ported
+   into `release_vegetation.new_hism`.
+2. The resume path DUPLICATED actors. `component_for` always spawned a new actor, so a resumed run
+   made a second RELEASE_Vegetation_<species>_<role>. Receipt 20260910T020616142404Z failed its own
+   reopen readback - "Reopened actor count for RELEASE_Vegetation_Olive_Bark is 2" - AFTER the save.
+   Main50 was restored from that run's checkpoint back to c80e2c64 and re-verified by hash.
+   `component_for` now ADOPTS an existing labelled actor, checks it carries exactly one HISM with the
+   right mesh, and seeds `added` from its current instance count so the post-reopen equality check
+   stays exact. place()'s pre-existing clash guard already assumed those actors exist on resume; this
+   is the other half of that contract.
+
+Final result release-vegetation-20260910T020948460767Z.json: **697/697 batches, 225,780 instances
+across 27 components, 0 remaining, expected == readback on all 27, zero errors**, protected maps
+unchanged, 2,426 instances refused by the existing-tree clearance rule. Main50 is now
+9f5dd4b0230d9de8adafa4b469ed3ada7d07aa57a8fa9a358a0b1d489227bd53. Geometric placement only: no
+visual, collision, cook or performance acceptance, and materials remain unassigned.
+
+`Scripts/run_batch.py` carried gate security + parity inventory in ONE editor session
+(batch-20260910T020223433470Z.json, 2 of 2 ran, 9.6 s and 10.4 s after one map load).
+
+Two launch traps paid for here, both mine: PowerShell `Start-Process -ArgumentList <array>` does NOT
+preserve the quotes in `-ExecCmds="py <path>"`, so the engine parsed `-ExecCmds=py`, ran a bare `py`,
+and an -unattended editor sat idle holding the slot forever - pass ArgumentList as ONE verbatim
+string. And `-TestSavePrefix` must match `(AstraProbe|FableProbe)_[A-Za-z0-9_]+`; anything else is
+refused by _save_isolation before PIE.
+
+scripts/verify.py 7/7 green, 32/32 math. Nothing committed.
+
 ## Published handoff — 2026-09-09
 
 Windows12 is public at ShmuelSokol/3rdbhmk release walkthrough-12-preview.

@@ -222,13 +222,24 @@ starting the next. If a receipt records failure, stop and fix rather than contin
 Order chosen so that anything reading positions from the map runs after what it reads.
  1. [ ] release_enclosure.py        — HOLD changed scenario selection; user approved book-selected 48 cm. Keep active legacy geometry coherent until the checkpointed migration and dependent placements pass. See SourceAssets/scale-review/AMAH-MIGRATION-PLAN.md.
  2. [ ] release_water.py            — HOLD full adoption until host floor/foundation openings exist; current placement alone leaves water 26 cm below intact paving. See takeover water audit.
- 3. [ ] release_vegetation.py       — needs the water and enclosure settled; batch with resume
- 4. [ ] release_gate_security.py    — at the gates
+ 3. [x] release_vegetation.py       — Main50 ONLY (TARGET hardcoded, no candidate switch).
+        697/697 batches, 225,780 instances, 27 components, expected==readback on all 27
+        (release-vegetation-20260910T020948460767Z.json). Needed two fixes: the UE 5.8
+        add_component_by_class ScriptNoExport trap, and a resume path that duplicated
+        actors. Geometric placement only; materials unassigned; Candidate48 has none.
+ 4. [x] release_gate_security.py    — Main50 ONLY (TARGET hardcoded). -GateSecurityVerifyOnly
+        re-run on the current map: 90/90 actors, 30/30 per gate, zero problems, map
+        unchanged (native-gate-security-verify-20260910T020232145559Z.json).
+        Candidate48 has no gate security and the script cannot target it.
  5. [x] release_crowd_field.py      — 240 runtime agents saved/reopened, six zones/keep-outs. Reconcile with future water/48 cm migration; live/visual/performance checks separate.
  6. [ ] release_birds.py
  7. [ ] release_kohen_service.py
  8. [x] release_fx.py               — director/materials saved/reopened; live/visual review pending. Service cue wiring remains dependent on service adoption.
- 9. [ ] release_surface_detail.py   — wear goes on top of everything
+ 9. [x] release_surface_detail.py   — Main50 ONLY (TARGET hardcoded). 460 tagged wear decals,
+        all on SurfaceDetailSoftV1, plus 1 MikdashSurfaceDetail manager; Candidate48 has 0
+        and 0 (candidate-parity-20260910T020232999990Z.json). Already applied and
+        fresh-verified on 09-09; verify_surface_saved.py can no longer re-run because it
+        pins the map hash. Visual acceptance still open.
 10. [ ] release_sky_tod.py          — lighting last so it is tuned against the final scene
 11. [x] release_tour.py             — guide/codex plus18 markers saved/reopened on legacy50 geometry;18/76 entries reload from staged Content/Distribution/Tour. Runtime interaction and48cm relocation remain separate.
 12. [ ] release_intro_sequence.py   — camera path against the final scene

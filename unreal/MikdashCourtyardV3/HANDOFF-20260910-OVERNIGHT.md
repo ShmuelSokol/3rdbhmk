@@ -16,12 +16,20 @@ without re-cooking. See `CHECKPOINTS.md`.
 
 ## The one thing to know before looking at it
 
-**No rendered frame has been possible since midnight**, so almost nothing below has been seen by
-anybody. The cause is not VRAM despite what D3D12 says — it is the Windows **commit limit**.
-Baseline commit is ~44 GB of a 63.9 GB limit before any engine starts, `mc-fw-host` holding
-8.8→11 GB and growing with uptime; a real-RHI editor on this map reserves ~19.9 GB of address
-space and fails by about 19 MB. `-nullrhi` commandlets are unaffected, which is why every
-commandlet pass succeeded and every capture died. A reboot recovers it.
+Almost nothing below has been seen by anybody, and for most of the night that looked
+unfixable. The **editor** cannot render here: a real-RHI editor on this map reserves ~19.9 GB of
+address space against ~19.8 GB of commit headroom (Windows holds ~45 GB of a 63.9 GB limit before
+any engine starts, `mc-fw-host` alone 11 GB and growing with uptime). Note the cause is the
+Windows **commit limit**, not VRAM — D3D12 reports "out of video memory" while VRAM sits at
+4,276 MB of a 7,238 MB budget. Diagnose with `Committed Bytes` against `Commit Limit`, never with
+free RAM, which read 7–8 GB at moments when commit had no room at all.
+
+**But the PACKAGED BUILD renders fine.** It peaks at **2,852 MB** — a seventh of the editor — and
+opens a window in 18 seconds. That inference ("no frames possible") was drawn from the editor's
+footprint and was simply wrong for the shipped exe, and it cost most of a night of visual
+acceptance. The builds are Development config precisely so they keep the console. **Capture from
+the packaged build, not the editor.** A reboot would recover the editor too, but it is no longer
+a prerequisite for seeing the work.
 
 ## Landed and verified numerically
 

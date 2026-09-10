@@ -1486,3 +1486,10 @@ too shallow but because the *ramp* is too narrow to survive mipping. V4's boss-e
 near-vertical arris (normal deviation p50 0.968) mipped down to a flat grey line and the wall read as
 engraved. Width beats depth. Check the ramp against `TilingCm / textureSize × 2^mip`, not against the
 measured centimetres alone.
+
+**Outcome of that pass, for the record:** the boss fix worked in the cooked frame — see
+`SourceAssets/material-review/HerodianAshlarV5/sources.md` → "THE VERDICT FROM THE FRAME". Two cooks
+were needed: `cp11b` fixed boss/grain/colour and introduced an extreme per-block value spread
+(chocolate blocks beside cream), which `cp11c` corrected by halving V4's `weathering` and
+`weather_dark`. **A paler base makes an existing weathering spread look far stronger** — when you
+lighten a palette, re-check the per-block darkening in the same move.

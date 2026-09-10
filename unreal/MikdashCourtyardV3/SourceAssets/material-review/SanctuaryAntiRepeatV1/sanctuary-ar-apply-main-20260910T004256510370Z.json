@@ -1,0 +1,303 @@
+{
+  "status": "applied_saved_reopened",
+  "stamp": "20260910T004256510370Z",
+  "mode": "apply",
+  "target": "main",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "processId": 11144,
+  "mapSha256Before": "532cd8d6d3710441d0fe5759a0b821a38bbb4eb85ad9669dfc7249aea3c245c9",
+  "mapSaved": true,
+  "errors": [],
+  "specSha256": "2ef30518e10c13c9b083e0b6e0d65df5e0b90da145108c052ce825e7af805a00",
+  "scope": "Numeric persistence only. Nothing here is visual acceptance, and no claim of cinematic quality follows from a parameter change.",
+  "protectedFileCount": 8958,
+  "ownedInstanceFiles": [
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\SanctuaryAntiRepeatV1\\MI_SanctuaryAR_ProbeNeutral.uasset"
+  ],
+  "instances": {
+    "MI_SanctuaryAR_ProbeNeutral": {
+      "path": "/Game/MikdashV3/SanctuaryAntiRepeatV1/MI_SanctuaryAR_ProbeNeutral",
+      "parent": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/M_AntiRepeat_Triplanar",
+      "scalars": {
+        "TilingCm": 250.0,
+        "NormalStrength": 0.6000000238418579,
+        "RoughnessScale": 2.0999999046325684,
+        "Metallic": 1.0,
+        "AlbedoFlatness": 1.0,
+        "BlendExponent": 4.0,
+        "MirrorEnable": 0.0,
+        "BandOffsetEnable": 0.0,
+        "MacroCm": 4300.0,
+        "MacroAmount": 0.0,
+        "MacroWarm": 0.0,
+        "MidCm": 4300.0,
+        "MidAmount": 0.0,
+        "MidRoughness": 0.0,
+        "PerInstanceJitter": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Albedo",
+        "Normal": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_Normal",
+        "ARM": "/Game/MikdashV3/Materials/PBR/ScratchedMetal/T_ScratchedMetal_ARM",
+        "MacroNoise": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Textures/T_AntiRepeat_MacroNoise"
+      },
+      "Tint": [
+        0.6104999780654907,
+        0.39157000184059143,
+        0.08649999648332596,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "created": true,
+      "diskSha256": "26e2cd82fc45f8e0d0550ae4847e1b2d786dffbdb13c94fdeccd6f0af620a213"
+    }
+  },
+  "componentOverrides": [
+    {
+      "actor": "Kodesh partition shoulder",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "before": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "after": "/Game/MikdashV3/SanctuaryAntiRepeatV1/MI_SanctuaryAR_ProbeNeutral"
+    },
+    {
+      "actor": "Kodesh partition shoulder",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+      "slot": 0,
+      "before": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "after": "/Game/MikdashV3/SanctuaryAntiRepeatV1/MI_SanctuaryAR_ProbeNeutral"
+    },
+    {
+      "actor": "Kodesh partition lintel",
+      "component": "StaticMeshComponent0",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+      "slot": 0,
+      "before": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+      "after": "/Game/MikdashV3/SanctuaryAntiRepeatV1/MI_SanctuaryAR_ProbeNeutral"
+    }
+  ],
+  "lightsBefore": [
+    {
+      "label": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30",
+      "componentClass": "DirectionalLightComponent",
+      "locationCm": [
+        0.0,
+        0.0,
+        8000.0
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 30000.0,
+      "temperature": 6500.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 1.0,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "label": "RELEASE_KodeshInteriorLight",
+      "componentClass": "PointLightComponent",
+      "locationCm": [
+        -6200.0,
+        0.0,
+        1750.0
+      ],
+      "mobility": "<ComponentMobility.STATIONARY: 1>",
+      "intensity": 900.0,
+      "attenuation_radius": 1000.0,
+      "source_radius": 150.0,
+      "temperature": 6500.0,
+      "use_temperature": false,
+      "cast_shadows": true,
+      "specular_scale": 1.0,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        239,
+        206,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    },
+    {
+      "label": "RELEASE_HeikhalEntranceFill",
+      "componentClass": "RectLightComponent",
+      "locationCm": [
+        -3750.0,
+        0.0,
+        2800.0
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 11000.0,
+      "attenuation_radius": 3500.0,
+      "temperature": 5800.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 0.25,
+      "volumetric_scattering_intensity": 0.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    },
+    {
+      "label": "RELEASE_SanctuaryV2_MenorahLamps",
+      "componentClass": "PointLightComponent",
+      "locationCm": [
+        -5332.4,
+        315.104,
+        1083.333
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 90.0,
+      "attenuation_radius": 900.0,
+      "source_radius": 12.0,
+      "temperature": 1900.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 0.30000001192092896,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    }
+  ],
+  "lightEntriesInScope": [],
+  "fxBefore": [],
+  "slotsAlreadyPointed": [],
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\SanctuaryAntiRepeat-main-20260910T004256510370Z",
+  "lightsApplied": [],
+  "fxApplied": {},
+  "mapSha256After": "0779526e2d28a894c3687e1caacf1de053d3ff9c8b86ce4ef8b65f855aa8b4fd",
+  "lightsAfter": [
+    {
+      "label": "V3 daylight sun - 30000 lux 6500 K morning az 110 el 30",
+      "componentClass": "DirectionalLightComponent",
+      "locationCm": [
+        0.0,
+        0.0,
+        8000.0
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 30000.0,
+      "temperature": 6500.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 1.0,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "label": "RELEASE_KodeshInteriorLight",
+      "componentClass": "PointLightComponent",
+      "locationCm": [
+        -6200.0,
+        0.0,
+        1750.0
+      ],
+      "mobility": "<ComponentMobility.STATIONARY: 1>",
+      "intensity": 900.0,
+      "attenuation_radius": 1000.0,
+      "source_radius": 150.0,
+      "temperature": 6500.0,
+      "use_temperature": false,
+      "cast_shadows": true,
+      "specular_scale": 1.0,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        239,
+        206,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    },
+    {
+      "label": "RELEASE_HeikhalEntranceFill",
+      "componentClass": "RectLightComponent",
+      "locationCm": [
+        -3750.0,
+        0.0,
+        2800.0
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 11000.0,
+      "attenuation_radius": 3500.0,
+      "temperature": 5800.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 0.25,
+      "volumetric_scattering_intensity": 0.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    },
+    {
+      "label": "RELEASE_SanctuaryV2_MenorahLamps",
+      "componentClass": "PointLightComponent",
+      "locationCm": [
+        -5332.4,
+        315.104,
+        1083.333
+      ],
+      "mobility": "<ComponentMobility.MOVABLE: 2>",
+      "intensity": 90.0,
+      "attenuation_radius": 900.0,
+      "source_radius": 12.0,
+      "temperature": 1900.0,
+      "use_temperature": true,
+      "cast_shadows": true,
+      "specular_scale": 0.30000001192092896,
+      "volumetric_scattering_intensity": 1.0,
+      "indirect_lighting_intensity": 1.0,
+      "light_color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "intensity_units": "<LightUnits.CANDELAS: 1>"
+    }
+  ],
+  "mapBytesChanged": true,
+  "protectedDifferences": []
+}

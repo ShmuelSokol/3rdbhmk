@@ -1,0 +1,398 @@
+{
+  "stamp": "20260909T234022876175Z",
+  "scope": "Offline measurement only. Nothing here is visual acceptance and no claim of cinematic quality follows from a number.",
+  "fields": {
+    "stamp": "20260909T234023431538Z",
+    "tilePx": 256,
+    "noiseSha256": "9ecdb1dba5ad75b9c660d68dc20e1b84307a1fe43221ea9eb47719bd94aa9b07",
+    "sourceSha256": {
+      "blue_metal_plate_albedo_2k.jpg": "82855f6297ad07ea7ea4d1c501e6b56ed4c9c758653ca126bda9fd0ebba63c59",
+      "blue_metal_plate_ao_2k.jpg": "6e58210d25dadef4b6617a9b03f27a89e5a6013da71ebfc8651afba520e54183",
+      "blue_metal_plate_arm_2k.jpg": "64991aa1059eb36d74fb5973dcc55de9153cf277e8f587a5b7939966737a04e4",
+      "blue_metal_plate_height_2k.png": "877db38ce2a089e2201afa92e08709bcb57abf464d2320525cd3e2d3974c22e1",
+      "blue_metal_plate_normal_2k.png": "8512d1d5b0470e9936dada2e593af18e76bb1b617bae47760e9746a0eaee2f26",
+      "blue_metal_plate_roughness_2k.jpg": "dd1726d8217fe4f6c3947cb20700d51774a0773e9abaeb4120769c8f6fce1d69"
+    },
+    "albedoPathDead": {
+      "albedoLinearLuminanceMean": 0.04927,
+      "why": "AlbedoFlatness 1.0 makes BaseColor = lerp(albedo, 1.0, 1.0) * Tint, a constant. MacroAmount, MacroWarm and PerInstanceJitter all act on the albedo sample BEFORE that lerp, so they are exactly cancelled. They are shipped at 0.0 on the gold rather than pretended to help."
+    },
+    "surfaces": {
+      "partition": {
+        "parameters": {
+          "instance": "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+          "tilingCm": 250.0,
+          "roughnessScale": 2.1,
+          "normalStrength": 0.6,
+          "albedoFlatness": 1.0,
+          "tilesU": 8,
+          "tilesV": 6,
+          "what": "The three Kodesh partition components: the back plane of the Heikhal frame."
+        },
+        "regionCm": [
+          2000.0,
+          1500.0
+        ],
+        "schemes": {
+          "roughness_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.017731,
+            "lumaMean": 0.59844,
+            "lumaStd": 0.09746,
+            "combVsBaseline": 1.0
+          },
+          "roughness_mirrorBand": {
+            "combEnergyFraction": 0.34742,
+            "acPeakU": 0.67922,
+            "acPeakV": 0.07555,
+            "edgeEnergy": 0.018028,
+            "lumaMean": 0.5989,
+            "lumaStd": 0.0977,
+            "combVsBaseline": 0.3474
+          },
+          "roughness_shipped_mid0.10": {
+            "combEnergyFraction": 0.31361,
+            "acPeakU": 0.58433,
+            "acPeakV": 0.07846,
+            "edgeEnergy": 0.017785,
+            "lumaMean": 0.5988,
+            "lumaStd": 0.10221,
+            "combVsBaseline": 0.3136
+          },
+          "roughness_midOnly0.10": {
+            "combEnergyFraction": 0.89209,
+            "acPeakU": 0.87988,
+            "acPeakV": 0.89569,
+            "edgeEnergy": 0.017467,
+            "lumaMean": 0.59817,
+            "lumaStd": 0.1007,
+            "combVsBaseline": 0.8921
+          },
+          "roughness_shipped_mid0.20": {
+            "combEnergyFraction": 0.23885,
+            "acPeakU": 0.41102,
+            "acPeakV": 0.05878,
+            "edgeEnergy": 0.017852,
+            "lumaMean": 0.5988,
+            "lumaStd": 0.1181,
+            "combVsBaseline": 0.2389
+          },
+          "roughness_midOnly0.20": {
+            "combEnergyFraction": 0.66577,
+            "acPeakU": 0.63099,
+            "acPeakV": 0.64949,
+            "edgeEnergy": 0.017525,
+            "lumaMean": 0.59801,
+            "lumaStd": 0.11566,
+            "combVsBaseline": 0.6658
+          },
+          "roughness_shipped_mid0.30": {
+            "combEnergyFraction": 0.17151,
+            "acPeakU": 0.26457,
+            "acPeakV": 0.03632,
+            "edgeEnergy": 0.017899,
+            "lumaMean": 0.59856,
+            "lumaStd": 0.14036,
+            "combVsBaseline": 0.1715
+          },
+          "roughness_midOnly0.30": {
+            "combEnergyFraction": 0.45879,
+            "acPeakU": 0.41231,
+            "acPeakV": 0.42669,
+            "edgeEnergy": 0.017576,
+            "lumaMean": 0.59765,
+            "lumaStd": 0.1374,
+            "combVsBaseline": 0.4588
+          },
+          "roughness_shipped_mid0.40": {
+            "combEnergyFraction": 0.12369,
+            "acPeakU": 0.16453,
+            "acPeakV": 0.01865,
+            "edgeEnergy": 0.017897,
+            "lumaMean": 0.59793,
+            "lumaStd": 0.16601,
+            "combVsBaseline": 0.1237
+          },
+          "roughness_midOnly0.40": {
+            "combEnergyFraction": 0.31157,
+            "acPeakU": 0.26178,
+            "acPeakV": 0.2712,
+            "edgeEnergy": 0.017594,
+            "lumaMean": 0.59697,
+            "lumaStd": 0.16286,
+            "combVsBaseline": 0.3116
+          },
+          "normalDev_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.003217,
+            "lumaMean": 0.00803,
+            "lumaStd": 0.01233
+          },
+          "normalDev_mirrorBand": {
+            "combEnergyFraction": 0.11011,
+            "acPeakU": 0.49334,
+            "acPeakV": -0.01712,
+            "edgeEnergy": 0.003221,
+            "lumaMean": 0.00801,
+            "lumaStd": 0.01229,
+            "combVsBaseline": 0.1101
+          }
+        }
+      },
+      "floor": {
+        "parameters": {
+          "instance": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldFloor",
+          "tilingCm": 130.0,
+          "roughnessScale": 1.55,
+          "normalStrength": 2.5,
+          "albedoFlatness": 1.0,
+          "tilesU": 12,
+          "tilesV": 8,
+          "what": "The Heikhal and Kodesh clear floors: the lower third of the frame."
+        },
+        "regionCm": [
+          1560.0,
+          1040.0
+        ],
+        "schemes": {
+          "roughness_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.013086,
+            "lumaMean": 0.44171,
+            "lumaStd": 0.07193,
+            "combVsBaseline": 1.0
+          },
+          "roughness_mirrorBand": {
+            "combEnergyFraction": 0.3331,
+            "acPeakU": 0.68608,
+            "acPeakV": 0.00734,
+            "edgeEnergy": 0.013346,
+            "lumaMean": 0.44189,
+            "lumaStd": 0.07204,
+            "combVsBaseline": 0.3331
+          },
+          "roughness_shipped_mid0.10": {
+            "combEnergyFraction": 0.30505,
+            "acPeakU": 0.5861,
+            "acPeakV": 0.023,
+            "edgeEnergy": 0.013363,
+            "lumaMean": 0.44244,
+            "lumaStd": 0.07742,
+            "combVsBaseline": 0.305
+          },
+          "roughness_midOnly0.10": {
+            "combEnergyFraction": 0.89711,
+            "acPeakU": 0.86496,
+            "acPeakV": 0.87552,
+            "edgeEnergy": 0.013108,
+            "lumaMean": 0.44227,
+            "lumaStd": 0.07737,
+            "combVsBaseline": 0.8971
+          },
+          "roughness_shipped_mid0.20": {
+            "combEnergyFraction": 0.24164,
+            "acPeakU": 0.4001,
+            "acPeakV": 0.02561,
+            "edgeEnergy": 0.013403,
+            "lumaMean": 0.44299,
+            "lumaStd": 0.09043,
+            "combVsBaseline": 0.2416
+          },
+          "roughness_midOnly0.20": {
+            "combEnergyFraction": 0.69228,
+            "acPeakU": 0.6085,
+            "acPeakV": 0.64233,
+            "edgeEnergy": 0.013151,
+            "lumaMean": 0.44283,
+            "lumaStd": 0.09047,
+            "combVsBaseline": 0.6923
+          },
+          "roughness_shipped_mid0.30": {
+            "combEnergyFraction": 0.18287,
+            "acPeakU": 0.24145,
+            "acPeakV": 0.02153,
+            "edgeEnergy": 0.013457,
+            "lumaMean": 0.44353,
+            "lumaStd": 0.1083,
+            "combVsBaseline": 0.1829
+          },
+          "roughness_midOnly0.30": {
+            "combEnergyFraction": 0.50827,
+            "acPeakU": 0.38912,
+            "acPeakV": 0.44355,
+            "edgeEnergy": 0.01321,
+            "lumaMean": 0.44338,
+            "lumaStd": 0.10846,
+            "combVsBaseline": 0.5083
+          },
+          "roughness_shipped_mid0.40": {
+            "combEnergyFraction": 0.13974,
+            "acPeakU": 0.13174,
+            "acPeakV": 0.01601,
+            "edgeEnergy": 0.013523,
+            "lumaMean": 0.44406,
+            "lumaStd": 0.129,
+            "combVsBaseline": 0.1397
+          },
+          "roughness_midOnly0.40": {
+            "combEnergyFraction": 0.37566,
+            "acPeakU": 0.23728,
+            "acPeakV": 0.30622,
+            "edgeEnergy": 0.013281,
+            "lumaMean": 0.44393,
+            "lumaStd": 0.12927,
+            "combVsBaseline": 0.3757
+          },
+          "normalDev_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.013405,
+            "lumaMean": 0.03347,
+            "lumaStd": 0.05136
+          },
+          "normalDev_mirrorBand": {
+            "combEnergyFraction": 0.07638,
+            "acPeakU": 0.50945,
+            "acPeakV": -0.00624,
+            "edgeEnergy": 0.013473,
+            "lumaMean": 0.03346,
+            "lumaStd": 0.05133,
+            "combVsBaseline": 0.0764
+          }
+        }
+      },
+      "wall": {
+        "parameters": {
+          "instance": "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+          "tilingCm": 90.0,
+          "roughnessScale": 1.9,
+          "normalStrength": 3.5,
+          "albedoFlatness": 1.0,
+          "tilesU": 12,
+          "tilesV": 8,
+          "what": "The five wall veneers and two entrance jambs."
+        },
+        "regionCm": [
+          1080.0,
+          720.0
+        ],
+        "schemes": {
+          "roughness_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.016041,
+            "lumaMean": 0.54145,
+            "lumaStd": 0.08818,
+            "combVsBaseline": 1.0
+          },
+          "roughness_mirrorBand": {
+            "combEnergyFraction": 0.3331,
+            "acPeakU": 0.68608,
+            "acPeakV": 0.00734,
+            "edgeEnergy": 0.01636,
+            "lumaMean": 0.54167,
+            "lumaStd": 0.08831,
+            "combVsBaseline": 0.3331
+          },
+          "roughness_shipped_mid0.10": {
+            "combEnergyFraction": 0.29272,
+            "acPeakU": 0.56077,
+            "acPeakV": -0.01755,
+            "edgeEnergy": 0.016291,
+            "lumaMean": 0.54295,
+            "lumaStd": 0.0945,
+            "combVsBaseline": 0.2927
+          },
+          "roughness_midOnly0.10": {
+            "combEnergyFraction": 0.89277,
+            "acPeakU": 0.85576,
+            "acPeakV": 0.86,
+            "edgeEnergy": 0.015971,
+            "lumaMean": 0.54262,
+            "lumaStd": 0.0935,
+            "combVsBaseline": 0.8928
+          },
+          "roughness_shipped_mid0.20": {
+            "combEnergyFraction": 0.21817,
+            "acPeakU": 0.34481,
+            "acPeakV": -0.0554,
+            "edgeEnergy": 0.016293,
+            "lumaMean": 0.54425,
+            "lumaStd": 0.1106,
+            "combVsBaseline": 0.2182
+          },
+          "roughness_midOnly0.20": {
+            "combEnergyFraction": 0.6749,
+            "acPeakU": 0.57527,
+            "acPeakV": 0.58791,
+            "edgeEnergy": 0.015975,
+            "lumaMean": 0.54382,
+            "lumaStd": 0.10875,
+            "combVsBaseline": 0.6749
+          },
+          "roughness_shipped_mid0.30": {
+            "combEnergyFraction": 0.15409,
+            "acPeakU": 0.16722,
+            "acPeakV": -0.08538,
+            "edgeEnergy": 0.016247,
+            "lumaMean": 0.54547,
+            "lumaStd": 0.13265,
+            "combVsBaseline": 0.1541
+          },
+          "roughness_midOnly0.30": {
+            "combEnergyFraction": 0.47837,
+            "acPeakU": 0.33484,
+            "acPeakV": 0.35479,
+            "edgeEnergy": 0.015939,
+            "lumaMean": 0.54494,
+            "lumaStd": 0.1301,
+            "combVsBaseline": 0.4784
+          },
+          "roughness_shipped_mid0.40": {
+            "combEnergyFraction": 0.10956,
+            "acPeakU": 0.04754,
+            "acPeakV": -0.10503,
+            "edgeEnergy": 0.016126,
+            "lumaMean": 0.54653,
+            "lumaStd": 0.15793,
+            "combVsBaseline": 0.1096
+          },
+          "roughness_midOnly0.40": {
+            "combEnergyFraction": 0.33781,
+            "acPeakU": 0.16958,
+            "acPeakV": 0.19487,
+            "edgeEnergy": 0.015838,
+            "lumaMean": 0.54592,
+            "lumaStd": 0.1548,
+            "combVsBaseline": 0.3378
+          },
+          "normalDev_baseline": {
+            "combEnergyFraction": 1.0,
+            "acPeakU": 1.0,
+            "acPeakV": 1.0,
+            "edgeEnergy": 0.018767,
+            "lumaMean": 0.04686,
+            "lumaStd": 0.07191
+          },
+          "normalDev_mirrorBand": {
+            "combEnergyFraction": 0.07638,
+            "acPeakU": 0.50945,
+            "acPeakV": -0.00624,
+            "edgeEnergy": 0.018862,
+            "lumaMean": 0.04684,
+            "lumaStd": 0.07186,
+            "combVsBaseline": 0.0764
+          }
+        }
+      }
+    }
+  }
+}

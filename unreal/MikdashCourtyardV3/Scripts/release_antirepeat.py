@@ -1371,6 +1371,9 @@ class Native:
         else:
             r['mapRestoreMode'] = 'property_level_before_values'
             self.guard_world()
+            before_scene = self.scene_snapshot()
+            _, counts_before_revert = self.enumerate_slots()
+            r['materialCountsBeforeRevert'] = dict(counts_before_revert)
             by_path = self.components_by_path()
             by_component = defaultdict(list)
             for item in prior['plan']:
@@ -1382,8 +1385,21 @@ class Native:
                     raise RuntimeError('Component missing for revert: ' + component_path)
                 component.get_owner().modify(True)
                 component.modify(True)
-                overrides = [u.load_asset(p) if p else None for p in items[0]['overrideArrayBefore']]
-                component.set_editor_property('override_materials', overrides)
+                # Restore ONLY the slots this pass wrote, each to whatever its override entry was
+                # before - an asset, or None. The override array is deliberately NOT written back
+                # wholesale: other passes save these maps between an apply and its revert, and
+                # replacing the whole array would silently undo any entry they added to a component
+                # this pass happens to share. The current array is read, padded, and only the
+                # recorded slot indices are touched.
+                current = list(component.get_editor_property('override_materials'))
+                while len(current) < component.get_num_materials():
+                    current.append(None)
+                before_array = items[0]['overrideArrayBefore']
+                for item in items:
+                    slot = item['slot']
+                    was = before_array[slot] if slot < len(before_array) else None
+                    current[slot] = u.load_asset(was) if was else None
+                component.set_editor_property('override_materials', current)
                 for item in items:
                     got = asset_path(component.get_material(item['slot']))
                     if got != item['effectiveBefore']:
@@ -1403,6 +1419,31 @@ class Native:
                     raise RuntimeError('Actor property revert did not take on %s: %s' % (item['actor'], got))
                 restored_actors += 1
             r['restoredActorProperties'] = restored_actors
+            # Did anything move that this pass did not write? Compare the scene snapshot and the
+            # material census taken moments ago, inside this same process, against the state after
+            # the restore. Only the four counts this pass moved may differ; every other material,
+            # actor transform and component count must be identical. This does NOT claim other
+            # passes left the map alone since the apply - they did change it, legitimately - it
+            # claims this revert touched nothing but its own slots.
+            after_scene = self.scene_snapshot()
+            _, counts_after_revert = self.enumerate_slots()
+            r['materialCountsAfterRevert'] = dict(counts_after_revert)
+            r['sceneUnchangedDuringRevert'] = after_scene == before_scene
+            if not r['sceneUnchangedDuringRevert']:
+                moved = sorted(k for k in set(before_scene) | set(after_scene)
+                               if before_scene.get(k) != after_scene.get(k))
+                r['sceneActorsMovedDuringRevert'] = moved[:40]
+                raise RuntimeError('Revert disturbed %d actors beyond its own slots: %s' % (len(moved), moved[:10]))
+            delta = {k: [counts_before_revert.get(k, 0), counts_after_revert.get(k, 0)]
+                     for k in set(counts_before_revert) | set(counts_after_revert)
+                     if counts_before_revert.get(k, 0) != counts_after_revert.get(k, 0)}
+            r['materialCountDeltaDuringRevert'] = delta
+            expected_moved = {self.spec['variants'][v]['newInstance'] for v in self.spec['variants']}
+            expected_moved |= {self.spec['variants'][v]['replaces'] for v in self.spec['variants']}
+            unexpected = sorted(set(delta) - expected_moved)
+            r['unexpectedMaterialsMovedDuringRevert'] = unexpected
+            if unexpected:
+                raise RuntimeError('Revert changed material counts it does not own: %s' % unexpected)
             self.save_map()
             self.stage('map_saved')
             if not self.levels.load_level(self.map_asset):

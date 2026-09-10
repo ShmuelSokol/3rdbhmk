@@ -1,0 +1,65 @@
+{
+  "status": "first_real_rhi_frames_from_a_packaged_build",
+  "generated": "2026-09-10T06:00:00Z",
+  "build": {
+    "archive": "C:\Mikdash\Builds\Checkpoint-cp05b-20260910T051017Z",
+    "exe": "Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe",
+    "config": "Development client",
+    "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "peakWorkingSetMB": 2967,
+    "note": "No editor was launched. Every frame below is a real-RHI D3D12 render from the packaged exe."
+  },
+  "recipe": {
+    "why": "The editor cannot render on this box; the packaged Development build can, and it can be driven with zero foreground focus.",
+    "launch": "start detached: <exe> -windowed -ResX=1600 -ResY=900 -nosplash -nosteam -notraceserver -notrace -noverifygc -ini:Game:<overrides> -ExecCmds=\"Ghost,BugItGo X Y Z Pitch Yaw Roll\"",
+    "iniOverrides": [
+      "[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False",
+      "[/Script/MikdashRuntime.MikdashPhotoMode]:LeashRadiusCm=900000",
+      "[/Script/MikdashRuntime.MikdashPhotoMode]:FlySpeedCmPerSecond=3000",
+      "[/Script/MikdashRuntime.MikdashPhotoMode]:SprintMultiplier=12.0"
+    ],
+    "capture": "PostMessage WM_KEYDOWN/WM_KEYUP to the game HWND: F2 enters photo mode, F9 writes a 2x (3840x2160) PNG to <launchDir>/MikdashPhotos. HighResShot-based, so no UI is in the image.",
+    "gotchas": [
+      "bEnabled=False on the front end is WRONG: MikdashPlayerController::BeginPlay then opens the legacy walkthrough menu. Use bShowMainMenuOnBoot=False instead.",
+      "-notraceserver stops the Unreal trace control port from raising a Windows Firewall prompt. A leftover elevated firewall dialog holds the foreground and cannot be dismissed by a non-elevated process; PostMessage input works anyway.",
+      "PostMessage delivers DISCRETE key bindings (F2, F9, V) because those route through UGameViewportClient::InputKey. It does NOT drive photo-mode WASD flight or console text entry, which need real Slate keyboard focus. Place the camera with BugItGo instead.",
+      "Ghost before BugItGo keeps the pawn from falling when teleporting to unstreamed terrain.",
+      "BugItGo appears to leave a thin black sliver of the player mesh near the camera; frames 01 and 02 (no teleport) are free of it."
+    ]
+  },
+  "frames": [
+    {"file": "cp05b-01-azarah-facing-heichal-spawn.png", "camera": "spawn 1768,0,578 facing west", "shows": "Azarah floor, altar ramp, twelve steps, Ulam/Heichal facade", "verdict": "paving crisp and convincing; wall ashlar noticeably softer than the floor and visibly tiling"},
+    {"file": "cp05b-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png", "camera": "1752,1200,580 pitch 5 yaw 0, 4 m from the face, eye 648", "shows": "THE HERODIAN ASHLAR BASELINE (reverted state), inner eastern gate wall jamb", "verdict": "drafted margins read clearly; bosses read as almost flat; colour too orange for meleke; 3 m tile repeat plainly visible; no micro grain"},
+    {"file": "cp05b-03-vegetation-hillside-near-mid-far-yaw198.png", "camera": "64498,-13260,3175 pitch -10 yaw 198", "shows": "hillside vegetation from 2.4 m above ground", "verdict": "FAIL - plants render as untextured card clusters; WorldGridMaterial checker visible on large near cards"},
+    {"file": "cp05b-04-precinct-plaza-aerial-SW-corner.png", "camera": "-95000,175000,30000 pitch -9 yaw -45", "shows": "the whole 1.44 km precinct platform over the SW corner", "verdict": "reads unmistakably as a built platform; retaining faces are entirely featureless; deck reads as speckled grey, not paving, at range"},
+    {"file": "cp05b-05-vegetation-hillside-above-canopy.png", "camera": "68000,-9000,6400 pitch -22 yaw 205", "shows": "vegetation band from above, over the precinct deck", "verdict": "FAIL - most plants are shattered dark card clusters; a small minority render as green canopies; vegetation stands ON the paved precinct deck (no plaza keep-out)"},
+    {"file": "cp05b-06-vegetation-single-olive-closeup-9m.png", "camera": "62240,-12922,2345 yaw 180, 9 m from an Olive instance", "shows": "single plant at close range", "verdict": "FAIL - the camera is inside a single card at 9 m; cards are world-scale, not screen-scale; default-material grid visible through the gap"},
+    {"file": "cp05b-07-north-gate-approach-meets-deck-and-ground.png", "camera": "1500,-36500,-427 pitch 2 yaw 113", "shows": "north gate approach: 25 risers, kerb wall, gate pylon, deck edge, ground", "verdict": "PASS on the junction - kerb meets ground cleanly, stair meets deck cleanly; natural terrain has no material detail; trees here are faceted low-LOD blobs at 15-30 m; bird flock renders as black quads"},
+    {"file": "cp05b-08-kotel-plaza-upper-deck-flight-to-wall.png", "camera": "-20732,19230,-814 pitch -6 yaw -12, after V to the modern state", "shows": "Kotel upper deck, flight down, Western Wall, mechitza", "verdict": "PASS - best paving in the build; the Wall reads convincingly; one black card-cluster plant sits on the deck"},
+    {"file": "cp05b-09-heichal-interior-gold-usage-flag-check.png", "camera": "-3992,0,1058 pitch 8 yaw 180", "shows": "Heichal interior, menorah south, shulchan north, golden altar, paroches", "verdict": "PASS - gold renders correctly despite the Nanite usage-flag warning; panel repeat on the paroches wall is very obvious; menorah base is untextured white"},
+    {"file": "cp05b-10-north-gate-approach-noghost-control.png", "camera": "same as 07 without Ghost", "shows": "control frame", "verdict": "identical to 07; Ghost is not the cause of the black sliver"}
+  ],
+  "cookedBuildMaterialFallbacks": {
+    "source": "Saved/Logs/MikdashCourtyardV3.log, LogMaterial warnings on every launch of this build",
+    "defaultMaterialUsedInGame": [
+      "MI_JudeanFlora_Carob_Bark", "MI_JudeanFlora_Carob_Leaf", "MI_JudeanFlora_Fig_Leaf",
+      "MI_JudeanFlora_JerusalemPine_Bark", "MI_JudeanFlora_ThornyBurnet_Leaf",
+      "MI_CityDetail_Meleke", "MI_CityDetail_Metal",
+      "MI_SanctuaryV2_GoldWall", "MI_SanctuaryV2_GoldFloor", "MI_SanctuaryV2_GoldCeiling"
+    ],
+    "missingFlagRecoveredAtRuntimeWithAHitch": [
+      "MI_JudeanFlora_Almond_Bark", "MI_JudeanFlora_Almond_Leaf", "MI_JudeanFlora_Cypress_Bark",
+      "MI_JudeanFlora_Cypress_Leaf", "MI_JudeanFlora_DatePalm_Bark", "MI_JudeanFlora_DatePalm_Leaf",
+      "MI_JudeanFlora_DryGrass_Leaf", "MI_JudeanFlora_Fig_Bark", "MI_JudeanFlora_Hyssop_Bark",
+      "MI_JudeanFlora_Hyssop_Leaf", "MI_JudeanFlora_JerusalemPine_Leaf", "MI_JudeanFlora_Olive_Bark",
+      "MI_JudeanFlora_Olive_Leaf", "MI_JudeanFlora_Pomegranate_Bark", "MI_JudeanFlora_Pomegranate_Leaf",
+      "MI_JudeanFlora_Rockrose_Bark", "MI_JudeanFlora_Rockrose_Leaf", "MI_JudeanFlora_Sage_Bark",
+      "MI_JudeanFlora_Sage_Leaf", "MI_JudeanFlora_Terebinth_Bark", "MI_JudeanFlora_Terebinth_Leaf",
+      "MI_JudeanFlora_ThornyBurnet_Bark", "MI_CityDetail_Canvas", "MI_CityDetail_DarkPlant",
+      "MI_CityDetail_Laundry"
+    ],
+    "missingFlags": ["bUsedWithInstancedStaticMeshes (vegetation and city detail, placed on HISM)", "bUsedWithNanite (sanctuary gold)"],
+    "whyThisPassedEveryPriorCheck": "The editor silently adds a missing usage flag at runtime and only warns that the asset needs resaving. Parameter parity, reopen checks and -nullrhi receipts therefore all stay green while the cooked build falls back to the default material."
+  },
+  "scope": "Visual acceptance of ten framed views. NOT performance, audio, route, interaction or navmesh acceptance."
+}

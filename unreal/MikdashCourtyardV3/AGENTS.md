@@ -895,3 +895,37 @@ canonical unrelated scene baseline and protected-content checks, zero errors/new
 Candidate dcea5bf8 is ready for the next access diagnostic; visual acceptance stays limited
 to weathered photo appearance, not joint alignment/lighting/finished characters.
 Source/visual/collision checkpoint is being verified for publication. No fresh package yet.
+
+## A material is not accepted until a frame shows it
+
+Added 10 Sep 2026, after `M_AntiRepeat_Triplanar` shipped onto 1,488 Herodian ashlar slots across
+both maps and had to be reverted.
+
+Its acceptance was numeric parameter parity after save and reopen, plus an offline field
+simulation. Both were real and both were green. **Neither draws a pixel.** The build ran under
+`-nullrhi`, where `get_statistics` returns 0 for every shader counter because no shader map
+exists at all — the receipt said so honestly, and it was read as a missing nicety rather than as
+the acceptance gap it was.
+
+What it missed: the material selected mips roughly 3–4 levels too coarse on Nanite meshes.
+Measured with an in-frame control — same textures, same tiling, same frame, same exposure —
+surfaces on stock `M_PBR_Tiled` held gradient energy at ×1.03 while the new master fell to ×0.20.
+On the ashlar that predicts colour, coursing and bed joints surviving while the drafted margins
+and proud bosses disappear: the precise character the wall exists to show, failing in the way
+that still reads as "a stone wall" in a still.
+
+The cause is worth knowing because it is not "Custom nodes are unsafe". Other Custom-node
+materials here sample textures perfectly well, because they let the sampler take derivatives
+implicitly. This one passed hand-computed derivatives from a **warped** UV into
+`Texture2DSampleGrad`, and under Nanite `ddx`/`ddy` are not ordinary quad derivatives.
+
+So, for any material change:
+
+- Parameter parity proves the asset carries what you wrote. It never proves what reaches the
+  screen. Say which one you have.
+- Acceptance is a real-RHI frame with an **in-frame control** — an unmodified surface on the
+  parent material, in the same image, so the comparison shares lighting and exposure. That
+  control is what made the gold measurement conclusive and its absence is what let this ship.
+- `-nullrhi` is what makes a build possible on this box and what makes it unverifiable. State
+  both halves with equal weight.
+- If the machine cannot render, the honest status is *unverified*, not green.

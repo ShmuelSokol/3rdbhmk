@@ -1,3 +1,76 @@
+## The vegetation is no longer grey — 2026-09-10 04:2x UTC
+
+**225,780 instances across 27 components on BOTH maps went from `WorldGridMaterial` to authored
+bark and leaf materials. 27/27 slots assigned on each map, 0 left on an engine default.**
+`Scripts/release_vegetation_materials.py` + `.spec.json`, three receipts under
+`SourceAssets/vegetation-review/`: `vegetation-materials-assets-20260910T042239243857Z.json`
+(map-independent), `-Candidate48-20260910T042529067639Z.json`, `-Main50-20260910T042654976146Z.json`.
+
+**The defect was measured, not assumed.** All 105 JudeanFloraV1 static meshes came back with
+exactly ONE material slot whose imported name was literally `WorldGridMaterial` — the engine
+default — and all 27 placed components carried an EMPTY `override_materials` array. That is the
+whole of what the user has been walking through.
+
+**What was built.** Three masters under a NEW namespace
+`/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials`, 40 instances (14 leaf, 13 bark, 13
+billboard; DryGrass has no bark or billboard part):
+- `M_JudeanFlora_Leaf` — **BLEND_MASKED, two-sided, MSM_TWO_SIDED_FOLIAGE, clip 0.5**, subsurface
+  transmission wired. A card rendered opaque is a rectangle and rendered one-sided it vanishes
+  from half the angles; nothing else about a foliage material matters as much.
+- `M_JudeanFlora_Billboard` — masked, two-sided, DEFAULT_LIT (transmission over a picture of a
+  trunk makes the far LOD glow).
+- `M_JudeanFlora_Bark` — opaque, one-sided, base colour + normal.
+All three read back off the SAVED assets after a reload with the right blend mode and two-sided
+flag. **Flags are set before the first compile**, so no stale shader map has to be fought after.
+
+**Colour is per species and derived, not eyeballed.** `tint = targetLinear / atlasLinear` per
+channel, so the material CORRECTS `create_vegetation.py`'s atlas onto an authored target instead
+of tinting an already-coloured texture twice; the round trip is exact (predicted == target on all
+14). Cypress leaf lands at sRGB [48,72,54] and DryGrass at [192,174,118] — a 58..161 luma span
+across the set, 14 distinct targets and 14 distinct roughnesses. Olive is grey-green [104,116,92]
+with a silvery subsurface, date palm yellow-green [128,142,68], sage and hyssop grey and dusty.
+Read back off the instances the placed components point at, on both maps, identical.
+
+**Per-instance variation, stock nodes only.** BaseColour = TexRGB * Lerp(TintA, TintB,
+**PerInstanceRandom**), TintA/TintB straddling the target in hue as well as value (Olive spans
+[96,108,87]..[112,123,97]); the leaf graph adds a second decorrelated
+`Frac(dot(ObjectPositionWS.xy, k))` brightness lerp. **No Custom node anywhere** — `Graph.node`
+raises if a class name ends in `Custom`, and the offline check fails if that guard is deleted.
+EnclosureMath.h 6b, which cost a day of packaging, is honoured by construction.
+
+**Textures: 55 inspected, 27 changed, all `_BCA` atlases WRAP -> CLAMP.** Wrapping an ATLAS bleeds
+the neighbouring cell across the alpha edge and puts half a leaf on the far side of a card. The
+`_N` normal maps were already `TC_NORMALMAP` + sRGB false — the importer's suffix heuristic had
+got them right, which is worth knowing rather than re-fixing.
+
+**Three traps paid for here, all now guarded in code:**
+1. `str(enum).split('.')[-1]` leaves the `: 0>` tail of `<TextureCompressionSettings.TC_DEFAULT: 0>`,
+   so every flag comparison fails against a plain name. Cost one full assets run. `_enum_name()`.
+2. **A prose annotation added beside word lists in a JSON lookup table iterates as CHARACTERS and
+   matches everything.** Adding a `"measured"` note next to `"bark": [...]`/`"leaf": [...]` turned
+   every slot into a role called `measured` and failed the first Candidate48 apply. The lookup now
+   skips any non-list value.
+3. **A protected path that does not exist is a spec error, not "nothing to protect."** The spec
+   first guessed `/Game/MikdashV3/PBRArchitecture/M_PBR_Tiled`; the real path is
+   `/Game/MikdashV3/Materials/PBR/M_PBR_Tiled`, so the `if ...exists()` filter silently left the
+   guard watching an empty set. It now raises. (M_PBR_Tiled is untouched — `7a1aaf9db94dd186...`,
+   last written 2026-09-07 — and so are the nine Nanite-repaired instances' usage flags.)
+
+**NOT ESTABLISHED: nobody has seen a frame.** A real-RHI editor still cannot start on this box, so
+the project's own rule — a material is not accepted until a rendered frame with an in-frame
+control shows it — is NOT met. Every receipt is stamped
+`..._visual_acceptance_pending`. Applied anyway because the alternative is engine-default grey,
+which is a certainty rather than a risk. Also open, and recorded rather than fixed: because
+`set_lod_from_static_mesh` collapsed every ladder onto one slot, **the billboard LOD of a leaf
+ladder renders with the LEAF material and the leaf atlas**, not the impostor texture — the
+standalone `SM_*_Billboard` assets do carry `MI_*_Billboard`. Splitting the far LOD onto its own
+slot needs `StaticMeshEditorSubsystem` and a re-LOD pass. There is no wind (no WorldPositionOffset)
+and no leaf normal map exists in the set.
+
+**Map hashes.** Candidate48 `d4f0f5e2...` -> `9144cc15...`; Main50 `c23b1618...` -> `85bb51a1...`.
+Each run watched the other map and it was byte-unchanged. `--revert=<receipt> --dry-run` verified
+both checkpoints against the recorded pre-run hashes.
+
 ## Three Main50-only passes now land on the map that ships — 2026-09-10 02:4x UTC
 
 **Gate security, surface wear and vegetation all exist on Candidate48 now.** All three hardcoded
@@ -95,7 +168,8 @@ per-pass parity buckets still read `native-gate-security` / `native-surface-deta
 `target`, and nothing back-fills old ones.
 
 **Not established by any of this:** no visual, collision, cook or performance acceptance on either
-map; vegetation materials remain unassigned; the 4 unhosted decals are recorded, not fixed.
+map; the 4 unhosted decals are recorded, not fixed. (Vegetation materials WERE unassigned; they
+were authored and assigned on both maps a couple of hours later — see the 04:2x entry above.)
 
 ## Backlog verification pass — 2026-09-10 02:1x UTC
 

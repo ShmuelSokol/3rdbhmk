@@ -1,0 +1,9239 @@
+{
+ "status": "vegetation_placed_saved_reopened_visual_runtime_acceptance_pending",
+ "stamp": "20260910T024536144980Z",
+ "target": "Candidate48",
+ "targetRole": "the configured GameDefaultMap and the COOK map: the only map in the build the user downloads.",
+ "placement": {
+  "uniformScale": 0.96,
+  "translationCm": [
+   -248.0,
+   0.0,
+   0.0
+  ],
+  "appliedTo": "the Mount keep-out only; the instances stand at identity",
+  "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin; Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0]. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0). Evidence: SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json and SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json. It is measured off the level itself by prove_placement() before anything is spawned."
+ },
+ "groundRule": {
+  "instances": "identity: the terrain was never rescaled",
+  "keepOut": "blocked in BOTH the authored and the target frame",
+  "placement": {
+   "uniformScale": 0.96,
+   "translationCm": [
+    -248.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "authoringMap": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+ "mapSha256Before": "902152739fb9690aba565715e8f08b8c1ca5dc2e726f70fd56af75cf4804dae3",
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\Vegetation-Candidate48-20260910T024536144980Z",
+ "oneFilePerActorFoldersCopied": [],
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "9f5dd4b0230d9de8adafa4b469ed3ada7d07aa57a8fa9a358a0b1d489227bd53"
+ },
+ "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation.spec.json",
+ "specSha256": "92c8685b906b0eaeeb8a329186be2f0240401dba5376a41e929536cd685acdfe",
+ "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+ "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+ "offlineCheck": {
+  "specSha256": "92c8685b906b0eaeeb8a329186be2f0240401dba5376a41e929536cd685acdfe",
+  "planSha256": "39b7c15e6ed8b6d07d55dc4d2c3462180c5d62b0f70c20d6fad098586014e09c",
+  "manifestSha256": "4c287fb07f14d3201762514e38921ccedf14d074153da0d667964b777e92f5f7",
+  "meshFiles": 105,
+  "textureSets": 14,
+  "plannedInstances": 132598,
+  "batches": 697,
+  "instanceCapTotal": 360000,
+  "target": "Candidate48",
+  "targetMap": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "placement": {
+   "uniformScale": 0.96,
+   "translationCm": [
+    -248.0,
+    0.0,
+    0.0
+   ]
+  },
+  "groundRule": {
+   "instances": "identity: the terrain was never rescaled",
+   "keepOut": "blocked in BOTH the authored and the target frame",
+   "placement": {
+    "uniformScale": 0.96,
+    "translationCm": [
+     -248.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "mountEnclosureRingPoints": 66,
+  "mountEnclosureFramesTested": [
+   "Candidate48",
+   "authored"
+  ],
+  "plannedInstancesInsidePrecinct": 0,
+  "plannedInstancesInsidePrecinctByFrame": {
+   "authored": 0,
+   "Candidate48": 0
+  },
+  "hollowUnionsVerified": 5,
+  "hollowUnionConstituentBoxes": 162,
+  "note": "Every planned instance was re-tested against the Mount enclosure ring here, offline, before any engine was launched, and every hollow union decomposition was verified against the architecture manifest bounds."
+ },
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "seed": 20260908,
+ "resumeReceipt": null,
+ "batchesAlreadyComplete": 0,
+ "batchesPending": 697,
+ "batchesSelectedThisRun": 697,
+ "batchesRemainingAfterThisRun": 0,
+ "speciesFilter": null,
+ "completedBatchIds": [
+  "Olive_N001_N001_00",
+  "Olive_N001_N002_00",
+  "Olive_N001_N003_00",
+  "Olive_N001_N004_00",
+  "Olive_N001_N005_00",
+  "Olive_N001_P000_00",
+  "Olive_N001_P001_00",
+  "Olive_N001_P002_00",
+  "Olive_N001_P003_00",
+  "Olive_N001_P004_00",
+  "Olive_N002_N001_00",
+  "Olive_N002_N002_00",
+  "Olive_N002_N003_00",
+  "Olive_N002_N004_00",
+  "Olive_N002_P000_00",
+  "Olive_N002_P001_00",
+  "Olive_N002_P002_00",
+  "Olive_N002_P003_00",
+  "Olive_N003_N001_00",
+  "Olive_N003_N002_00",
+  "Olive_N003_N003_00",
+  "Olive_N003_N004_00",
+  "Olive_N003_P000_00",
+  "Olive_N003_P001_00",
+  "Olive_N003_P002_00",
+  "Olive_N003_P003_00",
+  "Olive_N004_N001_00",
+  "Olive_N004_N002_00",
+  "Olive_N004_N003_00",
+  "Olive_N004_P000_00",
+  "Olive_N004_P001_00",
+  "Olive_N004_P002_00",
+  "Olive_N004_P003_00",
+  "Olive_P000_N001_00",
+  "Olive_P000_N002_00",
+  "Olive_P000_N003_00",
+  "Olive_P000_N004_00",
+  "Olive_P000_P000_00",
+  "Olive_P000_P001_00",
+  "Olive_P000_P002_00",
+  "Olive_P000_P003_00",
+  "Olive_P001_N001_00",
+  "Olive_P001_N002_00",
+  "Olive_P001_N003_00",
+  "Olive_P001_N004_00",
+  "Olive_P001_P000_00",
+  "Olive_P001_P001_00",
+  "Olive_P001_P002_00",
+  "Olive_P001_P003_00",
+  "Olive_P002_N001_00",
+  "Olive_P002_N002_00",
+  "Olive_P002_N003_00",
+  "Olive_P002_N004_00",
+  "Olive_P002_P000_00",
+  "Olive_P002_P001_00",
+  "Olive_P002_P002_00",
+  "Olive_P002_P003_00",
+  "Olive_P003_N001_00",
+  "Olive_P003_N002_00",
+  "Olive_P003_N003_00",
+  "Olive_P003_N004_00",
+  "Olive_P003_N005_00",
+  "Olive_P003_P000_00",
+  "Olive_P003_P001_00",
+  "Olive_P003_P002_00",
+  "Olive_P003_P003_00",
+  "Olive_P004_N001_00",
+  "Olive_P004_N003_00",
+  "Olive_P004_P000_00",
+  "JerusalemPine_N001_N001_00",
+  "JerusalemPine_N001_N002_00",
+  "JerusalemPine_N001_N003_00",
+  "JerusalemPine_N001_N004_00",
+  "JerusalemPine_N001_P000_00",
+  "JerusalemPine_N001_P001_00",
+  "JerusalemPine_N001_P002_00",
+  "JerusalemPine_N002_N001_00",
+  "JerusalemPine_N002_N002_00",
+  "JerusalemPine_N002_N003_00",
+  "JerusalemPine_N002_N004_00",
+  "JerusalemPine_N002_P000_00",
+  "JerusalemPine_N002_P001_00",
+  "JerusalemPine_N002_P002_00",
+  "JerusalemPine_N002_P003_00",
+  "JerusalemPine_N003_N001_00",
+  "JerusalemPine_N003_N002_00",
+  "JerusalemPine_N003_N003_00",
+  "JerusalemPine_N003_N004_00",
+  "JerusalemPine_N003_P000_00",
+  "JerusalemPine_N003_P001_00",
+  "JerusalemPine_N003_P002_00",
+  "JerusalemPine_N003_P003_00",
+  "JerusalemPine_N004_N001_00",
+  "JerusalemPine_N004_N002_00",
+  "JerusalemPine_N004_N003_00",
+  "JerusalemPine_N004_N004_00",
+  "JerusalemPine_N004_P000_00",
+  "JerusalemPine_N004_P001_00",
+  "JerusalemPine_N004_P002_00",
+  "JerusalemPine_N004_P003_00",
+  "JerusalemPine_P000_N001_00",
+  "JerusalemPine_P000_N002_00",
+  "JerusalemPine_P000_N003_00",
+  "JerusalemPine_P000_N004_00",
+  "JerusalemPine_P000_P000_00",
+  "JerusalemPine_P000_P001_00",
+  "JerusalemPine_P000_P002_00",
+  "JerusalemPine_P001_N001_00",
+  "JerusalemPine_P001_N002_00",
+  "JerusalemPine_P001_N003_00",
+  "JerusalemPine_P001_N004_00",
+  "JerusalemPine_P001_P000_00",
+  "JerusalemPine_P001_P001_00",
+  "JerusalemPine_P001_P002_00",
+  "JerusalemPine_P002_N001_00",
+  "JerusalemPine_P002_N002_00",
+  "JerusalemPine_P002_N003_00",
+  "JerusalemPine_P002_N004_00",
+  "JerusalemPine_P002_P000_00",
+  "JerusalemPine_P002_P001_00",
+  "JerusalemPine_P003_N001_00",
+  "JerusalemPine_P003_N002_00",
+  "JerusalemPine_P003_N003_00",
+  "JerusalemPine_P003_N004_00",
+  "JerusalemPine_P003_P000_00",
+  "JerusalemPine_P003_P001_00",
+  "Cypress_N001_N001_00",
+  "Cypress_N001_N002_00",
+  "Cypress_N001_N003_00",
+  "Cypress_N001_N004_00",
+  "Cypress_N001_P000_00",
+  "Cypress_N001_P001_00",
+  "Cypress_N001_P002_00",
+  "Cypress_N002_N001_00",
+  "Cypress_N002_N002_00",
+  "Cypress_N002_N003_00",
+  "Cypress_N002_N004_00",
+  "Cypress_N002_P000_00",
+  "Cypress_N002_P001_00",
+  "Cypress_N002_P002_00",
+  "Cypress_N002_P003_00",
+  "Cypress_N003_N001_00",
+  "Cypress_N003_N002_00",
+  "Cypress_N003_N003_00",
+  "Cypress_N003_N004_00",
+  "Cypress_N003_P000_00",
+  "Cypress_N003_P001_00",
+  "Cypress_N003_P002_00",
+  "Cypress_N003_P003_00",
+  "Cypress_N004_N001_00",
+  "Cypress_N004_N002_00",
+  "Cypress_N004_N003_00",
+  "Cypress_N004_P000_00",
+  "Cypress_N004_P001_00",
+  "Cypress_N004_P002_00",
+  "Cypress_N004_P003_00",
+  "Cypress_P000_N001_00",
+  "Cypress_P000_N002_00",
+  "Cypress_P000_N003_00",
+  "Cypress_P000_N004_00",
+  "Cypress_P000_P000_00",
+  "Cypress_P000_P001_00",
+  "Cypress_P000_P002_00",
+  "Cypress_P001_N001_00",
+  "Cypress_P001_N002_00",
+  "Cypress_P001_N003_00",
+  "Cypress_P001_N004_00",
+  "Cypress_P001_P000_00",
+  "Cypress_P001_P001_00",
+  "Cypress_P001_P002_00",
+  "Cypress_P002_N001_00",
+  "Cypress_P002_N002_00",
+  "Cypress_P002_N003_00",
+  "Cypress_P002_N004_00",
+  "Cypress_P002_P000_00",
+  "Cypress_P002_P001_00",
+  "Cypress_P003_N001_00",
+  "Cypress_P003_N002_00",
+  "Cypress_P003_N003_00",
+  "Cypress_P003_N004_00",
+  "Cypress_P003_P000_00",
+  "Cypress_P003_P001_00",
+  "Cypress_P003_P002_00",
+  "Almond_N001_N001_00",
+  "Almond_N001_N002_00",
+  "Almond_N001_N003_00",
+  "Almond_N001_N004_00",
+  "Almond_N001_N005_00",
+  "Almond_N001_P000_00",
+  "Almond_N001_P001_00",
+  "Almond_N001_P002_00",
+  "Almond_N001_P003_00",
+  "Almond_N002_N001_00",
+  "Almond_N002_N002_00",
+  "Almond_N002_N003_00",
+  "Almond_N002_N004_00",
+  "Almond_N002_P000_00",
+  "Almond_N002_P001_00",
+  "Almond_N002_P002_00",
+  "Almond_N002_P003_00",
+  "Almond_N003_N001_00",
+  "Almond_N003_N002_00",
+  "Almond_N003_N003_00",
+  "Almond_N003_N004_00",
+  "Almond_N003_P000_00",
+  "Almond_N003_P001_00",
+  "Almond_N003_P002_00",
+  "Almond_N003_P003_00",
+  "Almond_N004_N001_00",
+  "Almond_N004_N002_00",
+  "Almond_N004_N003_00",
+  "Almond_N004_P000_00",
+  "Almond_N004_P001_00",
+  "Almond_N004_P002_00",
+  "Almond_N004_P003_00",
+  "Almond_P000_N001_00",
+  "Almond_P000_N002_00",
+  "Almond_P000_N003_00",
+  "Almond_P000_N004_00",
+  "Almond_P000_P000_00",
+  "Almond_P000_P001_00",
+  "Almond_P000_P002_00",
+  "Almond_P000_P003_00",
+  "Almond_P001_N001_00",
+  "Almond_P001_N002_00",
+  "Almond_P001_N003_00",
+  "Almond_P001_N004_00",
+  "Almond_P001_P000_00",
+  "Almond_P001_P001_00",
+  "Almond_P001_P002_00",
+  "Almond_P001_P003_00",
+  "Almond_P002_N001_00",
+  "Almond_P002_N002_00",
+  "Almond_P002_N003_00",
+  "Almond_P002_N004_00",
+  "Almond_P002_P000_00",
+  "Almond_P002_P001_00",
+  "Almond_P003_N001_00",
+  "Almond_P003_N002_00",
+  "Almond_P003_N003_00",
+  "Almond_P003_N004_00",
+  "Almond_P003_P000_00",
+  "Almond_P003_P001_00",
+  "Almond_P003_P002_00",
+  "Almond_P003_P003_00",
+  "Almond_P004_P000_00",
+  "Almond_P004_P001_00",
+  "Fig_N001_N001_00",
+  "Fig_N001_N002_00",
+  "Fig_N001_N003_00",
+  "Fig_N001_N004_00",
+  "Fig_N001_P000_00",
+  "Fig_N001_P001_00",
+  "Fig_N001_P002_00",
+  "Fig_N001_P003_00",
+  "Fig_N002_N001_00",
+  "Fig_N002_N002_00",
+  "Fig_N002_N003_00",
+  "Fig_N002_N004_00",
+  "Fig_N002_P000_00",
+  "Fig_N002_P001_00",
+  "Fig_N002_P002_00",
+  "Fig_N002_P003_00",
+  "Fig_N003_N001_00",
+  "Fig_N003_N002_00",
+  "Fig_N003_N003_00",
+  "Fig_N003_N004_00",
+  "Fig_N003_P000_00",
+  "Fig_N003_P001_00",
+  "Fig_N003_P002_00",
+  "Fig_N003_P003_00",
+  "Fig_N004_N001_00",
+  "Fig_N004_N002_00",
+  "Fig_N004_N003_00",
+  "Fig_N004_P000_00",
+  "Fig_N004_P001_00",
+  "Fig_N004_P002_00",
+  "Fig_N004_P003_00",
+  "Fig_P000_N001_00",
+  "Fig_P000_N002_00",
+  "Fig_P000_N003_00",
+  "Fig_P000_N004_00",
+  "Fig_P000_P000_00",
+  "Fig_P000_P001_00",
+  "Fig_P000_P002_00",
+  "Fig_P000_P003_00",
+  "Fig_P001_N001_00",
+  "Fig_P001_N002_00",
+  "Fig_P001_N003_00",
+  "Fig_P001_N004_00",
+  "Fig_P001_P000_00",
+  "Fig_P001_P001_00",
+  "Fig_P001_P002_00",
+  "Fig_P001_P003_00",
+  "Fig_P002_N001_00",
+  "Fig_P002_N002_00",
+  "Fig_P002_N003_00",
+  "Fig_P002_N004_00",
+  "Fig_P002_P000_00",
+  "Fig_P002_P001_00",
+  "Fig_P002_P002_00",
+  "Fig_P002_P003_00",
+  "Fig_P003_N001_00",
+  "Fig_P003_N002_00",
+  "Fig_P003_N003_00",
+  "Fig_P003_N004_00",
+  "Fig_P003_P000_00",
+  "Fig_P003_P001_00",
+  "Fig_P003_P002_00",
+  "Fig_P003_P003_00",
+  "Fig_P004_P000_00",
+  "Fig_P004_P003_00",
+  "Pomegranate_N001_N001_00",
+  "Pomegranate_N001_N002_00",
+  "Pomegranate_N001_N003_00",
+  "Pomegranate_N001_N004_00",
+  "Pomegranate_N001_P000_00",
+  "Pomegranate_N001_P001_00",
+  "Pomegranate_N001_P002_00",
+  "Pomegranate_N001_P003_00",
+  "Pomegranate_N002_N001_00",
+  "Pomegranate_N002_N002_00",
+  "Pomegranate_N002_N003_00",
+  "Pomegranate_N002_N004_00",
+  "Pomegranate_N002_P000_00",
+  "Pomegranate_N002_P001_00",
+  "Pomegranate_N002_P002_00",
+  "Pomegranate_N002_P003_00",
+  "Pomegranate_N003_N001_00",
+  "Pomegranate_N003_N002_00",
+  "Pomegranate_N003_N003_00",
+  "Pomegranate_N003_N004_00",
+  "Pomegranate_N003_P000_00",
+  "Pomegranate_N003_P001_00",
+  "Pomegranate_N003_P002_00",
+  "Pomegranate_N003_P003_00",
+  "Pomegranate_N004_N001_00",
+  "Pomegranate_N004_N002_00",
+  "Pomegranate_N004_N003_00",
+  "Pomegranate_N004_P000_00",
+  "Pomegranate_N004_P001_00",
+  "Pomegranate_N004_P002_00",
+  "Pomegranate_N004_P003_00",
+  "Pomegranate_N005_P002_00",
+  "Pomegranate_P000_N001_00",
+  "Pomegranate_P000_N002_00",
+  "Pomegranate_P000_N003_00",
+  "Pomegranate_P000_N004_00",
+  "Pomegranate_P000_P000_00",
+  "Pomegranate_P000_P001_00",
+  "Pomegranate_P000_P002_00",
+  "Pomegranate_P000_P003_00",
+  "Pomegranate_P001_N001_00",
+  "Pomegranate_P001_N002_00",
+  "Pomegranate_P001_N003_00",
+  "Pomegranate_P001_N004_00",
+  "Pomegranate_P001_P000_00",
+  "Pomegranate_P001_P001_00",
+  "Pomegranate_P001_P002_00",
+  "Pomegranate_P001_P003_00",
+  "Pomegranate_P002_N001_00",
+  "Pomegranate_P002_N002_00",
+  "Pomegranate_P002_N003_00",
+  "Pomegranate_P002_N004_00",
+  "Pomegranate_P002_P000_00",
+  "Pomegranate_P002_P001_00",
+  "Pomegranate_P002_P002_00",
+  "Pomegranate_P002_P003_00",
+  "Pomegranate_P003_N001_00",
+  "Pomegranate_P003_N002_00",
+  "Pomegranate_P003_N003_00",
+  "Pomegranate_P003_N004_00",
+  "Pomegranate_P003_P000_00",
+  "Pomegranate_P003_P001_00",
+  "Pomegranate_P003_P002_00",
+  "Pomegranate_P003_P003_00",
+  "Pomegranate_P004_N003_00",
+  "Pomegranate_P004_P000_00",
+  "DatePalm_N001_N001_00",
+  "DatePalm_N001_P000_00",
+  "DatePalm_N001_P001_00",
+  "DatePalm_P000_N001_00",
+  "DatePalm_P000_N002_00",
+  "DatePalm_P000_P000_00",
+  "DatePalm_P000_P001_00",
+  "DatePalm_P001_N001_00",
+  "DatePalm_P001_N002_00",
+  "DatePalm_P001_P000_00",
+  "DatePalm_P001_P001_00",
+  "Carob_N001_N001_00",
+  "Carob_N001_N002_00",
+  "Carob_N001_N003_00",
+  "Carob_N001_N004_00",
+  "Carob_N001_P000_00",
+  "Carob_N001_P001_00",
+  "Carob_N001_P002_00",
+  "Carob_N001_P003_00",
+  "Carob_N002_N001_00",
+  "Carob_N002_N002_00",
+  "Carob_N002_N003_00",
+  "Carob_N002_N004_00",
+  "Carob_N002_P000_00",
+  "Carob_N002_P001_00",
+  "Carob_N002_P002_00",
+  "Carob_N002_P003_00",
+  "Carob_N003_N001_00",
+  "Carob_N003_N002_00",
+  "Carob_N003_N003_00",
+  "Carob_N003_N004_00",
+  "Carob_N003_P000_00",
+  "Carob_N003_P001_00",
+  "Carob_N003_P002_00",
+  "Carob_N003_P003_00",
+  "Carob_N004_N001_00",
+  "Carob_N004_N002_00",
+  "Carob_N004_N003_00",
+  "Carob_N004_P000_00",
+  "Carob_N004_P001_00",
+  "Carob_N004_P002_00",
+  "Carob_N004_P003_00",
+  "Carob_P000_N001_00",
+  "Carob_P000_N002_00",
+  "Carob_P000_N003_00",
+  "Carob_P000_N004_00",
+  "Carob_P000_P000_00",
+  "Carob_P000_P001_00",
+  "Carob_P000_P002_00",
+  "Carob_P000_P003_00",
+  "Carob_P001_N001_00",
+  "Carob_P001_N002_00",
+  "Carob_P001_N003_00",
+  "Carob_P001_N004_00",
+  "Carob_P001_P000_00",
+  "Carob_P001_P001_00",
+  "Carob_P001_P002_00",
+  "Carob_P001_P003_00",
+  "Carob_P002_N001_00",
+  "Carob_P002_N002_00",
+  "Carob_P002_N003_00",
+  "Carob_P002_N004_00",
+  "Carob_P002_P000_00",
+  "Carob_P002_P001_00",
+  "Carob_P002_P002_00",
+  "Carob_P002_P003_00",
+  "Carob_P003_N001_00",
+  "Carob_P003_N002_00",
+  "Carob_P003_N003_00",
+  "Carob_P003_N004_00",
+  "Carob_P003_P000_00",
+  "Carob_P003_P001_00",
+  "Carob_P003_P002_00",
+  "Carob_P003_P003_00",
+  "Terebinth_N001_N002_00",
+  "Terebinth_N001_N003_00",
+  "Terebinth_N001_N004_00",
+  "Terebinth_N001_P000_00",
+  "Terebinth_N001_P001_00",
+  "Terebinth_N001_P002_00",
+  "Terebinth_N001_P003_00",
+  "Terebinth_N002_N001_00",
+  "Terebinth_N002_N002_00",
+  "Terebinth_N002_N004_00",
+  "Terebinth_N002_P000_00",
+  "Terebinth_N002_P001_00",
+  "Terebinth_N002_P002_00",
+  "Terebinth_N002_P003_00",
+  "Terebinth_N003_N001_00",
+  "Terebinth_N003_N002_00",
+  "Terebinth_N003_N003_00",
+  "Terebinth_N003_N004_00",
+  "Terebinth_N003_P000_00",
+  "Terebinth_N003_P001_00",
+  "Terebinth_N003_P002_00",
+  "Terebinth_N003_P003_00",
+  "Terebinth_N004_N001_00",
+  "Terebinth_N004_N002_00",
+  "Terebinth_N004_N003_00",
+  "Terebinth_N004_P000_00",
+  "Terebinth_N004_P001_00",
+  "Terebinth_N004_P002_00",
+  "Terebinth_N004_P003_00",
+  "Terebinth_P000_N001_00",
+  "Terebinth_P000_N002_00",
+  "Terebinth_P000_N003_00",
+  "Terebinth_P000_N004_00",
+  "Terebinth_P000_P000_00",
+  "Terebinth_P000_P001_00",
+  "Terebinth_P000_P002_00",
+  "Terebinth_P000_P003_00",
+  "Terebinth_P001_N001_00",
+  "Terebinth_P001_N002_00",
+  "Terebinth_P001_N003_00",
+  "Terebinth_P001_N004_00",
+  "Terebinth_P001_P000_00",
+  "Terebinth_P001_P001_00",
+  "Terebinth_P001_P002_00",
+  "Terebinth_P001_P003_00",
+  "Terebinth_P002_N001_00",
+  "Terebinth_P002_N002_00",
+  "Terebinth_P002_N003_00",
+  "Terebinth_P002_N004_00",
+  "Terebinth_P002_P000_00",
+  "Terebinth_P002_P001_00",
+  "Terebinth_P002_P002_00",
+  "Terebinth_P002_P003_00",
+  "Terebinth_P003_N001_00",
+  "Terebinth_P003_N002_00",
+  "Terebinth_P003_N003_00",
+  "Terebinth_P003_N004_00",
+  "Terebinth_P003_P000_00",
+  "Terebinth_P003_P001_00",
+  "Terebinth_P003_P002_00",
+  "Terebinth_P003_P003_00",
+  "Sage_N001_N001_00",
+  "Sage_N001_N002_00",
+  "Sage_N001_N003_00",
+  "Sage_N001_P000_00",
+  "Sage_N001_P001_00",
+  "Sage_N001_P002_00",
+  "Sage_N002_N001_00",
+  "Sage_N002_N002_00",
+  "Sage_N002_N003_00",
+  "Sage_N002_P000_00",
+  "Sage_N002_P001_00",
+  "Sage_N002_P002_00",
+  "Sage_N003_N001_00",
+  "Sage_N003_N002_00",
+  "Sage_N003_N003_00",
+  "Sage_N003_P000_00",
+  "Sage_N003_P001_00",
+  "Sage_N003_P002_00",
+  "Sage_P000_N001_00",
+  "Sage_P000_N002_00",
+  "Sage_P000_N003_00",
+  "Sage_P000_P000_00",
+  "Sage_P000_P001_00",
+  "Sage_P000_P002_00",
+  "Sage_P001_N001_00",
+  "Sage_P001_N002_00",
+  "Sage_P001_N003_00",
+  "Sage_P001_P000_00",
+  "Sage_P001_P001_00",
+  "Sage_P001_P002_00",
+  "Sage_P002_N001_00",
+  "Sage_P002_N002_00",
+  "Sage_P002_N003_00",
+  "Sage_P002_P000_00",
+  "Sage_P002_P001_00",
+  "Sage_P002_P002_00",
+  "Sage_P003_N001_00",
+  "Sage_P003_N002_00",
+  "Sage_P003_N003_00",
+  "Sage_P003_P000_00",
+  "Sage_P003_P001_00",
+  "Sage_P003_P002_00",
+  "Hyssop_N001_N001_00",
+  "Hyssop_N001_N002_00",
+  "Hyssop_N001_N003_00",
+  "Hyssop_N001_P000_00",
+  "Hyssop_N001_P001_00",
+  "Hyssop_N001_P002_00",
+  "Hyssop_N002_N001_00",
+  "Hyssop_N002_N002_00",
+  "Hyssop_N002_N003_00",
+  "Hyssop_N002_P000_00",
+  "Hyssop_N002_P001_00",
+  "Hyssop_N002_P002_00",
+  "Hyssop_N003_N001_00",
+  "Hyssop_N003_N002_00",
+  "Hyssop_N003_N003_00",
+  "Hyssop_N003_P000_00",
+  "Hyssop_N003_P001_00",
+  "Hyssop_N003_P002_00",
+  "Hyssop_P000_N001_00",
+  "Hyssop_P000_N002_00",
+  "Hyssop_P000_N003_00",
+  "Hyssop_P000_P000_00",
+  "Hyssop_P000_P001_00",
+  "Hyssop_P000_P002_00",
+  "Hyssop_P001_N001_00",
+  "Hyssop_P001_N002_00",
+  "Hyssop_P001_N003_00",
+  "Hyssop_P001_P000_00",
+  "Hyssop_P001_P001_00",
+  "Hyssop_P001_P002_00",
+  "Hyssop_P002_N001_00",
+  "Hyssop_P002_N002_00",
+  "Hyssop_P002_N003_00",
+  "Hyssop_P002_P000_00",
+  "Hyssop_P002_P001_00",
+  "Hyssop_P002_P002_00",
+  "Hyssop_P003_N001_00",
+  "Hyssop_P003_N002_00",
+  "Hyssop_P003_N003_00",
+  "Hyssop_P003_P000_00",
+  "Hyssop_P003_P001_00",
+  "Hyssop_P003_P002_00",
+  "Rockrose_N001_N001_00",
+  "Rockrose_N001_N002_00",
+  "Rockrose_N001_N003_00",
+  "Rockrose_N001_P000_00",
+  "Rockrose_N001_P001_00",
+  "Rockrose_N001_P002_00",
+  "Rockrose_N002_N001_00",
+  "Rockrose_N002_N002_00",
+  "Rockrose_N002_N003_00",
+  "Rockrose_N002_P000_00",
+  "Rockrose_N002_P001_00",
+  "Rockrose_N002_P002_00",
+  "Rockrose_N003_N001_00",
+  "Rockrose_N003_N002_00",
+  "Rockrose_N003_N003_00",
+  "Rockrose_N003_P000_00",
+  "Rockrose_N003_P001_00",
+  "Rockrose_N003_P002_00",
+  "Rockrose_P000_N001_00",
+  "Rockrose_P000_N002_00",
+  "Rockrose_P000_N003_00",
+  "Rockrose_P000_P000_00",
+  "Rockrose_P000_P001_00",
+  "Rockrose_P000_P002_00",
+  "Rockrose_P001_N001_00",
+  "Rockrose_P001_N002_00",
+  "Rockrose_P001_N003_00",
+  "Rockrose_P001_P000_00",
+  "Rockrose_P001_P001_00",
+  "Rockrose_P001_P002_00",
+  "Rockrose_P002_N001_00",
+  "Rockrose_P002_N002_00",
+  "Rockrose_P002_N003_00",
+  "Rockrose_P002_P000_00",
+  "Rockrose_P002_P001_00",
+  "Rockrose_P002_P002_00",
+  "Rockrose_P003_N001_00",
+  "Rockrose_P003_N002_00",
+  "Rockrose_P003_N003_00",
+  "Rockrose_P003_P000_00",
+  "Rockrose_P003_P001_00",
+  "Rockrose_P003_P002_00",
+  "ThornyBurnet_N001_N001_00",
+  "ThornyBurnet_N001_N002_00",
+  "ThornyBurnet_N001_N003_00",
+  "ThornyBurnet_N001_P000_00",
+  "ThornyBurnet_N001_P001_00",
+  "ThornyBurnet_N001_P002_00",
+  "ThornyBurnet_N002_N001_00",
+  "ThornyBurnet_N002_N002_00",
+  "ThornyBurnet_N002_N003_00",
+  "ThornyBurnet_N002_P000_00",
+  "ThornyBurnet_N002_P001_00",
+  "ThornyBurnet_N002_P002_00",
+  "ThornyBurnet_N003_N001_00",
+  "ThornyBurnet_N003_N002_00",
+  "ThornyBurnet_N003_N003_00",
+  "ThornyBurnet_N003_P000_00",
+  "ThornyBurnet_N003_P001_00",
+  "ThornyBurnet_N003_P002_00",
+  "ThornyBurnet_P000_N001_00",
+  "ThornyBurnet_P000_N002_00",
+  "ThornyBurnet_P000_N003_00",
+  "ThornyBurnet_P000_P000_00",
+  "ThornyBurnet_P000_P001_00",
+  "ThornyBurnet_P000_P002_00",
+  "ThornyBurnet_P001_N001_00",
+  "ThornyBurnet_P001_N002_00",
+  "ThornyBurnet_P001_N003_00",
+  "ThornyBurnet_P001_P000_00",
+  "ThornyBurnet_P001_P001_00",
+  "ThornyBurnet_P001_P002_00",
+  "ThornyBurnet_P002_N001_00",
+  "ThornyBurnet_P002_N002_00",
+  "ThornyBurnet_P002_N003_00",
+  "ThornyBurnet_P002_P000_00",
+  "ThornyBurnet_P002_P001_00",
+  "ThornyBurnet_P002_P002_00",
+  "ThornyBurnet_P003_N001_00",
+  "ThornyBurnet_P003_N002_00",
+  "ThornyBurnet_P003_N003_00",
+  "ThornyBurnet_P003_P000_00",
+  "ThornyBurnet_P003_P001_00",
+  "ThornyBurnet_P003_P002_00",
+  "DryGrass_N001_N001_00",
+  "DryGrass_N001_N002_00",
+  "DryGrass_N001_P000_00",
+  "DryGrass_N001_P001_00",
+  "DryGrass_P000_N001_00",
+  "DryGrass_P000_N002_00",
+  "DryGrass_P000_P000_00",
+  "DryGrass_P000_P001_00",
+  "DryGrass_P001_N001_00",
+  "DryGrass_P001_N002_00",
+  "DryGrass_P001_P000_00",
+  "DryGrass_P001_P001_00",
+  "DryGrass_P002_N001_00",
+  "DryGrass_P002_N002_00",
+  "DryGrass_P002_P000_00",
+  "DryGrass_P002_P001_00"
+ ],
+ "importOnly": false,
+ "errors": [],
+ "mapSaved": true,
+ "limitations": [
+  "Geometric placement only: no visual, collision, cook, performance or packaged acceptance is established.",
+  "Materials are created unassigned unless a material is already present at the expected path; assigning and tuning them is a separate reviewed step.",
+  "Nothing here is halachic.",
+  "On Candidate48 the plants stand at IDENTICAL coordinates to Main50, because the FutureMountV1 terrain they grow out of was never rescaled by the 48 cm migration. What does change is the keep-out: the enclosure ring and the architecture blockers are tested in BOTH frames, so no instance lands inside either map interpretation of the Mount.",
+  "Geometric placement only. No visual, collision, cook or performance acceptance on Candidate48, and the species materials remain unassigned on both maps."
+ ],
+ "placementProof": {
+  "declared": {
+   "uniformScale": 0.96,
+   "translationCm": [
+    -248.0,
+    0.0,
+    0.0
+   ]
+  },
+  "sampled": 2633,
+  "agreeing": 2626,
+  "worstBoundsErrorCm": 40.800117,
+  "disagreeing": [
+   {
+    "actor": "Turned pedestal",
+    "sourceName": "Turned pedestal",
+    "boundsErrorCm": 2.7502,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 2.5074,
+      "allowanceCm": 0.5058
+     },
+     {
+      "axis": "Y",
+      "errorCm": 2.7502,
+      "allowanceCm": 0.5058
+     },
+     {
+      "axis": "Z",
+      "errorCm": 0.3034,
+      "allowanceCm": 0.5034
+     }
+    ]
+   },
+   {
+    "actor": "Hollow basin with inner wall",
+    "sourceName": "Hollow basin with inner wall",
+    "boundsErrorCm": 5.225,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 5.225,
+      "allowanceCm": 0.51
+     },
+     {
+      "axis": "Y",
+      "errorCm": 1.901,
+      "allowanceCm": 0.51
+     },
+     {
+      "axis": "Z",
+      "errorCm": 0.6912,
+      "allowanceCm": 0.5029
+     }
+    ]
+   },
+   {
+    "actor": "Copper fitting",
+    "sourceName": "Copper fitting",
+    "boundsErrorCm": 1.2773,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 0.5512,
+      "allowanceCm": 0.51
+     },
+     {
+      "axis": "Y",
+      "errorCm": 1.2773,
+      "allowanceCm": 0.51
+     },
+     {
+      "axis": "Z",
+      "errorCm": 1.269,
+      "allowanceCm": 0.5002
+     }
+    ]
+   },
+   {
+    "actor": "Copper fitting",
+    "sourceName": "Copper fitting",
+    "boundsErrorCm": 0.7666,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 0.0294,
+      "allowanceCm": 0.5057
+     },
+     {
+      "axis": "Y",
+      "errorCm": 0.7088,
+      "allowanceCm": 0.5057
+     },
+     {
+      "axis": "Z",
+      "errorCm": 0.7666,
+      "allowanceCm": 0.5002
+     }
+    ]
+   },
+   {
+    "actor": "Copper fitting",
+    "sourceName": "Copper fitting",
+    "boundsErrorCm": 0.7124,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 0.7124,
+      "allowanceCm": 0.5036
+     },
+     {
+      "axis": "Y",
+      "errorCm": 0.2956,
+      "allowanceCm": 0.5036
+     },
+     {
+      "axis": "Z",
+      "errorCm": 0.4397,
+      "allowanceCm": 0.5001
+     }
+    ]
+   },
+   {
+    "actor": "Copper fitting",
+    "sourceName": "Copper fitting",
+    "boundsErrorCm": 0.5217,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 0.2576,
+      "allowanceCm": 0.5035
+     },
+     {
+      "axis": "Y",
+      "errorCm": 0.2907,
+      "allowanceCm": 0.5035
+     },
+     {
+      "axis": "Z",
+      "errorCm": 0.5217,
+      "allowanceCm": 0.5001
+     }
+    ]
+   },
+   {
+    "actor": "Derived union of source House walls and roofs",
+    "sourceName": "Derived union of source House walls and roofs",
+    "boundsErrorCm": 40.8001,
+    "perAxis": [
+     {
+      "axis": "X",
+      "errorCm": 0.0,
+      "allowanceCm": 0.716
+     },
+     {
+      "axis": "Y",
+      "errorCm": 40.8001,
+      "allowanceCm": 0.74
+     },
+     {
+      "axis": "Z",
+      "errorCm": 16.3233,
+      "allowanceCm": 0.7472
+     }
+    ]
+   }
+  ],
+  "disagreeingCount": 7,
+  "method": "every level actor whose mesh resolves to SourceAssets/architecture-manifest.json, compared with its manifest AABB carried through the declared placement, per axis, in centimetres; allowance 0.50 cm + 5.0e-05 of the axis span.",
+  "agreeingFraction": 0.9973414356247626,
+  "measured": {
+   "perAxis": [
+    [
+     0.9600000427575786,
+     -248.00039208171978
+    ],
+    [
+     0.9600007213765267,
+     0.0064402373867464835
+    ],
+    [
+     0.9600012119650796,
+     -0.005187124929989295
+    ]
+   ],
+   "uniformScale": 0.960000659,
+   "scaleSpread": 1.169e-06,
+   "translationCm": [
+    -248.000392,
+    0.00644,
+    -0.005187
+   ],
+   "points": 5266
+  },
+  "scaleErrorFromDeclared": 6.59e-07,
+  "translationErrorFromDeclaredCm": [
+   0.000392,
+   0.00644,
+   0.005187
+  ],
+  "status": "placement_proved_against_the_live_level",
+  "target": "Candidate48",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "manifestMeshes": 2633,
+  "usedFor": "the Mount keep-out, not the instance coordinates"
+ },
+ "groundProof": {
+  "target": "Candidate48",
+  "liveGroundTiles": 256,
+  "reference": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\scale-review\\ground-fingerprint-Main50.json",
+  "toleranceCm": 0.5,
+  "cutTwinTokensExcluded": [
+   "PrecinctCut",
+   "KotelPlazaCut",
+   "FutureMountCut"
+  ],
+  "inFirst": 256,
+  "inSecond": 256,
+  "matchedLabels": 256,
+  "onlyInFirst": [],
+  "onlyInSecond": [],
+  "worstBoundsErrorCm": 0.0,
+  "worstLabel": null,
+  "referenceStamp": "20260910T024209359456Z",
+  "referenceMapSha256": "9f5dd4b0230d9de8adafa4b469ed3ada7d07aa57a8fa9a358a0b1d489227bd53",
+  "status": "ground_identical_to_main50_identity_placement_is_correct"
+ },
+ "clearance": {
+  "terrainActorsSkippedAsGround": 268,
+  "terrainMeshPrefixes": [
+   "SM_JerusalemTerrain_"
+  ],
+  "terrainNote": "THE TRAP. The 256 terrain tiles are 400 m squares whose AABBs are 400-800 m tall boxes enclosing the whole Temple. They are the ground the plants stand on and are never blockers. The placer counts how many actors it skipped for this reason and records the count, so a rename cannot silently turn the exclusion back on and re-create the 100 per cent false-blocker result.",
+  "hollowUnionConstituentBoxes": 162,
+  "blockerBoxesTotal": 324,
+  "hollowUnionNote": "Hollow derived-union meshes have AABBs spanning +-8100 XY and Z 300..3425 that enclose the entire outer court. They are decomposed into their constituent boxes from source_elements_json and the recomposition is verified against expectedBoundsUnrealCm before the boxes are trusted, exactly as release_place_assets.py does.",
+  "groundRule": {
+   "instances": "identity: the terrain was never rescaled",
+   "keepOut": "blocked in BOTH the authored and the target frame",
+   "placement": {
+    "uniformScale": 0.96,
+    "translationCm": [
+     -248.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "existingTreeInstancesRead": 17060,
+  "existingTreeProximityCm": 400.0,
+  "existingTreeNote": "The 4265 retained illustrative OSM-derived trees are never touched. Their instance transforms are read numerically from the level and used as keep-out circles, which is a check only the editor can do because the offline generator has no access to their placed transforms.",
+  "mountEnclosureRingPoints": 66,
+  "mountEnclosureRingsTested": 2,
+  "mountEnclosureNote": "No living plant inside the Mount enclosure ring or within the margin of it. Devarim 16:21. Every planned instance is re-tested against this ring in the editor before it is spawned, so a plan error cannot put a tree in the Azarah."
+ },
+ "refusedByClearance": {
+  "existing_tree_instance": 2678
+ },
+ "batchesPlaced": [
+  {
+   "batchId": "Olive_N001_N001_00",
+   "species": "Olive",
+   "cell": "N001_N001",
+   "planned": 11,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N002_00",
+   "species": "Olive",
+   "cell": "N001_N002",
+   "planned": 35,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N003_00",
+   "species": "Olive",
+   "cell": "N001_N003",
+   "planned": 26,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N004_00",
+   "species": "Olive",
+   "cell": "N001_N004",
+   "planned": 300,
+   "placed": 299,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_N005_00",
+   "species": "Olive",
+   "cell": "N001_N005",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P000_00",
+   "species": "Olive",
+   "cell": "N001_P000",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P001_00",
+   "species": "Olive",
+   "cell": "N001_P001",
+   "planned": 111,
+   "placed": 110,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P002_00",
+   "species": "Olive",
+   "cell": "N001_P002",
+   "planned": 153,
+   "placed": 148,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P003_00",
+   "species": "Olive",
+   "cell": "N001_P003",
+   "planned": 80,
+   "placed": 80,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N001_P004_00",
+   "species": "Olive",
+   "cell": "N001_P004",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N001_00",
+   "species": "Olive",
+   "cell": "N002_N001",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N002_00",
+   "species": "Olive",
+   "cell": "N002_N002",
+   "planned": 64,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N003_00",
+   "species": "Olive",
+   "cell": "N002_N003",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_N004_00",
+   "species": "Olive",
+   "cell": "N002_N004",
+   "planned": 106,
+   "placed": 105,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P000_00",
+   "species": "Olive",
+   "cell": "N002_P000",
+   "planned": 25,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P001_00",
+   "species": "Olive",
+   "cell": "N002_P001",
+   "planned": 274,
+   "placed": 268,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P002_00",
+   "species": "Olive",
+   "cell": "N002_P002",
+   "planned": 511,
+   "placed": 507,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N002_P003_00",
+   "species": "Olive",
+   "cell": "N002_P003",
+   "planned": 76,
+   "placed": 68,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N001_00",
+   "species": "Olive",
+   "cell": "N003_N001",
+   "planned": 43,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N002_00",
+   "species": "Olive",
+   "cell": "N003_N002",
+   "planned": 42,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N003_00",
+   "species": "Olive",
+   "cell": "N003_N003",
+   "planned": 22,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_N004_00",
+   "species": "Olive",
+   "cell": "N003_N004",
+   "planned": 80,
+   "placed": 74,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P000_00",
+   "species": "Olive",
+   "cell": "N003_P000",
+   "planned": 113,
+   "placed": 110,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P001_00",
+   "species": "Olive",
+   "cell": "N003_P001",
+   "planned": 296,
+   "placed": 256,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P002_00",
+   "species": "Olive",
+   "cell": "N003_P002",
+   "planned": 147,
+   "placed": 144,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N003_P003_00",
+   "species": "Olive",
+   "cell": "N003_P003",
+   "planned": 39,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N001_00",
+   "species": "Olive",
+   "cell": "N004_N001",
+   "planned": 38,
+   "placed": 37,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N002_00",
+   "species": "Olive",
+   "cell": "N004_N002",
+   "planned": 17,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_N003_00",
+   "species": "Olive",
+   "cell": "N004_N003",
+   "planned": 14,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P000_00",
+   "species": "Olive",
+   "cell": "N004_P000",
+   "planned": 69,
+   "placed": 64,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P001_00",
+   "species": "Olive",
+   "cell": "N004_P001",
+   "planned": 65,
+   "placed": 59,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P002_00",
+   "species": "Olive",
+   "cell": "N004_P002",
+   "planned": 142,
+   "placed": 130,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_N004_P003_00",
+   "species": "Olive",
+   "cell": "N004_P003",
+   "planned": 26,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N001_00",
+   "species": "Olive",
+   "cell": "P000_N001",
+   "planned": 309,
+   "placed": 300,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N002_00",
+   "species": "Olive",
+   "cell": "P000_N002",
+   "planned": 403,
+   "placed": 399,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N003_00",
+   "species": "Olive",
+   "cell": "P000_N003",
+   "planned": 131,
+   "placed": 131,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_N004_00",
+   "species": "Olive",
+   "cell": "P000_N004",
+   "planned": 93,
+   "placed": 93,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P000_00",
+   "species": "Olive",
+   "cell": "P000_P000",
+   "planned": 320,
+   "placed": 317,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P001_00",
+   "species": "Olive",
+   "cell": "P000_P001",
+   "planned": 98,
+   "placed": 97,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P002_00",
+   "species": "Olive",
+   "cell": "P000_P002",
+   "planned": 95,
+   "placed": 87,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P000_P003_00",
+   "species": "Olive",
+   "cell": "P000_P003",
+   "planned": 30,
+   "placed": 30,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N001_00",
+   "species": "Olive",
+   "cell": "P001_N001",
+   "planned": 572,
+   "placed": 563,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N002_00",
+   "species": "Olive",
+   "cell": "P001_N002",
+   "planned": 408,
+   "placed": 395,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N003_00",
+   "species": "Olive",
+   "cell": "P001_N003",
+   "planned": 352,
+   "placed": 351,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_N004_00",
+   "species": "Olive",
+   "cell": "P001_N004",
+   "planned": 349,
+   "placed": 346,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P000_00",
+   "species": "Olive",
+   "cell": "P001_P000",
+   "planned": 531,
+   "placed": 531,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P001_00",
+   "species": "Olive",
+   "cell": "P001_P001",
+   "planned": 253,
+   "placed": 249,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P002_00",
+   "species": "Olive",
+   "cell": "P001_P002",
+   "planned": 127,
+   "placed": 122,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P001_P003_00",
+   "species": "Olive",
+   "cell": "P001_P003",
+   "planned": 66,
+   "placed": 66,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N001_00",
+   "species": "Olive",
+   "cell": "P002_N001",
+   "planned": 166,
+   "placed": 160,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N002_00",
+   "species": "Olive",
+   "cell": "P002_N002",
+   "planned": 142,
+   "placed": 140,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N003_00",
+   "species": "Olive",
+   "cell": "P002_N003",
+   "planned": 469,
+   "placed": 450,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_N004_00",
+   "species": "Olive",
+   "cell": "P002_N004",
+   "planned": 368,
+   "placed": 356,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P000_00",
+   "species": "Olive",
+   "cell": "P002_P000",
+   "planned": 405,
+   "placed": 403,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P001_00",
+   "species": "Olive",
+   "cell": "P002_P001",
+   "planned": 212,
+   "placed": 212,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P002_00",
+   "species": "Olive",
+   "cell": "P002_P002",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P002_P003_00",
+   "species": "Olive",
+   "cell": "P002_P003",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N001_00",
+   "species": "Olive",
+   "cell": "P003_N001",
+   "planned": 132,
+   "placed": 132,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N002_00",
+   "species": "Olive",
+   "cell": "P003_N002",
+   "planned": 135,
+   "placed": 135,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N003_00",
+   "species": "Olive",
+   "cell": "P003_N003",
+   "planned": 675,
+   "placed": 660,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N004_00",
+   "species": "Olive",
+   "cell": "P003_N004",
+   "planned": 670,
+   "placed": 664,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_N005_00",
+   "species": "Olive",
+   "cell": "P003_N005",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_P000_00",
+   "species": "Olive",
+   "cell": "P003_P000",
+   "planned": 290,
+   "placed": 284,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_P001_00",
+   "species": "Olive",
+   "cell": "P003_P001",
+   "planned": 178,
+   "placed": 163,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_P002_00",
+   "species": "Olive",
+   "cell": "P003_P002",
+   "planned": 39,
+   "placed": 37,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P003_P003_00",
+   "species": "Olive",
+   "cell": "P003_P003",
+   "planned": 156,
+   "placed": 154,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P004_N001_00",
+   "species": "Olive",
+   "cell": "P004_N001",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P004_N003_00",
+   "species": "Olive",
+   "cell": "P004_N003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Olive_P004_P000_00",
+   "species": "Olive",
+   "cell": "P004_P000",
+   "planned": 2,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_N001_00",
+   "species": "JerusalemPine",
+   "cell": "N001_N001",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_N002_00",
+   "species": "JerusalemPine",
+   "cell": "N001_N002",
+   "planned": 27,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_N003_00",
+   "species": "JerusalemPine",
+   "cell": "N001_N003",
+   "planned": 32,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_N004_00",
+   "species": "JerusalemPine",
+   "cell": "N001_N004",
+   "planned": 236,
+   "placed": 235,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_P000_00",
+   "species": "JerusalemPine",
+   "cell": "N001_P000",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_P001_00",
+   "species": "JerusalemPine",
+   "cell": "N001_P001",
+   "planned": 37,
+   "placed": 36,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N001_P002_00",
+   "species": "JerusalemPine",
+   "cell": "N001_P002",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_N001_00",
+   "species": "JerusalemPine",
+   "cell": "N002_N001",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_N002_00",
+   "species": "JerusalemPine",
+   "cell": "N002_N002",
+   "planned": 69,
+   "placed": 57,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_N003_00",
+   "species": "JerusalemPine",
+   "cell": "N002_N003",
+   "planned": 24,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_N004_00",
+   "species": "JerusalemPine",
+   "cell": "N002_N004",
+   "planned": 84,
+   "placed": 83,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_P000_00",
+   "species": "JerusalemPine",
+   "cell": "N002_P000",
+   "planned": 17,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_P001_00",
+   "species": "JerusalemPine",
+   "cell": "N002_P001",
+   "planned": 170,
+   "placed": 168,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_P002_00",
+   "species": "JerusalemPine",
+   "cell": "N002_P002",
+   "planned": 147,
+   "placed": 147,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N002_P003_00",
+   "species": "JerusalemPine",
+   "cell": "N002_P003",
+   "planned": 33,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_N001_00",
+   "species": "JerusalemPine",
+   "cell": "N003_N001",
+   "planned": 13,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_N002_00",
+   "species": "JerusalemPine",
+   "cell": "N003_N002",
+   "planned": 27,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_N003_00",
+   "species": "JerusalemPine",
+   "cell": "N003_N003",
+   "planned": 20,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_N004_00",
+   "species": "JerusalemPine",
+   "cell": "N003_N004",
+   "planned": 60,
+   "placed": 58,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_P000_00",
+   "species": "JerusalemPine",
+   "cell": "N003_P000",
+   "planned": 43,
+   "placed": 40,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_P001_00",
+   "species": "JerusalemPine",
+   "cell": "N003_P001",
+   "planned": 210,
+   "placed": 179,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_P002_00",
+   "species": "JerusalemPine",
+   "cell": "N003_P002",
+   "planned": 98,
+   "placed": 97,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N003_P003_00",
+   "species": "JerusalemPine",
+   "cell": "N003_P003",
+   "planned": 59,
+   "placed": 50,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_N001_00",
+   "species": "JerusalemPine",
+   "cell": "N004_N001",
+   "planned": 54,
+   "placed": 54,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_N002_00",
+   "species": "JerusalemPine",
+   "cell": "N004_N002",
+   "planned": 14,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_N003_00",
+   "species": "JerusalemPine",
+   "cell": "N004_N003",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_N004_00",
+   "species": "JerusalemPine",
+   "cell": "N004_N004",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_P000_00",
+   "species": "JerusalemPine",
+   "cell": "N004_P000",
+   "planned": 87,
+   "placed": 85,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_P001_00",
+   "species": "JerusalemPine",
+   "cell": "N004_P001",
+   "planned": 34,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_P002_00",
+   "species": "JerusalemPine",
+   "cell": "N004_P002",
+   "planned": 164,
+   "placed": 154,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_N004_P003_00",
+   "species": "JerusalemPine",
+   "cell": "N004_P003",
+   "planned": 17,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_N001_00",
+   "species": "JerusalemPine",
+   "cell": "P000_N001",
+   "planned": 58,
+   "placed": 58,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_N002_00",
+   "species": "JerusalemPine",
+   "cell": "P000_N002",
+   "planned": 92,
+   "placed": 91,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_N003_00",
+   "species": "JerusalemPine",
+   "cell": "P000_N003",
+   "planned": 48,
+   "placed": 48,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_N004_00",
+   "species": "JerusalemPine",
+   "cell": "P000_N004",
+   "planned": 35,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_P000_00",
+   "species": "JerusalemPine",
+   "cell": "P000_P000",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_P001_00",
+   "species": "JerusalemPine",
+   "cell": "P000_P001",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P000_P002_00",
+   "species": "JerusalemPine",
+   "cell": "P000_P002",
+   "planned": 54,
+   "placed": 46,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_N001_00",
+   "species": "JerusalemPine",
+   "cell": "P001_N001",
+   "planned": 361,
+   "placed": 349,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_N002_00",
+   "species": "JerusalemPine",
+   "cell": "P001_N002",
+   "planned": 213,
+   "placed": 206,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_N003_00",
+   "species": "JerusalemPine",
+   "cell": "P001_N003",
+   "planned": 229,
+   "placed": 228,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_N004_00",
+   "species": "JerusalemPine",
+   "cell": "P001_N004",
+   "planned": 238,
+   "placed": 233,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_P000_00",
+   "species": "JerusalemPine",
+   "cell": "P001_P000",
+   "planned": 254,
+   "placed": 254,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_P001_00",
+   "species": "JerusalemPine",
+   "cell": "P001_P001",
+   "planned": 105,
+   "placed": 104,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P001_P002_00",
+   "species": "JerusalemPine",
+   "cell": "P001_P002",
+   "planned": 16,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_N001_00",
+   "species": "JerusalemPine",
+   "cell": "P002_N001",
+   "planned": 80,
+   "placed": 78,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_N002_00",
+   "species": "JerusalemPine",
+   "cell": "P002_N002",
+   "planned": 112,
+   "placed": 110,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_N003_00",
+   "species": "JerusalemPine",
+   "cell": "P002_N003",
+   "planned": 338,
+   "placed": 319,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_N004_00",
+   "species": "JerusalemPine",
+   "cell": "P002_N004",
+   "planned": 156,
+   "placed": 153,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_P000_00",
+   "species": "JerusalemPine",
+   "cell": "P002_P000",
+   "planned": 184,
+   "placed": 184,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P002_P001_00",
+   "species": "JerusalemPine",
+   "cell": "P002_P001",
+   "planned": 55,
+   "placed": 55,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_N001_00",
+   "species": "JerusalemPine",
+   "cell": "P003_N001",
+   "planned": 47,
+   "placed": 46,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_N002_00",
+   "species": "JerusalemPine",
+   "cell": "P003_N002",
+   "planned": 46,
+   "placed": 46,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_N003_00",
+   "species": "JerusalemPine",
+   "cell": "P003_N003",
+   "planned": 373,
+   "placed": 364,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_N004_00",
+   "species": "JerusalemPine",
+   "cell": "P003_N004",
+   "planned": 267,
+   "placed": 265,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_P000_00",
+   "species": "JerusalemPine",
+   "cell": "P003_P000",
+   "planned": 148,
+   "placed": 148,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "JerusalemPine_P003_P001_00",
+   "species": "JerusalemPine",
+   "cell": "P003_P001",
+   "planned": 66,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_N001_00",
+   "species": "Cypress",
+   "cell": "N001_N001",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_N002_00",
+   "species": "Cypress",
+   "cell": "N001_N002",
+   "planned": 9,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_N003_00",
+   "species": "Cypress",
+   "cell": "N001_N003",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_N004_00",
+   "species": "Cypress",
+   "cell": "N001_N004",
+   "planned": 64,
+   "placed": 64,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_P000_00",
+   "species": "Cypress",
+   "cell": "N001_P000",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_P001_00",
+   "species": "Cypress",
+   "cell": "N001_P001",
+   "planned": 21,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N001_P002_00",
+   "species": "Cypress",
+   "cell": "N001_P002",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_N001_00",
+   "species": "Cypress",
+   "cell": "N002_N001",
+   "planned": 12,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_N002_00",
+   "species": "Cypress",
+   "cell": "N002_N002",
+   "planned": 20,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_N003_00",
+   "species": "Cypress",
+   "cell": "N002_N003",
+   "planned": 13,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_N004_00",
+   "species": "Cypress",
+   "cell": "N002_N004",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_P000_00",
+   "species": "Cypress",
+   "cell": "N002_P000",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_P001_00",
+   "species": "Cypress",
+   "cell": "N002_P001",
+   "planned": 61,
+   "placed": 58,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_P002_00",
+   "species": "Cypress",
+   "cell": "N002_P002",
+   "planned": 76,
+   "placed": 76,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N002_P003_00",
+   "species": "Cypress",
+   "cell": "N002_P003",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_N001_00",
+   "species": "Cypress",
+   "cell": "N003_N001",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_N002_00",
+   "species": "Cypress",
+   "cell": "N003_N002",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_N003_00",
+   "species": "Cypress",
+   "cell": "N003_N003",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_N004_00",
+   "species": "Cypress",
+   "cell": "N003_N004",
+   "planned": 24,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_P000_00",
+   "species": "Cypress",
+   "cell": "N003_P000",
+   "planned": 28,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_P001_00",
+   "species": "Cypress",
+   "cell": "N003_P001",
+   "planned": 54,
+   "placed": 51,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_P002_00",
+   "species": "Cypress",
+   "cell": "N003_P002",
+   "planned": 53,
+   "placed": 51,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N003_P003_00",
+   "species": "Cypress",
+   "cell": "N003_P003",
+   "planned": 13,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_N001_00",
+   "species": "Cypress",
+   "cell": "N004_N001",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_N002_00",
+   "species": "Cypress",
+   "cell": "N004_N002",
+   "planned": 19,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_N003_00",
+   "species": "Cypress",
+   "cell": "N004_N003",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_P000_00",
+   "species": "Cypress",
+   "cell": "N004_P000",
+   "planned": 30,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_P001_00",
+   "species": "Cypress",
+   "cell": "N004_P001",
+   "planned": 21,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_P002_00",
+   "species": "Cypress",
+   "cell": "N004_P002",
+   "planned": 49,
+   "placed": 47,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_N004_P003_00",
+   "species": "Cypress",
+   "cell": "N004_P003",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_N001_00",
+   "species": "Cypress",
+   "cell": "P000_N001",
+   "planned": 50,
+   "placed": 49,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_N002_00",
+   "species": "Cypress",
+   "cell": "P000_N002",
+   "planned": 80,
+   "placed": 79,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_N003_00",
+   "species": "Cypress",
+   "cell": "P000_N003",
+   "planned": 32,
+   "placed": 32,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_N004_00",
+   "species": "Cypress",
+   "cell": "P000_N004",
+   "planned": 21,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_P000_00",
+   "species": "Cypress",
+   "cell": "P000_P000",
+   "planned": 20,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_P001_00",
+   "species": "Cypress",
+   "cell": "P000_P001",
+   "planned": 17,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P000_P002_00",
+   "species": "Cypress",
+   "cell": "P000_P002",
+   "planned": 25,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_N001_00",
+   "species": "Cypress",
+   "cell": "P001_N001",
+   "planned": 145,
+   "placed": 140,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_N002_00",
+   "species": "Cypress",
+   "cell": "P001_N002",
+   "planned": 87,
+   "placed": 84,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_N003_00",
+   "species": "Cypress",
+   "cell": "P001_N003",
+   "planned": 72,
+   "placed": 72,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_N004_00",
+   "species": "Cypress",
+   "cell": "P001_N004",
+   "planned": 84,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_P000_00",
+   "species": "Cypress",
+   "cell": "P001_P000",
+   "planned": 132,
+   "placed": 132,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_P001_00",
+   "species": "Cypress",
+   "cell": "P001_P001",
+   "planned": 68,
+   "placed": 67,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P001_P002_00",
+   "species": "Cypress",
+   "cell": "P001_P002",
+   "planned": 20,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_N001_00",
+   "species": "Cypress",
+   "cell": "P002_N001",
+   "planned": 39,
+   "placed": 37,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_N002_00",
+   "species": "Cypress",
+   "cell": "P002_N002",
+   "planned": 49,
+   "placed": 49,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_N003_00",
+   "species": "Cypress",
+   "cell": "P002_N003",
+   "planned": 139,
+   "placed": 131,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_N004_00",
+   "species": "Cypress",
+   "cell": "P002_N004",
+   "planned": 82,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_P000_00",
+   "species": "Cypress",
+   "cell": "P002_P000",
+   "planned": 91,
+   "placed": 90,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P002_P001_00",
+   "species": "Cypress",
+   "cell": "P002_P001",
+   "planned": 49,
+   "placed": 49,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_N001_00",
+   "species": "Cypress",
+   "cell": "P003_N001",
+   "planned": 24,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_N002_00",
+   "species": "Cypress",
+   "cell": "P003_N002",
+   "planned": 36,
+   "placed": 36,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_N003_00",
+   "species": "Cypress",
+   "cell": "P003_N003",
+   "planned": 170,
+   "placed": 166,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_N004_00",
+   "species": "Cypress",
+   "cell": "P003_N004",
+   "planned": 114,
+   "placed": 114,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_P000_00",
+   "species": "Cypress",
+   "cell": "P003_P000",
+   "planned": 77,
+   "placed": 77,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_P001_00",
+   "species": "Cypress",
+   "cell": "P003_P001",
+   "planned": 40,
+   "placed": 36,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Cypress_P003_P002_00",
+   "species": "Cypress",
+   "cell": "P003_P002",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_N001_00",
+   "species": "Almond",
+   "cell": "N001_N001",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_N002_00",
+   "species": "Almond",
+   "cell": "N001_N002",
+   "planned": 14,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_N003_00",
+   "species": "Almond",
+   "cell": "N001_N003",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_N004_00",
+   "species": "Almond",
+   "cell": "N001_N004",
+   "planned": 74,
+   "placed": 73,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_N005_00",
+   "species": "Almond",
+   "cell": "N001_N005",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_P000_00",
+   "species": "Almond",
+   "cell": "N001_P000",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_P001_00",
+   "species": "Almond",
+   "cell": "N001_P001",
+   "planned": 37,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_P002_00",
+   "species": "Almond",
+   "cell": "N001_P002",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N001_P003_00",
+   "species": "Almond",
+   "cell": "N001_P003",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_N001_00",
+   "species": "Almond",
+   "cell": "N002_N001",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_N002_00",
+   "species": "Almond",
+   "cell": "N002_N002",
+   "planned": 27,
+   "placed": 25,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_N003_00",
+   "species": "Almond",
+   "cell": "N002_N003",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_N004_00",
+   "species": "Almond",
+   "cell": "N002_N004",
+   "planned": 35,
+   "placed": 34,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_P000_00",
+   "species": "Almond",
+   "cell": "N002_P000",
+   "planned": 16,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_P001_00",
+   "species": "Almond",
+   "cell": "N002_P001",
+   "planned": 67,
+   "placed": 65,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_P002_00",
+   "species": "Almond",
+   "cell": "N002_P002",
+   "planned": 146,
+   "placed": 145,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N002_P003_00",
+   "species": "Almond",
+   "cell": "N002_P003",
+   "planned": 28,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_N001_00",
+   "species": "Almond",
+   "cell": "N003_N001",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_N002_00",
+   "species": "Almond",
+   "cell": "N003_N002",
+   "planned": 15,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_N003_00",
+   "species": "Almond",
+   "cell": "N003_N003",
+   "planned": 10,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_N004_00",
+   "species": "Almond",
+   "cell": "N003_N004",
+   "planned": 35,
+   "placed": 30,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_P000_00",
+   "species": "Almond",
+   "cell": "N003_P000",
+   "planned": 44,
+   "placed": 41,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_P001_00",
+   "species": "Almond",
+   "cell": "N003_P001",
+   "planned": 88,
+   "placed": 80,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_P002_00",
+   "species": "Almond",
+   "cell": "N003_P002",
+   "planned": 62,
+   "placed": 59,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N003_P003_00",
+   "species": "Almond",
+   "cell": "N003_P003",
+   "planned": 19,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_N001_00",
+   "species": "Almond",
+   "cell": "N004_N001",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_N002_00",
+   "species": "Almond",
+   "cell": "N004_N002",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_N003_00",
+   "species": "Almond",
+   "cell": "N004_N003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_P000_00",
+   "species": "Almond",
+   "cell": "N004_P000",
+   "planned": 27,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_P001_00",
+   "species": "Almond",
+   "cell": "N004_P001",
+   "planned": 29,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_P002_00",
+   "species": "Almond",
+   "cell": "N004_P002",
+   "planned": 63,
+   "placed": 57,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_N004_P003_00",
+   "species": "Almond",
+   "cell": "N004_P003",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_N001_00",
+   "species": "Almond",
+   "cell": "P000_N001",
+   "planned": 85,
+   "placed": 78,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_N002_00",
+   "species": "Almond",
+   "cell": "P000_N002",
+   "planned": 111,
+   "placed": 111,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_N003_00",
+   "species": "Almond",
+   "cell": "P000_N003",
+   "planned": 52,
+   "placed": 52,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_N004_00",
+   "species": "Almond",
+   "cell": "P000_N004",
+   "planned": 38,
+   "placed": 38,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_P000_00",
+   "species": "Almond",
+   "cell": "P000_P000",
+   "planned": 101,
+   "placed": 98,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_P001_00",
+   "species": "Almond",
+   "cell": "P000_P001",
+   "planned": 20,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_P002_00",
+   "species": "Almond",
+   "cell": "P000_P002",
+   "planned": 24,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P000_P003_00",
+   "species": "Almond",
+   "cell": "P000_P003",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_N001_00",
+   "species": "Almond",
+   "cell": "P001_N001",
+   "planned": 207,
+   "placed": 203,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_N002_00",
+   "species": "Almond",
+   "cell": "P001_N002",
+   "planned": 132,
+   "placed": 130,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_N003_00",
+   "species": "Almond",
+   "cell": "P001_N003",
+   "planned": 102,
+   "placed": 102,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_N004_00",
+   "species": "Almond",
+   "cell": "P001_N004",
+   "planned": 114,
+   "placed": 114,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_P000_00",
+   "species": "Almond",
+   "cell": "P001_P000",
+   "planned": 152,
+   "placed": 152,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_P001_00",
+   "species": "Almond",
+   "cell": "P001_P001",
+   "planned": 109,
+   "placed": 106,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_P002_00",
+   "species": "Almond",
+   "cell": "P001_P002",
+   "planned": 41,
+   "placed": 41,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P001_P003_00",
+   "species": "Almond",
+   "cell": "P001_P003",
+   "planned": 16,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_N001_00",
+   "species": "Almond",
+   "cell": "P002_N001",
+   "planned": 43,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_N002_00",
+   "species": "Almond",
+   "cell": "P002_N002",
+   "planned": 44,
+   "placed": 44,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_N003_00",
+   "species": "Almond",
+   "cell": "P002_N003",
+   "planned": 158,
+   "placed": 146,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_N004_00",
+   "species": "Almond",
+   "cell": "P002_N004",
+   "planned": 121,
+   "placed": 120,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_P000_00",
+   "species": "Almond",
+   "cell": "P002_P000",
+   "planned": 133,
+   "placed": 133,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P002_P001_00",
+   "species": "Almond",
+   "cell": "P002_P001",
+   "planned": 74,
+   "placed": 74,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_N001_00",
+   "species": "Almond",
+   "cell": "P003_N001",
+   "planned": 33,
+   "placed": 33,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_N002_00",
+   "species": "Almond",
+   "cell": "P003_N002",
+   "planned": 65,
+   "placed": 65,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_N003_00",
+   "species": "Almond",
+   "cell": "P003_N003",
+   "planned": 180,
+   "placed": 178,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_N004_00",
+   "species": "Almond",
+   "cell": "P003_N004",
+   "planned": 235,
+   "placed": 233,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_P000_00",
+   "species": "Almond",
+   "cell": "P003_P000",
+   "planned": 110,
+   "placed": 109,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_P001_00",
+   "species": "Almond",
+   "cell": "P003_P001",
+   "planned": 69,
+   "placed": 63,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_P002_00",
+   "species": "Almond",
+   "cell": "P003_P002",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P003_P003_00",
+   "species": "Almond",
+   "cell": "P003_P003",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P004_P000_00",
+   "species": "Almond",
+   "cell": "P004_P000",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Almond_P004_P001_00",
+   "species": "Almond",
+   "cell": "P004_P001",
+   "planned": 1,
+   "placed": 0,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_N001_00",
+   "species": "Fig",
+   "cell": "N001_N001",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_N002_00",
+   "species": "Fig",
+   "cell": "N001_N002",
+   "planned": 5,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_N003_00",
+   "species": "Fig",
+   "cell": "N001_N003",
+   "planned": 11,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_N004_00",
+   "species": "Fig",
+   "cell": "N001_N004",
+   "planned": 44,
+   "placed": 43,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_P000_00",
+   "species": "Fig",
+   "cell": "N001_P000",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_P001_00",
+   "species": "Fig",
+   "cell": "N001_P001",
+   "planned": 24,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_P002_00",
+   "species": "Fig",
+   "cell": "N001_P002",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N001_P003_00",
+   "species": "Fig",
+   "cell": "N001_P003",
+   "planned": 11,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_N001_00",
+   "species": "Fig",
+   "cell": "N002_N001",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_N002_00",
+   "species": "Fig",
+   "cell": "N002_N002",
+   "planned": 23,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_N003_00",
+   "species": "Fig",
+   "cell": "N002_N003",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_N004_00",
+   "species": "Fig",
+   "cell": "N002_N004",
+   "planned": 28,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_P000_00",
+   "species": "Fig",
+   "cell": "N002_P000",
+   "planned": 11,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_P001_00",
+   "species": "Fig",
+   "cell": "N002_P001",
+   "planned": 30,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_P002_00",
+   "species": "Fig",
+   "cell": "N002_P002",
+   "planned": 78,
+   "placed": 76,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N002_P003_00",
+   "species": "Fig",
+   "cell": "N002_P003",
+   "planned": 11,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_N001_00",
+   "species": "Fig",
+   "cell": "N003_N001",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_N002_00",
+   "species": "Fig",
+   "cell": "N003_N002",
+   "planned": 11,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_N003_00",
+   "species": "Fig",
+   "cell": "N003_N003",
+   "planned": 6,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_N004_00",
+   "species": "Fig",
+   "cell": "N003_N004",
+   "planned": 11,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_P000_00",
+   "species": "Fig",
+   "cell": "N003_P000",
+   "planned": 17,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_P001_00",
+   "species": "Fig",
+   "cell": "N003_P001",
+   "planned": 50,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_P002_00",
+   "species": "Fig",
+   "cell": "N003_P002",
+   "planned": 33,
+   "placed": 32,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N003_P003_00",
+   "species": "Fig",
+   "cell": "N003_P003",
+   "planned": 9,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_N001_00",
+   "species": "Fig",
+   "cell": "N004_N001",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_N002_00",
+   "species": "Fig",
+   "cell": "N004_N002",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_N003_00",
+   "species": "Fig",
+   "cell": "N004_N003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_P000_00",
+   "species": "Fig",
+   "cell": "N004_P000",
+   "planned": 18,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_P001_00",
+   "species": "Fig",
+   "cell": "N004_P001",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_P002_00",
+   "species": "Fig",
+   "cell": "N004_P002",
+   "planned": 36,
+   "placed": 34,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_N004_P003_00",
+   "species": "Fig",
+   "cell": "N004_P003",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_N001_00",
+   "species": "Fig",
+   "cell": "P000_N001",
+   "planned": 50,
+   "placed": 48,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_N002_00",
+   "species": "Fig",
+   "cell": "P000_N002",
+   "planned": 73,
+   "placed": 72,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_N003_00",
+   "species": "Fig",
+   "cell": "P000_N003",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_N004_00",
+   "species": "Fig",
+   "cell": "P000_N004",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_P000_00",
+   "species": "Fig",
+   "cell": "P000_P000",
+   "planned": 51,
+   "placed": 50,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_P001_00",
+   "species": "Fig",
+   "cell": "P000_P001",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_P002_00",
+   "species": "Fig",
+   "cell": "P000_P002",
+   "planned": 8,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P000_P003_00",
+   "species": "Fig",
+   "cell": "P000_P003",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_N001_00",
+   "species": "Fig",
+   "cell": "P001_N001",
+   "planned": 78,
+   "placed": 77,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_N002_00",
+   "species": "Fig",
+   "cell": "P001_N002",
+   "planned": 60,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_N003_00",
+   "species": "Fig",
+   "cell": "P001_N003",
+   "planned": 53,
+   "placed": 53,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_N004_00",
+   "species": "Fig",
+   "cell": "P001_N004",
+   "planned": 72,
+   "placed": 72,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_P000_00",
+   "species": "Fig",
+   "cell": "P001_P000",
+   "planned": 82,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_P001_00",
+   "species": "Fig",
+   "cell": "P001_P001",
+   "planned": 36,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_P002_00",
+   "species": "Fig",
+   "cell": "P001_P002",
+   "planned": 22,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P001_P003_00",
+   "species": "Fig",
+   "cell": "P001_P003",
+   "planned": 11,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_N001_00",
+   "species": "Fig",
+   "cell": "P002_N001",
+   "planned": 24,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_N002_00",
+   "species": "Fig",
+   "cell": "P002_N002",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_N003_00",
+   "species": "Fig",
+   "cell": "P002_N003",
+   "planned": 74,
+   "placed": 70,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_N004_00",
+   "species": "Fig",
+   "cell": "P002_N004",
+   "planned": 48,
+   "placed": 47,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_P000_00",
+   "species": "Fig",
+   "cell": "P002_P000",
+   "planned": 56,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_P001_00",
+   "species": "Fig",
+   "cell": "P002_P001",
+   "planned": 33,
+   "placed": 33,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_P002_00",
+   "species": "Fig",
+   "cell": "P002_P002",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P002_P003_00",
+   "species": "Fig",
+   "cell": "P002_P003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_N001_00",
+   "species": "Fig",
+   "cell": "P003_N001",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_N002_00",
+   "species": "Fig",
+   "cell": "P003_N002",
+   "planned": 21,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_N003_00",
+   "species": "Fig",
+   "cell": "P003_N003",
+   "planned": 77,
+   "placed": 75,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_N004_00",
+   "species": "Fig",
+   "cell": "P003_N004",
+   "planned": 105,
+   "placed": 104,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_P000_00",
+   "species": "Fig",
+   "cell": "P003_P000",
+   "planned": 42,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_P001_00",
+   "species": "Fig",
+   "cell": "P003_P001",
+   "planned": 35,
+   "placed": 33,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_P002_00",
+   "species": "Fig",
+   "cell": "P003_P002",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P003_P003_00",
+   "species": "Fig",
+   "cell": "P003_P003",
+   "planned": 45,
+   "placed": 44,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P004_P000_00",
+   "species": "Fig",
+   "cell": "P004_P000",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Fig_P004_P003_00",
+   "species": "Fig",
+   "cell": "P004_P003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_N001_00",
+   "species": "Pomegranate",
+   "cell": "N001_N001",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_N002_00",
+   "species": "Pomegranate",
+   "cell": "N001_N002",
+   "planned": 12,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_N003_00",
+   "species": "Pomegranate",
+   "cell": "N001_N003",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_N004_00",
+   "species": "Pomegranate",
+   "cell": "N001_N004",
+   "planned": 52,
+   "placed": 51,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_P000_00",
+   "species": "Pomegranate",
+   "cell": "N001_P000",
+   "planned": 5,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_P001_00",
+   "species": "Pomegranate",
+   "cell": "N001_P001",
+   "planned": 24,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_P002_00",
+   "species": "Pomegranate",
+   "cell": "N001_P002",
+   "planned": 18,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N001_P003_00",
+   "species": "Pomegranate",
+   "cell": "N001_P003",
+   "planned": 17,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_N001_00",
+   "species": "Pomegranate",
+   "cell": "N002_N001",
+   "planned": 10,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_N002_00",
+   "species": "Pomegranate",
+   "cell": "N002_N002",
+   "planned": 21,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_N003_00",
+   "species": "Pomegranate",
+   "cell": "N002_N003",
+   "planned": 16,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_N004_00",
+   "species": "Pomegranate",
+   "cell": "N002_N004",
+   "planned": 25,
+   "placed": 25,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_P000_00",
+   "species": "Pomegranate",
+   "cell": "N002_P000",
+   "planned": 11,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_P001_00",
+   "species": "Pomegranate",
+   "cell": "N002_P001",
+   "planned": 43,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_P002_00",
+   "species": "Pomegranate",
+   "cell": "N002_P002",
+   "planned": 88,
+   "placed": 87,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N002_P003_00",
+   "species": "Pomegranate",
+   "cell": "N002_P003",
+   "planned": 13,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_N001_00",
+   "species": "Pomegranate",
+   "cell": "N003_N001",
+   "planned": 8,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_N002_00",
+   "species": "Pomegranate",
+   "cell": "N003_N002",
+   "planned": 19,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_N003_00",
+   "species": "Pomegranate",
+   "cell": "N003_N003",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_N004_00",
+   "species": "Pomegranate",
+   "cell": "N003_N004",
+   "planned": 20,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_P000_00",
+   "species": "Pomegranate",
+   "cell": "N003_P000",
+   "planned": 22,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_P001_00",
+   "species": "Pomegranate",
+   "cell": "N003_P001",
+   "planned": 53,
+   "placed": 47,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_P002_00",
+   "species": "Pomegranate",
+   "cell": "N003_P002",
+   "planned": 48,
+   "placed": 45,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N003_P003_00",
+   "species": "Pomegranate",
+   "cell": "N003_P003",
+   "planned": 13,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_N001_00",
+   "species": "Pomegranate",
+   "cell": "N004_N001",
+   "planned": 20,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_N002_00",
+   "species": "Pomegranate",
+   "cell": "N004_N002",
+   "planned": 11,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_N003_00",
+   "species": "Pomegranate",
+   "cell": "N004_N003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_P000_00",
+   "species": "Pomegranate",
+   "cell": "N004_P000",
+   "planned": 21,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_P001_00",
+   "species": "Pomegranate",
+   "cell": "N004_P001",
+   "planned": 12,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_P002_00",
+   "species": "Pomegranate",
+   "cell": "N004_P002",
+   "planned": 44,
+   "placed": 38,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N004_P003_00",
+   "species": "Pomegranate",
+   "cell": "N004_P003",
+   "planned": 15,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_N005_P002_00",
+   "species": "Pomegranate",
+   "cell": "N005_P002",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_N001_00",
+   "species": "Pomegranate",
+   "cell": "P000_N001",
+   "planned": 57,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_N002_00",
+   "species": "Pomegranate",
+   "cell": "P000_N002",
+   "planned": 66,
+   "placed": 66,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_N003_00",
+   "species": "Pomegranate",
+   "cell": "P000_N003",
+   "planned": 38,
+   "placed": 38,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_N004_00",
+   "species": "Pomegranate",
+   "cell": "P000_N004",
+   "planned": 18,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_P000_00",
+   "species": "Pomegranate",
+   "cell": "P000_P000",
+   "planned": 63,
+   "placed": 62,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_P001_00",
+   "species": "Pomegranate",
+   "cell": "P000_P001",
+   "planned": 13,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_P002_00",
+   "species": "Pomegranate",
+   "cell": "P000_P002",
+   "planned": 18,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P000_P003_00",
+   "species": "Pomegranate",
+   "cell": "P000_P003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_N001_00",
+   "species": "Pomegranate",
+   "cell": "P001_N001",
+   "planned": 85,
+   "placed": 84,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_N002_00",
+   "species": "Pomegranate",
+   "cell": "P001_N002",
+   "planned": 54,
+   "placed": 52,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_N003_00",
+   "species": "Pomegranate",
+   "cell": "P001_N003",
+   "planned": 60,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_N004_00",
+   "species": "Pomegranate",
+   "cell": "P001_N004",
+   "planned": 51,
+   "placed": 50,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_P000_00",
+   "species": "Pomegranate",
+   "cell": "P001_P000",
+   "planned": 88,
+   "placed": 88,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_P001_00",
+   "species": "Pomegranate",
+   "cell": "P001_P001",
+   "planned": 48,
+   "placed": 47,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_P002_00",
+   "species": "Pomegranate",
+   "cell": "P001_P002",
+   "planned": 25,
+   "placed": 25,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P001_P003_00",
+   "species": "Pomegranate",
+   "cell": "P001_P003",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_N001_00",
+   "species": "Pomegranate",
+   "cell": "P002_N001",
+   "planned": 32,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_N002_00",
+   "species": "Pomegranate",
+   "cell": "P002_N002",
+   "planned": 30,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_N003_00",
+   "species": "Pomegranate",
+   "cell": "P002_N003",
+   "planned": 65,
+   "placed": 61,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_N004_00",
+   "species": "Pomegranate",
+   "cell": "P002_N004",
+   "planned": 57,
+   "placed": 54,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_P000_00",
+   "species": "Pomegranate",
+   "cell": "P002_P000",
+   "planned": 60,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_P001_00",
+   "species": "Pomegranate",
+   "cell": "P002_P001",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_P002_00",
+   "species": "Pomegranate",
+   "cell": "P002_P002",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P002_P003_00",
+   "species": "Pomegranate",
+   "cell": "P002_P003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_N001_00",
+   "species": "Pomegranate",
+   "cell": "P003_N001",
+   "planned": 14,
+   "placed": 14,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_N002_00",
+   "species": "Pomegranate",
+   "cell": "P003_N002",
+   "planned": 32,
+   "placed": 32,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_N003_00",
+   "species": "Pomegranate",
+   "cell": "P003_N003",
+   "planned": 98,
+   "placed": 97,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_N004_00",
+   "species": "Pomegranate",
+   "cell": "P003_N004",
+   "planned": 89,
+   "placed": 87,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_P000_00",
+   "species": "Pomegranate",
+   "cell": "P003_P000",
+   "planned": 36,
+   "placed": 36,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_P001_00",
+   "species": "Pomegranate",
+   "cell": "P003_P001",
+   "planned": 26,
+   "placed": 24,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_P002_00",
+   "species": "Pomegranate",
+   "cell": "P003_P002",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P003_P003_00",
+   "species": "Pomegranate",
+   "cell": "P003_P003",
+   "planned": 42,
+   "placed": 41,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P004_N003_00",
+   "species": "Pomegranate",
+   "cell": "P004_N003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Pomegranate_P004_P000_00",
+   "species": "Pomegranate",
+   "cell": "P004_P000",
+   "planned": 1,
+   "placed": 0,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_N001_N001_00",
+   "species": "DatePalm",
+   "cell": "N001_N001",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_N001_P000_00",
+   "species": "DatePalm",
+   "cell": "N001_P000",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_N001_P001_00",
+   "species": "DatePalm",
+   "cell": "N001_P001",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P000_N001_00",
+   "species": "DatePalm",
+   "cell": "P000_N001",
+   "planned": 44,
+   "placed": 43,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P000_N002_00",
+   "species": "DatePalm",
+   "cell": "P000_N002",
+   "planned": 56,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P000_P000_00",
+   "species": "DatePalm",
+   "cell": "P000_P000",
+   "planned": 45,
+   "placed": 45,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P000_P001_00",
+   "species": "DatePalm",
+   "cell": "P000_P001",
+   "planned": 20,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P001_N001_00",
+   "species": "DatePalm",
+   "cell": "P001_N001",
+   "planned": 17,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P001_N002_00",
+   "species": "DatePalm",
+   "cell": "P001_N002",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P001_P000_00",
+   "species": "DatePalm",
+   "cell": "P001_P000",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DatePalm_P001_P001_00",
+   "species": "DatePalm",
+   "cell": "P001_P001",
+   "planned": 27,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_N001_00",
+   "species": "Carob",
+   "cell": "N001_N001",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_N002_00",
+   "species": "Carob",
+   "cell": "N001_N002",
+   "planned": 5,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_N003_00",
+   "species": "Carob",
+   "cell": "N001_N003",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_N004_00",
+   "species": "Carob",
+   "cell": "N001_N004",
+   "planned": 57,
+   "placed": 57,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_P000_00",
+   "species": "Carob",
+   "cell": "N001_P000",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_P001_00",
+   "species": "Carob",
+   "cell": "N001_P001",
+   "planned": 39,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_P002_00",
+   "species": "Carob",
+   "cell": "N001_P002",
+   "planned": 71,
+   "placed": 69,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N001_P003_00",
+   "species": "Carob",
+   "cell": "N001_P003",
+   "planned": 22,
+   "placed": 22,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_N001_00",
+   "species": "Carob",
+   "cell": "N002_N001",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_N002_00",
+   "species": "Carob",
+   "cell": "N002_N002",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_N003_00",
+   "species": "Carob",
+   "cell": "N002_N003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_N004_00",
+   "species": "Carob",
+   "cell": "N002_N004",
+   "planned": 15,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_P000_00",
+   "species": "Carob",
+   "cell": "N002_P000",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_P001_00",
+   "species": "Carob",
+   "cell": "N002_P001",
+   "planned": 50,
+   "placed": 49,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_P002_00",
+   "species": "Carob",
+   "cell": "N002_P002",
+   "planned": 124,
+   "placed": 123,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N002_P003_00",
+   "species": "Carob",
+   "cell": "N002_P003",
+   "planned": 14,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_N001_00",
+   "species": "Carob",
+   "cell": "N003_N001",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_N002_00",
+   "species": "Carob",
+   "cell": "N003_N002",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_N003_00",
+   "species": "Carob",
+   "cell": "N003_N003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_N004_00",
+   "species": "Carob",
+   "cell": "N003_N004",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_P000_00",
+   "species": "Carob",
+   "cell": "N003_P000",
+   "planned": 20,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_P001_00",
+   "species": "Carob",
+   "cell": "N003_P001",
+   "planned": 39,
+   "placed": 37,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_P002_00",
+   "species": "Carob",
+   "cell": "N003_P002",
+   "planned": 28,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N003_P003_00",
+   "species": "Carob",
+   "cell": "N003_P003",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_N001_00",
+   "species": "Carob",
+   "cell": "N004_N001",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_N002_00",
+   "species": "Carob",
+   "cell": "N004_N002",
+   "planned": 7,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_N003_00",
+   "species": "Carob",
+   "cell": "N004_N003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_P000_00",
+   "species": "Carob",
+   "cell": "N004_P000",
+   "planned": 9,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_P001_00",
+   "species": "Carob",
+   "cell": "N004_P001",
+   "planned": 9,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_P002_00",
+   "species": "Carob",
+   "cell": "N004_P002",
+   "planned": 23,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_N004_P003_00",
+   "species": "Carob",
+   "cell": "N004_P003",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_N001_00",
+   "species": "Carob",
+   "cell": "P000_N001",
+   "planned": 61,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_N002_00",
+   "species": "Carob",
+   "cell": "P000_N002",
+   "planned": 88,
+   "placed": 88,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_N003_00",
+   "species": "Carob",
+   "cell": "P000_N003",
+   "planned": 15,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_N004_00",
+   "species": "Carob",
+   "cell": "P000_N004",
+   "planned": 19,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_P000_00",
+   "species": "Carob",
+   "cell": "P000_P000",
+   "planned": 59,
+   "placed": 59,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_P001_00",
+   "species": "Carob",
+   "cell": "P000_P001",
+   "planned": 21,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_P002_00",
+   "species": "Carob",
+   "cell": "P000_P002",
+   "planned": 30,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P000_P003_00",
+   "species": "Carob",
+   "cell": "P000_P003",
+   "planned": 12,
+   "placed": 12,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_N001_00",
+   "species": "Carob",
+   "cell": "P001_N001",
+   "planned": 131,
+   "placed": 128,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_N002_00",
+   "species": "Carob",
+   "cell": "P001_N002",
+   "planned": 73,
+   "placed": 71,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_N003_00",
+   "species": "Carob",
+   "cell": "P001_N003",
+   "planned": 59,
+   "placed": 59,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_N004_00",
+   "species": "Carob",
+   "cell": "P001_N004",
+   "planned": 81,
+   "placed": 81,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_P000_00",
+   "species": "Carob",
+   "cell": "P001_P000",
+   "planned": 103,
+   "placed": 103,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_P001_00",
+   "species": "Carob",
+   "cell": "P001_P001",
+   "planned": 82,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_P002_00",
+   "species": "Carob",
+   "cell": "P001_P002",
+   "planned": 28,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P001_P003_00",
+   "species": "Carob",
+   "cell": "P001_P003",
+   "planned": 56,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_N001_00",
+   "species": "Carob",
+   "cell": "P002_N001",
+   "planned": 31,
+   "placed": 30,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_N002_00",
+   "species": "Carob",
+   "cell": "P002_N002",
+   "planned": 26,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_N003_00",
+   "species": "Carob",
+   "cell": "P002_N003",
+   "planned": 88,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_N004_00",
+   "species": "Carob",
+   "cell": "P002_N004",
+   "planned": 63,
+   "placed": 63,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_P000_00",
+   "species": "Carob",
+   "cell": "P002_P000",
+   "planned": 84,
+   "placed": 84,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_P001_00",
+   "species": "Carob",
+   "cell": "P002_P001",
+   "planned": 58,
+   "placed": 58,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_P002_00",
+   "species": "Carob",
+   "cell": "P002_P002",
+   "planned": 43,
+   "placed": 43,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P002_P003_00",
+   "species": "Carob",
+   "cell": "P002_P003",
+   "planned": 21,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_N001_00",
+   "species": "Carob",
+   "cell": "P003_N001",
+   "planned": 16,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_N002_00",
+   "species": "Carob",
+   "cell": "P003_N002",
+   "planned": 39,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_N003_00",
+   "species": "Carob",
+   "cell": "P003_N003",
+   "planned": 128,
+   "placed": 123,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_N004_00",
+   "species": "Carob",
+   "cell": "P003_N004",
+   "planned": 155,
+   "placed": 154,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_P000_00",
+   "species": "Carob",
+   "cell": "P003_P000",
+   "planned": 80,
+   "placed": 79,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_P001_00",
+   "species": "Carob",
+   "cell": "P003_P001",
+   "planned": 58,
+   "placed": 52,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_P002_00",
+   "species": "Carob",
+   "cell": "P003_P002",
+   "planned": 36,
+   "placed": 33,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Carob_P003_P003_00",
+   "species": "Carob",
+   "cell": "P003_P003",
+   "planned": 62,
+   "placed": 61,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_N002_00",
+   "species": "Terebinth",
+   "cell": "N001_N002",
+   "planned": 5,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_N003_00",
+   "species": "Terebinth",
+   "cell": "N001_N003",
+   "planned": 4,
+   "placed": 4,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_N004_00",
+   "species": "Terebinth",
+   "cell": "N001_N004",
+   "planned": 56,
+   "placed": 55,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_P000_00",
+   "species": "Terebinth",
+   "cell": "N001_P000",
+   "planned": 9,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_P001_00",
+   "species": "Terebinth",
+   "cell": "N001_P001",
+   "planned": 21,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_P002_00",
+   "species": "Terebinth",
+   "cell": "N001_P002",
+   "planned": 92,
+   "placed": 91,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N001_P003_00",
+   "species": "Terebinth",
+   "cell": "N001_P003",
+   "planned": 35,
+   "placed": 35,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_N001_00",
+   "species": "Terebinth",
+   "cell": "N002_N001",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_N002_00",
+   "species": "Terebinth",
+   "cell": "N002_N002",
+   "planned": 10,
+   "placed": 10,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_N004_00",
+   "species": "Terebinth",
+   "cell": "N002_N004",
+   "planned": 25,
+   "placed": 25,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_P000_00",
+   "species": "Terebinth",
+   "cell": "N002_P000",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_P001_00",
+   "species": "Terebinth",
+   "cell": "N002_P001",
+   "planned": 37,
+   "placed": 36,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_P002_00",
+   "species": "Terebinth",
+   "cell": "N002_P002",
+   "planned": 92,
+   "placed": 91,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N002_P003_00",
+   "species": "Terebinth",
+   "cell": "N002_P003",
+   "planned": 18,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_N001_00",
+   "species": "Terebinth",
+   "cell": "N003_N001",
+   "planned": 8,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_N002_00",
+   "species": "Terebinth",
+   "cell": "N003_N002",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_N003_00",
+   "species": "Terebinth",
+   "cell": "N003_N003",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_N004_00",
+   "species": "Terebinth",
+   "cell": "N003_N004",
+   "planned": 21,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_P000_00",
+   "species": "Terebinth",
+   "cell": "N003_P000",
+   "planned": 14,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_P001_00",
+   "species": "Terebinth",
+   "cell": "N003_P001",
+   "planned": 61,
+   "placed": 51,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_P002_00",
+   "species": "Terebinth",
+   "cell": "N003_P002",
+   "planned": 23,
+   "placed": 22,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N003_P003_00",
+   "species": "Terebinth",
+   "cell": "N003_P003",
+   "planned": 8,
+   "placed": 8,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_N001_00",
+   "species": "Terebinth",
+   "cell": "N004_N001",
+   "planned": 7,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_N002_00",
+   "species": "Terebinth",
+   "cell": "N004_N002",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_N003_00",
+   "species": "Terebinth",
+   "cell": "N004_N003",
+   "planned": 1,
+   "placed": 1,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_P000_00",
+   "species": "Terebinth",
+   "cell": "N004_P000",
+   "planned": 16,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_P001_00",
+   "species": "Terebinth",
+   "cell": "N004_P001",
+   "planned": 11,
+   "placed": 9,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_P002_00",
+   "species": "Terebinth",
+   "cell": "N004_P002",
+   "planned": 21,
+   "placed": 17,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_N004_P003_00",
+   "species": "Terebinth",
+   "cell": "N004_P003",
+   "planned": 2,
+   "placed": 2,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_N001_00",
+   "species": "Terebinth",
+   "cell": "P000_N001",
+   "planned": 69,
+   "placed": 66,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_N002_00",
+   "species": "Terebinth",
+   "cell": "P000_N002",
+   "planned": 131,
+   "placed": 130,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_N003_00",
+   "species": "Terebinth",
+   "cell": "P000_N003",
+   "planned": 22,
+   "placed": 22,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_N004_00",
+   "species": "Terebinth",
+   "cell": "P000_N004",
+   "planned": 15,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_P000_00",
+   "species": "Terebinth",
+   "cell": "P000_P000",
+   "planned": 98,
+   "placed": 98,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_P001_00",
+   "species": "Terebinth",
+   "cell": "P000_P001",
+   "planned": 43,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_P002_00",
+   "species": "Terebinth",
+   "cell": "P000_P002",
+   "planned": 23,
+   "placed": 21,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P000_P003_00",
+   "species": "Terebinth",
+   "cell": "P000_P003",
+   "planned": 20,
+   "placed": 20,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_N001_00",
+   "species": "Terebinth",
+   "cell": "P001_N001",
+   "planned": 127,
+   "placed": 127,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_N002_00",
+   "species": "Terebinth",
+   "cell": "P001_N002",
+   "planned": 95,
+   "placed": 92,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_N003_00",
+   "species": "Terebinth",
+   "cell": "P001_N003",
+   "planned": 96,
+   "placed": 96,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_N004_00",
+   "species": "Terebinth",
+   "cell": "P001_N004",
+   "planned": 73,
+   "placed": 73,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_P000_00",
+   "species": "Terebinth",
+   "cell": "P001_P000",
+   "planned": 142,
+   "placed": 142,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_P001_00",
+   "species": "Terebinth",
+   "cell": "P001_P001",
+   "planned": 67,
+   "placed": 67,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_P002_00",
+   "species": "Terebinth",
+   "cell": "P001_P002",
+   "planned": 40,
+   "placed": 40,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P001_P003_00",
+   "species": "Terebinth",
+   "cell": "P001_P003",
+   "planned": 33,
+   "placed": 33,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_N001_00",
+   "species": "Terebinth",
+   "cell": "P002_N001",
+   "planned": 16,
+   "placed": 16,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_N002_00",
+   "species": "Terebinth",
+   "cell": "P002_N002",
+   "planned": 28,
+   "placed": 28,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_N003_00",
+   "species": "Terebinth",
+   "cell": "P002_N003",
+   "planned": 110,
+   "placed": 107,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_N004_00",
+   "species": "Terebinth",
+   "cell": "P002_N004",
+   "planned": 77,
+   "placed": 72,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_P000_00",
+   "species": "Terebinth",
+   "cell": "P002_P000",
+   "planned": 82,
+   "placed": 82,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_P001_00",
+   "species": "Terebinth",
+   "cell": "P002_P001",
+   "planned": 49,
+   "placed": 49,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_P002_00",
+   "species": "Terebinth",
+   "cell": "P002_P002",
+   "planned": 62,
+   "placed": 60,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P002_P003_00",
+   "species": "Terebinth",
+   "cell": "P002_P003",
+   "planned": 27,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_N001_00",
+   "species": "Terebinth",
+   "cell": "P003_N001",
+   "planned": 31,
+   "placed": 31,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_N002_00",
+   "species": "Terebinth",
+   "cell": "P003_N002",
+   "planned": 39,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_N003_00",
+   "species": "Terebinth",
+   "cell": "P003_N003",
+   "planned": 138,
+   "placed": 137,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_N004_00",
+   "species": "Terebinth",
+   "cell": "P003_N004",
+   "planned": 187,
+   "placed": 187,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_P000_00",
+   "species": "Terebinth",
+   "cell": "P003_P000",
+   "planned": 69,
+   "placed": 67,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_P001_00",
+   "species": "Terebinth",
+   "cell": "P003_P001",
+   "planned": 34,
+   "placed": 32,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_P002_00",
+   "species": "Terebinth",
+   "cell": "P003_P002",
+   "planned": 44,
+   "placed": 42,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Terebinth_P003_P003_00",
+   "species": "Terebinth",
+   "cell": "P003_P003",
+   "planned": 107,
+   "placed": 107,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_N001_00",
+   "species": "Sage",
+   "cell": "N001_N001",
+   "planned": 57,
+   "placed": 55,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_N002_00",
+   "species": "Sage",
+   "cell": "N001_N002",
+   "planned": 86,
+   "placed": 69,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_N003_00",
+   "species": "Sage",
+   "cell": "N001_N003",
+   "planned": 77,
+   "placed": 72,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_P000_00",
+   "species": "Sage",
+   "cell": "N001_P000",
+   "planned": 105,
+   "placed": 99,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_P001_00",
+   "species": "Sage",
+   "cell": "N001_P001",
+   "planned": 343,
+   "placed": 337,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N001_P002_00",
+   "species": "Sage",
+   "cell": "N001_P002",
+   "planned": 470,
+   "placed": 459,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_N001_00",
+   "species": "Sage",
+   "cell": "N002_N001",
+   "planned": 84,
+   "placed": 78,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_N002_00",
+   "species": "Sage",
+   "cell": "N002_N002",
+   "planned": 103,
+   "placed": 90,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_N003_00",
+   "species": "Sage",
+   "cell": "N002_N003",
+   "planned": 23,
+   "placed": 23,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_P000_00",
+   "species": "Sage",
+   "cell": "N002_P000",
+   "planned": 96,
+   "placed": 88,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_P001_00",
+   "species": "Sage",
+   "cell": "N002_P001",
+   "planned": 547,
+   "placed": 534,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N002_P002_00",
+   "species": "Sage",
+   "cell": "N002_P002",
+   "planned": 832,
+   "placed": 818,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_N001_00",
+   "species": "Sage",
+   "cell": "N003_N001",
+   "planned": 41,
+   "placed": 38,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_N002_00",
+   "species": "Sage",
+   "cell": "N003_N002",
+   "planned": 28,
+   "placed": 26,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_N003_00",
+   "species": "Sage",
+   "cell": "N003_N003",
+   "planned": 22,
+   "placed": 22,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_P000_00",
+   "species": "Sage",
+   "cell": "N003_P000",
+   "planned": 56,
+   "placed": 56,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_P001_00",
+   "species": "Sage",
+   "cell": "N003_P001",
+   "planned": 187,
+   "placed": 159,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_N003_P002_00",
+   "species": "Sage",
+   "cell": "N003_P002",
+   "planned": 181,
+   "placed": 179,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_N001_00",
+   "species": "Sage",
+   "cell": "P000_N001",
+   "planned": 631,
+   "placed": 614,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_N002_00",
+   "species": "Sage",
+   "cell": "P000_N002",
+   "planned": 775,
+   "placed": 765,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_N003_00",
+   "species": "Sage",
+   "cell": "P000_N003",
+   "planned": 225,
+   "placed": 225,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_P000_00",
+   "species": "Sage",
+   "cell": "P000_P000",
+   "planned": 781,
+   "placed": 776,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_P001_00",
+   "species": "Sage",
+   "cell": "P000_P001",
+   "planned": 400,
+   "placed": 386,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P000_P002_00",
+   "species": "Sage",
+   "cell": "P000_P002",
+   "planned": 253,
+   "placed": 230,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_N001_00",
+   "species": "Sage",
+   "cell": "P001_N001",
+   "planned": 1129,
+   "placed": 1095,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_N002_00",
+   "species": "Sage",
+   "cell": "P001_N002",
+   "planned": 796,
+   "placed": 772,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_N003_00",
+   "species": "Sage",
+   "cell": "P001_N003",
+   "planned": 470,
+   "placed": 465,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_P000_00",
+   "species": "Sage",
+   "cell": "P001_P000",
+   "planned": 946,
+   "placed": 946,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_P001_00",
+   "species": "Sage",
+   "cell": "P001_P001",
+   "planned": 579,
+   "placed": 573,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P001_P002_00",
+   "species": "Sage",
+   "cell": "P001_P002",
+   "planned": 333,
+   "placed": 327,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_N001_00",
+   "species": "Sage",
+   "cell": "P002_N001",
+   "planned": 315,
+   "placed": 310,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_N002_00",
+   "species": "Sage",
+   "cell": "P002_N002",
+   "planned": 293,
+   "placed": 290,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_N003_00",
+   "species": "Sage",
+   "cell": "P002_N003",
+   "planned": 566,
+   "placed": 545,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_P000_00",
+   "species": "Sage",
+   "cell": "P002_P000",
+   "planned": 802,
+   "placed": 801,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_P001_00",
+   "species": "Sage",
+   "cell": "P002_P001",
+   "planned": 562,
+   "placed": 562,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P002_P002_00",
+   "species": "Sage",
+   "cell": "P002_P002",
+   "planned": 423,
+   "placed": 423,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_N001_00",
+   "species": "Sage",
+   "cell": "P003_N001",
+   "planned": 211,
+   "placed": 211,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_N002_00",
+   "species": "Sage",
+   "cell": "P003_N002",
+   "planned": 319,
+   "placed": 319,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_N003_00",
+   "species": "Sage",
+   "cell": "P003_N003",
+   "planned": 678,
+   "placed": 659,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_P000_00",
+   "species": "Sage",
+   "cell": "P003_P000",
+   "planned": 424,
+   "placed": 424,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_P001_00",
+   "species": "Sage",
+   "cell": "P003_P001",
+   "planned": 303,
+   "placed": 303,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Sage_P003_P002_00",
+   "species": "Sage",
+   "cell": "P003_P002",
+   "planned": 288,
+   "placed": 288,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_N001_00",
+   "species": "Hyssop",
+   "cell": "N001_N001",
+   "planned": 20,
+   "placed": 18,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_N002_00",
+   "species": "Hyssop",
+   "cell": "N001_N002",
+   "planned": 35,
+   "placed": 34,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_N003_00",
+   "species": "Hyssop",
+   "cell": "N001_N003",
+   "planned": 30,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_P000_00",
+   "species": "Hyssop",
+   "cell": "N001_P000",
+   "planned": 54,
+   "placed": 53,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_P001_00",
+   "species": "Hyssop",
+   "cell": "N001_P001",
+   "planned": 226,
+   "placed": 221,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N001_P002_00",
+   "species": "Hyssop",
+   "cell": "N001_P002",
+   "planned": 310,
+   "placed": 306,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_N001_00",
+   "species": "Hyssop",
+   "cell": "N002_N001",
+   "planned": 23,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_N002_00",
+   "species": "Hyssop",
+   "cell": "N002_N002",
+   "planned": 17,
+   "placed": 15,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_N003_00",
+   "species": "Hyssop",
+   "cell": "N002_N003",
+   "planned": 3,
+   "placed": 3,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_P000_00",
+   "species": "Hyssop",
+   "cell": "N002_P000",
+   "planned": 41,
+   "placed": 38,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_P001_00",
+   "species": "Hyssop",
+   "cell": "N002_P001",
+   "planned": 288,
+   "placed": 282,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N002_P002_00",
+   "species": "Hyssop",
+   "cell": "N002_P002",
+   "planned": 541,
+   "placed": 531,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_N001_00",
+   "species": "Hyssop",
+   "cell": "N003_N001",
+   "planned": 24,
+   "placed": 19,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_N002_00",
+   "species": "Hyssop",
+   "cell": "N003_N002",
+   "planned": 8,
+   "placed": 7,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_N003_00",
+   "species": "Hyssop",
+   "cell": "N003_N003",
+   "planned": 5,
+   "placed": 5,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_P000_00",
+   "species": "Hyssop",
+   "cell": "N003_P000",
+   "planned": 27,
+   "placed": 27,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_P001_00",
+   "species": "Hyssop",
+   "cell": "N003_P001",
+   "planned": 116,
+   "placed": 103,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_N003_P002_00",
+   "species": "Hyssop",
+   "cell": "N003_P002",
+   "planned": 89,
+   "placed": 89,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_N001_00",
+   "species": "Hyssop",
+   "cell": "P000_N001",
+   "planned": 395,
+   "placed": 383,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_N002_00",
+   "species": "Hyssop",
+   "cell": "P000_N002",
+   "planned": 439,
+   "placed": 437,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_N003_00",
+   "species": "Hyssop",
+   "cell": "P000_N003",
+   "planned": 107,
+   "placed": 106,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_P000_00",
+   "species": "Hyssop",
+   "cell": "P000_P000",
+   "planned": 521,
+   "placed": 514,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_P001_00",
+   "species": "Hyssop",
+   "cell": "P000_P001",
+   "planned": 236,
+   "placed": 223,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P000_P002_00",
+   "species": "Hyssop",
+   "cell": "P000_P002",
+   "planned": 158,
+   "placed": 145,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_N001_00",
+   "species": "Hyssop",
+   "cell": "P001_N001",
+   "planned": 782,
+   "placed": 764,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_N002_00",
+   "species": "Hyssop",
+   "cell": "P001_N002",
+   "planned": 487,
+   "placed": 475,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_N003_00",
+   "species": "Hyssop",
+   "cell": "P001_N003",
+   "planned": 274,
+   "placed": 271,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_P000_00",
+   "species": "Hyssop",
+   "cell": "P001_P000",
+   "planned": 617,
+   "placed": 617,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_P001_00",
+   "species": "Hyssop",
+   "cell": "P001_P001",
+   "planned": 364,
+   "placed": 359,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P001_P002_00",
+   "species": "Hyssop",
+   "cell": "P001_P002",
+   "planned": 178,
+   "placed": 172,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_N001_00",
+   "species": "Hyssop",
+   "cell": "P002_N001",
+   "planned": 159,
+   "placed": 154,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_N002_00",
+   "species": "Hyssop",
+   "cell": "P002_N002",
+   "planned": 152,
+   "placed": 152,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_N003_00",
+   "species": "Hyssop",
+   "cell": "P002_N003",
+   "planned": 286,
+   "placed": 279,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_P000_00",
+   "species": "Hyssop",
+   "cell": "P002_P000",
+   "planned": 476,
+   "placed": 476,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_P001_00",
+   "species": "Hyssop",
+   "cell": "P002_P001",
+   "planned": 353,
+   "placed": 353,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P002_P002_00",
+   "species": "Hyssop",
+   "cell": "P002_P002",
+   "planned": 282,
+   "placed": 282,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_N001_00",
+   "species": "Hyssop",
+   "cell": "P003_N001",
+   "planned": 163,
+   "placed": 163,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_N002_00",
+   "species": "Hyssop",
+   "cell": "P003_N002",
+   "planned": 226,
+   "placed": 226,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_N003_00",
+   "species": "Hyssop",
+   "cell": "P003_N003",
+   "planned": 362,
+   "placed": 358,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_P000_00",
+   "species": "Hyssop",
+   "cell": "P003_P000",
+   "planned": 244,
+   "placed": 244,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_P001_00",
+   "species": "Hyssop",
+   "cell": "P003_P001",
+   "planned": 201,
+   "placed": 201,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Hyssop_P003_P002_00",
+   "species": "Hyssop",
+   "cell": "P003_P002",
+   "planned": 185,
+   "placed": 185,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_N001_00",
+   "species": "Rockrose",
+   "cell": "N001_N001",
+   "planned": 32,
+   "placed": 30,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_N002_00",
+   "species": "Rockrose",
+   "cell": "N001_N002",
+   "planned": 42,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_N003_00",
+   "species": "Rockrose",
+   "cell": "N001_N003",
+   "planned": 36,
+   "placed": 34,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_P000_00",
+   "species": "Rockrose",
+   "cell": "N001_P000",
+   "planned": 72,
+   "placed": 69,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_P001_00",
+   "species": "Rockrose",
+   "cell": "N001_P001",
+   "planned": 246,
+   "placed": 241,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N001_P002_00",
+   "species": "Rockrose",
+   "cell": "N001_P002",
+   "planned": 356,
+   "placed": 349,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_N001_00",
+   "species": "Rockrose",
+   "cell": "N002_N001",
+   "planned": 34,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_N002_00",
+   "species": "Rockrose",
+   "cell": "N002_N002",
+   "planned": 43,
+   "placed": 32,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_N003_00",
+   "species": "Rockrose",
+   "cell": "N002_N003",
+   "planned": 6,
+   "placed": 6,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_P000_00",
+   "species": "Rockrose",
+   "cell": "N002_P000",
+   "planned": 56,
+   "placed": 53,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_P001_00",
+   "species": "Rockrose",
+   "cell": "N002_P001",
+   "planned": 359,
+   "placed": 345,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N002_P002_00",
+   "species": "Rockrose",
+   "cell": "N002_P002",
+   "planned": 630,
+   "placed": 622,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_N001_00",
+   "species": "Rockrose",
+   "cell": "N003_N001",
+   "planned": 35,
+   "placed": 29,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_N002_00",
+   "species": "Rockrose",
+   "cell": "N003_N002",
+   "planned": 14,
+   "placed": 11,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_N003_00",
+   "species": "Rockrose",
+   "cell": "N003_N003",
+   "planned": 13,
+   "placed": 13,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_P000_00",
+   "species": "Rockrose",
+   "cell": "N003_P000",
+   "planned": 39,
+   "placed": 39,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_P001_00",
+   "species": "Rockrose",
+   "cell": "N003_P001",
+   "planned": 120,
+   "placed": 112,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_N003_P002_00",
+   "species": "Rockrose",
+   "cell": "N003_P002",
+   "planned": 104,
+   "placed": 104,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_N001_00",
+   "species": "Rockrose",
+   "cell": "P000_N001",
+   "planned": 484,
+   "placed": 470,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_N002_00",
+   "species": "Rockrose",
+   "cell": "P000_N002",
+   "planned": 509,
+   "placed": 507,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_N003_00",
+   "species": "Rockrose",
+   "cell": "P000_N003",
+   "planned": 163,
+   "placed": 163,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_P000_00",
+   "species": "Rockrose",
+   "cell": "P000_P000",
+   "planned": 621,
+   "placed": 615,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_P001_00",
+   "species": "Rockrose",
+   "cell": "P000_P001",
+   "planned": 284,
+   "placed": 273,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P000_P002_00",
+   "species": "Rockrose",
+   "cell": "P000_P002",
+   "planned": 212,
+   "placed": 196,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_N001_00",
+   "species": "Rockrose",
+   "cell": "P001_N001",
+   "planned": 919,
+   "placed": 900,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_N002_00",
+   "species": "Rockrose",
+   "cell": "P001_N002",
+   "planned": 608,
+   "placed": 594,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_N003_00",
+   "species": "Rockrose",
+   "cell": "P001_N003",
+   "planned": 330,
+   "placed": 327,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_P000_00",
+   "species": "Rockrose",
+   "cell": "P001_P000",
+   "planned": 755,
+   "placed": 755,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_P001_00",
+   "species": "Rockrose",
+   "cell": "P001_P001",
+   "planned": 455,
+   "placed": 452,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P001_P002_00",
+   "species": "Rockrose",
+   "cell": "P001_P002",
+   "planned": 220,
+   "placed": 214,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_N001_00",
+   "species": "Rockrose",
+   "cell": "P002_N001",
+   "planned": 251,
+   "placed": 245,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_N002_00",
+   "species": "Rockrose",
+   "cell": "P002_N002",
+   "planned": 204,
+   "placed": 201,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_N003_00",
+   "species": "Rockrose",
+   "cell": "P002_N003",
+   "planned": 375,
+   "placed": 364,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_P000_00",
+   "species": "Rockrose",
+   "cell": "P002_P000",
+   "planned": 599,
+   "placed": 598,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_P001_00",
+   "species": "Rockrose",
+   "cell": "P002_P001",
+   "planned": 406,
+   "placed": 406,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P002_P002_00",
+   "species": "Rockrose",
+   "cell": "P002_P002",
+   "planned": 300,
+   "placed": 300,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_N001_00",
+   "species": "Rockrose",
+   "cell": "P003_N001",
+   "planned": 147,
+   "placed": 147,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_N002_00",
+   "species": "Rockrose",
+   "cell": "P003_N002",
+   "planned": 261,
+   "placed": 261,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_N003_00",
+   "species": "Rockrose",
+   "cell": "P003_N003",
+   "planned": 527,
+   "placed": 514,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_P000_00",
+   "species": "Rockrose",
+   "cell": "P003_P000",
+   "planned": 311,
+   "placed": 311,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_P001_00",
+   "species": "Rockrose",
+   "cell": "P003_P001",
+   "planned": 202,
+   "placed": 202,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "Rockrose_P003_P002_00",
+   "species": "Rockrose",
+   "cell": "P003_P002",
+   "planned": 236,
+   "placed": 236,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_N001",
+   "planned": 123,
+   "placed": 120,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_N002",
+   "planned": 304,
+   "placed": 278,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_N003",
+   "planned": 231,
+   "placed": 221,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_P000",
+   "planned": 180,
+   "placed": 176,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_P001",
+   "planned": 603,
+   "placed": 599,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N001_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "N001_P002",
+   "planned": 786,
+   "placed": 768,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_N001",
+   "planned": 231,
+   "placed": 210,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_N002",
+   "planned": 431,
+   "placed": 381,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_N003",
+   "planned": 164,
+   "placed": 161,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_P000",
+   "planned": 223,
+   "placed": 210,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_P001",
+   "planned": 908,
+   "placed": 888,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N002_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "N002_P002",
+   "planned": 1461,
+   "placed": 1440,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_N001",
+   "planned": 70,
+   "placed": 57,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_N002",
+   "planned": 122,
+   "placed": 114,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_N003",
+   "planned": 71,
+   "placed": 71,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_P000",
+   "planned": 114,
+   "placed": 114,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_P001",
+   "planned": 317,
+   "placed": 278,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_N003_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "N003_P002",
+   "planned": 283,
+   "placed": 280,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_N001",
+   "planned": 1117,
+   "placed": 1074,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_N002",
+   "planned": 1436,
+   "placed": 1427,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_N003",
+   "planned": 501,
+   "placed": 501,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_P000",
+   "planned": 1440,
+   "placed": 1431,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_P001",
+   "planned": 707,
+   "placed": 685,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P000_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "P000_P002",
+   "planned": 472,
+   "placed": 430,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_N001",
+   "planned": 1865,
+   "placed": 1811,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_N002",
+   "planned": 1391,
+   "placed": 1351,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_N003",
+   "planned": 820,
+   "placed": 818,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_P000",
+   "planned": 1662,
+   "placed": 1662,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_P001",
+   "planned": 1092,
+   "placed": 1080,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P001_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "P001_P002",
+   "planned": 494,
+   "placed": 474,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_N001",
+   "planned": 645,
+   "placed": 627,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_N002",
+   "planned": 805,
+   "placed": 796,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_N003",
+   "planned": 1039,
+   "placed": 1001,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_P000",
+   "planned": 1312,
+   "placed": 1311,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_P001",
+   "planned": 966,
+   "placed": 966,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P002_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "P002_P002",
+   "planned": 748,
+   "placed": 748,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_N001_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_N001",
+   "planned": 391,
+   "placed": 391,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_N002_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_N002",
+   "planned": 564,
+   "placed": 564,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_N003_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_N003",
+   "planned": 1205,
+   "placed": 1167,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_P000_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_P000",
+   "planned": 709,
+   "placed": 709,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_P001_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_P001",
+   "planned": 528,
+   "placed": 528,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "ThornyBurnet_P003_P002_00",
+   "species": "ThornyBurnet",
+   "cell": "P003_P002",
+   "planned": 509,
+   "placed": 509,
+   "roles": [
+    "bark",
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_N001_N001_00",
+   "species": "DryGrass",
+   "cell": "N001_N001",
+   "planned": 318,
+   "placed": 309,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_N001_N002_00",
+   "species": "DryGrass",
+   "cell": "N001_N002",
+   "planned": 349,
+   "placed": 317,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_N001_P000_00",
+   "species": "DryGrass",
+   "cell": "N001_P000",
+   "planned": 604,
+   "placed": 590,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_N001_P001_00",
+   "species": "DryGrass",
+   "cell": "N001_P001",
+   "planned": 563,
+   "placed": 555,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P000_N001_00",
+   "species": "DryGrass",
+   "cell": "P000_N001",
+   "planned": 2889,
+   "placed": 2782,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P000_N002_00",
+   "species": "DryGrass",
+   "cell": "P000_N002",
+   "planned": 1905,
+   "placed": 1893,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P000_P000_00",
+   "species": "DryGrass",
+   "cell": "P000_P000",
+   "planned": 3709,
+   "placed": 3672,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P000_P001_00",
+   "species": "DryGrass",
+   "cell": "P000_P001",
+   "planned": 1211,
+   "placed": 1209,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P001_N001_00",
+   "species": "DryGrass",
+   "cell": "P001_N001",
+   "planned": 5186,
+   "placed": 5052,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P001_N002_00",
+   "species": "DryGrass",
+   "cell": "P001_N002",
+   "planned": 2702,
+   "placed": 2610,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P001_P000_00",
+   "species": "DryGrass",
+   "cell": "P001_P000",
+   "planned": 4821,
+   "placed": 4821,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P001_P001_00",
+   "species": "DryGrass",
+   "cell": "P001_P001",
+   "planned": 2199,
+   "placed": 2198,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P002_N001_00",
+   "species": "DryGrass",
+   "cell": "P002_N001",
+   "planned": 1646,
+   "placed": 1612,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P002_N002_00",
+   "species": "DryGrass",
+   "cell": "P002_N002",
+   "planned": 922,
+   "placed": 910,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P002_P000_00",
+   "species": "DryGrass",
+   "cell": "P002_P000",
+   "planned": 3622,
+   "placed": 3616,
+   "roles": [
+    "leaf"
+   ]
+  },
+  {
+   "batchId": "DryGrass_P002_P001_00",
+   "species": "DryGrass",
+   "cell": "P002_P001",
+   "planned": 1914,
+   "placed": 1914,
+   "roles": [
+    "leaf"
+   ]
+  }
+ ],
+ "mapSha256AfterSave": "034f83435874be25a3cc82776704e6a95b57a53c4058152f42637beb77be4ae3",
+ "reopenedReadback": [
+  {
+   "label": "RELEASE_Vegetation_Almond_Bark",
+   "species": "Almond",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Bark.SM_JudeanFloraV1_Almond_L0_Bark",
+   "expectedInstances": 3490,
+   "readbackInstances": 3490,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    317.21875,
+    -129.0234375,
+    183.22998046875
+   ],
+   "worldBoundsExtentCm": [
+    160425.9375,
+    160324.4921875,
+    8587.43505859375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Almond_Leaf",
+   "species": "Almond",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Almond_L0_Leaf.SM_JudeanFloraV1_Almond_L0_Leaf",
+   "expectedInstances": 3490,
+   "readbackInstances": 3490,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    239.7109375,
+    -181.46875,
+    187.22265625
+   ],
+   "worldBoundsExtentCm": [
+    160460.2578125,
+    160472.4375,
+    8533.1748046875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Carob_Bark",
+   "species": "Carob",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Bark.SM_JudeanFloraV1_Carob_L0_Bark",
+   "expectedInstances": 2460,
+   "readbackInstances": 2460,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    480.2421875,
+    -322.921875,
+    -3350.453125
+   ],
+   "worldBoundsExtentCm": [
+    160557.6796875,
+    160380.8125,
+    11652.3798828125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Carob_Leaf",
+   "species": "Carob",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Carob_L0_Leaf.SM_JudeanFloraV1_Carob_L0_Leaf",
+   "expectedInstances": 2460,
+   "readbackInstances": 2460,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    433.84375,
+    -301.7421875,
+    -3214.71435546875
+   ],
+   "worldBoundsExtentCm": [
+    160621.671875,
+    160628.0234375,
+    11676.34912109375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Cypress_Bark",
+   "species": "Cypress",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Bark.SM_JudeanFloraV1_Cypress_L0_Bark",
+   "expectedInstances": 2397,
+   "readbackInstances": 2397,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    9.609375,
+    -333.0078125,
+    882.179931640625
+   ],
+   "worldBoundsExtentCm": [
+    161075.375,
+    159959.2734375,
+    8313.479248046875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Cypress_Leaf",
+   "species": "Cypress",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Cypress_L0_Leaf.SM_JudeanFloraV1_Cypress_L0_Leaf",
+   "expectedInstances": 2397,
+   "readbackInstances": 2397,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    28.2265625,
+    -298.609375,
+    863.26806640625
+   ],
+   "worldBoundsExtentCm": [
+    161261.2890625,
+    159943.328125,
+    8579.69287109375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_DatePalm_Bark",
+   "species": "DatePalm",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Bark.SM_JudeanFloraV1_DatePalm_L0_Bark",
+   "expectedInstances": 238,
+   "readbackInstances": 238,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    25201.439453125,
+    5047.4921875,
+    -5489.942413330078
+   ],
+   "worldBoundsExtentCm": [
+    46403.732421875,
+    63771.1484375,
+    6335.145477294922
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_DatePalm_Leaf",
+   "species": "DatePalm",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DatePalm_L0_Leaf.SM_JudeanFloraV1_DatePalm_L0_Leaf",
+   "expectedInstances": 238,
+   "readbackInstances": 238,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    24661.8203125,
+    5061.8515625,
+    -5392.371032714844
+   ],
+   "worldBoundsExtentCm": [
+    46038.3515625,
+    64285.8828125,
+    6636.367248535156
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_DryGrass_Leaf",
+   "species": "DryGrass",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_DryGrass_L0_Leaf.SM_JudeanFloraV1_DryGrass_L0_Leaf",
+   "expectedInstances": 34060,
+   "readbackInstances": 34060,
+   "cullDistanceCm": 6000.0,
+   "worldBoundsCentreCm": [
+    39994.982421875,
+    6.7109375,
+    -1822.942626953125
+   ],
+   "worldBoundsExtentCm": [
+    80064.595703125,
+    60054.59375,
+    8134.225341796875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Fig_Bark",
+   "species": "Fig",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Bark.SM_JudeanFloraV1_Fig_L0_Bark",
+   "expectedInstances": 1772,
+   "readbackInstances": 1772,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    245.8203125,
+    -68.890625,
+    -1301.15478515625
+   ],
+   "worldBoundsExtentCm": [
+    160661.8359375,
+    160217.546875,
+    9936.60107421875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Fig_Leaf",
+   "species": "Fig",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Fig_L0_Leaf.SM_JudeanFloraV1_Fig_L0_Leaf",
+   "expectedInstances": 1772,
+   "readbackInstances": 1772,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    273.8515625,
+    -108.9765625,
+    -1353.04833984375
+   ],
+   "worldBoundsExtentCm": [
+    160734.1171875,
+    160424.8671875,
+    10061.49951171875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Hyssop_Bark",
+   "species": "Hyssop",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Bark.SM_JudeanFloraV1_Hyssop_L0_Bark",
+   "expectedInstances": 9338,
+   "readbackInstances": 9338,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30014.66015625,
+    -8.921875,
+    -3223.30712890625
+   ],
+   "worldBoundsExtentCm": [
+    120030.04296875,
+    110026.90625,
+    10762.19580078125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Hyssop_Leaf",
+   "species": "Hyssop",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Hyssop_L0_Leaf.SM_JudeanFloraV1_Hyssop_L0_Leaf",
+   "expectedInstances": 9338,
+   "readbackInstances": 9338,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30013.3984375,
+    -11.86328125,
+    -3216.995849609375
+   ],
+   "worldBoundsExtentCm": [
+    120043.9765625,
+    110050.36328125,
+    10774.870361328125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_JerusalemPine_Bark",
+   "species": "JerusalemPine",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Bark.SM_JudeanFloraV1_JerusalemPine_L0_Bark",
+   "expectedInstances": 5216,
+   "readbackInstances": 5216,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    6.6796875,
+    -473.1328125,
+    1811.324951171875
+   ],
+   "worldBoundsExtentCm": [
+    162217.0390625,
+    160114.7265625,
+    7993.683837890625
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_JerusalemPine_Leaf",
+   "species": "JerusalemPine",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_JerusalemPine_L0_Leaf.SM_JudeanFloraV1_JerusalemPine_L0_Leaf",
+   "expectedInstances": 5216,
+   "readbackInstances": 5216,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    -18.8984375,
+    -436.5859375,
+    1817.6298828125
+   ],
+   "worldBoundsExtentCm": [
+    161998.0703125,
+    160328.9296875,
+    7635.2919921875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Olive_Bark",
+   "species": "Olive",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Bark.SM_JudeanFloraV1_Olive_L0_Bark",
+   "expectedInstances": 10909,
+   "readbackInstances": 10909,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    78.859375,
+    -114.6171875,
+    -360.09130859375
+   ],
+   "worldBoundsExtentCm": [
+    160921.15625,
+    160556.3046875,
+    9776.84912109375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Olive_Leaf",
+   "species": "Olive",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Olive_L0_Leaf.SM_JudeanFloraV1_Olive_L0_Leaf",
+   "expectedInstances": 10909,
+   "readbackInstances": 10909,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    119.0390625,
+    -66.859375,
+    -301.736328125
+   ],
+   "worldBoundsExtentCm": [
+    160853.9609375,
+    160689.3125,
+    9683.1171875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Pomegranate_Bark",
+   "species": "Pomegranate",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Bark.SM_JudeanFloraV1_Pomegranate_L0_Bark",
+   "expectedInstances": 1941,
+   "readbackInstances": 1941,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    -175.5703125,
+    43.8359375,
+    -1169.1337890625
+   ],
+   "worldBoundsExtentCm": [
+    160500.9765625,
+    160047.5390625,
+    8542.7197265625
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Pomegranate_Leaf",
+   "species": "Pomegranate",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Pomegranate_L0_Leaf.SM_JudeanFloraV1_Pomegranate_L0_Leaf",
+   "expectedInstances": 1941,
+   "readbackInstances": 1941,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    -98.390625,
+    39.5703125,
+    -1155.39013671875
+   ],
+   "worldBoundsExtentCm": [
+    160498.328125,
+    160121.1796875,
+    8450.45947265625
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Rockrose_Bark",
+   "species": "Rockrose",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Bark.SM_JudeanFloraV1_Rockrose_L0_Bark",
+   "expectedInstances": 11408,
+   "readbackInstances": 11408,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30027.7578125,
+    -6.55078125,
+    -3360.70947265625
+   ],
+   "worldBoundsExtentCm": [
+    120019.4140625,
+    110033.51171875,
+    10862.52001953125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Rockrose_Leaf",
+   "species": "Rockrose",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Rockrose_L0_Leaf.SM_JudeanFloraV1_Rockrose_L0_Leaf",
+   "expectedInstances": 11408,
+   "readbackInstances": 11408,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30027.69921875,
+    -8.046875,
+    -3366.28271484375
+   ],
+   "worldBoundsExtentCm": [
+    120038.69140625,
+    110059.609375,
+    10866.24755859375
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Sage_Bark",
+   "species": "Sage",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Bark.SM_JudeanFloraV1_Sage_L0_Bark",
+   "expectedInstances": 15511,
+   "readbackInstances": 15511,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    29985.76171875,
+    5.171875,
+    -3331.0322265625
+   ],
+   "worldBoundsExtentCm": [
+    120066.14453125,
+    110042.0859375,
+    10811.98828125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Sage_Leaf",
+   "species": "Sage",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Sage_L0_Leaf.SM_JudeanFloraV1_Sage_L0_Leaf",
+   "expectedInstances": 15511,
+   "readbackInstances": 15511,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    29978.4140625,
+    -6.4375,
+    -3328.42626953125
+   ],
+   "worldBoundsExtentCm": [
+    120089.8046875,
+    110079.2421875,
+    10828.32470703125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Terebinth_Bark",
+   "species": "Terebinth",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Bark.SM_JudeanFloraV1_Terebinth_L0_Bark",
+   "expectedInstances": 2753,
+   "readbackInstances": 2753,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    157.1171875,
+    -69.96875,
+    -4018.1005859375
+   ],
+   "worldBoundsExtentCm": [
+    160665.2265625,
+    160562.1875,
+    12372.9658203125
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_Terebinth_Leaf",
+   "species": "Terebinth",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_Terebinth_L0_Leaf.SM_JudeanFloraV1_Terebinth_L0_Leaf",
+   "expectedInstances": 2753,
+   "readbackInstances": 2753,
+   "cullDistanceCm": 60000.0,
+   "worldBoundsCentreCm": [
+    246.171875,
+    -142.9375,
+    -4043.705078125
+   ],
+   "worldBoundsExtentCm": [
+    160907.140625,
+    160765.96875,
+    12683.25390625
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_ThornyBurnet_Bark",
+   "species": "ThornyBurnet",
+   "role": "bark",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Bark.SM_JudeanFloraV1_ThornyBurnet_L0_Bark",
+   "expectedInstances": 28427,
+   "readbackInstances": 28427,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30009.8671875,
+    3.62109375,
+    -3320.91015625
+   ],
+   "worldBoundsExtentCm": [
+    120017.1953125,
+    110021.51171875,
+    10889.2451171875
+   ]
+  },
+  {
+   "label": "RELEASE_Vegetation_ThornyBurnet_Leaf",
+   "species": "ThornyBurnet",
+   "role": "leaf",
+   "meshPath": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Meshes/SM_JudeanFloraV1_ThornyBurnet_L0_Leaf.SM_JudeanFloraV1_ThornyBurnet_L0_Leaf",
+   "expectedInstances": 28427,
+   "readbackInstances": 28427,
+   "cullDistanceCm": 14000.0,
+   "worldBoundsCentreCm": [
+    30007.98046875,
+    5.08984375,
+    -3323.73291015625
+   ],
+   "worldBoundsExtentCm": [
+    120050.98828125,
+    110057.41796875,
+    10917.59228515625
+   ]
+  }
+ ],
+ "reopenedInstanceTotal": 225780,
+ "batchesPlacedThisRun": 697,
+ "instancesPlacedThisRun": 225780,
+ "mapSha256After": "034f83435874be25a3cc82776704e6a95b57a53c4058152f42637beb77be4ae3",
+ "mapBytesChanged": true,
+ "protectedMapsUnchanged": true
+}

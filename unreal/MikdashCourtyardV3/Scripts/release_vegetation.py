@@ -17,12 +17,35 @@ Commandlet invocation (serial, never while another native job is running):
       -unattended -nullrhi
       -abslog="C:/Mikdash/Working-5.8/Release-Vegetation-01.log"
 
+WHICH MAP -- and why the plants do NOT move with the architecture
+-----------------------------------------------------------------
+  -Main50        the legacy 50 cm map. THE DEFAULT, so no existing invocation is retargeted.
+  -Candidate48   the configured GameDefaultMap and the cook map: the one that ships.
+
+Candidate48 holds the same ARCHITECTURE under a 0.96 similarity about the world origin plus the
+Aron re-pivot (-248, 0, 0). It holds the same TERRAIN at identical coordinates: the 48 cm
+migration never touched FutureMountV1 or the metric city. A tree stands on the terrain, so the
+instances are placed at IDENTICAL coordinates on both maps and carrying them through the
+architecture transform would be the bug, not the fix. What does ride the transform is the
+keep-out: the Mount enclosure ring and the architecture blocker boxes are tested in BOTH frames,
+so nothing is planted inside the Mount under either interpretation and the two maps refuse the
+same instances. Neither half is taken on trust -- prove_ground() compares every terrain tile's
+live world AABB against the same tile read off the live Main50 level by
+Scripts/candidate_placement_proof.py (run that first), and prove_placement() measures the
+architecture similarity off the level before any keep-out is built from it.
+
 Optional switches (read from the engine command line):
   -VegetationImportOnly          import and assemble the meshes, place nothing.
   -VegetationMaxBatches=<n>      place at most n batches this run (default from the spec).
   -VegetationResume=<receipt>    read a previous receipt and skip every batch it completed.
   -VegetationSpecies=Olive,Fig   restrict this run to the named species.
   -VegetationSkipImport          the meshes are already imported; go straight to placement.
+
+A resume receipt is per MAP: -VegetationResume= refuses a receipt from the other target, because
+skipping the batches the other map completed would leave a hole no count against the plan sees.
+
+Revert (OFFLINE, with no editor open):
+  python Scripts/release_vegetation.py --revert=<receipt> [--dry-run]
 
 BATCHING AND RESUME - why this is not one big run
 -------------------------------------------------
@@ -67,12 +90,36 @@ import hashlib
 import json
 import math
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_vegetation.spec.json'
-TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+sys.path.insert(0, str(ROOT / 'Scripts'))
+import map_targets as mt  # noqa: E402
+
+# THE MAP THIS RUNS AGAINST. Defaults to Main50 -- the map this pass has always run against and
+# the frame the plan is authored in -- so no existing invocation is silently retargeted. Say
+# -Candidate48 (or -Target=Candidate48) for the map that actually ships.
+TARGET_KEY = mt.target_from_command_line()
+TARGET_CONFIG = mt.target_config(TARGET_KEY)
+TARGET = TARGET_CONFIG['map']
+TARGET_LABEL = TARGET_CONFIG['key']
+AUTHORING_MAP = mt.TARGETS[mt.AUTHORING_TARGET]['map']
+# The architecture's similarity -- which the PLANTS DO NOT RIDE. See ground_rule() below.
+PLACEMENT_SCALE, PLACEMENT_TRANSLATION = mt.placement_of(TARGET_KEY)
+GROUND_REFERENCE = ROOT / 'SourceAssets' / 'scale-review' / 'ground-fingerprint-Main50.json'
+GROUND_PARITY_TOLERANCE_CM = 0.5
+
+TARGET_LIMITATIONS = ([] if TARGET_KEY == mt.AUTHORING_TARGET else [
+    'On %s the plants stand at IDENTICAL coordinates to Main50, because the FutureMountV1 '
+    'terrain they grow out of was never rescaled by the 48 cm migration. What does change is the '
+    'keep-out: the enclosure ring and the architecture blockers are tested in BOTH frames, so no '
+    'instance lands inside either map interpretation of the Mount.' % TARGET_LABEL,
+    'Geometric placement only. No visual, collision, cook or performance acceptance on %s, and '
+    'the species materials remain unassigned on both maps.' % TARGET_LABEL,
+])
 
 
 # --------------------------------------------------------------------------
@@ -96,8 +143,11 @@ def disk_path(asset_path, extension='uasset'):
 
 def load_spec():
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
-    if spec['targetMap'] != TARGET:
-        raise RuntimeError('Spec target differs from script target')
+    # The spec and the placement plan are written in the AUTHORING frame (Main50); the spec's own
+    # targetMap stays the authoring map on every run and is never rewritten per target.
+    if spec['targetMap'] != AUTHORING_MAP:
+        raise RuntimeError('Spec target %r is not the authoring map %r'
+                           % (spec['targetMap'], AUTHORING_MAP))
     if Path(spec['projectDir']).resolve() != ROOT:
         raise RuntimeError('Spec project directory differs from script root')
     return spec
@@ -117,6 +167,31 @@ def load_manifest(spec):
         raise RuntimeError('Geometry manifest status is %r, expected %r'
                            % (manifest['status'], spec['manifestStatusRequired']))
     return manifest
+
+
+def ground_rule():
+    """WHY THE PLANTS DO NOT RIDE THE 48 cm SIMILARITY, in one place.
+
+    The 48 cm migration rescaled the ARCHITECTURE 0.96 about the world origin and then
+    re-pivoted the temple by (-248, 0, 0). It did not touch the FutureMountV1 terrain or the
+    metric city: those stand at identical coordinates on both maps. A tree is planted on the
+    terrain, not on the Temple, so carrying it through the architecture's transform would lift
+    132,598 plants off the ground they were sampled against and slide them 2.48 m west of the
+    slope they belong to. The plants therefore stay exactly where the plan puts them -- and that
+    is not taken on trust either: prove_ground() compares every terrain tile's live world AABB
+    with the same tile read off Main50 before a single instance is added.
+
+    The KEEP-OUT is the part that does move. The enclosure ring and the architecture blocker
+    boxes are architecture, so on the candidate they close in by 4 per cent and shift 248 cm
+    west. Both frames are used as blockers, never one: the candidate ring is contained in the
+    Main50 ring, so testing both means no instance lands inside the Mount under EITHER
+    interpretation, and the refusal geometry stays identical between the two maps.
+    """
+    return {
+        'instances': 'identity: the terrain was never rescaled',
+        'keepOut': 'blocked in BOTH the authored and the target frame',
+        'placement': {'uniformScale': PLACEMENT_SCALE, 'translationCm': list(PLACEMENT_TRANSLATION)},
+    }
 
 
 def point_in_polygon(x, y, points):
@@ -270,13 +345,27 @@ def offline_check(spec=None):
     ring_receipt = json.loads((ROOT / spec['clearance']['mountEnclosureReceipt']).read_text(encoding='utf-8-sig'))
     ring = [(float(p[0]), float(p[1])) for p in ring_receipt['boundaryXYcm']]
     margin = spec['clearance']['mountEnclosureMarginCm']
+    # BOTH frames, offline, before an engine is ever launched: the ring as it stands on the
+    # authoring map and the ring as it stands on the target. The candidate ring is the Main50
+    # ring closed in 4 per cent and shifted 248 cm west, so this is not an argument that one
+    # contains the other -- it is the test, run on both.
+    rings = {'authored': ring}
+    if PLACEMENT_SCALE != 1.0 or PLACEMENT_TRANSLATION != [0.0, 0.0, 0.0]:
+        rings[TARGET_LABEL] = [(x * PLACEMENT_SCALE + PLACEMENT_TRANSLATION[0],
+                                y * PLACEMENT_SCALE + PLACEMENT_TRANSLATION[1]) for x, y in ring]
     inside = 0
-    for batch in plan['batches']:
-        for row in batch['instances']:
-            if point_in_polygon(row[0], row[1], ring) or distance_to_ring(row[0], row[1], ring) <= margin:
-                inside += 1
+    inside_by_frame = {}
+    for name, points in rings.items():
+        hits = 0
+        for batch in plan['batches']:
+            for row in batch['instances']:
+                if point_in_polygon(row[0], row[1], points) or                         distance_to_ring(row[0], row[1], points) <= margin:
+                    hits += 1
+        inside_by_frame[name] = hits
+        inside += hits
     if inside:
-        problems.append('%d planned instances are inside the Mount enclosure ring or its margin' % inside)
+        problems.append('%d planned instances are inside the Mount enclosure ring or its margin: %s'
+                        % (inside, inside_by_frame))
 
     architecture = json.loads((ROOT / spec['clearance']['architectureManifest']).read_text(encoding='utf-8-sig'))
     unions = [e for e in architecture['meshes'] if (e.get('sourceProperties') or {}).get('source_elements_json')]
@@ -295,8 +384,14 @@ def offline_check(spec=None):
         'plannedInstances': total,
         'batches': len(plan['batches']),
         'instanceCapTotal': spec['instanceCapTotal'],
+        'target': TARGET_LABEL,
+        'targetMap': TARGET,
+        'placement': {'uniformScale': PLACEMENT_SCALE, 'translationCm': list(PLACEMENT_TRANSLATION)},
+        'groundRule': ground_rule(),
         'mountEnclosureRingPoints': len(ring),
+        'mountEnclosureFramesTested': sorted(rings),
         'plannedInstancesInsidePrecinct': inside,
+        'plannedInstancesInsidePrecinctByFrame': inside_by_frame,
         'hollowUnionsVerified': len(unions),
         'hollowUnionConstituentBoxes': union_boxes,
         'note': ('Every planned instance was re-tested against the Mount enclosure ring here, '
@@ -315,6 +410,17 @@ def _asset_path(obj):
 
 def _vector_list(v):
     return [float(v.x), float(v.y), float(v.z)]
+
+
+def _actor_bounds(actor):
+    origin, extent = actor.get_actor_bounds(False)
+    return {'min': [origin.x - extent.x, origin.y - extent.y, origin.z - extent.z],
+            'max': [origin.x + extent.x, origin.y + extent.y, origin.z + extent.z]}
+
+
+# Terrain twins whose cut region legitimately differs between the two maps: the precinct square
+# is 4 per cent smaller on the candidate, so its cut is too. They are never compared across maps.
+CUT_TWIN_TOKENS = ('PrecinctCut', 'KotelPlazaCut', 'FutureMountCut')
 
 
 class Release:
@@ -355,6 +461,79 @@ class Release:
     def baseline(self, rows):
         return {row['name']: (row['label'], tuple(row['meshes']), str(row['folder'])) for row in rows}
 
+    def prove_placement(self):
+        """Where the ARCHITECTURE stands on this map, measured, not assumed.
+
+        Nothing is planted on the architecture, so this is not what decides the instance
+        coordinates -- prove_ground() is. It is here because the keep-out IS architecture: the
+        enclosure ring and the blocker boxes are carried through this transform, and a transform
+        that is not the one the level actually holds would put the Mount keep-out in the wrong
+        place. Main50 must measure as the identity, Candidate48 as 0.96 and (-248, 0, 0).
+        """
+        rows = []
+        for row in (self.snapshot or self.take_snapshot()):
+            rows.append({'label': row['label'], 'meshes': row['meshes'],
+                         'bounds': _actor_bounds(row['actor'])})
+        by_key, manifest = mt.architecture_index(ROOT)
+        proof = mt.prove_placement(rows, by_key, PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
+        proof.update({'target': TARGET_LABEL, 'map': TARGET,
+                      'manifestMeshes': len(manifest['meshes']),
+                      'usedFor': 'the Mount keep-out, not the instance coordinates'})
+        self.receipt['placementProof'] = proof
+        self.write_receipt()
+        return proof
+
+    def prove_ground(self):
+        """The ground has not moved -- which is the whole licence for identity placement.
+
+        The 48 cm migration rescaled the architecture and left the FutureMountV1 terrain alone,
+        so the tiles the plants stand on must be byte-for-byte where Main50 holds them. That
+        sentence is checked, not believed: every SM_JerusalemTerrain_* actor's live world AABB is
+        compared with the same tile read off the live Main50 level by
+        Scripts/candidate_placement_proof.py. The eleven *_PrecinctCut twins are excluded on both
+        sides, because the precinct square they are cut to is itself 4 per cent smaller here.
+        """
+        rows = []
+        for row in (self.snapshot or self.take_snapshot()):
+            rows.append({'label': row['label'], 'meshes': row['meshes'],
+                         'bounds': _actor_bounds(row['actor'])})
+        live = {k: v for k, v in mt.terrain_fingerprint(rows).items()
+                if not any(token in k for token in CUT_TWIN_TOKENS)}
+        report = {'target': TARGET_LABEL, 'liveGroundTiles': len(live),
+                  'reference': str(GROUND_REFERENCE),
+                  'toleranceCm': GROUND_PARITY_TOLERANCE_CM,
+                  'cutTwinTokensExcluded': list(CUT_TWIN_TOKENS)}
+        if TARGET_KEY == mt.AUTHORING_TARGET:
+            report['status'] = 'authoring_frame_is_its_own_reference'
+            self.receipt['groundProof'] = report
+            return report
+        if not GROUND_REFERENCE.is_file():
+            raise RuntimeError(
+                'No Main50 ground fingerprint at %s. Run Scripts/candidate_placement_proof.py '
+                'first: placing on %s at identity coordinates is only correct if the terrain is '
+                'proved to be the same terrain, and nothing else in this project proves it.'
+                % (GROUND_REFERENCE, TARGET_LABEL))
+        reference = json.loads(GROUND_REFERENCE.read_text(encoding='utf-8-sig'))
+        comparison = mt.compare_fingerprints(reference['tiles'], live)
+        report.update(comparison)
+        report['referenceStamp'] = reference.get('stamp')
+        report['referenceMapSha256'] = reference.get('mapSha256')
+        self.receipt['groundProof'] = report
+        self.write_receipt()
+        if comparison['matchedLabels'] < min(len(reference['tiles']), len(live)) or not live:
+            raise RuntimeError('Ground tiles do not correspond between Main50 and %s: %s'
+                               % (TARGET_LABEL, {k: comparison[k] for k in
+                                                 ('inFirst', 'inSecond', 'matchedLabels',
+                                                  'onlyInFirst', 'onlyInSecond')}))
+        if comparison['worstBoundsErrorCm'] > GROUND_PARITY_TOLERANCE_CM:
+            raise RuntimeError('The ground is NOT the same on %s: tile %s differs by %.4f cm. '
+                               'Identity placement would put %d plants off their slope.'
+                               % (TARGET_LABEL, comparison['worstLabel'],
+                                  comparison['worstBoundsErrorCm'], self.plan['totalInstances']))
+        report['status'] = 'ground_identical_to_main50_identity_placement_is_correct'
+        self.write_receipt()
+        return report
+
     def clearance_from_level(self):
         """Blockers read from the live level, with both AABB traps handled explicitly."""
         ue = self.ue
@@ -389,8 +568,19 @@ class Release:
                 for box in verify_union_decomposition(entry, clearance['unionDecompositionToleranceCm']):
                     boxes.append(box)
                     union_boxes += 1
+                    # ... and the same box where this map actually holds it. On Main50 the
+                    # placement is the identity and this is the same box twice; on the candidate
+                    # it is the box 4 per cent smaller and 248 cm west, which is where the stone
+                    # really is. Both are blockers, so nothing is planted inside the Mount under
+                    # either interpretation and the two maps refuse the same instances.
+                    if PLACEMENT_SCALE != 1.0 or PLACEMENT_TRANSLATION != [0.0, 0.0, 0.0]:
+                        moved = mt.transform_box(box, PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
+                        moved['name'] = str(box.get('name')) + '@' + TARGET_LABEL
+                        boxes.append(moved)
         self.receipt['clearance']['hollowUnionConstituentBoxes'] = union_boxes
+        self.receipt['clearance']['blockerBoxesTotal'] = len(boxes)
         self.receipt['clearance']['hollowUnionNote'] = clearance['unionNote']
+        self.receipt['clearance']['groundRule'] = ground_rule()
 
         # Existing illustrative trees: read their real instance transforms and keep out of them.
         tree_grid = Grid2D(clearance['existingTreeProximityCm'] * 2.0)
@@ -421,18 +611,24 @@ class Release:
 
         ring_receipt = json.loads((ROOT / clearance['mountEnclosureReceipt']).read_text(encoding='utf-8-sig'))
         ring = [(float(p[0]), float(p[1])) for p in ring_receipt['boundaryXYcm']]
+        rings = [ring]
+        if PLACEMENT_SCALE != 1.0 or PLACEMENT_TRANSLATION != [0.0, 0.0, 0.0]:
+            rings.append([(x * PLACEMENT_SCALE + PLACEMENT_TRANSLATION[0],
+                           y * PLACEMENT_SCALE + PLACEMENT_TRANSLATION[1]) for x, y in ring])
         self.receipt['clearance']['mountEnclosureRingPoints'] = len(ring)
+        self.receipt['clearance']['mountEnclosureRingsTested'] = len(rings)
         self.receipt['clearance']['mountEnclosureNote'] = clearance['mountEnclosureNote']
-        return {'boxes': boxes, 'trees': tree_grid, 'ring': ring,
+        return {'boxes': boxes, 'trees': tree_grid, 'rings': rings,
                 'ringMargin': clearance['mountEnclosureMarginCm'],
                 'treeRadius': clearance['existingTreeProximityCm']}
 
     @staticmethod
     def blocked(clearance, x, y):
-        if point_in_polygon(x, y, clearance['ring']):
-            return 'inside_mount_enclosure_ring'
-        if distance_to_ring(x, y, clearance['ring']) <= clearance['ringMargin']:
-            return 'within_mount_enclosure_margin'
+        for index, ring in enumerate(clearance['rings']):
+            if point_in_polygon(x, y, ring):
+                return 'inside_mount_enclosure_ring' + ('' if index == 0 else '_target_frame')
+            if distance_to_ring(x, y, ring) <= clearance['ringMargin']:
+                return 'within_mount_enclosure_margin' + ('' if index == 0 else '_target_frame')
         for box in clearance['boxes']:
             if box['min'][0] <= x <= box['max'][0] and box['min'][1] <= y <= box['max'][1]:
                 return 'union_constituent_box:' + str(box.get('name'))
@@ -733,11 +929,17 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
 
     map_file = disk_path(TARGET, 'umap')
     map_sha_before = sha256_of(map_file)
-    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps']
+    # The OTHER target is protected too. The spec's list predates the candidate, so on a
+    # Candidate48 run it would leave the map that every plan in this project is authored against
+    # unwatched -- and a concurrent save of it is exactly what tripped the cp02b build guard.
+    protected_paths = list(spec['protectedMaps']) + [
+        config['map'] for key, config in mt.TARGETS.items() if config['map'] != TARGET]
+    protected = {m: sha256_of(disk_path(m, 'umap')) for m in protected_paths
                  if disk_path(m, 'umap').exists()}
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
-    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + stamp)
+    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + TARGET_LABEL
+                                                 + '-' + stamp)
     checkpoint.mkdir(parents=True, exist_ok=False)
     shutil.copy2(map_file, checkpoint / map_file.name)
     if sha256_of(checkpoint / map_file.name) != map_sha_before:
@@ -751,7 +953,8 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
 
     receipt_folder = ROOT / spec['receiptFolder']
     receipt_folder.mkdir(parents=True, exist_ok=True)
-    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + stamp + '.json')
+    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + TARGET_LABEL + '-'
+                                         + stamp + '.json')
     if run.receipt_path.exists():
         raise RuntimeError('Receipt already exists: ' + str(run.receipt_path))
 
@@ -760,6 +963,13 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
         previous = json.loads(Path(resume_receipt).read_text(encoding='utf-8'))
         if previous.get('planSha256') != offline['planSha256']:
             raise RuntimeError('Resume receipt was made against a different placement plan')
+        # A resume is per MAP. Skipping the batches a Main50 run completed would leave the
+        # candidate with a hole exactly the shape of the other map's progress, and the hole
+        # would never be visible in a count that only ever compares against the plan.
+        previous_target = previous.get('target') or mt.TARGETS[mt.AUTHORING_TARGET]['key']
+        if previous_target != TARGET_LABEL or (previous.get('map') or TARGET) != TARGET:
+            raise RuntimeError('Resume receipt is for %s (%s), this run is for %s (%s)'
+                               % (previous_target, previous.get('map'), TARGET_LABEL, TARGET))
         already_done = list(previous.get('completedBatchIds') or [])
 
     pending = [b for b in plan['batches'] if b['batchId'] not in set(already_done)]
@@ -771,6 +981,14 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
     run.receipt = {
         'status': 'checkpointed_vegetation_placement_started',
         'stamp': stamp,
+        'target': TARGET_LABEL,
+        'targetRole': TARGET_CONFIG['role'],
+        'placement': {'uniformScale': PLACEMENT_SCALE,
+                      'translationCm': list(PLACEMENT_TRANSLATION),
+                      'appliedTo': 'the Mount keep-out only; the instances stand at identity',
+                      'derivation': TARGET_CONFIG['derivation']},
+        'groundRule': ground_rule(),
+        'authoringMap': AUTHORING_MAP,
         'map': TARGET,
         'mapFile': str(map_file),
         'mapSha256Before': map_sha_before,
@@ -794,7 +1012,7 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
         'importOnly': bool(import_only),
         'errors': [],
         'mapSaved': False,
-        'limitations': list(spec['limitations']),
+        'limitations': list(spec['limitations']) + list(TARGET_LIMITATIONS),
     }
     run.write_receipt()
 
@@ -818,6 +1036,8 @@ def place(load_target=True, max_batches=None, resume_receipt=None, species_filte
                 raise RuntimeError('save_directory failed for ' + spec['assetFolder'])
             return run.receipt
 
+        run.prove_placement()
+        run.prove_ground()
         clearance = run.clearance_from_level()
         run.write_receipt()
         placed = run.place_batches(selected, clearance)
@@ -907,8 +1127,8 @@ def _main():
     try:
         receipt = place(load_target=True, max_batches=max_batches, resume_receipt=resume,
                         species_filter=species, import_only=import_only, skip_import=skip_import)
-        ue.log('release_vegetation: %s placed %s this run, %s batches remain' % (
-            receipt['status'], receipt.get('instancesPlacedThisRun'),
+        ue.log('release_vegetation [%s]: %s placed %s this run, %s batches remain' % (
+            TARGET_LABEL, receipt['status'], receipt.get('instancesPlacedThisRun'),
             receipt.get('batchesRemainingAfterThisRun')))
     except Exception as error:
         ue.log_error('release_vegetation failed: ' + repr(error))
@@ -921,6 +1141,9 @@ def _main():
 if __name__ == '__main__':
     if _unreal_available():
         _main()
+    elif mt.revert_from_command_line():
+        _action = mt.revert_from_command_line()
+        print(json.dumps(mt.restore_checkpoint(_action['receipt'], dry_run=_action['dryRun']), indent=2))
     else:
         print(json.dumps(offline_check(), indent=2))
 elif _invoked_as_native_script():

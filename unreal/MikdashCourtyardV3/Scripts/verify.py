@@ -209,6 +209,17 @@ def check_receipts() -> None:
         check("no receipt records a failure", True)
 
 
+# A receipt's status is free text across this project, so match the failure vocabulary it
+# actually uses rather than demanding one spelling: failed_*, refused_*, *_crashed, started
+# (written before the work, never updated because the process died), and the planning-only
+# and read-only states that deliberately change nothing.
+_FAILED_STATUS = re.compile(
+    r"fail|refus|error|crash|abort|revert|"
+    r"^start|pending_start|planned_read_only|nothing_to_do|no_change_needed|dry_?run",
+    re.I,
+)
+
+
 def check_map_parity() -> None:
     """Flag work applied to one map but not the other.
 
@@ -238,6 +249,13 @@ def check_map_parity() -> None:
             continue
         target = str(data.get("target") or "").strip().lower()
         if target not in (ship, legacy):
+            continue
+        # EXISTENCE IS NOT EVIDENCE. This check counted any receipt naming a target, so two
+        # editor crashes on 10 Sep cleared a long-standing "legacy map only" warning without
+        # the pass ever running - the crash receipts were themselves accepted as the proof
+        # that it had. A receipt only counts when its status says the work actually landed.
+        status = str(data.get("status") or "").strip().lower()
+        if not status or _FAILED_STATUS.search(status):
             continue
         # Group by the pass, not the receipt: strip the timestamp AND the target, since
         # receipts name their target in the filename and the two halves of one pass must

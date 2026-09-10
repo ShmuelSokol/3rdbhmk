@@ -222,24 +222,44 @@ starting the next. If a receipt records failure, stop and fix rather than contin
 Order chosen so that anything reading positions from the map runs after what it reads.
  1. [ ] release_enclosure.py        — HOLD changed scenario selection; user approved book-selected 48 cm. Keep active legacy geometry coherent until the checkpointed migration and dependent placements pass. See SourceAssets/scale-review/AMAH-MIGRATION-PLAN.md.
  2. [ ] release_water.py            — HOLD full adoption until host floor/foundation openings exist; current placement alone leaves water 26 cm below intact paving. See takeover water audit.
- 3. [x] release_vegetation.py       — Main50 ONLY (TARGET hardcoded, no candidate switch).
-        697/697 batches, 225,780 instances, 27 components, expected==readback on all 27
-        (release-vegetation-20260910T020948460767Z.json). Needed two fixes: the UE 5.8
-        add_component_by_class ScriptNoExport trap, and a resume path that duplicated
-        actors. Geometric placement only; materials unassigned; Candidate48 has none.
- 4. [x] release_gate_security.py    — Main50 ONLY (TARGET hardcoded). -GateSecurityVerifyOnly
-        re-run on the current map: 90/90 actors, 30/30 per gate, zero problems, map
-        unchanged (native-gate-security-verify-20260910T020232145559Z.json).
-        Candidate48 has no gate security and the script cannot target it.
+ 3. [x] release_vegetation.py       — BOTH MAPS. -Main50 (default) / -Candidate48.
+        Main50 697/697 batches, 225,780 instances, 27 components
+        (release-vegetation-20260910T020948460767Z.json).
+        Candidate48 697/697, **225,780 instances across 27 components, expected==readback on
+        all 27, 0 errors** (release-vegetation-Candidate48-20260910T024536144980Z.json) —
+        the SAME accepted instance set, which is the parity check that matters.
+        THE PLANTS DO NOT RIDE THE 0.96 SIMILARITY and that is the point: the terrain was
+        never rescaled, so they are placed at identical coordinates, licensed by a measured
+        proof that all 256 ground tiles have identical world AABBs on the two maps (worst
+        0.0000 cm). What does ride the transform is the keep-out — ring and architecture
+        blockers are tested in BOTH frames (324 blocker boxes, 2 rings). 2,678 instances
+        refused by the existing-tree rule (vs 2,426 over the 637 batches of Main50's final
+        run). Geometric placement only; materials still unassigned on both maps.
+ 4. [x] release_gate_security.py    — BOTH MAPS. -Main50 (default) / -Candidate48.
+        Main50 90/90, 30/30 per gate, zero problems
+        (native-gate-security-verify-20260910T020232145559Z.json).
+        Candidate48 **90/90 placed, saved, reopened; pose error 0.0 cm on all 90, worst
+        reopened bounds error 5.9e-06 cm** (native-gate-security-Candidate48-
+        20260910T024340862182Z.json). Geometry, not presence: the live first riser and
+        threshold of each gate match their predicted (0.96 / -248) bounds to 0.0000-0.0015 cm,
+        and the assembly stands **96.00 cm** out from the live riser on all three gates —
+        exactly 0.96 x the authored 100 cm. The whole assembly rides the similarity, so the
+        modern objects are 4 per cent under real size; recorded as a limitation.
  5. [x] release_crowd_field.py      — 240 runtime agents saved/reopened, six zones/keep-outs. Reconcile with future water/48 cm migration; live/visual/performance checks separate.
  6. [ ] release_birds.py
  7. [ ] release_kohen_service.py
  8. [x] release_fx.py               — director/materials saved/reopened; live/visual review pending. Service cue wiring remains dependent on service adoption.
- 9. [x] release_surface_detail.py   — Main50 ONLY (TARGET hardcoded). 460 tagged wear decals,
-        all on SurfaceDetailSoftV1, plus 1 MikdashSurfaceDetail manager; Candidate48 has 0
-        and 0 (candidate-parity-20260910T020232999990Z.json). Already applied and
-        fresh-verified on 09-09; verify_surface_saved.py can no longer re-run because it
-        pins the map hash. Visual acceptance still open.
+ 9. [x] release_surface_detail.py   — BOTH MAPS. -Main50 (default) / -Candidate48.
+        Main50 460 tagged wear decals on SurfaceDetailSoftV1 + 1 MikdashSurfaceDetail manager.
+        Candidate48 **460 decals + the manager, saved, reopened, all 460 read back at 0.0 cm
+        location error and 0.0 cm decal-size error** against the transformed plan
+        (native-surface-detail-Candidate48-20260910T024410434756Z.json). Origins, projection
+        boxes and the manager all carry the 0.96 / -248 similarity, so a wear patch covers the
+        same fraction of the same tread. The assets stage is map-independent and was NOT
+        re-run: the 09-09 assets receipt's SHA-256s were re-checked on disk.
+        NEW EVIDENCE: 456 of the 460 decal origins sit inside a manifest architecture AABB
+        (60 cm padding); the 4 that do not are the outer gate landings. Visual acceptance
+        still open on both maps.
 10. [ ] release_sky_tod.py          — lighting last so it is tuned against the final scene
 11. [x] release_tour.py             — guide/codex plus18 markers saved/reopened on legacy50 geometry;18/76 entries reload from staged Content/Distribution/Tour. Runtime interaction and48cm relocation remain separate.
 12. [ ] release_intro_sequence.py   — camera path against the final scene

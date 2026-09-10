@@ -59,6 +59,26 @@ WHAT IT MUST NEVER CHANGE, AND HOW THAT IS ENFORCED
   * No geometry is moved or deleted. destroy_actor is only ever called on an actor this
     run spawned in this process, tracked by handle, not by label.
 
+WHICH MAP -- and the 48 cm trap
+  -Main50        the legacy 50 cm map. THE DEFAULT, so no existing invocation is retargeted.
+  -Candidate48   the configured GameDefaultMap and the cook map: the one that ships.
+
+Candidate48 is not Main50 renamed: its architecture was rescaled 0.96 about the world origin and
+then translated (-248, 0, 0) by the Aron re-pivot. A wear decal spawned there at the authored
+coordinates would be 4 per cent oversized and 2.48 m east of the stone it belongs to, so every
+decal origin, every projection box and the manager are carried through that similarity
+(Scripts/map_targets.py) -- and the similarity is proved off the live level before anything is
+spawned, both by predicting every architecture actor's world bounds from the manifest and by
+solving the transform back out of them. The assets stage is map-INDEPENDENT and is not re-run:
+the same textures, master material and instances serve both maps, and their SHA-256s are checked
+against the assets receipt.
+
+  Assets first, once:  -SurfaceStages=assets   (Main50 only; already done, never re-run)
+  Then per map:        -SurfaceStages=decals,manager -Candidate48
+
+Revert (OFFLINE, with no editor open):
+  python Scripts/release_surface_detail.py --revert=<receipt> [--dry-run]
+
 UE 5.8 facts this script depends on
   * MaterialEditingLibrary.set_material_instance_{scalar,vector}_parameter_value returns a
     bResult that is never assigned and is therefore ALWAYS false. Only the readback
@@ -79,9 +99,25 @@ from pathlib import Path
 
 ROOT = Path(r'C:\Mikdash\Working-5.8\MikdashCourtyardV3')
 SPEC_PATH = ROOT / 'Scripts' / 'release_surface_detail.spec.json'
-TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
 import sys
 sys.path.insert(0, str(ROOT / 'Scripts'))
+import map_targets as mt
+
+# THE MAP THIS RUNS AGAINST. Defaults to Main50 -- the map this pass has always run against and
+# the frame the plan is authored in -- so no existing invocation is silently retargeted. Say
+# -Candidate48 (or -Target=Candidate48) for the map that actually ships.
+TARGET_KEY = mt.target_from_command_line()
+TARGET_CONFIG = mt.target_config(TARGET_KEY)
+TARGET = TARGET_CONFIG['map']
+TARGET_LABEL = TARGET_CONFIG['key']
+AUTHORING_MAP = mt.TARGETS[mt.AUTHORING_TARGET]['map']
+PLACEMENT_SCALE, PLACEMENT_TRANSLATION = mt.placement_of(TARGET_KEY)
+TARGET_LIMITATIONS = ([] if TARGET_KEY == mt.AUTHORING_TARGET else [
+    'On %s every decal is carried through the architecture own 0.96 similarity: the projection '
+    'origin, the projection box and the manager all scale with the stone they are cut into, so '
+    'a wear patch covers the same fraction of the same tread it covers on Main50 and no more.'
+    % TARGET_LABEL,
+])
 STAGE_ORDER = ('assets', 'decals', 'manager')
 DEFAULT_STAGES = ('assets',)
 
@@ -102,8 +138,13 @@ def disk_path(asset_path, extension='uasset'):
 
 def load_spec():
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
-    if spec['targetMap'] != TARGET:
-        raise RuntimeError('Spec target differs from script target')
+    # The spec and the plan are written in the AUTHORING frame (Main50) whichever map is being
+    # placed into; Candidate48 placement is those same numbers carried through the measured
+    # similarity. The spec file is never rewritten per target -- its SHA-256 is what the
+    # assets-stage receipt is matched on, and rewriting it would orphan every built asset.
+    if spec['targetMap'] != AUTHORING_MAP:
+        raise RuntimeError('Spec target %r is not the authoring map %r'
+                           % (spec['targetMap'], AUTHORING_MAP))
     if Path(spec['projectDir']).resolve() != ROOT:
         raise RuntimeError('Spec project directory differs from script root')
     return spec
@@ -182,6 +223,62 @@ def variant_for_component(plan, family_id, component_path, x, y):
 
 def box_error(a, b):
     return max(abs(a[key][i] - b[key][i]) for key in ('min', 'max') for i in range(3))
+
+
+def place_decal_entry(entry, scale, translation):
+    """One planned decal carried from the authoring frame onto the target map.
+
+    A decal is a projection box, so it must follow the stone it is cut into in BOTH senses: the
+    origin moves with the surface (scale about the origin, then the Aron re-pivot translation)
+    and the box scales with it, or a 4 per cent smaller tread would carry a full-size wear patch
+    running off its nosing. Rotation is untouched: a uniform positive scale about the origin
+    commutes with rotation and changes no angle.
+    """
+    if scale == 1.0 and translation == [0.0, 0.0, 0.0]:
+        return entry
+    moved = dict(entry)
+    moved['locationCm'] = [round(v, 4) for v in mt.transform_point(entry['locationCm'], scale, translation)]
+    moved['sizeCm'] = [round(float(v) * scale, 4) for v in entry['sizeCm']]
+    moved['fadeStartCm'] = float(entry['fadeStartCm']) * scale
+    moved['fadeEndCm'] = float(entry['fadeEndCm']) * scale
+    moved['authoredLocationCm'] = list(entry['locationCm'])
+    moved['authoredSizeCm'] = list(entry['sizeCm'])
+    return moved
+
+
+def decal_host_proof(plan, by_key, padding_cm=60.0, sample=8):
+    """Which architecture actor each decal is cut into, computed offline from the manifest.
+
+    The spec has always said, honestly, that "no trace confirms that a decal projection box
+    actually reaches a surface". This does not raycast either, but it answers the question that
+    actually decides whether a port is correct: for every decal, WHICH manifest architecture
+    boxes contain its projection origin. A similarity maps that containment exactly -- if the
+    origin is inside a box, its image is inside the image of the box, for every box -- so a
+    decal set that has hosts in the authoring frame has the SAME hosts, actor for actor, on
+    Candidate48 once the level is proved to sit under that similarity. Nothing here depends on
+    the target: it is computed once, in the authoring frame, and it is the reason the transform
+    is enough.
+    """
+    boxes = [(e.get('sourceName') or e['assetName'], e['expectedBoundsUnrealCm'])
+             for e in by_key.values()]
+    hosted, orphans, examples = 0, [], []
+    for entry in plan['decals']:
+        point = [float(v) for v in entry['locationCm']]
+        hosts = [name for name, box in boxes if mt.box_contains(box, point, padding_cm)]
+        if hosts:
+            hosted += 1
+            if len(examples) < sample:
+                examples.append({'label': entry['label'], 'category': entry['category'],
+                                 'authoredLocationCm': entry['locationCm'],
+                                 'hostSourceNames': sorted(set(hosts))[:4]})
+        elif len(orphans) < 12:
+            orphans.append({'label': entry['label'], 'category': entry['category'],
+                            'authoredLocationCm': entry['locationCm']})
+    return {'decals': len(plan['decals']), 'withArchitectureHost': hosted,
+            'withoutHostWithinPaddingCm': len(plan['decals']) - hosted,
+            'paddingCm': padding_cm, 'orphanSample': orphans, 'hostSample': examples,
+            'frame': 'authored (Main50); a similarity carries containment exactly, so the same '
+                     'hosts hold on any target proved to sit under it'}
 
 
 def offline_check(spec=None):
@@ -401,6 +498,26 @@ class SurfacePass:
         churn = h.diff_baselines(first, second, strict=True)
         self.excluded_names = {row['name'] for row in churn}
         return {'evidence': churn, 'excludedNames': sorted(self.excluded_names)}
+
+    def prove_placement(self):
+        """Prove the loaded map really sits under the placement this run is about to use.
+
+        release_water.py's answer, and its reason: Candidate48 is not Main50 renamed, and a wear
+        decal spawned there at the authored coordinates would be 4 per cent oversized and 2.48 m
+        east of the stone it belongs to. Every actor whose mesh resolves to the architecture
+        manifest is compared with its manifest AABB carried through the declared placement, and
+        the placement is independently SOLVED back out of those same bounds; both have to agree
+        before anything is spawned.
+        """
+        by_key, manifest = mt.architecture_index(ROOT)
+        rows = self.snapshot or self.take_snapshot()
+        proof = mt.prove_placement(rows, by_key, PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
+        proof.update({'target': TARGET_LABEL, 'map': TARGET,
+                      'manifestMeshes': len(manifest['meshes']),
+                      'decalHostProof': decal_host_proof(self.plan, by_key)})
+        self.receipt['placementProof'] = proof
+        self.write_receipt()
+        return proof
 
     def component_baseline(self):
         """Slot-0 material of every StaticMeshComponent, so an override that was applied to
@@ -755,7 +872,8 @@ class SurfacePass:
                                 {'existing': existing[:10], 'count': len(existing)})
 
         placed = []
-        for entry in self.plan['decals']:
+        for authored in self.plan['decals']:
+            entry = place_decal_entry(authored, PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
             material_path = spec['materialFolder'] + '/' + entry['material']
             material = ue.load_asset(material_path)
             if material is None:
@@ -798,6 +916,8 @@ class SurfacePass:
                 'plannedLocationCm': entry['locationCm'],
                 'plannedRotation': entry['rotation'],
                 'plannedSizeCm': entry['sizeCm'],
+                'authoredLocationCm': list(authored['locationCm']),
+                'authoredSizeCm': list(authored['sizeCm']),
                 'importance': entry['importance'],
                 'sortOrder': entry['sortOrder'],
                 'rationale': entry['rationale'],
@@ -877,7 +997,8 @@ class SurfacePass:
         existing = [row['label'] for row in self.snapshot if row['label'] == spec['managerLabel']]
         if existing:
             raise OmissionError('manager already present', {'existing': existing})
-        location = ue.Vector(*[float(v) for v in spec['managerLocationCm']])
+        location = ue.Vector(*mt.transform_point(spec['managerLocationCm'],
+                                                 PLACEMENT_SCALE, PLACEMENT_TRANSLATION))
         actor = self.actors.spawn_actor_from_class(manager_class, location, ue.Rotator(0, 0, 0))
         if actor is None:
             raise OmissionError('spawn_actor_from_class returned None for the manager')
@@ -1009,6 +1130,10 @@ def place(load_target=True, stages=DEFAULT_STAGES):
         if namespace_disk.exists() and any(namespace_disk.rglob('*.uasset')):
             raise RuntimeError('Fresh namespace required; never overwrite existing assets')
     if 'assets' not in stages:
+        # Textures, the master material and its instances are map-INDEPENDENT: the same assets
+        # serve both targets, so an assets receipt made while placing Main50 is the right
+        # evidence for a Candidate48 decal run. What is required is that the assets on disk
+        # still hash to what that receipt recorded, which is checked below.
         receipts = sorted((ROOT / spec['receiptFolder']).glob(spec['receiptPrefix'] + '*.json'), reverse=True)
         ready = None
         for receipt_file in receipts:
@@ -1055,7 +1180,8 @@ def place(load_target=True, stages=DEFAULT_STAGES):
             protected_materials['/Game/' + f.relative_to(ROOT / 'Content').as_posix()[:-7]] = sha256_of(f)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
-    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + stamp)
+    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + TARGET_LABEL
+                                                 + '-' + stamp)
     checkpoint.mkdir(parents=True, exist_ok=False)
     shutil.copy2(map_file, checkpoint / map_file.name)
     if sha256_of(checkpoint / map_file.name) != map_sha_before:
@@ -1069,13 +1195,20 @@ def place(load_target=True, stages=DEFAULT_STAGES):
 
     receipt_folder = ROOT / spec['receiptFolder']
     receipt_folder.mkdir(parents=True, exist_ok=True)
-    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + stamp + '.json')
+    run.receipt_path = receipt_folder / (spec['receiptPrefix'] + TARGET_LABEL + '-'
+                                         + stamp + '.json')
     if run.receipt_path.exists():
         raise RuntimeError('Receipt already exists: ' + str(run.receipt_path))
 
     run.receipt = {
         'status': 'surface_detail_started',
         'stamp': stamp,
+        'target': TARGET_LABEL,
+        'targetRole': TARGET_CONFIG['role'],
+        'placement': {'uniformScale': PLACEMENT_SCALE,
+                      'translationCm': list(PLACEMENT_TRANSLATION),
+                      'derivation': TARGET_CONFIG['derivation']},
+        'authoringMap': AUTHORING_MAP,
         'map': TARGET,
         'mapFile': str(map_file),
         'mapSha256Before': map_sha_before,
@@ -1097,7 +1230,8 @@ def place(load_target=True, stages=DEFAULT_STAGES):
         'omissions': {},
         'errors': [],
         'mapSaved': False,
-        'limitations': list(spec['limitations']) + list(plan['limitations']),
+        'limitations': list(spec['limitations']) + list(plan['limitations'])
+                       + list(TARGET_LIMITATIONS),
         'honesty': plan['honesty'],
     }
     run.write_receipt()
@@ -1105,6 +1239,8 @@ def place(load_target=True, stages=DEFAULT_STAGES):
     saved = False
     try:
         run.receipt['loadChurnProbe'] = run.probe_load_churn()
+        if 'decals' in stages or 'manager' in stages:
+            run.prove_placement()
         baseline = run.numeric_baseline(run.snapshot)
         component_before = run.component_baseline()
         run.receipt['actorCountBefore'] = len(run.snapshot)
@@ -1373,8 +1509,8 @@ def _main():
                    % (result['status'], result['actorsDestroyedCount'], result['componentsRestored']))
         else:
             receipt = place(load_target=True, stages=stages)
-            ue.log('release_surface_detail: %s stages %s decals %s omissions %s'
-                   % (receipt['status'], list(stages),
+            ue.log('release_surface_detail [%s]: %s stages %s decals %s omissions %s'
+                   % (TARGET_LABEL, receipt['status'], list(stages),
                       receipt.get('placed', {}).get('decals', {}).get('placedCount'),
                       sorted(receipt.get('omissions', {}))))
     except Exception as error:  # noqa: BLE001
@@ -1388,7 +1524,19 @@ def _main():
 if __name__ == '__main__':
     if _unreal_available():
         _main()
+    elif mt.revert_from_command_line():
+        _action = mt.revert_from_command_line()
+        print(json.dumps(mt.restore_checkpoint(_action['receipt'], dry_run=_action['dryRun']), indent=2))
     else:
-        print(json.dumps(offline_check(), indent=2))
+        report = offline_check()
+        report['target'] = TARGET_LABEL
+        report['placement'] = {'uniformScale': PLACEMENT_SCALE,
+                               'translationCm': list(PLACEMENT_TRANSLATION)}
+        try:
+            report['decalHostProof'] = decal_host_proof(load_plan(load_spec()),
+                                                        mt.architecture_index(ROOT)[0])
+        except Exception as error:  # noqa: BLE001 - the offline check reports its own problems
+            report['decalHostProof'] = {'error': repr(error)}
+        print(json.dumps(report, indent=2))
 elif _invoked_as_native_script():
     _main()

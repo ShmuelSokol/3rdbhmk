@@ -59,6 +59,21 @@ Commandlet invocation (serial, never while another native job is running):
       -unattended -nullrhi -EnablePlugins=GeometryScripting
       -abslog="C:/Mikdash/Working-5.8/Gate-Security-01.log"
 
+WHICH MAP -- and the 48 cm trap
+-------------------------------
+  -Main50        the legacy 50 cm map. THE DEFAULT, so no existing invocation is retargeted.
+  -Candidate48   the configured GameDefaultMap and the cook map: the one that ships.
+
+Candidate48 is not Main50 renamed. Its architecture was rescaled 0.96 about the world origin
+and then translated (-248, 0, 0) by the Aron re-pivot, so an assembly spawned there at the
+authored coordinates would be 4 per cent oversized and 2.48 m east of its gate. Every planned
+transform is therefore carried through that similarity (Scripts/map_targets.py), and the
+similarity is not taken on trust: prove_placement() MEASURES it off the live level against
+SourceAssets/architecture-manifest.json -- both by predicting every architecture actor's world
+bounds and by solving the transform back out of them -- before anything is spawned. On top of
+that, each gate's own first riser and threshold are confirmed against their predicted bounds,
+and the standoff from the live riser to the assembly anchor is measured and recorded in cm.
+
 Optional switches (read from the engine command line):
   -GateSecurityGates=east,north      comma-separated subset of east,north,south.
   -GateSecurityImportOnly            import and material work only; no map mutation.
@@ -66,6 +81,11 @@ Optional switches (read from the engine command line):
                                      (mesh, pose, bounds, sign material, collision) and write
                                      a verify receipt. No checkpoint, no spawn, no save.
   -GateSecurityAllowUnverifiedWinding    place even if GeometryScripting is unavailable.
+
+Revert (OFFLINE, with no editor open -- it restores files, it does not undo actors):
+  python Scripts/release_gate_security.py --revert=<apply receipt> [--dry-run]
+puts the map back to the checkpoint that run took, verifying the checkpointed bytes hash to the
+receipt's mapSha256Before before it writes and to the same hash afterwards.
 
 UE 5.8 pitfalls this script is written against
 ----------------------------------------------
@@ -125,8 +145,48 @@ def helper():
         _HELPER = module
     return _HELPER
 
-TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'
+MAP_TARGETS_PATH = ROOT / 'Scripts' / 'map_targets.py'
+_MAP_TARGETS = None
+
+
+def targets():
+    """Scripts/map_targets.py, loaded by path: the two maps and the 48 cm similarity.
+
+    By path rather than by import because a -run=pythonscript commandlet does not necessarily
+    carry Scripts/ on sys.path; this is the same convention helper() above already uses.
+    """
+    global _MAP_TARGETS
+    if _MAP_TARGETS is None:
+        import importlib.util
+        module_spec = importlib.util.spec_from_file_location('map_targets', MAP_TARGETS_PATH)
+        module = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(module)
+        _MAP_TARGETS = module
+    return _MAP_TARGETS
+
+
+# THE MAP THIS RUNS AGAINST. Defaults to Main50 -- the map this pass has always run against and
+# the frame the spec is authored in -- so no existing invocation is silently retargeted. Say
+# -Candidate48 (or -Target=Candidate48) to place on the map that actually ships.
+TARGET_KEY = targets().target_from_command_line()
+TARGET_CONFIG = targets().target_config(TARGET_KEY)
+TARGET = TARGET_CONFIG['map']
+TARGET_LABEL = TARGET_CONFIG['key']
+AUTHORING_MAP = targets().TARGETS[targets().AUTHORING_TARGET]['map']
+PLACEMENT_SCALE, PLACEMENT_TRANSLATION = targets().placement_of(TARGET_KEY)
 GATE_ORDER = ('east', 'north', 'south')
+
+# What placing this assembly onto the 48 cm candidate costs, said out loud in every receipt.
+TARGET_LIMITATIONS = ([] if TARGET_KEY == targets().AUTHORING_TARGET else [
+    "On %s the WHOLE checkpoint rides the architecture's own 0.96 similarity, so every modern "
+    'object -- the detector arches, the bag scanner, the stanchions, the booth, the racks and '
+    'the sign panels -- stands 4 per cent under real size. That is deliberate: it keeps the wall '
+    'plates flush with the measured vestibule wall and keeps the racks off a first riser that is '
+    'itself 4 per cent nearer. It is a depiction either way; nothing here asserts a dimension.'
+    % TARGET_LABEL,
+    'The placement is geometric. No visual, collision, cook or performance acceptance is '
+    'established on %s by this script.' % TARGET_LABEL,
+])
 
 
 # ==========================================================================
@@ -145,8 +205,12 @@ def disk_path(asset_path, extension='uasset'):
 
 def load_spec():
     spec = json.loads(SPEC_PATH.read_text(encoding='utf-8'))
-    if spec['targetMap'] != TARGET:
-        raise RuntimeError('Spec target differs from script target')
+    # The spec is written in the AUTHORING frame (Main50) whichever map is being placed into;
+    # Candidate48 placement is those same numbers carried through the measured similarity, so
+    # the spec's own targetMap must stay the authoring map and never be rewritten per run.
+    if spec['targetMap'] != AUTHORING_MAP:
+        raise RuntimeError('Spec target %r is not the authoring map %r'
+                           % (spec['targetMap'], AUTHORING_MAP))
     if Path(spec['projectDir']).resolve() != ROOT:
         raise RuntimeError('Spec project directory differs from script root')
     return spec
@@ -301,7 +365,38 @@ def assembly_elements(gate_spec):
     return elements
 
 
-def plan_gate(spec, gate_key):
+def place_plan(planned, scale, translation):
+    """Carry a Main50-authored plan onto the target map.
+
+    The WHOLE assembly rides the architecture's own similarity, scale included, so on the 48 cm
+    candidate a checkpoint stands 4 per cent smaller. That is deliberate and it is the safe
+    choice: the wall plates are mounted on the measured vestibule wall and the shoe racks stand
+    on a deck whose first riser is 4 per cent nearer, and an earlier version of this assembly
+    reached into that riser's own Y span by 3.5 cm. Keeping the modern objects at 1.0 while the
+    architecture around them shrank would re-open exactly that clearance, one gate at a time.
+    A metal detector 4 cm shorter than life is recorded as a limitation instead.
+
+    A uniform scale about the origin plus a translation commutes with yaw and maps an AABB onto
+    an AABB exactly, so the planned world bounds transform with the same arithmetic and stay
+    exact rather than being re-derived.
+    """
+    mt = targets()
+    if scale == 1.0 and translation == [0.0, 0.0, 0.0]:
+        return planned
+    out = []
+    for record in planned:
+        moved = dict(record)
+        moved['location'] = [round(v, 4) for v in mt.transform_point(record['location'], scale, translation)]
+        moved['scale'] = [s * scale for s in record['scale']]
+        moved['plannedWorldBoundsCm'] = {
+            k: [round(v, 4) for v in vals]
+            for k, vals in mt.transform_box(record['plannedWorldBoundsCm'], scale, translation).items()}
+        moved['authoredLocationCm'] = record['location']
+        out.append(moved)
+    return out
+
+
+def plan_gate(spec, gate_key, scale=None, translation=None):
     """Full world-space plan for one gate. Pure: no engine, no side effects."""
     gate = spec['gates'][gate_key]
     anchor, yaw = gate['anchorCm'], gate['assemblyYawDegrees']
@@ -333,7 +428,9 @@ def plan_gate(spec, gate_key):
                                + element['mount']),
             'note': element['note'],
         })
-    return planned
+    return place_plan(planned,
+                      PLACEMENT_SCALE if scale is None else scale,
+                      PLACEMENT_TRANSLATION if translation is None else translation)
 
 
 def self_intersections(planned, tolerance_cm):
@@ -367,7 +464,13 @@ def offline_check(spec=None):
     spec = spec or load_spec()
     report = {'specFile': str(SPEC_PATH), 'specSha256': sha256_of(SPEC_PATH),
               'projectDirMatches': Path(spec['projectDir']).resolve() == ROOT,
-              'targetMap': spec['targetMap'], 'gates': {}, 'problems': []}
+              'authoringMap': spec['targetMap'],
+              'target': TARGET_LABEL, 'targetMap': TARGET,
+              'placement': {'uniformScale': PLACEMENT_SCALE,
+                            'translationCm': list(PLACEMENT_TRANSLATION),
+                            'derivation': TARGET_CONFIG['derivation'],
+                            'provedAtRunTime': 'GateSecurity.prove_placement(), off the live level'},
+              'gates': {}, 'problems': []}
 
     source = spec['source']
     manifest_path = ROOT / source['manifest']
@@ -464,13 +567,17 @@ def offline_check(spec=None):
                 report['problems'].append('anchor uasset missing on disk: ' + anchor_actor['asset'])
             entry['anchorActors'].append(row)
 
-        planned = plan_gate(spec, gate_key)
+        # ALWAYS the authoring frame here, whatever map is being placed into. A uniform scale
+        # about the origin plus a translation preserves overlap and interpenetration exactly, so
+        # a plan that clears the first riser at 50 cm clears it at 48 cm; and the riser bounds
+        # this is tested against are themselves authored numbers out of the manifest.
+        planned = plan_gate(spec, gate_key, scale=1.0, translation=[0.0, 0.0, 0.0])
         entry['elements'] = len(planned)
         entry['triangles'] = sum(p['triangles'] for p in planned)
         total += entry['triangles']
         footprint = {'min': [min(p['plannedWorldBoundsCm']['min'][i] for p in planned) for i in range(3)],
                      'max': [max(p['plannedWorldBoundsCm']['max'][i] for p in planned) for i in range(3)]}
-        entry['plannedFootprintCm'] = {k: [round(x, 2) for x in v] for k, v in footprint.items()}
+        entry['plannedFootprintAuthoredCm'] = {k: [round(x, 2) for x in v] for k, v in footprint.items()}
         clashes = self_intersections(planned, spec['verification']['selfIntersectionToleranceCm'])
         entry['selfIntersections'] = clashes
         if clashes:
@@ -948,17 +1055,32 @@ class GateSecurity(object):
         and get_actor_location() on them returns (0,0,0).
         """
         ue = self.ue
+        mt = targets()
         gate = self.spec['gates'][gate_key]
         tolerance = self.spec['verification']['anchorBoundsToleranceCm']
-        evidence = {'gate': gate_key, 'anchorCm': gate['anchorCm'], 'actors': []}
+        evidence = {'gate': gate_key, 'target': TARGET_LABEL,
+                    'authoredAnchorCm': gate['anchorCm'],
+                    'anchorCm': [round(v, 4) for v in mt.transform_point(
+                        gate['anchorCm'], PLACEMENT_SCALE, PLACEMENT_TRANSLATION)],
+                    'placement': {'uniformScale': PLACEMENT_SCALE,
+                                  'translationCm': list(PLACEMENT_TRANSLATION)},
+                    'actors': []}
         for anchor_actor in gate['anchorActors']:
             found = []
             for row in self.snapshot:
                 if anchor_actor['asset'] in row['meshes']:
                     found.append(row)
+            # The manifest bounds are AUTHORED (Main50). What this gate must actually agree with
+            # is those bounds carried through the target's placement, which on Candidate48 is
+            # 4 per cent smaller and 248 cm west. Comparing against the raw authored numbers on
+            # that map would fail every gate by metres, which is the correct outcome for a naive
+            # port and a useless one for a real placement.
+            predicted = mt.transform_box(anchor_actor['expectedWorldBoundsCm'],
+                                         PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
             entry = {'role': anchor_actor['role'], 'asset': anchor_actor['asset'],
                      'actorsWithThisMesh': len(found),
-                     'expectedWorldBoundsCm': anchor_actor['expectedWorldBoundsCm']}
+                     'authoredWorldBoundsCm': anchor_actor['expectedWorldBoundsCm'],
+                     'expectedWorldBoundsCm': predicted}
             if len(found) != 1:
                 entry['status'] = 'not_uniquely_present'
                 evidence['actors'].append(entry)
@@ -974,16 +1096,60 @@ class GateSecurity(object):
                           'actorLocation': row['pose']['location'],
                           'actorLocationIsOriginAsExpected':
                               max(abs(v) for v in row['pose']['location']) < 1e-6,
-                          'boundsErrorCm': round(box_error(observed,
-                                                           anchor_actor['expectedWorldBoundsCm']), 4)})
+                          'boundsErrorCm': round(box_error(observed, predicted), 4)})
             entry['status'] = 'confirmed' if entry['boundsErrorCm'] <= tolerance else 'bounds_differ'
             evidence['actors'].append(entry)
             if entry['status'] != 'confirmed':
                 raise OmissionError('gate %s: %s world bounds differ by %.4f cm (tolerance %.4f)'
                                     % (gate_key, anchor_actor['role'], entry['boundsErrorCm'],
                                        tolerance), evidence)
+        # The number a human can check by eye: how far out from the real first riser the
+        # assembly anchor stands, ON THIS MAP, measured off the riser's live bounds. It is the
+        # authored standoff times the placement scale (150 -> 144 cm on the candidate), and it
+        # says the checkpoint kept its relationship to the stairs rather than merely existing.
+        riser = next((a for a in evidence['actors'] if a['role'] == 'firstRiser'), None)
+        if riser and 'observedWorldBoundsCm' in riser:
+            axis = 'XYZ'.index(gate['outwardAxis'][1])
+            outward = 1.0 if gate['outwardAxis'][0] == '+' else -1.0
+            face = riser['observedWorldBoundsCm']['max' if outward > 0 else 'min'][axis]
+            anchor_on_axis = evidence['anchorCm'][axis]
+            evidence['standoffFromFirstRiserCm'] = round((anchor_on_axis - face) * outward, 4)
+            evidence['standoffAuthoredCm'] = round(
+                (gate['anchorCm'][axis] - anchor_actor_authored_face(gate, axis, outward)) * outward, 4)
+            evidence['standoffExpectedCm'] = round(evidence['standoffAuthoredCm'] * PLACEMENT_SCALE, 4)
+            evidence['standoffErrorCm'] = round(
+                abs(evidence['standoffFromFirstRiserCm'] - evidence['standoffExpectedCm']), 4)
+            if evidence['standoffErrorCm'] > tolerance:
+                raise OmissionError(
+                    'gate %s: the assembly would stand %.2f cm out from the live first riser, '
+                    'not the %.2f cm the authored standoff scales to'
+                    % (gate_key, evidence['standoffFromFirstRiserCm'],
+                       evidence['standoffExpectedCm']), evidence)
         evidence['status'] = 'gate_confirmed_against_offline_receipts'
         return evidence
+
+    # -- the target's similarity transform, proved off the live level ------
+    def prove_placement(self):
+        """Prove the loaded map really sits under the placement this run is about to use.
+
+        release_water.py's answer, and its reason: Candidate48 is not Main50 renamed. Every
+        actor whose mesh resolves to the architecture manifest is compared with its manifest
+        AABB carried through the declared placement, and the placement is independently SOLVED
+        back out of those same bounds. On Main50 both come back as the identity; on Candidate48
+        both come back as 0.96 and (-248, 0, 0). A map that disagrees stops the run before a
+        single actor is spawned, because a gate assembly placed against architecture that is not
+        where it is thought to be is worse than no gate assembly at all.
+        """
+        mt = targets()
+        by_key, manifest = mt.architecture_index(ROOT)
+        rows = self.snapshot or self.take_snapshot()
+        proof = mt.prove_placement(rows, by_key, PLACEMENT_SCALE, PLACEMENT_TRANSLATION)
+        proof.update({'target': TARGET_LABEL, 'map': TARGET,
+                      'architectureManifest': self.spec['architectureManifest'],
+                      'manifestMeshes': len(manifest['meshes'])})
+        self.receipt['placementProof'] = proof
+        self.write_receipt()
+        return proof
 
     # -- assets ------------------------------------------------------------
     def pick_material(self, role):
@@ -1272,6 +1438,14 @@ class GateSecurity(object):
                        roll=plan['rotation']['roll']), transient=False)
         if actor is None:
             raise RuntimeError('StaticMeshActor spawn returned None for ' + plan['label'])
+        # spawn_actor_from_class takes no scale, and on the 48 cm candidate the assembly rides
+        # the architecture's 0.96 similarity, so the scale is set here -- on an actor that was
+        # created moments ago, whose package is already dirty from the spawn itself, which is
+        # not the case the 'a static actor does not dirty its package on a transform change'
+        # rule is about. It is not taken on trust either way: the pose is read back below, and
+        # again after the save and reopen, and a scale that did not persist fails the run.
+        if any(abs(v - 1.0) > 1e-9 for v in plan['scale']):
+            actor.set_actor_scale3d(ue.Vector(*[float(v) for v in plan['scale']]))
         actor.set_actor_label(plan['label'])
         actor.set_folder_path(plan['folder'])
         actor.set_editor_property('tags', [ue.Name(spec['actorTag']),
@@ -1348,6 +1522,12 @@ class GateSecurity(object):
                 'triangles': sum(p['triangles'] for p in planned)}
 
 
+def anchor_actor_authored_face(gate, axis, outward):
+    """The authored outward face of a gate's first riser, from the spec's own frozen bounds."""
+    riser = next(a for a in gate['anchorActors'] if a['role'] == 'firstRiser')
+    return riser['expectedWorldBoundsCm']['max' if outward > 0 else 'min'][axis]
+
+
 def _strip(record):
     return {k: v for k, v in record.items() if k != 'actor'}
 
@@ -1381,11 +1561,16 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
 
     map_file = disk_path(TARGET, 'umap')
     map_sha_before = sha256_of(map_file)
-    protected = {m: sha256_of(disk_path(m, 'umap')) for m in spec['protectedMaps']
+    # The OTHER target is protected too. The spec's list predates the candidate, so on a
+    # Candidate48 run it would leave the map that every plan in this project is authored against
+    # unwatched -- and a concurrent save of it is exactly what tripped the cp02b build guard.
+    protected_paths = list(spec['protectedMaps']) + [
+        config['map'] for key, config in targets().TARGETS.items() if config['map'] != TARGET]
+    protected = {m: sha256_of(disk_path(m, 'umap')) for m in protected_paths
                  if disk_path(m, 'umap').exists()}
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 
-    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + stamp)
+    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + TARGET_LABEL + '-' + stamp)
     checkpoint.mkdir(parents=True, exist_ok=False)
     shutil.copy2(map_file, checkpoint / map_file.name)
     if sha256_of(checkpoint / map_file.name) != map_sha_before:
@@ -1399,12 +1584,18 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
 
     receipt_folder = ROOT / spec['receiptFolder']
     receipt_folder.mkdir(parents=True, exist_ok=True)
-    run_state.receipt_path = receipt_folder / (spec['receiptPrefix'] + stamp + '.json')
+    run_state.receipt_path = receipt_folder / (spec['receiptPrefix'] + TARGET_LABEL + '-' + stamp + '.json')
     if run_state.receipt_path.exists():
         raise RuntimeError('Receipt already exists: ' + str(run_state.receipt_path))
     run_state.receipt = {
         'status': 'gate_security_started',
         'stamp': stamp,
+        'target': TARGET_LABEL,
+        'targetRole': TARGET_CONFIG['role'],
+        'placement': {'uniformScale': PLACEMENT_SCALE,
+                      'translationCm': list(PLACEMENT_TRANSLATION),
+                      'derivation': TARGET_CONFIG['derivation']},
+        'authoringMap': AUTHORING_MAP,
         'map': TARGET,
         'mapFile': str(map_file),
         'mapSha256Before': map_sha_before,
@@ -1430,7 +1621,7 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
         'omissions': {},
         'errors': [],
         'mapSaved': False,
-        'limitations': list(spec['limitations']),
+        'limitations': list(spec['limitations']) + list(TARGET_LIMITATIONS),
     }
     run_state.write_receipt()
 
@@ -1461,6 +1652,7 @@ def run(gates=GATE_ORDER, import_only=False, load_target=True, allow_unverified_
         # ---- the map ----
         run_state.take_snapshot()
         run_state.receipt['loadChurnProbe'] = run_state.probe_load_churn()
+        run_state.prove_placement()
         run_state.receipt['baselineExclusions'] = run_state.baseline_exclusions(run_state.snapshot)
         baseline_rows = list(run_state.snapshot)
         baseline = run_state.numeric_baseline(baseline_rows)
@@ -1606,14 +1798,19 @@ def verify_in_place(gates=GATE_ORDER, load_target=True):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     folder = ROOT / spec['receiptFolder']
     folder.mkdir(parents=True, exist_ok=True)
-    run_state.receipt_path = folder / (spec['receiptPrefix'] + 'verify-' + stamp + '.json')
+    run_state.receipt_path = folder / (spec['receiptPrefix'] + 'verify-' + TARGET_LABEL + '-'
+                                      + stamp + '.json')
     run_state.receipt = {'status': 'verify_started', 'mode': 'read_only_verify', 'stamp': stamp,
-                         'map': TARGET, 'mapSha256': sha256_of(map_file), 'specSha256': sha256_of(SPEC_PATH),
+                         'target': TARGET_LABEL, 'map': TARGET,
+                         'placement': {'uniformScale': PLACEMENT_SCALE,
+                                       'translationCm': list(PLACEMENT_TRANSLATION)},
+                         'mapSha256': sha256_of(map_file), 'specSha256': sha256_of(SPEC_PATH),
                          'gatesRequested': list(gates), 'gates': {}, 'problems': [], 'mapSaved': False}
     run_state.write_receipt()
     verify = spec['verification']
     try:
         rows = run_state.take_snapshot()
+        run_state.prove_placement()
         by_label = {}
         for row in rows:
             by_label.setdefault(row['label'], []).append(row)
@@ -1720,13 +1917,14 @@ def _main():
     try:
         if verify_only:
             receipt = verify_in_place(gates=gates)
-            ue.log('release_gate_security VERIFY: %s verified %s of %s planned'
-                   % (receipt['status'], receipt.get('verifiedActorCount'), receipt.get('plannedActorCount')))
+            ue.log('release_gate_security VERIFY [%s]: %s verified %s of %s planned'
+                   % (TARGET_LABEL, receipt['status'], receipt.get('verifiedActorCount'),
+                      receipt.get('plannedActorCount')))
             return
         receipt = run(gates=gates, import_only=import_only,
                       allow_unverified_winding=allow_unverified)
-        ue.log('release_gate_security: %s gates %s placed %s omitted %s'
-               % (receipt['status'], list(gates), receipt.get('placedActorCount'),
+        ue.log('release_gate_security [%s]: %s gates %s placed %s omitted %s'
+               % (TARGET_LABEL, receipt['status'], list(gates), receipt.get('placedActorCount'),
                   list(receipt.get('omissions') or {})))
     except Exception as error:  # noqa: BLE001
         ue.log_error('release_gate_security failed: ' + repr(error))
@@ -1739,6 +1937,10 @@ def _main():
 if __name__ == '__main__':
     if _unreal_available():
         _main()
+    elif targets().revert_from_command_line():
+        action = targets().revert_from_command_line()
+        print(json.dumps(targets().restore_checkpoint(action['receipt'], dry_run=action['dryRun']),
+                         indent=2))
     elif '--write-spec' in sys.argv:
         written = write_spec()
         print('wrote %s (%d meshes, %d signs, %d gates, %d actors per gate)'

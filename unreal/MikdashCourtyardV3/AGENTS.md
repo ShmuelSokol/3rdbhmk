@@ -1,3 +1,102 @@
+## Three Main50-only passes now land on the map that ships — 2026-09-10 02:4x UTC
+
+**Gate security, surface wear and vegetation all exist on Candidate48 now.** All three hardcoded
+`TARGET = '/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough'`, none contained the Amah48Candidate
+path anywhere, and Candidate48 is the configured `GameDefaultMap` and the only map cooked into the
+download. Everything the user had been shown of these three existed only on the map that does not
+ship. All three now take `-Main50` (THE DEFAULT, so no existing invocation is retargeted) or
+`-Candidate48`, in the shape `release_reviewed_daylight.py` settled on.
+
+**The switch was the easy half.** Candidate48 holds the same architecture under
+`p_candidate = 0.96 * p_main50 + (-248, 0, 0)` while the FutureMountV1 terrain and the metric city
+were never rescaled, so a correct port has to move what moved and leave alone what did not. That is
+now one file, `Scripts/map_targets.py`: the two maps, the similarity, `prove_placement()` (
+`release_water.py`'s method), a terrain fingerprint comparison, an offline checkpoint `--revert`,
+and a self-test (`python Scripts/map_targets.py`, 20 checks including that
+`0.96 * -6200 - 248 = -6200` — the Aron is the FIXED POINT of the candidate transform, which is
+what the -248 is for).
+
+**Nothing trusts the transform; every run measures it.** `Scripts/candidate_placement_proof.py`
+(read-only, both maps in one session) and each release run independently: every actor resolving to
+`architecture-manifest.json` is compared with its manifest AABB carried through the declared
+placement, AND the placement is solved back out of those bounds by least squares.
+
+| map | agree | measured scale | measured translation cm |
+|---|---|---|---|
+| Main50 | 2626 / 2633 | 1.000000686 | [-0.0004, 0.0067, -0.0054] |
+| Candidate48 | 2626 / 2633 | 0.960000659 | [-248.0004, 0.0064, -0.0052] |
+
+The same 7 actors disagree on BOTH maps (turned pedestal, hollow basin — manifest-vs-live AABB
+differences that predate all of this), and their worst error is 42.5001 cm on Main50 and 40.8001 on
+the candidate: 0.96 times it, exactly. Even the disagreement scales.
+
+**What landed, and how it was shown to be geometrically right rather than merely present:**
+
+- **Gate security, `native-gate-security-Candidate48-20260910T024340862182Z.json`.** 90/90 placed,
+  saved, reopened; pose error **0.0 cm on all 90**, worst reopened bounds error 5.9e-06 cm, every
+  actor NoCollision. Each gate's live first riser and threshold match their PREDICTED bounds to
+  0.0000-0.0015 cm, and the assembly stands **96.00 cm out from the live riser at all three gates,
+  exactly 0.96 x the authored 100 cm**. Re-verified read-only from a fresh process, 90/90, zero
+  problems, map byte-unchanged (`native-gate-security-verify-Candidate48-20260910T024732210165Z.json`).
+  The WHOLE assembly rides the 0.96, so the detectors and signage are 4 per cent under real size —
+  deliberate (it keeps the wall plates flush with the measured vestibule wall and the racks off a
+  riser that is itself 4 per cent nearer) and recorded as a limitation in every receipt.
+- **Surface wear, `native-surface-detail-Candidate48-20260910T024410434756Z.json`.** 460 decals +
+  the manager; **all 460 read back after the reopen at 0.0 cm location error and 0.0 cm decal-size
+  error**. Origins, projection boxes and the manager all carry the similarity, so a wear patch
+  covers the same fraction of the same tread ([0,-2650,625]/60x280x180 -> [-248,-2544,600]/
+  57.6x268.8x172.8). The assets stage is map-INDEPENDENT and was not re-run; the 09-09 assets
+  receipt's asset SHA-256s were re-checked on disk. New evidence worth keeping: 456 of the 460
+  decal origins sit inside a manifest architecture AABB at 60 cm padding; the 4 that do not are the
+  outer gate landings.
+- **Vegetation, `release-vegetation-Candidate48-20260910T024536144980Z.json`.** 697/697 batches,
+  **225,780 instances across 27 components, expected == readback on all 27, 0 errors** — the SAME
+  instance total as Main50. **THE PLANTS DO NOT RIDE THE SIMILARITY, and that is the finding.**
+  They stand on terrain that was never rescaled, so they are placed at IDENTICAL coordinates, and
+  the licence for that is measured: all **256 ground tiles have identical world AABBs on the two
+  maps, worst 0.0000 cm**. The eleven-plus-one `*_PrecinctCut`/`KotelPlazaCut` twins legitimately
+  differ (up to 502 cm — the precinct square is itself 4 per cent smaller) and are excluded from
+  that comparison by name rather than averaged into it. What DOES ride the transform is the
+  keep-out: the enclosure ring and the 162 architecture blocker boxes are tested in BOTH frames
+  (2 rings, 324 boxes), offline and live, so nothing is planted inside the Mount under either
+  interpretation. 2,678 refused by the existing-tree rule. `release_vegetation.py` refuses to place
+  on the candidate at all unless `SourceAssets/scale-review/ground-fingerprint-Main50.json` exists.
+
+**A resume receipt is now per MAP.** `-VegetationResume=` refuses a receipt whose target is not this
+run's, because skipping the batches the OTHER map completed would leave a hole exactly the shape of
+the other map's progress and no count against the plan would ever see it.
+
+**`--revert` works and was exercised for real, not asserted.**
+`python Scripts/release_vegetation.py --revert=<receipt>` (offline, no editor open) restored
+Candidate48 from `034f8343...` to the checkpoint's `902152739fb9690a...` byte for byte, after a
+`--dry-run` that verified the checkpointed bytes still hash to the receipt's `mapSha256Before`. The
+map was then restored forward to `034f8343...` from a copy taken first. All three scripts expose it.
+
+**Receipts now carry `target` and are named `<pass>-<Target>-<stamp>.json`**, which is what
+`verify.py check_map_parity` buckets on — that is the blind spot the 10 Sep note describes, and
+these three passes were 3 of the 351 receipts it could not see. Both targets' maps are now in each
+run's protected-hash set, so a Candidate48 run watches Main50 and vice versa; `protectedMapsUnchanged`
+true on every run above.
+
+**The paired evidence, on the map that did NOT change.** `-Main50 -GateSecurityVerifyOnly` re-run
+after all of this (`native-gate-security-verify-Main50-20260910T024927506500Z.json`): 90/90, zero
+problems, map byte-unchanged, standoff **100.00 cm** at all three gates against the candidate's
+96.00. Main50 finished the night on **9f5dd4b0230d9de8adafa4b469ed3ada7d07aa57a8fa9a358a0b1d489227bd53**
+— the same hash it carried before any of this — and Candidate48 on
+**034f83435874be25a3cc82776704e6a95b57a53c4058152f42637beb77be4ae3**.
+
+**Small trap, paid for here: do not put a `target` key in a reference table under SourceAssets/.**
+`verify.py check_map_parity` buckets ANY json there carrying `target` as a pass that ran on that
+map, so `ground-fingerprint-Main50.json` immediately produced a WARN that a "ground-fingerprint"
+pass had run on the legacy map only. The field is `readFromTarget` now. Related and still open: the
+per-pass parity buckets still read `native-gate-security` / `native-surface-detail` /
+`release-vegetation` as ship-only, because the HISTORICAL Main50 apply receipts carry `map` and no
+`target`. That is the 351-receipt blind spot the entry below describes; the new receipts all carry
+`target`, and nothing back-fills old ones.
+
+**Not established by any of this:** no visual, collision, cook or performance acceptance on either
+map; vegetation materials remain unassigned; the 4 unhosted decals are recorded, not fixed.
+
 ## Backlog verification pass — 2026-09-10 02:1x UTC
 
 **Candidate48 real-RHI PIE is not possible on this box right now — that is the headline.**

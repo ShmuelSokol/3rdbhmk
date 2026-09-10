@@ -1,0 +1,305 @@
+{
+  "specVersion": "MikdashFrameDefects-1",
+  "prepared": "2026-09-10",
+  "purpose": "Fix the three defects the first real rendered frames (SourceAssets/visual-review/cp05b-frames-20260910.json) caught: vegetation standing on the two paved plaza decks, the bird flocks rendering as flat dark quads, and the sea-sized blue plane on the horizon. One guarded pass per map, with a dry-run mode that mutates nothing.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "FrameDefects-",
+  "receiptFolder": "SourceAssets/visual-review",
+  "receiptPrefix": "frame-defects-",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount"
+  ],
+  "vegetation": {
+    "actorTag": "JudeanFloraV1",
+    "labelPrefix": "RELEASE_Vegetation_",
+    "why": "release_vegetation.py ran on 9 Sep with keep-outs for the Mount enclosure ring and the architecture blocker boxes. BOTH plaza decks were built AFTER that scatter, so no keep-out covered them and the scatter planted straight through them.",
+    "precedent": "release_vegetation.py already refuses instances that fall within existingTreeProximityCm of an existing tree (2,678 refused on the Candidate48 run). This is that same mechanism with a new primitive: a deck footprint instead of a tree radius.",
+    "rule": "An instance is ON a deck if its XY falls inside a deck footprint AND the top of its own mesh bounding box rises above that deck top Z. That is exactly the set a frame can see standing in, poking through, or floating over the paving. An instance whose whole bounding box stays BELOW the deck top is buried under the platform, invisible in the state the deck exists in, and is NOT touched.",
+    "ruleWhyNotEverythingInside": "Inside the precinct square the deck and the Modern city are opposites: AMikdashEnclosure hides the PrecinctCutOriginal terrain while the wall stands and hides the PrecinctCutTwin while the modern city stands, so the same ground is paved deck in the Yechezkel state and open hillside in the Modern state. Every plant inside that square is therefore correct in one state and wrong in the other. Removing only the ones that break the deck's surface keeps the Yechezkel frames clean at the smallest possible cost to the Modern hillside: the plants below the deck plane, which are the lower slopes, survive untouched.",
+    "deckHosts": [
+      {
+        "key": "precinct",
+        "actorLabel": "RELEASE_EnclosureV2_Precinct",
+        "actorTag": "ReleaseEnclosureV2",
+        "meshSubstrings": [
+          "SM_PlazaV1_DeckTile",
+          "SM_PlazaV1_WayTile"
+        ],
+        "footprintMode": "analytic_rectangle",
+        "footprintTopZcm": 0.0,
+        "expectedTiles": 14641,
+        "expectedTopZcm": [
+          0.0
+        ],
+        "analyticNote": "This deck CANNOT be measured off the .umap. AMikdashEnclosure::BuildPlaza builds all 14,641 tiles at runtime onto default-subobject HISM components, and deliberately serialises nothing - in the editor those components carry no static mesh and no instances, which is why a first pass that read the level found zero tiles here. The rectangle is instead taken from the run that built it, and it is exact rather than conservative: the readback records 14,039 deck tiles plus 602 way tiles, and 14,039 + 602 = 14,641 = 121 x 121, so every cell of the grid is paved and the union of the tiles IS the bounding rectangle, with no holes to be conservative about.",
+        "source": "native-plaza-apply-<Target>-*.json readback: 14,039 deck tiles + 602 way tiles = 14,641 = 121 x 121 on both maps, deckTopZcm 0.0, extentCm per target above.",
+        "visualConfirmation": "cp05b-03 puts the camera at 64498,-13260 inside the square and the ground under the plants is paving, not soil; cp05b-05 shows a band of plants standing on the open deck.",
+        "priority": 1,
+        "footprintRectangleByTarget": {
+          "Candidate48": [
+            -31488.0,
+            -31536.0,
+            111936.0,
+            111888.0
+          ],
+          "Main50": [
+            -32800.0,
+            -32850.0,
+            116600.0,
+            116550.0
+          ]
+        },
+        "expectedExtentByTarget": {
+          "Candidate48": [
+            -31488.0,
+            -31536.0,
+            111936.0,
+            111888.0
+          ],
+          "Main50": [
+            -32800.0,
+            -32850.0,
+            116600.0,
+            116550.0
+          ]
+        },
+        "perTargetNote": "THE TWO MAPS HAVE DIFFERENT PRECINCT DECKS AND A FIRST APPLY MISSED IT. Candidate48 is the 48 cm amah map: the Temple, and with it the court platform half-extent and the plaza grid, are 0.96 of the Main50 metric, so its deck spans 143,424 cm a side against Main50's 149,400. Both are 121 x 121 cells and both sit at deck top Z 0. Applying the Candidate48 rectangle to Main50 under-removes a border strip - 1,312 cm on the west and south, 4,664 cm on the east and north - and, because the candidate rectangle is strictly inside the Main50 one, it can never over-remove; the first Main50 apply was therefore incomplete but safe. Sources: SourceAssets/enclosure-review/native-plaza-apply-Candidate48-20260909T225822507573Z.json and native-plaza-apply-Main50-20260909T230017414502Z.json, readback.extentCm."
+      },
+      {
+        "key": "kotel",
+        "actorLabelSubstring": "Kotel",
+        "meshSubstrings": [
+          "SM_PlazaV1_DeckTile"
+        ],
+        "footprintMode": "measured_from_level",
+        "expectedTiles": 926,
+        "expectedTopZcm": [
+          -1234.594,
+          -984.594
+        ],
+        "expectedExtentCm": [
+          -23414.5,
+          11931.7,
+          -14250.0,
+          25000.0
+        ],
+        "measuredNote": "This one IS on the level: release_kotel_plaza.py placed 926 real deck-tile instances on RELEASE_KotelPlaza, and the first dry run measured all 926, both Z levels and the extent to four decimal places against the numbers below. The clipped polygon footprint is used per tile, not a bounding box, so the plaza's real outline is respected.",
+        "source": "SourceAssets/context-review/KotelPlazaV1/kotel-plaza-plan.json deck list, 926 entries on two levels; manifest derived.lowerDeckZCm -1234.594 and upperDeckZCm -984.594",
+        "priority": 0
+      }
+    ],
+    "baseTileSizeCm": 1250.0,
+    "baseTileNote": "SM_PlazaV1_DeckTile and SM_PlazaV1_WayTile are authored 1250 cm square; the plaza generators scale them per cell. The footprint of a tile instance is therefore 1250 * scaleX by 1250 * scaleY about its location. Read from the live instance transforms, never assumed - the base size is asserted against the imported mesh bounds before it is used.",
+    "regressionGuard": "Every removed instance XY must lie inside a deck tile footprint by construction. The receipt records the count per deck, the count per species, and the bounding box of everything removed; that bounding box must be inside the union of the two measured deck extents or the run fails before saving.",
+    "deckPriorityNote": "ORDER MATTERS AND A FIRST PASS GOT IT WRONG. The Kotel plaza stands inside the precinct rectangle in XY (X -23414..-14250, Y 11932..25000) but 10 to 12 m below it: the Kotel decks are at -1234.594 and -984.594 while the precinct deck is at 0. Tested against the precinct first, every plant on the Kotel plaza looked BURIED under the precinct deck and was kept - the dry run scored the Kotel 66 with the precinct absent and 0 with it present. The precinct deck does not actually cover the Kotel plaza: Scripts/create_kotel_opening.py cuts an opening for it, and in the Modern state AMikdashEnclosure hides the precinct plaza altogether and the Kotel plaza is the surface. So decks are tested in priority order, smallest and most specific first, and the first deck covering an instance's XY is the one it is judged against.",
+    "plantFamilies": [
+      {
+        "key": "JudeanFloraV1",
+        "match": "actorTag",
+        "actorTag": "JudeanFloraV1",
+        "labelPrefix": "RELEASE_Vegetation_",
+        "note": "The 129,920 plants release_vegetation.py scattered on 9 Sep. Handled by the first pass: 32,627 component instances removed on each map."
+      },
+      {
+        "key": "OsmIllustrativeTrees",
+        "match": "meshSubstring",
+        "meshSubstrings": [
+          "JerusalemInstance_Trees",
+          "JerusalemInstance_Tree",
+          "Tree_Trunk",
+          "Tree_Crown"
+        ],
+        "note": "THE cp09 RESIDUAL. Frame cp09-05 still shows a dozen green lollipop trees standing on the open precinct paving after the JudeanFloraV1 removal. They are a DIFFERENT actor set that the first pass never touched: the 4,265 retained illustrative OSM-derived street trees that release_vegetation.py deliberately kept 400 cm clear of (spec clearance.existingTreeNote) rather than owning. They carry no JudeanFloraV1 tag, so a tag filter misses them entirely. Same rule, same guard, matched by mesh name instead of tag.",
+        "source": "Scripts/release_vegetation.spec.json clearance.existingTreeMeshSubstrings, used there as keep-out circles and reused here as the identity of the family."
+      }
+    ],
+    "plantFamiliesNote": "A KEEP-OUT IS ONLY AS GOOD AS THE SET IT IS APPLIED TO. The first pass proved the geometry right and the actor set incomplete: the deck came out clean of scattered flora and still had street trees standing on it, because 'vegetation' in this project is two independently-authored families and only one of them carries a tag."
+  },
+  "birds": {
+    "why": "create_birds.py and release_birds.py both say so in their own honesty lists: NO MATERIAL IS CREATED OR ASSIGNED. All 20 bird meshes carry /Engine/EngineMaterials/WorldGridMaterial in both slots. WorldGridMaterial is DefaultLit and samples the tangent-space normal map T_Default_Material_Grid_N; the bird import logged degenerate tangent bases and nearly zero bi-normals on every species Level pose, so that normal map shades to garbage, and the placeholder planar UVs (measured span 0.03 to 0.19) put the whole bird inside a fraction of one grid cell, so there is no checker either. Uniformly dark, unshaded, bird-shaped-but-unreadable against a bright sky is exactly flat black quads.",
+    "notTheUsageFlagBug": "grep of every packaged log (cp04, cp05b, cp07 and backups) for 'missing usage flag' and 'Default Material will be used in game' names MI_SanctuaryV2_Gold*, MI_CityDetail_* and the flora - never a bird asset. WorldGridMaterial carries bUsedAsSpecialEngineMaterial, which compiles every usage permutation, so it never warns. The birds are not a cook substitution; they simply never had a material.",
+    "materialFolder": "/Game/MikdashV3/BirdsV1/Materials",
+    "masterMaterial": "M_BirdsV1_Plumage",
+    "meshFolder": "/Game/MikdashV3/BirdsV1/Meshes",
+    "slotOrder": [
+      "plumage_mainMat",
+      "plumage_hoodMat"
+    ],
+    "usageFlags": {
+      "used_with_instanced_static_meshes": true
+    },
+    "usageFlagNote": "MANDATORY. AMikdashBirdFlock draws every bird on a HierarchicalInstancedStaticMeshComponent. Without this flag the cook substitutes DefaultMaterial and the birds turn grey instead of black - the exact bug destroying the flora right now. The editor adds the flag silently at runtime, so this cannot be verified by an offline check; it is verified by reading the flag back off the saved asset after a reopen, and finally by a frame.",
+    "noNormalMap": "The master material deliberately has NO normal map input. The bird tangent bases are degenerate (Release-Birds-01.log, 15 warnings). Vertex normals are intact, so DefaultLit shading without a normal map is correct, and is the whole point of replacing WorldGridMaterial.",
+    "twoSided": false,
+    "twoSidedNote": "create_birds.py asserts every part is a closed solid with positive signed volume, so single-sided opaque is correct; two-sided would only cost fill.",
+    "blendMode": "Opaque",
+    "shadingModel": "DefaultLit",
+    "roughness": 0.55,
+    "specular": 0.3,
+    "species": {
+      "RockDove": {
+        "key": "rock_dove",
+        "main": [
+          0.17,
+          0.196,
+          0.232
+        ],
+        "hood": [
+          0.086,
+          0.098,
+          0.125
+        ]
+      },
+      "CommonSwift": {
+        "key": "common_swift",
+        "main": [
+          0.045,
+          0.04,
+          0.036
+        ],
+        "hood": [
+          0.055,
+          0.05,
+          0.046
+        ]
+      },
+      "HoodedCrow": {
+        "key": "hooded_crow",
+        "main": [
+          0.235,
+          0.228,
+          0.205
+        ],
+        "hood": [
+          0.022,
+          0.022,
+          0.026
+        ]
+      },
+      "CommonKestrel": {
+        "key": "common_kestrel",
+        "main": [
+          0.29,
+          0.145,
+          0.07
+        ],
+        "hood": [
+          0.15,
+          0.15,
+          0.17
+        ]
+      },
+      "GriffonVulture": {
+        "key": "griffon_vulture",
+        "main": [
+          0.2,
+          0.16,
+          0.115
+        ],
+        "hood": [
+          0.4,
+          0.385,
+          0.35
+        ]
+      }
+    },
+    "colourSource": "SourceAssets/birds-review/BirdsV1/species.json plumage.main_linear and hood_linear, authored and cited by Scripts/create_birds.py. Linear RGB, used verbatim - these birds are meant to be dark; a rock dove is slate and a common swift is sooty. The defect is that they have no shading, not that they are dark.",
+    "poses": [
+      "UpStroke",
+      "Level",
+      "DownStroke",
+      "Perched"
+    ],
+    "revertNote": "Assets, not level data. Recorded per mesh in the receipt's birds.assignments as before/after so either half can be undone independently of the map."
+  },
+  "horizon": {
+    "why": "THERE IS NO WATER ACTOR. The flat blue expanse in cp05b-04 is the SkyAtmosphere's virtual planet ground shell, seen below the true horizon where the JerusalemContext terrain mesh runs out. That terrain is a 6.4 km square - measured on the level at 256 actors spanning -319,147..320,933 by -320,044..319,996 cm - and from the frame-04 camera the forward ray leaves it at about 5.95 km, so every screen ray within roughly 3.8 degrees below the horizon lands on the sky shell. Saturated blue field, razor-straight upper edge, terrain-shaped lower edge: a sea. Confirmed on the level, not inferred: a scan for any flat actor larger than a quarter of the DEM span reaching beyond it returned ZERO candidates on both maps.",
+    "ruledOut": "Scripts/release_water.py places thirteen Yechezkel 47 meshes plus RELEASE_Water_Driver, all inside the courts and the four mikvaot, and its own limitation note says the stream stops 4000 amot east of the outer gate and the Dead Sea is asserted, not depicted. A string scan of both .umap files finds no WaterBody, BP_Sky_Sphere, Ocean, Backdrop, Horizon, SkyDome, Landscape or FarField reference, and the largest XY scale of any actor in the level is REVIEW_KotelPhoto_0 at about 40 m by 20 m. Nothing to remove, nothing to resize.",
+    "perStateNote": "The per-state hiding mechanism is AMikdashEnclosure's HideWhileWallStandsTags / HideWhileModernCityStandsTags (V key, EMikdashPrecinctState). It is NOT the lever here: SkyAtmosphere_0 cannot be hidden per state without removing the sky itself.",
+    "cityHorizonProbe": {
+      "cameraCm": [
+        -95000.0,
+        175000.0,
+        30000.0
+      ],
+      "pitchDegrees": -9.0,
+      "yawDegrees": -45.0,
+      "source": "cp05b-frames-20260910.json frame 04, the frame the defect was seen in"
+    },
+    "terrainExtentCm": [
+      -319124.5,
+      -320027.6,
+      320875.5,
+      319972.4
+    ],
+    "terrainExtentSource": "SourceAssets/vegetation-review/JudeanFloraV1/placement-plan.json terrain.extentCm, matching SourceAssets/context-review/terrain-import-20260907T020927Z-2871d8.json (256 tiles at 400 m). Any flat actor reaching beyond this would be a second, different defect; the run still looks for one and records that it found none.",
+    "action": "atmosphere_property_edit",
+    "actionNote": "Extending the terrain to the Dead Sea is the real fix and is far out of scope for one pass. The mitigation is two numbers, both read back before they are written and both recorded with their previous value so --revert restores them exactly. Raising fogMaxOpacity to 1.0 makes the far background resolve fully to the fog colour - which is the sky atmosphere ambient, not a saturated planet blue - so the shell stops reading as water. Bringing aerialPerspectiveViewDistanceScale back to 1.0 stops the last kilometres of real terrain dissolving into that band, so the silhouette reads as hills rather than a coastline. Near and mid field are governed by the exponential height falloff and are not touched by either number.",
+    "edits": [
+      {
+        "actorClass": "ExponentialHeightFog",
+        "property": "fog_max_opacity",
+        "valueType": "float",
+        "expectedBefore": 1.0,
+        "after": 0.85,
+        "toleranceBefore": 0.02,
+        "why": "REVERTING the first attempt. The frame showed it does nothing to the sky shell, so the reviewed 0.85 goes back rather than carrying an unjustified change forward."
+      },
+      {
+        "actorClass": "SkyAtmosphere",
+        "property": "ground_albedo",
+        "valueType": "color",
+        "expectedBefore": null,
+        "after": [
+          196,
+          170,
+          128
+        ],
+        "why": "The planet-ground shell's own albedo. A sand tone should make the band past the terrain edge read as far desert haze instead of sea. Recorded before-value, whatever it is, so it can be put back exactly."
+      }
+    ],
+    "editsNote": "The property name aerial_pespective_view_distance_scale is spelled that way in the engine (the typo is Epic's, in FSkyAtmosphereComponent), and ASkyAtmosphere exposes its settings on sky_atmosphere_component, not on component. A float edit with an expectedBefore outside tolerance is recorded and skipped rather than guessed; an edit with expectedBefore null records whatever it finds and proceeds, which is still reversible because the before-value is written to the receipt.",
+    "crossScriptNote": "CHECKED, AND THE TWO SCRIPTS DO NOT FIGHT. release_sky_tod.py lists both fog_max_opacity and aerial_pespective_view_distance_scale in its SETTERS table, so it CAN write them - but neither appears in its spec's authoredTuneThatMustSurvive (fog_density 0.0015, fog_height_falloff 0.15, start_distance 8000, enable_volumetric_fog false) nor in reviewedDaylight, and that spec states that in default mode the pass writes no existing lighting value at all. So a routine sky run leaves these two alone. A -SkyToDBake preset row is the one thing that could put them back; if one is ever run, re-apply this pass or fold 1.0 and 1.0 into the bake row.",
+    "firstAttemptResult": "MEASURED BY A FRAME, AND HALF OF IT FAILED. cp09-04 at the same camera as cp05b-04 shows the blue band still there and no smaller. fogMaxOpacity 1.0 changed nothing, because ExponentialHeightFog composites against SCENE DEPTH and the SkyAtmosphere planet-ground shell is drawn as sky at infinite depth - the fog never touches it. That edit is therefore REVERTED here rather than kept on a justification the frame disproved. aerialPerspectiveViewDistanceScale 1.8 -> 1.0 DID work and is kept: in cp09-04 the outer kilometres of terrain read as tan hills with a legible silhouette instead of dissolving into the band, which is what made the edge look like a coastline.",
+    "secondAttempt": "The band's colour is the virtual planet ground lit through the whole atmosphere at a grazing angle, so Rayleigh scattering dominates and it comes out sea-blue. The one lever that changes that colour without touching the sky above the horizon is the SkyAtmosphere's own groundAlbedo. Pushed to a Judean sand tone it should read as far desert haze rather than water. This is an experiment with a recorded before-value, not a certainty; the frame decides again.",
+    "realFix": "THE ACTUAL FIX IS TERRAIN, AND IT IS NOT THIS PASS. The world stops at the DEM edge, measured on the level at 256 tiles spanning -319,147..320,933 by -320,044..319,996 cm. Anything that does not put geometry past that edge is cosmetics on a hole. A far-field skirt - a coarse ring of low-resolution terrain out to the Dead Sea and the Judean hills - is the correct piece of work and is recorded here as open.",
+    "colourWriteTrap": "unreal.Color's POSITIONAL constructor takes B, G, R, A - FColor's memory order - not the r, g, b its Python properties are named after. Color(196, 170, 128, 255) reads back as [128, 170, 196], which is a BLUE albedo: precisely the wrong direction for a fix aimed at making the horizon less sea-like, and it would have cooked and captured before anyone saw it. The after-write readback caught it and the run failed before saving, leaving both maps byte-identical. Colours are now written by named field, never positionally."
+  },
+  "limitations": [
+    "--revert RESTORES THE .umap ONLY. The checkpoint is the map file and its one-file-per-actor folders, so a revert puts back the removed vegetation instances and the fog and sky numbers exactly. It does NOT unassign the bird materials, because those live on the twenty SM_BirdsV1_* assets, not in any map. To undo that half by hand, set both material slots on each of the twenty meshes back to /Engine/EngineMaterials/WorldGridMaterial: the receipt's birds.assignments records the exact before-value for every slot of every mesh. Leaving the bird materials in place after a map revert is harmless - unreferenced material instances on meshes whose flock actors are back to their previous state simply render birds correctly.",
+    "VISUAL ACCEPTANCE IS A FRAME. Nothing this script reads back proves what the cook does. The receipt is necessary, not sufficient; the acceptance artefact is a rendered PNG from a packaged build at the cp05b camera positions.",
+    "This script does not re-run the vegetation scatter. It removes instances that are already placed and records the keep-out rule so release_vegetation.py can adopt it; it does not backfill the removed plants anywhere else.",
+    "The bird meshes' degenerate tangent bases are NOT fixed here. They are made harmless by giving the birds a material with no normal map. A re-import with recompute_tangents remains open.",
+    "Nothing here touches the flora usage flags (Scripts/fix_hism_usage_flags.py) or the flora materials; that defect is owned by another pass.",
+    "DEFECT 3 IS MITIGATED, NOT FIXED. The world genuinely stops at the DEM edge and this pass adds no geometry there. fogMaxOpacity was tried, disproved by cp09-04 and reverted; aerialPerspectiveViewDistanceScale 1.8 -> 1.0 measurably improved the far terrain silhouette and is kept; groundAlbedo is the second experiment and the frame judges it too. A far-field terrain skirt remains the only real fix and is open work."
+  ],
+  "openWork": [
+    {
+      "item": "Far-field terrain skirt",
+      "defect": 3,
+      "why": "THE ONLY REAL FIX FOR THE HORIZON. The world stops at the DEM edge (measured: 256 tiles, -319,147..320,933 by -320,044..319,996 cm) and past it the camera sees the SkyAtmosphere planet-ground shell. Measured band colour in frame 04: cp05b [56,77,105], cp09 [57,78,106] after fogMaxOpacity 1.0 (no change at all), cp10 [66,80,98] after groundAlbedo sand (a 10-point warm shift, still unmistakably blue). Cosmetics cannot close a hole; geometry can."
+    },
+    {
+      "item": "Revert SkyAtmosphere groundAlbedo to [170, 170, 170]",
+      "defect": 3,
+      "why": "It was an experiment and frame cp10-04 disproved it: 10 points of red for no change in what the band reads as. By the same rule that reverted fogMaxOpacity it should go back. Left applied only because undoing it needs an editor pass on both maps plus a cook to re-verify, which is not proportional to a change nobody can see. The before-value is in every pass-2 receipt under horizon.edits.before."
+    },
+    {
+      "item": "City-detail props standing on the precinct deck",
+      "defect": "1 (adjacent, out of scope)",
+      "why": "Frames cp09-05 and cp10-05 show four white cylinder + dark panel pairs - rooftop water tanks and solar panels - on the open paving. They are RELEASE_CityDetail_* actors in one of two zones: CityDetailZone_Precinct, which AMikdashEnclosure already hides while the wall stands, and CityDetailZone_Kept, which it does not. Unverified but strongly implied: these are Kept-zone props whose zoning predates the plaza. The fix is either the same deck keep-out applied to that family, or re-zoning them - not guessed here."
+    },
+    {
+      "item": "Bird plumage contrast at close range",
+      "defect": 2,
+      "why": "The flat-black defect is fixed - cp10-07 and cp10-08 show lit, shaded birds, and a body cylinder in cp09-08 measured a 3-to-188 Lambertian terminator against 13-19 of variation before. But at heavy zoom the single-sided wing slabs read near-black from below while the pale hood reads as a detached white blob. Candidates: soften the hood values, make the plumage two-sided, or fix the degenerate tangent bases with a re-import at recompute_tangents."
+    },
+    {
+      "item": "MI_SanctuaryV2_Gold{Wall,Floor,Ceiling} missing the Nanite usage flag",
+      "defect": "none of the three",
+      "why": "Still the only LogMaterial warnings in the cp10 packaged log, and not this pass's work. Recorded because the log is now otherwise clean: the flora and CityDetail InstancedStaticMeshes warnings are gone, and no bird asset appears at all."
+    }
+  ]
+}

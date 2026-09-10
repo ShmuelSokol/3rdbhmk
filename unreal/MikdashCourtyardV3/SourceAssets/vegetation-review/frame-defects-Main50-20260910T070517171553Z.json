@@ -1,0 +1,690 @@
+{
+  "status": "frame_defects_applied_saved_reopened_frame_acceptance_pending",
+  "stamp": "20260910T070517171553Z",
+  "target": "Main50",
+  "targetRole": "the legacy 50 cm map every plan and manifest in this project was authored against.",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "7e6280c9a6964c8ba1794ff31ba87c620a71d3782922848db8415fc7a8a80aa5",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\FrameDefects-Main50-20260910T070517171553Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "7d1e1af619555644853861d1208c36c762797b7e4b8b880183bbc2d8e8c41197"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_frame_defects.spec.json",
+  "specSha256": "885f08bed3c28a34b415955f10674123480673b7b9753cf7a93379547d7c5e2d",
+  "offlineCheck": {
+    "specSha256": "885f08bed3c28a34b415955f10674123480673b7b9753cf7a93379547d7c5e2d",
+    "checks": [
+      "vegetation.baseTileSizeCm positive",
+      "vegetation.rule explains itself",
+      "two deck hosts",
+      "one analytic and one measured deck",
+      "a precinct rectangle for every target",
+      "the two targets do not share a rectangle",
+      "analytic tile count is a perfect square grid",
+      "precinct rectangle Candidate48 ordered",
+      "precinct rectangle Main50 ordered",
+      "deck kotel extent ordered",
+      "deck kotel tiles positive",
+      "deck kotel has levels",
+      "deck kotel names a mesh",
+      "bird usage flag demanded",
+      "bird slot order is two",
+      "four poses",
+      "five species",
+      "RockDove.main is linear rgb",
+      "RockDove.hood is linear rgb",
+      "CommonSwift.main is linear rgb",
+      "CommonSwift.hood is linear rgb",
+      "HoodedCrow.main is linear rgb",
+      "HoodedCrow.hood is linear rgb",
+      "CommonKestrel.main is linear rgb",
+      "CommonKestrel.hood is linear rgb",
+      "GriffonVulture.main is linear rgb",
+      "GriffonVulture.hood is linear rgb",
+      "roughness sane",
+      "specular sane",
+      "opaque",
+      "single sided",
+      "two plant families",
+      "family JudeanFloraV1 has a match mode",
+      "family JudeanFloraV1 names a tag",
+      "family OsmIllustrativeTrees has a match mode",
+      "family OsmIllustrativeTrees names meshes",
+      "edit fog_max_opacity has a known value type",
+      "float edit fog_max_opacity has a tolerance",
+      "edit ground_albedo has a known value type",
+      "colour edit ground_albedo is rgb 0-255",
+      "terrain extent ordered"
+    ],
+    "expectedBirdMeshes": [
+      "SM_BirdsV1_CommonKestrel_DownStroke",
+      "SM_BirdsV1_CommonKestrel_Level",
+      "SM_BirdsV1_CommonKestrel_Perched",
+      "SM_BirdsV1_CommonKestrel_UpStroke",
+      "SM_BirdsV1_CommonSwift_DownStroke",
+      "SM_BirdsV1_CommonSwift_Level",
+      "SM_BirdsV1_CommonSwift_Perched",
+      "SM_BirdsV1_CommonSwift_UpStroke",
+      "SM_BirdsV1_GriffonVulture_DownStroke",
+      "SM_BirdsV1_GriffonVulture_Level",
+      "SM_BirdsV1_GriffonVulture_Perched",
+      "SM_BirdsV1_GriffonVulture_UpStroke",
+      "SM_BirdsV1_HoodedCrow_DownStroke",
+      "SM_BirdsV1_HoodedCrow_Level",
+      "SM_BirdsV1_HoodedCrow_Perched",
+      "SM_BirdsV1_HoodedCrow_UpStroke",
+      "SM_BirdsV1_RockDove_DownStroke",
+      "SM_BirdsV1_RockDove_Level",
+      "SM_BirdsV1_RockDove_Perched",
+      "SM_BirdsV1_RockDove_UpStroke"
+    ]
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "dryRun": false,
+  "skipBirds": true,
+  "skipHorizon": false,
+  "sourceFrames": "SourceAssets/visual-review/cp05b-frames-20260910.json",
+  "acceptance": "A FRAME FROM A PACKAGED BUILD, not this receipt. Every readback below stays green even when the cook substitutes a default material.",
+  "errors": [],
+  "mapSaved": true,
+  "levelActorCount": 8433,
+  "decks": {
+    "precinct": {
+      "componentsMatched": [
+        {
+          "actor": "RELEASE_EnclosureV2_Precinct",
+          "target": "Main50",
+          "rectangleCm": [
+            -32800.0,
+            -32850.0,
+            116600.0,
+            116550.0
+          ],
+          "mesh": "runtime-built, not serialised",
+          "instances": 14641,
+          "note": "This deck CANNOT be measured off the .umap. AMikdashEnclosure::BuildPlaza builds all 14,641 tiles at runtime onto default-subobject HISM components, and deliberately serialises nothing - in the editor those components carry no static mesh and no instances, which is why a first pass that read the level found zero tiles here. The rectangle is instead taken from the run that built it, and it is exact rather than conservative: the readback records 14,039 deck tiles plus 602 way tiles, and 14,039 + 602 = 14,641 = 121 x 121, so every cell of the grid is paved and the union of the tiles IS the bounding rectangle, with no holes to be conservative about.",
+          "perTargetNote": "THE TWO MAPS HAVE DIFFERENT PRECINCT DECKS AND A FIRST APPLY MISSED IT. Candidate48 is the 48 cm amah map: the Temple, and with it the court platform half-extent and the plaza grid, are 0.96 of the Main50 metric, so its deck spans 143,424 cm a side against Main50's 149,400. Both are 121 x 121 cells and both sit at deck top Z 0. Applying the Candidate48 rectangle to Main50 under-removes a border strip - 1,312 cm on the west and south, 4,664 cm on the east and north - and, because the candidate rectangle is strictly inside the Main50 one, it can never over-remove; the first Main50 apply was therefore incomplete but safe. Sources: SourceAssets/enclosure-review/native-plaza-apply-Candidate48-20260909T225822507573Z.json and native-plaza-apply-Main50-20260909T230017414502Z.json, readback.extentCm."
+        }
+      ],
+      "tilesMeasured": 14641,
+      "tilesExpected": 14641,
+      "topZLevelsMeasured": [
+        0.0
+      ],
+      "topZLevelsExpected": [
+        0.0
+      ],
+      "extentMeasuredCm": [
+        -32800.0,
+        -32850.0,
+        116600.0,
+        116550.0
+      ],
+      "extentExpectedCm": [
+        -32800.0,
+        -32850.0,
+        116600.0,
+        116550.0
+      ],
+      "source": "native-plaza-apply-<Target>-*.json readback: 14,039 deck tiles + 602 way tiles = 14,641 = 121 x 121 on both maps, deckTopZcm 0.0, extentCm per target above."
+    },
+    "kotel": {
+      "componentsMatched": [
+        {
+          "actor": "RELEASE_KotelPlaza",
+          "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+          "instances": 926
+        }
+      ],
+      "tilesMeasured": 926,
+      "tilesExpected": 926,
+      "topZLevelsMeasured": [
+        -1234.594,
+        -984.594
+      ],
+      "topZLevelsExpected": [
+        -1234.594,
+        -984.594
+      ],
+      "extentMeasuredCm": [
+        -23414.5145,
+        11931.698375,
+        -14250.0,
+        25000.0
+      ],
+      "extentExpectedCm": [
+        -23414.5,
+        11931.7,
+        -14250.0,
+        25000.0
+      ],
+      "source": "SourceAssets/context-review/KotelPlazaV1/kotel-plaza-plan.json deck list, 926 entries on two levels; manifest derived.lowerDeckZCm -1234.594 and upperDeckZCm -984.594"
+    }
+  },
+  "vegetation": {
+    "rule": "An instance is ON a deck if its XY falls inside a deck footprint AND the top of its own mesh bounding box rises above that deck top Z. That is exactly the set a frame can see standing in, poking through, or floating over the paving. An instance whose whole bounding box stays BELOW the deck top is buried under the platform, invisible in the state the deck exists in, and is NOT touched.",
+    "ruleWhyNotEverythingInside": "Inside the precinct square the deck and the Modern city are opposites: AMikdashEnclosure hides the PrecinctCutOriginal terrain while the wall stands and hides the PrecinctCutTwin while the modern city stands, so the same ground is paved deck in the Yechezkel state and open hillside in the Modern state. Every plant inside that square is therefore correct in one state and wrong in the other. Removing only the ones that break the deck's surface keeps the Yechezkel frames clean at the smallest possible cost to the Modern hillside: the plants below the deck plane, which are the lower slopes, survive untouched.",
+    "why": "release_vegetation.py ran on 9 Sep with keep-outs for the Mount enclosure ring and the architecture blocker boxes. BOTH plaza decks were built AFTER that scatter, so no keep-out covered them and the scatter planted straight through them.",
+    "precedent": "release_vegetation.py already refuses instances that fall within existingTreeProximityCm of an existing tree (2,678 refused on the Candidate48 run). This is that same mechanism with a new primitive: a deck footprint instead of a tree radius.",
+    "deckPriorityNote": "ORDER MATTERS AND A FIRST PASS GOT IT WRONG. The Kotel plaza stands inside the precinct rectangle in XY (X -23414..-14250, Y 11932..25000) but 10 to 12 m below it: the Kotel decks are at -1234.594 and -984.594 while the precinct deck is at 0. Tested against the precinct first, every plant on the Kotel plaza looked BURIED under the precinct deck and was kept - the dry run scored the Kotel 66 with the precinct absent and 0 with it present. The precinct deck does not actually cover the Kotel plaza: Scripts/create_kotel_opening.py cuts an opening for it, and in the Modern state AMikdashEnclosure hides the precinct plaza altogether and the Kotel plaza is the surface. So decks are tested in priority order, smallest and most specific first, and the first deck covering an instance's XY is the one it is judged against.",
+    "deckPriorityOrder": [
+      "kotel",
+      "precinct"
+    ],
+    "instancesScanned": 210213,
+    "instancesSelectedForRemoval": 1297,
+    "keptBuriedUnderADeck": 70489,
+    "perDeck": {
+      "precinct": 1297,
+      "kotel": 0
+    },
+    "perFamily": {
+      "JudeanFloraV1": 1110,
+      "OsmIllustrativeTrees": 187
+    },
+    "plantFamilies": [
+      {
+        "key": "JudeanFloraV1",
+        "match": "actorTag",
+        "actorTag": "JudeanFloraV1",
+        "labelPrefix": "RELEASE_Vegetation_",
+        "note": "The 129,920 plants release_vegetation.py scattered on 9 Sep. Handled by the first pass: 32,627 component instances removed on each map."
+      },
+      {
+        "key": "OsmIllustrativeTrees",
+        "match": "meshSubstring",
+        "meshSubstrings": [
+          "JerusalemInstance_Trees",
+          "JerusalemInstance_Tree",
+          "Tree_Trunk",
+          "Tree_Crown"
+        ],
+        "note": "THE cp09 RESIDUAL. Frame cp09-05 still shows a dozen green lollipop trees standing on the open precinct paving after the JudeanFloraV1 removal. They are a DIFFERENT actor set that the first pass never touched: the 4,265 retained illustrative OSM-derived street trees that release_vegetation.py deliberately kept 400 cm clear of (spec clearance.existingTreeNote) rather than owning. They carry no JudeanFloraV1 tag, so a tag filter misses them entirely. Same rule, same guard, matched by mesh name instead of tag.",
+        "source": "Scripts/release_vegetation.spec.json clearance.existingTreeMeshSubstrings, used there as keep-out circles and reused here as the identity of the family."
+      }
+    ],
+    "plantFamiliesNote": "A KEEP-OUT IS ONLY AS GOOD AS THE SET IT IS APPLIED TO. The first pass proved the geometry right and the actor set incomplete: the deck came out clean of scattered flora and still had street trees standing on it, because 'vegetation' in this project is two independently-authored families and only one of them carries a tag.",
+    "perSpecies": {
+      "Olive": 84,
+      "JerusalemPine": 39,
+      "Cypress": 12,
+      "Almond": 28,
+      "Fig": 11,
+      "Pomegranate": 11,
+      "Carob": 8,
+      "Terebinth": 12,
+      "Sage": 132,
+      "Hyssop": 72,
+      "Rockrose": 116,
+      "ThornyBurnet": 258,
+      "DryGrass": 327,
+      "OsmIllustrativeTrees:JCTX_ISM_SM_JerusalemInstance_Tree_crowns": 147,
+      "OsmIllustrativeTrees:JCTX_ISM_SM_JerusalemInstance_Tree_trunks": 40
+    },
+    "regressionGuard": {
+      "checked": true,
+      "removed": 1297,
+      "removedBoundsCm": [
+        -32509.61,
+        -32760.65234375,
+        -1815.5,
+        116303.68,
+        81735.84375,
+        6236.48
+      ],
+      "deckUnionCm": [
+        -32800.0,
+        -32850.0,
+        116600.0,
+        116550.0
+      ],
+      "note": "every removed instance XY lies inside a measured deck tile footprint"
+    }
+  },
+  "horizon": {
+    "why": "THERE IS NO WATER ACTOR. The flat blue expanse in cp05b-04 is the SkyAtmosphere's virtual planet ground shell, seen below the true horizon where the JerusalemContext terrain mesh runs out. That terrain is a 6.4 km square - measured on the level at 256 actors spanning -319,147..320,933 by -320,044..319,996 cm - and from the frame-04 camera the forward ray leaves it at about 5.95 km, so every screen ray within roughly 3.8 degrees below the horizon lands on the sky shell. Saturated blue field, razor-straight upper edge, terrain-shaped lower edge: a sea. Confirmed on the level, not inferred: a scan for any flat actor larger than a quarter of the DEM span reaching beyond it returned ZERO candidates on both maps.",
+    "ruledOut": "Scripts/release_water.py places thirteen Yechezkel 47 meshes plus RELEASE_Water_Driver, all inside the courts and the four mikvaot, and its own limitation note says the stream stops 4000 amot east of the outer gate and the Dead Sea is asserted, not depicted. A string scan of both .umap files finds no WaterBody, BP_Sky_Sphere, Ocean, Backdrop, Horizon, SkyDome, Landscape or FarField reference, and the largest XY scale of any actor in the level is REVIEW_KotelPhoto_0 at about 40 m by 20 m. Nothing to remove, nothing to resize.",
+    "perStateNote": "The per-state hiding mechanism is AMikdashEnclosure's HideWhileWallStandsTags / HideWhileModernCityStandsTags (V key, EMikdashPrecinctState). It is NOT the lever here: SkyAtmosphere_0 cannot be hidden per state without removing the sky itself.",
+    "actionNote": "Extending the terrain to the Dead Sea is the real fix and is far out of scope for one pass. The mitigation is two numbers, both read back before they are written and both recorded with their previous value so --revert restores them exactly. Raising fogMaxOpacity to 1.0 makes the far background resolve fully to the fog colour - which is the sky atmosphere ambient, not a saturated planet blue - so the shell stops reading as water. Bringing aerialPerspectiveViewDistanceScale back to 1.0 stops the last kilometres of real terrain dissolving into that band, so the silhouette reads as hills rather than a coastline. Near and mid field are governed by the exponential height falloff and are not touched by either number.",
+    "giantFlatActorTest": "flat (Z extent under 2 per cent of the larger XY extent), larger than a quarter of the DEM span, and reaching beyond the DEM the terrain mesh was generated from",
+    "giantFlatActorsFound": [],
+    "terrainExtentSpecCm": [
+      -319124.5,
+      -320027.6,
+      320875.5,
+      319972.4
+    ],
+    "terrainExtentMeasured": {
+      "terrainActorsMeasured": 256,
+      "measuredBoundsCm": [
+        -319146.875,
+        -320043.84375,
+        -26559.166015625,
+        320932.953125,
+        319996.03125,
+        9130.408203125
+      ]
+    },
+    "atmosphereActors": [
+      {
+        "label": "V3 daylight sky",
+        "class": "SkyAtmosphere",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyAtmosphere_0",
+        "componentClass": "SkyAtmosphereComponent"
+      },
+      {
+        "label": "V2 skylight",
+        "class": "SkyLight",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyLight_0",
+        "componentClass": "SkyLightComponent"
+      },
+      {
+        "label": "IntegratedReview_VolumetricCloud",
+        "class": "VolumetricCloud",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.VolumetricCloud_0",
+        "componentClass": "VolumetricCloudComponent"
+      },
+      {
+        "label": "RELEASE_HeightFog",
+        "class": "ExponentialHeightFog",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.ExponentialHeightFog_0",
+        "componentClass": "ExponentialHeightFogComponent"
+      }
+    ],
+    "atmosphereComponentNote": "ASkyAtmosphere exposes its settings on sky_atmosphere_component, not on component; the lookup tries the engine names then falls back to the actor's own component list.",
+    "edits": [
+      {
+        "actor": "RELEASE_HeightFog",
+        "class": "ExponentialHeightFog",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.ExponentialHeightFog_0",
+        "property": "fog_max_opacity",
+        "valueType": "float",
+        "before": 1.0,
+        "requestedAfter": 0.85,
+        "expectedBefore": 1.0,
+        "why": "REVERTING the first attempt. The frame showed it does nothing to the sky shell, so the reviewed 0.85 goes back rather than carrying an unjustified change forward.",
+        "restore": "set fog_max_opacity back to 1.0 on RELEASE_HeightFog",
+        "applied": true,
+        "after": 0.8500000238418579
+      },
+      {
+        "actor": "V3 daylight sky",
+        "class": "SkyAtmosphere",
+        "pathName": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyAtmosphere_0",
+        "property": "ground_albedo",
+        "valueType": "color",
+        "before": [
+          170,
+          170,
+          170
+        ],
+        "requestedAfter": [
+          196,
+          170,
+          128
+        ],
+        "expectedBefore": null,
+        "why": "The planet-ground shell's own albedo. A sand tone should make the band past the terrain edge read as far desert haze instead of sea. Recorded before-value, whatever it is, so it can be put back exactly.",
+        "restore": "set ground_albedo back to [170, 170, 170] on V3 daylight sky",
+        "applied": true,
+        "after": [
+          196,
+          170,
+          128
+        ]
+      }
+    ],
+    "editsApplied": 2
+  },
+  "vegetationApplied": [
+    {
+      "label": "RELEASE_Vegetation_Olive_Bark",
+      "family": "JudeanFloraV1",
+      "before": 9604,
+      "removed": 42,
+      "after": 9562
+    },
+    {
+      "label": "RELEASE_Vegetation_Olive_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 9640,
+      "removed": 42,
+      "after": 9598
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Bark",
+      "family": "JudeanFloraV1",
+      "before": 4312,
+      "removed": 20,
+      "after": 4292
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 4346,
+      "removed": 19,
+      "after": 4327
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Bark",
+      "family": "JudeanFloraV1",
+      "before": 2053,
+      "removed": 6,
+      "after": 2047
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 2016,
+      "removed": 6,
+      "after": 2010
+    },
+    {
+      "label": "RELEASE_Vegetation_Almond_Bark",
+      "family": "JudeanFloraV1",
+      "before": 3119,
+      "removed": 14,
+      "after": 3105
+    },
+    {
+      "label": "RELEASE_Vegetation_Almond_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 3124,
+      "removed": 14,
+      "after": 3110
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Bark",
+      "family": "JudeanFloraV1",
+      "before": 1604,
+      "removed": 5,
+      "after": 1599
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 1602,
+      "removed": 6,
+      "after": 1596
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Bark",
+      "family": "JudeanFloraV1",
+      "before": 1769,
+      "removed": 6,
+      "after": 1763
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 1773,
+      "removed": 5,
+      "after": 1768
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Bark",
+      "family": "JudeanFloraV1",
+      "before": 2175,
+      "removed": 4,
+      "after": 2171
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 2176,
+      "removed": 4,
+      "after": 2172
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Bark",
+      "family": "JudeanFloraV1",
+      "before": 2494,
+      "removed": 6,
+      "after": 2488
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 2486,
+      "removed": 6,
+      "after": 2480
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Bark",
+      "family": "JudeanFloraV1",
+      "before": 13572,
+      "removed": 66,
+      "after": 13506
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 13566,
+      "removed": 66,
+      "after": 13500
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Bark",
+      "family": "JudeanFloraV1",
+      "before": 8170,
+      "removed": 36,
+      "after": 8134
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 8167,
+      "removed": 36,
+      "after": 8131
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Bark",
+      "family": "JudeanFloraV1",
+      "before": 9917,
+      "removed": 58,
+      "after": 9859
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 9917,
+      "removed": 58,
+      "after": 9859
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Bark",
+      "family": "JudeanFloraV1",
+      "before": 25133,
+      "removed": 129,
+      "after": 25004
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 25099,
+      "removed": 129,
+      "after": 24970
+    },
+    {
+      "label": "RELEASE_Vegetation_DryGrass_Leaf",
+      "family": "JudeanFloraV1",
+      "before": 24905,
+      "removed": 327,
+      "after": 24578
+    },
+    {
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+      "family": "OsmIllustrativeTrees",
+      "before": 12795,
+      "removed": 147,
+      "after": 12648
+    },
+    {
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+      "family": "OsmIllustrativeTrees",
+      "before": 4265,
+      "removed": 40,
+      "after": 4225
+    }
+  ],
+  "mapSha256AfterSave": "cc80633741cb383495b46747e53c72765fc65967124806fce388d285d2410820",
+  "reopenedVegetation": [
+    {
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+      "family": "OsmIllustrativeTrees",
+      "instances": 12648
+    },
+    {
+      "label": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+      "family": "OsmIllustrativeTrees",
+      "instances": 4225
+    },
+    {
+      "label": "RELEASE_Vegetation_Almond_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 3105
+    },
+    {
+      "label": "RELEASE_Vegetation_Almond_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 3110
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 2171
+    },
+    {
+      "label": "RELEASE_Vegetation_Carob_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 2172
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 2047
+    },
+    {
+      "label": "RELEASE_Vegetation_Cypress_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 2010
+    },
+    {
+      "label": "RELEASE_Vegetation_DatePalm_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 209
+    },
+    {
+      "label": "RELEASE_Vegetation_DatePalm_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 205
+    },
+    {
+      "label": "RELEASE_Vegetation_DryGrass_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 24578
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 1599
+    },
+    {
+      "label": "RELEASE_Vegetation_Fig_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 1596
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 8134
+    },
+    {
+      "label": "RELEASE_Vegetation_Hyssop_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 8131
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 4292
+    },
+    {
+      "label": "RELEASE_Vegetation_JerusalemPine_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 4327
+    },
+    {
+      "label": "RELEASE_Vegetation_Olive_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 9562
+    },
+    {
+      "label": "RELEASE_Vegetation_Olive_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 9598
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 1763
+    },
+    {
+      "label": "RELEASE_Vegetation_Pomegranate_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 1768
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 9859
+    },
+    {
+      "label": "RELEASE_Vegetation_Rockrose_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 9859
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 13506
+    },
+    {
+      "label": "RELEASE_Vegetation_Sage_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 13500
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 2488
+    },
+    {
+      "label": "RELEASE_Vegetation_Terebinth_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 2480
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Bark",
+      "family": "JudeanFloraV1",
+      "instances": 25004
+    },
+    {
+      "label": "RELEASE_Vegetation_ThornyBurnet_Leaf",
+      "family": "JudeanFloraV1",
+      "instances": 24970
+    }
+  ],
+  "reopenedVegetationTotal": 208916,
+  "mapSha256After": "cc80633741cb383495b46747e53c72765fc65967124806fce388d285d2410820",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": {
+    "/Game/MikdashV3/Maps/Courtyard": true,
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": true,
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": true
+  }
+}

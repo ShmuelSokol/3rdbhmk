@@ -1,0 +1,286 @@
+{
+  "status": "dry_run_measured_nothing_written",
+  "stamp": "20260910T064641775344Z",
+  "target": "Candidate48",
+  "targetRole": "the configured GameDefaultMap and the COOK map: the only map in the build the user downloads.",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\FrameDefects-Candidate48-20260910T064641775344Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_frame_defects.spec.json",
+  "specSha256": "d08c96f673c31f43788bd5f8a9f81dabec955f6f3290ae40c87763f3ccfe0d27",
+  "offlineCheck": {
+    "specSha256": "d08c96f673c31f43788bd5f8a9f81dabec955f6f3290ae40c87763f3ccfe0d27",
+    "checks": [
+      "vegetation.baseTileSizeCm positive",
+      "vegetation.rule explains itself",
+      "two deck hosts",
+      "one analytic and one measured deck",
+      "analytic rectangle matches the recorded extent",
+      "analytic tile count is a perfect square grid",
+      "deck precinct extent ordered",
+      "deck precinct tiles positive",
+      "deck precinct has levels",
+      "deck precinct names a mesh",
+      "deck kotel extent ordered",
+      "deck kotel tiles positive",
+      "deck kotel has levels",
+      "deck kotel names a mesh",
+      "bird usage flag demanded",
+      "bird slot order is two",
+      "four poses",
+      "five species",
+      "RockDove.main is linear rgb",
+      "RockDove.hood is linear rgb",
+      "CommonSwift.main is linear rgb",
+      "CommonSwift.hood is linear rgb",
+      "HoodedCrow.main is linear rgb",
+      "HoodedCrow.hood is linear rgb",
+      "CommonKestrel.main is linear rgb",
+      "CommonKestrel.hood is linear rgb",
+      "GriffonVulture.main is linear rgb",
+      "GriffonVulture.hood is linear rgb",
+      "roughness sane",
+      "specular sane",
+      "opaque",
+      "single sided",
+      "terrain extent ordered"
+    ],
+    "expectedBirdMeshes": [
+      "SM_BirdsV1_CommonKestrel_DownStroke",
+      "SM_BirdsV1_CommonKestrel_Level",
+      "SM_BirdsV1_CommonKestrel_Perched",
+      "SM_BirdsV1_CommonKestrel_UpStroke",
+      "SM_BirdsV1_CommonSwift_DownStroke",
+      "SM_BirdsV1_CommonSwift_Level",
+      "SM_BirdsV1_CommonSwift_Perched",
+      "SM_BirdsV1_CommonSwift_UpStroke",
+      "SM_BirdsV1_GriffonVulture_DownStroke",
+      "SM_BirdsV1_GriffonVulture_Level",
+      "SM_BirdsV1_GriffonVulture_Perched",
+      "SM_BirdsV1_GriffonVulture_UpStroke",
+      "SM_BirdsV1_HoodedCrow_DownStroke",
+      "SM_BirdsV1_HoodedCrow_Level",
+      "SM_BirdsV1_HoodedCrow_Perched",
+      "SM_BirdsV1_HoodedCrow_UpStroke",
+      "SM_BirdsV1_RockDove_DownStroke",
+      "SM_BirdsV1_RockDove_Level",
+      "SM_BirdsV1_RockDove_Perched",
+      "SM_BirdsV1_RockDove_UpStroke"
+    ]
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "dryRun": true,
+  "skipBirds": false,
+  "skipHorizon": false,
+  "sourceFrames": "SourceAssets/visual-review/cp05b-frames-20260910.json",
+  "acceptance": "A FRAME FROM A PACKAGED BUILD, not this receipt. Every readback below stays green even when the cook substitutes a default material.",
+  "errors": [],
+  "mapSaved": false,
+  "levelActorCount": 8433,
+  "decks": {
+    "precinct": {
+      "componentsMatched": [
+        {
+          "actor": "RELEASE_EnclosureV2_Precinct",
+          "mesh": "runtime-built, not serialised",
+          "instances": 14641,
+          "note": "This deck CANNOT be measured off the .umap. AMikdashEnclosure::BuildPlaza builds all 14,641 tiles at runtime onto default-subobject HISM components, and deliberately serialises nothing - in the editor those components carry no static mesh and no instances, which is why a first pass that read the level found zero tiles here. The rectangle is instead taken from the run that built it, and it is exact rather than conservative: the readback records 14,039 deck tiles plus 602 way tiles, and 14,039 + 602 = 14,641 = 121 x 121, so every cell of the grid is paved and the union of the tiles IS the bounding rectangle, with no holes to be conservative about."
+        }
+      ],
+      "tilesMeasured": 14641,
+      "tilesExpected": 14641,
+      "topZLevelsMeasured": [
+        0.0
+      ],
+      "topZLevelsExpected": [
+        0.0
+      ],
+      "extentMeasuredCm": [
+        -31488.0,
+        -31536.0,
+        111936.0,
+        111888.0
+      ],
+      "extentExpectedCm": [
+        -31488.0,
+        -31536.0,
+        111936.0,
+        111888.0
+      ],
+      "source": "SourceAssets/enclosure-review/native-plaza-apply-Candidate48-20260909T225822507573Z.json readback: deckTiles 14039, wayTiles 602, deckTopZcm 0.0, cellsX 121, cellsY 121, extentCm [-31488, -31536, 111936, 111888]"
+    },
+    "kotel": {
+      "componentsMatched": [
+        {
+          "actor": "RELEASE_KotelPlaza",
+          "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+          "instances": 926
+        }
+      ],
+      "tilesMeasured": 926,
+      "tilesExpected": 926,
+      "topZLevelsMeasured": [
+        -1234.594,
+        -984.594
+      ],
+      "topZLevelsExpected": [
+        -1234.594,
+        -984.594
+      ],
+      "extentMeasuredCm": [
+        -23414.5145,
+        11931.698375,
+        -14250.0,
+        25000.0
+      ],
+      "extentExpectedCm": [
+        -23414.5,
+        11931.7,
+        -14250.0,
+        25000.0
+      ],
+      "source": "SourceAssets/context-review/KotelPlazaV1/kotel-plaza-plan.json deck list, 926 entries on two levels; manifest derived.lowerDeckZCm -1234.594 and upperDeckZCm -984.594"
+    }
+  },
+  "vegetation": {
+    "rule": "An instance is ON a deck if its XY falls inside a deck footprint AND the top of its own mesh bounding box rises above that deck top Z. That is exactly the set a frame can see standing in, poking through, or floating over the paving. An instance whose whole bounding box stays BELOW the deck top is buried under the platform, invisible in the state the deck exists in, and is NOT touched.",
+    "ruleWhyNotEverythingInside": "Inside the precinct square the deck and the Modern city are opposites: AMikdashEnclosure hides the PrecinctCutOriginal terrain while the wall stands and hides the PrecinctCutTwin while the modern city stands, so the same ground is paved deck in the Yechezkel state and open hillside in the Modern state. Every plant inside that square is therefore correct in one state and wrong in the other. Removing only the ones that break the deck's surface keeps the Yechezkel frames clean at the smallest possible cost to the Modern hillside: the plants below the deck plane, which are the lower slopes, survive untouched.",
+    "why": "release_vegetation.py ran on 9 Sep with keep-outs for the Mount enclosure ring and the architecture blocker boxes. BOTH plaza decks were built AFTER that scatter, so no keep-out covered them and the scatter planted straight through them.",
+    "precedent": "release_vegetation.py already refuses instances that fall within existingTreeProximityCm of an existing tree (2,678 refused on the Candidate48 run). This is that same mechanism with a new primitive: a deck footprint instead of a tree radius.",
+    "deckPriorityNote": "ORDER MATTERS AND A FIRST PASS GOT IT WRONG. The Kotel plaza stands inside the precinct rectangle in XY (X -23414..-14250, Y 11932..25000) but 10 to 12 m below it: the Kotel decks are at -1234.594 and -984.594 while the precinct deck is at 0. Tested against the precinct first, every plant on the Kotel plaza looked BURIED under the precinct deck and was kept - the dry run scored the Kotel 66 with the precinct absent and 0 with it present. The precinct deck does not actually cover the Kotel plaza: Scripts/create_kotel_opening.py cuts an opening for it, and in the Modern state AMikdashEnclosure hides the precinct plaza altogether and the Kotel plaza is the surface. So decks are tested in priority order, smallest and most specific first, and the first deck covering an instance's XY is the one it is judged against.",
+    "deckPriorityOrder": [
+      "kotel",
+      "precinct"
+    ],
+    "instancesScanned": 225780,
+    "instancesSelectedForRemoval": 32627,
+    "keptBuriedUnderADeck": 66759,
+    "perDeck": {
+      "precinct": 32423,
+      "kotel": 204
+    },
+    "perSpecies": {
+      "Olive": 2574,
+      "JerusalemPine": 1774,
+      "Cypress": 725,
+      "Almond": 737,
+      "Fig": 338,
+      "Pomegranate": 340,
+      "DatePalm": 62,
+      "Carob": 569,
+      "Terebinth": 526,
+      "Sage": 3884,
+      "Hyssop": 2339,
+      "Rockrose": 2982,
+      "ThornyBurnet": 6622,
+      "DryGrass": 9155
+    },
+    "regressionGuard": {
+      "checked": true,
+      "removed": 32627,
+      "removedBoundsCm": [
+        -31461.99,
+        -31534.41,
+        -2681.06,
+        111911.75,
+        111579.08,
+        6202.63
+      ],
+      "deckUnionCm": [
+        -31488.0,
+        -31536.0,
+        111936.0,
+        111888.0
+      ],
+      "note": "every removed instance XY lies inside a measured deck tile footprint"
+    }
+  },
+  "horizon": {
+    "why": "THERE IS NO WATER ACTOR. The flat blue expanse in cp05b-04 is the SkyAtmosphere's virtual planet ground shell, seen below the true horizon where the JerusalemContext terrain mesh runs out. That terrain is a 6.4 km square (the DEM extent below); from the frame-04 camera the forward ray leaves it at about 5.95 km, and every screen ray within roughly 3.8 degrees below the horizon then lands on the sky shell. ExponentialHeightFog with fogMaxOpacity 0.85 leaves 15 per cent of that shell showing at any distance, and SkyAtmosphere aerialPerspectiveViewDistanceScale 1.8 blues out the last kilometres of real terrain until its silhouette reads as a coastline. Saturated blue field, razor-straight upper edge, terrain-shaped lower edge: a sea.",
+    "ruledOut": "Scripts/release_water.py places thirteen Yechezkel 47 meshes plus RELEASE_Water_Driver, all inside the courts and the four mikvaot, and its own limitation note says the stream stops 4000 amot east of the outer gate and the Dead Sea is asserted, not depicted. A string scan of both .umap files finds no WaterBody, BP_Sky_Sphere, Ocean, Backdrop, Horizon, SkyDome, Landscape or FarField reference, and the largest XY scale of any actor in the level is REVIEW_KotelPhoto_0 at about 40 m by 20 m. Nothing to remove, nothing to resize.",
+    "perStateNote": "The per-state hiding mechanism is AMikdashEnclosure's HideWhileWallStandsTags / HideWhileModernCityStandsTags (V key, EMikdashPrecinctState). It is NOT the lever here: SkyAtmosphere_0 cannot be hidden per state without removing the sky itself.",
+    "actionNote": "Extending the terrain to the Dead Sea is the real fix and is far out of scope for one pass. The mitigation is two numbers, both read back before they are written and both recorded with their previous value so --revert restores them exactly. Raising fogMaxOpacity to 1.0 makes the far background resolve fully to the fog colour - which is the sky atmosphere ambient, not a saturated planet blue - so the shell stops reading as water. Bringing aerialPerspectiveViewDistanceScale back to 1.0 stops the last kilometres of real terrain dissolving into that band, so the silhouette reads as hills rather than a coastline. Near and mid field are governed by the exponential height falloff and are not touched by either number.",
+    "giantFlatActorTest": "flat (Z extent under 2 per cent of the larger XY extent), larger than a quarter of the DEM span, and reaching beyond the DEM the terrain mesh was generated from",
+    "giantFlatActorsFound": [],
+    "terrainExtentSpecCm": [
+      -319124.5,
+      -320027.6,
+      320875.5,
+      319972.4
+    ],
+    "terrainExtentMeasured": {
+      "terrainActorsMeasured": 256,
+      "measuredBoundsCm": [
+        -319146.875,
+        -320043.84375,
+        -26559.166015625,
+        320932.953125,
+        319996.03125,
+        9130.408203125
+      ]
+    },
+    "atmosphereActors": [
+      {
+        "label": "V3 daylight sky",
+        "class": "SkyAtmosphere",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyAtmosphere_0",
+        "componentClass": "SkyAtmosphereComponent"
+      },
+      {
+        "label": "V2 skylight",
+        "class": "SkyLight",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyLight_0",
+        "componentClass": "SkyLightComponent"
+      },
+      {
+        "label": "IntegratedReview_VolumetricCloud",
+        "class": "VolumetricCloud",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.VolumetricCloud_0",
+        "componentClass": "VolumetricCloudComponent"
+      },
+      {
+        "label": "RELEASE_HeightFog",
+        "class": "ExponentialHeightFog",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.ExponentialHeightFog_0",
+        "componentClass": "ExponentialHeightFogComponent"
+      }
+    ],
+    "atmosphereComponentNote": "ASkyAtmosphere exposes its settings on sky_atmosphere_component, not on component; the lookup tries the engine names then falls back to the actor's own component list.",
+    "edits": [
+      {
+        "actor": "RELEASE_HeightFog",
+        "class": "ExponentialHeightFog",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.ExponentialHeightFog_0",
+        "property": "fog_max_opacity",
+        "before": 0.8500000238418579,
+        "requestedAfter": 1.0,
+        "expectedBefore": 0.85,
+        "why": "0.85 leaves 15 per cent of the sky planet-ground shell visible through the fog at any distance, which is precisely the blue that reads as sea. At 1.0 the far background is the fog colour.",
+        "restore": "set fog_max_opacity back to 0.8500000238418579 on RELEASE_HeightFog",
+        "applied": false,
+        "reason": "dry run"
+      },
+      {
+        "actor": "V3 daylight sky",
+        "class": "SkyAtmosphere",
+        "pathName": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.SkyAtmosphere_0",
+        "property": "aerial_pespective_view_distance_scale",
+        "before": 1.7999999523162842,
+        "requestedAfter": 1.0,
+        "expectedBefore": 1.8,
+        "why": "1.8 exaggerates aerial perspective so the outer kilometres of real terrain blue out into the same band, turning the terrain edge into a shoreline.",
+        "restore": "set aerial_pespective_view_distance_scale back to 1.7999999523162842 on V3 daylight sky",
+        "applied": false,
+        "reason": "dry run"
+      }
+    ]
+  },
+  "mapSha256After": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e"
+}

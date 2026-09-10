@@ -1,0 +1,793 @@
+{
+  "status": "kotel_plaza_placed_saved_reopened_measured_visual_acceptance_pending",
+  "script": "release_kotel_plaza.py",
+  "mode": "apply",
+  "target": "Candidate48",
+  "stamp": "20260910T033617704733Z",
+  "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "034f83435874be25a3cc82776704e6a95b57a53c4058152f42637beb77be4ae3",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\KotelPlaza-Candidate48-20260910T033617704733Z",
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "9f5dd4b0230d9de8adafa4b469ed3ada7d07aa57a8fa9a358a0b1d489227bd53",
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47"
+  },
+  "protectedAssetSha256Before": {
+    "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut": "82f5ef8981d586e5bf9435b564702869e99ba021bc7e0e3a2bd6253bccab169a",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile": "f40da908800c3de0d037e4e80fd7ddaa0ead5784bd9ad471c78ac61f459b6bca",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving": "40918a0589e5128fd99597208f3518e4c08f1d9d670f95f3e33e9f344a87f4c4",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step": "c7da035e240117c5ddfba6dcc961fe5977bfeb7d5282dcfbdb93c145a8d669df",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar": "2137eece1c72fae037a00c62e17d1e3e69820daef03765fe487b13423ae19f09",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb": "7a88c4da33b1e9196df8dd82797fe28e509918bee20efe407c24afa1fe484101",
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand": "c6533dc64a678de89e9d95156899ea7e3b9cb27367439faf1e5d2bbfd670cce5",
+    "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001": "7112532ea5d33a46fa96b6874ab13504ae3a16b5ac6f7e8856c2fbc5de4c1430"
+  },
+  "scriptSha256": "e9914df76cf7426ee4ba3dcb559ac86325ff9c871a488b993bd70ead1245b7b7",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "userInstruction": "\"i also want you to restore the old city to its current modern day layout... with kotel plaza and then houses up to that point\" - 9 September 2026. The houses half needed nothing; this is the plaza half.",
+  "plan": {
+    "script": "release_kotel_plaza.py",
+    "scriptSha256": "e9914df76cf7426ee4ba3dcb559ac86325ff9c871a488b993bd70ead1245b7b7",
+    "planSha256": "21bc4badeb91fc58a976e02a3dcef498d6f903855160e7417b08ca972ad06db9",
+    "manifestSha256": "872d8daa9c5b63027700eb8e4d142508241d53c763d31811df60ce4fd6e02e64",
+    "designSha256": "53dbc1da027b63096fdba5dcc7df9636ffbd71f8ba89a8743b48a0fab1c00d81",
+    "plazaModuleManifestSha256": "98f2578043a6f1cdecf39e1a2771406c684e76e292448f51939742dfddc9f74a",
+    "generatorSha256": "99a35b8f75382ee538fe74d103fb4a20913887ec644549b7d81781dd26e12ddd",
+    "generatorSha256InManifest": "99a35b8f75382ee538fe74d103fb4a20913887ec644549b7d81781dd26e12ddd",
+    "osmWay": 26492734,
+    "polygonVertices": 31,
+    "polygonAreaM2": 5589.613,
+    "polygonBboxCm": [
+      -23414.5,
+      11907.9,
+      -14107.5,
+      25039.4
+    ],
+    "deckThicknessCm": 50.0,
+    "deckLevelTopToUndersideZCm": {
+      "-984.594": -1034.594,
+      "-1234.594": -1284.594
+    },
+    "deckLevelsMasl": {
+      "lower": 735.65,
+      "upper": 738.15
+    },
+    "deckCells": 926,
+    "deckCellsDroppedForWallGuard": 27,
+    "deckAreaM2": 5545.833,
+    "deckAreaVersusPolygonPercent": 99.217,
+    "components": [
+      {
+        "key": "deck",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+        "instances": 926,
+        "castShadow": false,
+        "meshTriangles": 12,
+        "canonicalBoundsCm": {
+          "min": [
+            -625.0,
+            -625.0,
+            -50.0
+          ],
+          "max": [
+            625.0,
+            625.0,
+            0.0
+          ]
+        },
+        "note": "Deck tiles clipped to the polygon and scaled in X and Y only, which is the module manifest's own sanctioned use. The paving material maps by WORLD position, so a scaled tile still lays a correct 5 m pattern."
+      },
+      {
+        "key": "step",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "instances": 50,
+        "castShadow": true,
+        "meshTriangles": 12,
+        "canonicalBoundsCm": {
+          "min": [
+            -1250.0,
+            -50.0,
+            -25.0
+          ],
+          "max": [
+            1250.0,
+            50.0,
+            0.0
+          ]
+        },
+        "note": "The flight between the two levels, 25 cm riser, 100 cm tread."
+      },
+      {
+        "key": "kerb",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "instances": 25,
+        "castShadow": true,
+        "meshTriangles": 12,
+        "canonicalBoundsCm": {
+          "min": [
+            -625.0,
+            -25.0,
+            -50.0
+          ],
+          "max": [
+            625.0,
+            25.0,
+            25.0
+          ]
+        },
+        "note": "Perimeter parapet where the deck stands more than 1 m above ground, and the mechitza across the lower plaza. Scaled in Z; the ashlar material maps by world position, so its courses stay on world-Z levels."
+      },
+      {
+        "key": "band",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "instances": 28,
+        "castShadow": true,
+        "meshTriangles": 12,
+        "canonicalBoundsCm": {
+          "min": [
+            -625.0,
+            -150.0,
+            -250.0
+          ],
+          "max": [
+            625.0,
+            0.0,
+            0.0
+          ]
+        },
+        "note": "Retaining bands down to grade, 250 cm each, never scaled in Z - the PrecinctPlazaV1 discipline, kept."
+      }
+    ],
+    "instanceTotal": 1029,
+    "triangleTotal": 12348,
+    "terrainTile": "SM_JerusalemTerrain_07_08",
+    "terrainTwin": "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+    "terrainTwinPresent": true,
+    "terrainTwinSha256": "82f5ef8981d586e5bf9435b564702869e99ba021bc7e0e3a2bd6253bccab169a",
+    "wallGuardCm": 200.0,
+    "kotelMeshMasl": [
+      734.0,
+      754.0
+    ],
+    "reading": {
+      "mechitza": "4 kerb instances at 180 cm, perpendicular to the wall, 0.62 along it from the north end: men north, women south.",
+      "lowerPlaza": "373 deck cells at 735.65 m a.s.l., 40 m deep at the wall.",
+      "upperPlaza": "553 deck cells at 738.15 m a.s.l., 2.50 m above the prayer plaza.",
+      "flight": "50 SM_PlazaV1_Step instances, 10 risers of 25 cm across 5 modules.",
+      "parapet": "21 kerb instances at 110 cm where the deck stands over 1 m above grade.",
+      "retaining": "28 retaining bands, 250 cm each, never scaled in Z."
+    },
+    "notBuilt": [
+      "Wilson's Arch. It is a vaulted hall under the buildings at the north end - interior architecture, not a plaza surface - and none is modelled.",
+      "The Mughrabi ramp up to the Temple Mount at the south end. The Mughrabi Gate building (OSM 291836692) is in the model; the ramp is not.",
+      "Prayer-section furniture: shtenders, book cases, partition rails, chairs.",
+      "The security plaza, its entrances and its screening at the west.",
+      "Lighting of any kind.",
+      "NO VISUAL ACCEPTANCE. Nobody has looked at any of this in a frame."
+    ],
+    "limitations": [
+      "The DEM is 257 x 257 at 25 m. It resolves the hillside and does NOT resolve a man-made terrace, so both deck levels are DEM percentiles, not survey levels.",
+      "The deck edge is stepped at the 250 cm cell, clipped to the polygon by AABB of the clipped cell. It is not a smooth polygon edge.",
+      "Nothing is placed inside the Western Wall footprint plus its 200 cm no-edit guard; the preserved source ground occupies that seam, exactly as the mount-access study left it.",
+      "Collision, walkability and the seam to the surrounding street ribbons are untested here.",
+      "The void under the fill. The cut lowered terrain that stood ABOVE the deck; where the hillside already fell away the deck flies over it, with retaining bands only at the perimeter. The clearance histogram reports that rather than hiding it.",
+      "No navmesh contribution: can_ever_affect_navigation is False on every component, so nothing here is walkable to the crowd system. Collision blocks a player pawn only, and only once MODERN turns the actor on in a game world.",
+      "NO VISUAL ACCEPTANCE. Nobody has looked at the placed plaza in a frame.",
+      "unreal.Transform keyword construction unavailable (TypeError(\"call() 'translation' is an invalid keyword argument for this function\"))"
+    ],
+    "failures": [],
+    "offlineOk": true
+  },
+  "placement": {
+    "appliedTransform": "identity",
+    "declaredArchitecturePlacementForThisTarget": {
+      "uniformScale": 0.96,
+      "translationCm": [
+        -248.0,
+        0.0,
+        0.0
+      ],
+      "derivation": "Scripts/release_amah48_candidate.py rescaled all 2,633 architecture actors by RATIO = 48/50 = 0.96 about the world origin; Scripts/release_aron_alignment.py then translated the 2,917 temple actors by deltaCm [-248, 0, 0]. The composition is p_candidate = 0.96 * p_main50 + (-248, 0, 0). Evidence: SourceAssets/scale-review/amah48-candidate-20260908T144034771385Z.json and SourceAssets/scale-review/aron-alignment-release-Candidate48-20260908T220353291775Z.json. It is measured off the level itself by prove_placement() before anything is spawned."
+    },
+    "why": "The plaza stands on the GROUND, not on the architecture. The 0.96 / (-248, 0, 0) similarity was applied to the 2,633 architecture actors only; the metric city and the 256 DEM ground tiles were never rescaled. The decisive evidence is the terrain cut itself: kotel_job() in release_precinct_terrain_cut.py takes no target argument, both maps cut the same tile over the same 146 rectangles, and both read back the same 5,533 stations and the same 5.859375278305379e-06 cm. A plaza placed at 0.96 scale would not sit on the hole that was cut for it. Recorded as a MEASUREMENT below in groundFrame and architectureFrame, not as a claim.",
+    "groundFrame": {
+      "terrainTileActor": [
+        {
+          "label": "SM_JerusalemTerrain_07_08",
+          "meshes": [
+            "/Game/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_08_FutureMountCut.SM_JerusalemTerrain_07_08_FutureMountCut"
+          ],
+          "bounds": {
+            "min": [
+              -39124.9297,
+              -29.8516,
+              -4833.8438
+            ],
+            "max": [
+              876.0,
+              39981.8711,
+              1807.1758
+            ]
+          }
+        }
+      ],
+      "kotelBuildingActor": [
+        {
+          "label": "SM_JerusalemBuildings_Grid_N002_P001",
+          "meshes": [
+            "/Game/MikdashV3/JerusalemContext/Buildings/SM_JerusalemBuildings_Grid_N002_P001.SM_JerusalemBuildings_Grid_N002_P001"
+          ],
+          "bounds": {
+            "min": [
+              -19942.5151,
+              8682.9331,
+              -1749.2344
+            ],
+            "max": [
+              -11304.3872,
+              19059.4341,
+              614.2278
+            ]
+          }
+        }
+      ]
+    },
+    "groundProof": {
+      "target": "Candidate48",
+      "liveGroundTiles": 256,
+      "reference": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\scale-review\\ground-fingerprint-Main50.json",
+      "toleranceCm": 0.5,
+      "cutTwinTokensExcluded": [
+        "PrecinctCut",
+        "KotelPlazaCut",
+        "FutureMountCut"
+      ],
+      "inFirst": 256,
+      "inSecond": 256,
+      "matchedLabels": 256,
+      "onlyInFirst": [],
+      "onlyInSecond": [],
+      "worstBoundsErrorCm": 0.0,
+      "worstLabel": null,
+      "referenceStamp": "20260910T024733414589Z",
+      "status": "ground_is_identical_to_main50_identity_placement_is_correct"
+    },
+    "architectureFrame": {
+      "declared": {
+        "uniformScale": 0.96,
+        "translationCm": [
+          -248.0,
+          0.0,
+          0.0
+        ]
+      },
+      "sampled": 2633,
+      "agreeing": 2626,
+      "worstBoundsErrorCm": 40.800117,
+      "disagreeing": [
+        {
+          "actor": "Turned pedestal",
+          "sourceName": "Turned pedestal",
+          "boundsErrorCm": 2.7502,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 2.5074,
+              "allowanceCm": 0.5058
+            },
+            {
+              "axis": "Y",
+              "errorCm": 2.7502,
+              "allowanceCm": 0.5058
+            },
+            {
+              "axis": "Z",
+              "errorCm": 0.3034,
+              "allowanceCm": 0.5034
+            }
+          ]
+        },
+        {
+          "actor": "Hollow basin with inner wall",
+          "sourceName": "Hollow basin with inner wall",
+          "boundsErrorCm": 5.225,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 5.225,
+              "allowanceCm": 0.51
+            },
+            {
+              "axis": "Y",
+              "errorCm": 1.901,
+              "allowanceCm": 0.51
+            },
+            {
+              "axis": "Z",
+              "errorCm": 0.6912,
+              "allowanceCm": 0.5029
+            }
+          ]
+        },
+        {
+          "actor": "Copper fitting",
+          "sourceName": "Copper fitting",
+          "boundsErrorCm": 1.2773,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 0.5512,
+              "allowanceCm": 0.51
+            },
+            {
+              "axis": "Y",
+              "errorCm": 1.2773,
+              "allowanceCm": 0.51
+            },
+            {
+              "axis": "Z",
+              "errorCm": 1.269,
+              "allowanceCm": 0.5002
+            }
+          ]
+        },
+        {
+          "actor": "Copper fitting",
+          "sourceName": "Copper fitting",
+          "boundsErrorCm": 0.7666,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 0.0294,
+              "allowanceCm": 0.5057
+            },
+            {
+              "axis": "Y",
+              "errorCm": 0.7088,
+              "allowanceCm": 0.5057
+            },
+            {
+              "axis": "Z",
+              "errorCm": 0.7666,
+              "allowanceCm": 0.5002
+            }
+          ]
+        },
+        {
+          "actor": "Copper fitting",
+          "sourceName": "Copper fitting",
+          "boundsErrorCm": 0.7124,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 0.7124,
+              "allowanceCm": 0.5036
+            },
+            {
+              "axis": "Y",
+              "errorCm": 0.2956,
+              "allowanceCm": 0.5036
+            },
+            {
+              "axis": "Z",
+              "errorCm": 0.4397,
+              "allowanceCm": 0.5001
+            }
+          ]
+        },
+        {
+          "actor": "Copper fitting",
+          "sourceName": "Copper fitting",
+          "boundsErrorCm": 0.5217,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 0.2576,
+              "allowanceCm": 0.5035
+            },
+            {
+              "axis": "Y",
+              "errorCm": 0.2907,
+              "allowanceCm": 0.5035
+            },
+            {
+              "axis": "Z",
+              "errorCm": 0.5217,
+              "allowanceCm": 0.5001
+            }
+          ]
+        },
+        {
+          "actor": "Derived union of source House walls and roofs",
+          "sourceName": "Derived union of source House walls and roofs",
+          "boundsErrorCm": 40.8001,
+          "perAxis": [
+            {
+              "axis": "X",
+              "errorCm": 0.0,
+              "allowanceCm": 0.716
+            },
+            {
+              "axis": "Y",
+              "errorCm": 40.8001,
+              "allowanceCm": 0.74
+            },
+            {
+              "axis": "Z",
+              "errorCm": 16.3233,
+              "allowanceCm": 0.7472
+            }
+          ]
+        }
+      ],
+      "disagreeingCount": 7,
+      "method": "every level actor whose mesh resolves to SourceAssets/architecture-manifest.json, compared with its manifest AABB carried through the declared placement, per axis, in centimetres; allowance 0.50 cm + 5.0e-05 of the axis span.",
+      "agreeingFraction": 0.9973414356247626,
+      "measured": {
+        "perAxis": [
+          [
+            0.9600000427575786,
+            -248.00039208171978
+          ],
+          [
+            0.9600007213765267,
+            0.0064402373867464835
+          ],
+          [
+            0.9600012119650796,
+            -0.005187124929989295
+          ]
+        ],
+        "uniformScale": 0.960000659,
+        "scaleSpread": 1.169e-06,
+        "translationCm": [
+          -248.000392,
+          0.00644,
+          -0.005187
+        ],
+        "points": 5266
+      },
+      "scaleErrorFromDeclared": 6.59e-07,
+      "translationErrorFromDeclaredCm": [
+        0.000392,
+        0.00644,
+        0.005187
+      ],
+      "status": "placement_proved_against_the_live_level"
+    }
+  },
+  "stateContract": {
+    "actorTags": [
+      "KotelPlazaV1",
+      "KotelPlazaCutTwin"
+    ],
+    "stateTag": "KotelPlazaCutTwin",
+    "behaviour": "KotelPlazaCutTwin is already in AMikdashEnclosure::HideWhileWallStandsTags (MikdashEnclosure.cpp:204), so the actor is hidden while the Yechezkel precinct stands and shown in MODERN and OVERLAY. No plugin change and no rebuild is needed.",
+    "sharedWithTheTerrainTwin": "Deliberate. The deck and the cut ground it stands in must appear and disappear together; one tag makes it impossible for them to disagree.",
+    "onDisk": "hidden, collision off - the YECHEZKEL-correct state, as the twin was left.",
+    "cannotBeCaughtByTheBuildingHidePath": "BuildingIdentityLabel returns an empty label for a HISM-only actor and GatherModernBuildings skips empty labels, so no value in ExplicitHideLabels, ExplicitHideMeshNames or ModernBuildingLabelPrefixes can reach this actor."
+  },
+  "reading": {
+    "mechitza": "4 kerb instances at 180 cm, perpendicular to the wall, 0.62 along it from the north end: men north, women south.",
+    "lowerPlaza": "373 deck cells at 735.65 m a.s.l., 40 m deep at the wall.",
+    "upperPlaza": "553 deck cells at 738.15 m a.s.l., 2.50 m above the prayer plaza.",
+    "flight": "50 SM_PlazaV1_Step instances, 10 risers of 25 cm across 5 modules.",
+    "parapet": "21 kerb instances at 110 cm where the deck stands over 1 m above grade.",
+    "retaining": "28 retaining bands, 250 cm each, never scaled in Z."
+  },
+  "notBuilt": [
+    "Wilson's Arch. It is a vaulted hall under the buildings at the north end - interior architecture, not a plaza surface - and none is modelled.",
+    "The Mughrabi ramp up to the Temple Mount at the south end. The Mughrabi Gate building (OSM 291836692) is in the model; the ramp is not.",
+    "Prayer-section furniture: shtenders, book cases, partition rails, chairs.",
+    "The security plaza, its entrances and its screening at the west.",
+    "Lighting of any kind.",
+    "NO VISUAL ACCEPTANCE. Nobody has looked at any of this in a frame."
+  ],
+  "limitations": [
+    "The DEM is 257 x 257 at 25 m. It resolves the hillside and does NOT resolve a man-made terrace, so both deck levels are DEM percentiles, not survey levels.",
+    "The deck edge is stepped at the 250 cm cell, clipped to the polygon by AABB of the clipped cell. It is not a smooth polygon edge.",
+    "Nothing is placed inside the Western Wall footprint plus its 200 cm no-edit guard; the preserved source ground occupies that seam, exactly as the mount-access study left it.",
+    "Collision, walkability and the seam to the surrounding street ribbons are untested here.",
+    "The void under the fill. The cut lowered terrain that stood ABOVE the deck; where the hillside already fell away the deck flies over it, with retaining bands only at the perimeter. The clearance histogram reports that rather than hiding it.",
+    "No navmesh contribution: can_ever_affect_navigation is False on every component, so nothing here is walkable to the crowd system. Collision blocks a player pawn only, and only once MODERN turns the actor on in a game world.",
+    "NO VISUAL ACCEPTANCE. Nobody has looked at the placed plaza in a frame.",
+    "unreal.Transform keyword construction unavailable (TypeError(\"call() 'translation' is an invalid keyword argument for this function\"))"
+  ],
+  "placed": [
+    {
+      "key": "deck",
+      "component": "HierarchicalInstancedStaticMesh",
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+      "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+      "planned": 926,
+      "placed": 926,
+      "castShadow": false,
+      "collisionProfile": "BlockAll"
+    },
+    {
+      "key": "step",
+      "component": "HierarchicalInstancedStaticMesh1",
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+      "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+      "planned": 50,
+      "placed": 50,
+      "castShadow": true,
+      "collisionProfile": "BlockAll"
+    },
+    {
+      "key": "kerb",
+      "component": "HierarchicalInstancedStaticMesh2",
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+      "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+      "planned": 25,
+      "placed": 25,
+      "castShadow": true,
+      "collisionProfile": "BlockAll"
+    },
+    {
+      "key": "band",
+      "component": "HierarchicalInstancedStaticMesh3",
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+      "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+      "planned": 28,
+      "placed": 28,
+      "castShadow": true,
+      "collisionProfile": "BlockAll"
+    }
+  ],
+  "readback": {
+    "actor": "Actor_56",
+    "actorLabel": "RELEASE_KotelPlaza",
+    "folderPath": "Release/KotelPlazaV1",
+    "tags": [
+      "KotelPlazaV1",
+      "KotelPlazaCutTwin"
+    ],
+    "identityTagPresent": true,
+    "stateTagPresent": true,
+    "hiddenInGameOnDisk": true,
+    "collisionOnDisk": false,
+    "componentCount": 4,
+    "components": [
+      {
+        "key": "deck",
+        "component": "HierarchicalInstancedStaticMesh",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+        "meshAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+        "materialAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
+        "materialMatches": true,
+        "planned": 926,
+        "placed": 926,
+        "allInstancesChecked": 926,
+        "worstLocationErrorCm": 0.0,
+        "worstScaleError": 0.0,
+        "worstYawErrorDeg": 0.0,
+        "castShadow": false,
+        "collisionProfile": "BlockAll",
+        "affectsNavigation": false
+      },
+      {
+        "key": "step",
+        "component": "HierarchicalInstancedStaticMesh1",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+        "meshAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialMatches": true,
+        "planned": 50,
+        "placed": 50,
+        "allInstancesChecked": 50,
+        "worstLocationErrorCm": 0.0,
+        "worstScaleError": 0.0,
+        "worstYawErrorDeg": 3e-06,
+        "castShadow": true,
+        "collisionProfile": "BlockAll",
+        "affectsNavigation": false
+      },
+      {
+        "key": "kerb",
+        "component": "HierarchicalInstancedStaticMesh2",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+        "meshAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialMatches": true,
+        "planned": 25,
+        "placed": 25,
+        "allInstancesChecked": 25,
+        "worstLocationErrorCm": 0.0,
+        "worstScaleError": 0.0,
+        "worstYawErrorDeg": 4e-06,
+        "castShadow": true,
+        "collisionProfile": "BlockAll",
+        "affectsNavigation": false
+      },
+      {
+        "key": "band",
+        "component": "HierarchicalInstancedStaticMesh3",
+        "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+        "meshAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+        "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialAfterReopen": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+        "materialMatches": true,
+        "planned": 28,
+        "placed": 28,
+        "allInstancesChecked": 28,
+        "worstLocationErrorCm": 0.0,
+        "worstScaleError": 0.0,
+        "worstYawErrorDeg": 4e-06,
+        "castShadow": true,
+        "collisionProfile": "BlockAll",
+        "affectsNavigation": false
+      }
+    ],
+    "instancesPlaced": 1029,
+    "instancesPlanned": 1029
+  },
+  "acceptance": {
+    "method": "A 100 cm grid over the placed deck bbox. A station counts as ON DECK when it falls inside a placed deck cell; clearance is that cell's underside minus the terrain height under it, so POSITIVE is deck above ground and NEGATIVE is terrain piercing the slab.",
+    "gridSpacingCm": 100.0,
+    "gridStationsX": 92,
+    "gridStationsY": 131,
+    "exactSpacingXCm": 100.708951,
+    "exactSpacingYCm": 100.525397,
+    "stationsSampled": 12052,
+    "deckBboxCm": [
+      -23414.5145,
+      11931.6984,
+      -14250.0,
+      25000.0
+    ],
+    "coverage": {
+      "polygonOsmWay": 26492734,
+      "polygonVertices": 31,
+      "polygonAreaM2": 5589.613,
+      "deckAreaFromPlacedInstancesM2": 5545.833,
+      "deckAreaVersusPolygonPercent": 99.217,
+      "stationsInsidePolygon": 5520,
+      "stationsOnDeck": 5473,
+      "stationsOnDeckOutsidePolygon": 76,
+      "stationCoverageOfPolygonPercent": 97.772,
+      "note": "Two independent coverage numbers: the summed area of the 926 placed cells against the sourced polygon, and the fraction of a 100 cm grid of in-polygon stations that lands on placed deck. They are computed by different arithmetic and should agree."
+    },
+    "modernSurface": {
+      "actorLabel": "RELEASE_KotelPlazaCut_07_08",
+      "meshPath": "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+      "why": "The plaza is a MODERN feature; the terrain MODERN shows under it is the KotelPlazaCut twin. This is the clearance the acceptance is about.",
+      "clearance": {
+        "stations": 5473,
+        "minCm": -5.859e-06,
+        "p05Cm": -0.0,
+        "medianCm": -0.0,
+        "p95Cm": 260.0685,
+        "maxCm": 376.7081,
+        "stationsWithTerrainAboveDeckUnderside": 0,
+        "maxTerrainHeightAboveDeckUndersideCm": 5.859e-06
+      }
+    },
+    "allTerrainSurfacesOverThePlaza": {
+      "SM_JerusalemTerrain_07_08": {
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut",
+        "meshPath": "/Game/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_08_FutureMountCut",
+        "hiddenInGameOnDisk": true,
+        "tags": [
+          "MikdashJerusalemTerrainV1",
+          "PrecinctCutOriginal",
+          "KotelPlazaCutOriginal"
+        ],
+        "isTheModernSurface": false,
+        "stationsWithNoTerrain": 0,
+        "clearance": {
+          "stations": 5473,
+          "minCm": -761.666677749,
+          "p05Cm": -562.6357,
+          "medianCm": -160.7615,
+          "p95Cm": 260.0685,
+          "maxCm": 376.7081,
+          "stationsWithTerrainAboveDeckUnderside": 3807,
+          "maxTerrainHeightAboveDeckUndersideCm": 761.666677749
+        }
+      },
+      "RELEASE_PrecinctCut_07_08": {
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut_PrecinctCut",
+        "meshPath": "/Game/MikdashV3/PrecinctCutV1/Candidate48/SM_JerusalemTerrain_07_08_FutureMountCut_PrecinctCut",
+        "hiddenInGameOnDisk": false,
+        "tags": [
+          "PrecinctCutTwin",
+          "SM_JerusalemTerrain_07_08"
+        ],
+        "isTheModernSurface": false,
+        "stationsWithNoTerrain": 0,
+        "clearance": {
+          "stations": 5473,
+          "minCm": -761.666677749,
+          "p05Cm": -562.6358,
+          "medianCm": -160.7615,
+          "p95Cm": 260.0685,
+          "maxCm": 376.7081,
+          "stationsWithTerrainAboveDeckUnderside": 3807,
+          "maxTerrainHeightAboveDeckUndersideCm": 761.666677749
+        }
+      },
+      "RELEASE_KotelPlazaCut_07_08": {
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+        "meshPath": "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+        "hiddenInGameOnDisk": true,
+        "tags": [
+          "KotelPlazaCutTwin",
+          "SM_JerusalemTerrain_07_08"
+        ],
+        "isTheModernSurface": true,
+        "stationsWithNoTerrain": 0,
+        "clearance": {
+          "stations": 5473,
+          "minCm": -5.859e-06,
+          "p05Cm": -0.0,
+          "medianCm": -0.0,
+          "p95Cm": 260.0685,
+          "maxCm": 376.7081,
+          "stationsWithTerrainAboveDeckUnderside": 0,
+          "maxTerrainHeightAboveDeckUndersideCm": 5.859e-06
+        }
+      }
+    },
+    "terrainActorsOverThePlaza": [
+      {
+        "actor": "StaticMeshActor_2753",
+        "label": "SM_JerusalemTerrain_07_08",
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut",
+        "meshPath": "/Game/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_08_FutureMountCut",
+        "hiddenInGame": true,
+        "collision": false,
+        "tags": [
+          "MikdashJerusalemTerrainV1",
+          "PrecinctCutOriginal",
+          "KotelPlazaCutOriginal"
+        ]
+      },
+      {
+        "actor": "StaticMeshActor_14",
+        "label": "RELEASE_PrecinctCut_07_08",
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut_PrecinctCut",
+        "meshPath": "/Game/MikdashV3/PrecinctCutV1/Candidate48/SM_JerusalemTerrain_07_08_FutureMountCut_PrecinctCut",
+        "hiddenInGame": false,
+        "collision": true,
+        "tags": [
+          "PrecinctCutTwin",
+          "SM_JerusalemTerrain_07_08"
+        ]
+      },
+      {
+        "actor": "StaticMeshActor_24",
+        "label": "RELEASE_KotelPlazaCut_07_08",
+        "mesh": "SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+        "meshPath": "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+        "hiddenInGame": true,
+        "collision": false,
+        "tags": [
+          "KotelPlazaCutTwin",
+          "SM_JerusalemTerrain_07_08"
+        ]
+      }
+    ]
+  },
+  "errors": [],
+  "mapSaved": true,
+  "levelActorsWithAStaticMesh": 7930,
+  "existingPlazaActorsBefore": [],
+  "rebuiltOver": 0,
+  "transformConstruction": "set_editor_property",
+  "instanceApi": "add_instances(world_space=True)",
+  "mapSha256AfterSave": "187b61d0a3c240a2f7a69a30e2a71a7322796fb85b7954d1a1caa26e0bb6d2cc",
+  "mapSha256After": "187b61d0a3c240a2f7a69a30e2a71a7322796fb85b7954d1a1caa26e0bb6d2cc",
+  "mapBytesChanged": true,
+  "protectedMapsUnchanged": true,
+  "protectedAssetsUnchanged": true
+}

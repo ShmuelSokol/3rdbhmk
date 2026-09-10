@@ -1,10 +1,150 @@
 {
  "note": "Findings that create_kotel_plaza.py does NOT regenerate. Kept separately so a re-run of the generator cannot erase them.",
  "nativePlacement": {
-  "placed": false,
-  "why": "HELD DELIBERATELY. The earthwork measurement below shows the 25 m DEM pierces this plan over 59.8% of the plaza, median 2.12 m and up to 4.90 m, and that no flat level escapes it: at the level that keeps the Kotel 18.0 m exposed the terrain pierces 75% of the area, and at the level that clears the terrain entirely the Kotel shows 10.9 m. Placing 1,029 instances under a green receipt while knowing most of them would be buried is the exact failure this project guards against.",
+  "placed": true,
   "prerequisite": "Re-tessellate and cut SM_JerusalemTerrain_08_07 against the plaza polygon (one tile - the plaza is fully interior to it, 141 m from the nearest tile edge, so no seam with any neighbouring tile is possible), by the Scripts/import_future_mount_terrain.py precedent: read the existing tile triangles and vertex colours in-engine, drop those inside the polygon, append a finer grid at deck level with a graded rim, save as a twin under a separate folder, hide the original and show the twin. Never delete.",
-  "thenPlace": "The plan in kotel-plaza-plan.json is unchanged by that pass: 4 HISM components, 1,029 instances, 12,348 triangles, reusing four PrecinctPlazaV1 meshes and two materials that this audit proved resolve on disk in both maps."
+  "thenPlace": "The plan in kotel-plaza-plan.json is unchanged by that pass: 4 HISM components, 1,029 instances, 12,348 triangles, reusing four PrecinctPlazaV1 meshes and two materials that this audit proved resolve on disk in both maps.",
+  "prerequisiteSatisfied": {
+   "when": "10 September 2026",
+   "by": "Scripts/release_precinct_terrain_cut.py -CutApply (the precinct terrain-cut pass)",
+   "twin": "/Game/MikdashV3/KotelPlazaCutV1/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+   "note": "The tile is SM_JerusalemTerrain_07_08 by asset name (row_col = chunkX_chunkZ); this file and the hand-off called it 08_07. Its ACTOR renders the FutureMountV1 platform-cut mesh, not the pristine original, so the twin is cut from that and the platform hole is preserved. The cut region is the 926 deck cells of kotel-plaza-plan.json merged to 146 rectangles, so it is the plaza plan itself and cannot disagree with it - including the 27 cells already dropped for the 200 cm wall guard, which are NOT cut. Terrain only; the Kotel mesh is untouched.",
+   "operation": "Inside those cells the terrain is clamped to the DECK UNDERSIDE - the deck top less the 50 cm SM_PlazaV1_DeckTile slab: Z -1034.594 under the upper deck and -1284.594 under the lower. Outside them nothing moves.",
+   "acceptance": {
+    "maxTerrainHeightAboveDeckUndersideCm": 5.859375278305379e-06,
+    "gridSpacingCm": 100.0,
+    "stationsInsideCut": 5533,
+    "stationsAboveDeckUnderside": 0,
+    "outsideStations": 116577,
+    "outsideMaxHeightDifferenceCm": 0.0003573770165985479,
+    "note": "Measured on the SAVED twin read back from disk, both maps."
+   },
+   "receipts": [
+    "SourceAssets/enclosure-review/native-terrain-cut-apply-Candidate48-20260910T003830057450Z.json",
+    "SourceAssets/enclosure-review/native-terrain-cut-apply-Main50-20260910T003556215362Z.json"
+   ],
+   "stillBlockedResolved": "RESOLVED. AMikdashEnclosure carries HideWhileWallStandsTags and HideWhileModernCityStandsTags (MikdashEnclosure.cpp:198-215) and ApplyStateTaggedActors drives them, so KotelPlazaCutTwin shows in MODERN and OVERLAY and KotelPlazaCutOriginal hides there. No plugin change is outstanding for this feature."
+  },
+  "placedWhen": "10 September 2026",
+  "placedBy": "Scripts/release_kotel_plaza.py -PlazaApply, both maps, Candidate48 first",
+  "whyItWasHeld": "HELD DELIBERATELY. The earthwork measurement below shows the 25 m DEM pierces this plan over 59.8% of the plaza, median 2.12 m and up to 4.90 m, and that no flat level escapes it: at the level that keeps the Kotel 18.0 m exposed the terrain pierces 75% of the area, and at the level that clears the terrain entirely the Kotel shows 10.9 m. Placing 1,029 instances under a green receipt while knowing most of them would be buried is the exact failure this project guards against.",
+  "why": "PLACED. The prerequisite below was satisfied on 10 September 2026 and the clearance was then re-measured FROM THE PLACED DECK rather than inherited from the cut receipt: zero of 5,473 stations carry terrain above the deck underside on either map, worst 5.859e-06 cm, median clearance 0.0 cm.",
+  "acceptance": {
+   "Candidate48": {
+    "status": "kotel_plaza_placed_saved_reopened_measured_visual_acceptance_pending",
+    "instancesPlaced": 1029,
+    "instancesPlanned": 1029,
+    "perComponent": {
+     "deck": {
+      "placed": 926,
+      "planned": 926,
+      "worstLocationErrorCm": 0.0
+     },
+     "step": {
+      "placed": 50,
+      "planned": 50,
+      "worstLocationErrorCm": 0.0
+     },
+     "kerb": {
+      "placed": 25,
+      "planned": 25,
+      "worstLocationErrorCm": 0.0
+     },
+     "band": {
+      "placed": 28,
+      "planned": 28,
+      "worstLocationErrorCm": 0.0
+     }
+    },
+    "deckAreaVersusPolygonPercent": 99.217,
+    "stationCoverageOfPolygonPercent": 97.772,
+    "clearanceToCutTerrainCm": {
+     "stations": 5473,
+     "minCm": -5.859e-06,
+     "p05Cm": -0.0,
+     "medianCm": -0.0,
+     "p95Cm": 260.0685,
+     "maxCm": 376.7081,
+     "stationsWithTerrainAboveDeckUnderside": 0,
+     "maxTerrainHeightAboveDeckUndersideCm": 5.859e-06
+    },
+    "groundProof": "ground_is_identical_to_main50_identity_placement_is_correct",
+    "architectureFrameMeasuredButNotUsed": 0.960000659,
+    "mapSha256After": "187b61d0a3c240a2f7a69a30e2a71a7322796fb85b7954d1a1caa26e0bb6d2cc",
+    "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\KotelPlaza-Candidate48-20260910T033617704733Z",
+    "protectedMapsUnchanged": true,
+    "protectedAssetsUnchanged": true
+   },
+   "Main50": {
+    "status": "kotel_plaza_placed_saved_reopened_measured_visual_acceptance_pending",
+    "instancesPlaced": 1029,
+    "instancesPlanned": 1029,
+    "perComponent": {
+     "deck": {
+      "placed": 926,
+      "planned": 926,
+      "worstLocationErrorCm": 0.0
+     },
+     "step": {
+      "placed": 50,
+      "planned": 50,
+      "worstLocationErrorCm": 0.0
+     },
+     "kerb": {
+      "placed": 25,
+      "planned": 25,
+      "worstLocationErrorCm": 0.0
+     },
+     "band": {
+      "placed": 28,
+      "planned": 28,
+      "worstLocationErrorCm": 0.0
+     }
+    },
+    "deckAreaVersusPolygonPercent": 99.217,
+    "stationCoverageOfPolygonPercent": 97.772,
+    "clearanceToCutTerrainCm": {
+     "stations": 5473,
+     "minCm": -5.859e-06,
+     "p05Cm": -0.0,
+     "medianCm": -0.0,
+     "p95Cm": 260.0685,
+     "maxCm": 376.7081,
+     "stationsWithTerrainAboveDeckUnderside": 0,
+     "maxTerrainHeightAboveDeckUndersideCm": 5.859e-06
+    },
+    "groundProof": "authoring_frame_is_its_own_reference",
+    "architectureFrameMeasuredButNotUsed": 1.000000686,
+    "mapSha256After": "e249a312b6b9acd272be4441373c6080dfc5bbe97708203ac6bcfc858fc9b437",
+    "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\KotelPlaza-Main50-20260910T033747030520Z",
+    "protectedMapsUnchanged": true,
+    "protectedAssetsUnchanged": true
+   }
+  },
+  "receipts": {
+   "Candidate48": "SourceAssets/context-review/KotelPlazaV1/native-kotel-plaza-apply-Candidate48-20260910T033617704733Z.json",
+   "Main50": "SourceAssets/context-review/KotelPlazaV1/native-kotel-plaza-apply-Main50-20260910T033747030520Z.json"
+  },
+  "actor": {
+   "label": "RELEASE_KotelPlaza",
+   "folder": "Release/KotelPlazaV1",
+   "tags": [
+    "KotelPlazaV1",
+    "KotelPlazaCutTwin"
+   ],
+   "components": 4,
+   "instances": 1029,
+   "triangles": 12348,
+   "onDisk": "hidden, collision off - the YECHEZKEL-correct state, as the terrain twin was left.",
+   "stateNote": "KotelPlazaCutTwin is in AMikdashEnclosure::HideWhileWallStandsTags (MikdashEnclosure.cpp:204), so the deck is hidden while the Yechezkel precinct stands and shown in MODERN and OVERLAY. Shared with the terrain twin on purpose: the deck and the ground cut for it can never disagree about which state they belong to."
+  },
+  "placementFrame": "IDENTITY on both maps, measured not assumed. The 256 DEM ground tiles matched the Main50 fingerprint to 0.0000 cm on Candidate48; the architecture similarity this pass deliberately does NOT ride was measured on the same level as 0.960001 / (-248.0004, 0.006, -0.005).",
+  "stillOpen": [
+   "NO VISUAL ACCEPTANCE. Nobody has looked at the placed plaza in a frame.",
+   "The void under the fill: where the hillside already fell away the deck flies over it, up to 376.7 cm at the worst station, with retaining bands only at the perimeter.",
+   "No navmesh contribution (can_ever_affect_navigation False), so the crowd system cannot path over the modern plaza.",
+   "Not built, and deliberately so: Wilson's Arch, the Mughrabi ramp, prayer furniture, the security plaza and its screening, and lighting of any kind."
+  ]
  },
  "auditCrossReference": {
   "receipts": [

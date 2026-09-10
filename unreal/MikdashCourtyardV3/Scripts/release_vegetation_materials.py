@@ -95,6 +95,52 @@ TARGET_LABEL = TARGET_CONFIG['key']
 
 ENGINE_DEFAULT_PREFIX = '/Engine/'
 
+# THE BISECT LADDER for the leaf master, most-suspect term first.
+#
+# Checkpoint cp05 died with ShaderCompileWorker return code -1073741819 (0xC0000005) on
+# M_JudeanFlora_Leaf / FLocalVertexFactory and produced NO HLSL diagnostic of any kind: the
+# compiler process died rather than rejecting the graph, exactly as M_PrecinctPlaza_Paving did.
+# An access violation leaves nothing to read, so the terms come off one at a time and each rung
+# is cooked.
+#
+# M_JudeanFlora_Bark carries PerInstanceRandom too and compiled clean in the SAME cook, so
+# per-instance random is not first on trial. What is unique to the leaf is ObjectPositionWS --
+# PRIMITIVE data, in a graph whose failing permutations are FLumenCardVS and TLightMapDensityVS --
+# and the two-sided-foliage subsurface output.
+LEAF_VARIANTS = {
+    'full': {
+        'perInstanceRandom': True, 'spatialBrightness': True, 'twoSidedFoliage': True,
+        'note': 'as shipped in the cook that crashed'},
+    'noSpatial': {
+        'perInstanceRandom': True, 'spatialBrightness': False, 'twoSidedFoliage': True,
+        'note': 'drop Frac(dot(ObjectPositionWS.xy, k)): primitive data, and purely decorative'},
+    'noVariation': {
+        'perInstanceRandom': False, 'spatialBrightness': False, 'twoSidedFoliage': True,
+        'note': 'THE SHIPPABLE FALLBACK: drop BOTH variation sources, keep the per-species colour, '
+                'the masked/two-sided flags and the foliage transmission. A hillside without '
+                'instance-level hue variation is worth far more than a project that cannot package.'},
+    'noFoliage': {
+        'perInstanceRandom': True, 'spatialBrightness': False, 'twoSidedFoliage': False,
+        'note': 'also drop MSM_TWO_SIDED_FOLIAGE and MP_SUBSURFACE_COLOR; still masked, still two-sided'},
+    'minimal': {
+        'perInstanceRandom': False, 'spatialBrightness': False, 'twoSidedFoliage': False,
+        'note': 'also drop PerInstanceRandom: the Lerp alpha becomes a constant 0.5, so the MEAN '
+                'species colour is unchanged and only the instance-to-instance spread is lost'},
+}
+DEFAULT_LEAF_VARIANT = 'full'
+
+
+def leaf_variant_from_command_line(command_line):
+    """-VegMatLeafVariant=<name> off the engine command line. Defaults to the full graph."""
+    for token in command_line.split():
+        if token.lower().startswith('-vegmatleafvariant='):
+            name = token.split('=', 1)[1].strip('"')
+            if name not in LEAF_VARIANTS:
+                raise RuntimeError('Unknown leaf variant %r; known: %s'
+                                   % (name, sorted(LEAF_VARIANTS)))
+            return name
+    return DEFAULT_LEAF_VARIANT
+
 
 # ---------------------------------------------------------------------------
 # offline: nothing below imports unreal
@@ -464,9 +510,13 @@ class Graph:
                          default_value=self.ue.LinearColor(*default))
 
 
-def build_master(ue, spec, name, sample_textures, receipt):
+def build_master(ue, spec, name, sample_textures, receipt, variant=None, force_rebuild=False):
     """Create one master material. FLAGS ARE SET BEFORE ANY NODE EXISTS, so the first compile is
-    already the masked/two-sided one and no stale shader map has to be fought afterwards."""
+    already the masked/two-sided one and no stale shader map has to be fought afterwards.
+
+    `variant` selects a rung of LEAF_VARIANTS for the leaf master; `force_rebuild` empties an
+    existing graph and rebuilds it IN PLACE rather than reusing it.
+    """
     cfg = spec['masters'][name]
     folder = spec['materialFolder']
     path = folder + '/' + name
@@ -475,7 +525,7 @@ def build_master(ue, spec, name, sample_textures, receipt):
     record = {'asset': path, 'role': cfg['role'], 'nodes': [], 'connections': [], 'status': 'started'}
     receipt['masters'][name] = record
 
-    if assets.does_asset_exist(path):
+    if assets.does_asset_exist(path) and not force_rebuild:
         material = ue.load_asset(path)
         if not isinstance(material, ue.Material):
             raise RuntimeError('Existing asset at %s is not a Material' % path)
@@ -487,24 +537,44 @@ def build_master(ue, spec, name, sample_textures, receipt):
         names = [str(n) for n in ue.MaterialEditingLibrary.get_vector_parameter_names(material)]
         record['subsurfaceWired'] = 'SubsurfaceTint' in names
         return material
-    material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
-        name, folder, ue.Material, ue.MaterialFactoryNew())
-    if not isinstance(material, ue.Material):
-        raise RuntimeError('Material factory failed for ' + path)
-    record['created'] = True
+    if assets.does_asset_exist(path):
+        # Rebuild IN PLACE. Deleting and recreating the asset would orphan every material
+        # instance's parent pointer; emptying the graph keeps the same object and the same
+        # parameter names, so the 14 leaf instances stay wired and keep their species colours.
+        material = ue.load_asset(path)
+        if not isinstance(material, ue.Material):
+            raise RuntimeError('Existing asset at %s is not a Material' % path)
+        ml.delete_all_material_expressions(material)
+        record.update(created=False, rebuiltInPlace=True)
+    else:
+        material = ue.AssetToolsHelpers.get_asset_tools().create_asset(
+            name, folder, ue.Material, ue.MaterialFactoryNew())
+        if not isinstance(material, ue.Material):
+            raise RuntimeError('Material factory failed for ' + path)
+        record.update(created=True, rebuiltInPlace=False)
+
+    if cfg['role'] == 'leaf':
+        variant = dict(variant or LEAF_VARIANTS[DEFAULT_LEAF_VARIANT])
+    else:
+        variant = {'perInstanceRandom': True, 'spatialBrightness': False, 'twoSidedFoliage': False,
+                   'note': 'bark and billboard are not on the bisect ladder'}
+    record['variant'] = variant
 
     # ---- flags first ------------------------------------------------------
     blend, blend_name = _enum(ue, 'BlendMode', cfg['blendMode'])
     material.set_editor_property('blend_mode', blend)
     material.set_editor_property('two_sided', bool(cfg['twoSided']))
-    shading, shading_name = _enum(ue, 'MaterialShadingModel', cfg['shadingModel'],
+    wanted_shading = cfg['shadingModel']
+    if cfg['role'] == 'leaf' and not variant['twoSidedFoliage']:
+        wanted_shading = cfg.get('shadingModelFallback') or 'MSM_DEFAULT_LIT'
+    shading, shading_name = _enum(ue, 'MaterialShadingModel', wanted_shading,
                                   cfg.get('shadingModelFallback'))
     material.set_editor_property('shading_model', shading)
     if 'opacityMaskClipValue' in cfg:
         material.set_editor_property('opacity_mask_clip_value', float(cfg['opacityMaskClipValue']))
     record.update(blendModeRequested=cfg['blendMode'], blendModeApplied=blend_name,
-                  shadingModelRequested=cfg['shadingModel'], shadingModelApplied=shading_name,
-                  shadingModelIsFallback=shading_name != cfg['shadingModel'],
+                  shadingModelRequested=wanted_shading, shadingModelApplied=shading_name,
+                  shadingModelIsFallback=shading_name != wanted_shading,
                   twoSided=bool(material.get_editor_property('two_sided')),
                   opacityMaskClipValue=round(float(material.get_editor_property('opacity_mask_clip_value')), 4))
 
@@ -513,10 +583,14 @@ def build_master(ue, spec, name, sample_textures, receipt):
     colour_sampler, _ = _enum(ue, 'MaterialSamplerType', 'SAMPLERTYPE_COLOR')
     normal_sampler, _ = _enum(ue, 'MaterialSamplerType', 'SAMPLERTYPE_NORMAL')
 
-    # Per-instance random: a plain float on every vertex factory. NOT per-instance custom data,
-    # so section 6b does not apply -- and it feeds nothing but stock nodes regardless.
-    per_instance = g.node(ue.MaterialExpressionPerInstanceRandom, -1500, 380)
-    record['perInstanceRandom'] = True
+    # Per-instance random, or a constant 0.5 when the bisect has taken it out. 0.5 is the exact
+    # midpoint of Lerp(TintA, TintB), so the MEAN species colour is identical either way and only
+    # the instance-to-instance spread is lost.
+    if variant['perInstanceRandom']:
+        per_instance = g.node(ue.MaterialExpressionPerInstanceRandom, -1500, 380)
+    else:
+        per_instance = g.node(ue.MaterialExpressionConstant, -1500, 380, r=0.5)
+    record['perInstanceRandom'] = bool(variant['perInstanceRandom'])
 
     if cfg['role'] == 'bark':
         uv = g.node(ue.MaterialExpressionTextureCoordinate, -2100, -260, coordinate_index=0)
@@ -560,7 +634,14 @@ def build_master(ue, spec, name, sample_textures, receipt):
         tinted = g.binary(ue.MaterialExpressionMultiply, atlas, 'RGB', tint, '', -950, 0)
 
         base_colour = tinted
-        if leaf:
+        if leaf and not variant['spatialBrightness']:
+            record['spatialBrightness'] = {
+                'applied': False,
+                'removedByVariant': variant.get('note'),
+                'reason': ('ObjectPositionWS is PRIMITIVE data. This is the first term off the '
+                           'bisect ladder because it is the only primitive-data read unique to '
+                           'the leaf, and it is decorative.')}
+        elif leaf:
             # A second, DECORRELATED variation source so two neighbours that draw the same
             # per-instance random still differ. Stock nodes only.
             spatial = spec['perInstanceVariation'].get('spatialBrightness') or {}
@@ -1262,6 +1343,96 @@ def apply(spec=None):
         receipt['receiptPath'] = str(receipt_path)
 
 
+def rebuild_leaf(variant_name, spec=None):
+    """Rebuild M_JudeanFlora_Leaf at one rung of the bisect ladder. ASSET ONLY -- no map is
+    loaded, no map is saved, and the material instances keep their parent and their colours
+    because the master is emptied and refilled in place rather than replaced."""
+    import unreal as ue
+    spec = spec or load_spec()
+    variant = LEAF_VARIANTS[variant_name]
+    if Path(ue.Paths.project_dir()).resolve() != ROOT:
+        raise RuntimeError('Wrong project directory: ' + ue.Paths.project_dir())
+    if ue.get_editor_subsystem(ue.UnrealEditorSubsystem).get_game_world():
+        raise RuntimeError('A game world is active; never mutate during play')
+
+    stamp = stamp_now()
+    receipt_folder = ROOT / spec['receiptFolder']
+    receipt_folder.mkdir(parents=True, exist_ok=True)
+    receipt_path = receipt_folder / (spec['receiptPrefix'] + 'leaf-' + variant_name + '-' + stamp + '.json')
+    map_shas = {c['map']: sha256_of(disk_path(c['map'], 'umap')) for c in mt.TARGETS.values()}
+
+    checkpoint = Path(spec['checkpointRoot']) / (spec['checkpointPrefix'] + 'leaf-' + variant_name + '-' + stamp)
+    checkpoint.mkdir(parents=True, exist_ok=False)
+    source = ROOT / 'Content' / spec['materialFolder'][len('/Game/'):]
+    if source.exists():
+        shutil.copytree(source, checkpoint / 'Materials')
+
+    receipt = {
+        'status': 'started', 'stamp': stamp, 'stage': 'leaf_variant_rebuild',
+        'targetIndependent': True,
+        'variantName': variant_name, 'variant': variant,
+        'bisectLadder': LEAF_VARIANTS,
+        'why': ('Checkpoint cp05 cook died with ShaderCompileWorker return code -1073741819 '
+                '(0xC0000005) on M_JudeanFlora_Leaf/FLocalVertexFactory with no HLSL diagnostic. '
+                'An access violation is the compiler dying rather than rejecting the graph, so '
+                'there is nothing to read and the terms come off one at a time.'),
+        'specFile': str(SPEC_PATH), 'specSha256': sha256_of(SPEC_PATH),
+        'engineVersion': ue.SystemLibrary.get_engine_version(),
+        'checkpoint': str(checkpoint),
+        'mapSha256Before': map_shas,
+        'masters': {}, 'errors': [], 'limitations': list(spec['limitations']),
+    }
+
+    def write():
+        receipt_path.write_text(json.dumps(receipt, indent=2, default=str) + '\n', encoding='utf-8')
+    write()
+
+    try:
+        textures = {}
+        folder = spec['textureAssetFolder']
+        for asset_path in ue.EditorAssetLibrary.list_assets(folder, recursive=False, include_folder=False):
+            clean = asset_path.split('.')[0]
+            texture = ue.load_asset(clean)
+            if isinstance(texture, ue.Texture2D):
+                textures[clean.rsplit('/', 1)[-1]] = texture
+        first = sorted(spec['species'])[0]
+        sample = {'LeafAtlas': textures['T_' + first + '_Leaf_BCA']}
+        build_master(ue, spec, 'M_JudeanFlora_Leaf', sample, receipt,
+                     variant=variant, force_rebuild=True)
+        write()
+
+        # The instances keep their parent; refresh and re-save them so the cook sees a consistent
+        # parent/instance pair rather than a stale cached parameter set.
+        ml = ue.MaterialEditingLibrary
+        assets = _assets(ue)
+        refreshed = []
+        for species in sorted(spec['species']):
+            path = spec['materialFolder'] + '/' + spec['instancePrefix'] + species + '_Leaf'
+            instance = ue.load_asset(path)
+            if not isinstance(instance, ue.MaterialInstanceConstant):
+                continue
+            ml.update_material_instance(instance)
+            if not assets.save_loaded_asset(instance, only_if_is_dirty=False):
+                raise RuntimeError('save_loaded_asset failed for ' + path)
+            refreshed.append({'asset': path,
+                              'parent': _asset_path(instance.get_editor_property('parent')),
+                              'uassetSha256': sha256_of(disk_path(path))})
+        receipt['instancesRefreshed'] = refreshed
+        reopen_material_readback(ue, spec, receipt)
+        receipt['status'] = 'leaf_variant_rebuilt_saved_cook_pending'
+        return receipt
+    except Exception as error:                                               # noqa: BLE001
+        receipt['errors'].append(repr(error))
+        receipt['status'] = 'failed_leaf_variant_rebuild'
+        raise
+    finally:
+        receipt['mapSha256After'] = {c['map']: sha256_of(disk_path(c['map'], 'umap'))
+                                     for c in mt.TARGETS.values()}
+        receipt['mapsUnchanged'] = receipt['mapSha256After'] == map_shas
+        write()
+        receipt['receiptPath'] = str(receipt_path)
+
+
 def assets_only(spec=None):
     """Create the materials and point the mesh slots at them. NO LEVEL IS LOADED OR SAVED."""
     import unreal as ue
@@ -1370,7 +1541,11 @@ def _main():
     import unreal as ue
     lowered = ue.SystemLibrary.get_command_line().lower()
     try:
-        if '-vegmatassetsonly' in lowered:
+        if '-vegmatrebuildleaf' in lowered:
+            name = leaf_variant_from_command_line(ue.SystemLibrary.get_command_line())
+            receipt = rebuild_leaf(name)
+            ue.log('release_vegetation_materials [leaf %s]: %s' % (name, receipt['status']))
+        elif '-vegmatassetsonly' in lowered:
             receipt = assets_only()
             ue.log('release_vegetation_materials [assets]: %s, %d mesh slots assigned'
                    % (receipt['status'], receipt['summary']['meshSlotsAssigned']))

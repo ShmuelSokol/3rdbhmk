@@ -1,0 +1,269 @@
+{
+  "status": "leaf_variant_rebuilt_saved_cook_pending",
+  "stamp": "20260910T050738707593Z",
+  "stage": "leaf_variant_rebuild",
+  "targetIndependent": true,
+  "variantName": "full",
+  "variant": {
+    "perInstanceRandom": true,
+    "spatialBrightness": true,
+    "twoSidedFoliage": true,
+    "note": "as shipped in the cook that crashed"
+  },
+  "bisectLadder": {
+    "full": {
+      "perInstanceRandom": true,
+      "spatialBrightness": true,
+      "twoSidedFoliage": true,
+      "note": "as shipped in the cook that crashed"
+    },
+    "noSpatial": {
+      "perInstanceRandom": true,
+      "spatialBrightness": false,
+      "twoSidedFoliage": true,
+      "note": "drop Frac(dot(ObjectPositionWS.xy, k)): primitive data, and purely decorative"
+    },
+    "noVariation": {
+      "perInstanceRandom": false,
+      "spatialBrightness": false,
+      "twoSidedFoliage": true,
+      "note": "THE SHIPPABLE FALLBACK: drop BOTH variation sources, keep the per-species colour, the masked/two-sided flags and the foliage transmission. A hillside without instance-level hue variation is worth far more than a project that cannot package."
+    },
+    "noFoliage": {
+      "perInstanceRandom": true,
+      "spatialBrightness": false,
+      "twoSidedFoliage": false,
+      "note": "also drop MSM_TWO_SIDED_FOLIAGE and MP_SUBSURFACE_COLOR; still masked, still two-sided"
+    },
+    "minimal": {
+      "perInstanceRandom": false,
+      "spatialBrightness": false,
+      "twoSidedFoliage": false,
+      "note": "also drop PerInstanceRandom: the Lerp alpha becomes a constant 0.5, so the MEAN species colour is unchanged and only the instance-to-instance spread is lost"
+    }
+  },
+  "why": "Checkpoint cp05 cook died with ShaderCompileWorker return code -1073741819 (0xC0000005) on M_JudeanFlora_Leaf/FLocalVertexFactory with no HLSL diagnostic. An access violation is the compiler dying rather than rejecting the graph, so there is nothing to read and the terms come off one at a time.",
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_vegetation_materials.spec.json",
+  "specSha256": "21cd35631e2aac4b7d0edb2f25b390e34cec65bdc9d6e7136d377118d3434ebe",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\VegetationMaterials-leaf-full-20260910T050738707593Z",
+  "mapSha256Before": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  },
+  "masters": {
+    "M_JudeanFlora_Leaf": {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "role": "leaf",
+      "nodes": [
+        "MaterialExpressionPerInstanceRandom",
+        "MaterialExpressionTextureSampleParameter2D",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionObjectPositionWS",
+        "MaterialExpressionComponentMask",
+        "MaterialExpressionConstant2Vector",
+        "MaterialExpressionDotProduct",
+        "MaterialExpressionFrac",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionSubtract",
+        "MaterialExpressionAdd",
+        "MaterialExpressionLinearInterpolate",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionConstant",
+        "MaterialExpressionVectorParameter",
+        "MaterialExpressionScalarParameter",
+        "MaterialExpressionMultiply",
+        "MaterialExpressionMultiply"
+      ],
+      "connections": [
+        "MaterialExpressionTextureSampleParameter2D.A -> MP_OPACITY_MASK",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionPerInstanceRandom.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionMultiply.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionObjectPositionWS.out -> MaterialExpressionComponentMask.None",
+        "MaterialExpressionComponentMask.out -> MaterialExpressionDotProduct.A",
+        "MaterialExpressionConstant2Vector.out -> MaterialExpressionDotProduct.B",
+        "MaterialExpressionDotProduct.out -> MaterialExpressionFrac.None",
+        "MaterialExpressionConstant.out -> MaterialExpressionSubtract.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionSubtract.B",
+        "MaterialExpressionConstant.out -> MaterialExpressionAdd.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionAdd.B",
+        "MaterialExpressionSubtract.out -> MaterialExpressionLinearInterpolate.A",
+        "MaterialExpressionAdd.out -> MaterialExpressionLinearInterpolate.B",
+        "MaterialExpressionFrac.out -> MaterialExpressionLinearInterpolate.Alpha",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_BASE_COLOR",
+        "MaterialExpressionScalarParameter.out -> MP_ROUGHNESS",
+        "MaterialExpressionScalarParameter.out -> MP_SPECULAR",
+        "MaterialExpressionConstant.out -> MP_METALLIC",
+        "MaterialExpressionVectorParameter.out -> MaterialExpressionMultiply.A",
+        "MaterialExpressionScalarParameter.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionMultiply.A",
+        "MaterialExpressionMultiply.out -> MaterialExpressionMultiply.B",
+        "MaterialExpressionMultiply.out -> MP_SUBSURFACE_COLOR"
+      ],
+      "status": "saved",
+      "created": false,
+      "rebuiltInPlace": true,
+      "variant": {
+        "perInstanceRandom": true,
+        "spatialBrightness": true,
+        "twoSidedFoliage": true,
+        "note": "as shipped in the cook that crashed"
+      },
+      "blendModeRequested": "BLEND_MASKED",
+      "blendModeApplied": "BLEND_MASKED",
+      "shadingModelRequested": "MSM_TWO_SIDED_FOLIAGE",
+      "shadingModelApplied": "MSM_TWO_SIDED_FOLIAGE",
+      "shadingModelIsFallback": false,
+      "twoSided": true,
+      "opacityMaskClipValue": 0.5,
+      "perInstanceRandom": true,
+      "spatialBrightness": {
+        "applied": true,
+        "kPerCm": [
+          0.0007123,
+          0.0009377
+        ]
+      },
+      "subsurfaceWired": true,
+      "recompileMessages": [],
+      "nodeCount": 24,
+      "scalarParameters": [
+        "BrightnessSpread",
+        "Roughness",
+        "Specular",
+        "SubsurfaceStrength"
+      ],
+      "vectorParameters": [
+        "LeafTintA",
+        "LeafTintB",
+        "SubsurfaceTint"
+      ],
+      "textureParameters": [
+        "LeafAtlas"
+      ],
+      "uassetSha256": "446b6e3d8bc773b28d16dfc43c7cf40e4231d99b42a3e2951e1ada3d43dea422"
+    }
+  },
+  "errors": [],
+  "limitations": [
+    "NO VISUAL ACCEPTANCE. Nobody has seen a frame of this. A real-RHI editor cannot start on this box (Windows commits ~45 GB of a 63.9 GB limit and a real-RHI editor on this map reserves ~19.9 GB), so the project's own rule -- a material is not accepted until a rendered frame with an in-frame control shows it -- is NOT met. Applied anyway because the alternative is the engine default grey, which is a certainty rather than a risk.",
+    "The colours are authored from written descriptions of Judean flora, not sampled from photographs of these species.",
+    "The tint is derived against the atlas's NOMINAL colour. Each atlas cell also carries a shade multiplier and cells 2 and 3 lean toward the pale underside, so an individual card lands near the target rather than exactly on it.",
+    "No wind. There is no WorldPositionOffset in any of these graphs; the foliage is static.",
+    "MEASURED, NOT ASSUMED: every one of the 105 static meshes came back with exactly ONE material slot, imported name 'WorldGridMaterial'. set_lod_from_static_mesh folded each species' L1/L2/Billboard meshes into the L0 asset and collapsed them all onto that one slot, so the BILLBOARD LOD of a leaf ladder renders with the LEAF material and the leaf atlas rather than with the billboard impostor texture. The standalone SM_*_Billboard assets do carry MI_*_Billboard. Splitting the far LOD onto its own slot needs StaticMeshEditorSubsystem and a re-LOD pass; it is recorded here rather than fixed.",
+    "No leaf normal map exists in the set, so leaf shading comes from the vertex normal and the subsurface transmission only.",
+    "No cook, package, collision or performance acceptance.",
+    "Nothing here is halachic."
+  ],
+  "instancesRefreshed": [
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Almond_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "39645dddca44da488adf6decf907d18ec54be0940c2225027b1e407e51f98313"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Carob_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "04f65e15e2ec9c39b1f14ac6718b63e2698eb66d5b4fa13a1dd712510e6c7921"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Cypress_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "422c61e920f22b16eb92cf1f7a1a99d224f08dd7f07df84e9b1b5c80fc273f26"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DatePalm_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "691b766cffffb2f8c3f76e4031a1dcfb38d6d58c94220de12ab16649314f0ee2"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_DryGrass_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "4a8168092c85e1051220b8bfc4d3fa11f698cab265abe5bf8a0269a7e0a9744c"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Fig_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "6e52151ebb29f91fcd5e1059bbb78eec5b826ae93752501eca2fc37fa490c251"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Hyssop_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "447a20b558778cbb5a620728ddf19b5b5045fc9d0b4a8dc824d500c3b1937ae7"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_JerusalemPine_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "460a499473932e5cf7789bf4b9af34db3b34c90a18039a7f1a645bfb1157bb00"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Olive_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "950edf482060ad21d4913583f13b2482b74e2ff10550de0c603a171a1c999343"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Pomegranate_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "e1db4ecdcbda91122c2e1c3ec1163f246de382f0b46abce7bbfdd702d46a4b6f"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Rockrose_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "0c1f11371d3c2dd79ac170b23d7498c439a96eb629f1d6f9a9d166c5dd21ffbe"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Sage_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "28bb4281cd246e3f612df4b804825ae3df9eba6857ff135a94542d0ffad11d82"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_Terebinth_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "ff9060cf4972f0d82b815d2c5740407bf50cdc3f707584f54c72849560265980"
+    },
+    {
+      "asset": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/MI_JudeanFlora_ThornyBurnet_Leaf",
+      "parent": "/Game/MikdashV3/Vegetation/JudeanFloraV1/Materials/M_JudeanFlora_Leaf",
+      "uassetSha256": "782555ab7edf42eb8c68c3c43d22e234d25141de9c3a63e054fbaa552a4fcadc"
+    }
+  ],
+  "savedMaterialReadback": {
+    "M_JudeanFlora_Bark": {
+      "blendMode": "BLEND_OPAQUE",
+      "twoSided": false,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.3333,
+      "problems": null
+    },
+    "M_JudeanFlora_Leaf": {
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_TWO_SIDED_FOLIAGE",
+      "opacityMaskClipValue": 0.5,
+      "problems": null
+    },
+    "M_JudeanFlora_Billboard": {
+      "blendMode": "BLEND_MASKED",
+      "twoSided": true,
+      "shadingModel": "MSM_DEFAULT_LIT",
+      "opacityMaskClipValue": 0.5,
+      "problems": null
+    }
+  },
+  "mapSha256After": {
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+    "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  },
+  "mapsUnchanged": true
+}

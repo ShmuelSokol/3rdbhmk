@@ -1038,6 +1038,52 @@ inline FWallPlan PlanWall(const FSquare& Square, double NominalSegmentLengthUnre
 // materials read it with stock nodes - and neither is a Custom node on its own; the
 // combination was. Never put author-written HLSL between per-instance data and the output
 // here. See Scripts/release_precinct_plaza.py::build_paving_master for the full account.
+//
+// -------------------------------------------------------------------------------------
+// 6b-ii. WHAT AN SCW ACCESS VIOLATION DOES AND DOES NOT PROVE - added 2026-09-10, after the
+// rule above was applied to a material that turned out to be innocent.
+//
+// Checkpoint cp05 failed the cook with the SAME signature as the plaza: ShaderCompileWorker
+// return code -1073741819 (0xC0000005), FLocalVertexFactory, no HLSL diagnostic of any kind,
+// every job in the dead worker's batch belonging to one material (M_JudeanFlora_Leaf). Read
+// through the lens of the rule above, that looks like an open-and-shut second offence.
+// IT WAS NOT THE GRAPH. The leaf material contains no Custom node at all, and a controlled
+// experiment cleared it:
+//
+//   * The material was rebuilt IN PLACE with a byte-identical graph, which gives every
+//     expression a fresh FGuid and therefore a fresh shader-map DDC key.
+//   * The next cook logged "Missing cached shadermap ... PCD3D_SM6" and "... PCD3D_SM5" for
+//     it with NEW key hashes, so the permutations that had crashed were recompiled COLD.
+//   * 8,708 / 8,708 packages, "Success - 0 error(s), 0 warning(s)", no crash.
+//
+// So the generated HLSL was always valid. Three things mislead here, and all three are cheap
+// to check before anyone amputates a working feature:
+//
+//   1. "SCW N Queued Jobs, Unknown number of processed jobs!" means the N jobs listed are the
+//      CONTENTS OF THE DEAD WORKER'S BATCH, not N independent failures. Their distribution
+//      across vertex and pixel stages is the batch's composition and carries no signal about
+//      which stage was at fault. It does tell you which MATERIAL was in flight.
+//   2. "Falling back to directly compiling which will be very slow" means the engine
+//      recompiled those same jobs IN PROCESS. If a later cook shows NO "Missing cached
+//      shadermap" line for that material, every one of its jobs - including the ones printed
+//      as Failed - compiled successfully and the shader map is complete in the DDC. That is
+//      positive evidence that the HLSL is fine.
+//   3. Free RAM at cook START does not discriminate: this box's cook drives available physical
+//      memory to 100-500 MB on EVERY run, pass or fail. Memory pressure is therefore a
+//      constant across these cooks and cannot by itself explain why one material's worker died
+//      and another's did not - but neither does the crash prove the graph is at fault.
+//
+// THE DISCRIMINATING TEST, and it costs one cook: force a cold shader map for the suspect
+// material (rebuild its graph in place so the DDC key changes) and cook again. Compiles cold
+// => the graph is valid and the crash was a worker process death; crashes again cold => the
+// graph is implicated and the bisect above is the way. Do this BEFORE removing features: on
+// cp05 the "fix" would have been to delete per-instance colour variation from 225,780 plants
+// to cure a fault that was never in the material.
+//
+// The plaza rule stands as written - a Custom node fed by per-instance data is still
+// forbidden, and rebuilding it without one did fix that cook. What is corrected here is the
+// DIAGNOSIS: -1073741819 on its own is the compiler DYING, which is not the same as the
+// compiler REJECTING a graph, and only the cold-recompile test tells the two apart.
 
 /** Deck top, in amot ABOVE the Temple court datum. ZERO, and the note above is why: the
  *  measured court supporting platform stands on this plane and the FutureMountV1 platform

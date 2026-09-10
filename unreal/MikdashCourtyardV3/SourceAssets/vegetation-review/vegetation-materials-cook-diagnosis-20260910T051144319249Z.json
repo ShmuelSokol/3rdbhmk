@@ -1,0 +1,48 @@
+{
+  "status": "cook_crash_diagnosed_graph_exonerated_cold_recompile_clean",
+  "stamp": "20260910T051144319249Z",
+  "stage": "diagnosis",
+  "targetIndependent": true,
+  "targetIndependentNote": "Deliberately carries no 'target' key: verify.py check_map_parity buckets any receipt with one as a pass that ran on that map.",
+  "question": "Checkpoint cp05 failed the cook with ShaderCompileWorker return code -1073741819 (0xC0000005) on M_JudeanFlora_Leaf / FLocalVertexFactory and no HLSL diagnostic. Is the leaf graph invalid, or did the worker process die?",
+  "priorArt": "M_PrecinctPlaza_Paving produced the same signature on cp02 and WAS a real graph defect (a Custom node fed by PerInstanceCustomData). That precedent made the graph the leading hypothesis and is why this was tested rather than assumed either way.",
+  "whatTheLogActuallySays": {
+    "batchSemantics": "'LogShaders: Error: SCW 5 Queued Jobs, Unknown number of processed jobs!' - the 5 listed jobs are the CONTENTS OF THE DEAD WORKER'S BATCH, not 5 independent failures. Their split across vertex and pixel stages is the batch composition and carries no signal about which stage was at fault. It does establish that the material in flight was M_JudeanFlora_Leaf.",
+    "inProcessFallback": "'Falling back to directly compiling which will be very slow' - the engine recompiled those same jobs in process. cp05 then logged the SM5 shadermap request and completed all 8708 packages; it returned non-zero only because the 5 job errors had already been recorded.",
+    "memoryIsAConstantNotAVariable": "Free physical memory measured DURING a cook on this box: 80 MiB, 529 MiB, 1052 MiB, 1445 MiB in cp05, and 109 MiB in cook A which PASSED. The cook drives the box to the floor on every run, pass or fail, so memory pressure cannot discriminate. Free RAM at cook START does not discriminate either: the two SCW crashes of the night happened at 9.1 and 8.2 GB free, three passes at 5.2, 6.9 and 8.8 GB."
+  },
+  "experiments": [
+    {
+      "name": "cook A - warm DDC, graph unchanged",
+      "method": "UnrealEditor-Cmd -run=Cook, full cook (incremental disabled), leaf graph untouched",
+      "result": "Success - 0 error(s), 0 warning(s); 8707 packages",
+      "keyObservation": "ZERO 'Missing cached shadermap' lines for M_JudeanFlora_Leaf. A shader map only reaches the DDC when ALL of its jobs succeed, so every leaf permutation - including the 5 printed as Failed in cp05 - had already compiled successfully via cp05's own in-process fallback. Positive evidence that the HLSL is valid.",
+      "limitation": "Warm DDC, so this alone does not prove the graph compiles from cold."
+    },
+    {
+      "name": "cook B - COLD DDC, graph IDENTICAL (the control)",
+      "method": "Rebuilt M_JudeanFlora_Leaf in place with a byte-identical 24-node graph (-VegMatRebuildLeaf -VegMatLeafVariant=full). Rebuilding gives every expression a fresh FGuid and therefore a fresh shader-map DDC key, forcing a cold recompile of exactly the permutations that crashed.",
+      "coldnessProof": "cook B logged 'Missing cached shadermap ... PCD3D_SM6' and '... PCD3D_SM5' for M_JudeanFlora_Leaf with NEW key hashes b7.../1c..., against cp05's d07f4421.../efda51f1... - so it genuinely recompiled rather than reusing.",
+      "result": "8708 / 8708 packages, Success - 0 error(s), 0 warning(s), no SCW crash, no shader error"
+    }
+  ],
+  "verdict": "THE LEAF GRAPH IS NOT THE CAUSE. The identical graph - PerInstanceRandom, ObjectPositionWS, MSM_TWO_SIDED_FOLIAGE, subsurface, masked, two-sided - compiles cleanly from a cold DDC. cp05's failure was a ShaderCompileWorker process death, and the engine's own in-process fallback compiled the very permutations it reported as failed. No feature was removed.",
+  "whatWasNotEstablished": [
+    "That the worker death cannot recur. One clean cold compile shows the graph is not deterministically fatal; it does not make an intermittent worker crash impossible.",
+    "That the cp02 plaza diagnosis was wrong. That case had no cold-recompile control, and rebuilding it without Custom nodes did produce a passing cook. The rule against Custom nodes fed by per-instance data stands.",
+    "Any visual acceptance. Still nobody has seen a frame of this vegetation."
+  ],
+  "bisectLadderBuiltButNotNeeded": "Scripts/release_vegetation_materials.py now carries LEAF_VARIANTS (full / noSpatial / noVariation / noFoliage / minimal) and -VegMatRebuildLeaf, so the next person can bisect in ~3 minutes a rung instead of reasoning about hoisting. It was used only for the 'full' control this time.",
+  "ruleCorrected": "EnclosureMath.h section 6b-ii - how to tell a compiler DYING from a compiler REJECTING a graph.",
+  "artefacts": {
+    "cp05FailingLog": "C:\\Mikdash\\Working-5.8\\Checkpoint-cp05-20260910T043655Z\\uat.log (UTF-16LE)",
+    "cookA": "C:\\Mikdash\\Working-5.8\\VegMat-Cook-A-full.log",
+    "cookB": "C:\\Mikdash\\Working-5.8\\VegMat-Cook-B-full-cold.log",
+    "leafRebuildReceipt": "SourceAssets/vegetation-review/vegetation-materials-leaf-full-20260910T050738707593Z.json"
+  },
+  "leafMasterSha256After": "446b6e3d8bc773b28d16dfc43c7cf40e4231d99b42a3e2951e1ada3d43dea422",
+  "mapsUnchangedByThisDiagnosis": {
+    "Candidate48": "9144cc157a9fd7186037c7609a7197ef6aae09908d6a4a47f9e675a30e1fa38e",
+    "Main50": "85bb51a102e09061db635ceac364c26538c03e7745fde8522e8dba527c1c7851"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "specVersion": "MikdashHorizonRing-1",
+  "prepared": "2026-09-11",
+  "purpose": "Close frame defect 3 (the flat blue 'sea' band on every aerial horizon) with geometry, which release_frame_defects.spec.json horizon.realFix and openWork[0] named as the only real fix: a far-field ring of real Judean terrain out to +-204.8 km, plus moving the SkyAtmosphere planet top from the plaza datum (748 m ASL) down to -500 m ASL, below the lowest ring elevation (the Dead Sea), so every real land surface stands above the shell.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "HorizonRing-",
+  "receiptFolder": "SourceAssets/horizon-review",
+  "receiptPrefix": "horizon-ring-",
+  "ringFolder": "SourceAssets/horizon-review/HorizonRingV1",
+  "generator": "Scripts/generate_horizon_ring.py",
+  "protectedMaps": [
+    "/Game/MikdashV3/Maps/Courtyard",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount"
+  ],
+  "assets": {
+    "folder": "/Game/MikdashV3/HorizonRingV1/Meshes",
+    "metadataTag": "HorizonRingV1.buffersSha256",
+    "nanite": false,
+    "naniteNote": "Deliberately NOT Nanite. A Nanite mesh needs bUsedWithNanite on its material, and M_Context_Terrain is shared by all 256 tiles; flipping a usage flag on it is a shared-asset change with a fresh shader-compile risk (the 'first cook of a new master crashes the compiler' and 'missing usage flag -> default material' traps). 371k triangles in 24 frustum-culled chunks, graded 100 m -> 400 m -> 1.6 km with distance, is already cheap on an RTX 2070 without it.",
+    "collision": "none: created with enable_collision false, body setup set to CTF_UseSimpleAsComplex with no simple shapes, component NoCollision",
+    "distanceField": "distance_field_resolution_scale 0 in the LOD0 build settings: a 400 km mesh must never enter the global distance field or Lumen's",
+    "lightmapUVs": false
+  },
+  "actors": {
+    "labelPrefix": "RELEASE_HorizonRingV1_",
+    "tag": "HorizonRingV1",
+    "folder": "Context/HorizonRingV1",
+    "componentFlags": {
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    "mandatoryFlags": [
+      "cast_shadow",
+      "never_distance_cull"
+    ],
+    "perStateNote": "No AMikdashEnclosure hide tag is given, so the ring is visible in BOTH the YECHEZKEL and MODERN states: it is the land around the city, which neither state changes."
+  },
+  "terrain": {
+    "meshPathToken": "/JerusalemContext/Terrain/",
+    "meshNameToken": "SM_JerusalemTerrain_",
+    "expectedMaterial": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+    "demEdgeCm": {
+      "xMin": -319124.51171875,
+      "xMax": 320875.48828125,
+      "yMin": -320027.5634765625,
+      "yMax": 319972.4365234375
+    },
+    "edgeToleranceCm": 1.0,
+    "seamDropCm": 30.0,
+    "seamToleranceCm": 1.0,
+    "untouchedNote": "The 256 tiles, the precinct cut twins, the Kotel plaza cut twin, the plaza and every Temple actor are only READ: a whole-level snapshot (label, class, mesh, transform of every actor that is not a ring actor or one of the three edited atmosphere actors) must be identical after save and reopen or the run fails."
+  },
+  "atmosphere": {
+    "expectedTransformModeBefore": "PLANET_TOP_AT_ABSOLUTE_WORLD_ORIGIN",
+    "transformModeAfter": "PLANET_TOP_AT_COMPONENT_TRANSFORM",
+    "expectedBottomRadiusKm": 6360.0,
+    "planetTopZcm": -124800.0,
+    "deltaKm": 1.248,
+    "why": "With the planet top at the plaza datum, everything lower than 748 m ASL - the Shephelah and coastal plain to the west, the Judean desert and the rift to the east - is BELOW the shell, so the shell grazing ray passes over real terrain and shows as a band however far the ring reaches. With the top 500 m BELOW sea level (68 m under the Dead Sea clamp) every ring point stands above it, and the tangent-ray analysis in ring-manifest.json finds no shell azimuth up to 3,000 m above the plaza.",
+    "densityCompensation": "Lowering the planet by delta raises every camera delta higher in the atmosphere, where an exponential profile is thinner: Mie (scale height ~1.2 km) would fall to e^(-0.748/1.2) = 54 per cent at the plaza and the whole reviewed haze would change. Multiplying each scattering/absorption scale by e^(delta/H) gives density(z_rel) = s*e^(delta/H)*e^(-(z_rel+delta)/H) = s*e^(-z_rel/H): the SAME profile relative to the scene. The scale heights are read off the live component, not assumed. The ozone tent tip is raised by delta for the same reason.",
+    "cloudCompensation": "VolumetricCloudRendering.cpp:1753-1761 (UE 5.8): with a SkyAtmosphere present the cloud layer is centred on AtmosphereSetup.PlanetCenterKm and its bottom is BottomRadiusKm + LayerBottomAltitudeKm, so the clouds move down with the planet. layer_bottom_altitude += delta keeps them where they were reviewed.",
+    "timeOfDayCompensation": "AMikdashTimeOfDay::ApplySkyAtmosphere writes MieScatteringScale from its Presets at play time (MikdashTimeOfDay.cpp:1036), so the component's own value is overwritten in the running game. The Presets array is a serialised UPROPERTY built in the constructor and rebuilt only when it has fewer than 8 rows (cpp:329, 814), so each preset's mie_scattering_scale is multiplied by the same e^(delta/Hmie) on the placed actor. MikdashWeather only MULTIPLIES the blended value (cpp:875-876), so every weather state inherits the compensation.",
+    "aerialPerspectiveNote": "FINDING, not changed here: the same ApplySkyAtmosphere writes AerialPerspectiveViewDistanceScale from the presets (1.7-2.2 in daylight), so the map value 1.0 that release_frame_defects.py 'kept' is overwritten at play time whenever AMikdashTimeOfDay drives the sky.",
+    "groundAlbedoRevertTo": [
+      170,
+      170,
+      170
+    ],
+    "groundAlbedoWhy": "release_frame_defects.spec.json openWork[1]: the sand albedo was an experiment frame cp10-04 disproved (10 points of red, still a sea). By the rule that reverted fogMaxOpacity it goes back to the engine default. With the ring in place the shell is hidden anyway, and the albedo then only feeds the sky's ground-bounce multiple scattering.",
+    "edited": [
+      "SkyAtmosphere",
+      "VolumetricCloud",
+      "MikdashTimeOfDay"
+    ],
+    "planetTopAslMetres": -500.0,
+    "whyNotSeaLevel": "FRAME cp21-P1 (planet top at sea level, first apply) still showed a flat blue band over the whole eastern horizon. It is the Jordan rift: its floor (-432 m at the Dead Sea) lay BELOW a sea-level shell, and UE shades geometry under the virtual planet ground with the shell colour through aerial perspective, so the ring there rendered as the old sea. The planet top must sit below the lowest ring elevation, not at sea level: -500 m ASL, 68 m under the Dead Sea clamp. The density compensation is exact for any delta, so the reviewed haze profile above the plaza is unchanged."
+  },
+  "acceptance": "FRAMES FROM THE PACKAGED BUILD: the cp17b-P1 aerial camera before (cp17b) and after (cp21), one at dove-flight height looking at the horizon, one from the ground on the Temple Mount looking west, in both precinct states; plus a CSV frame-time capture at the aerial camera. Nothing this script reads back proves what the cook draws.",
+  "limitations": [
+    "--revert RESTORES THE .umap ONLY. The ring meshes live in /Game/MikdashV3/HorizonRingV1 and stay on disk after a map revert; unreferenced, they are harmless and never cooked. Delete that folder by hand to remove them entirely.",
+    "The Mediterranean is drawn as terrain at sea level, with the terrain material, not as water. It lies 55 km and more to the west and sits under 50+ km of aerial perspective; the shell itself, which is the only thing that ever read as 'sea', is hidden below the ring edge.",
+    "The Dead Sea is drawn as terrain at its surface (-432 m clamp), i.e. as a pale flat floor far below, not as water.",
+    "Dove flight has NO altitude cap in code (MikdashDovePawn.cpp traces only a floor and a ceiling). The coverage analysis proves the shell hidden at every azimuth up to the tested ceiling recorded in ring-manifest.json coverage; above the analytic ceiling a sliver of shell returns at the far western horizon only.",
+    "Vertex colours classify bare vs scrub with the tiles' own two colours, by a plausible rule (western Judean hills and the coastal plain partly scrub, the desert and rift bare), not from land-use data.",
+    "The ring is not Nanite and has one LOD; its triangle budget is already graded with distance."
+  ],
+  "results": {
+    "cp21": {
+      "build": "C:/Mikdash/Builds/Checkpoint-cp21-20260911T074134Z",
+      "planetTop": "sea level (first apply)",
+      "receipts": [
+        "horizon-ring-Candidate48-20260911T073827513695Z.json",
+        "horizon-ring-Main50-20260911T074017360041Z.json"
+      ],
+      "frames": "SourceAssets/visual-review/frame-horizon-cp21.json",
+      "verdict": "North/NW horizon became real hills; a flat blue band remained over the eastern horizon. D1/D2 at 2,400 m were INSIDE the cloud layer and are unusable."
+    },
+    "cp21b": {
+      "build": "C:/Mikdash/Builds/Checkpoint-cp21b-20260911T081957Z",
+      "planetTop": "-500 m ASL (re-apply after a real --revert of both maps)",
+      "receipts": [
+        "horizon-ring-Candidate48-20260911T081528966391Z.json",
+        "horizon-ring-Main50-20260911T081712578230Z.json"
+      ],
+      "frames": "SourceAssets/visual-review/frame-horizon-cp21b.json (P1, P1M, D1, D2 at 1,500 m, G1, G2; 0 material warnings)",
+      "verdict": "NOT YET CONVINCING. The ring renders as Judean hills (D1), and the P1 band changed from dark saturated blue [~62,78,98] to light haze [~103,114,132] within ~10-30 of the sky above it, but distant flat terrain (coastal plain/sea west, rift/Gilead NE) still forms a flat bluish strip because aerial perspective + height fog saturate it to clear-sky Rayleigh blue under an overcast sky. Planet sea level vs -500 m: no visible difference.",
+      "frameTimeP1": "SourceAssets/perf-review/horizon-ring-frametime-cp20-vs-cp21b.json and -cp20-vs-cp21.json: median frame cp20 16.96, cp21 16.62, cp21b 16.84 ms; cp21b p95 33.2 ms vs cp21 18.3 with identical geometry - suspected first-run PSO hitching, re-run."
+    }
+  },
+  "openWork": [
+    {
+      "item": "Haze colour of fully-hazed distant terrain",
+      "why": "The remaining sea read is no longer the shell: it is ring geometry at 30-200 km saturated to the aerial-perspective / height-fog inscatter colour, which is clear-sky blue under a grey overcast sky. Height fog composites against scene depth, so unlike the shell it CAN now reach this band. Candidate levers: AMikdashTimeOfDay preset FogColorScale and AerialPerspectiveViewDistanceScale (1.7-2.2 in daylight, overriding the map), fog inscattering colour, DirectionalLight cloud_shadow_on_atmosphere_strength. This is reviewed daylight tuning owned by release_sky_tod / lighting; change it deliberately, judge by frames P1 and D1/D2."
+    },
+    {
+      "item": "Re-run the cp21b P1 frame-time capture",
+      "why": "Median unchanged vs cp20, but p95 33 ms on the one cp21b run while cp21 (same ring) had 18.3; confirm it is first-run PSO noise."
+    },
+    {
+      "item": "Dove altitude has no cap",
+      "why": "Coverage is proven to 3,000 m above the plaza; above the cloud layer (1.8-4.2 km) nothing is verified."
+    },
+    {
+      "item": "Ground-level horizon",
+      "why": "G1/G2 show no band, but the city and Haram walls block the western horizon from the Mount; a ground camera with an open horizon (e.g. Mount of Olives looking west) would test the haze colour at eye level."
+    }
+  ]
+}

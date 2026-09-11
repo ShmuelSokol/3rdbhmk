@@ -1,0 +1,1483 @@
+{
+ "version": "HorizonRingV1",
+ "generatedUtc": "2026-09-11T08:07:09Z",
+ "generator": "Scripts/generate_horizon_ring.py",
+ "generatorSha256": "0ca726a6094760f0c2fb360ffe205176b0f36ce731e15f5519859df3459177f5",
+ "buffers": "ring-buffers.bin",
+ "buffersSha256": "be35289c30af7c175f77b12a22bdb46f44214334709c0869117b0f883b81c8c0",
+ "bufferLayout": "per chunk: float32 xyz positions (UE cm), float32 xyz normals, float32 rgba linear vertex colours, uint32 triangle indices; offsets/bytes per chunk",
+ "projection": {
+  "lat0": 31.77802,
+  "lon0": 35.2354,
+  "mxMetresPerDegLon": 94632.55124375668,
+  "mzMetresPerDegLat": 111132.0,
+  "source": "mikdash-walkthrough/scripts/fetch-jerusalem.py lines 20-22 and 46",
+  "bake": "terrain-manifest.json coordinateConvention; UE X=(xs+17.5097003157)*50, Y=(zs-0.5513496449)*50, Z=(elev-748)*100"
+ },
+ "referenceElevationMetres": 748.0,
+ "planetRadiusMetres": 6360000.0,
+ "curvature": "z -= d^2/(2R), d = horizontal distance from the world origin, R = the SkyAtmosphere bottom radius, so the ring and the shell share one sphere",
+ "elevationSource": "Mapzen / AWS Open Data Terrarium tiles, https://registry.opendata.aws/terrain-tiles/",
+ "elevationClamp": "Terrarium carries bathymetry. Below-sea-level LAND exists only in the Jordan rift; every\n    other negative value is sea and is drawn at its surface (0 m). Inside the rift the Dead Sea is\n    clamped at its surface (-432 m) and the Sea of Galilee at its surface (-212 m).\n\n    A first version keyed the sea on lon < 34.95 and left the coast north of Haifa (lon 35.0-35.4)\n    at -432 m bathymetry; the coverage analysis caught it as a shell gap just west of north for\n    doves at 1,500 m and above. Rift box lat 30.9-33.0 lon 35.3-35.75.",
+ "sourceProof": {
+  "note": "fetch-jerusalem.py z13 nearest sampling, re-run here, reproduces the stored DEM to 0.01 amot at the corners and edge midpoints: the ring and the tiles come from one elevation source.",
+  "samples": [
+   {
+    "xs": -6400,
+    "zs": -6400,
+    "storedAmot": -244.0,
+    "rebuiltAmot": -244.0
+   },
+   {
+    "xs": 6400,
+    "zs": -6400,
+    "storedAmot": -274.0,
+    "rebuiltAmot": -274.0
+   },
+   {
+    "xs": -6400,
+    "zs": 6400,
+    "storedAmot": -94.0,
+    "rebuiltAmot": -94.0
+   },
+   {
+    "xs": 6400,
+    "zs": 6400,
+    "storedAmot": -464.0,
+    "rebuiltAmot": -464.0
+   },
+   {
+    "xs": 0,
+    "zs": -6400,
+    "storedAmot": 146.0,
+    "rebuiltAmot": 146.0
+   },
+   {
+    "xs": -6400,
+    "zs": 0,
+    "storedAmot": 60.0,
+    "rebuiltAmot": 60.0
+   }
+  ]
+ },
+ "tileColours": {
+  "bareMedian": [
+   0.5952,
+   0.5537,
+   0.4848
+  ],
+  "greenMedian": [
+   0.3488,
+   0.3694,
+   0.2902
+  ],
+  "bareCount": 63455,
+  "greenCount": 2594,
+  "luminanceRange": [
+   0.34860304,
+   0.56716528
+  ]
+ },
+ "seam": {
+  "innerLoop": "the 1,024 tile edge vertices themselves (25 m spacing), 0.3 m under the tile surface",
+  "skirt": "10 m, outward-facing, top exactly on the tile edge"
+ },
+ "zones": [
+  {
+   "zone": "A",
+   "innerHalfAmot": 6400,
+   "outerHalfAmot": 25600,
+   "cellAmot": 200,
+   "cellMetres": 100.0,
+   "terrariumZoom": 13,
+   "triangles": 123648
+  },
+  {
+   "zone": "B",
+   "innerHalfAmot": 25600,
+   "outerHalfAmot": 102400,
+   "cellAmot": 800,
+   "cellMetres": 400.0,
+   "terrariumZoom": 10,
+   "triangles": 123648
+  },
+  {
+   "zone": "C",
+   "innerHalfAmot": 102400,
+   "outerHalfAmot": 409600,
+   "cellAmot": 3200,
+   "cellMetres": 1600.0,
+   "terrariumZoom": 8,
+   "triangles": 123648
+  }
+ ],
+ "skirtTriangles": 2048,
+ "totals": {
+  "vertices": 190592,
+  "triangles": 372992,
+  "chunks": 24,
+  "outerHalfExtentKm": 204.8
+ },
+ "windingRule": "terrain triangles have cross(b-a, c-a).z > 0 in UE cm (right-handed cross); release_horizon_ring.py checks this against a live terrain tile and flips every triangle if the tile disagrees",
+ "terrariumTiles": [
+  {
+   "zoom": 8,
+   "x": 152,
+   "y": 103,
+   "file": "dem-8-152-103.png",
+   "sha256": "986932f572e0bda1d56ffa52fa6981534c918b9027a6d452a10c0fae799eb24a"
+  },
+  {
+   "zoom": 8,
+   "x": 153,
+   "y": 103,
+   "file": "dem-8-153-103.png",
+   "sha256": "13dd7bc18d53684a390e819e8e3c6aac7b3aa325359f512f651bdc1a9e9e987e"
+  },
+  {
+   "zoom": 8,
+   "x": 153,
+   "y": 104,
+   "file": "dem-8-153-104.png",
+   "sha256": "65139c5e086d217d94bd7f9b15af05778b643b772236f629d0976b4b54417934"
+  },
+  {
+   "zoom": 8,
+   "x": 152,
+   "y": 104,
+   "file": "dem-8-152-104.png",
+   "sha256": "a133e247d11d72b9f229426444fedd018d547e6f865c9c1b0449b7a54ff88710"
+  },
+  {
+   "zoom": 8,
+   "x": 151,
+   "y": 102,
+   "file": "dem-8-151-102.png",
+   "sha256": "142d9da29e0640ae166d103c5570dc8197300b146c9abb6fb0cc28e3f5b61f03"
+  },
+  {
+   "zoom": 8,
+   "x": 152,
+   "y": 102,
+   "file": "dem-8-152-102.png",
+   "sha256": "6f5f5061949b0538b78c8c8cebd5b82fe1a69ae2acd3aba7c4a7248e3b6d8be9"
+  },
+  {
+   "zoom": 8,
+   "x": 153,
+   "y": 102,
+   "file": "dem-8-153-102.png",
+   "sha256": "7b52b5a4155e04babb4361c67c759d5d3923c6e8bbd8149a01e91ce73dc2f3e8"
+  },
+  {
+   "zoom": 8,
+   "x": 154,
+   "y": 102,
+   "file": "dem-8-154-102.png",
+   "sha256": "0baf459b47c22e7c09ff7473e80107b991311baf79111325d92ade0b322a1bd5"
+  },
+  {
+   "zoom": 8,
+   "x": 151,
+   "y": 103,
+   "file": "dem-8-151-103.png",
+   "sha256": "45cb3fbded767cf983c8193fe0f1a34aa92004e2f40727e8aed9722bcda2d950"
+  },
+  {
+   "zoom": 8,
+   "x": 154,
+   "y": 103,
+   "file": "dem-8-154-103.png",
+   "sha256": "7b5186618a4537295d477a5283be5f3a7a75237b326820cf897667d4c7b059cd"
+  },
+  {
+   "zoom": 8,
+   "x": 151,
+   "y": 104,
+   "file": "dem-8-151-104.png",
+   "sha256": "5daff6dbfcaedb101a9b757fd2cf5be2452d694dfc07d6f5084c2678c8b2ffb9"
+  },
+  {
+   "zoom": 8,
+   "x": 154,
+   "y": 104,
+   "file": "dem-8-154-104.png",
+   "sha256": "ff9e0ead44504d26dc965bc7fa1418baa9f70e0d833158a52a7e68319491265f"
+  },
+  {
+   "zoom": 8,
+   "x": 151,
+   "y": 105,
+   "file": "dem-8-151-105.png",
+   "sha256": "86bc4174614507f222b61086b1f3782b0cdc559fe65e6f75c4c639802ac2c35b"
+  },
+  {
+   "zoom": 8,
+   "x": 152,
+   "y": 105,
+   "file": "dem-8-152-105.png",
+   "sha256": "884dbdfecbd11aef81c5fab6089f7f209434da40581e50c53d98746f25bd2c34"
+  },
+  {
+   "zoom": 8,
+   "x": 153,
+   "y": 105,
+   "file": "dem-8-153-105.png",
+   "sha256": "5a9447d7bd524a58e61e34cb73b3bddc9b884577b8aa708e930065d9d154279b"
+  },
+  {
+   "zoom": 8,
+   "x": 154,
+   "y": 105,
+   "file": "dem-8-154-105.png",
+   "sha256": "8b8ec95cc2803b27317c4d7aa56c61f0930176e888e88aa7caf7c482f9b8c4a2"
+  },
+  {
+   "zoom": 10,
+   "x": 611,
+   "y": 416,
+   "file": "dem-10-611-416.png",
+   "sha256": "bad162069c9ae19c8a248bd1da636164bc548f4f9ca4ad06c8a9d7d094c03e35"
+  },
+  {
+   "zoom": 10,
+   "x": 612,
+   "y": 416,
+   "file": "dem-10-612-416.png",
+   "sha256": "3c928773f703171c1806407584ebe16d65440dbb3874b65ee3186c53a0800acb"
+  },
+  {
+   "zoom": 10,
+   "x": 610,
+   "y": 415,
+   "file": "dem-10-610-415.png",
+   "sha256": "ff53b2b8b7badc687f9c5a4e34ba503b50d6f2c9246bab18383cadc463459afe"
+  },
+  {
+   "zoom": 10,
+   "x": 611,
+   "y": 415,
+   "file": "dem-10-611-415.png",
+   "sha256": "4294e6a9d95937e642f651ca825f55051fb399e2d13535ada2c07f96c5f8997e"
+  },
+  {
+   "zoom": 10,
+   "x": 612,
+   "y": 415,
+   "file": "dem-10-612-415.png",
+   "sha256": "d431b6530cf139287cdb2646e6a508923b9c742ca9b585d96d61af35e0ba9ce7"
+  },
+  {
+   "zoom": 10,
+   "x": 613,
+   "y": 415,
+   "file": "dem-10-613-415.png",
+   "sha256": "103c2a5c376ac9bf6324efc78ce847cca0c0d302a26891d780e9529c8b0040f1"
+  },
+  {
+   "zoom": 10,
+   "x": 610,
+   "y": 416,
+   "file": "dem-10-610-416.png",
+   "sha256": "9487ee28afbb1bba5a66cce4d7fa7510a03862b909f2329fe687a314f37b3e82"
+  },
+  {
+   "zoom": 10,
+   "x": 613,
+   "y": 416,
+   "file": "dem-10-613-416.png",
+   "sha256": "06066ddb229eaca133433c22ec009cdd62e86054577e8ae9d98f4be147a63f97"
+  },
+  {
+   "zoom": 10,
+   "x": 610,
+   "y": 417,
+   "file": "dem-10-610-417.png",
+   "sha256": "cf88a38dffcd8a96e7e0cdd08a2cb5016fd8e1a918d8a86e1cf4ca522bafca94"
+  },
+  {
+   "zoom": 10,
+   "x": 611,
+   "y": 417,
+   "file": "dem-10-611-417.png",
+   "sha256": "10ba952350d8cc0db7d27bf8c6fb8af79871b31c3654d109e751efdf92e81f41"
+  },
+  {
+   "zoom": 10,
+   "x": 612,
+   "y": 417,
+   "file": "dem-10-612-417.png",
+   "sha256": "50874d4dc8d47a6be1a8a3dca8ec4c878f381c7e4615f66371b8a2c3ff19446a"
+  },
+  {
+   "zoom": 10,
+   "x": 613,
+   "y": 417,
+   "file": "dem-10-613-417.png",
+   "sha256": "8905af8f826df306491900f479bcc36046d99027126e552d66ec561f4b807fe4"
+  },
+  {
+   "zoom": 10,
+   "x": 610,
+   "y": 418,
+   "file": "dem-10-610-418.png",
+   "sha256": "35d9171c72b3af93612d8269f8926c9521caa44beb4fafdd3c85be7d2ceb1937"
+  },
+  {
+   "zoom": 10,
+   "x": 611,
+   "y": 418,
+   "file": "dem-10-611-418.png",
+   "sha256": "d60d58ecc3332f2869fdf9719a5330542b692ea33c3dea2b0f6278d63d7f2c8a"
+  },
+  {
+   "zoom": 10,
+   "x": 612,
+   "y": 418,
+   "file": "dem-10-612-418.png",
+   "sha256": "8e34dd40a972803952808d39b15a5a149baedaa16fe25fc17baa5a3e425b8c6d"
+  },
+  {
+   "zoom": 10,
+   "x": 613,
+   "y": 418,
+   "file": "dem-10-613-418.png",
+   "sha256": "57b2756afcfdf262ad1d4d9d804b721618a20036a0576a4395b8f2eff305cca9"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3331,
+   "file": "dem-13-4897-3331.png",
+   "sha256": "f22983de8b012cb0a9f00888e69846998864c393f47c10f5fbc8dc9eee64696c"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3331,
+   "file": "dem-13-4898-3331.png",
+   "sha256": "474d13b9f529009a018063d33ef957a00fd31104f55ca9649c92e20c4686d487"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3333,
+   "file": "dem-13-4897-3333.png",
+   "sha256": "57eaafde1dcea8c3edb0cfb827fc029f12e5d2aca32bd2ec231ae28ade763440"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3333,
+   "file": "dem-13-4898-3333.png",
+   "sha256": "ed706c593ace95902e005fc648827d81a9c126642433f474bbba121fe88217f6"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3332,
+   "file": "dem-13-4897-3332.png",
+   "sha256": "8e33d9ef0e61b66d02fc2e46fd92a557807d3b3b023300d9368dadb2f920ef38"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3332,
+   "file": "dem-13-4898-3332.png",
+   "sha256": "8ddfa3bf9d6c56d5bb5cb398a0f4119d0d1d6b6a018bed6a915d00ea13b3842f"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3329,
+   "file": "dem-13-4894-3329.png",
+   "sha256": "729fe45d024bbefcff3605c2ad16276f521474220f35ae08d9e589ce59e26fdf"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3329,
+   "file": "dem-13-4895-3329.png",
+   "sha256": "d5d9a52201a92b13cba52fea6cc2eb9e3b63fd93bbce6967249a8a457ae15dfd"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3329,
+   "file": "dem-13-4896-3329.png",
+   "sha256": "9c2bbd13f6eeb0c085f87de6a35d582475ee7bfd6d7a3f4642a0b5e166b13fa7"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3329,
+   "file": "dem-13-4897-3329.png",
+   "sha256": "2dedac551bf3e0fc05bf6909ffe746236ba5596925915ae95ed326e075c013e1"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3329,
+   "file": "dem-13-4898-3329.png",
+   "sha256": "642fd051f527a85f7de37276df0f29da910590450dfbdc891c864bbd97fbbdc2"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3329,
+   "file": "dem-13-4899-3329.png",
+   "sha256": "e61512dbe6bf506bb528df45a0d037c36d28a8c2d10679a47c359e6cbfae956b"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3329,
+   "file": "dem-13-4900-3329.png",
+   "sha256": "cd14d160137df2b73f9ec4b3075ed40d599a45f0d046d2f10035b7ffed2efdca"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3330,
+   "file": "dem-13-4894-3330.png",
+   "sha256": "bf1e8ee8726c1fd3e7f7afa7f1abfc4a92a0031ecc5bb40ac8bac9eb31db2f85"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3330,
+   "file": "dem-13-4895-3330.png",
+   "sha256": "6f2117bf5f3d3d140b9e2e1c238dfae61e3f3fdb8ff8e9c3eefe3cf6c2722226"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3330,
+   "file": "dem-13-4896-3330.png",
+   "sha256": "25adddaad3119bc61485d93b0a2ed8e028a2168ba44dd67cfd9ba9b9529efa34"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3330,
+   "file": "dem-13-4897-3330.png",
+   "sha256": "64401419cde95004df5b87db3f2c5802b3515093fe7b091196831893924b3674"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3330,
+   "file": "dem-13-4898-3330.png",
+   "sha256": "741851986777f3921d19a4d94e9ba165b07ae1179c838cf04b53610b6f3ee8aa"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3330,
+   "file": "dem-13-4899-3330.png",
+   "sha256": "8c11b3b1a3079d0bc40d469cfa0aeed78e7d19e8718cc90446712e7b296832a9"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3330,
+   "file": "dem-13-4900-3330.png",
+   "sha256": "03c2e526dc055edba875cf6fdbe0aeb2c942b62f0dc41a4f6eb4570723c603c4"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3331,
+   "file": "dem-13-4894-3331.png",
+   "sha256": "6979018db28eda31f594497bd5982486d2a5d6d43cfc32b9c108a2861736716b"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3331,
+   "file": "dem-13-4895-3331.png",
+   "sha256": "05b60b014660e9f64c8ec44c254deb32bc7c4915ba0d9da894d7f6059a1f706f"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3331,
+   "file": "dem-13-4896-3331.png",
+   "sha256": "61fa980e8fa4b0e2ab8ea6f094d92acf191d187fbf61c36269d0c4807dbc82da"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3331,
+   "file": "dem-13-4899-3331.png",
+   "sha256": "a3f5c2fe7cd1d370c75a7daece3a9e6ea32b2e95870f819090ddf3aa3b49521a"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3331,
+   "file": "dem-13-4900-3331.png",
+   "sha256": "eb9cea1861f1b8dc40a279f251b3b970b91f57037f196bda88f5e81ad9886f1a"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3332,
+   "file": "dem-13-4894-3332.png",
+   "sha256": "5bc0b34a78291d116e30dfa488fae814a71cf49134748801243718b137e93283"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3332,
+   "file": "dem-13-4895-3332.png",
+   "sha256": "1095d4e2d997c49a3c50192a9ab53c7c8bee2a5c5216ba21920e782eb36cda60"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3332,
+   "file": "dem-13-4896-3332.png",
+   "sha256": "95590e597b464b2072163cf5ffbf3c825e2d7c181e554f3542ecccb40d9e139d"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3332,
+   "file": "dem-13-4899-3332.png",
+   "sha256": "365912c5b9c4291ed1b6ac8bde09f1dd97ccce655d8cdb5b2392b8fdb43c7c0a"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3332,
+   "file": "dem-13-4900-3332.png",
+   "sha256": "5a75431d6b92b9dda1f332210e00e25928256c87d279c3874948e2b593d36319"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3333,
+   "file": "dem-13-4894-3333.png",
+   "sha256": "32d203964a8726d55e16e691b4a44d260909d5b36bba4f760d9872a58d537c70"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3333,
+   "file": "dem-13-4895-3333.png",
+   "sha256": "2117b6f0cbdddf4121c85e10a52cff4483679136c2cb9668ddf22acab83f5ab8"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3333,
+   "file": "dem-13-4896-3333.png",
+   "sha256": "fe39334925e0b3960a6445f5815d2709638ac8b30e65ccd7d82cfadff7c8ba21"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3333,
+   "file": "dem-13-4899-3333.png",
+   "sha256": "3612d159677dab420b64353f5c271b0423e46638b54305805e0cf431a6994a77"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3333,
+   "file": "dem-13-4900-3333.png",
+   "sha256": "656c2e207f701bce619b163458446d4c8785ffdec8ad078c11a31169b9618af4"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3334,
+   "file": "dem-13-4894-3334.png",
+   "sha256": "a6e9d35b8b5e6b9c5899c22f54d18baa21cc75f376a9e0ecad1b0ce0f3ee3635"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3334,
+   "file": "dem-13-4895-3334.png",
+   "sha256": "cd28829ecf178a4400ebfd88aeb0ee0115fc45d7178395be69dbabc1e0aaa060"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3334,
+   "file": "dem-13-4896-3334.png",
+   "sha256": "d075d847f2c17fe441f2e4b9e8379b68a9ee566386eee076f021173fe7e072ff"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3334,
+   "file": "dem-13-4897-3334.png",
+   "sha256": "91bf2958a1e1f18fdc1a4c674ccd2863bf69304b40644d1ff37aa86cf96ecb76"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3334,
+   "file": "dem-13-4898-3334.png",
+   "sha256": "ff8346aa375efa9b246760d9d32a7068892f86a7f5645645732ad7ace224971b"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3334,
+   "file": "dem-13-4899-3334.png",
+   "sha256": "510a2002e7dc270f498b1cf402917bd54e8821b17bd81dc0310b9653c1196d52"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3334,
+   "file": "dem-13-4900-3334.png",
+   "sha256": "1fb33f3f2b3c7e2d74c7eaf6d208364744eb0ba6766e9553f88189572a45a976"
+  },
+  {
+   "zoom": 13,
+   "x": 4894,
+   "y": 3335,
+   "file": "dem-13-4894-3335.png",
+   "sha256": "e453c5698557d44c73b58969d69c8896a4ea52ea38ef7eec79afd5ad65520682"
+  },
+  {
+   "zoom": 13,
+   "x": 4895,
+   "y": 3335,
+   "file": "dem-13-4895-3335.png",
+   "sha256": "6d8a6d0363603342fbeba3ff8961a74c3da3fcd35888c9ad4e79172a5a91c6e8"
+  },
+  {
+   "zoom": 13,
+   "x": 4896,
+   "y": 3335,
+   "file": "dem-13-4896-3335.png",
+   "sha256": "66b480d0bd28698a27783ff8713f119829257042f01e905e03d77ffd0ff66deb"
+  },
+  {
+   "zoom": 13,
+   "x": 4897,
+   "y": 3335,
+   "file": "dem-13-4897-3335.png",
+   "sha256": "cffd59d1fe1f601aba762217fd1afa4904c47910aabe1eba708fcdb49a3f58df"
+  },
+  {
+   "zoom": 13,
+   "x": 4898,
+   "y": 3335,
+   "file": "dem-13-4898-3335.png",
+   "sha256": "231c6fb6f9ba362dcf61e499a34f9f8a5bf3c9a486f1fc1cd5701618e3b58562"
+  },
+  {
+   "zoom": 13,
+   "x": 4899,
+   "y": 3335,
+   "file": "dem-13-4899-3335.png",
+   "sha256": "ce423f192941ff65e6e85c4c40d100ab9bdc896046b8159acb075ebf6ed7163d"
+  },
+  {
+   "zoom": 13,
+   "x": 4900,
+   "y": 3335,
+   "file": "dem-13-4900-3335.png",
+   "sha256": "4bb7ca38a831d4e23380fe54d87d7cab70c4554c72a05250dac5663475a6eb69"
+  }
+ ],
+ "chunks": [
+  {
+   "name": "SM_HorizonRingV1_A_E",
+   "zone": "A",
+   "octant": "E",
+   "vertices": 7067,
+   "triangles": 13014,
+   "boundsCm": [
+    320875.5,
+    -530027.5625,
+    -66182.0546875,
+    1280875.5,
+    529972.4375,
+    -12102.5
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 212
+   },
+   "positionsOffset": 0,
+   "positionsBytes": 84804,
+   "normalsOffset": 84804,
+   "normalsBytes": 84804,
+   "colorsOffset": 169608,
+   "colorsBytes": 113072,
+   "indicesOffset": 282680,
+   "indicesBytes": 156168
+  },
+  {
+   "name": "SM_HorizonRingV1_A_NE",
+   "zone": "A",
+   "octant": "NE",
+   "vertices": 9943,
+   "triangles": 18410,
+   "boundsCm": [
+    130875.484375,
+    -1280027.625,
+    -74985.5,
+    1280875.5,
+    -130027.5703125,
+    994.6484375
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 300
+   },
+   "positionsOffset": 438848,
+   "positionsBytes": 119316,
+   "normalsOffset": 558164,
+   "normalsBytes": 119316,
+   "colorsOffset": 677480,
+   "colorsBytes": 159088,
+   "indicesOffset": 836568,
+   "indicesBytes": 220920
+  },
+  {
+   "name": "SM_HorizonRingV1_A_N",
+   "zone": "A",
+   "octant": "N",
+   "vertices": 7067,
+   "triangles": 13014,
+   "boundsCm": [
+    -529124.5,
+    -1280027.625,
+    -28314.552734375,
+    530875.5,
+    -320027.5625,
+    10821.8779296875
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 212
+   },
+   "positionsOffset": 1057488,
+   "positionsBytes": 84804,
+   "normalsOffset": 1142292,
+   "normalsBytes": 84804,
+   "colorsOffset": 1227096,
+   "colorsBytes": 113072,
+   "indicesOffset": 1340168,
+   "indicesBytes": 156168
+  },
+  {
+   "name": "SM_HorizonRingV1_A_NW",
+   "zone": "A",
+   "octant": "NW",
+   "vertices": 9943,
+   "triangles": 18410,
+   "boundsCm": [
+    -1279124.5,
+    -1280027.625,
+    -39332.37109375,
+    -129124.515625,
+    -130027.5703125,
+    13168.689453125
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 300
+   },
+   "positionsOffset": 1496336,
+   "positionsBytes": 119316,
+   "normalsOffset": 1615652,
+   "normalsBytes": 119316,
+   "colorsOffset": 1734968,
+   "colorsBytes": 159088,
+   "indicesOffset": 1894056,
+   "indicesBytes": 220920
+  },
+  {
+   "name": "SM_HorizonRingV1_A_W",
+   "zone": "A",
+   "octant": "W",
+   "vertices": 7067,
+   "triangles": 13014,
+   "boundsCm": [
+    -1279124.5,
+    -530027.5625,
+    -31735.8125,
+    -319124.5,
+    529972.4375,
+    9723.7734375
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 212
+   },
+   "positionsOffset": 2114976,
+   "positionsBytes": 84804,
+   "normalsOffset": 2199780,
+   "normalsBytes": 84804,
+   "colorsOffset": 2284584,
+   "colorsBytes": 113072,
+   "indicesOffset": 2397656,
+   "indicesBytes": 156168
+  },
+  {
+   "name": "SM_HorizonRingV1_A_SW",
+   "zone": "A",
+   "octant": "SW",
+   "vertices": 9943,
+   "triangles": 18410,
+   "boundsCm": [
+    -1279124.5,
+    129972.4296875,
+    -24467.5546875,
+    -129124.515625,
+    1279972.375,
+    23210.853515625
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 300
+   },
+   "positionsOffset": 2553824,
+   "positionsBytes": 119316,
+   "normalsOffset": 2673140,
+   "normalsBytes": 119316,
+   "colorsOffset": 2792456,
+   "colorsBytes": 159088,
+   "indicesOffset": 2951544,
+   "indicesBytes": 220920
+  },
+  {
+   "name": "SM_HorizonRingV1_A_S",
+   "zone": "A",
+   "octant": "S",
+   "vertices": 7067,
+   "triangles": 13014,
+   "boundsCm": [
+    -529124.5,
+    319972.4375,
+    -42945.36328125,
+    530875.5,
+    1279972.375,
+    11100.85546875
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 212
+   },
+   "positionsOffset": 3172464,
+   "positionsBytes": 84804,
+   "normalsOffset": 3257268,
+   "normalsBytes": 84804,
+   "colorsOffset": 3342072,
+   "colorsBytes": 113072,
+   "indicesOffset": 3455144,
+   "indicesBytes": 156168
+  },
+  {
+   "name": "SM_HorizonRingV1_A_SE",
+   "zone": "A",
+   "octant": "SE",
+   "vertices": 9943,
+   "triangles": 18410,
+   "boundsCm": [
+    130875.484375,
+    129972.4296875,
+    -72365.8515625,
+    1280875.5,
+    1279972.375,
+    -5832.5
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 300
+   },
+   "positionsOffset": 3611312,
+   "positionsBytes": 119316,
+   "normalsOffset": 3730628,
+   "normalsBytes": 119316,
+   "colorsOffset": 3849944,
+   "colorsBytes": 159088,
+   "indicesOffset": 4009032,
+   "indicesBytes": 220920
+  },
+  {
+   "name": "SM_HorizonRingV1_B_E",
+   "zone": "B",
+   "octant": "E",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    1280875.5,
+    -2120027.5,
+    -126750.09375,
+    5120875.5,
+    2119972.5,
+    -3071.075927734375
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 4229952,
+   "positionsBytes": 79716,
+   "normalsOffset": 4309668,
+   "normalsBytes": 79716,
+   "colorsOffset": 4389384,
+   "colorsBytes": 106288,
+   "indicesOffset": 4495672,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_B_NE",
+   "zone": "B",
+   "octant": "NE",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    520875.5,
+    -5120027.5,
+    -136559.5625,
+    5120875.5,
+    -520027.5625,
+    11374.7666015625
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 4649296,
+   "positionsBytes": 112116,
+   "normalsOffset": 4761412,
+   "normalsBytes": 112116,
+   "colorsOffset": 4873528,
+   "colorsBytes": 149488,
+   "indicesOffset": 5023016,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_B_N",
+   "zone": "B",
+   "octant": "N",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -2119124.5,
+    -5120027.5,
+    -108567.0390625,
+    2120875.5,
+    -1280027.625,
+    21753.6484375
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 5240336,
+   "positionsBytes": 79716,
+   "normalsOffset": 5320052,
+   "normalsBytes": 79716,
+   "colorsOffset": 5399768,
+   "colorsBytes": 106288,
+   "indicesOffset": 5506056,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_B_NW",
+   "zone": "B",
+   "octant": "NW",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    -5119124.5,
+    -5120027.5,
+    -116010.78125,
+    -519124.5,
+    -520027.5625,
+    6423.82568359375
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 5659680,
+   "positionsBytes": 112116,
+   "normalsOffset": 5771796,
+   "normalsBytes": 112116,
+   "colorsOffset": 5883912,
+   "colorsBytes": 149488,
+   "indicesOffset": 6033400,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_B_W",
+   "zone": "B",
+   "octant": "W",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -5119124.5,
+    -2120027.5,
+    -98935.1796875,
+    -1279124.5,
+    2119972.5,
+    2043.336669921875
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 6250720,
+   "positionsBytes": 79716,
+   "normalsOffset": 6330436,
+   "normalsBytes": 79716,
+   "colorsOffset": 6410152,
+   "colorsBytes": 106288,
+   "indicesOffset": 6516440,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_B_SW",
+   "zone": "B",
+   "octant": "SW",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    -5119124.5,
+    519972.4375,
+    -98795.046875,
+    -519124.5,
+    5119972.5,
+    20872.890625
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 6670064,
+   "positionsBytes": 112116,
+   "normalsOffset": 6782180,
+   "normalsBytes": 112116,
+   "colorsOffset": 6894296,
+   "colorsBytes": 149488,
+   "indicesOffset": 7043784,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_B_S",
+   "zone": "B",
+   "octant": "S",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -2119124.5,
+    1279972.375,
+    -139361.1875,
+    2120875.5,
+    5119972.5,
+    19411.755859375
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 7261104,
+   "positionsBytes": 79716,
+   "normalsOffset": 7340820,
+   "normalsBytes": 79716,
+   "colorsOffset": 7420536,
+   "colorsBytes": 106288,
+   "indicesOffset": 7526824,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_B_SE",
+   "zone": "B",
+   "octant": "SE",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    520875.5,
+    519972.4375,
+    -143347.765625,
+    5120875.5,
+    5119972.5,
+    -2337.597900390625
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 7680448,
+   "positionsBytes": 112116,
+   "normalsOffset": 7792564,
+   "normalsBytes": 112116,
+   "colorsOffset": 7904680,
+   "colorsBytes": 149488,
+   "indicesOffset": 8054168,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_C_E",
+   "zone": "C",
+   "octant": "E",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    5120875.5,
+    -8480028.0,
+    -401945.53125,
+    20480876.0,
+    8479972.0,
+    -1869.3582763671875
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 8271488,
+   "positionsBytes": 79716,
+   "normalsOffset": 8351204,
+   "normalsBytes": 79716,
+   "colorsOffset": 8430920,
+   "colorsBytes": 106288,
+   "indicesOffset": 8537208,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_C_NE",
+   "zone": "C",
+   "octant": "NE",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    2080875.5,
+    -20480028.0,
+    -664051.5625,
+    20480876.0,
+    -2080027.625,
+    1866.9544677734375
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 8690832,
+   "positionsBytes": 112116,
+   "normalsOffset": 8802948,
+   "normalsBytes": 112116,
+   "colorsOffset": 8915064,
+   "colorsBytes": 149488,
+   "indicesOffset": 9064552,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_C_N",
+   "zone": "C",
+   "octant": "N",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -8479125.0,
+    -20480028.0,
+    -461063.4375,
+    8480875.0,
+    -5120027.5,
+    -8250.1865234375
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 9281872,
+   "positionsBytes": 79716,
+   "normalsOffset": 9361588,
+   "normalsBytes": 79716,
+   "colorsOffset": 9441304,
+   "colorsBytes": 106288,
+   "indicesOffset": 9547592,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_C_NW",
+   "zone": "C",
+   "octant": "NW",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    -20479124.0,
+    -20480028.0,
+    -734254.4375,
+    -2079124.5,
+    -2080027.625,
+    -81244.8359375
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 9701216,
+   "positionsBytes": 112116,
+   "normalsOffset": 9813332,
+   "normalsBytes": 112116,
+   "colorsOffset": 9925448,
+   "colorsBytes": 149488,
+   "indicesOffset": 10074936,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_C_W",
+   "zone": "C",
+   "octant": "W",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -20479124.0,
+    -8480028.0,
+    -461046.375,
+    -5119124.5,
+    8479972.0,
+    -86451.0625
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 10292256,
+   "positionsBytes": 79716,
+   "normalsOffset": 10371972,
+   "normalsBytes": 79716,
+   "colorsOffset": 10451688,
+   "colorsBytes": 106288,
+   "indicesOffset": 10557976,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_C_SW",
+   "zone": "C",
+   "octant": "SW",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    -20479124.0,
+    2079972.375,
+    -664542.25,
+    -2079124.5,
+    20479972.0,
+    -48394.15625
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 10711600,
+   "positionsBytes": 112116,
+   "normalsOffset": 10823716,
+   "normalsBytes": 112116,
+   "colorsOffset": 10935832,
+   "colorsBytes": 149488,
+   "indicesOffset": 11085320,
+   "indicesBytes": 217320
+  },
+  {
+   "name": "SM_HorizonRingV1_C_S",
+   "zone": "C",
+   "octant": "S",
+   "vertices": 6643,
+   "triangles": 12802,
+   "boundsCm": [
+    -8479125.0,
+    5119972.5,
+    -409878.40625,
+    8480875.0,
+    20479972.0,
+    -19501.685546875
+   ],
+   "kinds": {
+    "grid": 12672,
+    "stitch": 130,
+    "skirt": 0
+   },
+   "positionsOffset": 11302640,
+   "positionsBytes": 79716,
+   "normalsOffset": 11382356,
+   "normalsBytes": 79716,
+   "colorsOffset": 11462072,
+   "colorsBytes": 106288,
+   "indicesOffset": 11568360,
+   "indicesBytes": 153624
+  },
+  {
+   "name": "SM_HorizonRingV1_C_SE",
+   "zone": "C",
+   "octant": "SE",
+   "vertices": 9343,
+   "triangles": 18110,
+   "boundsCm": [
+    2080875.5,
+    2079972.375,
+    -655039.8125,
+    20480876.0,
+    20479972.0,
+    -6922.12060546875
+   ],
+   "kinds": {
+    "grid": 17918,
+    "stitch": 192,
+    "skirt": 0
+   },
+   "positionsOffset": 11721984,
+   "positionsBytes": 112116,
+   "normalsOffset": 11834100,
+   "normalsBytes": 112116,
+   "colorsOffset": 11946216,
+   "colorsBytes": 149488,
+   "indicesOffset": 12095704,
+   "indicesBytes": 217320
+  }
+ ],
+ "coverage": {
+  "method": "For each camera, every azimuth (0.5 deg), find the ray that grazes the SkyAtmosphere shell\n    (planet top at sea level, radius R, centred under the world origin) and march it across the\n    ring + tiles. The shell is visible in that azimuth iff the grazing ray reaches the ring edge\n    without passing under terrain. Steeper rays are lower at every distance, so a blocked grazing\n    ray means no shell pixel at all in that azimuth.",
+  "cameras": [
+   {
+    "camera": "temple-mount-ground",
+    "positionMetres": [
+     0.0,
+     0.0,
+     2.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "cp17b-P1-aerial",
+    "positionMetres": [
+     -950.0,
+     1750.0,
+     300.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "dove-500m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     500.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "dove-1000m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     1000.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "dove-1500m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     1500.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "dove-2000m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     2000.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.1
+   },
+   {
+    "camera": "dove-2000m-at-DEM-corner",
+    "positionMetres": [
+     -3000.0,
+     3000.0,
+     2000.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.0
+   },
+   {
+    "camera": "dove-2400m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     2400.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.5
+   },
+   {
+    "camera": "dove-3000m",
+    "positionMetres": [
+     0.0,
+     0.0,
+     3000.0
+    ],
+    "azimuthsTested": 720,
+    "azimuthsWhereShellVisible": 0,
+    "openAzimuthsDeg": [],
+    "worstMarginMetres": 0.3
+   }
+  ],
+  "summary": {
+   "highestTestedDoveHeightWithNoShellMetres": 3000.0,
+   "analyticCeilingMetres": 2049.0,
+   "analyticNote": "with the ring edge at sea level, the shell stays hidden while the grazing point sqrt(2HR) (H = height above sea level) lies inside the ring: H <= D_out^2/2R"
+  }
+ }
+}

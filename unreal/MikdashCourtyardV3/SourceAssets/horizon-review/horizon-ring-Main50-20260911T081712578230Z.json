@@ -1,0 +1,1721 @@
+{
+  "status": "horizon_ring_applied_saved_reopened_frame_acceptance_pending",
+  "stamp": "20260911T081712578230Z",
+  "target": "Main50",
+  "targetRole": "the legacy 50 cm map every plan and manifest in this project was authored against.",
+  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+  "mapFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap",
+  "mapSha256Before": "778257198269d4e07d542577ac443a9de704ff5845dd68215788073f73969e42",
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\HorizonRing-Main50-20260911T081712578230Z",
+  "oneFilePerActorFoldersCopied": [],
+  "protectedMapSha256Before": {
+    "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "f739876efbd1dfc4a0fc8f9b4b17caec89ba958c226aeb87aae400aa256f2415"
+  },
+  "specFile": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Scripts\\release_horizon_ring.spec.json",
+  "offlineCheck": {
+    "specSha256": "d107da23864e7b13b0573b9f3f3e7a336f1c5bc4a8eb3481644da0ff59e976a4",
+    "manifestSha256": "813272aac71e4e2f92ef1cd33679bc0bb1b93e1fd58c5f1af92cd5254f74305b",
+    "buffersSha256": "be35289c30af7c175f77b12a22bdb46f44214334709c0869117b0f883b81c8c0",
+    "chunks": 24,
+    "vertices": 195928,
+    "triangles": 372992,
+    "coverageSummary": {
+      "highestTestedDoveHeightWithNoShellMetres": 3000.0,
+      "analyticCeilingMetres": 2049.0,
+      "analyticNote": "with the ring edge at sea level, the shell stays hidden while the grazing point sqrt(2HR) (H = height above sea level) lies inside the ring: H <= D_out^2/2R"
+    },
+    "checks": [
+      {
+        "check": "planet radius agrees",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "check": "delta agrees with the planet top",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "check": "planet top 20 m below the lowest ring point above the sphere",
+        "ok": true,
+        "detail": {
+          "planetTopZcm": -124800.0,
+          "lowestAboveSphereZcm": -118000.0
+        }
+      },
+      {
+        "check": "24 chunks",
+        "ok": true,
+        "detail": 24
+      },
+      {
+        "check": "no shell azimuth from temple-mount-ground",
+        "ok": true,
+        "detail": 0
+      },
+      {
+        "check": "no shell azimuth from cp17b-P1-aerial",
+        "ok": true,
+        "detail": 0
+      }
+    ]
+  },
+  "ringManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\horizon-review\\HorizonRingV1\\ring-manifest.json",
+  "ringBuffersSha256": "be35289c30af7c175f77b12a22bdb46f44214334709c0869117b0f883b81c8c0",
+  "ringTotals": {
+    "vertices": 190592,
+    "triangles": 372992,
+    "chunks": 24,
+    "outerHalfExtentKm": 204.8
+  },
+  "coverage": {
+    "highestTestedDoveHeightWithNoShellMetres": 3000.0,
+    "analyticCeilingMetres": 2049.0,
+    "analyticNote": "with the ring edge at sea level, the shell stays hidden while the grazing point sqrt(2HR) (H = height above sea level) lies inside the ring: H <= D_out^2/2R"
+  },
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "dryRun": false,
+  "acceptance": "FRAMES FROM THE PACKAGED BUILD: the cp17b-P1 aerial camera before (cp17b) and after (cp21), one at dove-flight height looking at the horizon, one from the ground on the Temple Mount looking west, in both precinct states; plus a CSV frame-time capture at the aerial camera. Nothing this script reads back proves what the cook draws.",
+  "errors": [],
+  "mapSaved": true,
+  "levelActorCount": 8433,
+  "terrainTiles": {
+    "jerusalemContextCount": 252,
+    "anyFolderCount": 268,
+    "otherFolders": [
+      "/Game/MikdashV3/FutureMountV1/Terrain",
+      "/Game/MikdashV3/KotelPlazaCutV1",
+      "/Game/MikdashV3/PrecinctCutV1/Main50"
+    ],
+    "materials": [
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain"
+    ],
+    "nanite": [
+      true
+    ]
+  },
+  "seam": {
+    "tileTrianglesPositiveZ": 0,
+    "tileTrianglesNegativeZ": 30720,
+    "ringGeneratedWith": "+z (right-handed cross)",
+    "flipRingTriangles": true,
+    "edgeTilesRead": 60,
+    "liveEdgeVertices": 1024,
+    "edgeVerticesWithoutRingVertex": 0,
+    "missingSample": [],
+    "worstSeamErrorCm": 0.709,
+    "worstSkirtTopErrorCm": 0.709,
+    "seamDropCm": 30.0
+  },
+  "atmosphere": {
+    "why": "With the planet top at the plaza datum, everything lower than 748 m ASL - the Shephelah and coastal plain to the west, the Judean desert and the rift to the east - is BELOW the shell, so the shell grazing ray passes over real terrain and shows as a band however far the ring reaches. With the top 500 m BELOW sea level (68 m under the Dead Sea clamp) every ring point stands above it, and the tangent-ray analysis in ring-manifest.json finds no shell azimuth up to 3,000 m above the plaza.",
+    "densityCompensation": "Lowering the planet by delta raises every camera delta higher in the atmosphere, where an exponential profile is thinner: Mie (scale height ~1.2 km) would fall to e^(-0.748/1.2) = 54 per cent at the plaza and the whole reviewed haze would change. Multiplying each scattering/absorption scale by e^(delta/H) gives density(z_rel) = s*e^(delta/H)*e^(-(z_rel+delta)/H) = s*e^(-z_rel/H): the SAME profile relative to the scene. The scale heights are read off the live component, not assumed. The ozone tent tip is raised by delta for the same reason.",
+    "cloudCompensation": "VolumetricCloudRendering.cpp:1753-1761 (UE 5.8): with a SkyAtmosphere present the cloud layer is centred on AtmosphereSetup.PlanetCenterKm and its bottom is BottomRadiusKm + LayerBottomAltitudeKm, so the clouds move down with the planet. layer_bottom_altitude += delta keeps them where they were reviewed.",
+    "timeOfDayCompensation": "AMikdashTimeOfDay::ApplySkyAtmosphere writes MieScatteringScale from its Presets at play time (MikdashTimeOfDay.cpp:1036), so the component's own value is overwritten in the running game. The Presets array is a serialised UPROPERTY built in the constructor and rebuilt only when it has fewer than 8 rows (cpp:329, 814), so each preset's mie_scattering_scale is multiplied by the same e^(delta/Hmie) on the placed actor. MikdashWeather only MULTIPLIES the blended value (cpp:875-876), so every weather state inherits the compensation.",
+    "aerialPerspectiveNote": "FINDING, not changed here: the same ApplySkyAtmosphere writes AerialPerspectiveViewDistanceScale from the presets (1.7-2.2 in daylight), so the map value 1.0 that release_frame_defects.py 'kept' is overwritten at play time whenever AMikdashTimeOfDay drives the sky.",
+    "before": {
+      "sky": {
+        "label": "V3 daylight sky",
+        "transform_mode": "<SkyAtmosphereTransformMode.PLANET_TOP_AT_ABSOLUTE_WORLD_ORIGIN: 0>",
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bottom_radius": 6360.0,
+        "atmosphere_height": 60.0,
+        "rayleigh_exponential_distribution": 8.0,
+        "mie_exponential_distribution": 1.2000000476837158,
+        "rayleigh_scattering_scale": 0.03310000151395798,
+        "mie_scattering_scale": 0.004999999888241291,
+        "mie_absorption_scale": 0.0004440000047907233,
+        "other_tent_tip_altitude": 25.0,
+        "ground_albedo": [
+          196,
+          170,
+          128
+        ],
+        "aerial_pespective_view_distance_scale": 1.0
+      },
+      "clouds": [
+        {
+          "label": "IntegratedReview_VolumetricCloud",
+          "layer_bottom_altitude": 1.7999999523162842,
+          "layer_height": 2.4000000953674316
+        }
+      ],
+      "timeOfDay": [
+        {
+          "label": "RELEASE_SkyTimeOfDay",
+          "presetCount": 8,
+          "drive_sky_atmosphere": true,
+          "mie_scattering_scale": [
+            0.007499999832361937,
+            0.007000000216066837,
+            0.004999999888241291,
+            0.004699999932199717,
+            0.005499999970197678,
+            0.007499999832361937,
+            0.00800000037997961,
+            0.004000000189989805
+          ],
+          "aerial_perspective_view_distance_scale": [
+            2.200000047683716,
+            2.0999999046325684,
+            1.7999999523162842,
+            1.7000000476837158,
+            1.899999976158142,
+            2.0999999046325684,
+            2.200000047683716,
+            1.600000023841858
+          ]
+        }
+      ],
+      "weatherActors": [
+        "RELEASE_SkyWeather"
+      ]
+    },
+    "plan": {
+      "deltaKm": 1.248,
+      "rayleighFactor": 1.168826203089869,
+      "mieFactor": 2.829216897431664,
+      "sky": {
+        "transform_mode": "PLANET_TOP_AT_COMPONENT_TRANSFORM",
+        "location": [
+          0.0,
+          0.0,
+          -124800.0
+        ],
+        "rayleigh_scattering_scale": 0.03868814909182842,
+        "mie_scattering_scale": 0.014146084170968692,
+        "mie_absorption_scale": 0.001256172316013654,
+        "other_tent_tip_altitude": 26.248,
+        "ground_albedo": [
+          170,
+          170,
+          170
+        ]
+      },
+      "clouds": [
+        {
+          "label": "IntegratedReview_VolumetricCloud",
+          "layer_bottom_altitude": 3.0479999523162844
+        }
+      ],
+      "timeOfDay": [
+        {
+          "label": "RELEASE_SkyTimeOfDay",
+          "mie_scattering_scale": [
+            0.021219126256453037,
+            0.019804518893321594,
+            0.014146084170968692,
+            0.013297319226107112,
+            0.015560692851556916,
+            0.021219126256453037,
+            0.022633736254498046,
+            0.011316868127249023
+          ]
+        }
+      ]
+    },
+    "afterWrite": {
+      "sky": {
+        "label": "V3 daylight sky",
+        "transform_mode": "<SkyAtmosphereTransformMode.PLANET_TOP_AT_COMPONENT_TRANSFORM: 1>",
+        "location": [
+          0.0,
+          0.0,
+          -124800.0
+        ],
+        "bottom_radius": 6360.0,
+        "atmosphere_height": 60.0,
+        "rayleigh_exponential_distribution": 8.0,
+        "mie_exponential_distribution": 1.2000000476837158,
+        "rayleigh_scattering_scale": 0.03868814930319786,
+        "mie_scattering_scale": 0.01414608396589756,
+        "mie_absorption_scale": 0.0012561723124235868,
+        "other_tent_tip_altitude": 26.24799919128418,
+        "ground_albedo": [
+          170,
+          170,
+          170
+        ],
+        "aerial_pespective_view_distance_scale": 1.0
+      },
+      "clouds": [
+        {
+          "label": "IntegratedReview_VolumetricCloud",
+          "layer_bottom_altitude": 3.047999858856201,
+          "layer_height": 2.4000000953674316
+        }
+      ],
+      "timeOfDay": [
+        {
+          "label": "RELEASE_SkyTimeOfDay",
+          "presetCount": 8,
+          "drive_sky_atmosphere": true,
+          "mie_scattering_scale": [
+            0.021219126880168915,
+            0.019804518669843674,
+            0.01414608396589756,
+            0.013297319412231445,
+            0.015560693107545376,
+            0.021219126880168915,
+            0.022633736953139305,
+            0.011316868476569653
+          ],
+          "aerial_perspective_view_distance_scale": [
+            2.200000047683716,
+            2.0999999046325684,
+            1.7999999523162842,
+            1.7000000476837158,
+            1.899999976158142,
+            2.0999999046325684,
+            2.200000047683716,
+            1.600000023841858
+          ]
+        }
+      ],
+      "weatherActors": [
+        "RELEASE_SkyWeather"
+      ]
+    },
+    "afterReopen": {
+      "sky": {
+        "label": "V3 daylight sky",
+        "transform_mode": "<SkyAtmosphereTransformMode.PLANET_TOP_AT_COMPONENT_TRANSFORM: 1>",
+        "location": [
+          0.0,
+          0.0,
+          -124800.0
+        ],
+        "bottom_radius": 6360.0,
+        "atmosphere_height": 60.0,
+        "rayleigh_exponential_distribution": 8.0,
+        "mie_exponential_distribution": 1.2000000476837158,
+        "rayleigh_scattering_scale": 0.03868814930319786,
+        "mie_scattering_scale": 0.01414608396589756,
+        "mie_absorption_scale": 0.0012561723124235868,
+        "other_tent_tip_altitude": 26.24799919128418,
+        "ground_albedo": [
+          170,
+          170,
+          170
+        ],
+        "aerial_pespective_view_distance_scale": 1.0
+      },
+      "clouds": [
+        {
+          "label": "IntegratedReview_VolumetricCloud",
+          "layer_bottom_altitude": 3.047999858856201,
+          "layer_height": 2.4000000953674316
+        }
+      ],
+      "timeOfDay": [
+        {
+          "label": "RELEASE_SkyTimeOfDay",
+          "presetCount": 8,
+          "drive_sky_atmosphere": true,
+          "mie_scattering_scale": [
+            0.021219126880168915,
+            0.019804518669843674,
+            0.01414608396589756,
+            0.013297319412231445,
+            0.015560693107545376,
+            0.021219126880168915,
+            0.022633736953139305,
+            0.011316868476569653
+          ],
+          "aerial_perspective_view_distance_scale": [
+            2.200000047683716,
+            2.0999999046325684,
+            1.7999999523162842,
+            1.7000000476837158,
+            1.899999976158142,
+            2.0999999046325684,
+            2.200000047683716,
+            1.600000023841858
+          ]
+        }
+      ],
+      "weatherActors": [
+        "RELEASE_SkyWeather"
+      ]
+    },
+    "readback": "all planned atmosphere values read back within tolerance"
+  },
+  "assets": [
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_E",
+      "vertices": 7067,
+      "triangles": 13014,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        320875.5,
+        -530027.5625,
+        -66182.0546875,
+        1280875.5,
+        529972.4375,
+        -12102.5
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NE",
+      "vertices": 9943,
+      "triangles": 18410,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        130875.484375,
+        -1280027.625,
+        -74985.5,
+        1280875.5,
+        -130027.5703125,
+        994.6484375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_N",
+      "vertices": 7067,
+      "triangles": 13014,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -529124.5,
+        -1280027.625,
+        -28314.552734375,
+        530875.5,
+        -320027.5625,
+        10821.8779296875
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NW",
+      "vertices": 9943,
+      "triangles": 18410,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -1279124.5,
+        -1280027.625,
+        -39332.37109375,
+        -129124.515625,
+        -130027.5703125,
+        13168.689453125
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_W",
+      "vertices": 7067,
+      "triangles": 13014,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -1279124.5,
+        -530027.5625,
+        -31735.8125,
+        -319124.5,
+        529972.4375,
+        9723.7734375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SW",
+      "vertices": 9943,
+      "triangles": 18410,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -1279124.5,
+        129972.4296875,
+        -24467.5546875,
+        -129124.515625,
+        1279972.375,
+        23210.853515625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_S",
+      "vertices": 7067,
+      "triangles": 13014,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -529124.5,
+        319972.4375,
+        -42945.36328125,
+        530875.5,
+        1279972.375,
+        11100.85546875
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SE",
+      "vertices": 9943,
+      "triangles": 18410,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        130875.484375,
+        129972.4296875,
+        -72365.8515625,
+        1280875.5,
+        1279972.375,
+        -5832.5
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_E",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        1280875.5,
+        -2120027.5,
+        -126750.09375,
+        5120875.5,
+        2119972.5,
+        -3071.075927734375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NE",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        520875.5,
+        -5120027.5,
+        -136559.5625,
+        5120875.5,
+        -520027.5625,
+        11374.7666015625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_N",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -2119124.5,
+        -5120027.5,
+        -108567.0390625,
+        2120875.5,
+        -1280027.625,
+        21753.6484375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NW",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -5119124.5,
+        -5120027.5,
+        -116010.78125,
+        -519124.5,
+        -520027.5625,
+        6423.82568359375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_W",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -5119124.5,
+        -2120027.5,
+        -98935.1796875,
+        -1279124.5,
+        2119972.5,
+        2043.336669921875
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SW",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -5119124.5,
+        519972.4375,
+        -98795.046875,
+        -519124.5,
+        5119972.5,
+        20872.890625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_S",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -2119124.5,
+        1279972.375,
+        -139361.1875,
+        2120875.5,
+        5119972.5,
+        19411.755859375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SE",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        520875.5,
+        519972.4375,
+        -143347.765625,
+        5120875.5,
+        5119972.5,
+        -2337.597900390625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_E",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        5120875.5,
+        -8480028.0,
+        -401945.53125,
+        20480876.0,
+        8479972.0,
+        -1869.3582763671875
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NE",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        2080875.5,
+        -20480028.0,
+        -664051.5625,
+        20480876.0,
+        -2080027.625,
+        1866.9544677734375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_N",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -8479125.0,
+        -20480028.0,
+        -461063.4375,
+        8480875.0,
+        -5120027.5,
+        -8250.1865234375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NW",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -20479124.0,
+        -20480028.0,
+        -734254.4375,
+        -2079124.5,
+        -2080027.625,
+        -81244.8359375
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_W",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -20479124.0,
+        -8480028.0,
+        -461046.375,
+        -5119124.5,
+        8479972.0,
+        -86451.0625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SW",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -20479124.0,
+        2079972.375,
+        -664542.25,
+        -2079124.5,
+        20479972.0,
+        -48394.15625
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_S",
+      "vertices": 6643,
+      "triangles": 12802,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        -8479125.0,
+        5119972.5,
+        -409878.40625,
+        8480875.0,
+        20479972.0,
+        -19501.685546875
+      ],
+      "boundsErrorCm": 0.0
+    },
+    {
+      "asset": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SE",
+      "vertices": 9343,
+      "triangles": 18110,
+      "action": "reused_verified_by_metadata_tag",
+      "firstTriangleCrossZSign": -1,
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "distanceFieldResolutionScale": 0.0,
+      "nanite": false,
+      "boundsCm": [
+        2080875.5,
+        2079972.375,
+        -655039.8125,
+        20480876.0,
+        20479972.0,
+        -6922.12060546875
+      ],
+      "boundsErrorCm": 0.0
+    }
+  ],
+  "placed": [
+    {
+      "label": "RELEASE_HorizonRingV1_A_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_E",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_N",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_W",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_S",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_E",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_N",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_W",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_S",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_E",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_N",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_W",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SW",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_S",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SE",
+      "flags": {
+        "cast_shadow": "set",
+        "cast_dynamic_shadow": "set",
+        "cast_static_shadow": "set",
+        "never_distance_cull": "set",
+        "affect_distance_field_lighting": "set",
+        "affect_dynamic_indirect_lighting": "set",
+        "visible_in_ray_tracing": "set",
+        "receives_decals": "set",
+        "generate_overlap_events": "set",
+        "can_ever_affect_navigation": "set"
+      }
+    }
+  ],
+  "mapSha256AfterSave": "93e615fd358ccdc4128acfba703b927d67a1984efc954e48ac761c1a4a6e8a51",
+  "reopenedRing": [
+    {
+      "label": "RELEASE_HorizonRingV1_A_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_E",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_N",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_NW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_S",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_SW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_A_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_A_W",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_E",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_N",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_NW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_S",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_SW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_B_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_B_W",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_E",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_E",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_N",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_N",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_NE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_NW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_NW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_S",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_S",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_SE",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SE",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_SW",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_SW",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    },
+    {
+      "label": "RELEASE_HorizonRingV1_C_W",
+      "mesh": "/Game/MikdashV3/HorizonRingV1/Meshes/SM_HorizonRingV1_C_W",
+      "material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain",
+      "collision": "<CollisionEnabled.NO_COLLISION: 0>",
+      "transform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cast_shadow": false,
+      "cast_dynamic_shadow": false,
+      "cast_static_shadow": false,
+      "never_distance_cull": true,
+      "affect_distance_field_lighting": false,
+      "affect_dynamic_indirect_lighting": false,
+      "visible_in_ray_tracing": false,
+      "receives_decals": false,
+      "generate_overlap_events": false,
+      "can_ever_affect_navigation": false
+    }
+  ],
+  "untouched": {
+    "actorsCompared": 8430,
+    "changed": 0,
+    "changedSample": [],
+    "addedOtherThanRing": []
+  },
+  "terrainFingerprint": {
+    "inFirst": 252,
+    "inSecond": 252,
+    "matchedLabels": 252,
+    "onlyInFirst": [],
+    "onlyInSecond": [],
+    "worstBoundsErrorCm": 0.0,
+    "worstLabel": null
+  },
+  "mapSha256After": "93e615fd358ccdc4128acfba703b927d67a1984efc954e48ac761c1a4a6e8a51",
+  "protectedMapsUnchanged": {
+    "/Game/MikdashV3/Maps/Courtyard": true,
+    "/Game/MikdashV3/FutureMountV1/L_FutureMount": true,
+    "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": true
+  }
+}

@@ -1250,6 +1250,10 @@ def _find_refs(value, needle, path, hits, depth=0, seen=None):
     seen = seen if seen is not None else set()
     if depth > 7 or value is None or isinstance(value, (bool, int, float)):
         return
+    if type(value).__name__ == 'Name':
+        # FName values: the V1 instance names survive as bare FNames (no package path, so NOT an
+        # import) - measured offline in the saved mesh name tables on 2026-09-11.
+        value = str(value)
     if isinstance(value, str):
         if needle in value:
             hits.append('%s = %s' % (path, value))
@@ -1324,11 +1328,46 @@ def run_remove_v1(ue, spec, receipt, write):
         hits = []
         for name in sorted(_doc_props(type(mesh))):
             try:
-                _find_refs(mesh.get_editor_property(name), v1_prefix, name, hits)
-                _find_refs(mesh.get_editor_property(name), v1_master.split('.')[0], name, hits)
+                _find_refs(mesh.get_editor_property(name), 'MI_CrowdVAT_', name, hits)
+                _find_refs(mesh.get_editor_property(name), 'M_CrowdVAT_V1', name, hits)
             except Exception:                                        # noqa: BLE001
                 continue
         row['pythonVisibleV1Refs'] = hits
+        # THE FINDING (offline read of the saved name tables, 2026-09-11): V1 survives only as bare
+        # FNames with no package path, i.e. NOT an import and NOT an asset reference. It is each
+        # slot's ImportedMaterialSlotName, which UE fills from the first material assigned when it
+        # is None - the V1 assignment in the bake got there first. Reset it to the real slot name.
+        # ImportedMaterialSlotName is READ-ONLY from 5.8 Python (measured: set_editor_property raised,
+        # crowd-vat-removev1-20260911T062249120847Z.json). Try the struct constructor; if the engine
+        # refuses that too, the leftover names stay: they are bare FNames, not imports, so they load
+        # nothing and cook nothing. The delete is gated on real references below, not on bytes.
+        slots = list(mesh.get_editor_property('static_materials'))
+        renamed, rebuilt, clean_error = [], [], None
+        for slot in slots:
+            imported = str(slot.get_editor_property('imported_material_slot_name'))
+            real = str(slot.get_editor_property('material_slot_name'))
+            if imported.startswith('MI_CrowdVAT_') or imported.startswith('M_CrowdVAT_V1'):
+                renamed.append([imported, real])
+                try:
+                    fresh = ue.StaticMaterial(material_interface=slot.get_editor_property('material_interface'),
+                                              material_slot_name=real, imported_material_slot_name=real)
+                except Exception as exc:                             # noqa: BLE001
+                    clean_error = str(exc)
+                    fresh = slot
+                rebuilt.append(fresh)
+            else:
+                rebuilt.append(slot)
+        if renamed and clean_error is None:
+            mesh.set_editor_property('static_materials', rebuilt)
+            after_slots = [_path(mesh.get_material(i)) for i in range(len(rebuilt))]
+            if after_slots != expected:
+                raise RuntimeError('%s slot materials changed while renaming imported slot names' % v['id'])
+        row['importedSlotNamesSeen'] = renamed
+        row['importedSlotNameCleanError'] = clean_error
+        row['importedSlotNamesAfter'] = [str(sm.get_editor_property('imported_material_slot_name'))
+                                         for sm in mesh.get_editor_property('static_materials')]
+        row['fileImportsV1Package'] = bool(re.search(rb'/Game/MikdashV3/Runtime/CrowdVATV1/Materials/(MI_CrowdVAT_|M_CrowdVAT_V1)',
+                                                     disk_uasset(v['mesh']).read_bytes()))
         rows.append(row)
         write()
     receipt['variants'] = rows
@@ -1352,7 +1391,11 @@ def run_remove_v1(ue, spec, receipt, write):
             raise RuntimeError('Mesh save failed: ' + row['mesh'])
         row['fileV1NamesAfterResave'] = _file_names(row['mesh'], pat_v1)
     write()
-    dirty = [r['id'] for r in rows if r['fileV1NamesAfterResave']]
+    pat_import = rb'/Game/MikdashV3/Runtime/CrowdVATV1/Materials/(MI_CrowdVAT_|M_CrowdVAT_V1)'
+    for row in rows:
+        row['fileImportsV1PackageAfterResave'] = bool(re.search(pat_import, disk_uasset(row['mesh']).read_bytes()))
+    # A bare FName is not a reference. Only a V1 PACKAGE PATH in the saved bytes would be an import.
+    dirty = [r['id'] for r in rows if r['fileImportsV1PackageAfterResave']]
     if dirty:
         receipt['status'] = 'v1_still_referenced_not_deleted'
         raise RuntimeError('Meshes still name V1 materials after re-save: %r (see pythonVisibleV1Refs and the obj refs log)' % dirty)
@@ -1363,6 +1406,19 @@ def run_remove_v1(ue, spec, receipt, write):
     for path in doomed:
         f = disk_uasset(path)
         shutil.copy2(f, checkpoint / f.name)
+    # The engine's own delete guard: in this fresh process the asset registry was built from disk,
+    # so its referencer list is the ground truth. Only V1 assets may reference V1 assets.
+    doomed_packages = {p.split('.')[0] for p in doomed}
+    referencers = {}
+    for path in doomed:
+        refs = sorted(str(r) for r in assets.find_package_referencers_for_asset(path.split('.')[0], False))
+        referencers[path] = refs
+        outside = [r for r in refs if r.split('.')[0] not in doomed_packages]
+        if outside:
+            receipt['v1Referencers'] = referencers
+            raise RuntimeError('%s is still referenced outside V1: %r; not deleting' % (path, outside))
+    receipt['v1Referencers'] = referencers
+    write()
     removed = []
     for path in doomed:
         if not assets.delete_asset(path.split('.')[0]):

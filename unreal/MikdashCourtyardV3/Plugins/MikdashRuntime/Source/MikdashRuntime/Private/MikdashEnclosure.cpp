@@ -1138,6 +1138,10 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
             if (Fill > 0.0 && PlazaRetainingInstances != nullptr && PlazaRetainingBandMesh != nullptr)
             {
                 const int Bands = PlazaBandCount(Fill, CmPerAmah);
+                // cp19 wash. Not on the first or last module of a side: the battered bands of two
+                // sides leave an open notch at each corner, and a rolled band's end would show in it.
+                const bool bWashHere = bPlazaLedgeWash && Step > 0 && Step < SegmentsPerSide - 1;
+                const double WashInset = PlazaLedgeWashOriginInsetUnrealCm(BandHeightCm);
                 for (int Band = 0; Band < Bands; ++Band)
                 {
                     const double Batter = PlazaBandBatterUnrealCm(Band, CmPerAmah);
@@ -1146,6 +1150,19 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
                                    FVector(At.X + Out.X * Batter, At.Y + Out.Y * Batter,
                                            DeckZ - static_cast<double>(Band) * BandHeightCm),
                                    FVector(Scale, Scale, Scale)), true);
+                    if (bWashHere && PlazaBandIsLedge(Band))
+                    {
+                        // Roll -45 (FRotator: positive roll turns local +Y DOWN) tips the band's outer
+                        // face up-and-out; its top-outer arris goes WashInset in and up from the
+                        // ledge's outer arris, so the rolled face ends exactly on that arris.
+                        const double LedgeZ = DeckZ - static_cast<double>(Band) * BandHeightCm;
+                        PlazaRetainingInstances->AddInstance(
+                            FTransform(FRotator(0.0, Yaw, -PlazaLedgeWashDegrees),
+                                       FVector(At.X + Out.X * (Batter - WashInset),
+                                               At.Y + Out.Y * (Batter - WashInset),
+                                               LedgeZ + WashInset),
+                                       FVector(Scale, Scale, Scale)), true);
+                    }
                 }
                 PlazaRetainingMax[Side] = std::max(PlazaRetainingMax[Side], Fill);
             }

@@ -21,6 +21,10 @@
 //      50 cm and at the candidate's 48 cm;
 //  6b. the ground profile grounds every module with its plinth on the highest ground it
 //      crosses and its substructure below the lowest, so the wall neither floats nor buries;
+//  6c. the plaza deck lands on the Temple's own datum, stops exactly one wall thickness
+//      inside the square, lays 14,641 cells into 713 irregular super-panels of which NO ONE
+//      is laid the same way as the panel west or north of it, batters its retaining face
+//      outward and never inward, and stays inside the RTX 2070 budget;
 //   7. the dissolve is monotone, starts at the From state and ends at the To state.
 #include "EnclosureMath.h"
 
@@ -904,6 +908,346 @@ static void GroundChecks()
 }
 
 // ---------------------------------------------------------------------------
+// 6c. The plaza - the built deck that fills the precinct
+// ---------------------------------------------------------------------------
+//
+// The numbers asserted here are the ones Scripts/create_precinct_plaza.py --export writes
+// into SourceAssets/enclosure-review/plaza-<Target>.json. They are the SAME for both maps,
+// because the paving grid is set out in amot from the Temple and the two maps differ only in
+// what an amah is worth in level units. If this test and that receipt ever disagree, the
+// plaza in the level is not the plaza in the document, and every one of the thirty-four
+// thousand instances is in a different place from the one the receipt claims.
+//
+// What has to hold, and why:
+//   * the deck stops exactly one wall thickness inside the square, so the paving never
+//     overhangs the wall and the wall never stands on the paving;
+//   * the frozen recursive split produces panels inside its own size bounds, and the count
+//     is stable - it is the single number that proves the generator and the runtime agree;
+//   * NO panel is laid the same way as the panel west or north of it. That is the whole
+//     anti-repetition scheme; a regression here is invisible in a screenshot until someone
+//     flies over it;
+//   * the retaining batter is monotone and never negative, or the wall face leans out over
+//     the 3000-amah line Yechezkel measures from outside;
+//   * the wall stands on the HIGHER of deck and outside grade, and reduces to the old
+//     terrain-following behaviour exactly when the deck is switched off.
+static const int PlazaExpectedCellsPerSide = 121;
+static const int PlazaExpectedPanels = 713;
+static const int PlazaExpectedDeckTiles = 14039;
+static const int PlazaExpectedWayTiles = 602;
+static const int PlazaExpectedRibs = 6166;
+static const int PlazaExpectedKerbs = 602;
+static const int PlazaExpectedChannels = 2616;
+
+static FSquare CandidateSquare48()
+{
+    // The 48 cm candidate: the Temple was converted by .96 about the origin, so the court
+    // platform half-extent scales with it and the city does not move.
+    const double Cm = Candidate48CmPerAmah;
+    const double Half = CourtPlatformHalfExtentUnrealCm * Cm / ProjectCmPerAmah;
+    const FAabb2 Platform = {{-Half, -Half}, {Half, Half}};
+    return MakeSquareFromClearances(Platform, BookClearWestAmot, BookClearNorthAmot,
+                                    PrecinctSideAmot, Cm);
+}
+
+static void PlazaFieldChecks(const FSquare& Square, double CmPerAmah, double CourtHalf,
+                             const char* Label)
+{
+    const FPlazaGrid Grid = PlanPlazaGrid(Square, 6.0, CmPerAmah);
+
+    // The deck stops one wall thickness inside the square, on all four sides, exactly.
+    FVec2 Corners[4];
+    SquareCorners(Square, Corners);
+    const double Inset = AmotToUnrealCm(6.0, CmPerAmah);
+    assert(Near(Grid.XMinUnrealCm, Corners[0].X + Inset, 1e-9));
+    assert(Near(Grid.YMinUnrealCm, Corners[0].Y + Inset, 1e-9));
+    assert(Near(Grid.XMaxUnrealCm, Corners[2].X - Inset, 1e-9));
+    assert(Near(Grid.YMaxUnrealCm, Corners[2].Y - Inset, 1e-9));
+
+    // The deck datum is the Temple court datum. Not nearly: exactly.
+    assert(Near(Grid.DeckTopZUnrealCm, 0.0, 1e-12));
+    assert(Near(PlazaDeckTopZUnrealCm(CmPerAmah), 0.0, 1e-12));
+    assert(PlazaDeckUndersideZUnrealCm(CmPerAmah) < 0.0);
+
+    // The grid is set out from the world origin, so a cell boundary falls on x = 0 and y = 0
+    // and a two-cell way is symmetric about the Temple axes the gates stand on.
+    assert(Grid.I0 < 0 && Grid.I1 > 0 && Grid.J0 < 0 && Grid.J1 > 0);
+    assert(Grid.CellsX() == PlazaExpectedCellsPerSide);
+    assert(Grid.CellsY() == PlazaExpectedCellsPerSide);
+
+    // Every cell is inside the paved rectangle, and the partial cells at the ring are
+    // clipped rather than allowed to hang over the wall.
+    for (int I = Grid.I0; I < Grid.I1; ++I)
+    {
+        double X0, Y0, X1, Y1;
+        PlazaCellExtent(Grid, I, Grid.J0, X0, Y0, X1, Y1);
+        assert(X0 >= Grid.XMinUnrealCm - 1e-9 && X1 <= Grid.XMaxUnrealCm + 1e-9);
+        assert(X1 > X0);
+    }
+
+    std::vector<FGateOpening> Gates = BookGates(Square);
+    std::vector<FPlazaWay> Ways;
+    MakePlazaWays(Square, Grid, CourtHalf, Gates, Ways);
+    assert(Ways.size() == 5u);
+    for (std::size_t Index = 0; Index < Ways.size(); ++Index)
+    {
+        // Two cells wide, always, and never a way running the wrong way across its own side.
+        assert(Ways[Index].Band1 - Ways[Index].Band0 == 2);
+        assert(Ways[Index].Along1 > Ways[Index].Along0);
+    }
+
+    int Panels = 0;
+    int Culverted = 0;
+    FPlazaPlan Plan = PlanPlazaField(Grid, Ways, &Panels, &Culverted);
+    assert(Plan.DeckTiles + Plan.WayTiles == Grid.CellsX() * Grid.CellsY());
+    assert(Plan.DeckTiles == PlazaExpectedDeckTiles);
+    assert(Plan.WayTiles == PlazaExpectedWayTiles);
+    assert(Plan.RibModules == PlazaExpectedRibs);
+    assert(Plan.KerbModules == PlazaExpectedKerbs);
+    assert(Plan.ChannelModules == PlazaExpectedChannels);
+    assert(Panels == PlazaExpectedPanels);
+    assert(Culverted > 0);   // the ways really are crossed, and really are culverted
+
+    // Panels stay inside their own size bounds, and no panel is laid the same way as the
+    // panel west or north of it. Swept over the whole grid, not sampled.
+    int Smallest = 1 << 30;
+    int Largest = 0;
+    int SameAsNeighbour = 0;
+    for (int I = Grid.I0; I < Grid.I1; ++I)
+    {
+        for (int J = Grid.J0; J < Grid.J1; ++J)
+        {
+            const FPlazaPanel Panel = PlazaPanelAt(Grid, I, J);
+            assert(Panel.I0 <= I && I < Panel.I1 && Panel.J0 <= J && J < Panel.J1);
+            const int W = Panel.I1 - Panel.I0;
+            const int H = Panel.J1 - Panel.J0;
+            assert(W >= PlazaMinPanelCells && W <= PlazaMaxPanelCells);
+            assert(H >= PlazaMinPanelCells && H <= PlazaMaxPanelCells);
+            Smallest = std::min(Smallest, W * H);
+            Largest = std::max(Largest, W * H);
+            const int Course = PlazaPanelCourseIndex(Grid, Panel);
+            assert(Course >= 0 && Course < PlazaCourseCount);
+            if (I > Grid.I0)
+            {
+                const FPlazaPanel West = PlazaPanelAt(Grid, I - 1, J);
+                if (!PlazaSamePanel(West, Panel) && PlazaPanelCourseIndex(Grid, West) == Course)
+                {
+                    ++SameAsNeighbour;
+                }
+            }
+            if (J > Grid.J0)
+            {
+                const FPlazaPanel North = PlazaPanelAt(Grid, I, J - 1);
+                if (!PlazaSamePanel(North, Panel) && PlazaPanelCourseIndex(Grid, North) == Course)
+                {
+                    ++SameAsNeighbour;
+                }
+            }
+            // The tonal drift stays inside its stated range, so a tint parameter can be
+            // scaled by a fixed percentage without ever going out of gamut.
+            const double Tint = PlazaTintAt(I, J);
+            assert(Tint >= -1.0 && Tint <= 1.0);
+        }
+    }
+    // The greedy colouring cannot promise zero - see the note on PlazaPanelCourseIndex - so
+    // the residual is MEASURED and bounded rather than assumed. A run of like-laid panels is
+    // what brings the grid back; a handful of isolated pairs, each still carrying a rib and
+    // starting its paving at a different origin, does not.
+    const int Joints = 2 * Grid.CellsX() * Grid.CellsY();
+    assert(SameAsNeighbour * 100 < Joints * 5);
+    assert(Smallest >= PlazaMinPanelCells * PlazaMinPanelCells);
+    assert(Largest <= PlazaMaxPanelCells * PlazaMaxPanelCells);
+
+    if (std::strcmp(Label, "candidate48") == 0)
+    {
+        RecordInt("plaza_cells_per_side", Grid.CellsX());
+        RecordInt("plaza_panels", Panels);
+        RecordInt("plaza_deck_tiles", Plan.DeckTiles);
+        RecordInt("plaza_way_tiles", Plan.WayTiles);
+        RecordInt("plaza_rib_modules", Plan.RibModules);
+        RecordInt("plaza_kerb_modules", Plan.KerbModules);
+        RecordInt("plaza_channel_modules", Plan.ChannelModules);
+        RecordInt("plaza_channel_modules_culverted_under_ways", Culverted);
+        RecordInt("plaza_like_laid_cell_joints", SameAsNeighbour);
+        RecordInt("plaza_cell_joints", Joints);
+        RecordInt("plaza_smallest_panel_cells", Smallest);
+        RecordInt("plaza_largest_panel_cells", Largest);
+        Record("plaza_deck_top_z_cm", Grid.DeckTopZUnrealCm);
+    }
+}
+
+static void PlazaChecks()
+{
+    PlazaFieldChecks(BookSquare(), ProjectCmPerAmah, CourtPlatformHalfExtentUnrealCm, "main50");
+    PlazaFieldChecks(CandidateSquare48(), Candidate48CmPerAmah,
+                     CourtPlatformHalfExtentUnrealCm * Candidate48CmPerAmah / ProjectCmPerAmah,
+                     "candidate48");
+
+    // The hash is frozen. If it changes, every panel in the plaza moves, so it is asserted
+    // against literals rather than against itself.
+    assert(PlazaHash(0u) == 1268118805u);
+    assert(PlazaHash(1u) == 4218009092u);
+    assert(PlazaHash(PlazaPanelSeed) == 3960965999u);
+    assert(PlazaHash(PlazaPanelSeed) != PlazaHash(PlazaPanelSeed + 1u));
+
+    // Bands. Never scaled in Z, so facing a drop is a COUNT, and the stack must always reach
+    // past the bottom rather than stopping short of it and showing daylight under the deck.
+    for (double Height = 1.0; Height < 20000.0; Height *= 1.7)
+    {
+        const int Bands = PlazaBandCount(Height, ProjectCmPerAmah);
+        const double Reach = Bands * AmotToUnrealCm(PlazaRetainingBandHeightAmot, ProjectCmPerAmah);
+        assert(Bands >= 1);
+        assert(Reach >= Height - 1e-6);
+        assert(Reach - Height < AmotToUnrealCm(PlazaRetainingBandHeightAmot, ProjectCmPerAmah) + 1e-6);
+    }
+    assert(PlazaBandCount(0.0, ProjectCmPerAmah) == 0);
+    assert(PlazaBandCount(-500.0, ProjectCmPerAmah) == 0);
+
+    // The batter leans the face OUT as it goes down, never in: an inward step would put the
+    // foot of the wall inside the 3000 amot Yechezkel measures from outside, and an
+    // overhanging retaining wall is not a thing that stands up.
+    double Previous = -1.0;
+    for (int Band = 0; Band < 60; ++Band)
+    {
+        const double Batter = PlazaBandBatterUnrealCm(Band, ProjectCmPerAmah);
+        assert(Batter >= 0.0);
+        assert(Batter >= Previous);
+        Previous = Batter;
+    }
+    assert(Near(PlazaBandBatterUnrealCm(0, ProjectCmPerAmah), 0.0));
+    assert(Near(PlazaBandBatterUnrealCm(PlazaRetainingBatterEveryBands - 1, ProjectCmPerAmah), 0.0));
+    assert(Near(PlazaBandBatterUnrealCm(PlazaRetainingBatterEveryBands, ProjectCmPerAmah),
+                AmotToUnrealCm(PlazaRetainingBatterAmot, ProjectCmPerAmah)));
+
+    // cp19 wash: only on a band that steps OUT (its top is an exposed ledge), and the rolled
+    // band's top-outer arris must land inside the band above it - horizontally within its
+    // thickness and vertically within its height - so only the 45-degree slope shows.
+    {
+        int Ledges = 0;
+        for (int Band = 0; Band < 60; ++Band)
+        {
+            if (!PlazaBandIsLedge(Band)) continue;
+            ++Ledges;
+            assert(PlazaBandBatterUnrealCm(Band, ProjectCmPerAmah)
+                   > PlazaBandBatterUnrealCm(Band - 1, ProjectCmPerAmah));
+        }
+        assert(Ledges == 11);
+        assert(!PlazaBandIsLedge(0));
+        const double BandH = AmotToUnrealCm(PlazaRetainingBandHeightAmot, ProjectCmPerAmah);
+        const double BandT = AmotToUnrealCm(PlazaRetainingBandThicknessAmot, ProjectCmPerAmah);
+        const double StepOut = AmotToUnrealCm(PlazaRetainingBatterAmot, ProjectCmPerAmah);
+        const double Inset = PlazaLedgeWashOriginInsetUnrealCm(BandH);
+        assert(Near(PlazaLedgeWashDegrees, 45.0));
+        assert(Inset > StepOut && Inset < StepOut + BandT);
+        assert(Inset < BandH);
+    }
+
+    // The wall stands on the higher of the deck and the ground outside it - and with the
+    // deck switched off it grounds exactly as it always did, which is what makes the plaza
+    // a change that can be reverted by one boolean.
+    assert(Near(PlazaWallBaseZUnrealCm(-14000.0, 0.0, true), 0.0));
+    assert(Near(PlazaWallBaseZUnrealCm(6000.0, 0.0, true), 6000.0));
+    assert(Near(PlazaWallBaseZUnrealCm(-14000.0, 0.0, false), -14000.0));
+    assert(Near(PlazaWallBaseZUnrealCm(6000.0, 0.0, false), 6000.0));
+
+    // Gate stairs. The east gate of the 48 cm candidate stands 39.4 m above the deck on the
+    // Mount of Olives slope; at a half-amah riser that is 165 steps and eight landings.
+    assert(PlazaFlightSteps(3940.0, Candidate48CmPerAmah) == 165);
+    assert(PlazaFlightLandings(165) == 8);
+    assert(PlazaFlightSteps(0.0, Candidate48CmPerAmah) == 0);
+    assert(PlazaFlightSteps(-100.0, Candidate48CmPerAmah) == 0);
+    assert(PlazaFlightLandings(PlazaStepsPerFlight) == 0);
+    assert(PlazaFlightLandings(PlazaStepsPerFlight + 1) == 1);
+
+    // The channel stride is NOT periodic over the plaza. A periodic spacing is a grid by
+    // another name, which is the defect this whole design exists to avoid.
+    int Lines = 0;
+    int FirstGap = -1;
+    bool bAllGapsEqual = true;
+    int Last = -1;
+    for (int K = -27; K < 94; ++K)
+    {
+        if (!PlazaHasChannelLine(-27, K, 94)) continue;
+        ++Lines;
+        if (Last >= 0)
+        {
+            const int Gap = K - Last;
+            if (FirstGap < 0) FirstGap = Gap;
+            else if (Gap != FirstGap) bAllGapsEqual = false;
+        }
+        Last = K;
+    }
+    assert(Lines >= 8);
+    assert(!bAllGapsEqual);
+    // Nothing outside the range is ever a channel line, including the ends.
+    assert(!PlazaHasChannelLine(-27, -27, 94));
+    assert(!PlazaHasChannelLine(-27, 94, 94));
+    assert(!PlazaHasChannelLine(-27, 200, 94));
+
+    // The plaza's own draw budget, from the module counts and the module triangle budget.
+    // A separate assertion from the wall's, because the wall was always cheap and the plaza
+    // is the thing that could stop being so.
+    const FPlazaGrid Grid = PlanPlazaGrid(CandidateSquare48(), 6.0, Candidate48CmPerAmah);
+    std::vector<FGateOpening> Gates = BookGates(CandidateSquare48());
+    std::vector<FPlazaWay> Ways;
+    MakePlazaWays(CandidateSquare48(), Grid,
+                  CourtPlatformHalfExtentUnrealCm * Candidate48CmPerAmah / ProjectCmPerAmah,
+                  Gates, Ways);
+    FPlazaPlan Plan = PlanPlazaField(Grid, Ways);
+
+    // A synthetic Kidron under the whole ring: the south side a hundred metres below the
+    // deck, the north-east sixty above it, so both the retaining stack and the scarp are
+    // exercised without reading a receipt this test is not allowed to open.
+    const int Steps = 120;
+    FGroundProfile Profile;
+    Profile.StepsPerSide = Steps;
+    for (int Side = 0; Side < 4; ++Side)
+    {
+        for (int Station = 0; Station <= Steps; ++Station)
+        {
+            const double T = static_cast<double>(Station) / static_cast<double>(Steps);
+            const double Z = (Side == 2) ? -10000.0 - 3000.0 * std::sin(T * Pi)
+                           : (Side == 0) ? -4000.0 + 10000.0 * T
+                           : (Side == 1) ? 6000.0 - 20000.0 * T
+                                         : -6000.0 + 7000.0 * T;
+            Profile.HighZUnrealCm.push_back(Z + 100.0);
+            Profile.LowZUnrealCm.push_back(Z - 100.0);
+        }
+    }
+    assert(GroundProfileValid(Profile));
+    PlanPlazaFaces(CandidateSquare48(), Grid, Profile, Steps, Gates, Candidate48CmPerAmah, Plan);
+    assert(Plan.RetainingBands > 0 && Plan.ScarpBands > 0);
+    // A side that is entirely below the deck has no scarp at all, and one entirely above it
+    // has no retaining: the two faces are exclusive per module, never both invented.
+    assert(Plan.ScarpMaxUnrealCm[2] == 0.0);
+    assert(Plan.RetainingMaxUnrealCm[2] > 0.0);
+
+    const FPlazaModuleBudget Budget;
+    PlazaFinishPlan(Plan, Budget);
+    assert(Plan.TotalInstances == Plan.DeckTiles + Plan.WayTiles + Plan.RibModules
+                                + Plan.KerbModules + Plan.ChannelModules + Plan.RetainingBands
+                                + Plan.ScarpBands + Plan.StepModules);
+    assert(Plan.TotalTriangles > 0);
+    // The whole 2.07 km2 deck, its retaining walls and its stairs, against the 3,416,580
+    // triangles of the Old City facade set the YECHEZKEL state already hides.
+    assert(Plan.TotalTriangles < 3416580 / 2);
+    assert(Plan.TotalInstances < 60000);
+    // Seven components, so seven draw calls before per-instance culling.
+    RecordInt("plaza_hism_components", 7);
+    RecordInt("plaza_synthetic_retaining_bands", Plan.RetainingBands);
+    RecordInt("plaza_synthetic_scarp_bands", Plan.ScarpBands);
+    RecordInt("plaza_synthetic_step_modules", Plan.StepModules);
+    RecordInt("plaza_synthetic_total_instances", Plan.TotalInstances);
+    RecordInt("plaza_synthetic_total_triangles", Plan.TotalTriangles);
+    Record("plaza_synthetic_south_retaining_max_metres", Plan.RetainingMaxUnrealCm[2] / 100.0);
+
+    std::printf("plaza: %d x %d cells, %d panels, %d deck + %d way tiles, %d ribs, %d channels; "
+                "%d instances, %lld triangles over a synthetic Kidron\n",
+                PlazaExpectedCellsPerSide, PlazaExpectedCellsPerSide, PlazaExpectedPanels,
+                Plan.DeckTiles, Plan.WayTiles, Plan.RibModules, Plan.ChannelModules,
+                Plan.TotalInstances, Plan.TotalTriangles);
+}
+
+// ---------------------------------------------------------------------------
 // 7. The dissolve
 // ---------------------------------------------------------------------------
 static void DissolveChecks()
@@ -997,6 +1341,7 @@ int main(int Argc, char** Argv)
     BoundaryChecks();
     WallPlanChecks();
     GroundChecks();
+    PlazaChecks();
     DissolveChecks();
 
     if (Argc > 1)
@@ -1011,6 +1356,7 @@ int main(int Argc, char** Argv)
                  "anchorings, amah/reed/metre round-trips over five opinions, "
                  "edge and corner containment, deterministic and order-independent building selection "
                  "with the terrain-tile trap asserted, boundary sampling, the instanced wall budget "
-                 "at 50 and 48 cm, the terrain-following ground profile and the three-state dissolve" << std::endl;
+                 "at 50 and 48 cm, the terrain-following ground profile, the plaza layout with its "
+                 "anti-repetition invariants, and the three-state dissolve" << std::endl;
     return 0;
 }

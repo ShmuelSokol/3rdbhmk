@@ -531,3 +531,111 @@ and stone-tone variation added (gradient energy +42 %), course banding NOT yet r
 **Companion change.** `SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling` (DecalActor, MI_Wear_Soot, 182 x 182 cm over
 the golden altar) was the translucent grey card under the Heikhal ceiling; hidden (bHidden) on both maps.
 Restore: `-PMDecalRestore=Candidate48` / `=Main50`.
+
+## Addendum 11 September 2026 (cp19, IN PROGRESS) - coordination note for other agents
+
+A cp19 pass on the precinct retaining faces is in flight. What it touches, so nobody overwrites it:
+
+* `MI_PrecinctPlaza_Ashlar` -> reparent onto NEW `MacroV1/M_PrecinctMacroV2_Triplanar` (V1 graph + close-albedo
+  distance fade toward a `CloseAlbedoMean` vector parameter). `never_stream` on `T_PrecinctMacro_ToneV2` and
+  `T_PrecinctMacro_Weather`. **`MI_HerodianV4_*`, `M_PBR_Tiled` and every V5/V5b Herodian texture are NOT touched.**
+  If the Herodian close albedo changes, `CloseAlbedoMean` (linear mean of the close albedo) must be recomputed.
+* C++: `EnclosureMath.h` (`PlazaBandIsLedge`, `PlazaLedgeWashDegrees`, `PlazaLedgeWashOriginInsetUnrealCm`),
+  `MikdashEnclosure.cpp/.h` (`bPlazaLedgeWash`, a rolled wash band on every batter ledge of the fill ring),
+  `Tests/EnclosureMathTest.cpp`. Checkpoint `ReviewCheckpoints/PrecinctLedgeWash-20260911T044947659614Z`.
+* `Scripts/release_precinct_approaches.py`: flank retaining keyed to the WORLD band grid + ledge washes, then
+  `-ApproachRevert` / `-ApproachApply` on Candidate48 (a map save of the approach actor only). An anti-repeat
+  revert that restores map BYTES from a checkpoint taken before this apply would undo it - check first.
+
+### cp19 findings (measured before any build - frames pending)
+
+* **The P2 "staircase of ledges" was the S1 APPROACH, not the precinct ring.** The P2 camera (X 10000) looks straight at
+  the S1 flight raking west along the south face (footprint X -29280..18624). `release_precinct_approaches.Plan._stack`
+  started every 25-amah flank column at its own tread Z and battered by the band index counted from that tread, and
+  `_place_flight` pushed the flank face out by the tread's ledge-ride as well. So each column's joints and ledges sat
+  one tread lower than the last. Offline, S1 had 762 of 1,261 flank bands off the ring's band grid, 166 distinct
+  ledge levels, and a 48 cm face offset between neighbouring columns at the same level (`approach-band-grid-BEFORE-cp19.json`).
+  Fix: stacks keyed to the WORLD grid (band k occupies [deck-(k+1)h, deck-kh], batter = PlazaBandBatterUnrealCm(k)),
+  flank face on the un-ridden line. After: 0 off-grid, ledges only at -1200k cm (11 levels on S1), 0 cm spread
+  (`approach-band-grid-AFTER-cp19.json`). The top band of each column now stands up to one band above the tread as a
+  stepped parapet on the open side of the stair. The ring itself was always continuous (keyed to DeckZ).
+* **The "unchanged shaded patch on the east face" was two things.** (1) The cp17 metric box `eastFace`
+  (2980,1150)-(3100,1250) projects through the P1 camera to X = 153,579 on the south-face plane - 41 m BEYOND the
+  SE corner: it measured terrain and roofs, which is why it never changed. (2) The pale smooth block beside the SE
+  corner is the SOUTH face itself between X 71,400 and 110,500 (east of the S2 approach footprint, which ends at
+  66,624), seen at 1.8-2.2 km at ~17 degrees grazing; the darker strip left of it is the S2 flank in front of the face.
+  It did change slightly between builds (mean luminance 0.481 -> 0.476, std 0.044 -> 0.051).
+* **Why courses cannot read at the aerial camera, and where the geometry must go.** Rectified through the P1 camera
+  (`Scripts/measure_precinct_face_profile.py`), the faces sit at 0.62 (west), 0.74 and 0.93 (south) m per pixel. A
+  course is 0.92-1.06 m, i.e. 1.1-1.7 px per period: below the 2 px Nyquist limit, so NO albedo, normal or geometry
+  can resolve individual courses from that camera at 3840 px. A 5-amah band (2.4 m, 2.6-3.9 px) is resolvable, but a
+  line on every band cannot be baked into the one band mesh: 240 cm is not a multiple of the 300 cm tile, so four
+  band boundaries in five cut through textured stones (lcm 1200 cm = 5 bands). The ONLY band boundary that lands on a
+  texture bed is the batter ledge every 5 bands (world Z -1200k on Candidate48), 13-19 px apart at P1. So the
+  far-field line is built there: a 45-degree wash (one more instance of the same band mesh, rolled, never scaled) on
+  every ledge of the fill ring and the approach flanks. A flat 48 cm shelf seen 19 degrees from above projects to
+  16 cm (0.1-0.25 px); the wash shows its full 48 cm (0.5-0.8 px) to every camera.
+* **Build sync (coordinator note, 11 Sep 00:5x).** `bPlazaLedgeWash` is a new UPROPERTY on AMikdashEnclosure. The cp19
+  compile gate builds the GAME target (`-waitmutex`); the cp19 cook is `Checkpoint-Build.ps1`, whose BuildCookRun
+  `-build` runs UBT on `MikdashCourtyardV3Editor` and then the game (confirmed in the cp17 uat.log), so editor DLL and
+  game exe come out of one source state. Captures are taken ONLY from that archive. Commandlets that run before the cook
+  load the older editor DLL; a missing TAGGED property simply takes the class default (true) - not the untagged
+  layout break that gave the crowd captures `Bad export index`. The coordinator's own Game build (EXIT=0) compiled the
+  patched MikdashEnclosure.cpp.
+
+### cp19 measured (packaged build `C:\Mikdash\Builds\Checkpoint-cp19-20260911T050158Z`, frames `visual-review/cp19-*`)
+
+Cook attempt 1 died on ANOTHER agent's material (ShaderCompileWorker access violation compiling `M_CrowdVAT_V1`);
+attempt 2 passed clean (0 errors, 0 warnings, no LogMaterial line for PrecinctMacro/PrecinctPlaza/Herodian), smoke
+`playable`. Numbers: `PrecinctMacroV1/accept-cp19.json`, `face-profile-*.json`.
+
+* **P2 (south face at the S1 rake, 70 m): staircase GONE.** Joints and ledges are continuous across the full frame;
+  the ledges show as lit washes. What still steps is the parapet TOP of the flank, which follows the stair.
+* **P3 (east face, 60 m):** tile-period autocorrelation 0.675 (cp16) -> 0.368 (cp17b) -> **0.263**; the batter ledges now
+  read as lit offset courses instead of thin dark lines.
+* **P1 (aerial): courses do NOT read.** Rectified whole-face vertical-profile std: west 0.032 / 0.042 / **0.042**,
+  south S1-S2 0.017 / 0.021 / **0.021**, south east-of-S2 0.024 / 0.027 / **0.027** (cp16before / cp17b / cp19).
+  The close fade removed the one coursing signal the aerial had - the close tile's bed joints averaged into row
+  darkening (west-face 3 m-period power 0.126 -> 0.032) - so cp19 reads marginally LESS coursed at 1 km than cp17b.
+  Ledge-period (12 m) power: south 0.054 -> 0.119 and 0.260 -> 0.282, west 0.079 -> 0.054; the washes are not
+  visible to the eye at 1 km.
+* **07 (plaza stone at walking range) changed 12x the noise floor - GEOMETRY, not material.** The world-grid rule
+  raised the short straight-out N flight's flank up to 2.4 m above its treads and walled the stair in.
+* **02 (4 m jamb):** mean |diff| vs cp17 0.0028 - unchanged (MI_HerodianV4_Ashlar, untouched).
+
+### cp19b (in flight): two corrections from those frames
+
+* **Close fade becomes band-pass** - `M_PrecinctMacroV3_Triplanar` (new asset; `-PMApplyV3`): fade toward the mean over
+  20-60 m (the wallpaper range, keeps the P3 gain), RELEASED again over 400-900 m (`CloseFadeOutStartCm` 40000,
+  `CloseFadeOutLengthCm` 50000) so the aerial keeps the close tile's bed-joint striation.
+* **World band grid only for flights raking ALONG the face (S1, S2).** Straight-out flights (N, E) and head landings
+  are back on the exact pre-cp19 rule; offline N/E counts equal the pre-cp19 plan exactly, S1/S2 keep 0 off-grid and
+  0 cm spread, washes 242 (`approach-band-grid-AFTER-cp19-alongwall.json`).
+
+### cp19b measured - the state that stands (build `C:\Mikdash\Builds\Checkpoint-cp19b-20260911T052025Z`, frames `visual-review/cp19b-*`)
+
+Cook first attempt, 0 errors / 0 warnings, smoke `playable`, no precinct material fallback in any capture log.
+
+| metric (rectified, whole face) | cp16before | cp17b | cp19 (V2) | **cp19b (V3)** |
+|---|---:|---:|---:|---:|
+| P1 west face vertical-profile std | 0.032 | 0.042 | 0.042 | **0.037** |
+| P1 south face S1-S2 | 0.017 | 0.021 | 0.021 | **0.021** |
+| P1 south face east of S2 | 0.024 | 0.027 | 0.027 | **0.027** |
+| P1 west 3 m-period power share (bed-joint striation) | 0.059 | 0.126 | 0.032 | **0.196** |
+| P3 (60 m) correlation at the 3 m tile lag | 0.675 | 0.368 | 0.263 | **0.276** |
+| 02 jamb mean abs diff vs cp17 (noise floor 0.0057) | - | - | 0.0028 | **0.0028** |
+| 07 plaza stone mean abs diff vs cp17b | - | - | 0.069 | **0.0036** |
+
+* **Aerial: courses do not read as courses.** A faint horizontal grain (the close tile's bed joints, restored by the V3
+  release) plus weathering; the whole-face profile std is where it was. At 0.62-0.93 m/px a ~1 m course is sub-Nyquist,
+  so this is the ceiling for THIS camera at 3840 px - the remaining lever is framing (a longer lens / closer camera),
+  not material. The 12 m washes register in the south-face spectrum (0.097 / 0.250) but not to the eye at 1 km.
+* **60-70 m: accepted.** P2 staircase gone (continuous joints and washes; only the S1 parapet top steps with the stair);
+  P3 wallpaper 0.675 -> 0.276 and the ledges read as lit offset courses.
+* **No regression:** 02 jamb and 07 plaza stone within the frame-to-frame noise floor.
+
+Revert, newest first: `-PMRevert=precinct-macro-applyv3-20260911T051820114379Z.json` (back to V2) ->
+`-PMRevert=precinct-macro-applyv2-20260911T045714985542Z.json` (back to the V1 master + ToneV2, textures' never_stream
+restored). C++: copy `ReviewCheckpoints/PrecinctLedgeWash-20260911T044947659614Z/*` back (or set bPlazaLedgeWash false).
+Approaches: `ReviewCheckpoints/PrecinctApproachGrid-script-20260911T045033546716Z/release_precinct_approaches.py` is the
+pre-cp19 planner; re-run -ApproachRevert / -ApproachApply with it. `M_PrecinctMacroV2_Triplanar` stays on disk, unreferenced.

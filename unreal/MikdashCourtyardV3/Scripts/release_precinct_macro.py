@@ -48,6 +48,20 @@ ORIGINAL_PARENT = '/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4
 FOLDER = '/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1'
 TEX_FOLDER = FOLDER + '/Textures'
 MASTER_NAME = 'M_PrecinctMacroV1_Triplanar'
+# V2 (cp19, 11 Sep): V1's graph + a distance fade of the CLOSE albedo toward its own mean, vertical faces only,
+# so the 3 m tile's own dark/light blocks stop recurring as wallpaper at 60 m and the macro carries the far field.
+# The far target is a VECTOR PARAMETER, not a forced-mip sample: no mip-bias, streaming or cooked-mip-tail
+# dependency at all. Value = linear mean of T_HerodianV5_Ashlar_Albedo.png (2048^2, sha256 211bb370177029e8...,
+# the source of T_HerodianV5b_Ashlar_Albedo), sRGB-decoded then averaged - what the GPU's mip chain converges to.
+# DEPENDENCY: if the Herodian close albedo on MI_PrecinctPlaza_Ashlar changes, recompute this mean.
+MASTER_V2_NAME = 'M_PrecinctMacroV2_Triplanar'
+CLOSE_FADE_SCALARS = {'CloseFadeStartCm': 2000.0, 'CloseFadeLengthCm': 4000.0, 'CloseFadeFarStrength': 0.85}
+CLOSE_ALBEDO_MEAN = (0.5302, 0.47318, 0.40348)
+# V3 (cp19b): band-pass - release the close fade again in the far field so the aerial keeps the close tile's
+# bed-joint row darkening (the only coursing signal at 1 km). See patch note in do_apply_v2.
+MASTER_V3_NAME = 'M_PrecinctMacroV3_Triplanar'
+CLOSE_FADE_OUT_SCALARS = {'CloseFadeOutStartCm': 40000.0, 'CloseFadeOutLengthCm': 50000.0}
+CLOSE_ALBEDO_SOURCE_SHA256_PREFIX = '211bb370177029e8'
 TEXTURES = {'MacroTone': ('T_PrecinctMacro_Tone', 'T_PrecinctMacro_Tone.png', [4096, 2048]),
             'MacroWeather': ('T_PrecinctMacro_Weather', 'T_PrecinctMacro_Weather.png', [1024, 1024])}
 
@@ -130,13 +144,18 @@ class Run:
                 out['textures'][n] = P(ml.get_material_instance_texture_parameter_value(inst, n))
             except Exception:
                 out['textures'][n] = None
-        for n in list(CORE_SCALARS) + list(MACRO_SCALARS):
+        for n in list(CORE_SCALARS) + list(MACRO_SCALARS) + list(CLOSE_FADE_SCALARS) + list(CLOSE_FADE_OUT_SCALARS):
             try:
                 out['scalars'][n] = round(float(ml.get_material_instance_scalar_parameter_value(inst, n)), 6)
             except Exception:
                 out['scalars'][n] = None
         t = ml.get_material_instance_vector_parameter_value(inst, 'Tint')
         out['tint'] = [round(t.r, 6), round(t.g, 6), round(t.b, 6), round(t.a, 6)]
+        try:
+            m = ml.get_material_instance_vector_parameter_value(inst, 'CloseAlbedoMean')
+            out['closeAlbedoMean'] = [round(m.r, 6), round(m.g, 6), round(m.b, 6)]
+        except Exception:
+            out['closeAlbedoMean'] = None
         for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
             us = getattr(u.MaterialUsage, n)
             out[n] = {'has': bool(ml.has_material_usage(inst, us)), 'override': bool(ml.has_material_usage_override(inst, us))}
@@ -166,14 +185,14 @@ class Run:
         return row
 
     # ------------------------------------------------------------------ the master graph
-    def build_master(self, textures, core_textures):
+    def build_master(self, textures, core_textures, name=MASTER_NAME, close_fade=False, close_fade_out=False):
         u, ml = self.u, self.ml
-        path = FOLDER + '/' + MASTER_NAME
+        path = FOLDER + '/' + name
         if self.assets.does_asset_exist(path):
             raise RuntimeError('%s already exists; this pass builds new asset names (delete_all_material_expressions '
                                'does not empty a graph). Revert and delete it deliberately first.' % path)
         tools = u.AssetToolsHelpers.get_asset_tools()
-        material = tools.create_asset(MASTER_NAME, FOLDER, u.Material, u.MaterialFactoryNew())
+        material = tools.create_asset(name, FOLDER, u.Material, u.MaterialFactoryNew())
         if not isinstance(material, u.Material):
             raise RuntimeError('Material factory failed')
         material.set_editor_property('tangent_space_normal', False)
@@ -339,6 +358,35 @@ class Run:
         factor = node(u.MaterialExpressionLinearInterpolate, -600, -1400, const_a=1.0)
         wire(mult, '', factor, 'B')
         wire(weight, '', factor, 'Alpha')
+        if close_fade:
+            # ---------------- V2 CLOSE FADE: albedo -> lerp(albedo, CloseAlbedoMean, w), re-routed into flat.A
+            # w = saturate((PixelDepth - CloseFadeStartCm) / CloseFadeLengthCm) * CloseFadeFarStrength * (1 - w_z)
+            n0 = rec['nodes']
+            cmean = node(u.MaterialExpressionVectorParameter, -1150, -950, parameter_name='CloseAlbedoMean',
+                         default_value=u.LinearColor(CLOSE_ALBEDO_MEAN[0], CLOSE_ALBEDO_MEAN[1], CLOSE_ALBEDO_MEAN[2], 1.0))
+            cstart = scalar('CloseFadeStartCm', CLOSE_FADE_SCALARS['CloseFadeStartCm'], -1450, -1900)
+            clen = scalar('CloseFadeLengthCm', CLOSE_FADE_SCALARS['CloseFadeLengthCm'], -1450, -1840)
+            cstr = scalar('CloseFadeFarStrength', CLOSE_FADE_SCALARS['CloseFadeFarStrength'], -1450, -1780)
+            csub = binary(u.MaterialExpressionSubtract, depth, '', cstart, '', -1300, -1900)
+            cdiv = binary(u.MaterialExpressionDivide, csub, '', clen, '', -1150, -1900)
+            csat = wire(cdiv, '', node(u.MaterialExpressionSaturate, -1000, -1900), 'Input')
+            cw = binary(u.MaterialExpressionMultiply, csat, '', cstr, '', -850, -1900)
+            vert = wire(w_z, '', node(u.MaterialExpressionOneMinus, -1000, -1820), 'Input')
+            cw2 = binary(u.MaterialExpressionMultiply, cw, '', vert, '', -700, -1880)
+            if close_fade_out:
+                ostart = scalar('CloseFadeOutStartCm', CLOSE_FADE_OUT_SCALARS['CloseFadeOutStartCm'], -1450, -2000)
+                olen = scalar('CloseFadeOutLengthCm', CLOSE_FADE_OUT_SCALARS['CloseFadeOutLengthCm'], -1450, -2060)
+                osub = binary(u.MaterialExpressionSubtract, depth, '', ostart, '', -1300, -2030)
+                odiv = binary(u.MaterialExpressionDivide, osub, '', olen, '', -1150, -2030)
+                osat = wire(odiv, '', node(u.MaterialExpressionSaturate, -1000, -2030), 'Input')
+                okeep = wire(osat, '', node(u.MaterialExpressionOneMinus, -850, -2030), 'Input')
+                cw2 = binary(u.MaterialExpressionMultiply, cw2, '', okeep, '', -600, -1950)
+            faded = node(u.MaterialExpressionLinearInterpolate, -1000, -900)
+            wire(albedo, '', faded, 'A')
+            wire(cmean, '', faded, 'B')
+            wire(cw2, '', faded, 'Alpha')
+            wire(faded, '', flat, 'A')          # replaces the core's albedo -> flat.A link
+            rec['closeFadeNodes'] = rec['nodes'] - n0
         final = binary(u.MaterialExpressionMultiply, base_color, '', factor, '', -450, -800)
         to_prop(final, '', 'MP_BASE_COLOR')
 
@@ -505,6 +553,158 @@ class Run:
         r['status'] = 'applied_visual_acceptance_pending'
         r['limits'] = 'Offline readback only; acceptance is packaged-build frames (cp05b-04 camera, a 40-80 m face view, the 4 m jamb).'
 
+
+    # ------------------------------------------------------------------ V2: close-albedo distance fade (cp19)
+    def do_apply_v2(self, v3=False):
+        """ASSET-ONLY. Builds M_PrecinctMacroV2_Triplanar (V1 graph node for node + the close fade) and reparents
+        MI_PrecinctPlaza_Ashlar from the V1 master onto it with EVERY value it resolves today set explicitly (V5b
+        textures, core scalars, Tint, the live macro scalars incl. MacroFarStrength, the live MacroTone/Weather), plus
+        the three CloseFade* scalars and CloseAlbedoMean. Also sets never_stream on the two macro textures in use
+        (world-position UVs give the streamer no UV density to size them by; 6 MB total). -PMRevert=<this receipt>
+        restores the instance and both textures from their checkpointed bytes."""
+        u, ml, r = self.u, self.ml, self.r
+        v1_path = FOLDER + '/' + (MASTER_V2_NAME if v3 else MASTER_NAME)
+        v2_path = FOLDER + '/' + (MASTER_V3_NAME if v3 else MASTER_V2_NAME)
+        r['stage'] = 'hash_before'
+        self.save()
+        before = tree_hashes()
+        r['contentFilesHashed'] = len(before)
+        r['namedProtectedBefore'] = {a: sha(disk(a)) for a in NAMED_PROTECTED if disk(a).exists()}
+        r['mapsBefore'] = {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
+        inst = u.load_asset(INSTANCE)
+        pre = self.instance_values(inst)
+        r['instanceBefore'] = pre
+        if pre['parent'] != v1_path:
+            raise RuntimeError('%s parent is %s, expected %s' % (INSTANCE, pre['parent'], v1_path))
+        if self.assets.does_asset_exist(v2_path):
+            raise RuntimeError('%s already exists; build to new names only' % v2_path)
+        tex_paths = [pre['textures']['MacroTone'], pre['textures']['MacroWeather']]
+        for tp in tex_paths:
+            if not tp or not tp.startswith(TEX_FOLDER + '/'):
+                raise RuntimeError('macro texture %s is not in %s' % (tp, TEX_FOLDER))
+
+        cp = CHECKPOINT_ROOT / (('PrecinctMacroV3-%s' if v3 else 'PrecinctMacroV2-%s') % self.stamp)
+        cp.mkdir(parents=True, exist_ok=False)
+        r['checkpoint'] = str(cp)
+        r['checkpointed'] = {}
+        for asset in [INSTANCE] + tex_paths:
+            dst = cp / (asset.split('/')[-1] + '.uasset')
+            shutil.copy2(disk(asset), dst)
+            r['checkpointed'][asset] = {'file': str(dst), 'sha256': sha(dst)}
+        self.save()
+
+        # the far target's provenance: which file the live close albedo was imported from
+        alb = u.load_asset(pre['textures']['Albedo'])
+        srcinfo = {'asset': pre['textures']['Albedo']}
+        try:
+            srcinfo['importedFrom'] = str(alb.get_editor_property('asset_import_data').get_first_filename())
+            fp = Path(srcinfo['importedFrom'])
+            srcinfo['importedFromExists'] = fp.exists()
+            if fp.exists():
+                srcinfo['importedFromSha256'] = sha(fp)
+                srcinfo['matchesMeanSource'] = srcinfo['importedFromSha256'].startswith(CLOSE_ALBEDO_SOURCE_SHA256_PREFIX)
+        except Exception as err:
+            srcinfo['importDataError'] = repr(err)
+        srcinfo['closeAlbedoMeanLinear'] = list(CLOSE_ALBEDO_MEAN)
+        r['closeAlbedoSource'] = srcinfo
+
+        r['stage'] = 'never_stream'
+        self.save()
+        textures = {}
+        r['textureStreaming'] = {}
+        for param, tp in (('MacroTone', tex_paths[0]), ('MacroWeather', tex_paths[1])):
+            t = u.load_asset(tp)
+            was = bool(t.get_editor_property('never_stream'))
+            t.set_editor_property('never_stream', True)
+            if not self.assets.save_loaded_asset(t, only_if_is_dirty=False):
+                raise RuntimeError('save failed for ' + tp)
+            r['textureStreaming'][tp] = {'neverStreamBefore': was, 'neverStreamAfter': bool(t.get_editor_property('never_stream')),
+                                         'lodBias': int(t.get_editor_property('lod_bias')), 'readback': self.texture_values(t)}
+            textures[param] = t
+        self.save()
+
+        r['stage'] = 'master'
+        self.save()
+        core = {k: u.load_asset(pre['textures'][k]) for k in ('Albedo', 'Normal', 'ARM')}
+        master = self.build_master(textures, core, name=(MASTER_V3_NAME if v3 else MASTER_V2_NAME), close_fade=True,
+                                   close_fade_out=v3)
+        if not r['master'].get('closeFadeNodes'):
+            raise RuntimeError('close fade nodes were not built')
+        self.save()
+
+        r['stage'] = 'reparent'
+        self.save()
+        ml.set_material_instance_parent(inst, master)
+        if P(inst.get_editor_property('parent')) != P(master):
+            inst.set_editor_property('parent', master)
+        if P(inst.get_editor_property('parent')) != P(master):
+            raise RuntimeError('Parent did not take')
+        for k in ('Albedo', 'Normal', 'ARM'):
+            ml.set_material_instance_texture_parameter_value(inst, k, core[k])
+        for k in ('MacroTone', 'MacroWeather'):
+            ml.set_material_instance_texture_parameter_value(inst, k, textures[k])
+        for k in list(CORE_SCALARS) + list(MACRO_SCALARS):
+            ml.set_material_instance_scalar_parameter_value(inst, k, float(pre['scalars'][k]))
+        for k, v in CLOSE_FADE_SCALARS.items():
+            ml.set_material_instance_scalar_parameter_value(inst, k, float(v))
+        if v3:
+            for k, v in CLOSE_FADE_OUT_SCALARS.items():
+                ml.set_material_instance_scalar_parameter_value(inst, k, float(v))
+        ml.set_material_instance_vector_parameter_value(inst, 'Tint', u.LinearColor(*pre['tint']))
+        ml.set_material_instance_vector_parameter_value(inst, 'CloseAlbedoMean', u.LinearColor(*(list(CLOSE_ALBEDO_MEAN) + [1.0])))
+        for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
+            ml.set_material_usage_override(inst, getattr(u.MaterialUsage, n), True, True)
+        ml.update_material_instance(inst)
+        if not self.assets.save_loaded_asset(inst, only_if_is_dirty=False):
+            raise RuntimeError('save failed for ' + INSTANCE)
+
+        r['stage'] = 'readback'
+        self.save()
+        post = self.instance_values(u.load_asset(INSTANCE))
+        r['instanceAfter'] = post
+        r['parity'] = {'before': self.parity_view(pre), 'after': self.parity_view(post)}
+        r['parity']['equal'] = r['parity']['before'] == r['parity']['after']
+        if not r['parity']['equal']:
+            raise RuntimeError('Close-range parameters changed: %s' % r['parity'])
+        if post['parent'] != v2_path or post['base'] != v2_path:
+            raise RuntimeError('Parent/base read back %s / %s' % (post['parent'], post['base']))
+        for k in MACRO_SCALARS:
+            if post['scalars'][k] is None or abs(post['scalars'][k] - pre['scalars'][k]) > 1e-4:
+                raise RuntimeError('macro scalar %s read back %s, was %s' % (k, post['scalars'][k], pre['scalars'][k]))
+        for k, v in list(CLOSE_FADE_SCALARS.items()) + (list(CLOSE_FADE_OUT_SCALARS.items()) if v3 else []):
+            if post['scalars'][k] is None or abs(post['scalars'][k] - v) > 1e-4:
+                raise RuntimeError('%s read back %s want %s' % (k, post['scalars'][k], v))
+        if post['textures'] != pre['textures']:
+            raise RuntimeError('texture overrides changed: %s -> %s' % (pre['textures'], post['textures']))
+        if not post['closeAlbedoMean'] or max(abs(a - b) for a, b in zip(post['closeAlbedoMean'], CLOSE_ALBEDO_MEAN)) > 1e-4:
+            raise RuntimeError('CloseAlbedoMean read back %s' % post['closeAlbedoMean'])
+        for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
+            if not post[n]['has']:
+                raise RuntimeError('lost usage ' + n)
+        r['instanceUassetSha256'] = sha(disk(INSTANCE))
+
+        r['stage'] = 'hash_after'
+        self.save()
+        after = tree_hashes()
+        added = sorted(set(after) - set(before))
+        removed = sorted(set(before) - set(after))
+        changed = sorted(k for k in set(before) & set(after) if before[k] != after[k])
+        allowed = (INSTANCE[6:] + '.uasset', FOLDER[6:] + '/')
+        r['contentDiff'] = {'added': added, 'removed': removed, 'changed': changed}
+        illegal = [k for k in added + removed + changed if not any(k == a or k.startswith(a) for a in allowed)]
+        r['illegalChanges'] = illegal
+        r['namedProtectedAfter'] = {a: sha(disk(a)) for a in NAMED_PROTECTED if disk(a).exists()}
+        r['mapsAfter'] = {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
+        if r['namedProtectedAfter'] != r['namedProtectedBefore']:
+            raise RuntimeError('A named protected asset changed')
+        if r['mapsAfter'] != r['mapsBefore']:
+            raise RuntimeError('A map changed; this pass must not mutate a map')
+        if illegal:
+            raise RuntimeError('Files outside the allow-list changed: %s' % illegal[:20])
+        r['status'] = 'applied_v3_visual_acceptance_pending' if v3 else 'applied_v2_visual_acceptance_pending'
+        r['limits'] = ('Offline readback only (-nullrhi draws nothing). Acceptance is packaged-build frames: P1 aerial, '
+                       'P2/P3 60-70 m faces, 02 jamb and 07 plaza stone at walking range (fade 0 below 20 m).')
+
     # ------------------------------------------------------------------ verify / revert
     def do_verify(self, receipt, with_maps):
         u, r = self.u, self.r
@@ -537,15 +737,19 @@ class Run:
         u, r = self.u, self.r
         prior = json.loads(Path(receipt).read_text(encoding='utf-8-sig'))
         r['reverting'] = str(receipt)
-        info = prior['checkpointed'][INSTANCE]
-        src = Path(info['file'])
-        if sha(src) != info['sha256']:
-            raise RuntimeError('Checkpoint changed since the apply')
         maps_before = {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
-        shutil.copy2(src, disk(INSTANCE))
-        r['restoredSha256'] = sha(disk(INSTANCE))
-        if r['restoredSha256'] != info['sha256']:
-            raise RuntimeError('Restored bytes do not match the checkpoint')
+        r['restored'] = {}
+        for asset, info in prior['checkpointed'].items():
+            src = Path(info['file'])
+            if sha(src) != info['sha256']:
+                raise RuntimeError('Checkpoint changed since the apply: ' + asset)
+        for asset, info in prior['checkpointed'].items():
+            shutil.copy2(Path(info['file']), disk(asset))
+            got = sha(disk(asset))
+            r['restored'][asset] = got
+            if got != info['sha256']:
+                raise RuntimeError('Restored bytes do not match the checkpoint: ' + asset)
+        r['restoredSha256'] = r['restored'].get(INSTANCE)
         r['mapsUnchanged'] = maps_before == {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
         r['confirmWith'] = 'Fresh-process inspect: MI_PrecinctPlaza_Ashlar parent must read MI_HerodianV4_Ashlar.'
         r['note'] = 'MacroV1 assets are left on disk, unreferenced; they cannot affect rendering.'
@@ -725,13 +929,15 @@ def main():
     import unreal as u
     cmd = u.SystemLibrary.get_command_line()
     apply_m = re.search(r'-PMApply(?=\s|$)', cmd)
+    v2_m = re.search(r'-PMApplyV2(?=\s|$)', cmd)
+    v3_m = re.search(r'-PMApplyV3(?=\s|$)', cmd)
     verify_m = re.search(r'-PMVerify=(?:"([^"]+)"|([^\s]+))', cmd)
     revert_m = re.search(r'-PMRevert=(?:"([^"]+)"|([^\s]+))', cmd)
     hide_m = re.search(r'-PMDecalHide=([A-Za-z0-9]+)', cmd)
     restore_m = re.search(r'-PMDecalRestore=([A-Za-z0-9]+)', cmd)
     retone_m = re.search(r'-PMRetone=([A-Za-z0-9]+)', cmd)
     far_m = re.search(r'-PMFarStrength=([0-9]+(?:\.[0-9]+)?)', cmd)
-    modes = [n for n, h in (('apply', apply_m), ('verify', verify_m), ('revert', revert_m),
+    modes = [n for n, h in (('apply', apply_m), ('applyv2', v2_m), ('applyv3', v3_m), ('verify', verify_m), ('revert', revert_m),
                             ('decalhide', hide_m), ('decalrestore', restore_m), ('retone', retone_m)) if h]
     if len(modes) != 1:
         raise RuntimeError('Pass exactly one mode. Command line: %s' % cmd)
@@ -750,6 +956,10 @@ def main():
     try:
         if mode == 'apply':
             run.do_apply()
+        elif mode == 'applyv2':
+            run.do_apply_v2()
+        elif mode == 'applyv3':
+            run.do_apply_v2(v3=True)
         elif mode == 'verify':
             m = verify_m
             run.do_verify(Path(m.group(1) or m.group(2)), '-PMVerifyMaps' in cmd)

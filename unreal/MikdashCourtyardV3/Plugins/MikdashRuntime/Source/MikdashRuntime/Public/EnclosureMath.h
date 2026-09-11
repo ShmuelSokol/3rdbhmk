@@ -1505,6 +1505,31 @@ inline double PlazaBandBatterUnrealCm(int Band, double WorldCmPerAmah = ProjectC
     return AmotToUnrealCm(PlazaRetainingBatterAmot * static_cast<double>(Steps), WorldCmPerAmah);
 }
 
+/** cp19 (11 Sep 2026). The band whose TOP is an exposed batter ledge: the first band of each new
+ *  batter step (5, 10, 15 ...), which stands one batter step proud of the band above it. On the
+ *  48 cm candidate those tops fall at world Z = -1200k cm - 5 bands x 240 cm = 4 tiles of the 300 cm
+ *  Herodian ashlar - i.e. ON a bed joint of the texture. It is the ONLY band boundary where a
+ *  geometric course line cannot cut through a textured stone, which is why the far-field line is
+ *  built here and nowhere else. */
+inline bool PlazaBandIsLedge(int Band)
+{
+    return PlazaRetainingBatterEveryBands > 0 && Band > 0 && (Band % PlazaRetainingBatterEveryBands) == 0;
+}
+
+/** The wash on a ledge: one more instance of the SAME retaining band, rolled 45 degrees about its
+ *  long axis so its outer face looks up-and-out, set so that face runs from the ledge's outer arris
+ *  up-and-in until it disappears into the band above. A flat 48 cm shelf seen from the aerial
+ *  camera 19 degrees above it projects to 16 cm - a sixth of a pixel; the wash shows its full 48 cm
+ *  of height to every camera, and it is what a battered offset course actually looks like.
+ *  Never scaled: the band's own section places the hidden part inside the wall. The returned value
+ *  is how far the rolled band's origin (its top-outer arris) sits INWARD of the ledge band's face
+ *  and ABOVE the ledge (equal, at 45 degrees). */
+constexpr double PlazaLedgeWashDegrees = 45.0;
+inline double PlazaLedgeWashOriginInsetUnrealCm(double BandHeightUnrealCm)
+{
+    return BandHeightUnrealCm * 0.70710678118654752;
+}
+
 /** Wall base with a deck present: the wall stands on whichever is higher, the deck or the
  *  ground OUTSIDE it. On a fill side that is the deck, and the retaining wall carries it;
  *  on a cut side that is the outside grade, and the wall stands on the crest of the scarp

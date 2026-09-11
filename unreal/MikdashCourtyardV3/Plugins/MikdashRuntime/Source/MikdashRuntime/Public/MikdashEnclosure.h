@@ -199,6 +199,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza")
     bool bBuildPlaza = true;
 
+    /** cp19: a 45-degree wash on every batter ledge of the retaining (fill) ring, so the ledge line
+     *  survives at the aerial camera. Extra instances of the same band mesh; see PlazaBandIsLedge. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Plaza")
+    bool bPlazaLedgeWash = true;
+
     /** The seven plaza modules. Any of them null simply omits that component's instances;
      *  a plaza with no deck tile is not built at all and GetPlazaStatus() says so. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Plaza|Assets")

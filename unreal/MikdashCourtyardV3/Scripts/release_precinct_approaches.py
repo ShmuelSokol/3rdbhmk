@@ -212,6 +212,12 @@ HEADER_SHA256 = sha256_of(HEADER)
 # AUTHORED. Every fifth landing is a terrace five times as deep: a place to stand and turn
 # round on a 30 m climb, not just a break in the tread rhythm.
 TERRACE_EVERY_LANDINGS = 5
+
+# cp19 (11 Sep 2026). A rolled band laid on each exposed batter ledge (EnclosureMath.h PlazaBandIsLedge /
+# PlazaLedgeWashOriginInsetUnrealCm, the same rule the precinct ring now uses). FRotator roll is POSITIVE
+# clockwise looking along +X, i.e. it turns local +Y DOWN, so -45 tips the band's outer face up-and-out.
+WASH_ROLL_DEGREES = -float(K.get('PlazaLedgeWashDegrees', 45.0))
+WASH_INSET_FRACTION = 0.70710678118654752
 TERRACE_DEPTH_AMOT = 50.0
 
 
@@ -305,6 +311,8 @@ class Plan(object):
         self.kerbs = []
         self.approaches = []
         self._max_stack = 0
+        self._parapet_max = 0.0
+        self._washes = 0
 
     # -- geometry helpers ---------------------------------------------------
     def _lowest_under(self, height, centre, axis, half, samples=5):
@@ -337,16 +345,53 @@ class Plan(object):
     def _lowest_over(self, height, centre, half_x, half_y, samples=5):
         return self._over(height, centre, half_x, half_y, min, samples)
 
-    def _stack(self, top_z, ground_z, face_point, outward, yaw):
-        """One retaining stack: a COUNT of fixed 5-amah bands from `top_z` down past
-        `ground_z`, each battered one amah further out per five bands. Never Z-scaled."""
-        count = band_count(top_z - ground_z, self.band_h)
-        for band in range(count):
-            batter = band_batter_cm(band, self.a)
+    def _stack(self, top_z, ground_z, face_point, outward, yaw, world_grid=False):
+        """One retaining stack of fixed 5-amah bands from `top_z` down past `ground_z`. Never Z-scaled.
+
+        cp19 - ON THE WORLD BAND GRID. The stack used to start at its own tread (`top_z - band * h`)
+        and batter by the band index counted from that tread, so along a raking flight every
+        25-amah column put its band joints and its batter ledges one tread lower than the column
+        before: the "staircase of ledges" on the south face at the S1 approach (cp17b P2 frame).
+        A real retaining wall's face is continuous and only its footing follows the rock. Now band k
+        always occupies [deck - (k+1)h, deck - k h] and batters by band_batter_cm(k) - exactly the
+        precinct ring's own rule - so every column's joints and ledges sit on the same world-Z
+        levels as the ring's, and the face is one plane per batter step. The top band is the one
+        the tread falls in, so it stands up to one band ABOVE the tread as a stepped parapet on the
+        open side of the stair. `face_point` must be the UN-ridden line (see _place_flight): at the
+        tread's own band the world batter equals the ride, so the tread still sits on its ledge."""
+        if not world_grid:
+            # Pre-cp19 rule, byte-for-byte in effect: straight-out flights and head landings. Their flanks are short
+            # and stand in the open, where a stepped top following the treads is right and a grid parapet is not.
+            count = band_count(top_z - ground_z, self.band_h)
+            for band in range(count):
+                batter = band_batter_cm(band, self.a)
+                self.bands.append((face_point[0] + outward[0] * batter,
+                                   face_point[1] + outward[1] * batter,
+                                   top_z - band * self.band_h, yaw, 'band'))
+            self._max_stack = max(self._max_stack, count)
+            return count
+        k0 = int(math.floor((self.deck_z - top_z) / self.band_h + 1e-9))
+        # first band whose bottom reaches the ground; NOT band_count, which clamps a negative height to 0 and
+        # would run a stack that starts above the deck (cut-side gates, E) all the way down to the deck
+        k_end = int(math.ceil((self.deck_z - ground_z) / self.band_h - 1e-9))
+        if k_end <= k0:
+            k_end = k0 + 1
+        count = 0
+        for k in range(k0, k_end):
+            batter = band_batter_cm(k, self.a)
+            z_top = self.deck_z - k * self.band_h
             self.bands.append((face_point[0] + outward[0] * batter,
                                face_point[1] + outward[1] * batter,
-                               top_z - band * self.band_h, yaw, 'band'))
+                               z_top, yaw, 'band'))
+            count += 1
+            if k > k0 and batter > band_batter_cm(k - 1, self.a):
+                inset = self.band_h * WASH_INSET_FRACTION
+                self.bands.append((face_point[0] + outward[0] * (batter - inset),
+                                   face_point[1] + outward[1] * (batter - inset),
+                                   z_top + inset, yaw, 'bandWash', WASH_ROLL_DEGREES))
+                self._washes += 1
         self._max_stack = max(self._max_stack, count)
+        self._parapet_max = max(self._parapet_max, (self.deck_z - k0 * self.band_h) - top_z)
         return count
 
     # -- one flight ---------------------------------------------------------
@@ -562,6 +607,8 @@ class Plan(object):
         # ---- place ----
         before = (len(self.steps), len(self.paving), len(self.bands), len(self.kerbs))
         self._max_stack = 0
+        self._parapet_max = 0.0
+        self._washes = 0
         head = self._place_head(head_centre, outward, tangent, top_z, height, half)
         self._place_flight(chosen, outward, top_z, height)
         # THE REST OF THE FALL, and whether it is a cliff or a hillside. Where the stair meets
@@ -612,6 +659,8 @@ class Plan(object):
             maxBuriedCm=round(chosen['maxBuriedCm'], 2),
             tallestFlankBands=self._max_stack,
             tallestFlankMetres=round(self._max_stack * self.band_h / 100.0, 1),
+            worldBandGrid=True, ledgeWashes=self._washes,
+            parapetMaxAboveTreadCm=round(self._parapet_max, 3),
             instances=dict(steps=len(self.steps) - before[0], paving=len(self.paving) - before[1],
                            bands=len(self.bands) - before[2], kerbs=len(self.kerbs) - before[3]))
         return record
@@ -694,12 +743,18 @@ class Plan(object):
             s_mid = min(run, s0 + self.cell * 0.5)
             z = self._tread_z_at(flight, s_mid, top_z)
             for normal in flanks:
-                base = self._point(start, direction, s_mid, z, top_z, along_wall, outward)
+                # cp19: the UN-ridden line. _stack adds the batter by WORLD band index; at the tread's
+                # own band that equals the ride _point gives the treads (threshold == deck on every
+                # built approach), so the tread still sits on its ledge and the face is continuous.
+                if along_wall:
+                    base = (start[0] + direction[0] * s_mid, start[1] + direction[1] * s_mid)
+                else:
+                    base = self._point(start, direction, s_mid, z, top_z, along_wall, outward)
                 point = (base[0] + normal[0] * half, base[1] + normal[1] * half)
                 ground = self._lowest_under(height, point, direction, self.cell * 0.5)
                 if ground is None or ground >= z:
                     continue
-                self._stack(z, ground, point, normal, yaw_for_local_y(normal))
+                self._stack(z, ground, point, normal, yaw_for_local_y(normal), world_grid=along_wall)
                 self.kerbs.append((point[0] - normal[0] * (self.a * 0.5),
                                    point[1] - normal[1] * (self.a * 0.5),
                                    z, yaw_for_local_y(normal), 'flightKerb'))
@@ -1066,8 +1121,14 @@ class Native(object):
         """
         ue = self.ue
         x, y, z, yaw = float(row[0]), float(row[1]), float(row[2]), float(row[3])
+        roll = float(row[5]) if len(row) > 5 else 0.0
         location = ue.Vector(x, y, z)
-        rotation = ue.Rotator(pitch=0.0, yaw=yaw, roll=0.0)
+        rotation = ue.Rotator(pitch=0.0, yaw=yaw, roll=roll)
+        if roll != 0.0:
+            # a wash must face UP-and-out: the rolled local +Y must climb (checked, never assumed)
+            right = rotation.get_right_vector()
+            if not right.z > 0.69:
+                raise RuntimeError('wash roll %g gives local +Y %s; it must tilt up' % (roll, right))
         scale3d = ue.Vector(scale, scale, scale)
         if self.transform_path is None:
             self.transform_path = 'keyword'
